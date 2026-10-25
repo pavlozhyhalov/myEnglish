@@ -3,7 +3,7 @@
 import { handler, json, HttpError, cors } from '../_shared/http.ts';
 import { authenticate, charge, usage } from '../_shared/auth.ts';
 import { generate, generateJson, streamSSE, type Content } from '../_shared/gemini.ts';
-import { TEXT_MODELS, LIMITS } from '../_shared/config.ts';
+import { TEXT_MODELS, TTS_MODELS, LIVE_MODELS, LIMITS } from '../_shared/config.ts';
 import { loadStudent, modePrompt, basePrompt, type Scenario } from '../_shared/prompts.ts';
 
 type Msg = { role: 'user' | 'model'; text: string };
@@ -113,9 +113,41 @@ function cleanExercises(list: any[]) {
   return out;
 }
 
+/** Діагностика без авторизації: лише факт наявності секретів і доступність моделей (без значень). */
+async function health() {
+  const key = Deno.env.get('GEMINI_API_KEY') || '';
+  const out: Record<string, unknown> = {
+    gemini_key_set: !!key,
+    allowed_users_set: !!(Deno.env.get('ALLOWED_USERS') || '').trim(),
+  };
+  if (key) {
+    const names = new Set<string>();
+    let url = 'https://generativelanguage.googleapis.com/v1beta/models?pageSize=1000';
+    let status = 0;
+    for (let i = 0; i < 5; i++) {
+      const res = await fetch(url, { headers: { 'x-goog-api-key': key } });
+      status = res.status;
+      if (!res.ok) break;
+      const j = await res.json();
+      for (const m of j.models || []) names.add(String(m.name).replace(/^models\//, ''));
+      if (!j.nextPageToken) break;
+      url = `https://generativelanguage.googleapis.com/v1beta/models?pageSize=1000&pageToken=${j.nextPageToken}`;
+    }
+    out.gemini_status = status;
+    const pick = (list: string[]) => Object.fromEntries(list.map(m => [m, names.has(m)]));
+    out.text_models = pick(TEXT_MODELS);
+    out.tts_models = pick(TTS_MODELS);
+    out.live_models = pick(LIVE_MODELS);
+    out.live_candidates = [...names].filter(n => /live|native-audio/.test(n)).slice(0, 20);
+    out.tts_candidates = [...names].filter(n => /tts/.test(n)).slice(0, 20);
+  }
+  return out;
+}
+
 Deno.serve(handler(async (req) => {
-  const ctx = await authenticate(req);
   const p = await req.json().catch(() => ({}));
+  if (p.action === 'health') return json(await health());
+  const ctx = await authenticate(req);
   const action = String(p.action || '');
 
   if (action === 'usage') {
