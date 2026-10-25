@@ -19,10 +19,16 @@ function errText(e) {
 export default async function pronunciation(view, r) {
   const data = await loadData();
   const timer = activityTimer('pronunciation');
-  let tab = r.query.tab || 'shadowing';
   const body = h('div');
-  view.replaceChildren(h('div.stack-lg', seg([['shadowing', 'Shadowing'], ['pairs', 'Пари'], ['sounds', 'Звуки']], tab, v => { tab = v; draw(); }), body));
-  const draw = () => { stopSpeech(); ({ shadowing, pairs, sounds })[tab](body, data, timer); };
+  // Теорія: звуки з підказками артикуляції — окрема сторінка #/pronunciation/sounds
+  if (r.parts[0] === 'sounds') {
+    view.replaceChildren(h('div.stack-lg', h('p.small.dim', { style: { margin: '0 2px' } }, 'Звуки, які найважче даються україномовним: як їх вимовляти, приклади і тренування.'), body));
+    sounds(body, data, timer);
+    return () => { stopSpeech(); timer.stop(); };
+  }
+  let tab = r.query.tab === 'pairs' ? 'pairs' : 'shadowing';
+  view.replaceChildren(h('div.stack-lg', seg([['shadowing', 'Повтор фраз'], ['pairs', 'Пари слів']], tab, v => { tab = v; draw(); }), body));
+  const draw = () => { stopSpeech(); ({ shadowing, pairs })[tab](body, data, timer); };
   draw();
   return () => { stopSpeech(); timer.stop(); };
 }

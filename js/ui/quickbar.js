@@ -26,7 +26,7 @@ function render() {
     const s = byId[id];
     const on = id === current;
     if (id === 'tutor') {
-      const a = h('a.qb-item.tutor', { href: '#/tutor', 'aria-label': `${s.label}. Утримайте для голосового режиму`, 'aria-current': on ? 'page' : null },
+      const a = h('a.qb-item.tutor', { href: s.href, 'aria-label': `${s.label}. Утримайте для голосового режиму`, 'aria-current': on ? 'page' : null },
         h('span.pill', ic(s.icon, { fill: on, size: 24 })), h('span', s.label));
       // довге натискання — одразу голос
       let t = null, long = false;
@@ -40,7 +40,7 @@ function render() {
       a.addEventListener('click', e => { if (long) e.preventDefault(); });
       bar.append(a);
     } else {
-      bar.append(h('a.qb-item', { href: `#/${id}`, 'aria-current': on ? 'page' : null }, h('span.pill', ic(s.icon, { fill: on, size: 24 })), h('span', s.label)));
+      bar.append(h('a.qb-item', { href: s.href, 'aria-current': on ? 'page' : null }, h('span.pill', ic(s.icon, { fill: on, size: 24 })), h('span', s.label)));
     }
   }
 }

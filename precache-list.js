@@ -93,6 +93,7 @@ self.PRECACHE = [
   './js/nav.js',
   './js/pages/auth.js',
   './js/pages/cards.js',
+  './js/pages/exercises.js',
   './js/pages/grammar.js',
   './js/pages/home.js',
   './js/pages/lab.js',

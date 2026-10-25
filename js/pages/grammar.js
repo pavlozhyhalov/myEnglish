@@ -1,4 +1,4 @@
-// Граматика: курс B1 → B2, уроки, вправи
+// Граматика (теорія): правила за темами; у кожному уроці — пояснення, приклади і вправи
 import { h, ic, emo } from '../ui/dom.js';
 import { S } from '../strings.js';
 import * as store from '../store.js';
@@ -23,7 +23,7 @@ export default async function grammar(view, r) {
 
   view.replaceChildren(h('div.stack-lg',
     h('section.card.stack',
-      h('div.row', emo('puzzle', 'lg'), h('div.grow', h('h1', { style: { margin: 0 } }, 'Курс B1 → B2'), h('div.small.dim', `Пройдено ${done} з ${idx.length} · урок зараховано від 80%`))),
+      h('div.row', emo('puzzle', 'lg'), h('div.grow', h('h1', { style: { margin: 0 } }, 'Граматика'), h('div.small.dim', `Пройдено ${done} з ${idx.length} · урок зараховано від 80%`))),
       h('div.progress', h('i', { style: { width: `${done / idx.length * 100}%` } })),
       next ? h('a.btn.primary.block', { href: `#/grammar/${next.id}` }, ic('play', { fill: true }), `Продовжити: ${next.title}`) : h('div.feedback.ok', 'Курс пройдено! Повторюйте уроки за графіком.')),
     ...units.map(u => h('section.stack', { style: { gap: '8px' } },
@@ -78,7 +78,7 @@ async function lessonPage(view, id, query = {}) {
 
   view.replaceChildren(h('div.stack-lg',
     h('div.row', h('a.icon-btn', { href: '#/grammar', 'aria-label': 'До курсу' }, ic('arrow-left')),
-      h('div.grow', h('div.xs.dim', `Урок ${pos + 1} · ${l.level} · ${l.unit}`), h('h1', { style: { margin: 0 } }, l.title)),
+      h('div.grow', h('div.xs.dim', `${l.unit} · урок ${pos + 1}`), h('h1', { style: { margin: 0 } }, l.title)),
       p?.completed_at ? h('span.tag.good', `${p.best}%`) : null),
     h('section.card', md(l.explanation)),
     l.formula?.length ? h('section.stack', { style: { gap: '8px' } }, l.formula.map(f => h('div.formula', f))) : null,

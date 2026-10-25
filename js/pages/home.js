@@ -1,11 +1,10 @@
-// Головна: план дня, стрік, слово дня, слабкі місця, остання розмова, плитки
+// Головна: план дня, стрік, слово дня, слабкі місця, остання розмова
 import { h, ic, emo, ring, fmtMin } from '../ui/dom.js';
 import { S, plural } from '../strings.js';
 import * as store from '../store.js';
 import * as srs from '../srs.js';
 import { allDecks, grammarIndex } from '../data.js';
 import { todaySeconds, streak, week, mistakesByType, lessonsToReview, lessonDone, today, dayKey } from '../stats.js';
-import { SECTIONS } from '../nav.js';
 import { speak } from '../speech.js';
 import { toast } from '../ui/toast.js';
 
@@ -67,7 +66,7 @@ export default async function home(view) {
       h('h2', 'Визначимо ваш рівень'),
       h('p.dim', 'Тест на 10–12 хвилин: граматика, лексика, аудіювання. Після нього план дня підлаштується під вас.'),
       h('a.btn.primary.block', { href: '#/tests/placement' }, 'Визначити мій рівень'),
-      h('button.btn.ghost', { type: 'button', onclick: () => { store.setProf({ placementDone: 'skipped' }); home(view); } }, 'Пропустити, почну з B1')));
+      h('button.btn.ghost', { type: 'button', onclick: () => { store.setProf({ placementDone: 'skipped' }); home(view); } }, 'Пропустити')));
   } else {
     // ---- стрік і тиждень ----
     const n = streak();
@@ -126,12 +125,6 @@ export default async function home(view) {
     }
   }
 
-  // ---- плитки ----
-  const status = tileStatus(counts, gIdx);
-  blocks.push(h('div.section-title', 'Розділи'));
-  blocks.push(h('div.grid2', SECTIONS.filter(s => s.id !== 'home').map(s =>
-    h('a.tile', { href: `#/${s.id}` }, h('div.emoji-circle', emo(s.emoji)), h('div', h('div.name', s.label), h('div.status', status[s.id] || ''))))));
-
   view.replaceChildren(h('div.stack-lg', blocks));
 }
 
@@ -156,22 +149,3 @@ function wordOfDay(decks) {
   return pool[hsh % pool.length];
 }
 
-function tileStatus(counts, gIdx) {
-  const done = gIdx.filter(l => lessonDone(l.id)).length;
-  const mist = store.all('mistakes').filter(m => !m.resolved).length;
-  const chats = store.all('tutor_chats').length;
-  return {
-    cards: counts.due ? `${counts.due} до повтору` : counts.fresh ? `${counts.fresh} нових сьогодні` : 'На сьогодні все',
-    tutor: chats ? `${chats} ${plural(chats, 'розмова', 'розмови', 'розмов')}` : 'Текст і голос',
-    vocab: `${store.all('cards').filter(c => c.deck_id === 'my').length} моїх слів`,
-    grammar: `Пройдено ${done} з ${gIdx.length}`,
-    listening: 'Диктант і діалоги',
-    pronunciation: 'Shadowing, пари звуків',
-    writing: 'Листи й повідомлення',
-    scenarios: '12 рольових ігор',
-    tests: store.prof().placementDone ? 'Рівень, тема, тиждень' : 'Визначте рівень',
-    mistakes: mist ? `${mist} не виправлено` : 'Поки чисто',
-    progress: `${counts.learned} слів вивчено`,
-    settings: 'Тема, меню, мета',
-  };
-}

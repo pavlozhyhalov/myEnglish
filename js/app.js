@@ -7,7 +7,7 @@ import { initDrawer, toggle as toggleDrawer, setActive as drawerActive, renderPr
 import { initQuickbar, setActive as qbActive } from './ui/quickbar.js';
 import { toast } from './ui/toast.js';
 import { route, fallback, onRoute, start, go } from './router.js';
-import { byId } from './nav.js';
+import { sectionFor } from './nav.js';
 import { supa, initAuth, onAuth } from './supa.js';
 import { streak } from './stats.js';
 import { setTitle, applyTheme, isDark } from './ui/shell.js';
@@ -49,6 +49,7 @@ const pages = {
   writing: () => import('./pages/writing.js'),
   scenarios: () => import('./pages/scenarios.js'),
   tests: () => import('./pages/tests.js'),
+  exercises: () => import('./pages/exercises.js'),
   mistakes: () => import('./pages/mistakes.js'),
   progress: () => import('./pages/progress.js'),
   settings: () => import('./pages/settings.js'),
@@ -70,10 +71,10 @@ async function boot() {
   for (const [name, loader] of Object.entries(pages)) route(name, loader);
   fallback((view) => { view.replaceChildren(h('div.empty', emo('magnifier', 'xl'), h('p', 'Сторінку не знайдено'), h('a.btn.soft', { href: '#/' }, S.nav.home))); });
   onRoute((r) => {
-    const sec = byId[r.name];
-    setTitle(r.name === 'home' ? S.app : sec ? sec.label : (S.nav[r.name] || S.app));
-    drawerActive(sec ? r.name : '');
-    qbActive(r.name);
+    const sec = sectionFor(r.path);
+    setTitle(r.name === 'home' ? S.app : sec ? sec.long : (S.nav[r.name] || S.app));
+    drawerActive(sec ? sec.id : '');
+    qbActive(sec ? sec.id : r.name);
     document.body.classList.remove('focus-mode');
   });
 

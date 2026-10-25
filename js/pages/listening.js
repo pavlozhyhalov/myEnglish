@@ -26,7 +26,8 @@ export default async function listening(view, r) {
 // ---------- Диктант ----------
 function dictation(box, data, timer) {
   const levels = [...new Set(data.dictation.map(d => d.level))];
-  let level = levels.includes(store.prof().level) ? store.prof().level : levels[0];
+  const LEVEL_UK = { A2: 'Легко', B1: 'Середньо', B2: 'Складно' };
+  let level = levels[1] || levels[0];
   const start = () => {
     const pool = data.dictation.filter(d => d.level === level);
     const items = pool.sort(() => Math.random() - 0.5).slice(0, 8);
@@ -34,7 +35,7 @@ function dictation(box, data, timer) {
   };
   box.replaceChildren(h('div.stack',
     h('section.card.stack', h('div.row', emo('headphone', 'lg'), h('div.grow', h('h2', { style: { margin: 0 } }, 'Диктант'), h('div.small.dim', '8 речень: слухайте і набирайте. Порівняння посимвольно.'))),
-      h('div.chips', levels.map(l => h('button.chip', { type: 'button', 'aria-pressed': String(l === level), onclick: (e) => { level = l; e.currentTarget.parentNode.querySelectorAll('.chip').forEach(c => c.setAttribute('aria-pressed', String(c === e.currentTarget))); } }, l))),
+      h('div.chips', levels.map(l => h('button.chip', { type: 'button', 'aria-pressed': String(l === level), onclick: (e) => { level = l; e.currentTarget.parentNode.querySelectorAll('.chip').forEach(c => c.setAttribute('aria-pressed', String(c === e.currentTarget))); } }, LEVEL_UK[l] || l))),
       h('button.btn.primary.block.lg', { type: 'button', onclick: start }, ic('play', { fill: true }), 'Почати'))));
 
   function run(items) {
