@@ -21,8 +21,10 @@ export function initDrawer() {
   store.on(t => { if (t === 'sessions' || t === 'profile') renderProfile(); });
   document.addEventListener('keydown', e => { if (e.key === 'Escape' && drawer.classList.contains('open')) close(); });
 
-  // меню не тягнеться пальцем: відкривається кнопкою, закривається тапом по фону, пунктом або Esc
+  // відкривається кнопкою; закривається тапом по фону, пунктом, Esc або свайпом уліво (лише вліво — вправо не тягнеться)
   scrim.addEventListener('touchmove', e => e.preventDefault(), { passive: false });
+  swipeToClose(drawer);
+  swipeToClose(scrim);
 
   if (store.settings().pinDrawer !== false) document.body.classList.add('drawer-pinned');
 }
@@ -92,4 +94,38 @@ export function close() {
   drawer.setAttribute('aria-hidden', 'true');
   document.querySelector('.btn-menu')?.focus({ preventScroll: true });
 }
+/** Свайп уліво по відкритому меню: панель їде за пальцем, відпускання далі 30% ширини або швидкий змах — закриває */
+function swipeToClose(el) {
+  let x0 = 0, y0 = 0, t0 = 0, dx = 0, mode = null;
+  const reset = () => { drawer.style.transition = drawer.style.transform = scrim.style.transition = scrim.style.opacity = ''; };
+  el.addEventListener('touchstart', (e) => {
+    if (!drawer.classList.contains('open') || e.touches.length > 1) { mode = 'none'; return; }
+    x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; t0 = Date.now(); dx = 0; mode = null;
+  }, { passive: true });
+  el.addEventListener('touchmove', (e) => {
+    if (mode === 'none' || mode === 'v') return;
+    const mx = e.touches[0].clientX - x0, my = e.touches[0].clientY - y0;
+    if (!mode) {
+      if (Math.abs(mx) < 8 && Math.abs(my) < 8) return;
+      mode = Math.abs(mx) > Math.abs(my) ? 'h' : 'v';  // фіксуємо напрямок: вертикальний — прокрутка списку
+      if (mode === 'v') return;
+      drawer.style.transition = scrim.style.transition = 'none';
+    }
+    if (e.cancelable) e.preventDefault();
+    dx = Math.min(0, mx);
+    const w = drawer.offsetWidth;
+    drawer.style.transform = `translateX(${dx}px)`;
+    scrim.style.opacity = String(1 + dx / w);
+  }, { passive: false });
+  const end = () => {
+    if (mode !== 'h') { mode = null; return; }
+    mode = null;
+    const w = drawer.offsetWidth, v = dx / Math.max(1, Date.now() - t0);
+    reset();
+    if (dx < -w * 0.3 || (dx < -20 && v < -0.4)) close();
+  };
+  el.addEventListener('touchend', end);
+  el.addEventListener('touchcancel', () => { mode = null; reset(); });
+}
+
 export function toggle() { drawer.classList.contains('open') ? close() : open(); }
