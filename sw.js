@@ -1,9 +1,11 @@
-// Service worker: кеш оболонки й контенту. AI і Supabase — завжди мережа.
-const BUILD = '202610252238';
+// Service worker: офлайн-кеш оболонки й контенту. AI і Supabase — завжди мережа.
+const BUILD = '202610252249';
 const CACHE = `myenglish-${BUILD}`;
 importScripts(`precache-list.js?v=${BUILD}`);
 
 self.addEventListener('install', (e) => {
+  // нова версія активується одразу, не чекаючи закриття всіх вкладок
+  self.skipWaiting();
   e.waitUntil((async () => {
     const c = await caches.open(CACHE);
     // по одному, щоб одна помилка не зламала все встановлення
@@ -18,8 +20,6 @@ self.addEventListener('activate', (e) => {
   })());
 });
 
-self.addEventListener('message', (e) => { if (e.data === 'skip-waiting') self.skipWaiting(); });
-
 self.addEventListener('fetch', (e) => {
   const req = e.request;
   if (req.method !== 'GET') return;
@@ -27,15 +27,21 @@ self.addEventListener('fetch', (e) => {
   if (url.origin !== location.origin) return;           // Supabase, Gemini — мимо кешу
   e.respondWith((async () => {
     const c = await caches.open(CACHE);
+    // сторінка (index.html) — спершу мережа, щоб одразу бачити нову збірку; офлайн — з кешу
+    if (req.mode === 'navigate') {
+      try {
+        const res = await fetch(req, { cache: 'no-store' });
+        if (res.ok) c.put('./index.html', res.clone());
+        return res;
+      } catch {
+        return (await c.match('./index.html')) || (await c.match('./')) || Response.error();
+      }
+    }
+    // решта — з кешу поточної збірки, інакше з мережі
     const hit = await c.match(req, { ignoreSearch: true });
     if (hit) return hit;
-    try {
-      const res = await fetch(req);
-      if (res.ok && res.type === 'basic') c.put(req, res.clone());
-      return res;
-    } catch (err) {
-      if (req.mode === 'navigate') return (await c.match('./index.html')) || (await c.match('./'));
-      throw err;
-    }
+    const res = await fetch(req);
+    if (res.ok && res.type === 'basic') c.put(req, res.clone());
+    return res;
   })());
 });

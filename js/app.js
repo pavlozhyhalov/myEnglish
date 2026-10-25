@@ -94,16 +94,18 @@ async function boot() {
 
   start();
 
-  if ('serviceWorker' in navigator && location.protocol === 'https:') {
-    navigator.serviceWorker.register(`sw.js?v=${BUILD}`).then(reg => {
-      reg.addEventListener('updatefound', () => {
-        const nw = reg.installing;
-        nw?.addEventListener('statechange', () => {
-          if (nw.state === 'installed' && navigator.serviceWorker.controller) {
-            toast('Доступна нова версія', { action: 'Оновити', onAction: () => location.reload(), ms: 10000 });
-          }
-        });
-      });
+  if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) {
+    // коли активується нова версія — перезавантажуємо сторінку один раз, щоб показати її
+    const hadController = !!navigator.serviceWorker.controller;
+    let reloaded = false;
+    navigator.serviceWorker.addEventListener('controllerchange', () => {
+      if (!hadController || reloaded) return;
+      reloaded = true;
+      location.reload();
+    });
+    navigator.serviceWorker.register(`sw.js?v=${BUILD}`, { updateViaCache: 'none' }).then(reg => {
+      // перевіряємо оновлення при кожному поверненні в застосунок
+      document.addEventListener('visibilitychange', () => { if (!document.hidden) reg.update().catch(() => {}); });
     }).catch(e => console.warn('sw', e));
   }
 }
