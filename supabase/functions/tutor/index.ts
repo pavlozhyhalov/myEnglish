@@ -145,8 +145,42 @@ async function health() {
   return out;
 }
 
+/** Справжня сесія Gemini Live (як у браузері): токен → WebSocket → setup → фраза → голос і субтитри */
+async function liveProbe() {
+  const model = LIVE_MODELS[0];
+  const tok = await createLiveToken({
+    model: `models/${model}`,
+    generationConfig: { responseModalities: ['AUDIO'], speechConfig: { voiceConfig: { prebuiltVoiceConfig: { voiceName: 'Puck' } } } },
+    systemInstruction: { parts: [{ text: 'You are a friendly English tutor. Answer in one short sentence.' }] },
+    inputAudioTranscription: {}, outputAudioTranscription: {}, sessionResumption: {},
+  }, { uses: 2, minutes: 2 });
+  const url = `wss://generativelanguage.googleapis.com/ws/google.ai.generativelanguage.v1alpha.GenerativeService.BidiGenerateContentConstrained?access_token=${encodeURIComponent(tok.token)}`;
+  return await new Promise((resolve) => {
+    const res: Record<string, unknown> = { model, setup: false, audio_bytes: 0, transcript: '', turn: false, resumption_handle: false };
+    const ws = new WebSocket(url);
+    const done = (extra: Record<string, unknown> = {}) => { clearTimeout(t); try { ws.close(); } catch { /* */ } resolve({ ...res, ...extra }); };
+    const t = setTimeout(() => done({ timeout: true }), 25_000);
+    ws.onopen = () => ws.send(JSON.stringify({ setup: { model: `models/${model}`, sessionResumption: {} } }));
+    ws.onerror = () => { res.ws_error = true; };
+    ws.onclose = (e) => done({ close_code: e.code, close_reason: String(e.reason || '').slice(0, 200) });
+    ws.onmessage = async (ev) => {
+      const text = typeof ev.data === 'string' ? ev.data : await new Response(ev.data as Blob).text();
+      let m: any; try { m = JSON.parse(text); } catch { return; }
+      if (m.setupComplete) {
+        res.setup = true;
+        ws.send(JSON.stringify({ clientContent: { turns: [{ role: 'user', parts: [{ text: 'Say hello to Pavlo.' }] }], turnComplete: true } }));
+      }
+      if (m.sessionResumptionUpdate?.newHandle) res.resumption_handle = true;
+      const sc = m.serverContent;
+      if (sc?.outputTranscription?.text) res.transcript = String(res.transcript) + sc.outputTranscription.text;
+      for (const part of sc?.modelTurn?.parts || []) if (part.inlineData?.data) res.audio_bytes = (res.audio_bytes as number) + part.inlineData.data.length;
+      if (sc?.turnComplete) { res.turn = true; done(); }
+    };
+  });
+}
+
 /** Глибока перевірка: реальні виклики Gemini (текст, JSON, TTS, токен Live). Не частіше разу на 10 хв. */
-async function deepHealth() {
+async function deepHealth(only?: string) {
   const admin = createClient(Deno.env.get('SUPABASE_URL')!, Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!, { auth: { persistSession: false } });
   const { data: last } = await admin.from('health_checks').select('ts').order('ts', { ascending: false }).limit(1).maybeSingle();
   if (last && Date.now() - Date.parse(last.ts) < 10 * 60_000) throw new HttpError(429, 'rate_limited', 'Deep health check: once per 10 minutes');
@@ -156,20 +190,21 @@ async function deepHealth() {
     try { r[name] = { ok: true, ms: Date.now() - t, info: await fn() }; (r[name] as any).ms = Date.now() - t; }
     catch (e) { r[name] = { ok: false, error: `${(e as HttpError).code || ''} ${(e as Error).message}`.slice(0, 300) }; }
   };
-  await step('text', async () => (await generate(TEXT_MODELS, { contents: [{ role: 'user', parts: [{ text: 'Reply with exactly one word: OK' }] }], temperature: 0 })).trim().slice(0, 20));
-  await step('json', async () => generateJson(TEXT_MODELS, { contents: [{ role: 'user', parts: [{ text: 'Translate "cat" to Ukrainian.' }] }], schema: { type: 'OBJECT', properties: { uk: { type: 'STRING' } }, required: ['uk'] } }));
-  await step('tts', async () => { const a = await tts(TTS_MODELS, 'Hello!', 'Kore'); return { bytes: a.pcm.length, rate: a.rate }; });
-  await step('live_token', async () => {
+  if (only !== 'live') await step('text', async () => (await generate(TEXT_MODELS, { contents: [{ role: 'user', parts: [{ text: 'Reply with exactly one word: OK' }] }], temperature: 0 })).trim().slice(0, 20));
+  if (only !== 'live') await step('json', async () => generateJson(TEXT_MODELS, { contents: [{ role: 'user', parts: [{ text: 'Translate "cat" to Ukrainian.' }] }], schema: { type: 'OBJECT', properties: { uk: { type: 'STRING' } }, required: ['uk'] } }));
+  if (only !== 'live') await step('tts', async () => { const a = await tts(TTS_MODELS, 'Hello!', 'Kore'); return { bytes: a.pcm.length, rate: a.rate }; });
+  if (only !== 'live') await step('live_token', async () => {
     const t = await createLiveToken({ model: `models/${LIVE_MODELS[0]}`, generationConfig: { responseModalities: ['AUDIO'] }, sessionResumption: {} }, { uses: 1, minutes: 2 });
     return { token_prefix: t.token.split('/')[0], model: LIVE_MODELS[0] };
   });
+  await step('live_ws', () => liveProbe());
   await admin.from('health_checks').insert({ result: r });
   return r;
 }
 
 Deno.serve(handler(async (req) => {
   const p = await req.json().catch(() => ({}));
-  if (p.action === 'health') return json(p.deep ? await deepHealth() : await health());
+  if (p.action === 'health') return json(p.deep ? await deepHealth(p.only) : await health());
   const ctx = await authenticate(req);
   const action = String(p.action || '');
 
