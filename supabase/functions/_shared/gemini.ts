@@ -1,6 +1,17 @@
 import { HttpError } from './http.ts';
 
 const BASE = 'https://generativelanguage.googleapis.com';
+const TIMEOUT_MS = 30_000;
+
+/** fetch з тайм-аутом: зависла модель вважається перевантаженою — пробуємо наступну */
+async function gfetch(url: string, init: RequestInit, ms = TIMEOUT_MS): Promise<Response> {
+  try {
+    return await fetch(url, { ...init, signal: AbortSignal.timeout(ms) });
+  } catch (e) {
+    if ((e as Error).name === 'TimeoutError' || (e as Error).name === 'AbortError') throw new HttpError(503, 'overloaded', 'Gemini timeout');
+    throw e;
+  }
+}
 
 export function apiKey() {
   const k = Deno.env.get('GEMINI_API_KEY');
@@ -53,7 +64,7 @@ async function withModels<T>(models: string[], fn: (m: string) => Promise<T>): P
 
 export async function generate(models: string[], o: GenOpts): Promise<string> {
   return withModels(models, async (model) => {
-    const res = await fetch(`${BASE}/v1beta/models/${model}:generateContent`, {
+    const res = await gfetch(`${BASE}/v1beta/models/${model}:generateContent`, {
       method: 'POST', headers: { 'Content-Type': 'application/json', 'x-goog-api-key': apiKey() }, body: JSON.stringify(body(o)),
     });
     if (!res.ok) throw await mapError(res);
@@ -75,9 +86,9 @@ export async function generateJson<T = unknown>(models: string[], o: GenOpts): P
 /** Стрімінг: повертає ReadableStream SSE для клієнта (data: {"t": "..."}) */
 export async function streamSSE(models: string[], o: GenOpts): Promise<ReadableStream<Uint8Array>> {
   const res = await withModels(models, async (model) => {
-    const r = await fetch(`${BASE}/v1beta/models/${model}:streamGenerateContent?alt=sse`, {
+    const r = await gfetch(`${BASE}/v1beta/models/${model}:streamGenerateContent?alt=sse`, {
       method: 'POST', headers: { 'Content-Type': 'application/json', 'x-goog-api-key': apiKey() }, body: JSON.stringify(body(o)),
-    });
+    }, 90_000);
     if (!r.ok) throw await mapError(r);
     return r;
   });
@@ -109,7 +120,7 @@ export async function streamSSE(models: string[], o: GenOpts): Promise<ReadableS
 /** TTS: повертає PCM 16-bit 24 kHz */
 export async function tts(models: string[], text: string, voice: string): Promise<{ pcm: Uint8Array; rate: number }> {
   return withModels(models, async (model) => {
-    const res = await fetch(`${BASE}/v1beta/models/${model}:generateContent`, {
+    const res = await gfetch(`${BASE}/v1beta/models/${model}:generateContent`, {
       method: 'POST', headers: { 'Content-Type': 'application/json', 'x-goog-api-key': apiKey() },
       body: JSON.stringify({
         contents: [{ role: 'user', parts: [{ text }] }],
@@ -131,7 +142,7 @@ export async function tts(models: string[], text: string, voice: string): Promis
 /** Ефемерний токен для Gemini Live (v1alpha) з заблокованою конфігурацією */
 export async function createLiveToken(setup: Record<string, unknown>, { uses = 10, minutes = 30 } = {}) {
   const now = Date.now();
-  const res = await fetch(`${BASE}/v1alpha/auth_tokens`, {
+  const res = await gfetch(`${BASE}/v1alpha/auth_tokens`, {
     method: 'POST', headers: { 'Content-Type': 'application/json', 'x-goog-api-key': apiKey() },
     body: JSON.stringify({
       uses,
