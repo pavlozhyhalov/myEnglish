@@ -14,7 +14,10 @@ create table if not exists public.integrations (
 alter table public.integrations enable row level security;
 -- політик немає: читають лише security definer функції нижче
 
-create or replace function public.resonance_push_day(p_user uuid, p_day date)
+-- функції в схемі private (не відкрита через API — їх не викликати ззовні)
+create schema if not exists private;
+
+create or replace function private.resonance_push_day(p_user uuid, p_day date)
 returns void language plpgsql security definer set search_path = '' as $$
 declare i public.integrations; v_sec int; v_ts timestamptz;
 begin
@@ -34,17 +37,14 @@ begin
     )
   );
 end $$;
-revoke all on function public.resonance_push_day(uuid, date) from public, anon, authenticated;
 
-create or replace function public.sessions_resonance_trg()
+create or replace function private.sessions_resonance_trg()
 returns trigger language plpgsql security definer set search_path = '' as $$
 begin
-  if tg_op in ('INSERT', 'UPDATE') then perform public.resonance_push_day(new.user_id, new.day); end if;
-  if tg_op = 'DELETE' or (tg_op = 'UPDATE' and old.day is distinct from new.day) then perform public.resonance_push_day(old.user_id, old.day); end if;
+  if tg_op in ('INSERT', 'UPDATE') then perform private.resonance_push_day(new.user_id, new.day); end if;
+  if tg_op = 'DELETE' or (tg_op = 'UPDATE' and old.day is distinct from new.day) then perform private.resonance_push_day(old.user_id, old.day); end if;
   return null;
 end $$;
-revoke all on function public.sessions_resonance_trg() from public, anon, authenticated;
 
-drop trigger if exists sessions_resonance on public.sessions;
-create trigger sessions_resonance after insert or update or delete on public.sessions
-for each row execute function public.sessions_resonance_trg();
+create or replace trigger sessions_resonance after insert or update or delete on public.sessions
+for each row execute function private.sessions_resonance_trg();
