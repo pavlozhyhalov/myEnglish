@@ -10,17 +10,17 @@ export function dayKey(d = new Date()) {
 }
 export const today = () => dayKey();
 
-/** Записати сесію практики (секунди й XP) */
-export function logSession(type, seconds, extraXp = 0) {
+/** Записати сесію практики (секунди й XP). ref — id розмови, щоб її видалення прибирало й статистику */
+export function logSession(type, seconds, extraXp = 0, ref = null) {
   seconds = Math.max(0, Math.round(seconds));
   if (seconds < 5 && !extraXp) return null;
   const xp = Math.round(seconds / 60 * XP.perMinute) + extraXp;
-  return store.put('sessions', { type, seconds, xp, day: today(), ts: store.nowIso() });
+  return store.put('sessions', { type, seconds, xp, day: today(), ts: store.nowIso(), ref: ref || null });
 }
 
 /** Таймер активності сторінки: рахує лише видимий час, з паузою після 2 хв бездіяльності */
 export function activityTimer(type) {
-  let acc = 0, last = Date.now(), lastInput = Date.now(), xp = 0, stopped = false;
+  let acc = 0, last = Date.now(), lastInput = Date.now(), xp = 0, stopped = false, ref = null;
   const tick = () => {
     const now = Date.now();
     if (!document.hidden && now - lastInput < 120000) acc += now - last;
@@ -32,13 +32,14 @@ export function activityTimer(type) {
   evs.forEach(e => window.addEventListener(e, mark, { passive: true }));
   return {
     addXp(n) { xp += n; mark(); },
+    setRef(r) { ref = r; },
     poke: mark,
     seconds() { tick(); return acc / 1000; },
     stop() {
       if (stopped) return null;
       stopped = true; tick(); clearInterval(iv);
       evs.forEach(e => window.removeEventListener(e, mark));
-      return logSession(type, acc / 1000, xp);
+      return logSession(type, acc / 1000, xp, ref);
     },
   };
 }
@@ -101,12 +102,12 @@ export function totalSeconds() { return store.all('sessions').reduce((a, s) => a
 const norm = (s) => String(s || '').toLowerCase().replace(/[^\p{L}\p{N}' ]/gu, '').replace(/\s+/g, ' ').trim();
 export const MISTAKE_TYPES = ['articles', 'tenses', 'prepositions', 'word_order', 'vocabulary', 'pronunciation', 'other'];
 
-export function addMistake({ wrong, right, type, explanation_uk, source }) {
+export function addMistake({ wrong, right, type, explanation_uk, source, ref }) {
   if (!wrong || !right || norm(wrong) === norm(right)) return null;
   if (!MISTAKE_TYPES.includes(type)) type = 'other';
   const ex = store.all('mistakes').find(m => norm(m.wrong) === norm(wrong) && norm(m.right) === norm(right));
   if (ex) { ex.count = (ex.count || 1) + 1; ex.streak = 0; ex.resolved = false; return store.put('mistakes', ex); }
-  return store.put('mistakes', { wrong, right, type, explanation_uk: explanation_uk || '', source: source || 'tutor', count: 1, streak: 0, resolved: false });
+  return store.put('mistakes', { wrong, right, type, explanation_uk: explanation_uk || '', source: source || 'tutor', count: 1, streak: 0, resolved: false, ref: ref || null });
 }
 /** Правильне застосування: 3 поспіль — виправлено */
 export function mistakeHit(m, correct) {
@@ -162,4 +163,30 @@ export function skillLevels() {
     out.speaking = order[Math.round(avg)];
   }
   return out;
+}
+
+// ---------- Видалення розмови разом із її статистикою ----------
+/**
+ * Прибирає розмову, її час/XP (сесії з ref = id) і помилки з її підсумку:
+ * помилка, створена цією розмовою, видаляється; додана до наявної — зменшує лічильник.
+ */
+export function deleteChat(id) {
+  const chat = store.get('tutor_chats', id);
+  if (!chat) return;
+  let sessions = store.all('sessions').filter(s => s.ref === id);
+  if (!sessions.length) {
+    // старі розмови без прив'язки: та сама дата і тривалість
+    const day = dayKey(chat.created_at);
+    const s = store.all('sessions').find(x => !x.ref && ['tutor', 'voice', 'writing'].includes(x.type) && x.day === day && Math.abs((x.seconds || 0) - (chat.seconds || 0)) <= 2);
+    if (s) sessions = [s];
+  }
+  for (const s of sessions) store.remove('sessions', s.id);
+  const list = chat.summary?.mistakes || chat.summary?.corrections || [];
+  for (const m of list) {
+    const ex = store.all('mistakes').find(x => norm(x.wrong) === norm(m.wrong) && norm(x.right) === norm(m.right));
+    if (!ex) continue;
+    if ((ex.count || 1) > 1) { ex.count -= 1; store.put('mistakes', ex); }
+    else if (!ex.ref || ex.ref === id) store.remove('mistakes', ex.id);
+  }
+  store.remove('tutor_chats', id);
 }

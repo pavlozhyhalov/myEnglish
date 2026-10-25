@@ -26,6 +26,7 @@ export default async function lab(view) {
       const { voiceSession } = await import('../live/voice.js');
       voiceSession(view, { debug: true });
     } }, ic('microphone', { fill: true }), 'Тестова розмова (з логом)'),
+    lastLog(),
     h('section.card.stack', h('div.section-title', 'Рішення після тесту (§11, Фаза 0)'),
       h('div.chips', [['live', 'Gemini Live'], ['ptt', 'Запасний режим'], ['other', 'Інший провайдер']].map(([v, t]) =>
         h('button.chip', { type: 'button', 'aria-pressed': String(decision === v), onclick: (e) => { store.setProf({ voiceDecision: v }); e.currentTarget.parentNode.querySelectorAll('.chip').forEach(c => c.setAttribute('aria-pressed', String(c === e.currentTarget))); } }, t))),
@@ -36,4 +37,13 @@ export default async function lab(view) {
       usageBox.textContent = `Текстових викликів: ${u.text_calls}/${u.limits.textCalls} · голос: ${Math.round(u.voice_seconds / 60)}/${Math.round(u.limits.voiceSeconds / 60)} хв · TTS: ${u.tts_calls}/${u.limits.ttsCalls}`;
     } catch (e) { usageBox.textContent = aiErrorText(e); }
   } else usageBox.textContent = 'Увійдіть, щоб побачити';
+}
+
+/** Лог останньої голосової сесії (зберігається на пристрої) — для пошуку причини збою */
+function lastLog() {
+  let text = '';
+  try { text = localStorage.getItem('me:voice-log') || ''; } catch { /* */ }
+  return h('section.card.stack', h('div.row', h('div.section-title.grow', 'Лог останньої голосової сесії'),
+    text ? h('button.btn.sm.soft', { type: 'button', onclick: () => { navigator.clipboard?.writeText(text); } }, ic('copy', { size: 16 }), 'Копіювати') : null),
+    text ? h('pre.xs', { style: { whiteSpace: 'pre-wrap', maxHeight: '40dvh', overflow: 'auto', margin: 0 } }, text) : h('div.small.dim', 'Ще не було голосових сесій на цьому пристрої'));
 }

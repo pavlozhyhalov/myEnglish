@@ -7,7 +7,8 @@ import { md } from '../ui/md.js';
 import { tutor, tutorStream, aiErrorText } from '../ai.js';
 import { user } from '../supa.js';
 import { speak, recognize, canRecognize } from '../speech.js';
-import { activityTimer, addMistake } from '../stats.js';
+import { activityTimer, addMistake, deleteChat } from '../stats.js';
+import { confirmSheet } from '../ui/sheet.js';
 import { scenarios as loadScenarios } from '../data.js';
 import { runExercises } from '../ui/exercises.js';
 import { toast } from '../ui/toast.js';
@@ -50,13 +51,48 @@ function overview(view) {
     needLoginCard(),
     h('div.grid2', MODES.map(m => h('a.tile', { href: m.href || `#/tutor?mode=${m.id}` },
       h('div.emoji-circle', emo(m.emoji)), h('div', h('div.name', m.title), h('div.status', m.desc))))),
-    h('div.section-title', 'Історія'),
-    chats.length ? h('div.list', chats.slice(0, 40).map(c => h('a.list-row', { href: `#/tutor?chat=${encodeURIComponent(c.id)}` },
-      emo(c.mode === 'voice' ? 'mic' : c.mode === 'check' ? 'writing' : c.mode === 'scenario' ? 'theater' : 'speech'),
-      h('div.grow', h('div', { style: { fontWeight: 600 } }, c.title || 'Розмова'),
-        h('div.sub', `${new Date(c.created_at).toLocaleDateString('uk-UA', { day: 'numeric', month: 'short' })} · ${fmtMin(c.seconds || 0)}${c.summary ? '' : ' · без підсумку'}`)),
-      ic('caret-right', { size: 18 }))))
-      : h('div.empty', emo('speech', 'xl'), h('p', 'Поки що розмов немає. Почніть з вільної розмови або голосу.'))));
+    history(view, chats)));
+}
+
+/** Історія розмов: відкрити, видалити одну або кілька (разом із часом, XP і помилками в статистиці) */
+function history(view, chats) {
+  const box = h('section.stack', { style: { gap: '8px' } });
+  let selecting = false;
+  const picked = new Set();
+  const draw = () => {
+    const list = store.all('tutor_chats').sort((a, b) => b.created_at.localeCompare(a.created_at));
+    const head = h('div.row', h('div.section-title.grow', `Історія${list.length ? ` · ${list.length}` : ''}`),
+      list.length ? h('button.btn.sm.ghost', { type: 'button', onclick: () => { selecting = !selecting; picked.clear(); draw(); } }, selecting ? 'Скасувати' : 'Вибрати') : null);
+    if (!list.length) { box.replaceChildren(head, h('div.empty', emo('speech', 'xl'), h('p', 'Поки що розмов немає. Почніть з вільної розмови або голосу.'))); return; }
+    const rows = list.slice(0, 60).map(c => {
+      const info = [h('div', { style: { fontWeight: 600 } }, c.title || 'Розмова'),
+        h('div.sub', `${new Date(c.created_at).toLocaleDateString('uk-UA', { day: 'numeric', month: 'short' })} · ${fmtMin(c.seconds || 0)}${c.summary ? '' : ' · без підсумку'}`)];
+      const icon = emo(c.mode === 'voice' ? 'mic' : c.mode === 'check' ? 'writing' : c.mode === 'scenario' ? 'theater' : 'speech');
+      if (selecting) {
+        const cb = h('input.check', { type: 'checkbox', checked: picked.has(c.id), 'aria-label': `Вибрати: ${c.title || 'Розмова'}`, onchange: (e) => { e.target.checked ? picked.add(c.id) : picked.delete(c.id); draw(); } });
+        return h('label.list-row', cb, icon, h('div.grow', info));
+      }
+      return h('div.list-row', { style: { paddingRight: '6px' } },
+        h('a.row.grow', { href: `#/tutor?chat=${encodeURIComponent(c.id)}`, style: { textDecoration: 'none', color: 'inherit', minWidth: 0 } }, icon, h('div.grow', info)),
+        h('button.icon-btn', { type: 'button', 'aria-label': `Видалити: ${c.title || 'Розмова'}`, onclick: () => remove([c.id]) }, ic('trash', { size: 20 })));
+    });
+    box.replaceChildren(head, h('div.list', rows),
+      selecting ? h('div.row',
+        h('button.btn.soft.grow', { type: 'button', onclick: () => { list.forEach(c => picked.add(c.id)); draw(); } }, 'Вибрати всі'),
+        h('button.btn.danger.grow', { type: 'button', disabled: !picked.size, onclick: () => remove([...picked]) }, ic('trash', { size: 18 }), `Видалити (${picked.size})`)) : null);
+  };
+  async function remove(ids) {
+    const n = ids.length;
+    const ok = await confirmSheet(n > 1 ? `Видалити ${n} розмов?` : 'Видалити розмову?',
+      'Разом із розмовою зі статистики приберуться її час, XP і помилки з її підсумку. Слова, які ви додали в картки, залишаться.', 'Видалити', { danger: true });
+    if (!ok) return;
+    ids.forEach(deleteChat);
+    selecting = false; picked.clear();
+    toast(n > 1 ? `Видалено розмов: ${n}` : 'Розмову видалено');
+    draw();
+  }
+  draw();
+  return box;
 }
 
 // ---------- Розбір відповіді: текст + блок виправлень ----------
@@ -220,6 +256,7 @@ function chatUI(view, row, { scenario, ask, topic, resumed } = {}) {
   function cleanup() {
     if (cleaned) return; cleaned = true;
     abort?.abort();
+    if (row.id) timer.setRef(row.id);
     const s = timer.stop();
     row.seconds = (row.seconds || 0) + (s?.seconds || 0);
     persist();
@@ -242,7 +279,7 @@ export async function summarize(view, row, { voice = false } = {}) {
     const res = await tutor('summary', { mode: row.mode, messages: (row.messages || []).map(m => ({ role: m.role, text: m.text })) });
     row.summary = res;
     store.put('tutor_chats', row);
-    for (const m of res.mistakes || []) addMistake({ ...m, source: 'tutor' });
+    for (const m of res.mistakes || []) addMistake({ ...m, source: 'tutor', ref: row.id });
     store.setProf({ lastFocus: res.next_focus || null });
   } catch (e) {
     view.replaceChildren(h('div.hero', emo('warning', 'xl'), h('p', aiErrorText(e)),
@@ -282,7 +319,19 @@ export function summaryView(view, row) {
         h('div.grow', h('div', h('b', w.en), ' — ', w.uk), w.example ? h('div.xs.dim', w.example) : null)))
       , addBtn) : null,
     s.next_focus ? h('section.card.accent.stack', h('div.section-title', 'Наступного разу'), h('div', s.next_focus)) : null,
-    h('div.row', h('a.btn.soft.grow', { href: '#/' }, 'На головну'), h('a.btn.primary.grow', { href: '#/tutor' }, 'Нова розмова'))));
+    h('div.row', h('a.btn.soft.grow', { href: '#/' }, 'На головну'), h('a.btn.primary.grow', { href: '#/tutor' }, 'Нова розмова')),
+    deleteButton(row)));
+}
+
+/** «Видалити розмову» — на екранах підсумку й перевірки тексту */
+function deleteButton(row) {
+  return h('button.btn.ghost.block', { type: 'button', style: { color: 'var(--bad)' }, onclick: async () => {
+    if (!row.id) { go('/tutor', { replace: true }); return; }
+    if (!await confirmSheet('Видалити розмову?', 'Разом із нею зі статистики приберуться її час, XP і помилки з підсумку.', 'Видалити', { danger: true })) return;
+    deleteChat(row.id);
+    toast('Розмову видалено');
+    go('/tutor', { replace: true });
+  } }, ic('trash', { size: 18 }), 'Видалити розмову');
 }
 
 // ---------- Перевір мій текст ----------
@@ -308,8 +357,9 @@ function checkMode(view, q) {
     try {
       const res = await tutor('check_text', { text, kind, task: q.task || null });
       const row = store.put('tutor_chats', { mode: 'check', title: `Перевірка: ${text.slice(0, 40)}…`, messages: [{ role: 'user', text }], summary: res, seconds: Math.round(timer.seconds()) });
-      for (const c of res.corrections || []) addMistake({ wrong: c.wrong, right: c.right, type: c.type, explanation_uk: c.explanation_uk, source: 'tutor' });
+      for (const c of res.corrections || []) addMistake({ wrong: c.wrong, right: c.right, type: c.type, explanation_uk: c.explanation_uk, source: 'tutor', ref: row.id });
       timer.addXp(10);
+      timer.setRef(row.id);
       timer.stop();
       checkResultView(view, row);
     } catch (e) { toast(aiErrorText(e), { kind: 'bad' }); btn.disabled = false; btn.textContent = 'Перевірити'; }
@@ -331,6 +381,7 @@ function checkResultView(view, row) {
       h('button.btn.sm.soft', { type: 'button', onclick: () => { navigator.clipboard?.writeText(r.improved); toast('Скопійовано'); } }, ic('copy', { size: 16 }), 'Копіювати')),
     h('div', { style: { whiteSpace: 'pre-wrap' } }, r.improved)) : null,
     row.messages?.[0] ? h('details.card', h('summary.small.dim', 'Оригінал'), h('div.small', { style: { whiteSpace: 'pre-wrap', marginTop: '8px' } }, row.messages[0].text)) : null,
-    h('a.btn.primary.block', { href: '#/tutor?mode=check' }, 'Перевірити інший текст')));
+    h('a.btn.primary.block', { href: '#/tutor?mode=check' }, 'Перевірити інший текст'),
+    deleteButton(row)));
 }
 

@@ -167,15 +167,28 @@ export class LiveClient extends EventTarget {
 
 /** Аудіо: мікрофон (16 kHz PCM) і програвач (24 kHz) */
 export class AudioIO extends EventTarget {
+  /**
+   * Викликати синхронно в обробнику тапу: iOS дозволяє звук і мікрофон лише в момент жесту.
+   * Контексти — з рідною частотою пристрою (iOS «глушить» мікрофон у контексті 16 кГц);
+   * до 16 кГц ресемплить capture-worklet, з 24 кГц — play().
+   */
+  prepare() {
+    const AC = window.AudioContext || window.webkitAudioContext;
+    this.inCtx = new AC();
+    this.outCtx = new AC();
+    this.inCtx.resume().catch(() => {});
+    this.outCtx.resume().catch(() => {});
+    // мікрофон теж запитуємо одразу в жесті
+    this.streamPromise = navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: true, noiseSuppression: true, autoGainControl: true, channelCount: 1 } });
+    return this;
+  }
   async start() {
+    if (!this.inCtx) this.prepare();
     try {
-      this.stream = await navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: true, noiseSuppression: true, autoGainControl: true, channelCount: 1 } });
+      this.stream = await this.streamPromise;
     } catch (e) {
       throw new AiError(e.name === 'NotFoundError' ? 'mic_missing' : 'mic', e.name);
     }
-    const AC = window.AudioContext || window.webkitAudioContext;
-    try { this.inCtx = new AC({ sampleRate: 16000 }); } catch { this.inCtx = new AC(); }
-    try { this.outCtx = new AC({ sampleRate: 24000 }); } catch { this.outCtx = new AC(); }
     await this.inCtx.audioWorklet.addModule(`js/live/capture-worklet.js?v=${BUILD}`);
     await this.outCtx.audioWorklet.addModule(`js/live/player-worklet.js?v=${BUILD}`);
     this.src = this.inCtx.createMediaStreamSource(this.stream);
@@ -191,16 +204,21 @@ export class AudioIO extends EventTarget {
       if (e.data.type === 'level') this.dispatchEvent(new CustomEvent('out-level', { detail: e.data.rms }));
       else this.dispatchEvent(new CustomEvent(e.data.type === 'start' ? 'speaking' : 'idle'));
     };
-    await this.inCtx.resume(); await this.outCtx.resume();
+    // без await: на iOS resume() поза жестом може не завершитись ніколи
+    this.inCtx.resume().catch(() => {}); this.outCtx.resume().catch(() => {});
+    return { inRate: this.inCtx.sampleRate, outRate: this.outCtx.sampleRate, inState: this.inCtx.state, outState: this.outCtx.state };
   }
   play(f32) {
-    // якщо контекст не 24 кГц — простий ресемплінг
+    // Gemini віддає 24 кГц; контекст — рідна частота пристрою (зазвичай 48 кГц): лінійна інтерполяція
     const rate = this.outCtx.sampleRate;
     let data = f32;
     if (rate !== 24000) {
       const ratio = 24000 / rate, n = Math.floor(f32.length / ratio);
       data = new Float32Array(n);
-      for (let i = 0; i < n; i++) data[i] = f32[Math.floor(i * ratio)];
+      for (let i = 0; i < n; i++) {
+        const x = i * ratio, j = Math.floor(x), f = x - j;
+        data[i] = j + 1 < f32.length ? f32[j] * (1 - f) + f32[j + 1] * f : f32[j];
+      }
     }
     this.player?.port.postMessage({ type: 'push', data }, [data.buffer]);
   }

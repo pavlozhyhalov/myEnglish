@@ -23,6 +23,7 @@ const ERR = {
 export async function voiceSession(view, opts = {}) {
   setFocus(true);
   const st = store.settings();
+
   let scenario = null;
   if (opts.scenario) scenario = (await loadScenarios()).find(s => s.id === opts.scenario) || null;
 
@@ -53,7 +54,13 @@ export async function voiceSession(view, opts = {}) {
     pttBtn, controls);
   view.replaceChildren(ui);
 
-  const log = (t) => { if (logBox) { logBox.textContent += `[${new Date().toLocaleTimeString()}] ${t}\n`; logBox.scrollTop = 1e9; } };
+  const logLines = [`${new Date().toISOString()} start · ${navigator.userAgent}`];
+  const log = (t) => {
+    const line = `[${new Date().toLocaleTimeString()}] ${t}`;
+    logLines.push(line);
+    try { localStorage.setItem('me:voice-log', logLines.slice(-200).join('\n')); } catch { /* */ }
+    if (logBox) { logBox.textContent += line + '\n'; logBox.scrollTop = 1e9; }
+  };
   const setState = (t) => { stateEl.textContent = t; };
 
   // ---------- субтитри / транскрипт ----------
@@ -92,10 +99,26 @@ export async function voiceSession(view, opts = {}) {
   if (!user()) { fail({ code: 'need_login' }); return cleanup; }
   if (!navigator.onLine) { fail({ code: 'offline' }); return cleanup; }
 
-  // ---------- старт Live ----------
+  // ---------- старт Live: лише по тапу — iOS вмикає звук і мікрофон тільки в момент жесту ----------
+  setState('Готовий до розмови');
+  const savedControls = [...controls.childNodes];
+  await new Promise((resolve) => {
+    const startBtn = h('button.btn.primary.lg', { type: 'button', style: { minWidth: '240px' }, onclick: () => {
+      audio = new AudioIO().prepare();     // синхронно, в жесті
+      controls.replaceChildren(...savedControls);
+      resolve();
+    } }, ic('microphone', { fill: true }), 'Почати розмову');
+    controls.replaceChildren(startBtn, h('button.btn.ghost', { type: 'button', onclick: () => {
+      ended = true; cleanup(); resolve();
+      if (opts.onFinish) opts.onFinish(row); else go('/tutor', { replace: true });
+    } }, 'Назад'));
+    notice.textContent = 'Порада: у навушниках вчитель чує вас краще.';
+  });
+  if (ended) return cleanup;
+  setState('Підключення…'); notice.textContent = '';
   try {
-    audio = new AudioIO();
-    await audio.start();
+    const info = await audio.start();
+    log(`audio ok · in ${info.inRate} Hz (${info.inState}) · out ${info.outRate} Hz (${info.outState})`);
     audio.addEventListener('mic-level', e => { micLevel = e.detail; });
     audio.addEventListener('out-level', e => { outLevel = e.detail; });
     audio.addEventListener('speaking', () => { if (mode === 'live') setState(`Говорить ${st.tutorName}`); });
@@ -139,7 +162,7 @@ export async function voiceSession(view, opts = {}) {
     if (started) { elapsedBefore = elapsed(); started = Date.now(); } else started = Date.now();
     try { live?.close(); } catch { /* */ }
     audio?.stop(); audio = null; micLevel = outLevel = 0;
-    const why = err?.code === 'quota' ? S.err.quota : err?.code === 'no_key' ? S.err.noKey : 'Live недоступний — перемкнулись на режим «рація».';
+    const why = err?.code === 'quota' ? S.err.quota : err?.code === 'no_key' ? S.err.noKey : `Live недоступний${err?.message ? ` (${String(err.message).slice(0, 80)})` : ''} — перемкнулись на режим «рація».`;
     notice.replaceChildren(h('div.feedback.no', why), h('div.xs.dim', { style: { marginTop: '6px' } }, 'Утримуйте кнопку, говоріть, відпустіть — вчитель відповість голосом.'));
     if (err?.code === 'quota' || err?.code === 'no_key' || err?.code === 'not_allowed') { fail(err); return; }
     setState('Режим «рація»');
@@ -213,20 +236,37 @@ export async function voiceSession(view, opts = {}) {
     else { store.setSetting('rate', Math.max(0.7, (store.settings().rate || 1) - 0.15)); notice.textContent = 'Озвучка сповільнена'; }
   }
 
+  /** Зберегти розмову і час (час прив'язаний до розмови — видалиш її, зникне і зі статистики) */
+  let saved = false;
+  function save() {
+    if (saved) return;
+    saved = true;
+    const seconds = elapsed();
+    row.seconds = seconds;
+    row.messages = row.messages.map(({ role, text }) => ({ role, text: text.trim() })).filter(m => m.text);
+    if (row.messages.length) store.put('tutor_chats', row);
+    if (seconds > 5) {
+      logSession('voice', seconds, 0, row.id || null);
+      if (mode === 'live') tutor('usage', { voice_seconds: seconds }).catch(() => {});
+    }
+    log(`end · ${seconds}s · msgs ${row.messages.length} (user ${row.messages.filter(m => m.role === 'user').length})`);
+  }
+
   async function finish() {
     if (ended) return;
     ended = true;
-    const seconds = elapsed();
-    cleanup();
-    row.seconds = seconds;
-    row.messages = row.messages.map(({ role, text }) => ({ role, text: text.trim() })).filter(m => m.text);
-    if (seconds > 5) {
-      logSession('voice', seconds, 0);
-      if (mode === 'live') tutor('usage', { voice_seconds: seconds }).catch(() => {});
-    }
-    if (row.messages.filter(m => m.role === 'user').length) store.put('tutor_chats', row);
+    try { cleanup(); } catch (e) { log('cleanup error ' + e.message); }
+    try { save(); } catch (e) { log('save error ' + e.message); }
     if (opts.onFinish) return opts.onFinish(row);
-    if (!row.messages.some(m => m.role === 'user')) { go('/tutor', { replace: true }); return; }
+    if (!row.messages.some(m => m.role === 'user')) {
+      // голос учня не розпізнано — пояснюємо, а не мовчки виходимо
+      setFocus(false);
+      view.replaceChildren(h('div.hero', emo('mic', 'xl'), h('h2', 'Розмову завершено'),
+        h('p.dim', row.messages.length ? 'Я не почув вашої відповіді. Перевірте, що браузеру дозволено мікрофон (Налаштування → Safari → Мікрофон), і спробуйте ще раз — краще в навушниках.' : 'Розмова не почалась: з\'єднання з вчителем не встановилось.'),
+        h('div.row', h('a.btn.soft', { href: '#/tutor' }, 'До вчителя'), h('a.btn.primary', { href: '#/tutor?mode=voice', onclick: (e) => { e.preventDefault(); voiceSession(view, opts); } }, 'Спробувати ще')),
+        h('a.small', { href: '#/lab/live' }, 'Діагностика голосу')));
+      return;
+    }
     await summarize(view, row, { voice: true });
   }
 
@@ -236,18 +276,11 @@ export async function voiceSession(view, opts = {}) {
     cleaned = true;
     cancelAnimationFrame(raf);
     try { live?.close(); } catch { /* */ }
-    audio?.stop();
+    try { audio?.stop(); } catch { /* */ }
     stopSpeech();
     setFocus(false);
-    // якщо користувач пішов зі сторінки без «Завершити» — все одно зберігаємо
-    if (!ended) {
-      ended = true;
-      const seconds = elapsed();
-      if (seconds > 5) { logSession('voice', seconds, 0); if (mode === 'live') tutor('usage', { voice_seconds: seconds }).catch(() => {}); }
-      row.seconds = seconds;
-      row.messages = row.messages.map(({ role, text }) => ({ role, text: text.trim() })).filter(m => m.text);
-      if (row.messages.some(m => m.role === 'user')) store.put('tutor_chats', row);
-    }
+    // пішли зі сторінки без «Завершити» — все одно зберігаємо
+    if (!ended) { ended = true; save(); }
   }
   return cleanup;
 }
