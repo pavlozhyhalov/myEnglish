@@ -33,6 +33,7 @@ async function mapError(res: Response): Promise<HttpError> {
   if (res.status === 400 && /api key/i.test(msg)) return new HttpError(503, 'no_key', msg);
   if (res.status === 403) return new HttpError(503, 'no_key', msg);
   if (res.status === 404) return new HttpError(404, 'model_not_found', msg);
+  if (res.status === 503 || res.status === 500) return new HttpError(503, 'overloaded', msg);
   return new HttpError(502, 'gemini', `Gemini ${res.status}: ${msg.slice(0, 200)}`);
 }
 
@@ -42,7 +43,8 @@ async function withModels<T>(models: string[], fn: (m: string) => Promise<T>): P
   for (const m of models) {
     try { return await fn(m); } catch (e) {
       last = e;
-      if (e instanceof HttpError && e.code === 'model_not_found') continue;
+      // немає моделі або вона перевантажена — пробуємо наступну
+      if (e instanceof HttpError && (e.code === 'model_not_found' || e.code === 'overloaded')) continue;
       throw e;
     }
   }

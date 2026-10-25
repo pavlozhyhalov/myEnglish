@@ -9,7 +9,7 @@ export class AiError extends Error {
 
 const MSG = {
   need_login: S.err.needLogin, not_allowed: S.err.notAllowed, no_key: S.err.noKey,
-  quota: S.err.quota, rate_limited: S.err.rate, offline: S.err.offline,
+  quota: S.err.quota, rate_limited: S.err.rate, overloaded: S.err.busy, offline: S.err.offline,
 };
 
 async function headers() {

@@ -2,7 +2,7 @@
 const env = (k: string) => Deno.env.get(k) || '';
 const list = (...xs: string[]) => [...new Set(xs.filter(Boolean))];
 
-export const TEXT_MODELS = list(env('GEMINI_TEXT_MODEL'), 'gemini-flash-latest', 'gemini-2.5-flash');
+export const TEXT_MODELS = list(env('GEMINI_TEXT_MODEL'), 'gemini-flash-latest', 'gemini-2.5-flash', 'gemini-flash-lite-latest');
 export const TTS_MODELS = list(env('GEMINI_TTS_MODEL'), 'gemini-3.8-flash-tts', 'gemini-2.5-flash-preview-tts');
 export const LIVE_MODELS = list(env('GEMINI_LIVE_MODEL'), 'gemini-3.8-live', 'gemini-3.1-flash-live-preview', 'gemini-2.5-flash-native-audio-latest');
 
