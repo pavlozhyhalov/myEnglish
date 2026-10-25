@@ -15,7 +15,7 @@ export const SECTIONS = [
   { id: 'mistakes', icon: 'warning-circle', emoji: 'target', group: 'check' },
   { id: 'progress', icon: 'chart-line-up', emoji: 'chart', group: 'me' },
   { id: 'settings', icon: 'gear-six', emoji: 'gear', group: 'me' },
-].map(s => ({ ...s, label: S.nav[s.id], long: S.navLong[s.id] || S.nav[s.id] }));
+].map(s => ({ ...s, emoji: s.icon, label: S.nav[s.id], long: S.navLong[s.id] || S.nav[s.id] }));  // значок плитки = іконка меню
 
 export const byId = Object.fromEntries(SECTIONS.map(s => [s.id, s]));
 export const GROUPS = ['learn', 'skills', 'check', 'me'];

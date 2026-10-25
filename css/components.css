@@ -24,7 +24,7 @@
 .icon-btn.soft{background:var(--accent-soft);color:var(--accent-ink)}
 .icon-btn.active{color:var(--accent-ink)}
 .streak-chip{display:inline-flex;align-items:center;gap:4px;padding:6px 10px;border-radius:var(--radius-pill);font-weight:600;font-size:var(--fs-sm);color:var(--ink);background:transparent;border:0;min-height:44px;text-decoration:none}
-.streak-chip img{width:20px;height:20px}
+.streak-chip .emo{width:20px;height:20px}
 
 /* ---------- Поверхні ---------- */
 .card{background:var(--surface);border:1px solid var(--line);box-shadow:var(--shadow-card);border-radius:var(--radius);padding:16px}
@@ -50,16 +50,16 @@
 .greet{padding:0 4px;display:flex;flex-direction:column;gap:2px}
 .greet h1{margin:0}
 .greet .date{font-size:var(--fs-xs);font-weight:500;color:var(--ink-dim)}
-.tile-ico{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;flex:none;background:var(--warn-soft)}
-.tile-ico .emoji{width:26px;height:26px}
+.tile-ico{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;flex:none;background:var(--accent-soft);color:var(--accent-ink)}
 .big-num{font-family:var(--font-head);font-weight:700;font-size:var(--fs-lg);line-height:1.1}
 .card h2,.card h3{margin-bottom:.4em}
 .divider{height:1px;background:var(--line);margin:8px 0}
-.emoji{width:28px;height:28px;flex:none}
-.emoji.lg{width:40px;height:40px}
-.emoji.xl{width:64px;height:64px}
-.emoji-circle{width:56px;height:56px;border-radius:50%;background:var(--accent-soft);display:grid;place-items:center;flex:none}
-.emoji-circle .emoji{width:32px;height:32px}
+/* Значки: монохромні, колір тексту; у кружечках і героях — акцентний */
+.emo{flex:none;color:var(--ink-dim)}
+.emo.xl{color:var(--accent-ink)}
+.emoji-circle{width:48px;height:48px;border-radius:14px;background:var(--accent-soft);color:var(--accent-ink);display:grid;place-items:center;flex:none}
+.emoji-circle .emo,.tile-ico .emo{color:inherit}
+.hero .emo.xl{width:56px;height:56px;padding:12px;box-sizing:content-box;border-radius:20px;background:var(--accent-soft)}
 
 /* Плитка розділу */
 .tile{
@@ -268,7 +268,7 @@ body.focus-mode .composer{bottom:calc(var(--safe-b) + 8px)}
 .voice .stage{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;min-height:0}
 .aura{position:relative;width:200px;height:200px;display:grid;place-items:center}
 .aura .core{width:120px;height:120px;border-radius:50%;background:var(--accent);display:grid;place-items:center;z-index:2;transition:transform 90ms linear}
-.aura .core img{width:64px;height:64px}
+.aura .core .emo{width:56px;height:56px;color:#fff}
 .aura .halo{position:absolute;inset:0;border-radius:50%;background:var(--accent-soft);transition:transform 90ms linear,opacity var(--dur)}
 .aura .halo.h2{inset:20px;background:var(--accent);opacity:.18}
 .aura.me .core{background:var(--good)}

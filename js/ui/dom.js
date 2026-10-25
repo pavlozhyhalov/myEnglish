@@ -45,9 +45,27 @@ export function ic(name, opts) {
   return t.content.firstChild;
 }
 
-/** Ілюстративне емодзі Fluent (локальний SVG) */
+// Ілюстративні значки — ті самі монохромні лінійні іконки Phosphor, що й у меню.
+// Назви лишились від старих емодзі, тому тут мапа «тема → іконка».
+const EMO = {
+  house: 'house', teacher: 'chalkboard-teacher', mic: 'microphone', cards: 'cards', book: 'book-open-text',
+  puzzle: 'puzzle-piece', headphone: 'headphones', mouth: 'waveform', writing: 'pencil-line', theater: 'users-three',
+  memo: 'exam', target: 'target', chart: 'chart-line-up', gear: 'gear-six', fire: 'fire', wave: 'hand-waving',
+  sparkles: 'sparkle', trophy: 'trophy', party: 'confetti', check: 'check-circle', bulb: 'lightbulb', books: 'books',
+  speaking: 'chat-centered-text', speech: 'chat-circle-dots', ear: 'ear', brain: 'brain', rocket: 'rocket-launch',
+  calendar: 'calendar-blank', hourglass: 'hourglass', star: 'star', thumbsup: 'thumbs-up', seedling: 'plant',
+  wrench: 'wrench', factory: 'factory', envelope: 'envelope-simple', package: 'package', magnifier: 'magnifying-glass',
+  handshake: 'handshake', briefcase: 'briefcase', bank: 'bank', hospital: 'first-aid', ruler: 'ruler', warning: 'warning',
+  coffee: 'coffee', abc: 'text-aa', muscle: 'barbell', key: 'key', cross: 'x-circle', phone: 'phone', shop: 'shopping-cart',
+  construction: 'hard-hat', city: 'buildings', moon: 'moon', sun: 'sun', speaker: 'speaker-high', gradcap: 'graduation-cap',
+  plane: 'airplane-tilt', food: 'fork-knife', pill: 'pill',
+};
+const EMO_SIZE = { '': 24, lg: 28, xl: 44 };
 export function emo(name, cls = '') {
-  return h('img.emoji' + (cls ? '.' + cls : ''), { src: `assets/emoji/${name}.svg`, alt: '', width: 40, height: 40, loading: 'lazy', decoding: 'async' });
+  const el = ic(EMO[name] || name || 'circle-half', { size: EMO_SIZE[cls] ?? 24 });
+  el.classList.add('emo');
+  if (cls) el.classList.add(cls);
+  return el;
 }
 
 export function clear(el) { while (el.firstChild) el.firstChild.remove(); return el; }
