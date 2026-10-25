@@ -1,10 +1,10 @@
-// Прогрес: стрік, час, графіки, слова, уроки, рівні, помилки, XP
+// Прогрес: стрік, час, графіки, слова, уроки, рівні, помилки
 import { h, emo, fmtMin, progress as bar } from '../ui/dom.js';
 import { S, plural } from '../strings.js';
 import * as store from '../store.js';
 import * as srs from '../srs.js';
 import { grammarIndex } from '../data.js';
-import { streak, lastNDays, totalSeconds, totalXp, xpLevel, xpWeek, skillLevels, MISTAKE_TYPES } from '../stats.js';
+import { streak, lastNDays, totalSeconds, weekSeconds, todaySeconds, skillLevels, MISTAKE_TYPES } from '../stats.js';
 
 export default async function progressPage(view) {
   const [c, gIdx] = await Promise.all([srs.counts(), grammarIndex()]);
@@ -12,7 +12,6 @@ export default async function progressPage(view) {
   const maxSec = Math.max(60, ...days.map(d => d.seconds));
   const fc = srs.forecast(7);
   const maxFc = Math.max(1, ...fc);
-  const xp = totalXp(); const lv = xpLevel(xp);
   const done = gIdx.filter(l => store.get('lessons_progress', l.id)?.completed_at).length;
   const skills = skillLevels();
   const tests = store.all('tests').sort((a, b) => b.created_at.localeCompare(a.created_at)).slice(0, 5);
@@ -43,9 +42,9 @@ export default async function progressPage(view) {
       h('div.chips', Object.entries(byType).sort((a, b) => b[1] - a[1]).map(([t, s]) => h('span.tag', `${S.sessionTypes[t] || t}: ${fmtMin(s)}`)))),
 
     h('section.card.stack',
-      h('div.section-title', 'XP і рівень'),
-      h('div.row', h('div.level-badge', String(lv.lvl)), h('div.grow', bar(lv.rest / lv.need * 100), h('div.xs.dim', { style: { marginTop: '4px' } }, `${lv.rest} / ${lv.need} XP до рівня ${lv.lvl + 1}`))),
-      h('div.grid2', stat(xp, 'XP всього'), stat(xpWeek(), 'XP за тиждень'))),
+      h('div.section-title', 'Час навчання'),
+      h('div.grid3', stat(fmtMin(todaySeconds()), 'сьогодні'), stat(fmtMin(weekSeconds()), 'за 7 днів'), stat(fmtMin(Math.round(days.reduce((a, d) => a + d.seconds, 0) / Math.max(1, days.filter(d => d.seconds).length))), 'у середньому за активний день')),
+      h('div.xs.dim', 'Час автоматично додається в Resonance (Мови → English)')),
 
     h('section.card.stack',
       h('div.section-title', 'Слова'),

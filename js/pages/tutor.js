@@ -54,7 +54,7 @@ function overview(view) {
     history(view, chats)));
 }
 
-/** Історія розмов: відкрити, видалити одну або кілька (разом із часом, XP і помилками в статистиці) */
+/** Історія розмов: відкрити, видалити одну або кілька (разом із часом і помилками в статистиці) */
 function history(view, chats) {
   const box = h('section.stack', { style: { gap: '8px' } });
   let selecting = false;
@@ -84,7 +84,7 @@ function history(view, chats) {
   async function remove(ids) {
     const n = ids.length;
     const ok = await confirmSheet(n > 1 ? `Видалити ${n} розмов?` : 'Видалити розмову?',
-      'Разом із розмовою зі статистики приберуться її час, XP і помилки з її підсумку. Слова, які ви додали в картки, залишаться.', 'Видалити', { danger: true });
+      'Разом із розмовою зі статистики приберуться її час і помилки з її підсумку. Слова, які ви додали в картки, залишаться.', 'Видалити', { danger: true });
     if (!ok) return;
     ids.forEach(deleteChat);
     selecting = false; picked.clear();
@@ -228,7 +228,7 @@ function chatUI(view, row, { scenario, ask, topic, resumed } = {}) {
       runExercises(box, res.exercises || [], {
         onMistake: (ex, given) => addMistake({ wrong: given, right: ex.answerText || String(Array.isArray(ex.answer) ? ex.answer[0] : (typeof ex.answer === 'number' ? ex.options[ex.answer] : ex.answer)), type: row.meta?.type || ex.mistakeType || 'other', explanation_uk: ex.explanation, source: 'exercise' }),
         onDone: (r) => {
-          timer.addXp(Math.round(r.correct * 2));
+          timer.poke();
           // правильні застосування для групи помилок
           if (row.mode === 'drill' && r.score >= 80) for (const m of store.all('mistakes').filter(m => m.type === row.meta?.type && !m.resolved)) { m.streak = (m.streak || 0) + 1; m.resolved = m.streak >= 3; store.put('mistakes', m); }
         },
@@ -327,7 +327,7 @@ export function summaryView(view, row) {
 function deleteButton(row) {
   return h('button.btn.ghost.block', { type: 'button', style: { color: 'var(--bad)' }, onclick: async () => {
     if (!row.id) { go('/tutor', { replace: true }); return; }
-    if (!await confirmSheet('Видалити розмову?', 'Разом із нею зі статистики приберуться її час, XP і помилки з підсумку.', 'Видалити', { danger: true })) return;
+    if (!await confirmSheet('Видалити розмову?', 'Разом із нею зі статистики приберуться її час і помилки з підсумку.', 'Видалити', { danger: true })) return;
     deleteChat(row.id);
     toast('Розмову видалено');
     go('/tutor', { replace: true });
@@ -358,7 +358,7 @@ function checkMode(view, q) {
       const res = await tutor('check_text', { text, kind, task: q.task || null });
       const row = store.put('tutor_chats', { mode: 'check', title: `Перевірка: ${text.slice(0, 40)}…`, messages: [{ role: 'user', text }], summary: res, seconds: Math.round(timer.seconds()) });
       for (const c of res.corrections || []) addMistake({ wrong: c.wrong, right: c.right, type: c.type, explanation_uk: c.explanation_uk, source: 'tutor', ref: row.id });
-      timer.addXp(10);
+      timer.poke();
       timer.setRef(row.id);
       timer.stop();
       checkResultView(view, row);

@@ -4,7 +4,7 @@ import { plural } from '../strings.js';
 import * as store from '../store.js';
 import * as srs from '../srs.js';
 import { speak, stop as stopSpeech, recognize, canRecognize, compareWords, recordAndTranscribe } from '../speech.js';
-import { activityTimer, XP } from '../stats.js';
+import { activityTimer } from '../stats.js';
 import { setFocus, setTitle } from '../ui/shell.js';
 import { toast } from '../ui/toast.js';
 import { go } from '../router.js';
@@ -149,7 +149,7 @@ export async function runReview(view, { limit = Infinity, onExit, onDone, embedd
 
   function rate(g) {
     if (!flipped) return;
-    timer.addXp(XP.perCard);
+    timer.poke();
     const row = srs.grade(cur, g, Date.now() - shownAt);
     done++;
     if (g === 1) again++;

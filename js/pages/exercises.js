@@ -43,7 +43,7 @@ async function grammarPractice(view, unitSlug) {
     title,
     onMistake: (ex, given) => addMistake({ wrong: given || '—', right: answerText(ex), type: ex._lesson.mistakeType || 'tenses', explanation_uk: `${ex._lesson.title}: ${ex.explanation || ''}`, source: 'exercise' }),
     onDone: (res) => {
-      timer.addXp(res.correct * 2);
+      timer.poke();
       setTimeout(() => box.append(h('div.stack', { style: { marginTop: '12px' } },
         h('a.btn.primary.block', { href: `#/exercises/grammar/${unitSlug}`, onclick: (e) => { e.preventDefault(); grammarPractice(view, unitSlug); } }, ic('arrow-clockwise'), 'Ще 10 вправ'))));
     },

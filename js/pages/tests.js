@@ -5,7 +5,7 @@ import * as store from '../store.js';
 import { placement as loadPlacement, grammarIndex, lesson as loadLesson, allDecks } from '../data.js';
 import { render as renderExercise, answerText } from '../ui/exercises.js';
 import { speak, stop as stopSpeech } from '../speech.js';
-import { activityTimer, addMistake, XP, dayKey } from '../stats.js';
+import { activityTimer, addMistake, dayKey } from '../stats.js';
 import { tutor } from '../ai.js';
 import { user } from '../supa.js';
 import { setTitle, setFocus } from '../ui/shell.js';
@@ -144,7 +144,7 @@ async function placementTest(view) {
       store.put('tests', { type: 'placement', scores: res, details: results.map(r => ({ id: r.ex.id, skill: r.ex.skill, level: r.ex.level, ok: r.ok })) });
       store.setProf({ level: overall, skills: scores, placementDone: true });
       store.setSetting('level', overall);
-      timer.addXp(XP.perTest);
+      timer.poke();
       timer.stop();
       view.replaceChildren(h('div.stack-lg',
         h('div.hero', emo('trophy', 'xl'), h('div.xs.dim', 'Ваш рівень'), h('div.num', { style: { fontSize: '48px' } }, overall), h('p.dim', S.level[overall] || '')),
@@ -203,7 +203,7 @@ async function lessonTest(view, id) {
     onFinish: (results) => {
       const score = Math.round(results.filter(r => r.ok).length / results.length * 100);
       store.put('tests', { type: 'lesson', ref: id, scores: { score }, details: results.map(r => ({ ok: r.ok, given: r.given })) });
-      timer.addXp(score >= 80 ? XP.perTest : 10); timer.stop();
+      timer.poke(); timer.stop();
       view.replaceChildren(h('div.stack-lg',
         h('div.hero', emo(score >= 80 ? 'trophy' : 'muscle', 'xl'), h('div.num', { style: { fontSize: 'var(--fs-2xl)' } }, `${score}%`), h('p.dim', l.title)),
         resultList(results),
@@ -241,7 +241,7 @@ async function weeklyTest(view) {
     onFinish: (results) => {
       const score = Math.round(results.filter(r => r.ok).length / results.length * 100);
       store.put('tests', { type: 'weekly', ref: dayKey(), scores: { score }, details: results.map(r => ({ ok: r.ok })) });
-      timer.addXp(XP.perTest); timer.stop();
+      timer.poke(); timer.stop();
       view.replaceChildren(h('div.stack-lg',
         h('div.hero', emo(score >= 80 ? 'trophy' : 'thumbsup', 'xl'), h('div.num', { style: { fontSize: 'var(--fs-2xl)' } }, `${score}%`), h('p.dim', 'Тижневий тест')),
         resultList(results), h('a.btn.primary.block', { href: '#/tests' }, 'До тестів')));

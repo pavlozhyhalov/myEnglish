@@ -246,7 +246,7 @@ export async function voiceSession(view, opts = {}) {
     row.messages = row.messages.map(({ role, text }) => ({ role, text: text.trim() })).filter(m => m.text);
     if (row.messages.length) store.put('tutor_chats', row);
     if (seconds > 5) {
-      logSession('voice', seconds, 0, row.id || null);
+      logSession('voice', seconds, row.id || null);
       if (mode === 'live') tutor('usage', { voice_seconds: seconds }).catch(() => {});
     }
     log(`end · ${seconds}s · msgs ${row.messages.length} (user ${row.messages.filter(m => m.role === 'user').length})`);

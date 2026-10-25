@@ -73,7 +73,7 @@ export default async function session(view) {
       onMistake: (ex, given) => addMistake({ wrong: given || '—', right: answerText(ex), type: lesson.mistakeType || 'tenses', explanation_uk: `${lesson.title}: ${ex.explanation || ''}`, source: 'exercise' }),
       onDone: (res) => {
         summary.score = res.score;
-        timer.addXp(res.correct * 2);
+        timer.poke();
         timer.stop();
         box.append(h('button.btn.primary.block', { type: 'button', style: { marginTop: '12px' }, onclick: () => next(2) }, 'Далі', ic('arrow-right')));
         return true;
@@ -87,10 +87,9 @@ export default async function session(view) {
     stopped = true;
     cleanup?.(); cleanup = null;
     setFocus(false);
-    logSession('session', 0, 15);
     const min = Math.max(1, Math.round((Date.now() - started) / 60000));
     view.replaceChildren(h('div.stack-lg',
-      h('div.hero', emo('party', 'xl'), h('h1', 'Заняття завершено!'), h('p.dim', `${min} хв · +15 XP бонус`)),
+      h('div.hero', emo('party', 'xl'), h('h1', 'Заняття завершено!'), h('p.dim', `${min} хв практики`)),
       h('section.card.stack',
         h('div.row', emo('cards'), h('div.grow', 'Картки'), h('b', String(summary.cards))),
         h('div.row', emo('puzzle'), h('div.grow', lesson.title), h('b', summary.score == null ? '—' : `${summary.score}%`)),

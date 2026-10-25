@@ -1,7 +1,6 @@
-// Активність, стрік, XP, помилки — похідні дані зі сховища
+// Активність (час), стрік, помилки — похідні дані зі сховища
 import * as store from './store.js';
 
-export const XP = { perMinute: 2, perCard: 1, perLesson: 20, perTest: 30 };
 const ACTIVE_DAY_SEC = 5 * 60;   // день зараховується в стрік від 5 хв практики
 
 export function dayKey(d = new Date()) {
@@ -10,17 +9,16 @@ export function dayKey(d = new Date()) {
 }
 export const today = () => dayKey();
 
-/** Записати сесію практики (секунди й XP). ref — id розмови, щоб її видалення прибирало й статистику */
-export function logSession(type, seconds, extraXp = 0, ref = null) {
+/** Записати сесію практики (лише час). ref — id розмови, щоб її видалення прибирало й статистику */
+export function logSession(type, seconds, ref = null) {
   seconds = Math.max(0, Math.round(seconds));
-  if (seconds < 5 && !extraXp) return null;
-  const xp = Math.round(seconds / 60 * XP.perMinute) + extraXp;
-  return store.put('sessions', { type, seconds, xp, day: today(), ts: store.nowIso(), ref: ref || null });
+  if (seconds < 5) return null;
+  return store.put('sessions', { type, seconds, xp: 0, day: today(), ts: store.nowIso(), ref: ref || null });
 }
 
 /** Таймер активності сторінки: рахує лише видимий час, з паузою після 2 хв бездіяльності */
 export function activityTimer(type) {
-  let acc = 0, last = Date.now(), lastInput = Date.now(), xp = 0, stopped = false, ref = null;
+  let acc = 0, last = Date.now(), lastInput = Date.now(), stopped = false, ref = null;
   const tick = () => {
     const now = Date.now();
     if (!document.hidden && now - lastInput < 120000) acc += now - last;
@@ -31,7 +29,6 @@ export function activityTimer(type) {
   const evs = ['pointerdown', 'keydown', 'touchstart'];
   evs.forEach(e => window.addEventListener(e, mark, { passive: true }));
   return {
-    addXp(n) { xp += n; mark(); },
     setRef(r) { ref = r; },
     poke: mark,
     seconds() { tick(); return acc / 1000; },
@@ -39,7 +36,7 @@ export function activityTimer(type) {
       if (stopped) return null;
       stopped = true; tick(); clearInterval(iv);
       evs.forEach(e => window.removeEventListener(e, mark));
-      return logSession(type, acc / 1000, xp, ref);
+      return logSession(type, acc / 1000, ref);
     },
   };
 }
@@ -84,17 +81,11 @@ export function lastNDays(n) {
   return out;
 }
 
-export function totalXp() { return store.all('sessions').reduce((a, s) => a + (s.xp || 0), 0); }
-export function xpWeek() {
+/** Секунди за останні 7 днів (включно з сьогодні) */
+export function weekSeconds() {
   const from = new Date(); from.setDate(from.getDate() - 6);
   const k = dayKey(from);
-  return store.all('sessions').filter(s => s.day >= k).reduce((a, s) => a + (s.xp || 0), 0);
-}
-/** Рівень гейміфікації: кожен рівень потребує на 100 XP більше */
-export function xpLevel(xp = totalXp()) {
-  let lvl = 1, need = 200, rest = xp;
-  while (rest >= need) { rest -= need; lvl++; need += 100; }
-  return { lvl, rest, need };
+  return store.all('sessions').filter(s => s.day >= k).reduce((a, s) => a + (s.seconds || 0), 0);
 }
 export function totalSeconds() { return store.all('sessions').reduce((a, s) => a + (s.seconds || 0), 0); }
 
@@ -167,7 +158,7 @@ export function skillLevels() {
 
 // ---------- Видалення розмови разом із її статистикою ----------
 /**
- * Прибирає розмову, її час/XP (сесії з ref = id) і помилки з її підсумку:
+ * Прибирає розмову, її час (сесії з ref = id) і помилки з її підсумку:
  * помилка, створена цією розмовою, видаляється; додана до наявної — зменшує лічильник.
  */
 export function deleteChat(id) {

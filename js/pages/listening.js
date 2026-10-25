@@ -43,7 +43,7 @@ function dictation(box, data, timer) {
     const step = () => {
       if (i >= items.length) {
         const avg = Math.round(totalPct / items.length);
-        timer.addXp(Math.round(avg / 10));
+        timer.poke();
         box.replaceChildren(h('div.hero', emo(avg >= 80 ? 'trophy' : 'thumbsup', 'xl'), h('div.num', { style: { fontSize: 'var(--fs-2xl)' } }, `${avg}%`), h('p.dim', 'Середня точність'),
           h('button.btn.primary', { type: 'button', onclick: () => dictation(box, data, timer) }, 'Ще раз')));
         return;
@@ -168,7 +168,7 @@ function playDialogue(box, d, timer, onBack) {
       opts[q.answer].classList.add('right');
       answered++; if (ok) right++;
       if (q.explanation_uk) opts[q.answer].after(h('div.xs.dim', q.explanation_uk));
-      if (answered === d.questions.length) { timer.addXp(right * 2); qBox.append(h('div.feedback.' + (right >= 4 ? 'ok' : 'no'), `Розуміння: ${right} з ${d.questions.length}`)); }
+      if (answered === d.questions.length) { timer.poke(); qBox.append(h('div.feedback.' + (right >= 4 ? 'ok' : 'no'), `Розуміння: ${right} з ${d.questions.length}`)); }
     } }, o));
     qBox.append(h('div.card.stack', h('b', `${qi + 1}. ${q.q}`), ...opts));
   });

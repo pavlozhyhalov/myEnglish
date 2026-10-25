@@ -3,7 +3,7 @@ import { h, ic, clear } from './dom.js';
 import { SECTIONS, GROUPS } from '../nav.js';
 import { S } from '../strings.js';
 import * as store from '../store.js';
-import { xpWeek } from '../stats.js';
+import { weekSeconds } from '../stats.js';
 import { user, signOut } from '../supa.js';
 import { go } from '../router.js';
 
@@ -45,7 +45,7 @@ export function renderProfile() {
     h('div.level-badge', ic('user', { size: 22 })),
     h('div.grow',
       h('div', { style: { fontWeight: 600 } }, u ? (u.email || '').split('@')[0] : S.guest),
-      h('div.xs.dim', `${S.xpWeek}: ${xpWeek()}`)),
+      h('div.xs.dim', `${S.weekTime}: ${Math.round(weekSeconds() / 60)} хв`)),
     u ? h('button.btn.sm', { type: 'button', onclick: async () => { await signOut(); close(); } }, S.logout)
       : h('button.btn.sm.soft', { type: 'button', onclick: () => { close(); go('/auth'); } }, S.login)));
 }

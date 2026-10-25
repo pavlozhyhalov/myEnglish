@@ -6,7 +6,7 @@ import { grammarIndex, lesson as loadLesson } from '../data.js';
 import { md } from '../ui/md.js';
 import { speak } from '../speech.js';
 import { runExercises, answerText } from '../ui/exercises.js';
-import { recordLesson, activityTimer, XP, addMistake, lessonsToReview } from '../stats.js';
+import { recordLesson, activityTimer, addMistake, lessonsToReview } from '../stats.js';
 import { tutor, aiErrorText } from '../ai.js';
 import { user } from '../supa.js';
 import { setTitle } from '../ui/shell.js';
@@ -55,7 +55,7 @@ async function lessonPage(view, id, query = {}) {
       onMistake: (ex, given) => addMistake({ wrong: given || '—', right: answerText(ex), type: l.mistakeType || 'tenses', explanation_uk: `${l.title}: ${ex.explanation || ''}`.trim(), source: 'exercise' }),
       onDone: (res) => {
         const pr = recordLesson(id, res.score);
-        timer.addXp(res.score >= 80 ? XP.perLesson : 5);
+        timer.poke();
         if (res.score >= 80) toast(pr.review_stage ? 'Повтор зараховано' : 'Урок пройдено!');
         setTimeout(() => {
           exBox.firstChild.append(h('div.stack', { style: { marginTop: '12px' } },

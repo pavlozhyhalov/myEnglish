@@ -42,7 +42,7 @@ function practiceBlock(text, timer, { uk, onResult } = {}) {
     try {
       const res = await listen(t => { out.textContent = t; });
       const cmp = compareWords(text, res.text);
-      timer.addXp(cmp.pct >= 80 ? 2 : 1);
+      timer.poke();
       out.replaceChildren(
         h('div', { style: { fontSize: 'var(--fs-lg)' } }, cmp.words.map(w => [h('span', { class: w.ok ? 'word-ok' : 'word-no' }, w.raw), ' '])),
         h('div', h('b', { class: cmp.pct >= 80 ? 'good' : cmp.pct >= 50 ? 'warn' : 'bad' }, `${cmp.pct}%`), h('span.dim', ` · почуто: «${res.text || '—'}»`)));
@@ -76,7 +76,7 @@ function pairs(box, data, timer) {
   let i = 0, right = 0;
   const step = () => {
     if (i >= all.length) {
-      timer.addXp(right * 2);
+      timer.poke();
       box.replaceChildren(h('div.hero', emo(right >= 8 ? 'trophy' : 'ear', 'xl'), h('div.num', { style: { fontSize: 'var(--fs-2xl)' } }, `${right}/${all.length}`), h('p.dim', 'Правильно розпізнано на слух'),
         h('button.btn.primary', { type: 'button', onclick: () => pairs(box, data, timer) }, 'Ще раунд')));
       return;
