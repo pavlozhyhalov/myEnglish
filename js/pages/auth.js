@@ -37,11 +37,14 @@ export default function auth(view) {
         go('/', { replace: true });
       } else {
         const r = await signUp(email.value.trim(), pass.value);
-        if (r.session) { await store.sync().catch(() => {}); go('/', { replace: true }); }
-        else msg.replaceChildren(h('div.feedback.ok', 'Акаунт створено. Підтвердіть email за посиланням з листа, потім увійдіть тут. (Якщо посилання відкриє порожню сторінку — це нормально, email уже підтверджено.)'));
+        // email власника підтверджується автоматично (тригер у БД) — одразу входимо
+        if (!r.session) await signIn(email.value.trim(), pass.value);
+        toast('Акаунт створено');
+        await store.sync().catch(() => {});
+        go('/', { replace: true });
       }
     } catch (err) {
-      const t = /invalid login/i.test(err.message) ? 'Невірний email або пароль' : /not confirmed/i.test(err.message) ? 'Email ще не підтверджено — перевірте пошту' : /signups not allowed|disabled/i.test(err.message) ? 'Реєстрацію вимкнено (застосунок персональний)' : err.message;
+      const t = /invalid login/i.test(err.message) ? 'Невірний email або пароль' : /not confirmed/i.test(err.message) ? 'Email ще не підтверджено — перевірте пошту' : /signups not allowed|disabled|database error saving new user/i.test(err.message) ? 'Реєстрація закрита: застосунок персональний' : err.message;
       msg.replaceChildren(h('div.feedback.no', t));
     } finally { btn.disabled = false; }
   } },
