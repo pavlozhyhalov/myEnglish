@@ -129,7 +129,9 @@ function chatUI(view, row, { scenario, ask, topic, resumed } = {}) {
     h('div.small', scenario.situation), h('div.small', h('b', 'Мета: '), scenario.goal)) : null;
 
   view.replaceChildren(h('div.stack',
-    h('div.row', h('a.icon-btn', { href: '#/tutor', 'aria-label': 'Назад' }, ic('arrow-left')), h('div.grow.small.dim', `${st.tutorName} · ${MODES.find(m => m.id === row.mode)?.title || 'Розмова'}`), finishBtn),
+    h('div.row.tutor-head', h('a.icon-btn', { href: '#/tutor', 'aria-label': 'Назад' }, ic('arrow-left')),
+      h('span.avatar', { 'aria-hidden': 'true' }, (st.tutorName || 'A').charAt(0).toUpperCase()),
+      h('div.grow', h('div.name', st.tutorName), h('div.xs.dim', MODES.find(m => m.id === row.mode)?.title || 'Розмова')), finishBtn),
     needLoginCard(), intro, list, extra,
     h('div.composer', micBtn, ta, sendBtn)));
 

@@ -27,7 +27,7 @@ function render() {
     const on = id === current;
     if (id === 'tutor') {
       const a = h('a.qb-item.tutor', { href: '#/tutor', 'aria-label': `${s.label}. Утримайте для голосового режиму`, 'aria-current': on ? 'page' : null },
-        h('span.bubble', ic('chat-circle-dots', { fill: true, size: 28 })), h('span', s.label));
+        h('span.pill', ic(s.icon, { fill: on, size: 24 })), h('span', s.label));
       // довге натискання — одразу голос
       let t = null, long = false;
       const startPress = () => { long = false; t = setTimeout(() => { long = true; navigator.vibrate?.(15); go('/tutor?mode=voice'); }, 550); };
@@ -40,7 +40,7 @@ function render() {
       a.addEventListener('click', e => { if (long) e.preventDefault(); });
       bar.append(a);
     } else {
-      bar.append(h('a.qb-item', { href: `#/${id}`, 'aria-current': on ? 'page' : null }, ic(s.icon, { fill: on, size: 26 }), h('span', s.label)));
+      bar.append(h('a.qb-item', { href: `#/${id}`, 'aria-current': on ? 'page' : null }, h('span.pill', ic(s.icon, { fill: on, size: 24 })), h('span', s.label)));
     }
   }
 }

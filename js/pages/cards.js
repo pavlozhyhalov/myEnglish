@@ -122,7 +122,7 @@ export async function runReview(view, { limit = Infinity, onExit, onDone, embedd
     const back = h('div.face.back',
       h('span.kind', kindLabel),
       h('div.big', cur.en), cur.ipa ? h('div.ipa', cur.ipa) : null,
-      h('div', { style: { fontSize: 'var(--fs-lg)' } }, cur.uk),
+      h('div.answer', cur.uk),
       speakBtn(cur.en),
       ex ? h('div.card.soft.tight', { style: { width: '100%', textAlign: 'left' } },
         h('div.row', h('div.grow', h('div', ex.en), ex.uk ? h('div.xs.dim', ex.uk) : null), speakBtn(ex.en, 20))) : null,

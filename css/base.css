@@ -5,8 +5,8 @@ body{
   font-family:var(--font-body);font-size:var(--fs-md);line-height:1.5;
   -webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent;
 }
-h1,h2,h3,h4{font-family:var(--font-head);font-weight:600;line-height:1.15;margin:0 0 .5em;letter-spacing:-.01em}
-h1{font-size:var(--fs-xl)} h2{font-size:var(--fs-lg)} h3{font-size:var(--fs-md)}
+h1,h2,h3,h4{font-family:var(--font-body);font-weight:600;line-height:1.2;margin:0 0 .5em;letter-spacing:-.02em}
+h1{font-size:26px;letter-spacing:-.025em} h2{font-size:var(--fs-lg)} h3{font-size:var(--fs-md)}
 p{margin:0 0 .75em}
 a{color:var(--accent-ink)}
 button,input,textarea,select{font:inherit;color:inherit}
@@ -33,9 +33,11 @@ img,svg{display:block}
   backdrop-filter:saturate(1.4) blur(12px);-webkit-backdrop-filter:saturate(1.4) blur(12px);
 }
 .app-header .title{
-  flex:1;text-align:center;font-family:var(--font-head);font-size:var(--fs-md);font-weight:600;
+  flex:1;text-align:center;font-family:var(--font-body);font-size:var(--fs-md);font-weight:600;letter-spacing:-.01em;
   white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
 }
+.wordmark{font-family:var(--font-head);font-weight:700;letter-spacing:-.01em}
+.wordmark b{color:var(--accent-ink);font-weight:inherit}
 .app-header .right{display:flex;align-items:center;gap:2px}
 main#view{
   padding:calc(var(--header-h) + var(--safe-t) + 8px) 16px calc(var(--quickbar-h) + var(--safe-b) + 32px);
@@ -62,6 +64,7 @@ body.focus-mode .quickbar{transform:translateY(120%)}
 .center{text-align:center}
 .grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
 @media (min-width:600px){.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}}
-.section-title{font-family:var(--font-head);font-size:var(--fs-sm);font-weight:600;color:var(--ink-dim);margin:8px 2px 0;text-transform:none}
+.section-title{font-family:var(--font-body);font-size:var(--fs-xs);font-weight:600;color:var(--ink-dim);margin:8px 2px 0;text-transform:uppercase;letter-spacing:.06em}
+.eyebrow{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--accent-ink)}
 .page-enter{animation:pageIn var(--dur) var(--ease)}
 @keyframes pageIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}

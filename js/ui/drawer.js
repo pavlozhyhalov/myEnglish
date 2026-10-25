@@ -14,7 +14,7 @@ export function initDrawer() {
   list = h('nav', { 'aria-label': S.menu });
   profileBox = h('div.profile');
   drawer = h('aside.drawer#drawer', { 'aria-label': S.menu, 'aria-hidden': 'true' },
-    h('div.brand', h('div.logo', 'En'), S.app), list, profileBox);
+    h('div.brand', h('div.logo', 'En'), h('span.wordmark', h('b', 'my'), 'English')), list, profileBox);
   document.body.append(scrim, drawer);
   renderList();
   renderProfile();

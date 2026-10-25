@@ -71,7 +71,7 @@ async function boot() {
   fallback((view) => { view.replaceChildren(h('div.empty', emo('magnifier', 'xl'), h('p', 'Сторінку не знайдено'), h('a.btn.soft', { href: '#/' }, S.nav.home))); });
   onRoute((r) => {
     const sec = byId[r.name];
-    setTitle(sec ? sec.label : (S.nav[r.name] || S.app));
+    setTitle(r.name === 'home' ? S.app : sec ? sec.label : (S.nav[r.name] || S.app));
     drawerActive(sec ? r.name : '');
     qbActive(r.name);
     document.body.classList.remove('focus-mode');

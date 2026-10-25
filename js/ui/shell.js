@@ -1,10 +1,14 @@
 // Спільні дії оболонки: заголовок, режим фокусу, тема
 import * as store from '../store.js';
-import { ic } from './dom.js';
+import { h, ic } from './dom.js';
 
 export function setTitle(t) {
   const el = document.getElementById('page-title');
-  if (el) el.textContent = t;
+  // на головній — логотип «myEnglish» з акцентом на «my»
+  if (el) {
+    if (t === 'myEnglish') el.replaceChildren(h('span.wordmark', h('b', 'my'), 'English'));
+    else el.textContent = t;
+  }
   document.title = t && t !== 'myEnglish' ? `${t} · myEnglish` : 'myEnglish';
 }
 
@@ -21,7 +25,8 @@ export function applyTheme(theme = store.settings().theme) {
   if (theme === 'light' || theme === 'dark') root.dataset.theme = theme;
   else delete root.dataset.theme;
   const dark = isDark();
-  document.querySelector('meta[name="theme-color"]')?.setAttribute('content', dark ? '#0B1020' : '#F3F5FA');
+  document.querySelector('meta[name="theme-color"]')?.setAttribute('content', dark ? '#080D1A' : '#F4F6FB');
+  // іконка показує тему, на яку перемкне кнопка
   const btn = document.querySelector('.btn-theme');
-  if (btn) btn.replaceChildren(ic(dark ? 'moon' : 'sun'));
+  if (btn) btn.replaceChildren(ic(dark ? 'sun' : 'moon'));
 }

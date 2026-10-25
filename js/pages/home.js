@@ -40,18 +40,26 @@ export default async function home(view) {
   });
   plan.push({ emoji: 'mic', href: '#/tutor?mode=voice', done: tutorSecToday >= 600, text: `10 хвилин розмови з ${st.tutorName}` });
 
-  const greet = h('section.card.stack',
+  const date = new Date().toLocaleDateString('uk-UA', { weekday: 'long', day: 'numeric', month: 'long' });
+  const greet = h('div.greet',
+    h('span.date', date.charAt(0).toUpperCase() + date.slice(1)),
+    h('h1', `${S.greet(hour)}, ${S.name}`));
+
+  // ---- синя картка: хвилини, кільце мети, план, старт ----
+  const mins = Math.round(sec / 60);
+  const left = Math.max(1, Math.ceil((goal - sec) / 60));
+  const hero = h('section.plan-hero',
     h('div.row',
-      h('div.grow',
-        h('h1', `${S.greet(hour)}, ${S.name}`),
-        h('p.dim.small', sec >= goal ? 'Денну мету виконано. Чудово!' : `Сьогодні ${fmtMin(sec)} з ${st.dailyGoal} хв`)),
-      ring(Math.round(sec / 60), st.dailyGoal, { size: 84, stroke: 9, label: h('div', h('b', String(Math.round(sec / 60))), h('div.xs.dim', `/${st.dailyGoal} хв`)) })),
+      h('div.grow.stack', { style: { gap: '4px' } },
+        h('span.label', 'План на сьогодні'),
+        h('span.big', String(mins), h('small', ` / ${st.dailyGoal} хв`)),
+        h('span.sub', sec >= goal ? 'Денну мету виконано. Чудово!' : `Ще ${left} ${plural(left, 'хвилина', 'хвилини', 'хвилин')} до денної мети`)),
+      ring(mins, st.dailyGoal, { size: 72, stroke: 9, label: h('span') })),
     h('div', plan.map(p => h('a.check-item' + (p.done ? '.done' : ''), { href: p.href },
-      h('span.box', p.done ? ic('check', { size: 16 }) : null), emo(p.emoji), h('span.t.grow', p.text), ic('caret-right', { size: 18 })))));
+      h('span.box', p.done ? ic('check', { size: 14 }) : null), h('span.t.grow', p.text), p.done ? null : ic('caret-right', { size: 18 })))),
+    h('a.btn.start.block', { href: '#/session' }, ic('play', { fill: true, size: 18 }), 'Почати заняття · ~15 хв'));
 
-  const startBtn = h('a.btn.primary.lg.block', { href: '#/session' }, ic('play', { fill: true }), 'Почати заняття · ~15 хв');
-
-  const blocks = [greet, startBtn];
+  const blocks = [greet, hero];
 
   if (firstRun) {
     blocks.push(h('section.card.accent.hero',
@@ -64,7 +72,10 @@ export default async function home(view) {
     // ---- стрік і тиждень ----
     const n = streak();
     blocks.push(h('section.card.stack',
-      h('div.row', emo('fire', 'lg'), h('div.grow', h('div.num', { style: { fontSize: 'var(--fs-xl)' } }, String(n)), h('div.xs.dim', `${plural(n, 'день', 'дні', 'днів')} поспіль`))),
+      h('div.row',
+        h('span.tile-ico', emo('fire')),
+        h('div.grow', h('div.big-num', `${n} ${plural(n, 'день', 'дні', 'днів')}`), h('div.xs.dim', 'поспіль без пропусків')),
+        h('a.btn.ghost.sm', { href: '#/progress' }, S.nav.progress)),
       h('div.week', week().map(d => h('div.d',
         h('span.dot' + (d.goal ? '.on' : '') + (d.today ? '.today' : ''), { style: d.active && !d.goal ? { background: 'var(--accent-soft)' } : null, 'aria-label': `${d.name}: ${d.goal ? 'мету виконано' : d.active ? 'була практика' : 'ні'}` },
           d.goal ? ic('check', { size: 16 }) : null),
@@ -83,7 +94,7 @@ export default async function home(view) {
         },
       }, inCards ? 'Уже в картках' : 'В картки');
       blocks.push(h('section.card.stack',
-        h('div.row', h('div.section-title.grow', 'Слово дня'), h('span.tag', w.deckName)),
+        h('div.row', h('span.eyebrow.grow', 'Слово дня'), h('span.tag', w.deckName)),
         h('div.row',
           h('div.grow', h('div.en', { style: { fontSize: 'var(--fs-xl)' } }, w.card.en), w.card.ipa ? h('div.ipa.small', w.card.ipa) : null),
           h('button.icon-btn.soft', { type: 'button', 'aria-label': 'Прослухати', onclick: () => speak(w.card.en) }, ic('speaker-high'))),
