@@ -13,7 +13,7 @@ export function initDrawer() {
   scrim = h('div.scrim', { onclick: close });
   list = h('nav', { 'aria-label': S.menu });
   profileBox = h('div.profile');
-  drawer = h('aside.drawer#drawer', { 'aria-label': S.menu, 'aria-hidden': 'true' },
+  drawer = h('aside.drawer#drawer', { 'aria-label': S.menu, 'aria-hidden': 'true', tabindex: '-1' },
     h('div.brand', h('div.logo', 'En'), h('span.wordmark', h('b', 'my'), 'English')), list, profileBox);
   document.body.append(scrim, drawer);
   renderList();
@@ -21,29 +21,8 @@ export function initDrawer() {
   store.on(t => { if (t === 'sessions' || t === 'profile') renderProfile(); });
   document.addEventListener('keydown', e => { if (e.key === 'Escape' && drawer.classList.contains('open')) close(); });
 
-  // свайп вліво закриває; напрямок фіксуємо на старті, щоб вертикальна прокрутка не зсувала меню
-  let x0 = null, y0 = 0, dx = 0, axis = null;
-  drawer.addEventListener('touchstart', e => { x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; dx = 0; axis = null; }, { passive: true });
-  drawer.addEventListener('touchmove', e => {
-    if (x0 == null) return;
-    const mx = e.touches[0].clientX - x0, my = e.touches[0].clientY - y0;
-    if (!axis && Math.abs(mx) + Math.abs(my) > 10) axis = Math.abs(mx) > Math.abs(my) ? 'x' : 'y';
-    if (axis !== 'x') return;
-    dx = Math.min(0, mx);
-    drawer.style.transition = 'none';
-    drawer.style.transform = `translateX(${dx}px)`;
-  }, { passive: true });
-  drawer.addEventListener('touchend', () => {
-    drawer.style.transition = ''; drawer.style.transform = '';
-    if (axis === 'x' && dx < -70) close();
-    x0 = null; axis = null;
-  });
-  // фон під відкритим меню не прокручується
+  // меню не тягнеться пальцем: відкривається кнопкою, закривається тапом по фону, пунктом або Esc
   scrim.addEventListener('touchmove', e => e.preventDefault(), { passive: false });
-  // свайп від лівого краю відкриває
-  let ex = null;
-  window.addEventListener('touchstart', e => { const t = e.touches[0]; ex = t.clientX < 18 && !document.body.classList.contains('focus-mode') ? t.clientX : null; }, { passive: true });
-  window.addEventListener('touchend', e => { if (ex != null && e.changedTouches[0].clientX - ex > 60) open(); ex = null; }, { passive: true });
 
   if (store.settings().pinDrawer !== false) document.body.classList.add('drawer-pinned');
 }
@@ -103,7 +82,8 @@ export function open() {
   drawer.classList.add('open'); scrim.classList.add('open');
   lockScroll(true);
   drawer.setAttribute('aria-hidden', 'false');
-  drawer.querySelector('a.item[aria-current]')?.focus({ preventScroll: true });
+  // фокус на саму панель (без видимої рамки), щоб не обводити пункт меню
+  drawer.focus({ preventScroll: true });
 }
 export function close() {
   if (!drawer?.classList.contains('open')) return;

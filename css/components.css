@@ -20,7 +20,7 @@
   width:44px;height:44px;display:inline-grid;place-items:center;border:0;border-radius:12px;
   background:transparent;color:var(--ink);transition:background var(--dur);
 }
-.icon-btn:hover{background:var(--surface-2)}
+@media (hover:hover){.icon-btn:hover{background:var(--surface-2)}}
 .icon-btn.soft{background:var(--accent-soft);color:var(--accent-ink)}
 .icon-btn.active{color:var(--accent-ink)}
 .streak-chip{display:inline-flex;align-items:center;gap:4px;padding:6px 10px;border-radius:var(--radius-pill);font-weight:600;font-size:var(--fs-sm);color:var(--ink);background:transparent;border:0;min-height:44px;text-decoration:none}
@@ -131,7 +131,8 @@ textarea.input{resize:vertical;min-height:120px;line-height:1.45}
 }
 .drawer.open{transform:none;box-shadow:var(--shadow-float)}
 .drawer .brand,.drawer .profile{flex:none}
-.drawer nav{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;touch-action:pan-y;margin:0 -12px;padding:0 12px}
+.drawer{touch-action:none}
+.drawer nav{flex:1;min-height:0;overflow-x:hidden;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;touch-action:pan-y}
 /* сторінка під відкритим меню зафіксована (позицію прокрутки зберігає drawer.js) */
 body.drawer-open{position:fixed;left:0;right:0;overflow:hidden}
 .drawer .brand{display:flex;align-items:center;gap:10px;padding:8px 10px 16px;font-family:var(--font-head);font-weight:700;font-size:var(--fs-lg);letter-spacing:-.01em}
@@ -141,7 +142,9 @@ body.drawer-open{position:fixed;left:0;right:0;overflow:hidden}
   display:flex;align-items:center;gap:14px;min-height:46px;padding:0 12px;border-radius:12px;
   color:var(--ink);text-decoration:none;font-weight:500;
 }
-.drawer a.item:hover{background:var(--surface-2)}
+@media (hover:hover){.drawer a.item:hover{background:var(--surface-2)}}
+.drawer:focus{outline:none}
+.drawer a.item:focus-visible{outline:2px solid var(--accent-ink);outline-offset:-2px}
 .drawer a.item[aria-current="page"]{background:var(--accent-soft);color:var(--accent-ink);font-weight:600}
 .drawer .profile{padding-top:12px}
 .profile-card{display:flex;align-items:center;gap:12px;background:var(--surface-2);border-radius:var(--radius);padding:12px}
