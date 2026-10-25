@@ -83,16 +83,32 @@ export function setActive(id) {
   });
 }
 
+// iOS ігнорує overflow:hidden на body — фіксуємо сторінку і повертаємо прокрутку після закриття
+let savedY = 0;
+function lockScroll(on) {
+  const b = document.body;
+  if (on) {
+    if (b.classList.contains('drawer-open') || matchMedia('(min-width:1100px)').matches && b.classList.contains('drawer-pinned')) return;
+    savedY = window.scrollY;
+    b.style.top = `-${savedY}px`;
+    b.classList.add('drawer-open');
+  } else if (b.classList.contains('drawer-open')) {
+    b.classList.remove('drawer-open');
+    b.style.top = '';
+    window.scrollTo(0, savedY);
+  }
+}
+
 export function open() {
   drawer.classList.add('open'); scrim.classList.add('open');
-  document.body.classList.add('drawer-open');
+  lockScroll(true);
   drawer.setAttribute('aria-hidden', 'false');
   drawer.querySelector('a.item[aria-current]')?.focus({ preventScroll: true });
 }
 export function close() {
   if (!drawer?.classList.contains('open')) return;
   drawer.classList.remove('open'); scrim.classList.remove('open');
-  document.body.classList.remove('drawer-open');
+  lockScroll(false);
   drawer.setAttribute('aria-hidden', 'true');
   document.querySelector('.btn-menu')?.focus({ preventScroll: true });
 }
