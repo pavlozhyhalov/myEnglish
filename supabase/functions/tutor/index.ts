@@ -2,7 +2,8 @@
 // генерація вправ, автозаповнення слів, перевірка перекладу, діалоги, транскрипція.
 import { handler, json, HttpError, cors } from '../_shared/http.ts';
 import { authenticate, charge, usage } from '../_shared/auth.ts';
-import { generate, generateJson, streamSSE, type Content } from '../_shared/gemini.ts';
+import { generate, generateJson, streamSSE, tts, createLiveToken, type Content } from '../_shared/gemini.ts';
+import { createClient } from 'npm:@supabase/supabase-js@2.118.0';
 import { TEXT_MODELS, TTS_MODELS, LIVE_MODELS, LIMITS } from '../_shared/config.ts';
 import { loadStudent, modePrompt, basePrompt, type Scenario } from '../_shared/prompts.ts';
 
@@ -144,9 +145,31 @@ async function health() {
   return out;
 }
 
+/** Глибока перевірка: реальні виклики Gemini (текст, JSON, TTS, токен Live). Не частіше разу на 10 хв. */
+async function deepHealth() {
+  const admin = createClient(Deno.env.get('SUPABASE_URL')!, Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!, { auth: { persistSession: false } });
+  const { data: last } = await admin.from('health_checks').select('ts').order('ts', { ascending: false }).limit(1).maybeSingle();
+  if (last && Date.now() - Date.parse(last.ts) < 10 * 60_000) throw new HttpError(429, 'rate_limited', 'Deep health check: once per 10 minutes');
+  const r: Record<string, unknown> = {};
+  const step = async (name: string, fn: () => Promise<unknown>) => {
+    const t = Date.now();
+    try { r[name] = { ok: true, ms: Date.now() - t, info: await fn() }; (r[name] as any).ms = Date.now() - t; }
+    catch (e) { r[name] = { ok: false, error: `${(e as HttpError).code || ''} ${(e as Error).message}`.slice(0, 300) }; }
+  };
+  await step('text', async () => (await generate(TEXT_MODELS, { contents: [{ role: 'user', parts: [{ text: 'Reply with exactly one word: OK' }] }], temperature: 0 })).trim().slice(0, 20));
+  await step('json', async () => generateJson(TEXT_MODELS, { contents: [{ role: 'user', parts: [{ text: 'Translate "cat" to Ukrainian.' }] }], schema: { type: 'OBJECT', properties: { uk: { type: 'STRING' } }, required: ['uk'] } }));
+  await step('tts', async () => { const a = await tts(TTS_MODELS, 'Hello!', 'Kore'); return { bytes: a.pcm.length, rate: a.rate }; });
+  await step('live_token', async () => {
+    const t = await createLiveToken({ model: `models/${LIVE_MODELS[0]}`, generationConfig: { responseModalities: ['AUDIO'] }, sessionResumption: {} }, { uses: 1, minutes: 2 });
+    return { token_prefix: t.token.split('/')[0], model: LIVE_MODELS[0] };
+  });
+  await admin.from('health_checks').insert({ result: r });
+  return r;
+}
+
 Deno.serve(handler(async (req) => {
   const p = await req.json().catch(() => ({}));
-  if (p.action === 'health') return json(await health());
+  if (p.action === 'health') return json(p.deep ? await deepHealth() : await health());
   const ctx = await authenticate(req);
   const action = String(p.action || '');
 

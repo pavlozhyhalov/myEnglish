@@ -1,6 +1,6 @@
 // Версія збірки: той самий рядок у sw.js (назва кешу) і в ?v= у index.html.
 // Піднімати скриптом scripts/bump.sh після будь-якої зміни фронтенду.
-export const BUILD = '202610251927';
+export const BUILD = '202610251946';
 
 // Supabase (окремий проєкт myEnglish). Publishable-ключ публічний за задумом:
 // доступ до даних обмежує RLS, до AI — allowlist в edge-функціях.
@@ -11,7 +11,7 @@ export const FUNCTIONS_URL = `${SUPABASE_URL}/functions/v1`;
 // Моделі Gemini часто оновлюються — ID лише тут і в supabase/functions/_shared/config.ts
 export const MODELS = {
   live: 'gemini-3.8-live',
-  liveFallbacks: ['gemini-3.1-flash-live-preview'],
+  liveFallbacks: ['gemini-3.1-flash-live-preview', 'gemini-2.5-flash-native-audio-latest'],
 };
 export const LIVE_WS_URL = 'wss://generativelanguage.googleapis.com/ws/google.ai.generativelanguage.v1alpha.GenerativeService.BidiGenerateContentConstrained';
 
