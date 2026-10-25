@@ -1,0 +1,151 @@
+{
+ "id": "so-such-too-enough",
+ "title": "So, such, too, enough",
+ "titleEn": "so / such, too / enough",
+ "unit": "Будова речення",
+ "level": "B1",
+ "mistakeType": "word_order",
+ "explanation": "**so + прикметник/прислівник**: *It was **so cold**! She speaks **so fast**.*\n**such (a) + (прикметник) + іменник**: *It was **such a cold day**! They're **such nice people**.*\n\nОбидва часто з наслідком *that*: *It was so late **that** we took a taxi.*\n\n**too + прикметник** = занадто (проблема): *This coffee is **too hot** to drink.*\n**прикметник + enough** = достатньо: *He's **old enough** to drive.*\n**enough + іменник**: *We don't have **enough time**.*",
+ "formula": [
+  "so + adj · such a + adj + noun",
+  "too + adj (+ to V) · adj + enough · enough + noun"
+ ],
+ "examples": [
+  {
+   "en": "The film was so boring that I fell asleep.",
+   "uk": "Фільм був такий нудний, що я заснув."
+  },
+  {
+   "en": "It's such a beautiful city!",
+   "uk": "Це таке гарне місто!"
+  },
+  {
+   "en": "I'm too tired to go out tonight.",
+   "uk": "Я надто втомлений, щоб кудись іти ввечері."
+  },
+  {
+   "en": "Is the room big enough for four people?",
+   "uk": "Кімната достатньо велика для чотирьох?"
+  },
+  {
+   "en": "We didn't have enough money for a taxi.",
+   "uk": "Нам не вистачало грошей на таксі."
+  }
+ ],
+ "exercises": [
+  {
+   "type": "choice",
+   "prompt": "It's ___ a lovely day!",
+   "options": [
+    "so",
+    "such",
+    "too"
+   ],
+   "answer": "such",
+   "explanation": "such a + adj + noun."
+  },
+  {
+   "type": "choice",
+   "prompt": "The soup is ___ hot to eat.",
+   "options": [
+    "too",
+    "so",
+    "enough"
+   ],
+   "answer": "too",
+   "explanation": "too + adj + to V."
+  },
+  {
+   "type": "choice",
+   "prompt": "She isn't old ___ to watch this film.",
+   "options": [
+    "too",
+    "enough",
+    "so"
+   ],
+   "answer": "enough",
+   "explanation": "adj + enough."
+  },
+  {
+   "type": "choice",
+   "prompt": "I was ___ tired that I went to bed at 8.",
+   "options": [
+    "such",
+    "so",
+    "too"
+   ],
+   "answer": "so",
+   "explanation": "so + adj + that."
+  },
+  {
+   "type": "input",
+   "prompt": "We don't have ___ chairs for everyone.",
+   "answer": [
+    "enough"
+   ],
+   "explanation": "enough + noun."
+  },
+  {
+   "type": "input",
+   "prompt": "They're ___ friendly people.",
+   "answer": [
+    "such"
+   ],
+   "explanation": "such + adj + plural."
+  },
+  {
+   "type": "input",
+   "prompt": "This bag is ___ heavy. I can't lift it.",
+   "answer": [
+    "too",
+    "so"
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "error",
+   "sentence": "It was so a good party!",
+   "wrongIndex": 2,
+   "correction": "such",
+   "alt": [],
+   "explanation": "such a good party."
+  },
+  {
+   "type": "order",
+   "prompt": "Він недостатньо високий, щоб грати в баскетбол.",
+   "answer": [
+    "He isn't tall enough to play basketball.",
+    "He is not tall enough to play basketball."
+   ],
+   "explanation": "adj + enough."
+  },
+  {
+   "type": "order",
+   "prompt": "Ця куртка мені завелика.",
+   "answer": [
+    "This jacket is too big for me."
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "transform",
+   "prompt": "It was very cold. We stayed at home. (so … that)",
+   "instruction": "Об'єднайте",
+   "answer": [
+    "It was so cold that we stayed at home.",
+    "It was so cold we stayed at home."
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "translate",
+   "uk": "Це була така смачна вечеря!",
+   "answer": [
+    "It was such a delicious dinner!",
+    "That was such a delicious dinner!",
+    "It was such a tasty dinner!"
+   ],
+   "explanation": ""
+  }
+ ]
+}

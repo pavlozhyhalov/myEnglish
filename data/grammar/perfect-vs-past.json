@@ -1,0 +1,181 @@
+{
+ "id": "perfect-vs-past",
+ "title": "Present Perfect чи Past Simple",
+ "titleEn": "Present Perfect vs Past Simple",
+ "unit": "Минулі часи",
+ "level": "B1",
+ "mistakeType": "tenses",
+ "explanation": "Головне питання: **чи важливий точний час у минулому?**\n\n- Є час або завершений період (*yesterday, last year, when I was a child, in May*) → **Past Simple**.\n- Час не вказано, важливий досвід/результат, або період ще триває (*today, this month, ever, so far*) → **Present Perfect**.\n\nЧасто розмова **починається** з Present Perfect (загальний досвід), а **деталі** — у Past Simple:\n*Have you ever been to Rome? — Yes, I **went** there two years ago. We **stayed** for a week.*",
+ "formula": [
+  "Досвід/результат: have/has + V3",
+  "Коли саме? → V2 (Past Simple)"
+ ],
+ "table": {
+  "head": [
+   "Present Perfect",
+   "Past Simple"
+  ],
+  "rows": [
+   [
+    "I've lost my keys.",
+    "I lost my keys yesterday."
+   ],
+   [
+    "She's worked here for 3 years. (і далі працює)",
+    "She worked here for 3 years. (вже ні)"
+   ],
+   [
+    "Have you seen Anna today?",
+    "Did you see Anna this morning? (ранок минув)"
+   ]
+  ]
+ },
+ "examples": [
+  {
+   "en": "I've been to Lviv many times. Last time I went there in May.",
+   "uk": "Я багато разів бував у Львові. Востаннє їздив у травні."
+  },
+  {
+   "en": "Have you heard the news? Tom got a new job!",
+   "uk": "Чув новину? Том отримав нову роботу!"
+  },
+  {
+   "en": "We've lived here since 2022.",
+   "uk": "Ми живемо тут з 2022 року."
+  },
+  {
+   "en": "We lived in Kyiv before the war.",
+   "uk": "До війни ми жили в Києві."
+  },
+  {
+   "en": "I haven't seen him this week.",
+   "uk": "Я не бачив його цього тижня."
+  },
+  {
+   "en": "When did you start learning English?",
+   "uk": "Коли ти почав вчити англійську?"
+  }
+ ],
+ "tip": "Питання з **When…?** — завжди Past Simple: *When did you arrive?* (не ~~When have you arrived?~~).",
+ "exercises": [
+  {
+   "type": "choice",
+   "prompt": "When ___ you ___ here?",
+   "options": [
+    "have / come",
+    "did / come",
+    "have / came"
+   ],
+   "answer": "did / come",
+   "explanation": "When → Past Simple."
+  },
+  {
+   "type": "choice",
+   "prompt": "I ___ this film three times.",
+   "options": [
+    "saw",
+    "'ve seen",
+    "see"
+   ],
+   "answer": "'ve seen",
+   "explanation": "Досвід, час не вказано."
+  },
+  {
+   "type": "choice",
+   "prompt": "My grandfather ___ in a factory all his life.",
+   "options": [
+    "has worked",
+    "worked",
+    "works"
+   ],
+   "answer": "worked",
+   "explanation": "Дідусь уже не працює — період завершено."
+  },
+  {
+   "type": "choice",
+   "prompt": "___ you see the match last night?",
+   "options": [
+    "Have",
+    "Did",
+    "Were"
+   ],
+   "answer": "Did",
+   "explanation": "last night → Past Simple."
+  },
+  {
+   "type": "input",
+   "prompt": "We ___ (know) each other since school.",
+   "answer": [
+    "'ve known",
+    "have known"
+   ],
+   "explanation": "since + період до тепер."
+  },
+  {
+   "type": "input",
+   "prompt": "I ___ (lose) my umbrella yesterday.",
+   "answer": [
+    "lost"
+   ],
+   "explanation": "yesterday."
+  },
+  {
+   "type": "input",
+   "prompt": "___ you ___ (be) to Gdańsk? — Yes, I went last year. (2 слова)",
+   "answer": [
+    "Have been"
+   ],
+   "explanation": "Перше питання — досвід."
+  },
+  {
+   "type": "error",
+   "sentence": "Did you ever been to Rome?",
+   "wrongIndex": 0,
+   "correction": "Have",
+   "alt": [],
+   "explanation": "Досвід без часу → Have you ever been…?"
+  },
+  {
+   "type": "error",
+   "sentence": "When have you moved to Poland?",
+   "wrongIndex": 1,
+   "correction": "did",
+   "alt": [
+    "did"
+   ],
+   "explanation": "When did you move…?"
+  },
+  {
+   "type": "order",
+   "prompt": "Я ніколи не був у Лондоні.",
+   "answer": [
+    "I've never been to London.",
+    "I have never been to London."
+   ],
+   "explanation": "Досвід."
+  },
+  {
+   "type": "transform",
+   "prompt": "She started working here in 2021. She still works here.",
+   "instruction": "Одним реченням з for/since",
+   "answer": [
+    "She has worked here since 2021.",
+    "She's worked here since 2021.",
+    "She has been working here since 2021.",
+    "She's been working here since 2021."
+   ],
+   "explanation": "since 2021 + досі."
+  },
+  {
+   "type": "translate",
+   "uk": "Я загубив ключі, тож не можу потрапити додому.",
+   "answer": [
+    "I've lost my keys, so I can't get home.",
+    "I have lost my keys, so I can't get home.",
+    "I've lost my keys so I can't get into my house.",
+    "I've lost my keys, so I can't get in."
+   ],
+   "explanation": "Результат зараз."
+  }
+ ]
+}

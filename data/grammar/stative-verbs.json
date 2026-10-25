@@ -1,0 +1,154 @@
+{
+ "id": "stative-verbs",
+ "title": "Дієслова стану",
+ "titleEn": "Stative verbs (know, want, like) vs action verbs",
+ "unit": "Теперішні часи",
+ "level": "B1",
+ "mistakeType": "tenses",
+ "explanation": "Деякі дієслова описують **стан**, а не дію. Їх зазвичай **не** ставлять у Continuous, навіть якщо мова про «зараз».\n\nОсновні групи:\n- думки: *know, believe, understand, remember, forget, mean, think (=вважати)*\n- почуття: *like, love, hate, prefer, want, need*\n- володіння: *have (=мати), own, belong*\n- відчуття: *see, hear, smell, taste, seem, look (=виглядати)*\n\nДеякі мають два значення: *I think it's good* (вважаю — стан) vs *I'm thinking about it* (обмірковую — дія). *I have a car* (маю) vs *I'm having lunch* (обідаю).",
+ "formula": [
+  "Стан: I **want** a coffee now. (не ~~I'm wanting~~)",
+  "Дія: I'm **having** dinner. / I'm **thinking** about it."
+ ],
+ "examples": [
+  {
+   "en": "I need a break right now.",
+   "uk": "Мені зараз потрібна перерва."
+  },
+  {
+   "en": "Do you understand what I mean?",
+   "uk": "Ти розумієш, що я маю на увазі?"
+  },
+  {
+   "en": "I'm thinking of changing my job.",
+   "uk": "Я думаю про те, щоб змінити роботу."
+  },
+  {
+   "en": "This soup tastes amazing.",
+   "uk": "Цей суп дуже смачний."
+  },
+  {
+   "en": "We're having a party on Saturday.",
+   "uk": "У суботу в нас вечірка."
+  },
+  {
+   "en": "This bike belongs to my wife.",
+   "uk": "Цей велосипед належить моїй дружині."
+  }
+ ],
+ "tip": "*I'm loving it* — рекламний виняток, у звичайній мові краще *I love it*.",
+ "exercises": [
+  {
+   "type": "choice",
+   "prompt": "I ___ what you mean.",
+   "options": [
+    "understand",
+    "'m understanding",
+    "am understand"
+   ],
+   "answer": "understand",
+   "explanation": "understand — стан."
+  },
+  {
+   "type": "choice",
+   "prompt": "We ___ dinner, can I call you back?",
+   "options": [
+    "have",
+    "are having",
+    "has"
+   ],
+   "answer": "are having",
+   "explanation": "have dinner — дія (вечеряємо зараз)."
+  },
+  {
+   "type": "choice",
+   "prompt": "This cake ___ delicious.",
+   "options": [
+    "smells",
+    "is smelling",
+    "smell"
+   ],
+   "answer": "smells",
+   "explanation": "smell = мати запах, стан."
+  },
+  {
+   "type": "choice",
+   "prompt": "I ___ about moving to Gdańsk.",
+   "options": [
+    "think",
+    "am thinking",
+    "thinks"
+   ],
+   "answer": "am thinking",
+   "explanation": "think about = обмірковувати, дія."
+  },
+  {
+   "type": "input",
+   "prompt": "She ___ (want) a new phone for her birthday.",
+   "answer": [
+    "wants"
+   ],
+   "explanation": "want — стан, Simple."
+  },
+  {
+   "type": "input",
+   "prompt": "Who ___ this car ___ (belong) to? (2 слова)",
+   "answer": [
+    "does belong"
+   ],
+   "explanation": "Who does this car belong to?"
+  },
+  {
+   "type": "input",
+   "prompt": "You ___ (look) tired. Are you OK?",
+   "answer": [
+    "look"
+   ],
+   "explanation": "look = виглядати, стан."
+  },
+  {
+   "type": "error",
+   "sentence": "I'm not believing his story.",
+   "wrongIndex": 2,
+   "correction": "believe",
+   "alt": [],
+   "explanation": "believe — стан: I don't believe."
+  },
+  {
+   "type": "error",
+   "sentence": "Are you knowing where my keys are?",
+   "wrongIndex": 2,
+   "correction": "know",
+   "alt": [],
+   "explanation": "Do you know…?"
+  },
+  {
+   "type": "order",
+   "prompt": "Мені зараз потрібна твоя допомога.",
+   "answer": [
+    "I need your help now."
+   ],
+   "explanation": "need — стан."
+  },
+  {
+   "type": "transform",
+   "prompt": "I think about our holiday a lot these days.",
+   "instruction": "Зробіть дію тимчасовою (обмірковую)",
+   "answer": [
+    "I'm thinking about our holiday a lot these days.",
+    "I am thinking about our holiday a lot these days."
+   ],
+   "explanation": "think about = обмірковувати — можна в Continuous."
+  },
+  {
+   "type": "translate",
+   "uk": "Я не пам'ятаю його імені.",
+   "answer": [
+    "I don't remember his name.",
+    "I do not remember his name.",
+    "I can't remember his name."
+   ],
+   "explanation": "remember — стан."
+  }
+ ]
+}

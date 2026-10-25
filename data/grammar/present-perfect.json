@@ -1,0 +1,186 @@
+{
+ "id": "present-perfect",
+ "title": "Present Perfect",
+ "titleEn": "Present Perfect: experience, result, unfinished time",
+ "unit": "Минулі часи",
+ "level": "B1",
+ "mistakeType": "tenses",
+ "explanation": "**Present Perfect** зв'язує минуле з теперішнім. Важливий **результат або досвід**, а не точний час.\n\nКоли вживати:\n1. **Досвід** у житті: *Have you ever been to London?*\n2. **Результат зараз**: *I've lost my keys* (і зараз їх немає).\n3. **Новини**: *She's had a baby!*\n4. **Незавершений період**: *today, this week, this year*.\n\nСлова-маркери: *ever, never, already, yet, just, so far, recently*.\n\nТочний час у минулому (*yesterday, in 2019, last week*) — **ні**: тоді Past Simple.",
+ "formula": [
+  "have/has + **V3** (past participle)",
+  "− haven't/hasn't + V3 · ? Have/Has + S + V3?"
+ ],
+ "table": {
+  "head": [
+   "Слово",
+   "Позиція",
+   "Приклад"
+  ],
+  "rows": [
+   [
+    "just",
+    "перед V3",
+    "I've just finished."
+   ],
+   [
+    "already",
+    "перед V3",
+    "She's already left."
+   ],
+   [
+    "yet",
+    "в кінці (−/?)",
+    "Have you eaten yet?"
+   ],
+   [
+    "ever / never",
+    "перед V3",
+    "I've never tried sushi."
+   ]
+  ]
+ },
+ "examples": [
+  {
+   "en": "I've never been to Japan.",
+   "uk": "Я ніколи не був у Японії."
+  },
+  {
+   "en": "Have you ever tried Polish pierogi?",
+   "uk": "Ти коли-небудь куштував польські вареники?"
+  },
+  {
+   "en": "Oh no, I've left my wallet at home!",
+   "uk": "Ой, я забув гаманець удома!"
+  },
+  {
+   "en": "We've just got back from holiday.",
+   "uk": "Ми щойно повернулися з відпустки."
+  },
+  {
+   "en": "Has the parcel arrived yet?",
+   "uk": "Посилка вже прийшла?"
+  },
+  {
+   "en": "I've drunk three coffees today.",
+   "uk": "Я сьогодні випив три кави."
+  }
+ ],
+ "tip": "been vs gone: *He has **been** to Paris* (був і повернувся) vs *He has **gone** to Paris* (поїхав і зараз там).",
+ "exercises": [
+  {
+   "type": "choice",
+   "prompt": "___ you ever ___ to Spain?",
+   "options": [
+    "Did / go",
+    "Have / been",
+    "Have / went"
+   ],
+   "answer": "Have / been",
+   "explanation": "Досвід → have been."
+  },
+  {
+   "type": "choice",
+   "prompt": "I can't find my phone. I think I ___ it.",
+   "options": [
+    "lost",
+    "'ve lost",
+    "lose"
+   ],
+   "answer": "'ve lost",
+   "explanation": "Результат зараз."
+  },
+  {
+   "type": "choice",
+   "prompt": "She ___ to Paris in 2019.",
+   "options": [
+    "has gone",
+    "went",
+    "has been"
+   ],
+   "answer": "went",
+   "explanation": "in 2019 — точний час → Past Simple."
+  },
+  {
+   "type": "choice",
+   "prompt": "We haven't decided ___.",
+   "options": [
+    "already",
+    "yet",
+    "just"
+   ],
+   "answer": "yet",
+   "explanation": "yet — у запереченнях у кінці."
+  },
+  {
+   "type": "input",
+   "prompt": "I ___ (just / finish) my homework.",
+   "answer": [
+    "'ve just finished",
+    "have just finished"
+   ],
+   "explanation": "just між have і V3."
+  },
+  {
+   "type": "input",
+   "prompt": "She ___ (never / eat) sushi.",
+   "answer": [
+    "'s never eaten",
+    "has never eaten"
+   ],
+   "explanation": "never між has і V3."
+  },
+  {
+   "type": "input",
+   "prompt": "How many countries ___ you ___ (visit)? (2 слова)",
+   "answer": [
+    "have visited"
+   ],
+   "explanation": "Досвід за життя."
+  },
+  {
+   "type": "error",
+   "sentence": "Have you ever be to London?",
+   "wrongIndex": 3,
+   "correction": "been",
+   "alt": [],
+   "explanation": "Present Perfect: have + been."
+  },
+  {
+   "type": "error",
+   "sentence": "He has went home.",
+   "wrongIndex": 2,
+   "correction": "gone",
+   "alt": [],
+   "explanation": "V3 від go — gone."
+  },
+  {
+   "type": "order",
+   "prompt": "Я вже бачив цей фільм.",
+   "answer": [
+    "I've already seen this film.",
+    "I have already seen this film."
+   ],
+   "explanation": "already перед V3."
+  },
+  {
+   "type": "transform",
+   "prompt": "She went to London and she is there now.",
+   "instruction": "Скажіть одним реченням у Present Perfect",
+   "answer": [
+    "She's gone to London.",
+    "She has gone to London."
+   ],
+   "explanation": "gone — поїхала і ще там."
+  },
+  {
+   "type": "translate",
+   "uk": "Ти вже снідав?",
+   "answer": [
+    "Have you had breakfast yet?",
+    "Have you eaten breakfast yet?",
+    "Have you already had breakfast?"
+   ],
+   "explanation": "yet у питаннях."
+  }
+ ]
+}

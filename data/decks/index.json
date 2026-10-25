@@ -1,0 +1,119 @@
+[
+ {
+  "id": "everyday",
+  "name": "Повсякдення",
+  "emoji": "house",
+  "group": "general",
+  "desc": "Розпорядок, побут, корисні фрази",
+  "count": 60
+ },
+ {
+  "id": "smalltalk",
+  "name": "Small talk",
+  "emoji": "speech",
+  "group": "general",
+  "desc": "Знайомство, підтримка розмови",
+  "count": 40
+ },
+ {
+  "id": "food",
+  "name": "Їжа, кафе, магазин",
+  "emoji": "food",
+  "group": "general",
+  "desc": "Замовлення, рахунок, покупки",
+  "count": 40
+ },
+ {
+  "id": "travel",
+  "name": "Подорожі",
+  "emoji": "plane",
+  "group": "general",
+  "desc": "Аеропорт, готель, дорога",
+  "count": 50
+ },
+ {
+  "id": "city",
+  "name": "Місто й сервіси",
+  "emoji": "city",
+  "group": "general",
+  "desc": "Лікар, банк, оренда, повернення",
+  "count": 50
+ },
+ {
+  "id": "opinions",
+  "name": "Думки й емоції",
+  "emoji": "brain",
+  "group": "general",
+  "desc": "Згода, незгода, почуття",
+  "count": 40
+ },
+ {
+  "id": "phrasal",
+  "name": "Фразові дієслова",
+  "emoji": "puzzle",
+  "group": "general",
+  "desc": "Найуживаніші phrasal verbs",
+  "count": 50
+ },
+ {
+  "id": "collocations",
+  "name": "Колокації",
+  "emoji": "sparkles",
+  "group": "general",
+  "desc": "make / do / take / have / get",
+  "count": 40
+ },
+ {
+  "id": "home",
+  "name": "Дім і сім'я",
+  "emoji": "seedling",
+  "group": "general",
+  "desc": "Родина, дім, гості",
+  "count": 30
+ },
+ {
+  "id": "cnc",
+  "name": "CNC і обробка",
+  "emoji": "wrench",
+  "group": "work",
+  "desc": "Верстати, інструмент, режими",
+  "count": 60,
+  "default": false
+ },
+ {
+  "id": "cad",
+  "name": "Креслення і CAD",
+  "emoji": "ruler",
+  "group": "work",
+  "desc": "Допуски, моделі, креслення",
+  "count": 50,
+  "default": false
+ },
+ {
+  "id": "quality",
+  "name": "Якість",
+  "emoji": "magnifier",
+  "group": "work",
+  "desc": "Контроль, дефекти, 8D",
+  "count": 50,
+  "default": false
+ },
+ {
+  "id": "lean",
+  "name": "Lean",
+  "emoji": "chart",
+  "group": "work",
+  "desc": "5S, кайдзен, втрати",
+  "count": 40,
+  "default": false
+ },
+ {
+  "id": "correspondence",
+  "name": "Ділове листування",
+  "emoji": "envelope",
+  "group": "work",
+  "desc": "Листи постачальникам і клієнтам",
+  "count": 60,
+  "default": false
+ }
+]

@@ -1,0 +1,470 @@
+{
+ "shadowing": [
+  {
+   "topic": "Повсякдення",
+   "en": "What are you up to this weekend?",
+   "uk": "Які плани на вихідні?"
+  },
+  {
+   "topic": "Повсякдення",
+   "en": "I'm running a bit late, sorry.",
+   "uk": "Я трохи запізнююся, вибач."
+  },
+  {
+   "topic": "Повсякдення",
+   "en": "Could you give me a hand with this?",
+   "uk": "Можеш мені з цим допомогти?"
+  },
+  {
+   "topic": "Повсякдення",
+   "en": "I'll think about it and let you know.",
+   "uk": "Я подумаю і дам знати."
+  },
+  {
+   "topic": "Повсякдення",
+   "en": "It's not a big deal, don't worry.",
+   "uk": "Нічого страшного, не хвилюйся."
+  },
+  {
+   "topic": "Повсякдення",
+   "en": "I haven't seen you for ages!",
+   "uk": "Сто років тебе не бачив!"
+  },
+  {
+   "topic": "Повсякдення",
+   "en": "Let me know if you need anything.",
+   "uk": "Скажи, якщо щось буде потрібно."
+  },
+  {
+   "topic": "Кафе і магазин",
+   "en": "Can I have a flat white, please?",
+   "uk": "Можна мені флет вайт?"
+  },
+  {
+   "topic": "Кафе і магазин",
+   "en": "Could we have the bill, please?",
+   "uk": "Можна рахунок?"
+  },
+  {
+   "topic": "Кафе і магазин",
+   "en": "Do you have this in a smaller size?",
+   "uk": "У вас є менший розмір?"
+  },
+  {
+   "topic": "Кафе і магазин",
+   "en": "I'd like to return this, please.",
+   "uk": "Я хотів би це повернути."
+  },
+  {
+   "topic": "Кафе і магазин",
+   "en": "Is service included?",
+   "uk": "Обслуговування включено?"
+  },
+  {
+   "topic": "Кафе і магазин",
+   "en": "Just looking, thanks.",
+   "uk": "Просто дивлюся, дякую."
+  },
+  {
+   "topic": "Подорожі",
+   "en": "Excuse me, how do I get to the station?",
+   "uk": "Перепрошую, як дістатися до вокзалу?"
+  },
+  {
+   "topic": "Подорожі",
+   "en": "I have a reservation under the name Zhyhalov.",
+   "uk": "У мене бронювання на прізвище Жигалов."
+  },
+  {
+   "topic": "Подорожі",
+   "en": "Is this seat taken?",
+   "uk": "Це місце зайняте?"
+  },
+  {
+   "topic": "Подорожі",
+   "en": "My flight has been delayed.",
+   "uk": "Мій рейс затримали."
+  },
+  {
+   "topic": "Подорожі",
+   "en": "Could you take a photo of us?",
+   "uk": "Можете нас сфотографувати?"
+  },
+  {
+   "topic": "Подорожі",
+   "en": "What time is checkout?",
+   "uk": "О котрій виселення?"
+  },
+  {
+   "topic": "Думки й реакції",
+   "en": "To be honest, I'm not so sure about that.",
+   "uk": "Чесно кажучи, я не впевнений."
+  },
+  {
+   "topic": "Думки й реакції",
+   "en": "That's a really good point.",
+   "uk": "Це дуже слушна думка."
+  },
+  {
+   "topic": "Думки й реакції",
+   "en": "I see what you mean, but I disagree.",
+   "uk": "Розумію, що ти маєш на увазі, але не погоджуюся."
+  },
+  {
+   "topic": "Думки й реакції",
+   "en": "I couldn't agree more.",
+   "uk": "Цілком згоден."
+  },
+  {
+   "topic": "Думки й реакції",
+   "en": "What would you do in my place?",
+   "uk": "Що б ти зробив на моєму місці?"
+  },
+  {
+   "topic": "Думки й реакції",
+   "en": "That sounds like a great idea!",
+   "uk": "Звучить як чудова ідея!"
+  },
+  {
+   "topic": "Звуки θ/ð/w",
+   "en": "I think three of them are thirty.",
+   "uk": "Думаю, троє з них мають тридцять."
+  },
+  {
+   "topic": "Звуки θ/ð/w",
+   "en": "The weather is worse this week.",
+   "uk": "Цього тижня погода гірша."
+  },
+  {
+   "topic": "Звуки θ/ð/w",
+   "en": "Thank you for the wonderful evening.",
+   "uk": "Дякую за чудовий вечір."
+  },
+  {
+   "topic": "Звуки θ/ð/w",
+   "en": "Would you like water with that?",
+   "uk": "Бажаєте до цього води?"
+  },
+  {
+   "topic": "Звуки θ/ð/w",
+   "en": "They're over there with their mother.",
+   "uk": "Вони он там зі своєю мамою."
+  }
+ ],
+ "pairs": [
+  {
+   "a": "ship",
+   "b": "sheep",
+   "ipaA": "/ʃɪp/",
+   "ipaB": "/ʃiːp/",
+   "sound": "ɪ / iː",
+   "tip": "Довгий /iː/ — розтягніть і посміхніться; короткий /ɪ/ — розслаблено, коротко."
+  },
+  {
+   "a": "live",
+   "b": "leave",
+   "ipaA": "/lɪv/",
+   "ipaB": "/liːv/",
+   "sound": "ɪ / iː",
+   "tip": ""
+  },
+  {
+   "a": "sit",
+   "b": "seat",
+   "ipaA": "/sɪt/",
+   "ipaB": "/siːt/",
+   "sound": "ɪ / iː",
+   "tip": ""
+  },
+  {
+   "a": "full",
+   "b": "fool",
+   "ipaA": "/fʊl/",
+   "ipaB": "/fuːl/",
+   "sound": "ʊ / uː",
+   "tip": "/uː/ — довгий, губи округлені."
+  },
+  {
+   "a": "think",
+   "b": "sink",
+   "ipaA": "/θɪŋk/",
+   "ipaB": "/sɪŋk/",
+   "sound": "θ / s",
+   "tip": "/θ/ — кінчик язика між зубами, видихайте повітря."
+  },
+  {
+   "a": "three",
+   "b": "tree",
+   "ipaA": "/θriː/",
+   "ipaB": "/triː/",
+   "sound": "θ / t",
+   "tip": ""
+  },
+  {
+   "a": "thin",
+   "b": "fin",
+   "ipaA": "/θɪn/",
+   "ipaB": "/fɪn/",
+   "sound": "θ / f",
+   "tip": ""
+  },
+  {
+   "a": "they",
+   "b": "day",
+   "ipaA": "/ðeɪ/",
+   "ipaB": "/deɪ/",
+   "sound": "ð / d",
+   "tip": "/ð/ — як /θ/, але з голосом (дзвінкий)."
+  },
+  {
+   "a": "west",
+   "b": "vest",
+   "ipaA": "/west/",
+   "ipaB": "/vest/",
+   "sound": "w / v",
+   "tip": "/w/ — губи трубочкою, без контакту із зубами (не українське «в»)."
+  },
+  {
+   "a": "wine",
+   "b": "vine",
+   "ipaA": "/waɪn/",
+   "ipaB": "/vaɪn/",
+   "sound": "w / v",
+   "tip": ""
+  },
+  {
+   "a": "work",
+   "b": "walk",
+   "ipaA": "/wɜːrk/",
+   "ipaB": "/wɔːk/",
+   "sound": "ɜː / ɔː",
+   "tip": "/ɜː/ — нейтральний звук, рот напіввідкритий; /ɔː/ — губи округлені."
+  },
+  {
+   "a": "bad",
+   "b": "bed",
+   "ipaA": "/bæd/",
+   "ipaB": "/bed/",
+   "sound": "æ / e",
+   "tip": "/æ/ — рот широко, між «а» і «е»."
+  },
+  {
+   "a": "man",
+   "b": "men",
+   "ipaA": "/mæn/",
+   "ipaB": "/men/",
+   "sound": "æ / e",
+   "tip": ""
+  },
+  {
+   "a": "cat",
+   "b": "cut",
+   "ipaA": "/kæt/",
+   "ipaB": "/kʌt/",
+   "sound": "æ / ʌ",
+   "tip": "/ʌ/ — коротке, як ненаголошене «а»."
+  },
+  {
+   "a": "hat",
+   "b": "hut",
+   "ipaA": "/hæt/",
+   "ipaB": "/hʌt/",
+   "sound": "æ / ʌ",
+   "tip": ""
+  },
+  {
+   "a": "heart",
+   "b": "hurt",
+   "ipaA": "/hɑːrt/",
+   "ipaB": "/hɜːrt/",
+   "sound": "ɑː / ɜː",
+   "tip": ""
+  },
+  {
+   "a": "hear",
+   "b": "ear",
+   "ipaA": "/hɪr/",
+   "ipaB": "/ɪr/",
+   "sound": "h / —",
+   "tip": "Англійське /h/ — лише легкий видих, не «х»."
+  },
+  {
+   "a": "hold",
+   "b": "old",
+   "ipaA": "/hoʊld/",
+   "ipaB": "/oʊld/",
+   "sound": "h / —",
+   "tip": ""
+  },
+  {
+   "a": "bag",
+   "b": "back",
+   "ipaA": "/bæɡ/",
+   "ipaB": "/bæk/",
+   "sound": "g / k",
+   "tip": "Кінцеві дзвінкі не оглушуйте! Голосний перед дзвінким — довший."
+  },
+  {
+   "a": "bed",
+   "b": "bet",
+   "ipaA": "/bed/",
+   "ipaB": "/bet/",
+   "sound": "d / t",
+   "tip": ""
+  },
+  {
+   "a": "eyes",
+   "b": "ice",
+   "ipaA": "/aɪz/",
+   "ipaB": "/aɪs/",
+   "sound": "z / s",
+   "tip": ""
+  },
+  {
+   "a": "pull",
+   "b": "pool",
+   "ipaA": "/pʊl/",
+   "ipaB": "/puːl/",
+   "sound": "ʊ / uː",
+   "tip": ""
+  },
+  {
+   "a": "cap",
+   "b": "cup",
+   "ipaA": "/kæp/",
+   "ipaB": "/kʌp/",
+   "sound": "æ / ʌ",
+   "tip": ""
+  },
+  {
+   "a": "law",
+   "b": "low",
+   "ipaA": "/lɔː/",
+   "ipaB": "/loʊ/",
+   "sound": "ɔː / oʊ",
+   "tip": ""
+  }
+ ],
+ "sounds": [
+  {
+   "symbol": "θ",
+   "title": "/θ/ — think",
+   "short": "Глухий міжзубний",
+   "tip": "Кінчик язика легко між зубами, видих без голосу. Не замінюйте на «с» або «ф».",
+   "words": [
+    "think",
+    "three",
+    "thank",
+    "month",
+    "both",
+    "birthday"
+   ],
+   "sentence": "I think my birthday is on the third of this month."
+  },
+  {
+   "symbol": "ð",
+   "title": "/ð/ — this",
+   "short": "Дзвінкий міжзубний",
+   "tip": "Як /θ/, але з голосом. Відчуйте вібрацію. Не замінюйте на «д» чи «з».",
+   "words": [
+    "this",
+    "that",
+    "they",
+    "mother",
+    "weather",
+    "together"
+   ],
+   "sentence": "My mother and father are there together."
+  },
+  {
+   "symbol": "w",
+   "title": "/w/ — what",
+   "short": "Губи трубочкою",
+   "tip": "Губи округлені й висунуті, нижня губа НЕ торкається зубів (на відміну від /v/ і українського «в»).",
+   "words": [
+    "what",
+    "we",
+    "window",
+    "why",
+    "work",
+    "away"
+   ],
+   "sentence": "Why would we wait for the weekend?"
+  },
+  {
+   "symbol": "h",
+   "title": "/h/ — house",
+   "short": "Легкий видих",
+   "tip": "Просто видих, як на холодне скло. Не хрипіть, як українське «х».",
+   "words": [
+    "house",
+    "happy",
+    "hotel",
+    "hello",
+    "who",
+    "behind"
+   ],
+   "sentence": "Happy holidays from our hotel in Hawaii."
+  },
+  {
+   "symbol": "ə",
+   "title": "/ə/ — about",
+   "short": "Шва (нейтральний звук)",
+   "tip": "Найчастіший звук англійської: короткий, розслаблений, у ненаголошених складах. Не вимовляйте всі голосні чітко.",
+   "words": [
+    "about",
+    "banana",
+    "problem",
+    "teacher",
+    "today",
+    "support"
+   ],
+   "sentence": "The teacher was away for a moment."
+  },
+  {
+   "symbol": "iː",
+   "title": "/iː/ vs /ɪ/",
+   "short": "Довгий і короткий «і»",
+   "tip": "/iː/ — довгий, напружений, посмішка. /ɪ/ — короткий, ближче до українського «и».",
+   "words": [
+    "sheep",
+    "ship",
+    "leave",
+    "live",
+    "seat",
+    "sit"
+   ],
+   "sentence": "Please sit in this seat and feel free to eat."
+  },
+  {
+   "symbol": "æ",
+   "title": "/æ/ — cat",
+   "short": "Широкий «а-е»",
+   "tip": "Рот широко відкритий, язик низько, звук між «а» і «е». Не замінюйте на «е».",
+   "words": [
+    "cat",
+    "bad",
+    "man",
+    "apple",
+    "travel",
+    "family"
+   ],
+   "sentence": "My family had a bad trip back from Spain."
+  },
+  {
+   "symbol": "b·d·g",
+   "title": "Кінцеві дзвінкі",
+   "short": "bag ≠ back",
+   "tip": "В українській кінцеві дзвінкі оглушуються (дуб → «дуп»). В англійській — ні, інакше змінюється слово: bag/back, eyes/ice. Голосний перед дзвінким довший.",
+   "words": [
+    "bag",
+    "bed",
+    "rob",
+    "eyes",
+    "prize",
+    "leave"
+   ],
+   "sentence": "He had a bad dog and a big bag."
+  }
+ ]
+}

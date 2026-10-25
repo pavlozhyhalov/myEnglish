@@ -1,0 +1,159 @@
+{
+ "id": "relative-clauses",
+ "title": "Відносні речення: who, which, that, where",
+ "titleEn": "Relative clauses: who, which, that, where, whose",
+ "unit": "Будова речення",
+ "level": "B1",
+ "mistakeType": "word_order",
+ "explanation": "Відносні речення уточнюють, **про кого / що** йдеться.\n\n- **who** — люди: *the man **who** lives next door*\n- **which** — речі, тварини: *the phone **which** I bought*\n- **that** — і люди, і речі (розмовне, лише в «уточнювальних» реченнях)\n- **where** — місця: *the city **where** I was born*\n- **whose** — чий: *the woman **whose** car was stolen*\n\nЯкщо *who/which/that* — **додаток** (після нього є свій підмет), його можна пропустити: *the film (that) **we** watched*.\n\nДодаткова інформація в комах — **лише which/who**, без that: *My sister, **who** lives in Lviv, is a doctor.*",
+ "formula": [
+  "людина + who/that · річ + which/that",
+  "місце + where · чий + whose"
+ ],
+ "examples": [
+  {
+   "en": "That's the restaurant where we had our first date.",
+   "uk": "Це ресторан, де ми були на першому побаченні."
+  },
+  {
+   "en": "The woman who called you is my boss.",
+   "uk": "Жінка, яка тобі дзвонила, — моя начальниця."
+  },
+  {
+   "en": "Is this the book you were talking about?",
+   "uk": "Це та книжка, про яку ти говорив?"
+  },
+  {
+   "en": "I have a friend whose wife is from Brazil.",
+   "uk": "У мене є друг, дружина якого з Бразилії."
+  },
+  {
+   "en": "Kraków, which is in the south of Poland, is beautiful.",
+   "uk": "Краків, що на півдні Польщі, дуже гарний."
+  }
+ ],
+ "exercises": [
+  {
+   "type": "choice",
+   "prompt": "The man ___ fixed our car was very friendly.",
+   "options": [
+    "which",
+    "who",
+    "where"
+   ],
+   "answer": "who",
+   "explanation": "Людина."
+  },
+  {
+   "type": "choice",
+   "prompt": "This is the café ___ I usually work.",
+   "options": [
+    "which",
+    "where",
+    "who"
+   ],
+   "answer": "where",
+   "explanation": "Місце."
+  },
+  {
+   "type": "choice",
+   "prompt": "I lost the umbrella ___ you gave me.",
+   "options": [
+    "who",
+    "which",
+    "whose"
+   ],
+   "answer": "which",
+   "explanation": "Річ."
+  },
+  {
+   "type": "choice",
+   "prompt": "She's the girl ___ brother plays for Cracovia.",
+   "options": [
+    "who",
+    "whose",
+    "which"
+   ],
+   "answer": "whose",
+   "explanation": "Чий брат."
+  },
+  {
+   "type": "choice",
+   "prompt": "My father, ___ is 70, still goes cycling.",
+   "options": [
+    "that",
+    "who",
+    "which"
+   ],
+   "answer": "who",
+   "explanation": "У комах — без that."
+  },
+  {
+   "type": "input",
+   "prompt": "Do you know anyone ___ speaks Japanese?",
+   "answer": [
+    "who",
+    "that"
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "input",
+   "prompt": "That's the hotel ___ we stayed last year.",
+   "answer": [
+    "where"
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "error",
+   "sentence": "The film who we watched was boring.",
+   "wrongIndex": 2,
+   "correction": "which",
+   "alt": [
+    "that"
+   ],
+   "explanation": "Річ → which/that."
+  },
+  {
+   "type": "error",
+   "sentence": "I know a woman which works at the airport.",
+   "wrongIndex": 4,
+   "correction": "who",
+   "alt": [
+    "that"
+   ],
+   "explanation": "Людина → who/that."
+  },
+  {
+   "type": "order",
+   "prompt": "Це квартира, яку ми хочемо орендувати.",
+   "answer": [
+    "This is the flat we want to rent.",
+    "This is the flat that we want to rent.",
+    "This is the flat which we want to rent."
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "transform",
+   "prompt": "I met a man. His dog was huge.",
+   "instruction": "Об'єднайте з whose",
+   "answer": [
+    "I met a man whose dog was huge."
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "translate",
+   "uk": "Людина, яка мені допомогла, не залишила свого імені.",
+   "answer": [
+    "The person who helped me didn't leave their name.",
+    "The man who helped me didn't leave his name.",
+    "The woman who helped me didn't leave her name.",
+    "The person who helped me did not leave their name."
+   ],
+   "explanation": ""
+  }
+ ]
+}

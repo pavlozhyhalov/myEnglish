@@ -1,0 +1,159 @@
+{
+ "id": "questions",
+ "title": "Питання і порядок слів",
+ "titleEn": "Question formation and word order",
+ "unit": "Будова речення",
+ "level": "B1",
+ "mistakeType": "word_order",
+ "explanation": "Схема питання: **(питальне слово) + допоміжне + підмет + основне дієслово**.\n\n*Where **do you** live? What **is she** doing? Where **did they** go? How long **have you** lived here?*\n\nДопоміжне дієслово: *do/does/did* (Simple), *am/is/are/was/were* (Continuous, be), *have/has* (Perfect), *will, can…*\n\n**Питання до підмета** (Who/What зробив?) — **без do**: *Who **called** you?* (не ~~Who did call you?~~). *What **happened**?*\n\n**Короткі питання-перепитування** (tag questions): *You're tired, **aren't you**? She lives here, **doesn't she**?*",
+ "formula": [
+  "Wh- + aux + S + V?",
+  "Who/What + V (питання до підмета)",
+  "+ речення, −tag? · − речення, +tag?"
+ ],
+ "examples": [
+  {
+   "en": "Where did you buy that jacket?",
+   "uk": "Де ти купив цю куртку?"
+  },
+  {
+   "en": "How often do you go to the gym?",
+   "uk": "Як часто ти ходиш у спортзал?"
+  },
+  {
+   "en": "Who told you about this place?",
+   "uk": "Хто тобі розповів про це місце?"
+  },
+  {
+   "en": "What are you looking for?",
+   "uk": "Що ти шукаєш?"
+  },
+  {
+   "en": "You haven't seen my keys, have you?",
+   "uk": "Ти не бачив моїх ключів, правда?"
+  },
+  {
+   "en": "What does this word mean?",
+   "uk": "Що означає це слово?"
+  }
+ ],
+ "tip": "Прийменник часто йде **в кінець**: *Who are you talking **to**? What are you thinking **about**?*",
+ "exercises": [
+  {
+   "type": "choice",
+   "prompt": "Where ___ you go on holiday last year?",
+   "options": [
+    "did",
+    "do",
+    "have"
+   ],
+   "answer": "did",
+   "explanation": "Минуле → did."
+  },
+  {
+   "type": "choice",
+   "prompt": "What ___ she doing right now?",
+   "options": [
+    "does",
+    "is",
+    "do"
+   ],
+   "answer": "is",
+   "explanation": "Continuous."
+  },
+  {
+   "type": "choice",
+   "prompt": "Who ___ the last piece of cake?",
+   "options": [
+    "did eat",
+    "ate",
+    "eat"
+   ],
+   "answer": "ate",
+   "explanation": "Питання до підмета — без did."
+  },
+  {
+   "type": "choice",
+   "prompt": "It's cold today, ___?",
+   "options": [
+    "is it",
+    "isn't it",
+    "doesn't it"
+   ],
+   "answer": "isn't it",
+   "explanation": "+ речення → −tag."
+  },
+  {
+   "type": "choice",
+   "prompt": "You don't eat meat, ___?",
+   "options": [
+    "do you",
+    "don't you",
+    "are you"
+   ],
+   "answer": "do you",
+   "explanation": "− речення → +tag."
+  },
+  {
+   "type": "input",
+   "prompt": "How long ___ you lived in Poland?",
+   "answer": [
+    "have"
+   ],
+   "explanation": "Present Perfect."
+  },
+  {
+   "type": "input",
+   "prompt": "What ___ (happen) at the party last night?",
+   "answer": [
+    "happened"
+   ],
+   "explanation": "Питання до підмета."
+  },
+  {
+   "type": "error",
+   "sentence": "Where you work?",
+   "wrongIndex": 1,
+   "correction": "do you",
+   "alt": [],
+   "explanation": "Потрібне допоміжне: Where do you work?"
+  },
+  {
+   "type": "error",
+   "sentence": "What time does the shop opens?",
+   "wrongIndex": 5,
+   "correction": "open",
+   "alt": [],
+   "explanation": "Після does — базова форма."
+  },
+  {
+   "type": "order",
+   "prompt": "З ким ти розмовляв?",
+   "answer": [
+    "Who were you talking to?",
+    "Who were you speaking to?"
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "transform",
+   "prompt": "She lives in Gdańsk. (питання з Where)",
+   "instruction": "Поставте питання до місця",
+   "answer": [
+    "Where does she live?"
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "translate",
+   "uk": "Скільки коштує квиток?",
+   "answer": [
+    "How much does the ticket cost?",
+    "How much is the ticket?",
+    "How much is a ticket?",
+    "How much does a ticket cost?"
+   ],
+   "explanation": ""
+  }
+ ]
+}

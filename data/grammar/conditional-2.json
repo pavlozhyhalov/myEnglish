@@ -1,0 +1,156 @@
+{
+ "id": "conditional-2",
+ "title": "Умовні речення 2 типу",
+ "titleEn": "Second conditional (unreal present/future)",
+ "unit": "Умовні речення",
+ "level": "B1",
+ "mistakeType": "tenses",
+ "explanation": "**Second conditional** — **уявна, нереальна або малоймовірна** ситуація в теперішньому чи майбутньому.\n\n*If I **had** more time, I **would learn** Spanish.* (але часу немає)\n*If I **won** the lottery, I'**d travel** the world.*\n\nСтруктура: *If + Past Simple, would + V.*\n\nЗ *be* часто вживають **were** для всіх осіб: *If I **were** you, I'd take the job.* (порада)\n\nПорівняй: *If I see him, I'll tell him* (реально) vs *If I saw him, I'd tell him* (малоймовірно).",
+ "formula": [
+  "If + **Past Simple**, **would** + V",
+  "If I were you, I would…"
+ ],
+ "examples": [
+  {
+   "en": "If I lived closer, I'd visit you more often.",
+   "uk": "Якби я жив ближче, приїжджав би частіше."
+  },
+  {
+   "en": "What would you do if you lost your passport?",
+   "uk": "Що б ти робив, якби загубив паспорт?"
+  },
+  {
+   "en": "If I were you, I wouldn't buy that car.",
+   "uk": "На твоєму місці я б не купував цю машину."
+  },
+  {
+   "en": "I would help you if I could.",
+   "uk": "Я б допоміг, якби міг."
+  },
+  {
+   "en": "If we had a garden, we'd get a dog.",
+   "uk": "Якби в нас був сад, ми б завели собаку."
+  }
+ ],
+ "exercises": [
+  {
+   "type": "choice",
+   "prompt": "If I ___ rich, I'd buy a house by the sea.",
+   "options": [
+    "am",
+    "were",
+    "will be"
+   ],
+   "answer": "were",
+   "explanation": "Нереальне теперішнє."
+  },
+  {
+   "type": "choice",
+   "prompt": "If she had more time, she ___ more.",
+   "options": [
+    "will read",
+    "would read",
+    "reads"
+   ],
+   "answer": "would read",
+   "explanation": "would + V."
+  },
+  {
+   "type": "choice",
+   "prompt": "What ___ you do if you met a famous actor?",
+   "options": [
+    "will",
+    "would",
+    "did"
+   ],
+   "answer": "would",
+   "explanation": ""
+  },
+  {
+   "type": "choice",
+   "prompt": "If I ___ you, I'd talk to him.",
+   "options": [
+    "was",
+    "were",
+    "am"
+   ],
+   "answer": "were",
+   "explanation": "If I were you — порада."
+  },
+  {
+   "type": "input",
+   "prompt": "If I ___ (know) the answer, I would tell you.",
+   "answer": [
+    "knew"
+   ],
+   "explanation": "Past Simple."
+  },
+  {
+   "type": "input",
+   "prompt": "We ___ (go) out more if we didn't have a baby. (2 слова)",
+   "answer": [
+    "would go",
+    "'d go"
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "input",
+   "prompt": "If he ___ (not / work) so much, he'd be happier.",
+   "answer": [
+    "didn't work",
+    "did not work"
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "error",
+   "sentence": "If I have a car, I'd drive to work.",
+   "wrongIndex": 2,
+   "correction": "had",
+   "alt": [],
+   "explanation": "Нереальна умова → If + Past Simple: If I had a car…"
+  },
+  {
+   "type": "error",
+   "sentence": "If I were you, I will apologise.",
+   "wrongIndex": 5,
+   "correction": "would",
+   "alt": [
+    "'d"
+   ],
+   "explanation": "Друга частина — would."
+  },
+  {
+   "type": "order",
+   "prompt": "Що б ти зробив на моєму місці?",
+   "answer": [
+    "What would you do if you were me?",
+    "What would you do in my place?"
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "transform",
+   "prompt": "I don't have a car, so I can't drive you.",
+   "instruction": "Перепишіть з If (2 тип)",
+   "answer": [
+    "If I had a car, I could drive you.",
+    "If I had a car, I would drive you.",
+    "If I had a car, I'd drive you."
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "translate",
+   "uk": "Якби я знав польську краще, я б знайшов роботу легше.",
+   "answer": [
+    "If I knew Polish better, I would find a job more easily.",
+    "If I knew Polish better, I'd find a job more easily.",
+    "If I spoke Polish better, I would find a job more easily.",
+    "If I knew Polish better, I would find a job easier."
+   ],
+   "explanation": ""
+  }
+ ]
+}

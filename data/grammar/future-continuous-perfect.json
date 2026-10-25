@@ -1,0 +1,155 @@
+{
+ "id": "future-continuous-perfect",
+ "title": "Future Continuous і Future Perfect",
+ "titleEn": "Future Continuous and Future Perfect",
+ "unit": "Майбутнє",
+ "level": "B2",
+ "mistakeType": "tenses",
+ "explanation": "**Future Continuous** (*will be + V-ing*) — дія **буде тривати** в певний момент майбутнього: *This time tomorrow I'll be flying to Rome.* Також ввічливе питання про плани: *Will you be using the car tonight?*\n\n**Future Perfect** (*will have + V3*) — дія **завершиться до** певного моменту в майбутньому: *By June, we'll have finished the renovation.*\n\nМаркери: *this time next week, at 8 tomorrow* → Continuous; *by Friday, by the time, by the end of the year* → Perfect.",
+ "formula": [
+  "will be + V-ing (буде в процесі)",
+  "will have + V3 (буде завершено до…)"
+ ],
+ "examples": [
+  {
+   "en": "Don't call at 7 — I'll be driving.",
+   "uk": "Не дзвони о 7 — я буду за кермом."
+  },
+  {
+   "en": "This time next week we'll be lying on the beach.",
+   "uk": "Через тиждень у цей час ми лежатимемо на пляжі."
+  },
+  {
+   "en": "By the time you get here, I'll have cooked dinner.",
+   "uk": "Поки ти доїдеш, я вже приготую вечерю."
+  },
+  {
+   "en": "I'll have saved enough money by summer.",
+   "uk": "До літа я вже назбираю достатньо грошей."
+  },
+  {
+   "en": "Will you be going to the shop later?",
+   "uk": "Ти пізніше підеш у магазин? (ввічливо)"
+  }
+ ],
+ "exercises": [
+  {
+   "type": "choice",
+   "prompt": "This time tomorrow I ___ on the plane.",
+   "options": [
+    "'ll sit",
+    "'ll be sitting",
+    "'ll have sat"
+   ],
+   "answer": "'ll be sitting",
+   "explanation": "Процес у момент майбутнього."
+  },
+  {
+   "type": "choice",
+   "prompt": "By 2030, I ___ my own house.",
+   "options": [
+    "'ll build",
+    "'ll be building",
+    "'ll have built"
+   ],
+   "answer": "'ll have built",
+   "explanation": "By + завершення."
+  },
+  {
+   "type": "choice",
+   "prompt": "Call me after 9 — I ___ dinner by then.",
+   "options": [
+    "'ll have finished",
+    "'ll be finishing",
+    "finish"
+   ],
+   "answer": "'ll have finished",
+   "explanation": "by then → Future Perfect."
+  },
+  {
+   "type": "choice",
+   "prompt": "___ you ___ the car tonight? I'd like to borrow it.",
+   "options": [
+    "Will / use",
+    "Will / be using",
+    "Are / used"
+   ],
+   "answer": "Will / be using",
+   "explanation": "Ввічливе питання про плани."
+  },
+  {
+   "type": "input",
+   "prompt": "At 10 am tomorrow I ___ (have) a job interview. (3 слова)",
+   "answer": [
+    "will be having"
+   ],
+   "explanation": "Процес у майбутньому."
+  },
+  {
+   "type": "input",
+   "prompt": "She ___ (finish) the book by Friday. (3 слова)",
+   "answer": [
+    "will have finished"
+   ],
+   "explanation": "by Friday."
+  },
+  {
+   "type": "input",
+   "prompt": "Don't come at 8 — we ___ (watch) the match. (3 слова)",
+   "answer": [
+    "will be watching"
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "error",
+   "sentence": "By next year I will have learn English for five years.",
+   "wrongIndex": 6,
+   "correction": "learned",
+   "alt": [
+    "learnt"
+   ],
+   "explanation": "will have + V3."
+  },
+  {
+   "type": "error",
+   "sentence": "This time next week I will be lie on the beach.",
+   "wrongIndex": 7,
+   "correction": "lying",
+   "alt": [],
+   "explanation": "will be + V-ing."
+  },
+  {
+   "type": "order",
+   "prompt": "До кінця місяця ми вже переїдемо.",
+   "answer": [
+    "We'll have moved by the end of the month.",
+    "We will have moved by the end of the month.",
+    "By the end of the month we will have moved.",
+    "By the end of the month we'll have moved."
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "transform",
+   "prompt": "I will work at 5 pm tomorrow. (in progress)",
+   "instruction": "Покажіть, що дія буде в процесі",
+   "answer": [
+    "I'll be working at 5 pm tomorrow.",
+    "I will be working at 5 pm tomorrow."
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "translate",
+   "uk": "Завтра о цій порі я буду в дорозі.",
+   "answer": [
+    "This time tomorrow I'll be travelling.",
+    "This time tomorrow I'll be on the road.",
+    "This time tomorrow I will be travelling.",
+    "This time tomorrow I'll be driving."
+   ],
+   "explanation": ""
+  }
+ ]
+}

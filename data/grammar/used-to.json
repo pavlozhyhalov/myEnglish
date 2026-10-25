@@ -1,0 +1,180 @@
+{
+ "id": "used-to",
+ "title": "Used to, would, be used to",
+ "titleEn": "used to / would / be used to / get used to",
+ "unit": "Минулі часи",
+ "level": "B1",
+ "mistakeType": "tenses",
+ "explanation": "**used to + V** — звичка або стан у минулому, якого **вже немає**: *I used to smoke* (раніше курив, тепер ні).\n\n**would + V** — повторювані дії в минулому (не стани!): *When I was a kid, we would go to the river every summer.*\n\n**be used to + V-ing / іменник** — бути звиклим: *I'm used to getting up early.*\n**get used to + V-ing** — звикати: *I'm getting used to the cold weather.*\n\nЗаперечення/питання: *didn't **use** to*, *Did you **use** to…?* (без -d).",
+ "formula": [
+  "used to + V (було раніше)",
+  "be/get used to + **V-ing** (звичний/звикати)"
+ ],
+ "table": {
+  "head": [
+   "Форма",
+   "Значення",
+   "Приклад"
+  ],
+  "rows": [
+   [
+    "used to + V",
+    "раніше, тепер ні",
+    "I used to live in Kyiv."
+   ],
+   [
+    "would + V",
+    "повторювані дії в минулому",
+    "We would play outside for hours."
+   ],
+   [
+    "be used to + V-ing",
+    "звичний",
+    "I'm used to working at night."
+   ],
+   [
+    "get used to + V-ing",
+    "звикати",
+    "I can't get used to driving on the left."
+   ]
+  ]
+ },
+ "examples": [
+  {
+   "en": "I used to have long hair.",
+   "uk": "Колись у мене було довге волосся."
+  },
+  {
+   "en": "Did you use to play any sports at school?",
+   "uk": "Ти займався якимось спортом у школі?"
+  },
+  {
+   "en": "We didn't use to have a car.",
+   "uk": "Раніше в нас не було машини."
+  },
+  {
+   "en": "I'm not used to such cold winters.",
+   "uk": "Я не звик до таких холодних зим."
+  },
+  {
+   "en": "You'll soon get used to the new flat.",
+   "uk": "Ти скоро звикнеш до нової квартири."
+  }
+ ],
+ "tip": "Для теперішніх звичок used to не вживається: *I usually go…*, не ~~I use to go~~.",
+ "exercises": [
+  {
+   "type": "choice",
+   "prompt": "I ___ live in Kyiv, but now I live in Kraków.",
+   "options": [
+    "use to",
+    "used to",
+    "am used to"
+   ],
+   "answer": "used to",
+   "explanation": "Колишній стан."
+  },
+  {
+   "type": "choice",
+   "prompt": "I'm not used to ___ so early.",
+   "options": [
+    "get up",
+    "getting up",
+    "got up"
+   ],
+   "answer": "getting up",
+   "explanation": "be used to + V-ing."
+  },
+  {
+   "type": "choice",
+   "prompt": "Did you ___ play football?",
+   "options": [
+    "used to",
+    "use to",
+    "using to"
+   ],
+   "answer": "use to",
+   "explanation": "Після did — use to."
+  },
+  {
+   "type": "choice",
+   "prompt": "It took me a month to ___ the noise.",
+   "options": [
+    "get used to",
+    "used to",
+    "use to"
+   ],
+   "answer": "get used to",
+   "explanation": "Звикати → get used to."
+  },
+  {
+   "type": "input",
+   "prompt": "We ___ (used to / not) have a dishwasher.",
+   "answer": [
+    "didn't use to",
+    "did not use to"
+   ],
+   "explanation": "Заперечення: didn't use to."
+  },
+  {
+   "type": "input",
+   "prompt": "She is used to ___ (work) from home.",
+   "answer": [
+    "working"
+   ],
+   "explanation": "be used to + V-ing."
+  },
+  {
+   "type": "input",
+   "prompt": "When I was a child, my grandma ___ (would / tell) me stories every night. (2 слова)",
+   "answer": [
+    "would tell"
+   ],
+   "explanation": "Повторювані дії."
+  },
+  {
+   "type": "error",
+   "sentence": "I use to drink a lot of coffee, but I stopped.",
+   "wrongIndex": 1,
+   "correction": "used",
+   "alt": [],
+   "explanation": "Ствердження: used to."
+  },
+  {
+   "type": "error",
+   "sentence": "I'm used to live alone.",
+   "wrongIndex": 3,
+   "correction": "living",
+   "alt": [],
+   "explanation": "be used to + V-ing."
+  },
+  {
+   "type": "order",
+   "prompt": "Раніше ми часто подорожували.",
+   "answer": [
+    "We used to travel a lot."
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "transform",
+   "prompt": "In the past I smoked. Now I don't.",
+   "instruction": "Одним реченням з used to",
+   "answer": [
+    "I used to smoke."
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "translate",
+   "uk": "Я досі не звик до місцевої їжі.",
+   "answer": [
+    "I'm still not used to the local food.",
+    "I still haven't got used to the local food.",
+    "I am still not used to the local food.",
+    "I haven't got used to the local food yet."
+   ],
+   "explanation": ""
+  }
+ ]
+}

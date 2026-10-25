@@ -1,0 +1,149 @@
+{
+ "id": "reported-questions",
+ "title": "Непряма мова: питання",
+ "titleEn": "Reported questions and indirect questions",
+ "unit": "Пасив і непряма мова",
+ "level": "B2",
+ "mistakeType": "word_order",
+ "explanation": "У непрямих питаннях **прямий порядок слів** (як у твердженні) і **без do/does/did**:\n\n*\"Where do you live?\"* → *She asked me where **I lived**.* (не ~~where did I live~~)\n\nДля так/ні питань — **if / whether**:\n*\"Are you married?\"* → *He asked **if I was** married.*\n\nТе саме правило у ввічливих питаннях:\n*Could you tell me where **the station is**?* (не ~~where is the station~~)\n*Do you know what time **it starts**?*",
+ "formula": [
+  "asked + питальне слово + **підмет + дієслово**",
+  "asked + if/whether + підмет + дієслово"
+ ],
+ "examples": [
+  {
+   "en": "She asked me where I worked.",
+   "uk": "Вона запитала, де я працюю."
+  },
+  {
+   "en": "He asked if I had ever been to Japan.",
+   "uk": "Він запитав, чи був я колись у Японії."
+  },
+  {
+   "en": "Could you tell me how much this costs?",
+   "uk": "Підкажіть, будь ласка, скільки це коштує?"
+  },
+  {
+   "en": "Do you know when the shop closes?",
+   "uk": "Ти не знаєш, коли зачиняється магазин?"
+  },
+  {
+   "en": "I wonder what she's doing now.",
+   "uk": "Цікаво, що вона зараз робить."
+  }
+ ],
+ "exercises": [
+  {
+   "type": "choice",
+   "prompt": "She asked me where I ___.",
+   "options": [
+    "live",
+    "lived",
+    "did live"
+   ],
+   "answer": "lived",
+   "explanation": "Зсув часу, прямий порядок."
+  },
+  {
+   "type": "choice",
+   "prompt": "Could you tell me where ___?",
+   "options": [
+    "is the bank",
+    "the bank is",
+    "does the bank"
+   ],
+   "answer": "the bank is",
+   "explanation": "Прямий порядок."
+  },
+  {
+   "type": "choice",
+   "prompt": "He asked ___ I liked Polish food.",
+   "options": [
+    "that",
+    "if",
+    "do"
+   ],
+   "answer": "if",
+   "explanation": "Так/ні → if."
+  },
+  {
+   "type": "choice",
+   "prompt": "Do you know what time ___?",
+   "options": [
+    "the film starts",
+    "does the film start",
+    "starts the film"
+   ],
+   "answer": "the film starts",
+   "explanation": ""
+  },
+  {
+   "type": "input",
+   "prompt": "\"Are you tired?\" → She asked if I ___ tired.",
+   "answer": [
+    "was"
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "input",
+   "prompt": "\"What do you want?\" → He asked me what I ___.",
+   "answer": [
+    "wanted"
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "input",
+   "prompt": "\"Have you finished?\" → She asked whether I ___ finished.",
+   "answer": [
+    "had"
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "error",
+   "sentence": "She asked me where did I buy my jacket.",
+   "wrongIndex": 6,
+   "correction": "bought",
+   "alt": [],
+   "explanation": "Непряме питання без did: where I bought my jacket."
+  },
+  {
+   "type": "order",
+   "prompt": "Перепрошую, ви не знаєте, котра година?",
+   "answer": [
+    "Excuse me, do you know what time it is?"
+   ],
+   "explanation": "Непряме питання — прямий порядок: what time it is."
+  },
+  {
+   "type": "order",
+   "prompt": "Він запитав, скільки мені років.",
+   "answer": [
+    "He asked me how old I was."
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "transform",
+   "prompt": "\"Where is the nearest pharmacy?\"",
+   "instruction": "Почніть з Excuse me, do you know…",
+   "answer": [
+    "Excuse me, do you know where the nearest pharmacy is?"
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "translate",
+   "uk": "Вона запитала, чи я говорю польською.",
+   "answer": [
+    "She asked if I spoke Polish.",
+    "She asked me if I spoke Polish.",
+    "She asked whether I spoke Polish.",
+    "She asked me whether I spoke Polish."
+   ],
+   "explanation": ""
+  }
+ ]
+}

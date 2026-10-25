@@ -1,0 +1,184 @@
+{
+ "id": "modals-obligation",
+ "title": "Must, have to, should",
+ "titleEn": "Obligation and advice: must, have to, should, don't have to, mustn't",
+ "unit": "Модальні дієслова",
+ "level": "B1",
+ "mistakeType": "other",
+ "explanation": "- **must** — сильний обов'язок, часто **внутрішній** (сам вважаю): *I must call my mum.*\n- **have to** — обов'язок **ззовні** (правила, обставини): *I have to wear a uniform at work.*\n- **should** — порада: *You should see a doctor.*\n\nЗаперечення — **різні значення**:\n- **mustn't** = заборонено: *You mustn't smoke here.*\n- **don't have to** = не обов'язково: *You don't have to come if you're busy.*\n\nУ минулому must немає → **had to**: *I had to wait an hour.*",
+ "formula": [
+  "must / should + V (без to)",
+  "have to / has to / had to + V"
+ ],
+ "table": {
+  "head": [
+   "",
+   "Значення"
+  ],
+  "rows": [
+   [
+    "must",
+    "треба (я так вважаю)"
+   ],
+   [
+    "have to",
+    "треба (так вимагають)"
+   ],
+   [
+    "mustn't",
+    "не можна!"
+   ],
+   [
+    "don't have to",
+    "не обов'язково"
+   ],
+   [
+    "should / shouldn't",
+    "варто / не варто"
+   ]
+  ]
+ },
+ "examples": [
+  {
+   "en": "You must try this cake — it's amazing!",
+   "uk": "Ти мусиш скуштувати цей торт — він неймовірний!"
+  },
+  {
+   "en": "Do I have to bring anything?",
+   "uk": "Мені щось треба принести?"
+  },
+  {
+   "en": "You don't have to take off your shoes.",
+   "uk": "Не обов'язково знімати взуття."
+  },
+  {
+   "en": "You mustn't park here.",
+   "uk": "Тут не можна паркуватися."
+  },
+  {
+   "en": "We had to cancel our flight.",
+   "uk": "Нам довелося скасувати рейс."
+  },
+  {
+   "en": "You should get some rest.",
+   "uk": "Тобі варто відпочити."
+  }
+ ],
+ "exercises": [
+  {
+   "type": "choice",
+   "prompt": "You ___ smoke in the hospital. It's forbidden.",
+   "options": [
+    "mustn't",
+    "don't have to",
+    "shouldn't to"
+   ],
+   "answer": "mustn't",
+   "explanation": "Заборона."
+  },
+  {
+   "type": "choice",
+   "prompt": "Tomorrow is Sunday, so I ___ get up early.",
+   "options": [
+    "mustn't",
+    "don't have to",
+    "must"
+   ],
+   "answer": "don't have to",
+   "explanation": "Не обов'язково."
+  },
+  {
+   "type": "choice",
+   "prompt": "You look tired. You ___ go to bed earlier.",
+   "options": [
+    "should",
+    "must to",
+    "have"
+   ],
+   "answer": "should",
+   "explanation": "Порада."
+  },
+  {
+   "type": "choice",
+   "prompt": "Yesterday I ___ work late.",
+   "options": [
+    "must",
+    "had to",
+    "have to"
+   ],
+   "answer": "had to",
+   "explanation": "Минуле → had to."
+  },
+  {
+   "type": "input",
+   "prompt": "She ___ (have to) wear glasses for driving.",
+   "answer": [
+    "has to"
+   ],
+   "explanation": "she → has to."
+  },
+  {
+   "type": "input",
+   "prompt": "___ we ___ (have to) pay for parking? (2 слова)",
+   "answer": [
+    "Do have"
+   ],
+   "explanation": "Do we have to…?"
+  },
+  {
+   "type": "input",
+   "prompt": "You ___ (should / not) eat so much sugar.",
+   "answer": [
+    "shouldn't",
+    "should not"
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "error",
+   "sentence": "You must showing your passport at the gate.",
+   "wrongIndex": 2,
+   "correction": "show",
+   "alt": [],
+   "explanation": "Після must — інфінітив без to: You must show…"
+  },
+  {
+   "type": "error",
+   "sentence": "I musted wait for two hours.",
+   "wrongIndex": 1,
+   "correction": "had to",
+   "alt": [],
+   "explanation": "Минуле від must → had to."
+  },
+  {
+   "type": "order",
+   "prompt": "Тобі варто більше спати.",
+   "answer": [
+    "You should sleep more."
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "transform",
+   "prompt": "It isn't necessary to book a table.",
+   "instruction": "Перепишіть з don't have to",
+   "answer": [
+    "You don't have to book a table.",
+    "We don't have to book a table.",
+    "You do not have to book a table."
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "translate",
+   "uk": "Тут не можна фотографувати.",
+   "answer": [
+    "You mustn't take photos here.",
+    "You can't take photos here.",
+    "You must not take photos here.",
+    "You're not allowed to take photos here."
+   ],
+   "explanation": ""
+  }
+ ]
+}

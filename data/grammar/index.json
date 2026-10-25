@@ -1,0 +1,342 @@
+[
+ {
+  "id": "present-simple-continuous",
+  "n": 1,
+  "title": "Present Simple чи Continuous",
+  "titleEn": "Present Simple vs Present Continuous",
+  "unit": "Теперішні часи",
+  "level": "B1",
+  "mistakeType": "tenses",
+  "summary": "Present Simple — для того, що відбувається регулярно, завжди або загалом: звички,…"
+ },
+ {
+  "id": "stative-verbs",
+  "n": 2,
+  "title": "Дієслова стану",
+  "titleEn": "Stative verbs (know, want, like) vs action verbs",
+  "unit": "Теперішні часи",
+  "level": "B1",
+  "mistakeType": "tenses",
+  "summary": "Деякі дієслова описують стан, а не дію. Їх зазвичай не ставлять у Continuous, навіть…"
+ },
+ {
+  "id": "past-simple-continuous",
+  "n": 3,
+  "title": "Past Simple і Past Continuous",
+  "titleEn": "Past Simple vs Past Continuous",
+  "unit": "Минулі часи",
+  "level": "B1",
+  "mistakeType": "tenses",
+  "summary": "Past Simple — завершена дія в минулому (часто з точним часом: yesterday, last year, in…"
+ },
+ {
+  "id": "present-perfect",
+  "n": 4,
+  "title": "Present Perfect",
+  "titleEn": "Present Perfect: experience, result, unfinished time",
+  "unit": "Минулі часи",
+  "level": "B1",
+  "mistakeType": "tenses",
+  "summary": "Present Perfect зв'язує минуле з теперішнім. Важливий результат або досвід, а не…"
+ },
+ {
+  "id": "perfect-vs-past",
+  "n": 5,
+  "title": "Present Perfect чи Past Simple",
+  "titleEn": "Present Perfect vs Past Simple",
+  "unit": "Минулі часи",
+  "level": "B1",
+  "mistakeType": "tenses",
+  "summary": "Головне питання: чи важливий точний час у минулому?"
+ },
+ {
+  "id": "perfect-continuous",
+  "n": 6,
+  "title": "Present Perfect Continuous",
+  "titleEn": "Present Perfect Continuous (for / since, how long)",
+  "unit": "Минулі часи",
+  "level": "B1",
+  "mistakeType": "tenses",
+  "summary": "Present Perfect Continuous — дія почалася в минулому і триває досі (або щойно…"
+ },
+ {
+  "id": "past-perfect",
+  "n": 7,
+  "title": "Past Perfect",
+  "titleEn": "Past Perfect (had + V3)",
+  "unit": "Минулі часи",
+  "level": "B1",
+  "mistakeType": "tenses",
+  "summary": "Past Perfect — «минуле в минулому»: дія відбулася раніше за іншу минулу дію."
+ },
+ {
+  "id": "used-to",
+  "n": 8,
+  "title": "Used to, would, be used to",
+  "titleEn": "used to / would / be used to / get used to",
+  "unit": "Минулі часи",
+  "level": "B1",
+  "mistakeType": "tenses",
+  "summary": "used to + V — звичка або стан у минулому, якого вже немає: I used to smoke (раніше…"
+ },
+ {
+  "id": "future-forms",
+  "n": 9,
+  "title": "Майбутнє: will, going to, Present Continuous",
+  "titleEn": "Future forms: will vs going to vs Present Continuous",
+  "unit": "Майбутнє",
+  "level": "B1",
+  "mistakeType": "tenses",
+  "summary": "Англійська має кілька способів говорити про майбутнє:"
+ },
+ {
+  "id": "future-continuous-perfect",
+  "n": 10,
+  "title": "Future Continuous і Future Perfect",
+  "titleEn": "Future Continuous and Future Perfect",
+  "unit": "Майбутнє",
+  "level": "B2",
+  "mistakeType": "tenses",
+  "summary": "Future Continuous (will be + V-ing) — дія буде тривати в певний момент майбутнього:…"
+ },
+ {
+  "id": "modals-obligation",
+  "n": 11,
+  "title": "Must, have to, should",
+  "titleEn": "Obligation and advice: must, have to, should, don't have to, mustn't",
+  "unit": "Модальні дієслова",
+  "level": "B1",
+  "mistakeType": "other",
+  "summary": "- must — сильний обов'язок, часто внутрішній (сам вважаю): I must call my mum."
+ },
+ {
+  "id": "modals-ability",
+  "n": 12,
+  "title": "Can, could, be able to, may",
+  "titleEn": "Ability and permission: can, could, be able to, may, be allowed to",
+  "unit": "Модальні дієслова",
+  "level": "B1",
+  "mistakeType": "other",
+  "summary": "Уміння:"
+ },
+ {
+  "id": "modals-deduction",
+  "n": 13,
+  "title": "Припущення: must, might, can't",
+  "titleEn": "Modals of deduction: must, might, may, could, can't",
+  "unit": "Модальні дієслова",
+  "level": "B2",
+  "mistakeType": "other",
+  "summary": "Модальні дієслова допомагають робити висновки про теперішнє:"
+ },
+ {
+  "id": "modals-past",
+  "n": 14,
+  "title": "Should have, could have, must have",
+  "titleEn": "Past modals: should have, could have, must have, might have, can't have",
+  "unit": "Модальні дієслова",
+  "level": "B2",
+  "mistakeType": "other",
+  "summary": "Модальне + have + V3 — про минуле:"
+ },
+ {
+  "id": "conditionals-0-1",
+  "n": 15,
+  "title": "Умовні речення 0 і 1 типу",
+  "titleEn": "Zero and first conditional",
+  "unit": "Умовні речення",
+  "level": "B1",
+  "mistakeType": "tenses",
+  "summary": "Zero conditional — загальні істини, завжди так: If you heat ice, it melts."
+ },
+ {
+  "id": "conditional-2",
+  "n": 16,
+  "title": "Умовні речення 2 типу",
+  "titleEn": "Second conditional (unreal present/future)",
+  "unit": "Умовні речення",
+  "level": "B1",
+  "mistakeType": "tenses",
+  "summary": "Second conditional — уявна, нереальна або малоймовірна ситуація в теперішньому чи…"
+ },
+ {
+  "id": "conditional-3",
+  "n": 17,
+  "title": "Умовні речення 3 типу і змішані",
+  "titleEn": "Third and mixed conditionals",
+  "unit": "Умовні речення",
+  "level": "B2",
+  "mistakeType": "tenses",
+  "summary": "Third conditional — уявне минуле, якого вже не змінити (жаль, критика, «а що якби»)."
+ },
+ {
+  "id": "wish",
+  "n": 18,
+  "title": "I wish, if only",
+  "titleEn": "Wishes and regrets: I wish / if only",
+  "unit": "Умовні речення",
+  "level": "B2",
+  "mistakeType": "tenses",
+  "summary": "I wish / If only — бажання, щоб усе було інакше:"
+ },
+ {
+  "id": "passive-basic",
+  "n": 19,
+  "title": "Пасивний стан: основи",
+  "titleEn": "Passive voice: present and past simple",
+  "unit": "Пасив і непряма мова",
+  "level": "B1",
+  "mistakeType": "tenses",
+  "summary": "Пасив — коли важливо, що сталося, а не хто це зробив (або виконавець…"
+ },
+ {
+  "id": "passive-advanced",
+  "n": 20,
+  "title": "Пасив у різних часах і have something done",
+  "titleEn": "Passive in other tenses; have something done",
+  "unit": "Пасив і непряма мова",
+  "level": "B2",
+  "mistakeType": "tenses",
+  "summary": "Пасив можливий у будь-якому часі — змінюється лише be:"
+ },
+ {
+  "id": "reported-statements",
+  "n": 21,
+  "title": "Непряма мова: твердження",
+  "titleEn": "Reported speech: statements (say, tell, backshift)",
+  "unit": "Пасив і непряма мова",
+  "level": "B1",
+  "mistakeType": "tenses",
+  "summary": "Коли переказуємо чужі слова після said / told, час зазвичай зсувається на крок у минуле:"
+ },
+ {
+  "id": "reported-questions",
+  "n": 22,
+  "title": "Непряма мова: питання",
+  "titleEn": "Reported questions and indirect questions",
+  "unit": "Пасив і непряма мова",
+  "level": "B2",
+  "mistakeType": "word_order",
+  "summary": "У непрямих питаннях прямий порядок слів (як у твердженні) і без do/does/did:"
+ },
+ {
+  "id": "articles",
+  "n": 23,
+  "title": "Артиклі a/an і the",
+  "titleEn": "Articles: a/an vs the",
+  "unit": "Іменник і артиклі",
+  "level": "B1",
+  "mistakeType": "articles",
+  "summary": "В українській артиклів немає, тому це найчастіша помилка. Головна логіка:"
+ },
+ {
+  "id": "zero-article",
+  "n": 24,
+  "title": "Коли артикль не потрібен",
+  "titleEn": "Zero article: no article with plurals, uncountables and fixed phrases",
+  "unit": "Іменник і артиклі",
+  "level": "B1",
+  "mistakeType": "articles",
+  "summary": "Без артикля говоримо:"
+ },
+ {
+  "id": "quantifiers",
+  "n": 25,
+  "title": "Some, any, much, many, few, little",
+  "titleEn": "Quantifiers: some/any, much/many, a lot of, (a) few, (a) little",
+  "unit": "Іменник і артиклі",
+  "level": "B1",
+  "mistakeType": "other",
+  "summary": "Спершу визначте: іменник злічуваний (apple, chair, friend) чи незлічуваний (water,…"
+ },
+ {
+  "id": "prepositions-time",
+  "n": 26,
+  "title": "Прийменники часу",
+  "titleEn": "Prepositions of time: in/on/at, for/since/during, by/until",
+  "unit": "Прийменники",
+  "level": "B1",
+  "mistakeType": "prepositions",
+  "summary": "at — точний час і свята: at 7 o'clock, at night, at the weekend (UK), at Christmas"
+ },
+ {
+  "id": "prepositions-place",
+  "n": 27,
+  "title": "Прийменники місця і руху",
+  "titleEn": "Prepositions of place and movement",
+  "unit": "Прийменники",
+  "level": "B1",
+  "mistakeType": "prepositions",
+  "summary": "Місце:"
+ },
+ {
+  "id": "questions",
+  "n": 28,
+  "title": "Питання і порядок слів",
+  "titleEn": "Question formation and word order",
+  "unit": "Будова речення",
+  "level": "B1",
+  "mistakeType": "word_order",
+  "summary": "Схема питання: (питальне слово) + допоміжне + підмет + основне дієслово."
+ },
+ {
+  "id": "relative-clauses",
+  "n": 29,
+  "title": "Відносні речення: who, which, that, where",
+  "titleEn": "Relative clauses: who, which, that, where, whose",
+  "unit": "Будова речення",
+  "level": "B1",
+  "mistakeType": "word_order",
+  "summary": "Відносні речення уточнюють, про кого / що йдеться."
+ },
+ {
+  "id": "gerund-infinitive",
+  "n": 30,
+  "title": "Герундій чи інфінітив",
+  "titleEn": "Gerund (-ing) vs infinitive (to do)",
+  "unit": "Будова речення",
+  "level": "B1",
+  "mistakeType": "other",
+  "summary": "Після деяких дієслів іде -ing, після інших — to + V. Це треба запам'ятати."
+ },
+ {
+  "id": "comparatives",
+  "n": 31,
+  "title": "Порівняння прикметників",
+  "titleEn": "Comparatives and superlatives; as…as",
+  "unit": "Будова речення",
+  "level": "A2",
+  "mistakeType": "other",
+  "summary": "- Короткі (1 склад): -er / the -est — cheap → cheaper → the cheapest"
+ },
+ {
+  "id": "phrasal-verbs",
+  "n": 32,
+  "title": "Фразові дієслова: граматика",
+  "titleEn": "Phrasal verbs: separable and inseparable",
+  "unit": "Будова речення",
+  "level": "B1",
+  "mistakeType": "word_order",
+  "summary": "Фразове дієслово = дієслово + частка (up, off, out, on…), значення часто нове: give up…"
+ },
+ {
+  "id": "so-such-too-enough",
+  "n": 33,
+  "title": "So, such, too, enough",
+  "titleEn": "so / such, too / enough",
+  "unit": "Будова речення",
+  "level": "B1",
+  "mistakeType": "word_order",
+  "summary": "so + прикметник/прислівник: It was so cold! She speaks so fast."
+ },
+ {
+  "id": "linking-words",
+  "n": 34,
+  "title": "Сполучники: although, however, despite",
+  "titleEn": "Linking words: although, however, despite, because, so, in case",
+  "unit": "Будова речення",
+  "level": "B2",
+  "mistakeType": "word_order",
+  "summary": "Сполучники роблять мову зв'язною і «дорослою»."
+ }
+]

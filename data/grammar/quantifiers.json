@@ -1,0 +1,190 @@
+{
+ "id": "quantifiers",
+ "title": "Some, any, much, many, few, little",
+ "titleEn": "Quantifiers: some/any, much/many, a lot of, (a) few, (a) little",
+ "unit": "Іменник і артиклі",
+ "level": "B1",
+ "mistakeType": "other",
+ "explanation": "Спершу визначте: іменник **злічуваний** (*apple, chair, friend*) чи **незлічуваний** (*water, money, time, advice, information, furniture*).\n\n- **many / (a) few** — зі злічуваними: *many friends, a few days*\n- **much / (a) little** — з незлічуваними: *much time, a little money*\n- **a lot of / lots of** — з обома (особливо у ствердженнях): *a lot of people, a lot of work*\n\n**some** — у ствердженнях і проханнях/пропозиціях: *I need some help. Would you like some tea?*\n**any** — у запереченнях і питаннях: *Do you have any questions? I don't have any cash.*\n\n**a few / a little** = трохи (позитивно), **few / little** = мало (негативно): *I have **a few** friends here* vs *I have **few** friends here* (майже немає).",
+ "formula": [
+  "злічувані: many, a few, few, how many",
+  "незлічувані: much, a little, little, how much",
+  "обидва: a lot of, some, any, no"
+ ],
+ "table": {
+  "head": [
+   "",
+   "Злічувані",
+   "Незлічувані"
+  ],
+  "rows": [
+   [
+    "багато",
+    "many / a lot of",
+    "much / a lot of"
+   ],
+   [
+    "трохи",
+    "a few",
+    "a little"
+   ],
+   [
+    "мало",
+    "few",
+    "little"
+   ],
+   [
+    "скільки?",
+    "How many?",
+    "How much?"
+   ]
+  ]
+ },
+ "examples": [
+  {
+   "en": "How much money do we need?",
+   "uk": "Скільки грошей нам треба?"
+  },
+  {
+   "en": "How many people are coming?",
+   "uk": "Скільки людей прийде?"
+  },
+  {
+   "en": "There isn't much milk left.",
+   "uk": "Молока лишилося мало."
+  },
+  {
+   "en": "I've got a few questions.",
+   "uk": "У мене є кілька питань."
+  },
+  {
+   "en": "Could I have some water, please?",
+   "uk": "Можна мені води?"
+  },
+  {
+   "en": "We don't have any plans for tonight.",
+   "uk": "У нас немає планів на вечір."
+  }
+ ],
+ "tip": "*advice, information, news, furniture, luggage* — незлічувані: *a piece of advice*, не ~~an advice~~; *some information*, не ~~informations~~.",
+ "exercises": [
+  {
+   "type": "choice",
+   "prompt": "How ___ coffee do you drink a day?",
+   "options": [
+    "many",
+    "much",
+    "few"
+   ],
+   "answer": "much",
+   "explanation": "coffee — незлічуване."
+  },
+  {
+   "type": "choice",
+   "prompt": "There are ___ people in the queue.",
+   "options": [
+    "much",
+    "a lot of",
+    "a little"
+   ],
+   "answer": "a lot of",
+   "explanation": ""
+  },
+  {
+   "type": "choice",
+   "prompt": "Do you have ___ brothers or sisters?",
+   "options": [
+    "some",
+    "any",
+    "much"
+   ],
+   "answer": "any",
+   "explanation": "Питання → any."
+  },
+  {
+   "type": "choice",
+   "prompt": "Would you like ___ cake?",
+   "options": [
+    "some",
+    "any",
+    "many"
+   ],
+   "answer": "some",
+   "explanation": "Пропозиція → some."
+  },
+  {
+   "type": "choice",
+   "prompt": "I can't come, I have very ___ time.",
+   "options": [
+    "few",
+    "little",
+    "many"
+   ],
+   "answer": "little",
+   "explanation": "time — незлічуване, «мало»."
+  },
+  {
+   "type": "input",
+   "prompt": "I've got ___ friends in Warsaw — three or four. (2 слова)",
+   "answer": [
+    "a few"
+   ],
+   "explanation": "Кілька (позитивно)."
+  },
+  {
+   "type": "input",
+   "prompt": "How ___ chairs do we need?",
+   "answer": [
+    "many"
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "error",
+   "sentence": "Can you give me an advice?",
+   "wrongIndex": 4,
+   "correction": "some",
+   "alt": [
+    "a piece of"
+   ],
+   "explanation": "advice — незлічуване: some advice / a piece of advice."
+  },
+  {
+   "type": "error",
+   "sentence": "I need some informations about the course.",
+   "wrongIndex": 3,
+   "correction": "information",
+   "alt": [],
+   "explanation": "information — без -s."
+  },
+  {
+   "type": "order",
+   "prompt": "У мене немає грошей з собою.",
+   "answer": [
+    "I don't have any money with me.",
+    "I do not have any money with me."
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "transform",
+   "prompt": "There aren't many shops here. (позитивно: кілька є)",
+   "instruction": "Перепишіть з a few",
+   "answer": [
+    "There are a few shops here."
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "translate",
+   "uk": "У нас ще трохи часу.",
+   "answer": [
+    "We still have a little time.",
+    "We have a little time left.",
+    "We've still got a little time.",
+    "We still have some time."
+   ],
+   "explanation": ""
+  }
+ ]
+}

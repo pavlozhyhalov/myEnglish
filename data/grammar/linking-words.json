@@ -1,0 +1,160 @@
+{
+ "id": "linking-words",
+ "title": "Сполучники: although, however, despite",
+ "titleEn": "Linking words: although, however, despite, because, so, in case",
+ "unit": "Будова речення",
+ "level": "B2",
+ "mistakeType": "word_order",
+ "explanation": "Сполучники роблять мову зв'язною і «дорослою».\n\n**Протиставлення:**\n- *although / even though* + речення: *Although it was raining, we went out.*\n- *despite / in spite of* + **іменник або -ing**: *Despite the rain, we went out. Despite feeling tired, he went to work.*\n- *however* — на початку нового речення, з комою: *It was raining. **However**, we went out.*\n- *but* — у середині речення.\n\n**Причина і наслідок:** *because* + речення, *because of* + іменник; *so* — тому; *therefore* — офіційне «отже».\n\n**in case** — на випадок, якщо: *Take an umbrella **in case** it rains.*",
+ "formula": [
+  "although + S + V · despite + noun / V-ing",
+  "because + S + V · because of + noun"
+ ],
+ "examples": [
+  {
+   "en": "Although the hotel was cheap, it was very clean.",
+   "uk": "Хоча готель був дешевий, він був дуже чистий."
+  },
+  {
+   "en": "Despite the traffic, we arrived on time.",
+   "uk": "Попри затори, ми приїхали вчасно."
+  },
+  {
+   "en": "I'd love to come. However, I have to work that day.",
+   "uk": "Я б із радістю прийшов. Однак того дня мені треба працювати."
+  },
+  {
+   "en": "The flight was cancelled because of the storm.",
+   "uk": "Рейс скасували через бурю."
+  },
+  {
+   "en": "I'll take some snacks in case we get hungry.",
+   "uk": "Візьму перекус на випадок, якщо зголодніємо."
+  }
+ ],
+ "exercises": [
+  {
+   "type": "choice",
+   "prompt": "___ the rain, we had a great time.",
+   "options": [
+    "Although",
+    "Despite",
+    "However"
+   ],
+   "answer": "Despite",
+   "explanation": "Despite + іменник."
+  },
+  {
+   "type": "choice",
+   "prompt": "___ it was late, we kept talking.",
+   "options": [
+    "Despite",
+    "Although",
+    "In spite"
+   ],
+   "answer": "Although",
+   "explanation": "Although + речення."
+  },
+  {
+   "type": "choice",
+   "prompt": "The shop was closed ___ the holiday.",
+   "options": [
+    "because",
+    "because of",
+    "so"
+   ],
+   "answer": "because of",
+   "explanation": "+ іменник."
+  },
+  {
+   "type": "choice",
+   "prompt": "I'm tired. ___, I'll help you.",
+   "options": [
+    "Although",
+    "However",
+    "Despite"
+   ],
+   "answer": "However",
+   "explanation": "Нове речення."
+  },
+  {
+   "type": "choice",
+   "prompt": "Write down my number ___ you get lost.",
+   "options": [
+    "in case",
+    "because",
+    "despite"
+   ],
+   "answer": "in case",
+   "explanation": "На випадок."
+  },
+  {
+   "type": "input",
+   "prompt": "Despite ___ (feel) ill, she went to work.",
+   "answer": [
+    "feeling"
+   ],
+   "explanation": "despite + -ing."
+  },
+  {
+   "type": "input",
+   "prompt": "It was raining, ___ we stayed in. (1 слово)",
+   "answer": [
+    "so"
+   ],
+   "explanation": "Наслідок."
+  },
+  {
+   "type": "error",
+   "sentence": "Although the bad weather, the trip was fun.",
+   "wrongIndex": 0,
+   "correction": "Despite",
+   "alt": [
+    "In spite of"
+   ],
+   "explanation": "Перед іменником — despite / in spite of."
+  },
+  {
+   "type": "error",
+   "sentence": "We went out despite it was cold.",
+   "wrongIndex": 3,
+   "correction": "although",
+   "alt": [
+    "even though"
+   ],
+   "explanation": "Перед реченням — although."
+  },
+  {
+   "type": "order",
+   "prompt": "Хоча я втомився, я пішов на тренування.",
+   "answer": [
+    "Although I was tired, I went to the gym.",
+    "Although I was tired, I went to training.",
+    "I went to the gym although I was tired."
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "transform",
+   "prompt": "Although it was expensive, we bought it.",
+   "instruction": "Перепишіть з Despite",
+   "answer": [
+    "Despite the price, we bought it.",
+    "Despite it being expensive, we bought it.",
+    "Despite the high price, we bought it.",
+    "Despite being expensive, we bought it."
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "translate",
+   "uk": "Візьми куртку на випадок, якщо похолодає.",
+   "answer": [
+    "Take a jacket in case it gets cold.",
+    "Take your jacket in case it gets cold.",
+    "Take a jacket in case it gets colder."
+   ],
+   "explanation": ""
+  }
+ ]
+}

@@ -1,0 +1,332 @@
+[
+ {
+  "id": "landlord",
+  "kind": "email",
+  "kindLabel": "Лист · побут",
+  "emoji": "house",
+  "title": "Лист орендодавцю про несправність",
+  "task": "Напишіть власнику квартири: уже два дні не працює опалення (або протікає кран). Опишіть проблему, попросіть швидко прислати майстра і запропонуйте зручний час.",
+  "context": "",
+  "words": "80–120",
+  "phrases": [
+   {
+    "group": "Початок",
+    "items": [
+     "Dear Mr Kowalski,",
+     "Hi Anna,",
+     "I hope you are well.",
+     "I'm writing to let you know that…"
+    ]
+   },
+   {
+    "group": "Проблема",
+    "items": [
+     "The heating hasn't been working since Monday.",
+     "The kitchen tap is leaking.",
+     "It is getting quite cold in the flat.",
+     "I have tried … but it did not help."
+    ]
+   },
+   {
+    "group": "Прохання",
+    "items": [
+     "Could you please send someone to fix it as soon as possible?",
+     "I am available on … after 5 pm.",
+     "Please let me know when would suit you."
+    ]
+   },
+   {
+    "group": "Завершення",
+    "items": [
+     "Thank you in advance.",
+     "I look forward to hearing from you.",
+     "Best regards,",
+     "Kind regards,"
+    ]
+   }
+  ],
+  "sample": "Dear Mr Kowalski,\n\nI hope you are well. I'm writing to let you know that the heating in our flat hasn't been working since Monday. We have checked the thermostat, but it didn't help, and it is getting quite cold, especially at night.\n\nCould you please send someone to fix it as soon as possible? We are at home every day after 5 pm and all day on Saturday.\n\nThank you in advance.\n\nBest regards,\nPavlo"
+ },
+ {
+  "id": "invite",
+  "kind": "teams",
+  "kindLabel": "Повідомлення · друзі",
+  "emoji": "party",
+  "title": "Запрошення друга на вихідні",
+  "task": "Напишіть другові неформальне повідомлення: запросіть на барбекю або в похід у суботу, скажіть, о котрій і де, що взяти з собою, і попросіть підтвердити.",
+  "context": "",
+  "words": "50–80",
+  "phrases": [
+   {
+    "group": "Привітання",
+    "items": [
+     "Hey Tom!",
+     "Hi guys,",
+     "How's it going?",
+     "Long time no see!"
+    ]
+   },
+   {
+    "group": "Запрошення",
+    "items": [
+     "Are you free on Saturday?",
+     "We're having a barbecue at our place.",
+     "Do you fancy going hiking in the Tatras?",
+     "It would be great to catch up."
+    ]
+   },
+   {
+    "group": "Деталі",
+    "items": [
+     "We're starting at around 4.",
+     "Just bring something to drink.",
+     "We can pick you up if you like."
+    ]
+   },
+   {
+    "group": "Завершення",
+    "items": [
+     "Let me know if you can make it!",
+     "Hope to see you there!",
+     "Cheers,"
+    ]
+   }
+  ],
+  "sample": "Hey Tom!\n\nLong time no see! Are you free on Saturday? We're having a barbecue at our place from around 4 pm. Just bring something to drink — we'll take care of the food.\n\nLet me know if you can make it!\nCheers,\nPavlo"
+ },
+ {
+  "id": "complaint-shop",
+  "kind": "email",
+  "kindLabel": "Лист · скарга",
+  "emoji": "shop",
+  "title": "Скарга в інтернет-магазин",
+  "task": "Ви отримали замовлення, але товар пошкоджений (або прийшов не той розмір). Напишіть у службу підтримки: номер замовлення, що не так, чого ви хочете (заміна чи повернення грошей).",
+  "context": "",
+  "words": "80–120",
+  "phrases": [
+   {
+    "group": "Початок",
+    "items": [
+     "Dear Customer Service,",
+     "I am writing to complain about my recent order (No. …)."
+    ]
+   },
+   {
+    "group": "Проблема",
+    "items": [
+     "Unfortunately, the item arrived damaged.",
+     "I received the wrong size.",
+     "The package was opened when it arrived.",
+     "I have attached some photos."
+    ]
+   },
+   {
+    "group": "Вимога",
+    "items": [
+     "I would like a replacement as soon as possible.",
+     "I would prefer a full refund.",
+     "Could you please arrange a free return?"
+    ]
+   },
+   {
+    "group": "Завершення",
+    "items": [
+     "I look forward to your reply.",
+     "Thank you for your help.",
+     "Yours sincerely,",
+     "Kind regards,"
+    ]
+   }
+  ],
+  "sample": "Dear Customer Service,\n\nI am writing to complain about my recent order (No. 48213), which arrived yesterday. Unfortunately, the coffee machine was damaged — the water tank is cracked. I have attached some photos.\n\nI would prefer a full refund. Could you please arrange a free return?\n\nI look forward to your reply.\n\nKind regards,\nPavlo Zhyhalov"
+ },
+ {
+  "id": "review",
+  "kind": "other",
+  "kindLabel": "Відгук",
+  "emoji": "star",
+  "title": "Відгук про ресторан або готель",
+  "task": "Напишіть відгук на TripAdvisor / Google про місце, де ви нещодавно були: що сподобалося, що ні, кому порадите.",
+  "context": "",
+  "words": "80–150",
+  "phrases": [
+   {
+    "group": "Загальне враження",
+    "items": [
+     "We had dinner here last Friday.",
+     "Overall, we had a great time.",
+     "It was a bit disappointing, to be honest."
+    ]
+   },
+   {
+    "group": "Деталі",
+    "items": [
+     "The food was delicious, especially…",
+     "The staff were friendly and helpful.",
+     "The service was quite slow.",
+     "It is a bit pricey, but worth it."
+    ]
+   },
+   {
+    "group": "Рекомендація",
+    "items": [
+     "I would definitely recommend it.",
+     "Perfect for a romantic dinner.",
+     "I would not go back.",
+     "Make sure you book a table in advance."
+    ]
+   }
+  ],
+  "sample": "We had dinner here last Friday to celebrate our anniversary. The food was delicious, especially the duck, and the staff were friendly and helpful. The only downside was that the service was quite slow when it got busy.\n\nIt's a bit pricey, but definitely worth it. Perfect for a special occasion — just make sure you book a table in advance."
+ },
+ {
+  "id": "thank-you",
+  "kind": "other",
+  "kindLabel": "Повідомлення · подяка",
+  "emoji": "sparkles",
+  "title": "Подяка за гостинність",
+  "task": "Ви гостювали у знайомих. Напишіть теплу подяку: що сподобалось найбільше і запросіть їх у відповідь.",
+  "context": "",
+  "words": "50–80",
+  "phrases": [
+   {
+    "group": "Подяка",
+    "items": [
+     "Thank you so much for having us.",
+     "We had a wonderful time.",
+     "It was so kind of you to…"
+    ]
+   },
+   {
+    "group": "Деталі",
+    "items": [
+     "The dinner was amazing.",
+     "We loved the walk by the lake.",
+     "The kids are still talking about it."
+    ]
+   },
+   {
+    "group": "Запрошення",
+    "items": [
+     "Next time you must come to us!",
+     "You are always welcome in Kraków.",
+     "Let us know when you are free."
+    ]
+   }
+  ],
+  "sample": "Hi Kate and Ben,\n\nThank you so much for having us last weekend! We had a wonderful time — the dinner was amazing and we loved the walk by the lake.\n\nNext time you must come to us. You're always welcome in Kraków!\n\nLove,\nPavlo & Vita"
+ },
+ {
+  "id": "course-enquiry",
+  "kind": "email",
+  "kindLabel": "Лист · запит",
+  "emoji": "gradcap",
+  "title": "Запит про курс або послугу",
+  "task": "Напишіть офіційний лист у школу (спортзал, туристичну агенцію): запитайте про розклад, ціну, знижки і як записатися.",
+  "context": "",
+  "words": "80–120",
+  "phrases": [
+   {
+    "group": "Початок",
+    "items": [
+     "Dear Sir or Madam,",
+     "I am writing to enquire about…",
+     "I saw your advertisement on…"
+    ]
+   },
+   {
+    "group": "Питання",
+    "items": [
+     "Could you tell me when the classes start?",
+     "How much does the course cost?",
+     "Are there any discounts for…?",
+     "Is it possible to join a trial lesson?"
+    ]
+   },
+   {
+    "group": "Завершення",
+    "items": [
+     "I would be grateful for any further information.",
+     "I look forward to hearing from you.",
+     "Yours faithfully,"
+    ]
+   }
+  ],
+  "sample": "Dear Sir or Madam,\n\nI am writing to enquire about your evening Spanish course for beginners, which I saw on your website.\n\nCould you tell me when the next course starts and how much it costs? Are there any discounts for couples? Also, is it possible to join a trial lesson first?\n\nI would be grateful for any further information.\n\nYours faithfully,\nPavlo Zhyhalov"
+ },
+ {
+  "id": "rfq",
+  "kind": "email",
+  "kindLabel": "Лист · робота",
+  "emoji": "envelope",
+  "title": "Робоче: запит ціни постачальнику",
+  "task": "Попросіть у нового постачальника комерційну пропозицію: кількість, матеріал, вимоги до якості, бажаний термін, попросіть зразки.",
+  "context": "",
+  "words": "100–150",
+  "phrases": [
+   {
+    "group": "Початок",
+    "items": [
+     "Dear Mr Novak,",
+     "I am writing on behalf of…",
+     "We are looking for a reliable supplier of…"
+    ]
+   },
+   {
+    "group": "Запит",
+    "items": [
+     "Could you send us a quote for 500 pieces?",
+     "Please find the drawings attached.",
+     "Our target lead time is 4 weeks.",
+     "Would it be possible to get samples first?"
+    ]
+   },
+   {
+    "group": "Завершення",
+    "items": [
+     "We would appreciate your reply by Friday.",
+     "Please let me know if you need any further information.",
+     "Best regards,"
+    ]
+   }
+  ],
+  "sample": "Dear Mr Novak,\n\nWe are looking for a reliable supplier of machined aluminium parts. Could you please send us a quote for 500 pieces of the part in the attached drawing (material 6061-T6, anodized black)?\n\nOur target lead time is 4 weeks. Would it be possible to get 5 samples first?\n\nWe would appreciate your reply by Friday. Please let me know if you need any further information.\n\nBest regards,\nPavlo Zhyhalov"
+ },
+ {
+  "id": "complaint-reply",
+  "kind": "email",
+  "kindLabel": "Лист · робота",
+  "emoji": "handshake",
+  "title": "Робоче: відповідь на скаргу клієнта",
+  "task": "Клієнт скаржиться на пошкоджений товар. Вибачтеся, поясніть, що ви робите, і запропонуйте рішення.",
+  "context": "",
+  "words": "80–130",
+  "phrases": [
+   {
+    "group": "Вибачення",
+    "items": [
+     "Thank you for letting us know.",
+     "Please accept our apologies for the inconvenience.",
+     "We are sorry to hear that…"
+    ]
+   },
+   {
+    "group": "Дії",
+    "items": [
+     "We are looking into the cause.",
+     "We will send a replacement free of charge.",
+     "To prevent this in future, we have…"
+    ]
+   },
+   {
+    "group": "Завершення",
+    "items": [
+     "Please do not hesitate to contact me.",
+     "Thank you for your understanding.",
+     "Kind regards,"
+    ]
+   }
+  ],
+  "sample": "Dear Ms Smith,\n\nThank you for letting us know, and please accept our apologies for the inconvenience. We are sorry to hear that the product arrived damaged.\n\nWe will send a replacement free of charge today, and we are looking into the cause with our logistics partner.\n\nPlease do not hesitate to contact me if you have any questions.\n\nKind regards,\nPavlo Zhyhalov"
+ }
+]

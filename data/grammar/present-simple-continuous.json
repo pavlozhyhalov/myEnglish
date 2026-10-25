@@ -1,0 +1,189 @@
+{
+ "id": "present-simple-continuous",
+ "title": "Present Simple чи Continuous",
+ "titleEn": "Present Simple vs Present Continuous",
+ "unit": "Теперішні часи",
+ "level": "B1",
+ "mistakeType": "tenses",
+ "explanation": "**Present Simple** — для того, що відбувається **регулярно, завжди або загалом**: звички, розклади, факти.\n\n**Present Continuous** — для того, що відбувається **зараз, у цей період** або є **тимчасовим**. Також для запланованих домовленостей на майбутнє.\n\nСлова-підказки: *usually, always, every day, often* → Simple; *now, at the moment, these days, this week* → Continuous.\n\nТипова помилка україномовних: *I am working in Kraków* про постійну роботу. Якщо це назавжди — *I work in Kraków*. Якщо тимчасово — *I'm working in Kraków this year*.",
+ "formula": [
+  "Simple: I/you/we/they **work** · he/she/it **works** · do/does + not",
+  "Continuous: am/is/are + **V-ing**"
+ ],
+ "table": {
+  "head": [
+   "",
+   "Present Simple",
+   "Present Continuous"
+  ],
+  "rows": [
+   [
+    "Ствердження",
+    "She drinks coffee.",
+    "She is drinking coffee."
+   ],
+   [
+    "Заперечення",
+    "She doesn't drink coffee.",
+    "She isn't drinking coffee."
+   ],
+   [
+    "Питання",
+    "Does she drink coffee?",
+    "Is she drinking coffee?"
+   ],
+   [
+    "Коли",
+    "звички, факти, розклад",
+    "зараз, тимчасово, плани"
+   ]
+  ]
+ },
+ "examples": [
+  {
+   "en": "I usually take the tram to work.",
+   "uk": "Я зазвичай їжджу на роботу трамваєм."
+  },
+  {
+   "en": "Today I'm walking because the weather is so nice.",
+   "uk": "Сьогодні я йду пішки, бо погода чудова."
+  },
+  {
+   "en": "Water boils at 100 degrees.",
+   "uk": "Вода кипить при 100 градусах."
+  },
+  {
+   "en": "We're staying with friends until we find a flat.",
+   "uk": "Ми живемо в друзів, доки не знайдемо квартиру."
+  },
+  {
+   "en": "The train leaves at 8:15.",
+   "uk": "Потяг відходить о 8:15."
+  },
+  {
+   "en": "I'm meeting Anna for lunch tomorrow.",
+   "uk": "Завтра я обідаю з Анною (домовилися)."
+  },
+  {
+   "en": "He always forgets his keys!",
+   "uk": "Він постійно забуває ключі!"
+  }
+ ],
+ "tip": "Дієслова стану (know, like, want, need, believe) зазвичай **не** вживаються в Continuous: *I know*, а не ~~I'm knowing~~.",
+ "exercises": [
+  {
+   "type": "choice",
+   "prompt": "Look! It ___ outside.",
+   "options": [
+    "snows",
+    "is snowing",
+    "snow"
+   ],
+   "answer": "is snowing",
+   "explanation": "Look! — дія відбувається зараз."
+  },
+  {
+   "type": "choice",
+   "prompt": "My brother ___ in a bank.",
+   "options": [
+    "works",
+    "is working",
+    "work"
+   ],
+   "answer": "works",
+   "explanation": "Постійна робота — Present Simple."
+  },
+  {
+   "type": "choice",
+   "prompt": "What ___ at the weekend usually?",
+   "options": [
+    "are you doing",
+    "do you do",
+    "you do"
+   ],
+   "answer": "do you do",
+   "explanation": "usually — звичка."
+  },
+  {
+   "type": "choice",
+   "prompt": "Shh! The baby ___.",
+   "options": [
+    "sleeps",
+    "is sleeping",
+    "sleep"
+   ],
+   "answer": "is sleeping",
+   "explanation": "Зараз, у цей момент."
+  },
+  {
+   "type": "input",
+   "prompt": "She ___ (not / like) horror films.",
+   "answer": [
+    "doesn't like",
+    "does not like"
+   ],
+   "explanation": "Загальна правда про смаки — Simple, she → does not."
+  },
+  {
+   "type": "input",
+   "prompt": "I ___ (read) a great book at the moment.",
+   "answer": [
+    "am reading",
+    "'m reading"
+   ],
+   "explanation": "at the moment → Continuous."
+  },
+  {
+   "type": "input",
+   "prompt": "How often ___ you ___ (go) to the gym? (2 слова через пробіл)",
+   "answer": [
+    "do go"
+   ],
+   "explanation": "Питання про частоту — Simple: How often do you go…"
+  },
+  {
+   "type": "error",
+   "sentence": "I am knowing the answer.",
+   "wrongIndex": 2,
+   "correction": "know",
+   "alt": [],
+   "explanation": "know — дієслово стану, Continuous не вживається."
+  },
+  {
+   "type": "error",
+   "sentence": "She go to work by bike every day.",
+   "wrongIndex": 1,
+   "correction": "goes",
+   "alt": [],
+   "explanation": "he/she/it → закінчення -s."
+  },
+  {
+   "type": "order",
+   "prompt": "Що ти зараз робиш?",
+   "answer": [
+    "What are you doing right now?"
+   ],
+   "explanation": "Питання в Continuous: are + you + V-ing."
+  },
+  {
+   "type": "transform",
+   "prompt": "We live with my parents. (temporarily, this month)",
+   "instruction": "Перепишіть з this month, зробивши дію тимчасовою",
+   "answer": [
+    "We're living with my parents this month.",
+    "We are living with my parents this month."
+   ],
+   "explanation": "Тимчасова ситуація → Continuous."
+  },
+  {
+   "type": "translate",
+   "uk": "Вона зазвичай п'є чай, але сьогодні п'є каву.",
+   "answer": [
+    "She usually drinks tea, but today she's drinking coffee.",
+    "She usually drinks tea but today she is drinking coffee.",
+    "She usually drinks tea, but today she is drinking coffee."
+   ],
+   "explanation": "Звичка + сьогоднішній виняток."
+  }
+ ]
+}

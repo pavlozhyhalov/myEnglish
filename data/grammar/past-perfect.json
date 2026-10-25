@@ -1,0 +1,152 @@
+{
+ "id": "past-perfect",
+ "title": "Past Perfect",
+ "titleEn": "Past Perfect (had + V3)",
+ "unit": "Минулі часи",
+ "level": "B1",
+ "mistakeType": "tenses",
+ "explanation": "**Past Perfect** — «минуле в минулому»: дія відбулася **раніше** за іншу минулу дію.\n\n*When we got to the station, the train **had** already **left**.* — спочатку потяг поїхав, потім ми прийшли.\n\nЧасто з *already, just, before, after, by the time, never… before*.\n\nЯкщо порядок дій і так зрозумілий (*after, before*), Past Perfect не обов'язковий: *After I finished work, I went home* — нормально.",
+ "formula": [
+  "had + **V3**",
+  "− hadn't + V3 · ? Had + S + V3?"
+ ],
+ "examples": [
+  {
+   "en": "When I arrived, the film had already started.",
+   "uk": "Коли я прийшов, фільм уже почався."
+  },
+  {
+   "en": "I had never seen the sea before that trip.",
+   "uk": "До тієї поїздки я ніколи не бачив моря."
+  },
+  {
+   "en": "She was upset because she had lost her phone.",
+   "uk": "Вона була засмучена, бо загубила телефон."
+  },
+  {
+   "en": "By the time we got home, the kids had fallen asleep.",
+   "uk": "Поки ми дісталися додому, діти вже заснули."
+  },
+  {
+   "en": "Had you met him before the party?",
+   "uk": "Ти був знайомий з ним до вечірки?"
+  }
+ ],
+ "tip": "Порівняй: *When I arrived, she **left*** (пішла, коли я прийшов) vs *When I arrived, she **had left*** (пішла ще до мене).",
+ "exercises": [
+  {
+   "type": "choice",
+   "prompt": "When we got to the cinema, the film ___.",
+   "options": [
+    "already started",
+    "had already started",
+    "has already started"
+   ],
+   "answer": "had already started",
+   "explanation": "Почався раніше, ніж ми прийшли."
+  },
+  {
+   "type": "choice",
+   "prompt": "I ___ never ___ snow before I came to Poland.",
+   "options": [
+    "have / seen",
+    "had / seen",
+    "did / see"
+   ],
+   "answer": "had / seen",
+   "explanation": "До моменту в минулому."
+  },
+  {
+   "type": "choice",
+   "prompt": "She was hungry because she ___ breakfast.",
+   "options": [
+    "didn't have",
+    "hadn't had",
+    "hasn't had"
+   ],
+   "answer": "hadn't had",
+   "explanation": "Причина раніше за стан."
+  },
+  {
+   "type": "choice",
+   "prompt": "By the time the police arrived, the thief ___.",
+   "options": [
+    "escaped",
+    "had escaped",
+    "has escaped"
+   ],
+   "answer": "had escaped",
+   "explanation": "By the time → Past Perfect."
+  },
+  {
+   "type": "input",
+   "prompt": "I ___ (forget) my password, so I couldn't log in.",
+   "answer": [
+    "had forgotten",
+    "'d forgotten"
+   ],
+   "explanation": "Спочатку забув, потім не зміг."
+  },
+  {
+   "type": "input",
+   "prompt": "They ___ (just / leave) when we arrived.",
+   "answer": [
+    "had just left",
+    "'d just left"
+   ],
+   "explanation": "just між had і V3."
+  },
+  {
+   "type": "input",
+   "prompt": "___ you ever ___ (try) Thai food before last night? (2 слова)",
+   "answer": [
+    "Had tried"
+   ],
+   "explanation": "До вчорашнього вечора."
+  },
+  {
+   "type": "error",
+   "sentence": "When I got home, my wife has cooked dinner.",
+   "wrongIndex": 6,
+   "correction": "had",
+   "alt": [],
+   "explanation": "Минуле в минулому → had cooked."
+  },
+  {
+   "type": "error",
+   "sentence": "I realised I had leave my keys in the car.",
+   "wrongIndex": 4,
+   "correction": "left",
+   "alt": [],
+   "explanation": "had + V3: left."
+  },
+  {
+   "type": "order",
+   "prompt": "Він сказав, що вже бачив цей фільм.",
+   "answer": [
+    "He said he had already seen the film."
+   ],
+   "explanation": "Узгодження в минулому."
+  },
+  {
+   "type": "transform",
+   "prompt": "The bus left. Then I arrived at the stop.",
+   "instruction": "Одне речення: When I arrived…",
+   "answer": [
+    "When I arrived at the stop, the bus had left.",
+    "When I arrived at the stop, the bus had already left."
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "translate",
+   "uk": "Коли я подзвонив, вона вже пішла.",
+   "answer": [
+    "When I called, she had already left.",
+    "When I called, she had left.",
+    "She had already left when I called."
+   ],
+   "explanation": ""
+  }
+ ]
+}

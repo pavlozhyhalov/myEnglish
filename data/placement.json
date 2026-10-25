@@ -1,0 +1,1144 @@
+{
+ "items": [
+  {
+   "id": "g1",
+   "skill": "grammar",
+   "level": "A2",
+   "prompt": "She ___ to work by bus every day.",
+   "options": [
+    "go",
+    "goes",
+    "going",
+    "is go"
+   ],
+   "answer": "goes",
+   "explanation": "he/she/it + -s."
+  },
+  {
+   "id": "g2",
+   "skill": "grammar",
+   "level": "A2",
+   "prompt": "___ you like some coffee?",
+   "options": [
+    "Do",
+    "Would",
+    "Are",
+    "Will"
+   ],
+   "answer": "Would",
+   "explanation": "Would you like…? — пропозиція."
+  },
+  {
+   "id": "g3",
+   "skill": "grammar",
+   "level": "A2",
+   "prompt": "I ___ TV when you called.",
+   "options": [
+    "watched",
+    "was watching",
+    "am watching",
+    "watch"
+   ],
+   "answer": "was watching",
+   "explanation": "Past Continuous."
+  },
+  {
+   "id": "g4",
+   "skill": "grammar",
+   "level": "A2",
+   "prompt": "There isn't ___ milk in the fridge.",
+   "options": [
+    "some",
+    "many",
+    "any",
+    "a"
+   ],
+   "answer": "any",
+   "explanation": "Заперечення → any."
+  },
+  {
+   "id": "g5",
+   "skill": "grammar",
+   "level": "A2",
+   "prompt": "My brother is ___ than me.",
+   "options": [
+    "tall",
+    "taller",
+    "tallest",
+    "more tall"
+   ],
+   "answer": "taller",
+   "explanation": "Порівняльний ступінь."
+  },
+  {
+   "id": "g6",
+   "skill": "grammar",
+   "level": "A2",
+   "prompt": "We ___ to Spain last year.",
+   "options": [
+    "go",
+    "have gone",
+    "went",
+    "were go"
+   ],
+   "answer": "went",
+   "explanation": "last year → Past Simple."
+  },
+  {
+   "id": "g7",
+   "skill": "grammar",
+   "level": "A2",
+   "prompt": "Look! It ___.",
+   "options": [
+    "rains",
+    "is raining",
+    "rain",
+    "rained"
+   ],
+   "answer": "is raining",
+   "explanation": "Зараз."
+  },
+  {
+   "id": "g8",
+   "skill": "grammar",
+   "level": "A2",
+   "prompt": "He can ___ three languages.",
+   "options": [
+    "speaks",
+    "speaking",
+    "speak",
+    "to speak"
+   ],
+   "answer": "speak",
+   "explanation": "can + V."
+  },
+  {
+   "id": "g9",
+   "skill": "grammar",
+   "level": "B1",
+   "prompt": "I've lived here ___ 2020.",
+   "options": [
+    "for",
+    "since",
+    "from",
+    "during"
+   ],
+   "answer": "since",
+   "explanation": "since + момент."
+  },
+  {
+   "id": "g10",
+   "skill": "grammar",
+   "level": "B1",
+   "prompt": "If it rains, we ___ at home.",
+   "options": [
+    "stay",
+    "will stay",
+    "would stay",
+    "stayed"
+   ],
+   "answer": "will stay",
+   "explanation": "First conditional."
+  },
+  {
+   "id": "g11",
+   "skill": "grammar",
+   "level": "B1",
+   "prompt": "___ you ever been to Italy?",
+   "options": [
+    "Did",
+    "Have",
+    "Were",
+    "Do"
+   ],
+   "answer": "Have",
+   "explanation": "Досвід → Present Perfect."
+  },
+  {
+   "id": "g12",
+   "skill": "grammar",
+   "level": "B1",
+   "prompt": "The house ___ in 1950.",
+   "options": [
+    "built",
+    "was built",
+    "is built",
+    "has built"
+   ],
+   "answer": "was built",
+   "explanation": "Пасив минулого."
+  },
+  {
+   "id": "g13",
+   "skill": "grammar",
+   "level": "B1",
+   "prompt": "I'm looking forward to ___ you.",
+   "options": [
+    "see",
+    "seeing",
+    "to see",
+    "saw"
+   ],
+   "answer": "seeing",
+   "explanation": "look forward to + -ing."
+  },
+  {
+   "id": "g14",
+   "skill": "grammar",
+   "level": "B1",
+   "prompt": "She asked me where I ___.",
+   "options": [
+    "live",
+    "lived",
+    "do live",
+    "did live"
+   ],
+   "answer": "lived",
+   "explanation": "Непряме питання."
+  },
+  {
+   "id": "g15",
+   "skill": "grammar",
+   "level": "B1",
+   "prompt": "You ___ smoke here. It's forbidden.",
+   "options": [
+    "don't have to",
+    "mustn't",
+    "needn't",
+    "shouldn't to"
+   ],
+   "answer": "mustn't",
+   "explanation": "Заборона."
+  },
+  {
+   "id": "g16",
+   "skill": "grammar",
+   "level": "B1",
+   "prompt": "I used to ___ in Kyiv.",
+   "options": [
+    "living",
+    "live",
+    "lived",
+    "lives"
+   ],
+   "answer": "live",
+   "explanation": "used to + V."
+  },
+  {
+   "id": "g17",
+   "skill": "grammar",
+   "level": "B2",
+   "prompt": "If I ___ more time, I would learn Spanish.",
+   "options": [
+    "have",
+    "had",
+    "would have",
+    "will have"
+   ],
+   "answer": "had",
+   "explanation": "Second conditional."
+  },
+  {
+   "id": "g18",
+   "skill": "grammar",
+   "level": "B2",
+   "prompt": "By the time we arrived, the film ___.",
+   "options": [
+    "started",
+    "has started",
+    "had started",
+    "was starting"
+   ],
+   "answer": "had started",
+   "explanation": "Past Perfect."
+  },
+  {
+   "id": "g19",
+   "skill": "grammar",
+   "level": "B2",
+   "prompt": "He ___ forgotten — he never forgets meetings.",
+   "options": [
+    "mustn't have",
+    "can't have",
+    "shouldn't have",
+    "didn't have"
+   ],
+   "answer": "can't have",
+   "explanation": "Впевнене «не міг»."
+  },
+  {
+   "id": "g20",
+   "skill": "grammar",
+   "level": "B2",
+   "prompt": "I wish I ___ that. It was a mistake.",
+   "options": [
+    "didn't say",
+    "hadn't said",
+    "wouldn't say",
+    "haven't said"
+   ],
+   "answer": "hadn't said",
+   "explanation": "Жаль про минуле."
+  },
+  {
+   "id": "g21",
+   "skill": "grammar",
+   "level": "B2",
+   "prompt": "___ the rain, we went for a walk.",
+   "options": [
+    "Although",
+    "Despite",
+    "However",
+    "Even"
+   ],
+   "answer": "Despite",
+   "explanation": "Despite + іменник."
+  },
+  {
+   "id": "g22",
+   "skill": "grammar",
+   "level": "B2",
+   "prompt": "I had my car ___ yesterday.",
+   "options": [
+    "repair",
+    "repaired",
+    "repairing",
+    "to repair"
+   ],
+   "answer": "repaired",
+   "explanation": "have something done."
+  },
+  {
+   "id": "g23",
+   "skill": "grammar",
+   "level": "B2",
+   "prompt": "She's been working here ___ three years.",
+   "options": [
+    "since",
+    "for",
+    "during",
+    "from"
+   ],
+   "answer": "for",
+   "explanation": "for + період."
+  },
+  {
+   "id": "g24",
+   "skill": "grammar",
+   "level": "B2",
+   "prompt": "The man ___ car was stolen called the police.",
+   "options": [
+    "who",
+    "which",
+    "whose",
+    "that"
+   ],
+   "answer": "whose",
+   "explanation": "Чий."
+  },
+  {
+   "id": "g25",
+   "skill": "grammar",
+   "level": "C1",
+   "prompt": "Not only ___ late, but he also forgot the tickets.",
+   "options": [
+    "he was",
+    "was he",
+    "he has been",
+    "did he"
+   ],
+   "answer": "was he",
+   "explanation": "Інверсія після Not only."
+  },
+  {
+   "id": "g26",
+   "skill": "grammar",
+   "level": "C1",
+   "prompt": "Had I known, I ___ you.",
+   "options": [
+    "would tell",
+    "would have told",
+    "will tell",
+    "told"
+   ],
+   "answer": "would have told",
+   "explanation": "Інверсія в 3 типі."
+  },
+  {
+   "id": "g27",
+   "skill": "grammar",
+   "level": "C1",
+   "prompt": "It's high time we ___ home.",
+   "options": [
+    "go",
+    "went",
+    "will go",
+    "have gone"
+   ],
+   "answer": "went",
+   "explanation": "It's high time + Past Simple."
+  },
+  {
+   "id": "g28",
+   "skill": "grammar",
+   "level": "C1",
+   "prompt": "I'd rather you ___ smoke in the house.",
+   "options": [
+    "don't",
+    "didn't",
+    "won't",
+    "not"
+   ],
+   "answer": "didn't",
+   "explanation": "I'd rather + Past."
+  },
+  {
+   "id": "g29",
+   "skill": "grammar",
+   "level": "C1",
+   "prompt": "Hardly ___ when the phone rang.",
+   "options": [
+    "I had sat down",
+    "had I sat down",
+    "I sat down",
+    "did I sit down"
+   ],
+   "answer": "had I sat down",
+   "explanation": "Інверсія після Hardly."
+  },
+  {
+   "id": "g30",
+   "skill": "grammar",
+   "level": "C1",
+   "prompt": "She is said ___ a fortune.",
+   "options": [
+    "to make",
+    "to have made",
+    "making",
+    "that made"
+   ],
+   "answer": "to have made",
+   "explanation": "Пасив з інфінітивом."
+  },
+  {
+   "id": "g31",
+   "skill": "grammar",
+   "level": "C1",
+   "prompt": "Should you need help, ___ me.",
+   "options": [
+    "call",
+    "to call",
+    "calling",
+    "you call"
+   ],
+   "answer": "call",
+   "explanation": "Should you… = If you…"
+  },
+  {
+   "id": "g32",
+   "skill": "grammar",
+   "level": "C1",
+   "prompt": "He denied ___ the window.",
+   "options": [
+    "to break",
+    "breaking",
+    "break",
+    "to have break"
+   ],
+   "answer": "breaking",
+   "explanation": "deny + -ing."
+  },
+  {
+   "id": "v33",
+   "skill": "vocabulary",
+   "level": "A2",
+   "prompt": "I need to ___ a table for two at 7 pm.",
+   "options": [
+    "book",
+    "make",
+    "take",
+    "do"
+   ],
+   "answer": "book",
+   "explanation": ""
+  },
+  {
+   "id": "v34",
+   "skill": "vocabulary",
+   "level": "A2",
+   "prompt": "The opposite of \"cheap\" is…",
+   "options": [
+    "expensive",
+    "poor",
+    "rich",
+    "high"
+   ],
+   "answer": "expensive",
+   "explanation": ""
+  },
+  {
+   "id": "v35",
+   "skill": "vocabulary",
+   "level": "A2",
+   "prompt": "Can I ___ your pen? I'll give it back.",
+   "options": [
+    "lend",
+    "borrow",
+    "take off",
+    "keep"
+   ],
+   "answer": "borrow",
+   "explanation": "borrow — взяти позичити."
+  },
+  {
+   "id": "v36",
+   "skill": "vocabulary",
+   "level": "A2",
+   "prompt": "\"I'm starving\" means…",
+   "options": [
+    "I'm very hungry",
+    "I'm very tired",
+    "I'm cold",
+    "I'm bored"
+   ],
+   "answer": "I'm very hungry",
+   "explanation": ""
+  },
+  {
+   "id": "v37",
+   "skill": "vocabulary",
+   "level": "A2",
+   "prompt": "We ___ a great time at the party.",
+   "options": [
+    "made",
+    "did",
+    "had",
+    "took"
+   ],
+   "answer": "had",
+   "explanation": "have a good time."
+  },
+  {
+   "id": "v38",
+   "skill": "vocabulary",
+   "level": "A2",
+   "prompt": "Where can I ___ the bus to the airport?",
+   "options": [
+    "take on",
+    "catch",
+    "pick",
+    "hold"
+   ],
+   "answer": "catch",
+   "explanation": ""
+  },
+  {
+   "id": "v39",
+   "skill": "vocabulary",
+   "level": "A2",
+   "prompt": "The doctor gave me a ___ for some medicine.",
+   "options": [
+    "receipt",
+    "recipe",
+    "prescription",
+    "ticket"
+   ],
+   "answer": "prescription",
+   "explanation": ""
+  },
+  {
+   "id": "v40",
+   "skill": "vocabulary",
+   "level": "B1",
+   "prompt": "Don't give ___! You can do it.",
+   "options": [
+    "in",
+    "up",
+    "off",
+    "away"
+   ],
+   "answer": "up",
+   "explanation": "give up — здатися."
+  },
+  {
+   "id": "v41",
+   "skill": "vocabulary",
+   "level": "B1",
+   "prompt": "I can't ___ out how this works.",
+   "options": [
+    "find",
+    "figure",
+    "look",
+    "make"
+   ],
+   "answer": "figure",
+   "explanation": "figure out."
+  },
+  {
+   "id": "v42",
+   "skill": "vocabulary",
+   "level": "B1",
+   "prompt": "Could you ___ me up at the station?",
+   "options": [
+    "take",
+    "bring",
+    "pick",
+    "get"
+   ],
+   "answer": "pick",
+   "explanation": "pick up."
+  },
+  {
+   "id": "v43",
+   "skill": "vocabulary",
+   "level": "B1",
+   "prompt": "We've run ___ of coffee.",
+   "options": [
+    "off",
+    "out",
+    "away",
+    "down"
+   ],
+   "answer": "out",
+   "explanation": "run out of."
+  },
+  {
+   "id": "v44",
+   "skill": "vocabulary",
+   "level": "B1",
+   "prompt": "\"It's up to you\" means…",
+   "options": [
+    "You decide",
+    "You are late",
+    "It is your turn to pay",
+    "You are right"
+   ],
+   "answer": "You decide",
+   "explanation": ""
+  },
+  {
+   "id": "v45",
+   "skill": "vocabulary",
+   "level": "B1",
+   "prompt": "I'm not used to ___ up so early.",
+   "options": [
+    "get",
+    "getting",
+    "got",
+    "gets"
+   ],
+   "answer": "getting",
+   "explanation": ""
+  },
+  {
+   "id": "v46",
+   "skill": "vocabulary",
+   "level": "B1",
+   "prompt": "She ___ a mistake in the email.",
+   "options": [
+    "did",
+    "made",
+    "had",
+    "took"
+   ],
+   "answer": "made",
+   "explanation": "make a mistake."
+  },
+  {
+   "id": "v47",
+   "skill": "vocabulary",
+   "level": "B2",
+   "prompt": "The meeting has been ___ until next week.",
+   "options": [
+    "put off",
+    "put out",
+    "put up",
+    "put on"
+   ],
+   "answer": "put off",
+   "explanation": "put off — відкласти."
+  },
+  {
+   "id": "v48",
+   "skill": "vocabulary",
+   "level": "B2",
+   "prompt": "I can't ___ with this noise any longer.",
+   "options": [
+    "put up",
+    "get on",
+    "keep up",
+    "come up"
+   ],
+   "answer": "put up",
+   "explanation": "put up with — терпіти."
+  },
+  {
+   "id": "v49",
+   "skill": "vocabulary",
+   "level": "B2",
+   "prompt": "\"To be on the same page\" means…",
+   "options": [
+    "to agree / understand each other",
+    "to read the same book",
+    "to work in one office",
+    "to be late"
+   ],
+   "answer": "to agree / understand each other",
+   "explanation": ""
+  },
+  {
+   "id": "v50",
+   "skill": "vocabulary",
+   "level": "B2",
+   "prompt": "He's very ___ — he always thinks things will go well.",
+   "options": [
+    "pessimistic",
+    "optimistic",
+    "reliable",
+    "stubborn"
+   ],
+   "answer": "optimistic",
+   "explanation": ""
+  },
+  {
+   "id": "v51",
+   "skill": "vocabulary",
+   "level": "B2",
+   "prompt": "This restaurant is a tourist ___ — expensive and not very good.",
+   "options": [
+    "trip",
+    "trap",
+    "spot",
+    "attraction"
+   ],
+   "answer": "trap",
+   "explanation": ""
+  },
+  {
+   "id": "v52",
+   "skill": "vocabulary",
+   "level": "B2",
+   "prompt": "I'll ___ into the problem and call you back.",
+   "options": [
+    "look",
+    "see",
+    "watch",
+    "check"
+   ],
+   "answer": "look",
+   "explanation": "look into."
+  },
+  {
+   "id": "v53",
+   "skill": "vocabulary",
+   "level": "B2",
+   "prompt": "Let's not beat around the ___. What happened?",
+   "options": [
+    "tree",
+    "bush",
+    "corner",
+    "house"
+   ],
+   "answer": "bush",
+   "explanation": "Ходити манівцями."
+  },
+  {
+   "id": "v54",
+   "skill": "vocabulary",
+   "level": "C1",
+   "prompt": "The new policy was met with fierce ___.",
+   "options": [
+    "opposition",
+    "opponent",
+    "opposing",
+    "oppose"
+   ],
+   "answer": "opposition",
+   "explanation": ""
+  },
+  {
+   "id": "v55",
+   "skill": "vocabulary",
+   "level": "C1",
+   "prompt": "He tends to ___ the truth when he's nervous.",
+   "options": [
+    "stretch",
+    "extend",
+    "lengthen",
+    "spread"
+   ],
+   "answer": "stretch",
+   "explanation": "stretch the truth — перебільшувати."
+  },
+  {
+   "id": "v56",
+   "skill": "vocabulary",
+   "level": "C1",
+   "prompt": "Her argument doesn't hold ___.",
+   "options": [
+    "water",
+    "air",
+    "ground",
+    "fire"
+   ],
+   "answer": "water",
+   "explanation": "hold water — бути переконливим."
+  },
+  {
+   "id": "v57",
+   "skill": "vocabulary",
+   "level": "C1",
+   "prompt": "The film was so ___ that I nearly fell asleep.",
+   "options": [
+    "tedious",
+    "thrilling",
+    "gripping",
+    "vivid"
+   ],
+   "answer": "tedious",
+   "explanation": ""
+  },
+  {
+   "id": "v58",
+   "skill": "vocabulary",
+   "level": "C1",
+   "prompt": "We need to ___ the pros and cons before deciding.",
+   "options": [
+    "weigh up",
+    "sum up",
+    "take up",
+    "make up"
+   ],
+   "answer": "weigh up",
+   "explanation": ""
+  },
+  {
+   "id": "v59",
+   "skill": "vocabulary",
+   "level": "C1",
+   "prompt": "\"A blessing in disguise\" is…",
+   "options": [
+    "something good that seemed bad at first",
+    "a secret gift",
+    "a lucky guess",
+    "a false friend"
+   ],
+   "answer": "something good that seemed bad at first",
+   "explanation": ""
+  },
+  {
+   "id": "v60",
+   "skill": "vocabulary",
+   "level": "C1",
+   "prompt": "She was ___ by the news — she had no idea.",
+   "options": [
+    "taken aback",
+    "taken over",
+    "taken in",
+    "taken up"
+   ],
+   "answer": "taken aback",
+   "explanation": "Приголомшена."
+  },
+  {
+   "id": "l61",
+   "skill": "listening",
+   "level": "A2",
+   "prompt": "What time is the meeting?",
+   "options": [
+    "4:15",
+    "4:45",
+    "5:15",
+    "3:45"
+   ],
+   "answer": "4:45",
+   "explanation": "quarter to five = 4:45.",
+   "audio": "Let's meet at a quarter to five."
+  },
+  {
+   "id": "l62",
+   "skill": "listening",
+   "level": "A2",
+   "prompt": "How much do the tickets cost?",
+   "options": [
+    "£13",
+    "£30",
+    "£33",
+    "£3"
+   ],
+   "answer": "£30",
+   "explanation": "",
+   "audio": "The tickets are thirty pounds each."
+  },
+  {
+   "id": "l63",
+   "skill": "listening",
+   "level": "A2",
+   "prompt": "Where is the pharmacy?",
+   "options": [
+    "Next to the bank",
+    "Opposite the bank",
+    "Behind the station",
+    "In the station"
+   ],
+   "answer": "Opposite the bank",
+   "explanation": "",
+   "audio": "The pharmacy is opposite the bank, on the left."
+  },
+  {
+   "id": "l64",
+   "skill": "listening",
+   "level": "A2",
+   "prompt": "What does the woman want?",
+   "options": [
+    "A tea",
+    "A coffee with milk",
+    "Water",
+    "Juice"
+   ],
+   "answer": "A coffee with milk",
+   "explanation": "",
+   "audio": "Could I have a coffee with milk, please?"
+  },
+  {
+   "id": "l65",
+   "skill": "listening",
+   "level": "A2",
+   "prompt": "When is his birthday?",
+   "options": [
+    "13 May",
+    "30 May",
+    "3 March",
+    "13 March"
+   ],
+   "answer": "13 May",
+   "explanation": "",
+   "audio": "My birthday is on the thirteenth of May."
+  },
+  {
+   "id": "l66",
+   "skill": "listening",
+   "level": "B1",
+   "prompt": "Why was the speaker late?",
+   "options": [
+    "He overslept",
+    "The train was cancelled",
+    "He lost his keys",
+    "Traffic"
+   ],
+   "answer": "The train was cancelled",
+   "explanation": "",
+   "audio": "Sorry I'm late. My train was cancelled, so I had to wait for the next one."
+  },
+  {
+   "id": "l67",
+   "skill": "listening",
+   "level": "B1",
+   "prompt": "What will they do if the weather is bad?",
+   "options": [
+    "Stay at home",
+    "Go to the cinema",
+    "Go to the mountains",
+    "Visit friends"
+   ],
+   "answer": "Go to the cinema",
+   "explanation": "",
+   "audio": "If it rains on Saturday, we'll go to the cinema instead of the mountains."
+  },
+  {
+   "id": "l68",
+   "skill": "listening",
+   "level": "B1",
+   "prompt": "How long has she lived in Kraków?",
+   "options": [
+    "Two years",
+    "Five years",
+    "Seven years",
+    "Since she was born"
+   ],
+   "answer": "Five years",
+   "explanation": "",
+   "audio": "I moved to Kraków five years ago, and I still love it."
+  },
+  {
+   "id": "l69",
+   "skill": "listening",
+   "level": "B1",
+   "prompt": "What is the problem with the room?",
+   "options": [
+    "It's too small",
+    "The heating doesn't work",
+    "It's noisy",
+    "It's dirty"
+   ],
+   "answer": "The heating doesn't work",
+   "explanation": "",
+   "audio": "Excuse me, the heating in our room isn't working and it's freezing."
+  },
+  {
+   "id": "l70",
+   "skill": "listening",
+   "level": "B1",
+   "prompt": "What does the man suggest?",
+   "options": [
+    "Taking a taxi",
+    "Walking",
+    "Taking the bus",
+    "Staying in"
+   ],
+   "answer": "Taking a taxi",
+   "explanation": "",
+   "audio": "It's getting late. Why don't we just take a taxi?"
+  },
+  {
+   "id": "l71",
+   "skill": "listening",
+   "level": "B2",
+   "prompt": "What does the speaker regret?",
+   "options": [
+    "Not studying harder",
+    "Moving abroad",
+    "Changing jobs",
+    "Selling his car"
+   ],
+   "answer": "Not studying harder",
+   "explanation": "",
+   "audio": "Looking back, I really wish I'd studied harder at university."
+  },
+  {
+   "id": "l72",
+   "skill": "listening",
+   "level": "B2",
+   "prompt": "What is the speaker's opinion of the hotel?",
+   "options": [
+    "Expensive but worth it",
+    "Cheap and good",
+    "Too expensive",
+    "Dirty"
+   ],
+   "answer": "Expensive but worth it",
+   "explanation": "",
+   "audio": "It wasn't cheap, but to be honest, the hotel was worth every penny."
+  },
+  {
+   "id": "l73",
+   "skill": "listening",
+   "level": "B2",
+   "prompt": "Why didn't she come?",
+   "options": [
+    "She must have forgotten",
+    "She was ill",
+    "She was working",
+    "She missed the bus"
+   ],
+   "answer": "She must have forgotten",
+   "explanation": "",
+   "audio": "She never showed up. She must have forgotten about it completely."
+  },
+  {
+   "id": "l74",
+   "skill": "listening",
+   "level": "B2",
+   "prompt": "What will have happened by June?",
+   "options": [
+    "The renovation will be finished",
+    "They will move out",
+    "They will start building",
+    "They will sell the flat"
+   ],
+   "answer": "The renovation will be finished",
+   "explanation": "",
+   "audio": "By June, we'll have finished renovating the kitchen and the bathroom."
+  },
+  {
+   "id": "l75",
+   "skill": "listening",
+   "level": "B2",
+   "prompt": "What does the speaker want?",
+   "options": [
+    "To stay in tonight",
+    "To go out for dinner",
+    "To invite friends",
+    "To see a film"
+   ],
+   "answer": "To stay in tonight",
+   "explanation": "",
+   "audio": "I'd rather we stayed in tonight, if you don't mind. I'm exhausted."
+  },
+  {
+   "id": "l76",
+   "skill": "listening",
+   "level": "C1",
+   "prompt": "What is implied about the project?",
+   "options": [
+    "It went over budget",
+    "It finished early",
+    "It was cancelled",
+    "It was a success"
+   ],
+   "answer": "It went over budget",
+   "explanation": "",
+   "audio": "Needless to say, the final bill came to nearly twice what we'd originally been quoted."
+  },
+  {
+   "id": "l77",
+   "skill": "listening",
+   "level": "C1",
+   "prompt": "How does the speaker feel?",
+   "options": [
+    "Relieved",
+    "Disappointed",
+    "Angry",
+    "Confused"
+   ],
+   "answer": "Relieved",
+   "explanation": "",
+   "audio": "When they finally told me the results were clear, it was as if a huge weight had been lifted off my shoulders."
+  },
+  {
+   "id": "l78",
+   "skill": "listening",
+   "level": "C1",
+   "prompt": "What does the speaker mean?",
+   "options": [
+    "The plan is unrealistic",
+    "The plan is excellent",
+    "The plan is cheap",
+    "The plan is finished"
+   ],
+   "answer": "The plan is unrealistic",
+   "explanation": "",
+   "audio": "Frankly, the whole plan seems a bit pie in the sky to me."
+  },
+  {
+   "id": "l79",
+   "skill": "listening",
+   "level": "C1",
+   "prompt": "What happened to the meeting?",
+   "options": [
+    "It was brought forward",
+    "It was postponed",
+    "It was cancelled",
+    "It went on longer"
+   ],
+   "answer": "It was brought forward",
+   "explanation": "",
+   "audio": "Heads up — they've brought the meeting forward to nine, so don't be late."
+  },
+  {
+   "id": "l80",
+   "skill": "listening",
+   "level": "C1",
+   "prompt": "What does the speaker suggest?",
+   "options": [
+    "Not making a hasty decision",
+    "Deciding now",
+    "Asking for money",
+    "Changing the team"
+   ],
+   "answer": "Not making a hasty decision",
+   "explanation": "",
+   "audio": "I wouldn't rush into anything. Let's sleep on it and talk again tomorrow."
+  }
+ ]
+}

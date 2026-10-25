@@ -1,0 +1,160 @@
+{
+ "id": "prepositions-place",
+ "title": "Прийменники місця і руху",
+ "titleEn": "Prepositions of place and movement",
+ "unit": "Прийменники",
+ "level": "B1",
+ "mistakeType": "prepositions",
+ "explanation": "**Місце:**\n- **in** — всередині, у межах: *in the kitchen, in Kraków, in the car, in a photo*\n- **on** — на поверхні, на лінії: *on the table, on the wall, on the 3rd floor, on the bus/train/plane*\n- **at** — у точці, на заході, за адресою: *at the bus stop, at home, at work, at a party, at 12 Main Street*\n\n*in a car / taxi*, але *on a bus / train / plane / bike*.\n\n**Рух:**\n- **to** — до (напрямок): *go to work, fly to London* (але *go home* — без to!)\n- **into / out of** — всередину / назовні: *Get into the car.*\n- **across** — через (поверхню), **through** — крізь, **along** — уздовж, **past** — повз, **over** — над/через",
+ "formula": [
+  "in (всередині) · on (на поверхні) · at (у точці)",
+  "to (куди) · into (всередину) · from (звідки)"
+ ],
+ "examples": [
+  {
+   "en": "I'm on the bus — I'll be there soon.",
+   "uk": "Я в автобусі — скоро буду."
+  },
+  {
+   "en": "She's at the doctor's.",
+   "uk": "Вона в лікаря."
+  },
+  {
+   "en": "Our flat is on the fifth floor.",
+   "uk": "Наша квартира на п'ятому поверсі."
+  },
+  {
+   "en": "Walk along the river and cross the bridge.",
+   "uk": "Ідіть уздовж річки й перейдіть міст."
+  },
+  {
+   "en": "Let's go home.",
+   "uk": "Ходімо додому."
+  },
+  {
+   "en": "The cat jumped onto the table.",
+   "uk": "Кіт застрибнув на стіл."
+  }
+ ],
+ "exercises": [
+  {
+   "type": "choice",
+   "prompt": "The keys are ___ the table.",
+   "options": [
+    "in",
+    "on",
+    "at"
+   ],
+   "answer": "on",
+   "explanation": "На поверхні."
+  },
+  {
+   "type": "choice",
+   "prompt": "I'll wait for you ___ the bus stop.",
+   "options": [
+    "in",
+    "on",
+    "at"
+   ],
+   "answer": "at",
+   "explanation": "Точка."
+  },
+  {
+   "type": "choice",
+   "prompt": "She's not here, she's ___ work.",
+   "options": [
+    "in",
+    "on",
+    "at"
+   ],
+   "answer": "at",
+   "explanation": "at work."
+  },
+  {
+   "type": "choice",
+   "prompt": "I left my bag ___ the train!",
+   "options": [
+    "in",
+    "on",
+    "at"
+   ],
+   "answer": "on",
+   "explanation": "on the train."
+  },
+  {
+   "type": "choice",
+   "prompt": "Let's go ___ home.",
+   "options": [
+    "to",
+    "—",
+    "at"
+   ],
+   "answer": "—",
+   "explanation": "go home — без to."
+  },
+  {
+   "type": "choice",
+   "prompt": "He walked ___ the room and sat down.",
+   "options": [
+    "into",
+    "in",
+    "to"
+   ],
+   "answer": "into",
+   "explanation": "Рух всередину."
+  },
+  {
+   "type": "input",
+   "prompt": "We live ___ the second floor.",
+   "answer": [
+    "on"
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "input",
+   "prompt": "There's a picture ___ the wall.",
+   "answer": [
+    "on"
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "error",
+   "sentence": "She is in the bus now.",
+   "wrongIndex": 2,
+   "correction": "on",
+   "alt": [],
+   "explanation": "Громадський транспорт — on the bus."
+  },
+  {
+   "type": "error",
+   "sentence": "We arrived to Warsaw at 6.",
+   "wrongIndex": 2,
+   "correction": "in",
+   "alt": [],
+   "explanation": "arrive in (місто/країна), arrive at (будівля)."
+  },
+  {
+   "type": "order",
+   "prompt": "Я сиджу в машині біля будинку.",
+   "answer": [
+    "I'm sitting in the car outside the house.",
+    "I am sitting in the car outside the house.",
+    "I'm in the car outside the house."
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "translate",
+   "uk": "Ми були на вечірці в друзів.",
+   "answer": [
+    "We were at a party at our friends' place.",
+    "We were at our friends' party.",
+    "We were at a party at our friends' house.",
+    "We were at a friends' party."
+   ],
+   "explanation": ""
+  }
+ ]
+}

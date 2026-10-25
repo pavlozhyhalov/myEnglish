@@ -1,0 +1,156 @@
+{
+ "id": "perfect-continuous",
+ "title": "Present Perfect Continuous",
+ "titleEn": "Present Perfect Continuous (for / since, how long)",
+ "unit": "Минулі часи",
+ "level": "B1",
+ "mistakeType": "tenses",
+ "explanation": "**Present Perfect Continuous** — дія почалася в минулому і **триває досі** (або щойно закінчилась і видно наслідки). Акцент на **тривалості**.\n\n- *How long have you been learning English?* — *I've been learning it for two years.*\n- *You look tired. — I've been running.* (видно результат)\n\n**for** + період (*for two hours, for ages*), **since** + точка відліку (*since Monday, since 2020*).\n\nУкраїнською часто перекладаємо **теперішнім**: «Я живу тут три роки» = *I've been living / I've lived here for three years* (не ~~I live here for three years~~).",
+ "formula": [
+  "have/has + **been** + V-ing",
+  "for + період · since + момент"
+ ],
+ "examples": [
+  {
+   "en": "I've been waiting for twenty minutes!",
+   "uk": "Я чекаю вже двадцять хвилин!"
+  },
+  {
+   "en": "How long have you been living in Kraków?",
+   "uk": "Скільки ти вже живеш у Кракові?"
+  },
+  {
+   "en": "It's been raining since morning.",
+   "uk": "Дощ іде з самого ранку."
+  },
+  {
+   "en": "She's been working out a lot recently.",
+   "uk": "Останнім часом вона багато тренується."
+  },
+  {
+   "en": "Your hands are dirty. — I've been fixing my bike.",
+   "uk": "У тебе брудні руки. — Я лагодив велосипед."
+  }
+ ],
+ "tip": "З дієсловами стану — звичайний Present Perfect: *I've known him for years* (не ~~I've been knowing~~).",
+ "exercises": [
+  {
+   "type": "choice",
+   "prompt": "I ___ English for three years.",
+   "options": [
+    "learn",
+    "'ve been learning",
+    "am learning"
+   ],
+   "answer": "'ve been learning",
+   "explanation": "Почалося 3 роки тому і триває."
+  },
+  {
+   "type": "choice",
+   "prompt": "We have lived here ___ 2021.",
+   "options": [
+    "for",
+    "since",
+    "from"
+   ],
+   "answer": "since",
+   "explanation": "since + момент."
+  },
+  {
+   "type": "choice",
+   "prompt": "She's been studying ___ two hours.",
+   "options": [
+    "since",
+    "for",
+    "during"
+   ],
+   "answer": "for",
+   "explanation": "for + період."
+  },
+  {
+   "type": "choice",
+   "prompt": "I ___ him since we were kids.",
+   "options": [
+    "'ve been knowing",
+    "'ve known",
+    "know"
+   ],
+   "answer": "'ve known",
+   "explanation": "know — стан."
+  },
+  {
+   "type": "input",
+   "prompt": "How long ___ you ___ (wait)? (2 слова)",
+   "answer": [
+    "have been waiting"
+   ],
+   "explanation": "have + been + V-ing."
+  },
+  {
+   "type": "input",
+   "prompt": "It ___ (rain) all day.",
+   "answer": [
+    "'s been raining",
+    "has been raining"
+   ],
+   "explanation": "Триває весь день."
+  },
+  {
+   "type": "input",
+   "prompt": "Why are you out of breath? — I ___ (run).",
+   "answer": [
+    "'ve been running",
+    "have been running"
+   ],
+   "explanation": "Видно наслідок."
+  },
+  {
+   "type": "error",
+   "sentence": "I live in Poland for three years.",
+   "wrongIndex": 1,
+   "correction": "have lived",
+   "alt": [
+    "have been living",
+    "'ve lived",
+    "'ve been living"
+   ],
+   "explanation": "Триває досі → Present Perfect (Continuous)."
+  },
+  {
+   "type": "error",
+   "sentence": "She has been working here since two years.",
+   "wrongIndex": 5,
+   "correction": "for",
+   "alt": [],
+   "explanation": "two years — період → for."
+  },
+  {
+   "type": "order",
+   "prompt": "Скільки часу ти вже граєш на гітарі?",
+   "answer": [
+    "How long have you been playing the guitar?"
+   ],
+   "explanation": "How long + PPC."
+  },
+  {
+   "type": "transform",
+   "prompt": "I started reading this book on Monday. I am still reading it.",
+   "instruction": "Одним реченням зі since",
+   "answer": [
+    "I've been reading this book since Monday.",
+    "I have been reading this book since Monday."
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "translate",
+   "uk": "Ми чекаємо на автобус уже пів години.",
+   "answer": [
+    "We've been waiting for the bus for half an hour.",
+    "We have been waiting for the bus for half an hour.",
+    "We've been waiting for the bus for thirty minutes."
+   ],
+   "explanation": "Українське теперішнє → PPC."
+  }
+ ]
+}

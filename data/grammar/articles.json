@@ -1,0 +1,184 @@
+{
+ "id": "articles",
+ "title": "Артиклі a/an і the",
+ "titleEn": "Articles: a/an vs the",
+ "unit": "Іменник і артиклі",
+ "level": "B1",
+ "mistakeType": "articles",
+ "explanation": "В українській артиклів немає, тому це **найчастіша помилка**. Головна логіка:\n\n**a / an** — «один якийсь», **вперше** згадуємо, неважливо який:\n*I saw **a** dog.* · *She's **a** doctor.* (професія!)\n\n**the** — «той самий», **конкретний**, відомий обом:\n***The** dog was huge.* (той, про якого я сказав)\n*Can you close **the** door?* (ця, яку ми бачимо)\nЄдині у своєму роді: *the sun, the internet, the government*.\n\n*an* — перед **голосним звуком**: *an apple, an hour* (h не вимовляється), але *a university* (звук /j/).",
+ "formula": [
+  "a/an + одна злічувана річ (вперше, будь-яка)",
+  "the + конкретна, відома, єдина"
+ ],
+ "table": {
+  "head": [
+   "Ситуація",
+   "Приклад"
+  ],
+  "rows": [
+   [
+    "Перша згадка",
+    "We stayed in a hotel."
+   ],
+   [
+    "Повторна згадка",
+    "The hotel was near the beach."
+   ],
+   [
+    "Професія",
+    "My wife is a teacher."
+   ],
+   [
+    "Єдине",
+    "the moon, the sea, the world"
+   ],
+   [
+    "Конкретне в ситуації",
+    "Pass me the salt, please."
+   ]
+  ]
+ },
+ "examples": [
+  {
+   "en": "I bought a new jacket. The jacket was on sale.",
+   "uk": "Я купив нову куртку. Куртка була зі знижкою."
+  },
+  {
+   "en": "Is there a pharmacy near here?",
+   "uk": "Тут поруч є аптека?"
+  },
+  {
+   "en": "Can you turn off the light, please?",
+   "uk": "Вимкни, будь ласка, світло."
+  },
+  {
+   "en": "He's an engineer.",
+   "uk": "Він інженер."
+  },
+  {
+   "en": "I waited for an hour.",
+   "uk": "Я чекав годину."
+  },
+  {
+   "en": "The weather is lovely today.",
+   "uk": "Сьогодні чудова погода."
+  }
+ ],
+ "tip": "Якщо можна сказати українською «цей / той самий» — швидше за все **the**. Якщо «якийсь / один» — **a**.",
+ "exercises": [
+  {
+   "type": "choice",
+   "prompt": "My brother is ___ architect.",
+   "options": [
+    "a",
+    "an",
+    "the"
+   ],
+   "answer": "an",
+   "explanation": "Професія + голосний звук."
+  },
+  {
+   "type": "choice",
+   "prompt": "I've got ___ idea!",
+   "options": [
+    "a",
+    "an",
+    "the"
+   ],
+   "answer": "an",
+   "explanation": "Голосний звук."
+  },
+  {
+   "type": "choice",
+   "prompt": "Could you open ___ window? It's hot in here.",
+   "options": [
+    "a",
+    "an",
+    "the"
+   ],
+   "answer": "the",
+   "explanation": "Конкретне вікно в кімнаті."
+  },
+  {
+   "type": "choice",
+   "prompt": "We stayed in ___ small hotel. ___ hotel had a great view.",
+   "options": [
+    "a / The",
+    "the / A",
+    "a / A"
+   ],
+   "answer": "a / The",
+   "explanation": "Перша і повторна згадка."
+  },
+  {
+   "type": "choice",
+   "prompt": "She studies at ___ university in Kraków.",
+   "options": [
+    "a",
+    "an",
+    "the"
+   ],
+   "answer": "a",
+   "explanation": "university — звук /j/."
+  },
+  {
+   "type": "input",
+   "prompt": "I saw ___ interesting film yesterday.",
+   "answer": [
+    "an"
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "input",
+   "prompt": "___ sun is shining.",
+   "answer": [
+    "The",
+    "the"
+   ],
+   "explanation": "Єдине."
+  },
+  {
+   "type": "input",
+   "prompt": "Is there ___ bank near here?",
+   "answer": [
+    "a"
+   ],
+   "explanation": "Будь-який."
+  },
+  {
+   "type": "error",
+   "sentence": "My wife is teacher.",
+   "wrongIndex": 3,
+   "correction": "a teacher",
+   "alt": [],
+   "explanation": "Професія — з a."
+  },
+  {
+   "type": "error",
+   "sentence": "I waited for a hour.",
+   "wrongIndex": 3,
+   "correction": "an",
+   "alt": [],
+   "explanation": "hour — h не вимовляється → an hour."
+  },
+  {
+   "type": "order",
+   "prompt": "Я купив машину. Машина червона.",
+   "answer": [
+    "I bought a car. The car is red."
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "translate",
+   "uk": "Він працює в лікарні медсестрою.",
+   "answer": [
+    "He works in a hospital as a nurse.",
+    "He works at a hospital as a nurse.",
+    "He is a nurse in a hospital."
+   ],
+   "explanation": ""
+  }
+ ]
+}

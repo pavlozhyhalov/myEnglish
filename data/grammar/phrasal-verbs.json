@@ -1,0 +1,155 @@
+{
+ "id": "phrasal-verbs",
+ "title": "Фразові дієслова: граматика",
+ "titleEn": "Phrasal verbs: separable and inseparable",
+ "unit": "Будова речення",
+ "level": "B1",
+ "mistakeType": "word_order",
+ "explanation": "Фразове дієслово = дієслово + частка (*up, off, out, on…*), значення часто нове: *give up* = кинути, *look after* = доглядати.\n\n**Роздільні** (separable): додаток може стояти між частинами або після:\n*Turn **off** the light. / Turn the light **off**.*\nАле **займенник — завжди всередині**: *Turn **it** off.* (не ~~Turn off it~~)\nПриклади: *turn on/off, pick up, put on, take off, give back, fill in, throw away*.\n\n**Нероздільні**: додаток завжди після: *look **after** the kids, get **over** a cold, run **into** a friend, look **for** my keys*.\n\nТридільні — нероздільні: *look forward to, run out of, get on with, put up with*.",
+ "formula": [
+  "turn the TV off / turn off the TV / turn **it** off",
+  "look after **her** (не ~~look her after~~)"
+ ],
+ "examples": [
+  {
+   "en": "Can you pick me up at the station?",
+   "uk": "Можеш забрати мене з вокзалу?"
+  },
+  {
+   "en": "Put your coat on — it's cold.",
+   "uk": "Одягни пальто — холодно."
+  },
+  {
+   "en": "I can't find my glasses. Can you help me look for them?",
+   "uk": "Не можу знайти окуляри. Допоможеш пошукати?"
+  },
+  {
+   "en": "We've run out of sugar.",
+   "uk": "У нас закінчився цукор."
+  },
+  {
+   "en": "Don't throw it away — I still need it.",
+   "uk": "Не викидай — мені це ще потрібно."
+  }
+ ],
+ "exercises": [
+  {
+   "type": "choice",
+   "prompt": "This music is too loud. Please turn ___.",
+   "options": [
+    "down it",
+    "it down",
+    "it downs"
+   ],
+   "answer": "it down",
+   "explanation": "Займенник усередині."
+  },
+  {
+   "type": "choice",
+   "prompt": "Who's looking ___ your kids today?",
+   "options": [
+    "after",
+    "for",
+    "at"
+   ],
+   "answer": "after",
+   "explanation": "look after = доглядати."
+  },
+  {
+   "type": "choice",
+   "prompt": "I'm looking ___ my phone. Have you seen it?",
+   "options": [
+    "for",
+    "after",
+    "up"
+   ],
+   "answer": "for",
+   "explanation": "look for = шукати."
+  },
+  {
+   "type": "choice",
+   "prompt": "We've run ___ milk.",
+   "options": [
+    "out",
+    "out of",
+    "off"
+   ],
+   "answer": "out of",
+   "explanation": "run out of."
+  },
+  {
+   "type": "choice",
+   "prompt": "Please fill ___ this form.",
+   "options": [
+    "in",
+    "on",
+    "up"
+   ],
+   "answer": "in",
+   "explanation": "fill in."
+  },
+  {
+   "type": "input",
+   "prompt": "She gave ___ smoking two years ago.",
+   "answer": [
+    "up"
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "input",
+   "prompt": "I'll pick you ___ at 7.",
+   "answer": [
+    "up"
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "order",
+   "prompt": "Зніміть їх (черевики), будь ласка.",
+   "answer": [
+    "Take them off, please.",
+    "Please take them off."
+   ],
+   "explanation": "Займенник між дієсловом і часткою."
+  },
+  {
+   "type": "error",
+   "sentence": "I'm looking forward for the trip.",
+   "wrongIndex": 3,
+   "correction": "to",
+   "alt": [],
+   "explanation": "look forward to."
+  },
+  {
+   "type": "order",
+   "prompt": "Вимкни його, будь ласка.",
+   "answer": [
+    "Turn it off, please.",
+    "Please turn it off."
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "transform",
+   "prompt": "I met an old friend by chance in the shop.",
+   "instruction": "Перепишіть з ran into",
+   "answer": [
+    "I ran into an old friend in the shop."
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "translate",
+   "uk": "Я не можу більше терпіти цей шум.",
+   "answer": [
+    "I can't put up with this noise any more.",
+    "I can't put up with this noise anymore.",
+    "I can't stand this noise any more.",
+    "I can't stand this noise anymore.",
+    "I cannot put up with this noise anymore."
+   ],
+   "explanation": ""
+  }
+ ]
+}

@@ -1,0 +1,155 @@
+{
+ "id": "modals-past",
+ "title": "Should have, could have, must have",
+ "titleEn": "Past modals: should have, could have, must have, might have, can't have",
+ "unit": "Модальні дієслова",
+ "level": "B2",
+ "mistakeType": "other",
+ "explanation": "Модальне + **have + V3** — про **минуле**:\n\n- **should have done** — треба було (але не зробили), жаль/критика: *I should have left earlier.*\n- **shouldn't have done** — не треба було: *You shouldn't have eaten so much.*\n- **could have done** — міг би (була можливість, але ні): *We could have taken a taxi.*\n- **must have done** — мабуть, зробив (висновок): *She must have forgotten.*\n- **might/may have done** — можливо, зробив: *He might have missed the bus.*\n- **can't have done** — не міг (впевнений, що ні): *You can't have finished already!*\n\nУ розмові *should've, could've, must've* (не ~~should of~~!).",
+ "formula": [
+  "modal + **have + V3**"
+ ],
+ "examples": [
+  {
+   "en": "I should have listened to you.",
+   "uk": "Треба було тебе послухати."
+  },
+  {
+   "en": "You could have told me!",
+   "uk": "Ти міг би мені сказати!"
+  },
+  {
+   "en": "The streets are wet. It must have rained.",
+   "uk": "Вулиці мокрі. Мабуть, був дощ."
+  },
+  {
+   "en": "He's not here yet. He might have got lost.",
+   "uk": "Його ще немає. Можливо, заблукав."
+  },
+  {
+   "en": "She can't have seen us — she didn't say hello.",
+   "uk": "Вона не могла нас бачити — не привіталася."
+  },
+  {
+   "en": "We shouldn't have stayed up so late.",
+   "uk": "Не треба було так пізно лягати."
+  }
+ ],
+ "exercises": [
+  {
+   "type": "choice",
+   "prompt": "I failed the test. I ___ more.",
+   "options": [
+    "should study",
+    "should have studied",
+    "must have studied"
+   ],
+   "answer": "should have studied",
+   "explanation": "Жаль про минуле."
+  },
+  {
+   "type": "choice",
+   "prompt": "The ground is wet. It ___ in the night.",
+   "options": [
+    "must have rained",
+    "should have rained",
+    "can't have rained"
+   ],
+   "answer": "must have rained",
+   "explanation": "Висновок."
+  },
+  {
+   "type": "choice",
+   "prompt": "You ___ the whole cake! It was huge!",
+   "options": [
+    "can't have eaten",
+    "should have eaten",
+    "must eat"
+   ],
+   "answer": "can't have eaten",
+   "explanation": "Не міг — неймовірно."
+  },
+  {
+   "type": "choice",
+   "prompt": "Why did you walk? You ___ a taxi.",
+   "options": [
+    "could have taken",
+    "must have taken",
+    "can take"
+   ],
+   "answer": "could have taken",
+   "explanation": "Була можливість."
+  },
+  {
+   "type": "input",
+   "prompt": "I'm so tired. I ___ (not / should) have gone to bed so late.",
+   "answer": [
+    "shouldn't",
+    "should not"
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "input",
+   "prompt": "She didn't answer. She ___ have been asleep. (можливо)",
+   "answer": [
+    "might",
+    "may",
+    "could"
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "input",
+   "prompt": "He knows everything. Somebody ___ have told him. (впевнений)",
+   "answer": [
+    "must"
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "error",
+   "sentence": "I should of called you earlier.",
+   "wrongIndex": 2,
+   "correction": "have",
+   "alt": [],
+   "explanation": "should have (should've), не of."
+  },
+  {
+   "type": "error",
+   "sentence": "You must have saw the news.",
+   "wrongIndex": 3,
+   "correction": "seen",
+   "alt": [],
+   "explanation": "have + V3: seen."
+  },
+  {
+   "type": "order",
+   "prompt": "Ти мав мене попередити.",
+   "answer": [
+    "You should have warned me."
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "transform",
+   "prompt": "It was a mistake to buy this car.",
+   "instruction": "Перепишіть з shouldn't have",
+   "answer": [
+    "I shouldn't have bought this car.",
+    "I should not have bought this car.",
+    "We shouldn't have bought this car."
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "translate",
+   "uk": "Він, мабуть, забув про зустріч.",
+   "answer": [
+    "He must have forgotten about the meeting.",
+    "He must have forgotten the meeting."
+   ],
+   "explanation": ""
+  }
+ ]
+}

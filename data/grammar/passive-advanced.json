@@ -1,0 +1,156 @@
+{
+ "id": "passive-advanced",
+ "title": "Пасив у різних часах і have something done",
+ "titleEn": "Passive in other tenses; have something done",
+ "unit": "Пасив і непряма мова",
+ "level": "B2",
+ "mistakeType": "tenses",
+ "explanation": "Пасив можливий у будь-якому часі — змінюється лише *be*:\n- Present Continuous: *The road **is being repaired**.*\n- Present Perfect: *My bag **has been stolen**!*\n- Future: *The results **will be announced** tomorrow.*\n- Модальні: *This **must be done** today. It **can be fixed**.*\n\n**have / get something done** — коли **хтось робить послугу для нас**:\n*I **had my hair cut**.* (мене підстригли — не сам)\n*We're **getting the car repaired**.*",
+ "formula": [
+  "is being + V3 · has been + V3 · will be + V3 · can/must be + V3",
+  "have/get + об'єкт + **V3**"
+ ],
+ "examples": [
+  {
+   "en": "Our kitchen is being renovated, so we're eating out.",
+   "uk": "У нас ремонтують кухню, тож ми їмо поза домом."
+  },
+  {
+   "en": "Has the package been delivered yet?",
+   "uk": "Посилку вже доставили?"
+  },
+  {
+   "en": "The concert will be held outdoors.",
+   "uk": "Концерт проходитиме просто неба."
+  },
+  {
+   "en": "This form must be signed by both parents.",
+   "uk": "Цей бланк мають підписати обоє батьків."
+  },
+  {
+   "en": "I need to have my eyes tested.",
+   "uk": "Мені треба перевірити зір."
+  },
+  {
+   "en": "We had the flat cleaned before we moved in.",
+   "uk": "Перед заселенням ми замовили прибирання квартири."
+  }
+ ],
+ "exercises": [
+  {
+   "type": "choice",
+   "prompt": "The road ___ at the moment, so take another way.",
+   "options": [
+    "is repaired",
+    "is being repaired",
+    "has repaired"
+   ],
+   "answer": "is being repaired",
+   "explanation": "Зараз у процесі."
+  },
+  {
+   "type": "choice",
+   "prompt": "My wallet ___! I can't find it anywhere.",
+   "options": [
+    "has been stolen",
+    "has stolen",
+    "is stealing"
+   ],
+   "answer": "has been stolen",
+   "explanation": "Present Perfect passive."
+  },
+  {
+   "type": "choice",
+   "prompt": "The winner ___ tomorrow.",
+   "options": [
+    "will announce",
+    "will be announced",
+    "is announcing"
+   ],
+   "answer": "will be announced",
+   "explanation": ""
+  },
+  {
+   "type": "choice",
+   "prompt": "I'm going to ___ tomorrow.",
+   "options": [
+    "cut my hair",
+    "have my hair cut",
+    "have cut my hair"
+   ],
+   "answer": "have my hair cut",
+   "explanation": "Послуга → have something done."
+  },
+  {
+   "type": "input",
+   "prompt": "This medicine must ___ (keep) in the fridge. (2 слова)",
+   "answer": [
+    "be kept"
+   ],
+   "explanation": "must be + V3."
+  },
+  {
+   "type": "input",
+   "prompt": "We're ___ (get) our windows replaced next week.",
+   "answer": [
+    "getting"
+   ],
+   "explanation": "get something done."
+  },
+  {
+   "type": "input",
+   "prompt": "Two people ___ (have / injure) in the accident. (3 слова)",
+   "answer": [
+    "have been injured"
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "error",
+   "sentence": "The car is repairing now.",
+   "wrongIndex": 3,
+   "correction": "being repaired",
+   "alt": [],
+   "explanation": "Пасив у процесі: is being repaired."
+  },
+  {
+   "type": "error",
+   "sentence": "Yesterday I cut my hair at the barber's.",
+   "wrongIndex": 2,
+   "correction": "had my hair cut",
+   "alt": [
+    "got my hair cut"
+   ],
+   "explanation": "У барбера тебе стрижуть → I had my hair cut."
+  },
+  {
+   "type": "order",
+   "prompt": "Кімнату ще не прибрали.",
+   "answer": [
+    "The room hasn't been cleaned yet."
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "transform",
+   "prompt": "A mechanic is fixing my car.",
+   "instruction": "Перепишіть з have something done",
+   "answer": [
+    "I'm having my car fixed.",
+    "I am having my car fixed.",
+    "I'm getting my car fixed."
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "translate",
+   "uk": "Тут будують новий торговий центр.",
+   "answer": [
+    "A new shopping centre is being built here.",
+    "A new shopping mall is being built here.",
+    "They are building a new shopping centre here."
+   ],
+   "explanation": ""
+  }
+ ]
+}

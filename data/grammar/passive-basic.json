@@ -1,0 +1,174 @@
+{
+ "id": "passive-basic",
+ "title": "Пасивний стан: основи",
+ "titleEn": "Passive voice: present and past simple",
+ "unit": "Пасив і непряма мова",
+ "level": "B1",
+ "mistakeType": "tenses",
+ "explanation": "**Пасив** — коли важливо, **що** сталося, а не **хто** це зробив (або виконавець невідомий/очевидний).\n\n*Someone stole my bike.* → *My bike **was stolen**.*\n\nСтруктура: **be + V3**. Час показує дієслово *be*:\n- Present: *English **is spoken** all over the world.*\n- Past: *The castle **was built** in the 14th century.*\n\nВиконавця додаємо через **by**, якщо він важливий: *This song was written **by** Freddie Mercury.*",
+ "formula": [
+  "am/is/are + **V3** (зараз, загалом)",
+  "was/were + **V3** (минуле)"
+ ],
+ "table": {
+  "head": [
+   "Активний",
+   "Пасивний"
+  ],
+  "rows": [
+   [
+    "They clean the room every day.",
+    "The room is cleaned every day."
+   ],
+   [
+    "Someone stole my wallet.",
+    "My wallet was stolen."
+   ],
+   [
+    "They make these cars in Germany.",
+    "These cars are made in Germany."
+   ]
+  ]
+ },
+ "examples": [
+  {
+   "en": "Breakfast is served from 7 to 10.",
+   "uk": "Сніданок подають з 7 до 10."
+  },
+  {
+   "en": "My car was damaged in the storm.",
+   "uk": "Мою машину пошкодило під час бурі."
+  },
+  {
+   "en": "Where was this photo taken?",
+   "uk": "Де зроблено це фото?"
+  },
+  {
+   "en": "The windows are cleaned once a month.",
+   "uk": "Вікна миють раз на місяць."
+  },
+  {
+   "en": "I was born in 1994.",
+   "uk": "Я народився в 1994 році."
+  },
+  {
+   "en": "The flight was cancelled because of fog.",
+   "uk": "Рейс скасували через туман."
+  }
+ ],
+ "tip": "*I was born* — завжди пасив (не ~~I born~~).",
+ "exercises": [
+  {
+   "type": "choice",
+   "prompt": "This bridge ___ in 1890.",
+   "options": [
+    "built",
+    "was built",
+    "is built"
+   ],
+   "answer": "was built",
+   "explanation": "Минуле, пасив."
+  },
+  {
+   "type": "choice",
+   "prompt": "Polish ___ in Poland.",
+   "options": [
+    "speaks",
+    "is spoken",
+    "was spoken"
+   ],
+   "answer": "is spoken",
+   "explanation": "Загальний факт."
+  },
+  {
+   "type": "choice",
+   "prompt": "My phone ___ last night.",
+   "options": [
+    "stole",
+    "was stolen",
+    "is stolen"
+   ],
+   "answer": "was stolen",
+   "explanation": ""
+  },
+  {
+   "type": "choice",
+   "prompt": "The letters ___ every morning.",
+   "options": [
+    "are delivered",
+    "delivered",
+    "is delivered"
+   ],
+   "answer": "are delivered",
+   "explanation": "letters — множина."
+  },
+  {
+   "type": "input",
+   "prompt": "The museum ___ (visit) by millions of people every year. (2 слова)",
+   "answer": [
+    "is visited"
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "input",
+   "prompt": "When ___ the Eiffel Tower ___ (build)? (2 слова)",
+   "answer": [
+    "was built"
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "input",
+   "prompt": "Our room ___ (not / clean) yesterday.",
+   "answer": [
+    "wasn't cleaned",
+    "was not cleaned"
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "error",
+   "sentence": "I born in Kyiv.",
+   "wrongIndex": 1,
+   "correction": "was born",
+   "alt": [],
+   "explanation": "Народитися — пасив: I was born."
+  },
+  {
+   "type": "error",
+   "sentence": "The house was build in 2005.",
+   "wrongIndex": 3,
+   "correction": "built",
+   "alt": [],
+   "explanation": "be + V3: built."
+  },
+  {
+   "type": "order",
+   "prompt": "Цю книжку переклали на 30 мов.",
+   "answer": [
+    "This book was translated into 30 languages.",
+    "The book was translated into 30 languages."
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "transform",
+   "prompt": "They grow coffee in Brazil.",
+   "instruction": "Перепишіть у пасиві",
+   "answer": [
+    "Coffee is grown in Brazil."
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "translate",
+   "uk": "Мій рейс затримали на дві години.",
+   "answer": [
+    "My flight was delayed by two hours.",
+    "My flight was delayed for two hours."
+   ],
+   "explanation": ""
+  }
+ ]
+}

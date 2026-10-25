@@ -1,0 +1,629 @@
+{
+ "dictation": [
+  {
+   "level": "A2",
+   "text": "I usually get up at seven o'clock.",
+   "uk": "Я зазвичай встаю о сьомій."
+  },
+  {
+   "level": "A2",
+   "text": "Can I have a cup of tea, please?",
+   "uk": "Можна мені чашку чаю?"
+  },
+  {
+   "level": "A2",
+   "text": "We went to the cinema last night.",
+   "uk": "Учора ввечері ми ходили в кіно."
+  },
+  {
+   "level": "A2",
+   "text": "My sister lives in a small town near the sea.",
+   "uk": "Моя сестра живе в маленькому містечку біля моря."
+  },
+  {
+   "level": "A2",
+   "text": "How much are these shoes?",
+   "uk": "Скільки коштують ці черевики?"
+  },
+  {
+   "level": "A2",
+   "text": "It's very cold today, so take a warm jacket.",
+   "uk": "Сьогодні дуже холодно, тож візьми теплу куртку."
+  },
+  {
+   "level": "A2",
+   "text": "The train to Warsaw leaves at half past nine.",
+   "uk": "Потяг до Варшави відходить о пів на десяту."
+  },
+  {
+   "level": "A2",
+   "text": "I don't like coffee, but I love chocolate.",
+   "uk": "Я не люблю каву, але обожнюю шоколад."
+  },
+  {
+   "level": "A2",
+   "text": "Where is the nearest supermarket?",
+   "uk": "Де найближчий супермаркет?"
+  },
+  {
+   "level": "A2",
+   "text": "We are going to visit our friends on Sunday.",
+   "uk": "У неділю ми збираємося в гості до друзів."
+  },
+  {
+   "level": "A2",
+   "text": "She has got two brothers and a sister.",
+   "uk": "У неї два брати й сестра."
+  },
+  {
+   "level": "A2",
+   "text": "Could you open the window, please?",
+   "uk": "Чи не могли б ви відчинити вікно?"
+  },
+  {
+   "level": "A2",
+   "text": "I've never been to London.",
+   "uk": "Я ніколи не був у Лондоні."
+  },
+  {
+   "level": "A2",
+   "text": "Turn left at the traffic lights.",
+   "uk": "На світлофорі поверніть ліворуч."
+  },
+  {
+   "level": "A2",
+   "text": "What time does the museum close?",
+   "uk": "О котрій зачиняється музей?"
+  },
+  {
+   "level": "B1",
+   "text": "I've been learning English for about two years.",
+   "uk": "Я вчу англійську близько двох років."
+  },
+  {
+   "level": "B1",
+   "text": "If it rains tomorrow, we'll stay at home and watch a film.",
+   "uk": "Якщо завтра буде дощ, ми залишимося вдома і подивимося фільм."
+  },
+  {
+   "level": "B1",
+   "text": "Sorry I'm late, the bus didn't come for twenty minutes.",
+   "uk": "Вибач за запізнення, автобуса не було двадцять хвилин."
+  },
+  {
+   "level": "B1",
+   "text": "Would you mind waiting here for a few minutes?",
+   "uk": "Не заперечуєте почекати тут кілька хвилин?"
+  },
+  {
+   "level": "B1",
+   "text": "The restaurant was so busy that we couldn't get a table.",
+   "uk": "У ресторані було так людно, що ми не змогли знайти столик."
+  },
+  {
+   "level": "B1",
+   "text": "I was cooking dinner when my phone suddenly rang.",
+   "uk": "Я готував вечерю, коли раптом задзвонив телефон."
+  },
+  {
+   "level": "B1",
+   "text": "We're thinking of moving to a bigger flat next year.",
+   "uk": "Ми думаємо переїхати в більшу квартиру наступного року."
+  },
+  {
+   "level": "B1",
+   "text": "You should have told me earlier, I could have helped.",
+   "uk": "Треба було сказати раніше, я міг би допомогти."
+  },
+  {
+   "level": "B1",
+   "text": "The flight was delayed because of the bad weather.",
+   "uk": "Рейс затримали через погану погоду."
+  },
+  {
+   "level": "B1",
+   "text": "Have you decided where to go on holiday this summer?",
+   "uk": "Ви вже вирішили, куди поїдете у відпустку цього літа?"
+  },
+  {
+   "level": "B1",
+   "text": "I'm not used to driving on the left side of the road.",
+   "uk": "Я не звик їздити по лівому боці дороги."
+  },
+  {
+   "level": "B1",
+   "text": "She asked me if I could recommend a good dentist.",
+   "uk": "Вона запитала, чи можу я порадити хорошого стоматолога."
+  },
+  {
+   "level": "B1",
+   "text": "It's the best pizza I've ever had in my life.",
+   "uk": "Це найкраща піца, яку я коли-небудь їв."
+  },
+  {
+   "level": "B1",
+   "text": "Don't forget to take your passport and your boarding pass.",
+   "uk": "Не забудь узяти паспорт і посадковий талон."
+  },
+  {
+   "level": "B1",
+   "text": "Although it was expensive, the hotel was worth every penny.",
+   "uk": "Хоча готель був дорогий, він вартував кожної копійки."
+  },
+  {
+   "level": "B2",
+   "text": "If I had known about the traffic, I would have left much earlier.",
+   "uk": "Якби я знав про затори, вийшов би значно раніше."
+  },
+  {
+   "level": "B2",
+   "text": "By the time we got to the station, the last train had already left.",
+   "uk": "Поки ми дісталися вокзалу, останній потяг уже поїхав."
+  },
+  {
+   "level": "B2",
+   "text": "I wish I had more time to read, but work keeps me really busy.",
+   "uk": "Хотів би я мати більше часу на читання, але робота мене дуже займає."
+  },
+  {
+   "level": "B2",
+   "text": "Despite the rain, thousands of people turned up for the concert.",
+   "uk": "Попри дощ, на концерт прийшли тисячі людей."
+  },
+  {
+   "level": "B2",
+   "text": "The new bridge is expected to be finished by the end of next year.",
+   "uk": "Новий міст очікують завершити до кінця наступного року."
+  },
+  {
+   "level": "B2",
+   "text": "She must have forgotten about our meeting, because she never showed up.",
+   "uk": "Вона, мабуть, забула про зустріч, бо так і не прийшла."
+  },
+  {
+   "level": "B2",
+   "text": "Could you tell me how long it takes to get to the city centre?",
+   "uk": "Підкажіть, скільки часу добиратися до центру міста?"
+  },
+  {
+   "level": "B2",
+   "text": "We'll have been living here for five years next month.",
+   "uk": "Наступного місяця буде п'ять років, як ми тут живемо."
+  },
+  {
+   "level": "B2",
+   "text": "The more you practise speaking, the more confident you'll become.",
+   "uk": "Чим більше ти практикуєш мовлення, тим впевненішим ставатимеш."
+  },
+  {
+   "level": "B2",
+   "text": "I'd rather we stayed in tonight, if you don't mind.",
+   "uk": "Я б волів, щоб ми сьогодні залишилися вдома, якщо ти не проти."
+  },
+  {
+   "level": "B2",
+   "text": "He's been working so hard lately that he hardly ever sees his family.",
+   "uk": "Останнім часом він так багато працює, що майже не бачить родину."
+  },
+  {
+   "level": "B2",
+   "text": "Not only did they cancel the flight, but they also lost our luggage.",
+   "uk": "Вони не лише скасували рейс, а й загубили наш багаж."
+  },
+  {
+   "level": "B2",
+   "text": "It's high time we started thinking about our plans for the summer.",
+   "uk": "Давно пора почати думати про плани на літо."
+  },
+  {
+   "level": "B2",
+   "text": "Had I known you were coming, I would have cooked something special.",
+   "uk": "Якби я знав, що ти прийдеш, приготував би щось особливе."
+  },
+  {
+   "level": "B2",
+   "text": "Taking everything into account, I think we made the right decision.",
+   "uk": "Зваживши все, я думаю, ми ухвалили правильне рішення."
+  }
+ ],
+ "dialogues": [
+  {
+   "title": "Замовлення в кав'ярні",
+   "level": "A2",
+   "emoji": "coffee",
+   "speakers": [
+    "Barista",
+    "Pavlo"
+   ],
+   "lines": [
+    {
+     "speaker": 0,
+     "text": "Hi there! What can I get you?"
+    },
+    {
+     "speaker": 1,
+     "text": "Hi! Can I have a large cappuccino, please?"
+    },
+    {
+     "speaker": 0,
+     "text": "Sure. Would you like it with regular milk or oat milk?"
+    },
+    {
+     "speaker": 1,
+     "text": "Oat milk, please. And do you have anything without sugar to eat?"
+    },
+    {
+     "speaker": 0,
+     "text": "We've got a cheese sandwich or a banana muffin. The muffin has no added sugar."
+    },
+    {
+     "speaker": 1,
+     "text": "I'll take the sandwich, please. Is it possible to heat it up?"
+    },
+    {
+     "speaker": 0,
+     "text": "Of course. Is that for here or to go?"
+    },
+    {
+     "speaker": 1,
+     "text": "For here, please. I'll sit by the window."
+    },
+    {
+     "speaker": 0,
+     "text": "Great. That's eight pounds fifty. You can pay by card over there."
+    },
+    {
+     "speaker": 1,
+     "text": "Perfect. Thanks a lot!"
+    },
+    {
+     "speaker": 0,
+     "text": "You're welcome. I'll bring it to your table in a few minutes."
+    }
+   ],
+   "questions": [
+    {
+     "q": "What does Pavlo order to drink?",
+     "options": [
+      "A small latte",
+      "A large cappuccino",
+      "Black coffee"
+     ],
+     "answer": 1,
+     "explanation_uk": "Can I have a large cappuccino."
+    },
+    {
+     "q": "What kind of milk does he choose?",
+     "options": [
+      "Regular milk",
+      "Oat milk",
+      "No milk"
+     ],
+     "answer": 1
+    },
+    {
+     "q": "What does he order to eat?",
+     "options": [
+      "A banana muffin",
+      "A cheese sandwich",
+      "Nothing"
+     ],
+     "answer": 1
+    },
+    {
+     "q": "Where will he have his order?",
+     "options": [
+      "At home",
+      "In the café",
+      "In the car"
+     ],
+     "answer": 1,
+     "explanation_uk": "For here — на місці."
+    },
+    {
+     "q": "How much does he pay?",
+     "options": [
+      "£5.80",
+      "£8.50",
+      "£18.50"
+     ],
+     "answer": 1
+    }
+   ]
+  },
+  {
+   "title": "Плани на вихідні",
+   "level": "B1",
+   "emoji": "calendar",
+   "speakers": [
+    "Anna",
+    "Pavlo"
+   ],
+   "lines": [
+    {
+     "speaker": 0,
+     "text": "So, any plans for the weekend?"
+    },
+    {
+     "speaker": 1,
+     "text": "Not really. Vita wants to go to the mountains, but the forecast says it's going to rain."
+    },
+    {
+     "speaker": 0,
+     "text": "Oh, that's a shame. Have you been to the new science museum? It opened last month."
+    },
+    {
+     "speaker": 1,
+     "text": "No, I haven't. Is it any good?"
+    },
+    {
+     "speaker": 0,
+     "text": "It's brilliant. We went with the kids last Saturday and stayed for four hours. There's a whole floor about space."
+    },
+    {
+     "speaker": 1,
+     "text": "Sounds great. Do you need to book tickets in advance?"
+    },
+    {
+     "speaker": 0,
+     "text": "I'd recommend it. At the weekend it gets really busy, and we had to queue for half an hour."
+    },
+    {
+     "speaker": 1,
+     "text": "OK, I'll check the website tonight. If the weather's bad, that could be a perfect plan B."
+    },
+    {
+     "speaker": 0,
+     "text": "And there's a nice Italian place just around the corner, if you get hungry afterwards."
+    },
+    {
+     "speaker": 1,
+     "text": "Thanks for the tip! I might actually take Vita there for dinner."
+    }
+   ],
+   "questions": [
+    {
+     "q": "Why might Pavlo not go to the mountains?",
+     "options": [
+      "Vita doesn't want to",
+      "Rain is expected",
+      "The car is broken"
+     ],
+     "answer": 1
+    },
+    {
+     "q": "When did the science museum open?",
+     "options": [
+      "Last week",
+      "Last month",
+      "Last year"
+     ],
+     "answer": 1
+    },
+    {
+     "q": "How long did Anna stay at the museum?",
+     "options": [
+      "Two hours",
+      "Half an hour",
+      "Four hours"
+     ],
+     "answer": 2
+    },
+    {
+     "q": "What does Anna recommend?",
+     "options": [
+      "Going on Monday",
+      "Booking tickets in advance",
+      "Taking a taxi"
+     ],
+     "answer": 1
+    },
+    {
+     "q": "What is near the museum?",
+     "options": [
+      "A cinema",
+      "An Italian restaurant",
+      "A park"
+     ],
+     "answer": 1
+    }
+   ]
+  },
+  {
+   "title": "Затримка рейсу",
+   "level": "B1",
+   "emoji": "plane",
+   "speakers": [
+    "Agent",
+    "Pavlo"
+   ],
+   "lines": [
+    {
+     "speaker": 1,
+     "text": "Excuse me, my flight to Lisbon has been delayed by three hours. I've got a connection in Frankfurt."
+    },
+    {
+     "speaker": 0,
+     "text": "Let me have a look. Can I see your boarding pass, please?"
+    },
+    {
+     "speaker": 1,
+     "text": "Here you are."
+    },
+    {
+     "speaker": 0,
+     "text": "I'm afraid you'll miss your connecting flight. But I can rebook you on a direct flight to Lisbon that leaves at six fifteen this evening."
+    },
+    {
+     "speaker": 1,
+     "text": "A direct flight? That would be even better. What about my suitcase?"
+    },
+    {
+     "speaker": 0,
+     "text": "Don't worry, we'll transfer it automatically. It will be on the same plane as you."
+    },
+    {
+     "speaker": 1,
+     "text": "Great. And is there anything I can do while I wait? I have about five hours."
+    },
+    {
+     "speaker": 0,
+     "text": "Here's a voucher for fifteen euros. You can use it in any café or restaurant in the terminal."
+    },
+    {
+     "speaker": 1,
+     "text": "Thank you. Am I also entitled to any compensation?"
+    },
+    {
+     "speaker": 0,
+     "text": "You can apply online. Just fill in the form on our website and attach your booking number."
+    }
+   ],
+   "questions": [
+    {
+     "q": "How long is the delay?",
+     "options": [
+      "One hour",
+      "Three hours",
+      "Five hours"
+     ],
+     "answer": 1
+    },
+    {
+     "q": "Where was the connection?",
+     "options": [
+      "Lisbon",
+      "Frankfurt",
+      "Munich"
+     ],
+     "answer": 1
+    },
+    {
+     "q": "What does the agent offer?",
+     "options": [
+      "A hotel room",
+      "A direct flight",
+      "A train ticket"
+     ],
+     "answer": 1
+    },
+    {
+     "q": "What happens to the suitcase?",
+     "options": [
+      "He must collect it",
+      "It is transferred automatically",
+      "It goes on a later flight"
+     ],
+     "answer": 1
+    },
+    {
+     "q": "How can he get compensation?",
+     "options": [
+      "At the desk",
+      "By phone",
+      "By filling in an online form"
+     ],
+     "answer": 2
+    }
+   ]
+  },
+  {
+   "title": "Огляд квартири",
+   "level": "B2",
+   "emoji": "house",
+   "speakers": [
+    "Landlord",
+    "Pavlo"
+   ],
+   "lines": [
+    {
+     "speaker": 0,
+     "text": "So this is the living room. As you can see, it gets a lot of light in the afternoon."
+    },
+    {
+     "speaker": 1,
+     "text": "It's lovely. How much is the rent, exactly?"
+    },
+    {
+     "speaker": 0,
+     "text": "It's two thousand eight hundred a month, plus utilities, which usually come to about four hundred in winter."
+    },
+    {
+     "speaker": 1,
+     "text": "I see. And how much would the deposit be?"
+    },
+    {
+     "speaker": 0,
+     "text": "One month's rent. You'd get it back at the end, provided there's no damage, of course."
+    },
+    {
+     "speaker": 1,
+     "text": "That sounds fair. We're expecting a baby next spring, so we'd like to stay at least two years. Would that be possible?"
+    },
+    {
+     "speaker": 0,
+     "text": "Congratulations! Yes, I'd actually prefer a long-term contract. The first one would be for a year, and then we can extend it."
+    },
+    {
+     "speaker": 1,
+     "text": "And would you mind if we painted the second bedroom? It would become the nursery."
+    },
+    {
+     "speaker": 0,
+     "text": "Not at all, as long as you choose a light colour. Just let me know before you start."
+    },
+    {
+     "speaker": 1,
+     "text": "Great. We'll talk it over tonight and get back to you by tomorrow afternoon."
+    }
+   ],
+   "questions": [
+    {
+     "q": "How much are the utilities in winter?",
+     "options": [
+      "About 280",
+      "About 400",
+      "About 2,800"
+     ],
+     "answer": 1
+    },
+    {
+     "q": "When will the deposit be returned?",
+     "options": [
+      "After six months",
+      "At the end, if there is no damage",
+      "Never"
+     ],
+     "answer": 1
+    },
+    {
+     "q": "Why does Pavlo want a long contract?",
+     "options": [
+      "He's changing jobs",
+      "They're expecting a baby",
+      "It is cheaper"
+     ],
+     "answer": 1
+    },
+    {
+     "q": "How long is the first contract?",
+     "options": [
+      "Six months",
+      "One year",
+      "Two years"
+     ],
+     "answer": 1
+    },
+    {
+     "q": "What condition does the landlord set for painting?",
+     "options": [
+      "They must pay extra",
+      "Only a light colour",
+      "A professional must do it"
+     ],
+     "answer": 1
+    }
+   ]
+  }
+ ]
+}

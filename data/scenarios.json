@@ -1,0 +1,230 @@
+[
+ {
+  "id": "cafe",
+  "group": "life",
+  "emoji": "coffee",
+  "title": "У кафе",
+  "short": "Замовлення, побажання, рахунок",
+  "situation": "Ви заходите в невелику кав'ярню в Лондоні. Хочете каву і щось перекусити, але маєте алергію на горіхи.",
+  "myRole": "Відвідувач кафе",
+  "tutorRole": "Привітний бариста (barista) у кав'ярні",
+  "goal": "Замовити напій і їжу, уточнити склад через алергію, заплатити карткою.",
+  "phrases": [
+   "Can I have a flat white, please?",
+   "What do you recommend?",
+   "Does this contain any nuts?",
+   "Is that for here or to go?",
+   "Can I pay by card?",
+   "Could I have the receipt, please?"
+  ]
+ },
+ {
+  "id": "doctor",
+  "group": "life",
+  "emoji": "hospital",
+  "title": "У лікаря",
+  "short": "Симптоми, питання, рецепт",
+  "situation": "Третій день у вас болить горло і температура 38. Ви записалися до сімейного лікаря.",
+  "myRole": "Пацієнт",
+  "tutorRole": "Лікар загальної практики (GP)",
+  "goal": "Описати симптоми, відповісти на питання лікаря, з'ясувати, як приймати ліки і чи потрібен лікарняний.",
+  "phrases": [
+   "I've had a sore throat for three days.",
+   "I've got a temperature of 38.",
+   "It hurts when I swallow.",
+   "How often should I take it?",
+   "Are there any side effects?",
+   "Could I get a sick note?"
+  ]
+ },
+ {
+  "id": "flat",
+  "group": "life",
+  "emoji": "house",
+  "title": "Оренда квартири",
+  "short": "Огляд, умови, домовленість",
+  "situation": "Ви знайшли оголошення про двокімнатну квартиру і прийшли на перегляд. Хочете дізнатися все про умови.",
+  "myRole": "Потенційний орендар",
+  "tutorRole": "Власник квартири (landlord)",
+  "goal": "З'ясувати ціну, комунальні, заставу, термін договору, правила (тварини, ремонт) і домовитися про наступний крок.",
+  "phrases": [
+   "How much is the rent per month?",
+   "Are utilities included?",
+   "How much is the deposit?",
+   "Is the flat furnished?",
+   "Are pets allowed?",
+   "When could we move in?"
+  ]
+ },
+ {
+  "id": "bank",
+  "group": "life",
+  "emoji": "bank",
+  "title": "У банку",
+  "short": "Рахунок, картка, проблема",
+  "situation": "Вашу картку заблокували після оплати за кордоном. Ви прийшли у відділення банку.",
+  "myRole": "Клієнт банку",
+  "tutorRole": "Співробітник банку",
+  "goal": "Пояснити проблему, розблокувати картку і дізнатися, як уникнути цього в майбутньому.",
+  "phrases": [
+   "My card has been blocked.",
+   "I made a payment abroad yesterday.",
+   "Could you unblock it, please?",
+   "Is there a fee for that?",
+   "How can I avoid this in future?",
+   "Can I set up notifications in the app?"
+  ]
+ },
+ {
+  "id": "shop-complaint",
+  "group": "life",
+  "emoji": "shop",
+  "title": "Скарга в магазині",
+  "short": "Повернення бракованого товару",
+  "situation": "Тиждень тому ви купили навушники, і один з них перестав працювати. Чек у вас є.",
+  "myRole": "Покупець",
+  "tutorRole": "Продавець, який спершу пропонує лише ремонт",
+  "goal": "Ввічливо, але наполегливо домогтися заміни або повернення грошей.",
+  "phrases": [
+   "I bought these headphones last week.",
+   "One of them has stopped working.",
+   "Here's the receipt.",
+   "I'd prefer a refund, please.",
+   "Could I speak to the manager?",
+   "I'm afraid that's not acceptable."
+  ]
+ },
+ {
+  "id": "party",
+  "group": "life",
+  "emoji": "party",
+  "title": "Знайомство на вечірці",
+  "short": "Small talk з новою людиною",
+  "situation": "Ви на дні народження друга, майже нікого не знаєте. Біля вас стоїть людина з келихом.",
+  "myRole": "Гість",
+  "tutorRole": "Інший гість, балакучий і доброзичливий",
+  "goal": "Познайомитися, підтримати розмову 5 хвилин (звідки, чим займаєтесь, хобі) і обмінятися контактами.",
+  "phrases": [
+   "Hi, I'm Pavlo. How do you know Mark?",
+   "So, what do you do?",
+   "How long have you lived here?",
+   "What do you do for fun?",
+   "Really? Tell me more.",
+   "It was nice talking to you."
+  ]
+ },
+ {
+  "id": "airport",
+  "group": "travel",
+  "emoji": "plane",
+  "title": "В аеропорту",
+  "short": "Реєстрація, затримка, пересадка",
+  "situation": "Ваш рейс до Лісабона затримали на 3 години, через це ви не встигаєте на пересадку.",
+  "myRole": "Пасажир",
+  "tutorRole": "Співробітник авіакомпанії на стійці",
+  "goal": "З'ясувати, що робити з пересадкою, отримати новий квиток і дізнатися про компенсацію чи ваучер на їжу.",
+  "phrases": [
+   "My flight has been delayed.",
+   "I'm going to miss my connecting flight.",
+   "Could you rebook me on the next flight?",
+   "Am I entitled to compensation?",
+   "Is there a meal voucher?",
+   "Will my luggage be transferred?"
+  ]
+ },
+ {
+  "id": "hotel",
+  "group": "travel",
+  "emoji": "key",
+  "title": "У готелі",
+  "short": "Заселення і проблема з номером",
+  "situation": "Ви приїхали в готель пізно ввечері. У номері не працює кондиціонер, а за вікном шумна вулиця.",
+  "myRole": "Гість готелю",
+  "tutorRole": "Адміністратор на рецепції",
+  "goal": "Заселитися, повідомити про проблеми і домовитися про інший номер.",
+  "phrases": [
+   "I have a reservation under the name…",
+   "Is breakfast included?",
+   "The air conditioning doesn't work.",
+   "The room is very noisy.",
+   "Could I change rooms?",
+   "Could I have a late checkout?"
+  ]
+ },
+ {
+  "id": "directions",
+  "group": "travel",
+  "emoji": "magnifier",
+  "title": "Як пройти?",
+  "short": "Запитати дорогу в чужому місті",
+  "situation": "Ви в Единбурзі, телефон розрядився. Треба знайти вокзал, а потяг через 30 хвилин.",
+  "myRole": "Турист",
+  "tutorRole": "Місцевий житель на вулиці",
+  "goal": "Ввічливо запитати дорогу, уточнити деталі і перепитати, якщо щось незрозуміло.",
+  "phrases": [
+   "Excuse me, how do I get to the station?",
+   "Is it far from here?",
+   "Could you say that again, please?",
+   "So I turn left at the lights?",
+   "How long does it take on foot?",
+   "Thanks a lot, you've been very helpful."
+  ]
+ },
+ {
+  "id": "interview",
+  "group": "work",
+  "emoji": "briefcase",
+  "title": "Співбесіда",
+  "short": "Розповісти про себе і досвід",
+  "situation": "Ви проходите співбесіду англійською в міжнародній компанії.",
+  "myRole": "Кандидат",
+  "tutorRole": "HR-менеджер, який ставить типові питання",
+  "goal": "Розповісти про себе, досвід і сильні сторони, відповісти на «Why should we hire you?» і поставити 2 власні питання.",
+  "phrases": [
+   "Let me tell you a bit about myself.",
+   "I have experience in…",
+   "One of my strengths is…",
+   "I'm looking for a role where I can…",
+   "Could you tell me more about the team?",
+   "What are the next steps?"
+  ]
+ },
+ {
+  "id": "phone-call",
+  "group": "work",
+  "emoji": "phone",
+  "title": "Телефонний дзвінок",
+  "short": "Записатися, уточнити, перенести",
+  "situation": "Вам треба перенести запис на техобслуговування авто і уточнити вартість.",
+  "myRole": "Клієнт",
+  "tutorRole": "Адміністратор автосервісу",
+  "goal": "Перенести запис на зручний час, уточнити ціну і що входить у сервіс.",
+  "phrases": [
+   "Hi, I'm calling about my appointment.",
+   "Could we reschedule it?",
+   "Would Thursday morning work?",
+   "How much will it cost?",
+   "What does that include?",
+   "Could you send me a confirmation?"
+  ]
+ },
+ {
+  "id": "supplier-delay",
+  "group": "work",
+  "emoji": "package",
+  "title": "Затримка поставки",
+  "short": "Робочий дзвінок постачальнику",
+  "situation": "Постачальник затримує поставку деталей на 2 тижні, а у вас запланований запуск партії.",
+  "myRole": "Інженер, що відповідає за запуск",
+  "tutorRole": "Менеджер постачальника",
+  "goal": "З'ясувати причину, домовитися про часткову поставку і нову дату з гарантією.",
+  "phrases": [
+   "I'm calling about order number…",
+   "What's causing the delay?",
+   "Is a partial delivery possible?",
+   "Can you guarantee the new date?",
+   "Please confirm it in writing.",
+   "Let's keep in touch daily until it ships."
+  ]
+ }
+]

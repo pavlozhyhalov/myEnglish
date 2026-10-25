@@ -1,0 +1,181 @@
+{
+ "id": "past-simple-continuous",
+ "title": "Past Simple і Past Continuous",
+ "titleEn": "Past Simple vs Past Continuous",
+ "unit": "Минулі часи",
+ "level": "B1",
+ "mistakeType": "tenses",
+ "explanation": "**Past Simple** — завершена дія в минулому (часто з точним часом: *yesterday, last year, in 2020*).\n\n**Past Continuous** — дія, що **тривала** в певний момент минулого, часто як «фон» для іншої, короткої дії.\n\nСхема: *I **was cooking** (фон) when the phone **rang** (коротка дія).*\n\n*while* + Continuous, *when* + Simple — найчастіше поєднання.",
+ "formula": [
+  "Past Simple: V2 / -ed · did + not + V",
+  "Past Continuous: was/were + **V-ing**"
+ ],
+ "table": {
+  "head": [
+   "",
+   "Past Simple",
+   "Past Continuous"
+  ],
+  "rows": [
+   [
+    "+",
+    "I watched a film.",
+    "I was watching a film."
+   ],
+   [
+    "−",
+    "I didn't watch it.",
+    "I wasn't watching it."
+   ],
+   [
+    "?",
+    "Did you watch it?",
+    "Were you watching it?"
+   ]
+  ]
+ },
+ "examples": [
+  {
+   "en": "We moved to Kraków in 2022.",
+   "uk": "Ми переїхали до Кракова у 2022 році."
+  },
+  {
+   "en": "I was driving home when it started to rain.",
+   "uk": "Я їхав додому, коли почався дощ."
+  },
+  {
+   "en": "While she was sleeping, I made breakfast.",
+   "uk": "Поки вона спала, я приготував сніданок."
+  },
+  {
+   "en": "What were you doing at 9 last night?",
+   "uk": "Що ти робив учора о 9 вечора?"
+  },
+  {
+   "en": "I didn't hear the doorbell — I was having a shower.",
+   "uk": "Я не почув дзвінка — я був у душі."
+  },
+  {
+   "en": "He lost his phone while he was running.",
+   "uk": "Він загубив телефон, коли бігав."
+  }
+ ],
+ "tip": "Неправильні дієслова (go → went, buy → bought) треба просто вивчити — додайте їх у картки.",
+ "exercises": [
+  {
+   "type": "choice",
+   "prompt": "I ___ TV when you called.",
+   "options": [
+    "watched",
+    "was watching",
+    "am watching"
+   ],
+   "answer": "was watching",
+   "explanation": "Фон для дзвінка."
+  },
+  {
+   "type": "choice",
+   "prompt": "We ___ to Italy last summer.",
+   "options": [
+    "went",
+    "were going",
+    "go"
+   ],
+   "answer": "went",
+   "explanation": "Завершена дія, last summer."
+  },
+  {
+   "type": "choice",
+   "prompt": "While I ___, I cut my finger.",
+   "options": [
+    "cooked",
+    "was cooking",
+    "cook"
+   ],
+   "answer": "was cooking",
+   "explanation": "while + тривала дія."
+  },
+  {
+   "type": "choice",
+   "prompt": "She ___ the door and left.",
+   "options": [
+    "was closing",
+    "closed",
+    "closes"
+   ],
+   "answer": "closed",
+   "explanation": "Послідовність завершених дій."
+  },
+  {
+   "type": "input",
+   "prompt": "What ___ you ___ (do) at 8 pm yesterday? (2 слова)",
+   "answer": [
+    "were doing"
+   ],
+   "explanation": "Конкретний момент у минулому → Past Continuous."
+  },
+  {
+   "type": "input",
+   "prompt": "I ___ (not / see) him at the party.",
+   "answer": [
+    "didn't see",
+    "did not see"
+   ],
+   "explanation": "Завершена дія, заперечення через did."
+  },
+  {
+   "type": "input",
+   "prompt": "They ___ (buy) a new car last month.",
+   "answer": [
+    "bought"
+   ],
+   "explanation": "buy → bought."
+  },
+  {
+   "type": "error",
+   "sentence": "I was meet my friend yesterday.",
+   "wrongIndex": 2,
+   "correction": "met",
+   "alt": [
+    "was meeting"
+   ],
+   "explanation": "Past Simple: met."
+  },
+  {
+   "type": "error",
+   "sentence": "Did you went to the cinema?",
+   "wrongIndex": 2,
+   "correction": "go",
+   "alt": [],
+   "explanation": "Після did — базова форма."
+  },
+  {
+   "type": "order",
+   "prompt": "Коли я прийшов, вони вечеряли.",
+   "answer": [
+    "When I arrived, they were having dinner.",
+    "They were having dinner when I arrived."
+   ],
+   "explanation": "when + Simple, фон — Continuous."
+  },
+  {
+   "type": "transform",
+   "prompt": "She read a book. Then the lights went out. (while)",
+   "instruction": "Об'єднайте з while",
+   "answer": [
+    "While she was reading a book, the lights went out.",
+    "The lights went out while she was reading a book."
+   ],
+   "explanation": "while + Past Continuous."
+  },
+  {
+   "type": "translate",
+   "uk": "Я спав, коли ти подзвонив.",
+   "answer": [
+    "I was sleeping when you called.",
+    "I was asleep when you called."
+   ],
+   "explanation": "Тривала дія + коротка."
+  }
+ ]
+}

@@ -1,0 +1,158 @@
+{
+ "id": "zero-article",
+ "title": "Коли артикль не потрібен",
+ "titleEn": "Zero article: no article with plurals, uncountables and fixed phrases",
+ "unit": "Іменник і артиклі",
+ "level": "B1",
+ "mistakeType": "articles",
+ "explanation": "**Без артикля** говоримо:\n- про речі **загалом** у множині або незлічувані: *I like **dogs**. **Coffee** is expensive. **Life** is short.*\n- назви більшості країн, міст, вулиць, мов: *Poland, Kraków, English* (але *the USA, the UK, the Netherlands*)\n- прийоми їжі: *have breakfast, for lunch*\n- сталі вирази: *go to work / school / bed, at home, by car, on foot, in hospital, next week, last year*\n\nПорівняй: *I love **music*** (загалом) vs *I love **the music** in this film* (конкретна).",
+ "formula": [
+  "загалом: ∅ + множина / незлічуване",
+  "конкретне: the + …"
+ ],
+ "examples": [
+  {
+   "en": "Children need a lot of sleep.",
+   "uk": "Дітям потрібно багато сну."
+  },
+  {
+   "en": "We usually have dinner at seven.",
+   "uk": "Ми зазвичай вечеряємо о сьомій."
+  },
+  {
+   "en": "I go to work by tram.",
+   "uk": "Я їжджу на роботу трамваєм."
+  },
+  {
+   "en": "She speaks English and Polish.",
+   "uk": "Вона говорить англійською та польською."
+  },
+  {
+   "en": "We're going to the USA next year.",
+   "uk": "Наступного року ми їдемо до США."
+  },
+  {
+   "en": "The children in this school are very friendly.",
+   "uk": "Діти в цій школі дуже привітні."
+  }
+ ],
+ "exercises": [
+  {
+   "type": "choice",
+   "prompt": "I love ___ chocolate.",
+   "options": [
+    "a",
+    "the",
+    "—"
+   ],
+   "answer": "—",
+   "explanation": "Загалом, незлічуване."
+  },
+  {
+   "type": "choice",
+   "prompt": "Let's have ___ lunch together.",
+   "options": [
+    "a",
+    "the",
+    "—"
+   ],
+   "answer": "—",
+   "explanation": "Прийоми їжі без артикля."
+  },
+  {
+   "type": "choice",
+   "prompt": "He lives in ___ United Kingdom.",
+   "options": [
+    "a",
+    "the",
+    "—"
+   ],
+   "answer": "the",
+   "explanation": "the UK."
+  },
+  {
+   "type": "choice",
+   "prompt": "I'm going to ___ bed. Good night!",
+   "options": [
+    "a",
+    "the",
+    "—"
+   ],
+   "answer": "—",
+   "explanation": "go to bed."
+  },
+  {
+   "type": "choice",
+   "prompt": "___ life in a big city is expensive.",
+   "options": [
+    "A",
+    "The",
+    "—"
+   ],
+   "answer": "—",
+   "explanation": "Загалом."
+  },
+  {
+   "type": "input",
+   "prompt": "I usually go to work ___ bike. (1 слово)",
+   "answer": [
+    "by"
+   ],
+   "explanation": "by bike — без артикля."
+  },
+  {
+   "type": "input",
+   "prompt": "She speaks ___ French fluently. (поставте \"-\" якщо артикль не потрібен)",
+   "answer": [
+    "-",
+    "—"
+   ],
+   "explanation": "Мови — без артикля."
+  },
+  {
+   "type": "order",
+   "prompt": "Я боюся павуків.",
+   "answer": [
+    "I'm afraid of spiders.",
+    "I am afraid of spiders."
+   ],
+   "explanation": "Загалом → без артикля."
+  },
+  {
+   "type": "error",
+   "sentence": "We went to Netherlands last summer.",
+   "wrongIndex": 3,
+   "correction": "the Netherlands",
+   "alt": [],
+   "explanation": "the Netherlands — з артиклем (як the USA, the UK)."
+  },
+  {
+   "type": "order",
+   "prompt": "Він ще на роботі.",
+   "answer": [
+    "He's still at work.",
+    "He is still at work."
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "transform",
+   "prompt": "I like the coffee. (загалом, не конкретну)",
+   "instruction": "Виправте, щоб йшлося про каву загалом",
+   "answer": [
+    "I like coffee."
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "translate",
+   "uk": "Діти люблять морозиво.",
+   "answer": [
+    "Children love ice cream.",
+    "Kids love ice cream.",
+    "Children like ice cream."
+   ],
+   "explanation": ""
+  }
+ ]
+}

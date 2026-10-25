@@ -1,0 +1,157 @@
+{
+ "id": "gerund-infinitive",
+ "title": "Герундій чи інфінітив",
+ "titleEn": "Gerund (-ing) vs infinitive (to do)",
+ "unit": "Будова речення",
+ "level": "B1",
+ "mistakeType": "other",
+ "explanation": "Після деяких дієслів іде **-ing**, після інших — **to + V**. Це треба запам'ятати.\n\n**+ -ing:** *enjoy, mind, avoid, finish, keep, suggest, can't stand, practise, miss, consider* — *I enjoy **cooking**.*\n**+ to V:** *want, need, decide, hope, plan, agree, promise, refuse, manage, learn, would like* — *I decided **to stay**.*\n**Після прийменників — завжди -ing:** *I'm good **at drawing**. Thanks **for helping**. Before **leaving**…*\n\nЗмінюють значення:\n- *stop **smoking*** (кинути) vs *stop **to smoke*** (зупинитися, щоб покурити)\n- *remember **locking*** (пам'ятаю, що замкнув) vs *remember **to lock*** (не забути замкнути)\n- *try **opening** the window* (спробуй як варіант) vs *try **to open*** (намагатися)",
+ "formula": [
+  "enjoy/mind/avoid/finish/keep + **V-ing**",
+  "want/decide/hope/plan/need + **to V**",
+  "прийменник + V-ing"
+ ],
+ "examples": [
+  {
+   "en": "Do you mind waiting a few minutes?",
+   "uk": "Не заперечуєте почекати кілька хвилин?"
+  },
+  {
+   "en": "We're planning to visit Lisbon in spring.",
+   "uk": "Навесні ми плануємо поїхати до Лісабона."
+  },
+  {
+   "en": "I gave up trying to understand the instructions.",
+   "uk": "Я облишив спроби зрозуміти інструкцію."
+  },
+  {
+   "en": "Don't forget to buy some bread.",
+   "uk": "Не забудь купити хліба."
+  },
+  {
+   "en": "I'm looking forward to seeing you.",
+   "uk": "Чекаю на зустріч з тобою."
+  },
+  {
+   "en": "He's interested in learning Spanish.",
+   "uk": "Він хоче вивчати іспанську."
+  }
+ ],
+ "exercises": [
+  {
+   "type": "choice",
+   "prompt": "I enjoy ___ in the mountains.",
+   "options": [
+    "to hike",
+    "hiking",
+    "hike"
+   ],
+   "answer": "hiking",
+   "explanation": "enjoy + -ing."
+  },
+  {
+   "type": "choice",
+   "prompt": "We decided ___ a new flat.",
+   "options": [
+    "looking for",
+    "to look for",
+    "look for"
+   ],
+   "answer": "to look for",
+   "explanation": "decide + to."
+  },
+  {
+   "type": "choice",
+   "prompt": "Would you mind ___ the window?",
+   "options": [
+    "to close",
+    "closing",
+    "close"
+   ],
+   "answer": "closing",
+   "explanation": "mind + -ing."
+  },
+  {
+   "type": "choice",
+   "prompt": "I'm tired of ___ for the bus.",
+   "options": [
+    "wait",
+    "to wait",
+    "waiting"
+   ],
+   "answer": "waiting",
+   "explanation": "Після прийменника — -ing."
+  },
+  {
+   "type": "choice",
+   "prompt": "Remember ___ the door when you leave!",
+   "options": [
+    "locking",
+    "to lock",
+    "lock"
+   ],
+   "answer": "to lock",
+   "explanation": "Не забудь (майбутнє)."
+  },
+  {
+   "type": "input",
+   "prompt": "She promised ___ (call) me back. (2 слова)",
+   "answer": [
+    "to call"
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "input",
+   "prompt": "He keeps ___ (forget) my name.",
+   "answer": [
+    "forgetting"
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "error",
+   "sentence": "I want learning to play the guitar.",
+   "wrongIndex": 2,
+   "correction": "to learn",
+   "alt": [],
+   "explanation": "want + to V."
+  },
+  {
+   "type": "error",
+   "sentence": "I'm looking forward to see you.",
+   "wrongIndex": 4,
+   "correction": "seeing",
+   "alt": [],
+   "explanation": "look forward to + -ing (to тут прийменник)."
+  },
+  {
+   "type": "order",
+   "prompt": "Він кинув курити минулого року.",
+   "answer": [
+    "He stopped smoking last year.",
+    "He gave up smoking last year."
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "transform",
+   "prompt": "I like to swim. (сподобатися, насолоджуватися)",
+   "instruction": "Перепишіть з enjoy",
+   "answer": [
+    "I enjoy swimming."
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "translate",
+   "uk": "Мені вдалося знайти паркомісце.",
+   "answer": [
+    "I managed to find a parking space.",
+    "I managed to find a parking spot.",
+    "I managed to find a place to park."
+   ],
+   "explanation": ""
+  }
+ ]
+}

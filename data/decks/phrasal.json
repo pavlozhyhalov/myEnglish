@@ -1,0 +1,452 @@
+{
+ "id": "phrasal",
+ "cards": [
+  {
+   "en": "to get up",
+   "uk": "вставати (з ліжка)",
+   "tags": [
+    "phrasal"
+   ],
+   "ex": "I got up early to watch the sunrise.",
+   "exUk": "Я встав рано, щоб подивитися на схід сонця."
+  },
+  {
+   "en": "to give up",
+   "uk": "кинути, здатися",
+   "tags": [
+    "phrasal"
+   ],
+   "ex": "He gave up smoking last year.",
+   "exUk": "Він кинув курити минулого року."
+  },
+  {
+   "en": "to find out",
+   "uk": "дізнатися",
+   "tags": [
+    "phrasal"
+   ],
+   "ex": "I need to find out what time the shop opens.",
+   "exUk": "Мені треба дізнатися, о котрій відкривається магазин."
+  },
+  {
+   "en": "to turn on / to turn off",
+   "uk": "увімкнути / вимкнути",
+   "tags": [
+    "phrasal"
+   ],
+   "ex": "Turn off the lights when you leave.",
+   "exUk": "Вимкни світло, коли виходитимеш."
+  },
+  {
+   "en": "to turn up / to turn down",
+   "uk": "зробити гучніше / тихіше",
+   "tags": [
+    "phrasal"
+   ],
+   "ex": "Can you turn the music down a bit?",
+   "exUk": "Можеш зробити музику трохи тихіше?"
+  },
+  {
+   "en": "to turn down (an offer)",
+   "uk": "відхилити (пропозицію)",
+   "tags": [
+    "phrasal"
+   ],
+   "ex": "She turned down the job offer.",
+   "exUk": "Вона відхилила пропозицію роботи."
+  },
+  {
+   "en": "to pick up",
+   "uk": "забрати (когось/щось); підняти",
+   "tags": [
+    "phrasal"
+   ],
+   "ex": "I'll pick you up from the station at six.",
+   "exUk": "Я заберу тебе з вокзалу о шостій."
+  },
+  {
+   "en": "to drop off",
+   "uk": "підвезти й висадити; завезти",
+   "tags": [
+    "phrasal"
+   ],
+   "ex": "Could you drop me off at the corner?",
+   "exUk": "Можеш висадити мене на розі?"
+  },
+  {
+   "en": "to put off",
+   "uk": "відкладати",
+   "tags": [
+    "phrasal"
+   ],
+   "ex": "Stop putting off your visit to the dentist.",
+   "exUk": "Досить відкладати візит до стоматолога."
+  },
+  {
+   "en": "to put on",
+   "uk": "одягнути",
+   "tags": [
+    "phrasal"
+   ],
+   "ex": "Put on your coat, it's cold.",
+   "exUk": "Одягни пальто, холодно."
+  },
+  {
+   "en": "to take off",
+   "uk": "зняти (одяг); злетіти",
+   "tags": [
+    "phrasal"
+   ],
+   "ex": "Please take off your shoes.",
+   "exUk": "Будь ласка, зніміть взуття."
+  },
+  {
+   "en": "to look after",
+   "uk": "доглядати, піклуватися",
+   "tags": [
+    "phrasal"
+   ],
+   "ex": "Can you look after our cat while we're away?",
+   "exUk": "Можеш доглянути нашого кота, поки нас не буде?"
+  },
+  {
+   "en": "to look up",
+   "uk": "шукати (у словнику/інтернеті)",
+   "tags": [
+    "phrasal"
+   ],
+   "ex": "Look up the word in the dictionary.",
+   "exUk": "Знайди слово в словнику."
+  },
+  {
+   "en": "to come up with",
+   "uk": "придумати",
+   "tags": [
+    "phrasal"
+   ],
+   "ex": "She came up with a great idea for the party.",
+   "exUk": "Вона придумала чудову ідею для вечірки."
+  },
+  {
+   "en": "to run out of",
+   "uk": "закінчитися (запас чогось)",
+   "tags": [
+    "phrasal"
+   ],
+   "ex": "We've run out of milk.",
+   "exUk": "У нас закінчилося молоко."
+  },
+  {
+   "en": "to get along with",
+   "uk": "ладнати з",
+   "tags": [
+    "phrasal"
+   ],
+   "ex": "I get along really well with my in-laws.",
+   "exUk": "Я дуже добре ладнаю з родиною дружини."
+  },
+  {
+   "en": "to break down",
+   "uk": "зламатися (про техніку, авто)",
+   "tags": [
+    "phrasal"
+   ],
+   "ex": "Our car broke down on the motorway.",
+   "exUk": "Наша машина зламалася на автостраді."
+  },
+  {
+   "en": "to break up",
+   "uk": "розійтися (про пару)",
+   "tags": [
+    "phrasal"
+   ],
+   "ex": "They broke up after five years together.",
+   "exUk": "Вони розійшлися після п'яти років разом."
+  },
+  {
+   "en": "to set off",
+   "uk": "вирушити",
+   "tags": [
+    "phrasal"
+   ],
+   "ex": "We set off at dawn.",
+   "exUk": "Ми вирушили на світанку."
+  },
+  {
+   "en": "to show up",
+   "uk": "з'явитися, прийти",
+   "tags": [
+    "phrasal"
+   ],
+   "ex": "He showed up an hour late.",
+   "exUk": "Він з'явився на годину пізніше."
+  },
+  {
+   "en": "to work out",
+   "uk": "тренуватися; вийти, вдатися",
+   "tags": [
+    "phrasal"
+   ],
+   "ex": "I work out three times a week. / Don't worry, it'll work out.",
+   "exUk": "Я тренуюся тричі на тиждень. / Не хвилюйся, усе вийде."
+  },
+  {
+   "en": "to sort out",
+   "uk": "владнати, розібратися",
+   "tags": [
+    "phrasal"
+   ],
+   "ex": "Let me sort out the tickets.",
+   "exUk": "Дай я розберуся з квитками."
+  },
+  {
+   "en": "to fill in / to fill out",
+   "uk": "заповнити (бланк)",
+   "tags": [
+    "phrasal"
+   ],
+   "ex": "Fill out this form, please.",
+   "exUk": "Заповніть цей бланк, будь ласка."
+  },
+  {
+   "en": "to go on",
+   "uk": "продовжувати; відбуватися",
+   "tags": [
+    "phrasal"
+   ],
+   "ex": "What's going on here?",
+   "exUk": "Що тут відбувається?"
+  },
+  {
+   "en": "to carry on",
+   "uk": "продовжувати",
+   "tags": [
+    "phrasal"
+   ],
+   "ex": "Sorry for interrupting — carry on.",
+   "exUk": "Вибач, що перебив — продовжуй."
+  },
+  {
+   "en": "to calm down",
+   "uk": "заспокоїтися",
+   "tags": [
+    "phrasal"
+   ],
+   "ex": "Calm down, everything will be fine.",
+   "exUk": "Заспокойся, все буде добре."
+  },
+  {
+   "en": "to cheer up",
+   "uk": "підбадьоритися; підбадьорити",
+   "tags": [
+    "phrasal"
+   ],
+   "ex": "Cheer up! It's not the end of the world.",
+   "exUk": "Не сумуй! Це не кінець світу."
+  },
+  {
+   "en": "to bring up",
+   "uk": "виховувати; підняти тему",
+   "tags": [
+    "phrasal"
+   ],
+   "ex": "I was brought up in Kyiv. / Don't bring up politics at dinner.",
+   "exUk": "Я виріс у Києві. / Не піднімай тему політики за вечерею."
+  },
+  {
+   "en": "to grow up",
+   "uk": "дорослішати, вирости",
+   "tags": [
+    "phrasal"
+   ],
+   "ex": "Where did you grow up?",
+   "exUk": "Де ти виріс?"
+  },
+  {
+   "en": "to take up",
+   "uk": "почати займатися (хобі)",
+   "tags": [
+    "phrasal"
+   ],
+   "ex": "I've taken up swimming.",
+   "exUk": "Я почав займатися плаванням."
+  },
+  {
+   "en": "to look into",
+   "uk": "розібратися, дослідити",
+   "tags": [
+    "phrasal"
+   ],
+   "ex": "I'll look into it and let you know.",
+   "exUk": "Я розберуся і дам тобі знати."
+  },
+  {
+   "en": "to get over",
+   "uk": "оговтатися, пережити",
+   "tags": [
+    "phrasal"
+   ],
+   "ex": "It took me a week to get over the flu.",
+   "exUk": "Мені знадобився тиждень, щоб оговтатися від грипу."
+  },
+  {
+   "en": "to check in on",
+   "uk": "навідатися, перевірити, як справи",
+   "tags": [
+    "phrasal"
+   ],
+   "ex": "I'll check in on Grandma after work.",
+   "exUk": "Я навідаюся до бабусі після роботи."
+  },
+  {
+   "en": "to hold on",
+   "uk": "зачекати (особливо по телефону)",
+   "tags": [
+    "phrasal"
+   ],
+   "ex": "Hold on, I'll put you through.",
+   "exUk": "Зачекайте, я вас з'єднаю."
+  },
+  {
+   "en": "to hang up",
+   "uk": "покласти слухавку",
+   "tags": [
+    "phrasal"
+   ],
+   "ex": "Don't hang up, I'm still here!",
+   "exUk": "Не клади слухавку, я ще тут!"
+  },
+  {
+   "en": "to point out",
+   "uk": "вказати, звернути увагу",
+   "tags": [
+    "phrasal"
+   ],
+   "ex": "Thanks for pointing out the mistake.",
+   "exUk": "Дякую, що вказав на помилку."
+  },
+  {
+   "en": "to let down",
+   "uk": "підвести (когось)",
+   "tags": [
+    "phrasal"
+   ],
+   "ex": "I promised to help — I won't let you down.",
+   "exUk": "Я обіцяв допомогти — я тебе не підведу."
+  },
+  {
+   "en": "to make up",
+   "uk": "помиритися; вигадати",
+   "tags": [
+    "phrasal"
+   ],
+   "ex": "They had a fight but made up the next day.",
+   "exUk": "Вони посварилися, але наступного дня помирилися."
+  },
+  {
+   "en": "to put up with",
+   "uk": "терпіти, миритися з",
+   "tags": [
+    "phrasal"
+   ],
+   "ex": "I can't put up with this noise any longer.",
+   "exUk": "Я більше не можу терпіти цей шум."
+  },
+  {
+   "en": "to get rid of",
+   "uk": "позбутися",
+   "tags": [
+    "phrasal"
+   ],
+   "ex": "We need to get rid of all this old furniture.",
+   "exUk": "Нам треба позбутися всіх цих старих меблів."
+  },
+  {
+   "en": "to keep up with",
+   "uk": "встигати за, не відставати",
+   "tags": [
+    "phrasal"
+   ],
+   "ex": "He speaks so fast, I can't keep up with him.",
+   "exUk": "Він так швидко говорить, що я не встигаю."
+  },
+  {
+   "en": "to run into",
+   "uk": "випадково зустріти",
+   "tags": [
+    "phrasal"
+   ],
+   "ex": "I ran into an old friend at the supermarket.",
+   "exUk": "Я випадково зустрів старого друга в супермаркеті."
+  },
+  {
+   "en": "to eat out",
+   "uk": "їсти не вдома (в ресторані)",
+   "tags": [
+    "phrasal"
+   ],
+   "ex": "Let's eat out tonight — I'm too tired to cook.",
+   "exUk": "Давай повечеряємо в ресторані — я надто втомився готувати."
+  },
+  {
+   "en": "to go out",
+   "uk": "виходити (розважитися); згаснути",
+   "tags": [
+    "phrasal"
+   ],
+   "ex": "Do you want to go out on Friday?",
+   "exUk": "Хочеш кудись піти в п'ятницю?"
+  },
+  {
+   "en": "to stay in",
+   "uk": "залишатися вдома",
+   "tags": [
+    "phrasal"
+   ],
+   "ex": "It's raining, let's stay in and watch a film.",
+   "exUk": "Іде дощ, давай залишимося вдома і подивимося фільм."
+  },
+  {
+   "en": "to fall asleep",
+   "uk": "заснути",
+   "ex": "I fell asleep during the film.",
+   "exUk": "Я заснув під час фільму."
+  },
+  {
+   "en": "to throw away",
+   "uk": "викинути",
+   "tags": [
+    "phrasal"
+   ],
+   "ex": "Don't throw away the box — we might need it.",
+   "exUk": "Не викидай коробку — вона може знадобитися."
+  },
+  {
+   "en": "to get back",
+   "uk": "повернутися",
+   "tags": [
+    "phrasal"
+   ],
+   "ex": "When did you get back from your holiday?",
+   "exUk": "Коли ти повернувся з відпустки?"
+  },
+  {
+   "en": "to try out",
+   "uk": "випробувати, спробувати (нове)",
+   "tags": [
+    "phrasal"
+   ],
+   "ex": "I want to try out the new bike before I buy it.",
+   "exUk": "Хочу випробувати новий велосипед, перш ніж купити."
+  },
+  {
+   "en": "to end up",
+   "uk": "зрештою опинитися, в підсумку",
+   "tags": [
+    "phrasal"
+   ],
+   "ex": "We wanted to go to the cinema but ended up staying at home.",
+   "exUk": "Ми хотіли в кіно, а в підсумку залишилися вдома."
+  }
+ ]
+}

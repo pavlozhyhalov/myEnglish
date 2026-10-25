@@ -1,0 +1,181 @@
+{
+ "id": "reported-statements",
+ "title": "Непряма мова: твердження",
+ "titleEn": "Reported speech: statements (say, tell, backshift)",
+ "unit": "Пасив і непряма мова",
+ "level": "B1",
+ "mistakeType": "tenses",
+ "explanation": "Коли переказуємо чужі слова після *said / told*, час зазвичай **зсувається на крок у минуле**:\n\n- Present → Past: *\"I'm tired.\"* → *She said (that) she **was** tired.*\n- Past / Present Perfect → Past Perfect: *\"I've lost my keys.\"* → *He said he **had lost** his keys.*\n- will → would, can → could: *\"I'll call you.\"* → *He said he **would** call me.*\n\nТакож змінюються займенники й слова часу: *today → that day, tomorrow → the next day, here → there*.\n\n**say** vs **tell**: *say something*, але *tell **somebody** something*: *She told **me** that…* (не ~~said me~~).",
+ "formula": [
+  "said (that) + зсув часу",
+  "told + **кого** + (that) …"
+ ],
+ "table": {
+  "head": [
+   "Пряма",
+   "Непряма"
+  ],
+  "rows": [
+   [
+    "\"I live in Kraków.\"",
+    "He said he lived in Kraków."
+   ],
+   [
+    "\"I'm working.\"",
+    "She said she was working."
+   ],
+   [
+    "\"We have finished.\"",
+    "They said they had finished."
+   ],
+   [
+    "\"I will help.\"",
+    "He said he would help."
+   ],
+   [
+    "\"I can swim.\"",
+    "She said she could swim."
+   ]
+  ]
+ },
+ "examples": [
+  {
+   "en": "She said she was feeling better.",
+   "uk": "Вона сказала, що почувається краще."
+  },
+  {
+   "en": "He told me he had already booked the hotel.",
+   "uk": "Він сказав мені, що вже забронював готель."
+  },
+  {
+   "en": "They said they would come at eight.",
+   "uk": "Вони сказали, що прийдуть о восьмій."
+  },
+  {
+   "en": "Tom said he couldn't find his keys.",
+   "uk": "Том сказав, що не може знайти ключі."
+  },
+  {
+   "en": "My doctor told me to drink more water.",
+   "uk": "Лікар сказав мені пити більше води."
+  }
+ ],
+ "tip": "Наказ/прохання: *tell/ask somebody **to** do*: *He told me **to wait**. She asked me **not to** be late.*",
+ "exercises": [
+  {
+   "type": "choice",
+   "prompt": "\"I am hungry.\" → She said she ___ hungry.",
+   "options": [
+    "is",
+    "was",
+    "has been"
+   ],
+   "answer": "was",
+   "explanation": "Present → Past."
+  },
+  {
+   "type": "choice",
+   "prompt": "He ___ me that he was busy.",
+   "options": [
+    "said",
+    "told",
+    "spoke"
+   ],
+   "answer": "told",
+   "explanation": "tell + кого."
+  },
+  {
+   "type": "choice",
+   "prompt": "\"I will call you.\" → He said he ___ call me.",
+   "options": [
+    "will",
+    "would",
+    "can"
+   ],
+   "answer": "would",
+   "explanation": "will → would."
+  },
+  {
+   "type": "choice",
+   "prompt": "\"We have finished.\" → They said they ___.",
+   "options": [
+    "finished",
+    "had finished",
+    "have finished"
+   ],
+   "answer": "had finished",
+   "explanation": "Present Perfect → Past Perfect."
+  },
+  {
+   "type": "input",
+   "prompt": "\"I can't come.\" → She said she ___ come.",
+   "answer": [
+    "couldn't",
+    "could not"
+   ],
+   "explanation": "can't → couldn't."
+  },
+  {
+   "type": "input",
+   "prompt": "\"I lost my phone.\" → He said he ___ his phone. (2 слова)",
+   "answer": [
+    "had lost"
+   ],
+   "explanation": "Past → Past Perfect."
+  },
+  {
+   "type": "input",
+   "prompt": "\"Wait here.\" → She told me ___ here. (2 слова)",
+   "answer": [
+    "to wait"
+   ],
+   "explanation": "tell somebody to do."
+  },
+  {
+   "type": "error",
+   "sentence": "She said me that she was tired.",
+   "wrongIndex": 1,
+   "correction": "told",
+   "alt": [],
+   "explanation": "tell + кого: She told me…"
+  },
+  {
+   "type": "error",
+   "sentence": "He told that he would be late.",
+   "wrongIndex": 1,
+   "correction": "said",
+   "alt": [],
+   "explanation": "Без «кому» → said."
+  },
+  {
+   "type": "order",
+   "prompt": "Він сказав, що живе в Кракові.",
+   "answer": [
+    "He said he lived in Kraków.",
+    "He said that he lived in Kraków.",
+    "He said he lived in Krakow."
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "transform",
+   "prompt": "\"I am working from home today,\" Anna said.",
+   "instruction": "Перекажіть: Anna said…",
+   "answer": [
+    "Anna said she was working from home that day.",
+    "Anna said that she was working from home that day."
+   ],
+   "explanation": "today → that day."
+  },
+  {
+   "type": "translate",
+   "uk": "Вона сказала мені, що забула про зустріч.",
+   "answer": [
+    "She told me she had forgotten about the meeting.",
+    "She told me that she had forgotten about the meeting.",
+    "She told me she had forgotten the meeting."
+   ],
+   "explanation": ""
+  }
+ ]
+}

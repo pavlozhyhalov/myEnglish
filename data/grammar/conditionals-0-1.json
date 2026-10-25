@@ -1,0 +1,157 @@
+{
+ "id": "conditionals-0-1",
+ "title": "Умовні речення 0 і 1 типу",
+ "titleEn": "Zero and first conditional",
+ "unit": "Умовні речення",
+ "level": "B1",
+ "mistakeType": "tenses",
+ "explanation": "**Zero conditional** — загальні істини, завжди так: *If you heat ice, it melts.*\n*If + Present Simple, Present Simple.*\n\n**First conditional** — **реальна** можливість у майбутньому: *If it rains, we'll stay at home.*\n*If + Present Simple, will + V.*\n\n⚠️ Після *if* — **не** *will*: *If I **see** him* (не ~~if I will see~~).\n\nІнші сполучники з тим самим правилом: *unless* (якщо не), *as soon as, when, provided that*.\n*Unless you hurry, you'll miss the bus* = *If you don't hurry…*",
+ "formula": [
+  "0: If + Present, Present",
+  "1: If + Present, **will** + V"
+ ],
+ "examples": [
+  {
+   "en": "If you mix blue and yellow, you get green.",
+   "uk": "Якщо змішати синій і жовтий, вийде зелений."
+  },
+  {
+   "en": "If I have time, I'll call you tonight.",
+   "uk": "Якщо матиму час, подзвоню ввечері."
+  },
+  {
+   "en": "We'll miss the train if we don't leave now.",
+   "uk": "Ми запізнимося на потяг, якщо не вийдемо зараз."
+  },
+  {
+   "en": "Unless it rains, we'll have a barbecue.",
+   "uk": "Якщо не буде дощу, влаштуємо барбекю."
+  },
+  {
+   "en": "If you're hungry, there's some soup in the fridge.",
+   "uk": "Якщо голодний, у холодильнику є суп."
+  }
+ ],
+ "tip": "Кома ставиться, коли *if*-частина стоїть першою: *If it rains, …* але *We'll stay at home if it rains.*",
+ "exercises": [
+  {
+   "type": "choice",
+   "prompt": "If it ___ tomorrow, we'll go to the beach.",
+   "options": [
+    "will be sunny",
+    "is sunny",
+    "was sunny"
+   ],
+   "answer": "is sunny",
+   "explanation": "If + Present."
+  },
+  {
+   "type": "choice",
+   "prompt": "If you heat water to 100°C, it ___.",
+   "options": [
+    "boils",
+    "will boil",
+    "boiled"
+   ],
+   "answer": "boils",
+   "explanation": "Загальна істина → zero."
+  },
+  {
+   "type": "choice",
+   "prompt": "I ___ you if I hear any news.",
+   "options": [
+    "tell",
+    "'ll tell",
+    "told"
+   ],
+   "answer": "'ll tell",
+   "explanation": "Результат — will."
+  },
+  {
+   "type": "choice",
+   "prompt": "___ you study, you won't pass the exam.",
+   "options": [
+    "If",
+    "Unless",
+    "When"
+   ],
+   "answer": "Unless",
+   "explanation": "Якщо не…"
+  },
+  {
+   "type": "input",
+   "prompt": "If you ___ (not / hurry), you'll be late.",
+   "answer": [
+    "don't hurry",
+    "do not hurry"
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "input",
+   "prompt": "If she calls, I ___ (tell) her you're busy. (2 слова)",
+   "answer": [
+    "will tell",
+    "'ll tell"
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "input",
+   "prompt": "Plants die if they ___ (not / get) enough water.",
+   "answer": [
+    "don't get",
+    "do not get"
+   ],
+   "explanation": "Zero conditional."
+  },
+  {
+   "type": "error",
+   "sentence": "If I see Tom tomorrow, I tell him.",
+   "wrongIndex": 6,
+   "correction": "'ll tell",
+   "alt": [
+    "will tell"
+   ],
+   "explanation": "Результат у майбутньому — will."
+  },
+  {
+   "type": "error",
+   "sentence": "If it rain tomorrow, we'll stay at home.",
+   "wrongIndex": 2,
+   "correction": "rains",
+   "alt": [],
+   "explanation": "it → rains."
+  },
+  {
+   "type": "order",
+   "prompt": "Якщо буде холодно, я одягну куртку.",
+   "answer": [
+    "If it's cold, I'll wear a jacket.",
+    "If it is cold, I will wear a jacket.",
+    "I'll wear a jacket if it's cold."
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "transform",
+   "prompt": "Don't eat so much or you'll feel sick.",
+   "instruction": "Перепишіть з If",
+   "answer": [
+    "If you eat so much, you'll feel sick.",
+    "If you eat so much, you will feel sick.",
+    "If you eat too much, you'll feel sick."
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "translate",
+   "uk": "Якщо ти не проти, я відкрию вікно.",
+   "answer": [
+    "If you don't mind, I'll open the window.",
+    "If you do not mind, I will open the window."
+   ],
+   "explanation": ""
+  }
+ ]
+}
