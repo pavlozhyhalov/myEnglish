@@ -25,7 +25,9 @@
 
 ## Деплой
 - Фронтенд: push у `main` → GitHub Pages.
-- Edge-функції: деплой через Supabase MCP (`deploy_edge_function`) з файлами `<fn>/index.ts` + `_shared/*.ts`.
+- Edge-функції: деплой через Supabase MCP (`deploy_edge_function`, `verify_jwt: false` — функції самі перевіряють JWT і allowlist).
+  Точка входу — однорядковий `index.ts`, що імпортує `https://raw.githubusercontent.com/pavlozhyhalov/myEnglish/<commit-sha>/supabase/functions/<fn>/index.ts`.
+  Порядок: зміни → commit → push → передеплой з новим SHA (закріплення на коміті, не на `main`). Репозиторій має бути публічним; якщо стане приватним — деплоїти файли напряму.
 - Міграції: `apply_migration`, файли зберігати в `supabase/migrations`.
 - Секрети функцій: `GEMINI_API_KEY` (обов'язково), `ALLOWED_USERS` (uuid або email через кому), опційно `GEMINI_TEXT_MODEL`, `GEMINI_TTS_MODEL`, `GEMINI_LIVE_MODEL`, `LIMIT_*`.
 
