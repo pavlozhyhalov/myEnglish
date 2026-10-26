@@ -1,0 +1,275 @@
+{
+ "id": "parenting",
+ "cards": [
+  {
+   "en": "contractions",
+   "uk": "перейми",
+   "ex": "The contractions were coming every five minutes.",
+   "exUk": "Перейми повторювалися кожні п'ять хвилин."
+  },
+  {
+   "en": "pregnancy",
+   "uk": "вагітність",
+   "ex": "She felt great during her pregnancy.",
+   "exUk": "Під час вагітності вона почувалася чудово."
+  },
+  {
+   "en": "pregnancy test",
+   "uk": "тест на вагітність",
+   "ex": "The pregnancy test was positive!",
+   "exUk": "Тест на вагітність був позитивний!"
+  },
+  {
+   "en": "morning sickness",
+   "uk": "ранковий токсикоз",
+   "ex": "Morning sickness usually gets better after the first three months.",
+   "exUk": "Ранковий токсикоз зазвичай минає після перших трьох місяців."
+  },
+  {
+   "en": "scan",
+   "uk": "УЗД",
+   "ex": "At the twenty-week scan we found out it's a girl.",
+   "exUk": "На УЗД на двадцятому тижні ми дізналися, що буде дівчинка."
+  },
+  {
+   "en": "midwife",
+   "uk": "акушерка",
+   "ex": "The midwife checked the baby's heartbeat.",
+   "exUk": "Акушерка перевірила серцебиття малюка."
+  },
+  {
+   "en": "due date",
+   "uk": "передбачувана дата пологів",
+   "ex": "Her due date is the third of March.",
+   "exUk": "Передбачувана дата пологів у неї — третє березня."
+  },
+  {
+   "en": "baby monitor",
+   "uk": "радіоняня",
+   "ex": "We can hear her through the baby monitor.",
+   "exUk": "Ми чуємо її через радіоняню."
+  },
+  {
+   "en": "to rock to sleep",
+   "uk": "заколисувати",
+   "ex": "I rocked him to sleep in my arms.",
+   "exUk": "Я заколисав його на руках."
+  },
+  {
+   "en": "labour",
+   "uk": "пологи",
+   "ex": "Her labour lasted twelve hours.",
+   "exUk": "Її пологи тривали дванадцять годин."
+  },
+  {
+   "en": "to go into labour",
+   "uk": "почати народжувати",
+   "ex": "She went into labour in the middle of the night.",
+   "exUk": "Пологи в неї почалися посеред ночі."
+  },
+  {
+   "en": "to give birth",
+   "uk": "народити",
+   "ex": "She gave birth to a healthy boy.",
+   "exUk": "Вона народила здорового хлопчика."
+  },
+  {
+   "en": "newborn",
+   "uk": "новонароджений",
+   "ex": "Newborns sleep up to seventeen hours a day.",
+   "exUk": "Новонароджені сплять до сімнадцяти годин на добу."
+  },
+  {
+   "en": "twins",
+   "uk": "близнюки, двійнята",
+   "ex": "My cousin has twins, a boy and a girl.",
+   "exUk": "У моєї двоюрідної сестри двійнята — хлопчик і дівчинка."
+  },
+  {
+   "en": "Congratulations on the baby!",
+   "uk": "Вітаємо з малюком!",
+   "ex": "Congratulations on the baby! How are you all doing?",
+   "exUk": "Вітаємо з малюком! Як ви всі?"
+  },
+  {
+   "en": "baby shower",
+   "uk": "бебі-шавер, вечірка на честь майбутньої дитини",
+   "ex": "Her friends are throwing her a baby shower on Saturday.",
+   "exUk": "Подруги влаштовують їй бебі-шавер у суботу."
+  },
+  {
+   "en": "nappy",
+   "uk": "підгузок",
+   "ex": "Can you change her nappy? I'm cooking.",
+   "exUk": "Можеш поміняти їй підгузок? Я готую."
+  },
+  {
+   "en": "pram",
+   "uk": "дитячий візок",
+   "ex": "We took the pram for a walk in the park.",
+   "exUk": "Ми пішли з візком на прогулянку в парк."
+  },
+  {
+   "en": "cot",
+   "uk": "дитяче ліжечко",
+   "ex": "The baby sleeps in a cot next to our bed.",
+   "exUk": "Малюк спить у ліжечку біля нашого ліжка."
+  },
+  {
+   "en": "dummy",
+   "uk": "соска, пустушка",
+   "ex": "He won't go to sleep without his dummy.",
+   "exUk": "Він не засинає без соски."
+  },
+  {
+   "en": "car seat",
+   "uk": "дитяче автокрісло",
+   "ex": "We bought a car seat before the baby arrived.",
+   "exUk": "Ми купили автокрісло ще до народження малюка."
+  },
+  {
+   "en": "to breastfeed",
+   "uk": "годувати грудьми",
+   "ex": "She breastfed for the first six months.",
+   "exUk": "Перші пів року вона годувала грудьми."
+  },
+  {
+   "en": "formula",
+   "uk": "дитяча суміш",
+   "ex": "We had to switch to formula after two months.",
+   "exUk": "Через два місяці нам довелося перейти на суміш."
+  },
+  {
+   "en": "to burp (a baby)",
+   "uk": "дати малюку відригнути",
+   "ex": "Remember to burp the baby after feeding.",
+   "exUk": "Не забудь дати малюку відригнути після годування."
+  },
+  {
+   "en": "sleepless nights",
+   "uk": "безсонні ночі",
+   "ex": "Get ready for a few months of sleepless nights.",
+   "exUk": "Готуйтеся до кількох місяців безсонних ночей."
+  },
+  {
+   "en": "to teethe",
+   "uk": "у дитини ріжуться зубки",
+   "ex": "She's teething, so she's been crying a lot.",
+   "exUk": "У неї ріжуться зубки, тому вона багато плаче."
+  },
+  {
+   "en": "to crawl",
+   "uk": "повзати",
+   "ex": "He started crawling at eight months.",
+   "exUk": "Він почав повзати у вісім місяців."
+  },
+  {
+   "en": "first steps",
+   "uk": "перші кроки",
+   "ex": "We filmed her first steps on my phone.",
+   "exUk": "Ми зняли її перші кроки на мій телефон."
+  },
+  {
+   "en": "to put to bed",
+   "uk": "вкладати спати",
+   "ex": "I'll put the kids to bed and then we can watch a film.",
+   "exUk": "Я вкладу дітей спати, а потім можемо подивитися фільм."
+  },
+  {
+   "en": "lullaby",
+   "uk": "колискова",
+   "ex": "My mum used to sing me Ukrainian lullabies.",
+   "exUk": "Мама співала мені українські колискові."
+  },
+  {
+   "en": "bedtime story",
+   "uk": "казка на ніч",
+   "ex": "He won't go to sleep without a bedtime story.",
+   "exUk": "Він не засинає без казки на ніч."
+  },
+  {
+   "en": "high chair",
+   "uk": "дитячий стільчик для годування",
+   "ex": "She sits in her high chair and throws food on the floor.",
+   "exUk": "Вона сидить у своєму стільчику й кидає їжу на підлогу."
+  },
+  {
+   "en": "nursery",
+   "uk": "ясла",
+   "ex": "He started nursery when he was one.",
+   "exUk": "Він пішов у ясла, коли йому був рік."
+  },
+  {
+   "en": "kindergarten",
+   "uk": "дитячий садок",
+   "ex": "In Poland, children can go to kindergarten from the age of three.",
+   "exUk": "У Польщі діти можуть ходити в садочок із трьох років."
+  },
+  {
+   "en": "playground",
+   "uk": "дитячий майданчик",
+   "ex": "There's a nice playground right behind our building.",
+   "exUk": "Просто за нашим будинком є гарний дитячий майданчик."
+  },
+  {
+   "en": "toddler",
+   "uk": "малюк (1–3 роки)",
+   "ex": "Toddlers are into everything – you can't leave them alone for a second.",
+   "exUk": "Малюки всюди лізуть — їх не можна залишити самих ні на секунду."
+  },
+  {
+   "en": "to have a tantrum",
+   "uk": "влаштувати істерику",
+   "ex": "He had a tantrum in the supermarket because I wouldn't buy him sweets.",
+   "exUk": "Він влаштував істерику в супермаркеті, бо я не купив йому цукерок."
+  },
+  {
+   "en": "to potty train",
+   "uk": "привчати до горщика",
+   "ex": "We're going to potty train her this summer.",
+   "exUk": "Цього літа ми будемо привчати її до горщика."
+  },
+  {
+   "en": "paediatrician",
+   "uk": "педіатр",
+   "ex": "We've got an appointment with the paediatrician on Monday.",
+   "exUk": "У понеділок у нас прийом у педіатра."
+  },
+  {
+   "en": "vaccination",
+   "uk": "щеплення",
+   "ex": "Babies get their first vaccinations at two months.",
+   "exUk": "Перші щеплення малюкам роблять у два місяці."
+  },
+  {
+   "en": "to childproof",
+   "uk": "убезпечити від дитини",
+   "ex": "We need to childproof the flat before he starts walking.",
+   "exUk": "Треба убезпечити квартиру, перш ніж він почне ходити."
+  },
+  {
+   "en": "to spoil",
+   "uk": "розбещувати, балувати",
+   "ex": "Grandparents love to spoil their grandchildren.",
+   "exUk": "Бабусі й дідусі обожнюють балувати онуків."
+  },
+  {
+   "en": "to tell off",
+   "uk": "насварити, відчитати",
+   "ex": "I told him off for drawing on the wall.",
+   "exUk": "Я насварив його за те, що він малював на стіні."
+  },
+  {
+   "en": "to praise",
+   "uk": "хвалити",
+   "ex": "Praise children for their effort, not just for the results.",
+   "exUk": "Хваліть дітей за старання, а не лише за результати."
+  },
+  {
+   "en": "single parent",
+   "uk": "батько чи мати, що виховує дитину сам(а)",
+   "ex": "Being a single parent is really hard.",
+   "exUk": "Самотужки виховувати дитину дуже важко."
+  }
+ ]
+}

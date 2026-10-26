@@ -1,0 +1,220 @@
+{
+ "id": "verb-prepositions",
+ "title": "Дієслова з прийменниками",
+ "titleEn": "Verbs + prepositions",
+ "unit": "Прийменники",
+ "level": "B1",
+ "mistakeType": "prepositions",
+ "explanation": "Багато англійських дієслів вимагають **певного прийменника** перед додатком — і він часто не збігається з українським. Їх треба вчити **парою**: не *wait*, а **wait for**.\n\nНайчастіші: **depend on** (залежати **від**), **listen to** (слухати — з to!), **wait for** (чекати), **look for** (шукати), **look at** (дивитися на), **worry about** (хвилюватися через), **think about / of**, **apologise (to sb) for** (вибачатися за), **pay for** (платити за), **belong to** (належати), **agree with** (погоджуватися з).\n\nПісля прийменника дієслово — з **-ing**: *She apologised for **being** late.* Особливо підступне **look forward to + V-ing**: тут **to** — прийменник, тому *I'm looking forward to **seeing** you*, а не ~~to see~~.\n\nТипові помилки україномовних: ~~discuss about~~ → **discuss**, ~~call to someone~~ → **call someone**, ~~enter into the room~~ → **enter the room**, ~~depend from~~ → **depend on**, ~~explain me~~ → **explain to me**, ~~married with~~ → **married to**.",
+ "formula": [
+  "дієслово + **прийменник** + іменник/займенник — *wait for the bus*",
+  "дієслово + прийменник + **V-ing** — *apologise for being late*",
+  "**без** прийменника: discuss, call, enter, marry, answer"
+ ],
+ "table": {
+  "head": [
+   "Дієслово",
+   "Значення",
+   "Приклад"
+  ],
+  "rows": [
+   [
+    "depend on",
+    "залежати від",
+    "It depends on the weather."
+   ],
+   [
+    "listen to",
+    "слухати",
+    "I listen to podcasts on the tram."
+   ],
+   [
+    "wait for",
+    "чекати",
+    "We're waiting for Vita."
+   ],
+   [
+    "worry about",
+    "хвилюватися через",
+    "Don't worry about the money."
+   ],
+   [
+    "apologise for",
+    "вибачатися за",
+    "He apologised for the noise."
+   ],
+   [
+    "look forward to",
+    "чекати з нетерпінням",
+    "I'm looking forward to the weekend."
+   ],
+   [
+    "discuss, call, enter",
+    "без прийменника!",
+    "Let's discuss it later."
+   ]
+  ]
+ },
+ "examples": [
+  {
+   "en": "It depends on the price.",
+   "uk": "Це залежить від ціни."
+  },
+  {
+   "en": "Who are you waiting for?",
+   "uk": "Кого ти чекаєш?"
+  },
+  {
+   "en": "I'm looking for a cheap flat near Kazimierz.",
+   "uk": "Я шукаю недорогу квартиру біля Казімежа."
+  },
+  {
+   "en": "Vita is worried about her exam.",
+   "uk": "Віта хвилюється через іспит."
+  },
+  {
+   "en": "We're really looking forward to visiting you.",
+   "uk": "Ми дуже чекаємо, коли приїдемо до вас у гості."
+  },
+  {
+   "en": "Can you explain this letter to me?",
+   "uk": "Можеш пояснити мені цей лист?"
+  }
+ ],
+ "tip": "У питаннях прийменник лишається з дієсловом — у кінці речення: *What are you looking **at**? Who does this bag belong **to**?*",
+ "exercises": [
+  {
+   "type": "choice",
+   "prompt": "Whether we go to the mountains depends ___ the weather.",
+   "options": [
+    "from",
+    "on",
+    "of",
+    "at"
+   ],
+   "answer": "on",
+   "explanation": "depend on — не from."
+  },
+  {
+   "type": "choice",
+   "prompt": "I usually listen ___ music on my way home.",
+   "options": [
+    "to",
+    "on",
+    "at"
+   ],
+   "answer": "to",
+   "explanation": "listen to + що слухаємо."
+  },
+  {
+   "type": "choice",
+   "prompt": "We need to ___ our holiday plans.",
+   "options": [
+    "discuss",
+    "discuss about",
+    "talk"
+   ],
+   "answer": "discuss",
+   "explanation": "discuss — без прийменника."
+  },
+  {
+   "type": "choice",
+   "prompt": "I'm looking forward to ___ you in Kraków.",
+   "options": [
+    "see",
+    "seeing",
+    "saw"
+   ],
+   "answer": "seeing",
+   "explanation": "look forward to + V-ing."
+  },
+  {
+   "type": "input",
+   "prompt": "Sorry, I can't talk now — I'm waiting ___ a call from the doctor. (прийменник)",
+   "answer": [
+    "for"
+   ],
+   "explanation": "wait for — чекати."
+  },
+  {
+   "type": "input",
+   "prompt": "Don't worry ___ me, I'll be fine. (прийменник)",
+   "answer": [
+    "about"
+   ],
+   "explanation": "worry about — хвилюватися через."
+  },
+  {
+   "type": "input",
+   "prompt": "He apologised for ___ (forget) her birthday.",
+   "answer": [
+    "forgetting"
+   ],
+   "explanation": "Після прийменника — V-ing."
+  },
+  {
+   "type": "input",
+   "prompt": "Could you explain the rules ___ me again? (прийменник)",
+   "answer": [
+    "to"
+   ],
+   "explanation": "explain something to someone."
+  },
+  {
+   "type": "error",
+   "sentence": "My sister is married with a Polish guy.",
+   "wrongIndex": 4,
+   "correction": "to",
+   "alt": [],
+   "explanation": "be married to — не with."
+  },
+  {
+   "type": "error",
+   "sentence": "It depends from what you want.",
+   "wrongIndex": 2,
+   "correction": "on",
+   "alt": [],
+   "explanation": "depend on — не from."
+  },
+  {
+   "type": "error",
+   "sentence": "I'm looking forward to see you again.",
+   "wrongIndex": 4,
+   "correction": "seeing",
+   "alt": [],
+   "explanation": "Після look forward to — V-ing."
+  },
+  {
+   "type": "order",
+   "prompt": "Я шукаю свої ключі.",
+   "answer": [
+    "I'm looking for my keys.",
+    "I am looking for my keys."
+   ],
+   "explanation": "look for — шукати."
+  },
+  {
+   "type": "transform",
+   "prompt": "I'm sorry that I was late.",
+   "instruction": "Перепишіть з apologise for + -ing, почніть з I apologise…",
+   "answer": [
+    "I apologise for being late.",
+    "I apologize for being late."
+   ],
+   "explanation": "apologise for + V-ing."
+  },
+  {
+   "type": "translate",
+   "uk": "Ми чекаємо на автобус уже двадцять хвилин.",
+   "answer": [
+    "We've been waiting for the bus for twenty minutes.",
+    "We have been waiting for the bus for twenty minutes.",
+    "We've been waiting for the bus for 20 minutes.",
+    "We have been waiting for the bus for 20 minutes.",
+    "We've already been waiting for the bus for twenty minutes.",
+    "We've been waiting for the bus for twenty minutes already."
+   ],
+   "explanation": "wait for + Present Perfect Continuous для тривалості."
+  }
+ ]
+}

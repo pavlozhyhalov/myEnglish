@@ -1,0 +1,227 @@
+{
+ "id": "future-in-past",
+ "title": "Майбутнє в минулому",
+ "titleEn": "Future in the past",
+ "unit": "Майбутнє",
+ "level": "B2",
+ "mistakeType": "tenses",
+ "explanation": "**Майбутнє в минулому** — коли з погляду минулого щось ще мало статися: «я збирався», «він сказав, що прийде», «ми якраз мали виходити».\n\n**was / were going to + V** — план або намір у минулому, який часто **не здійснився**: *I was going to call you, but I forgot.* Також прогноз, зроблений у минулому: *I knew it was going to rain.*\n\n**would + V** — майбутнє з погляду минулого, особливо в непрямій мові й після *said, knew, thought, hoped*: *She said she **would** be late* (пряма мова: *I will be late*). *I never thought we **would** live in Poland.*\n\n**was / were about to + V** — дія мала статися **ось-ось**: *We were about to leave when Vita's mum called.* **was / were supposed to + V** — так **мало бути** за планом, домовленістю чи правилом, але не вийшло: *The train was supposed to arrive at 8, but it was an hour late.*",
+ "formula": [
+  "was/were **going to** + V — збирався (але…)",
+  "**would** + V — після said / knew / thought",
+  "was/were **about to** + V — ось-ось · was/were **supposed to** + V — мало бути"
+ ],
+ "table": {
+  "head": [
+   "Форма",
+   "Значення",
+   "Приклад"
+  ],
+  "rows": [
+   [
+    "was/were going to",
+    "намір у минулому",
+    "We were going to fly, but we took the train."
+   ],
+   [
+    "would",
+    "майбутнє з погляду минулого",
+    "He promised he would fix it."
+   ],
+   [
+    "was/were about to",
+    "ось-ось мало статися",
+    "I was about to go to bed when you texted."
+   ],
+   [
+    "was/were supposed to",
+    "мало бути за планом",
+    "You were supposed to buy bread!"
+   ],
+   [
+    "was/were to",
+    "судилося (книжне)",
+    "They didn't know they were to meet again."
+   ]
+  ]
+ },
+ "examples": [
+  {
+   "en": "I was going to cook dinner, but we ended up ordering sushi.",
+   "uk": "Я збирався приготувати вечерю, але врешті ми замовили суші."
+  },
+  {
+   "en": "Vita said she would meet me at the station.",
+   "uk": "Віта сказала, що зустріне мене на вокзалі."
+  },
+  {
+   "en": "I never imagined I would learn Polish.",
+   "uk": "Я ніколи не думав, що вивчу польську."
+  },
+  {
+   "en": "We were just about to leave when it started pouring.",
+   "uk": "Ми якраз збиралися виходити, коли почалася злива."
+  },
+  {
+   "en": "The plumber was supposed to come on Monday.",
+   "uk": "Сантехнік мав прийти в понеділок."
+  },
+  {
+   "en": "I knew this winter was going to be long.",
+   "uk": "Я знав, що ця зима буде довгою."
+  }
+ ],
+ "tip": "*was going to* — **мій** намір; *was supposed to* — **зовнішній** план чи обов'язок. *I was going to clean* — я збирався прибрати; *I was supposed to clean* — від мене цього чекали (а я не зробив).",
+ "exercises": [
+  {
+   "type": "choice",
+   "prompt": "I ___ call you last night, but my phone died.",
+   "options": [
+    "was going to",
+    "will",
+    "am going to",
+    "would to"
+   ],
+   "answer": "was going to",
+   "explanation": "Намір у минулому, який не здійснився."
+  },
+  {
+   "type": "choice",
+   "prompt": "She promised she ___ help us, but she never came.",
+   "options": [
+    "will",
+    "would",
+    "is going to",
+    "shall"
+   ],
+   "answer": "would",
+   "explanation": "Майбутнє з погляду минулого після promised → would."
+  },
+  {
+   "type": "choice",
+   "prompt": "We were ___ to leave when the taxi driver called to say he was stuck in traffic.",
+   "options": [
+    "about",
+    "close",
+    "soon"
+   ],
+   "answer": "about",
+   "explanation": "was/were about to — ось-ось."
+  },
+  {
+   "type": "choice",
+   "prompt": "The parcel ___ arrive on Tuesday, but it's Friday and it still isn't here.",
+   "options": [
+    "was supposed to",
+    "supposed to",
+    "was suppose to",
+    "is suppose to"
+   ],
+   "answer": "was supposed to",
+   "explanation": "Мало бути за планом: was supposed to."
+  },
+  {
+   "type": "input",
+   "prompt": "We ___ (go) to Gdańsk last weekend, but Vita got sick. (намір, 4 слова)",
+   "answer": [
+    "were going to go"
+   ],
+   "explanation": "Нездійснений план → were going to + V."
+  },
+  {
+   "type": "input",
+   "prompt": "He said he ___ (be) home by ten. (2 слова)",
+   "answer": [
+    "would be",
+    "'d be"
+   ],
+   "explanation": "Непряма мова: will → would."
+  },
+  {
+   "type": "input",
+   "prompt": "I ___ (about / fall) asleep when the neighbours started drilling. (4 слова)",
+   "answer": [
+    "was about to fall"
+   ],
+   "explanation": "Ось-ось мало статися → was about to."
+  },
+  {
+   "type": "input",
+   "prompt": "You ___ (supposed / text) me when you landed! (4 слова)",
+   "answer": [
+    "were supposed to text"
+   ],
+   "explanation": "Очікувалося, але не зроблено → were supposed to."
+  },
+  {
+   "type": "error",
+   "sentence": "I was going to calling you, but I got busy.",
+   "wrongIndex": 4,
+   "correction": "call",
+   "alt": [],
+   "explanation": "Після going to — базова форма."
+  },
+  {
+   "type": "error",
+   "sentence": "She told me she will be late, so I waited.",
+   "wrongIndex": 4,
+   "correction": "would",
+   "alt": [],
+   "explanation": "Майбутнє з погляду минулого → would."
+  },
+  {
+   "type": "order",
+   "prompt": "Я якраз збирався тобі написати.",
+   "answer": [
+    "I was just about to text you.",
+    "I was just about to write to you.",
+    "I was about to text you."
+   ],
+   "explanation": "was about to + V."
+  },
+  {
+   "type": "transform",
+   "prompt": "\"I'll fix the tap tomorrow,\" he said.",
+   "instruction": "Перепишіть у непряму мову, почніть з He said…",
+   "answer": [
+    "He said he would fix the tap the next day.",
+    "He said that he would fix the tap the next day.",
+    "He said he would fix the tap the following day.",
+    "He said that he would fix the tap the following day.",
+    "He said he would fix the tap tomorrow.",
+    "He said that he would fix the tap tomorrow."
+   ],
+   "explanation": "will → would, tomorrow → the next day."
+  },
+  {
+   "type": "translate",
+   "uk": "Ми мали зустрітися о сьомій, але вона не прийшла.",
+   "answer": [
+    "We were supposed to meet at seven, but she didn't come.",
+    "We were supposed to meet at seven, but she didn't show up.",
+    "We were supposed to meet at 7, but she didn't come.",
+    "We were supposed to meet at seven, but she never came.",
+    "We were going to meet at seven, but she didn't come.",
+    "We were supposed to meet at seven o'clock, but she didn't come.",
+    "We were supposed to meet at seven, but she didn't turn up."
+   ],
+   "explanation": "Домовленість, що не здійснилася → were supposed to."
+  },
+  {
+   "type": "translate",
+   "uk": "Я ніколи не думав, що житиму в Кракові.",
+   "answer": [
+    "I never thought I would live in Kraków.",
+    "I never thought I'd live in Kraków.",
+    "I never thought that I would live in Kraków.",
+    "I never thought I would live in Krakow.",
+    "I never thought I'd live in Krakow.",
+    "I never thought I would be living in Kraków.",
+    "I never thought I'd be living in Kraków.",
+    "I never imagined I would live in Kraków.",
+    "I never imagined I'd live in Kraków."
+   ],
+   "explanation": "Після thought у минулому → would."
+  }
+ ]
+}

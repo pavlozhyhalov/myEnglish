@@ -398,5 +398,125 @@
    "I'd appreciate it if you could escalate this."
   ],
   "level": "C1"
+ },
+ {
+  "id": "pharmacy",
+  "group": "life",
+  "emoji": "pill",
+  "title": "В аптеці",
+  "short": "Симптоми, ліки без рецепта, дозування",
+  "situation": "Ви в аптеці біля дому, фармацевт говорить англійською. У вас нежить і болить голова, а Віта попросила купити щось від алергії на пилок.",
+  "myRole": "Покупець в аптеці",
+  "tutorRole": "Фармацевт (pharmacist) в аптеці",
+  "goal": "Описати симптоми, вибрати ліки без рецепта, з'ясувати, як їх приймати і чи можна поєднувати з іншими ліками, заплатити.",
+  "phrases": [
+   "Do you have anything for a runny nose?",
+   "I've got a headache.",
+   "Do I need a prescription for this?",
+   "How many times a day should I take it?",
+   "Can I take it with other medicine?",
+   "I'd also like something for hay fever."
+  ],
+  "level": "A2"
+ },
+ {
+  "id": "car-service",
+  "group": "life",
+  "emoji": "wrench",
+  "title": "В автосервісі",
+  "short": "Несправність, ціна, терміни",
+  "situation": "Коли ви гальмуєте, машина дивно скрипить, а на панелі загорівся жовтий індикатор. Ви приїхали в сервіс, але машина потрібна вам до п'ятниці.",
+  "myRole": "Власник автомобіля",
+  "tutorRole": "Майстер-приймальник в автосервісі (service advisor)",
+  "goal": "Пояснити проблему, дізнатися орієнтовну вартість і терміни, попросити погоджувати з вами додаткові роботи й домовитися, коли забрати авто.",
+  "phrases": [
+   "There's a strange noise when I brake.",
+   "A warning light has come on.",
+   "Could you give me a rough estimate?",
+   "How long will it take?",
+   "Please call me before doing any extra work.",
+   "When can I pick it up?"
+  ],
+  "level": "B1"
+ },
+ {
+  "id": "kindergarten",
+  "group": "life",
+  "emoji": "seedling",
+  "title": "Запис у садочок",
+  "short": "Місця, вартість, розклад, адаптація",
+  "situation": "Ви з Вітою хочете віддати дитину в міжнародний садочок, де всі говорять англійською. Ви прийшли на зустріч із директоркою.",
+  "myRole": "Батько, який записує дитину",
+  "tutorRole": "Директорка садочка (head of the nursery)",
+  "goal": "Дізнатися про вільні місця, вартість, години роботи, харчування, адаптацію та потрібні документи; домовитися про пробний день.",
+  "phrases": [
+   "Do you have any places available from September?",
+   "What are your opening hours?",
+   "How much are the monthly fees?",
+   "Are meals included?",
+   "How do you help new children settle in?",
+   "Could we arrange a trial day?"
+  ],
+  "level": "B1"
+ },
+ {
+  "id": "hotel-problem",
+  "group": "travel",
+  "emoji": "warning",
+  "title": "Проблема з номером",
+  "short": "Скарга, інший номер, компенсація",
+  "situation": "Ви заселилися в готель у Барселоні. У номері не працює кондиціонер, вікна виходять на гучну дорогу, хоча ви бронювали тихий номер з видом на море.",
+  "myRole": "Гість готелю",
+  "tutorRole": "Адміністратор на рецепції (receptionist)",
+  "goal": "Ввічливо, але наполегливо пояснити проблему, попросити інший номер, а якщо його немає — домовитися про компенсацію.",
+  "phrases": [
+   "I'm afraid there's a problem with my room.",
+   "The air conditioning isn't working.",
+   "We booked a quiet room with a sea view.",
+   "Would it be possible to change rooms?",
+   "If not, could you offer us some kind of discount?",
+   "I'd appreciate it if you could sort it out today."
+  ],
+  "level": "B1"
+ },
+ {
+  "id": "gym-membership",
+  "group": "life",
+  "emoji": "muscle",
+  "title": "Абонемент у спортзал",
+  "short": "Ціни, години роботи, заняття",
+  "situation": "Ви хочете почати тренуватися і прийшли в новий спортзал біля дому. Вас цікавлять ціни, басейн і групові заняття.",
+  "myRole": "Новий клієнт",
+  "tutorRole": "Адміністратор спортзалу на рецепції",
+  "goal": "Дізнатися про види абонементів і ціни, години роботи, групові заняття й пробне тренування; обрати абонемент.",
+  "phrases": [
+   "How much is a monthly membership?",
+   "What are your opening hours?",
+   "Is the swimming pool included?",
+   "Do you have any group classes?",
+   "Can I try it for free first?",
+   "Can I cancel at any time?"
+  ],
+  "level": "A2"
+ },
+ {
+  "id": "presentation-qna",
+  "group": "life",
+  "emoji": "mic",
+  "title": "Запитання після виступу",
+  "short": "Гострі запитання, аргументи, дипломатія",
+  "situation": "Ви щойно виступили на вечорі в культурному центрі Кракова з розповіддю про те, як українська громада адаптується в місті. Тепер час запитань із зали, і деякі з них гострі або скептичні.",
+  "myRole": "Доповідач",
+  "tutorRole": "Слухачі із зали: допитливі, часом скептичні чи провокативні (кілька ролей по черзі)",
+  "goal": "Дякувати за запитання, уточнювати незрозуміле, відповідати по суті з прикладами, визнавати межі своїх знань і дипломатично реагувати на критику.",
+  "phrases": [
+   "That's a great question — thank you for raising it.",
+   "If I understand you correctly, you're asking…",
+   "I'd put it slightly differently.",
+   "To be honest, I don't have the exact figures to hand.",
+   "That's a fair point, but I'd argue that…",
+   "Perhaps we could pick this up after the session."
+  ],
+  "level": "C1"
  }
 ]

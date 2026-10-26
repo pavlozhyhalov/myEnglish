@@ -374,6 +374,206 @@
    "level": "C1",
    "text": "She has a remarkable ability to put people at ease.",
    "uk": "Вона має дивовижну здатність допомагати людям почуватися невимушено."
+  },
+  {
+   "level": "A1",
+   "text": "I am from Ukraine.",
+   "uk": "Я з України."
+  },
+  {
+   "level": "A1",
+   "text": "Please speak slowly.",
+   "uk": "Говоріть повільно, будь ласка."
+  },
+  {
+   "level": "A1",
+   "text": "We live in Kraków.",
+   "uk": "Ми живемо в Кракові."
+  },
+  {
+   "level": "A1",
+   "text": "What time is it now?",
+   "uk": "Котра зараз година?"
+  },
+  {
+   "level": "A1",
+   "text": "My wife's name is Vita.",
+   "uk": "Мою дружину звати Віта."
+  },
+  {
+   "level": "A1",
+   "text": "I drink tea in the morning.",
+   "uk": "Вранці я п'ю чай."
+  },
+  {
+   "level": "A1",
+   "text": "The pharmacy is next to the bank.",
+   "uk": "Аптека поруч із банком."
+  },
+  {
+   "level": "A1",
+   "text": "Today is Friday, and tomorrow is Saturday.",
+   "uk": "Сьогодні п'ятниця, а завтра субота."
+  },
+  {
+   "level": "A2",
+   "text": "I'm looking for a cheap hotel.",
+   "uk": "Я шукаю недорогий готель."
+  },
+  {
+   "level": "A2",
+   "text": "Is there a pharmacy near here?",
+   "uk": "Тут поблизу є аптека?"
+  },
+  {
+   "level": "A2",
+   "text": "We had pizza for dinner yesterday.",
+   "uk": "Учора ми їли піцу на вечерю."
+  },
+  {
+   "level": "A2",
+   "text": "I was tired, so I went to bed early.",
+   "uk": "Я втомився, тож рано ліг спати."
+  },
+  {
+   "level": "A2",
+   "text": "Can you help me carry these bags, please?",
+   "uk": "Можеш допомогти мені донести ці сумки, будь ласка?"
+  },
+  {
+   "level": "A2",
+   "text": "How long does it take to get to the airport?",
+   "uk": "Скільки часу добиратися до аеропорту?"
+  },
+  {
+   "level": "A2",
+   "text": "My wife works in a big office in the city centre.",
+   "uk": "Моя дружина працює у великому офісі в центрі міста."
+  },
+  {
+   "level": "A2",
+   "text": "Next summer we want to travel around Italy by car.",
+   "uk": "Наступного літа ми хочемо подорожувати Італією на машині."
+  },
+  {
+   "level": "B1",
+   "text": "I've just booked a table for two at eight.",
+   "uk": "Я щойно забронював столик на двох на восьму."
+  },
+  {
+   "level": "B1",
+   "text": "Could you tell me where I can buy a ticket?",
+   "uk": "Не підкажете, де можна купити квиток?"
+  },
+  {
+   "level": "B1",
+   "text": "We've lived in Kraków since last spring.",
+   "uk": "Ми живемо в Кракові з минулої весни."
+  },
+  {
+   "level": "B1",
+   "text": "The shop was already closed when we finally got there.",
+   "uk": "Коли ми нарешті дісталися, магазин уже був зачинений."
+  },
+  {
+   "level": "B1",
+   "text": "If you're not feeling well, you should see a doctor.",
+   "uk": "Якщо ти погано почуваєшся, тобі варто піти до лікаря."
+  },
+  {
+   "level": "B1",
+   "text": "I'd like to return these trousers because they're too small.",
+   "uk": "Я хотів би повернути ці штани, бо вони замалі."
+  },
+  {
+   "level": "B1",
+   "text": "My neighbour offered to water our plants while we're away.",
+   "uk": "Сусідка запропонувала поливати наші квіти, поки нас не буде."
+  },
+  {
+   "level": "B1",
+   "text": "We're going to need a bigger car once the baby is born.",
+   "uk": "Коли народиться дитина, нам знадобиться більша машина."
+  },
+  {
+   "level": "B2",
+   "text": "I'd have called you, but my phone had run out of battery.",
+   "uk": "Я б тобі зателефонував, але в мене сів телефон."
+  },
+  {
+   "level": "B2",
+   "text": "The doctor advised me to cut down on sugar and get more sleep.",
+   "uk": "Лікар порадив мені їсти менше цукру й більше спати."
+  },
+  {
+   "level": "B2",
+   "text": "No matter how early we leave, we always end up stuck in traffic.",
+   "uk": "Хоч як рано ми виїжджаємо, все одно застрягаємо в заторах."
+  },
+  {
+   "level": "B2",
+   "text": "Unless the weather improves, the hiking trip will have to be called off.",
+   "uk": "Якщо погода не покращиться, похід доведеться скасувати."
+  },
+  {
+   "level": "B2",
+   "text": "The parcel was supposed to arrive on Tuesday, but it still hasn't come.",
+   "uk": "Посилка мала прийти у вівторок, але її досі немає."
+  },
+  {
+   "level": "B2",
+   "text": "We're having the kitchen renovated, so we're eating out a lot these days.",
+   "uk": "У нас ремонтують кухню, тож останнім часом ми часто їмо поза домом."
+  },
+  {
+   "level": "B2",
+   "text": "It took me a while to get used to the fact that everything closes early on Sundays.",
+   "uk": "Мені знадобився час, щоб звикнути, що в неділю все рано зачиняється."
+  },
+  {
+   "level": "B2",
+   "text": "Looking back, I'm glad we decided to move abroad, even though it was hard at first.",
+   "uk": "Озираючись назад, я радий, що ми вирішили переїхати за кордон, хоча спочатку було важко."
+  },
+  {
+   "level": "C1",
+   "text": "I can't help feeling that we've been taken for a ride.",
+   "uk": "Не можу позбутися відчуття, що нас обдурили."
+  },
+  {
+   "level": "C1",
+   "text": "Much as I appreciate the offer, I'm afraid I'll have to turn it down.",
+   "uk": "Хоч я й ціную пропозицію, боюся, мушу відмовитися."
+  },
+  {
+   "level": "C1",
+   "text": "Only after we had signed the contract did we notice the hidden fees.",
+   "uk": "Лише після підписання договору ми помітили приховані платежі."
+  },
+  {
+   "level": "C1",
+   "text": "Becoming parents is bound to change the way we spend our weekends.",
+   "uk": "Ставши батьками, ми неодмінно проводитимемо вихідні по-іншому."
+  },
+  {
+   "level": "C1",
+   "text": "The city has made great strides in improving its cycling infrastructure.",
+   "uk": "Місто досягло значних успіхів у розвитку велосипедної інфраструктури."
+  },
+  {
+   "level": "C1",
+   "text": "Whatever the reason for the delay, passengers deserve a clear explanation.",
+   "uk": "Хоч би якою була причина затримки, пасажири заслуговують на зрозуміле пояснення."
+  },
+  {
+   "level": "C1",
+   "text": "Had the landlord dealt with the leak straight away, the damage would have been far less serious.",
+   "uk": "Якби власник квартири одразу усунув протікання, шкода була б значно меншою."
+  },
+  {
+   "level": "C1",
+   "text": "It remains to be seen whether the new regulations will make any real difference to ordinary people.",
+   "uk": "Ще невідомо, чи нові правила справді щось змінять для звичайних людей."
   }
  ],
  "dialogues": [
@@ -1216,6 +1416,954 @@
      ],
      "answer": 0,
      "explanation_uk": "draft something and send it round by Friday"
+    }
+   ]
+  },
+  {
+   "title": "В аптеці",
+   "level": "A1",
+   "emoji": "pill",
+   "speakers": [
+    "Pharmacist",
+    "Pavlo"
+   ],
+   "lines": [
+    {
+     "speaker": 0,
+     "text": "Good morning. Can I help you?"
+    },
+    {
+     "speaker": 1,
+     "text": "Good morning. I have a headache. Do you have something for it?"
+    },
+    {
+     "speaker": 0,
+     "text": "Yes. These tablets are good. Take one tablet with water."
+    },
+    {
+     "speaker": 1,
+     "text": "How many tablets can I take in a day?"
+    },
+    {
+     "speaker": 0,
+     "text": "Not more than three in a day."
+    },
+    {
+     "speaker": 1,
+     "text": "OK. And do you have something for a cold? My wife is ill."
+    },
+    {
+     "speaker": 0,
+     "text": "Yes, this hot drink is good for a cold. She can drink it in the evening."
+    },
+    {
+     "speaker": 1,
+     "text": "Great. How much is it all?"
+    },
+    {
+     "speaker": 0,
+     "text": "The tablets are eight złoty, and the drink is twelve. That's twenty złoty."
+    },
+    {
+     "speaker": 1,
+     "text": "Can I pay by card?"
+    },
+    {
+     "speaker": 0,
+     "text": "Yes, of course. Here you are. I hope you feel better soon!"
+    },
+    {
+     "speaker": 1,
+     "text": "Thank you. Goodbye!"
+    }
+   ],
+   "questions": [
+    {
+     "q": "What is Pavlo's problem?",
+     "options": [
+      "He has a cold",
+      "He has a headache",
+      "He has a stomach ache"
+     ],
+     "answer": 1,
+     "explanation_uk": "I have a headache — у мене болить голова."
+    },
+    {
+     "q": "How many tablets can he take in a day?",
+     "options": [
+      "Not more than three",
+      "Only one",
+      "Five"
+     ],
+     "answer": 0,
+     "explanation_uk": "Not more than three in a day."
+    },
+    {
+     "q": "Who has a cold?",
+     "options": [
+      "Pavlo",
+      "The pharmacist",
+      "Pavlo's wife"
+     ],
+     "answer": 2,
+     "explanation_uk": "My wife is ill."
+    },
+    {
+     "q": "When can she drink the hot drink?",
+     "options": [
+      "In the morning",
+      "In the evening",
+      "After lunch"
+     ],
+     "answer": 1,
+     "explanation_uk": "She can drink it in the evening."
+    },
+    {
+     "q": "How much does Pavlo pay?",
+     "options": [
+      "Twelve złoty",
+      "Eight złoty",
+      "Twenty złoty"
+     ],
+     "answer": 2,
+     "explanation_uk": "That's twenty złoty."
+    }
+   ]
+  },
+  {
+   "title": "Заселення в готель",
+   "level": "A2",
+   "emoji": "key",
+   "speakers": [
+    "Receptionist",
+    "Vita"
+   ],
+   "lines": [
+    {
+     "speaker": 0,
+     "text": "Good evening, and welcome to the Riverside Hotel. How can I help you?"
+    },
+    {
+     "speaker": 1,
+     "text": "Good evening. I have a reservation. My name is Vita, and the booking is for two nights."
+    },
+    {
+     "speaker": 0,
+     "text": "Let me check... Yes, a double room for two nights. Can I see your passport, please?"
+    },
+    {
+     "speaker": 1,
+     "text": "Here you are. Is breakfast included?"
+    },
+    {
+     "speaker": 0,
+     "text": "Yes, breakfast is from seven to ten in the restaurant on the ground floor."
+    },
+    {
+     "speaker": 1,
+     "text": "Great. And is there Wi-Fi in the room?"
+    },
+    {
+     "speaker": 0,
+     "text": "Yes, it's free. The password is on your key card."
+    },
+    {
+     "speaker": 1,
+     "text": "What time do we need to check out?"
+    },
+    {
+     "speaker": 0,
+     "text": "Check-out is at eleven. If you need a late check-out, it's twenty euros extra."
+    },
+    {
+     "speaker": 1,
+     "text": "No, eleven is fine. My husband is parking the car. Is the car park free?"
+    },
+    {
+     "speaker": 0,
+     "text": "I'm afraid it's fifteen euros a night. Your room is 305, on the third floor. The lift is on the left."
+    },
+    {
+     "speaker": 1,
+     "text": "Thank you very much!"
+    }
+   ],
+   "questions": [
+    {
+     "q": "How many nights is the booking for?",
+     "options": [
+      "One",
+      "Two",
+      "Three"
+     ],
+     "answer": 1,
+     "explanation_uk": "the booking is for two nights"
+    },
+    {
+     "q": "Where do guests have breakfast?",
+     "options": [
+      "In their room",
+      "In a café next door",
+      "In the restaurant on the ground floor"
+     ],
+     "answer": 2,
+     "explanation_uk": "in the restaurant on the ground floor — на першому поверсі"
+    },
+    {
+     "q": "Where is the Wi-Fi password?",
+     "options": [
+      "On the key card",
+      "On the door",
+      "On the TV"
+     ],
+     "answer": 0,
+     "explanation_uk": "The password is on your key card."
+    },
+    {
+     "q": "How much does a late check-out cost?",
+     "options": [
+      "Fifteen euros",
+      "Twenty euros",
+      "It's free"
+     ],
+     "answer": 1,
+     "explanation_uk": "it's twenty euros extra"
+    },
+    {
+     "q": "Where is the room?",
+     "options": [
+      "On the third floor",
+      "On the fifth floor",
+      "On the ground floor"
+     ],
+     "answer": 0,
+     "explanation_uk": "Your room is 305, on the third floor. (Британський third floor — наш четвертий поверх.)"
+    }
+   ]
+  },
+  {
+   "title": "Запис до лікаря телефоном",
+   "level": "A2",
+   "emoji": "phone",
+   "speakers": [
+    "Receptionist",
+    "Pavlo"
+   ],
+   "lines": [
+    {
+     "speaker": 0,
+     "text": "Good morning, Green Park Medical Centre. How can I help?"
+    },
+    {
+     "speaker": 1,
+     "text": "Hello. I'd like to make an appointment with a doctor, please."
+    },
+    {
+     "speaker": 0,
+     "text": "Of course. Are you already registered with us?"
+    },
+    {
+     "speaker": 1,
+     "text": "Yes, I am. My name is Pavlo."
+    },
+    {
+     "speaker": 0,
+     "text": "Thank you. And what's the problem?"
+    },
+    {
+     "speaker": 1,
+     "text": "I've had a bad cough for a week, and it isn't getting better."
+    },
+    {
+     "speaker": 0,
+     "text": "I see. The first free appointment with Dr Nowak is on Thursday at a quarter past three. Is that OK?"
+    },
+    {
+     "speaker": 1,
+     "text": "Thursday is difficult for me. Do you have anything earlier?"
+    },
+    {
+     "speaker": 0,
+     "text": "There's one tomorrow morning at twenty to nine, with Dr Smith."
+    },
+    {
+     "speaker": 1,
+     "text": "Perfect, I'll take it."
+    },
+    {
+     "speaker": 0,
+     "text": "Great. Please come ten minutes early and bring your insurance card."
+    },
+    {
+     "speaker": 1,
+     "text": "OK. Thank you very much. Goodbye!"
+    }
+   ],
+   "questions": [
+    {
+     "q": "What's wrong with Pavlo?",
+     "options": [
+      "He has a bad cough",
+      "He has a broken arm",
+      "He has a toothache"
+     ],
+     "answer": 0,
+     "explanation_uk": "I've had a bad cough — у мене сильний кашель."
+    },
+    {
+     "q": "How long has he had the problem?",
+     "options": [
+      "Two days",
+      "A week",
+      "A month"
+     ],
+     "answer": 1,
+     "explanation_uk": "for a week"
+    },
+    {
+     "q": "Why doesn't he take the Thursday appointment?",
+     "options": [
+      "It's too expensive",
+      "He doesn't like Dr Nowak",
+      "Thursday is difficult for him"
+     ],
+     "answer": 2,
+     "explanation_uk": "Thursday is difficult for me."
+    },
+    {
+     "q": "When is his appointment?",
+     "options": [
+      "On Thursday at 3:15",
+      "Tomorrow at 8:40",
+      "Today at 8:40"
+     ],
+     "answer": 1,
+     "explanation_uk": "tomorrow morning at twenty to nine — за двадцять дев'ята, тобто 8:40"
+    },
+    {
+     "q": "What should he bring?",
+     "options": [
+      "His passport",
+      "A photo",
+      "His insurance card"
+     ],
+     "answer": 2,
+     "explanation_uk": "bring your insurance card"
+    }
+   ]
+  },
+  {
+   "title": "Сусідка просить допомоги",
+   "level": "B1",
+   "emoji": "house",
+   "speakers": [
+    "Mrs Nowak",
+    "Pavlo"
+   ],
+   "lines": [
+    {
+     "speaker": 0,
+     "text": "Oh, Pavlo, hello! Sorry to bother you. Have you got a minute?"
+    },
+    {
+     "speaker": 1,
+     "text": "Of course, Mrs Nowak. Is everything all right?"
+    },
+    {
+     "speaker": 0,
+     "text": "Not really. I'm going to visit my daughter in Gdańsk for a week, and I've just found out that my cat-sitter is ill."
+    },
+    {
+     "speaker": 1,
+     "text": "Oh no. So you need someone to look after the cat?"
+    },
+    {
+     "speaker": 0,
+     "text": "Exactly. I know it's a lot to ask, but could you feed her once a day? She only needs dry food and fresh water."
+    },
+    {
+     "speaker": 1,
+     "text": "That's no problem at all. Vita loves cats, so she'll be happy to help too."
+    },
+    {
+     "speaker": 0,
+     "text": "You're so kind. I'm leaving on Saturday morning and coming back the following Sunday."
+    },
+    {
+     "speaker": 1,
+     "text": "Fine. Should we do anything else? Water the plants, maybe?"
+    },
+    {
+     "speaker": 0,
+     "text": "If you don't mind, the plants on the balcony need watering every two or three days. I'll leave you the spare key."
+    },
+    {
+     "speaker": 1,
+     "text": "Sure. And what if something happens to the cat?"
+    },
+    {
+     "speaker": 0,
+     "text": "The vet's number is on the fridge. She's a healthy cat, though, so I don't expect any problems."
+    },
+    {
+     "speaker": 1,
+     "text": "Great. Could you also write down your phone number, just in case?"
+    },
+    {
+     "speaker": 0,
+     "text": "Of course. And please help yourselves to the apples from my garden. I've got far too many."
+    },
+    {
+     "speaker": 1,
+     "text": "Thank you! Have a lovely time in Gdańsk."
+    }
+   ],
+   "questions": [
+    {
+     "q": "Why does Mrs Nowak need help?",
+     "options": [
+      "Her cat is ill",
+      "Her cat-sitter is ill",
+      "Her daughter is ill"
+     ],
+     "answer": 1,
+     "explanation_uk": "my cat-sitter is ill — людина, яка мала доглядати кицьку, захворіла"
+    },
+    {
+     "q": "How long will she be away?",
+     "options": [
+      "About a week",
+      "Two days",
+      "A month"
+     ],
+     "answer": 0,
+     "explanation_uk": "for a week; from Saturday until the following Sunday"
+    },
+    {
+     "q": "How often do the plants need watering?",
+     "options": [
+      "Every day",
+      "Once a week",
+      "Every two or three days"
+     ],
+     "answer": 2,
+     "explanation_uk": "every two or three days"
+    },
+    {
+     "q": "Where is the vet's phone number?",
+     "options": [
+      "In a drawer",
+      "On the fridge",
+      "Next to the door"
+     ],
+     "answer": 1,
+     "explanation_uk": "The vet's number is on the fridge."
+    },
+    {
+     "q": "What does Mrs Nowak offer them?",
+     "options": [
+      "Some money",
+      "A cake",
+      "Apples from her garden"
+     ],
+     "answer": 2,
+     "explanation_uk": "help yourselves to the apples — пригощайтеся яблуками"
+    }
+   ]
+  },
+  {
+   "title": "Плутанина з доставкою",
+   "level": "B1",
+   "emoji": "package",
+   "speakers": [
+    "Agent",
+    "Vita"
+   ],
+   "lines": [
+    {
+     "speaker": 0,
+     "text": "Hello, you're through to FastParcel customer service. My name is Mark. How can I help?"
+    },
+    {
+     "speaker": 1,
+     "text": "Hi, Mark. I'm calling about a parcel. The app says it was delivered yesterday at 2 pm, but I never got it."
+    },
+    {
+     "speaker": 0,
+     "text": "I'm sorry to hear that. Could you give me the tracking number, please?"
+    },
+    {
+     "speaker": 1,
+     "text": "Yes, it's F P 4 8 2 7 1 9."
+    },
+    {
+     "speaker": 0,
+     "text": "Thank you. Let me have a look... OK, the driver says he left it with a neighbour at number 14."
+    },
+    {
+     "speaker": 1,
+     "text": "Number 14? But we live at number 41! I think he got the numbers the wrong way round."
+    },
+    {
+     "speaker": 0,
+     "text": "Ah, that would explain it. I do apologise. Have you checked with the people at number 14?"
+    },
+    {
+     "speaker": 1,
+     "text": "Not yet. I was at work all day, and there was no card or note in our letterbox."
+    },
+    {
+     "speaker": 0,
+     "text": "I understand. I'll contact the driver and ask him to collect it and bring it to the right address."
+    },
+    {
+     "speaker": 1,
+     "text": "Thank you. When can I expect it? It's a birthday present for my husband, and his birthday is on Friday."
+    },
+    {
+     "speaker": 0,
+     "text": "The driver can bring it tomorrow between 9 am and 1 pm. Will someone be at home?"
+    },
+    {
+     "speaker": 1,
+     "text": "Yes, I'm working from home tomorrow, so the morning is perfect."
+    },
+    {
+     "speaker": 0,
+     "text": "Great. I'll also add a note asking the driver to call you before he arrives."
+    },
+    {
+     "speaker": 1,
+     "text": "That's very helpful. Thanks for sorting this out so quickly."
+    }
+   ],
+   "questions": [
+    {
+     "q": "According to the app, when was the parcel delivered?",
+     "options": [
+      "This morning",
+      "Yesterday at 2 pm",
+      "Two days ago"
+     ],
+     "answer": 1,
+     "explanation_uk": "it was delivered yesterday at 2 pm"
+    },
+    {
+     "q": "What went wrong?",
+     "options": [
+      "The driver lost the parcel",
+      "The parcel was damaged",
+      "The driver mixed up the house numbers"
+     ],
+     "answer": 2,
+     "explanation_uk": "he got the numbers the wrong way round — переплутав цифри місцями (14 замість 41)"
+    },
+    {
+     "q": "What is in the parcel?",
+     "options": [
+      "A birthday present",
+      "Clothes for Vita",
+      "Books for work"
+     ],
+     "answer": 0,
+     "explanation_uk": "It's a birthday present for my husband."
+    },
+    {
+     "q": "When will the parcel arrive?",
+     "options": [
+      "On Friday",
+      "Tomorrow morning",
+      "Tomorrow evening"
+     ],
+     "answer": 1,
+     "explanation_uk": "tomorrow between 9 am and 1 pm"
+    },
+    {
+     "q": "What will the driver do before he arrives?",
+     "options": [
+      "Send an email",
+      "Leave it at number 14",
+      "Call Vita"
+     ],
+     "answer": 2,
+     "explanation_uk": "asking the driver to call you before he arrives"
+    }
+   ]
+  },
+  {
+   "title": "Купівля вживаного авто",
+   "level": "B2",
+   "emoji": "key",
+   "speakers": [
+    "Seller",
+    "Pavlo"
+   ],
+   "lines": [
+    {
+     "speaker": 0,
+     "text": "Hi, you must be Pavlo. You called about the Skoda?"
+    },
+    {
+     "speaker": 1,
+     "text": "That's right. Thanks for meeting me. Could you tell me a bit about its history?"
+    },
+    {
+     "speaker": 0,
+     "text": "Sure. It's a 2018 model, I'm the second owner, and it's done just under ninety thousand kilometres."
+    },
+    {
+     "speaker": 1,
+     "text": "Has it ever been in an accident?"
+    },
+    {
+     "speaker": 0,
+     "text": "Only a minor one. Someone reversed into the back bumper in a car park. It was repaired properly, and I've got the receipts."
+    },
+    {
+     "speaker": 1,
+     "text": "Good to know. And when was it last serviced?"
+    },
+    {
+     "speaker": 0,
+     "text": "In March. The timing belt was replaced at the same time, so you won't need to worry about that for a while."
+    },
+    {
+     "speaker": 1,
+     "text": "What about the tyres? They look a bit worn."
+    },
+    {
+     "speaker": 0,
+     "text": "Those are the summer tyres, but I'll throw in a set of winter tyres as well. They're in the garage."
+    },
+    {
+     "speaker": 1,
+     "text": "That's useful. Would you mind if I took it for a test drive?"
+    },
+    {
+     "speaker": 0,
+     "text": "Not at all. Just let me see your driving licence first."
+    },
+    {
+     "speaker": 1,
+     "text": "Thanks. It drives nicely, but I noticed a slight squeak when I braked."
+    },
+    {
+     "speaker": 0,
+     "text": "That's probably just the brake pads. They'd cost about three hundred złoty to replace."
+    },
+    {
+     "speaker": 1,
+     "text": "In that case, would you accept forty-two thousand instead of forty-five?"
+    },
+    {
+     "speaker": 0,
+     "text": "Let's meet halfway. Forty-three and a half, and it's yours."
+    },
+    {
+     "speaker": 1,
+     "text": "Deal, as long as my mechanic can check it over tomorrow."
+    }
+   ],
+   "questions": [
+    {
+     "q": "How many owners has the car had so far?",
+     "options": [
+      "One",
+      "Two",
+      "Three"
+     ],
+     "answer": 1,
+     "explanation_uk": "I'm the second owner — продавець є другим власником"
+    },
+    {
+     "q": "What happened in the accident?",
+     "options": [
+      "Someone reversed into the back bumper",
+      "Someone hit the front of the car",
+      "The car hit a tree"
+     ],
+     "answer": 0,
+     "explanation_uk": "Someone reversed into the back bumper — хтось здав назад і вдарив задній бампер"
+    },
+    {
+     "q": "What will the seller include for free?",
+     "options": [
+      "New brake pads",
+      "A full service",
+      "A set of winter tyres"
+     ],
+     "answer": 2,
+     "explanation_uk": "I'll throw in a set of winter tyres — додам безкоштовно комплект зимових шин"
+    },
+    {
+     "q": "Why does Pavlo ask for a lower price?",
+     "options": [
+      "The car is too old",
+      "The brakes squeak slightly",
+      "The mileage is too high"
+     ],
+     "answer": 1,
+     "explanation_uk": "I noticed a slight squeak when I braked"
+    },
+    {
+     "q": "What price do they agree on?",
+     "options": [
+      "43,500 złoty",
+      "42,000 złoty",
+      "45,000 złoty"
+     ],
+     "answer": 0,
+     "explanation_uk": "Let's meet halfway. Forty-three and a half — зійдімося посередині"
+    }
+   ]
+  },
+  {
+   "title": "Подруга чекає дитину",
+   "level": "B2",
+   "emoji": "party",
+   "speakers": [
+    "Kate",
+    "Vita"
+   ],
+   "lines": [
+    {
+     "speaker": 0,
+     "text": "Vita! It's so good to see you. Sorry I'm a bit late. I had my twenty-week scan this morning."
+    },
+    {
+     "speaker": 1,
+     "text": "Oh, how did it go? Is everything OK with the baby?"
+    },
+    {
+     "speaker": 0,
+     "text": "Everything's fine, thank goodness. The doctor said the baby's growing exactly as it should be."
+    },
+    {
+     "speaker": 1,
+     "text": "That's wonderful news. Did you find out whether it's a boy or a girl?"
+    },
+    {
+     "speaker": 0,
+     "text": "We decided not to. Tom really wants it to be a surprise, and I've come round to the idea."
+    },
+    {
+     "speaker": 1,
+     "text": "I love that. So how are you feeling? You look great."
+    },
+    {
+     "speaker": 0,
+     "text": "Much better than in the first few months. The morning sickness was awful, but it's finally worn off. Now I'm just tired all the time."
+    },
+    {
+     "speaker": 1,
+     "text": "Listen, a few of us would like to throw you a baby shower. Would you be up for that?"
+    },
+    {
+     "speaker": 0,
+     "text": "Oh, that's so sweet! But nothing too big, please. Just close friends."
+    },
+    {
+     "speaker": 1,
+     "text": "Of course. We were thinking of a Sunday afternoon at our place in about six weeks' time, before you get too uncomfortable."
+    },
+    {
+     "speaker": 0,
+     "text": "That sounds perfect. Can I ask one thing, though? Could you ask people not to buy clothes? My sister has already given us loads."
+    },
+    {
+     "speaker": 1,
+     "text": "Good idea. What would be more useful?"
+    },
+    {
+     "speaker": 0,
+     "text": "Honestly, nappies and a few bedtime books would be amazing."
+    },
+    {
+     "speaker": 1,
+     "text": "Noted. And just between us, Pavlo and I are starting to think about having a baby too, so I'll be taking notes!"
+    },
+    {
+     "speaker": 0,
+     "text": "Really? That's fantastic! You can borrow all my pregnancy books afterwards."
+    },
+    {
+     "speaker": 1,
+     "text": "Deal! Now let's order. Decaf for you, I suppose?"
+    }
+   ],
+   "questions": [
+    {
+     "q": "Why was Kate late?",
+     "options": [
+      "She missed her bus",
+      "She had her twenty-week scan",
+      "She was stuck at work"
+     ],
+     "answer": 1,
+     "explanation_uk": "I had my twenty-week scan — у мене було УЗД на двадцятому тижні"
+    },
+    {
+     "q": "Why don't they know if it's a boy or a girl?",
+     "options": [
+      "They want it to be a surprise",
+      "The scan wasn't clear",
+      "The doctor refused to tell them"
+     ],
+     "answer": 0,
+     "explanation_uk": "Tom really wants it to be a surprise"
+    },
+    {
+     "q": "How does Kate feel now?",
+     "options": [
+      "Sick every morning",
+      "Full of energy",
+      "Tired all the time"
+     ],
+     "answer": 2,
+     "explanation_uk": "Now I'm just tired all the time. Ранкова нудота вже минула (has worn off)."
+    },
+    {
+     "q": "What does Kate ask guests not to buy?",
+     "options": [
+      "Clothes",
+      "Nappies",
+      "Books"
+     ],
+     "answer": 0,
+     "explanation_uk": "Could you ask people not to buy clothes?"
+    },
+    {
+     "q": "What does Vita tell Kate in confidence?",
+     "options": [
+      "She is pregnant",
+      "She and Pavlo are thinking about having a baby",
+      "She is moving house"
+     ],
+     "answer": 1,
+     "explanation_uk": "Pavlo and I are starting to think about having a baby too"
+    }
+   ]
+  },
+  {
+   "title": "Радіодискусія: міський транспорт",
+   "level": "C1",
+   "emoji": "city",
+   "speakers": [
+    "Host",
+    "Pavlo"
+   ],
+   "lines": [
+    {
+     "speaker": 0,
+     "text": "Good evening and welcome back to City Talk. Tonight we're discussing the council's plan to close the Old Town to private cars. With me is Pavlo, who has been cycling to work in Kraków for three years. Pavlo, are you in favour?"
+    },
+    {
+     "speaker": 1,
+     "text": "Broadly, yes. Anyone who's tried to cross the city centre at rush hour knows the current situation is unsustainable. That said, I have reservations about how it's being rolled out."
+    },
+    {
+     "speaker": 0,
+     "text": "Go on."
+    },
+    {
+     "speaker": 1,
+     "text": "Well, the ban comes into force in January, yet the extra tram lines that are supposed to compensate won't be running until the autumn. So for the best part of a year, people will have fewer options, not more."
+    },
+    {
+     "speaker": 0,
+     "text": "The council argues that if they waited for everything to be in place, the project would never get off the ground."
+    },
+    {
+     "speaker": 1,
+     "text": "I take the point, but sequencing matters. If people's first experience is of overcrowded trams and longer journeys, you lose public support, and that's very hard to win back."
+    },
+    {
+     "speaker": 0,
+     "text": "Some listeners have written in to say the ban penalises older residents and people with disabilities."
+    },
+    {
+     "speaker": 1,
+     "text": "That's a legitimate concern, and to be fair, the plan does include exemptions for drivers with a disability permit. But I'd go further: a door-to-door minibus service, at least in the first year, would cost relatively little and make a real difference."
+    },
+    {
+     "speaker": 0,
+     "text": "What about businesses? Shop owners are worried that fewer customers will come."
+    },
+    {
+     "speaker": 1,
+     "text": "The evidence from other cities actually points the other way. When streets become pedestrian-friendly, people tend to linger and spend more. Deliveries are the real issue, and that can be solved with fixed delivery windows early in the morning."
+    },
+    {
+     "speaker": 0,
+     "text": "And cycling? Will it get any easier?"
+    },
+    {
+     "speaker": 1,
+     "text": "Only if the bike lanes are physically separated from traffic. Painted lines on the road don't make anyone feel safe, least of all parents with small children."
+    },
+    {
+     "speaker": 0,
+     "text": "So if you were advising the mayor, what would your message be?"
+    },
+    {
+     "speaker": 1,
+     "text": "Keep the ambition, but delay the ban until the trams are running, and communicate far more clearly. People are much more willing to change their habits if they understand why and can see the alternatives."
+    },
+    {
+     "speaker": 0,
+     "text": "Pavlo, thank you. After the news, we'll be taking your calls on this."
+    }
+   ],
+   "questions": [
+    {
+     "q": "What is Pavlo's overall position on the plan?",
+     "options": [
+      "He is completely against it",
+      "He supports it in principle but criticises the timing",
+      "He thinks it doesn't go far enough"
+     ],
+     "answer": 1,
+     "explanation_uk": "Broadly, yes… I have reservations about how it's being rolled out — загалом «за», але має застереження щодо впровадження"
+    },
+    {
+     "q": "What is his main concern about the timing?",
+     "options": [
+      "The ban starts before the new tram lines are ready",
+      "The new trams will be too expensive",
+      "The ban starts in the middle of summer"
+     ],
+     "answer": 0,
+     "explanation_uk": "the extra tram lines… won't be running until the autumn"
+    },
+    {
+     "q": "What does he suggest for older and disabled residents?",
+     "options": [
+      "Free taxi rides",
+      "Exemptions for everyone over 65",
+      "A door-to-door minibus service"
+     ],
+     "answer": 2,
+     "explanation_uk": "a door-to-door minibus service — мікроавтобус «від дверей до дверей»"
+    },
+    {
+     "q": "According to Pavlo, what happens when streets become pedestrian-friendly?",
+     "options": [
+      "People spend less money",
+      "People tend to stay longer and spend more",
+      "Deliveries become impossible"
+     ],
+     "answer": 1,
+     "explanation_uk": "people tend to linger and spend more — затримуються довше й витрачають більше"
+    },
+    {
+     "q": "What does he say about painted bike lanes?",
+     "options": [
+      "They are good enough for now",
+      "They are too expensive",
+      "They don't make anyone feel safe"
+     ],
+     "answer": 2,
+     "explanation_uk": "Painted lines on the road don't make anyone feel safe"
     }
    ]
   }

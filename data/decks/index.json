@@ -126,6 +126,33 @@
   "count": 50
  },
  {
+  "id": "tech-online",
+  "name": "Технології й інтернет",
+  "emoji": "phone",
+  "group": "general",
+  "level": "B1",
+  "desc": "Смартфони, застосунки, соцмережі, паролі й збої вдома",
+  "count": 50
+ },
+ {
+  "id": "relationships",
+  "name": "Стосунки й люди",
+  "emoji": "handshake",
+  "group": "general",
+  "level": "B1",
+  "desc": "Дружба, побачення, шлюб, сварки й риси характеру",
+  "count": 45
+ },
+ {
+  "id": "parenting",
+  "name": "Вагітність і діти",
+  "emoji": "seedling",
+  "group": "general",
+  "level": "B1",
+  "desc": "Вагітність, пологи, догляд за малюком, садочок",
+  "count": 45
+ },
+ {
   "id": "collocations",
   "name": "Колокації",
   "emoji": "sparkles",
@@ -141,6 +168,24 @@
   "group": "general",
   "level": "B2",
   "desc": "Живі вирази носіїв",
+  "count": 50
+ },
+ {
+  "id": "news-society",
+  "name": "Новини й суспільство",
+  "emoji": "city",
+  "group": "general",
+  "level": "B2",
+  "desc": "Політика, економіка, довкілля, злочини й медіа",
+  "count": 50
+ },
+ {
+  "id": "phrasal-advanced",
+  "name": "Фразові дієслова 2",
+  "emoji": "puzzle",
+  "group": "general",
+  "level": "B2",
+  "desc": "Поширені фразові дієслова рівня B2",
   "count": 50
  },
  {

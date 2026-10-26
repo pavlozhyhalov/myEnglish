@@ -488,5 +488,191 @@
   ],
   "sample": "Dear Sir or Madam,\n\nI am writing as a resident of Lipowa Street to propose the construction of a dedicated cycle lane along its full length.\n\nAt present, cyclists are forced to share a narrow road with heavy traffic, including delivery lorries serving the nearby industrial area. This poses a significant risk, particularly to children cycling to the two schools located on the street. Several near-misses have been reported this year alone.\n\nA separated cycle lane would not only improve safety but would also encourage more residents to leave their cars at home, thereby reducing congestion and noise. Similar lanes introduced in other districts of Kraków have proved both popular and effective. Given that the pavement on the eastern side is unusually wide, the lane could be introduced at relatively low cost, without reducing the number of parking spaces.\n\nI would be grateful if you could consider including this project in next year's budget. Many of my neighbours share this view, and we would be happy to take part in any public consultation.\n\nI look forward to your response.\n\nYours faithfully,\nPavlo Zhyhalov",
   "level": "C1"
+ },
+ {
+  "id": "postcard",
+  "kind": "other",
+  "kindLabel": "Листівка",
+  "emoji": "sun",
+  "title": "Листівка з відпустки",
+  "task": "Напишіть коротку листівку другові з відпустки: де ви і з ким, яка погода, що ви робите і що вам подобається.",
+  "context": "",
+  "words": "30–50",
+  "phrases": [
+   {
+    "group": "Привітання",
+    "items": [
+     "Dear Anna,",
+     "Hi Tom!",
+     "Greetings from Gdańsk!"
+    ]
+   },
+   {
+    "group": "Де ви і погода",
+    "items": [
+     "We are in … for a week.",
+     "The weather is sunny and warm.",
+     "Our hotel is near the sea."
+    ]
+   },
+   {
+    "group": "Що ви робите",
+    "items": [
+     "Every day we swim in the sea.",
+     "In the evening we eat fish in the old town.",
+     "I like it here very much."
+    ]
+   },
+   {
+    "group": "Завершення",
+    "items": [
+     "See you soon!",
+     "Love,",
+     "Best wishes,"
+    ]
+   }
+  ],
+  "sample": "Hi Tom!\n\nGreetings from Gdańsk! Vita and I are here for a week. The weather is sunny and warm. Our hotel is near the beach. We swim every day. In the evening we eat fish in the old town. We love it here!\n\nSee you soon,\nPavlo",
+  "level": "A1"
+ },
+ {
+  "id": "complaint-neighbour-note",
+  "kind": "other",
+  "kindLabel": "Записка · сусідам",
+  "emoji": "house",
+  "title": "Записка сусідам про шум",
+  "task": "Напишіть ввічливу записку сусідам згори: уже кілька тижнів пізно ввечері в них гучна музика. Поясніть, як це впливає на вас, запропонуйте рішення і залиште свій контакт.",
+  "context": "",
+  "words": "70–110",
+  "phrases": [
+   {
+    "group": "Початок",
+    "items": [
+     "Dear neighbours,",
+     "Hello from flat 12!",
+     "I hope you don't mind me writing to you."
+    ]
+   },
+   {
+    "group": "Проблема",
+    "items": [
+     "Over the last few weeks, …",
+     "We can hear loud music late at night.",
+     "It's been quite hard for us to get to sleep.",
+     "I'm sure you don't realise how much noise travels."
+    ]
+   },
+   {
+    "group": "Пропозиція",
+    "items": [
+     "Would you mind keeping the volume down after 10 pm?",
+     "Perhaps we could have a quick chat about it.",
+     "Please let us know if we ever disturb you, too."
+    ]
+   },
+   {
+    "group": "Завершення",
+    "items": [
+     "Thank you for understanding.",
+     "My number is …",
+     "Best wishes,"
+    ]
+   }
+  ],
+  "sample": "Dear neighbours,\n\nI hope you don't mind me writing to you. We live in flat 12, just below you. Over the last few weeks, we've often heard loud music late at night, sometimes until 1 am. I'm sure you don't realise how much noise travels in this building, but it's been quite hard for us to get to sleep, and we both start work early.\n\nWould you mind keeping the volume down after 10 pm on weekdays? Please let us know if we ever disturb you, too. My number is 600 123 456.\n\nThank you for understanding.\n\nBest wishes,\nPavlo and Vita",
+  "level": "B1"
+ },
+ {
+  "id": "cover-letter",
+  "kind": "email",
+  "kindLabel": "Лист · мотиваційний",
+  "emoji": "handshake",
+  "title": "Мотиваційний лист: волонтерство",
+  "task": "Напишіть мотиваційний лист, щоб стати волонтером (або отримати роботу на неповний день) у місцевому центрі допомоги іноземцям чи благодійній організації. Поясніть, чому вас цікавить ця роль, який маєте досвід і навички та коли ви доступні.",
+  "context": "",
+  "words": "120–180",
+  "phrases": [
+   {
+    "group": "Вступ",
+    "items": [
+     "Dear Ms Nowak,",
+     "I am writing to apply for the role of … advertised on …",
+     "I was delighted to see that you are looking for…"
+    ]
+   },
+   {
+    "group": "Мотивація і досвід",
+    "items": [
+     "Having moved to Kraków myself, I know how…",
+     "I have some experience of…",
+     "I speak Ukrainian and Polish, and my English is improving fast.",
+     "I would describe myself as patient and well organised."
+    ]
+   },
+   {
+    "group": "Доступність",
+    "items": [
+     "I am available on weekday evenings and at weekends.",
+     "I could commit to around six hours a week.",
+     "I would be happy to attend any training."
+    ]
+   },
+   {
+    "group": "Завершення",
+    "items": [
+     "I would welcome the opportunity to discuss my application.",
+     "Thank you for considering my application.",
+     "Yours sincerely,"
+    ]
+   }
+  ],
+  "sample": "Dear Ms Nowak,\n\nI am writing to apply for the role of volunteer assistant at the Welcome Centre, which I saw advertised on your website.\n\nHaving moved to Kraków from Ukraine myself, I know how confusing the first few weeks in a new country can be, from registering an address to finding a doctor. I would love to help other newcomers through that process.\n\nLast year I helped several friends fill in official forms and translated at meetings with landlords and schools. I speak Ukrainian and Polish, and my English is improving fast. I would describe myself as patient, reliable and well organised, and I enjoy working with people.\n\nI am available on weekday evenings and at weekends, and I could commit to around six hours a week. I would also be happy to attend any training you provide.\n\nThank you for considering my application. I would welcome the opportunity to discuss it with you.\n\nYours sincerely,\nPavlo",
+  "level": "B2"
+ },
+ {
+  "id": "report-review",
+  "kind": "other",
+  "kindLabel": "Звіт · огляд",
+  "emoji": "chart",
+  "title": "Звіт про покращення в місті",
+  "task": "Міський портал просить мешканців оцінити нещодавнє покращення в місті (нові велодоріжки, оновлена бібліотека, нічні трамваї тощо). Напишіть звіт із підзаголовками: що змінилося, що вдалося, що ні, і ваші рекомендації.",
+  "context": "",
+  "words": "200–250",
+  "phrases": [
+   {
+    "group": "Вступ і мета",
+    "items": [
+     "The aim of this report is to assess…",
+     "This report is based on my own experience and conversations with…",
+     "Introduced last spring, the scheme was intended to…"
+    ]
+   },
+   {
+    "group": "Переваги",
+    "items": [
+     "On the positive side, …",
+     "The most noticeable improvement has been…",
+     "This has proved particularly popular with…"
+    ]
+   },
+   {
+    "group": "Недоліки",
+    "items": [
+     "However, a number of issues remain.",
+     "One drawback is that…",
+     "It is worth noting that…"
+    ]
+   },
+   {
+    "group": "Рекомендації",
+    "items": [
+     "In light of the above, I would recommend…",
+     "It would be advisable to…",
+     "Overall, the scheme has been a success, although…"
+    ]
+   }
+  ],
+  "sample": "Night Trams in Kraków: A Resident's Report\n\nIntroduction\nThe aim of this report is to assess the night tram service introduced last spring. It is based on my own experience and on conversations with neighbours and friends who use it regularly.\n\nWhat has changed\nPreviously, public transport stopped shortly before midnight, leaving taxis as the only option. Four tram lines now run every thirty minutes until 4 am at weekends.\n\nWhat has worked well\nOn the positive side, the service has made the city centre far more accessible in the evenings. It has proved particularly popular with students and hospitality staff, many of whom finish work late and previously spent a considerable part of their wages on taxis. The trams are clean, and the presence of security staff has made passengers feel noticeably safer.\n\nWhat has not\nHowever, a number of issues remain. The service does not yet reach several large residential districts, so many residents still face a long walk home. In addition, timetable information at stops is often out of date, which causes unnecessary frustration.\n\nRecommendations\nIn light of the above, I would recommend extending at least one line to the outer districts and introducing live departure boards at the busiest stops. It would also be advisable to run the service on Thursday nights.\n\nConclusion\nOverall, the scheme has been a success, although it will only reach its full potential once these gaps are addressed.",
+  "level": "C1"
  }
 ]

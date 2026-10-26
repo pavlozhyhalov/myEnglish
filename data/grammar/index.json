@@ -70,8 +70,18 @@
   "summary": "Can — могти, вміти: I can swim. Також для прохань і дозволу: Can I have a…"
  },
  {
-  "id": "present-simple-continuous",
+  "id": "imperatives-lets",
   "n": 8,
+  "title": "Наказовий спосіб і Let's",
+  "titleEn": "Imperatives, Let's, polite requests",
+  "unit": "Основи речення",
+  "level": "A2",
+  "mistakeType": "word_order",
+  "summary": "Накази (Open…, Don't…), Let's / Let's not, ввічливі прохання з please"
+ },
+ {
+  "id": "present-simple-continuous",
+  "n": 9,
   "title": "Present Simple чи Continuous",
   "titleEn": "Present Simple vs Present Continuous",
   "unit": "Теперішні часи",
@@ -81,7 +91,7 @@
  },
  {
   "id": "past-simple-basics",
-  "n": 9,
+  "n": 10,
   "title": "Past Simple: основи",
   "titleEn": "Past Simple: regular and irregular verbs, was/were",
   "unit": "Минулі часи",
@@ -91,7 +101,7 @@
  },
  {
   "id": "going-to",
-  "n": 10,
+  "n": 11,
   "title": "Be going to",
   "titleEn": "be going to: plans and predictions",
   "unit": "Майбутнє",
@@ -100,8 +110,18 @@
   "summary": "be going to + V — про плани й наміри, які вже вирішені: I'm going to visit my…"
  },
  {
+  "id": "will-future",
+  "n": 12,
+  "title": "Майбутнє з will",
+  "titleEn": "will: decisions, promises, offers, predictions",
+  "unit": "Майбутнє",
+  "level": "A2",
+  "mistakeType": "tenses",
+  "summary": "will: рішення зараз, обіцянки, пропозиції, прогнози; will чи going to"
+ },
+ {
   "id": "questions",
-  "n": 11,
+  "n": 13,
   "title": "Питання і порядок слів",
   "titleEn": "Question formation and word order",
   "unit": "Будова речення",
@@ -111,7 +131,7 @@
  },
  {
   "id": "object-pronouns",
-  "n": 12,
+  "n": 14,
   "title": "Me, him, her, them",
   "titleEn": "Subject and object pronouns",
   "unit": "Будова речення",
@@ -121,7 +141,7 @@
  },
  {
   "id": "adverbs-frequency",
-  "n": 13,
+  "n": 15,
   "title": "Як часто: always, usually, never",
   "titleEn": "Adverbs of frequency and word order",
   "unit": "Будова речення",
@@ -131,7 +151,7 @@
  },
  {
   "id": "some-any-much-many",
-  "n": 14,
+  "n": 16,
   "title": "Some / any, much / many",
   "titleEn": "some, any, much, many, a lot of",
   "unit": "Іменник і артиклі",
@@ -141,7 +161,7 @@
  },
  {
   "id": "comparatives",
-  "n": 15,
+  "n": 17,
   "title": "Порівняння прикметників",
   "titleEn": "Comparatives and superlatives; as…as",
   "unit": "Будова речення",
@@ -151,7 +171,7 @@
  },
  {
   "id": "prepositions-time",
-  "n": 16,
+  "n": 18,
   "title": "Прийменники часу",
   "titleEn": "Prepositions of time: in/on/at, for/since/during, by/until",
   "unit": "Прийменники",
@@ -161,7 +181,7 @@
  },
  {
   "id": "prepositions-place",
-  "n": 17,
+  "n": 19,
   "title": "Прийменники місця і руху",
   "titleEn": "Prepositions of place and movement",
   "unit": "Прийменники",
@@ -171,7 +191,7 @@
  },
  {
   "id": "stative-verbs",
-  "n": 18,
+  "n": 20,
   "title": "Дієслова стану",
   "titleEn": "Stative verbs (know, want, like) vs action verbs",
   "unit": "Теперішні часи",
@@ -181,7 +201,7 @@
  },
  {
   "id": "past-simple-continuous",
-  "n": 19,
+  "n": 21,
   "title": "Past Simple і Past Continuous",
   "titleEn": "Past Simple vs Past Continuous",
   "unit": "Минулі часи",
@@ -191,7 +211,7 @@
  },
  {
   "id": "present-perfect",
-  "n": 20,
+  "n": 22,
   "title": "Present Perfect",
   "titleEn": "Present Perfect: experience, result, unfinished time",
   "unit": "Минулі часи",
@@ -201,7 +221,7 @@
  },
  {
   "id": "perfect-vs-past",
-  "n": 21,
+  "n": 23,
   "title": "Present Perfect чи Past Simple",
   "titleEn": "Present Perfect vs Past Simple",
   "unit": "Минулі часи",
@@ -211,7 +231,7 @@
  },
  {
   "id": "perfect-continuous",
-  "n": 22,
+  "n": 24,
   "title": "Present Perfect Continuous",
   "titleEn": "Present Perfect Continuous (for / since, how long)",
   "unit": "Минулі часи",
@@ -221,7 +241,7 @@
  },
  {
   "id": "past-perfect",
-  "n": 23,
+  "n": 25,
   "title": "Past Perfect",
   "titleEn": "Past Perfect (had + V3)",
   "unit": "Минулі часи",
@@ -231,7 +251,7 @@
  },
  {
   "id": "used-to",
-  "n": 24,
+  "n": 26,
   "title": "Used to, would, be used to",
   "titleEn": "used to / would / be used to / get used to",
   "unit": "Минулі часи",
@@ -241,7 +261,7 @@
  },
  {
   "id": "future-forms",
-  "n": 25,
+  "n": 27,
   "title": "Майбутнє: will, going to, Present Continuous",
   "titleEn": "Future forms: will vs going to vs Present Continuous",
   "unit": "Майбутнє",
@@ -251,7 +271,7 @@
  },
  {
   "id": "modals-obligation",
-  "n": 26,
+  "n": 28,
   "title": "Must, have to, should",
   "titleEn": "Obligation and advice: must, have to, should, don't have to, mustn't",
   "unit": "Модальні дієслова",
@@ -261,7 +281,7 @@
  },
  {
   "id": "modals-ability",
-  "n": 27,
+  "n": 29,
   "title": "Can, could, be able to, may",
   "titleEn": "Ability and permission: can, could, be able to, may, be allowed to",
   "unit": "Модальні дієслова",
@@ -271,7 +291,7 @@
  },
  {
   "id": "articles",
-  "n": 28,
+  "n": 30,
   "title": "Артиклі a/an і the",
   "titleEn": "Articles: a/an vs the",
   "unit": "Іменник і артиклі",
@@ -281,7 +301,7 @@
  },
  {
   "id": "zero-article",
-  "n": 29,
+  "n": 31,
   "title": "Коли артикль не потрібен",
   "titleEn": "Zero article: no article with plurals, uncountables and fixed phrases",
   "unit": "Іменник і артиклі",
@@ -291,7 +311,7 @@
  },
  {
   "id": "quantifiers",
-  "n": 30,
+  "n": 32,
   "title": "Some, any, much, many, few, little",
   "titleEn": "Quantifiers: some/any, much/many, a lot of, (a) few, (a) little",
   "unit": "Іменник і артиклі",
@@ -301,7 +321,7 @@
  },
  {
   "id": "relative-clauses",
-  "n": 31,
+  "n": 33,
   "title": "Відносні речення: who, which, that, where",
   "titleEn": "Relative clauses: who, which, that, where, whose",
   "unit": "Будова речення",
@@ -311,7 +331,7 @@
  },
  {
   "id": "gerund-infinitive",
-  "n": 32,
+  "n": 34,
   "title": "Герундій чи інфінітив",
   "titleEn": "Gerund (-ing) vs infinitive (to do)",
   "unit": "Будова речення",
@@ -321,7 +341,7 @@
  },
  {
   "id": "phrasal-verbs",
-  "n": 33,
+  "n": 35,
   "title": "Фразові дієслова: граматика",
   "titleEn": "Phrasal verbs: separable and inseparable",
   "unit": "Будова речення",
@@ -331,7 +351,7 @@
  },
  {
   "id": "so-such-too-enough",
-  "n": 34,
+  "n": 36,
   "title": "So, such, too, enough",
   "titleEn": "so / such, too / enough",
   "unit": "Будова речення",
@@ -340,8 +360,18 @@
   "summary": "so + прикметник/прислівник: It was so cold! She speaks so fast."
  },
  {
+  "id": "question-tags",
+  "n": 37,
+  "title": "Розділові питання",
+  "titleEn": "Question tags",
+  "unit": "Будова речення",
+  "level": "B1",
+  "mistakeType": "word_order",
+  "summary": "Хвостики isn't it?, don't you?, shall we? та інтонація"
+ },
+ {
   "id": "conditionals-0-1",
-  "n": 35,
+  "n": 38,
   "title": "Умовні речення 0 і 1 типу",
   "titleEn": "Zero and first conditional",
   "unit": "Умовні речення",
@@ -351,7 +381,7 @@
  },
  {
   "id": "conditional-2",
-  "n": 36,
+  "n": 39,
   "title": "Умовні речення 2 типу",
   "titleEn": "Second conditional (unreal present/future)",
   "unit": "Умовні речення",
@@ -361,7 +391,7 @@
  },
  {
   "id": "passive-basic",
-  "n": 37,
+  "n": 40,
   "title": "Пасивний стан: основи",
   "titleEn": "Passive voice: present and past simple",
   "unit": "Пасив і непряма мова",
@@ -371,7 +401,7 @@
  },
  {
   "id": "reported-statements",
-  "n": 38,
+  "n": 41,
   "title": "Непряма мова: твердження",
   "titleEn": "Reported speech: statements (say, tell, backshift)",
   "unit": "Пасив і непряма мова",
@@ -380,8 +410,18 @@
   "summary": "Переказуючи чужі слова після said / told, зсуваємо час на крок у минуле: \"I'm tired\" → She said she was tired."
  },
  {
+  "id": "verb-prepositions",
+  "n": 42,
+  "title": "Дієслова з прийменниками",
+  "titleEn": "Verbs + prepositions",
+  "unit": "Прийменники",
+  "level": "B1",
+  "mistakeType": "prepositions",
+  "summary": "depend on, wait for, look forward to + -ing; типові помилки україномовних"
+ },
+ {
   "id": "future-continuous-perfect",
-  "n": 39,
+  "n": 43,
   "title": "Future Continuous і Future Perfect",
   "titleEn": "Future Continuous and Future Perfect",
   "unit": "Майбутнє",
@@ -390,8 +430,18 @@
   "summary": "Future Continuous (will be + V-ing) — дія буде тривати в певний момент майбутнього:…"
  },
  {
+  "id": "future-in-past",
+  "n": 44,
+  "title": "Майбутнє в минулому",
+  "titleEn": "Future in the past",
+  "unit": "Майбутнє",
+  "level": "B2",
+  "mistakeType": "tenses",
+  "summary": "was going to, would, was about to, was supposed to: майбутнє з минулого"
+ },
+ {
   "id": "modals-deduction",
-  "n": 40,
+  "n": 45,
   "title": "Припущення: must, might, can't",
   "titleEn": "Modals of deduction: must, might, may, could, can't",
   "unit": "Модальні дієслова",
@@ -401,7 +451,7 @@
  },
  {
   "id": "modals-past",
-  "n": 41,
+  "n": 46,
   "title": "Should have, could have, must have",
   "titleEn": "Past modals: should have, could have, must have, might have, can't have",
   "unit": "Модальні дієслова",
@@ -411,7 +461,7 @@
  },
  {
   "id": "linking-words",
-  "n": 42,
+  "n": 47,
   "title": "Сполучники: although, however, despite",
   "titleEn": "Linking words: although, however, despite, because, so, in case",
   "unit": "Будова речення",
@@ -421,7 +471,7 @@
  },
  {
   "id": "conditional-3",
-  "n": 43,
+  "n": 48,
   "title": "Умовні речення 3 типу і змішані",
   "titleEn": "Third and mixed conditionals",
   "unit": "Умовні речення",
@@ -431,7 +481,7 @@
  },
  {
   "id": "wish",
-  "n": 44,
+  "n": 49,
   "title": "I wish, if only",
   "titleEn": "Wishes and regrets: I wish / if only",
   "unit": "Умовні речення",
@@ -441,7 +491,7 @@
  },
  {
   "id": "causative",
-  "n": 45,
+  "n": 50,
   "title": "Have something done",
   "titleEn": "Causative: have / get something done",
   "unit": "Пасив і непряма мова",
@@ -451,7 +501,7 @@
  },
  {
   "id": "passive-advanced",
-  "n": 46,
+  "n": 51,
   "title": "Пасив у різних часах і have something done",
   "titleEn": "Passive in other tenses; have something done",
   "unit": "Пасив і непряма мова",
@@ -461,7 +511,7 @@
  },
  {
   "id": "reported-questions",
-  "n": 47,
+  "n": 52,
   "title": "Непряма мова: питання",
   "titleEn": "Reported questions and indirect questions",
   "unit": "Пасив і непряма мова",
@@ -471,7 +521,7 @@
  },
  {
   "id": "mixed-conditionals",
-  "n": 48,
+  "n": 53,
   "title": "Змішані умовні речення",
   "titleEn": "Mixed conditionals",
   "unit": "Умовні речення",
@@ -481,7 +531,7 @@
  },
  {
   "id": "inversion",
-  "n": 49,
+  "n": 54,
   "title": "Інверсія для наголосу",
   "titleEn": "Inversion after negative adverbials",
   "unit": "Просунуті конструкції",
@@ -491,7 +541,7 @@
  },
  {
   "id": "cleft-sentences",
-  "n": 50,
+  "n": 55,
   "title": "Виділення: It is … that, What I need is…",
   "titleEn": "Cleft sentences for emphasis",
   "unit": "Просунуті конструкції",
@@ -501,7 +551,7 @@
  },
  {
   "id": "participle-clauses",
-  "n": 51,
+  "n": 56,
   "title": "Дієприкметникові звороти",
   "titleEn": "Participle clauses",
   "unit": "Просунуті конструкції",
@@ -511,12 +561,22 @@
  },
  {
   "id": "unreal-past",
-  "n": 52,
+  "n": 57,
   "title": "It's time, would rather, as if",
   "titleEn": "Unreal past: it's time, would rather, as if, wish (review)",
   "unit": "Просунуті конструкції",
   "level": "C1",
   "mistakeType": "tenses",
   "summary": "Після деяких виразів Past Simple означає не минуле, а нереальне / бажане…"
+ },
+ {
+  "id": "hedging",
+  "n": 58,
+  "title": "Пом'якшення висловлювань",
+  "titleEn": "Hedging and softening",
+  "unit": "Просунуті конструкції",
+  "level": "C1",
+  "mistakeType": "other",
+  "summary": "seem/tend to, it would appear, arguably, might well: м'яко й обережно"
  }
 ]

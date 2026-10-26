@@ -1,0 +1,228 @@
+{
+ "id": "question-tags",
+ "title": "Розділові питання",
+ "titleEn": "Question tags",
+ "unit": "Будова речення",
+ "level": "B1",
+ "mistakeType": "word_order",
+ "explanation": "**Question tag** — коротке питання в кінці речення, як наше «так?», «правда ж?»: *It's cold today, isn't it?*\n\nПравило дзеркала: **стверджувальне речення → заперечний хвостик**, **заперечне → стверджувальний**: *You live in Kraków, **don't you**?* / *You don't eat meat, **do you**?* У хвостику — **той самий допоміжний** (be, have, can, will…), а якщо його немає — **do / does / did**. Підмет — завжди займенник: *Vita likes jazz, doesn't **she**?*\n\nОсобливі випадки: *I'm right, **aren't I**?* · *Let's go, **shall we**?* · *Open the door, **will you**?* · *Nobody called, **did they**?* · *There's a bus at six, **isn't there**?*\n\nІнтонація змінює зміст: голос **вниз ↘** — ви впевнені й чекаєте згоди (*Nice day, isn't it?*); голос **вгору ↗** — ви справді не знаєте й питаєте (*You've locked the door, haven't you?*).",
+ "formula": [
+  "ствердження, **заперечний** хвостик? — *It's late, isn't it?*",
+  "заперечення, **стверджувальний** хвостик? — *You can't swim, can you?*",
+  "допоміжне з речення або **do / does / did** + займенник"
+ ],
+ "table": {
+  "head": [
+   "Речення",
+   "Хвостик",
+   "Примітка"
+  ],
+  "rows": [
+   [
+    "She's from Lviv,",
+    "isn't she?",
+    "be → be"
+   ],
+   [
+    "They've been to Gdańsk,",
+    "haven't they?",
+    "have → have"
+   ],
+   [
+    "You can drive,",
+    "can't you?",
+    "модальне → те саме"
+   ],
+   [
+    "Vita works on Saturdays,",
+    "doesn't she?",
+    "без допоміжного → do / does"
+   ],
+   [
+    "You didn't call him,",
+    "did you?",
+    "заперечення → ствердження"
+   ],
+   [
+    "I'm late,",
+    "aren't I?",
+    "виняток: am → aren't I"
+   ],
+   [
+    "Let's eat out,",
+    "shall we?",
+    "Let's → shall we"
+   ]
+  ]
+ },
+ "examples": [
+  {
+   "en": "The tram is late again, isn't it?",
+   "uk": "Трамвай знову запізнюється, правда?"
+  },
+  {
+   "en": "You don't mind if I open the window, do you?",
+   "uk": "Ти ж не проти, якщо я відчиню вікно?"
+  },
+  {
+   "en": "We met at Ania's party, didn't we?",
+   "uk": "Ми ж познайомилися на вечірці в Ані, так?"
+  },
+  {
+   "en": "Let's try that new pierogi place, shall we?",
+   "uk": "Спробуймо той новий заклад з варениками, гаразд?"
+  },
+  {
+   "en": "You haven't seen my keys, have you?",
+   "uk": "Ти, бува, не бачив моїх ключів?"
+  },
+  {
+   "en": "There's a pharmacy near here, isn't there?",
+   "uk": "Тут поблизу є аптека, так?"
+  }
+ ],
+ "tip": "У розмові замість хвостика можна сказати *…, right?* — це завжди правильно: *You're coming tomorrow, right?* Але в тестах і на письмі потрібен справжній хвостик.",
+ "exercises": [
+  {
+   "type": "choice",
+   "prompt": "You live near the Old Town, ___?",
+   "options": [
+    "don't you",
+    "aren't you",
+    "do you",
+    "isn't it"
+   ],
+   "answer": "don't you",
+   "explanation": "Present Simple без допоміжного → don't; ствердження → заперечний хвостик."
+  },
+  {
+   "type": "choice",
+   "prompt": "Vita can't come tonight, ___?",
+   "options": [
+    "can she",
+    "can't she",
+    "does she"
+   ],
+   "answer": "can she",
+   "explanation": "Заперечне речення → стверджувальний хвостик з can."
+  },
+  {
+   "type": "choice",
+   "prompt": "I'm a bit late, ___?",
+   "options": [
+    "am I",
+    "aren't I",
+    "amn't I",
+    "isn't it"
+   ],
+   "answer": "aren't I",
+   "explanation": "Виняток: I am → aren't I."
+  },
+  {
+   "type": "choice",
+   "prompt": "Let's take a taxi, ___?",
+   "options": [
+    "shall we",
+    "will we",
+    "don't we",
+    "let's we"
+   ],
+   "answer": "shall we",
+   "explanation": "Після Let's — shall we."
+  },
+  {
+   "type": "choice",
+   "prompt": "Nobody phoned while I was out, ___?",
+   "options": [
+    "did they",
+    "didn't they",
+    "does it"
+   ],
+   "answer": "did they",
+   "explanation": "Nobody — заперечення, займенник they → did they."
+  },
+  {
+   "type": "input",
+   "prompt": "Your brother works in Warsaw, ___? (хвостик)",
+   "answer": [
+    "doesn't he",
+    "does he not"
+   ],
+   "explanation": "works → does; ствердження → doesn't he."
+  },
+  {
+   "type": "input",
+   "prompt": "You've been to Zakopane, ___? (хвостик)",
+   "answer": [
+    "haven't you",
+    "have you not"
+   ],
+   "explanation": "'ve = have → haven't you."
+  },
+  {
+   "type": "input",
+   "prompt": "It wasn't very expensive, ___? (хвостик)",
+   "answer": [
+    "was it"
+   ],
+   "explanation": "Заперечне речення → was it."
+  },
+  {
+   "type": "input",
+   "prompt": "There's a cash machine on this street, ___? (хвостик)",
+   "answer": [
+    "isn't there",
+    "is there not"
+   ],
+   "explanation": "There is → isn't there."
+  },
+  {
+   "type": "error",
+   "sentence": "She's coming to dinner, doesn't she?",
+   "wrongIndex": 4,
+   "correction": "isn't",
+   "alt": [],
+   "explanation": "She's coming = she is coming, тому хвостик з is."
+  },
+  {
+   "type": "error",
+   "sentence": "You don't like spicy food, don't you?",
+   "wrongIndex": 5,
+   "correction": "do",
+   "alt": [],
+   "explanation": "Заперечне речення → стверджувальний хвостик."
+  },
+  {
+   "type": "order",
+   "prompt": "Сьогодні гарна погода, правда?",
+   "answer": [
+    "It's a lovely day, isn't it?",
+    "It is a lovely day, isn't it?"
+   ],
+   "explanation": "It's → isn't it."
+  },
+  {
+   "type": "transform",
+   "prompt": "You forgot to buy bread.",
+   "instruction": "Додайте question tag",
+   "answer": [
+    "You forgot to buy bread, didn't you?",
+    "You forgot to buy bread, did you not?"
+   ],
+   "explanation": "Past Simple → didn't."
+  },
+  {
+   "type": "translate",
+   "uk": "Ти ж не забув про суботу, правда?",
+   "answer": [
+    "You haven't forgotten about Saturday, have you?",
+    "You didn't forget about Saturday, did you?",
+    "You haven't forgotten about Saturday, right?",
+    "You didn't forget about Saturday, right?",
+    "You haven't forgotten Saturday, have you?",
+    "You didn't forget Saturday, did you?"
+   ],
+   "explanation": "Заперечне речення → стверджувальний хвостик."
+  }
+ ]
+}

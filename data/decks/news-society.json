@@ -1,0 +1,305 @@
+{
+ "id": "news-society",
+ "cards": [
+  {
+   "en": "government",
+   "uk": "уряд",
+   "ex": "The government has announced new rules for renting.",
+   "exUk": "Уряд оголосив нові правила оренди житла."
+  },
+  {
+   "en": "election",
+   "uk": "вибори",
+   "ex": "The election is next month.",
+   "exUk": "Вибори відбудуться наступного місяця."
+  },
+  {
+   "en": "to vote",
+   "uk": "голосувати",
+   "ex": "Did you vote in the last election?",
+   "exUk": "Ти голосував на минулих виборах?"
+  },
+  {
+   "en": "candidate",
+   "uk": "кандидат",
+   "ex": "Both candidates promised lower taxes.",
+   "exUk": "Обидва кандидати пообіцяли знизити податки."
+  },
+  {
+   "en": "political party",
+   "uk": "політична партія",
+   "ex": "Which party do you think will win?",
+   "exUk": "Як гадаєш, яка партія переможе?"
+  },
+  {
+   "en": "the opposition",
+   "uk": "опозиція",
+   "ex": "The opposition criticised the new budget.",
+   "exUk": "Опозиція розкритикувала новий бюджет."
+  },
+  {
+   "en": "Parliament",
+   "uk": "парламент",
+   "ex": "Parliament will vote on the law next week.",
+   "exUk": "Парламент голосуватиме за закон наступного тижня."
+  },
+  {
+   "en": "the prime minister",
+   "uk": "прем'єр-міністр",
+   "ex": "The prime minister gave a speech this morning.",
+   "exUk": "Сьогодні вранці прем'єр-міністр виступив із промовою."
+  },
+  {
+   "en": "to come into force",
+   "uk": "набувати чинності",
+   "ex": "The new law comes into force in January.",
+   "exUk": "Новий закон набуває чинності в січні."
+  },
+  {
+   "en": "to resign",
+   "uk": "піти у відставку, звільнитися",
+   "ex": "The minister resigned after the scandal.",
+   "exUk": "Міністр пішов у відставку після скандалу."
+  },
+  {
+   "en": "poll",
+   "uk": "опитування",
+   "ex": "According to the latest poll, most people support the idea.",
+   "exUk": "Згідно з останнім опитуванням, більшість людей підтримує цю ідею."
+  },
+  {
+   "en": "protest",
+   "uk": "протест, акція протесту",
+   "ex": "Thousands of people joined the protest in the city centre.",
+   "exUk": "Тисячі людей долучилися до протесту в центрі міста."
+  },
+  {
+   "en": "strike",
+   "uk": "страйк",
+   "ex": "There's a train strike tomorrow, so I'll stay at home.",
+   "exUk": "Завтра страйк на залізниці, тож я залишуся вдома."
+  },
+  {
+   "en": "the economy",
+   "uk": "економіка",
+   "ex": "The economy is growing, but slowly.",
+   "exUk": "Економіка зростає, але повільно."
+  },
+  {
+   "en": "inflation",
+   "uk": "інфляція",
+   "ex": "Inflation has made everything more expensive.",
+   "exUk": "Через інфляцію все подорожчало."
+  },
+  {
+   "en": "unemployment",
+   "uk": "безробіття",
+   "ex": "Unemployment has fallen to a record low.",
+   "exUk": "Безробіття впало до рекордно низького рівня."
+  },
+  {
+   "en": "the cost of living",
+   "uk": "вартість життя",
+   "ex": "The cost of living in Kraków has gone up a lot.",
+   "exUk": "Вартість життя в Кракові сильно зросла."
+  },
+  {
+   "en": "interest rates",
+   "uk": "відсоткові ставки",
+   "ex": "The central bank has raised interest rates again.",
+   "exUk": "Центробанк знову підвищив відсоткові ставки."
+  },
+  {
+   "en": "recession",
+   "uk": "рецесія, економічний спад",
+   "ex": "Experts are worried about a recession.",
+   "exUk": "Експерти побоюються рецесії."
+  },
+  {
+   "en": "to soar",
+   "uk": "стрімко зростати",
+   "ex": "Energy prices soared last winter.",
+   "exUk": "Минулої зими ціни на енергоносії стрімко зросли."
+  },
+  {
+   "en": "global warming",
+   "uk": "глобальне потепління",
+   "ex": "Global warming is making our summers hotter.",
+   "exUk": "Через глобальне потепління наше літо стає спекотнішим."
+  },
+  {
+   "en": "air pollution",
+   "uk": "забруднення повітря",
+   "ex": "Air pollution is a serious problem in Kraków in winter.",
+   "exUk": "Забруднення повітря — серйозна проблема в Кракові взимку."
+  },
+  {
+   "en": "renewable energy",
+   "uk": "відновлювана енергія",
+   "ex": "More and more homes use renewable energy, like solar panels.",
+   "exUk": "Дедалі більше будинків використовують відновлювану енергію, як-от сонячні панелі."
+  },
+  {
+   "en": "carbon emissions",
+   "uk": "викиди вуглецю",
+   "ex": "The city wants to cut carbon emissions by half.",
+   "exUk": "Місто хоче вдвічі скоротити викиди вуглецю."
+  },
+  {
+   "en": "to ban",
+   "uk": "забороняти",
+   "ex": "The city has banned old diesel cars from the centre.",
+   "exUk": "Місто заборонило в'їзд старих дизельних авто до центру."
+  },
+  {
+   "en": "crime",
+   "uk": "злочинність",
+   "ex": "Crime in our area has dropped.",
+   "exUk": "Злочинність у нашому районі знизилася."
+  },
+  {
+   "en": "burglary",
+   "uk": "квартирна крадіжка",
+   "ex": "There was a burglary in our building last week.",
+   "exUk": "Минулого тижня в нашому будинку обікрали квартиру."
+  },
+  {
+   "en": "to arrest",
+   "uk": "заарештувати, затримати",
+   "ex": "The police arrested two men near the station.",
+   "exUk": "Поліція затримала двох чоловіків біля вокзалу."
+  },
+  {
+   "en": "suspect",
+   "uk": "підозрюваний",
+   "ex": "The suspect was released without charge.",
+   "exUk": "Підозрюваного відпустили без висунення обвинувачення."
+  },
+  {
+   "en": "witness",
+   "uk": "свідок",
+   "ex": "Were there any witnesses to the accident?",
+   "exUk": "Чи були свідки аварії?"
+  },
+  {
+   "en": "trial",
+   "uk": "судовий процес",
+   "ex": "The trial is expected to last three weeks.",
+   "exUk": "Очікується, що судовий процес триватиме три тижні."
+  },
+  {
+   "en": "guilty",
+   "uk": "винний",
+   "ex": "The jury found him guilty.",
+   "exUk": "Присяжні визнали його винним."
+  },
+  {
+   "en": "innocent",
+   "uk": "невинний",
+   "ex": "She insists she's innocent.",
+   "exUk": "Вона наполягає, що невинна."
+  },
+  {
+   "en": "sentence",
+   "uk": "вирок, строк покарання",
+   "ex": "He got a five-year sentence.",
+   "exUk": "Він отримав п'ять років ув'язнення."
+  },
+  {
+   "en": "corruption",
+   "uk": "корупція",
+   "ex": "The government promised to fight corruption.",
+   "exUk": "Уряд пообіцяв боротися з корупцією."
+  },
+  {
+   "en": "scandal",
+   "uk": "скандал",
+   "ex": "The scandal was all over the papers.",
+   "exUk": "Про скандал писали всі газети."
+  },
+  {
+   "en": "to make the headlines",
+   "uk": "потрапити в заголовки",
+   "ex": "The story made the headlines all over Europe.",
+   "exUk": "Ця історія потрапила в заголовки по всій Європі."
+  },
+  {
+   "en": "breaking news",
+   "uk": "термінові новини",
+   "ex": "I saw the breaking news on my phone.",
+   "exUk": "Я побачив термінову новину в телефоні."
+  },
+  {
+   "en": "journalist",
+   "uk": "журналіст",
+   "ex": "The journalist asked the minister a difficult question.",
+   "exUk": "Журналіст поставив міністрові складне запитання."
+  },
+  {
+   "en": "fake news",
+   "uk": "фейки, фейкові новини",
+   "ex": "Always check the source – there's a lot of fake news online.",
+   "exUk": "Завжди перевіряй джерело — в інтернеті багато фейків."
+  },
+  {
+   "en": "a reliable source",
+   "uk": "надійне джерело",
+   "ex": "Is that website a reliable source?",
+   "exUk": "Цей сайт — надійне джерело?"
+  },
+  {
+   "en": "biased",
+   "uk": "упереджений",
+   "ex": "I think that newspaper is a bit biased.",
+   "exUk": "Як на мене, ця газета трохи упереджена."
+  },
+  {
+   "en": "to report",
+   "uk": "повідомляти, висвітлювати",
+   "ex": "The BBC reported that the talks had failed.",
+   "exUk": "BBC повідомила, що переговори провалилися."
+  },
+  {
+   "en": "press conference",
+   "uk": "пресконференція",
+   "ex": "The mayor will hold a press conference at noon.",
+   "exUk": "Мер проведе пресконференцію опівдні."
+  },
+  {
+   "en": "refugee",
+   "uk": "біженець",
+   "ex": "Poland took in millions of refugees from Ukraine.",
+   "exUk": "Польща прийняла мільйони біженців з України."
+  },
+  {
+   "en": "immigration",
+   "uk": "імміграція",
+   "ex": "Immigration is a hot topic in many countries.",
+   "exUk": "Імміграція — гостра тема в багатьох країнах."
+  },
+  {
+   "en": "citizen",
+   "uk": "громадянин",
+   "ex": "Only citizens can vote in national elections.",
+   "exUk": "Лише громадяни можуть голосувати на загальнонаціональних виборах."
+  },
+  {
+   "en": "human rights",
+   "uk": "права людини",
+   "ex": "The organisation fights for human rights.",
+   "exUk": "Ця організація бореться за права людини."
+  },
+  {
+   "en": "ceasefire",
+   "uk": "припинення вогню, перемир'я",
+   "ex": "Both sides agreed to a ceasefire.",
+   "exUk": "Обидві сторони погодилися на припинення вогню."
+  },
+  {
+   "en": "a controversial issue",
+   "uk": "суперечливе питання",
+   "ex": "Nuclear energy is a controversial issue.",
+   "exUk": "Атомна енергетика — суперечливе питання."
+  }
+ ]
+}

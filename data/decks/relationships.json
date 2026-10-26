@@ -1,0 +1,275 @@
+{
+ "id": "relationships",
+ "cards": [
+  {
+   "en": "a close friend",
+   "uk": "близький друг, близька подруга",
+   "ex": "Marta is one of my closest friends.",
+   "exUk": "Марта — одна з моїх найближчих подруг."
+  },
+  {
+   "en": "acquaintance",
+   "uk": "знайомий, знайома",
+   "ex": "He's not really a friend, just an acquaintance from the gym.",
+   "exUk": "Він не зовсім друг, просто знайомий зі спортзалу."
+  },
+  {
+   "en": "to lose touch with",
+   "uk": "втратити зв'язок із",
+   "ex": "We lost touch after school but found each other on Facebook.",
+   "exUk": "Ми втратили зв'язок після школи, але знайшли одне одного у Facebook."
+  },
+  {
+   "en": "to trust",
+   "uk": "довіряти",
+   "ex": "I trust her completely.",
+   "exUk": "Я повністю їй довіряю."
+  },
+  {
+   "en": "to rely on",
+   "uk": "покладатися на",
+   "ex": "You can always rely on Andriy in a crisis.",
+   "exUk": "На Андрія завжди можна покластися у скрутну хвилину."
+  },
+  {
+   "en": "to have a lot in common",
+   "uk": "мати багато спільного",
+   "ex": "We have a lot in common – we both love hiking.",
+   "exUk": "У нас багато спільного — ми обоє любимо походи."
+  },
+  {
+   "en": "to hit it off",
+   "uk": "одразу знайти спільну мову",
+   "ex": "Vita and my sister hit it off immediately.",
+   "exUk": "Віта і моя сестра одразу знайшли спільну мову."
+  },
+  {
+   "en": "to get to know",
+   "uk": "ближче познайомитися, пізнати",
+   "ex": "It takes time to really get to know someone.",
+   "exUk": "Щоб по-справжньому пізнати людину, потрібен час."
+  },
+  {
+   "en": "to ask someone out",
+   "uk": "запросити на побачення",
+   "ex": "He finally asked her out after six months.",
+   "exUk": "Він нарешті запросив її на побачення через пів року."
+  },
+  {
+   "en": "a date",
+   "uk": "побачення",
+   "ex": "Our first date was in a tiny café in Kazimierz.",
+   "exUk": "Наше перше побачення було в крихітній кав'ярні на Казімежі."
+  },
+  {
+   "en": "to have a crush on",
+   "uk": "бути закоханим у, запасти на",
+   "ex": "I had a huge crush on a girl from my class.",
+   "exUk": "Я був по вуха закоханий у дівчину з мого класу."
+  },
+  {
+   "en": "to fall in love with",
+   "uk": "закохатися в",
+   "ex": "They fell in love on holiday in Greece.",
+   "exUk": "Вони закохалися одне в одного на відпочинку в Греції."
+  },
+  {
+   "en": "to go out with",
+   "uk": "зустрічатися з",
+   "ex": "How long have you been going out with him?",
+   "exUk": "Як довго ти з ним зустрічаєшся?"
+  },
+  {
+   "en": "relationship",
+   "uk": "стосунки",
+   "ex": "They've been in a relationship for two years.",
+   "exUk": "Вони у стосунках уже два роки."
+  },
+  {
+   "en": "partner",
+   "uk": "партнер, партнерка, друга половинка",
+   "ex": "Feel free to bring your partner to the party.",
+   "exUk": "Можеш прийти на вечірку зі своєю другою половинкою."
+  },
+  {
+   "en": "to propose",
+   "uk": "освідчитися, зробити пропозицію",
+   "ex": "He proposed to her on top of a mountain.",
+   "exUk": "Він освідчився їй на вершині гори."
+  },
+  {
+   "en": "to get engaged",
+   "uk": "заручитися",
+   "ex": "We got engaged last summer.",
+   "exUk": "Ми заручилися минулого літа."
+  },
+  {
+   "en": "to cheat on",
+   "uk": "зраджувати (партнерові)",
+   "ex": "He found out she'd been cheating on him.",
+   "exUk": "Він дізнався, що вона йому зраджувала."
+  },
+  {
+   "en": "to move in together",
+   "uk": "почати жити разом, з'їхатися",
+   "ex": "We moved in together after a year.",
+   "exUk": "Ми почали жити разом через рік."
+  },
+  {
+   "en": "soulmate",
+   "uk": "споріднена душа, кохана людина",
+   "ex": "I think I've finally found my soulmate.",
+   "exUk": "Здається, я нарешті знайшов свою споріднену душу."
+  },
+  {
+   "en": "to split up",
+   "uk": "розійтися",
+   "ex": "My cousin and her husband split up last year.",
+   "exUk": "Моя двоюрідна сестра з чоловіком розійшлися минулого року."
+  },
+  {
+   "en": "to get divorced",
+   "uk": "розлучитися",
+   "ex": "His parents got divorced when he was ten.",
+   "exUk": "Його батьки розлучилися, коли йому було десять."
+  },
+  {
+   "en": "an ex",
+   "uk": "колишній, колишня",
+   "ex": "She's still friends with her ex.",
+   "exUk": "Вона досі товаришує зі своїм колишнім."
+  },
+  {
+   "en": "to argue",
+   "uk": "сваритися, сперечатися",
+   "ex": "We sometimes argue about money.",
+   "exUk": "Ми інколи сваримося через гроші."
+  },
+  {
+   "en": "a row",
+   "uk": "сварка",
+   "ex": "They had a big row about where to go on holiday.",
+   "exUk": "Вони сильно посварилися через те, куди їхати у відпустку."
+  },
+  {
+   "en": "to fall out with",
+   "uk": "посваритися з",
+   "ex": "I fell out with my brother over something silly.",
+   "exUk": "Я посварився з братом через дурницю."
+  },
+  {
+   "en": "to apologise",
+   "uk": "вибачатися, перепрошувати",
+   "ex": "You should apologise to her.",
+   "exUk": "Тобі варто перед нею вибачитися."
+  },
+  {
+   "en": "to forgive",
+   "uk": "пробачати",
+   "ex": "It took her a long time to forgive him.",
+   "exUk": "Їй знадобилося багато часу, щоб пробачити його."
+  },
+  {
+   "en": "to make it up to someone",
+   "uk": "загладити провину перед кимось",
+   "ex": "Sorry I forgot – I'll make it up to you, I promise.",
+   "exUk": "Вибач, що забув, — я загладжу провину, обіцяю."
+  },
+  {
+   "en": "to meet halfway",
+   "uk": "піти назустріч, знайти компроміс",
+   "ex": "I wanted the mountains, she wanted the sea, so we met halfway: a lake.",
+   "exUk": "Я хотів у гори, вона — на море, тож ми знайшли компроміс: озеро."
+  },
+  {
+   "en": "jealous",
+   "uk": "ревнивий, заздрісний",
+   "ex": "He gets jealous when she talks to other men.",
+   "exUk": "Він ревнує, коли вона розмовляє з іншими чоловіками."
+  },
+  {
+   "en": "to get on someone's nerves",
+   "uk": "діяти комусь на нерви",
+   "ex": "His constant complaining really gets on my nerves.",
+   "exUk": "Його постійні скарги справді діють мені на нерви."
+  },
+  {
+   "en": "to be there for someone",
+   "uk": "бути поруч із кимось, підтримувати",
+   "ex": "Real friends are there for you when things go wrong.",
+   "exUk": "Справжні друзі поруч, коли щось іде не так."
+  },
+  {
+   "en": "reliable",
+   "uk": "надійний",
+   "ex": "He's very reliable – if he says he'll come, he'll come.",
+   "exUk": "Він дуже надійний: якщо сказав, що прийде, — прийде."
+  },
+  {
+   "en": "honest",
+   "uk": "чесний",
+   "ex": "I like her because she's always honest with me.",
+   "exUk": "Вона мені подобається, бо завжди чесна зі мною."
+  },
+  {
+   "en": "generous",
+   "uk": "щедрий",
+   "ex": "My grandma is incredibly generous.",
+   "exUk": "Моя бабуся неймовірно щедра."
+  },
+  {
+   "en": "selfish",
+   "uk": "егоїстичний",
+   "ex": "It was selfish of him to take the last piece of cake.",
+   "exUk": "Було егоїстично з його боку взяти останній шматок торта."
+  },
+  {
+   "en": "stubborn",
+   "uk": "упертий",
+   "ex": "My dad is as stubborn as a mule.",
+   "exUk": "Мій тато впертий як віслюк."
+  },
+  {
+   "en": "shy",
+   "uk": "сором'язливий",
+   "ex": "She was shy as a child, but now she loves meeting new people.",
+   "exUk": "У дитинстві вона була сором'язливою, а тепер обожнює знайомитися з новими людьми."
+  },
+  {
+   "en": "outgoing",
+   "uk": "товариський, комунікабельний",
+   "ex": "My wife is more outgoing than I am.",
+   "exUk": "Моя дружина товариськіша за мене."
+  },
+  {
+   "en": "easy-going",
+   "uk": "легкий у спілкуванні, невимушений",
+   "ex": "Our neighbour is very easy-going and rarely gets upset.",
+   "exUk": "Наш сусід дуже легкий у спілкуванні й рідко засмучується."
+  },
+  {
+   "en": "moody",
+   "uk": "примхливий, з перепадами настрою",
+   "ex": "Teenagers can be very moody.",
+   "exUk": "Підлітки бувають дуже примхливими."
+  },
+  {
+   "en": "considerate",
+   "uk": "уважний до інших, тактовний",
+   "ex": "It was very considerate of you to call.",
+   "exUk": "Дуже уважно з твого боку, що ти зателефонував."
+  },
+  {
+   "en": "bossy",
+   "uk": "владний, який любить командувати",
+   "ex": "My older sister was always a bit bossy.",
+   "exUk": "Моя старша сестра завжди любила покомандувати."
+  },
+  {
+   "en": "a good listener",
+   "uk": "уважний слухач",
+   "ex": "She's a good listener, so everyone tells her their problems.",
+   "exUk": "Вона вміє слухати, тож усі розповідають їй про свої проблеми."
+  }
+ ]
+}

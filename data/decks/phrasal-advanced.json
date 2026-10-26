@@ -1,0 +1,305 @@
+{
+ "id": "phrasal-advanced",
+ "cards": [
+  {
+   "en": "to come across",
+   "uk": "натрапити на",
+   "ex": "I came across an old photo of us while I was tidying up.",
+   "exUk": "Я натрапив на наше старе фото, коли прибирав."
+  },
+  {
+   "en": "to come up",
+   "uk": "виникнути, трапитися",
+   "ex": "Something's come up, so I can't make it tonight.",
+   "exUk": "Дещо трапилося, тож сьогодні я не зможу прийти."
+  },
+  {
+   "en": "to come round",
+   "uk": "зайти в гості",
+   "ex": "Come round for dinner on Saturday.",
+   "exUk": "Приходь до нас на вечерю в суботу."
+  },
+  {
+   "en": "to look up to",
+   "uk": "поважати, рівнятися на",
+   "ex": "I've always looked up to my grandfather.",
+   "exUk": "Я завжди рівнявся на свого дідуся."
+  },
+  {
+   "en": "to look down on",
+   "uk": "дивитися зверхньо на",
+   "ex": "Don't look down on people just because they earn less.",
+   "exUk": "Не дивись зверхньо на людей лише тому, що вони менше заробляють."
+  },
+  {
+   "en": "to put away",
+   "uk": "прибрати на місце",
+   "ex": "Put your clothes away, please.",
+   "exUk": "Поклади, будь ласка, свій одяг на місце."
+  },
+  {
+   "en": "to put aside",
+   "uk": "відкладати (гроші, час)",
+   "ex": "We put aside a little money every month.",
+   "exUk": "Щомісяця ми відкладаємо трохи грошей."
+  },
+  {
+   "en": "to get away with",
+   "uk": "уникнути покарання, зійти з рук",
+   "ex": "He always gets away with being late.",
+   "exUk": "Йому завжди сходять з рук запізнення."
+  },
+  {
+   "en": "to get by",
+   "uk": "обходитися, давати раду",
+   "ex": "I get by in Polish, but I'm not fluent.",
+   "exUk": "Польською я якось даю раду, але не вільно."
+  },
+  {
+   "en": "to get round to",
+   "uk": "дійти руки до",
+   "ex": "I finally got round to fixing the shelf.",
+   "exUk": "У мене нарешті дійшли руки полагодити полицю."
+  },
+  {
+   "en": "to get through",
+   "uk": "додзвонитися; пережити",
+   "ex": "I tried calling the bank, but I couldn't get through.",
+   "exUk": "Я намагався подзвонити в банк, але не зміг додзвонитися."
+  },
+  {
+   "en": "to go through",
+   "uk": "переживати (щось важке)",
+   "ex": "She's going through a difficult time at the moment.",
+   "exUk": "Зараз вона переживає важкий час."
+  },
+  {
+   "en": "to go off",
+   "uk": "спрацювати (про будильник, сигналізацію)",
+   "ex": "My alarm didn't go off this morning.",
+   "exUk": "Сьогодні вранці не задзвонив мій будильник."
+  },
+  {
+   "en": "to go over",
+   "uk": "переглянути, ще раз пройтися",
+   "ex": "Let's go over the plan once more.",
+   "exUk": "Давай ще раз пройдемося по плану."
+  },
+  {
+   "en": "to go ahead",
+   "uk": "починати, діяти (не чекаючи)",
+   "ex": "If you're hungry, go ahead and start eating.",
+   "exUk": "Якщо голодний, починай їсти, не чекай."
+  },
+  {
+   "en": "to back out",
+   "uk": "відмовитися (від обіцяного)",
+   "ex": "He backed out of the trip at the last minute.",
+   "exUk": "Він відмовився від поїздки в останню хвилину."
+  },
+  {
+   "en": "to call off",
+   "uk": "скасувати",
+   "ex": "The match was called off because of the rain.",
+   "exUk": "Матч скасували через дощ."
+  },
+  {
+   "en": "to carry out",
+   "uk": "виконувати, проводити",
+   "ex": "They're carrying out repairs on our street.",
+   "exUk": "На нашій вулиці проводять ремонт."
+  },
+  {
+   "en": "to cut down on",
+   "uk": "скоротити (споживання)",
+   "ex": "I'm trying to cut down on sugar.",
+   "exUk": "Я намагаюся їсти менше цукру."
+  },
+  {
+   "en": "to do without",
+   "uk": "обходитися без",
+   "ex": "I can't do without my morning coffee.",
+   "exUk": "Я не можу обійтися без ранкової кави."
+  },
+  {
+   "en": "to fall apart",
+   "uk": "розвалюватися",
+   "ex": "These shoes are falling apart.",
+   "exUk": "Ці черевики розвалюються."
+  },
+  {
+   "en": "to fall behind",
+   "uk": "відставати",
+   "ex": "I fell behind with my English while we were travelling.",
+   "exUk": "Поки ми подорожували, я відстав з англійською."
+  },
+  {
+   "en": "to fall through",
+   "uk": "зірватися, не відбутися",
+   "ex": "Our holiday plans fell through.",
+   "exUk": "Наші плани на відпустку зірвалися."
+  },
+  {
+   "en": "to give away",
+   "uk": "віддати (безкоштовно)",
+   "ex": "We gave away our old sofa.",
+   "exUk": "Ми віддали наш старий диван."
+  },
+  {
+   "en": "to hand in",
+   "uk": "здати (документ, роботу)",
+   "ex": "You need to hand in the form by Friday.",
+   "exUk": "Формуляр треба здати до п'ятниці."
+  },
+  {
+   "en": "to hold up",
+   "uk": "затримувати",
+   "ex": "Sorry I'm late – I was held up in traffic.",
+   "exUk": "Вибач за запізнення — я затримався через затор."
+  },
+  {
+   "en": "to keep on",
+   "uk": "продовжувати (робити), не переставати",
+   "ex": "She kept on talking during the whole film.",
+   "exUk": "Вона не переставала балакати весь фільм."
+  },
+  {
+   "en": "to leave out",
+   "uk": "пропустити, не включити",
+   "ex": "Don't leave out any details.",
+   "exUk": "Не пропускай жодних деталей."
+  },
+  {
+   "en": "to make out",
+   "uk": "розібрати (побачити, почути)",
+   "ex": "I couldn't make out what he was saying.",
+   "exUk": "Я не міг розібрати, що він каже."
+  },
+  {
+   "en": "to mess up",
+   "uk": "зіпсувати, напартачити",
+   "ex": "I messed up the recipe, and the cake was far too dry.",
+   "exUk": "Я напартачив з рецептом, і торт вийшов надто сухим."
+  },
+  {
+   "en": "to pass out",
+   "uk": "знепритомніти",
+   "ex": "It was so hot that a man passed out on the tram.",
+   "exUk": "Було так спекотно, що в трамваї чоловік знепритомнів."
+  },
+  {
+   "en": "to pull over",
+   "uk": "зупинитися на узбіччі",
+   "ex": "The police told us to pull over.",
+   "exUk": "Поліція наказала нам зупинитися на узбіччі."
+  },
+  {
+   "en": "to see off",
+   "uk": "проводжати",
+   "ex": "We went to the airport to see her off.",
+   "exUk": "Ми поїхали в аеропорт її проводжати."
+  },
+  {
+   "en": "to settle down",
+   "uk": "осісти, остепенитися",
+   "ex": "They want to settle down and start a family.",
+   "exUk": "Вони хочуть осісти й завести сім'ю."
+  },
+  {
+   "en": "to stand out",
+   "uk": "вирізнятися",
+   "ex": "Her bright yellow coat really stands out.",
+   "exUk": "Її яскраво-жовте пальто справді вирізняється."
+  },
+  {
+   "en": "to stand up for",
+   "uk": "заступатися за, обстоювати",
+   "ex": "You should stand up for yourself more.",
+   "exUk": "Тобі варто частіше за себе заступатися."
+  },
+  {
+   "en": "to take back",
+   "uk": "забрати (слова) назад; повернути (в магазин)",
+   "ex": "I take it back – you were right.",
+   "exUk": "Беру свої слова назад — ти мав рацію."
+  },
+  {
+   "en": "to take over",
+   "uk": "перейняти, взяти на себе",
+   "ex": "Can you take over the cooking for a minute?",
+   "exUk": "Можеш на хвилинку підмінити мене біля плити?"
+  },
+  {
+   "en": "to think over",
+   "uk": "обміркувати",
+   "ex": "Let me think it over, and I'll let you know tomorrow.",
+   "exUk": "Дай мені все обміркувати, і я скажу тобі завтра."
+  },
+  {
+   "en": "to turn out",
+   "uk": "виявитися",
+   "ex": "It turned out that we'd met before.",
+   "exUk": "Виявилося, що ми вже зустрічалися раніше."
+  },
+  {
+   "en": "to turn into",
+   "uk": "перетворитися на",
+   "ex": "The small get-together turned into a huge party.",
+   "exUk": "Невелика зустріч перетворилася на велику вечірку."
+  },
+  {
+   "en": "to wear out",
+   "uk": "виснажувати; зношувати",
+   "ex": "The kids have completely worn me out.",
+   "exUk": "Діти мене геть виснажили."
+  },
+  {
+   "en": "to bring back",
+   "uk": "навіювати (спогади)",
+   "ex": "This song brings back so many memories.",
+   "exUk": "Ця пісня навіює стільки спогадів."
+  },
+  {
+   "en": "to count on",
+   "uk": "розраховувати на",
+   "ex": "You can count on me.",
+   "exUk": "Можеш на мене розраховувати."
+  },
+  {
+   "en": "to drop by",
+   "uk": "заскочити, зазирнути",
+   "ex": "Drop by any time you're in the area.",
+   "exUk": "Заскакуй будь-коли, як будеш поруч."
+  },
+  {
+   "en": "to talk into",
+   "uk": "умовити",
+   "ex": "She talked me into going to the party.",
+   "exUk": "Вона вмовила мене піти на вечірку."
+  },
+  {
+   "en": "to talk out of",
+   "uk": "відмовити (когось від чогось)",
+   "ex": "I tried to talk him out of buying that car.",
+   "exUk": "Я намагався відмовити його від купівлі тієї машини."
+  },
+  {
+   "en": "to brush up on",
+   "uk": "підтягнути, освіжити (знання)",
+   "ex": "I need to brush up on my English before the trip.",
+   "exUk": "Мені треба підтягнути англійську перед поїздкою."
+  },
+  {
+   "en": "to rule out",
+   "uk": "виключити (можливість)",
+   "ex": "The doctor ruled out anything serious.",
+   "exUk": "Лікар виключив щось серйозне."
+  },
+  {
+   "en": "to sleep in",
+   "uk": "поспати довше",
+   "ex": "On Sundays we like to sleep in.",
+   "exUk": "У неділю ми любимо поспати довше."
+  }
+ ]
+}

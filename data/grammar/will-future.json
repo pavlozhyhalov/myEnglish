@@ -1,0 +1,219 @@
+{
+ "id": "will-future",
+ "title": "Майбутнє з will",
+ "titleEn": "will: decisions, promises, offers, predictions",
+ "unit": "Майбутнє",
+ "level": "A2",
+ "mistakeType": "tenses",
+ "explanation": "**will + V** (без to) — майбутнє, коли рішення ухвалюємо **просто зараз**, у момент мовлення: *The phone's ringing — I'll get it.*\n\nТакож **will** вживаємо для **обіцянок** (*I'll call you tonight*), **пропозицій допомоги** (*I'll carry that bag for you*; у питанні — ***Shall** I open the window?*) і **прогнозів** — того, що ми думаємо чи відчуваємо: *I think it will rain tomorrow.*\n\nЗаперечення — **won't** (= will not): *I won't tell anyone.* Питання: ***Will** you help me?* Скорочено: *I'll, you'll, she'll, we'll, they'll*.\n\n**will чи going to?** Вирішили щойно → **will**. План, вирішений заздалегідь → **going to**: *We're going to visit Vita's parents on Sunday.* Прогноз за явними ознаками (бачимо хмари) → теж **going to**: *Look at the sky — it's going to rain.*",
+ "formula": [
+  "підмет + **will** + V — *I'll help you.*",
+  "підмет + **won't** + V · **Will** + підмет + V?",
+  "рішення зараз → **will** · план заздалегідь → **be going to**"
+ ],
+ "table": {
+  "head": [
+   "Значення",
+   "Приклад",
+   "Підказка"
+  ],
+  "rows": [
+   [
+    "Рішення зараз",
+    "I'm cold. I'll close the window.",
+    "щойно вирішив"
+   ],
+   [
+    "Обіцянка",
+    "I promise I'll be on time.",
+    "promise, I'll never…"
+   ],
+   [
+    "Пропозиція",
+    "I'll help you with the bags.",
+    "питання — Shall I…?"
+   ],
+   [
+    "Прогноз-думка",
+    "I think Vita will love this café.",
+    "I think, probably, I'm sure"
+   ],
+   [
+    "План",
+    "We're going to move in May.",
+    "going to, не will"
+   ]
+  ]
+ },
+ "examples": [
+  {
+   "en": "Don't worry, I'll pay this time.",
+   "uk": "Не хвилюйся, цього разу заплачу я."
+  },
+  {
+   "en": "I'll have the soup, please.",
+   "uk": "Мені суп, будь ласка."
+  },
+  {
+   "en": "I promise I won't be late again.",
+   "uk": "Обіцяю, що більше не запізнюватимусь."
+  },
+  {
+   "en": "Shall I book a table for Friday?",
+   "uk": "Забронювати столик на п'ятницю?"
+  },
+  {
+   "en": "I'm sure you'll like Kraków.",
+   "uk": "Я впевнений, що тобі сподобається Краків."
+  },
+  {
+   "en": "Will you be at home tonight?",
+   "uk": "Ти будеш удома сьогодні ввечері?"
+  }
+ ],
+ "tip": "Після **will** — дієслово без to: *I'll go*, не ~~I will to go~~. А після **if / when** про майбутнє will не ставимо: *When I **get** home, I'll call you*, не ~~When I will get home~~.",
+ "exercises": [
+  {
+   "type": "choice",
+   "prompt": "A: We've got no milk. B: Oh, really? I ___ get some on the way home.",
+   "options": [
+    "will",
+    "am",
+    "going to"
+   ],
+   "answer": "will",
+   "explanation": "Рішення в момент мовлення → will."
+  },
+  {
+   "type": "choice",
+   "prompt": "Look at those black clouds! It ___ rain.",
+   "options": [
+    "is going to",
+    "will to",
+    "goes to"
+   ],
+   "answer": "is going to",
+   "explanation": "Прогноз за ознаками, які бачимо → going to."
+  },
+  {
+   "type": "choice",
+   "prompt": "We ___ visit Vita's parents next weekend — we bought the train tickets yesterday.",
+   "options": [
+    "are visiting to",
+    "are going to",
+    "shall"
+   ],
+   "answer": "are going to",
+   "explanation": "Вирішений заздалегідь план → going to."
+  },
+  {
+   "type": "choice",
+   "prompt": "This bag looks heavy. ___ I carry it for you?",
+   "options": [
+    "Will",
+    "Shall",
+    "Do"
+   ],
+   "answer": "Shall",
+   "explanation": "Пропозиція допомоги в питанні → Shall I…?"
+  },
+  {
+   "type": "choice",
+   "prompt": "I promise I ___ tell anyone.",
+   "options": [
+    "won't",
+    "don't",
+    "not will",
+    "am not"
+   ],
+   "answer": "won't",
+   "explanation": "Обіцянка із запереченням → won't."
+  },
+  {
+   "type": "input",
+   "prompt": "I think it ___ (be) sunny tomorrow.",
+   "answer": [
+    "will be",
+    "'ll be"
+   ],
+   "explanation": "Прогноз-думка після I think → will."
+  },
+  {
+   "type": "input",
+   "prompt": "A: I can't open this jar. B: Give it to me. I ___ (do) it.",
+   "answer": [
+    "will do",
+    "'ll do"
+   ],
+   "explanation": "Рішення допомогти просто зараз → will."
+  },
+  {
+   "type": "input",
+   "prompt": "She's really tired, so I think she ___ (not / come) to the party tonight.",
+   "answer": [
+    "won't come",
+    "will not come"
+   ],
+   "explanation": "Заперечення: won't + V."
+  },
+  {
+   "type": "error",
+   "sentence": "I will calls you after dinner.",
+   "wrongIndex": 2,
+   "correction": "call",
+   "alt": [],
+   "explanation": "Після will — базова форма дієслова."
+  },
+  {
+   "type": "error",
+   "sentence": "Don't worry, I won't forgetting your birthday.",
+   "wrongIndex": 4,
+   "correction": "forget",
+   "alt": [],
+   "explanation": "Після won't — базова форма без -ing."
+  },
+  {
+   "type": "order",
+   "prompt": "Я подзвоню тобі завтра.",
+   "answer": [
+    "I will call you tomorrow.",
+    "I'll call you tomorrow."
+   ],
+   "explanation": "will + V."
+  },
+  {
+   "type": "transform",
+   "prompt": "You will be at home tonight.",
+   "instruction": "Перетворіть на загальне питання",
+   "answer": [
+    "Will you be at home tonight?"
+   ],
+   "explanation": "Will виходить перед підмет."
+  },
+  {
+   "type": "translate",
+   "uk": "Не хвилюйся, я тобі допоможу.",
+   "answer": [
+    "Don't worry, I'll help you.",
+    "Don't worry, I will help you.",
+    "Don't worry, I'll help.",
+    "Do not worry, I will help you."
+   ],
+   "explanation": "Обіцянка/пропозиція → will."
+  },
+  {
+   "type": "translate",
+   "uk": "Мабуть, вона запізниться.",
+   "answer": [
+    "She'll probably be late.",
+    "She will probably be late.",
+    "Maybe she'll be late.",
+    "Maybe she will be late.",
+    "I think she'll be late.",
+    "I think she will be late.",
+    "She'll be late, probably."
+   ],
+   "explanation": "Прогноз-думка → will; probably стоїть після will."
+  }
+ ]
+}

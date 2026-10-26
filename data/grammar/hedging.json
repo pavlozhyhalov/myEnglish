@@ -1,0 +1,229 @@
+{
+ "id": "hedging",
+ "title": "Пом'якшення висловлювань",
+ "titleEn": "Hedging and softening",
+ "unit": "Просунуті конструкції",
+ "level": "C1",
+ "mistakeType": "other",
+ "explanation": "**Hedging** — пом'якшення: ми робимо висловлювання менш категоричним, щоб звучати ввічливо, обережно чи об'єктивно. Англомовні роблять це постійно — пряме *You're wrong* чи *This is bad* часто звучить грубо, а не просто впевнено.\n\n**Дієслова:** **seem / appear to + V** (*She seems to be upset*; *The shop appears to be closed*), **tend to + V** — «зазвичай, схильний» (*Poles tend to eat lunch late*). Безособово: **It seems that… / It would appear that…** — обережно й книжно.\n\n**Модальні й прислівники:** **might / may / could** (*That might be a problem*), **might well** — «цілком можливо» (*It might well rain later*), **arguably** — «можна стверджувати, що», **to some extent / to a certain degree** — «певною мірою», **somewhat, rather, a bit**, **probably, likely**.\n\n**Пом'якшені думки:** **I'd have thought…** — м'яке заперечення або подив (*I'd have thought it was cheaper online*), **I'm not sure that…**, **I'd say…**, **Wouldn't it be better to…?**\n\nКоли вживати: у суперечках і порадах (щоб не образити), у текстах і новинах (коли немає 100% доказів), у листах і відгуках. Не перестарайтеся: три пом'якшення в одному реченні звучать невпевнено.",
+ "formula": [
+  "**seem / appear / tend to** + V — *It seems to be broken.*",
+  "It **seems** / It **would appear** that + речення",
+  "might well · arguably · to some extent · I'd have thought…"
+ ],
+ "table": {
+  "head": [
+   "Прямо",
+   "Пом'якшено",
+   "Відтінок"
+  ],
+  "rows": [
+   [
+    "This plan is bad.",
+    "This plan might not be the best idea.",
+    "обережна критика"
+   ],
+   [
+    "You're wrong.",
+    "I'm not sure that's quite right.",
+    "ввічлива незгода"
+   ],
+   [
+    "The flat is too small.",
+    "The flat seems a bit small for us.",
+    "суб'єктивне враження"
+   ],
+   [
+    "Prices are rising.",
+    "Prices appear to be rising.",
+    "немає 100% даних"
+   ],
+   [
+    "Kraków is the best city in Poland.",
+    "Kraków is arguably the best city in Poland.",
+    "спірне твердження"
+   ],
+   [
+    "It's cheaper by train.",
+    "I'd have thought it was cheaper by train.",
+    "м'яке заперечення"
+   ]
+  ]
+ },
+ "examples": [
+  {
+   "en": "The restaurant seems to have closed down.",
+   "uk": "Схоже, ресторан закрився."
+  },
+  {
+   "en": "People in Kraków tend to be quite friendly.",
+   "uk": "Люди в Кракові здебільшого досить привітні."
+  },
+  {
+   "en": "It would appear that someone has taken my bike.",
+   "uk": "Схоже на те, що хтось забрав мій велосипед."
+  },
+  {
+   "en": "You might well be right, but I'd like to check.",
+   "uk": "Цілком можливо, що ти маєш рацію, але я хотів би перевірити."
+  },
+  {
+   "en": "To some extent, it's our own fault.",
+   "uk": "Певною мірою це наша власна провина."
+  },
+  {
+   "en": "I'd have thought Vita would prefer the window seat.",
+   "uk": "Я гадав, що Віта захоче сісти біля вікна."
+  }
+ ],
+ "tip": "**I'd have thought** = *I **would** have thought*, а не *I had thought*: це м'яке «мені здавалося б, що…», часто з легким подивом. **Seem** і **appear** у значенні «здаватися» не вживаються в Continuous: ~~It's seeming~~.",
+ "exercises": [
+  {
+   "type": "choice",
+   "prompt": "The printer ___ to be out of ink — nothing is coming out.",
+   "options": [
+    "seems",
+    "is seeming",
+    "seem",
+    "appears that"
+   ],
+   "answer": "seems",
+   "explanation": "seem to + V; у Continuous не вживається."
+  },
+  {
+   "type": "choice",
+   "prompt": "Young people ___ to spend more time online than older generations.",
+   "options": [
+    "tend",
+    "tends",
+    "are tending",
+    "tend that"
+   ],
+   "answer": "tend",
+   "explanation": "tend to + V — «зазвичай»; підмет у множині."
+  },
+  {
+   "type": "choice",
+   "prompt": "___, it's the most beautiful square in Europe.",
+   "options": [
+    "Arguably",
+    "Argue",
+    "Arguable",
+    "Arguing"
+   ],
+   "answer": "Arguably",
+   "explanation": "Прислівник arguably пом'якшує спірну думку."
+  },
+  {
+   "type": "choice",
+   "prompt": "It ___ well be the last warm weekend of the year, so let's go to the mountains.",
+   "options": [
+    "might",
+    "must",
+    "should",
+    "would"
+   ],
+   "answer": "might",
+   "explanation": "might well — «цілком можливо»."
+  },
+  {
+   "type": "input",
+   "prompt": "It ___ appear that the flight has been delayed. (модальне: «здавалося б»)",
+   "answer": [
+    "would"
+   ],
+   "explanation": "It would appear that… — обережне книжне твердження."
+  },
+  {
+   "type": "input",
+   "prompt": "The new neighbours ___ (seem / be) quite nice. (3 слова)",
+   "answer": [
+    "seem to be"
+   ],
+   "explanation": "seem to + V."
+  },
+  {
+   "type": "input",
+   "prompt": "I'd have ___ (think) the museum would be open on Sundays.",
+   "answer": [
+    "thought"
+   ],
+   "explanation": "I'd have thought — would have + V3."
+  },
+  {
+   "type": "input",
+   "prompt": "Vita ___ (tend / get) cold easily, so bring an extra blanket. (3 слова)",
+   "answer": [
+    "tends to get"
+   ],
+   "explanation": "tend to + V; she → tends."
+  },
+  {
+   "type": "error",
+   "sentence": "The shop appears being closed today.",
+   "wrongIndex": 3,
+   "correction": "to be",
+   "alt": [],
+   "explanation": "appear to + V, не -ing."
+  },
+  {
+   "type": "error",
+   "sentence": "She seems knowing a lot about wine.",
+   "wrongIndex": 2,
+   "correction": "to know",
+   "alt": [],
+   "explanation": "seem to + V."
+  },
+  {
+   "type": "order",
+   "prompt": "Схоже, він трохи засмучений.",
+   "answer": [
+    "He seems to be a bit upset.",
+    "He seems a bit upset.",
+    "He seems to be slightly upset."
+   ],
+   "explanation": "seem to be + прикметник."
+  },
+  {
+   "type": "transform",
+   "prompt": "Prices are rising.",
+   "instruction": "Пом'якште за допомогою appear to",
+   "answer": [
+    "Prices appear to be rising."
+   ],
+   "explanation": "appear to + be + V-ing."
+  },
+  {
+   "type": "translate",
+   "uk": "Схоже, ми заблукали.",
+   "answer": [
+    "It seems we're lost.",
+    "It seems that we're lost.",
+    "We seem to be lost.",
+    "It seems we are lost.",
+    "It looks like we're lost.",
+    "It would appear that we're lost.",
+    "We appear to be lost.",
+    "It seems we've got lost.",
+    "We seem to have got lost.",
+    "We seem to have gotten lost.",
+    "It seems we got lost."
+   ],
+   "explanation": "seem to be / It seems that…"
+  },
+  {
+   "type": "translate",
+   "uk": "Певною мірою ти маєш рацію.",
+   "answer": [
+    "To some extent, you're right.",
+    "You're right to some extent.",
+    "To a certain extent, you're right.",
+    "You're right to a certain extent.",
+    "To some degree, you're right.",
+    "You're right to some degree.",
+    "To a certain degree, you're right."
+   ],
+   "explanation": "to some extent — «певною мірою»."
+  }
+ ]
+}

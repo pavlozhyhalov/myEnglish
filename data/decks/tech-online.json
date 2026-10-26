@@ -1,0 +1,305 @@
+{
+ "id": "tech-online",
+ "cards": [
+  {
+   "en": "smartphone",
+   "uk": "смартфон",
+   "ex": "My smartphone is three years old, but it still works fine.",
+   "exUk": "Моєму смартфону три роки, але він досі добре працює."
+  },
+  {
+   "en": "to download",
+   "uk": "завантажувати, скачувати",
+   "ex": "I downloaded the app to buy train tickets.",
+   "exUk": "Я завантажив застосунок, щоб купувати квитки на потяг."
+  },
+  {
+   "en": "to upload",
+   "uk": "завантажувати (в мережу), вивантажувати",
+   "ex": "Can you upload the photos to our shared album?",
+   "exUk": "Можеш завантажити фото в наш спільний альбом?"
+  },
+  {
+   "en": "to install",
+   "uk": "встановлювати",
+   "ex": "You need to install the latest version first.",
+   "exUk": "Спершу треба встановити найновішу версію."
+  },
+  {
+   "en": "to update",
+   "uk": "оновлювати",
+   "ex": "My laptop is updating, so I can't use it right now.",
+   "exUk": "Мій ноутбук оновлюється, тож я не можу ним зараз користуватися."
+  },
+  {
+   "en": "password",
+   "uk": "пароль",
+   "ex": "Use a strong password with numbers and symbols.",
+   "exUk": "Використовуй надійний пароль із цифрами й символами."
+  },
+  {
+   "en": "to log in",
+   "uk": "увійти (в акаунт)",
+   "ex": "I can't log in to my bank account.",
+   "exUk": "Я не можу увійти у свій банківський акаунт."
+  },
+  {
+   "en": "to log out",
+   "uk": "вийти (з акаунта)",
+   "ex": "Don't forget to log out on a shared computer.",
+   "exUk": "Не забудь вийти з акаунта на спільному комп'ютері."
+  },
+  {
+   "en": "account",
+   "uk": "обліковий запис, акаунт",
+   "ex": "I created an account to track my order.",
+   "exUk": "Я створив акаунт, щоб відстежувати замовлення."
+  },
+  {
+   "en": "to sign up",
+   "uk": "зареєструватися",
+   "ex": "It only takes a minute to sign up.",
+   "exUk": "Зареєструватися можна лише за хвилину."
+  },
+  {
+   "en": "to reset a password",
+   "uk": "скинути пароль",
+   "ex": "I had to reset my password because I'd forgotten it again.",
+   "exUk": "Мені довелося скинути пароль, бо я знову його забув."
+  },
+  {
+   "en": "two-factor authentication",
+   "uk": "двофакторна автентифікація",
+   "ex": "Turn on two-factor authentication to keep your account safe.",
+   "exUk": "Увімкни двофакторну автентифікацію, щоб захистити акаунт."
+  },
+  {
+   "en": "Wi-Fi",
+   "uk": "вайфай, бездротовий інтернет",
+   "ex": "What's the Wi-Fi password here?",
+   "exUk": "Який тут пароль від вайфаю?"
+  },
+  {
+   "en": "The signal is weak.",
+   "uk": "Слабкий сигнал.",
+   "ex": "The signal is weak in our bedroom, so I can't make calls there.",
+   "exUk": "У нашій спальні слабкий сигнал, тож я не можу звідти дзвонити."
+  },
+  {
+   "en": "router",
+   "uk": "роутер",
+   "ex": "Try turning the router off and on again.",
+   "exUk": "Спробуй вимкнути й знову увімкнути роутер."
+  },
+  {
+   "en": "to restart",
+   "uk": "перезавантажити",
+   "ex": "Restart your phone and see if that helps.",
+   "exUk": "Перезавантаж телефон і подивись, чи це допоможе."
+  },
+  {
+   "en": "to freeze (of a computer)",
+   "uk": "зависати",
+   "ex": "My laptop keeps freezing when I open too many tabs.",
+   "exUk": "Мій ноутбук постійно зависає, коли я відкриваю забагато вкладок."
+  },
+  {
+   "en": "to crash",
+   "uk": "вилітати, аварійно закриватися",
+   "ex": "The app crashed and I lost my message.",
+   "exUk": "Застосунок вилетів, і я втратив повідомлення."
+  },
+  {
+   "en": "bug",
+   "uk": "баг, помилка в програмі",
+   "ex": "There's a bug in the new update – the camera doesn't work.",
+   "exUk": "У новому оновленні є баг: камера не працює."
+  },
+  {
+   "en": "storage",
+   "uk": "пам'ять, сховище",
+   "ex": "I need to delete some videos – there's no storage left on my phone.",
+   "exUk": "Треба видалити кілька відео — на телефоні не лишилося пам'яті."
+  },
+  {
+   "en": "to back up",
+   "uk": "створювати резервну копію",
+   "ex": "Do you back up your photos regularly?",
+   "exUk": "Ти регулярно робиш резервні копії своїх фото?"
+  },
+  {
+   "en": "the cloud",
+   "uk": "хмара, хмарне сховище",
+   "ex": "All my documents are saved in the cloud.",
+   "exUk": "Усі мої документи збережені в хмарі."
+  },
+  {
+   "en": "to delete",
+   "uk": "видаляти",
+   "ex": "I accidentally deleted an important email.",
+   "exUk": "Я випадково видалив важливий лист."
+  },
+  {
+   "en": "screenshot",
+   "uk": "знімок екрана, скриншот",
+   "ex": "Send me a screenshot of the error message.",
+   "exUk": "Надішли мені скриншот повідомлення про помилку."
+  },
+  {
+   "en": "notification",
+   "uk": "сповіщення",
+   "ex": "I turned off notifications from that app.",
+   "exUk": "Я вимкнув сповіщення від цього застосунку."
+  },
+  {
+   "en": "settings",
+   "uk": "налаштування",
+   "ex": "You can change the language in the settings.",
+   "exUk": "Мову можна змінити в налаштуваннях."
+  },
+  {
+   "en": "to scroll",
+   "uk": "гортати",
+   "ex": "I spent an hour scrolling through Instagram last night.",
+   "exUk": "Учора ввечері я годину гортав Instagram."
+  },
+  {
+   "en": "social media",
+   "uk": "соцмережі",
+   "ex": "Vita doesn't post much on social media.",
+   "exUk": "Віта рідко щось публікує в соцмережах."
+  },
+  {
+   "en": "to post",
+   "uk": "публікувати, викладати",
+   "ex": "She posted some photos from our trip.",
+   "exUk": "Вона виклала кілька фото з нашої подорожі."
+  },
+  {
+   "en": "link",
+   "uk": "посилання",
+   "ex": "Click the link in the email to confirm your address.",
+   "exUk": "Натисни на посилання в листі, щоб підтвердити адресу."
+  },
+  {
+   "en": "to follow (on social media)",
+   "uk": "підписатися (на когось)",
+   "ex": "I follow a few English teachers on YouTube.",
+   "exUk": "Я підписаний на кількох викладачів англійської на YouTube."
+  },
+  {
+   "en": "followers",
+   "uk": "підписники",
+   "ex": "She has over ten thousand followers.",
+   "exUk": "У неї понад десять тисяч підписників."
+  },
+  {
+   "en": "to go viral",
+   "uk": "стати вірусним, розлетітися мережею",
+   "ex": "His video of the cat went viral overnight.",
+   "exUk": "Його відео з котом за ніч розлетілося мережею."
+  },
+  {
+   "en": "to mute",
+   "uk": "вимкнути звук, вимкнути мікрофон",
+   "ex": "Could you mute your microphone, please? There's an echo.",
+   "exUk": "Можеш, будь ласка, вимкнути мікрофон? Є відлуння."
+  },
+  {
+   "en": "to stream",
+   "uk": "дивитися онлайн, транслювати",
+   "ex": "We usually stream films at home instead of going to the cinema.",
+   "exUk": "Ми зазвичай дивимося фільми онлайн удома, а не ходимо в кіно."
+  },
+  {
+   "en": "subscription",
+   "uk": "підписка",
+   "ex": "I cancelled my subscription because I never used it.",
+   "exUk": "Я скасував підписку, бо ніколи нею не користувався."
+  },
+  {
+   "en": "to unsubscribe",
+   "uk": "відписатися",
+   "ex": "I've unsubscribed from all those newsletters.",
+   "exUk": "Я відписався від усіх тих розсилок."
+  },
+  {
+   "en": "spam",
+   "uk": "спам",
+   "ex": "Check your spam folder – the email might be there.",
+   "exUk": "Перевір папку «Спам» — лист може бути там."
+  },
+  {
+   "en": "scam",
+   "uk": "шахрайство, афера",
+   "ex": "That message about a parcel is a scam – don't click on it.",
+   "exUk": "Те повідомлення про посилку — шахрайство, не натискай на нього."
+  },
+  {
+   "en": "to hack",
+   "uk": "зламати",
+   "ex": "Someone hacked my friend's Facebook account.",
+   "exUk": "Хтось зламав акаунт мого друга у Facebook."
+  },
+  {
+   "en": "privacy settings",
+   "uk": "налаштування приватності",
+   "ex": "Check your privacy settings before you post anything personal.",
+   "exUk": "Перевір налаштування приватності, перш ніж публікувати щось особисте."
+  },
+  {
+   "en": "charger",
+   "uk": "зарядний пристрій, зарядка",
+   "ex": "Can I borrow your charger? My phone's on five per cent.",
+   "exUk": "Можна позичити твою зарядку? У мене на телефоні п'ять відсотків."
+  },
+  {
+   "en": "wireless earbuds",
+   "uk": "бездротові навушники",
+   "ex": "I lost one of my wireless earbuds on the tram.",
+   "exUk": "Я загубив один зі своїх бездротових навушників у трамваї."
+  },
+  {
+   "en": "to google",
+   "uk": "гуглити",
+   "ex": "If you don't know a word, just google it.",
+   "exUk": "Якщо не знаєш слова, просто загугли його."
+  },
+  {
+   "en": "browser",
+   "uk": "браузер",
+   "ex": "Try opening the page in a different browser.",
+   "exUk": "Спробуй відкрити сторінку в іншому браузері."
+  },
+  {
+   "en": "to connect to",
+   "uk": "підключитися до",
+   "ex": "My phone won't connect to the Wi-Fi.",
+   "exUk": "Мій телефон не підключається до вайфаю."
+  },
+  {
+   "en": "to be offline",
+   "uk": "бути офлайн, без інтернету",
+   "ex": "Sorry I didn't reply – I was offline all day.",
+   "exUk": "Вибач, що не відповів, — я весь день був без інтернету."
+  },
+  {
+   "en": "voice message",
+   "uk": "голосове повідомлення",
+   "ex": "She sent me a two-minute voice message.",
+   "exUk": "Вона надіслала мені двохвилинне голосове повідомлення."
+  },
+  {
+   "en": "group chat",
+   "uk": "груповий чат",
+   "ex": "Our family group chat never stops.",
+   "exUk": "Наш сімейний груповий чат не замовкає ані на мить."
+  },
+  {
+   "en": "to swipe",
+   "uk": "провести пальцем, свайпнути",
+   "ex": "Swipe left to delete the message.",
+   "exUk": "Проведи пальцем уліво, щоб видалити повідомлення."
+  }
+ ]
+}
