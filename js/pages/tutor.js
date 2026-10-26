@@ -1,6 +1,6 @@
 // AI-вчитель: режими, текстовий чат зі стрімінгом, підсумок сесії, історія
 import { h, ic, emo, fmtMin } from '../ui/dom.js';
-import { S } from '../strings.js';
+import { S, plural } from '../strings.js';
 import * as store from '../store.js';
 import * as srs from '../srs.js';
 import { md } from '../ui/md.js';
@@ -79,12 +79,13 @@ function history(view, chats) {
     box.replaceChildren(head, h('div.list', rows),
       selecting ? h('div.row',
         h('button.btn.soft.grow', { type: 'button', onclick: () => { list.forEach(c => picked.add(c.id)); draw(); } }, 'Вибрати всі'),
-        h('button.btn.danger.grow', { type: 'button', disabled: !picked.size, onclick: () => remove([...picked]) }, ic('trash', { size: 18 }), `Видалити (${picked.size})`)) : null);
+        h('button.btn.danger.grow', { type: 'button', disabled: !picked.size, onclick: () => remove([...picked]) }, ic('trash', { size: 18 }), `Видалити (${picked.size})`)) : '');
   };
   async function remove(ids) {
     const n = ids.length;
-    const ok = await confirmSheet(n > 1 ? `Видалити ${n} розмов?` : 'Видалити розмову?',
-      'Разом із розмовою зі статистики приберуться її час і помилки з її підсумку. Слова, які ви додали в картки, залишаться.', 'Видалити', { danger: true });
+    const ok = await confirmSheet(n > 1 ? `Видалити ${n} ${plural(n, 'розмову', 'розмови', 'розмов')}?` : 'Видалити розмову?',
+      n > 1 ? 'Разом із ними зі статистики приберуться їхній час і помилки з підсумків. Слова, які ви додали в картки, залишаться.'
+        : 'Разом із розмовою зі статистики приберуться її час і помилки з її підсумку. Слова, які ви додали в картки, залишаться.', 'Видалити', { danger: true });
     if (!ok) return;
     ids.forEach(deleteChat);
     selecting = false; picked.clear();
@@ -172,6 +173,8 @@ function chatUI(view, row, { scenario, ask, topic, resumed } = {}) {
     h('div.composer', micBtn, ta, sendBtn)));
 
   for (const m of row.messages) list.append(msgView(m));
+  // продовжена розмова відкривається на останньому повідомленні
+  if (row.messages.length > 2) requestAnimationFrame(() => setTimeout(() => window.scrollTo(0, document.scrollingElement.scrollHeight), 50));
 
   function persist() {
     row.seconds = (row.seconds || 0);

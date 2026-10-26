@@ -1,6 +1,19 @@
 // Bottom sheet замість модалок на мобільному
 import { h } from './dom.js';
 
+// Поки відкрита шторка, сторінка під нею не прокручується (iOS ігнорує overflow:hidden — фіксуємо body)
+let openCount = 0, savedY = 0;
+function lock(on) {
+  const b = document.body;
+  if (on) {
+    if (openCount++ || b.classList.contains('drawer-open')) return;
+    savedY = window.scrollY; b.style.top = `-${savedY}px`; b.classList.add('sheet-open');
+  } else {
+    if (--openCount > 0 || !b.classList.contains('sheet-open')) return;
+    openCount = 0; b.classList.remove('sheet-open'); b.style.top = ''; window.scrollTo(0, savedY);
+  }
+}
+
 export function sheet(title, content, { onClose } = {}) {
   const scrim = h('div.sheet-scrim');
   const body = h('div.sheet', { role: 'dialog', 'aria-modal': 'true', 'aria-label': title || 'Діалог', tabindex: '-1' },
@@ -12,12 +25,15 @@ export function sheet(title, content, { onClose } = {}) {
     scrim.classList.remove('open'); body.classList.remove('open');
     document.removeEventListener('keydown', onKey);
     window.removeEventListener('hashchange', close);
+    lock(false);
     setTimeout(() => { scrim.remove(); body.remove(); }, 260);
-    prevFocus?.focus?.();
+    prevFocus?.focus?.({ preventScroll: true });
     onClose?.();
   };
   const onKey = (e) => { if (e.key === 'Escape') close(); };
   scrim.addEventListener('click', close);
+  scrim.addEventListener('touchmove', e => e.preventDefault(), { passive: false });
+  lock(true);
   document.addEventListener('keydown', onKey);
   // перехід на іншу сторінку (жест «назад», нижня панель) закриває шторку
   window.addEventListener('hashchange', close);

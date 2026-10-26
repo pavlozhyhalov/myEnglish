@@ -53,7 +53,11 @@ export default async function grammar(view, r) {
 }
 
 async function lessonPage(view, id, query = {}) {
-  const [idx, l] = await Promise.all([grammarIndex(), loadLesson(id)]);
+  let idx, l;
+  try { [idx, l] = await Promise.all([grammarIndex(), loadLesson(id)]); } catch {
+    view.replaceChildren(h('div.empty', emo('magnifier', 'xl'), h('p', 'Урок не знайдено.'), h('a.btn.soft', { href: '#/grammar' }, 'До списку уроків')));
+    return;
+  }
   setTitle(l.title);
   const timer = activityTimer('grammar');
   const pos = idx.findIndex(x => x.id === id);

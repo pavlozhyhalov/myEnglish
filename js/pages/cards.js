@@ -34,7 +34,7 @@ export default async function cards(view, r) {
         g === 'general' ? h('p.xs.dim', { style: { margin: '0 2px' } }, `Нові слова беруться з колод рівня ${myLevel()}, далі — наступного. Колоди вищих рівнів чекають, поки ви до них дійдете.`) : null,
         h('div.list', list.map(d => h('div.list-row',
           emo(d.emoji || 'cards'),
-          h('div.grow', h('div.row', { style: { gap: '6px' } }, h('span', { style: { fontWeight: 600 } }, d.name), levelTag(d.level)), h('div.sub', `${d.count ?? 0} ${plural(d.count ?? 0, 'картка', 'картки', 'карток')}${d.desc ? ' · ' + d.desc : ''}${d.level && diff(d.level) > 1 ? ' · поки без нових слів' : ''}`)),
+          h('div.grow', h('div', { style: { fontWeight: 600 } }, d.name, ' ', levelTag(d.level)), h('div.sub', `${d.count ?? 0} ${plural(d.count ?? 0, 'картка', 'картки', 'карток')}${d.desc ? ' · ' + d.desc : ''}${d.level && diff(d.level) > 1 ? ' · поки без нових слів' : ''}`)),
           toggle(d.enabled, (v) => srs.setDeckEnabled(d, v), `Колода ${d.name}`)))));
     }),
     h('a.btn.soft.block', { href: '#/vocab' }, ic('plus'), 'Додати свої слова'),

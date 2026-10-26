@@ -109,7 +109,7 @@ function addWord(onSaved, existing = null) {
     uk: h('input.input', { type: 'text', placeholder: 'переклад', value: existing?.uk || '', 'aria-label': 'Переклад' }),
     ipa: h('input.input.ipa', { type: 'text', placeholder: '/ˈwɜːrd/', value: existing?.ipa || '', 'aria-label': 'Транскрипція' }),
     pos: h('input.input', { type: 'text', placeholder: 'noun, verb…', value: existing?.pos || '', 'aria-label': 'Частина мови' }),
-    ex1: h('input.input', { type: 'text', placeholder: 'Приклад (робочий)', value: existing?.examples?.[0]?.en || '', 'aria-label': 'Приклад 1' }),
+    ex1: h('input.input', { type: 'text', placeholder: 'Приклад речення', value: existing?.examples?.[0]?.en || '', 'aria-label': 'Приклад 1' }),
     ex1uk: h('input.input', { type: 'text', placeholder: 'Переклад прикладу', value: existing?.examples?.[0]?.uk || '', 'aria-label': 'Переклад прикладу 1' }),
     ex2: h('input.input', { type: 'text', placeholder: 'Приклад 2', value: existing?.examples?.[1]?.en || '', 'aria-label': 'Приклад 2' }),
     ex2uk: h('input.input', { type: 'text', placeholder: 'Переклад прикладу 2', value: existing?.examples?.[1]?.uk || '', 'aria-label': 'Переклад прикладу 2' }),
@@ -167,7 +167,7 @@ function addWord(onSaved, existing = null) {
     field('Приклад 1', f.ex1), f.ex1uk, field('Приклад 2', f.ex2), f.ex2uk,
     field('Колокації', f.coll), field('Синоніми', f.syn),
     tagBox,
-    h('button.btn.primary.block.lg', { type: 'button', onclick: save }, S.save)));
+    h('div.sheet-actions', h('button.btn.primary.block.lg', { type: 'button', onclick: save }, S.save))));
   setTimeout(() => f.en.focus(), 300);
 }
 

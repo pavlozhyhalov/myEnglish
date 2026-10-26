@@ -148,6 +148,7 @@ export function render(ex, report, next) {
       if (reported || !used.length) return;
       const given = used.map(w => w.t).join(' ');
       done(matches(given, ex.answer), given); checkBtn.hidden = true;
+      bank.classList.add('done'); line.classList.add('done');
     } }, 'Перевірити');
     return h('div.stack', instr('Складіть речення зі слів'), ex.prompt ? h('div.dim', ex.prompt) : null, line, bank, checkBtn, fb, nextBtn);
   }
@@ -181,6 +182,7 @@ export function render(ex, report, next) {
     const checkBtn = h('button.btn.primary.block', { type: 'button', onclick: async () => {
       const given = inp.value.trim();
       if (reported || !given) return;
+      inp.disabled = true;
       if (matches(given, ex.answer)) { done(true, given); checkBtn.hidden = true; return; }
       if (!user() || !navigator.onLine) { done(false, given, 'Офлайн: порівняно з еталоном. Близькі варіанти може зарахувати вчитель онлайн.'); checkBtn.hidden = true; return; }
       checkBtn.disabled = true; checkBtn.textContent = 'Перевіряє вчитель…';

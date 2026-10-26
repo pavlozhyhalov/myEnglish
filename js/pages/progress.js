@@ -43,6 +43,7 @@ export default async function progressPage(view) {
       h('div.row', h('div.section-title.grow', 'Хвилини за 30 днів'), h('span.xs.dim', `мета ${store.settings().dailyGoal} хв`)),
       h('div.bars', { role: 'img', 'aria-label': 'Хвилини практики по днях' }, days.map(d => h('i' + (d.seconds ? '' : '.zero'), { style: { height: `${Math.max(2, d.seconds / maxSec * 100)}%` }, title: `${dayLbl(d)}: ${fmtMin(d.seconds)}` }))),
       h('div.bars-labels', h('span', dayLbl(days[0])), h('span', dayLbl(days[15])), h('span', 'сьогодні')),
+      days.some(d => d.seconds) ? null : h('div.xs.dim', 'Ще немає даних — графік заповниться після перших занять.'),
       h('div.chips', Object.entries(byType).sort((a, b) => b[1] - a[1]).map(([t, s]) => h('span.tag', `${S.sessionTypes[t] || t}: ${fmtMin(s)}`)))),
 
     h('section.card.stack',
@@ -55,7 +56,8 @@ export default async function progressPage(view) {
       h('div.grid3', stat(c.learned, 'вивчено (стабільність ≥ 21 дн)'), stat(c.total, 'карток у роботі'), stat(c.due, 'до повтору зараз')),
       h('div.section-title', 'Прогноз повторів на 7 днів'),
       h('div.bars', { style: { height: '80px' } }, fc.map(n => h('i' + (n ? '' : '.zero'), { style: { height: `${Math.max(2, n / maxFc * 100)}%` }, title: String(n) }))),
-      h('div.bars-labels', fc.map((n, i) => h('span', i === 0 ? `сьог. ${n}` : String(n))))),
+      h('div.bars-labels', fc.map((n, i) => h('span', i === 0 ? `сьог. ${n}` : String(n)))),
+      fc.some(n => n) ? null : h('div.xs.dim', 'Повторів поки не заплановано — почніть вчити картки.')),
 
     h('section.card.stack',
       h('div.row', h('div.level-badge', lvl), h('div.grow', h('div.section-title', `Рівень ${lvl} · ${LEVEL_NAME[lvl]}`), h('div.xs.dim', `Опановано ${lp.pct}% · перехід від ${READY_PCT}%`))),

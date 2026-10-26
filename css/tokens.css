@@ -43,6 +43,8 @@
   --shadow-sm:0 1px 3px rgba(11,21,48,.12);
   --shadow-float:0 8px 28px rgba(11,21,48,.12),0 1px 3px rgba(11,21,48,.06);
   --scrim:rgba(8,14,30,.45);
+  /* вибраний сегмент, доріжки прогресу, вимкнений перемикач */
+  --seg-on:#FFFFFF; --track:#E3E8F2; --switch-off:#D5DCE8;
 }
 /* Ніч: акцент світліший, щоб кнопки не зливались із тлом; текст-акцент — блакитний */
 @media (prefers-color-scheme:dark){
@@ -58,6 +60,7 @@
     --shadow-sm:0 1px 2px rgba(0,0,0,.5);
     --shadow-float:0 8px 28px rgba(0,0,0,.5);
     --scrim:rgba(0,0,0,.6);
+    --seg-on:#2B3B66; --track:#2A3652; --switch-off:#3A4868;
   }
 }
 :root[data-theme="dark"]{
@@ -72,5 +75,6 @@
   --shadow-sm:0 1px 2px rgba(0,0,0,.5);
   --shadow-float:0 8px 28px rgba(0,0,0,.5);
   --scrim:rgba(0,0,0,.6);
+  --seg-on:#2B3B66; --track:#2A3652; --switch-off:#3A4868;
 }
 @media (prefers-reduced-motion:reduce){:root{--dur:0ms}}

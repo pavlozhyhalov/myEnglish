@@ -54,7 +54,6 @@ async function grammarPractice(view, unitSlug, lv) {
   view.replaceChildren(h('div.stack', box,
     h('a.btn.ghost.block', { href: '#/exercises/grammar' }, ic('arrow-left'), 'Інша тема')));
   runExercises(box, list, {
-    title,
     onMistake: (ex, given) => addMistake({ wrong: given || '—', right: answerText(ex), type: ex._lesson.mistakeType || 'tenses', explanation_uk: `${ex._lesson.title}: ${ex.explanation || ''}`, source: 'exercise' }),
     onDone: (res) => {
       timer.poke();

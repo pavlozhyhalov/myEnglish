@@ -28,6 +28,8 @@ export function initDrawer() {
 
   if (store.settings().pinDrawer !== false) document.body.classList.add('drawer-pinned');
   // доступність: закрите меню поза екраном — inert (не в Tab-порядку), закріплене на широкому екрані — видиме для читачів екрана
+  // перехід «назад» (жест iOS) при відкритому меню — закриваємо, інакше сторінка лишається заблокованою
+  addEventListener('hashchange', () => close());
   wide.addEventListener('change', syncA11y);
   new MutationObserver(syncA11y).observe(document.body, { attributes: true, attributeFilter: ['class'] });
   syncA11y();

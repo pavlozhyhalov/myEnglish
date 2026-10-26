@@ -43,11 +43,24 @@ function leave(host) {
   if (host) host.__leave = [];
 }
 
+// Позиція прокрутки списків: «назад» повертає туди, де користувач був
+// Кожен запис історії отримує номер (час створення): менший номер при переході = «назад»
+const scrollPos = new Map();
+let lastHash = location.hash, curIdx = 0;
+
 let renderSeq = 0;
 export async function render() {
   navCount++;
   const r = parse();
   const seq = ++renderSeq;
+  scrollPos.set(lastHash, window.scrollY);
+  lastHash = location.hash;
+  let idx = history.state?.idx;
+  // номер = час створення запису: працює й після перезавантаження сторінки
+  if (idx == null) { idx = Date.now(); try { history.replaceState({ idx }, ''); } catch { /* */ } }
+  const isBack = idx < curIdx;
+  curIdx = idx;
+  const restoreY = isBack ? scrollPos.get(location.hash) || 0 : 0;
   if (current?.cleanup) { try { current.cleanup(); } catch (e) { console.error(e); } }
   leave(current?.host);
   current = null;
@@ -71,6 +84,7 @@ export async function render() {
     const cleanup = await mod.default(host, r);
     if (seq !== renderSeq) { try { cleanup?.(); } catch (e) { console.error(e); } return; }
     current.cleanup = cleanup;
+    if (restoreY) requestAnimationFrame(() => window.scrollTo(0, restoreY));
   } catch (e) {
     console.error(e);
     if (seq === renderSeq) host.textContent = 'Помилка завантаження сторінки: ' + e.message;
