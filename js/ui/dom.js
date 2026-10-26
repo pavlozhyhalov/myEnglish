@@ -118,8 +118,8 @@ export function fmtMin(sec) { const m = Math.round(sec / 60); return `${m} хв`
 export function fmtInterval(days) {
   if (days < 1 / 24) return `${Math.max(1, Math.round(days * 1440))} хв`;
   if (days < 1) return `${Math.round(days * 24)} год`;
-  if (days < 30) return `${Math.round(days)} дн`;
-  if (days < 365) return `${Math.round(days / 30)} міс`;
-  return `${(days / 365).toFixed(1)} р`;
+  if (days < 30) return `${Math.round(days)} дн.`;
+  if (days < 365) return `${Math.round(days / 30)} міс.`;
+  return `${(days / 365).toFixed(1).replace('.', ',')} р.`;
 }
 export function esc(s) { return String(s ?? ''); }

@@ -1,4 +1,5 @@
 // Налаштування
+import { plural } from '../strings.js';
 import { h, ic, seg, toggle, clear } from '../ui/dom.js';
 import * as store from '../store.js';
 import { BUILD, DEFAULTS, LIVE_VOICES } from '../config.js';
@@ -40,7 +41,7 @@ export default function settings(view) {
       h('div.list-row', h('div.grow', 'Денна мета')),
       range('dailyGoal', 5, 60, 5, v => `${v} хв на день`),
       h('div.list-row', h('div.grow', 'Нових карток на день')),
-      range('newPerDay', 0, 50, 1, v => `${v} карток`),
+      range('newPerDay', 0, 50, 1, v => `${v} ${plural(v, 'картка', 'картки', 'карток')}`),
       row('Не вимикати екран під час завдань', toggle(st.keepAwake !== false, (v) => { store.setSetting('keepAwake', v); }, 'Не вимикати екран'), 'Працює в сучасних браузерах; на iPhone — iOS 16.4+'),
       row('Цільова утримуваність FSRS', select('retention', [[0.85, '85%'], [0.9, '90%'], [0.95, '95%']].map(([v, t]) => [String(v), t]), 'Утримуваність'), 'Вища — частіші повтори'),
     ]),
@@ -48,7 +49,7 @@ export default function settings(view) {
       h('div', { style: { padding: '12px 14px' } }, seg([['US', 'Акцент US'], ['UK', 'Акцент UK']], st.accent, set('accent'))),
       h('div.list-row', h('div.grow', 'Швидкість')),
       range('rate', 0.6, 1.3, 0.05, v => `${Number(v).toFixed(2)}×`),
-      row('Рушій озвучки', select('ttsEngine', [['browser', 'Браузер (офлайн)'], ['gemini', 'Gemini TTS (онлайн)']], 'Рушій'), 'Gemini звучить природніше'),
+      row('Рушій озвучення', select('ttsEngine', [['browser', 'Браузер (офлайн)'], ['gemini', 'Gemini TTS (онлайн)']], 'Рушій'), 'Gemini звучить природніше'),
       row('Автоозвучення карток', toggle(st.autoSpeak !== false, set('autoSpeak'), 'Автоозвучення')),
       h('div.list-row', h('div.grow', h('div', 'Перевірити голос'), h('div.sub', `Голосів браузера: ${englishVoices().length}`)),
         h('button.btn.sm.soft', { type: 'button', onclick: () => speak('Hi! This is how I sound. Shall we practise some English today?') }, ic('play', { size: 16, fill: true }), 'Тест')),
@@ -61,13 +62,13 @@ export default function settings(view) {
       ], 'Тон')),
       row('Голос (Gemini Live)', select('voice', LIVE_VOICES.map(v => [v, v]), 'Голос')),
       row('Мова пояснень', select('explainLang', [['uk', 'Українська'], ['en', 'English'], ['mix', 'Змішано']], 'Мова пояснень')),
-      row('Строгість виправлень', select('strictness', [['important', 'Лише важливе'], ['all', 'Все']], 'Строгість')),
+      row('Строгість виправлень', select('strictness', [['important', 'Лише важливе'], ['all', 'Усе']], 'Строгість')),
       row('Професійний контекст', toggle(!!st.workFocus, set('workFocus'), 'Професійний контекст'), 'Вчитель частіше говоритиме про роботу (виробництво, CNC, якість). За замовчуванням — загальні теми'),
     ]),
     group('Дані', [
       h('div.list-row', h('div.grow', h('div', 'Експорт даних'), h('div.sub', 'JSON з картками, прогресом, розмовами')),
         h('button.btn.sm.soft', { type: 'button', onclick: exportData }, ic('download-simple', { size: 16 }), 'Експорт')),
-      h('div.list-row', h('div.grow', h('div', 'Імпорт'), h('div.sub', 'Злиття: перемагає новіша зміна')),
+      h('div.list-row', h('div.grow', h('div', 'Імпорт'), h('div.sub', 'Об\'єднання: зберігається новіша версія')),
         h('label.btn.sm.soft', ic('upload-simple', { size: 16 }), 'Імпорт', h('input', { type: 'file', accept: 'application/json,.json', hidden: true, onchange: importData }))),
       h('div.list-row', h('div.grow', h('div', 'Акаунт'), h('div.sub', user() ? user().email : 'Не виконано вхід (локальний режим)')),
         h('a.btn.sm.soft', { href: '#/auth' }, user() ? 'Керувати' : 'Увійти')),
@@ -85,7 +86,7 @@ function levelPicker() {
   const render = () => {
     const cur = myLevel();
     const p = store.prof();
-    chips.replaceChildren(...LEVELS.map(l => h('button.chip', { type: 'button', 'aria-pressed': String(l === cur), onclick: () => { setLevel(l, 'manual'); toast(`Рівень ${l}: план і контент підлаштовано`); render(); } }, l)));
+    chips.replaceChildren(...LEVELS.map(l => h('button.chip', { type: 'button', 'aria-pressed': String(l === cur), onclick: () => { setLevel(l, 'manual'); toast(`Рівень ${l}: план і завдання оновлено`); render(); } }, l)));
     desc.replaceChildren(h('b', `${cur} · ${LEVEL_NAME[cur]}. `), LEVEL_DESC[cur]);
     src.textContent = p.levelSource === 'progress' ? 'Підвищено за прогресом' : p.levelSource === 'test' || (p.placementDone === true && p.levelSource !== 'manual') ? 'Визначено тестом' : p.levelSource === 'manual' ? 'Обрано вручну' : 'За замовчуванням — пройдіть тест, щоб уточнити';
   };
@@ -197,7 +198,7 @@ async function importData(e) {
   const f = e.target.files?.[0];
   if (!f) return;
   try { await store.importJson(JSON.parse(await f.text())); toast('Імпортовано'); }
-  catch (err) { toast('Помилка імпорту: ' + err.message, { kind: 'bad' }); }
+  catch (err) { toast('Не вдалося імпортувати: файл пошкоджений або має інший формат', { kind: 'bad' }); }
   e.target.value = '';
 }
 async function wipe() {

@@ -9,11 +9,28 @@ export function dayKey(d = new Date()) {
 }
 export const today = () => dayKey();
 
-/** Записати сесію практики (лише час). ref — id розмови, щоб її видалення прибирало й статистику */
+/** Полудень дня d: крок setDate(±1) від полудня не зачіпає годину переходу на літній/зимовий час */
+const noon = (d = new Date()) => { const t = new Date(d); t.setHours(12, 0, 0, 0); return t; };
+
+/**
+ * Записати сесію практики (лише час). ref — id розмови, щоб її видалення прибирало й статистику.
+ * Сесія, що перейшла через північ, ділиться на два записи: час до півночі — у вчорашній день (стрік, тиждень, Resonance).
+ * Повертає запис сьогоднішнього дня з загальною тривалістю в seconds (для показу).
+ */
 export function logSession(type, seconds, ref = null) {
   seconds = Math.max(0, Math.round(seconds));
   if (seconds < 5) return null;
-  return store.put('sessions', { type, seconds, xp: 0, day: today(), ts: store.nowIso(), ref: ref || null });
+  const now = new Date(), midnight = new Date(now); midnight.setHours(0, 0, 0, 0);
+  const sinceMidnight = Math.floor((now - midnight) / 1000);
+  const before = seconds - sinceMidnight;
+  if (before >= 5 && sinceMidnight >= 5) {
+    store.put('sessions', { type, seconds: before, xp: 0, day: dayKey(new Date(midnight - 1000)), ts: new Date(midnight - 1000).toISOString(), ref: ref || null });
+    const row = store.put('sessions', { type, seconds: sinceMidnight, xp: 0, day: today(), ts: store.nowIso(), ref: ref || null });
+    return row && { ...row, seconds };
+  }
+  // менше 5 с з одного боку півночі — увесь час у день, де його більше
+  const day = before >= sinceMidnight ? dayKey(new Date(midnight - 1000)) : today();
+  return store.put('sessions', { type, seconds, xp: 0, day, ts: store.nowIso(), ref: ref || null });
 }
 
 /** Таймер активності сторінки: рахує лише видимий час, з паузою після 2 хв бездіяльності */
@@ -51,7 +68,7 @@ export function todaySeconds() { return secondsByDay().get(today()) || 0; }
 export function streak() {
   const m = secondsByDay();
   let n = 0;
-  const d = new Date();
+  const d = noon();
   if ((m.get(dayKey(d)) || 0) < ACTIVE_DAY_SEC) d.setDate(d.getDate() - 1); // сьогодні ще не зараховано — стрік не рветься
   for (;;) {
     if ((m.get(dayKey(d)) || 0) >= ACTIVE_DAY_SEC) { n++; d.setDate(d.getDate() - 1); } else break;
@@ -63,7 +80,7 @@ export function streak() {
 export function week() {
   const m = secondsByDay();
   const goal = store.settings().dailyGoal * 60;
-  const d = new Date();
+  const d = noon();
   const dow = (d.getDay() + 6) % 7;
   d.setDate(d.getDate() - dow);
   const names = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Нд'];
@@ -77,13 +94,13 @@ export function week() {
 export function lastNDays(n) {
   const m = secondsByDay();
   const out = [];
-  for (let i = n - 1; i >= 0; i--) { const d = new Date(); d.setDate(d.getDate() - i); const k = dayKey(d); out.push({ key: k, seconds: m.get(k) || 0, date: d }); }
+  for (let i = n - 1; i >= 0; i--) { const d = noon(); d.setDate(d.getDate() - i); const k = dayKey(d); out.push({ key: k, seconds: m.get(k) || 0, date: d }); }
   return out;
 }
 
 /** Секунди за останні 7 днів (включно з сьогодні) */
 export function weekSeconds() {
-  const from = new Date(); from.setDate(from.getDate() - 6);
+  const from = noon(); from.setDate(from.getDate() - 6);
   const k = dayKey(from);
   return store.all('sessions').filter(s => s.day >= k).reduce((a, s) => a + (s.seconds || 0), 0);
 }

@@ -184,7 +184,7 @@ export function render(ex, report, next) {
       if (reported || !given) return;
       inp.disabled = true;
       if (matches(given, ex.answer)) { done(true, given); checkBtn.hidden = true; return; }
-      if (!user() || !navigator.onLine) { done(false, given, 'Офлайн: порівняно з еталоном. Близькі варіанти може зарахувати вчитель онлайн.'); checkBtn.hidden = true; return; }
+      if (!user() || !navigator.onLine) { done(false, given, 'Порівняно з еталоном без AI. Близькі варіанти вчитель може зарахувати, коли ви онлайн і ввійшли в акаунт.'); checkBtn.hidden = true; return; }
       checkBtn.disabled = true; checkBtn.textContent = 'Перевіряє вчитель…';
       try {
         const r = await tutor('check_translation', { uk: ex.uk, reference: ex.answer, answer: given });

@@ -14,7 +14,7 @@ async function listen(onInterim) {
 function errText(e) {
   if (e.code === 'mic' || e.name === 'NotAllowedError') return 'Немає доступу до мікрофона';
   if (e.code === 'unsupported') return 'Розпізнавання недоступне: потрібен Chrome/Edge або вхід в акаунт (транскрипція Gemini)';
-  return 'Не вдалося розпізнати, спробуйте ще';
+  return 'Не вдалося розпізнати. Спробуйте ще раз.';
 }
 
 let wantTopic = null;
@@ -82,7 +82,7 @@ function shadowing(box, data, timer) {
   };
   const counts = levelCounts(allTopics, lvOf);
   box.replaceChildren(h('div.stack',
-    h('p.small.dim', 'Прослухайте фразу, повторіть з тією ж інтонацією і темпом. Зелене — збіг, червоне — розпізнано інакше.'),
+    h('p.small.dim', 'Прослухайте фразу й повторіть з тією самою інтонацією і в тому самому темпі. Зелене — збіг, червоне — розпізнано інакше.'),
     levelChips('shadowing', counts, drawTopics), topicsBox, list));
   drawTopics();
 }

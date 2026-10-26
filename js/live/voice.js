@@ -103,7 +103,7 @@ export async function voiceSession(view, opts = {}) {
   if (!navigator.onLine) { fail({ code: 'offline' }); return cleanup; }
 
   // ---------- старт Live: лише по тапу — iOS вмикає звук і мікрофон тільки в момент жесту ----------
-  setState('Готовий до розмови');
+  setState('Усе готово до розмови');
   const savedControls = [...controls.childNodes];
   await new Promise((resolve) => {
     const startBtn = h('button.btn.primary.lg', { type: 'button', style: { minWidth: '240px' }, onclick: () => {
@@ -182,7 +182,7 @@ export async function voiceSession(view, opts = {}) {
       try {
         const res = canRecognize() ? await recognize({ signal: ac.signal, onInterim: t => { notice.textContent = t; } }) : await recordAndTranscribe({ signal: ac.signal, maxMs: 30000 });
         pttBtn.classList.remove('rec');
-        if (!res.text) { setState('Не почув. Спробуйте ще'); return; }
+        if (!res.text) { setState('Нічого не почуто. Спробуйте ще раз'); return; }
         notice.textContent = '';
         addText('user', res.text); closeTurns();
         setState(`${st.tutorName} думає…`);
@@ -195,7 +195,7 @@ export async function voiceSession(view, opts = {}) {
         setState('Утримуйте кнопку і говоріть');
       } catch (er) {
         pttBtn.classList.remove('rec');
-        setState(er.code === 'mic' || er.name === 'NotAllowedError' ? S.err.mic : (aiErrorText(er) || 'Не вдалося'));
+        setState(er.code === 'mic' || er.name === 'NotAllowedError' ? S.err.mic : (aiErrorText(er) || S.err.generic));
       } finally { busy = false; }
     };
     const up = () => { pttBtn.classList.remove('rec'); ac?.abort(); };
@@ -239,7 +239,7 @@ export async function voiceSession(view, opts = {}) {
   }
   function slower() {
     if (mode === 'live') live?.sendText('(Please speak more slowly and use simpler words from now on.)');
-    else { store.setSetting('rate', Math.max(0.7, (store.settings().rate || 1) - 0.15)); notice.textContent = 'Озвучка сповільнена'; }
+    else { store.setSetting('rate', Math.max(0.7, (store.settings().rate || 1) - 0.15)); notice.textContent = 'Озвучення сповільнено'; }
   }
 
   /** Зберегти розмову і час (час прив'язаний до розмови — видалиш її, зникне і зі статистики) */
@@ -267,8 +267,8 @@ export async function voiceSession(view, opts = {}) {
       // голос учня не розпізнано — пояснюємо, а не мовчки виходимо
       setFocus(false);
       view.replaceChildren(h('div.hero', emo('mic', 'xl'), h('h2', 'Розмову завершено'),
-        h('p.dim', row.messages.length ? 'Я не почув вашої відповіді. Перевірте, що браузеру дозволено мікрофон (Налаштування → Safari → Мікрофон), і спробуйте ще раз — краще в навушниках.' : 'Розмова не почалась: з\'єднання з вчителем не встановилось.'),
-        h('div.row', h('a.btn.soft', { href: '#/tutor' }, 'До вчителя'), h('a.btn.primary', { href: '#/tutor?mode=voice', onclick: (e) => { e.preventDefault(); const nv = h('div'); view.replaceChildren(nv); voiceSession(nv, opts); } }, 'Спробувати ще')),
+        h('p.dim', row.messages.length ? 'Вашої відповіді не було чути. Перевірте, що браузеру дозволено мікрофон (на iPhone: Налаштування → Safari → Мікрофон), і спробуйте ще раз — краще в навушниках.' : 'Розмова не почалася: не вдалося з\'єднатися із вчителем.'),
+        h('div.row', h('a.btn.soft', { href: '#/tutor' }, 'До вчителя'), h('a.btn.primary', { href: '#/tutor?mode=voice', onclick: (e) => { e.preventDefault(); const nv = h('div'); view.replaceChildren(nv); voiceSession(nv, opts); } }, 'Спробувати ще раз')),
         h('a.small', { href: '#/lab/live' }, 'Діагностика голосу')));
       return;
     }

@@ -66,9 +66,9 @@ export default function profile(view) {
 
     h('section.stack', { style: { gap: '8px' } }, h('div.section-title', 'Про вас'),
       h('div.card.stack',
-        field('name', 'Ім\'я (для вчителя англійською)', { placeholder: 'Наприклад: Pavlo' }),
+        field('name', 'Ім\'я латиницею (так вас кликатиме вчитель)', { placeholder: 'Наприклад: Pavlo' }),
         field('address', 'Як звертатися в привітанні', { placeholder: 'Наприклад: Павле', hint: 'Кличний відмінок — для «Доброго ранку, …» на головній' }),
-        h('div.field', h('label', 'Як вчителю про вас говорити'), pronounSeg),
+        h('div.field', h('label', 'Як учителю говорити про вас'), pronounSeg),
         h('div.grid2', field('age', 'Вік', { placeholder: 'Наприклад: 32' }), field('location', 'Де живете', { placeholder: 'Місто, країна' })),
         h('div.grid2', field('nativeLang', 'Рідна мова', { placeholder: 'українська' }), field('otherLangs', 'Інші мови', { placeholder: 'польська — базово' })),
         field('occupation', 'Чим займаєтесь', { placeholder: 'Професія або навчання' }),

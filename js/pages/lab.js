@@ -28,7 +28,7 @@ export default async function lab(view) {
     } }, ic('microphone', { fill: true }), 'Тестова розмова (з логом)'),
     lastLog(),
     h('section.card.stack', h('div.section-title', 'Рішення після тесту (§11, Фаза 0)'),
-      h('div.chips', [['live', 'Gemini Live'], ['ptt', 'Запасний режим'], ['other', 'Інший провайдер']].map(([v, t]) =>
+      h('div.chips', [['live', 'Gemini Live'], ['ptt', 'Режим «рація»'], ['other', 'Інший провайдер']].map(([v, t]) =>
         h('button.chip', { type: 'button', 'aria-pressed': String(decision === v), onclick: (e) => { store.setProf({ voiceDecision: v }); e.currentTarget.parentNode.querySelectorAll('.chip').forEach(c => c.setAttribute('aria-pressed', String(c === e.currentTarget))); } }, t))),
       h('div.xs.dim', 'Зберігається в профілі; розробник фіксує його в CLAUDE.md.'))));
   if (user()) {

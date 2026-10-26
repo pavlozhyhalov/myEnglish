@@ -1,6 +1,6 @@
 // Аудіювання: диктант і діалоги
 import { h, ic, emo, seg, progress } from '../ui/dom.js';
-import { S } from '../strings.js';
+import { S, plural } from '../strings.js';
 import * as store from '../store.js';
 import { listening as loadListening } from '../data.js';
 import { speak, stop as stopSpeech } from '../speech.js';
@@ -39,8 +39,8 @@ function dictation(box, data, timer) {
     run(items);
   };
   box.replaceChildren(h('div.stack',
-    h('section.card.stack', h('div.row', emo('headphone', 'lg'), h('div.grow', h('h2', { style: { margin: 0 } }, 'Диктант'), h('div.small.dim', '8 речень: слухайте і набирайте. Рівень — за вашим, можна змінити.'))),
-      h('div.chips', levels.map(l => h('button.chip', { type: 'button', 'aria-pressed': String(l === level), onclick: (e) => { level = l; e.currentTarget.parentNode.querySelectorAll('.chip').forEach(c => c.setAttribute('aria-pressed', String(c === e.currentTarget))); } }, l === myLevel() ? `${l} · мій` : l))),
+    h('section.card.stack', h('div.row', emo('headphone', 'lg'), h('div.grow', h('h2', { style: { margin: 0 } }, 'Диктант'), h('div.small.dim', '8 речень: слухайте й набирайте. За замовчуванням — ваш рівень, його можна змінити.'))),
+      h('div.chips', levels.map(l => h('button.chip', { type: 'button', 'aria-pressed': String(l === level), onclick: (e) => { level = l; e.currentTarget.parentNode.querySelectorAll('.chip').forEach(c => c.setAttribute('aria-pressed', String(c === e.currentTarget))); } }, l === myLevel() ? `Мій · ${l}` : l))),
       h('button.btn.primary.block.lg', { type: 'button', onclick: start }, ic('play', { fill: true }), 'Почати'))));
 
   function run(items) {
@@ -63,7 +63,7 @@ function dictation(box, data, timer) {
         totalPct += d.pct;
         if (d.pct < 100) {
           const wrongWords = wordMismatch(it.text, inp.value);
-          if (wrongWords) addMistake({ wrong: wrongWords.given, right: wrongWords.right, type: 'vocabulary', explanation_uk: 'Диктант: слово розпізнано або написано неправильно', source: 'exercise' });
+          if (wrongWords) addMistake({ wrong: wrongWords.given, right: wrongWords.right, type: 'vocabulary', explanation_uk: 'Диктант: слово почуто або написано неправильно', source: 'exercise' });
         }
         result.replaceChildren(h('div.card.soft.stack',
           h('div.diff', d.nodes),
@@ -78,8 +78,8 @@ function dictation(box, data, timer) {
         h('div.row', h('div.grow', progress(i / items.length * 100)), h('span.xs.dim', `${i + 1}/${items.length}`)),
         h('div.row', { style: { justifyContent: 'center', gap: '12px' } },
           h('button.btn.soft.lg', { type: 'button', onclick: () => play(1) }, ic('speaker-high'), '1×'),
-          h('button.btn.soft.lg', { type: 'button', onclick: () => play(0.8) }, ic('speaker-high'), '0.8×'),
-          h('button.btn.soft.lg', { type: 'button', onclick: () => play(0.6) }, ic('speaker-high'), '0.6×')),
+          h('button.btn.soft.lg', { type: 'button', onclick: () => play(0.8) }, ic('speaker-high'), '0,8×'),
+          h('button.btn.soft.lg', { type: 'button', onclick: () => play(0.6) }, ic('speaker-high'), '0,6×')),
         inp, checkBtn, result, nextBtn));
       setTimeout(() => play(1), 300);
       inp.focus({ preventScroll: true });
@@ -150,7 +150,7 @@ function dialogues(box, data, timer) {
   const drawList = () => {
     const { items, fallback } = filterByLevel(data.dialogues, levelPick('dialogues'));
     listBox.replaceChildren(fallbackNote(fallback), h('div.list', byFit(items).map(d => h('button.list-row', { type: 'button', onclick: () => playDialogue(box, d, timer, () => dialogues(box, data, timer)) },
-      emo(d.emoji || 'headphone'), h('div.grow', h('div', { style: { fontWeight: 600 } }, d.title), h('div.sub', `${d.lines.length} реплік · ${d.questions.length} питань`)), levelTag(d.level), ic('caret-right', { size: 18 })))));
+      emo(d.emoji || 'headphone'), h('div.grow', h('div', { style: { fontWeight: 600 } }, d.title), h('div.sub', `${d.lines.length} ${plural(d.lines.length, 'репліка', 'репліки', 'реплік')} · ${d.questions.length} ${plural(d.questions.length, 'питання', 'питання', 'питань')}`)), levelTag(d.level), ic('caret-right', { size: 18 })))));
   };
   drawList();
   if (openTitle) {

@@ -158,7 +158,9 @@ export function forecast(days = 7) {
   const start = new Date(); start.setHours(0, 0, 0, 0);
   for (const c of store.all('cards')) {
     if (!c.reps || !c.due) continue;
-    const d = Math.floor((new Date(c.due) - start) / 864e5);
+    // різниця календарних днів (округлення — доба переходу на літній/зимовий час має 23/25 год)
+    const due = new Date(c.due); due.setHours(0, 0, 0, 0);
+    const d = Math.round((due - start) / 864e5);
     if (d < days) out[Math.max(0, d)]++;
   }
   return out;

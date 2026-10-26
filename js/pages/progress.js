@@ -38,7 +38,7 @@ export default async function progressPage(view) {
 
   view.replaceChildren(h('div.stack-lg',
     h('section.card.row', emo('fire', 'xl'),
-      h('div.grow', h('div.num', { style: { fontSize: 'var(--fs-2xl)' } }, String(streak())), h('div.small.dim', 'днів поспіль')),
+      h('div.grow', h('div.num', { style: { fontSize: 'var(--fs-2xl)' } }, String(streak())), h('div.small.dim', `${plural(streak(), 'день', 'дні', 'днів')} поспіль`)),
       h('div.stat', { style: { textAlign: 'right' } }, h('b', fmtMin(totalSeconds())), h('span', 'всього практики'))),
 
     h('section.card.stack',
@@ -51,11 +51,11 @@ export default async function progressPage(view) {
     h('section.card.stack',
       h('div.section-title', 'Час навчання'),
       h('div.grid3', stat(fmtMin(todaySeconds()), 'сьогодні'), stat(fmtMin(weekSeconds()), 'за 7 днів'), stat(fmtMin(Math.round(days.reduce((a, d) => a + d.seconds, 0) / Math.max(1, days.filter(d => d.seconds).length))), 'у середньому за активний день')),
-      h('div.xs.dim', 'Час автоматично додається в Resonance (Мови → English)')),
+      store.prof().resonance ? h('div.xs.dim', 'Час автоматично додається в Resonance (Мови → English)') : null),
 
     h('section.card.stack',
       h('div.section-title', 'Слова'),
-      h('div.grid3', stat(c.learned, 'вивчено (стабільність ≥ 21 дн)'), stat(c.total, 'карток у роботі'), stat(c.due, 'до повтору зараз')),
+      h('div.grid3', stat(c.learned, 'вивчено (інтервал ≥ 21 дн.)'), stat(c.total, 'у роботі'), stat(c.due, 'до повтору зараз')),
       h('div.section-title', 'Прогноз повторів на 7 днів'),
       h('div.bars', { style: { height: '80px' } }, fc.map(n => h('i' + (n ? '' : '.zero'), { style: { height: `${Math.max(2, n / maxFc * 100)}%` }, title: String(n) }))),
       h('div.bars-labels', fc.map((n, i) => h('span', i === 0 ? `сьог. ${n}` : String(n)))),
@@ -65,14 +65,14 @@ export default async function progressPage(view) {
       h('div.row', h('div.level-badge', lvl), h('div.grow', h('div.section-title', `Рівень ${lvl} · ${LEVEL_NAME[lvl]}`), h('div.xs.dim', `Опановано ${lp.pct}% · перехід від ${READY_PCT}%`))),
       bar(lp.pct),
       h('div.grid2', stat(`${lp.grammar.done}/${lp.grammar.total}`, `уроків граматики ${lvl}`), stat(`${lp.words.done}/${lp.words.total}`, `слів ${lvl} закріплено`)),
-      h('div.xs.dim', 'Слово закріплене, коли його інтервал повтору досяг 7 днів. Рахуються уроки й колоди саме цього рівня.'),
-      lp.ready ? h('button.btn.primary.block', { type: 'button', onclick: () => { const n = nextLevel(); setLevel(n, 'progress'); toast(`Рівень ${n}: план і контент оновлено`); progressPage(view); } }, `Перейти на ${nextLevel()}`) : null,
+      h('div.xs.dim', 'Слово вважається закріпленим для рівня, коли інтервал повтору сягає 7 днів. Рахуються уроки й колоди саме цього рівня.'),
+      lp.ready ? h('button.btn.primary.block', { type: 'button', onclick: () => { const n = nextLevel(); setLevel(n, 'progress'); toast(`Рівень ${n}: план і завдання оновлено`); progressPage(view); } }, `Перейти на ${nextLevel()}`) : null,
       h('a.btn.soft.block', { href: '#/tests/placement' }, 'Перевірити рівень тестом')),
 
     h('section.card.stack',
       h('div.section-title', 'Рівень за навичками'),
       h('div.grid2', Object.entries({ grammar: 'Граматика', vocabulary: 'Лексика', listening: 'Аудіювання', speaking: 'Говоріння' }).map(([k, t]) => stat(skills[k] || '—', t))),
-      h('div.xs.dim', 'За останнім тестом на рівень і сигналами з розмов з вчителем')),
+      h('div.xs.dim', 'За останнім тестом на рівень і розмовами із вчителем')),
 
     h('section.card.stack',
       h('div.section-title', 'Граматика'),
@@ -82,7 +82,7 @@ export default async function progressPage(view) {
     h('section.card.stack',
       h('div.section-title', 'Типи помилок і динаміка'),
       dyn.length ? dyn.map(d => h('div.row',
-        h('div.grow', h('div', S.mistakeTypes[d.t]), h('div.xs.dim', `${d.total} всього · ${d.open} відкритих`)),
+        h('div.grow', h('div', S.mistakeTypes[d.t]), h('div.xs.dim', `усього: ${d.total} · відкритих: ${d.open}`)),
         h('span.tag' + (d.w1 < d.w2 ? '.good' : d.w1 > d.w2 ? '.bad' : ''), `тиждень: ${d.w1} ${d.w1 < d.w2 ? '↓' : d.w1 > d.w2 ? '↑' : '='}`))) : h('div.small.dim', 'Даних поки немає')),
     h('p.xs.dim.center', `${store.count('reviews')} ${plural(store.count('reviews'), 'оцінка', 'оцінки', 'оцінок')} карток у журналі на пристрої`)));
 }

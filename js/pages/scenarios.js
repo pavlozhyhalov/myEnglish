@@ -22,11 +22,11 @@ export default async function scenarios(view, r) {
       return h('section.stack', { style: { gap: '8px' } }, h('div.section-title', name),
         h('div.list', rows.map(x => h('a.list-row', { href: `#/scenarios/${x.id}` },
           emo(x.emoji || 'theater'), h('div.grow', h('div', { style: { fontWeight: 600 } }, x.title), h('div.sub', x.short)),
-          played.has(x.id) ? h('span.tag.good', 'було') : null, levelTag(x.level), ic('caret-right', { size: 18 })))));
+          played.has(x.id) ? h('span.tag.good', 'пройдено') : null, levelTag(x.level), ic('caret-right', { size: 18 })))));
     }).filter(Boolean));
   };
   view.replaceChildren(h('div.stack-lg',
-    h('section.row', h('div.emoji-circle', emo('theater')), h('div.grow', h('h1', { style: { margin: 0 } }, 'Розмовні сценарії'), h('div.small.dim', `Рольові ігри з вчителем · ваш рівень ${myLevel()}`))),
+    h('section.row', h('div.emoji-circle', emo('theater')), h('div.grow', h('h1', { style: { margin: 0 } }, 'Розмовні сценарії'), h('div.small.dim', `Рольові ігри із вчителем · ваш рівень ${myLevel()}`))),
     levelChips('scenarios', levelCounts(list), draw), body));
   draw();
 }
@@ -40,7 +40,7 @@ function detail(view, s) {
       h('div', h('div.section-title', 'Ваша роль'), h('div', s.myRole)),
       h('div', h('div.section-title', 'Вчитель грає'), h('div', s.tutorRole)),
       h('div', h('div.section-title', 'Мета'), h('div', s.goal))),
-    h('section.card', h('div.section-title', 'Ключові фрази — прослухайте перед стартом'),
+    h('section.card', h('div.section-title', 'Ключові фрази — прослухайте перед початком'),
       s.phrases.map(p => h('div.example', h('button.icon-btn.soft', { type: 'button', 'aria-label': 'Прослухати', onclick: () => speak(p) }, ic('speaker-high', { size: 20 })), h('div.grow', p)))),
     h('div.stack',
       h('a.btn.primary.lg.block', { href: `#/tutor?mode=voice&scenario=${s.id}` }, ic('microphone', { fill: true }), 'Почати голосом'),

@@ -39,7 +39,7 @@ export default async function tutorPage(view, r) {
 function needLoginCard() {
   if (user()) return null;
   return h('section.card.accent.stack',
-    h('div.row', emo('key'), h('div.grow', h('div', { style: { fontWeight: 600 } }, 'Вчитель працює після входу'), h('div.xs.dim', 'Gemini викликається через захищений бекенд, тому потрібен акаунт.'))),
+    h('div.row', emo('key'), h('div.grow', h('div', { style: { fontWeight: 600 } }, 'Вчитель працює після входу'), h('div.xs.dim', 'AI працює через захищений сервер, тому потрібен акаунт.'))),
     h('a.btn.primary', { href: '#/auth' }, 'Увійти'));
 }
 
@@ -63,7 +63,7 @@ function history(view, chats) {
     const list = store.all('tutor_chats').sort((a, b) => b.created_at.localeCompare(a.created_at));
     const head = h('div.row', h('div.section-title.grow', `Історія${list.length ? ` · ${list.length}` : ''}`),
       list.length ? h('button.btn.sm.ghost', { type: 'button', onclick: () => { selecting = !selecting; picked.clear(); draw(); } }, selecting ? 'Скасувати' : 'Вибрати') : null);
-    if (!list.length) { box.replaceChildren(head, h('div.empty', emo('speech', 'xl'), h('p', 'Поки що розмов немає. Почніть з вільної розмови або голосу.'))); return; }
+    if (!list.length) { box.replaceChildren(head, h('div.empty', emo('speech', 'xl'), h('p', 'Поки що розмов немає. Почніть з вільної або голосової розмови.'))); return; }
     const rows = list.slice(0, 60).map(c => {
       const info = [h('div', { style: { fontWeight: 600 } }, c.title || 'Розмова'),
         h('div.sub', `${new Date(c.created_at).toLocaleDateString('uk-UA', { day: 'numeric', month: 'short' })} · ${fmtMin(c.seconds || 0)}${c.summary ? '' : ' · без підсумку'}`)];
@@ -290,7 +290,7 @@ export async function summarize(view, row, { voice = false } = {}) {
     store.setProf({ lastFocus: res.next_focus || null });
   } catch (e) {
     view.replaceChildren(h('div.hero', emo('warning', 'xl'), h('p', aiErrorText(e)),
-      h('div.row', h('a.btn.soft', { href: '#/tutor' }, 'До вчителя'), h('button.btn.primary', { type: 'button', onclick: () => summarize(view, row, { voice }) }, 'Спробувати ще'))));
+      h('div.row', h('a.btn.soft', { href: '#/tutor' }, 'До вчителя'), h('button.btn.primary', { type: 'button', onclick: () => summarize(view, row, { voice }) }, 'Спробувати ще раз'))));
     return;
   }
   return summaryView(view, row);
@@ -359,7 +359,7 @@ function checkMode(view, q) {
   const timer = activityTimer('writing');
   async function run() {
     const text = ta.value.trim();
-    if (text.length < 10) { toast('Додайте текст хоча б з одного речення'); return; }
+    if (text.length < 10) { toast('Додайте текст — хоча б одне речення'); return; }
     btn.disabled = true; btn.textContent = 'Вчитель читає…';
     try {
       const res = await tutor('check_text', { text, kind, task: q.task || null });

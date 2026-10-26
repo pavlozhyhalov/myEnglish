@@ -101,7 +101,7 @@ function detail(c, deckName, onChange) {
     ext.synonyms?.length ? h('div.small', h('b', 'Синоніми: '), ext.synonyms.join(', ')) : null,
     c.reps ? h('div.xs.dim', `Повторень: ${c.reps} · помилок: ${c.lapses} · стабільність: ${fmtInterval(c.stability)} · наступний повтор: ${c.due ? new Date(c.due).toLocaleDateString('uk-UA') : '—'}`) : h('div.xs.dim', 'Ще не вивчалось'),
     h('div.row.wrap',
-      !inStore ? h('button.btn.soft', { type: 'button', onclick: () => { store.put('cards', c); toast('Додано: піде першим серед нових'); s.close(); onChange(); } }, ic('plus'), 'Вчити першим') : null,
+      !inStore ? h('button.btn.soft', { type: 'button', onclick: () => { store.put('cards', c); toast('Додано — з\'явиться першим серед нових'); s.close(); onChange(); } }, ic('plus'), 'Вчити першим') : null,
       h('a.btn.ghost', { href: `#/tutor?ask=${encodeURIComponent(c.en)}`, onclick: () => s.close() }, ic('chat-circle-dots'), 'Запитати вчителя'),
       own ? h('button.btn.soft', { type: 'button', onclick: () => { s.close(); addWord(onChange, c); } }, ic('pencil-simple'), S.edit) : null,
       own ? h('button.btn.danger', { type: 'button', onclick: async () => { if (await confirmSheet('Видалити картку?', c.en, 'Видалити', { danger: true })) { store.remove('cards', c.id); s.close(); onChange(); } } }, ic('trash'), S.delete) : null)));

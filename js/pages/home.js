@@ -74,7 +74,7 @@ export default async function home(view) {
     blocks.push(h('section.card.accent.hero',
       emo('target', 'xl'),
       h('h2', 'Визначимо ваш рівень'),
-      h('p.dim', 'Тест на 10–15 хвилин: граматика, лексика, аудіювання. Після нього план дня підлаштується під вас.'),
+      h('p.dim', 'Тест на 10–15 хвилин: граматика, лексика, аудіювання і коротка розмова. Після нього план дня підлаштується під вас.'),
       h('a.btn.primary.block', { href: '#/tests/placement' }, 'Визначити мій рівень'),
       h('button.btn.ghost', { type: 'button', onclick: () => { store.setProf({ placementDone: 'skipped' }); home(view); } }, 'Пропустити')));
   }
@@ -91,7 +91,7 @@ export default async function home(view) {
     // швидка зміна рівня: план, урок дня і завдання нижче одразу перебудовуються
     h('div.level-pick', LEVELS.map(l => h('button.chip', { type: 'button', 'aria-pressed': String(l === lvl), 'aria-label': `Рівень ${l}`, onclick: () => {
       if (l === lvl) return;
-      setLevel(l, 'manual'); toast(`Рівень ${l}: завдання оновлено`);
+      setLevel(l, 'manual'); toast(`Рівень ${l}: план і завдання оновлено`);
       home(view).then(() => view.querySelector(`.level-pick [aria-label="Рівень ${l}"]`)?.focus({ preventScroll: true }));
     } }, l)))));
 
@@ -108,10 +108,10 @@ export default async function home(view) {
     blocks.push(h('section.card.stack',
       h('div.row',
         h('span.tile-ico', emo('fire')),
-        h('div.grow', h('div.big-num', `${n} ${plural(n, 'день', 'дні', 'днів')}`), h('div.xs.dim', 'поспіль без пропусків')),
+        h('div.grow', h('div.big-num', `${n} ${plural(n, 'день', 'дні', 'днів')}`), h('div.xs.dim', 'поспіль')),
         h('a.btn.ghost.sm', { href: '#/progress' }, S.nav.progress)),
       h('div.week', week().map(d => h('div.d',
-        h('span.dot' + (d.goal ? '.on' : '') + (d.today ? '.today' : ''), { style: d.active && !d.goal ? { background: 'var(--accent-soft)' } : null, 'aria-label': `${d.name}: ${d.goal ? 'мету виконано' : d.active ? 'була практика' : 'ні'}` },
+        h('span.dot' + (d.goal ? '.on' : '') + (d.today ? '.today' : ''), { style: d.active && !d.goal ? { background: 'var(--accent-soft)' } : null, 'aria-label': `${d.name}: ${d.goal ? 'мету виконано' : d.active ? 'була практика' : 'без практики'}` },
           d.goal ? ic('check', { size: 16 }) : null),
         d.name)))));
 
@@ -124,9 +124,9 @@ export default async function home(view) {
         onclick: () => {
           store.put('cards', srs.rowFromStarter(w.deck, w.card));
           addBtn.disabled = true; addBtn.textContent = 'Уже в картках';
-          toast('Додано: піде першим серед нових');
+          toast('Додано — з\'явиться першим серед нових');
         },
-      }, inCards ? 'Уже в картках' : 'В картки');
+      }, inCards ? 'Уже в картках' : 'Додати в картки');
       blocks.push(h('section.card.stack',
         h('div.row', h('span.eyebrow.grow', 'Слово дня'), h('span.tag', w.deckName)),
         h('div.row',
@@ -152,7 +152,7 @@ export default async function home(view) {
     if (last) {
       const words = (last.summary?.new_words || []).slice(0, 3);
       blocks.push(h('section.card.stack',
-        h('div.section-title', 'Остання розмова з вчителем'),
+        h('div.section-title', 'Остання розмова із вчителем'),
         h('div.row', emo(last.mode === 'voice' ? 'mic' : 'teacher'),
           h('div.grow', h('div', { style: { fontWeight: 600 } }, last.title || 'Розмова'), h('div.xs.dim', `${new Date(last.created_at).toLocaleDateString('uk-UA')} · ${fmtMin(last.seconds || 0)}`))),
         words.length ? h('div.chips', words.map(w => h('span.tag.accent', w.en))) : null,
@@ -175,7 +175,7 @@ async function fillLevelTasks(box, lvl) {
   const tp = pickOfDay(filterByLevel([...topicLevel.keys()], 'mine', t => topicLevel.get(t)).items, 'shadow');
   const task = (icon, kind, title, href) => h('a.list-row', { href }, h('span.tile-ico', emo(icon)), h('div.grow', h('div.xs.dim', kind), h('div', { style: { fontWeight: 600 } }, title)), ic('caret-right', { size: 18 }));
   const rows = [
-    sc && task('theater', 'Розмова з вчителем', sc.title, `#/scenarios/${sc.id}`),
+    sc && task('theater', 'Розмова із вчителем', sc.title, `#/scenarios/${sc.id}`),
     dl && task('headphone', 'Аудіювання', dl.title, `#/listening?tab=dialogues&d=${encodeURIComponent(dl.title)}`),
     wt && task('writing', 'Письмо', wt.title, `#/writing/${wt.id}`),
     tp && task('mouth', 'Вимова', tp, `#/pronunciation?topic=${encodeURIComponent(tp)}`),

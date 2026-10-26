@@ -95,10 +95,14 @@ export function pickOfDay(list, salt = '') {
 
 const lessonDone = (id) => !!store.get('lessons_progress', id)?.completed_at;
 
+/** Порядок уроків: мій рівень → прогалини нижче (ближчі першими) → наступний → вищі (на відміну від fitOrder, де наступний іде перед нижчими) */
+const lessonOrder = (l) => { const d = diff(l); return d <= 0 ? -d : 10 + d; };
+
 /** Наступний урок за рівнем: непройдений свого рівня → прогалини нижче → наступний рівень → будь-який */
 export function nextLessonByLevel(idx) {
-  const open = idx.filter(l => !lessonDone(l.id));
-  return byFit(open)[0] || null;
+  const open = idx.map((l, i) => ({ l, i })).filter(o => !lessonDone(o.l.id));
+  open.sort((a, b) => lessonOrder(a.l.level) - lessonOrder(b.l.level) || a.i - b.i);
+  return open[0]?.l || null;
 }
 
 /**
@@ -108,14 +112,22 @@ export function nextLessonByLevel(idx) {
 export async function levelProgress(idx, level = myLevel()) {
   const lessons = idx.filter(l => l.level === level);
   const gDone = lessons.filter(l => lessonDone(l.id)).length;
-  const decks = (await allDecks()).filter(d => d.level === level && d.group !== 'work');
-  let wTotal = 0, wDone = 0;
-  const cards = new Map(store.all('cards').map(c => [c.id, c]));
+  const general = (await allDecks()).filter(d => d.level === level && d.group !== 'work');
+  // вимкнені колоди не рахуються (інакше рівень неможливо опанувати); якщо вимкнено всі — рахуємо всі
+  const isOn = (d) => { const r = store.get('decks', d.id); return r ? r.enabled !== false : d.default !== false; };
+  const decks = general.some(isOn) ? general.filter(isOn) : general;
+  // слово рахується один раз: те саме слово з іншої колоди (чи «Моїх слів») нова черга вдруге не вводить
+  const mastered = new Set();
+  for (const c of store.all('cards')) if (c.reps > 0 && (c.scheduled_days || 0) >= 7) { mastered.add(c.id); mastered.add(String(c.en || '').toLowerCase()); }
+  const words = new Set();
+  let wDone = 0;
   for (const d of decks) for (const c of d.cards) {
-    wTotal++;
-    const row = cards.get(`${d.id}:${slug(c.en)}`);
-    if (row && row.reps > 0 && (row.scheduled_days || 0) >= 7) wDone++;
+    const k = String(c.en).toLowerCase();
+    if (words.has(k)) continue;
+    words.add(k);
+    if (mastered.has(`${d.id}:${slug(c.en)}`) || mastered.has(k)) wDone++;
   }
+  const wTotal = words.size;
   const gPct = lessons.length ? gDone / lessons.length : 1;
   const wPct = wTotal ? wDone / wTotal : 1;
   const pct = Math.round((gPct * 0.6 + wPct * 0.4) * 100);

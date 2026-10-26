@@ -17,7 +17,7 @@ export default function mistakes(view, r) {
     const resolved = store.all('mistakes').filter(m => m.resolved).length;
     body.replaceChildren(
       h('section.card.stack',
-        h('div.row', emo('target', 'lg'), h('div.grow', h('div', { style: { fontWeight: 600 } }, `${total} ${plural(total, 'помилка', 'помилки', 'помилок')} у роботі`), h('div.xs.dim', `Виправлено: ${resolved} · «виправлено» = 3 правильні застосування поспіль`))),
+        h('div.row', emo('target', 'lg'), h('div.grow', h('div', { style: { fontWeight: 600 } }, `${total} ${plural(total, 'помилка', 'помилки', 'помилок')} у роботі`), h('div.xs.dim', `Виправлено: ${resolved} · помилка вважається виправленою після 3 правильних відповідей поспіль`))),
         h('button.btn.sm.ghost', { type: 'button', style: { alignSelf: 'flex-start' }, onclick: () => { showResolved = !showResolved; draw(); } }, showResolved ? 'Сховати виправлені' : 'Показати виправлені')),
       groups.length ? '' : h('div.empty', emo('sparkles', 'xl'), h('p', 'Список порожній. Помилки з розмов, вправ і тестів з\'являтимуться тут.')),
       ...groups.map(g => h('section.stack', { style: { gap: '8px' } },

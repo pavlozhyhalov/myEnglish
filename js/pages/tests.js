@@ -6,13 +6,12 @@ import { placement as loadPlacement, grammarIndex, lesson as loadLesson, allDeck
 import { render as renderExercise, answerText } from '../ui/exercises.js';
 import { speak, stop as stopSpeech } from '../speech.js';
 import { activityTimer, addMistake, dayKey } from '../stats.js';
-import { setLevel, LEVELS as ALL_LEVELS } from '../level.js';
+import { setLevel, LEVELS } from '../level.js';
 import { onLeave } from '../router.js';
 import { tutor } from '../ai.js';
 import { user } from '../supa.js';
 import { setTitle, setFocus } from '../ui/shell.js';
 
-const LEVELS = ['A2', 'B1', 'B2', 'C1'];
 const SKILL_UK = { grammar: 'Граматика', vocabulary: 'Лексика', listening: 'Аудіювання', speaking: 'Говоріння' };
 
 export default async function tests(view, r) {
@@ -86,7 +85,15 @@ async function placementTest(view) {
   const timer = activityTimer('test');
   onLeave(view, () => { timer.stop(); stopSpeech(); });
   const used = new Set();
-  const state = Object.fromEntries(plan.map(([s]) => [s, { lvl: 1, asked: 0, hist: [] }]));
+  const state = Object.fromEntries(plan.map(([s]) => [s, { lvl: null, asked: 0, hist: [] }]));
+  const TOP = LEVELS.length - 1;
+  // стартовий рівень навички: перша (граматика) — з A2 (A1 лише після помилки, щоб початківця не «завалювати»),
+  // наступні — на крок нижче за оцінку попередніх навичок (так швидше доходимо до межі)
+  const startLvl = () => {
+    const prev = plan.flatMap(([s]) => state[s].hist);
+    if (!prev.length) return 1;
+    return Math.max(0, Math.min(TOP, LEVELS.indexOf(estimate(prev)) - 1));
+  };
   let block = 0, cur = null;
 
   view.replaceChildren(h('div.hero', emo('target', 'xl'), h('h1', 'Визначимо ваш рівень'),
@@ -111,15 +118,15 @@ async function placementTest(view) {
         if (prev && cur) {
           const st = state[cur.skill];
           st.hist.push({ lvl: LEVELS.indexOf(cur.level), ok: prev.ok });
-          st.lvl = Math.max(0, Math.min(3, LEVELS.indexOf(cur.level) + (prev.ok ? 1 : -1)));
+          st.lvl = Math.max(0, Math.min(TOP, LEVELS.indexOf(cur.level) + (prev.ok ? 1 : -1)));
           st.asked++;
           if (st.asked >= plan[block][1]) block++;
         }
         if (block >= plan.length) return null;
-        const skill = plan[block][0];
-        let q = pick(skill, state[skill].lvl);
+        const lvlOf = (s) => (state[s].lvl ??= startLvl());
+        let q = pick(plan[block][0], lvlOf(plan[block][0]));
         // питання цієї навички скінчились — переходимо до наступної
-        while (!q && ++block < plan.length) q = pick(plan[block][0], state[plan[block][0]].lvl);
+        while (!q && ++block < plan.length) q = pick(plan[block][0], lvlOf(plan[block][0]));
         if (!q) return null;
         used.add(q.id); cur = q;
         return { ...q, type: 'choice', instruction: q.skill === 'listening' ? 'Прослухайте і оберіть відповідь (кнопка з динаміком — ще раз)' : undefined };
@@ -128,17 +135,20 @@ async function placementTest(view) {
     });
   }
 
+  /**
+   * Оцінка рівня навички за всіма відповідями (метод максимальної правдоподібності, модель Раша з вгадуванням):
+   * P(правильно | θ, рівень питання d) = 1/4 + 3/4 · σ(1.7·(θ − d)); рівень = ⌊θ⌋, тобто найвищий, на якому очікується ≥ ~62% правильних.
+   * На відміну від «знизу вгору без пропусків», одна випадкова помилка на легкому питанні не обвалює результат.
+   */
   function estimate(hist) {
     if (!hist.length) return null;
-    // точність на кожному рівні; рівень = найвищий, де ≥ 60% правильних (знизу вгору, без пропусків)
-    const acc = [0, 1, 2, 3].map(l => { const xs = hist.filter(x => x.lvl === l); return xs.length ? xs.filter(x => x.ok).length / xs.length : null; });
-    if (acc[0] != null && acc[0] < 0.4) return 'A1';   // не впорався навіть з A2
-    let best = 0;
-    for (let l = 0; l < 4; l++) {
-      if (acc[l] == null) continue;
-      if (acc[l] >= 0.6) best = l; else break;
-    }
-    return LEVELS[best];
+    const ll = (t) => hist.reduce((a, { lvl, ok }) => {
+      const p = 0.25 + 0.75 / (1 + Math.exp(-1.7 * (t - lvl)));
+      return a + Math.log(ok ? p : 1 - p);
+    }, 0);
+    let best = -1, bestLl = -Infinity;
+    for (let t = -1; t <= TOP + 1.001; t += 0.05) { const v = ll(t); if (v > bestLl + 1e-9) { bestLl = v; best = t; } }
+    return LEVELS[Math.max(0, Math.min(TOP, Math.floor(best + 1e-6)))];
   }
 
   function finishPlacement(results) {
@@ -146,8 +156,8 @@ async function placementTest(view) {
     for (const [s] of plan) scores[s] = estimate(state[s].hist) || 'B1';
     const finalize = (speaking) => {
       if (speaking) scores.speaking = speaking;
-      const vals = Object.values(scores).map(l => Math.max(0, ALL_LEVELS.indexOf(l)));
-      const overall = ALL_LEVELS[Math.round(vals.reduce((a, b) => a + b, 0) / vals.length)];
+      const vals = Object.values(scores).map(l => Math.max(0, LEVELS.indexOf(l)));
+      const overall = LEVELS[Math.round(vals.reduce((a, b) => a + b, 0) / vals.length)];
       const res = { ...scores, overall };
       store.put('tests', { type: 'placement', scores: res, details: results.map(r => ({ id: r.ex.id, skill: r.ex.skill, level: r.ex.level, ok: r.ok })) });
       store.setProf({ skills: scores, placementDone: true });

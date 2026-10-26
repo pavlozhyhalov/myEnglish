@@ -1,4 +1,5 @@
 // Письмо: завдання, шаблони фраз, перевірка вчителем
+import { plural } from '../strings.js';
 import { h, ic, emo } from '../ui/dom.js';
 import { writingTasks } from '../data.js';
 import * as store from '../store.js';
@@ -40,7 +41,7 @@ function taskView(view, t) {
   const wc = h('span.xs.dim');
   const upd = () => {
     const n = ta.value.trim() ? ta.value.trim().split(/\s+/).length : 0;
-    wc.textContent = `${n} слів${t.words ? ` · рекомендовано ${t.words}` : ''}`;
+    wc.textContent = `${n} ${plural(n, 'слово', 'слова', 'слів')}${t.words ? ` · рекомендовано ${t.words}` : ''}`;
     try { localStorage.setItem(DRAFT_KEY(t.id), ta.value); } catch { /* */ }
   };
   ta.addEventListener('input', upd); upd();

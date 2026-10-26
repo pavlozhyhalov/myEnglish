@@ -38,14 +38,14 @@ export default async function grammar(view, r) {
     const body = h('div.stack', { style: { gap: '12px', marginTop: '8px' } }, units.map(u => h('div.stack', { style: { gap: '6px' } },
       h('div.xs.dim', { style: { margin: '0 2px', fontWeight: 600 } }, u.name), h('div.list', u.items.map(row)))));
     return h('details.level-sec', { open: lv === mine ? true : null },
-      h('summary.row', levelTag(lv), h('div.grow', h('b', LEVEL_NAME[lv]), lv === mine ? h('span.xs.dim', ' · ваш рівень') : diff(lv) > 0 ? h('span.xs.dim', ' · наступні') : null),
+      h('summary.row', levelTag(lv), h('div.grow', h('b', LEVEL_NAME[lv]), lv === mine ? h('span.xs.dim', ' · ваш рівень') : diff(lv) > 0 ? h('span.xs.dim', ' · вище вашого') : null),
         h('span.small.dim.num', `${d}/${items.length}`)),
       body);
   };
 
   view.replaceChildren(h('div.stack-lg',
     h('section.card.stack',
-      h('div.row', emo('puzzle', 'lg'), h('div.grow', h('h1', { style: { margin: 0 } }, 'Граматика'), h('div.small.dim', `Пройдено ${done} з ${idx.length} · урок зараховано від 80%`))),
+      h('div.row', emo('puzzle', 'lg'), h('div.grow', h('h1', { style: { margin: 0 } }, 'Граматика'), h('div.small.dim', `Пройдено ${done} з ${idx.length} · урок зараховується від 80%`))),
       h('div.progress', h('i', { style: { width: `${done / idx.length * 100}%` } })),
       next ? h('a.btn.primary.block', { href: `#/grammar/${next.id}` }, ic('play', { fill: true }), `Продовжити: ${next.title}`) : h('div.feedback.ok', 'Курс пройдено! Повторюйте уроки за графіком.')),
     h('p.xs.dim', { style: { margin: '0 2px' } }, `Уроки підібрано під рівень ${mine}. Змінити рівень — у «Налаштуваннях» або тестом.`),
@@ -111,7 +111,7 @@ async function lessonPage(view, id, query = {}) {
     exBox,
     h('div.stack',
       h('button.btn.primary.lg.block', { type: 'button', onclick: () => startEx(shuffle(l.exercises).slice(0, 10), 'Вправи') }, ic('lightning', { fill: true }), `Вправи (${Math.min(10, l.exercises.length)})`),
-      h('a.btn.soft.block', { href: `#/tests/lesson/${id}` }, ic('exam'), 'Тест за уроком (15 питань)'),
+      h('a.btn.soft.block', { href: `#/tests/lesson/${id}` }, ic('exam'), 'Тест за уроком (до 15 питань)'),
       h('a.btn.ghost.block', { href: `#/tutor?mode=explain&topic=${encodeURIComponent(l.titleEn || l.title)}` }, ic('chat-circle-dots'), 'Запитати вчителя'))));
 
   if (query.ex) startEx(shuffle(l.exercises).slice(0, 10), 'Вправи');

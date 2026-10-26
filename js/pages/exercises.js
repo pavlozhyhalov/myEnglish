@@ -29,7 +29,7 @@ async function grammarPractice(view, unitSlug, lv) {
       const lvSel = sel === 'mine' ? myLevel() : sel;
       const rows = units.map(u => ({ u, items: sel === 'all' ? u.items : u.items.filter(l => l.level === lvSel) })).filter(x => x.items.length);
       listBox.replaceChildren(
-        h('a.btn.primary.block.lg', { href: sel === 'all' ? '#/exercises/grammar/all' : `#/exercises/grammar/lvl?lv=${lvSel}` }, ic('lightning', { fill: true }), sel === 'all' ? 'Усі теми впереміш' : `Впереміш · рівень ${lvSel}`),
+        h('a.btn.primary.block.lg', { href: sel === 'all' ? '#/exercises/grammar/all' : `#/exercises/grammar/lvl?lv=${lvSel}` }, ic('lightning', { fill: true }), sel === 'all' ? 'Усі теми вперемішку' : `Вперемішку · рівень ${lvSel}`),
         h('div.list', rows.map(({ u, items }) => h('a.list-row', { href: `#/exercises/grammar/${u.slug}${sel === 'all' ? '' : `?lv=${lvSel}`}` },
           h('div.grow', h('div', { style: { fontWeight: 600 } }, u.name), h('div.sub', `${items.length} ${plural(items.length, 'урок', 'уроки', 'уроків')}: ${items.map(l => l.title).join(', ')}`)),
           ic('caret-right', { size: 18 })))));

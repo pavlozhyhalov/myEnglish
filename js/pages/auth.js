@@ -1,5 +1,6 @@
 // Вхід / реєстрація (Supabase Auth, email + пароль)
 import { h, emo } from '../ui/dom.js';
+import { S } from '../strings.js';
 import { signIn, signUp, user, signOut } from '../supa.js';
 import * as store from '../store.js';
 import { toast } from '../ui/toast.js';
@@ -44,7 +45,7 @@ export default function auth(view) {
         go('/', { replace: true });
       }
     } catch (err) {
-      const t = /invalid login/i.test(err.message) ? 'Невірний email або пароль' : /not confirmed/i.test(err.message) ? 'Email ще не підтверджено — перевірте пошту' : /too many signups|database error saving new user/i.test(err.message) ? 'Сьогодні вже зареєструвалось забагато людей — спробуйте завтра' : /already registered/i.test(err.message) ? 'Такий email уже зареєстровано — увійдіть' : /password/i.test(err.message) ? 'Пароль має бути щонайменше 6 символів' : err.message;
+      const t = /invalid login/i.test(err.message) ? 'Неправильний email або пароль' : /not confirmed/i.test(err.message) ? 'Email ще не підтверджено — перевірте пошту' : /too many signups|database error saving new user/i.test(err.message) ? 'Сьогодні вже зареєструвалось забагато людей — спробуйте завтра' : /already registered/i.test(err.message) ? 'Такий email уже зареєстровано — увійдіть' : /password/i.test(err.message) ? 'Пароль має містити щонайменше 6 символів' : `${S.err.generic} (${err.message})`;
       msg.replaceChildren(h('div.feedback.no', t));
     } finally { btn.disabled = false; }
   } },
