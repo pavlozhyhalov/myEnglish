@@ -30,7 +30,10 @@ export default async function home(view) {
   const nextLesson = pickLesson(gIdx);
   const todayK = today();
   const reviewedToday = store.all('reviews').some(r => dayKey(r.ts) === todayK);
-  const lessonToday = store.all('lessons_progress').some(p => p.updated_at && dayKey(p.updated_at) === todayK);
+  // урок дня виконано, якщо сьогодні якийсь урок зараховано (≥ 80%) — тоді в плані показуємо саме його
+  const passedToday = store.all('lessons_progress').filter(p => p.updated_at && dayKey(p.updated_at) === todayK && (p.last_score ?? 0) >= 80)
+    .sort((a, b) => b.updated_at.localeCompare(a.updated_at))[0];
+  const passedMeta = passedToday && gIdx.find(l => l.id === passedToday.id);
   const tutorSecToday = store.all('sessions').filter(s => s.day === todayK && (s.type === 'tutor' || s.type === 'voice')).reduce((a, s) => a + s.seconds, 0);
   const toReview = counts.due + counts.fresh;
 
@@ -39,8 +42,9 @@ export default async function home(view) {
     emoji: 'cards', href: '#/cards', done: toReview === 0,
     text: toReview ? `Повторити ${toReview} ${plural(toReview, 'картку', 'картки', 'карток')}` : 'Картки на сьогодні повторено',
   });
-  if (nextLesson) plan.push({
-    emoji: 'puzzle', href: `#/grammar/${nextLesson.id}`, done: lessonToday,
+  if (passedMeta) plan.push({ emoji: 'puzzle', href: `#/grammar/${passedMeta.id}`, done: true, text: `Урок дня: ${passedMeta.title}` });
+  else if (nextLesson) plan.push({
+    emoji: 'puzzle', href: `#/grammar/${nextLesson.id}`, done: false,
     text: `${nextLesson.review ? 'Повторити урок' : 'Урок дня'}: ${nextLesson.title}`,
   });
   plan.push({ emoji: 'mic', href: '#/tutor?mode=voice', done: tutorSecToday >= 600, text: `10 хвилин розмови з ${st.tutorName}` });
@@ -65,6 +69,14 @@ export default async function home(view) {
     h('a.btn.start.block', { href: '#/session' }, ic('play', { fill: true, size: 18 }), 'Почати заняття · ~15 хв'));
 
   const blocks = [greet, hero];
+  if (firstRun) {
+    blocks.push(h('section.card.accent.hero',
+      emo('target', 'xl'),
+      h('h2', 'Визначимо ваш рівень'),
+      h('p.dim', 'Тест на 10–15 хвилин: граматика, лексика, аудіювання. Після нього план дня підлаштується під вас.'),
+      h('a.btn.primary.block', { href: '#/tests/placement' }, 'Визначити мій рівень'),
+      h('button.btn.ghost', { type: 'button', onclick: () => { store.setProf({ placementDone: 'skipped' }); home(view); } }, 'Пропустити')));
+  }
 
   // ---- рівень: що зараз вивчаємо і скільки до наступного ----
   blocks.push(h('section.card.stack',
@@ -88,12 +100,7 @@ export default async function home(view) {
   fillLevelTasks(tasksBox, lvl).catch(() => tasksBox.remove());
 
   if (firstRun) {
-    blocks.push(h('section.card.accent.hero',
-      emo('target', 'xl'),
-      h('h2', 'Визначимо ваш рівень'),
-      h('p.dim', 'Тест на 10–12 хвилин: граматика, лексика, аудіювання. Після нього план дня підлаштується під вас.'),
-      h('a.btn.primary.block', { href: '#/tests/placement' }, 'Визначити мій рівень'),
-      h('button.btn.ghost', { type: 'button', onclick: () => { store.setProf({ placementDone: 'skipped' }); home(view); } }, 'Пропустити')));
+    // картка тесту рівня — одразу під планом дня
   } else {
     // ---- стрік і тиждень ----
     const n = streak();
@@ -159,7 +166,7 @@ export default async function home(view) {
 async function fillLevelTasks(box, lvl) {
   const [scen, wtasks, lis, pron] = await Promise.all([loadScenarios(), writingTasks(), loadListening(), loadPron()]);
   const sc = pickOfDay(filterByLevel(scen.filter(x => x.group !== 'work'), 'mine').items, 'scen');
-  const wt = pickOfDay(filterByLevel(wtasks, 'mine').items, 'writing');
+  const wt = pickOfDay(filterByLevel(wtasks.filter(x => x.group !== 'work'), 'mine').items, 'writing');
   const dl = pickOfDay(filterByLevel(lis.dialogues, 'mine').items, 'dialogue');
   // тема вимови — за рівнем самої теми (як на сторінці вимови)
   const topicLevel = new Map();

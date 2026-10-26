@@ -276,7 +276,7 @@ TASK: Analyse the finished ${p.mode === 'voice' ? 'VOICE (transcribed speech —
     }
 
     case 'check_text': {
-      const kind = { email: 'an email', teams: 'a Microsoft Teams message', report: 'a work report', other: 'a text' }[String(p.kind)] || 'a text';
+      const kind = { email: 'an email', teams: 'a chat/messenger message', report: 'a work report', other: 'a text' }[String(p.kind)] || 'a text';
       const system = `${basePrompt(st)}
 
 TASK: The student wrote ${kind}${p.task ? ` for this task: "${str(p.task, 1000)}"` : ''}. Review it like a demanding but kind English teacher and return JSON:

@@ -48,7 +48,7 @@ export const S = {
   },
   sessionTypes: {
     cards: 'Картки', grammar: 'Граматика', tutor: 'Вчитель', voice: 'Голос', listening: 'Аудіювання',
-    pronunciation: 'Вимова', writing: 'Письмо', test: 'Тест', session: 'Заняття', vocab: 'Лексика',
+    pronunciation: 'Вимова', writing: 'Письмо', test: 'Тест', session: 'Заняття', vocab: 'Лексика', mistakes: 'Помилки',
   },
 };
 

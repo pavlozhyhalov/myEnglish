@@ -24,8 +24,10 @@ export default async function progressPage(view) {
   const now = Date.now();
   const dyn = MISTAKE_TYPES.map(t => {
     const ms = store.all('mistakes').filter(m => m.type === t);
-    const w1 = ms.filter(m => now - Date.parse(m.updated_at) < 7 * 864e5).length;
-    const w2 = ms.filter(m => { const d = now - Date.parse(m.updated_at); return d >= 7 * 864e5 && d < 14 * 864e5; }).length;
+    // нові помилки за тиждень (за датою появи, а не останньої зміни — правильна відповідь не «погіршує» тренд)
+    const born = (m) => Date.parse(m.created_at || m.updated_at);
+    const w1 = ms.filter(m => now - born(m) < 7 * 864e5).length;
+    const w2 = ms.filter(m => { const d = now - born(m); return d >= 7 * 864e5 && d < 14 * 864e5; }).length;
     return { t, total: ms.reduce((a, m) => a + (m.count || 1), 0), open: ms.filter(m => !m.resolved).length, w1, w2 };
   }).filter(x => x.total).sort((a, b) => b.total - a.total);
   const byType = {};

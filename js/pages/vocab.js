@@ -10,6 +10,8 @@ import { user } from '../supa.js';
 import { sheet, confirmSheet } from '../ui/sheet.js';
 import { toast } from '../ui/toast.js';
 import { fmtInterval } from '../ui/dom.js';
+import { activityTimer } from '../stats.js';
+import { onLeave } from '../router.js';
 
 const STATUS = [['all', 'Усі'], ['new', 'Нові'], ['learning', 'Вчу'], ['review', 'Повторюю'], ['learned', 'Вивчені']];
 const SORTS = [['recent', 'Нещодавні'], ['az', 'A–Z'], ['due', 'До повтору']];
@@ -23,6 +25,9 @@ function statusOf(c) {
 const STATUS_TAG = { new: ['', 'нове'], learning: ['warn', 'вчу'], review: ['accent', 'повторюю'], learned: ['good', 'вивчено'] };
 
 export default async function vocab(view, r) {
+  // перегляд і додавання слів — теж навчання: час рахується (пауза після 2 хв бездіяльності)
+  const timer = activityTimer('vocab');
+  onLeave(view, () => timer.stop());
   const decks = await allDecks();
   const deckName = Object.fromEntries([...decks.map(d => [d.id, d.name]), ['my', 'Мої слова']]);
   let topic = r.query.topic || 'all', status = 'all', sort = 'recent', q = '', limit = 80, tag = 'all';
@@ -145,7 +150,7 @@ function addWord(onSaved, existing = null) {
     finally { aiBtn.disabled = false; aiBtn.replaceChildren(ic('sparkle', { fill: true }), 'Заповнити AI'); }
   }
 
-  function save() {
+  async function save() {
     const en = f.en.value.trim();
     if (!en || !f.uk.value.trim()) { toast('Потрібні слово і переклад'); return; }
     const examples = [[f.ex1, f.ex1uk], [f.ex2, f.ex2uk]].filter(([a]) => a.value.trim()).map(([a, b]) => ({ en: a.value.trim(), uk: b.value.trim() }));
@@ -153,8 +158,17 @@ function addWord(onSaved, existing = null) {
     const data = { en, uk: f.uk.value.trim(), ipa: f.ipa.value.trim() || null, pos: f.pos.value.trim() || null, examples, tags, extra: { ...extra, collocations: list(f.coll.value), synonyms: list(f.syn.value) } };
     if (existing) { Object.assign(existing, data); store.put('cards', existing); toast('Збережено'); }
     else {
-      const r = srs.addCard(data);
-      toast(r.created ? 'Додано в «Мої слова»' : 'Таке слово вже є в картках');
+      // слово вже є у вбудованій колоді — не дублюємо, а ставимо ту картку першою серед нових
+      const key = en.toLowerCase();
+      const hit = (await allDecks()).flatMap(d => d.cards.map(c => ({ d, c }))).find(x => x.c.en.toLowerCase() === key);
+      if (hit && !store.get('cards', srs.starterId(hit.d.id, hit.c.en))) {
+        store.put('cards', srs.rowFromStarter(hit.d.id, hit.c));
+        toast(`Це слово вже є в колоді «${hit.d.name}» — додано першим серед нових`);
+      } else if (hit) toast(`Це слово вже є в колоді «${hit.d.name}»`);
+      else {
+        const r = srs.addCard(data);
+        toast(r.created ? 'Додано в «Мої слова»' : 'Таке слово вже є в картках');
+      }
     }
     s.close(); onSaved?.();
   }

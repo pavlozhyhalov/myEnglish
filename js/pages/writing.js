@@ -1,6 +1,7 @@
 // Письмо: завдання, шаблони фраз, перевірка вчителем
 import { h, ic, emo } from '../ui/dom.js';
 import { writingTasks } from '../data.js';
+import * as store from '../store.js';
 import { toast } from '../ui/toast.js';
 import { go } from '../router.js';
 import { setTitle } from '../ui/shell.js';
@@ -10,9 +11,11 @@ import { byFit, levelTag, myLevel, levelChips, levelCounts, levelPick, filterByL
 const DRAFT_KEY = (id) => `me:wdraft:${id}`;
 
 export default async function writing(view, r) {
-  const tasks = await writingTasks();
+  const all = await writingTasks();
+  // робочі завдання — лише коли увімкнено «Професійний контекст» (фокус курсу — загальна англійська)
+  const tasks = store.settings().workFocus ? all : all.filter(t => t.group !== 'work');
   if (r.parts[0]) {
-    const t = tasks.find(x => x.id === r.parts[0]);
+    const t = all.find(x => x.id === r.parts[0]);
     if (t) return taskView(view, t);
   }
   const list = h('div.stack');

@@ -311,4 +311,7 @@ export async function wipeLocal() {
   profile = { data: {}, updated_at: null }; dirty.clear(); meta = { lastPull: {}, userId: null, v: 2 };
   ['profile', 'dirty', 'meta', ...TABLES].forEach(scheduleSave);
   await flush();
+  // чернетки письма, лог голосу та інші локальні дрібниці
+  try { for (const k of Object.keys(localStorage)) if (k.startsWith('me:')) localStorage.removeItem(k); } catch { /* */ }
+  try { for (const k of Object.keys(sessionStorage)) if (k.startsWith('me:')) sessionStorage.removeItem(k); } catch { /* */ }
 }

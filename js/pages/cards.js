@@ -76,12 +76,13 @@ export async function runReview(view, { limit = Infinity, onExit, onDone, embedd
     bar.firstChild.style.width = `${startCount ? Math.min(100, done / startCount * 100) : 100}%`;
   }
 
+  const waitUntil = new WeakMap();
   function next() {
     stopSpeech();
     if (!queue.length) return finish(false);
     // картки «Знову» з коротким інтервалом чекають свого часу, якщо є інші
     const now = Date.now();
-    let idx = queue.findIndex(c => !c._waitUntil || c._waitUntil <= now);
+    let idx = queue.findIndex(c => !waitUntil.has(c) || waitUntil.get(c) <= now);
     if (idx < 0) idx = 0;
     cur = queue.splice(idx, 1)[0];
     flipped = false; shownAt = Date.now();
@@ -156,7 +157,8 @@ export async function runReview(view, { limit = Infinity, onExit, onDone, embedd
     done++;
     if (g === 1) again++;
     const dueIn = new Date(row.due) - Date.now();
-    if (dueIn < 20 * 60 * 1000) { row._waitUntil = Date.now() + Math.max(0, dueIn); queue.push(row); }
+    // час очікування — лише в пам'яті сесії (не потрапляє в IndexedDB/хмару)
+    if (dueIn < 20 * 60 * 1000) { waitUntil.set(row, Date.now() + Math.max(0, dueIn)); queue.push(row); }
     next();
   }
 
@@ -193,7 +195,7 @@ export async function runReview(view, { limit = Infinity, onExit, onDone, embedd
     view.replaceChildren(h('div.hero',
       emo(done ? 'party' : 'cards', 'xl'),
       h('h1', done ? 'Повторення завершено' : 'Немає карток'),
-      done ? h('p.dim', `${done} ${plural(done, 'картка', 'картки', 'карток')} · «Знову»: ${again} · ${Math.max(1, Math.round((sess?.seconds || 0) / 60))} хв`) : null,
+      done ? h('p.dim', `${done} ${plural(done, 'картка', 'картки', 'карток')} · «Знову»: ${again} · ${(sess?.seconds || 0) < 60 ? 'менше хвилини' : `${Math.round(sess.seconds / 60)} хв`}`) : null,
       h('div.row', h('a.btn.soft', { href: '#/' }, 'На головну'), h('button.btn.primary', { type: 'button', onclick: () => onExit?.() }, 'До колод'))));
   }
 

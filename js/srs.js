@@ -36,8 +36,11 @@ function applyFsrs(row, c) {
 }
 
 /** Інтервали для 4 оцінок, у днях */
+// показаний на кнопках прогноз і фактичний розклад беруться з одного розрахунку (fuzz FSRS випадковий)
+const previews = new WeakMap();
 export function preview(row, now = new Date()) {
   const r = sched().repeat(toFsrs(row), now);
+  previews.set(row, { at: now.getTime(), r });
   const out = {};
   for (const g of [Rating.Again, Rating.Hard, Rating.Good, Rating.Easy]) out[g] = (r[g].card.due - now) / 864e5;
   return out;
@@ -47,7 +50,9 @@ export function preview(row, now = new Date()) {
 export function grade(row, rating, elapsedMs = null) {
   const now = new Date();
   const prevState = row.reps ? row.state : State.New;
-  const { card } = sched().next(toFsrs(row), now, rating);
+  const pv = previews.get(row);
+  previews.delete(row);
+  const { card } = pv && now - pv.at < 30 * 60 * 1000 ? pv.r[rating] : sched().next(toFsrs(row), now, rating);
   applyFsrs(row, card);
   store.put('cards', row);
   store.put('reviews', { card_id: row.id, rating, state: prevState, ts: now.toISOString(), elapsed: elapsedMs ? Math.round(elapsedMs) : null });

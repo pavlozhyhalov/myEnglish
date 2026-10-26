@@ -1,6 +1,7 @@
 // Кероване заняття ~15 хв: картки → міні-урок граматики → розмова з вчителем
 import { h, ic, emo } from '../ui/dom.js';
 import { plural } from '../strings.js';
+import * as store from '../store.js';
 import * as srs from '../srs.js';
 import { grammarIndex, lesson as loadLesson } from '../data.js';
 import { runReview } from './cards.js';
@@ -90,9 +91,11 @@ export default async function session(view) {
     stopped = true;
     cleanup?.(); cleanup = null;
     setFocus(false);
-    const min = Math.max(1, Math.round((Date.now() - started) / 60000));
+    // показуємо саме зарахований час (той, що піде в статистику й Resonance)
+    const logged = store.all('sessions').filter(s => Date.parse(s.ts) >= started).reduce((a, s) => a + (s.seconds || 0), 0);
+    const min = Math.round(logged / 60);
     view.replaceChildren(h('div.stack-lg',
-      h('div.hero', emo('party', 'xl'), h('h1', 'Заняття завершено!'), h('p.dim', `${min} хв практики`)),
+      h('div.hero', emo('party', 'xl'), h('h1', 'Заняття завершено!'), h('p.dim', min ? `${min} хв практики` : 'Менше хвилини практики')),
       h('section.card.stack',
         h('div.row', emo('cards'), h('div.grow', 'Картки'), h('b', String(summary.cards))),
         h('div.row', emo('puzzle'), h('div.grow', lesson.title), h('b', summary.score == null ? '—' : `${summary.score}%`)),

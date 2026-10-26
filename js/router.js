@@ -70,7 +70,7 @@ export async function render() {
   // пише у від'єднаний вузол і не перекриває нову сторінку
   const host = document.createElement('div');
   host.dataset.page = r.name;
-  if (!loader) { view.replaceChildren(host); notFound?.(host, r); return; }
+  if (!loader) { view.replaceChildren(host); current = { name: r.name, cleanup: null, host }; listeners.forEach(fn => fn(r)); notFound?.(host, r); return; }
   try {
     const mod = await loader();
     if (seq !== renderSeq) return;            // користувач вже пішов далі

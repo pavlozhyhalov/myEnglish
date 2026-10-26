@@ -343,7 +343,7 @@ function deleteButton(row) {
 
 // ---------- Перевір мій текст ----------
 const KINDS = [
-  ['email', 'Лист'], ['teams', 'Повідомлення в Teams'], ['report', 'Звіт'], ['other', 'Інше'],
+  ['email', 'Лист'], ['teams', 'Повідомлення в месенджері'], ['report', 'Звіт (робочий)'], ['other', 'Інше'],
 ];
 function checkMode(view, q) {
   let draft = '';
@@ -351,7 +351,7 @@ function checkMode(view, q) {
   let kind = q.kind || 'email';
   const ta = h('textarea.input', { rows: 10, placeholder: 'Вставте лист або текст англійською…', 'aria-label': 'Текст', value: draft });
   const btn = h('button.btn.primary.block.lg', { type: 'button', onclick: run }, ic('sparkle', { fill: true }), 'Перевірити');
-  const chips = h('div.chips', KINDS.map(([v, t]) => h('button.chip', { type: 'button', 'aria-pressed': String(v === kind), onclick: (e) => { kind = v; chips.querySelectorAll('.chip').forEach(c => c.setAttribute('aria-pressed', 'false')); e.currentTarget.setAttribute('aria-pressed', 'true'); } }, t)));
+  const chips = h('div.chips', KINDS.filter(([v]) => v !== 'report' || store.settings().workFocus).map(([v, t]) => h('button.chip', { type: 'button', 'aria-pressed': String(v === kind), onclick: (e) => { kind = v; chips.querySelectorAll('.chip').forEach(c => c.setAttribute('aria-pressed', 'false')); e.currentTarget.setAttribute('aria-pressed', 'true'); } }, t)));
   view.replaceChildren(h('div.stack',
     h('div.row', h('a.icon-btn', { href: '#/tutor', 'aria-label': 'Назад' }, ic('arrow-left')), h('h1.grow', { style: { margin: 0 } }, 'Перевір мій текст')),
     needLoginCard(), chips, ta, btn,

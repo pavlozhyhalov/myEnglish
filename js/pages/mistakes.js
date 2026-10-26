@@ -2,7 +2,7 @@
 import { h, ic, emo } from '../ui/dom.js';
 import { S, plural } from '../strings.js';
 import * as store from '../store.js';
-import { mistakesByType, mistakeHit } from '../stats.js';
+import { mistakesByType, mistakeHit, activityTimer } from '../stats.js';
 import { matches } from '../ui/exercises.js';
 import { confirmSheet } from '../ui/sheet.js';
 
@@ -19,7 +19,7 @@ export default function mistakes(view, r) {
       h('section.card.stack',
         h('div.row', emo('target', 'lg'), h('div.grow', h('div', { style: { fontWeight: 600 } }, `${total} ${plural(total, 'помилка', 'помилки', 'помилок')} у роботі`), h('div.xs.dim', `Виправлено: ${resolved} · «виправлено» = 3 правильні застосування поспіль`))),
         h('button.btn.sm.ghost', { type: 'button', style: { alignSelf: 'flex-start' }, onclick: () => { showResolved = !showResolved; draw(); } }, showResolved ? 'Сховати виправлені' : 'Показати виправлені')),
-      groups.length ? null : h('div.empty', emo('sparkles', 'xl'), h('p', 'Список порожній. Помилки з розмов, вправ і тестів з\'являтимуться тут.')),
+      groups.length ? '' : h('div.empty', emo('sparkles', 'xl'), h('p', 'Список порожній. Помилки з розмов, вправ і тестів з\'являтимуться тут.')),
       ...groups.map(g => h('section.stack', { style: { gap: '8px' } },
         h('div.row', h('div.section-title.grow', `${S.mistakeTypes[g.type] || g.type} · ${g.total}`),
           h('button.btn.sm.soft', { type: 'button', onclick: () => selfCheck(body, g.items.filter(m => !m.resolved), draw) }, ic('check-circle', { size: 16 }), 'Перевірити себе'),
@@ -33,6 +33,9 @@ export default function mistakes(view, r) {
   };
   view.replaceChildren(body);
   draw();
+  // час самоперевірки рахується як практика (стрік, Resonance)
+  const timer = activityTimer('mistakes');
+  return () => timer.stop();
 }
 
 /** Офлайн-самоперевірка: бачу неправильний варіант → пишу правильний */

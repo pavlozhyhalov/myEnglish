@@ -32,7 +32,7 @@ function overview(view) {
     h('div.emoji-circle', emo(emoji)), h('div.grow', h('div', { style: { fontWeight: 600 } }, title), h('div.xs.dim', desc)), extra || null, ic('caret-right', { size: 18 }));
   view.replaceChildren(h('div.stack-lg',
     card('target', 'Визначення рівня', '~40 питань + 3 хв розмови · 10–15 хв', '#/tests/placement', plDue ? h('span.tag.warn', lastPl ? 'час повторити' : 'не пройдено') : h('span.tag.good', lastPl.scores.overall)),
-    card('memo', 'Тест за уроком', '15 питань з уроку граматики', '#/tests/lesson'),
+    card('memo', 'Тест за уроком', 'До 15 питань з уроку і його теми', '#/tests/lesson'),
     card('calendar', 'Тижневий тест', 'Картки й граматика за останні 7 днів', '#/tests/weekly'),
     h('div.section-title', 'Результати'),
     hist.length ? h('div.list', hist.slice(0, 30).map(t => h('div.list-row',
@@ -130,13 +130,15 @@ async function placementTest(view) {
 
   function estimate(hist) {
     if (!hist.length) return null;
-    // рівень = середнє з рівнів правильно відповіданих питань у другій половині, з поправкою
-    const tail = hist.slice(Math.floor(hist.length / 3));
-    let score = 0;
-    for (const x of tail) score += x.ok ? x.lvl + 0.5 : x.lvl - 0.5;
-    const raw = score / tail.length;
-    if (raw < -0.25) return 'A1';   // не впорався навіть з A2
-    return LEVELS[Math.max(0, Math.min(3, Math.round(raw)))];
+    // точність на кожному рівні; рівень = найвищий, де ≥ 60% правильних (знизу вгору, без пропусків)
+    const acc = [0, 1, 2, 3].map(l => { const xs = hist.filter(x => x.lvl === l); return xs.length ? xs.filter(x => x.ok).length / xs.length : null; });
+    if (acc[0] != null && acc[0] < 0.4) return 'A1';   // не впорався навіть з A2
+    let best = 0;
+    for (let l = 0; l < 4; l++) {
+      if (acc[l] == null) continue;
+      if (acc[l] >= 0.6) best = l; else break;
+    }
+    return LEVELS[best];
   }
 
   function finishPlacement(results) {
@@ -194,12 +196,19 @@ async function pickLesson(view) {
 async function lessonTest(view, id) {
   const idx = await grammarIndex();
   const pos = idx.findIndex(l => l.id === id);
+  if (pos < 0) {
+    view.replaceChildren(h('div.empty', emo('magnifier', 'xl'), h('p', 'Урок не знайдено.'), h('a.btn.soft', { href: '#/tests/lesson' }, 'Обрати урок')));
+    return;
+  }
   const l = await loadLesson(id);
   setTitle(`Тест: ${l.title}`);
   let pool = l.exercises.map(e => ({ ...e, mistakeType: l.mistakeType }));
-  if (pool.length < 15 && pos > 0) {
-    const prev = await loadLesson(idx[pos - 1].id);
-    pool = pool.concat(prev.exercises.map(e => ({ ...e, mistakeType: prev.mistakeType })).sort(() => Math.random() - 0.5).slice(0, 15 - pool.length));
+  // доповнюємо лише уроками тієї ж теми й рівня (не випадковим попереднім уроком)
+  const meta = idx[pos];
+  for (const other of idx.filter(x => x.id !== id && meta && x.unit === meta.unit && x.level === meta.level)) {
+    if (pool.length >= 15) break;
+    const ol = await loadLesson(other.id);
+    pool = pool.concat(ol.exercises.map(e => ({ ...e, mistakeType: ol.mistakeType })).sort(() => Math.random() - 0.5).slice(0, 15 - pool.length));
   }
   const qs = pool.sort(() => Math.random() - 0.5).slice(0, 15);
   const timer = activityTimer('test');

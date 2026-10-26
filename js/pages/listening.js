@@ -120,9 +120,25 @@ function lcs(a, b) {
   }
   return prev[b.length];
 }
+/**
+ * Перша розбіжність після вирівнювання слів (LCS): пропущене/зайве слово не зсуває решту.
+ * Повертає { right, given } — given '—', якщо слово пропущено; null, якщо розбіжностей немає.
+ */
 function wordMismatch(target, given) {
-  const t = normalize(target).split(' '), g = normalize(given).split(' ');
-  for (let k = 0; k < t.length; k++) if (t[k] !== g[k]) return { right: t[k], given: g[k] || '—' };
+  const t = normalize(target).split(' ').filter(Boolean), g = normalize(given).split(' ').filter(Boolean);
+  const n = t.length, m = g.length;
+  const dp = Array.from({ length: n + 1 }, () => new Uint16Array(m + 1));
+  for (let i = n - 1; i >= 0; i--) for (let j = m - 1; j >= 0; j--) dp[i][j] = t[i] === g[j] ? dp[i + 1][j + 1] + 1 : Math.max(dp[i + 1][j], dp[i][j + 1]);
+  let i = 0, j = 0;
+  while (i < n && j < m) {
+    if (t[i] === g[j]) { i++; j++; continue; }
+    const skipT = dp[i + 1][j], skipG = dp[i][j + 1];
+    // заміна слова (обидва не збігаються) — пара «правильне → написане»
+    if (skipT === skipG && dp[i + 1][j + 1] === skipT) return { right: t[i], given: g[j] };
+    if (skipT >= skipG) return { right: t[i], given: '—' };   // пропущене слово
+    j++;                                                          // зайве слово — пропускаємо
+  }
+  if (i < n) return { right: t[i], given: '—' };
   return null;
 }
 
