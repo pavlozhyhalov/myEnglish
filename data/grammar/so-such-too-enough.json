@@ -87,7 +87,7 @@
   },
   {
    "type": "input",
-   "prompt": "They're ___ friendly people.",
+   "prompt": "They're ___ friendly people. (so / such)",
    "answer": [
     "such"
    ],
@@ -95,7 +95,7 @@
   },
   {
    "type": "input",
-   "prompt": "This bag is ___ heavy. I can't lift it.",
+   "prompt": "This bag is ___ heavy. I can't lift it. (too / so / enough)",
    "answer": [
     "too",
     "so"

@@ -1,21 +1,50 @@
 // Мінімальний markdown → DOM. Жодного innerHTML із тексту AI.
 import { h } from './dom.js';
 
+/**
+ * Інлайн-розмітка з вкладенням: **жирний**, *курсив* (усередині може бути **жирний**), ***обидва***,
+ * _курсив_, ~~закреслений~~, `код`. Непарні символи лишаються текстом.
+ */
 function inline(text) {
   const out = [];
-  // **bold**, *italic*, _italic_, `code`
-  const re = /(\*\*([^*]+)\*\*|`([^`]+)`|\*([^*\s][^*]*)\*|_([^_\s][^_]*)_)/g;
-  let last = 0, m;
-  while ((m = re.exec(text))) {
-    if (m.index > last) out.push(text.slice(last, m.index));
-    if (m[2] != null) out.push(h('strong', m[2]));
-    else if (m[3] != null) out.push(h('code', m[3]));
-    else out.push(h('em', m[4] ?? m[5]));
-    last = re.lastIndex;
+  let buf = '', i = 0;
+  const push = (node) => { if (buf) { out.push(buf); buf = ''; } out.push(node); };
+  const isWord = (ch) => !!ch && /[\p{L}\p{N}]/u.test(ch);
+  while (i < text.length) {
+    const c = text[i];
+    if (c === '`') {
+      const j = text.indexOf('`', i + 1);
+      if (j > i + 1) { push(h('code', text.slice(i + 1, j))); i = j + 1; continue; }
+    } else if (text.startsWith('~~', i)) {
+      const j = text.indexOf('~~', i + 2);
+      if (j > i + 2) { push(h('del', inline(text.slice(i + 2, j)))); i = j + 2; continue; }
+    } else if (text.startsWith('**', i) && !text.startsWith('***', i)) {
+      const j = text.indexOf('**', i + 2);
+      if (j > i + 2) { push(h('strong', inline(text.slice(i + 2, j)))); i = j + 2; continue; }
+    } else if (c === '*' && text[i + 1] && text[i + 1] !== ' ') {
+      // курсив: шукаємо одиночну * , пропускаючи вкладені пари **
+      let j = i + 1, close = -1;
+      while (j < text.length) {
+        if (text.startsWith('**', j)) {
+          const k = text.indexOf('**', j + 2);
+          if (k > -1) { j = k + 2; continue; }
+        }
+        if (text[j] === '*') { close = j; break; }
+        j++;
+      }
+      if (close > i + 1) { push(h('em', inline(text.slice(i + 1, close)))); i = close + 1; continue; }
+    } else if (c === '_' && !isWord(text[i - 1])) {
+      const j = text.indexOf('_', i + 1);
+      if (j > i + 1 && !isWord(text[j + 1]) && text[i + 1] !== ' ') { push(h('em', inline(text.slice(i + 1, j)))); i = j + 1; continue; }
+    }
+    buf += c; i++;
   }
-  if (last < text.length) out.push(text.slice(last));
+  if (buf) out.push(buf);
   return out;
 }
+
+/** Лише інлайн-розмітка (для формул і коротких рядків) */
+export function mdInline(src) { return inline(String(src || '')); }
 
 export function md(src) {
   const frag = document.createDocumentFragment();

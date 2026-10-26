@@ -34,7 +34,7 @@
   },
   {
    "en": "He's interested in learning Spanish.",
-   "uk": "Він хоче вивчати іспанську."
+   "uk": "Йому цікаво вивчати іспанську."
   }
  ],
  "exercises": [
@@ -136,7 +136,7 @@
   },
   {
    "type": "transform",
-   "prompt": "I like to swim. (сподобатися, насолоджуватися)",
+   "prompt": "I like to swim. (отримувати задоволення)",
    "instruction": "Перепишіть з enjoy",
    "answer": [
     "I enjoy swimming."
@@ -145,11 +145,13 @@
   },
   {
    "type": "translate",
-   "uk": "Мені вдалося знайти паркомісце.",
+   "uk": "Мені вдалося знайти місце для паркування.",
    "answer": [
     "I managed to find a parking space.",
     "I managed to find a parking spot.",
-    "I managed to find a place to park."
+    "I managed to find a place to park.",
+    "I managed to find somewhere to park.",
+    "I was able to find a parking space."
    ],
    "explanation": ""
   }

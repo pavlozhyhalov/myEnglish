@@ -175,7 +175,8 @@ function chatUI(view, row, { scenario, ask, topic, resumed } = {}) {
 
   function persist() {
     row.seconds = (row.seconds || 0);
-    if (row.messages.length) store.put('tutor_chats', row);
+    // у історію потрапляє лише розмова, де учень щось сказав (не лише привітання вчителя)
+    if (row.messages.some(m => m.role === 'user')) store.put('tutor_chats', row);
   }
 
   async function send(textOverride, { hidden = false } = {}) {
@@ -277,9 +278,12 @@ export async function summarize(view, row, { voice = false } = {}) {
   view.replaceChildren(h('div.hero', emo('hourglass', 'xl'), h('h2', 'Вчитель готує підсумок…'), h('p.dim.small', 'Помилки, нові слова, рекомендація')));
   try {
     const res = await tutor('summary', { mode: row.mode, messages: (row.messages || []).map(m => ({ role: m.role, text: m.text })) });
+    // повторний підсумок продовженої розмови не дублює вже зараховані помилки
+    const key = (m) => `${m.wrong}|${m.right}`.toLowerCase().trim();
+    const before = new Set((row.summary?.mistakes || []).map(key));
     row.summary = res;
     store.put('tutor_chats', row);
-    for (const m of res.mistakes || []) addMistake({ ...m, source: 'tutor', ref: row.id });
+    for (const m of res.mistakes || []) if (!before.has(key(m))) addMistake({ ...m, source: 'tutor', ref: row.id });
     store.setProf({ lastFocus: res.next_focus || null });
   } catch (e) {
     view.replaceChildren(h('div.hero', emo('warning', 'xl'), h('p', aiErrorText(e)),
@@ -381,7 +385,7 @@ function checkResultView(view, row) {
       h('button.btn.sm.soft', { type: 'button', onclick: () => { navigator.clipboard?.writeText(r.improved); toast('Скопійовано'); } }, ic('copy', { size: 16 }), 'Копіювати')),
     h('div', { style: { whiteSpace: 'pre-wrap' } }, r.improved)) : null,
     row.messages?.[0] ? h('details.card', h('summary.small.dim', 'Оригінал'), h('div.small', { style: { whiteSpace: 'pre-wrap', marginTop: '8px' } }, row.messages[0].text)) : null,
-    h('a.btn.primary.block', { href: '#/tutor?mode=check' }, 'Перевірити інший текст'),
+    h('a.btn.primary.block', { href: '#/tutor?mode=check', onclick: (e) => { e.preventDefault(); go('/tutor?mode=check'); } }, 'Перевірити інший текст'),
     deleteButton(row)));
 }
 

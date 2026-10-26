@@ -80,14 +80,14 @@
   },
   {
    "type": "choice",
-   "prompt": "I can't find my phone. I think I ___ it.",
+   "prompt": "I ___ five emails so far today.",
    "options": [
-    "lost",
-    "'ve lost",
-    "lose"
+    "wrote",
+    "'ve written",
+    "write"
    ],
-   "answer": "'ve lost",
-   "explanation": "Результат зараз."
+   "answer": "'ve written",
+   "explanation": "so far / today — період триває → Present Perfect."
   },
   {
    "type": "choice",
@@ -178,7 +178,9 @@
    "answer": [
     "Have you had breakfast yet?",
     "Have you eaten breakfast yet?",
-    "Have you already had breakfast?"
+    "Have you already had breakfast?",
+    "Have you had breakfast already?",
+    "Have you eaten yet?"
    ],
    "explanation": "yet у питаннях."
   }

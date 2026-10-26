@@ -10,11 +10,12 @@
 - Бекенд — окремий Supabase-проєкт **myEnglish** (`uxqdklwnxdtyifksphoz`, eu-central-1). Не Resonance.
 - Gemini API key — лише в секретах Supabase (`GEMINI_API_KEY`). Перед комітом: `git grep -nE "AIza|sk-|service_role"` має бути порожнім.
 - Усі рядки інтерфейсу — українською; спільні — у `js/strings.js`.
-- AI-відповіді в DOM — лише через `textContent` або `js/ui/md.js` (без innerHTML сирого тексту).
+- AI-відповіді в DOM — лише через `textContent` або `js/ui/md.js` (без innerHTML сирого тексту). md.js: вкладені `*курсив **жирний***`, `~~закреслене~~`; формули — `mdInline()`.
 - **Будь-яка зміна фронтенду → `scripts/bump.sh`** (піднімає BUILD у `js/config.js`, `sw.js`, `?v=` в `index.html`, оновлює `precache-list.js`).
 
 ## Структура
-- `js/app.js` — старт, шапка, маршрути, синхронізація, SW. `js/router.js` — hash-роутер.
+- `js/app.js` — старт, шапка, маршрути, синхронізація, SW. `js/router.js` — hash-роутер: кожна сторінка рендериться у власний контейнер (`[data-page]`),
+  прибирання — функція, яку повертає сторінка, або `onLeave(view, fn)` для довгих async-сценаріїв (голос, тести).
 - `js/store.js` — локальний стан (IndexedDB) + синхронізація з Supabase: черга `dirty`, upsert з `defaultToNull: false`, pull за серверним `synced_at` (міграція 0008),
   на сервері тригер `sync_guard` — старіший `updated_at` не перезаписує новіший. Видалення всюди м'яке (`deleted`). Збій однієї таблиці не блокує решту.
 - `js/srs.js` — FSRS (ts-fsrs) і черга карток. Стартові картки з `data/decks/*.json` потрапляють у БД лише після першого показу (id = `deck:slug(en)`).
@@ -22,7 +23,7 @@
 - `js/ai.js` — виклики edge-функцій; `js/speech.js` — TTS/розпізнавання; `js/live/*` — Gemini Live (WebSocket + AudioWorklet) і режим «рація».
 - `js/ui/*` — компоненти (drawer, quickbar, sheet, toast, exercises, md, icons). `js/pages/*` — по файлу на розділ.
 - `supabase/migrations/*` — SQL; `supabase/functions/{tutor,live-token,tts,_shared}` — edge-функції (Deno).
-- Контент (усе з полем `level` A1–C1): `data/decks` (19 колод), `data/grammar` (52 уроки), `data/scenarios.json`, `writing.json`, `listening.json`, `pronunciation.json`, `placement.json`.
+- Контент (усе з полем `level` A1–C1): `data/decks` (23 колоди, ~1070 карток), `data/grammar` (52 уроки), `data/scenarios.json`, `writing.json`, `listening.json`, `pronunciation.json`, `placement.json`.
 
 ## Деплой
 - Фронтенд: push у `main` → GitHub Pages.

@@ -75,7 +75,7 @@
    "options": [
     "isn't",
     "weren't",
-    "hadn't been"
+    "wouldn't be"
    ],
    "answer": "weren't",
    "explanation": "Постійна риса тепер."
@@ -116,7 +116,8 @@
    "prompt": "If they were smarter, they ___ (invest) earlier.",
    "answer": [
     "would have invested",
-    "'d have invested"
+    "'d have invested",
+    "would've invested"
    ],
    "explanation": ""
   },
@@ -131,20 +132,18 @@
   },
   {
    "type": "error",
-   "sentence": "If I would have taken the job, I would be in London now.",
-   "wrongIndex": 2,
-   "correction": "had",
+   "sentence": "If I had took that job, I would be in London now.",
+   "wrongIndex": 3,
+   "correction": "taken",
    "alt": [],
-   "explanation": "В умові — had V3, не would."
+   "explanation": "Умова в минулому: had + V3 (taken)."
   },
   {
    "type": "error",
    "sentence": "If he wasn't so lazy, he would pass the exam last week.",
    "wrongIndex": 7,
    "correction": "have passed",
-   "alt": [
-    "would have passed"
-   ],
+   "alt": [],
    "explanation": "Минулий результат."
   },
   {
@@ -154,7 +153,8 @@
    "answer": [
     "If I had got enough sleep, I wouldn't be exhausted now.",
     "If I'd got enough sleep, I wouldn't be exhausted now.",
-    "If I had gotten enough sleep, I wouldn't be exhausted now."
+    "If I had gotten enough sleep, I wouldn't be exhausted now.",
+    "If I'd gotten enough sleep, I wouldn't be exhausted now."
    ],
    "explanation": ""
   },
@@ -175,7 +175,19 @@
     "If I had bought that flat, I would live in the centre now.",
     "If I'd bought that flat, I'd be living in the centre now.",
     "If I had bought that flat back then, I would live in the city centre now.",
-    "If I'd bought that flat, I'd live in the centre now."
+    "If I'd bought that flat, I'd live in the centre now.",
+    "If I had bought that flat then, I would live in the centre now.",
+    "If I had bought that flat back then, I would live in the centre now.",
+    "If I had bought that flat back then, I would be living in the city centre now.",
+    "If I had bought that flat, I would be living in the city centre now.",
+    "If I had bought that flat, I would live in the city centre now.",
+    "If I'd bought that flat, I would live in the centre now.",
+    "If I'd bought that flat back then, I would live in the city centre now.",
+    "If I'd bought that flat then, I would live in the centre now.",
+    "If I'd bought that flat back then, I would live in the centre now.",
+    "If I'd bought that flat back then, I would be living in the city centre now.",
+    "If I'd bought that flat, I would be living in the city centre now.",
+    "If I'd bought that flat, I would live in the city centre now."
    ],
    "explanation": ""
   }

@@ -1,0 +1,305 @@
+{
+ "id": "home-daily",
+ "cards": [
+  {
+   "en": "kitchen",
+   "uk": "кухня",
+   "ex": "The kitchen is small but bright.",
+   "exUk": "Кухня маленька, але світла."
+  },
+  {
+   "en": "bedroom",
+   "uk": "спальня",
+   "ex": "Our bedroom faces the garden.",
+   "exUk": "Наша спальня виходить у сад."
+  },
+  {
+   "en": "bathroom",
+   "uk": "ванна кімната",
+   "ex": "The bathroom is next to the bedroom.",
+   "exUk": "Ванна кімната поруч зі спальнею."
+  },
+  {
+   "en": "living room",
+   "uk": "вітальня",
+   "ex": "We watch TV in the living room.",
+   "exUk": "Ми дивимося телевізор у вітальні."
+  },
+  {
+   "en": "fridge",
+   "uk": "холодильник",
+   "ex": "Put the milk in the fridge, please.",
+   "exUk": "Постав молоко в холодильник, будь ласка."
+  },
+  {
+   "en": "sofa",
+   "uk": "диван",
+   "ex": "The cat is sleeping on the sofa.",
+   "exUk": "Кіт спить на дивані."
+  },
+  {
+   "en": "window",
+   "uk": "вікно",
+   "ex": "Can you open the window?",
+   "exUk": "Можеш відчинити вікно?"
+  },
+  {
+   "en": "door",
+   "uk": "двері",
+   "ex": "Somebody is at the door.",
+   "exUk": "Хтось біля дверей."
+  },
+  {
+   "en": "stairs",
+   "uk": "сходи",
+   "ex": "Be careful on the stairs.",
+   "exUk": "Обережно на сходах."
+  },
+  {
+   "en": "floor",
+   "uk": "підлога; поверх",
+   "ex": "We live on the third floor.",
+   "exUk": "Ми живемо на третьому поверсі."
+  },
+  {
+   "en": "key",
+   "uk": "ключ",
+   "ex": "I can't find my keys.",
+   "exUk": "Я не можу знайти ключі."
+  },
+  {
+   "en": "light",
+   "uk": "світло",
+   "ex": "Turn off the light, please.",
+   "exUk": "Вимкни світло, будь ласка."
+  },
+  {
+   "en": "to wake up early",
+   "uk": "прокидатися рано",
+   "ex": "I like to wake up early on Sundays.",
+   "exUk": "У неділю я люблю прокидатися рано."
+  },
+  {
+   "en": "to take out the rubbish",
+   "uk": "винести сміття",
+   "ex": "Can you take out the rubbish?",
+   "exUk": "Можеш винести сміття?"
+  },
+  {
+   "en": "to brush your teeth",
+   "uk": "чистити зуби",
+   "ex": "Don't forget to brush your teeth.",
+   "exUk": "Не забудь почистити зуби."
+  },
+  {
+   "en": "to get dressed",
+   "uk": "одягатися",
+   "ex": "Get dressed, we're late!",
+   "exUk": "Одягайся, ми запізнюємося!"
+  },
+  {
+   "en": "to have breakfast",
+   "uk": "снідати",
+   "ex": "We have breakfast together.",
+   "exUk": "Ми снідаємо разом."
+  },
+  {
+   "en": "to cook",
+   "uk": "готувати їжу",
+   "ex": "My husband cooks dinner on Fridays.",
+   "exUk": "Мій чоловік готує вечерю по п'ятницях."
+  },
+  {
+   "en": "to wash the dishes",
+   "uk": "мити посуд",
+   "ex": "I cook, you wash the dishes.",
+   "exUk": "Я готую, ти миєш посуд."
+  },
+  {
+   "en": "to clean",
+   "uk": "прибирати",
+   "ex": "We clean the flat on Saturday.",
+   "exUk": "Ми прибираємо квартиру в суботу."
+  },
+  {
+   "en": "to iron",
+   "uk": "прасувати",
+   "ex": "I hate ironing shirts.",
+   "exUk": "Я ненавиджу прасувати сорочки."
+  },
+  {
+   "en": "to go shopping",
+   "uk": "ходити по магазинах",
+   "ex": "Let's go shopping after work.",
+   "exUk": "Ходімо по магазинах після роботи."
+  },
+  {
+   "en": "to go to bed",
+   "uk": "лягати спати",
+   "ex": "I usually go to bed at eleven.",
+   "exUk": "Я зазвичай лягаю спати об одинадцятій."
+  },
+  {
+   "en": "to sleep",
+   "uk": "спати",
+   "ex": "Did you sleep well?",
+   "exUk": "Ти добре спав?"
+  },
+  {
+   "en": "to relax",
+   "uk": "відпочивати",
+   "ex": "I relax with a book in the evening.",
+   "exUk": "Увечері я відпочиваю з книжкою."
+  },
+  {
+   "en": "to watch TV",
+   "uk": "дивитися телевізор",
+   "ex": "Do you watch TV in the evening?",
+   "exUk": "Ти дивишся телевізор увечері?"
+  },
+  {
+   "en": "to listen to music",
+   "uk": "слухати музику",
+   "ex": "I listen to music on the bus.",
+   "exUk": "Я слухаю музику в автобусі."
+  },
+  {
+   "en": "to read",
+   "uk": "читати",
+   "ex": "My son likes to read comics.",
+   "exUk": "Мій син любить читати комікси."
+  },
+  {
+   "en": "to make the bed",
+   "uk": "застеляти ліжко",
+   "ex": "I make the bed every morning.",
+   "exUk": "Я щоранку застеляю ліжко."
+  },
+  {
+   "en": "plate",
+   "uk": "тарілка",
+   "ex": "Can you pass me a plate?",
+   "exUk": "Можеш передати мені тарілку?"
+  },
+  {
+   "en": "cup",
+   "uk": "чашка",
+   "ex": "Would you like a cup of tea?",
+   "exUk": "Хочеш чашку чаю?"
+  },
+  {
+   "en": "glass",
+   "uk": "склянка; скло",
+   "ex": "A glass of water, please.",
+   "exUk": "Склянку води, будь ласка."
+  },
+  {
+   "en": "spoon",
+   "uk": "ложка",
+   "ex": "I need a spoon for my soup.",
+   "exUk": "Мені потрібна ложка для супу."
+  },
+  {
+   "en": "knife and fork",
+   "uk": "ніж і виделка",
+   "ex": "Can I have a knife and fork?",
+   "exUk": "Можна ніж і виделку?"
+  },
+  {
+   "en": "towel",
+   "uk": "рушник",
+   "ex": "There are clean towels in the bathroom.",
+   "exUk": "У ванній є чисті рушники."
+  },
+  {
+   "en": "bed",
+   "uk": "ліжко",
+   "ex": "The bed is very comfortable.",
+   "exUk": "Ліжко дуже зручне."
+  },
+  {
+   "en": "table",
+   "uk": "стіл",
+   "ex": "Dinner is on the table!",
+   "exUk": "Вечеря на столі!"
+  },
+  {
+   "en": "chair",
+   "uk": "стілець",
+   "ex": "Take a chair and sit down.",
+   "exUk": "Бери стілець і сідай."
+  },
+  {
+   "en": "washing machine",
+   "uk": "пральна машина",
+   "ex": "The washing machine is broken.",
+   "exUk": "Пральна машина зламалася."
+  },
+  {
+   "en": "noisy",
+   "uk": "галасливий",
+   "ex": "Our street is very noisy at night.",
+   "exUk": "Наша вулиця дуже галаслива вночі."
+  },
+  {
+   "en": "comfortable",
+   "uk": "зручний",
+   "ex": "These shoes are really comfortable.",
+   "exUk": "Ці черевики справді зручні."
+  },
+  {
+   "en": "clean",
+   "uk": "чистий",
+   "ex": "The room is clean now.",
+   "exUk": "Кімната тепер чиста."
+  },
+  {
+   "en": "dirty",
+   "uk": "брудний",
+   "ex": "Your shoes are dirty!",
+   "exUk": "Твоє взуття брудне!"
+  },
+  {
+   "en": "early",
+   "uk": "рано",
+   "ex": "I always wake up early.",
+   "exUk": "Я завжди прокидаюся рано."
+  },
+  {
+   "en": "late",
+   "uk": "пізно",
+   "ex": "Sorry, I'm late.",
+   "exUk": "Вибачте, я запізнився."
+  },
+  {
+   "en": "usually",
+   "uk": "зазвичай",
+   "ex": "I usually work from home on Fridays.",
+   "exUk": "По п'ятницях я зазвичай працюю з дому."
+  },
+  {
+   "en": "always",
+   "uk": "завжди",
+   "ex": "She always drinks green tea.",
+   "exUk": "Вона завжди п'є зелений чай."
+  },
+  {
+   "en": "never",
+   "uk": "ніколи",
+   "ex": "I never eat fast food.",
+   "exUk": "Я ніколи не їм фастфуд."
+  },
+  {
+   "en": "sometimes",
+   "uk": "іноді",
+   "ex": "We sometimes eat out.",
+   "exUk": "Ми іноді їмо в кафе."
+  },
+  {
+   "en": "every day",
+   "uk": "щодня",
+   "ex": "I learn English every day.",
+   "exUk": "Я вчу англійську щодня."
+  }
+ ]
+}

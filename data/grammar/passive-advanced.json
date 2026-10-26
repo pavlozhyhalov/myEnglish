@@ -72,7 +72,7 @@
   },
   {
    "type": "choice",
-   "prompt": "I'm going to ___ tomorrow.",
+   "prompt": "I'm going to ___ at the hairdresser's tomorrow.",
    "options": [
     "cut my hair",
     "have my hair cut",
@@ -99,7 +99,7 @@
   },
   {
    "type": "input",
-   "prompt": "Two people ___ (have / injure) in the accident. (3 слова)",
+   "prompt": "Two people ___ (injure) in the accident. (Present Perfect, пасив, 3 слова)",
    "answer": [
     "have been injured"
    ],
@@ -115,13 +115,11 @@
   },
   {
    "type": "error",
-   "sentence": "Yesterday I cut my hair at the barber's.",
-   "wrongIndex": 2,
-   "correction": "had my hair cut",
-   "alt": [
-    "got my hair cut"
-   ],
-   "explanation": "У барбера тебе стрижуть → I had my hair cut."
+   "sentence": "We had the kitchen paint last month.",
+   "wrongIndex": 4,
+   "correction": "painted",
+   "alt": [],
+   "explanation": "have + об'єкт + V3: We had the kitchen painted."
   },
   {
    "type": "order",
@@ -148,7 +146,8 @@
    "answer": [
     "A new shopping centre is being built here.",
     "A new shopping mall is being built here.",
-    "They are building a new shopping centre here."
+    "They are building a new shopping centre here.",
+    "A new mall is being built here."
    ],
    "explanation": ""
   }

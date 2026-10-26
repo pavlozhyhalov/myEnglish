@@ -29,30 +29,51 @@ export function back(fallbackPath = '/') {
   else go(fallbackPath, { replace: true });
 }
 
+/**
+ * Зареєструвати прибирання для сторінки, яка ще рендериться (напр. голосова сесія чекає тапу).
+ * view — контейнер сторінки; якщо користувач уже пішов (контейнер від'єднано), fn виконується одразу.
+ */
+export function onLeave(view, fn) {
+  if (!view?.isConnected) { try { fn(); } catch (e) { console.error(e); } return; }
+  const host = view.closest('[data-page]') || view;
+  (host.__leave ||= []).push(fn);
+}
+function leave(host) {
+  for (const fn of host?.__leave || []) { try { fn(); } catch (e) { console.error(e); } }
+  if (host) host.__leave = [];
+}
+
 let renderSeq = 0;
 export async function render() {
   navCount++;
   const r = parse();
   const seq = ++renderSeq;
   if (current?.cleanup) { try { current.cleanup(); } catch (e) { console.error(e); } }
+  leave(current?.host);
   current = null;
   const loader = routes.get(r.name);
   const view = document.getElementById('view');
-  if (!loader) { notFound?.(view, r); return; }
+  // кожна сторінка рендериться у власний контейнер: запізнілий async-рендер попередньої сторінки
+  // пише у від'єднаний вузол і не перекриває нову сторінку
+  const host = document.createElement('div');
+  host.dataset.page = r.name;
+  if (!loader) { view.replaceChildren(host); notFound?.(host, r); return; }
   try {
     const mod = await loader();
     if (seq !== renderSeq) return;            // користувач вже пішов далі
+    view.replaceChildren(host);
+    current = { name: r.name, cleanup: null, host };
     view.className = '';
     void view.offsetWidth;
     view.className = 'page-enter';
     window.scrollTo(0, 0);
     listeners.forEach(fn => fn(r));
-    const cleanup = await mod.default(view, r);
-    if (seq !== renderSeq) { cleanup?.(); return; }
-    current = { name: r.name, cleanup };
+    const cleanup = await mod.default(host, r);
+    if (seq !== renderSeq) { try { cleanup?.(); } catch (e) { console.error(e); } return; }
+    current.cleanup = cleanup;
   } catch (e) {
     console.error(e);
-    view.textContent = 'Помилка завантаження сторінки: ' + e.message;
+    if (seq === renderSeq) host.textContent = 'Помилка завантаження сторінки: ' + e.message;
   }
 }
 

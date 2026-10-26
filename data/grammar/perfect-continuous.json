@@ -80,7 +80,7 @@
   },
   {
    "type": "input",
-   "prompt": "How long ___ you ___ (wait)? (2 слова)",
+   "prompt": "How long ___ you ___ (wait)? (3 слова)",
    "answer": [
     "have been waiting"
    ],
@@ -148,7 +148,8 @@
    "answer": [
     "We've been waiting for the bus for half an hour.",
     "We have been waiting for the bus for half an hour.",
-    "We've been waiting for the bus for thirty minutes."
+    "We've been waiting for the bus for thirty minutes.",
+    "We've been waiting for the bus for 30 minutes."
    ],
    "explanation": "Українське теперішнє → PPC."
   }

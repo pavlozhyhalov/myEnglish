@@ -19,7 +19,7 @@ export default async function listening(view, r) {
   const accent = seg([['US', 'US'], ['UK', 'UK']], store.settings().accent, v => store.setSetting('accent', v));
   const tabs = seg([['dictation', 'Диктант'], ['dialogues', 'Діалоги']], tab, v => { tab = v; draw(); });
   view.replaceChildren(h('div.stack-lg', h('div.row', h('div.grow', tabs), h('div', { style: { width: '120px' } }, accent)), body));
-  function draw() { stopSpeech(); tab === 'dictation' ? dictation(body, data, timer) : dialogues(body, data, timer); }
+  function draw() { body.__gen = (body.__gen || 0) + 1; stopSpeech(); tab === 'dictation' ? dictation(body, data, timer) : dialogues(body, data, timer); }
   draw();
   return () => { stopSpeech(); timer.stop(); };
 }
@@ -143,6 +143,7 @@ function dialogues(box, data, timer) {
 
 function playDialogue(box, d, timer, onBack) {
   let showText = false, stopFlag = false;
+  const myGen = (box.__gen = (box.__gen || 0) + 1);   // зміна вкладки збільшує лічильник — програвання зупиняється
   const transcript = h('div.stack', { hidden: true });
   const lines = d.lines.map((l, k) => h('div.example', h('b.small', { style: { minWidth: '70px', color: l.speaker ? 'var(--accent-ink)' : 'var(--good)' } }, d.speakers?.[l.speaker] || (l.speaker ? 'B' : 'A')), h('div.grow', l.text)));
   transcript.append(...lines);
@@ -150,9 +151,11 @@ function playDialogue(box, d, timer, onBack) {
   async function playAll() {
     stopFlag = false;
     playBtn.disabled = true;
-    for (let k = 0; k < d.lines.length && !stopFlag; k++) {
+    // box.isConnected: користувач пішов зі сторінки або на іншу вкладку — не дочитуємо діалог
+    for (let k = 0; k < d.lines.length && !stopFlag && box.isConnected && box.__gen === myGen; k++) {
       lines.forEach((el, j) => el.style.background = j === k && showText ? 'var(--accent-soft)' : '');
       await speak(d.lines[k].text, { voiceIndex: d.lines[k].speaker ? 1 : 0, engine: 'browser' });
+      if (!box.isConnected || stopFlag || box.__gen !== myGen) break;
       timer.poke();
     }
     lines.forEach(el => el.style.background = '');

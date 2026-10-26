@@ -11,6 +11,7 @@ export function sheet(title, content, { onClose } = {}) {
     if (closed) return; closed = true;
     scrim.classList.remove('open'); body.classList.remove('open');
     document.removeEventListener('keydown', onKey);
+    window.removeEventListener('hashchange', close);
     setTimeout(() => { scrim.remove(); body.remove(); }, 260);
     prevFocus?.focus?.();
     onClose?.();
@@ -18,6 +19,8 @@ export function sheet(title, content, { onClose } = {}) {
   const onKey = (e) => { if (e.key === 'Escape') close(); };
   scrim.addEventListener('click', close);
   document.addEventListener('keydown', onKey);
+  // перехід на іншу сторінку (жест «назад», нижня панель) закриває шторку
+  window.addEventListener('hashchange', close);
   // свайп вниз за «ручку»
   let y0 = null;
   body.addEventListener('touchstart', (e) => { if (body.scrollTop <= 0) y0 = e.touches[0].clientY; }, { passive: true });

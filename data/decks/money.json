@@ -1,0 +1,245 @@
+{
+ "id": "money",
+ "cards": [
+  {
+   "en": "cash",
+   "uk": "готівка",
+   "ex": "Do you take cash?",
+   "exUk": "Ви приймаєте готівку?"
+  },
+  {
+   "en": "card",
+   "uk": "картка",
+   "ex": "Can I pay by card?",
+   "exUk": "Можна оплатити карткою?"
+  },
+  {
+   "en": "change",
+   "uk": "решта; дрібні гроші",
+   "ex": "Here's your change.",
+   "exUk": "Ось ваша решта."
+  },
+  {
+   "en": "coins",
+   "uk": "монети",
+   "ex": "I have only coins.",
+   "exUk": "У мене лише монети."
+  },
+  {
+   "en": "price",
+   "uk": "ціна",
+   "ex": "The price includes VAT.",
+   "exUk": "Ціна включає ПДВ."
+  },
+  {
+   "en": "discount",
+   "uk": "знижка",
+   "ex": "Is there a student discount?",
+   "exUk": "Є знижка для студентів?"
+  },
+  {
+   "en": "on sale",
+   "uk": "зі знижкою, в розпродажу",
+   "ex": "These jackets are on sale.",
+   "exUk": "Ці куртки зі знижкою."
+  },
+  {
+   "en": "to cost",
+   "uk": "коштувати",
+   "ex": "How much does it cost?",
+   "exUk": "Скільки це коштує?"
+  },
+  {
+   "en": "to spend",
+   "uk": "витрачати",
+   "ex": "I spend too much on coffee.",
+   "exUk": "Я витрачаю забагато на каву."
+  },
+  {
+   "en": "to save",
+   "uk": "заощаджувати",
+   "ex": "We're saving for a new car.",
+   "exUk": "Ми відкладаємо на нову машину."
+  },
+  {
+   "en": "to borrow",
+   "uk": "позичати (в когось)",
+   "ex": "Can I borrow ten euros?",
+   "exUk": "Можна позичити десять євро?"
+  },
+  {
+   "en": "to lend",
+   "uk": "позичати (комусь)",
+   "ex": "I can lend you my bike.",
+   "exUk": "Я можу позичити тобі свій велосипед."
+  },
+  {
+   "en": "to owe",
+   "uk": "бути винним",
+   "ex": "I owe you twenty złoty.",
+   "exUk": "Я винен тобі двадцять злотих."
+  },
+  {
+   "en": "to pay in instalments",
+   "uk": "платити частинами",
+   "ex": "Can I pay in instalments?",
+   "exUk": "Чи можу я заплатити частинами?"
+  },
+  {
+   "en": "bill",
+   "uk": "рахунок (до сплати)",
+   "ex": "Have you paid the electricity bill?",
+   "exUk": "Ти оплатив рахунок за електрику?"
+  },
+  {
+   "en": "rent",
+   "uk": "оренда, орендна плата",
+   "ex": "The rent is due on the first.",
+   "exUk": "Оренда сплачується першого числа."
+  },
+  {
+   "en": "salary",
+   "uk": "зарплата",
+   "ex": "She got a salary increase.",
+   "exUk": "Їй підвищили зарплату."
+  },
+  {
+   "en": "bank account",
+   "uk": "банківський рахунок",
+   "ex": "I'd like to open a bank account.",
+   "exUk": "Я хотів би відкрити банківський рахунок."
+  },
+  {
+   "en": "cash machine / ATM",
+   "uk": "банкомат",
+   "ex": "Is there a cash machine near here?",
+   "exUk": "Тут поблизу є банкомат?"
+  },
+  {
+   "en": "to withdraw money",
+   "uk": "зняти гроші",
+   "ex": "I need to withdraw some money.",
+   "exUk": "Мені треба зняти гроші."
+  },
+  {
+   "en": "transfer",
+   "uk": "переказ",
+   "ex": "I'll send you a bank transfer.",
+   "exUk": "Я надішлю тобі банківський переказ."
+  },
+  {
+   "en": "exchange rate",
+   "uk": "обмінний курс",
+   "ex": "What's the exchange rate today?",
+   "exUk": "Який сьогодні курс?"
+  },
+  {
+   "en": "budget",
+   "uk": "бюджет",
+   "ex": "We need to stick to our budget.",
+   "exUk": "Нам треба дотримуватися бюджету."
+  },
+  {
+   "en": "price tag",
+   "uk": "цінник",
+   "ex": "There's no price tag on this shirt.",
+   "exUk": "На цій сорочці немає цінника."
+  },
+  {
+   "en": "worth it",
+   "uk": "того вартий",
+   "ex": "It's expensive, but it's worth it.",
+   "exUk": "Це дорого, але воно того варте."
+  },
+  {
+   "en": "a bargain",
+   "uk": "вигідна покупка",
+   "ex": "This sofa was a real bargain.",
+   "exUk": "Цей диван — справжня знахідка."
+  },
+  {
+   "en": "a rip-off",
+   "uk": "грабіж (завищена ціна)",
+   "ex": "Ten euros for a coffee? What a rip-off!",
+   "exUk": "Десять євро за каву? Це грабіж!"
+  },
+  {
+   "en": "PIN",
+   "uk": "PIN-код",
+   "ex": "Please enter your PIN.",
+   "exUk": "Введіть, будь ласка, PIN-код."
+  },
+  {
+   "en": "to return (an item)",
+   "uk": "повернути (товар)",
+   "ex": "Can I return these shoes?",
+   "exUk": "Чи можу я повернути ці туфлі?"
+  },
+  {
+   "en": "size",
+   "uk": "розмір",
+   "ex": "Do you have this in a bigger size?",
+   "exUk": "У вас є це на розмір більше?"
+  },
+  {
+   "en": "to compare prices",
+   "uk": "порівнювати ціни",
+   "ex": "I always compare prices online.",
+   "exUk": "Я завжди порівнюю ціни онлайн."
+  },
+  {
+   "en": "wallet",
+   "uk": "гаманець",
+   "ex": "I've lost my wallet!",
+   "exUk": "Я загубив гаманець!"
+  },
+  {
+   "en": "queue",
+   "uk": "черга",
+   "ex": "There was a long queue at the till.",
+   "exUk": "На касі була довга черга."
+  },
+  {
+   "en": "till / checkout",
+   "uk": "каса",
+   "ex": "Please pay at the till.",
+   "exUk": "Оплатіть, будь ласка, на касі."
+  },
+  {
+   "en": "online shopping",
+   "uk": "онлайн-покупки",
+   "ex": "I do most of my shopping online.",
+   "exUk": "Більшість покупок я роблю онлайн."
+  },
+  {
+   "en": "delivery",
+   "uk": "доставка",
+   "ex": "Delivery is free over 100 złoty.",
+   "exUk": "Доставка безкоштовна від 100 злотих."
+  },
+  {
+   "en": "taxes",
+   "uk": "податки",
+   "ex": "Taxes are high here.",
+   "exUk": "Податки тут високі."
+  },
+  {
+   "en": "loan",
+   "uk": "кредит, позика",
+   "ex": "They took out a loan for the flat.",
+   "exUk": "Вони взяли кредит на квартиру."
+  },
+  {
+   "en": "mortgage",
+   "uk": "іпотека",
+   "ex": "We're paying off our mortgage.",
+   "exUk": "Ми виплачуємо іпотеку."
+  },
+  {
+   "en": "to be broke",
+   "uk": "бути без грошей",
+   "ex": "I'm broke until payday.",
+   "exUk": "Я без грошей до зарплати."
+  }
+ ]
+}

@@ -18,6 +18,15 @@
   "count": 40
  },
  {
+  "id": "home-daily",
+  "name": "Дім і розпорядок дня",
+  "emoji": "house",
+  "group": "general",
+  "level": "A1",
+  "desc": "Кімнати, речі, щоденні дії",
+  "count": 50
+ },
+ {
   "id": "everyday",
   "name": "Повсякдення",
   "emoji": "house",
@@ -52,6 +61,33 @@
   "level": "A2",
   "desc": "Родина, дім, гості",
   "count": 30
+ },
+ {
+  "id": "health",
+  "name": "Здоров'я",
+  "emoji": "hospital",
+  "group": "general",
+  "level": "A2",
+  "desc": "Симптоми, лікар, аптека, спорт",
+  "count": 40
+ },
+ {
+  "id": "weather-nature",
+  "name": "Погода й природа",
+  "emoji": "sun",
+  "group": "general",
+  "level": "A2",
+  "desc": "Погода, пори року, прогулянки",
+  "count": 40
+ },
+ {
+  "id": "money",
+  "name": "Гроші й покупки",
+  "emoji": "shop",
+  "group": "general",
+  "level": "A2",
+  "desc": "Ціни, оплата, повернення, бюджет",
+  "count": 40
  },
  {
   "id": "travel",

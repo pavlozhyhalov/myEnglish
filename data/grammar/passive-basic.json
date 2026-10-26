@@ -166,7 +166,8 @@
    "uk": "Мій рейс затримали на дві години.",
    "answer": [
     "My flight was delayed by two hours.",
-    "My flight was delayed for two hours."
+    "My flight was delayed for two hours.",
+    "My flight has been delayed by two hours."
    ],
    "explanation": ""
   }

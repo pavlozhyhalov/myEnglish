@@ -134,7 +134,7 @@
   },
   {
    "type": "input",
-   "prompt": "I've worked here ___ 2023.",
+   "prompt": "I've worked here ___ 2023. (з якого моменту)",
    "answer": [
     "since"
    ],
@@ -142,7 +142,7 @@
   },
   {
    "type": "input",
-   "prompt": "We waited ___ two hours.",
+   "prompt": "We waited ___ two hours. (тривалість)",
    "answer": [
     "for"
    ],
@@ -180,7 +180,10 @@
     "The shop is open until 10 pm.",
     "The shop is open until 22:00.",
     "The shop is open till 10 pm.",
-    "The store is open until 10 pm."
+    "The store is open until 10 pm.",
+    "The shop is open till 22:00.",
+    "The shop is open until 10.",
+    "The shop closes at 10 pm."
    ],
    "explanation": ""
   }

@@ -84,9 +84,9 @@
    "type": "choice",
    "prompt": "It was in 2015 ___ we first met.",
    "options": [
-    "when",
+    "which",
     "that",
-    "which"
+    "what"
    ],
    "answer": "that",
    "explanation": ""
@@ -122,7 +122,8 @@
    "type": "input",
    "prompt": "___ I need right now is a strong coffee.",
    "answer": [
-    "What"
+    "What",
+    "All"
    ],
    "explanation": ""
   },
@@ -149,7 +150,8 @@
    "prompt": "The traffic annoys me most.",
    "instruction": "What…",
    "answer": [
-    "What annoys me most is the traffic."
+    "What annoys me most is the traffic.",
+    "What annoys me the most is the traffic."
    ],
    "explanation": ""
   },

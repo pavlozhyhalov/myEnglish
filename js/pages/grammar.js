@@ -3,7 +3,7 @@ import { h, ic, emo } from '../ui/dom.js';
 import { S } from '../strings.js';
 import * as store from '../store.js';
 import { grammarIndex, lesson as loadLesson } from '../data.js';
-import { md } from '../ui/md.js';
+import { md, mdInline } from '../ui/md.js';
 import { speak } from '../speech.js';
 import { runExercises, answerText } from '../ui/exercises.js';
 import { recordLesson, activityTimer, addMistake, lessonsToReview } from '../stats.js';
@@ -95,7 +95,7 @@ async function lessonPage(view, id, query = {}) {
       h('div.grow', h('div.xs.dim', `${l.unit} · урок ${pos + 1}`), h('h1', { style: { margin: 0 } }, l.title)),
       p?.completed_at ? h('span.tag.good', `${p.best}%`) : null),
     h('section.card', md(l.explanation)),
-    l.formula?.length ? h('section.stack', { style: { gap: '8px' } }, l.formula.map(f => h('div.formula', f))) : null,
+    l.formula?.length ? h('section.stack', { style: { gap: '8px' } }, l.formula.map(f => h('div.formula', mdInline(f)))) : null,
     l.table ? h('section.card', { style: { overflowX: 'auto' } }, h('table.gtable',
       h('thead', h('tr', l.table.head.map(c => h('th', c)))),
       h('tbody', l.table.rows.map(rw => h('tr', rw.map(c => h('td', c))))))) : null,

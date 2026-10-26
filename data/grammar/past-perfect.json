@@ -25,7 +25,7 @@
   },
   {
    "en": "By the time we got home, the kids had fallen asleep.",
-   "uk": "Поки ми дісталися додому, діти вже заснули."
+   "uk": "Коли ми дісталися додому, діти вже заснули."
   },
   {
    "en": "Had you met him before the party?",
@@ -60,7 +60,7 @@
    "type": "choice",
    "prompt": "She was hungry because she ___ breakfast.",
    "options": [
-    "didn't have",
+    "doesn't have",
     "hadn't had",
     "hasn't had"
    ],
@@ -80,7 +80,7 @@
   },
   {
    "type": "input",
-   "prompt": "I ___ (forget) my password, so I couldn't log in.",
+   "prompt": "I couldn't log in because I ___ (forget) my password. (Past Perfect)",
    "answer": [
     "had forgotten",
     "'d forgotten"
@@ -144,7 +144,10 @@
    "answer": [
     "When I called, she had already left.",
     "When I called, she had left.",
-    "She had already left when I called."
+    "She had already left when I called.",
+    "When I called, she'd already left.",
+    "When I called, she'd left.",
+    "She'd already left when I called."
    ],
    "explanation": ""
   }

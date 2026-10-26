@@ -95,7 +95,7 @@
   },
   {
    "type": "choice",
-   "prompt": "What ___ at the weekend usually?",
+   "prompt": "What ___ at the weekend? — I usually go hiking.",
    "options": [
     "are you doing",
     "do you do",
@@ -181,7 +181,9 @@
    "answer": [
     "She usually drinks tea, but today she's drinking coffee.",
     "She usually drinks tea but today she is drinking coffee.",
-    "She usually drinks tea, but today she is drinking coffee."
+    "She usually drinks tea, but today she is drinking coffee.",
+    "She usually drinks tea, but she's drinking coffee today.",
+    "She usually drinks tea, but today she's having coffee."
    ],
    "explanation": "Звичка + сьогоднішній виняток."
   }

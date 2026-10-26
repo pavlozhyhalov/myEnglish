@@ -85,13 +85,14 @@
    "type": "input",
    "prompt": "___ you help me with this box? (ввічливо, 1 слово)",
    "answer": [
-    "Could"
+    "Could",
+    "Would"
    ],
-   "explanation": "Ввічливе прохання."
+   "explanation": "Ввічливе прохання: Could / Would you…?"
   },
   {
    "type": "input",
-   "prompt": "We ___ (be able to) find a parking space, so we were late. (2 слова, заперечення)",
+   "prompt": "We ___ to find a parking space, so we were late. (be able, заперечення)",
    "answer": [
     "weren't able",
     "were not able"
@@ -100,7 +101,7 @@
   },
   {
    "type": "input",
-   "prompt": "I've never ___ (be able to) understand maths. (2 слова)",
+   "prompt": "I've never ___ to understand maths. (be able, 2 слова)",
    "answer": [
     "been able"
    ],
@@ -146,7 +147,9 @@
     "We were able to buy tickets at the last moment.",
     "We managed to buy tickets at the last minute.",
     "We were able to buy the tickets at the last minute.",
-    "We were able to buy tickets at the last minute."
+    "We were able to buy tickets at the last minute.",
+    "We managed to buy tickets at the last moment.",
+    "We managed to buy the tickets at the last minute."
    ],
    "explanation": "Конкретний успіх → was/were able to."
   }

@@ -103,7 +103,7 @@
   },
   {
    "type": "input",
-   "prompt": "Would you like ___ coffee? (пропозиція)",
+   "prompt": "Would you like ___ coffee? (some / any — пропозиція)",
    "answer": [
     "some"
    ],
@@ -119,7 +119,7 @@
   },
   {
    "type": "input",
-   "prompt": "There aren't ___ chairs in the room.",
+   "prompt": "There aren't ___ chairs in the room. (some / any)",
    "answer": [
     "any"
    ],

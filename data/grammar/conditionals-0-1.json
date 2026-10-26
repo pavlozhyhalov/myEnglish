@@ -5,7 +5,7 @@
  "unit": "Умовні речення",
  "level": "B1",
  "mistakeType": "tenses",
- "explanation": "**Zero conditional** — загальні істини, завжди так: *If you heat ice, it melts.*\n*If + Present Simple, Present Simple.*\n\n**First conditional** — **реальна** можливість у майбутньому: *If it rains, we'll stay at home.*\n*If + Present Simple, will + V.*\n\n⚠️ Після *if* — **не** *will*: *If I **see** him* (не ~~if I will see~~).\n\nІнші сполучники з тим самим правилом: *unless* (якщо не), *as soon as, when, provided that*.\n*Unless you hurry, you'll miss the bus* = *If you don't hurry…*",
+ "explanation": "**Zero conditional** — загальні істини, завжди так: *If you heat ice, it melts.*\n*If + Present Simple, Present Simple.*\n\n**First conditional** — **реальна** можливість у майбутньому: *If it rains, we'll stay at home.*\n*If + Present Simple, will + V.*\n\n**Увага:** після *if* — **не** *will*: *If I **see** him* (не ~~if I will see~~).\n\nІнші сполучники з тим самим правилом: *unless* (якщо не), *as soon as, when, provided that*.\n*Unless you hurry, you'll miss the bus* = *If you don't hurry…*",
  "formula": [
   "0: If + Present, Present",
   "1: If + Present, **will** + V"

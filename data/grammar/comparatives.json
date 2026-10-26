@@ -142,9 +142,11 @@
    "wrongIndex": 3,
    "correction": "much",
    "alt": [
-    "a lot"
+    "a lot",
+    "far",
+    "even"
    ],
-   "explanation": "better вже вищий ступінь — без more (можна much better)."
+   "explanation": "better вже вищий ступінь — more зайве (можна підсилити: much / a lot / far better)."
   },
   {
    "type": "error",
@@ -171,7 +173,8 @@
    "instruction": "Перепишіть з not as … as",
    "answer": [
     "The bus isn't as fast as the train.",
-    "The bus is not as fast as the train."
+    "The bus is not as fast as the train.",
+    "The bus isn't as quick as the train."
    ],
    "explanation": ""
   },
@@ -182,7 +185,8 @@
     "It's much cheaper here than in the centre.",
     "It is much cheaper here than in the city centre.",
     "It's a lot cheaper here than in the centre.",
-    "It's much cheaper here than in the city centre."
+    "It's much cheaper here than in the city centre.",
+    "It's a lot cheaper here than in the city centre."
    ],
    "explanation": ""
   }

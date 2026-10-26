@@ -5,8 +5,8 @@ import * as srs from '../srs.js';
 import { grammarIndex, lesson as loadLesson } from '../data.js';
 import { runReview } from './cards.js';
 import { runExercises, answerText } from '../ui/exercises.js';
-import { md } from '../ui/md.js';
-import { activityTimer, addMistake, lessonsToReview } from '../stats.js';
+import { md, mdInline } from '../ui/md.js';
+import { activityTimer, addMistake, lessonsToReview, recordLesson } from '../stats.js';
 import { user } from '../supa.js';
 import { setFocus } from '../ui/shell.js';
 import { go } from '../router.js';
@@ -31,7 +31,7 @@ export default async function session(view) {
     view.replaceChildren(h('div.stack-lg',
       h('div.row', h('button.icon-btn', { type: 'button', 'aria-label': 'Вийти', onclick: exit }, ic('x')), h('div.grow', stepsBar(cur))),
       h('div.hero', emo(emoji, 'xl'), h('div.xs.dim', `Етап ${cur + 1} з ${steps.length}`), h('h1', title), h('p.dim', text),
-        h('button.btn.primary.lg', { type: 'button', onclick: onGo }, goLabel),
+        h('button.btn.primary.lg', { type: 'button', onclick: (e) => { e.currentTarget.disabled = true; onGo(); } }, goLabel),
         h('button.btn.ghost', { type: 'button', onclick: () => next(cur + 1) }, 'Пропустити етап'))));
   }
 
@@ -66,7 +66,7 @@ export default async function session(view) {
     const short = lesson.explanation.split('\n\n').slice(0, 2).join('\n\n');
     view.replaceChildren(h('div.stack-lg',
       h('div.row', h('button.icon-btn', { type: 'button', 'aria-label': 'Вийти', onclick: exit }, ic('x')), h('div.grow', stepsBar(1))),
-      h('section.card.stack', h('h2', lesson.title), md(short), ...(lesson.formula || []).slice(0, 2).map(f => h('div.formula', f)),
+      h('section.card.stack', h('h2', lesson.title), md(short), ...(lesson.formula || []).slice(0, 2).map(f => h('div.formula', mdInline(f))),
         h('a.small', { href: `#/grammar/${lesson.id}` }, 'Повне пояснення')),
       box));
     const list = lesson.exercises.slice().sort(() => Math.random() - 0.5).slice(0, 5);
@@ -74,6 +74,8 @@ export default async function session(view) {
       onMistake: (ex, given) => addMistake({ wrong: given || '—', right: answerText(ex), type: lesson.mistakeType || 'tenses', explanation_uk: `${lesson.title}: ${ex.explanation || ''}`, source: 'exercise' }),
       onDone: (res) => {
         summary.score = res.score;
+        // урок заняття зараховується так само, як у розділі «Граматика» (інакше повтор лишається простроченим)
+        if (rev?.id === lesson.id || res.score >= 80) recordLesson(lesson.id, res.score);
         timer.poke();
         timer.stop();
         box.append(h('button.btn.primary.block', { type: 'button', style: { marginTop: '12px' }, onclick: () => next(2) }, 'Далі', ic('arrow-right')));

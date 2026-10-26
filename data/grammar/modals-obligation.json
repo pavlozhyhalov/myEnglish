@@ -119,7 +119,7 @@
   },
   {
    "type": "input",
-   "prompt": "___ we ___ (have to) pay for parking? (2 слова)",
+   "prompt": "___ we ___ to pay for parking? (have to, 2 слова)",
    "answer": [
     "Do have"
    ],
@@ -176,7 +176,9 @@
     "You mustn't take photos here.",
     "You can't take photos here.",
     "You must not take photos here.",
-    "You're not allowed to take photos here."
+    "You're not allowed to take photos here.",
+    "You can't take pictures here.",
+    "You mustn't take pictures here."
    ],
    "explanation": ""
   }

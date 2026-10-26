@@ -97,7 +97,7 @@
   },
   {
    "type": "choice",
-   "prompt": "She ___ like the film.",
+   "prompt": "We went to the cinema last night, but she ___ like the film.",
    "options": [
     "didn't",
     "doesn't",
@@ -124,7 +124,7 @@
   },
   {
    "type": "input",
-   "prompt": "Where ___ you go on holiday?",
+   "prompt": "Where ___ you go on holiday last summer?",
    "answer": [
     "did"
    ],
@@ -171,7 +171,8 @@
    "answer": [
     "I worked until eight yesterday.",
     "Yesterday I worked until eight.",
-    "I worked till eight yesterday."
+    "I worked till eight yesterday.",
+    "Yesterday I worked till eight."
    ],
    "explanation": ""
   }

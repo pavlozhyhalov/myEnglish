@@ -5,7 +5,7 @@
  "unit": "Теперішні часи",
  "level": "B1",
  "mistakeType": "tenses",
- "explanation": "Деякі дієслова описують **стан**, а не дію. Їх зазвичай **не** ставлять у Continuous, навіть якщо мова про «зараз».\n\nОсновні групи:\n- думки: *know, believe, understand, remember, forget, mean, think (=вважати)*\n- почуття: *like, love, hate, prefer, want, need*\n- володіння: *have (=мати), own, belong*\n- відчуття: *see, hear, smell, taste, seem, look (=виглядати)*\n\nДеякі мають два значення: *I think it's good* (вважаю — стан) vs *I'm thinking about it* (обмірковую — дія). *I have a car* (маю) vs *I'm having lunch* (обідаю).",
+ "explanation": "Деякі дієслова описують **стан**, а не дію. Їх зазвичай **не** ставлять у Continuous, навіть якщо мова про «зараз».\n\nОсновні групи:\n- думки: *know, believe, understand, remember, forget, mean, think (=вважати)*\n- почуття: *like, love, hate, prefer, want, need*\n- володіння: *have (=мати), own, belong*\n- сприйняття і враження: *see, hear, smell, taste, seem, look (=виглядати)*\n\nДеякі мають два значення: *I think it's good* (вважаю — стан) vs *I'm thinking about it* (обмірковую — дія). *I have a car* (маю) vs *I'm having lunch* (обідаю).",
  "formula": [
   "Стан: I **want** a coffee now. (не ~~I'm wanting~~)",
   "Дія: I'm **having** dinner. / I'm **thinking** about it."
@@ -73,7 +73,7 @@
   },
   {
    "type": "choice",
-   "prompt": "I ___ about moving to Gdańsk.",
+   "prompt": "At the moment I ___ about moving to Gdańsk.",
    "options": [
     "think",
     "am thinking",
@@ -102,9 +102,11 @@
    "type": "input",
    "prompt": "You ___ (look) tired. Are you OK?",
    "answer": [
-    "look"
+    "look",
+    "are looking",
+    "'re looking"
    ],
-   "explanation": "look = виглядати, стан."
+   "explanation": "look = виглядати, стан: You look tired (у розмові можна й You're looking tired)."
   },
   {
    "type": "error",

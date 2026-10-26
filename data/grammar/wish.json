@@ -137,7 +137,8 @@
    "answer": [
     "I wish I had taken some photos.",
     "I wish I'd taken some photos.",
-    "I wish I had taken photos."
+    "I wish I had taken photos.",
+    "I wish I'd taken photos."
    ],
    "explanation": ""
   },
@@ -146,7 +147,8 @@
    "uk": "Шкода, що ти не можеш прийти.",
    "answer": [
     "I wish you could come.",
-    "I wish you could come too."
+    "I wish you could come too.",
+    "If only you could come."
    ],
    "explanation": ""
   }

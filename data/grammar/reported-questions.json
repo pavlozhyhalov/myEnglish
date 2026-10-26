@@ -103,11 +103,13 @@
   },
   {
    "type": "error",
-   "sentence": "She asked me where did I buy my jacket.",
-   "wrongIndex": 6,
-   "correction": "bought",
-   "alt": [],
-   "explanation": "Непряме питання без did: where I bought my jacket."
+   "sentence": "She asked me that I was married.",
+   "wrongIndex": 3,
+   "correction": "if",
+   "alt": [
+    "whether"
+   ],
+   "explanation": "Непряме так/ні-питання — if / whether: She asked me if I was married."
   },
   {
    "type": "order",

@@ -71,7 +71,7 @@
   },
   {
    "type": "choice",
-   "prompt": "I ___ this film three times.",
+   "prompt": "So far I ___ this film three times.",
    "options": [
     "saw",
     "'ve seen",
@@ -82,14 +82,14 @@
   },
   {
    "type": "choice",
-   "prompt": "My grandfather ___ in a factory all his life.",
+   "prompt": "My grandfather ___ in a factory all his life. He retired in 2005.",
    "options": [
     "has worked",
     "worked",
     "works"
    ],
    "answer": "worked",
-   "explanation": "Дідусь уже не працює — період завершено."
+   "explanation": "Дідусь уже на пенсії — період завершено → Past Simple."
   },
   {
    "type": "choice",
@@ -129,21 +129,23 @@
   },
   {
    "type": "error",
-   "sentence": "Did you ever been to Rome?",
-   "wrongIndex": 0,
-   "correction": "Have",
-   "alt": [],
-   "explanation": "Досвід без часу → Have you ever been…?"
+   "sentence": "I lived here since 2020.",
+   "wrongIndex": 1,
+   "correction": "have lived",
+   "alt": [
+    "'ve lived",
+    "have been living",
+    "'ve been living"
+   ],
+   "explanation": "since + досі → Present Perfect: I have lived here since 2020."
   },
   {
    "type": "error",
-   "sentence": "When have you moved to Poland?",
+   "sentence": "When have you come to Poland?",
    "wrongIndex": 1,
    "correction": "did",
-   "alt": [
-    "did"
-   ],
-   "explanation": "When did you move…?"
+   "alt": [],
+   "explanation": "When…? → Past Simple: When did you come to Poland?"
   },
   {
    "type": "order",
@@ -173,7 +175,9 @@
     "I've lost my keys, so I can't get home.",
     "I have lost my keys, so I can't get home.",
     "I've lost my keys so I can't get into my house.",
-    "I've lost my keys, so I can't get in."
+    "I've lost my keys, so I can't get in.",
+    "I've lost my keys and I can't get home.",
+    "I've lost my keys, so I can't get into the house."
    ],
    "explanation": "Результат зараз."
   }

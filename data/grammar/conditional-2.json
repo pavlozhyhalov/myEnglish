@@ -70,7 +70,7 @@
    "type": "choice",
    "prompt": "If I ___ you, I'd talk to him.",
    "options": [
-    "was",
+    "would be",
     "were",
     "am"
    ],
@@ -148,7 +148,8 @@
     "If I knew Polish better, I would find a job more easily.",
     "If I knew Polish better, I'd find a job more easily.",
     "If I spoke Polish better, I would find a job more easily.",
-    "If I knew Polish better, I would find a job easier."
+    "If I knew Polish better, I would find a job easier.",
+    "I would find a job more easily if I knew Polish better."
    ],
    "explanation": ""
   }

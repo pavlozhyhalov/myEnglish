@@ -133,13 +133,11 @@
   },
   {
    "type": "error",
-   "sentence": "I was meet my friend yesterday.",
+   "sentence": "Yesterday I meet an old friend in town.",
    "wrongIndex": 2,
    "correction": "met",
-   "alt": [
-    "was meeting"
-   ],
-   "explanation": "Past Simple: met."
+   "alt": [],
+   "explanation": "Завершена дія вчора → Past Simple: met."
   },
   {
    "type": "error",
@@ -164,7 +162,8 @@
    "instruction": "Об'єднайте з while",
    "answer": [
     "While she was reading a book, the lights went out.",
-    "The lights went out while she was reading a book."
+    "The lights went out while she was reading a book.",
+    "While she was reading, the lights went out."
    ],
    "explanation": "while + Past Continuous."
   },
@@ -173,7 +172,8 @@
    "uk": "Я спав, коли ти подзвонив.",
    "answer": [
     "I was sleeping when you called.",
-    "I was asleep when you called."
+    "I was asleep when you called.",
+    "I was sleeping when you rang."
    ],
    "explanation": "Тривала дія + коротка."
   }

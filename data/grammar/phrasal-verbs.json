@@ -135,7 +135,8 @@
    "prompt": "I met an old friend by chance in the shop.",
    "instruction": "Перепишіть з ran into",
    "answer": [
-    "I ran into an old friend in the shop."
+    "I ran into an old friend in the shop.",
+    "I ran into an old friend at the shop."
    ],
    "explanation": ""
   },

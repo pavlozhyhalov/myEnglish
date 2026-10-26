@@ -27,6 +27,18 @@ export function initDrawer() {
   swipeToClose(scrim);
 
   if (store.settings().pinDrawer !== false) document.body.classList.add('drawer-pinned');
+  // доступність: закрите меню поза екраном — inert (не в Tab-порядку), закріплене на широкому екрані — видиме для читачів екрана
+  wide.addEventListener('change', syncA11y);
+  new MutationObserver(syncA11y).observe(document.body, { attributes: true, attributeFilter: ['class'] });
+  syncA11y();
+}
+
+const wide = matchMedia('(min-width:1100px)');
+function syncA11y() {
+  if (!drawer) return;
+  const visible = drawer.classList.contains('open') || (wide.matches && document.body.classList.contains('drawer-pinned'));
+  drawer.inert = !visible;
+  if (visible) drawer.removeAttribute('aria-hidden'); else drawer.setAttribute('aria-hidden', 'true');
 }
 
 function renderList() {
@@ -83,7 +95,7 @@ function lockScroll(on) {
 export function open() {
   drawer.classList.add('open'); scrim.classList.add('open');
   lockScroll(true);
-  drawer.setAttribute('aria-hidden', 'false');
+  syncA11y();
   // фокус на саму панель (без видимої рамки), щоб не обводити пункт меню
   drawer.focus({ preventScroll: true });
 }
@@ -91,7 +103,7 @@ export function close() {
   if (!drawer?.classList.contains('open')) return;
   drawer.classList.remove('open'); scrim.classList.remove('open');
   lockScroll(false);
-  drawer.setAttribute('aria-hidden', 'true');
+  syncA11y();
   document.querySelector('.btn-menu')?.focus({ preventScroll: true });
 }
 /** Свайп уліво по відкритому меню: панель їде за пальцем, відпускання далі 30% ширини або швидкий змах — закриває */

@@ -100,7 +100,8 @@
    "prompt": "If it hadn't rained, we ___ (go) to the beach. (3 слова)",
    "answer": [
     "would have gone",
-    "'d have gone"
+    "'d have gone",
+    "would've gone"
    ],
    "explanation": ""
   },
@@ -136,7 +137,8 @@
    "answer": [
     "If I had set an alarm, I wouldn't have overslept.",
     "If I'd set an alarm, I wouldn't have overslept.",
-    "If I had set an alarm, I would not have overslept."
+    "If I had set an alarm, I would not have overslept.",
+    "If I'd set an alarm, I would not have overslept."
    ],
    "explanation": ""
   },
@@ -146,7 +148,11 @@
    "answer": [
     "If we had left earlier, we would have caught the train.",
     "If we'd left earlier, we'd have caught the train.",
-    "If we had left earlier, we would have made the train."
+    "If we had left earlier, we would have made the train.",
+    "If we'd left earlier, we would have caught the train.",
+    "If we had left earlier, we would've caught the train.",
+    "If we'd left earlier, we would have made the train.",
+    "If we had left earlier, we would've made the train."
    ],
    "explanation": ""
   }

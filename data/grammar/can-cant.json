@@ -128,9 +128,10 @@
    "type": "input",
    "prompt": "___ you speak French?",
    "answer": [
-    "Can"
+    "Can",
+    "Do"
    ],
-   "explanation": ""
+   "explanation": "Can you…? — чи вмієш (Do you speak…? теж правильно)."
   },
   {
    "type": "error",
@@ -161,7 +162,8 @@
    "type": "translate",
    "uk": "Ти можеш мені допомогти?",
    "answer": [
-    "Can you help me?"
+    "Can you help me?",
+    "Could you help me?"
    ],
    "explanation": ""
   },

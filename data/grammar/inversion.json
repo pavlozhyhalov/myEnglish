@@ -108,7 +108,7 @@
   },
   {
    "type": "input",
-   "prompt": "Little ___ (I / know) that he was lying. (2 слова + know)",
+   "prompt": "Little ___ (I / know) that he was lying. (3 слова)",
    "answer": [
     "did I know"
    ],
@@ -118,7 +118,8 @@
    "type": "input",
    "prompt": "Rarely ___ (she / complain) about anything.",
    "answer": [
-    "does she complain"
+    "does she complain",
+    "did she complain"
    ],
    "explanation": ""
   },
@@ -132,23 +133,19 @@
   },
   {
    "type": "error",
-   "sentence": "Only later I realised what had happened.",
+   "sentence": "Only later I read the whole letter.",
    "wrongIndex": 2,
    "correction": "did I",
-   "alt": [
-    "did"
-   ],
-   "explanation": "Інверсія: Only later did I realise."
+   "alt": [],
+   "explanation": "Інверсія після Only later: Only later did I read the whole letter."
   },
   {
    "type": "error",
-   "sentence": "Never I have been so embarrassed.",
+   "sentence": "Seldom we eat out these days.",
    "wrongIndex": 1,
-   "correction": "have I",
-   "alt": [
-    "have"
-   ],
-   "explanation": "Never have I been…"
+   "correction": "do we",
+   "alt": [],
+   "explanation": "Інверсія після Seldom: Seldom do we eat out these days."
   },
   {
    "type": "transform",
@@ -166,7 +163,9 @@
    "answer": [
     "Not only did he not apologise, but he also blamed me.",
     "Not only didn't he apologise, but he also blamed me.",
-    "Not only did he fail to apologise, but he also blamed me."
+    "Not only did he fail to apologise, but he also blamed me.",
+    "Not only did he not apologise, he also blamed me.",
+    "Not only did he not apologize, but he also blamed me."
    ],
    "explanation": ""
   },

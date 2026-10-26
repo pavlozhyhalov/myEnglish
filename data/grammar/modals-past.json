@@ -127,7 +127,8 @@
    "type": "order",
    "prompt": "Ти мав мене попередити.",
    "answer": [
-    "You should have warned me."
+    "You should have warned me.",
+    "You should've warned me."
    ],
    "explanation": ""
   },
@@ -147,7 +148,9 @@
    "uk": "Він, мабуть, забув про зустріч.",
    "answer": [
     "He must have forgotten about the meeting.",
-    "He must have forgotten the meeting."
+    "He must have forgotten the meeting.",
+    "He must've forgotten about the meeting.",
+    "He must've forgotten the meeting."
    ],
    "explanation": ""
   }

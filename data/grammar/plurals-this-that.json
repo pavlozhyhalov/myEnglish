@@ -5,7 +5,7 @@
  "unit": "Іменник і артиклі",
  "level": "A1",
  "mistakeType": "articles",
- "explanation": "**Множина**: зазвичай + **-s** (*car → cars*), після -s, -sh, -ch, -x + **-es** (*bus → buses, box → boxes*), приголосна + y → **-ies** (*city → cities*). Є винятки: *man → men, woman → women, child → children, person → people, foot → feet, tooth → teeth*.\n\n**this** (цей, близько) / **that** (той, далеко) — для однини; **these** / **those** — для множини: *this phone, these phones, that house, those houses*.",
+ "explanation": "**Множина**: зазвичай + **-s** (*car → cars*), після -s, -sh, -ch, -x + **-es** (*bus → buses, box → boxes*), приголосна + y → **-ies** (*city → cities*), часто -f/-fe → **-ves** (*knife → knives, wife → wives*). Є винятки: *man → men, woman → women, child → children, person → people, foot → feet, tooth → teeth*.\n\n**this** (цей, близько) / **that** (той, далеко) — для однини; **these** / **those** — для множини: *this phone, these phones, that house, those houses*.",
  "formula": [
   "**this / that** + однина",
   "**these / those** + множина"

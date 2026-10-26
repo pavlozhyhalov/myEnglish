@@ -1,0 +1,245 @@
+{
+ "id": "weather-nature",
+ "cards": [
+  {
+   "en": "What's the weather like?",
+   "uk": "Яка погода?",
+   "ex": "What's the weather like in Kraków today?",
+   "exUk": "Яка сьогодні погода в Кракові?"
+  },
+  {
+   "en": "sunny",
+   "uk": "сонячно",
+   "ex": "It's sunny and warm.",
+   "exUk": "Сонячно й тепло."
+  },
+  {
+   "en": "cloudy",
+   "uk": "хмарно",
+   "ex": "It's cloudy but dry.",
+   "exUk": "Хмарно, але сухо."
+  },
+  {
+   "en": "rainy",
+   "uk": "дощовий",
+   "ex": "It's been rainy all week.",
+   "exUk": "Увесь тиждень було дощово."
+  },
+  {
+   "en": "windy",
+   "uk": "вітряно",
+   "ex": "It's too windy for a walk.",
+   "exUk": "Надто вітряно для прогулянки."
+  },
+  {
+   "en": "foggy",
+   "uk": "туманно",
+   "ex": "Drive slowly — it's foggy.",
+   "exUk": "Їдь повільно — туман."
+  },
+  {
+   "en": "snow",
+   "uk": "сніг",
+   "ex": "The kids love the snow.",
+   "exUk": "Діти обожнюють сніг."
+  },
+  {
+   "en": "ice",
+   "uk": "лід",
+   "ex": "Be careful, there's ice on the road.",
+   "exUk": "Обережно, на дорозі ожеледиця."
+  },
+  {
+   "en": "storm",
+   "uk": "гроза, шторм",
+   "ex": "There was a big storm last night.",
+   "exUk": "Минулої ночі була сильна гроза."
+  },
+  {
+   "en": "thunder and lightning",
+   "uk": "грім і блискавка",
+   "ex": "The dog is scared of thunder and lightning.",
+   "exUk": "Собака боїться грому й блискавки."
+  },
+  {
+   "en": "It's boiling.",
+   "uk": "Страшенна спека.",
+   "ex": "It's boiling today — let's go to the lake.",
+   "exUk": "Сьогодні страшенна спека — ходімо на озеро."
+  },
+  {
+   "en": "It's getting dark.",
+   "uk": "Темніє.",
+   "ex": "It's getting dark — let's go home.",
+   "exUk": "Темніє — ходімо додому."
+  },
+  {
+   "en": "degrees",
+   "uk": "градуси",
+   "ex": "It's minus five degrees.",
+   "exUk": "Мінус п'ять градусів."
+  },
+  {
+   "en": "forecast",
+   "uk": "прогноз",
+   "ex": "The forecast says it'll rain tomorrow.",
+   "exUk": "За прогнозом завтра буде дощ."
+  },
+  {
+   "en": "umbrella",
+   "uk": "парасоля",
+   "ex": "I left my umbrella on the bus.",
+   "exUk": "Я залишив парасолю в автобусі."
+  },
+  {
+   "en": "season",
+   "uk": "пора року",
+   "ex": "Autumn is my favourite season.",
+   "exUk": "Осінь — моя улюблена пора року."
+  },
+  {
+   "en": "spring",
+   "uk": "весна",
+   "ex": "Flowers appear in spring.",
+   "exUk": "Квіти з'являються навесні."
+  },
+  {
+   "en": "summer",
+   "uk": "літо",
+   "ex": "We go to the sea every summer.",
+   "exUk": "Щоліта ми їздимо на море."
+  },
+  {
+   "en": "autumn",
+   "uk": "осінь",
+   "ex": "The leaves turn yellow in autumn.",
+   "exUk": "Восени листя жовтіє."
+  },
+  {
+   "en": "winter",
+   "uk": "зима",
+   "ex": "Winters in Poland can be cold.",
+   "exUk": "Зими в Польщі бувають холодні."
+  },
+  {
+   "en": "mountains",
+   "uk": "гори",
+   "ex": "We went hiking in the mountains.",
+   "exUk": "Ми ходили в похід у гори."
+  },
+  {
+   "en": "lake",
+   "uk": "озеро",
+   "ex": "There's a beautiful lake near the village.",
+   "exUk": "Біля села є гарне озеро."
+  },
+  {
+   "en": "river",
+   "uk": "річка",
+   "ex": "The city lies on the river.",
+   "exUk": "Місто стоїть на річці."
+  },
+  {
+   "en": "forest",
+   "uk": "ліс",
+   "ex": "We picked mushrooms in the forest.",
+   "exUk": "Ми збирали гриби в лісі."
+  },
+  {
+   "en": "field",
+   "uk": "поле",
+   "ex": "There are cows in the field.",
+   "exUk": "У полі корови."
+  },
+  {
+   "en": "beach",
+   "uk": "пляж",
+   "ex": "Let's spend the day on the beach.",
+   "exUk": "Проведімо день на пляжі."
+  },
+  {
+   "en": "sea",
+   "uk": "море",
+   "ex": "The sea was warm.",
+   "exUk": "Море було тепле."
+  },
+  {
+   "en": "hill",
+   "uk": "пагорб",
+   "ex": "There's a castle on the hill.",
+   "exUk": "На пагорбі замок."
+  },
+  {
+   "en": "countryside",
+   "uk": "сільська місцевість",
+   "ex": "I'd love to live in the countryside.",
+   "exUk": "Я б хотів жити за містом."
+  },
+  {
+   "en": "view",
+   "uk": "вид, краєвид",
+   "ex": "What a view!",
+   "exUk": "Який краєвид!"
+  },
+  {
+   "en": "sky",
+   "uk": "небо",
+   "ex": "The sky is clear tonight.",
+   "exUk": "Сьогодні ввечері небо ясне."
+  },
+  {
+   "en": "sunrise / sunset",
+   "uk": "схід / захід сонця",
+   "ex": "We watched the sunset from the hill.",
+   "exUk": "Ми дивилися на захід сонця з пагорба."
+  },
+  {
+   "en": "plant",
+   "uk": "рослина",
+   "ex": "Don't forget to water the plants.",
+   "exUk": "Не забудь полити рослини."
+  },
+  {
+   "en": "tree",
+   "uk": "дерево",
+   "ex": "There's an old oak tree in our garden.",
+   "exUk": "У нашому саду старий дуб."
+  },
+  {
+   "en": "animal",
+   "uk": "тварина",
+   "ex": "What's your favourite animal?",
+   "exUk": "Яка твоя улюблена тварина?"
+  },
+  {
+   "en": "bird",
+   "uk": "птах",
+   "ex": "Birds are singing outside.",
+   "exUk": "Надворі співають птахи."
+  },
+  {
+   "en": "to go for a walk",
+   "uk": "піти на прогулянку",
+   "ex": "Let's go for a walk in the park.",
+   "exUk": "Ходімо на прогулянку в парк."
+  },
+  {
+   "en": "fresh air",
+   "uk": "свіже повітря",
+   "ex": "I need some fresh air.",
+   "exUk": "Мені треба свіжого повітря."
+  },
+  {
+   "en": "climate change",
+   "uk": "зміна клімату",
+   "ex": "Climate change affects us all.",
+   "exUk": "Зміна клімату стосується всіх нас."
+  },
+  {
+   "en": "to recycle",
+   "uk": "сортувати відходи, переробляти",
+   "ex": "We recycle paper and plastic.",
+   "exUk": "Ми сортуємо папір і пластик."
+  }
+ ]
+}

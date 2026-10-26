@@ -177,12 +177,13 @@
   },
   {
    "type": "translate",
-   "uk": "У нас ще трохи часу.",
+   "uk": "У нас ще є трохи часу.",
    "answer": [
     "We still have a little time.",
     "We have a little time left.",
     "We've still got a little time.",
-    "We still have some time."
+    "We still have some time.",
+    "We still have a bit of time."
    ],
    "explanation": ""
   }

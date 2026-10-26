@@ -57,16 +57,26 @@ export function speakBrowser(text, { rate = 1, accent, voiceIndex = 0 } = {}) {
 }
 
 const audioCache = new Map();
+// iOS дозволяє play() лише в жесті: один аудіоелемент «розблоковуємо» першим дотиком і далі використовуємо його
+const player = typeof Audio !== 'undefined' ? new Audio() : null;
+const SILENT = 'data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAQB8AAIA+AAACABAAZGF0YQAAAAA=';
+if (player) document.addEventListener('pointerdown', () => { player.src = SILENT; player.play().catch(() => {}); }, { once: true, capture: true });
+
+let pendingDone = null;
 async function playGemini(text, voice, rate) {
   const key = (voice || '') + '|' + text;
   let url = audioCache.get(key);
   if (!url) { url = URL.createObjectURL(await ttsAudio(text, { voice })); audioCache.set(key, url); }
+  pendingDone?.();     // попереднє відтворення перериваємо — його проміс завершуємо
   return new Promise((resolve, reject) => {
-    const a = new Audio(url);
+    pendingDone = resolve;
+    const a = player || new Audio();
+    a.onended = () => resolve();
+    a.onpause = () => resolve();     // stop() або пауза — проміс завершується, цикли (діалоги) не зависають
+    a.onerror = () => reject(new Error('audio'));
+    a.src = url;
     a.playbackRate = rate;
     currentAudio = a;
-    a.onended = () => resolve();
-    a.onerror = () => reject(new Error('audio'));
     a.play().catch(reject);
   });
 }

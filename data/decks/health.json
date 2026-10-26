@@ -1,0 +1,245 @@
+{
+ "id": "health",
+ "cards": [
+  {
+   "en": "I've got a runny nose.",
+   "uk": "У мене нежить.",
+   "ex": "I've got a runny nose and a headache.",
+   "exUk": "У мене нежить і болить голова."
+  },
+  {
+   "en": "headache",
+   "uk": "головний біль",
+   "ex": "I've got a terrible headache.",
+   "exUk": "У мене жахливо болить голова."
+  },
+  {
+   "en": "sore throat",
+   "uk": "біль у горлі",
+   "ex": "I have a sore throat and a cough.",
+   "exUk": "У мене болить горло і кашель."
+  },
+  {
+   "en": "cough",
+   "uk": "кашель",
+   "ex": "Take this syrup for your cough.",
+   "exUk": "Приймай цей сироп від кашлю."
+  },
+  {
+   "en": "temperature / fever",
+   "uk": "температура, жар",
+   "ex": "She has a high temperature.",
+   "exUk": "У неї висока температура."
+  },
+  {
+   "en": "a cold",
+   "uk": "застуда",
+   "ex": "I caught a cold last week.",
+   "exUk": "Минулого тижня я застудився."
+  },
+  {
+   "en": "the flu",
+   "uk": "грип",
+   "ex": "Half the office has the flu.",
+   "exUk": "Пів офісу хворіє на грип."
+  },
+  {
+   "en": "stomach ache",
+   "uk": "біль у животі",
+   "ex": "I've had a stomach ache since lunch.",
+   "exUk": "У мене болить живіт з обіду."
+  },
+  {
+   "en": "to hurt",
+   "uk": "боліти",
+   "ex": "My knee hurts when I run.",
+   "exUk": "Коліно болить, коли я бігаю."
+  },
+  {
+   "en": "allergy",
+   "uk": "алергія",
+   "ex": "I have an allergy to nuts.",
+   "exUk": "У мене алергія на горіхи."
+  },
+  {
+   "en": "appointment",
+   "uk": "запис на прийом",
+   "ex": "I'd like to make an appointment with a doctor.",
+   "exUk": "Я хотів би записатися до лікаря."
+  },
+  {
+   "en": "to feel better",
+   "uk": "почуватися краще",
+   "ex": "I feel much better today.",
+   "exUk": "Сьогодні я почуваюся набагато краще."
+  },
+  {
+   "en": "pharmacy",
+   "uk": "аптека",
+   "ex": "Is there a pharmacy open now?",
+   "exUk": "Є зараз відкрита аптека?"
+  },
+  {
+   "en": "medicine",
+   "uk": "ліки",
+   "ex": "Take the medicine three times a day.",
+   "exUk": "Приймай ліки тричі на день."
+  },
+  {
+   "en": "painkiller",
+   "uk": "знеболювальне",
+   "ex": "Have you got a painkiller?",
+   "exUk": "У тебе є знеболювальне?"
+  },
+  {
+   "en": "to take a pill",
+   "uk": "прийняти таблетку",
+   "ex": "Take one pill after meals.",
+   "exUk": "Приймай одну таблетку після їжі."
+  },
+  {
+   "en": "to rest",
+   "uk": "відпочивати",
+   "ex": "The doctor told me to rest for a few days.",
+   "exUk": "Лікар сказав мені кілька днів відпочивати."
+  },
+  {
+   "en": "symptoms",
+   "uk": "симптоми",
+   "ex": "What are your symptoms?",
+   "exUk": "Які у вас симптоми?"
+  },
+  {
+   "en": "to feel dizzy",
+   "uk": "відчувати запаморочення",
+   "ex": "I feel dizzy when I stand up.",
+   "exUk": "У мене паморочиться в голові, коли я встаю."
+  },
+  {
+   "en": "to feel sick",
+   "uk": "нудити",
+   "ex": "I feel sick after the boat trip.",
+   "exUk": "Мене нудить після поїздки на човні."
+  },
+  {
+   "en": "to sneeze",
+   "uk": "чхати",
+   "ex": "I can't stop sneezing.",
+   "exUk": "Я не можу перестати чхати."
+  },
+  {
+   "en": "to break (a bone)",
+   "uk": "зламати (кістку)",
+   "ex": "He broke his arm skiing.",
+   "exUk": "Він зламав руку на лижах."
+  },
+  {
+   "en": "injury",
+   "uk": "травма",
+   "ex": "It's an old football injury.",
+   "exUk": "Це стара футбольна травма."
+  },
+  {
+   "en": "to recover",
+   "uk": "одужувати",
+   "ex": "I hope you recover soon.",
+   "exUk": "Сподіваюся, ти скоро одужаєш."
+  },
+  {
+   "en": "Get well soon!",
+   "uk": "Одужуй швидше!",
+   "ex": "Sorry to hear you're ill. Get well soon!",
+   "exUk": "Шкода, що ти захворів. Одужуй швидше!"
+  },
+  {
+   "en": "dentist",
+   "uk": "стоматолог",
+   "ex": "I'm going to the dentist tomorrow.",
+   "exUk": "Завтра я йду до стоматолога."
+  },
+  {
+   "en": "toothache",
+   "uk": "зубний біль",
+   "ex": "I have a toothache.",
+   "exUk": "У мене болить зуб."
+  },
+  {
+   "en": "check-up",
+   "uk": "профілактичний огляд",
+   "ex": "I have a check-up once a year.",
+   "exUk": "Я проходжу огляд раз на рік."
+  },
+  {
+   "en": "blood test",
+   "uk": "аналіз крові",
+   "ex": "The doctor sent me for a blood test.",
+   "exUk": "Лікар направив мене на аналіз крові."
+  },
+  {
+   "en": "bandage",
+   "uk": "бинт, пов'язка",
+   "ex": "You need a bandage on that cut.",
+   "exUk": "На цей поріз треба пов'язку."
+  },
+  {
+   "en": "emergency",
+   "uk": "невідкладна ситуація",
+   "ex": "In an emergency, call 112.",
+   "exUk": "У разі надзвичайної ситуації дзвоніть 112."
+  },
+  {
+   "en": "ambulance",
+   "uk": "швидка допомога",
+   "ex": "Call an ambulance!",
+   "exUk": "Викличте швидку!"
+  },
+  {
+   "en": "to be pregnant",
+   "uk": "бути вагітною",
+   "ex": "My wife is pregnant — we're so happy!",
+   "exUk": "Моя дружина вагітна — ми такі щасливі!"
+  },
+  {
+   "en": "healthy",
+   "uk": "здоровий",
+   "ex": "I try to eat healthy food.",
+   "exUk": "Я намагаюся їсти здорову їжу."
+  },
+  {
+   "en": "to keep fit",
+   "uk": "підтримувати форму",
+   "ex": "I go swimming to keep fit.",
+   "exUk": "Я плаваю, щоб тримати форму."
+  },
+  {
+   "en": "to stretch",
+   "uk": "розтягуватися",
+   "ex": "Stretch before you run.",
+   "exUk": "Розтягнися перед бігом."
+  },
+  {
+   "en": "to lose weight",
+   "uk": "схуднути",
+   "ex": "He wants to lose weight before summer.",
+   "exUk": "Він хоче схуднути до літа."
+  },
+  {
+   "en": "to put on weight",
+   "uk": "набрати вагу",
+   "ex": "I put on weight during the holidays.",
+   "exUk": "За свята я набрав вагу."
+  },
+  {
+   "en": "diet",
+   "uk": "дієта; раціон",
+   "ex": "A balanced diet is important.",
+   "exUk": "Збалансоване харчування важливе."
+  },
+  {
+   "en": "stressed",
+   "uk": "у стресі",
+   "ex": "I've been really stressed at work lately.",
+   "exUk": "Останнім часом у мене сильний стрес на роботі."
+  }
+ ]
+}

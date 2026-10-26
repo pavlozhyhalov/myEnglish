@@ -11,6 +11,8 @@ import { speak, englishVoices } from '../speech.js';
 import { arrange } from '../ui/quickbar.js';
 import { LEVELS, LEVEL_NAME, LEVEL_DESC, myLevel, setLevel } from '../level.js';
 
+const RANGE_LABEL = { dailyGoal: 'Денна мета, хвилин', newPerDay: 'Нових карток на день', rate: 'Швидкість озвучення' };
+
 export default function settings(view) {
   const st = store.settings();
   const set = (k) => (v) => { store.setSetting(k, v); };
@@ -18,7 +20,7 @@ export default function settings(view) {
   const row = (label, control, sub) => h('div.list-row', h('div.grow', h('div', label), sub ? h('div.sub', sub) : null), control);
   const range = (k, min, max, step, fmt) => {
     const out = h('span.num.small', fmt(st[k]));
-    const inp = h('input.range', { type: 'range', min, max, step, value: st[k], 'aria-label': k, oninput: (e) => { out.textContent = fmt(Number(e.target.value)); }, onchange: (e) => store.setSetting(k, Number(e.target.value)) });
+    const inp = h('input.range', { type: 'range', min, max, step, value: st[k], 'aria-label': RANGE_LABEL[k] || k, oninput: (e) => { out.textContent = fmt(Number(e.target.value)); }, onchange: (e) => store.setSetting(k, Number(e.target.value)) });
     return h('div.stack', { style: { padding: '8px 14px 14px', gap: '6px' } }, inp, out);
   };
   const select = (k, options, label) => h('select.input', { 'aria-label': label, style: { width: 'auto', minHeight: '40px' }, onchange: (e) => store.setSetting(k, typeof DEFAULTS[k] === 'number' ? Number(e.target.value) : e.target.value) },
@@ -48,7 +50,7 @@ export default function settings(view) {
       row('Рушій озвучки', select('ttsEngine', [['browser', 'Браузер (офлайн)'], ['gemini', 'Gemini TTS (онлайн)']], 'Рушій'), 'Gemini звучить природніше'),
       row('Автоозвучення карток', toggle(st.autoSpeak !== false, set('autoSpeak'), 'Автоозвучення')),
       h('div.list-row', h('div.grow', h('div', 'Перевірити голос'), h('div.sub', `Голосів браузера: ${englishVoices().length}`)),
-        h('button.btn.sm.soft', { type: 'button', onclick: () => speak('Let\'s check the tolerance on this part before we start the series.') }, ic('play', { size: 16, fill: true }), 'Тест')),
+        h('button.btn.sm.soft', { type: 'button', onclick: () => speak('Hi! This is how I sound. Shall we practise some English today?') }, ic('play', { size: 16, fill: true }), 'Тест')),
     ]),
     group('Вчитель', [
       row("Ім'я вчителя", text('tutorName', "Ім'я")),

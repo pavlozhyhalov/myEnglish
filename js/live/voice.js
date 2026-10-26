@@ -10,7 +10,7 @@ import { logSession } from '../stats.js';
 import { scenarios as loadScenarios } from '../data.js';
 import { setFocus } from '../ui/shell.js';
 import { summarize } from '../pages/tutor.js';
-import { go } from '../router.js';
+import { go, onLeave } from '../router.js';
 
 const ERR = {
   mic: S.err.mic, mic_missing: S.err.micMissing, quota: S.err.quota, need_login: S.err.needLogin,
@@ -29,6 +29,7 @@ export async function voiceSession(view, opts = {}) {
 
   const row = { mode: 'voice', scenario: scenario?.id || null, title: scenario ? `Голос: ${scenario.title}` : (opts.topic ? `Голос: ${opts.topic}` : 'Голосова розмова'), messages: [], summary: null, seconds: 0 };
   let started = 0, elapsedBefore = 0, live = null, audio = null, ended = false, micMuted = false, mode = 'live';
+  let saved = false, cleaned = false;
   let subsOn = st.voiceSubs !== false;
 
   // ---------- розмітка ----------
@@ -53,6 +54,8 @@ export async function voiceSession(view, opts = {}) {
     h('div.stage', aura, stateEl, notice, scenario ? h('div.xs.dim.center', `${scenario.title} · ваша роль: ${scenario.myRole}`) : null, subs, logBox),
     pttBtn, controls);
   view.replaceChildren(ui);
+  // прибирання реєструється одразу: сесія ще чекає тапу «Почати розмову», а користувач може піти
+  onLeave(view, cleanup);
 
   const logLines = [`${new Date().toISOString()} start · ${navigator.userAgent}`];
   const log = (t) => {
@@ -127,7 +130,7 @@ export async function voiceSession(view, opts = {}) {
     const scenData = scenario ? { title: scenario.title, situation: scenario.situation, myRole: scenario.myRole, tutorRole: scenario.tutorRole, goal: scenario.goal, phrases: scenario.phrases } : null;
     live = new LiveClient({ scenario: scenData, topic: opts.topic, voice: st.voice });
     live.addEventListener('log', e => log(e.detail));
-    live.addEventListener('audio', e => audio.play(e.detail));
+    live.addEventListener('audio', e => audio?.play(e.detail));
     live.addEventListener('interrupted', () => { audio.clear(); closeTurns(); });
     live.addEventListener('input', e => addText('user', e.detail));
     live.addEventListener('output', e => addText('model', e.detail));
@@ -172,6 +175,7 @@ export async function voiceSession(view, opts = {}) {
     const down = async (e) => {
       e.preventDefault();
       if (busy) return;
+      busy = true;     // друге натискання під час розпізнавання не запускає ще одне
       stopSpeech();
       pttBtn.classList.add('rec'); setState('Говоріть…');
       ac = new AbortController();
@@ -180,7 +184,6 @@ export async function voiceSession(view, opts = {}) {
         pttBtn.classList.remove('rec');
         if (!res.text) { setState('Не почув. Спробуйте ще'); return; }
         notice.textContent = '';
-        busy = true;
         addText('user', res.text); closeTurns();
         setState(`${st.tutorName} думає…`);
         const scenData = scenario ? { title: scenario.title, situation: scenario.situation, myRole: scenario.myRole, tutorRole: scenario.tutorRole, goal: scenario.goal, phrases: scenario.phrases } : null;
@@ -200,6 +203,9 @@ export async function voiceSession(view, opts = {}) {
     pttBtn.addEventListener('pointerup', up);
     pttBtn.addEventListener('pointerleave', up);
     pttBtn.addEventListener('contextmenu', e => e.preventDefault());
+    // клавіатура: утримуйте пробіл або Enter на кнопці
+    pttBtn.addEventListener('keydown', e => { if ((e.key === ' ' || e.key === 'Enter') && !e.repeat) down(e); });
+    pttBtn.addEventListener('keyup', e => { if (e.key === ' ' || e.key === 'Enter') up(); });
     // перше повідомлення від вчителя
     if (!row.messages.length) {
       (async () => {
@@ -237,7 +243,6 @@ export async function voiceSession(view, opts = {}) {
   }
 
   /** Зберегти розмову і час (час прив'язаний до розмови — видалиш її, зникне і зі статистики) */
-  let saved = false;
   function save() {
     if (saved) return;
     saved = true;
@@ -263,14 +268,13 @@ export async function voiceSession(view, opts = {}) {
       setFocus(false);
       view.replaceChildren(h('div.hero', emo('mic', 'xl'), h('h2', 'Розмову завершено'),
         h('p.dim', row.messages.length ? 'Я не почув вашої відповіді. Перевірте, що браузеру дозволено мікрофон (Налаштування → Safari → Мікрофон), і спробуйте ще раз — краще в навушниках.' : 'Розмова не почалась: з\'єднання з вчителем не встановилось.'),
-        h('div.row', h('a.btn.soft', { href: '#/tutor' }, 'До вчителя'), h('a.btn.primary', { href: '#/tutor?mode=voice', onclick: (e) => { e.preventDefault(); voiceSession(view, opts); } }, 'Спробувати ще')),
+        h('div.row', h('a.btn.soft', { href: '#/tutor' }, 'До вчителя'), h('a.btn.primary', { href: '#/tutor?mode=voice', onclick: (e) => { e.preventDefault(); const nv = h('div'); view.replaceChildren(nv); voiceSession(nv, opts); } }, 'Спробувати ще')),
         h('a.small', { href: '#/lab/live' }, 'Діагностика голосу')));
       return;
     }
     await summarize(view, row, { voice: true });
   }
 
-  let cleaned = false;
   function cleanup() {
     if (cleaned) return;
     cleaned = true;

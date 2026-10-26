@@ -7,6 +7,7 @@ import { render as renderExercise, answerText } from '../ui/exercises.js';
 import { speak, stop as stopSpeech } from '../speech.js';
 import { activityTimer, addMistake, dayKey } from '../stats.js';
 import { setLevel, LEVELS as ALL_LEVELS } from '../level.js';
+import { onLeave } from '../router.js';
 import { tutor } from '../ai.js';
 import { user } from '../supa.js';
 import { setTitle, setFocus } from '../ui/shell.js';
@@ -83,6 +84,7 @@ async function placementTest(view) {
   const plan = [['grammar', 16], ['vocabulary', 14], ['listening', 10]];
   const total = plan.reduce((a, [, n]) => a + n, 0);
   const timer = activityTimer('test');
+  onLeave(view, () => { timer.stop(); stopSpeech(); });
   const used = new Set();
   const state = Object.fromEntries(plan.map(([s]) => [s, { lvl: 1, asked: 0, hist: [] }]));
   let block = 0, cur = null;
@@ -115,10 +117,12 @@ async function placementTest(view) {
         }
         if (block >= plan.length) return null;
         const skill = plan[block][0];
-        const q = pick(skill, state[skill].lvl);
-        if (!q) { block++; return block < plan.length ? pick(plan[block][0], 1) : null; }
+        let q = pick(skill, state[skill].lvl);
+        // питання цієї навички скінчились — переходимо до наступної
+        while (!q && ++block < plan.length) q = pick(plan[block][0], state[plan[block][0]].lvl);
+        if (!q) return null;
         used.add(q.id); cur = q;
-        return { ...q, type: 'choice', instruction: q.skill === 'listening' ? 'Прослухайте і оберіть відповідь (кнопка 🔊 — ще раз)' : undefined };
+        return { ...q, type: 'choice', instruction: q.skill === 'listening' ? 'Прослухайте і оберіть відповідь (кнопка з динаміком — ще раз)' : undefined };
       },
       onFinish: (results) => finishPlacement(results),
     });
@@ -160,10 +164,11 @@ async function placementTest(view) {
     view.replaceChildren(h('div.hero', emo('mic', 'xl'), h('h2', 'Останній етап: 3 хвилини розмови'),
       h('p.dim', 'Вчитель поставить кілька питань про вас і ваші плани. Говоріть як вийде — це для оцінки говоріння.'),
       h('div.row', h('button.btn.soft', { type: 'button', onclick: () => finalize(null) }, 'Пропустити'),
-        h('button.btn.primary', { type: 'button', onclick: async () => {
+        h('button.btn.primary', { type: 'button', onclick: async (e) => {
+          e.currentTarget.disabled = true;
           const { voiceSession } = await import('../live/voice.js');
           voiceSession(view, {
-            topic: 'LEVEL CHECK INTERVIEW: ask him about his job, a recent technical problem, and his plans; start simple and gradually ask more complex questions. Keep it to about 3 minutes.',
+            topic: 'LEVEL CHECK INTERVIEW: ask him about himself, his daily life, a recent trip or event, and his plans; start simple and gradually ask more complex questions. Keep it to about 3 minutes.',
             maxSeconds: 180,
             onFinish: async (row) => {
               view.replaceChildren(h('div.hero', emo('hourglass', 'xl'), h('p', 'Оцінюю говоріння…')));
@@ -198,6 +203,7 @@ async function lessonTest(view, id) {
   }
   const qs = pool.sort(() => Math.random() - 0.5).slice(0, 15);
   const timer = activityTimer('test');
+  onLeave(view, () => { timer.stop(); stopSpeech(); });
   let i = 0;
   runner(view, {
     title: `Тест: ${l.title}`, total: qs.length,
@@ -236,6 +242,7 @@ async function weeklyTest(view) {
   }
   const list = qs.sort(() => Math.random() - 0.5).slice(0, 20);
   const timer = activityTimer('test');
+  onLeave(view, () => { timer.stop(); stopSpeech(); });
   let i = 0;
   runner(view, {
     title: 'Тижневий тест', total: list.length,

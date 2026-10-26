@@ -57,7 +57,7 @@ export function runExercises(container, exercises, { onDone, onMistake, title } 
     if (onDone?.(res) === false) return;
     body.replaceChildren(resultView(res));
   }
-  if (exercises.length) show(); else finish();
+  if (exercises.length) show(); else body.replaceChildren(h('div.empty', h('p', 'Вправ не знайдено.')));
 }
 
 export function resultView({ score, correct, total, results }) {
@@ -163,10 +163,13 @@ export function render(ex, report, next) {
     } }, w)));
     const checkBtn = h('button.btn.primary.block', { type: 'button', onclick: () => {
       if (reported || picked == null) return;
+      if (!fix.value.trim()) { fix.focus(); fix.placeholder = 'Напишіть, як правильно'; return; }
       const okIdx = picked === ex.wrongIndex;
-      const okFix = !fix.value.trim() || matches(fix.value, [ex.correction, ...(ex.alt || [])]);
-      done(okIdx && okFix, `${words[picked]}${fix.value ? ' → ' + fix.value : ''}`);
-      wrap.children[ex.wrongIndex]?.classList.add('on');
+      const okFix = matches(fix.value, [ex.correction, ...(ex.alt || [])]);
+      done(okIdx && okFix, `${words[picked]} → ${fix.value.trim()}`);
+      wrap.querySelectorAll('.chip').forEach(c => c.classList.remove('on'));
+      if (!okIdx) wrap.children[picked]?.classList.add('wrong');
+      wrap.children[ex.wrongIndex]?.classList.add('right');
       checkBtn.hidden = true;
     } }, 'Перевірити');
     fix.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); reported ? next() : checkBtn.click(); } });

@@ -355,3 +355,6 @@ body.focus-mode .composer{bottom:calc(var(--safe-b) + 8px)}
 .level-sec[open]>summary::after{transform:rotate(225deg);margin-bottom:-2px}
 .level-pick{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
 .level-pick .chip{justify-content:center;min-width:0}
+/* вправа «знайдіть помилку»: правильне слово — зелене, помилково обране — червоне */
+.chips .chip.right{border-color:var(--good);background:var(--good-soft);color:var(--ink)}
+.chips .chip.wrong{border-color:var(--bad);background:var(--bad-soft);color:var(--ink)}

@@ -147,7 +147,7 @@
   "unit": "Будова речення",
   "level": "A2",
   "mistakeType": "other",
-  "summary": "- Короткі (1 склад): -er / the -est — cheap → cheaper → the cheapest"
+  "summary": "Короткі прикметники: -er / the -est (cheap → cheaper → the cheapest), довгі: more / the most; порівняння через than і as … as."
  },
  {
   "id": "prepositions-time",
@@ -157,7 +157,7 @@
   "unit": "Прийменники",
   "level": "A2",
   "mistakeType": "prepositions",
-  "summary": "at — точний час і свята: at 7 o'clock, at night, at the weekend (UK), at Christmas"
+  "summary": "at — точний час (at 7 o'clock), on — дні й дати (on Monday), in — місяці, роки, частини дня (in July); for / since, by / until."
  },
  {
   "id": "prepositions-place",
@@ -167,7 +167,7 @@
   "unit": "Прийменники",
   "level": "A2",
   "mistakeType": "prepositions",
-  "summary": "Місце:"
+  "summary": "in — всередині, on — на поверхні, at — у точці; to, into, across, through — рух. In a car, але on a bus."
  },
  {
   "id": "stative-verbs",
@@ -247,7 +247,7 @@
   "unit": "Майбутнє",
   "level": "B1",
   "mistakeType": "tenses",
-  "summary": "Англійська має кілька способів говорити про майбутнє:"
+  "summary": "will — рішення в момент мовлення й обіцянки, going to — намір, Present Continuous — домовленість, Present Simple — розклад."
  },
  {
   "id": "modals-obligation",
@@ -257,7 +257,7 @@
   "unit": "Модальні дієслова",
   "level": "B1",
   "mistakeType": "other",
-  "summary": "- must — сильний обов'язок, часто внутрішній (сам вважаю): I must call my mum."
+  "summary": "must — треба (сам вважаю), have to — треба (так вимагають), should — порада; mustn't = не можна, don't have to = не обов'язково."
  },
  {
   "id": "modals-ability",
@@ -267,7 +267,7 @@
   "unit": "Модальні дієслова",
   "level": "B1",
   "mistakeType": "other",
-  "summary": "Уміння:"
+  "summary": "can / could — уміння й дозвіл, be able to — для інших часів і конкретного успіху; may — формальний дозвіл, be allowed to — правила."
  },
  {
   "id": "articles",
@@ -277,7 +277,7 @@
   "unit": "Іменник і артиклі",
   "level": "B1",
   "mistakeType": "articles",
-  "summary": "В українській артиклів немає, тому це найчастіша помилка. Головна логіка:"
+  "summary": "a / an — щось одне, згадуємо вперше; the — конкретне, відоме обом або єдине у своєму роді."
  },
  {
   "id": "zero-article",
@@ -287,7 +287,7 @@
   "unit": "Іменник і артиклі",
   "level": "B1",
   "mistakeType": "articles",
-  "summary": "Без артикля говоримо:"
+  "summary": "Без артикля — речі загалом (I like dogs), більшість країн і мов, прийоми їжі та сталі вирази (go to work, at home)."
  },
  {
   "id": "quantifiers",
@@ -377,7 +377,7 @@
   "unit": "Пасив і непряма мова",
   "level": "B1",
   "mistakeType": "tenses",
-  "summary": "Коли переказуємо чужі слова після said / told, час зазвичай зсувається на крок у минуле:"
+  "summary": "Переказуючи чужі слова після said / told, зсуваємо час на крок у минуле: \"I'm tired\" → She said she was tired."
  },
  {
   "id": "future-continuous-perfect",
@@ -397,7 +397,7 @@
   "unit": "Модальні дієслова",
   "level": "B2",
   "mistakeType": "other",
-  "summary": "Модальні дієслова допомагають робити висновки про теперішнє:"
+  "summary": "Висновки про теперішнє: must — майже напевно так, might / may / could — можливо, can't — точно ні."
  },
  {
   "id": "modals-past",
@@ -407,7 +407,7 @@
   "unit": "Модальні дієслова",
   "level": "B2",
   "mistakeType": "other",
-  "summary": "Модальне + have + V3 — про минуле:"
+  "summary": "Модальне + have + V3 — про минуле: should have (треба було), could have (міг би), must have (мабуть), can't have (не міг)."
  },
  {
   "id": "linking-words",
@@ -437,7 +437,7 @@
   "unit": "Умовні речення",
   "level": "B2",
   "mistakeType": "tenses",
-  "summary": "I wish / If only — бажання, щоб усе було інакше:"
+  "summary": "I wish / If only — бажання, щоб було інакше: wish + Past Simple (зараз), wish + had V3 (жаль про минуле), wish + would."
  },
  {
   "id": "causative",
@@ -457,7 +457,7 @@
   "unit": "Пасив і непряма мова",
   "level": "B2",
   "mistakeType": "tenses",
-  "summary": "Пасив можливий у будь-якому часі — змінюється лише be:"
+  "summary": "Пасив у будь-якому часі — змінюється лише be: is being done, has been done, will be done, must be done."
  },
  {
   "id": "reported-questions",
@@ -467,7 +467,7 @@
   "unit": "Пасив і непряма мова",
   "level": "B2",
   "mistakeType": "word_order",
-  "summary": "У непрямих питаннях прямий порядок слів (як у твердженні) і без do/does/did:"
+  "summary": "У непрямих питаннях прямий порядок слів і без do/does/did: She asked me where I lived. Для так/ні — if / whether."
  },
  {
   "id": "mixed-conditionals",

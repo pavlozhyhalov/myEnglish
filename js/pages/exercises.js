@@ -6,6 +6,7 @@ import { grammarIndex, lesson as loadLesson } from '../data.js';
 import { runExercises, answerText } from '../ui/exercises.js';
 import { activityTimer, addMistake } from '../stats.js';
 import { setTitle } from '../ui/shell.js';
+import { go } from '../router.js';
 import { myLevel, LEVELS } from '../level.js';
 
 export default async function exercises(view, r) {
@@ -47,7 +48,7 @@ async function grammarPractice(view, unitSlug) {
     onDone: (res) => {
       timer.poke();
       setTimeout(() => box.append(h('div.stack', { style: { marginTop: '12px' } },
-        h('a.btn.primary.block', { href: `#/exercises/grammar/${unitSlug}`, onclick: (e) => { e.preventDefault(); grammarPractice(view, unitSlug); } }, ic('arrow-clockwise'), 'Ще 10 вправ'))));
+        h('a.btn.primary.block', { href: `#/exercises/grammar/${unitSlug}`, onclick: (e) => { e.preventDefault(); go(`/exercises/grammar/${unitSlug}`); } }, ic('arrow-clockwise'), 'Ще 10 вправ'))));
     },
   });
   return () => timer.stop();

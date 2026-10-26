@@ -42,6 +42,7 @@ export class LiveClient extends EventTarget {
   }
 
   async connect() {
+    if (this.closedByUser) throw new AiError('closed', 'closed');
     if (!this.token || Date.parse(this.token.expireTime) - Date.now() < 60000) await this.getToken();
     return new Promise((resolve, reject) => {
       let settled = false;
@@ -49,6 +50,7 @@ export class LiveClient extends EventTarget {
       this.ws = ws;
       this.ready = false;
       ws.onopen = () => {
+        if (this.closedByUser) { try { ws.close(1000, 'bye'); } catch { /* */ } return; }
         this.log('ws open');
         const setup = { model: `models/${this.token.model}` };
         setup.sessionResumption = this.handle ? { handle: this.handle } : {};
@@ -99,10 +101,12 @@ export class LiveClient extends EventTarget {
     this.emit('reconnecting');
     await new Promise(r => setTimeout(r, Math.min(8000, 600 * 2 ** (this.retries - 1))));
     if (!navigator.onLine) await new Promise(r => window.addEventListener('online', r, { once: true }));
+    if (this.closedByUser) return;      // сесію закрили під час паузи
     try {
       if (Date.parse(this.token?.expireTime || 0) - Date.now() < 60000) this.token = null;
       await this.connect();
     } catch (e) {
+      if (this.closedByUser) return;
       if (e?.code === 'quota') { this.emit('error', e); return; }
       if (this.handle) { this.log('resume failed, new session'); this.handle = null; }
       this.reconnect(ev);
@@ -119,7 +123,7 @@ export class LiveClient extends EventTarget {
       this.ws = null;
       old.onclose = null; old.close();
       this.emit('reconnecting');
-      this.connect().catch(() => this.reconnect());
+      this.connect().catch(() => { if (!this.closedByUser) this.reconnect(); });
     }, LIMITS.sessionResumeMs);
   }
 
@@ -130,7 +134,7 @@ export class LiveClient extends EventTarget {
     }
     if (msg.goAway) {
       this.log(`goAway ${msg.goAway.timeLeft || ''}`);
-      if (this.handle) { const old = this.ws; this.ws = null; old.onclose = null; old.close(); this.emit('reconnecting'); this.connect().catch(() => this.reconnect()); }
+      if (this.handle && !this.closedByUser) { const old = this.ws; this.ws = null; old.onclose = null; old.close(); this.emit('reconnecting'); this.connect().catch(() => { if (!this.closedByUser) this.reconnect(); }); }
     }
     const sc = msg.serverContent;
     if (!sc) return;

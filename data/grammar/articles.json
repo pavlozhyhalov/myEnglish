@@ -112,11 +112,10 @@
   },
   {
    "type": "choice",
-   "prompt": "She studies at ___ university in Kraków.",
+   "prompt": "She studies at ___ university.",
    "options": [
     "a",
-    "an",
-    "the"
+    "an"
    ],
    "answer": "a",
    "explanation": "university — звук /j/."
@@ -172,11 +171,12 @@
   },
   {
    "type": "translate",
-   "uk": "Він працює в лікарні медсестрою.",
+   "uk": "Вона працює в лікарні медсестрою.",
    "answer": [
-    "He works in a hospital as a nurse.",
-    "He works at a hospital as a nurse.",
-    "He is a nurse in a hospital."
+    "She works in a hospital as a nurse.",
+    "She works at a hospital as a nurse.",
+    "She is a nurse in a hospital.",
+    "She is a nurse at a hospital."
    ],
    "explanation": ""
   }

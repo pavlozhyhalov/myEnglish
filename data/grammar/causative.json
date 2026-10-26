@@ -167,10 +167,12 @@
   },
   {
    "type": "translate",
-   "uk": "Мені треба перевірити зуби.",
+   "uk": "Мені треба перевірити зуби (у стоматолога).",
    "answer": [
     "I need to have my teeth checked.",
-    "I need to get my teeth checked."
+    "I need to get my teeth checked.",
+    "I have to have my teeth checked.",
+    "I have to get my teeth checked."
    ],
    "explanation": ""
   }
