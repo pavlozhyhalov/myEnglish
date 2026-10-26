@@ -1,0 +1,209 @@
+{
+ "id": "prepositions-basic",
+ "title": "Прийменники: in, on, at, under, next to",
+ "titleEn": "Basic prepositions of place and time",
+ "unit": "Прийменники",
+ "level": "A1",
+ "mistakeType": "prepositions",
+ "explanation": "**Місце.** **in** — всередині: *in the box, in the kitchen, in Kraków*. **on** — на поверхні: *on the table, on the wall*. **under** — під: *under the bed*. **next to** — поруч із: *next to the window*.\n\n**at** — у певній точці або звичному місці: *at home, at work, at the bus stop, at the station*.\n\n**Час.** **at** + година: *at 7 o'clock, at night*. **on** + день або дата: *on Monday, on 5 May*. **in** + місяць, рік, частина дня: *in July, in 2026, in the morning*.\n\nБез прийменника: *today, tomorrow, yesterday, every day, next week* — ~~on next week~~ не кажемо.",
+ "formula": [
+  "in — всередині · on — на поверхні · under — під · next to — поруч",
+  "at 8 o'clock · on Monday · in May / in the morning"
+ ],
+ "table": {
+  "head": [
+   "Прийменник",
+   "Місце",
+   "Час"
+  ],
+  "rows": [
+   [
+    "in",
+    "in the kitchen, in Kraków",
+    "in July, in 2026, in the evening"
+   ],
+   [
+    "on",
+    "on the table, on the wall",
+    "on Monday, on 1 June"
+   ],
+   [
+    "at",
+    "at home, at the station",
+    "at 7 o'clock, at night"
+   ],
+   [
+    "under",
+    "under the bed",
+    "—"
+   ],
+   [
+    "next to",
+    "next to the window",
+    "—"
+   ]
+  ]
+ },
+ "examples": [
+  {
+   "en": "The keys are on the table.",
+   "uk": "Ключі на столі."
+  },
+  {
+   "en": "Our cat is sleeping under the bed.",
+   "uk": "Наш кіт спить під ліжком."
+  },
+  {
+   "en": "The pharmacy is next to the bakery.",
+   "uk": "Аптека поруч із пекарнею."
+  },
+  {
+   "en": "I'm at home now.",
+   "uk": "Я зараз удома."
+  },
+  {
+   "en": "We have dinner at seven o'clock.",
+   "uk": "Ми вечеряємо о сьомій."
+  },
+  {
+   "en": "My birthday is in March.",
+   "uk": "Мій день народження в березні."
+  }
+ ],
+ "tip": "Від малого до великого: **at** 8 o'clock → **on** Monday → **in** May → **in** 2026.",
+ "exercises": [
+  {
+   "type": "choice",
+   "prompt": "The milk is ___ the fridge.",
+   "options": [
+    "in",
+    "on",
+    "at"
+   ],
+   "answer": "in",
+   "explanation": "Всередині холодильника — in."
+  },
+  {
+   "type": "choice",
+   "prompt": "There's a picture ___ the wall.",
+   "options": [
+    "in",
+    "on",
+    "under"
+   ],
+   "answer": "on",
+   "explanation": "На поверхні стіни — on."
+  },
+  {
+   "type": "choice",
+   "prompt": "The shop opens ___ 9 o'clock.",
+   "options": [
+    "in",
+    "on",
+    "at"
+   ],
+   "answer": "at",
+   "explanation": "Година — at."
+  },
+  {
+   "type": "choice",
+   "prompt": "We go to the cinema ___ Friday.",
+   "options": [
+    "in",
+    "on",
+    "at"
+   ],
+   "answer": "on",
+   "explanation": "День тижня — on."
+  },
+  {
+   "type": "choice",
+   "prompt": "The cat is ___ the table, not on it.",
+   "options": [
+    "under",
+    "at",
+    "in"
+   ],
+   "answer": "under",
+   "explanation": "Під столом — under."
+  },
+  {
+   "type": "input",
+   "prompt": "I was born ___ (in / on / at) 1995.",
+   "answer": [
+    "in"
+   ],
+   "explanation": "Рік — in."
+  },
+  {
+   "type": "input",
+   "prompt": "Vita is ___ (in / on / at) work now.",
+   "answer": [
+    "at"
+   ],
+   "explanation": "На роботі — at work."
+  },
+  {
+   "type": "input",
+   "prompt": "The bank is ___ (поруч із) the post office.",
+   "answer": [
+    "next to"
+   ],
+   "explanation": "Поруч — next to."
+  },
+  {
+   "type": "input",
+   "prompt": "I usually read ___ (in / on / at) the evening.",
+   "answer": [
+    "in"
+   ],
+   "explanation": "Частина дня — in the evening."
+  },
+  {
+   "type": "error",
+   "sentence": "We live on Kraków.",
+   "wrongIndex": 2,
+   "correction": "in",
+   "alt": [],
+   "explanation": "У місті — in."
+  },
+  {
+   "type": "error",
+   "sentence": "See you in Monday!",
+   "wrongIndex": 2,
+   "correction": "on",
+   "alt": [],
+   "explanation": "День тижня — on."
+  },
+  {
+   "type": "order",
+   "prompt": "Мій телефон на столі.",
+   "answer": [
+    "My phone is on the table."
+   ],
+   "explanation": "На поверхні — on."
+  },
+  {
+   "type": "transform",
+   "prompt": "The lamp is on the table.",
+   "instruction": "Скажіть, що лампа під столом",
+   "answer": [
+    "The lamp is under the table."
+   ],
+   "explanation": "Під — under."
+  },
+  {
+   "type": "translate",
+   "uk": "Я прокидаюся о сьомій ранку.",
+   "answer": [
+    "I wake up at seven in the morning.",
+    "I wake up at 7 in the morning.",
+    "I wake up at seven o'clock in the morning.",
+    "I wake up at 7 o'clock in the morning.",
+    "I wake up at 7 am.",
+    "I wake up at 7am."
+   ],
+   "explanation": "Година — at, частина дня — in."
+  }
+ ]
+}

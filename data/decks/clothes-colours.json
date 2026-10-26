@@ -1,0 +1,275 @@
+{
+ "id": "clothes-colours",
+ "cards": [
+  {
+   "en": "clothes",
+   "uk": "одяг",
+   "ex": "I need some new clothes.",
+   "exUk": "Мені потрібен новий одяг."
+  },
+  {
+   "en": "a shirt",
+   "uk": "сорочка",
+   "ex": "He's wearing a white shirt.",
+   "exUk": "Він у білій сорочці."
+  },
+  {
+   "en": "a T-shirt",
+   "uk": "футболка",
+   "ex": "It's hot, so I'm wearing a T-shirt.",
+   "exUk": "Спекотно, тож я у футболці."
+  },
+  {
+   "en": "trousers",
+   "uk": "штани, брюки",
+   "ex": "These trousers are too long.",
+   "exUk": "Ці штани задовгі."
+  },
+  {
+   "en": "jeans",
+   "uk": "джинси",
+   "ex": "I wear jeans almost every day.",
+   "exUk": "Я ношу джинси майже щодня."
+  },
+  {
+   "en": "a dress",
+   "uk": "сукня",
+   "ex": "Vita bought a new dress.",
+   "exUk": "Віта купила нову сукню."
+  },
+  {
+   "en": "a skirt",
+   "uk": "спідниця",
+   "ex": "She's wearing a short skirt.",
+   "exUk": "На ній коротка спідниця."
+  },
+  {
+   "en": "a jumper",
+   "uk": "светр, джемпер",
+   "ex": "Take a jumper. It's cold outside.",
+   "exUk": "Візьми светр. Надворі холодно."
+  },
+  {
+   "en": "a jacket",
+   "uk": "куртка, піджак",
+   "ex": "Where's my jacket?",
+   "exUk": "Де моя куртка?"
+  },
+  {
+   "en": "a coat",
+   "uk": "пальто",
+   "ex": "You need a warm coat in winter.",
+   "exUk": "Узимку потрібне тепле пальто."
+  },
+  {
+   "en": "shoes",
+   "uk": "взуття, туфлі",
+   "ex": "Take off your shoes, please.",
+   "exUk": "Зніміть, будь ласка, взуття."
+  },
+  {
+   "en": "trainers",
+   "uk": "кросівки",
+   "ex": "I wear trainers to the gym.",
+   "exUk": "У спортзал я взуваю кросівки."
+  },
+  {
+   "en": "boots",
+   "uk": "черевики, чоботи",
+   "ex": "These boots are good for snow.",
+   "exUk": "Ці черевики добре підходять для снігу."
+  },
+  {
+   "en": "socks",
+   "uk": "шкарпетки",
+   "ex": "Where are my socks?",
+   "exUk": "Де мої шкарпетки?"
+  },
+  {
+   "en": "a hat",
+   "uk": "шапка, капелюх",
+   "ex": "Put on a hat. It's freezing!",
+   "exUk": "Надінь шапку. Страшенно холодно!"
+  },
+  {
+   "en": "a scarf",
+   "uk": "шарф",
+   "ex": "This scarf is very warm.",
+   "exUk": "Цей шарф дуже теплий."
+  },
+  {
+   "en": "gloves",
+   "uk": "рукавички",
+   "ex": "I lost my gloves on the tram.",
+   "exUk": "Я загубив рукавички в трамваї."
+  },
+  {
+   "en": "a belt",
+   "uk": "ремінь, пасок",
+   "ex": "These trousers need a belt.",
+   "exUk": "До цих штанів потрібен ремінь."
+  },
+  {
+   "en": "a handbag",
+   "uk": "сумочка, жіноча сумка",
+   "ex": "Vita's handbag is on the chair.",
+   "exUk": "Сумочка Віти на стільці."
+  },
+  {
+   "en": "a suit",
+   "uk": "костюм",
+   "ex": "He wore a suit to the wedding.",
+   "exUk": "Він одягнув костюм на весілля."
+  },
+  {
+   "en": "shorts",
+   "uk": "шорти",
+   "ex": "In summer I wear shorts.",
+   "exUk": "Улітку я ношу шорти."
+  },
+  {
+   "en": "pyjamas",
+   "uk": "піжама",
+   "ex": "I'm still in my pyjamas.",
+   "exUk": "Я ще в піжамі."
+  },
+  {
+   "en": "underwear",
+   "uk": "нижня білизна",
+   "ex": "Pack some clean underwear.",
+   "exUk": "Візьми з собою чисту білизну."
+  },
+  {
+   "en": "a hoodie",
+   "uk": "худі, кофта з капюшоном",
+   "ex": "I love this grey hoodie.",
+   "exUk": "Я обожнюю це сіре худі."
+  },
+  {
+   "en": "a raincoat",
+   "uk": "дощовик, плащ",
+   "ex": "Take a raincoat. It's going to rain.",
+   "exUk": "Візьми дощовик. Буде дощ."
+  },
+  {
+   "en": "to wear",
+   "uk": "носити, бути вдягненим",
+   "ex": "What are you wearing tonight?",
+   "exUk": "Що ти вдягнеш сьогодні ввечері?"
+  },
+  {
+   "en": "to get changed",
+   "uk": "переодягнутися",
+   "ex": "Give me five minutes to get changed.",
+   "exUk": "Дай мені п'ять хвилин, щоб переодягнутися."
+  },
+  {
+   "en": "a pair of",
+   "uk": "пара (чогось)",
+   "ex": "I need a new pair of socks.",
+   "exUk": "Мені потрібна нова пара шкарпеток."
+  },
+  {
+   "en": "tight",
+   "uk": "тісний, обтислий",
+   "ex": "These jeans are too tight.",
+   "exUk": "Ці джинси надто тісні."
+  },
+  {
+   "en": "loose",
+   "uk": "вільний, широкий",
+   "ex": "I like loose clothes.",
+   "exUk": "Я люблю вільний одяг."
+  },
+  {
+   "en": "warm",
+   "uk": "теплий",
+   "ex": "Wear something warm.",
+   "exUk": "Вдягни щось тепле."
+  },
+  {
+   "en": "What colour is…?",
+   "uk": "Якого кольору…?",
+   "ex": "What colour is your new car?",
+   "exUk": "Якого кольору твоя нова машина?"
+  },
+  {
+   "en": "red",
+   "uk": "червоний",
+   "ex": "I'd like the red one, please.",
+   "exUk": "Мені червоний, будь ласка."
+  },
+  {
+   "en": "blue",
+   "uk": "синій, блакитний",
+   "ex": "The sea is so blue here!",
+   "exUk": "Тут таке синє море!"
+  },
+  {
+   "en": "green",
+   "uk": "зелений",
+   "ex": "Wait for the green light.",
+   "exUk": "Зачекай на зелене світло."
+  },
+  {
+   "en": "yellow",
+   "uk": "жовтий",
+   "ex": "The leaves turn yellow in autumn.",
+   "exUk": "Восени листя стає жовтим."
+  },
+  {
+   "en": "black",
+   "uk": "чорний",
+   "ex": "I drink black coffee.",
+   "exUk": "Я п'ю чорну каву."
+  },
+  {
+   "en": "white",
+   "uk": "білий",
+   "ex": "The walls in our flat are white.",
+   "exUk": "Стіни в нашій квартирі білі."
+  },
+  {
+   "en": "grey",
+   "uk": "сірий",
+   "ex": "The sky is grey today.",
+   "exUk": "Сьогодні небо сіре."
+  },
+  {
+   "en": "brown",
+   "uk": "коричневий, карий",
+   "ex": "Vita has brown eyes.",
+   "exUk": "У Віти карі очі."
+  },
+  {
+   "en": "pink",
+   "uk": "рожевий",
+   "ex": "She's wearing a pink dress.",
+   "exUk": "На ній рожева сукня."
+  },
+  {
+   "en": "orange",
+   "uk": "помаранчевий, оранжевий",
+   "ex": "Pumpkins are orange.",
+   "exUk": "Гарбузи помаранчеві."
+  },
+  {
+   "en": "purple",
+   "uk": "фіолетовий, бузковий",
+   "ex": "Purple is my favourite colour.",
+   "exUk": "Фіолетовий — мій улюблений колір."
+  },
+  {
+   "en": "dark",
+   "uk": "темний, темно-",
+   "ex": "He's wearing a dark blue jacket.",
+   "exUk": "Він у темно-синій куртці."
+  },
+  {
+   "en": "light blue",
+   "uk": "блакитний, світло-синій",
+   "ex": "I want to paint the bedroom light blue.",
+   "exUk": "Я хочу пофарбувати спальню в блакитний колір."
+  }
+ ]
+}

@@ -1,0 +1,305 @@
+{
+ "id": "food-a1",
+ "cards": [
+  {
+   "en": "bread",
+   "uk": "хліб",
+   "ex": "I buy fresh bread every morning.",
+   "exUk": "Я щоранку купую свіжий хліб."
+  },
+  {
+   "en": "butter",
+   "uk": "вершкове масло, масло",
+   "ex": "I put butter on my toast.",
+   "exUk": "Я намащую тост маслом."
+  },
+  {
+   "en": "cheese",
+   "uk": "сир",
+   "ex": "Do you want some cheese?",
+   "exUk": "Хочеш сиру?"
+  },
+  {
+   "en": "an egg",
+   "uk": "яйце",
+   "ex": "I have two eggs for breakfast.",
+   "exUk": "На сніданок я їм два яйця."
+  },
+  {
+   "en": "milk",
+   "uk": "молоко",
+   "ex": "Do you take milk in your coffee?",
+   "exUk": "Ти п'єш каву з молоком?"
+  },
+  {
+   "en": "water",
+   "uk": "вода",
+   "ex": "Can I have a glass of water, please?",
+   "exUk": "Можна мені склянку води, будь ласка?"
+  },
+  {
+   "en": "coffee",
+   "uk": "кава",
+   "ex": "Let's have a coffee after work.",
+   "exUk": "Давай вип'ємо кави після роботи."
+  },
+  {
+   "en": "tea",
+   "uk": "чай",
+   "ex": "Vita drinks green tea in the evening.",
+   "exUk": "Віта ввечері п'є зелений чай."
+  },
+  {
+   "en": "juice",
+   "uk": "сік",
+   "ex": "I'd like an orange juice, please.",
+   "exUk": "Я б хотів апельсиновий сік, будь ласка."
+  },
+  {
+   "en": "beer",
+   "uk": "пиво",
+   "ex": "We had a beer in the old town.",
+   "exUk": "Ми випили пива в старому місті."
+  },
+  {
+   "en": "wine",
+   "uk": "вино",
+   "ex": "A glass of red wine, please.",
+   "exUk": "Келих червоного вина, будь ласка."
+  },
+  {
+   "en": "meat",
+   "uk": "м'ясо",
+   "ex": "I don't eat much meat.",
+   "exUk": "Я їм небагато м'яса."
+  },
+  {
+   "en": "chicken",
+   "uk": "курка, курятина",
+   "ex": "We're having chicken for dinner.",
+   "exUk": "На вечерю в нас курка."
+  },
+  {
+   "en": "fish",
+   "uk": "риба",
+   "ex": "Do you like fish?",
+   "exUk": "Ти любиш рибу?"
+  },
+  {
+   "en": "rice",
+   "uk": "рис",
+   "ex": "I often cook rice with vegetables.",
+   "exUk": "Я часто готую рис з овочами."
+  },
+  {
+   "en": "pasta",
+   "uk": "паста, макарони",
+   "ex": "Pasta is quick and easy to make.",
+   "exUk": "Пасту швидко й легко приготувати."
+  },
+  {
+   "en": "potatoes",
+   "uk": "картопля",
+   "ex": "Can you peel the potatoes, please?",
+   "exUk": "Почистиш картоплю, будь ласка?"
+  },
+  {
+   "en": "vegetables",
+   "uk": "овочі",
+   "ex": "Try to eat more vegetables.",
+   "exUk": "Намагайся їсти більше овочів."
+  },
+  {
+   "en": "fruit",
+   "uk": "фрукти",
+   "ex": "We always have fruit at home.",
+   "exUk": "У нас удома завжди є фрукти."
+  },
+  {
+   "en": "an apple",
+   "uk": "яблуко",
+   "ex": "An apple a day keeps the doctor away.",
+   "exUk": "Хто яблуко на день з'їдає, той лікаря не знає."
+  },
+  {
+   "en": "a banana",
+   "uk": "банан",
+   "ex": "I eat a banana before the gym.",
+   "exUk": "Я з'їдаю банан перед спортзалом."
+  },
+  {
+   "en": "a tomato",
+   "uk": "помідор, томат",
+   "ex": "Add some tomatoes to the salad.",
+   "exUk": "Додай трохи помідорів у салат."
+  },
+  {
+   "en": "an onion",
+   "uk": "цибуля",
+   "ex": "This soup needs more onion.",
+   "exUk": "У цей суп треба більше цибулі."
+  },
+  {
+   "en": "soup",
+   "uk": "суп",
+   "ex": "My mum makes the best soup.",
+   "exUk": "Моя мама варить найсмачніший суп."
+  },
+  {
+   "en": "salad",
+   "uk": "салат",
+   "ex": "I'll have a green salad.",
+   "exUk": "Я візьму зелений салат."
+  },
+  {
+   "en": "a sandwich",
+   "uk": "бутерброд, сендвіч",
+   "ex": "I take a sandwich to work.",
+   "exUk": "Я беру на роботу бутерброд."
+  },
+  {
+   "en": "sugar",
+   "uk": "цукор",
+   "ex": "No sugar, thanks.",
+   "exUk": "Без цукру, дякую."
+  },
+  {
+   "en": "salt",
+   "uk": "сіль",
+   "ex": "Could you pass the salt, please?",
+   "exUk": "Передай, будь ласка, сіль."
+  },
+  {
+   "en": "pepper",
+   "uk": "перець",
+   "ex": "Add a little salt and pepper.",
+   "exUk": "Додай трохи солі й перцю."
+  },
+  {
+   "en": "cake",
+   "uk": "торт, тістечко",
+   "ex": "Vita made a chocolate cake.",
+   "exUk": "Віта спекла шоколадний торт."
+  },
+  {
+   "en": "chocolate",
+   "uk": "шоколад",
+   "ex": "I can't stop eating chocolate!",
+   "exUk": "Не можу перестати їсти шоколад!"
+  },
+  {
+   "en": "ice cream",
+   "uk": "морозиво",
+   "ex": "Let's get an ice cream.",
+   "exUk": "Давай візьмемо морозиво."
+  },
+  {
+   "en": "lunch",
+   "uk": "обід",
+   "ex": "Let's have lunch together.",
+   "exUk": "Давай пообідаємо разом."
+  },
+  {
+   "en": "a meal",
+   "uk": "їжа, прийом їжі",
+   "ex": "We have three meals a day.",
+   "exUk": "Ми їмо тричі на день."
+  },
+  {
+   "en": "to eat",
+   "uk": "їсти",
+   "ex": "What do you want to eat?",
+   "exUk": "Що ти хочеш їсти?"
+  },
+  {
+   "en": "to drink",
+   "uk": "пити",
+   "ex": "You should drink more water.",
+   "exUk": "Тобі варто пити більше води."
+  },
+  {
+   "en": "a bottle of",
+   "uk": "пляшка (чогось)",
+   "ex": "Could we have a bottle of wine?",
+   "exUk": "Можна нам пляшку вина?"
+  },
+  {
+   "en": "a piece of",
+   "uk": "шматок, шматочок",
+   "ex": "Can I have a piece of cake?",
+   "exUk": "Можна мені шматочок торта?"
+  },
+  {
+   "en": "sweet",
+   "uk": "солодкий",
+   "ex": "This tea is too sweet.",
+   "exUk": "Цей чай занадто солодкий."
+  },
+  {
+   "en": "sour",
+   "uk": "кислий",
+   "ex": "These apples are a bit sour.",
+   "exUk": "Ці яблука трохи кислі."
+  },
+  {
+   "en": "fresh",
+   "uk": "свіжий",
+   "ex": "Is the fish fresh?",
+   "exUk": "Риба свіжа?"
+  },
+  {
+   "en": "tasty",
+   "uk": "смачний",
+   "ex": "The soup is really tasty.",
+   "exUk": "Суп дуже смачний."
+  },
+  {
+   "en": "strawberries",
+   "uk": "полуниця",
+   "ex": "Polish strawberries are amazing in June.",
+   "exUk": "Польська полуниця в червні просто чудова."
+  },
+  {
+   "en": "carrots",
+   "uk": "морква",
+   "ex": "Carrots are good for your eyes.",
+   "exUk": "Морква корисна для очей."
+  },
+  {
+   "en": "a cucumber",
+   "uk": "огірок",
+   "ex": "Cut the cucumber into slices.",
+   "exUk": "Наріж огірок скибочками."
+  },
+  {
+   "en": "pork",
+   "uk": "свинина",
+   "ex": "Pork is very popular in Poland.",
+   "exUk": "Свинина дуже популярна в Польщі."
+  },
+  {
+   "en": "beef",
+   "uk": "яловичина",
+   "ex": "Is this burger made with beef?",
+   "exUk": "Цей бургер з яловичини?"
+  },
+  {
+   "en": "a sausage",
+   "uk": "ковбаса, сосиска",
+   "ex": "I'd like a sausage with mustard.",
+   "exUk": "Я б хотів сосиску з гірчицею."
+  },
+  {
+   "en": "yoghurt",
+   "uk": "йогурт",
+   "ex": "I have yoghurt with fruit.",
+   "exUk": "Я їм йогурт із фруктами."
+  },
+  {
+   "en": "mushrooms",
+   "uk": "гриби",
+   "ex": "We picked mushrooms in the forest.",
+   "exUk": "Ми збирали гриби в лісі."
+  }
+ ]
+}

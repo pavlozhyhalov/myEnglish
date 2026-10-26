@@ -1,0 +1,212 @@
+{
+ "id": "present-continuous-basic",
+ "title": "Present Continuous: що відбувається зараз",
+ "titleEn": "Present Continuous (now)",
+ "unit": "Теперішні часи",
+ "level": "A1",
+ "mistakeType": "tenses",
+ "explanation": "**Present Continuous** описує дію, яка відбувається **зараз**, у момент розмови: *I'**m cooking** dinner. Look, it'**s snowing**!*\n\nФорма: **am / is / are + дієслово з -ing**. Обидві частини обов'язкові: ~~She reading~~ → *She **is** reading.*\n\nПравопис -ing: *make → making* (без -e), *swim → swimming, sit → sitting* (подвоєння після короткого голосного), *play → playing*.\n\nЗаперечення — **not** після am/is/are: *I'm not working. They aren't sleeping.* Питання — am/is/are на початок: ***Are** you listening? What **is** she doing?*\n\nТипові слова: **now, right now, at the moment, Look!, Listen!**",
+ "formula": [
+  "I am / he, she, it is / we, you, they are + V-ing",
+  "заперечення: am / is / are + not + V-ing",
+  "питання: Am / Is / Are + підмет + V-ing?"
+ ],
+ "table": {
+  "head": [
+   "Особа",
+   "Ствердження",
+   "Заперечення",
+   "Питання"
+  ],
+  "rows": [
+   [
+    "I",
+    "I'm cooking.",
+    "I'm not cooking.",
+    "Am I cooking?"
+   ],
+   [
+    "he / she / it",
+    "She's reading.",
+    "She isn't reading.",
+    "Is she reading?"
+   ],
+   [
+    "we / you / they",
+    "They're playing.",
+    "They aren't playing.",
+    "Are they playing?"
+   ]
+  ]
+ },
+ "examples": [
+  {
+   "en": "I'm cooking dinner now.",
+   "uk": "Я зараз готую вечерю."
+  },
+  {
+   "en": "Vita is talking to her mum on the phone.",
+   "uk": "Віта говорить по телефону з мамою."
+  },
+  {
+   "en": "Look! It's snowing!",
+   "uk": "Дивись! Іде сніг!"
+  },
+  {
+   "en": "We aren't watching TV, we're reading.",
+   "uk": "Ми не дивимося телевізор, ми читаємо."
+  },
+  {
+   "en": "What are you doing?",
+   "uk": "Що ти робиш?"
+  },
+  {
+   "en": "The kids are playing in the park.",
+   "uk": "Діти граються в парку."
+  }
+ ],
+ "tip": "Не забувайте **be**: ~~I cooking~~ → *I **am** cooking*. Без -ing теж не можна: ~~I am cook~~.",
+ "exercises": [
+  {
+   "type": "choice",
+   "prompt": "Listen! The baby ___.",
+   "options": [
+    "cries",
+    "is crying",
+    "crying"
+   ],
+   "answer": "is crying",
+   "explanation": "Дія зараз: is + V-ing."
+  },
+  {
+   "type": "choice",
+   "prompt": "We ___ for the bus right now.",
+   "options": [
+    "are waiting",
+    "is waiting",
+    "waiting"
+   ],
+   "answer": "are waiting",
+   "explanation": "We → are + V-ing."
+  },
+  {
+   "type": "choice",
+   "prompt": "___ you working at the moment?",
+   "options": [
+    "Do",
+    "Are",
+    "Is"
+   ],
+   "answer": "Are",
+   "explanation": "Питання: Are you + V-ing?"
+  },
+  {
+   "type": "choice",
+   "prompt": "Look! She ___ a coffee.",
+   "options": [
+    "is drinking",
+    "is drink",
+    "drinking"
+   ],
+   "answer": "is drinking",
+   "explanation": "Потрібні is і -ing."
+  },
+  {
+   "type": "choice",
+   "prompt": "Tom is ___ in the sea.",
+   "options": [
+    "swiming",
+    "swimming",
+    "swimmming"
+   ],
+   "answer": "swimming",
+   "explanation": "swim → swimming (подвоєння m)."
+  },
+  {
+   "type": "input",
+   "prompt": "Pavlo ___ (cook) dinner right now.",
+   "answer": [
+    "is cooking"
+   ],
+   "explanation": "Він зараз готує: is cooking."
+  },
+  {
+   "type": "input",
+   "prompt": "They ___ (not / sleep) now.",
+   "answer": [
+    "aren't sleeping",
+    "are not sleeping"
+   ],
+   "explanation": "Заперечення: are not + V-ing."
+  },
+  {
+   "type": "input",
+   "prompt": "Look! It ___ (rain).",
+   "answer": [
+    "is raining"
+   ],
+   "explanation": "It → is + V-ing."
+  },
+  {
+   "type": "input",
+   "prompt": "I ___ (sit) on the bus.",
+   "answer": [
+    "am sitting"
+   ],
+   "explanation": "sit → sitting, з I — am."
+  },
+  {
+   "type": "error",
+   "sentence": "She is read a book.",
+   "wrongIndex": 2,
+   "correction": "reading",
+   "alt": [],
+   "explanation": "Після is потрібна форма -ing."
+  },
+  {
+   "type": "error",
+   "sentence": "They is playing football in the park.",
+   "wrongIndex": 1,
+   "correction": "are",
+   "alt": [],
+   "explanation": "They → are."
+  },
+  {
+   "type": "order",
+   "prompt": "Що ти зараз робиш?",
+   "answer": [
+    "What are you doing now?"
+   ],
+   "explanation": "Питальне слово + are + you + V-ing."
+  },
+  {
+   "type": "transform",
+   "prompt": "I read a book every evening.",
+   "instruction": "Скажіть, що це відбувається зараз (now)",
+   "answer": [
+    "I am reading a book now.",
+    "I'm reading a book now.",
+    "I am reading a book right now.",
+    "I'm reading a book right now.",
+    "Now I am reading a book.",
+    "Now I'm reading a book."
+   ],
+   "explanation": "Зараз → am + reading."
+  },
+  {
+   "type": "translate",
+   "uk": "Ми зараз гуляємо в парку.",
+   "answer": [
+    "We are walking in the park now.",
+    "We're walking in the park now.",
+    "We are walking in the park right now.",
+    "We're walking in the park right now.",
+    "We are taking a walk in the park now.",
+    "We're taking a walk in the park now.",
+    "We are walking in the park at the moment.",
+    "We're walking in the park at the moment."
+   ],
+   "explanation": "Дія зараз: are walking."
+  }
+ ]
+}

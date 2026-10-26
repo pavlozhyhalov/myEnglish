@@ -1,0 +1,209 @@
+{
+ "id": "adjectives-word-order-basic",
+ "title": "Прикметники: місце в реченні",
+ "titleEn": "Adjectives: position and very",
+ "unit": "Будова речення",
+ "level": "A1",
+ "mistakeType": "word_order",
+ "explanation": "Прикметник в англійській стоїть **перед іменником**: *a **big** house, **green** eyes*. Не ставте його після іменника: ~~a house big~~.\n\nАртикль іде **перед прикметником**: *a nice flat, an old car*. Прикметник також може стояти після **be**: *The house is **big**. The coffee is **hot**.*\n\nПрикметники **не змінюються**: немає множини і роду. *a red car → two **red** cars* (не ~~reds cars~~); *a tall man, a tall woman*.\n\n**very** (дуже) ставимо перед прикметником: *It's **very** cold. She's a **very** kind person.*",
+ "formula": [
+  "(a / an) + прикметник + іменник: a red car",
+  "be + (very) + прикметник: The car is very fast.",
+  "прикметник без множини: red cars"
+ ],
+ "table": {
+  "head": [
+   "Модель",
+   "Приклад",
+   "Переклад"
+  ],
+  "rows": [
+   [
+    "a + прикметник + іменник",
+    "a small kitchen",
+    "невелика кухня"
+   ],
+   [
+    "прикметник + множина",
+    "small kitchens",
+    "невеликі кухні"
+   ],
+   [
+    "be + прикметник",
+    "The kitchen is small.",
+    "Кухня невелика."
+   ],
+   [
+    "be + very + прикметник",
+    "It's very small.",
+    "Вона дуже маленька."
+   ]
+  ]
+ },
+ "examples": [
+  {
+   "en": "We have a small flat with a big balcony.",
+   "uk": "У нас невелика квартира з великим балконом."
+  },
+  {
+   "en": "Vita has long dark hair.",
+   "uk": "У Віти довге темне волосся."
+  },
+  {
+   "en": "The weather is very nice today.",
+   "uk": "Сьогодні дуже гарна погода."
+  },
+  {
+   "en": "These shoes are very comfortable.",
+   "uk": "Ці черевики дуже зручні."
+  },
+  {
+   "en": "Kraków has many old churches.",
+   "uk": "У Кракові багато старих церков."
+  },
+  {
+   "en": "He's a very kind man.",
+   "uk": "Він дуже добра людина."
+  }
+ ],
+ "tip": "Порядок як в українській «гарна квартира», але без змін форми: *nice flat — nice flats*.",
+ "exercises": [
+  {
+   "type": "choice",
+   "prompt": "I live in ___.",
+   "options": [
+    "a flat new",
+    "a new flat",
+    "new a flat"
+   ],
+   "answer": "a new flat",
+   "explanation": "Артикль, потім прикметник, потім іменник."
+  },
+  {
+   "type": "choice",
+   "prompt": "They have two ___.",
+   "options": [
+    "reds cars",
+    "red cars",
+    "cars reds"
+   ],
+   "answer": "red cars",
+   "explanation": "Прикметник не має множини і стоїть перед іменником."
+  },
+  {
+   "type": "choice",
+   "prompt": "The soup is ___ hot.",
+   "options": [
+    "very",
+    "much",
+    "many"
+   ],
+   "answer": "very",
+   "explanation": "Перед прикметником — very."
+  },
+  {
+   "type": "choice",
+   "prompt": "It is ___ day.",
+   "options": [
+    "a beautiful",
+    "an beautiful",
+    "beautiful a"
+   ],
+   "answer": "a beautiful",
+   "explanation": "Артикль іде перед прикметником."
+  },
+  {
+   "type": "choice",
+   "prompt": "These apples are ___.",
+   "options": [
+    "greens",
+    "green",
+    "a green"
+   ],
+   "answer": "green",
+   "explanation": "Прикметник не змінюється в множині."
+  },
+  {
+   "type": "input",
+   "prompt": "We bought ___ (big / a / sofa).",
+   "answer": [
+    "a big sofa"
+   ],
+   "explanation": "Артикль + прикметник + іменник."
+  },
+  {
+   "type": "input",
+   "prompt": "My grandparents have ___ (cats / two / old).",
+   "answer": [
+    "two old cats"
+   ],
+   "explanation": "Число, потім прикметник, потім іменник."
+  },
+  {
+   "type": "input",
+   "prompt": "Kraków is ___ (city / a / beautiful).",
+   "answer": [
+    "a beautiful city"
+   ],
+   "explanation": "Прикметник стоїть перед іменником."
+  },
+  {
+   "type": "error",
+   "sentence": "I have two blacks cats.",
+   "wrongIndex": 3,
+   "correction": "black",
+   "alt": [],
+   "explanation": "Прикметник не має множини."
+  },
+  {
+   "type": "error",
+   "sentence": "The weather is much cold today.",
+   "wrongIndex": 3,
+   "correction": "very",
+   "alt": [],
+   "explanation": "Перед прикметником кажемо very."
+  },
+  {
+   "type": "order",
+   "prompt": "У нас дуже гарна квартира.",
+   "answer": [
+    "We have a very nice flat."
+   ],
+   "explanation": "a + very + прикметник + іменник."
+  },
+  {
+   "type": "transform",
+   "prompt": "The car is red.",
+   "instruction": "Одним словосполученням: It is a …",
+   "answer": [
+    "It is a red car.",
+    "It's a red car."
+   ],
+   "explanation": "Прикметник переходить перед іменник."
+  },
+  {
+   "type": "translate",
+   "uk": "Це дуже смачна піца.",
+   "answer": [
+    "This is a very tasty pizza.",
+    "This is a very good pizza.",
+    "It's a very tasty pizza.",
+    "It is a very tasty pizza.",
+    "This is very tasty pizza.",
+    "This pizza is very tasty.",
+    "This pizza is very good."
+   ],
+   "explanation": "very + прикметник перед іменником."
+  },
+  {
+   "type": "translate",
+   "uk": "У неї зелені очі.",
+   "answer": [
+    "She has green eyes.",
+    "She's got green eyes.",
+    "She has got green eyes."
+   ],
+   "explanation": "Прикметник green без -s."
+  }
+ ]
+}

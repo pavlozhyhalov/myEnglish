@@ -1,0 +1,224 @@
+{
+ "id": "like-love-hate-ing",
+ "title": "Like, love, hate + -ing: що подобається",
+ "titleEn": "like / love / hate + -ing",
+ "unit": "Будова речення",
+ "level": "A1",
+ "mistakeType": "other",
+ "explanation": "Щоб сказати, що вам подобається чи ні, використовуйте: **love** (дуже люблю), **like** (люблю, подобається), **enjoy** (отримую задоволення), **don't mind** (не проти), **don't like** (не люблю), **hate** (терпіти не можу).\n\nПісля них ставимо **іменник** або **дієслово з -ing**: *I love **pizza**. I love **cooking**.* Не кажіть ~~I like cook~~.\n\nЗ he / she / it — закінчення **-s**: *Vita **likes** reading. He **hates** waiting.* Заперечення — **don't / doesn't like**, питання — ***Do** you like…? **Does** she like…?*\n\nНе плутайте з **would like** (хотів би): *I'd like a coffee* = я б хотів каву зараз.",
+ "formula": [
+  "like / love / hate / enjoy + іменник: I love pizza.",
+  "like / love / hate / enjoy + V-ing: I love cooking.",
+  "he / she / it + likes, loves; doesn't like"
+ ],
+ "table": {
+  "head": [
+   "Дієслово",
+   "Значення",
+   "Приклад"
+  ],
+  "rows": [
+   [
+    "love",
+    "дуже люблю",
+    "I love travelling."
+   ],
+   [
+    "like",
+    "люблю, подобається",
+    "We like walking in the park."
+   ],
+   [
+    "enjoy",
+    "отримую задоволення",
+    "She enjoys reading."
+   ],
+   [
+    "don't mind",
+    "не проти",
+    "I don't mind cooking."
+   ],
+   [
+    "don't like",
+    "не люблю",
+    "He doesn't like shopping."
+   ],
+   [
+    "hate",
+    "терпіти не можу",
+    "I hate getting up early."
+   ]
+  ]
+ },
+ "examples": [
+  {
+   "en": "I love walking in Planty Park.",
+   "uk": "Я дуже люблю гуляти в парку Планти."
+  },
+  {
+   "en": "Vita likes reading books in the evening.",
+   "uk": "Віта любить читати книжки ввечері."
+  },
+  {
+   "en": "We don't like cooking on weekdays.",
+   "uk": "Ми не любимо готувати в будні."
+  },
+  {
+   "en": "My dad hates waiting in queues.",
+   "uk": "Мій тато терпіти не може стояти в чергах."
+  },
+  {
+   "en": "Do you like swimming?",
+   "uk": "Ти любиш плавати?"
+  },
+  {
+   "en": "She enjoys dancing.",
+   "uk": "Їй подобається танцювати."
+  }
+ ],
+ "tip": "Після **enjoy** і **don't mind** — тільки -ing: *I enjoy **swimming*** (не ~~enjoy to swim~~).",
+ "exercises": [
+  {
+   "type": "choice",
+   "prompt": "I love ___ to music.",
+   "options": [
+    "listen",
+    "listening",
+    "listens"
+   ],
+   "answer": "listening",
+   "explanation": "Після love — V-ing."
+  },
+  {
+   "type": "choice",
+   "prompt": "My wife ___ cooking.",
+   "options": [
+    "like",
+    "likes",
+    "liking"
+   ],
+   "answer": "likes",
+   "explanation": "She → likes."
+  },
+  {
+   "type": "choice",
+   "prompt": "We hate ___ up early.",
+   "options": [
+    "getting",
+    "get",
+    "got"
+   ],
+   "answer": "getting",
+   "explanation": "Після hate — V-ing."
+  },
+  {
+   "type": "choice",
+   "prompt": "___ you like dancing?",
+   "options": [
+    "Do",
+    "Are",
+    "Does"
+   ],
+   "answer": "Do",
+   "explanation": "Питання з you — Do."
+  },
+  {
+   "type": "choice",
+   "prompt": "He doesn't like ___.",
+   "options": [
+    "shopping",
+    "shop",
+    "to shopping"
+   ],
+   "answer": "shopping",
+   "explanation": "Після like — V-ing."
+  },
+  {
+   "type": "input",
+   "prompt": "I enjoy ___ (swim) in the sea.",
+   "answer": [
+    "swimming"
+   ],
+   "explanation": "Після enjoy — V-ing."
+  },
+  {
+   "type": "input",
+   "prompt": "She ___ (not like) watching horror films.",
+   "answer": [
+    "doesn't like",
+    "does not like"
+   ],
+   "explanation": "She → doesn't like."
+  },
+  {
+   "type": "input",
+   "prompt": "Do you like ___ (travel)?",
+   "answer": [
+    "travelling",
+    "traveling"
+   ],
+   "explanation": "Після like — V-ing."
+  },
+  {
+   "type": "input",
+   "prompt": "My brother loves ___ (play) football.",
+   "answer": [
+    "playing"
+   ],
+   "explanation": "Після love — V-ing."
+  },
+  {
+   "type": "error",
+   "sentence": "I like cook Italian food.",
+   "wrongIndex": 2,
+   "correction": "cooking",
+   "alt": [
+    "to cook"
+   ],
+   "explanation": "Після like — V-ing."
+  },
+  {
+   "type": "error",
+   "sentence": "She love reading books.",
+   "wrongIndex": 1,
+   "correction": "loves",
+   "alt": [],
+   "explanation": "She → loves."
+  },
+  {
+   "type": "order",
+   "prompt": "Я не люблю ходити по магазинах.",
+   "answer": [
+    "I don't like going shopping."
+   ],
+   "explanation": "don't like + V-ing."
+  },
+  {
+   "type": "transform",
+   "prompt": "I like books.",
+   "instruction": "Скажіть, що вам подобається їх читати (read)",
+   "answer": [
+    "I like reading books.",
+    "I like reading.",
+    "I like to read books.",
+    "I like to read."
+   ],
+   "explanation": "like + V-ing."
+  },
+  {
+   "type": "translate",
+   "uk": "Ми любимо подорожувати.",
+   "answer": [
+    "We like travelling.",
+    "We like traveling.",
+    "We love travelling.",
+    "We love traveling.",
+    "We like to travel.",
+    "We love to travel.",
+    "We enjoy travelling.",
+    "We enjoy traveling."
+   ],
+   "explanation": "like / love + V-ing."
+  }
+ ]
+}

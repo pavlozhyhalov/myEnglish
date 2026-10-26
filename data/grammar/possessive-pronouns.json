@@ -1,0 +1,217 @@
+{
+ "id": "possessive-pronouns",
+ "title": "Присвійні займенники: mine, yours, whose",
+ "titleEn": "Possessive pronouns and whose",
+ "unit": "Іменник і артиклі",
+ "level": "A2",
+ "mistakeType": "articles",
+ "explanation": "**my, your, his, her, our, their** стоять **перед іменником**: *my bag, our flat*.\n\n**mine, yours, his, hers, ours, theirs** вживаємо **замість** іменника: *This bag is **mine**. Is this coat **yours**?* Після них іменника немає: ~~mine bag~~ → *my bag*.\n\nУ цих словах **немає апострофа**: *yours, hers, ours, theirs* (не ~~your's~~, ~~her's~~).\n\n**Whose** — чий: ***Whose** phone is this? — It's Vita's. / It's hers.* Не плутайте з *who's* = who is.\n\nЦікава модель: *a friend of mine* — один з моїх друзів.",
+ "formula": [
+  "my / your / his / her / our / their + іменник: my car",
+  "mine / yours / his / hers / ours / theirs — без іменника: The car is mine.",
+  "Whose + іменник …? — Whose keys are these?"
+ ],
+ "table": {
+  "head": [
+   "Перед іменником",
+   "Без іменника",
+   "Приклад"
+  ],
+  "rows": [
+   [
+    "my",
+    "mine",
+    "It's my phone. → It's mine."
+   ],
+   [
+    "your",
+    "yours",
+    "Is this your seat? → Is it yours?"
+   ],
+   [
+    "his",
+    "his",
+    "It's his car. → It's his."
+   ],
+   [
+    "her",
+    "hers",
+    "That's her bag. → It's hers."
+   ],
+   [
+    "our",
+    "ours",
+    "This is our flat. → It's ours."
+   ],
+   [
+    "their",
+    "theirs",
+    "That's their dog. → It's theirs."
+   ]
+  ]
+ },
+ "examples": [
+  {
+   "en": "Is this your umbrella? — No, it isn't mine.",
+   "uk": "Це твоя парасолька? — Ні, не моя."
+  },
+  {
+   "en": "Whose keys are these? — They're Vita's.",
+   "uk": "Чиї це ключі? — Віти."
+  },
+  {
+   "en": "Our flat is smaller than theirs.",
+   "uk": "Наша квартира менша за їхню."
+  },
+  {
+   "en": "This coffee is yours, and the tea is mine.",
+   "uk": "Ця кава твоя, а чай мій."
+  },
+  {
+   "en": "Whose car is parked outside?",
+   "uk": "Чия машина стоїть надворі?"
+  },
+  {
+   "en": "She's a friend of mine.",
+   "uk": "Вона моя подруга."
+  }
+ ],
+ "tip": "Якщо після слова є іменник — *my, your, her*; якщо немає — *mine, yours, hers*.",
+ "exercises": [
+  {
+   "type": "choice",
+   "prompt": "This isn't my coat. ___ is black.",
+   "options": [
+    "Mine",
+    "My",
+    "Me"
+   ],
+   "answer": "Mine",
+   "explanation": "Без іменника — mine."
+  },
+  {
+   "type": "choice",
+   "prompt": "Is this pen ___? — Yes, thank you.",
+   "options": [
+    "your",
+    "yours",
+    "you"
+   ],
+   "answer": "yours",
+   "explanation": "Без іменника — yours."
+  },
+  {
+   "type": "choice",
+   "prompt": "___ bag is this?",
+   "options": [
+    "Who",
+    "Whose",
+    "Who's"
+   ],
+   "answer": "Whose",
+   "explanation": "Чий — whose."
+  },
+  {
+   "type": "choice",
+   "prompt": "These aren't our seats. ___ are by the window.",
+   "options": [
+    "Ours",
+    "Our",
+    "Us"
+   ],
+   "answer": "Ours",
+   "explanation": "Без іменника — ours."
+  },
+  {
+   "type": "choice",
+   "prompt": "That's not Vita's phone. ___ is white.",
+   "options": [
+    "Her",
+    "Hers",
+    "She"
+   ],
+   "answer": "Hers",
+   "explanation": "Без іменника — hers."
+  },
+  {
+   "type": "input",
+   "prompt": "The Kowalskis have a red car. The red car is ___ (they).",
+   "answer": [
+    "theirs"
+   ],
+   "explanation": "Їхній без іменника — theirs."
+  },
+  {
+   "type": "input",
+   "prompt": "Can I use your charger? ___ (I) is broken.",
+   "answer": [
+    "Mine"
+   ],
+   "explanation": "Мій без іменника — mine."
+  },
+  {
+   "type": "input",
+   "prompt": "___ (чий) jacket is this?",
+   "answer": [
+    "Whose"
+   ],
+   "explanation": "Чий — whose."
+  },
+  {
+   "type": "error",
+   "sentence": "Is this book your's?",
+   "wrongIndex": 3,
+   "correction": "yours",
+   "alt": [],
+   "explanation": "У yours немає апострофа."
+  },
+  {
+   "type": "error",
+   "sentence": "This is mine bag.",
+   "wrongIndex": 2,
+   "correction": "my",
+   "alt": [],
+   "explanation": "Перед іменником — my."
+  },
+  {
+   "type": "order",
+   "prompt": "Чия це парасолька?",
+   "answer": [
+    "Whose umbrella is this?"
+   ],
+   "explanation": "Whose + іменник + is this?"
+  },
+  {
+   "type": "transform",
+   "prompt": "This is my phone.",
+   "instruction": "Скажіть інакше: This phone is …",
+   "answer": [
+    "This phone is mine."
+   ],
+   "explanation": "Без іменника — mine."
+  },
+  {
+   "type": "translate",
+   "uk": "Ця квартира не наша, а їхня.",
+   "answer": [
+    "This flat isn't ours, it's theirs.",
+    "This flat is not ours, it is theirs.",
+    "This apartment isn't ours, it's theirs.",
+    "This apartment is not ours, it is theirs.",
+    "This flat isn't ours but theirs.",
+    "This apartment isn't ours but theirs.",
+    "This flat isn't ours, it belongs to them."
+   ],
+   "explanation": "Без іменника — ours, theirs."
+  },
+  {
+   "type": "translate",
+   "uk": "Марек — один з моїх друзів.",
+   "answer": [
+    "Marek is a friend of mine.",
+    "Marek is one of my friends."
+   ],
+   "explanation": "a friend of mine = один з моїх друзів."
+  }
+ ]
+}

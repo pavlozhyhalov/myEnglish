@@ -1,0 +1,212 @@
+{
+ "id": "adverbs-manner",
+ "title": "Прислівники: quickly, well, hard",
+ "titleEn": "Adverbs of manner",
+ "unit": "Будова речення",
+ "level": "A2",
+ "mistakeType": "other",
+ "explanation": "**Прикметник** описує іменник: *a **quick** lunch, a **careful** driver*. **Прислівник** описує дію — **як** ми щось робимо: *She eats **quickly**. He drives **carefully**.*\n\nЗазвичай прислівник = прикметник + **-ly**: *slow → slowly, quiet → quietly, careful → carefully*. На -y → **-ily**: *easy → easily, happy → happily*.\n\nВинятки: *good → **well***, а *fast, hard, late, early* не змінюються: *She works **hard**. The tram goes **fast**.* Увага: *hardly* означає «майже не».\n\nПрислівник ставимо **після дієслова** або після додатка: *She speaks English **well*** (не ~~speaks well English~~).\n\nПісля **be, look, feel, taste, smell** — прикметник: *You look **tired**. The soup tastes **good**.*",
+ "formula": [
+  "прикметник + -ly: slow → slowly, easy → easily",
+  "good → well · fast → fast · hard → hard",
+  "дієслово + (додаток) + прислівник: She speaks English well."
+ ],
+ "table": {
+  "head": [
+   "Прикметник",
+   "Прислівник",
+   "Приклад"
+  ],
+  "rows": [
+   [
+    "quick",
+    "quickly",
+    "He eats quickly."
+   ],
+   [
+    "careful",
+    "carefully",
+    "Drive carefully!"
+   ],
+   [
+    "easy",
+    "easily",
+    "We found the flat easily."
+   ],
+   [
+    "good",
+    "well",
+    "Vita sings well."
+   ],
+   [
+    "fast",
+    "fast",
+    "The tram goes fast."
+   ],
+   [
+    "hard",
+    "hard",
+    "They train hard."
+   ]
+  ]
+ },
+ "examples": [
+  {
+   "en": "Please speak slowly — my English isn't very good.",
+   "uk": "Говоріть, будь ласка, повільно — моя англійська не дуже добра."
+  },
+  {
+   "en": "Vita drives very carefully.",
+   "uk": "Віта водить дуже обережно."
+  },
+  {
+   "en": "You speak Polish really well!",
+   "uk": "Ти справді добре говориш польською!"
+  },
+  {
+   "en": "The children played quietly in their room.",
+   "uk": "Діти тихо гралися у своїй кімнаті."
+  },
+  {
+   "en": "I tried hard, but I didn't pass the test.",
+   "uk": "Я дуже старався, але не склав тест."
+  },
+  {
+   "en": "This cake tastes delicious.",
+   "uk": "Цей торт дуже смачний."
+  }
+ ],
+ "tip": "Питання «який?» — прикметник (*a good cook*), питання «як?» — прислівник (*cooks well*).",
+ "exercises": [
+  {
+   "type": "choice",
+   "prompt": "Please drive ___. The road is wet.",
+   "options": [
+    "careful",
+    "carefully",
+    "more careful"
+   ],
+   "answer": "carefully",
+   "explanation": "Як їхати? — прислівник."
+  },
+  {
+   "type": "choice",
+   "prompt": "She speaks English very ___.",
+   "options": [
+    "good",
+    "well",
+    "goodly"
+   ],
+   "answer": "well",
+   "explanation": "good → well."
+  },
+  {
+   "type": "choice",
+   "prompt": "He's a ___ driver.",
+   "options": [
+    "slow",
+    "slowly",
+    "slowlier"
+   ],
+   "answer": "slow",
+   "explanation": "Описуємо іменник driver — прикметник."
+  },
+  {
+   "type": "choice",
+   "prompt": "We were late, so we walked ___.",
+   "options": [
+    "fast",
+    "fastly",
+    "fastest"
+   ],
+   "answer": "fast",
+   "explanation": "fast не змінюється."
+  },
+  {
+   "type": "choice",
+   "prompt": "You look ___ today. Are you OK?",
+   "options": [
+    "tired",
+    "tiredly",
+    "more tiredly"
+   ],
+   "answer": "tired",
+   "explanation": "Після look — прикметник."
+  },
+  {
+   "type": "input",
+   "prompt": "The baby is sleeping. Please talk ___ (quiet).",
+   "answer": [
+    "quietly"
+   ],
+   "explanation": "quiet → quietly."
+  },
+  {
+   "type": "input",
+   "prompt": "I found your house ___ (easy).",
+   "answer": [
+    "easily"
+   ],
+   "explanation": "easy → easily."
+  },
+  {
+   "type": "input",
+   "prompt": "My grandma cooks really ___ (good).",
+   "answer": [
+    "well"
+   ],
+   "explanation": "good → well."
+  },
+  {
+   "type": "input",
+   "prompt": "They practise ___ (hard) every day.",
+   "answer": [
+    "hard"
+   ],
+   "explanation": "hard не змінюється."
+  },
+  {
+   "type": "error",
+   "sentence": "She sings very good.",
+   "wrongIndex": 3,
+   "correction": "well",
+   "alt": [],
+   "explanation": "Як співає? — well."
+  },
+  {
+   "type": "error",
+   "sentence": "Please speak more slow.",
+   "wrongIndex": 3,
+   "correction": "slowly",
+   "alt": [],
+   "explanation": "Як говорити? — slowly."
+  },
+  {
+   "type": "order",
+   "prompt": "Він дуже добре грає на гітарі.",
+   "answer": [
+    "He plays the guitar very well."
+   ],
+   "explanation": "Прислівник — після додатка."
+  },
+  {
+   "type": "transform",
+   "prompt": "She is a careful driver.",
+   "instruction": "Перебудуйте: She drives …",
+   "answer": [
+    "She drives carefully."
+   ],
+   "explanation": "careful → carefully."
+  },
+  {
+   "type": "translate",
+   "uk": "Віта добре говорить англійською.",
+   "answer": [
+    "Vita speaks English well.",
+    "Vita speaks good English.",
+    "Vita can speak English well."
+   ],
+   "explanation": "Прислівник well — після додатка."
+  }
+ ]
+}

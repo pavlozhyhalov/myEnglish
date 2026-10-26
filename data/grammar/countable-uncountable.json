@@ -1,0 +1,213 @@
+{
+ "id": "countable-uncountable",
+ "title": "Злічувані й незлічувані іменники",
+ "titleEn": "Countable and uncountable nouns",
+ "unit": "Іменник і артиклі",
+ "level": "A2",
+ "mistakeType": "articles",
+ "explanation": "**Злічувані** іменники можна порахувати: *an apple, two apples, a chair, three chairs*. Вони мають однину (з a/an) і множину (з -s).\n\n**Незлічувані** — це речовини та абстрактні поняття: *water, milk, bread, rice, money, time, traffic, advice, information, furniture, luggage, homework, news*. У них **немає множини і a/an**, а дієслово стоїть в **однині**: *The news **is** good.*\n\nДеякі слова відрізняються від української: *advice* — порада/поради, *furniture* — меблі, *money* — гроші, *hair* — волосся (усе — однина): *Your advice **was** helpful.*\n\nЩоб порахувати незлічуване, беремо «порцію»: *a glass of water, a bottle of milk, a loaf of bread, a piece of advice, a kilo of rice*.\n\nСкільки? — **How many** + злічувані (*How many eggs?*), **How much** + незлічувані (*How much money?*).",
+ "formula": [
+  "злічувані: a / an + однина, -s у множині, How many…?",
+  "незлічувані: без a / an і -s, дієслово в однині, How much…?",
+  "порція: a glass of / a piece of / a bottle of + незлічуваний"
+ ],
+ "table": {
+  "head": [
+   "",
+   "Злічувані",
+   "Незлічувані"
+  ],
+  "rows": [
+   [
+    "Приклади",
+    "an egg, a chair, a suitcase",
+    "bread, furniture, luggage"
+   ],
+   [
+    "Множина",
+    "eggs, chairs, suitcases",
+    "— (немає)"
+   ],
+   [
+    "a / an",
+    "an egg",
+    "—"
+   ],
+   [
+    "Скільки?",
+    "How many eggs?",
+    "How much bread?"
+   ],
+   [
+    "Порція",
+    "—",
+    "a loaf of bread, a piece of furniture"
+   ]
+  ]
+ },
+ "examples": [
+  {
+   "en": "Can you buy some bread and two bottles of milk?",
+   "uk": "Купиш хліба і дві пляшки молока?"
+  },
+  {
+   "en": "We need new furniture for the bedroom.",
+   "uk": "Нам потрібні нові меблі для спальні."
+  },
+  {
+   "en": "How much money do we have left?",
+   "uk": "Скільки в нас лишилося грошей?"
+  },
+  {
+   "en": "How many eggs do we need for the cake?",
+   "uk": "Скільки яєць потрібно для торта?"
+  },
+  {
+   "en": "Can I give you a piece of advice?",
+   "uk": "Можна дам тобі пораду?"
+  },
+  {
+   "en": "The news is really good!",
+   "uk": "Новини справді хороші!"
+  }
+ ],
+ "tip": "Ніколи не кажіть ~~advices, furnitures, informations, homeworks~~ — ці слова не мають множини.",
+ "exercises": [
+  {
+   "type": "choice",
+   "prompt": "Can you give me some ___?",
+   "options": [
+    "advice",
+    "advices",
+    "an advice"
+   ],
+   "answer": "advice",
+   "explanation": "Advice — незлічуване, без -s і an."
+  },
+  {
+   "type": "choice",
+   "prompt": "How ___ apples do you want?",
+   "options": [
+    "much",
+    "many",
+    "lot"
+   ],
+   "answer": "many",
+   "explanation": "Apples злічувані — many."
+  },
+  {
+   "type": "choice",
+   "prompt": "Our luggage ___ very heavy.",
+   "options": [
+    "is",
+    "are",
+    "were"
+   ],
+   "answer": "is",
+   "explanation": "Luggage — незлічуване, дієслово в однині."
+  },
+  {
+   "type": "choice",
+   "prompt": "We bought ___ new furniture.",
+   "options": [
+    "some",
+    "a",
+    "many"
+   ],
+   "answer": "some",
+   "explanation": "Furniture — незлічуване, тому some."
+  },
+  {
+   "type": "choice",
+   "prompt": "There ___ a lot of traffic in Kraków today.",
+   "options": [
+    "is",
+    "are",
+    "be"
+   ],
+   "answer": "is",
+   "explanation": "Traffic — незлічуване, тому is."
+  },
+  {
+   "type": "choice",
+   "prompt": "How ___ does this jacket cost?",
+   "options": [
+    "much",
+    "many",
+    "more"
+   ],
+   "answer": "much",
+   "explanation": "Ціна — How much."
+  },
+  {
+   "type": "input",
+   "prompt": "We need two ___ (loaf) of bread.",
+   "answer": [
+    "loaves"
+   ],
+   "explanation": "loaf → loaves."
+  },
+  {
+   "type": "input",
+   "prompt": "How ___ (much / many) sugar do you take in your coffee?",
+   "answer": [
+    "much"
+   ],
+   "explanation": "Sugar — незлічуване, тому much."
+  },
+  {
+   "type": "input",
+   "prompt": "The information ___ (be) very useful.",
+   "answer": [
+    "is",
+    "was"
+   ],
+   "explanation": "Information — незлічуване, дієслово в однині."
+  },
+  {
+   "type": "error",
+   "sentence": "I have a lot of homeworks tonight.",
+   "wrongIndex": 5,
+   "correction": "homework",
+   "alt": [],
+   "explanation": "Homework не має множини."
+  },
+  {
+   "type": "error",
+   "sentence": "Can you give me an information about the trains?",
+   "wrongIndex": 4,
+   "correction": "some",
+   "alt": [
+    "any"
+   ],
+   "explanation": "Information — незлічуване, без an."
+  },
+  {
+   "type": "order",
+   "prompt": "Скільки грошей тобі потрібно?",
+   "answer": [
+    "How much money do you need?"
+   ],
+   "explanation": "Money — незлічуване, тому much."
+  },
+  {
+   "type": "transform",
+   "prompt": "We need three chairs.",
+   "instruction": "Замініть chairs на furniture (some)",
+   "answer": [
+    "We need some furniture.",
+    "We need furniture."
+   ],
+   "explanation": "Furniture без числа і -s."
+  },
+  {
+   "type": "translate",
+   "uk": "Мені потрібна твоя порада.",
+   "answer": [
+    "I need your advice.",
+    "I need some advice from you."
+   ],
+   "explanation": "Advice — без a і -s."
+  }
+ ]
+}

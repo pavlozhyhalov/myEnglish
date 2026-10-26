@@ -1,0 +1,305 @@
+{
+ "id": "city-a1",
+ "cards": [
+  {
+   "en": "a street",
+   "uk": "вулиця",
+   "ex": "We live on a quiet street.",
+   "exUk": "Ми живемо на тихій вулиці."
+  },
+  {
+   "en": "a square",
+   "uk": "площа",
+   "ex": "The main square in Kraków is huge.",
+   "exUk": "Головна площа в Кракові величезна."
+  },
+  {
+   "en": "a park",
+   "uk": "парк",
+   "ex": "There's a nice park near our flat.",
+   "exUk": "Біля нашої квартири є гарний парк."
+  },
+  {
+   "en": "a shop",
+   "uk": "магазин",
+   "ex": "The shop on the corner is open late.",
+   "exUk": "Магазин на розі працює допізна."
+  },
+  {
+   "en": "a supermarket",
+   "uk": "супермаркет",
+   "ex": "I go to the supermarket on Saturdays.",
+   "exUk": "Я ходжу в супермаркет по суботах."
+  },
+  {
+   "en": "a bakery",
+   "uk": "пекарня",
+   "ex": "The bakery opens at six.",
+   "exUk": "Пекарня відчиняється о шостій."
+  },
+  {
+   "en": "a bank",
+   "uk": "банк",
+   "ex": "I need to go to the bank.",
+   "exUk": "Мені треба сходити в банк."
+  },
+  {
+   "en": "a café",
+   "uk": "кав'ярня, кафе",
+   "ex": "Let's meet at the café at five.",
+   "exUk": "Зустріньмося в кав'ярні о п'ятій."
+  },
+  {
+   "en": "a restaurant",
+   "uk": "ресторан",
+   "ex": "This restaurant is very popular.",
+   "exUk": "Цей ресторан дуже популярний."
+  },
+  {
+   "en": "a hospital",
+   "uk": "лікарня",
+   "ex": "The hospital is on the left.",
+   "exUk": "Лікарня ліворуч."
+  },
+  {
+   "en": "a school",
+   "uk": "школа",
+   "ex": "The school is close to our flat.",
+   "exUk": "Школа близько від нашої квартири."
+  },
+  {
+   "en": "a church",
+   "uk": "церква, костел",
+   "ex": "There are many churches in Kraków.",
+   "exUk": "У Кракові багато костелів."
+  },
+  {
+   "en": "a museum",
+   "uk": "музей",
+   "ex": "The museum is closed on Mondays.",
+   "exUk": "Музей зачинений по понеділках."
+  },
+  {
+   "en": "a cinema",
+   "uk": "кінотеатр, кіно",
+   "ex": "Do you want to go to the cinema tonight?",
+   "exUk": "Хочеш сьогодні ввечері в кіно?"
+  },
+  {
+   "en": "a library",
+   "uk": "бібліотека",
+   "ex": "I borrow books from the library.",
+   "exUk": "Я беру книжки в бібліотеці."
+  },
+  {
+   "en": "a market",
+   "uk": "ринок, базар",
+   "ex": "We buy vegetables at the market.",
+   "exUk": "Ми купуємо овочі на ринку."
+  },
+  {
+   "en": "a shopping centre",
+   "uk": "торговий центр",
+   "ex": "The shopping centre is open until ten.",
+   "exUk": "Торговий центр працює до десятої."
+  },
+  {
+   "en": "a bus",
+   "uk": "автобус",
+   "ex": "I take the bus to work.",
+   "exUk": "Я їжджу на роботу автобусом."
+  },
+  {
+   "en": "a tram",
+   "uk": "трамвай",
+   "ex": "The tram is faster than the bus.",
+   "exUk": "Трамвай швидший за автобус."
+  },
+  {
+   "en": "a bus stop",
+   "uk": "автобусна зупинка",
+   "ex": "Where is the nearest bus stop?",
+   "exUk": "Де найближча автобусна зупинка?"
+  },
+  {
+   "en": "a train",
+   "uk": "потяг, поїзд",
+   "ex": "The train to Warsaw leaves at eight.",
+   "exUk": "Потяг до Варшави відправляється о восьмій."
+  },
+  {
+   "en": "a train station",
+   "uk": "вокзал, залізнична станція",
+   "ex": "The train station is in the city centre.",
+   "exUk": "Вокзал у центрі міста."
+  },
+  {
+   "en": "a taxi",
+   "uk": "таксі",
+   "ex": "Let's take a taxi.",
+   "exUk": "Візьмімо таксі."
+  },
+  {
+   "en": "a car",
+   "uk": "машина, автомобіль",
+   "ex": "We don't have a car.",
+   "exUk": "У нас немає машини."
+  },
+  {
+   "en": "a bike",
+   "uk": "велосипед",
+   "ex": "My bike is old but fast.",
+   "exUk": "Мій велосипед старий, але швидкий."
+  },
+  {
+   "en": "by bus / by car",
+   "uk": "автобусом, машиною",
+   "ex": "Do you go to work by bus or by car?",
+   "exUk": "Ти їздиш на роботу автобусом чи машиною?"
+  },
+  {
+   "en": "a ticket",
+   "uk": "квиток",
+   "ex": "Where can I buy a ticket?",
+   "exUk": "Де можна купити квиток?"
+  },
+  {
+   "en": "a map",
+   "uk": "мапа, карта",
+   "ex": "Can you show me on the map?",
+   "exUk": "Можете показати мені на мапі?"
+  },
+  {
+   "en": "a corner",
+   "uk": "ріг, кут",
+   "ex": "The pharmacy is on the corner.",
+   "exUk": "Аптека на розі."
+  },
+  {
+   "en": "next to",
+   "uk": "поруч із, біля",
+   "ex": "The bank is next to the post office.",
+   "exUk": "Банк поруч із поштою."
+  },
+  {
+   "en": "opposite",
+   "uk": "навпроти",
+   "ex": "The café is opposite the museum.",
+   "exUk": "Кав'ярня навпроти музею."
+  },
+  {
+   "en": "between",
+   "uk": "між",
+   "ex": "The shop is between the bank and the café.",
+   "exUk": "Магазин між банком і кав'ярнею."
+  },
+  {
+   "en": "behind",
+   "uk": "за, позаду",
+   "ex": "The car park is behind the hotel.",
+   "exUk": "Парковка за готелем."
+  },
+  {
+   "en": "in front of",
+   "uk": "перед",
+   "ex": "I'm waiting in front of the cinema.",
+   "exUk": "Я чекаю перед кінотеатром."
+  },
+  {
+   "en": "to turn left / right",
+   "uk": "повернути ліворуч, праворуч",
+   "ex": "Turn left after the bridge.",
+   "exUk": "Після мосту поверніть ліворуч."
+  },
+  {
+   "en": "traffic lights",
+   "uk": "світлофор",
+   "ex": "The traffic lights are red. Stop!",
+   "exUk": "На світлофорі червоне. Стій!"
+  },
+  {
+   "en": "a bridge",
+   "uk": "міст",
+   "ex": "There's a beautiful bridge over the river.",
+   "exUk": "Через річку перекинуто гарний міст."
+  },
+  {
+   "en": "a car park",
+   "uk": "парковка, автостоянка",
+   "ex": "The car park is full.",
+   "exUk": "Парковка заповнена."
+  },
+  {
+   "en": "to cross the street",
+   "uk": "перейти вулицю",
+   "ex": "Be careful when you cross the street.",
+   "exUk": "Будь обережний, коли переходиш вулицю."
+  },
+  {
+   "en": "a pedestrian crossing",
+   "uk": "пішохідний перехід",
+   "ex": "Cross at the pedestrian crossing.",
+   "exUk": "Переходь по пішохідному переходу."
+  },
+  {
+   "en": "Where is…?",
+   "uk": "Де…?",
+   "ex": "Excuse me, where is the train station?",
+   "exUk": "Перепрошую, де вокзал?"
+  },
+  {
+   "en": "Is there a … near here?",
+   "uk": "Тут поблизу є…?",
+   "ex": "Is there a cash machine near here?",
+   "exUk": "Тут поблизу є банкомат?"
+  },
+  {
+   "en": "to walk",
+   "uk": "ходити пішки, іти пішки",
+   "ex": "I usually walk to work.",
+   "exUk": "Зазвичай я ходжу на роботу пішки."
+  },
+  {
+   "en": "to drive",
+   "uk": "водити (машину), їхати машиною",
+   "ex": "Can you drive?",
+   "exUk": "Ти вмієш водити?"
+  },
+  {
+   "en": "to ride a bike",
+   "uk": "їздити на велосипеді",
+   "ex": "We ride our bikes along the river.",
+   "exUk": "Ми катаємося на велосипедах уздовж річки."
+  },
+  {
+   "en": "the city centre",
+   "uk": "центр міста",
+   "ex": "We live near the city centre.",
+   "exUk": "Ми живемо біля центру міста."
+  },
+  {
+   "en": "a building",
+   "uk": "будівля, будинок",
+   "ex": "That tall building is a hotel.",
+   "exUk": "Та висока будівля — готель."
+  },
+  {
+   "en": "the underground / the metro",
+   "uk": "метро",
+   "ex": "Warsaw has a metro, but Kraków doesn't.",
+   "exUk": "У Варшаві є метро, а в Кракові немає."
+  },
+  {
+   "en": "a road",
+   "uk": "дорога",
+   "ex": "This road is very busy.",
+   "exUk": "Ця дорога дуже завантажена."
+  },
+  {
+   "en": "a police station",
+   "uk": "відділок поліції",
+   "ex": "The police station is next to the park.",
+   "exUk": "Відділок поліції поруч із парком."
+  }
+ ]
+}
