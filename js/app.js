@@ -62,6 +62,7 @@ const pages = {
   mistakes: () => import('./pages/mistakes.js'),
   progress: () => import('./pages/progress.js'),
   settings: () => import('./pages/settings.js'),
+  profile: () => import('./pages/profile.js'),
   session: () => import('./pages/session.js'),
   auth: () => import('./pages/auth.js'),
   lab: () => import('./pages/lab.js'),

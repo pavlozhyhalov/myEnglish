@@ -7,6 +7,7 @@ import { allDecks, grammarIndex, scenarios as loadScenarios, writingTasks, liste
 import { todaySeconds, streak, week, mistakesByType, lessonsToReview, lessonDone, today, dayKey } from '../stats.js';
 import { speak } from '../speech.js';
 import { toast } from '../ui/toast.js';
+import { greetName } from './profile.js';
 import { myLevel, LEVEL_NAME, LEVELS, nextLessonByLevel, byFit, diff, levelProgress, nextLevel, setLevel, filterByLevel, pickOfDay } from '../level.js';
 
 export default async function home(view) {
@@ -52,7 +53,7 @@ export default async function home(view) {
   const date = new Date().toLocaleDateString('uk-UA', { weekday: 'long', day: 'numeric', month: 'long' });
   const greet = h('div.greet',
     h('span.date', date.charAt(0).toUpperCase() + date.slice(1)),
-    h('h1', `${S.greet(hour)}, ${S.name}`));
+    h('h1', greetName() ? `${S.greet(hour)}, ${greetName()}` : S.greet(hour)));
 
   // ---- синя картка: хвилини, кільце мети, план, старт ----
   const mins = Math.round(sec / 60);

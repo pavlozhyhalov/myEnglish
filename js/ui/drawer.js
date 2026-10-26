@@ -57,11 +57,13 @@ function renderList() {
 export function renderProfile() {
   if (!profileBox) return;
   const u = user();
+  const name = (store.prof().about?.name || '').trim();
   clear(profileBox).append(h('div.profile-card',
-    h('div.level-badge', ic('user', { size: 22 })),
-    h('div.grow',
-      h('div', { style: { fontWeight: 600 } }, u ? (u.email || '').split('@')[0] : S.guest),
-      h('div.xs.dim', `${S.weekTime}: ${Math.round(weekSeconds() / 60)} хв`)),
+    h('a.row.grow', { href: '#/profile', onclick: close, style: { color: 'inherit', textDecoration: 'none', minWidth: 0 }, 'aria-label': 'Профіль' },
+      h('div.level-badge', ic('user', { size: 22 })),
+      h('div.grow',
+        h('div', { style: { fontWeight: 600 } }, name || (u ? (u.email || '').split('@')[0] : S.guest)),
+        h('div.xs.dim', `${S.weekTime}: ${Math.round(weekSeconds() / 60)} хв`))),
     u ? h('button.btn.sm', { type: 'button', onclick: async () => { await signOut(); close(); } }, S.logout)
       : h('button.btn.sm.soft', { type: 'button', onclick: () => { close(); go('/auth'); } }, S.login)));
 }

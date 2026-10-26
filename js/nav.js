@@ -19,6 +19,7 @@ export const SECTIONS = [
   { id: 'tests', icon: 'exam', href: '#/tests', group: 'practice' },
   { id: 'mistakes', icon: 'warning-circle', href: '#/mistakes', group: 'practice' },
   // Я
+  { id: 'profile', icon: 'user', href: '#/profile', group: 'me' },
   { id: 'progress', icon: 'chart-line-up', href: '#/progress', group: 'me' },
   { id: 'settings', icon: 'gear-six', href: '#/settings', group: 'me' },
 ].map(s => ({ ...s, emoji: s.icon, label: S.nav[s.id], long: S.navLong[s.id] || S.nav[s.id] }));

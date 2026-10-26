@@ -184,6 +184,7 @@ self.PRECACHE = [
   './js/pages/lab.js',
   './js/pages/listening.js',
   './js/pages/mistakes.js',
+  './js/pages/profile.js',
   './js/pages/progress.js',
   './js/pages/pronunciation.js',
   './js/pages/scenarios.js',

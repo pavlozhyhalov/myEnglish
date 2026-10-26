@@ -303,7 +303,7 @@ Use varied everyday contexts (daily life, travel, people, hobbies, home, shoppin
 
     case 'fill_word': {
       const words = (Array.isArray(p.words) ? p.words : [p.word]).map((w: string) => str(w, 120).trim()).filter(Boolean).slice(0, 40);
-      const system = `You are a precise English–Ukrainian lexicographer helping a Ukrainian learner of English who lives in Poland.
+      const system = `You are a precise English–Ukrainian lexicographer helping a learner of English (native language: ${st.about.nativeLang}${st.about.location ? `, lives in ${st.about.location}` : ''}). Translations are always into Ukrainian (the app language).
 For each English word or phrase return: uk (natural Ukrainian translation, 1–3 variants separated by ", "), pos, ipa (General American IPA in slashes), 2 natural examples (everyday contexts; if the word is technical or work-related, one example from that context) each with Ukrainian translation, 2–4 common collocations, 1–3 synonyms, CEFR level, topic (one of: everyday, smalltalk, food, travel, city, opinions, home, phrasal, collocations, work, general) and kind. Keep input order, keep the student's spelling of en unless it is clearly a typo (then fix it).`;
       const res = await generateJson(TEXT_MODELS, { system, contents: [{ role: 'user', parts: [{ text: words.join('\n') }] }], schema: WORD_SCHEMA, temperature: 0.2 });
       return json(res);

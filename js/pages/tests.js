@@ -170,7 +170,7 @@ async function placementTest(view) {
           e.currentTarget.disabled = true;
           const { voiceSession } = await import('../live/voice.js');
           voiceSession(view, {
-            topic: 'LEVEL CHECK INTERVIEW: ask him about himself, his daily life, a recent trip or event, and his plans; start simple and gradually ask more complex questions. Keep it to about 3 minutes.',
+            topic: 'LEVEL CHECK INTERVIEW: ask the student about themselves, their daily life, a recent trip or event, and their plans; start simple and gradually ask more complex questions. Keep it to about 3 minutes.',
             maxSeconds: 180,
             onFinish: async (row) => {
               view.replaceChildren(h('div.hero', emo('hourglass', 'xl'), h('p', 'Оцінюю говоріння…')));

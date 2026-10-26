@@ -5,7 +5,7 @@ export const S = {
     home: 'Головна', tutor: 'Вчитель', cards: 'Картки', vocab: 'Лексика', grammar: 'Граматика',
     listening: 'Аудіювання', pronunciation: 'Вимова', writing: 'Письмо', scenarios: 'Розмова',
     sounds: 'Звуки', exgrammar: 'Граматика', exercises: 'Вправи',
-    tests: 'Тести', mistakes: 'Помилки', progress: 'Прогрес', settings: 'Налаштування',
+    tests: 'Тести', mistakes: 'Помилки', progress: 'Прогрес', settings: 'Налаштування', profile: 'Профіль',
     session: 'Заняття', auth: 'Вхід', lab: 'Лабораторія Live',
   },
   navLong: { tutor: 'Вчитель (AI)', vocab: 'Слова й фрази', sounds: 'Звуки й вимова', mistakes: 'Мої помилки', scenarios: 'Розмова (сценарії)', exgrammar: 'Граматика', tests: 'Тести' },

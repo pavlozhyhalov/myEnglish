@@ -144,7 +144,7 @@ export async function voiceSession(view, opts = {}) {
     started = Date.now();
     setState('Слухаю…');
     // вчитель починає першим
-    live.sendText(scenario ? '(Start the role-play now with your first line.)' : '(The student is ready. Greet him briefly and start the conversation.)');
+    live.sendText(scenario ? '(Start the role-play now with your first line.)' : '(The student is ready. Greet them briefly and start the conversation.)');
   } catch (e) {
     log('start failed: ' + (e.code || '') + ' ' + e.message);
     if (['mic', 'mic_missing', 'need_login', 'not_allowed', 'offline'].includes(e.code)) { fail(e); return cleanup; }
@@ -230,7 +230,7 @@ export async function voiceSession(view, opts = {}) {
     setState(micMuted ? 'Мікрофон вимкнено' : 'Слухаю…');
   }
   async function hint() {
-    if (mode === 'live' && live?.sendText('(The student asks for a hint: briefly suggest 3 short options for how he could answer, then wait.)')) return;
+    if (mode === 'live' && live?.sendText('(The student asks for a hint: briefly suggest 3 short options for how they could answer, then wait.)')) return;
     try {
       notice.textContent = 'Підказка…';
       const r = await tutor('hint', { messages: row.messages.map(m => ({ role: m.role, text: m.text })) });
