@@ -17,7 +17,7 @@
     {"en": "the bill / the check", "uk": "рахунок", "ex": "Could we have the bill, please?", "exUk": "Можна рахунок, будь ласка?"},
     {"en": "to split the bill", "uk": "розділити рахунок", "ex": "Shall we split the bill?", "exUk": "Розділимо рахунок?"},
     {"en": "It's on me.", "uk": "Я пригощаю.", "ex": "Put your wallet away — it's on me.", "exUk": "Сховай гаманець — я пригощаю."},
-    {"en": "tip", "uk": "чайові", "ex": "Is the tip included in the bill?", "exUk": "Чайові включені в рахунок?"},
+    {"en": "tip", "uk": "чайові", "ex": "Is the tip included in the bill?", "exUk": "Чайові входять у рахунок?"},
     {"en": "Keep the change.", "uk": "Решти не треба.", "ex": "Here's twenty. Keep the change.", "exUk": "Ось двадцять. Решти не треба."},
     {"en": "Can I pay by card?", "uk": "Можна оплатити карткою?", "ex": "Can I pay by card, or is it cash only?", "exUk": "Можна карткою, чи лише готівкою?"},
     {"en": "It tastes great.", "uk": "Дуже смачно.", "ex": "Have you tried the soup? It tastes great.", "exUk": "Ти пробував суп? Дуже смачний."},
@@ -39,7 +39,7 @@
     {"en": "Where can I find…?", "uk": "Де я можу знайти…? (у магазині)", "ex": "Excuse me, where can I find the rice?", "exUk": "Перепрошую, де знайти рис?"},
     {"en": "aisle", "uk": "ряд, прохід (у супермаркеті)", "ipa": "/aɪl/", "ex": "Pasta is in aisle five.", "exUk": "Макарони в п'ятому ряду."},
     {"en": "a loaf of bread", "uk": "буханець хліба", "ex": "Can you pick up a loaf of bread on your way home?", "exUk": "Можеш купити хліба дорогою додому?"},
-    {"en": "on sale / on offer", "uk": "зі знижкою, в акції", "ex": "Cheese is on sale this week.", "exUk": "Цього тижня сир по акції."},
+    {"en": "on sale / on offer", "uk": "зі знижкою, за акцією", "ex": "Cheese is on sale this week.", "exUk": "Цього тижня сир зі знижкою."},
     {"en": "Do you need a bag?", "uk": "Вам потрібен пакет?", "ex": "Do you need a bag? — No, thanks, I have one.", "exUk": "Вам потрібен пакет? — Ні, дякую, у мене є."}
   ]
 }

@@ -1,6 +1,118 @@
 {
  "items": [
   {
+   "id": "g81",
+   "skill": "grammar",
+   "level": "A1",
+   "prompt": "I ___ a student.",
+   "options": [
+    "am",
+    "is",
+    "are",
+    "be"
+   ],
+   "answer": "am",
+   "explanation": "I + am."
+  },
+  {
+   "id": "g82",
+   "skill": "grammar",
+   "level": "A1",
+   "prompt": "I have two ___.",
+   "options": [
+    "child",
+    "childs",
+    "children",
+    "childrens"
+   ],
+   "answer": "children",
+   "explanation": "child → children (особлива множина)."
+  },
+  {
+   "id": "g83",
+   "skill": "grammar",
+   "level": "A1",
+   "prompt": "___ is your name?",
+   "options": [
+    "What",
+    "Who",
+    "Where",
+    "How"
+   ],
+   "answer": "What",
+   "explanation": "What is your name? — Як тебе звати?"
+  },
+  {
+   "id": "g84",
+   "skill": "grammar",
+   "level": "A1",
+   "prompt": "___ you like pizza?",
+   "options": [
+    "Do",
+    "Does",
+    "Are",
+    "Is"
+   ],
+   "answer": "Do",
+   "explanation": "Питання в Present Simple: Do + you."
+  },
+  {
+   "id": "g85",
+   "skill": "grammar",
+   "level": "A1",
+   "prompt": "He ___ like coffee.",
+   "options": [
+    "don't",
+    "doesn't",
+    "isn't",
+    "not"
+   ],
+   "answer": "doesn't",
+   "explanation": "he/she/it + doesn't."
+  },
+  {
+   "id": "g86",
+   "skill": "grammar",
+   "level": "A1",
+   "prompt": "There ___ two cats in the garden.",
+   "options": [
+    "is",
+    "are",
+    "be",
+    "am"
+   ],
+   "answer": "are",
+   "explanation": "There are + множина."
+  },
+  {
+   "id": "g87",
+   "skill": "grammar",
+   "level": "A1",
+   "prompt": "This is my sister. ___ name is Anna.",
+   "options": [
+    "Her",
+    "His",
+    "She",
+    "Their"
+   ],
+   "answer": "Her",
+   "explanation": "Her — її (про жінку)."
+  },
+  {
+   "id": "g88",
+   "skill": "grammar",
+   "level": "A1",
+   "prompt": "I get up ___ seven o'clock.",
+   "options": [
+    "at",
+    "in",
+    "on",
+    "to"
+   ],
+   "answer": "at",
+   "explanation": "at + година."
+  },
+  {
    "id": "g1",
    "skill": "grammar",
    "level": "A2",
@@ -449,6 +561,99 @@
    "explanation": "deny + -ing."
   },
   {
+   "id": "v89",
+   "skill": "vocabulary",
+   "level": "A1",
+   "prompt": "The opposite of \"big\" is…",
+   "options": [
+    "small",
+    "long",
+    "old",
+    "tall"
+   ],
+   "answer": "small"
+  },
+  {
+   "id": "v90",
+   "skill": "vocabulary",
+   "level": "A1",
+   "prompt": "You eat soup with a ___.",
+   "options": [
+    "spoon",
+    "knife",
+    "plate",
+    "cup"
+   ],
+   "answer": "spoon"
+  },
+  {
+   "id": "v91",
+   "skill": "vocabulary",
+   "level": "A1",
+   "prompt": "Monday, Tuesday, ___, Thursday",
+   "options": [
+    "Wednesday",
+    "Friday",
+    "Sunday",
+    "Saturday"
+   ],
+   "answer": "Wednesday"
+  },
+  {
+   "id": "v92",
+   "skill": "vocabulary",
+   "level": "A1",
+   "prompt": "My mother's brother is my…",
+   "options": [
+    "uncle",
+    "aunt",
+    "cousin",
+    "grandfather"
+   ],
+   "answer": "uncle",
+   "explanation": "uncle — дядько."
+  },
+  {
+   "id": "v93",
+   "skill": "vocabulary",
+   "level": "A1",
+   "prompt": "It's very cold today. Put on your ___.",
+   "options": [
+    "coat",
+    "shorts",
+    "sunglasses",
+    "sandals"
+   ],
+   "answer": "coat"
+  },
+  {
+   "id": "v94",
+   "skill": "vocabulary",
+   "level": "A1",
+   "prompt": "\"Thank you!\" — \"___\"",
+   "options": [
+    "You're welcome",
+    "Sorry",
+    "Goodbye",
+    "Excuse me"
+   ],
+   "answer": "You're welcome",
+   "explanation": "Відповідь на подяку."
+  },
+  {
+   "id": "v95",
+   "skill": "vocabulary",
+   "level": "A1",
+   "prompt": "You sleep in the ___.",
+   "options": [
+    "bedroom",
+    "kitchen",
+    "bathroom",
+    "garden"
+   ],
+   "answer": "bedroom"
+  },
+  {
    "id": "v33",
    "skill": "vocabulary",
    "level": "A2",
@@ -488,7 +693,7 @@
     "keep"
    ],
    "answer": "borrow",
-   "explanation": "borrow — взяти позичити."
+   "explanation": "borrow — взяти на час; lend — дати на час."
   },
   {
    "id": "v36",
@@ -552,7 +757,7 @@
    "level": "B1",
    "prompt": "Don't give ___! You can do it.",
    "options": [
-    "in",
+    "on",
     "up",
     "off",
     "away"
@@ -723,7 +928,7 @@
     "look",
     "see",
     "watch",
-    "check"
+    "find"
    ],
    "answer": "look",
    "explanation": "look into."
@@ -839,6 +1044,78 @@
    ],
    "answer": "taken aback",
    "explanation": "Приголомшена."
+  },
+  {
+   "id": "l96",
+   "skill": "listening",
+   "level": "A1",
+   "prompt": "What is her name?",
+   "options": [
+    "Kate",
+    "Anna",
+    "Lucy",
+    "Mary"
+   ],
+   "answer": "Kate",
+   "audio": "Hi, my name is Kate. Nice to meet you."
+  },
+  {
+   "id": "l97",
+   "skill": "listening",
+   "level": "A1",
+   "prompt": "How old is the son?",
+   "options": [
+    "15",
+    "50",
+    "5",
+    "16"
+   ],
+   "answer": "15",
+   "explanation": "fifteen = 15, fifty = 50.",
+   "audio": "My son is fifteen years old."
+  },
+  {
+   "id": "l98",
+   "skill": "listening",
+   "level": "A1",
+   "prompt": "What time is it?",
+   "options": [
+    "7:30",
+    "6:30",
+    "7:15",
+    "8:30"
+   ],
+   "answer": "7:30",
+   "explanation": "half past seven = 7:30.",
+   "audio": "It's half past seven."
+  },
+  {
+   "id": "l99",
+   "skill": "listening",
+   "level": "A1",
+   "prompt": "Where is the cat?",
+   "options": [
+    "Under the table",
+    "On the table",
+    "Under the bed",
+    "Next to the table"
+   ],
+   "answer": "Under the table",
+   "audio": "The cat is under the table."
+  },
+  {
+   "id": "l100",
+   "skill": "listening",
+   "level": "A1",
+   "prompt": "What does the speaker want to drink?",
+   "options": [
+    "Orange juice",
+    "Apple juice",
+    "Water",
+    "Tea"
+   ],
+   "answer": "Orange juice",
+   "audio": "Can I have a glass of orange juice, please?"
   },
   {
    "id": "l61",

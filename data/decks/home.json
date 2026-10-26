@@ -9,9 +9,9 @@
     {"en": "to raise a child", "uk": "виховувати дитину", "ex": "Raising a child is a full-time job.", "exUk": "Виховувати дитину — це робота без вихідних."},
     {"en": "to take after", "uk": "бути схожим на (родича)", "tags": ["phrasal"], "ex": "She takes after her mother.", "exUk": "Вона схожа на маму."},
     {"en": "to get together", "uk": "збиратися разом", "tags": ["phrasal"], "ex": "The whole family gets together at Easter.", "exUk": "Уся родина збирається разом на Великдень."},
-    {"en": "anniversary", "uk": "річниця", "ipa": "/ˌænɪˈvɜːrsəri/", "ex": "It's our wedding anniversary on Saturday.", "exUk": "У суботу наша річниця весілля."},
+    {"en": "anniversary", "uk": "річниця", "ipa": "/ˌænɪˈvɜːsəri/", "ex": "It's our wedding anniversary on Saturday.", "exUk": "У суботу наша річниця весілля."},
     {"en": "to celebrate", "uk": "святкувати", "ex": "How do you usually celebrate your birthday?", "exUk": "Як ти зазвичай святкуєш день народження?"},
-    {"en": "living room / bedroom", "uk": "вітальня / спальня", "ex": "We're painting the living room this weekend.", "exUk": "Цих вихідних ми фарбуємо вітальню."},
+    {"en": "living room / bedroom", "uk": "вітальня / спальня", "ex": "We're painting the living room this weekend.", "exUk": "На цих вихідних ми фарбуємо вітальню."},
     {"en": "to tidy up", "uk": "прибрати, навести лад", "tags": ["phrasal"], "ex": "Let's tidy up before the guests arrive.", "exUk": "Давай приберемо до приходу гостей."},
     {"en": "to vacuum", "uk": "пилососити", "ipa": "/ˈvækjuːm/", "ex": "I vacuum the flat twice a week.", "exUk": "Я пилососю квартиру двічі на тиждень."},
     {"en": "washing machine / dishwasher", "uk": "пральна машина / посудомийка", "ex": "The dishwasher is full — can you turn it on?", "exUk": "Посудомийка повна — можеш її ввімкнути?"},
@@ -19,7 +19,7 @@
     {"en": "to water the plants", "uk": "полити рослини", "ex": "Don't forget to water the plants.", "exUk": "Не забудь полити рослини."},
     {"en": "to feed the cat", "uk": "погодувати кота", "ex": "Who fed the cat this morning?", "exUk": "Хто погодував кота зранку?"},
     {"en": "to walk the dog", "uk": "вигуляти собаку", "ex": "I walk the dog every evening.", "exUk": "Я щовечора вигулюю собаку."},
-    {"en": "furniture", "uk": "меблі (незлічуване)", "ipa": "/ˈfɜːrnɪtʃər/", "ex": "We bought some new furniture for the bedroom.", "exUk": "Ми купили нові меблі в спальню."},
+    {"en": "furniture", "uk": "меблі (незлічуване)", "ipa": "/ˈfɜːnɪtʃə/", "ex": "We bought some new furniture for the bedroom.", "exUk": "Ми купили нові меблі в спальню."},
     {"en": "to assemble furniture", "uk": "збирати меблі", "ex": "It took us all evening to assemble the wardrobe.", "exUk": "Ми весь вечір збирали шафу."},
     {"en": "to redecorate", "uk": "зробити ремонт (косметичний)", "ex": "We're redecorating the kitchen.", "exUk": "Ми робимо ремонт на кухні."},
     {"en": "cosy", "uk": "затишний", "ipa": "/ˈkəʊzi/", "ex": "Your flat is so cosy!", "exUk": "Твоя квартира така затишна!"},
@@ -29,7 +29,7 @@
     {"en": "to be on maternity / paternity leave", "uk": "бути в декретній відпустці (мама / тато)", "ex": "He's on paternity leave for two weeks.", "exUk": "Він два тижні у відпустці по догляду за дитиною."},
     {"en": "to babysit", "uk": "доглядати дитину (няньчити)", "ex": "My mum can babysit on Friday.", "exUk": "Моя мама може посидіти з дитиною в п'ятницю."},
     {"en": "to keep in touch", "uk": "підтримувати зв'язок", "ex": "We keep in touch with our friends in Kyiv.", "exUk": "Ми підтримуємо зв'язок з друзями в Києві."},
-    {"en": "to video call", "uk": "дзвонити по відео", "ex": "I video call my parents every Sunday.", "exUk": "Я щонеділі дзвоню батькам по відео."},
+    {"en": "to video call", "uk": "телефонувати відеозв'язком", "ex": "I video call my parents every Sunday.", "exUk": "Я щонеділі телефоную батькам відеозв'язком."},
     {"en": "to miss someone", "uk": "сумувати за кимось", "ex": "I really miss my family.", "exUk": "Я дуже сумую за родиною."}
   ]
 }

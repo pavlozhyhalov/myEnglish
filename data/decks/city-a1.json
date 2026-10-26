@@ -21,7 +21,7 @@
   },
   {
    "en": "a shop",
-   "uk": "магазин",
+   "uk": "магазин, крамниця",
    "ex": "The shop on the corner is open late.",
    "exUk": "Магазин на розі працює допізна."
   },
@@ -231,7 +231,7 @@
   },
   {
    "en": "to cross the street",
-   "uk": "перейти вулицю",
+   "uk": "переходити вулицю",
    "ex": "Be careful when you cross the street.",
    "exUk": "Будь обережний, коли переходиш вулицю."
   },
@@ -239,7 +239,7 @@
    "en": "a pedestrian crossing",
    "uk": "пішохідний перехід",
    "ex": "Cross at the pedestrian crossing.",
-   "exUk": "Переходь по пішохідному переходу."
+   "exUk": "Переходь вулицю пішохідним переходом."
   },
   {
    "en": "Where is…?",
@@ -293,7 +293,7 @@
    "en": "a road",
    "uk": "дорога",
    "ex": "This road is very busy.",
-   "exUk": "Ця дорога дуже завантажена."
+   "exUk": "На цій дорозі дуже жвавий рух."
   },
   {
    "en": "a police station",

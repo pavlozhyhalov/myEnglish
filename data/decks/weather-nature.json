@@ -23,7 +23,7 @@
    "en": "rainy",
    "uk": "дощовий",
    "ex": "It's been rainy all week.",
-   "exUk": "Увесь тиждень було дощово."
+   "exUk": "Увесь тиждень дощить."
   },
   {
    "en": "windy",
@@ -83,7 +83,7 @@
    "en": "forecast",
    "uk": "прогноз",
    "ex": "The forecast says it'll rain tomorrow.",
-   "exUk": "За прогнозом завтра буде дощ."
+   "exUk": "За прогнозом, завтра буде дощ."
   },
   {
    "en": "umbrella",
@@ -233,7 +233,7 @@
    "en": "climate change",
    "uk": "зміна клімату",
    "ex": "Climate change affects us all.",
-   "exUk": "Зміна клімату стосується всіх нас."
+   "exUk": "Зміна клімату впливає на всіх нас."
   },
   {
    "en": "to recycle",
