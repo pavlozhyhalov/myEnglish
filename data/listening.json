@@ -224,6 +224,156 @@
    "level": "B2",
    "text": "Taking everything into account, I think we made the right decision.",
    "uk": "Зваживши все, я думаю, ми ухвалили правильне рішення."
+  },
+  {
+   "level": "A1",
+   "text": "My name is Pavlo.",
+   "uk": "Мене звати Павло."
+  },
+  {
+   "level": "A1",
+   "text": "I live in a small flat.",
+   "uk": "Я живу в маленькій квартирі."
+  },
+  {
+   "level": "A1",
+   "text": "She is my wife.",
+   "uk": "Вона моя дружина."
+  },
+  {
+   "level": "A1",
+   "text": "We have a red car.",
+   "uk": "У нас червона машина."
+  },
+  {
+   "level": "A1",
+   "text": "It's very cold today.",
+   "uk": "Сьогодні дуже холодно."
+  },
+  {
+   "level": "A1",
+   "text": "Where is the bus stop?",
+   "uk": "Де автобусна зупинка?"
+  },
+  {
+   "level": "A1",
+   "text": "I like coffee with milk.",
+   "uk": "Я люблю каву з молоком."
+  },
+  {
+   "level": "A1",
+   "text": "Can I have the bill, please?",
+   "uk": "Можна рахунок, будь ласка?"
+  },
+  {
+   "level": "A1",
+   "text": "The shop opens at nine.",
+   "uk": "Магазин відкривається о дев'ятій."
+  },
+  {
+   "level": "A1",
+   "text": "My son is five years old.",
+   "uk": "Моєму синові п'ять років."
+  },
+  {
+   "level": "A1",
+   "text": "I don't understand.",
+   "uk": "Я не розумію."
+  },
+  {
+   "level": "A1",
+   "text": "How much is this?",
+   "uk": "Скільки це коштує?"
+  },
+  {
+   "level": "A1",
+   "text": "We go to work by train.",
+   "uk": "Ми їздимо на роботу потягом."
+  },
+  {
+   "level": "A1",
+   "text": "There is a park near my house.",
+   "uk": "Біля мого будинку є парк."
+  },
+  {
+   "level": "A1",
+   "text": "See you on Monday!",
+   "uk": "До понеділка!"
+  },
+  {
+   "level": "C1",
+   "text": "Had I known about the delay, I would have taken an earlier train.",
+   "uk": "Якби я знав про затримку, сів би на ранній потяг."
+  },
+  {
+   "level": "C1",
+   "text": "It's not so much the price that bothers me as the lack of transparency.",
+   "uk": "Мене турбує не стільки ціна, скільки брак прозорості."
+  },
+  {
+   "level": "C1",
+   "text": "The proposal, while ambitious, overlooks several practical constraints.",
+   "uk": "Пропозиція хоч і амбітна, але ігнорує кілька практичних обмежень."
+  },
+  {
+   "level": "C1",
+   "text": "Not only did they cancel the event, but they also refused to refund the tickets.",
+   "uk": "Вони не лише скасували захід, а й відмовилися повернути гроші за квитки."
+  },
+  {
+   "level": "C1",
+   "text": "I'd rather we postponed the decision until we have all the facts.",
+   "uk": "Я б волів відкласти рішення, доки не матимемо всіх фактів."
+  },
+  {
+   "level": "C1",
+   "text": "By the time the ambulance arrived, the situation had already been brought under control.",
+   "uk": "Поки приїхала швидка, ситуацію вже взяли під контроль."
+  },
+  {
+   "level": "C1",
+   "text": "What struck me most was how resilient the local community turned out to be.",
+   "uk": "Найбільше мене вразило, наскільки стійкою виявилася місцева громада."
+  },
+  {
+   "level": "C1",
+   "text": "Despite repeated warnings, the issue was largely overlooked.",
+   "uk": "Попри неодноразові попередження, проблему здебільшого ігнорували."
+  },
+  {
+   "level": "C1",
+   "text": "The findings are by no means conclusive, but they are certainly worth considering.",
+   "uk": "Висновки аж ніяк не остаточні, але їх точно варто розглянути."
+  },
+  {
+   "level": "C1",
+   "text": "Were it not for her support, I would never have got through that year.",
+   "uk": "Якби не її підтримка, я б ніколи не пережив того року."
+  },
+  {
+   "level": "C1",
+   "text": "Having weighed up the pros and cons, we decided to stay put.",
+   "uk": "Зваживши всі за і проти, ми вирішили залишитися."
+  },
+  {
+   "level": "C1",
+   "text": "It goes without saying that safety must never be compromised.",
+   "uk": "Само собою зрозуміло, що безпекою ніколи не можна нехтувати."
+  },
+  {
+   "level": "C1",
+   "text": "The sooner we address the root cause, the less it will cost us in the long run.",
+   "uk": "Що швидше ми усунемо першопричину, то менше це коштуватиме в довгостроковій перспективі."
+  },
+  {
+   "level": "C1",
+   "text": "Little did we know that the trip would change our lives.",
+   "uk": "Ми й гадки не мали, що ця поїздка змінить наше життя."
+  },
+  {
+   "level": "C1",
+   "text": "She has a remarkable ability to put people at ease.",
+   "uk": "Вона має дивовижну здатність заспокоювати людей."
   }
  ],
  "dialogues": [
@@ -622,6 +772,450 @@
       "A professional must do it"
      ],
      "answer": 1
+    }
+   ]
+  },
+  {
+   "title": "Знайомство з сусідом",
+   "level": "A1",
+   "emoji": "wave",
+   "speakers": [
+    "Tom",
+    "Pavlo"
+   ],
+   "lines": [
+    {
+     "speaker": 0,
+     "text": "Hello! Are you the new neighbour?"
+    },
+    {
+     "speaker": 1,
+     "text": "Yes, hi! I'm Pavlo. I live in flat 12."
+    },
+    {
+     "speaker": 0,
+     "text": "Nice to meet you, Pavlo. I'm Tom. I live next door."
+    },
+    {
+     "speaker": 1,
+     "text": "Nice to meet you too. Do you live here with your family?"
+    },
+    {
+     "speaker": 0,
+     "text": "Yes, with my wife and my two kids. And you?"
+    },
+    {
+     "speaker": 1,
+     "text": "I live here with my wife, Vita."
+    },
+    {
+     "speaker": 0,
+     "text": "Where are you from?"
+    },
+    {
+     "speaker": 1,
+     "text": "We're from Ukraine. We work here in Kraków."
+    },
+    {
+     "speaker": 0,
+     "text": "Great! Do you need anything? The shop is just around the corner."
+    },
+    {
+     "speaker": 1,
+     "text": "Thank you! What time does it close?"
+    },
+    {
+     "speaker": 0,
+     "text": "At ten in the evening. See you around!"
+    },
+    {
+     "speaker": 1,
+     "text": "See you! Have a nice day."
+    }
+   ],
+   "questions": [
+    {
+     "q": "Which flat does Pavlo live in?",
+     "options": [
+      "Flat 2",
+      "Flat 12",
+      "Flat 20"
+     ],
+     "answer": 1,
+     "explanation_uk": "I live in flat 12."
+    },
+    {
+     "q": "Who does Tom live with?",
+     "options": [
+      "Alone",
+      "With his wife and two kids",
+      "With his parents"
+     ],
+     "answer": 1,
+     "explanation_uk": "with my wife and my two kids"
+    },
+    {
+     "q": "Where are Pavlo and Vita from?",
+     "options": [
+      "Poland",
+      "Ukraine",
+      "Spain"
+     ],
+     "answer": 1,
+     "explanation_uk": "We're from Ukraine."
+    },
+    {
+     "q": "Where is the shop?",
+     "options": [
+      "Around the corner",
+      "Far away",
+      "Next to the station"
+     ],
+     "answer": 0,
+     "explanation_uk": "just around the corner"
+    },
+    {
+     "q": "When does the shop close?",
+     "options": [
+      "At 8 pm",
+      "At 10 pm",
+      "At midnight"
+     ],
+     "answer": 1,
+     "explanation_uk": "At ten in the evening."
+    }
+   ]
+  },
+  {
+   "title": "Купуємо квитки на потяг",
+   "level": "A2",
+   "emoji": "plane",
+   "speakers": [
+    "Clerk",
+    "Pavlo"
+   ],
+   "lines": [
+    {
+     "speaker": 0,
+     "text": "Good morning. How can I help you?"
+    },
+    {
+     "speaker": 1,
+     "text": "Hi. I'd like a ticket to Warsaw, please."
+    },
+    {
+     "speaker": 0,
+     "text": "Single or return?"
+    },
+    {
+     "speaker": 1,
+     "text": "Return, please. I'm coming back on Sunday."
+    },
+    {
+     "speaker": 0,
+     "text": "There's a train at 8:15 and another one at 10:40."
+    },
+    {
+     "speaker": 1,
+     "text": "The 10:40, please. How long does it take?"
+    },
+    {
+     "speaker": 0,
+     "text": "About two and a half hours. Would you like first or second class?"
+    },
+    {
+     "speaker": 1,
+     "text": "Second class is fine. How much is it?"
+    },
+    {
+     "speaker": 0,
+     "text": "That's one hundred and twenty złoty."
+    },
+    {
+     "speaker": 1,
+     "text": "Can I pay by card?"
+    },
+    {
+     "speaker": 0,
+     "text": "Of course. Your train leaves from platform 4."
+    },
+    {
+     "speaker": 1,
+     "text": "Thanks a lot!"
+    }
+   ],
+   "questions": [
+    {
+     "q": "Where is Pavlo going?",
+     "options": [
+      "Kraków",
+      "Warsaw",
+      "Gdańsk"
+     ],
+     "answer": 1,
+     "explanation_uk": "a ticket to Warsaw"
+    },
+    {
+     "q": "What kind of ticket does he buy?",
+     "options": [
+      "Single",
+      "Return",
+      "Monthly"
+     ],
+     "answer": 1,
+     "explanation_uk": "Return, please."
+    },
+    {
+     "q": "Which train does he choose?",
+     "options": [
+      "8:15",
+      "10:40",
+      "12:00"
+     ],
+     "answer": 1,
+     "explanation_uk": "The 10:40, please."
+    },
+    {
+     "q": "How long is the journey?",
+     "options": [
+      "About 1.5 hours",
+      "About 2.5 hours",
+      "About 4 hours"
+     ],
+     "answer": 1,
+     "explanation_uk": "About two and a half hours."
+    },
+    {
+     "q": "Which platform?",
+     "options": [
+      "2",
+      "4",
+      "14"
+     ],
+     "answer": 1,
+     "explanation_uk": "platform 4"
+    }
+   ]
+  },
+  {
+   "title": "Скарга в ресторані",
+   "level": "B2",
+   "emoji": "food",
+   "speakers": [
+    "Waiter",
+    "Pavlo"
+   ],
+   "lines": [
+    {
+     "speaker": 1,
+     "text": "Excuse me, I'm sorry to bother you, but I think there's been a mix-up with our order."
+    },
+    {
+     "speaker": 0,
+     "text": "Oh, I'm sorry to hear that. What seems to be the problem?"
+    },
+    {
+     "speaker": 1,
+     "text": "I asked for the steak medium-rare, but this one is practically well done."
+    },
+    {
+     "speaker": 0,
+     "text": "I do apologise. I'll have the kitchen prepare another one straight away."
+    },
+    {
+     "speaker": 1,
+     "text": "Thanks. Also, my wife's pasta was supposed to come without cheese — she's lactose intolerant."
+    },
+    {
+     "speaker": 0,
+     "text": "That's definitely our mistake. I'll make sure the chef knows."
+    },
+    {
+     "speaker": 1,
+     "text": "I appreciate it. We've been waiting quite a while already, so if it could be quick…"
+    },
+    {
+     "speaker": 0,
+     "text": "Of course. It should be about ten minutes. In the meantime, can I offer you a drink on the house?"
+    },
+    {
+     "speaker": 1,
+     "text": "That's very kind of you. Two glasses of sparkling water would be great."
+    },
+    {
+     "speaker": 0,
+     "text": "Coming right up. And I'll take the steak off your bill as well."
+    },
+    {
+     "speaker": 1,
+     "text": "Oh, there's no need — but thank you, that's really generous."
+    },
+    {
+     "speaker": 0,
+     "text": "Not at all. We want you to leave happy."
+    }
+   ],
+   "questions": [
+    {
+     "q": "What was wrong with the steak?",
+     "options": [
+      "It was cold",
+      "It was overcooked",
+      "It was too small"
+     ],
+     "answer": 1,
+     "explanation_uk": "practically well done — пересмажений"
+    },
+    {
+     "q": "Why can't his wife eat cheese?",
+     "options": [
+      "She's vegan",
+      "She's lactose intolerant",
+      "She doesn't like it"
+     ],
+     "answer": 1,
+     "explanation_uk": "she's lactose intolerant"
+    },
+    {
+     "q": "How long will the new dish take?",
+     "options": [
+      "Five minutes",
+      "Ten minutes",
+      "Half an hour"
+     ],
+     "answer": 1,
+     "explanation_uk": "about ten minutes"
+    },
+    {
+     "q": "What does the waiter offer?",
+     "options": [
+      "A dessert",
+      "Free drinks",
+      "A discount voucher"
+     ],
+     "answer": 1,
+     "explanation_uk": "a drink on the house — напої за рахунок закладу"
+    },
+    {
+     "q": "What will happen with the bill?",
+     "options": [
+      "The steak will be free",
+      "The whole meal will be free",
+      "Nothing changes"
+     ],
+     "answer": 0,
+     "explanation_uk": "take the steak off your bill"
+    }
+   ]
+  },
+  {
+   "title": "Дискусія: віддалена робота",
+   "level": "C1",
+   "emoji": "speaking",
+   "speakers": [
+    "Anna",
+    "Pavlo"
+   ],
+   "lines": [
+    {
+     "speaker": 0,
+     "text": "So, now that the company's reconsidering remote work, where do you stand on it?"
+    },
+    {
+     "speaker": 1,
+     "text": "Honestly, I'm a bit torn. On the one hand, not commuting has given me back nearly two hours a day."
+    },
+    {
+     "speaker": 0,
+     "text": "That's hardly trivial. But I'd argue we've lost something in terms of team cohesion."
+    },
+    {
+     "speaker": 1,
+     "text": "I take your point. Spontaneous conversations by the coffee machine are surprisingly hard to replicate online."
+    },
+    {
+     "speaker": 0,
+     "text": "Exactly. And for new hires it's even tougher — they're expected to pick things up without anyone to shadow."
+    },
+    {
+     "speaker": 1,
+     "text": "Admittedly, that's a fair criticism. Having said that, I'm not convinced forcing everyone back five days a week is the answer."
+    },
+    {
+     "speaker": 0,
+     "text": "No, that would probably backfire. People have got used to the flexibility."
+    },
+    {
+     "speaker": 1,
+     "text": "What I'd propose is a hybrid model — say, two anchor days when the whole team is in."
+    },
+    {
+     "speaker": 0,
+     "text": "That sounds reasonable, provided the days are coordinated. Otherwise you end up in the office on Zoom calls all day."
+    },
+    {
+     "speaker": 1,
+     "text": "Ha, yes — the worst of both worlds. It'd need some discipline from managers."
+    },
+    {
+     "speaker": 0,
+     "text": "Well, if you put it together as a proposal, I'd be happy to back it."
+    },
+    {
+     "speaker": 1,
+     "text": "Great. I'll draft something and send it round by Friday."
+    }
+   ],
+   "questions": [
+    {
+     "q": "How does Pavlo feel about remote work at first?",
+     "options": [
+      "Completely in favour",
+      "Undecided",
+      "Strongly against"
+     ],
+     "answer": 1,
+     "explanation_uk": "I'm a bit torn — вагаюся"
+    },
+    {
+     "q": "What does Anna think has been lost?",
+     "options": [
+      "Productivity",
+      "Team cohesion",
+      "Salary"
+     ],
+     "answer": 1,
+     "explanation_uk": "team cohesion"
+    },
+    {
+     "q": "Who finds remote work especially hard, according to Anna?",
+     "options": [
+      "Managers",
+      "New employees",
+      "IT staff"
+     ],
+     "answer": 1,
+     "explanation_uk": "new hires"
+    },
+    {
+     "q": "What does Pavlo propose?",
+     "options": [
+      "Full office return",
+      "Fully remote work",
+      "A hybrid model with anchor days"
+     ],
+     "answer": 2,
+     "explanation_uk": "a hybrid model — two anchor days"
+    },
+    {
+     "q": "What will Pavlo do by Friday?",
+     "options": [
+      "Talk to the CEO",
+      "Send round a draft proposal",
+      "Book a meeting room"
+     ],
+     "answer": 1,
+     "explanation_uk": "draft something and send it round by Friday"
     }
    ]
   }

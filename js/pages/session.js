@@ -6,10 +6,11 @@ import { grammarIndex, lesson as loadLesson } from '../data.js';
 import { runReview } from './cards.js';
 import { runExercises, answerText } from '../ui/exercises.js';
 import { md } from '../ui/md.js';
-import { activityTimer, addMistake, lessonDone, lessonsToReview, logSession } from '../stats.js';
+import { activityTimer, addMistake, lessonsToReview } from '../stats.js';
 import { user } from '../supa.js';
 import { setFocus } from '../ui/shell.js';
 import { go } from '../router.js';
+import { nextLessonByLevel } from '../level.js';
 
 export default async function session(view) {
   const steps = ['Картки', 'Граматика', 'Розмова'];
@@ -19,7 +20,7 @@ export default async function session(view) {
 
   const idx = await grammarIndex();
   const rev = lessonsToReview()[0];
-  const lessonMeta = (rev && idx.find(l => l.id === rev.id)) || idx.find(l => !lessonDone(l.id)) || idx[0];
+  const lessonMeta = (rev && idx.find(l => l.id === rev.id)) || nextLessonByLevel(idx) || idx[0];
   const lesson = await loadLesson(lessonMeta.id);
   const counts = await srs.counts();
 
@@ -50,7 +51,7 @@ export default async function session(view) {
       interstitial(2, 'mic', `Розмова на тему уроку`, `5–7 хвилин голосом: вчитель вплете «${lesson.title}» у розмову.`, async () => {
         const { voiceSession } = await import('../live/voice.js');
         cleanup = await voiceSession(view, {
-          topic: `practise "${lesson.titleEn || lesson.title}" naturally in conversation about his work`,
+          topic: `practise "${lesson.titleEn || lesson.title}" naturally in an everyday conversation`,
           maxSeconds: 420,
           onFinish: (row) => { summary.talk = row.seconds; summary.chatId = row.id || null; finish(); },
         });

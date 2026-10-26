@@ -1,0 +1,180 @@
+{
+ "id": "object-pronouns",
+ "title": "Me, him, her, them",
+ "titleEn": "Subject and object pronouns",
+ "unit": "Будова речення",
+ "level": "A2",
+ "mistakeType": "word_order",
+ "explanation": "Займенники-підмети стоять **перед** дієсловом: *I, you, he, she, it, we, they*. Після дієслова або прийменника — **об'єктні**: *me, you, him, her, it, us, them*.\n\n*She loves **him**. Call **me** later. This is for **you**. Come with **us**!*\n\nУкраїнською *«мене, мені, мною»* — англійською усе це **me**: *Help **me**. Give it to **me**. Come with **me**.*",
+ "formula": [
+  "підмет: **I / he / she / we / they**",
+  "після дієслова/прийменника: **me / him / her / us / them**"
+ ],
+ "table": {
+  "head": [
+   "Підмет",
+   "Об'єкт",
+   "Приклад"
+  ],
+  "rows": [
+   [
+    "I",
+    "me",
+    "Can you help me?"
+   ],
+   [
+    "he / she",
+    "him / her",
+    "I like her."
+   ],
+   [
+    "it",
+    "it",
+    "I've lost it."
+   ],
+   [
+    "we / they",
+    "us / them",
+    "Tell them."
+   ]
+  ]
+ },
+ "examples": [
+  {
+   "en": "Can you call me back?",
+   "uk": "Можеш мені передзвонити?"
+  },
+  {
+   "en": "I don't know him.",
+   "uk": "Я його не знаю."
+  },
+  {
+   "en": "Give them my regards.",
+   "uk": "Передай їм привіт."
+  },
+  {
+   "en": "This gift is for her.",
+   "uk": "Цей подарунок для неї."
+  },
+  {
+   "en": "Wait for us!",
+   "uk": "Почекай нас!"
+  }
+ ],
+ "tip": "Після **between, for, with, to** — об'єктна форма: *between you and **me***, не ~~between you and I~~.",
+ "exercises": [
+  {
+   "type": "choice",
+   "prompt": "Can you help ___?",
+   "options": [
+    "I",
+    "me",
+    "my"
+   ],
+   "answer": "me",
+   "explanation": ""
+  },
+  {
+   "type": "choice",
+   "prompt": "I saw Anna and talked to ___.",
+   "options": [
+    "she",
+    "her",
+    "hers"
+   ],
+   "answer": "her",
+   "explanation": ""
+  },
+  {
+   "type": "choice",
+   "prompt": "Where are my keys? I can't find ___.",
+   "options": [
+    "it",
+    "them",
+    "they"
+   ],
+   "answer": "them",
+   "explanation": ""
+  },
+  {
+   "type": "choice",
+   "prompt": "___ live in Kraków.",
+   "options": [
+    "We",
+    "Us",
+    "Our"
+   ],
+   "answer": "We",
+   "explanation": "Підмет."
+  },
+  {
+   "type": "input",
+   "prompt": "Tom is nice. I like ___ a lot.",
+   "answer": [
+    "him"
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "input",
+   "prompt": "We're going to the park. Come with ___!",
+   "answer": [
+    "us"
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "input",
+   "prompt": "My parents are here. I'm having dinner with ___.",
+   "answer": [
+    "them"
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "error",
+   "sentence": "Please tell I the truth.",
+   "wrongIndex": 2,
+   "correction": "me",
+   "alt": [],
+   "explanation": "Після дієслова — me."
+  },
+  {
+   "type": "error",
+   "sentence": "Him is my best friend.",
+   "wrongIndex": 0,
+   "correction": "He",
+   "alt": [],
+   "explanation": "Підмет — he."
+  },
+  {
+   "type": "order",
+   "prompt": "Я подзвоню їй завтра.",
+   "answer": [
+    "I'll call her tomorrow.",
+    "I will call her tomorrow."
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "translate",
+   "uk": "Покажи мені фото.",
+   "answer": [
+    "Show me the photo.",
+    "Show me the photos.",
+    "Show me the picture."
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "translate",
+   "uk": "Він нас не бачить.",
+   "answer": [
+    "He doesn't see us.",
+    "He can't see us.",
+    "He does not see us."
+   ],
+   "explanation": ""
+  }
+ ]
+}

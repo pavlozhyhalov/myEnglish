@@ -9,6 +9,7 @@ import { activityTimer, addMistake } from '../stats.js';
 import { tutor, aiErrorText } from '../ai.js';
 import { user } from '../supa.js';
 import { toast } from '../ui/toast.js';
+import { LEVELS, myLevel, byFit, levelTag, rank } from '../level.js';
 
 export default async function listening(view, r) {
   const data = await loadListening();
@@ -25,17 +26,17 @@ export default async function listening(view, r) {
 
 // ---------- Диктант ----------
 function dictation(box, data, timer) {
-  const levels = [...new Set(data.dictation.map(d => d.level))];
-  const LEVEL_UK = { A2: 'Легко', B1: 'Середньо', B2: 'Складно' };
-  let level = levels[1] || levels[0];
+  const levels = LEVELS.filter(l => data.dictation.some(d => d.level === l));
+  // за замовчуванням — найближчий до мого рівня
+  let level = levels.slice().sort((a, b) => Math.abs(rank(a) - rank(myLevel())) - Math.abs(rank(b) - rank(myLevel())))[0];
   const start = () => {
     const pool = data.dictation.filter(d => d.level === level);
     const items = pool.sort(() => Math.random() - 0.5).slice(0, 8);
     run(items);
   };
   box.replaceChildren(h('div.stack',
-    h('section.card.stack', h('div.row', emo('headphone', 'lg'), h('div.grow', h('h2', { style: { margin: 0 } }, 'Диктант'), h('div.small.dim', '8 речень: слухайте і набирайте. Порівняння посимвольно.'))),
-      h('div.chips', levels.map(l => h('button.chip', { type: 'button', 'aria-pressed': String(l === level), onclick: (e) => { level = l; e.currentTarget.parentNode.querySelectorAll('.chip').forEach(c => c.setAttribute('aria-pressed', String(c === e.currentTarget))); } }, LEVEL_UK[l] || l))),
+    h('section.card.stack', h('div.row', emo('headphone', 'lg'), h('div.grow', h('h2', { style: { margin: 0 } }, 'Диктант'), h('div.small.dim', '8 речень: слухайте і набирайте. Рівень — за вашим, можна змінити.'))),
+      h('div.chips', levels.map(l => h('button.chip', { type: 'button', 'aria-pressed': String(l === level), onclick: (e) => { level = l; e.currentTarget.parentNode.querySelectorAll('.chip').forEach(c => c.setAttribute('aria-pressed', String(c === e.currentTarget))); } }, l === myLevel() ? `${l} · мій` : l))),
       h('button.btn.primary.block.lg', { type: 'button', onclick: start }, ic('play', { fill: true }), 'Почати'))));
 
   function run(items) {
@@ -124,11 +125,11 @@ function wordMismatch(target, given) {
 // ---------- Діалоги ----------
 function dialogues(box, data, timer) {
   const topics = ['У кафе', 'Плани на вихідні', 'В аеропорту', 'Оренда квартири', 'У лікаря', 'Знайомство на вечірці', 'Покупки й повернення', 'Подорож потягом', 'Обговорення фільму', 'Співбесіда'];
-  const list = data.dialogues;
+  const list = byFit(data.dialogues);
   box.replaceChildren(h('div.stack',
     h('div.section-title', 'Готові діалоги (офлайн)'),
     h('div.list', list.map(d => h('button.list-row', { type: 'button', onclick: () => playDialogue(box, d, timer, () => dialogues(box, data, timer)) },
-      emo(d.emoji || 'headphone'), h('div.grow', h('div', { style: { fontWeight: 600 } }, d.title), h('div.sub', `${d.level} · ${d.lines.length} реплік`)), ic('caret-right', { size: 18 })))),
+      emo(d.emoji || 'headphone'), h('div.grow', h('div', { style: { fontWeight: 600 } }, d.title), h('div.sub', `${d.lines.length} реплік · ${d.questions.length} питань`)), levelTag(d.level), ic('caret-right', { size: 18 })))),
     h('div.section-title', 'Новий діалог від AI'),
     h('div.chips', topics.map(t => h('button.chip', { type: 'button', onclick: async (e) => {
       if (!user()) { toast(S.err.needLogin); return; }

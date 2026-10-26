@@ -11,31 +11,45 @@ import { tutor, aiErrorText } from '../ai.js';
 import { user } from '../supa.js';
 import { setTitle } from '../ui/shell.js';
 import { toast } from '../ui/toast.js';
+import { LEVELS, LEVEL_NAME, myLevel, diff, levelTag, nextLessonByLevel } from '../level.js';
 
 export default async function grammar(view, r) {
   if (r.parts[0]) return lessonPage(view, r.parts[0], r.query);
   const idx = await grammarIndex();
   const due = new Set(lessonsToReview().map(p => p.id));
-  const units = [];
-  for (const l of idx) { let u = units.find(x => x.name === l.unit); if (!u) units.push(u = { name: l.unit, items: [] }); u.items.push(l); }
   const done = idx.filter(l => store.get('lessons_progress', l.id)?.completed_at).length;
-  const next = idx.find(l => !store.get('lessons_progress', l.id)?.completed_at);
+  const next = nextLessonByLevel(idx);
+  const mine = myLevel();
+  const row = (l) => {
+    const p = store.get('lessons_progress', l.id);
+    const status = due.has(l.id) ? h('span.tag.warn', 'Повторити') : p?.completed_at ? h('span.tag.good', `${p.best}%`) : p ? h('span.tag', `${p.best}%`) : null;
+    return h('a.list-row', { href: `#/grammar/${l.id}` },
+      h('span.num.dim', { style: { width: '26px' } }, String(l.n)),
+      h('div.grow', h('div', { style: { fontWeight: 600 } }, l.title), h('div.sub', l.summary)),
+      status, ic('caret-right', { size: 18 }));
+  };
+  // розділи за рівнями: свій розгорнутий, решта — згорнуті (нижчі — для прогалин, вищі — наперед)
+  const levelSection = (lv) => {
+    const items = idx.filter(l => l.level === lv);
+    if (!items.length) return null;
+    const d = items.filter(l => store.get('lessons_progress', l.id)?.completed_at).length;
+    const units = [];
+    for (const l of items) { let u = units.find(x => x.name === l.unit); if (!u) units.push(u = { name: l.unit, items: [] }); u.items.push(l); }
+    const body = h('div.stack', { style: { gap: '12px', marginTop: '8px' } }, units.map(u => h('div.stack', { style: { gap: '6px' } },
+      h('div.xs.dim', { style: { margin: '0 2px', fontWeight: 600 } }, u.name), h('div.list', u.items.map(row)))));
+    return h('details.level-sec', { open: lv === mine ? true : null },
+      h('summary.row', levelTag(lv), h('div.grow', h('b', LEVEL_NAME[lv]), lv === mine ? h('span.xs.dim', ' · ваш рівень') : diff(lv) > 0 ? h('span.xs.dim', ' · наступні') : null),
+        h('span.small.dim.num', `${d}/${items.length}`)),
+      body);
+  };
 
   view.replaceChildren(h('div.stack-lg',
     h('section.card.stack',
       h('div.row', emo('puzzle', 'lg'), h('div.grow', h('h1', { style: { margin: 0 } }, 'Граматика'), h('div.small.dim', `Пройдено ${done} з ${idx.length} · урок зараховано від 80%`))),
       h('div.progress', h('i', { style: { width: `${done / idx.length * 100}%` } })),
       next ? h('a.btn.primary.block', { href: `#/grammar/${next.id}` }, ic('play', { fill: true }), `Продовжити: ${next.title}`) : h('div.feedback.ok', 'Курс пройдено! Повторюйте уроки за графіком.')),
-    ...units.map(u => h('section.stack', { style: { gap: '8px' } },
-      h('div.section-title', u.name),
-      h('div.list', u.items.map(l => {
-        const p = store.get('lessons_progress', l.id);
-        const status = due.has(l.id) ? h('span.tag.warn', 'Повторити') : p?.completed_at ? h('span.tag.good', `${p.best}%`) : p ? h('span.tag', `${p.best}%`) : null;
-        return h('a.list-row', { href: `#/grammar/${l.id}` },
-          h('span.num.dim', { style: { width: '26px' } }, String(l.n)),
-          h('div.grow', h('div', { style: { fontWeight: 600 } }, l.title), h('div.sub', l.summary)),
-          status, ic('caret-right', { size: 18 }));
-      }))))));
+    h('p.xs.dim', { style: { margin: '0 2px' } }, `Уроки підібрано під рівень ${mine}. Змінити рівень — у «Налаштуваннях» або тестом.`),
+    ...LEVELS.map(levelSection)));
 }
 
 async function lessonPage(view, id, query = {}) {

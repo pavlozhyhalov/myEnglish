@@ -4,10 +4,14 @@ import { S, plural } from '../strings.js';
 import * as store from '../store.js';
 import * as srs from '../srs.js';
 import { grammarIndex } from '../data.js';
+import { LEVEL_NAME, myLevel, nextLevel, levelProgress, setLevel, READY_PCT } from '../level.js';
+import { toast } from '../ui/toast.js';
 import { streak, lastNDays, totalSeconds, weekSeconds, todaySeconds, skillLevels, MISTAKE_TYPES } from '../stats.js';
 
 export default async function progressPage(view) {
   const [c, gIdx] = await Promise.all([srs.counts(), grammarIndex()]);
+  const lp = await levelProgress(gIdx);
+  const lvl = myLevel();
   const days = lastNDays(30);
   const maxSec = Math.max(60, ...days.map(d => d.seconds));
   const fc = srs.forecast(7);
@@ -52,6 +56,14 @@ export default async function progressPage(view) {
       h('div.section-title', 'Прогноз повторів на 7 днів'),
       h('div.bars', { style: { height: '80px' } }, fc.map(n => h('i' + (n ? '' : '.zero'), { style: { height: `${Math.max(2, n / maxFc * 100)}%` }, title: String(n) }))),
       h('div.bars-labels', fc.map((n, i) => h('span', i === 0 ? `сьог. ${n}` : String(n))))),
+
+    h('section.card.stack',
+      h('div.row', h('div.level-badge', lvl), h('div.grow', h('div.section-title', `Рівень ${lvl} · ${LEVEL_NAME[lvl]}`), h('div.xs.dim', `Опановано ${lp.pct}% · перехід від ${READY_PCT}%`))),
+      bar(lp.pct),
+      h('div.grid2', stat(`${lp.grammar.done}/${lp.grammar.total}`, `уроків граматики ${lvl}`), stat(`${lp.words.done}/${lp.words.total}`, `слів ${lvl} закріплено`)),
+      h('div.xs.dim', 'Слово закріплене, коли його інтервал повтору досяг 7 днів. Рахуються уроки й колоди саме цього рівня.'),
+      lp.ready ? h('button.btn.primary.block', { type: 'button', onclick: () => { const n = nextLevel(); setLevel(n, 'progress'); toast(`Рівень ${n}: план і контент оновлено`); progressPage(view); } }, `Перейти на ${nextLevel()}`) : null,
+      h('a.btn.soft.block', { href: '#/tests/placement' }, 'Перевірити рівень тестом')),
 
     h('section.card.stack',
       h('div.section-title', 'Рівень за навичками'),

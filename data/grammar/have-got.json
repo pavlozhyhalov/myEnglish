@@ -1,0 +1,177 @@
+{
+ "id": "have-got",
+ "title": "Have / have got",
+ "titleEn": "have and have got (possession)",
+ "unit": "Основи речення",
+ "level": "A1",
+ "mistakeType": "word_order",
+ "explanation": "Щоб сказати, що щось **маєш** (*У мене є…*), англійською кажуть **I have** або (британське, розмовне) **I have got**: *I **have** a car. = I'**ve got** a car.*\n\nУ 3-й особі: *she **has** / she'**s got***.\n\nЗаперечення і питання: з **have** — через do/does: *I **don't have** time. **Do** you **have** kids?*; з **have got** — без do: *I **haven't got** time. **Have** you **got** kids?*",
+ "formula": [
+  "I/you/we/they **have** = **'ve got**",
+  "he/she/it **has** = **'s got**"
+ ],
+ "table": {
+  "head": [
+   "",
+   "have",
+   "have got"
+  ],
+  "rows": [
+   [
+    "+",
+    "She has a dog.",
+    "She's got a dog."
+   ],
+   [
+    "−",
+    "I don't have a car.",
+    "I haven't got a car."
+   ],
+   [
+    "?",
+    "Do you have a pen?",
+    "Have you got a pen?"
+   ]
+  ]
+ },
+ "examples": [
+  {
+   "en": "I have two brothers.",
+   "uk": "У мене двоє братів."
+  },
+  {
+   "en": "She's got blue eyes.",
+   "uk": "У неї блакитні очі."
+  },
+  {
+   "en": "We don't have much time.",
+   "uk": "У нас мало часу."
+  },
+  {
+   "en": "Have you got a minute?",
+   "uk": "У тебе є хвилинка?"
+  },
+  {
+   "en": "Does he have a car?",
+   "uk": "У нього є машина?"
+  }
+ ],
+ "tip": "Не змішуйте: ~~Do you have got~~ → *Do you have…?* або *Have you got…?*",
+ "exercises": [
+  {
+   "type": "choice",
+   "prompt": "My sister ___ two children.",
+   "options": [
+    "have",
+    "has",
+    "is"
+   ],
+   "answer": "has",
+   "explanation": "she → has."
+  },
+  {
+   "type": "choice",
+   "prompt": "I ___ got a bike.",
+   "options": [
+    "have",
+    "has",
+    "am"
+   ],
+   "answer": "have",
+   "explanation": "I've got."
+  },
+  {
+   "type": "choice",
+   "prompt": "___ you have a pen?",
+   "options": [
+    "Do",
+    "Have",
+    "Are"
+   ],
+   "answer": "Do",
+   "explanation": "have → do."
+  },
+  {
+   "type": "choice",
+   "prompt": "He hasn't ___ a job.",
+   "options": [
+    "get",
+    "got",
+    "have"
+   ],
+   "answer": "got",
+   "explanation": "haven't/hasn't got."
+  },
+  {
+   "type": "input",
+   "prompt": "We ___ (not / have) a garden. (з do, скорочено)",
+   "answer": [
+    "don't have",
+    "do not have"
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "input",
+   "prompt": "___ she got any brothers?",
+   "answer": [
+    "Has"
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "input",
+   "prompt": "They ___ (have) a big flat.",
+   "answer": [
+    "have"
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "error",
+   "sentence": "She have a new phone.",
+   "wrongIndex": 1,
+   "correction": "has",
+   "alt": [],
+   "explanation": "she → has."
+  },
+  {
+   "type": "error",
+   "sentence": "Does she has a car?",
+   "wrongIndex": 2,
+   "correction": "have",
+   "alt": [],
+   "explanation": "Після does — have."
+  },
+  {
+   "type": "order",
+   "prompt": "У мене немає часу.",
+   "answer": [
+    "I don't have time.",
+    "I haven't got time."
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "translate",
+   "uk": "У тебе є діти?",
+   "answer": [
+    "Do you have children?",
+    "Have you got children?",
+    "Do you have kids?",
+    "Have you got kids?"
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "translate",
+   "uk": "У нього нова машина.",
+   "answer": [
+    "He has a new car.",
+    "He's got a new car.",
+    "He has got a new car."
+   ],
+   "explanation": ""
+  }
+ ]
+}

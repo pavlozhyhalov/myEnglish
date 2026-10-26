@@ -1,0 +1,174 @@
+{
+ "id": "participle-clauses",
+ "title": "Дієприкметникові звороти",
+ "titleEn": "Participle clauses",
+ "unit": "Просунуті конструкції",
+ "level": "C1",
+ "mistakeType": "word_order",
+ "explanation": "**Participle clauses** скорочують речення і роблять мову щільнішою (листи, розповіді, новини).\n\n**V-ing** — одночасна або причинна дія (актив): ***Feeling** tired, I went to bed early.* (= Because I felt tired…)\n\n**Having + V3** — дія **раніше** за іншу: ***Having finished** the report, she went home.*\n\n**V3** — пасивне значення: ***Built** in 1890, the house needs repairs.* (= It was built…)\n\nПідмет звороту має збігатися з підметом головного речення!",
+ "formula": [
+  "**V-ing**, … (одночасно / бо)",
+  "**Having V3**, … (спершу)",
+  "**V3**, … (пасив)"
+ ],
+ "table": {
+  "head": [
+   "Зворот",
+   "Повне речення"
+  ],
+  "rows": [
+   [
+    "Walking home, I met Tom.",
+    "While I was walking home, I met Tom."
+   ],
+   [
+    "Having lost the key, we called a locksmith.",
+    "Because we had lost the key, we called…"
+   ],
+   [
+    "Made in Italy, these shoes are expensive.",
+    "These shoes, which are made in Italy, are…"
+   ],
+   [
+    "Not knowing what to say, I kept quiet.",
+    "Because I didn't know what to say…"
+   ]
+  ]
+ },
+ "examples": [
+  {
+   "en": "Looking out of the window, I saw a deer.",
+   "uk": "Визирнувши у вікно, я побачив оленя."
+  },
+  {
+   "en": "Having lived in Poland for years, he speaks Polish fluently.",
+   "uk": "Проживши в Польщі роки, він вільно говорить польською."
+  },
+  {
+   "en": "Asked about the delay, the manager apologised.",
+   "uk": "Коли менеджера запитали про затримку, він вибачився."
+  },
+  {
+   "en": "Not having a car, we took a taxi.",
+   "uk": "Не маючи машини, ми взяли таксі."
+  },
+  {
+   "en": "Written in simple English, the book is easy to read.",
+   "uk": "Книжку написано простою англійською, тож її легко читати."
+  }
+ ],
+ "tip": "Помилка «висячого звороту»: ~~Walking down the street, the rain started~~ (дощ не йшов вулицею). Правильно: *Walking down the street, **I** got caught in the rain.*",
+ "exercises": [
+  {
+   "type": "choice",
+   "prompt": "___ the email, she closed her laptop.",
+   "options": [
+    "Sending",
+    "Having sent",
+    "Sent"
+   ],
+   "answer": "Having sent",
+   "explanation": "Спершу надіслала."
+  },
+  {
+   "type": "choice",
+   "prompt": "___ in 1920, the bridge is still in use.",
+   "options": [
+    "Building",
+    "Built",
+    "Having built"
+   ],
+   "answer": "Built",
+   "explanation": "Пасив."
+  },
+  {
+   "type": "choice",
+   "prompt": "___ what to do, I called my dad.",
+   "options": [
+    "Not knowing",
+    "Not known",
+    "Knowing not"
+   ],
+   "answer": "Not knowing",
+   "explanation": ""
+  },
+  {
+   "type": "choice",
+   "prompt": "___ along the beach, we found a small café.",
+   "options": [
+    "Walked",
+    "Walking",
+    "Having walked"
+   ],
+   "answer": "Walking",
+   "explanation": ""
+  },
+  {
+   "type": "input",
+   "prompt": "___ (have / finish) dinner, we went for a walk.",
+   "answer": [
+    "Having finished"
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "input",
+   "prompt": "___ (feel) ill, he stayed at home.",
+   "answer": [
+    "Feeling"
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "input",
+   "prompt": "___ (surprise) by the news, she didn't say a word.",
+   "answer": [
+    "Surprised"
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "error",
+   "sentence": "Having eat breakfast, I left the house.",
+   "wrongIndex": 1,
+   "correction": "eaten",
+   "alt": [],
+   "explanation": "Having + V3."
+  },
+  {
+   "type": "error",
+   "sentence": "Having spend all our money, we went home.",
+   "wrongIndex": 1,
+   "correction": "spent",
+   "alt": [],
+   "explanation": "Having + V3."
+  },
+  {
+   "type": "transform",
+   "prompt": "Because I didn't have an umbrella, I got wet.",
+   "instruction": "Почніть з Not having…",
+   "answer": [
+    "Not having an umbrella, I got wet."
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "transform",
+   "prompt": "After she had read the letter, she started to cry.",
+   "instruction": "Почніть з Having…",
+   "answer": [
+    "Having read the letter, she started to cry."
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "translate",
+   "uk": "Не знаючи міста, ми швидко загубилися.",
+   "answer": [
+    "Not knowing the city, we quickly got lost.",
+    "Not knowing the city, we got lost quickly."
+   ],
+   "explanation": ""
+  }
+ ]
+}

@@ -45,7 +45,8 @@
     ]
    }
   ],
-  "sample": "Dear Mr Kowalski,\n\nI hope you are well. I'm writing to let you know that the heating in our flat hasn't been working since Monday. We have checked the thermostat, but it didn't help, and it is getting quite cold, especially at night.\n\nCould you please send someone to fix it as soon as possible? We are at home every day after 5 pm and all day on Saturday.\n\nThank you in advance.\n\nBest regards,\nPavlo"
+  "sample": "Dear Mr Kowalski,\n\nI hope you are well. I'm writing to let you know that the heating in our flat hasn't been working since Monday. We have checked the thermostat, but it didn't help, and it is getting quite cold, especially at night.\n\nCould you please send someone to fix it as soon as possible? We are at home every day after 5 pm and all day on Saturday.\n\nThank you in advance.\n\nBest regards,\nPavlo",
+  "level": "B1"
  },
  {
   "id": "invite",
@@ -92,7 +93,8 @@
     ]
    }
   ],
-  "sample": "Hey Tom!\n\nLong time no see! Are you free on Saturday? We're having a barbecue at our place from around 4 pm. Just bring something to drink — we'll take care of the food.\n\nLet me know if you can make it!\nCheers,\nPavlo"
+  "sample": "Hey Tom!\n\nLong time no see! Are you free on Saturday? We're having a barbecue at our place from around 4 pm. Just bring something to drink — we'll take care of the food.\n\nLet me know if you can make it!\nCheers,\nPavlo",
+  "level": "A2"
  },
  {
   "id": "complaint-shop",
@@ -138,7 +140,8 @@
     ]
    }
   ],
-  "sample": "Dear Customer Service,\n\nI am writing to complain about my recent order (No. 48213), which arrived yesterday. Unfortunately, the coffee machine was damaged — the water tank is cracked. I have attached some photos.\n\nI would prefer a full refund. Could you please arrange a free return?\n\nI look forward to your reply.\n\nKind regards,\nPavlo Zhyhalov"
+  "sample": "Dear Customer Service,\n\nI am writing to complain about my recent order (No. 48213), which arrived yesterday. Unfortunately, the coffee machine was damaged — the water tank is cracked. I have attached some photos.\n\nI would prefer a full refund. Could you please arrange a free return?\n\nI look forward to your reply.\n\nKind regards,\nPavlo Zhyhalov",
+  "level": "B1"
  },
  {
   "id": "review",
@@ -177,7 +180,8 @@
     ]
    }
   ],
-  "sample": "We had dinner here last Friday to celebrate our anniversary. The food was delicious, especially the duck, and the staff were friendly and helpful. The only downside was that the service was quite slow when it got busy.\n\nIt's a bit pricey, but definitely worth it. Perfect for a special occasion — just make sure you book a table in advance."
+  "sample": "We had dinner here last Friday to celebrate our anniversary. The food was delicious, especially the duck, and the staff were friendly and helpful. The only downside was that the service was quite slow when it got busy.\n\nIt's a bit pricey, but definitely worth it. Perfect for a special occasion — just make sure you book a table in advance.",
+  "level": "B1"
  },
  {
   "id": "thank-you",
@@ -214,7 +218,8 @@
     ]
    }
   ],
-  "sample": "Hi Kate and Ben,\n\nThank you so much for having us last weekend! We had a wonderful time — the dinner was amazing and we loved the walk by the lake.\n\nNext time you must come to us. You're always welcome in Kraków!\n\nLove,\nPavlo & Vita"
+  "sample": "Hi Kate and Ben,\n\nThank you so much for having us last weekend! We had a wonderful time — the dinner was amazing and we loved the walk by the lake.\n\nNext time you must come to us. You're always welcome in Kraków!\n\nLove,\nPavlo & Vita",
+  "level": "A2"
  },
  {
   "id": "course-enquiry",
@@ -252,7 +257,8 @@
     ]
    }
   ],
-  "sample": "Dear Sir or Madam,\n\nI am writing to enquire about your evening Spanish course for beginners, which I saw on your website.\n\nCould you tell me when the next course starts and how much it costs? Are there any discounts for couples? Also, is it possible to join a trial lesson first?\n\nI would be grateful for any further information.\n\nYours faithfully,\nPavlo Zhyhalov"
+  "sample": "Dear Sir or Madam,\n\nI am writing to enquire about your evening Spanish course for beginners, which I saw on your website.\n\nCould you tell me when the next course starts and how much it costs? Are there any discounts for couples? Also, is it possible to join a trial lesson first?\n\nI would be grateful for any further information.\n\nYours faithfully,\nPavlo Zhyhalov",
+  "level": "B1"
  },
  {
   "id": "rfq",
@@ -290,7 +296,8 @@
     ]
    }
   ],
-  "sample": "Dear Mr Novak,\n\nWe are looking for a reliable supplier of machined aluminium parts. Could you please send us a quote for 500 pieces of the part in the attached drawing (material 6061-T6, anodized black)?\n\nOur target lead time is 4 weeks. Would it be possible to get 5 samples first?\n\nWe would appreciate your reply by Friday. Please let me know if you need any further information.\n\nBest regards,\nPavlo Zhyhalov"
+  "sample": "Dear Mr Novak,\n\nWe are looking for a reliable supplier of machined aluminium parts. Could you please send us a quote for 500 pieces of the part in the attached drawing (material 6061-T6, anodized black)?\n\nOur target lead time is 4 weeks. Would it be possible to get 5 samples first?\n\nWe would appreciate your reply by Friday. Please let me know if you need any further information.\n\nBest regards,\nPavlo Zhyhalov",
+  "level": "B2"
  },
  {
   "id": "complaint-reply",
@@ -327,6 +334,159 @@
     ]
    }
   ],
-  "sample": "Dear Ms Smith,\n\nThank you for letting us know, and please accept our apologies for the inconvenience. We are sorry to hear that the product arrived damaged.\n\nWe will send a replacement free of charge today, and we are looking into the cause with our logistics partner.\n\nPlease do not hesitate to contact me if you have any questions.\n\nKind regards,\nPavlo Zhyhalov"
+  "sample": "Dear Ms Smith,\n\nThank you for letting us know, and please accept our apologies for the inconvenience. We are sorry to hear that the product arrived damaged.\n\nWe will send a replacement free of charge today, and we are looking into the cause with our logistics partner.\n\nPlease do not hesitate to contact me if you have any questions.\n\nKind regards,\nPavlo Zhyhalov",
+  "level": "B2"
+ },
+ {
+  "id": "about-me",
+  "kind": "other",
+  "kindLabel": "Про себе",
+  "emoji": "wave",
+  "title": "Розповідь про себе",
+  "task": "Напишіть кілька речень про себе для нового знайомого: як вас звати, звідки ви, де живете, ким працюєте, що любите робити.",
+  "context": "",
+  "words": "40–60",
+  "phrases": [
+   {
+    "group": "Про себе",
+    "items": [
+     "My name is…",
+     "I'm … years old.",
+     "I'm from…",
+     "I live in … with…"
+    ]
+   },
+   {
+    "group": "Робота й хобі",
+    "items": [
+     "I work as…",
+     "I like … -ing.",
+     "At the weekend I…"
+    ]
+   },
+   {
+    "group": "Завершення",
+    "items": [
+     "What about you?",
+     "Write soon!"
+    ]
+   }
+  ],
+  "sample": "Hi! My name is Pavlo. I'm from Ukraine, but now I live in Kraków with my wife, Vita. I work as an engineer in a bike factory. I like cooking and walking in the mountains. At the weekend we often go to the cinema. What about you?\n\nPavlo",
+  "level": "A1"
+ },
+ {
+  "id": "message-friend",
+  "kind": "teams",
+  "kindLabel": "Повідомлення · друг",
+  "emoji": "phone",
+  "title": "Повідомлення другу: зустріч",
+  "task": "Напишіть другу повідомлення: запропонуйте зустрітися в суботу, запропонуйте місце й час і спитайте, чи йому зручно.",
+  "context": "",
+  "words": "40–70",
+  "phrases": [
+   {
+    "group": "Початок",
+    "items": [
+     "Hi Tom!",
+     "How are you?",
+     "Are you free on Saturday?"
+    ]
+   },
+   {
+    "group": "Пропозиція",
+    "items": [
+     "Would you like to…?",
+     "How about … at …?",
+     "We could…"
+    ]
+   },
+   {
+    "group": "Завершення",
+    "items": [
+     "Let me know!",
+     "See you soon!"
+    ]
+   }
+  ],
+  "sample": "Hi Tom! How are you? Are you free on Saturday? Would you like to go for a pizza? How about the new place near the river at 7 pm? Vita is coming too. Let me know!\n\nSee you soon,\nPavlo",
+  "level": "A2"
+ },
+ {
+  "id": "opinion-essay",
+  "kind": "other",
+  "kindLabel": "Есе · думка",
+  "emoji": "brain",
+  "title": "Есе: віддалена робота",
+  "task": "Напишіть есе (200–250 слів): «Віддалена робота приносить більше користі, ніж шкоди». Наведіть аргументи за і проти, визнайте слабкі місця своєї позиції і зробіть зважений висновок.",
+  "context": "",
+  "words": "200–250",
+  "phrases": [
+   {
+    "group": "Вступ",
+    "items": [
+     "It is often argued that…",
+     "In recent years,…",
+     "This essay will examine…"
+    ]
+   },
+   {
+    "group": "Аргументи",
+    "items": [
+     "One compelling argument is that…",
+     "Moreover,…",
+     "Admittedly,…",
+     "Having said that,…"
+    ]
+   },
+   {
+    "group": "Висновок",
+    "items": [
+     "All things considered,…",
+     "On balance, I would argue that…",
+     "Ultimately,…"
+    ]
+   }
+  ],
+  "sample": "In recent years, remote work has shifted from a rare perk to a mainstream arrangement. While it undoubtedly offers significant advantages, its drawbacks are often underestimated.\n\nOne compelling argument in its favour is flexibility. Without a daily commute, employees regain hours that can be devoted to family, rest or personal development. Moreover, companies are able to recruit talent regardless of location, which arguably broadens opportunities on both sides.\n\nAdmittedly, remote work is not without its problems. Spontaneous collaboration suffers, and new employees in particular may struggle to learn without colleagues to observe. Isolation can also take a toll on mental health, blurring the line between work and private life.\n\nHaving said that, most of these issues stem from poor implementation rather than from remote work itself. Regular in-person meetings, clear communication norms and deliberate onboarding can mitigate many of the risks.\n\nOn balance, I would argue that the benefits outweigh the costs, provided that organisations treat remote work as a system to be designed rather than an emergency measure. A hybrid model, combining autonomy with regular face-to-face contact, appears to offer the best of both worlds.",
+  "level": "C1"
+ },
+ {
+  "id": "formal-letter",
+  "kind": "email",
+  "kindLabel": "Лист · офіційний",
+  "emoji": "envelope",
+  "title": "Офіційний лист до міської ради",
+  "task": "Напишіть лист до міської ради (180–220 слів) з пропозицією облаштувати велодоріжку на вашій вулиці. Опишіть проблему, обґрунтуйте користь, запропонуйте конкретне рішення.",
+  "context": "",
+  "words": "180–220",
+  "phrases": [
+   {
+    "group": "Початок",
+    "items": [
+     "Dear Sir or Madam,",
+     "I am writing to propose…",
+     "As a resident of… for several years,…"
+    ]
+   },
+   {
+    "group": "Аргументи",
+    "items": [
+     "At present,…",
+     "This poses a significant risk to…",
+     "Not only would this…, but it would also…"
+    ]
+   },
+   {
+    "group": "Завершення",
+    "items": [
+     "I would be grateful if you could consider…",
+     "I look forward to your response.",
+     "Yours faithfully,"
+    ]
+   }
+  ],
+  "sample": "Dear Sir or Madam,\n\nI am writing as a resident of Lipowa Street to propose the construction of a dedicated cycle lane along its full length.\n\nAt present, cyclists are forced to share a narrow road with heavy traffic, including delivery lorries serving the nearby industrial area. This poses a significant risk, particularly to children cycling to the two schools located on the street. Several near-misses have been reported this year alone.\n\nA separated cycle lane would not only improve safety but would also encourage more residents to leave their cars at home, thereby reducing congestion and noise. Given that the pavement on the eastern side is unusually wide, the lane could be introduced at relatively low cost, without reducing the number of parking spaces.\n\nI would be grateful if you could consider including this project in next year's budget. Many of my neighbours share this view, and we would be happy to take part in any public consultation.\n\nI look forward to your response.\n\nYours faithfully,\nPavlo Zhyhalov",
+  "level": "C1"
  }
 ]

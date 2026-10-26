@@ -4,6 +4,7 @@ import { scenarios as load } from '../data.js';
 import { speak } from '../speech.js';
 import { setTitle } from '../ui/shell.js';
 import * as store from '../store.js';
+import { byFit, levelTag, myLevel } from '../level.js';
 
 export default async function scenarios(view, r) {
   const list = await load();
@@ -12,11 +13,11 @@ export default async function scenarios(view, r) {
   const played = new Set(store.all('tutor_chats').map(c => c.scenario).filter(Boolean));
   const groups = [['life', 'Повсякдення'], ['travel', 'Подорожі'], ['work', 'Робота']];
   view.replaceChildren(h('div.stack-lg',
-    h('section.row', h('div.emoji-circle', emo('theater')), h('div.grow', h('h1', { style: { margin: 0 } }, 'Розмовні сценарії'), h('div.small.dim', 'Рольові ігри з вчителем текстом або голосом'))),
+    h('section.row', h('div.emoji-circle', emo('theater')), h('div.grow', h('h1', { style: { margin: 0 } }, 'Розмовні сценарії'), h('div.small.dim', `Рольові ігри з вчителем · спершу рівень ${myLevel()}`))),
     ...groups.map(([g, name]) => h('section.stack', { style: { gap: '8px' } }, h('div.section-title', name),
-      h('div.list', list.filter(x => x.group === g).map(x => h('a.list-row', { href: `#/scenarios/${x.id}` },
+      h('div.list', byFit(list.filter(x => x.group === g)).map(x => h('a.list-row', { href: `#/scenarios/${x.id}` },
         emo(x.emoji || 'theater'), h('div.grow', h('div', { style: { fontWeight: 600 } }, x.title), h('div.sub', x.short)),
-        played.has(x.id) ? h('span.tag.good', 'було') : null, ic('caret-right', { size: 18 }))))))));
+        played.has(x.id) ? h('span.tag.good', 'було') : null, levelTag(x.level), ic('caret-right', { size: 18 }))))))));
 }
 
 function detail(view, s) {

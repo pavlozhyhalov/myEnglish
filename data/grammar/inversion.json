@@ -1,0 +1,185 @@
+{
+ "id": "inversion",
+ "title": "Інверсія для наголосу",
+ "titleEn": "Inversion after negative adverbials",
+ "unit": "Просунуті конструкції",
+ "level": "C1",
+ "mistakeType": "word_order",
+ "explanation": "Після **заперечних і обмежувальних** слів на початку речення порядок слів — **як у питанні**: *Never **have I** seen such a mess.*\n\nТипові вирази: **Never / Rarely / Seldom**, **Not only … but also**, **No sooner … than**, **Hardly … when**, **Under no circumstances**, **Only then / Only after**, **Not until**, **Little** (did I know).\n\nЦе книжний, емоційний або офіційний стиль. У звичайній розмові: *I've never seen…*",
+ "formula": [
+  "Never / Rarely / Not only … + **допоміжне + підмет** + V"
+ ],
+ "table": {
+  "head": [
+   "Вираз",
+   "Приклад",
+   "Звичайний порядок"
+  ],
+  "rows": [
+   [
+    "Never",
+    "Never have I felt so tired.",
+    "I have never felt so tired."
+   ],
+   [
+    "Not only … but",
+    "Not only did he lie, but he also blamed me.",
+    "He not only lied…"
+   ],
+   [
+    "No sooner … than",
+    "No sooner had we arrived than it started to rain.",
+    "As soon as we arrived…"
+   ],
+   [
+    "Under no circumstances",
+    "Under no circumstances should you open it.",
+    "You shouldn't open it in any case."
+   ]
+  ]
+ },
+ "examples": [
+  {
+   "en": "Rarely do we get such good weather in November.",
+   "uk": "Рідко буває така гарна погода в листопаді."
+  },
+  {
+   "en": "Little did I know what was waiting for me.",
+   "uk": "Я й гадки не мав, що на мене чекає."
+  },
+  {
+   "en": "Only then did I realise my mistake.",
+   "uk": "Лише тоді я зрозумів свою помилку."
+  },
+  {
+   "en": "Not until I moved abroad did I understand my parents.",
+   "uk": "Лише переїхавши за кордон, я зрозумів батьків."
+  },
+  {
+   "en": "Hardly had I sat down when the phone rang.",
+   "uk": "Ледве я сів, як задзвонив телефон."
+  }
+ ],
+ "tip": "Якщо в реченні немає допоміжного дієслова, додаємо **do / does / did**: *Never **did** she complain.*",
+ "exercises": [
+  {
+   "type": "choice",
+   "prompt": "Never ___ such a beautiful view.",
+   "options": [
+    "I have seen",
+    "have I seen",
+    "I saw"
+   ],
+   "answer": "have I seen",
+   "explanation": ""
+  },
+  {
+   "type": "choice",
+   "prompt": "Not only ___ late, but he also forgot the documents.",
+   "options": [
+    "he was",
+    "was he",
+    "did he"
+   ],
+   "answer": "was he",
+   "explanation": ""
+  },
+  {
+   "type": "choice",
+   "prompt": "No sooner had we left ___ it started snowing.",
+   "options": [
+    "when",
+    "than",
+    "then"
+   ],
+   "answer": "than",
+   "explanation": ""
+  },
+  {
+   "type": "choice",
+   "prompt": "Under no circumstances ___ the door to strangers.",
+   "options": [
+    "you should open",
+    "should you open",
+    "you open"
+   ],
+   "answer": "should you open",
+   "explanation": ""
+  },
+  {
+   "type": "input",
+   "prompt": "Little ___ (I / know) that he was lying. (2 слова + know)",
+   "answer": [
+    "did I know"
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "input",
+   "prompt": "Rarely ___ (she / complain) about anything.",
+   "answer": [
+    "does she complain"
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "input",
+   "prompt": "Hardly ___ (we / start) when the power went out.",
+   "answer": [
+    "had we started"
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "error",
+   "sentence": "Only later I realised what had happened.",
+   "wrongIndex": 2,
+   "correction": "did I",
+   "alt": [
+    "did"
+   ],
+   "explanation": "Інверсія: Only later did I realise."
+  },
+  {
+   "type": "error",
+   "sentence": "Never I have been so embarrassed.",
+   "wrongIndex": 1,
+   "correction": "have I",
+   "alt": [
+    "have"
+   ],
+   "explanation": "Never have I been…"
+  },
+  {
+   "type": "transform",
+   "prompt": "I have never tasted such good pizza.",
+   "instruction": "Never…",
+   "answer": [
+    "Never have I tasted such good pizza."
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "transform",
+   "prompt": "He didn't apologise, and he also blamed me.",
+   "instruction": "Not only…",
+   "answer": [
+    "Not only did he not apologise, but he also blamed me.",
+    "Not only didn't he apologise, but he also blamed me.",
+    "Not only did he fail to apologise, but he also blamed me."
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "translate",
+   "uk": "Лише тоді я зрозумів, наскільки це важливо.",
+   "answer": [
+    "Only then did I understand how important it was.",
+    "Only then did I realise how important it was.",
+    "Only then did I realize how important it was.",
+    "Only then did I understand how important it is."
+   ],
+   "explanation": ""
+  }
+ ]
+}

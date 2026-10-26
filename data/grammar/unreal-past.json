@@ -1,0 +1,189 @@
+{
+ "id": "unreal-past",
+ "title": "It's time, would rather, as if",
+ "titleEn": "Unreal past: it's time, would rather, as if, wish (review)",
+ "unit": "Просунуті конструкції",
+ "level": "C1",
+ "mistakeType": "tenses",
+ "explanation": "Після деяких виразів **Past Simple** означає не минуле, а **нереальне / бажане теперішнє**:\n\n**It's (high) time + Past**: *It's time we **left**.* (Нам уже час іти.)\n**would rather + підмет + Past**: *I'd rather you **didn't** smoke here.* (Я б волів, щоб…)\n**as if / as though + Past**: *He talks **as if** he **knew** everything.* (ніби знає — а насправді ні)\n**suppose / imagine + Past**: ***Suppose** you **lost** your job — what would you do?*\n\nПро минуле — **Past Perfect**: *He looked **as if** he **hadn't slept** for days.*",
+ "formula": [
+  "It's time / I'd rather / as if + **Past Simple** (тепер)",
+  "… + **Past Perfect** (про минуле)"
+ ],
+ "table": {
+  "head": [
+   "Вираз",
+   "Приклад",
+   "Значення"
+  ],
+  "rows": [
+   [
+    "It's time",
+    "It's time you got a job.",
+    "давно пора"
+   ],
+   [
+    "would rather + підмет",
+    "I'd rather you came earlier.",
+    "я б волів, щоб ти…"
+   ],
+   [
+    "would rather + V",
+    "I'd rather stay in.",
+    "я б краще…"
+   ],
+   [
+    "as if",
+    "She acts as if she were the boss.",
+    "ніби вона бос"
+   ]
+  ]
+ },
+ "examples": [
+  {
+   "en": "It's high time we fixed the roof.",
+   "uk": "Давно пора полагодити дах."
+  },
+  {
+   "en": "I'd rather you didn't tell anyone.",
+   "uk": "Я б волів, щоб ти нікому не казав."
+  },
+  {
+   "en": "You look as if you'd seen a ghost.",
+   "uk": "Ти виглядаєш так, ніби побачив привида."
+  },
+  {
+   "en": "Suppose we moved to the coast — would you be happy?",
+   "uk": "Припустимо, ми переїхали б на узбережжя — ти був би щасливий?"
+  },
+  {
+   "en": "I'd rather walk than take the bus.",
+   "uk": "Я б краще пройшовся, ніж їхати автобусом."
+  }
+ ],
+ "tip": "**would rather + V** (той самий підмет) vs **would rather + інший підмет + Past**: *I'd rather **go**.* / *I'd rather **you went**.*",
+ "exercises": [
+  {
+   "type": "choice",
+   "prompt": "It's time we ___ home.",
+   "options": [
+    "go",
+    "went",
+    "will go"
+   ],
+   "answer": "went",
+   "explanation": ""
+  },
+  {
+   "type": "choice",
+   "prompt": "I'd rather you ___ me the truth.",
+   "options": [
+    "tell",
+    "told",
+    "will tell"
+   ],
+   "answer": "told",
+   "explanation": ""
+  },
+  {
+   "type": "choice",
+   "prompt": "He spends money as if he ___ a millionaire.",
+   "options": [
+    "is",
+    "were",
+    "will be"
+   ],
+   "answer": "were",
+   "explanation": ""
+  },
+  {
+   "type": "choice",
+   "prompt": "I'd rather ___ at home tonight.",
+   "options": [
+    "stay",
+    "stayed",
+    "to stay"
+   ],
+   "answer": "stay",
+   "explanation": "Той самий підмет."
+  },
+  {
+   "type": "input",
+   "prompt": "It's high time you ___ (start) looking for a flat.",
+   "answer": [
+    "started"
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "input",
+   "prompt": "I'd rather you ___ (not / call) me so late.",
+   "answer": [
+    "didn't call",
+    "did not call"
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "input",
+   "prompt": "She looked as if she ___ (cry) all night. (про минуле)",
+   "answer": [
+    "had cried",
+    "had been crying",
+    "'d been crying",
+    "'d cried"
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "error",
+   "sentence": "It's time we go to bed.",
+   "wrongIndex": 3,
+   "correction": "went",
+   "alt": [],
+   "explanation": "It's time + Past."
+  },
+  {
+   "type": "error",
+   "sentence": "I'd rather you don't smoke in the car.",
+   "wrongIndex": 3,
+   "correction": "didn't",
+   "alt": [],
+   "explanation": "would rather + Past."
+  },
+  {
+   "type": "transform",
+   "prompt": "We should leave now — it's late.",
+   "instruction": "It's time…",
+   "answer": [
+    "It's time we left.",
+    "It's time we left now.",
+    "It's high time we left."
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "transform",
+   "prompt": "Please don't bring your dog.",
+   "instruction": "I'd rather…",
+   "answer": [
+    "I'd rather you didn't bring your dog.",
+    "I would rather you didn't bring your dog."
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "translate",
+   "uk": "Він поводиться так, ніби нічого не сталося.",
+   "answer": [
+    "He behaves as if nothing happened.",
+    "He's acting as if nothing had happened.",
+    "He behaves as if nothing had happened.",
+    "He acts as if nothing happened.",
+    "He is acting as if nothing had happened.",
+    "He acts as though nothing had happened."
+   ],
+   "explanation": ""
+  }
+ ]
+}

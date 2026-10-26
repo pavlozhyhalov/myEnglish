@@ -1,0 +1,178 @@
+{
+ "id": "cleft-sentences",
+ "title": "Виділення: It is … that, What I need is…",
+ "titleEn": "Cleft sentences for emphasis",
+ "unit": "Просунуті конструкції",
+ "level": "C1",
+ "mistakeType": "word_order",
+ "explanation": "**Cleft sentences** допомагають **наголосити** на одній частині речення — як інтонація в усній мові.\n\n**It is / was + наголошене + that/who …**: *It was **my wife** who found the solution.* (саме дружина)\n\n**What + підмет + дієслово + is/was …**: ***What I need** is a holiday. **What annoys me** is the noise.*\n\n**All (that) I want is…** — *усе, чого я хочу, —…*. **The thing is…**, **The reason (why)… is that…** — дуже поширені в розмові.",
+ "formula": [
+  "**It is/was** X **that/who** …",
+  "**What** + підмет + V **is/was** X"
+ ],
+ "table": {
+  "head": [
+   "Звичайне",
+   "Виділене"
+  ],
+  "rows": [
+   [
+    "Anna called you.",
+    "It was Anna who called you."
+   ],
+   [
+    "I need more time.",
+    "What I need is more time."
+   ],
+   [
+    "The price surprised me.",
+    "What surprised me was the price."
+   ],
+   [
+    "I just want some peace.",
+    "All I want is some peace."
+   ]
+  ]
+ },
+ "examples": [
+  {
+   "en": "It's the noise that I can't stand.",
+   "uk": "Саме шуму я не виношу."
+  },
+  {
+   "en": "What I really like about Kraków is the atmosphere.",
+   "uk": "Що мені справді подобається в Кракові — це атмосфера."
+  },
+  {
+   "en": "It was only last year that I started learning English seriously.",
+   "uk": "Лише минулого року я почав серйозно вчити англійську."
+  },
+  {
+   "en": "All I did was ask a question.",
+   "uk": "Я лише поставив питання."
+  },
+  {
+   "en": "The thing is, we don't have enough money.",
+   "uk": "Справа в тому, що нам бракує грошей."
+  }
+ ],
+ "tip": "Після **What…** дієслово-зв'язка зазвичай в однині: *What we need **is** new ideas.*",
+ "exercises": [
+  {
+   "type": "choice",
+   "prompt": "___ was my brother who told me the news.",
+   "options": [
+    "It",
+    "That",
+    "What"
+   ],
+   "answer": "It",
+   "explanation": ""
+  },
+  {
+   "type": "choice",
+   "prompt": "___ I don't understand is why he left.",
+   "options": [
+    "That",
+    "What",
+    "It"
+   ],
+   "answer": "What",
+   "explanation": ""
+  },
+  {
+   "type": "choice",
+   "prompt": "It was in 2015 ___ we first met.",
+   "options": [
+    "when",
+    "that",
+    "which"
+   ],
+   "answer": "that",
+   "explanation": ""
+  },
+  {
+   "type": "choice",
+   "prompt": "All I want ___ a quiet evening.",
+   "options": [
+    "is",
+    "are",
+    "be"
+   ],
+   "answer": "is",
+   "explanation": ""
+  },
+  {
+   "type": "input",
+   "prompt": "What surprised me ___ (be) how friendly everyone was. (минулий час)",
+   "answer": [
+    "was"
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "input",
+   "prompt": "It ___ (be) the price that put me off. (минулий час)",
+   "answer": [
+    "was"
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "input",
+   "prompt": "___ I need right now is a strong coffee.",
+   "answer": [
+    "What"
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "error",
+   "sentence": "What I need are a long holiday.",
+   "wrongIndex": 3,
+   "correction": "is",
+   "alt": [],
+   "explanation": "What I need is…"
+  },
+  {
+   "type": "error",
+   "sentence": "It was him which broke the window.",
+   "wrongIndex": 3,
+   "correction": "who",
+   "alt": [
+    "that"
+   ],
+   "explanation": "Про людину — who/that."
+  },
+  {
+   "type": "transform",
+   "prompt": "The traffic annoys me most.",
+   "instruction": "What…",
+   "answer": [
+    "What annoys me most is the traffic."
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "transform",
+   "prompt": "Vita booked the tickets, not me.",
+   "instruction": "It was…",
+   "answer": [
+    "It was Vita who booked the tickets, not me.",
+    "It was Vita that booked the tickets, not me."
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "translate",
+   "uk": "Справа в тому, що я забув гаманець.",
+   "answer": [
+    "The thing is, I forgot my wallet.",
+    "The thing is that I forgot my wallet.",
+    "The thing is, I've forgotten my wallet.",
+    "The thing is that I've forgotten my wallet."
+   ],
+   "explanation": ""
+  }
+ ]
+}

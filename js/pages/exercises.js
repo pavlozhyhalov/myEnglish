@@ -6,6 +6,7 @@ import { grammarIndex, lesson as loadLesson } from '../data.js';
 import { runExercises, answerText } from '../ui/exercises.js';
 import { activityTimer, addMistake } from '../stats.js';
 import { setTitle } from '../ui/shell.js';
+import { myLevel, LEVELS } from '../level.js';
 
 export default async function exercises(view, r) {
   if (r.parts[0] === 'grammar') return grammarPractice(view, r.parts[1]);
@@ -22,15 +23,16 @@ async function grammarPractice(view, unitSlug) {
   if (!unitSlug) {
     view.replaceChildren(h('div.stack-lg',
       h('p.small.dim', { style: { margin: '0 2px' } }, 'Оберіть тему — 10 змішаних вправ з усіх її уроків. Правила — у розділі «Теорія → Граматика».'),
-      h('a.btn.primary.block.lg', { href: '#/exercises/grammar/all' }, ic('lightning', { fill: true }), 'Усі теми впереміш'),
+      h('a.btn.primary.block.lg', { href: '#/exercises/grammar/mine' }, ic('lightning', { fill: true }), `Впереміш · рівень ${myLevel()}`),
+      h('a.btn.soft.block', { href: '#/exercises/grammar/all' }, 'Усі теми всіх рівнів'),
       h('div.list', units.map(u => h('a.list-row', { href: `#/exercises/grammar/${u.slug}` },
-        h('div.grow', h('div', { style: { fontWeight: 600 } }, u.name), h('div.sub', `${u.items.length} ${plural(u.items.length, 'урок', 'уроки', 'уроків')}: ${u.items.map(l => l.title).join(', ')}`)),
+        h('div.grow', h('div', { style: { fontWeight: 600 } }, u.name), h('div.sub', `${LEVELS.filter(lv => u.items.some(l => l.level === lv)).join('–').replace(/–.*–/, '–')} · ${u.items.length} ${plural(u.items.length, 'урок', 'уроки', 'уроків')}: ${u.items.map(l => l.title).join(', ')}`)),
         ic('caret-right', { size: 18 }))))));
     return;
   }
 
-  const chosen = unitSlug === 'all' ? idx : (units.find(u => u.slug === unitSlug)?.items || []);
-  const title = unitSlug === 'all' ? 'Усі теми' : units.find(u => u.slug === unitSlug)?.name || 'Граматика';
+  const chosen = unitSlug === 'all' ? idx : unitSlug === 'mine' ? idx.filter(l => l.level === myLevel()) : (units.find(u => u.slug === unitSlug)?.items || []);
+  const title = unitSlug === 'all' ? 'Усі теми' : unitSlug === 'mine' ? `Рівень ${myLevel()}` : units.find(u => u.slug === unitSlug)?.name || 'Граматика';
   setTitle(title);
   const lessons = await Promise.all(chosen.map(l => loadLesson(l.id)));
   const pool = lessons.flatMap(l => l.exercises.map(e => ({ ...e, _lesson: l })));

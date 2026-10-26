@@ -6,6 +6,7 @@ import { placement as loadPlacement, grammarIndex, lesson as loadLesson, allDeck
 import { render as renderExercise, answerText } from '../ui/exercises.js';
 import { speak, stop as stopSpeech } from '../speech.js';
 import { activityTimer, addMistake, dayKey } from '../stats.js';
+import { setLevel, LEVELS as ALL_LEVELS } from '../level.js';
 import { tutor } from '../ai.js';
 import { user } from '../supa.js';
 import { setTitle, setFocus } from '../ui/shell.js';
@@ -129,8 +130,9 @@ async function placementTest(view) {
     const tail = hist.slice(Math.floor(hist.length / 3));
     let score = 0;
     for (const x of tail) score += x.ok ? x.lvl + 0.5 : x.lvl - 0.5;
-    const v = Math.max(0, Math.min(3, Math.round(score / tail.length)));
-    return LEVELS[v];
+    const raw = score / tail.length;
+    if (raw < -0.25) return 'A1';   // не впорався навіть з A2
+    return LEVELS[Math.max(0, Math.min(3, Math.round(raw)))];
   }
 
   function finishPlacement(results) {
@@ -138,25 +140,25 @@ async function placementTest(view) {
     for (const [s] of plan) scores[s] = estimate(state[s].hist) || 'B1';
     const finalize = (speaking) => {
       if (speaking) scores.speaking = speaking;
-      const vals = Object.values(scores).map(l => LEVELS.indexOf(l));
-      const overall = LEVELS[Math.round(vals.reduce((a, b) => a + b, 0) / vals.length)];
+      const vals = Object.values(scores).map(l => Math.max(0, ALL_LEVELS.indexOf(l)));
+      const overall = ALL_LEVELS[Math.round(vals.reduce((a, b) => a + b, 0) / vals.length)];
       const res = { ...scores, overall };
       store.put('tests', { type: 'placement', scores: res, details: results.map(r => ({ id: r.ex.id, skill: r.ex.skill, level: r.ex.level, ok: r.ok })) });
-      store.setProf({ level: overall, skills: scores, placementDone: true });
-      store.setSetting('level', overall);
+      store.setProf({ skills: scores, placementDone: true });
+      setLevel(overall, 'test');
       timer.poke();
       timer.stop();
       view.replaceChildren(h('div.stack-lg',
         h('div.hero', emo('trophy', 'xl'), h('div.xs.dim', 'Ваш рівень'), h('div.num', { style: { fontSize: '48px' } }, overall), h('p.dim', S.level[overall] || '')),
         h('section.card.grid2', Object.entries(scores).map(([k, v]) => h('div.stat', h('b', v), h('span', SKILL_UK[k])))),
-        h('p.small.dim.center', 'План дня та вчитель підлаштуються під цей рівень. Повторіть тест через місяць.'),
+        h('p.small.dim.center', 'Під цей рівень підлаштовано урок дня, нові слова, диктанти, сценарії й вчителя. Змінити можна в «Налаштуваннях».'),
         resultList(results),
         h('a.btn.primary.block.lg', { href: '#/' }, 'На головну')));
     };
     // 3 хвилини голосу
     if (!user()) { finalize(null); return; }
     view.replaceChildren(h('div.hero', emo('mic', 'xl'), h('h2', 'Останній етап: 3 хвилини розмови'),
-      h('p.dim', 'Вчитель поставить кілька питань про вашу роботу й плани. Говоріть як вийде — це для оцінки говоріння.'),
+      h('p.dim', 'Вчитель поставить кілька питань про вас і ваші плани. Говоріть як вийде — це для оцінки говоріння.'),
       h('div.row', h('button.btn.soft', { type: 'button', onclick: () => finalize(null) }, 'Пропустити'),
         h('button.btn.primary', { type: 'button', onclick: async () => {
           const { voiceSession } = await import('../live/voice.js');

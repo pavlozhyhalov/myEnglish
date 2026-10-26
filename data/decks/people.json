@@ -1,0 +1,245 @@
+{
+ "id": "people",
+ "cards": [
+  {
+   "en": "family",
+   "uk": "сім'я",
+   "ex": "I have a big family.",
+   "exUk": "У мене велика сім'я."
+  },
+  {
+   "en": "parents",
+   "uk": "батьки",
+   "ex": "My parents live in Ukraine.",
+   "exUk": "Мої батьки живуть в Україні."
+  },
+  {
+   "en": "husband",
+   "uk": "чоловік (у шлюбі)",
+   "ex": "Her husband is a pilot.",
+   "exUk": "Її чоловік — пілот."
+  },
+  {
+   "en": "wife",
+   "uk": "дружина",
+   "ex": "This is my wife, Vita.",
+   "exUk": "Це моя дружина, Віта."
+  },
+  {
+   "en": "son",
+   "uk": "син",
+   "ex": "Their son is five.",
+   "exUk": "Їхньому синові п'ять."
+  },
+  {
+   "en": "daughter",
+   "uk": "дочка",
+   "ex": "My daughter goes to school.",
+   "exUk": "Моя дочка ходить до школи."
+  },
+  {
+   "en": "brother",
+   "uk": "брат",
+   "ex": "I have an older brother.",
+   "exUk": "У мене є старший брат."
+  },
+  {
+   "en": "sister",
+   "uk": "сестра",
+   "ex": "My sister lives in Warsaw.",
+   "exUk": "Моя сестра живе у Варшаві."
+  },
+  {
+   "en": "grandparents",
+   "uk": "дідусь і бабуся",
+   "ex": "We visit our grandparents every summer.",
+   "exUk": "Ми щоліта відвідуємо дідуся й бабусю."
+  },
+  {
+   "en": "child (children)",
+   "uk": "дитина (діти)",
+   "ex": "They have three children.",
+   "exUk": "У них троє дітей."
+  },
+  {
+   "en": "baby",
+   "uk": "немовля",
+   "ex": "The baby is sleeping.",
+   "exUk": "Малюк спить."
+  },
+  {
+   "en": "friend",
+   "uk": "друг",
+   "ex": "He's my best friend.",
+   "exUk": "Він мій найкращий друг."
+  },
+  {
+   "en": "neighbour",
+   "uk": "сусід",
+   "ex": "Our neighbours are very friendly.",
+   "exUk": "Наші сусіди дуже привітні."
+  },
+  {
+   "en": "boyfriend / girlfriend",
+   "uk": "хлопець / дівчина (пара)",
+   "ex": "Is she your girlfriend?",
+   "exUk": "Вона твоя дівчина?"
+  },
+  {
+   "en": "to be married",
+   "uk": "бути одруженим",
+   "ex": "Are you married? — Yes, for five years.",
+   "exUk": "Ви одружені? — Так, п'ять років."
+  },
+  {
+   "en": "single",
+   "uk": "неодружений, самотній",
+   "ex": "My brother is still single.",
+   "exUk": "Мій брат досі неодружений."
+  },
+  {
+   "en": "tall",
+   "uk": "високий",
+   "ex": "He's very tall — almost two metres.",
+   "exUk": "Він дуже високий — майже два метри."
+  },
+  {
+   "en": "short",
+   "uk": "низький; короткий",
+   "ex": "She has short hair.",
+   "exUk": "У неї коротке волосся."
+  },
+  {
+   "en": "young",
+   "uk": "молодий",
+   "ex": "Your mum looks very young!",
+   "exUk": "Твоя мама виглядає дуже молодо!"
+  },
+  {
+   "en": "beautiful",
+   "uk": "гарний, красивий",
+   "ex": "What a beautiful baby!",
+   "exUk": "Яке гарне маля!"
+  },
+  {
+   "en": "friendly",
+   "uk": "привітний",
+   "ex": "People here are very friendly.",
+   "exUk": "Люди тут дуже привітні."
+  },
+  {
+   "en": "kind",
+   "uk": "добрий",
+   "ex": "Thank you, that's very kind of you.",
+   "exUk": "Дякую, це дуже мило з вашого боку."
+  },
+  {
+   "en": "funny",
+   "uk": "смішний, кумедний",
+   "ex": "My uncle is really funny.",
+   "exUk": "Мій дядько дуже кумедний."
+  },
+  {
+   "en": "quiet",
+   "uk": "тихий",
+   "ex": "He's a quiet person.",
+   "exUk": "Він тиха людина."
+  },
+  {
+   "en": "happy",
+   "uk": "щасливий",
+   "ex": "I'm so happy for you!",
+   "exUk": "Я така рада за тебе!"
+  },
+  {
+   "en": "sad",
+   "uk": "сумний",
+   "ex": "Why are you sad?",
+   "exUk": "Чому ти сумний?"
+  },
+  {
+   "en": "angry",
+   "uk": "злий, сердитий",
+   "ex": "Don't be angry with me.",
+   "exUk": "Не сердься на мене."
+  },
+  {
+   "en": "worried",
+   "uk": "стурбований",
+   "ex": "I'm worried about my exam.",
+   "exUk": "Я хвилююся через іспит."
+  },
+  {
+   "en": "bored",
+   "uk": "той, кому нудно",
+   "ex": "The kids are bored. Let's go out.",
+   "exUk": "Дітям нудно. Ходімо гуляти."
+  },
+  {
+   "en": "ill / sick",
+   "uk": "хворий",
+   "ex": "I can't come — I'm ill.",
+   "exUk": "Я не можу прийти — я хворий."
+  },
+  {
+   "en": "head",
+   "uk": "голова",
+   "ex": "I have a headache.",
+   "exUk": "У мене болить голова."
+  },
+  {
+   "en": "back",
+   "uk": "спина",
+   "ex": "My back hurts.",
+   "exUk": "У мене болить спина."
+  },
+  {
+   "en": "hand",
+   "uk": "рука (кисть)",
+   "ex": "Wash your hands before dinner.",
+   "exUk": "Помий руки перед вечерею."
+  },
+  {
+   "en": "leg",
+   "uk": "нога",
+   "ex": "I broke my leg last year.",
+   "exUk": "Минулого року я зламав ногу."
+  },
+  {
+   "en": "eyes",
+   "uk": "очі",
+   "ex": "She has green eyes.",
+   "exUk": "У неї зелені очі."
+  },
+  {
+   "en": "to look like",
+   "uk": "бути схожим на",
+   "ex": "You look like your dad.",
+   "exUk": "Ти схожий на тата."
+  },
+  {
+   "en": "to get on with",
+   "uk": "ладнати з",
+   "ex": "I get on well with my colleagues.",
+   "exUk": "Я добре ладнаю з колегами."
+  },
+  {
+   "en": "birthday",
+   "uk": "день народження",
+   "ex": "Happy birthday!",
+   "exUk": "З днем народження!"
+  },
+  {
+   "en": "to celebrate",
+   "uk": "святкувати",
+   "ex": "We celebrate Christmas twice.",
+   "exUk": "Ми святкуємо Різдво двічі."
+  },
+  {
+   "en": "to grow up",
+   "uk": "рости, дорослішати",
+   "ex": "I grew up in a small town.",
+   "exUk": "Я виріс у маленькому містечку."
+  }
+ ]
+}

@@ -8,6 +8,7 @@ import { activityTimer } from '../stats.js';
 import { setFocus, setTitle } from '../ui/shell.js';
 import { toast } from '../ui/toast.js';
 import { go } from '../router.js';
+import { myLevel, diff, levelTag, byFit } from '../level.js';
 
 export default async function cards(view, r) {
   if (r.parts[0] === 'review') {
@@ -27,12 +28,13 @@ export default async function cards(view, r) {
         ? h('a.btn.primary.lg.block', { href: '#/cards/review' }, ic('play', { fill: true }), `Почати · ${total} ${plural(total, 'картка', 'картки', 'карток')}`)
         : h('div.stack', emo('party', 'xl'), h('p', 'На сьогодні все повторено.'), h('p.dim.small', 'Нові картки з\'являться завтра. Ліміт нових — у налаштуваннях.'))),
     ...[['general', 'Колоди: загальна англійська'], ['work', 'Робота (за вибором)'], ['my', 'Власні']].map(([g, title]) => {
-      const list = decks.filter(d => (d.group || 'my') === g);
+      const list = g === 'general' ? byFit(decks.filter(d => d.group === g)) : decks.filter(d => (d.group || 'my') === g);
       if (!list.length) return null;
       return h('section.stack', { style: { gap: '8px' } }, h('div.section-title', title),
+        g === 'general' ? h('p.xs.dim', { style: { margin: '0 2px' } }, `Нові слова беруться з колод рівня ${myLevel()}, далі — наступного. Колоди вищих рівнів чекають, поки ви до них дійдете.`) : null,
         h('div.list', list.map(d => h('div.list-row',
           emo(d.emoji || 'cards'),
-          h('div.grow', h('div', { style: { fontWeight: 600 } }, d.name), h('div.sub', `${d.count ?? 0} ${plural(d.count ?? 0, 'картка', 'картки', 'карток')}${d.desc ? ' · ' + d.desc : ''}`)),
+          h('div.grow', h('div.row', { style: { gap: '6px' } }, h('span', { style: { fontWeight: 600 } }, d.name), levelTag(d.level)), h('div.sub', `${d.count ?? 0} ${plural(d.count ?? 0, 'картка', 'картки', 'карток')}${d.desc ? ' · ' + d.desc : ''}${d.level && diff(d.level) > 1 ? ' · поки без нових слів' : ''}`)),
           toggle(d.enabled, (v) => srs.setDeckEnabled(d, v), `Колода ${d.name}`)))));
     }),
     h('a.btn.soft.block', { href: '#/vocab' }, ic('plus'), 'Додати свої слова'),

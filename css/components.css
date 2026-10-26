@@ -346,3 +346,12 @@ body.focus-mode .composer{bottom:calc(var(--safe-b) + 8px)}
 .steps i.on{background:var(--accent-ink)}
 .steps i.done{background:var(--good)}
 .hero{display:flex;flex-direction:column;align-items:center;text-align:center;gap:14px;padding:24px 8px}
+
+/* ---------- Розділи за рівнями (граматика) ---------- */
+.level-sec{background:var(--surface);border:1px solid var(--line);box-shadow:var(--shadow-card);border-radius:var(--radius);padding:12px 14px}
+.level-sec>summary{list-style:none;cursor:pointer;gap:10px;min-height:32px}
+.level-sec>summary::-webkit-details-marker{display:none}
+.level-sec>summary::after{content:'';width:8px;height:8px;border-right:2px solid var(--ink-dim);border-bottom:2px solid var(--ink-dim);transform:rotate(45deg);margin:0 4px 4px;transition:transform var(--dur)}
+.level-sec[open]>summary::after{transform:rotate(225deg);margin-bottom:-2px}
+.level-pick{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
+.level-pick .chip{justify-content:center;min-width:0}

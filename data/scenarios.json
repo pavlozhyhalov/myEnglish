@@ -16,7 +16,8 @@
    "Is that for here or to go?",
    "Can I pay by card?",
    "Could I have the receipt, please?"
-  ]
+  ],
+  "level": "A2"
  },
  {
   "id": "doctor",
@@ -35,7 +36,8 @@
    "How often should I take it?",
    "Are there any side effects?",
    "Could I get a sick note?"
-  ]
+  ],
+  "level": "B1"
  },
  {
   "id": "flat",
@@ -54,7 +56,8 @@
    "Is the flat furnished?",
    "Are pets allowed?",
    "When could we move in?"
-  ]
+  ],
+  "level": "B1"
  },
  {
   "id": "bank",
@@ -73,7 +76,8 @@
    "Is there a fee for that?",
    "How can I avoid this in future?",
    "Can I set up notifications in the app?"
-  ]
+  ],
+  "level": "B1"
  },
  {
   "id": "shop-complaint",
@@ -92,7 +96,8 @@
    "I'd prefer a refund, please.",
    "Could I speak to the manager?",
    "I'm afraid that's not acceptable."
-  ]
+  ],
+  "level": "B2"
  },
  {
   "id": "party",
@@ -111,7 +116,8 @@
    "What do you do for fun?",
    "Really? Tell me more.",
    "It was nice talking to you."
-  ]
+  ],
+  "level": "B1"
  },
  {
   "id": "airport",
@@ -130,7 +136,8 @@
    "Am I entitled to compensation?",
    "Is there a meal voucher?",
    "Will my luggage be transferred?"
-  ]
+  ],
+  "level": "A2"
  },
  {
   "id": "hotel",
@@ -149,7 +156,8 @@
    "The room is very noisy.",
    "Could I change rooms?",
    "Could I have a late checkout?"
-  ]
+  ],
+  "level": "A2"
  },
  {
   "id": "directions",
@@ -168,7 +176,8 @@
    "So I turn left at the lights?",
    "How long does it take on foot?",
    "Thanks a lot, you've been very helpful."
-  ]
+  ],
+  "level": "A2"
  },
  {
   "id": "interview",
@@ -187,7 +196,8 @@
    "I'm looking for a role where I can…",
    "Could you tell me more about the team?",
    "What are the next steps?"
-  ]
+  ],
+  "level": "B2"
  },
  {
   "id": "phone-call",
@@ -206,7 +216,8 @@
    "How much will it cost?",
    "What does that include?",
    "Could you send me a confirmation?"
-  ]
+  ],
+  "level": "B1"
  },
  {
   "id": "supplier-delay",
@@ -225,6 +236,167 @@
    "Can you guarantee the new date?",
    "Please confirm it in writing.",
    "Let's keep in touch daily until it ships."
-  ]
+  ],
+  "level": "B2"
+ },
+ {
+  "id": "introduce",
+  "group": "life",
+  "emoji": "wave",
+  "title": "Знайомство",
+  "short": "Ім'я, звідки ви, чим займаєтесь",
+  "situation": "Ви на курсах англійської в Кракові. На перерві до вас підходить інший студент і хоче познайомитися.",
+  "myRole": "Студент мовних курсів",
+  "tutorRole": "Дружній студент з Іспанії на ім'я Carlos, говорить повільно і просто",
+  "goal": "Назвати себе, сказати, звідки ви, де живете, ким працюєте, і запитати те саме у співрозмовника.",
+  "phrases": [
+   "Hi, I'm Pavlo.",
+   "Nice to meet you.",
+   "I'm from Ukraine.",
+   "I live in Kraków.",
+   "I'm an engineer.",
+   "And you? Where are you from?"
+  ],
+  "level": "A1"
+ },
+ {
+  "id": "shop-basic",
+  "group": "life",
+  "emoji": "shop",
+  "title": "У магазині",
+  "short": "Знайти товар, спитати ціну, заплатити",
+  "situation": "Ви в маленькому продуктовому магазині. Треба купити хліб, молоко та яблука, але ви не бачите, де молоко.",
+  "myRole": "Покупець",
+  "tutorRole": "Продавець у магазині, привітний, говорить коротко і чітко",
+  "goal": "Спитати, де молоко, дізнатися ціну яблук, заплатити карткою і попросити пакет.",
+  "phrases": [
+   "Excuse me, where is the milk?",
+   "How much are the apples?",
+   "I'd like a kilo, please.",
+   "Can I pay by card?",
+   "Can I have a bag, please?",
+   "Thank you, goodbye!"
+  ],
+  "level": "A1"
+ },
+ {
+  "id": "taxi",
+  "group": "travel",
+  "emoji": "city",
+  "title": "Таксі",
+  "short": "Адреса, маршрут, оплата",
+  "situation": "Ви щойно прилетіли до Лондона й сідаєте в таксі біля аеропорту. Вам треба до готелю в центрі.",
+  "myRole": "Пасажир",
+  "tutorRole": "Балакучий лондонський таксист",
+  "goal": "Назвати адресу, спитати, скільки їхати й скільки коштує, підтримати коротку розмову і розрахуватися.",
+  "phrases": [
+   "Could you take me to this address, please?",
+   "How long will it take?",
+   "Roughly how much will it cost?",
+   "Is it far from here?",
+   "Can you stop here, please?",
+   "Keep the change."
+  ],
+  "level": "A2"
+ },
+ {
+  "id": "restaurant",
+  "group": "life",
+  "emoji": "food",
+  "title": "У ресторані",
+  "short": "Столик, замовлення, побажання",
+  "situation": "Ви з дружиною прийшли в ресторан без бронювання. Хочете столик біля вікна, а дружина — вегетаріанка.",
+  "myRole": "Відвідувач ресторану",
+  "tutorRole": "Офіціант у ресторані, ввічливий",
+  "goal": "Попросити столик на двох, уточнити вегетаріанські страви, замовити, попросити рахунок.",
+  "phrases": [
+   "A table for two, please.",
+   "Do you have anything vegetarian?",
+   "What would you recommend?",
+   "I'll have the soup, please.",
+   "Could we have the bill, please?",
+   "Is service included?"
+  ],
+  "level": "A2"
+ },
+ {
+  "id": "neighbour",
+  "group": "life",
+  "emoji": "house",
+  "title": "Конфлікт із сусідом",
+  "short": "Шум уночі: делікатно, але твердо",
+  "situation": "Сусід зверху вже третій тиждень гучно вмикає музику після півночі. Ви вирішили поговорити з ним особисто.",
+  "myRole": "Мешканець квартири знизу",
+  "tutorRole": "Сусід, який спершу не розуміє проблеми і трохи захищається, але готовий до компромісу",
+  "goal": "Пояснити проблему ввічливо, не загострюючи, вислухати сусіда і домовитися про конкретне рішення.",
+  "phrases": [
+   "I hope you don't mind me bringing this up, but…",
+   "I'm not sure if you're aware, but…",
+   "It's been going on for a few weeks now.",
+   "Would it be possible to…?",
+   "How about we agree that…?",
+   "I really appreciate you understanding."
+  ],
+  "level": "B2"
+ },
+ {
+  "id": "debate",
+  "group": "life",
+  "emoji": "speaking",
+  "title": "Дебати",
+  "short": "Відстояти позицію і поступитися там, де варто",
+  "situation": "Ви з приятелем сперечаєтесь у барі: чи варто заборонити автомобілі в історичному центрі міста. Ви — за заборону.",
+  "myRole": "Прихильник заборони авто в центрі",
+  "tutorRole": "Скептично налаштований приятель-автомобіліст, наводить сильні контраргументи",
+  "goal": "Аргументувати позицію, реагувати на контраргументи, визнати слушні моменти і запропонувати компроміс.",
+  "phrases": [
+   "The way I see it,…",
+   "That's a fair point, but…",
+   "I'd argue that…",
+   "Admittedly,…",
+   "Let's not forget that…",
+   "Perhaps a compromise would be…"
+  ],
+  "level": "C1"
+ },
+ {
+  "id": "negotiate-rent",
+  "group": "life",
+  "emoji": "key",
+  "title": "Переговори про оренду",
+  "short": "Знизити ціну, домовитися про умови",
+  "situation": "Ви хочете продовжити оренду квартири, але власник піднімає ціну на 15%. Ви — сумлінні орендарі вже три роки.",
+  "myRole": "Орендар",
+  "tutorRole": "Власник квартири, ввічливий, але твердий, посилається на ринкові ціни",
+  "goal": "Переконати власника залишити ціну або підняти мінімально, запропонувати щось натомість (довший договір, дрібний ремонт).",
+  "phrases": [
+   "I completely understand your position, however…",
+   "We've always paid on time and looked after the flat.",
+   "Would you consider…?",
+   "What if we signed for two years instead?",
+   "I'm afraid that's beyond our budget.",
+   "Let's meet halfway."
+  ],
+  "level": "C1"
+ },
+ {
+  "id": "formal-complaint",
+  "group": "travel",
+  "emoji": "phone",
+  "title": "Офіційна скарга",
+  "short": "Авіакомпанія загубила багаж",
+  "situation": "Авіакомпанія вже тиждень не може знайти вашу валізу. Ви телефонуєте втретє, і вам знову обіцяють «перевірити».",
+  "myRole": "Пасажир, багаж якого загубили",
+  "tutorRole": "Співробітник служби підтримки авіакомпанії, говорить завченими фразами",
+  "goal": "Чітко викласти факти, вимагати конкретних дій і термінів, дізнатися про компенсацію — твердо, але ввічливо.",
+  "phrases": [
+   "I'm calling to follow up on a claim.",
+   "This is the third time I've called.",
+   "I'd like a clear answer as to…",
+   "Could you tell me exactly when…?",
+   "I'd like to know what compensation I'm entitled to.",
+   "I'd appreciate it if you could escalate this."
+  ],
+  "level": "C1"
  }
 ]

@@ -36,7 +36,7 @@ const SUMMARY_SCHEMA = OBJ({
   summary: S('STRING'),
   mistakes: ARR(OBJ({ wrong: S('STRING'), right: S('STRING'), type: S('STRING', { enum: MISTAKE_TYPES }), explanation_uk: S('STRING') }, ['wrong', 'right', 'type', 'explanation_uk'])),
   new_words: ARR(OBJ({ en: S('STRING'), uk: S('STRING'), example: S('STRING') }, ['en', 'uk', 'example'])),
-  level_signal: S('STRING', { enum: ['A2', 'B1', 'B2', 'C1'] }),
+  level_signal: S('STRING', { enum: ['A1', 'A2', 'B1', 'B2', 'C1'] }),
   next_focus: S('STRING'),
 }, ['summary', 'mistakes', 'new_words', 'level_signal', 'next_focus']);
 
@@ -267,7 +267,7 @@ TASK: The student wrote ${kind}${p.task ? ` for this task: "${p.task}"` : ''}. R
 TASK: Create ${count} varied exercises on: ${String(p.topic || 'general B1–B2 grammar').slice(0, 300)}.
 ${ex ? `Base several items on the student's real mistakes: ${ex}.` : ''}
 Mix types: choice (prompt with "___", 3–4 options, answer = exact option text), input (prompt with "___" and the base form in brackets, answer = the missing words only), order (answer = the full correct sentence; prompt = short Ukrainian hint), error (sentence with exactly ONE wrong word; wrong_word = that word exactly as written; answer = the correct replacement word(s)), transform (prompt = sentence + instruction, answer = full new sentence), translate (uk = Ukrainian sentence, answer = natural English translation, alternatives = other correct variants).
-Use varied everyday contexts (daily life, travel, people, hobbies, home, shopping, life in Poland)${st.workFocus ? ', sometimes the workplace' : ''}. Level ${st.level}→B2. explanation = 1 short sentence in Ukrainian. Provide alternatives for any answer that can be phrased differently (contractions are handled automatically).`;
+Use varied everyday contexts (daily life, travel, people, hobbies, home, shopping, life in Poland)${st.workFocus ? ', sometimes the workplace' : ''}. Level ${st.level} (exercises must match this level). explanation = 1 short sentence in Ukrainian. Provide alternatives for any answer that can be phrased differently (contractions are handled automatically).`;
       const res = await generateJson<{ exercises: unknown[] }>(TEXT_MODELS, { system, contents: [{ role: 'user', parts: [{ text: 'Generate the exercises.' }] }], schema: EX_SCHEMA, temperature: 0.7 });
       return json({ exercises: cleanExercises(res.exercises as any[]) });
     }
@@ -289,7 +289,7 @@ For each English word or phrase return: uk (natural Ukrainian translation, 1–3
     }
 
     case 'dialogue': {
-      const system = `Write a natural English dialogue for listening practice for a ${st.level} learner (target B2), about 1–2 minutes when read aloud (14–20 lines), between two named people. Topic: ${String(p.topic || 'an everyday situation').slice(0, 200)}. Use a realistic everyday situation, natural spoken English (contractions, fillers sparingly). speaker = index in speakers (0 or 1). Then 5 comprehension questions in English with 3–4 options each, answer = index of correct option, explanation_uk = short Ukrainian explanation.`;
+      const system = `Write a natural English dialogue for listening practice for a ${st.level} learner (vocabulary and grammar strictly at ${st.level}; A1–A2: 8–12 short lines, slow and simple), about 1–2 minutes when read aloud (14–20 lines), between two named people. Topic: ${String(p.topic || 'an everyday situation').slice(0, 200)}. Use a realistic everyday situation, natural spoken English (contractions, fillers sparingly). speaker = index in speakers (0 or 1). Then 5 comprehension questions in English with 3–4 options each, answer = index of correct option, explanation_uk = short Ukrainian explanation.`;
       const res = await generateJson(TEXT_MODELS, { system, contents: [{ role: 'user', parts: [{ text: 'Create the dialogue.' }] }], schema: DIALOGUE_SCHEMA, temperature: 0.9 });
       return json(res);
     }
@@ -305,7 +305,7 @@ For each English word or phrase return: uk (natural Ukrainian translation, 1–3
     }
 
     case 'hint': {
-      const system = `${basePrompt(st)}\n\nTASK: The student is in a spoken conversation and does not know what to say. Based on the conversation, give exactly 3 short possible replies in English (one line each, numbered), at ${st.level}–B2 level. No other text.`;
+      const system = `${basePrompt(st)}\n\nTASK: The student is in a spoken conversation and does not know what to say. Based on the conversation, give exactly 3 short possible replies in English (one line each, numbered), at ${st.level} level. No other text.`;
       const text = await generate(TEXT_MODELS, { system, contents: [{ role: 'user', parts: [{ text: transcript(p.messages || []) }] }], temperature: 0.8 });
       return json({ text });
     }

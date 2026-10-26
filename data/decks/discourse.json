@@ -1,0 +1,245 @@
+{
+ "id": "discourse",
+ "cards": [
+  {
+   "en": "as far as I'm concerned",
+   "uk": "як на мене",
+   "ex": "As far as I'm concerned, it's a great idea.",
+   "exUk": "Як на мене, це чудова ідея."
+  },
+  {
+   "en": "to be honest",
+   "uk": "чесно кажучи",
+   "ex": "To be honest, I didn't like the film.",
+   "exUk": "Чесно кажучи, фільм мені не сподобався."
+  },
+  {
+   "en": "having said that",
+   "uk": "утім, водночас",
+   "ex": "It's expensive. Having said that, it's worth it.",
+   "exUk": "Це дорого. Утім, воно того варте."
+  },
+  {
+   "en": "on the other hand",
+   "uk": "з іншого боку",
+   "ex": "On the other hand, the rent is lower.",
+   "exUk": "З іншого боку, оренда дешевша."
+  },
+  {
+   "en": "that being said",
+   "uk": "з огляду на це, проте",
+   "ex": "That being said, we still need a plan.",
+   "exUk": "Проте нам усе одно потрібен план."
+  },
+  {
+   "en": "it goes without saying",
+   "uk": "само собою зрозуміло",
+   "ex": "It goes without saying that you're welcome.",
+   "exUk": "Само собою, ти бажаний гість."
+  },
+  {
+   "en": "by the way",
+   "uk": "до речі",
+   "ex": "By the way, did you call your mum?",
+   "exUk": "До речі, ти подзвонив мамі?"
+  },
+  {
+   "en": "anyway",
+   "uk": "так чи інакше; загалом",
+   "ex": "Anyway, let's get back to the point.",
+   "exUk": "Так чи інакше, повернімося до суті."
+  },
+  {
+   "en": "as I was saying",
+   "uk": "як я казав",
+   "ex": "As I was saying, the meeting is at five.",
+   "exUk": "Як я казав, зустріч о п'ятій."
+  },
+  {
+   "en": "I see your point, but…",
+   "uk": "розумію вашу думку, але…",
+   "ex": "I see your point, but I don't agree.",
+   "exUk": "Розумію вашу думку, але не погоджуюсь."
+  },
+  {
+   "en": "I couldn't agree more.",
+   "uk": "Цілком згоден.",
+   "ex": "I couldn't agree more — it's a mess.",
+   "exUk": "Цілком згоден — це безлад."
+  },
+  {
+   "en": "I'm not entirely convinced.",
+   "uk": "Я не зовсім переконаний.",
+   "ex": "I'm not entirely convinced it'll work.",
+   "exUk": "Я не зовсім переконаний, що це спрацює."
+  },
+  {
+   "en": "It's worth bearing in mind that…",
+   "uk": "Варто пам'ятати, що…",
+   "ex": "It's worth bearing in mind that prices change.",
+   "exUk": "Варто пам'ятати, що ціни змінюються."
+  },
+  {
+   "en": "It seems to me that…",
+   "uk": "Мені здається, що…",
+   "ex": "It seems to me that he's tired.",
+   "exUk": "Мені здається, що він втомився."
+  },
+  {
+   "en": "I'd go as far as to say…",
+   "uk": "Я б навіть сказав…",
+   "ex": "I'd go as far as to say it's the best café in town.",
+   "exUk": "Я б навіть сказав, що це найкраще кафе в місті."
+  },
+  {
+   "en": "to some extent",
+   "uk": "певною мірою",
+   "ex": "To some extent, you're right.",
+   "exUk": "Певною мірою ти маєш рацію."
+  },
+  {
+   "en": "arguably",
+   "uk": "можливо, імовірно (можна стверджувати)",
+   "ex": "It's arguably the best film of the year.",
+   "exUk": "Це, мабуть, найкращий фільм року."
+  },
+  {
+   "en": "admittedly",
+   "uk": "щоправда, слід визнати",
+   "ex": "Admittedly, I was late too.",
+   "exUk": "Щоправда, я теж запізнився."
+  },
+  {
+   "en": "nevertheless",
+   "uk": "проте, тим не менше",
+   "ex": "It was raining. Nevertheless, we went out.",
+   "exUk": "Ішов дощ. Проте ми вийшли."
+  },
+  {
+   "en": "moreover",
+   "uk": "більше того",
+   "ex": "The flat is cheap. Moreover, it's near the park.",
+   "exUk": "Квартира дешева. Більше того, вона біля парку."
+  },
+  {
+   "en": "whereas",
+   "uk": "тоді як",
+   "ex": "I like tea, whereas my wife prefers coffee.",
+   "exUk": "Я люблю чай, тоді як дружина надає перевагу каві."
+  },
+  {
+   "en": "provided that",
+   "uk": "за умови, що",
+   "ex": "You can borrow it provided that you return it.",
+   "exUk": "Можеш позичити за умови, що повернеш."
+  },
+  {
+   "en": "given that",
+   "uk": "з огляду на те, що",
+   "ex": "Given that it's late, let's order pizza.",
+   "exUk": "З огляду на те, що пізно, замовмо піцу."
+  },
+  {
+   "en": "in the long run",
+   "uk": "у довгостроковій перспективі",
+   "ex": "It'll save money in the long run.",
+   "exUk": "Це заощадить гроші в довгостроковій перспективі."
+  },
+  {
+   "en": "all things considered",
+   "uk": "зваживши все",
+   "ex": "All things considered, it was a good decision.",
+   "exUk": "Зваживши все, це було добре рішення."
+  },
+  {
+   "en": "for what it's worth",
+   "uk": "якщо тобі це щось дасть",
+   "ex": "For what it's worth, I think you did the right thing.",
+   "exUk": "Якщо тобі це щось дасть — я думаю, ти вчинив правильно."
+  },
+  {
+   "en": "if I may",
+   "uk": "якщо дозволите",
+   "ex": "If I may, I'd like to add something.",
+   "exUk": "Якщо дозволите, я хотів би дещо додати."
+  },
+  {
+   "en": "Correct me if I'm wrong, but…",
+   "uk": "Виправте мене, якщо я помиляюся, але…",
+   "ex": "Correct me if I'm wrong, but wasn't it on Monday?",
+   "exUk": "Виправте, якщо помиляюся, але хіба це не було в понеділок?"
+  },
+  {
+   "en": "What I'm trying to say is…",
+   "uk": "Я хочу сказати, що…",
+   "ex": "What I'm trying to say is, we need more time.",
+   "exUk": "Я хочу сказати, що нам потрібно більше часу."
+  },
+  {
+   "en": "Let me put it another way.",
+   "uk": "Скажу інакше.",
+   "ex": "Let me put it another way: it's too risky.",
+   "exUk": "Скажу інакше: це надто ризиковано."
+  },
+  {
+   "en": "That's a fair point.",
+   "uk": "Слушне зауваження.",
+   "ex": "That's a fair point. I hadn't thought of that.",
+   "exUk": "Слушне зауваження. Я про це не подумав."
+  },
+  {
+   "en": "I take your point.",
+   "uk": "Я вас зрозумів, приймаю.",
+   "ex": "I take your point, but the budget is limited.",
+   "exUk": "Приймаю, але бюджет обмежений."
+  },
+  {
+   "en": "Not to mention…",
+   "uk": "Не кажучи вже про…",
+   "ex": "It's far, not to mention expensive.",
+   "exUk": "Це далеко, не кажучи вже про те, що дорого."
+  },
+  {
+   "en": "on the whole",
+   "uk": "загалом",
+   "ex": "On the whole, I'm satisfied.",
+   "exUk": "Загалом я задоволений."
+  },
+  {
+   "en": "in a nutshell",
+   "uk": "коротко кажучи",
+   "ex": "In a nutshell, we need a bigger flat.",
+   "exUk": "Коротко кажучи, нам потрібна більша квартира."
+  },
+  {
+   "en": "the bottom line is…",
+   "uk": "суть у тому, що…",
+   "ex": "The bottom line is, we can't afford it.",
+   "exUk": "Суть у тому, що ми не можемо собі цього дозволити."
+  },
+  {
+   "en": "I'd rather not say.",
+   "uk": "Я б не хотів казати.",
+   "ex": "How much do you earn? — I'd rather not say.",
+   "exUk": "Скільки ти заробляєш? — Я б не хотів казати."
+  },
+  {
+   "en": "It's up to you.",
+   "uk": "Вирішуй сам.",
+   "ex": "Pizza or sushi? — It's up to you.",
+   "exUk": "Піца чи суші? — Вирішуй сам."
+  },
+  {
+   "en": "Fair enough.",
+   "uk": "Справедливо. / Гаразд.",
+   "ex": "I can't come, I'm working. — Fair enough.",
+   "exUk": "Не можу прийти, працюю. — Гаразд, зрозуміло."
+  },
+  {
+   "en": "Come to think of it…",
+   "uk": "Якщо подумати…",
+   "ex": "Come to think of it, I've never been there.",
+   "exUk": "Якщо подумати, я там ніколи не був."
+  }
+ ]
+}

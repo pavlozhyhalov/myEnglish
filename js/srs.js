@@ -3,6 +3,7 @@ import { fsrs, generatorParameters, createEmptyCard, Rating, State } from '../ve
 import * as store from './store.js';
 import { allDecks, deckIndex, slug } from './data.js';
 import { today } from './stats.js';
+import { byFit, diff } from './level.js';
 
 export { Rating, State };
 let scheduler = null;
@@ -99,7 +100,10 @@ export async function dueCards(now = new Date()) {
     .sort((a, b) => new Date(a.due) - new Date(b.due));
 }
 
-/** Нові картки на сьогодні: власні («Мої слова») першими, далі стартові колоди по черзі */
+/**
+ * Нові картки на сьогодні: власні («Мої слова») першими, далі стартові колоди за рівнем:
+ * спершу колоди мого рівня, потім наступного, потім нижчих. Колоди на 2+ рівні вище нових слів не дають.
+ */
 export async function newCards(limit) {
   const ds = await decks();
   const en = enabledSet(ds);
@@ -113,18 +117,21 @@ export async function newCards(limit) {
     if (en.has(c.deck_id) && !c.reps) out.push(c);
   }
   if (out.length < left) {
-    const starters = (await allDecks()).filter(d => en.has(d.id));
-    const iters = starters.map(d => ({ d, i: 0 }));
-    while (out.length < left && iters.some(it => it.i < it.d.cards.length)) {
-      for (const it of iters) {
-        while (it.i < it.d.cards.length) {
-          const c = it.d.cards[it.i++];
-          const id = starterId(it.d.id, c.en);
-          if (known.has(id) || out.some(o => o.id === id)) continue;
-          out.push(store.get('cards', id) || rowFromStarter(it.d.id, c));
-          break;
+    const starters = byFit((await allDecks()).filter(d => en.has(d.id) && diff(d.level) <= 1));
+    const pri = (d) => diff(d.level) === 0 ? 0 : diff(d.level) === 1 ? 1 : 2;
+    for (const group of [0, 1, 2]) {
+      const iters = starters.filter(d => pri(d) === group).map(d => ({ d, i: 0 }));
+      while (out.length < left && iters.some(it => it.i < it.d.cards.length)) {
+        for (const it of iters) {
+          while (it.i < it.d.cards.length) {
+            const c = it.d.cards[it.i++];
+            const id = starterId(it.d.id, c.en);
+            if (known.has(id) || out.some(o => o.id === id)) continue;
+            out.push(store.get('cards', id) || rowFromStarter(it.d.id, c));
+            break;
+          }
+          if (out.length >= left) break;
         }
-        if (out.length >= left) break;
       }
     }
   }

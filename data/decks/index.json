@@ -1,9 +1,28 @@
 [
  {
+  "id": "basics",
+  "name": "Перші кроки",
+  "emoji": "wave",
+  "group": "general",
+  "level": "A1",
+  "desc": "Привітання, час, числа, базові дієслова",
+  "count": 60
+ },
+ {
+  "id": "people",
+  "name": "Люди й сім'я",
+  "emoji": "theater",
+  "group": "general",
+  "level": "A1",
+  "desc": "Родина, зовнішність, почуття",
+  "count": 40
+ },
+ {
   "id": "everyday",
   "name": "Повсякдення",
   "emoji": "house",
   "group": "general",
+  "level": "A2",
   "desc": "Розпорядок, побут, корисні фрази",
   "count": 60
  },
@@ -12,6 +31,7 @@
   "name": "Small talk",
   "emoji": "speech",
   "group": "general",
+  "level": "A2",
   "desc": "Знайомство, підтримка розмови",
   "count": 40
  },
@@ -20,14 +40,25 @@
   "name": "Їжа, кафе, магазин",
   "emoji": "food",
   "group": "general",
+  "level": "A2",
   "desc": "Замовлення, рахунок, покупки",
   "count": 40
+ },
+ {
+  "id": "home",
+  "name": "Дім і сім'я",
+  "emoji": "seedling",
+  "group": "general",
+  "level": "A2",
+  "desc": "Родина, дім, гості",
+  "count": 30
  },
  {
   "id": "travel",
   "name": "Подорожі",
   "emoji": "plane",
   "group": "general",
+  "level": "B1",
   "desc": "Аеропорт, готель, дорога",
   "count": 50
  },
@@ -36,6 +67,7 @@
   "name": "Місто й сервіси",
   "emoji": "city",
   "group": "general",
+  "level": "B1",
   "desc": "Лікар, банк, оренда, повернення",
   "count": 50
  },
@@ -44,6 +76,7 @@
   "name": "Думки й емоції",
   "emoji": "brain",
   "group": "general",
+  "level": "B1",
   "desc": "Згода, незгода, почуття",
   "count": 40
  },
@@ -52,6 +85,7 @@
   "name": "Фразові дієслова",
   "emoji": "puzzle",
   "group": "general",
+  "level": "B1",
   "desc": "Найуживаніші phrasal verbs",
   "count": 50
  },
@@ -60,22 +94,43 @@
   "name": "Колокації",
   "emoji": "sparkles",
   "group": "general",
+  "level": "B2",
   "desc": "make / do / take / have / get",
   "count": 40
  },
  {
-  "id": "home",
-  "name": "Дім і сім'я",
-  "emoji": "seedling",
+  "id": "idioms",
+  "name": "Ідіоми",
+  "emoji": "bulb",
   "group": "general",
-  "desc": "Родина, дім, гості",
-  "count": 30
+  "level": "B2",
+  "desc": "Живі вирази носіїв",
+  "count": 50
+ },
+ {
+  "id": "advanced",
+  "name": "Просунута лексика",
+  "emoji": "gradcap",
+  "group": "general",
+  "level": "C1",
+  "desc": "Точні слова для складних думок",
+  "count": 50
+ },
+ {
+  "id": "discourse",
+  "name": "Зв'язки й нюанси",
+  "emoji": "speaking",
+  "group": "general",
+  "level": "C1",
+  "desc": "Як аргументувати, погоджуватися, пом'якшувати",
+  "count": 40
  },
  {
   "id": "cnc",
   "name": "CNC і обробка",
   "emoji": "wrench",
   "group": "work",
+  "level": "B1",
   "desc": "Верстати, інструмент, режими",
   "count": 60,
   "default": false
@@ -85,6 +140,7 @@
   "name": "Креслення і CAD",
   "emoji": "ruler",
   "group": "work",
+  "level": "B1",
   "desc": "Допуски, моделі, креслення",
   "count": 50,
   "default": false
@@ -94,6 +150,7 @@
   "name": "Якість",
   "emoji": "magnifier",
   "group": "work",
+  "level": "B2",
   "desc": "Контроль, дефекти, 8D",
   "count": 50,
   "default": false
@@ -103,6 +160,7 @@
   "name": "Lean",
   "emoji": "chart",
   "group": "work",
+  "level": "B2",
   "desc": "5S, кайдзен, втрати",
   "count": 40,
   "default": false
@@ -112,6 +170,7 @@
   "name": "Ділове листування",
   "emoji": "envelope",
   "group": "work",
+  "level": "B2",
   "desc": "Листи постачальникам і клієнтам",
   "count": 60,
   "default": false

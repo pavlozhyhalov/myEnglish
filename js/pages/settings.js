@@ -9,6 +9,7 @@ import { confirmSheet } from '../ui/sheet.js';
 import { user } from '../supa.js';
 import { speak, englishVoices } from '../speech.js';
 import { arrange } from '../ui/quickbar.js';
+import { LEVELS, LEVEL_NAME, LEVEL_DESC, myLevel, setLevel } from '../level.js';
 
 export default function settings(view) {
   const st = store.settings();
@@ -25,6 +26,7 @@ export default function settings(view) {
   const text = (k, label) => h('input.input', { type: 'text', value: st[k], 'aria-label': label, style: { maxWidth: '180px', minHeight: '40px' }, onchange: (e) => store.setSetting(k, e.target.value.trim() || DEFAULTS[k]) });
 
   view.replaceChildren(h('div.stack-lg',
+    group('Рівень англійської', [levelPicker()]),
     group('Вигляд', [
       h('div', { style: { padding: '12px 14px' } }, seg([['auto', 'Авто'], ['light', 'Світла'], ['dark', 'Темна']], st.theme, (v) => { store.setSetting('theme', v); applyTheme(v); })),
       row('Закріпити меню на широкому екрані', toggle(st.pinDrawer !== false, (v) => { store.setSetting('pinDrawer', v); document.body.classList.toggle('drawer-pinned', v); }, 'Закріпити меню'), 'Від 1100 px'),
@@ -70,6 +72,24 @@ export default function settings(view) {
         h('button.btn.sm.danger', { type: 'button', onclick: wipe }, 'Очистити')),
     ]),
     h('p.xs.dim.center', `myEnglish · збірка ${BUILD}`, h('br'), h('a', { href: '#/lab/live' }, 'Лабораторія Live (діагностика голосу)'))));
+}
+
+/** Вибір рівня: впливає на урок дня, нові слова, диктанти, рекомендовані сценарії й письмо, складність AI */
+function levelPicker() {
+  const desc = h('div.small');
+  const src = h('div.xs.dim');
+  const chips = h('div.level-pick');
+  const render = () => {
+    const cur = myLevel();
+    const p = store.prof();
+    chips.replaceChildren(...LEVELS.map(l => h('button.chip', { type: 'button', 'aria-pressed': String(l === cur), onclick: () => { setLevel(l, 'manual'); toast(`Рівень ${l}: план і контент підлаштовано`); render(); } }, l)));
+    desc.replaceChildren(h('b', `${cur} · ${LEVEL_NAME[cur]}. `), LEVEL_DESC[cur]);
+    src.textContent = p.levelSource === 'test' || (p.placementDone === true && p.levelSource !== 'manual') ? 'Визначено тестом' : p.levelSource === 'manual' ? 'Обрано вручну' : 'За замовчуванням — пройдіть тест, щоб уточнити';
+  };
+  render();
+  return h('div.stack', { style: { padding: '12px 14px', gap: '10px' } }, chips, desc,
+    h('div.xs.dim', 'Від рівня залежить: урок дня й порядок граматики, з яких колод беруться нові слова, складність диктантів, рекомендовані сценарії й завдання з письма, мова вчителя. Коли опануєте рівень на 80% — застосунок запропонує наступний.'),
+    h('div.row', h('div.grow', src), h('a.btn.sm.soft', { href: '#/tests/placement' }, 'Пройти тест')));
 }
 
 function group(title, rows) {

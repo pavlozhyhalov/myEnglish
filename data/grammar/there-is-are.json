@@ -1,0 +1,173 @@
+{
+ "id": "there-is-are",
+ "title": "There is / there are",
+ "titleEn": "There is / there are",
+ "unit": "Основи речення",
+ "level": "A1",
+ "mistakeType": "word_order",
+ "explanation": "**There is / there are** — коли кажемо, що щось **є / існує** десь: *There **is** a café near my house. There **are** two bedrooms in the flat.*\n\n**There is** + однина або незлічуване (*water, money*), **there are** + множина.\n\nЗаперечення: *There **isn't** any milk. There **aren't** any chairs.* Питання: ***Is there** a bank near here? **Are there** any good restaurants?*",
+ "formula": [
+  "There **is** + однина / незлічуване",
+  "There **are** + множина"
+ ],
+ "table": {
+  "head": [
+   "",
+   "однина",
+   "множина"
+  ],
+  "rows": [
+   [
+    "+",
+    "There is a park.",
+    "There are some shops."
+   ],
+   [
+    "−",
+    "There isn't a lift.",
+    "There aren't any buses."
+   ],
+   [
+    "?",
+    "Is there a toilet?",
+    "Are there any tickets?"
+   ]
+  ]
+ },
+ "examples": [
+  {
+   "en": "There's a supermarket on the corner.",
+   "uk": "На розі є супермаркет."
+  },
+  {
+   "en": "There are three people in my family.",
+   "uk": "У моїй сім'ї троє людей."
+  },
+  {
+   "en": "There isn't any sugar left.",
+   "uk": "Цукру не залишилось."
+  },
+  {
+   "en": "Is there a pharmacy near here?",
+   "uk": "Тут поблизу є аптека?"
+  },
+  {
+   "en": "Are there any questions?",
+   "uk": "Є питання?"
+  }
+ ],
+ "tip": "Не кажіть ~~In my city have a river~~ → *There **is** a river in my city.*",
+ "exercises": [
+  {
+   "type": "choice",
+   "prompt": "There ___ a lot of cars on the street.",
+   "options": [
+    "is",
+    "are"
+   ],
+   "answer": "are",
+   "explanation": "cars — множина."
+  },
+  {
+   "type": "choice",
+   "prompt": "There ___ some water in the bottle.",
+   "options": [
+    "is",
+    "are"
+   ],
+   "answer": "is",
+   "explanation": "water — незлічуване."
+  },
+  {
+   "type": "choice",
+   "prompt": "___ there a bus to the airport?",
+   "options": [
+    "Is",
+    "Are",
+    "Do"
+   ],
+   "answer": "Is",
+   "explanation": "a bus — однина."
+  },
+  {
+   "type": "choice",
+   "prompt": "There aren't ___ eggs in the fridge.",
+   "options": [
+    "some",
+    "any",
+    "a"
+   ],
+   "answer": "any",
+   "explanation": "У запереченні — any."
+  },
+  {
+   "type": "input",
+   "prompt": "There ___ (be) two windows in the room.",
+   "answer": [
+    "are"
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "input",
+   "prompt": "___ there any free tables? (питання)",
+   "answer": [
+    "Are"
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "input",
+   "prompt": "There ___ (be / not) a lift in our building. (скорочено)",
+   "answer": [
+    "isn't",
+    "is not"
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "error",
+   "sentence": "There are a nice café in our street.",
+   "wrongIndex": 1,
+   "correction": "is",
+   "alt": [],
+   "explanation": "a café — однина."
+  },
+  {
+   "type": "error",
+   "sentence": "There is many people here.",
+   "wrongIndex": 1,
+   "correction": "are",
+   "alt": [],
+   "explanation": "people — множина."
+  },
+  {
+   "type": "order",
+   "prompt": "На столі є ключі.",
+   "answer": [
+    "There are keys on the table.",
+    "There are some keys on the table."
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "translate",
+   "uk": "Тут поблизу є банк?",
+   "answer": [
+    "Is there a bank near here?",
+    "Is there a bank nearby?"
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "translate",
+   "uk": "У холодильнику немає молока.",
+   "answer": [
+    "There isn't any milk in the fridge.",
+    "There is no milk in the fridge.",
+    "There's no milk in the fridge."
+   ],
+   "explanation": ""
+  }
+ ]
+}

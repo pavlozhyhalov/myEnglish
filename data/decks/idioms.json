@@ -1,0 +1,305 @@
+{
+ "id": "idioms",
+ "cards": [
+  {
+   "en": "a piece of cake",
+   "uk": "простіше простого",
+   "ex": "The test was a piece of cake.",
+   "exUk": "Тест був простіше простого."
+  },
+  {
+   "en": "break the ice",
+   "uk": "розрядити атмосферу",
+   "ex": "He told a joke to break the ice.",
+   "exUk": "Він пожартував, щоб розрядити атмосферу."
+  },
+  {
+   "en": "hit the sack",
+   "uk": "піти спати",
+   "ex": "I'm exhausted — time to hit the sack.",
+   "exUk": "Я виснажений — час спати."
+  },
+  {
+   "en": "under the weather",
+   "uk": "нездужати",
+   "ex": "I'm feeling a bit under the weather today.",
+   "exUk": "Я сьогодні трохи нездужаю."
+  },
+  {
+   "en": "cost an arm and a leg",
+   "uk": "коштувати шалених грошей",
+   "ex": "That car cost an arm and a leg.",
+   "exUk": "Ця машина коштувала шалених грошей."
+  },
+  {
+   "en": "once in a blue moon",
+   "uk": "дуже рідко",
+   "ex": "We eat out once in a blue moon.",
+   "exUk": "Ми їмо поза домом дуже рідко."
+  },
+  {
+   "en": "on the same page",
+   "uk": "мислити однаково, бути в курсі",
+   "ex": "Let's make sure we're on the same page.",
+   "exUk": "Переконаймося, що ми розуміємо одне одного."
+  },
+  {
+   "en": "the ball is in your court",
+   "uk": "тепер твій хід",
+   "ex": "I've made an offer — the ball is in your court.",
+   "exUk": "Я зробив пропозицію — тепер твій хід."
+  },
+  {
+   "en": "call it a day",
+   "uk": "на сьогодні досить",
+   "ex": "It's late. Let's call it a day.",
+   "exUk": "Пізно. На сьогодні досить."
+  },
+  {
+   "en": "get the hang of",
+   "uk": "набити руку, освоїтися",
+   "ex": "You'll soon get the hang of it.",
+   "exUk": "Ти скоро освоїшся."
+  },
+  {
+   "en": "keep an eye on",
+   "uk": "наглядати за",
+   "ex": "Can you keep an eye on my bag?",
+   "exUk": "Можете наглянути за моєю сумкою?"
+  },
+  {
+   "en": "let the cat out of the bag",
+   "uk": "проговоритися",
+   "ex": "Who let the cat out of the bag about the party?",
+   "exUk": "Хто проговорився про вечірку?"
+  },
+  {
+   "en": "sit on the fence",
+   "uk": "зволікати з вибором, не ставати на чийсь бік",
+   "ex": "Stop sitting on the fence and decide!",
+   "exUk": "Годі вагатися — вирішуй!"
+  },
+  {
+   "en": "spill the beans",
+   "uk": "розкрити секрет",
+   "ex": "Come on, spill the beans! What happened?",
+   "exUk": "Ну ж бо, розповідай! Що сталося?"
+  },
+  {
+   "en": "the last straw",
+   "uk": "остання крапля",
+   "ex": "Being late again was the last straw.",
+   "exUk": "Чергове запізнення стало останньою краплею."
+  },
+  {
+   "en": "a blessing in disguise",
+   "uk": "нещастя на щастя",
+   "ex": "Losing that job was a blessing in disguise.",
+   "exUk": "Втрата тієї роботи — не було б щастя, та нещастя допомогло."
+  },
+  {
+   "en": "beat around the bush",
+   "uk": "ходити манівцями",
+   "ex": "Stop beating around the bush and tell me.",
+   "exUk": "Не ходи манівцями — скажи прямо."
+  },
+  {
+   "en": "bite off more than you can chew",
+   "uk": "взяти на себе забагато",
+   "ex": "I think I've bitten off more than I can chew.",
+   "exUk": "Здається, я взяв на себе забагато."
+  },
+  {
+   "en": "by the skin of your teeth",
+   "uk": "ледь-ледь",
+   "ex": "We caught the train by the skin of our teeth.",
+   "exUk": "Ми ледь-ледь встигли на потяг."
+  },
+  {
+   "en": "cut corners",
+   "uk": "економити на якості",
+   "ex": "Don't cut corners on safety.",
+   "exUk": "Не економте на безпеці."
+  },
+  {
+   "en": "go the extra mile",
+   "uk": "докласти додаткових зусиль",
+   "ex": "The staff always go the extra mile for guests.",
+   "exUk": "Персонал завжди робить більше для гостей."
+  },
+  {
+   "en": "in hot water",
+   "uk": "у халепі",
+   "ex": "He's in hot water with his boss.",
+   "exUk": "У нього проблеми з начальником."
+  },
+  {
+   "en": "jump to conclusions",
+   "uk": "поспішати з висновками",
+   "ex": "Don't jump to conclusions — wait for the facts.",
+   "exUk": "Не поспішай з висновками — дочекайся фактів."
+  },
+  {
+   "en": "miss the boat",
+   "uk": "проґавити нагоду",
+   "ex": "Prices went up — we missed the boat.",
+   "exUk": "Ціни зросли — ми проґавили момент."
+  },
+  {
+   "en": "no pain, no gain",
+   "uk": "без зусиль немає результату",
+   "ex": "Training is hard, but no pain, no gain.",
+   "exUk": "Тренування важкі, але без зусиль немає результату."
+  },
+  {
+   "en": "off the top of my head",
+   "uk": "навскидку",
+   "ex": "Off the top of my head, about fifty people.",
+   "exUk": "Навскидку, близько п'ятдесяти людей."
+  },
+  {
+   "en": "pull someone's leg",
+   "uk": "жартувати з когось",
+   "ex": "Relax, I'm just pulling your leg.",
+   "exUk": "Розслабся, я просто жартую."
+  },
+  {
+   "en": "see eye to eye",
+   "uk": "сходитися в поглядах",
+   "ex": "We don't always see eye to eye.",
+   "exUk": "Ми не завжди сходимося в поглядах."
+  },
+  {
+   "en": "take it with a grain of salt",
+   "uk": "ставитися скептично",
+   "ex": "Take his advice with a grain of salt.",
+   "exUk": "Сприймай його поради скептично."
+  },
+  {
+   "en": "the elephant in the room",
+   "uk": "проблема, яку всі ігнорують",
+   "ex": "Let's talk about the elephant in the room — money.",
+   "exUk": "Поговорімо про те, що всі оминають, — гроші."
+  },
+  {
+   "en": "throw in the towel",
+   "uk": "здатися",
+   "ex": "Don't throw in the towel yet!",
+   "exUk": "Не здавайся поки що!"
+  },
+  {
+   "en": "time flies",
+   "uk": "час летить",
+   "ex": "Time flies when you're having fun.",
+   "exUk": "Коли весело, час летить."
+  },
+  {
+   "en": "up in the air",
+   "uk": "невирішено",
+   "ex": "Our holiday plans are still up in the air.",
+   "exUk": "Наші плани на відпустку ще не визначені."
+  },
+  {
+   "en": "when pigs fly",
+   "uk": "коли рак на горі свисне",
+   "ex": "He'll apologise when pigs fly.",
+   "exUk": "Він вибачиться, коли рак на горі свисне."
+  },
+  {
+   "en": "you can say that again",
+   "uk": "і не кажи!",
+   "ex": "It's freezing! — You can say that again.",
+   "exUk": "Холоднеча! — І не кажи!"
+  },
+  {
+   "en": "a long shot",
+   "uk": "малоймовірна спроба",
+   "ex": "It's a long shot, but let's try.",
+   "exUk": "Шансів мало, але спробуймо."
+  },
+  {
+   "en": "back to square one",
+   "uk": "назад на початок",
+   "ex": "The plan failed, so we're back to square one.",
+   "exUk": "План провалився, тож починаємо спочатку."
+  },
+  {
+   "en": "better late than never",
+   "uk": "краще пізно, ніж ніколи",
+   "ex": "You finally called! Better late than never.",
+   "exUk": "Нарешті ти подзвонив! Краще пізно, ніж ніколи."
+  },
+  {
+   "en": "burn the midnight oil",
+   "uk": "працювати до ночі",
+   "ex": "I burned the midnight oil before the deadline.",
+   "exUk": "Перед дедлайном я працював до ночі."
+  },
+  {
+   "en": "get out of hand",
+   "uk": "вийти з-під контролю",
+   "ex": "The party got out of hand.",
+   "exUk": "Вечірка вийшла з-під контролю."
+  },
+  {
+   "en": "give someone the benefit of the doubt",
+   "uk": "повірити на слово",
+   "ex": "I'll give him the benefit of the doubt.",
+   "exUk": "Я повірю йому цього разу."
+  },
+  {
+   "en": "hang in there",
+   "uk": "тримайся",
+   "ex": "Hang in there — it'll get better.",
+   "exUk": "Тримайся — стане краще."
+  },
+  {
+   "en": "it's not rocket science",
+   "uk": "це не так складно",
+   "ex": "Just read the instructions — it's not rocket science.",
+   "exUk": "Просто прочитай інструкцію — це не так складно."
+  },
+  {
+   "en": "make ends meet",
+   "uk": "зводити кінці з кінцями",
+   "ex": "It's hard to make ends meet in a big city.",
+   "exUk": "У великому місті важко зводити кінці з кінцями."
+  },
+  {
+   "en": "on the fence",
+   "uk": "вагатися",
+   "ex": "I'm still on the fence about the new job.",
+   "exUk": "Я досі вагаюся щодо нової роботи."
+  },
+  {
+   "en": "out of the blue",
+   "uk": "раптово, нізвідки",
+   "ex": "He called me out of the blue.",
+   "exUk": "Він подзвонив мені зовсім несподівано."
+  },
+  {
+   "en": "rings a bell",
+   "uk": "щось нагадує",
+   "ex": "Her name rings a bell.",
+   "exUk": "Її ім'я мені щось нагадує."
+  },
+  {
+   "en": "speak of the devil",
+   "uk": "про вовка промовка",
+   "ex": "Speak of the devil — here's Tom!",
+   "exUk": "Про вовка промовка — ось і Том!"
+  },
+  {
+   "en": "take a rain check",
+   "uk": "перенести на інший раз",
+   "ex": "Can I take a rain check on dinner?",
+   "exUk": "Можна перенести вечерю на інший раз?"
+  },
+  {
+   "en": "the best of both worlds",
+   "uk": "найкраще з обох варіантів",
+   "ex": "Working from home two days a week is the best of both worlds.",
+   "exUk": "Два дні з дому на тиждень — найкраще з обох варіантів."
+  }
+ ]
+}

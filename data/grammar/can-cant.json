@@ -1,0 +1,178 @@
+{
+ "id": "can-cant",
+ "title": "Can / can't",
+ "titleEn": "can and can't: ability, requests, permission",
+ "unit": "Модальні дієслова",
+ "level": "A1",
+ "mistakeType": "word_order",
+ "explanation": "**Can** — *могти, вміти*: *I **can** swim.* Також для **прохань** і **дозволу**: ***Can** I have a coffee? **Can** you help me?*\n\n**Can** однакове для всіх осіб (без -s!), а після нього — дієслово **без to**: *She **can drive**.* ~~She cans~~, ~~can to drive~~.\n\nЗаперечення — **can't (cannot)**: *I **can't** hear you.* Питання — can на початок: ***Can** you speak Polish?*",
+ "formula": [
+  "підмет + **can / can't** + V",
+  "**Can** + підмет + V?"
+ ],
+ "table": {
+  "head": [
+   "",
+   "Приклад",
+   "Значення"
+  ],
+  "rows": [
+   [
+    "вміння",
+    "I can cook.",
+    "я вмію"
+   ],
+   [
+    "прохання",
+    "Can you open the door?",
+    "можеш…?"
+   ],
+   [
+    "дозвіл",
+    "Can I sit here?",
+    "можна…?"
+   ],
+   [
+    "заборона/неможливість",
+    "You can't park here.",
+    "не можна"
+   ]
+  ]
+ },
+ "examples": [
+  {
+   "en": "I can speak a little English.",
+   "uk": "Я трохи розмовляю англійською."
+  },
+  {
+   "en": "Can you repeat that, please?",
+   "uk": "Можете повторити, будь ласка?"
+  },
+  {
+   "en": "Can I pay by card?",
+   "uk": "Можна оплатити карткою?"
+  },
+  {
+   "en": "She can't come today.",
+   "uk": "Вона сьогодні не може прийти."
+  },
+  {
+   "en": "We can meet at six.",
+   "uk": "Ми можемо зустрітися о шостій."
+  }
+ ],
+ "tip": "Ніякого **to** після can: ~~I can to help~~ → *I can **help**.*",
+ "exercises": [
+  {
+   "type": "choice",
+   "prompt": "She ___ play the guitar.",
+   "options": [
+    "can",
+    "cans",
+    "can to"
+   ],
+   "answer": "can",
+   "explanation": "can — без -s."
+  },
+  {
+   "type": "choice",
+   "prompt": "Can you ___ me?",
+   "options": [
+    "help",
+    "to help",
+    "helping"
+   ],
+   "answer": "help",
+   "explanation": "після can — V."
+  },
+  {
+   "type": "choice",
+   "prompt": "Sorry, I ___ hear you. The music is too loud.",
+   "options": [
+    "can",
+    "can't",
+    "don't can"
+   ],
+   "answer": "can't",
+   "explanation": ""
+  },
+  {
+   "type": "choice",
+   "prompt": "___ I open the window?",
+   "options": [
+    "Do",
+    "Can",
+    "Am"
+   ],
+   "answer": "Can",
+   "explanation": "Дозвіл."
+  },
+  {
+   "type": "input",
+   "prompt": "My son ___ (can / swim) very well.",
+   "answer": [
+    "can swim"
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "input",
+   "prompt": "We ___ (can / not) come tomorrow. (скорочено)",
+   "answer": [
+    "can't",
+    "cannot"
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "input",
+   "prompt": "___ you speak French?",
+   "answer": [
+    "Can"
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "error",
+   "sentence": "He cans drive a truck.",
+   "wrongIndex": 1,
+   "correction": "can",
+   "alt": [],
+   "explanation": "can без -s."
+  },
+  {
+   "type": "error",
+   "sentence": "She can cooks very well.",
+   "wrongIndex": 2,
+   "correction": "cook",
+   "alt": [],
+   "explanation": "Після can — дієслово без -s."
+  },
+  {
+   "type": "order",
+   "prompt": "Можна мені рахунок?",
+   "answer": [
+    "Can I have the bill?",
+    "Can I have the check?"
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "translate",
+   "uk": "Ти можеш мені допомогти?",
+   "answer": [
+    "Can you help me?"
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "translate",
+   "uk": "Я не вмію плавати.",
+   "answer": [
+    "I can't swim.",
+    "I cannot swim."
+   ],
+   "explanation": ""
+  }
+ ]
+}

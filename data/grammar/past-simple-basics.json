@@ -1,0 +1,179 @@
+{
+ "id": "past-simple-basics",
+ "title": "Past Simple: основи",
+ "titleEn": "Past Simple: regular and irregular verbs, was/were",
+ "unit": "Минулі часи",
+ "level": "A2",
+ "mistakeType": "tenses",
+ "explanation": "**Past Simple** — завершена дія в минулому: *yesterday, last week, in 2019, two days ago*.\n\n**to be** у минулому: *I/he/she/it **was**, we/you/they **were***: *I **was** tired. They **were** at home.*\n\nПравильні дієслова + **-ed**: *work → work**ed**, live → liv**ed**, stop → stop**ped***. Неправильні — окрема форма, її треба запам'ятати: *go → **went**, have → **had**, see → **saw**, buy → **bought**, make → **made***.\n\nЗаперечення і питання — через **did**, а дієслово в початковій формі: *I **didn't go**. **Did** you **see** it?*",
+ "formula": [
+  "V**-ed** / 2-га форма (went, saw…)",
+  "**didn't** + V · **Did** + підмет + V?"
+ ],
+ "table": {
+  "head": [
+   "",
+   "Ствердження",
+   "Заперечення",
+   "Питання"
+  ],
+  "rows": [
+   [
+    "to be",
+    "I was / they were",
+    "I wasn't / they weren't",
+    "Were you…?"
+   ],
+   [
+    "правильні",
+    "I worked",
+    "I didn't work",
+    "Did you work?"
+   ],
+   [
+    "неправильні",
+    "She went",
+    "She didn't go",
+    "Did she go?"
+   ]
+  ]
+ },
+ "examples": [
+  {
+   "en": "We went to the sea last summer.",
+   "uk": "Минулого літа ми їздили на море."
+  },
+  {
+   "en": "I was at the doctor's yesterday.",
+   "uk": "Учора я був у лікаря."
+  },
+  {
+   "en": "Did you sleep well?",
+   "uk": "Ти добре спав?"
+  },
+  {
+   "en": "She didn't call me.",
+   "uk": "Вона мені не подзвонила."
+  },
+  {
+   "en": "They bought a new car two weeks ago.",
+   "uk": "Два тижні тому вони купили нову машину."
+  }
+ ],
+ "tip": "Після **did / didn't** — без -ed і без 2-ї форми: ~~Did you went?~~ → *Did you **go**?*",
+ "exercises": [
+  {
+   "type": "choice",
+   "prompt": "Yesterday I ___ to the cinema.",
+   "options": [
+    "go",
+    "went",
+    "goed"
+   ],
+   "answer": "went",
+   "explanation": ""
+  },
+  {
+   "type": "choice",
+   "prompt": "They ___ at home last night.",
+   "options": [
+    "was",
+    "were",
+    "are"
+   ],
+   "answer": "were",
+   "explanation": ""
+  },
+  {
+   "type": "choice",
+   "prompt": "Did you ___ my message?",
+   "options": [
+    "get",
+    "got",
+    "gets"
+   ],
+   "answer": "get",
+   "explanation": "Після did — V."
+  },
+  {
+   "type": "choice",
+   "prompt": "She ___ like the film.",
+   "options": [
+    "didn't",
+    "doesn't",
+    "wasn't"
+   ],
+   "answer": "didn't",
+   "explanation": ""
+  },
+  {
+   "type": "input",
+   "prompt": "We ___ (stay) in a small hotel.",
+   "answer": [
+    "stayed"
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "input",
+   "prompt": "I ___ (buy) some bread this morning.",
+   "answer": [
+    "bought"
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "input",
+   "prompt": "Where ___ you go on holiday?",
+   "answer": [
+    "did"
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "input",
+   "prompt": "It ___ (be / not) cold yesterday. (скорочено)",
+   "answer": [
+    "wasn't",
+    "was not"
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "error",
+   "sentence": "I didn't saw him yesterday.",
+   "wrongIndex": 2,
+   "correction": "see",
+   "alt": [],
+   "explanation": "Після didn't — see."
+  },
+  {
+   "type": "error",
+   "sentence": "We was very tired after the trip.",
+   "wrongIndex": 1,
+   "correction": "were",
+   "alt": [],
+   "explanation": "we → were."
+  },
+  {
+   "type": "order",
+   "prompt": "Що ти робив у вихідні?",
+   "answer": [
+    "What did you do at the weekend?",
+    "What did you do on the weekend?",
+    "What did you do over the weekend?"
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "translate",
+   "uk": "Учора я працював до восьмої.",
+   "answer": [
+    "I worked until eight yesterday.",
+    "Yesterday I worked until eight.",
+    "I worked till eight yesterday."
+   ],
+   "explanation": ""
+  }
+ ]
+}

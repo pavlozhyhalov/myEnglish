@@ -1,0 +1,305 @@
+{
+ "id": "advanced",
+ "cards": [
+  {
+   "en": "to acknowledge",
+   "uk": "визнавати",
+   "ex": "He acknowledged that he had made a mistake.",
+   "exUk": "Він визнав, що помилився."
+  },
+  {
+   "en": "to anticipate",
+   "uk": "передбачати, очікувати",
+   "ex": "We didn't anticipate so many guests.",
+   "exUk": "Ми не очікували стільки гостей."
+  },
+  {
+   "en": "to undermine",
+   "uk": "підривати",
+   "ex": "Constant criticism undermines confidence.",
+   "exUk": "Постійна критика підриває впевненість."
+  },
+  {
+   "en": "to reconcile",
+   "uk": "примиряти, поєднувати",
+   "ex": "It's hard to reconcile work and family life.",
+   "exUk": "Важко поєднувати роботу й сімейне життя."
+  },
+  {
+   "en": "to streamline",
+   "uk": "спрощувати, оптимізувати",
+   "ex": "We need to streamline the process.",
+   "exUk": "Нам треба оптимізувати процес."
+  },
+  {
+   "en": "to alleviate",
+   "uk": "полегшувати",
+   "ex": "This medicine will alleviate the pain.",
+   "exUk": "Ці ліки полегшать біль."
+  },
+  {
+   "en": "to compromise on",
+   "uk": "поступатися",
+   "ex": "I won't compromise on quality.",
+   "exUk": "Я не поступлюся якістю."
+  },
+  {
+   "en": "to deteriorate",
+   "uk": "погіршуватися",
+   "ex": "His health deteriorated quickly.",
+   "exUk": "Його здоров'я швидко погіршилося."
+  },
+  {
+   "en": "to discern",
+   "uk": "розрізняти, помічати",
+   "ex": "It's hard to discern the truth.",
+   "exUk": "Важко розгледіти правду."
+  },
+  {
+   "en": "to endorse",
+   "uk": "підтримувати, схвалювати",
+   "ex": "The plan was endorsed by the board.",
+   "exUk": "План схвалила рада."
+  },
+  {
+   "en": "to foster",
+   "uk": "сприяти, розвивати",
+   "ex": "Good teachers foster curiosity.",
+   "exUk": "Хороші вчителі розвивають допитливість."
+  },
+  {
+   "en": "to hinder",
+   "uk": "заважати",
+   "ex": "Bad weather hindered the search.",
+   "exUk": "Погана погода заважала пошукам."
+  },
+  {
+   "en": "to mitigate",
+   "uk": "пом'якшувати",
+   "ex": "We took steps to mitigate the risk.",
+   "exUk": "Ми вжили заходів, щоб зменшити ризик."
+  },
+  {
+   "en": "to overlook",
+   "uk": "не помітити; пробачити",
+   "ex": "I overlooked a small detail.",
+   "exUk": "Я не помітив дрібної деталі."
+  },
+  {
+   "en": "to prioritise",
+   "uk": "визначати пріоритети",
+   "ex": "You need to prioritise your health.",
+   "exUk": "Тобі треба поставити здоров'я на перше місце."
+  },
+  {
+   "en": "to scrutinise",
+   "uk": "ретельно вивчати",
+   "ex": "The contract was scrutinised by lawyers.",
+   "exUk": "Юристи ретельно вивчили контракт."
+  },
+  {
+   "en": "to thrive",
+   "uk": "процвітати",
+   "ex": "Some plants thrive in the shade.",
+   "exUk": "Деякі рослини процвітають у тіні."
+  },
+  {
+   "en": "to vow",
+   "uk": "урочисто обіцяти",
+   "ex": "She vowed never to return.",
+   "exUk": "Вона заприсяглася ніколи не повертатися."
+  },
+  {
+   "en": "ambiguous",
+   "uk": "неоднозначний",
+   "ex": "The instructions were ambiguous.",
+   "exUk": "Інструкції були неоднозначними."
+  },
+  {
+   "en": "arbitrary",
+   "uk": "довільний",
+   "ex": "The rules seem completely arbitrary.",
+   "exUk": "Правила здаються цілком довільними."
+  },
+  {
+   "en": "coherent",
+   "uk": "зв'язний, послідовний",
+   "ex": "Give me a coherent explanation.",
+   "exUk": "Дай мені зв'язне пояснення."
+  },
+  {
+   "en": "comprehensive",
+   "uk": "всебічний, повний",
+   "ex": "We need a comprehensive review.",
+   "exUk": "Нам потрібен всебічний аналіз."
+  },
+  {
+   "en": "detrimental",
+   "uk": "шкідливий",
+   "ex": "Stress is detrimental to your health.",
+   "exUk": "Стрес шкодить здоров'ю."
+  },
+  {
+   "en": "feasible",
+   "uk": "здійсненний",
+   "ex": "Is the plan financially feasible?",
+   "exUk": "Чи план фінансово здійсненний?"
+  },
+  {
+   "en": "inevitable",
+   "uk": "неминучий",
+   "ex": "Change is inevitable.",
+   "exUk": "Зміни неминучі."
+  },
+  {
+   "en": "meticulous",
+   "uk": "прискіпливий, ретельний",
+   "ex": "She's meticulous about details.",
+   "exUk": "Вона дуже уважна до деталей."
+  },
+  {
+   "en": "plausible",
+   "uk": "правдоподібний",
+   "ex": "That's a plausible explanation.",
+   "exUk": "Це правдоподібне пояснення."
+  },
+  {
+   "en": "reluctant",
+   "uk": "неохочий",
+   "ex": "He was reluctant to talk.",
+   "exUk": "Він неохоче говорив."
+  },
+  {
+   "en": "resilient",
+   "uk": "стійкий",
+   "ex": "Children are surprisingly resilient.",
+   "exUk": "Діти напрочуд стійкі."
+  },
+  {
+   "en": "substantial",
+   "uk": "значний",
+   "ex": "There was a substantial increase in prices.",
+   "exUk": "Ціни значно зросли."
+  },
+  {
+   "en": "tedious",
+   "uk": "нудний, виснажливий",
+   "ex": "Filling in forms is tedious.",
+   "exUk": "Заповнювати бланки нудно."
+  },
+  {
+   "en": "versatile",
+   "uk": "універсальний, багатогранний",
+   "ex": "She's a versatile actress.",
+   "exUk": "Вона багатогранна акторка."
+  },
+  {
+   "en": "vulnerable",
+   "uk": "вразливий",
+   "ex": "Elderly people are more vulnerable to the flu.",
+   "exUk": "Літні люди вразливіші до грипу."
+  },
+  {
+   "en": "a drawback",
+   "uk": "недолік",
+   "ex": "The main drawback is the price.",
+   "exUk": "Головний недолік — ціна."
+  },
+  {
+   "en": "a misconception",
+   "uk": "хибне уявлення",
+   "ex": "It's a common misconception.",
+   "exUk": "Це поширене хибне уявлення."
+  },
+  {
+   "en": "a setback",
+   "uk": "невдача, затримка",
+   "ex": "Despite a few setbacks, we finished on time.",
+   "exUk": "Попри кілька невдач, ми завершили вчасно."
+  },
+  {
+   "en": "a trade-off",
+   "uk": "компроміс",
+   "ex": "There's always a trade-off between speed and quality.",
+   "exUk": "Завжди є компроміс між швидкістю і якістю."
+  },
+  {
+   "en": "an incentive",
+   "uk": "стимул",
+   "ex": "Tax cuts are an incentive to invest.",
+   "exUk": "Зниження податків — стимул інвестувати."
+  },
+  {
+   "en": "an outcome",
+   "uk": "результат",
+   "ex": "We're happy with the outcome.",
+   "exUk": "Ми задоволені результатом."
+  },
+  {
+   "en": "a premise",
+   "uk": "передумова",
+   "ex": "The argument is based on a false premise.",
+   "exUk": "Аргумент ґрунтується на хибній передумові."
+  },
+  {
+   "en": "leeway",
+   "uk": "свобода дій",
+   "ex": "Managers give us some leeway.",
+   "exUk": "Менеджери дають нам певну свободу дій."
+  },
+  {
+   "en": "hindsight",
+   "uk": "погляд у минуле",
+   "ex": "In hindsight, it was a bad idea.",
+   "exUk": "Озираючись назад, це була погана ідея."
+  },
+  {
+   "en": "to take for granted",
+   "uk": "сприймати як належне",
+   "ex": "Don't take your health for granted.",
+   "exUk": "Не сприймай здоров'я як належне."
+  },
+  {
+   "en": "to come to terms with",
+   "uk": "змиритися з",
+   "ex": "She came to terms with the loss.",
+   "exUk": "Вона змирилася з втратою."
+  },
+  {
+   "en": "to be on the verge of",
+   "uk": "бути на межі",
+   "ex": "They're on the verge of a breakthrough.",
+   "exUk": "Вони на межі прориву."
+  },
+  {
+   "en": "to bear in mind",
+   "uk": "мати на увазі",
+   "ex": "Bear in mind that shops close early on Sunday.",
+   "exUk": "Майте на увазі, що в неділю магазини зачиняються рано."
+  },
+  {
+   "en": "to draw a distinction",
+   "uk": "розмежовувати",
+   "ex": "We should draw a distinction between facts and opinions.",
+   "exUk": "Слід розрізняти факти й думки."
+  },
+  {
+   "en": "to raise awareness",
+   "uk": "привертати увагу (до проблеми)",
+   "ex": "The campaign raises awareness of mental health.",
+   "exUk": "Кампанія привертає увагу до психічного здоров'я."
+  },
+  {
+   "en": "to a large extent",
+   "uk": "значною мірою",
+   "ex": "To a large extent, it's our fault.",
+   "exUk": "Значною мірою це наша провина."
+  },
+  {
+   "en": "by and large",
+   "uk": "загалом",
+   "ex": "By and large, the trip was a success.",
+   "exUk": "Загалом поїздка вдалася."
+  }
+ ]
+}

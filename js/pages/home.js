@@ -7,6 +7,7 @@ import { allDecks, grammarIndex } from '../data.js';
 import { todaySeconds, streak, week, mistakesByType, lessonsToReview, lessonDone, today, dayKey } from '../stats.js';
 import { speak } from '../speech.js';
 import { toast } from '../ui/toast.js';
+import { myLevel, LEVEL_NAME, nextLessonByLevel, byFit, diff, levelProgress, nextLevel } from '../level.js';
 
 export default async function home(view) {
   const st = store.settings();
@@ -14,7 +15,8 @@ export default async function home(view) {
   const [counts, gIdx, allD, deckState] = await Promise.all([srs.counts(), grammarIndex(), allDecks(), srs.decks()]);
   const on = new Set(deckState.filter(d => d.enabled).map(d => d.id));
   const decks = allD.filter(d => on.has(d.id));
-  const firstRun = !prof.placementDone && store.count('sessions') === 0;
+  const firstRun = !prof.placementDone && !prof.levelSource && store.count('sessions') === 0;
+  const lp = await levelProgress(gIdx);
 
   const hour = new Date().getHours();
   const sec = todaySeconds();
@@ -68,6 +70,17 @@ export default async function home(view) {
       h('a.btn.primary.block', { href: '#/tests/placement' }, 'Визначити мій рівень'),
       h('button.btn.ghost', { type: 'button', onclick: () => { store.setProf({ placementDone: 'skipped' }); home(view); } }, 'Пропустити')));
   } else {
+    // ---- рівень: що зараз вивчаємо і скільки до наступного ----
+    const lvl = myLevel();
+    blocks.push(h('a.card.stack', { href: '#/progress', style: { color: 'inherit', textDecoration: 'none' } },
+      h('div.row',
+        h('div.level-badge', lvl),
+        h('div.grow', h('div', { style: { fontWeight: 600 } }, `Рівень ${lvl} · ${LEVEL_NAME[lvl]}`),
+          h('div.xs.dim', `Уроки ${lp.grammar.done}/${lp.grammar.total} · слова ${lp.words.done}/${lp.words.total}`)),
+        h('span.num.small', `${lp.pct}%`)),
+      h('div.progress', h('i', { style: { width: `${lp.pct}%` } })),
+      lp.ready ? h('div.small', { style: { color: 'var(--accent-ink)', fontWeight: 600 } }, `Ви майже опанували ${lvl} — час переходити на ${nextLevel()}`) : null));
+
     // ---- стрік і тиждень ----
     const n = streak();
     blocks.push(h('section.card.stack',
@@ -81,7 +94,7 @@ export default async function home(view) {
         d.name)))));
 
     // ---- слово дня ----
-    const w = wordOfDay(decks);
+    const w = wordOfDay(decks.filter(d => diff(d.level) <= 1 && diff(d.level) >= -1));
     if (w) {
       const inCards = store.get('cards', w.id) || store.all('cards').find(c => c.en.toLowerCase() === w.en.toLowerCase());
       const addBtn = h('button.btn.soft.sm', {
@@ -134,10 +147,10 @@ function pickLesson(idx) {
   // слабке місце — урок відповідного типу
   const weak = mistakesByType()[0];
   if (weak && weak.total >= 5) {
-    const l = idx.find(x => x.mistakeType === weak.type && !lessonDone(x.id));
+    const l = byFit(idx.filter(x => x.mistakeType === weak.type && !lessonDone(x.id) && diff(x.level) <= 1))[0];
     if (l) return l;
   }
-  return idx.find(x => !lessonDone(x.id));
+  return nextLessonByLevel(idx);
 }
 
 function wordOfDay(decks) {

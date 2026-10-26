@@ -49,6 +49,15 @@ export async function loadStudent(ctx: Ctx): Promise<Student> {
 }
 
 const LANG = { uk: 'Ukrainian', en: 'simple English', mix: 'Ukrainian with key terms in English' };
+const NEXT: Record<string, string> = { A1: 'A2', A2: 'B1', B1: 'B2', B2: 'C1', C1: 'C2' };
+/** Як говорити з учнем цього рівня — рівень обирає учень (тест або вручну), тож він має реально змінювати мову вчителя */
+const LEVEL_STYLE: Record<string, string> = {
+  A1: 'Use very short, simple sentences (Present Simple, to be, can, there is), the 500 most common words, and speak slowly. Ask simple yes/no or either/or questions. If he is stuck, offer the words he needs. A short Ukrainian hint is fine when he is clearly lost.',
+  A2: 'Use short sentences and everyday vocabulary; Past Simple, going to, basic modals. Avoid idioms and phrasal verbs except the most common ones (get up, look for). Paraphrase anything harder.',
+  B1: 'Use natural everyday English with common phrasal verbs and a few easy idioms; mix tenses naturally. Explain a new expression briefly when you use it.',
+  B2: 'Speak naturally as with a fluent non-native colleague: idioms, phrasal verbs, conditionals, nuance. Push him to justify opinions and to use more precise vocabulary.',
+  C1: 'Speak as with an educated native speaker: rich vocabulary, idiomatic and register-appropriate language, complex structures (inversion, cleft sentences, mixed conditionals). Challenge him on precision, style and nuance, not just correctness.',
+};
 
 export function basePrompt(st: Student) {
   const weak = st.weak.length
@@ -61,7 +70,7 @@ export function basePrompt(st: Student) {
 
 STUDENT
 - Pavlo, native Ukrainian speaker (also fluent in Russian, basic Polish). Lives in Kraków, Poland, married; they plan to have a child. Works as an engineer.
-- Current English level: ${st.level}. Goal: B2+ and confident, natural English for communicating everywhere: with people in everyday life, while travelling, online, socially, and at work when needed.
+- Current English level: ${st.level}. Next target: ${NEXT[st.level] || 'B2'}. Overall goal: confident, natural English for communicating everywhere: with people in everyday life, while travelling, online, socially, and at work when needed.
 ${work}
 
 WEAK POINTS — create natural opportunities to practise these, without lecturing:
@@ -71,6 +80,7 @@ WORDS HE IS LEARNING NOW — use some of them naturally and invite him to use th
 ${st.words.length ? st.words.join(', ') : '(none yet)'}
 ${st.lastFocus ? `\nFOCUS RECOMMENDED LAST TIME: ${st.lastFocus}\n` : ''}
 GENERAL RULES
+- LEVEL ${st.level}: ${LEVEL_STYLE[st.level] || LEVEL_STYLE.B1}
 - Speak English slightly above his level (i+1): natural, clear, concise. Use real-life situations and natural spoken expressions, phrasal verbs and idioms that native speakers actually use.
 - Grammar explanations: in ${LANG[st.explainLang]}, short, only when he asks or when the same mistake repeats.
 - Keep the conversation going: usually end your turn with one question.

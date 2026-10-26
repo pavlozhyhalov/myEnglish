@@ -1,0 +1,178 @@
+{
+ "id": "to-be",
+ "title": "Дієслово to be (am / is / are)",
+ "titleEn": "The verb to be: am, is, are",
+ "unit": "Основи речення",
+ "level": "A1",
+ "mistakeType": "word_order",
+ "explanation": "В англійській реченні **завжди є дієслово**. Там, де українською ми кажемо *«Я вдома»*, *«Він інженер»*, англійською потрібне **to be**: *I **am** at home. He **is** an engineer.*\n\n**I am · he/she/it is · we/you/they are.** У розмові — скорочення: *I'm, she's, they're*.\n\nЗаперечення — **not** після дієслова: *I'm not tired. It isn't cold.* Питання — дієслово на початок: ***Are** you ready? **Is** she at work?*",
+ "formula": [
+  "I **am** / he, she, it **is** / we, you, they **are**",
+  "Питання: **Am/Is/Are** + підмет …?"
+ ],
+ "table": {
+  "head": [
+   "Підмет",
+   "+",
+   "−",
+   "?"
+  ],
+  "rows": [
+   [
+    "I",
+    "I am (I'm)",
+    "I'm not",
+    "Am I…?"
+   ],
+   [
+    "he / she / it",
+    "is ('s)",
+    "isn't",
+    "Is she…?"
+   ],
+   [
+    "we / you / they",
+    "are ('re)",
+    "aren't",
+    "Are they…?"
+   ]
+  ]
+ },
+ "examples": [
+  {
+   "en": "I'm from Ukraine.",
+   "uk": "Я з України."
+  },
+  {
+   "en": "My wife is a teacher.",
+   "uk": "Моя дружина — вчителька."
+  },
+  {
+   "en": "We aren't at home now.",
+   "uk": "Нас зараз немає вдома."
+  },
+  {
+   "en": "Is it far from here?",
+   "uk": "Це далеко звідси?"
+  },
+  {
+   "en": "Are you hungry?",
+   "uk": "Ти голодний?"
+  }
+ ],
+ "tip": "Не пропускайте дієслово: ~~She very nice~~ → *She **is** very nice.*",
+ "exercises": [
+  {
+   "type": "choice",
+   "prompt": "My name ___ Pavlo.",
+   "options": [
+    "am",
+    "is",
+    "are"
+   ],
+   "answer": "is",
+   "explanation": "name = it → is."
+  },
+  {
+   "type": "choice",
+   "prompt": "We ___ in Kraków.",
+   "options": [
+    "am",
+    "is",
+    "are"
+   ],
+   "answer": "are",
+   "explanation": "we → are."
+  },
+  {
+   "type": "choice",
+   "prompt": "___ you tired?",
+   "options": [
+    "Am",
+    "Is",
+    "Are"
+   ],
+   "answer": "Are",
+   "explanation": "you → are."
+  },
+  {
+   "type": "choice",
+   "prompt": "I ___ not hungry.",
+   "options": [
+    "am",
+    "is",
+    "are"
+   ],
+   "answer": "am",
+   "explanation": "I → am."
+  },
+  {
+   "type": "input",
+   "prompt": "The shop ___ (be) closed today.",
+   "answer": [
+    "is"
+   ],
+   "explanation": "shop = it."
+  },
+  {
+   "type": "input",
+   "prompt": "They ___ (be / not) at work. (скорочено)",
+   "answer": [
+    "aren't",
+    "are not"
+   ],
+   "explanation": "they → aren't."
+  },
+  {
+   "type": "input",
+   "prompt": "___ (be) your sister a doctor?",
+   "answer": [
+    "Is"
+   ],
+   "explanation": "Питання: Is + she…"
+  },
+  {
+   "type": "error",
+   "sentence": "She are very happy today.",
+   "wrongIndex": 1,
+   "correction": "is",
+   "alt": [],
+   "explanation": "she → is."
+  },
+  {
+   "type": "error",
+   "sentence": "I is from Lviv.",
+   "wrongIndex": 1,
+   "correction": "am",
+   "alt": [],
+   "explanation": "I → am."
+  },
+  {
+   "type": "order",
+   "prompt": "Ти з Польщі?",
+   "answer": [
+    "Are you from Poland?"
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "translate",
+   "uk": "Він не вдома.",
+   "answer": [
+    "He isn't at home.",
+    "He is not at home.",
+    "He's not at home."
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "translate",
+   "uk": "Ми готові.",
+   "answer": [
+    "We are ready.",
+    "We're ready."
+   ],
+   "explanation": ""
+  }
+ ]
+}

@@ -1,0 +1,365 @@
+{
+ "id": "basics",
+ "cards": [
+  {
+   "en": "Nice to meet you.",
+   "uk": "Приємно познайомитися.",
+   "ex": "Hi, I'm Pavlo. Nice to meet you.",
+   "exUk": "Привіт, я Павло. Приємно познайомитися."
+  },
+  {
+   "en": "How are you?",
+   "uk": "Як справи?",
+   "ex": "Hi Anna! How are you?",
+   "exUk": "Привіт, Анно! Як справи?"
+  },
+  {
+   "en": "I'm fine, thanks.",
+   "uk": "У мене все добре, дякую.",
+   "ex": "I'm fine, thanks. And you?",
+   "exUk": "Добре, дякую. А в тебе?"
+  },
+  {
+   "en": "See you later.",
+   "uk": "До зустрічі.",
+   "ex": "I have to go. See you later!",
+   "exUk": "Мені треба йти. До зустрічі!"
+  },
+  {
+   "en": "Excuse me",
+   "uk": "перепрошую (звернення)",
+   "ex": "Excuse me, where is the station?",
+   "exUk": "Перепрошую, де вокзал?"
+  },
+  {
+   "en": "Sorry",
+   "uk": "вибачте",
+   "ex": "Sorry, I don't understand.",
+   "exUk": "Вибачте, я не розумію."
+  },
+  {
+   "en": "Could you repeat that?",
+   "uk": "Можете повторити?",
+   "ex": "Sorry, could you repeat that, please?",
+   "exUk": "Вибачте, можете повторити, будь ласка?"
+  },
+  {
+   "en": "I don't understand.",
+   "uk": "Я не розумію.",
+   "ex": "I don't understand. Can you speak slowly?",
+   "exUk": "Я не розумію. Можете говорити повільно?"
+  },
+  {
+   "en": "What does it mean?",
+   "uk": "Що це означає?",
+   "ex": "What does 'receipt' mean?",
+   "exUk": "Що означає 'receipt'?"
+  },
+  {
+   "en": "How do you say … in English?",
+   "uk": "Як сказати … англійською?",
+   "ex": "How do you say 'ложка' in English?",
+   "exUk": "Як сказати 'ложка' англійською?"
+  },
+  {
+   "en": "Where are you from?",
+   "uk": "Звідки ви?",
+   "ex": "Where are you from? — I'm from Ukraine.",
+   "exUk": "Звідки ви? — Я з України."
+  },
+  {
+   "en": "I live in …",
+   "uk": "Я живу в …",
+   "ex": "I live in Kraków with my wife.",
+   "exUk": "Я живу в Кракові з дружиною."
+  },
+  {
+   "en": "What's your job?",
+   "uk": "Ким ви працюєте?",
+   "ex": "What's your job? — I'm an engineer.",
+   "exUk": "Ким ви працюєте? — Я інженер."
+  },
+  {
+   "en": "How old are you?",
+   "uk": "Скільки вам років?",
+   "ex": "How old is your son?",
+   "exUk": "Скільки років твоєму синові?"
+  },
+  {
+   "en": "today",
+   "uk": "сьогодні",
+   "ex": "I'm very busy today.",
+   "exUk": "Я сьогодні дуже зайнятий."
+  },
+  {
+   "en": "tomorrow",
+   "uk": "завтра",
+   "ex": "See you tomorrow!",
+   "exUk": "До завтра!"
+  },
+  {
+   "en": "yesterday",
+   "uk": "учора",
+   "ex": "Yesterday was Sunday.",
+   "exUk": "Учора була неділя."
+  },
+  {
+   "en": "Monday",
+   "uk": "понеділок",
+   "ex": "I start work on Monday.",
+   "exUk": "Я починаю роботу в понеділок."
+  },
+  {
+   "en": "weekend",
+   "uk": "вихідні",
+   "ex": "What are you doing at the weekend?",
+   "exUk": "Що ти робиш на вихідних?"
+  },
+  {
+   "en": "in the morning",
+   "uk": "вранці",
+   "ex": "I drink coffee in the morning.",
+   "exUk": "Я п'ю каву вранці."
+  },
+  {
+   "en": "in the evening",
+   "uk": "увечері",
+   "ex": "We watch films in the evening.",
+   "exUk": "Ми дивимося фільми ввечері."
+  },
+  {
+   "en": "at night",
+   "uk": "вночі",
+   "ex": "I don't eat at night.",
+   "exUk": "Я не їм уночі."
+  },
+  {
+   "en": "What time is it?",
+   "uk": "Котра година?",
+   "ex": "Excuse me, what time is it?",
+   "exUk": "Перепрошую, котра година?"
+  },
+  {
+   "en": "half past seven",
+   "uk": "пів на восьму (7:30)",
+   "ex": "The film starts at half past seven.",
+   "exUk": "Фільм починається о пів на восьму."
+  },
+  {
+   "en": "a quarter to nine",
+   "uk": "за чверть дев'ята (8:45)",
+   "ex": "The bus leaves at a quarter to nine.",
+   "exUk": "Автобус відходить за чверть дев'ята."
+  },
+  {
+   "en": "first",
+   "uk": "перший",
+   "ex": "This is my first time in London.",
+   "exUk": "Я в Лондоні вперше."
+  },
+  {
+   "en": "twenty",
+   "uk": "двадцять",
+   "ex": "It costs twenty euros.",
+   "exUk": "Це коштує двадцять євро."
+  },
+  {
+   "en": "a hundred",
+   "uk": "сто",
+   "ex": "There are a hundred people here.",
+   "exUk": "Тут сто людей."
+  },
+  {
+   "en": "How much is it?",
+   "uk": "Скільки це коштує?",
+   "ex": "How much is this jacket?",
+   "exUk": "Скільки коштує ця куртка?"
+  },
+  {
+   "en": "cheap",
+   "uk": "дешевий",
+   "ex": "This shop is very cheap.",
+   "exUk": "Цей магазин дуже дешевий."
+  },
+  {
+   "en": "expensive",
+   "uk": "дорогий",
+   "ex": "Taxis are expensive here.",
+   "exUk": "Таксі тут дорогі."
+  },
+  {
+   "en": "big",
+   "uk": "великий",
+   "ex": "They have a big house.",
+   "exUk": "У них великий будинок."
+  },
+  {
+   "en": "small",
+   "uk": "маленький",
+   "ex": "My flat is small but cosy.",
+   "exUk": "Моя квартира маленька, але затишна."
+  },
+  {
+   "en": "new",
+   "uk": "новий",
+   "ex": "I have a new phone.",
+   "exUk": "У мене новий телефон."
+  },
+  {
+   "en": "old",
+   "uk": "старий",
+   "ex": "This is a very old building.",
+   "exUk": "Це дуже стара будівля."
+  },
+  {
+   "en": "hot",
+   "uk": "гарячий, спекотний",
+   "ex": "It's very hot today.",
+   "exUk": "Сьогодні дуже спекотно."
+  },
+  {
+   "en": "cold",
+   "uk": "холодний",
+   "ex": "The water is cold.",
+   "exUk": "Вода холодна."
+  },
+  {
+   "en": "tired",
+   "uk": "втомлений",
+   "ex": "I'm tired after work.",
+   "exUk": "Я втомлений після роботи."
+  },
+  {
+   "en": "hungry",
+   "uk": "голодний",
+   "ex": "Are you hungry? Let's eat.",
+   "exUk": "Ти голодний? Давай поїмо."
+  },
+  {
+   "en": "thirsty",
+   "uk": "той, хто хоче пити",
+   "ex": "I'm thirsty. Can I have some water?",
+   "exUk": "Я хочу пити. Можна води?"
+  },
+  {
+   "en": "to want",
+   "uk": "хотіти",
+   "ex": "I want a cup of tea.",
+   "exUk": "Я хочу чашку чаю."
+  },
+  {
+   "en": "to need",
+   "uk": "потребувати",
+   "ex": "I need help.",
+   "exUk": "Мені потрібна допомога."
+  },
+  {
+   "en": "to like",
+   "uk": "подобатися",
+   "ex": "I like this song.",
+   "exUk": "Мені подобається ця пісня."
+  },
+  {
+   "en": "to know",
+   "uk": "знати",
+   "ex": "I don't know his name.",
+   "exUk": "Я не знаю, як його звати."
+  },
+  {
+   "en": "to go",
+   "uk": "іти, їхати",
+   "ex": "I go to work by bus.",
+   "exUk": "Я їжджу на роботу автобусом."
+  },
+  {
+   "en": "to come",
+   "uk": "приходити",
+   "ex": "Can you come at six?",
+   "exUk": "Можеш прийти о шостій?"
+  },
+  {
+   "en": "to buy",
+   "uk": "купувати",
+   "ex": "I need to buy some bread.",
+   "exUk": "Мені треба купити хліба."
+  },
+  {
+   "en": "to pay",
+   "uk": "платити",
+   "ex": "Can I pay by card?",
+   "exUk": "Можна заплатити карткою?"
+  },
+  {
+   "en": "to open",
+   "uk": "відкривати",
+   "ex": "The shop opens at nine.",
+   "exUk": "Магазин відкривається о дев'ятій."
+  },
+  {
+   "en": "to close",
+   "uk": "зачиняти",
+   "ex": "Please close the door.",
+   "exUk": "Будь ласка, зачиніть двері."
+  },
+  {
+   "en": "to wait",
+   "uk": "чекати",
+   "ex": "Wait for me, please!",
+   "exUk": "Почекай мене, будь ласка!"
+  },
+  {
+   "en": "to help",
+   "uk": "допомагати",
+   "ex": "Can you help me?",
+   "exUk": "Можете мені допомогти?"
+  },
+  {
+   "en": "left",
+   "uk": "ліворуч",
+   "ex": "Turn left at the bank.",
+   "exUk": "Біля банку поверніть ліворуч."
+  },
+  {
+   "en": "right",
+   "uk": "праворуч; правильний",
+   "ex": "The toilet is on the right.",
+   "exUk": "Туалет праворуч."
+  },
+  {
+   "en": "straight on",
+   "uk": "прямо",
+   "ex": "Go straight on for two minutes.",
+   "exUk": "Ідіть прямо дві хвилини."
+  },
+  {
+   "en": "near",
+   "uk": "близько",
+   "ex": "Is there a shop near here?",
+   "exUk": "Тут поблизу є магазин?"
+  },
+  {
+   "en": "far",
+   "uk": "далеко",
+   "ex": "The airport is far from the city.",
+   "exUk": "Аеропорт далеко від міста."
+  },
+  {
+   "en": "here",
+   "uk": "тут",
+   "ex": "Come here!",
+   "exUk": "Іди сюди!"
+  },
+  {
+   "en": "there",
+   "uk": "там",
+   "ex": "Your bag is over there.",
+   "exUk": "Твоя сумка он там."
+  },
+  {
+   "en": "Of course.",
+   "uk": "Звісно.",
+   "ex": "Can I sit here? — Of course.",
+   "exUk": "Можна сісти тут? — Звісно."
+  }
+ ]
+}

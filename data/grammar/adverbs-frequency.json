@@ -1,0 +1,179 @@
+{
+ "id": "adverbs-frequency",
+ "title": "Як часто: always, usually, never",
+ "titleEn": "Adverbs of frequency and word order",
+ "unit": "Будова речення",
+ "level": "A2",
+ "mistakeType": "word_order",
+ "explanation": "Як часто? **always** (завжди) → **usually** (зазвичай) → **often** (часто) → **sometimes** (іноді) → **rarely** (рідко) → **never** (ніколи).\n\nМісце в реченні: **перед основним дієсловом**, але **після to be**: *I **usually** get up at 7. She is **always** late.*\n\nВирази *every day, once a week, twice a month* — у кінці речення: *I go swimming **twice a week**.* Питання: ***How often** do you…?*",
+ "formula": [
+  "підмет + **always/often…** + дієслово",
+  "be + **always/often…**"
+ ],
+ "table": {
+  "head": [
+   "Слово",
+   "%",
+   "Приклад"
+  ],
+  "rows": [
+   [
+    "always",
+    "100%",
+    "I always drink tea in the morning."
+   ],
+   [
+    "usually",
+    "~80%",
+    "We usually eat at home."
+   ],
+   [
+    "sometimes",
+    "~40%",
+    "He sometimes works late."
+   ],
+   [
+    "never",
+    "0%",
+    "She is never late."
+   ]
+  ]
+ },
+ "examples": [
+  {
+   "en": "I usually walk to work.",
+   "uk": "Я зазвичай ходжу на роботу пішки."
+  },
+  {
+   "en": "He's always busy.",
+   "uk": "Він завжди зайнятий."
+  },
+  {
+   "en": "We sometimes go to the mountains.",
+   "uk": "Ми іноді їздимо в гори."
+  },
+  {
+   "en": "How often do you cook?",
+   "uk": "Як часто ти готуєш?"
+  },
+  {
+   "en": "I go to the gym three times a week.",
+   "uk": "Я ходжу в спортзал тричі на тиждень."
+  }
+ ],
+ "tip": "**never** уже заперечне: *I **never** eat meat*, не ~~I don't never eat~~.",
+ "exercises": [
+  {
+   "type": "choice",
+   "prompt": "She ___ late for work.",
+   "options": [
+    "always is",
+    "is always",
+    "always"
+   ],
+   "answer": "is always",
+   "explanation": "Після be."
+  },
+  {
+   "type": "choice",
+   "prompt": "I ___ coffee in the evening.",
+   "options": [
+    "drink never",
+    "never drink",
+    "don't never drink"
+   ],
+   "answer": "never drink",
+   "explanation": ""
+  },
+  {
+   "type": "choice",
+   "prompt": "___ do you see your parents?",
+   "options": [
+    "How often",
+    "How much",
+    "When often"
+   ],
+   "answer": "How often",
+   "explanation": ""
+  },
+  {
+   "type": "choice",
+   "prompt": "We go to the cinema ___.",
+   "options": [
+    "once a month",
+    "month once",
+    "a month once"
+   ],
+   "answer": "once a month",
+   "explanation": ""
+  },
+  {
+   "type": "input",
+   "prompt": "I ___ (usually / have) breakfast at 8.",
+   "answer": [
+    "usually have"
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "input",
+   "prompt": "They ___ (be / often) tired after work.",
+   "answer": [
+    "are often",
+    "'re often"
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "input",
+   "prompt": "He ___ (sometimes / work) at weekends.",
+   "answer": [
+    "sometimes works"
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "error",
+   "sentence": "I often goes swimming on Fridays.",
+   "wrongIndex": 2,
+   "correction": "go",
+   "alt": [],
+   "explanation": "I → go."
+  },
+  {
+   "type": "error",
+   "sentence": "She never drink coffee.",
+   "wrongIndex": 2,
+   "correction": "drinks",
+   "alt": [],
+   "explanation": "she → drinks; never вже заперечне."
+  },
+  {
+   "type": "order",
+   "prompt": "Я ніколи не п'ю колу.",
+   "answer": [
+    "I never drink cola.",
+    "I never drink Coke."
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "translate",
+   "uk": "Вона завжди усміхається.",
+   "answer": [
+    "She always smiles.",
+    "She's always smiling.",
+    "She is always smiling."
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "translate",
+   "uk": "Як часто ти ходиш у спортзал?",
+   "answer": [
+    "How often do you go to the gym?"
+   ],
+   "explanation": ""
+  }
+ ]
+}

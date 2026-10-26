@@ -1,0 +1,174 @@
+{
+ "id": "plurals-this-that",
+ "title": "Множина і this / that",
+ "titleEn": "Plural nouns; this, that, these, those",
+ "unit": "Іменник і артиклі",
+ "level": "A1",
+ "mistakeType": "articles",
+ "explanation": "**Множина**: зазвичай + **-s** (*car → cars*), після -s, -sh, -ch, -x + **-es** (*bus → buses, box → boxes*), приголосна + y → **-ies** (*city → cities*). Є винятки: *man → men, woman → women, child → children, person → people, foot → feet, tooth → teeth*.\n\n**this** (цей, близько) / **that** (той, далеко) — для однини; **these** / **those** — для множини: *this phone, these phones, that house, those houses*.",
+ "formula": [
+  "**this / that** + однина",
+  "**these / those** + множина"
+ ],
+ "table": {
+  "head": [
+   "",
+   "однина",
+   "множина"
+  ],
+  "rows": [
+   [
+    "близько",
+    "this book",
+    "these books"
+   ],
+   [
+    "далеко",
+    "that car",
+    "those cars"
+   ],
+   [
+    "винятки",
+    "child / person / man",
+    "children / people / men"
+   ]
+  ]
+ },
+ "examples": [
+  {
+   "en": "These shoes are too small.",
+   "uk": "Ці туфлі замалі."
+  },
+  {
+   "en": "Who is that man?",
+   "uk": "Хто той чоловік?"
+  },
+  {
+   "en": "I have two children.",
+   "uk": "У мене двоє дітей."
+  },
+  {
+   "en": "Those people are my neighbours.",
+   "uk": "Ті люди — мої сусіди."
+  },
+  {
+   "en": "This is my wife, Vita.",
+   "uk": "Це моя дружина, Віта."
+  }
+ ],
+ "tip": "**people** — уже множина: *People **are**…*, не ~~peoples is~~.",
+ "exercises": [
+  {
+   "type": "choice",
+   "prompt": "___ apples are very sweet.",
+   "options": [
+    "This",
+    "These",
+    "That"
+   ],
+   "answer": "These",
+   "explanation": "apples — множина, близько."
+  },
+  {
+   "type": "choice",
+   "prompt": "Look at ___ bird over there!",
+   "options": [
+    "this",
+    "that",
+    "these"
+   ],
+   "answer": "that",
+   "explanation": "Далеко, однина."
+  },
+  {
+   "type": "choice",
+   "prompt": "I've got three ___.",
+   "options": [
+    "childs",
+    "children",
+    "childrens"
+   ],
+   "answer": "children",
+   "explanation": ""
+  },
+  {
+   "type": "choice",
+   "prompt": "There are many ___ in the city.",
+   "options": [
+    "bus",
+    "buses",
+    "buss"
+   ],
+   "answer": "buses",
+   "explanation": ""
+  },
+  {
+   "type": "input",
+   "prompt": "one city → two ___",
+   "answer": [
+    "cities"
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "input",
+   "prompt": "one person → five ___",
+   "answer": [
+    "people"
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "input",
+   "prompt": "one knife → two ___",
+   "answer": [
+    "knives"
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "error",
+   "sentence": "Those car is very expensive.",
+   "wrongIndex": 0,
+   "correction": "That",
+   "alt": [
+    "This"
+   ],
+   "explanation": "car — однина → That."
+  },
+  {
+   "type": "error",
+   "sentence": "I need two box.",
+   "wrongIndex": 3,
+   "correction": "boxes",
+   "alt": [],
+   "explanation": "Множина: boxes."
+  },
+  {
+   "type": "order",
+   "prompt": "Ці ключі мої.",
+   "answer": [
+    "These keys are mine.",
+    "These are my keys."
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "translate",
+   "uk": "Ті люди з Іспанії.",
+   "answer": [
+    "Those people are from Spain."
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "translate",
+   "uk": "Скільки коштує ця сумка?",
+   "answer": [
+    "How much is this bag?",
+    "How much does this bag cost?"
+   ],
+   "explanation": ""
+  }
+ ]
+}

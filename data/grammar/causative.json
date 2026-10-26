@@ -1,0 +1,178 @@
+{
+ "id": "causative",
+ "title": "Have something done",
+ "titleEn": "Causative: have / get something done",
+ "unit": "Пасив і непряма мова",
+ "level": "B2",
+ "mistakeType": "tenses",
+ "explanation": "Коли **хтось інший** робить щось для нас (зазвичай за гроші), кажемо **have + об'єкт + V3**: *I **had my hair cut**.* (Мене підстригли — не я сам.)\n\nУ розмові часто **get**: *We need to **get the car repaired**.*\n\nТак само про неприємності: *She **had her bag stolen**.* (У неї вкрали сумку.)\n\nЧас змінюється в **have**: *I'm **having** the flat **painted**. I'**ll have** it **delivered**.*",
+ "formula": [
+  "**have / get** + об'єкт + **V3**"
+ ],
+ "table": {
+  "head": [
+   "Час",
+   "Приклад",
+   "Значення"
+  ],
+  "rows": [
+   [
+    "Present Simple",
+    "I have my car serviced every year.",
+    "мені обслуговують"
+   ],
+   [
+    "Past Simple",
+    "We had the windows cleaned.",
+    "нам помили"
+   ],
+   [
+    "Continuous",
+    "I'm having my kitchen redone.",
+    "мені зараз переробляють"
+   ],
+   [
+    "з get",
+    "You should get your eyes tested.",
+    "перевір зір (у фахівця)"
+   ]
+  ]
+ },
+ "examples": [
+  {
+   "en": "I need to have my phone repaired.",
+   "uk": "Мені треба полагодити телефон (у майстерні)."
+  },
+  {
+   "en": "We're having a new boiler installed.",
+   "uk": "Нам ставлять новий котел."
+  },
+  {
+   "en": "He got his car washed.",
+   "uk": "Йому помили машину."
+  },
+  {
+   "en": "She had her passport stolen.",
+   "uk": "У неї вкрали паспорт."
+  },
+  {
+   "en": "Where do you get your hair cut?",
+   "uk": "Де ти стрижешся?"
+  }
+ ],
+ "tip": "*I cut my hair* — я сам підстригся. *I **had** my hair **cut*** — мене підстригли.",
+ "exercises": [
+  {
+   "type": "choice",
+   "prompt": "I ___ my hair cut yesterday.",
+   "options": [
+    "have",
+    "had",
+    "did"
+   ],
+   "answer": "had",
+   "explanation": ""
+  },
+  {
+   "type": "choice",
+   "prompt": "We're having the house ___.",
+   "options": [
+    "paint",
+    "painted",
+    "painting"
+   ],
+   "answer": "painted",
+   "explanation": ""
+  },
+  {
+   "type": "choice",
+   "prompt": "You should get your eyes ___.",
+   "options": [
+    "test",
+    "tested",
+    "to test"
+   ],
+   "answer": "tested",
+   "explanation": ""
+  },
+  {
+   "type": "choice",
+   "prompt": "He had his wallet ___ on the train.",
+   "options": [
+    "stole",
+    "stolen",
+    "steal"
+   ],
+   "answer": "stolen",
+   "explanation": ""
+  },
+  {
+   "type": "input",
+   "prompt": "I'm going to ___ (have / the car / service) tomorrow.",
+   "answer": [
+    "have the car serviced"
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "input",
+   "prompt": "We ___ (get / the windows / clean) last week.",
+   "answer": [
+    "got the windows cleaned"
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "input",
+   "prompt": "Where did you ___ (have / your suit / make)?",
+   "answer": [
+    "have your suit made"
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "error",
+   "sentence": "I had my hair cutted yesterday.",
+   "wrongIndex": 4,
+   "correction": "cut",
+   "alt": [],
+   "explanation": "cut — неправильне: V3 = cut."
+  },
+  {
+   "type": "error",
+   "sentence": "She is having her nails do.",
+   "wrongIndex": 5,
+   "correction": "done",
+   "alt": [],
+   "explanation": "have + V3 → done."
+  },
+  {
+   "type": "order",
+   "prompt": "Нам доставлять меблі в суботу.",
+   "answer": [
+    "We're having the furniture delivered on Saturday.",
+    "We are having the furniture delivered on Saturday.",
+    "We're getting the furniture delivered on Saturday."
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "transform",
+   "prompt": "Someone repaired my bike.",
+   "instruction": "Почніть з I had…",
+   "answer": [
+    "I had my bike repaired."
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "translate",
+   "uk": "Мені треба перевірити зуби.",
+   "answer": [
+    "I need to have my teeth checked.",
+    "I need to get my teeth checked."
+   ],
+   "explanation": ""
+  }
+ ]
+}
