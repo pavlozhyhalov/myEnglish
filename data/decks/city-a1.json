@@ -122,10 +122,10 @@
    "exUk": "Де найближча автобусна зупинка?"
   },
   {
-   "en": "a train",
-   "uk": "потяг, поїзд",
-   "ex": "The train to Warsaw leaves at eight.",
-   "exUk": "Потяг до Варшави відправляється о восьмій."
+   "en": "a crossroads",
+   "uk": "перехрестя",
+   "ex": "Turn right at the crossroads.",
+   "exUk": "На перехресті поверніть праворуч."
   },
   {
    "en": "a train station",
@@ -206,8 +206,8 @@
    "exUk": "Я чекаю перед кінотеатром."
   },
   {
-   "en": "to turn left / right",
-   "uk": "повернути ліворуч, праворуч",
+   "en": "to turn left",
+   "uk": "повернути ліворуч",
    "ex": "Turn left after the bridge.",
    "exUk": "Після мосту поверніть ліворуч."
   },

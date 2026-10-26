@@ -27,6 +27,51 @@
   "count": 50
  },
  {
+  "id": "food-a1",
+  "name": "Їжа й напої",
+  "emoji": "food",
+  "group": "general",
+  "level": "A1",
+  "desc": "Продукти, напої, прийоми їжі, смаки",
+  "count": 50
+ },
+ {
+  "id": "city-a1",
+  "name": "Місто й транспорт",
+  "emoji": "city",
+  "group": "general",
+  "level": "A1",
+  "desc": "Місця в місті, транспорт, як знайти дорогу",
+  "count": 50
+ },
+ {
+  "id": "clothes-colours",
+  "name": "Одяг і кольори",
+  "emoji": "shop",
+  "group": "general",
+  "level": "A1",
+  "desc": "Речі в гардеробі, розміри й посадка, кольори",
+  "count": 45
+ },
+ {
+  "id": "time-numbers",
+  "name": "Час, дати, числа",
+  "emoji": "calendar",
+  "group": "general",
+  "level": "A1",
+  "desc": "Дні, місяці, порядкові числа, котра година",
+  "count": 50
+ },
+ {
+  "id": "verbs-a1",
+  "name": "Базові дієслова",
+  "emoji": "bulb",
+  "group": "general",
+  "level": "A1",
+  "desc": "50 найуживаніших дієслів із простими прикладами",
+  "count": 50
+ },
+ {
   "id": "everyday",
   "name": "Повсякдення",
   "emoji": "house",
@@ -87,6 +132,33 @@
   "group": "general",
   "level": "A2",
   "desc": "Ціни, оплата, повернення, бюджет",
+  "count": 40
+ },
+ {
+  "id": "hobbies",
+  "name": "Хобі й вільний час",
+  "emoji": "star",
+  "group": "general",
+  "level": "A2",
+  "desc": "Спорт, музика, ігри, кіно, як часто",
+  "count": 50
+ },
+ {
+  "id": "travel-a2",
+  "name": "Подорож: квитки й готель",
+  "emoji": "plane",
+  "group": "general",
+  "level": "A2",
+  "desc": "Каса, вокзал, потяг, аеропорт, готель",
+  "count": 45
+ },
+ {
+  "id": "jobs-people",
+  "name": "Професії й люди навколо",
+  "emoji": "handshake",
+  "group": "general",
+  "level": "A2",
+  "desc": "Професії в побуті, колеги, клієнти, гості",
   "count": 40
  },
  {

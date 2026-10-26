@@ -68,16 +68,16 @@
    "exUk": "Будівельники працюють у сусідньому будинку."
   },
   {
-   "en": "a plumber",
-   "uk": "сантехнік",
-   "ex": "We need to call a plumber.",
-   "exUk": "Треба викликати сантехніка."
+   "en": "an architect",
+   "uk": "архітектор, архітекторка",
+   "ex": "Our neighbour is an architect.",
+   "exUk": "Наш сусід — архітектор."
   },
   {
-   "en": "an electrician",
-   "uk": "електрик",
-   "ex": "The electrician fixed the lights.",
-   "exUk": "Електрик полагодив світло."
+   "en": "a security guard",
+   "uk": "охоронець",
+   "ex": "The security guard checked our bags.",
+   "exUk": "Охоронець перевірив наші сумки."
   },
   {
    "en": "a mechanic",
@@ -140,10 +140,10 @@
    "exUk": "Ми відвезли кота до ветеринара."
   },
   {
-   "en": "a courier",
-   "uk": "кур'єр",
-   "ex": "The courier left the parcel with our neighbour.",
-   "exUk": "Кур'єр залишив посилку в нашого сусіда."
+   "en": "a postman / a postwoman",
+   "uk": "листоноша",
+   "ex": "The postman usually comes at about ten.",
+   "exUk": "Листоноша зазвичай приходить близько десятої."
   },
   {
    "en": "a cashier",
@@ -206,10 +206,10 @@
    "exUk": "У нас на вечерю будуть гості."
   },
   {
-   "en": "a flatmate",
-   "uk": "сусід по квартирі",
-   "ex": "I lived with two flatmates as a student.",
-   "exUk": "Студентом я жив із двома сусідами по квартирі."
+   "en": "a classmate",
+   "uk": "однокласник, одногрупник",
+   "ex": "I met an old classmate in town.",
+   "exUk": "Я зустрів у місті старого однокласника."
   },
   {
    "en": "an employee",

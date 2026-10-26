@@ -1,6 +1,6 @@
 // Версія збірки: той самий рядок у sw.js (назва кешу) і в ?v= у index.html.
 // Піднімати скриптом scripts/bump.sh після будь-якої зміни фронтенду.
-export const BUILD = '20261026095901';
+export const BUILD = '20261026100022';
 
 // Supabase (окремий проєкт myEnglish). Publishable-ключ публічний за задумом:
 // доступ до даних обмежує RLS, до AI — allowlist в edge-функціях.
