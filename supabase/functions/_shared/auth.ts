@@ -33,15 +33,12 @@ export async function usage(ctx: Ctx) {
   return data || { text_calls: 0, voice_seconds: 0, tts_calls: 0 };
 }
 
-/** Перевірити ліміт і зарахувати виклик */
-export async function charge(ctx: Ctx, kind: 'text' | 'tts' | 'voice', amount = 1) {
-  const u = await usage(ctx);
-  if (kind === 'text' && u.text_calls >= LIMITS.textCalls) throw new HttpError(429, 'quota');
-  if (kind === 'tts' && u.tts_calls >= LIMITS.ttsCalls) throw new HttpError(429, 'quota');
-  if (kind === 'voice' && u.voice_seconds >= LIMITS.voiceSeconds) throw new HttpError(429, 'quota');
-  const { error } = await ctx.admin.rpc('bump_ai_usage', {
-    p_user: ctx.user.id, p_text: kind === 'text' ? amount : 0, p_voice: kind === 'voice' ? amount : 0, p_tts: kind === 'tts' ? amount : 0,
+/** Перевірити ліміт і зарахувати виклик атомарно (charge_ai_usage); збій обліку — відмова, а не безкоштовний виклик */
+export async function charge(ctx: Ctx, kind: 'text' | 'tts' | 'live', amount = 1) {
+  const { data, error } = await ctx.admin.rpc('charge_ai_usage', {
+    p_user: ctx.user.id, p_text: kind === 'text' ? amount : 0, p_voice: 0, p_tts: kind === 'tts' ? amount : 0, p_live: kind === 'live' ? amount : 0,
+    p_lim_text: LIMITS.textCalls, p_lim_voice: LIMITS.voiceSeconds, p_lim_tts: LIMITS.ttsCalls, p_lim_live: LIMITS.liveTokens,
   });
-  if (error) console.error('usage', error.message);
-  return u;
+  if (error) { console.error('usage', error.message); throw new HttpError(503, 'server', 'Usage accounting failed'); }
+  if (data !== true) throw new HttpError(429, 'quota');
 }

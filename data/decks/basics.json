@@ -2,10 +2,10 @@
  "id": "basics",
  "cards": [
   {
-   "en": "Nice to meet you.",
-   "uk": "Приємно познайомитися.",
-   "ex": "Hi, I'm Pavlo. Nice to meet you.",
-   "exUk": "Привіт, я Павло. Приємно познайомитися."
+   "en": "My name is …",
+   "uk": "Мене звати …",
+   "ex": "My name is Pavlo. What's your name?",
+   "exUk": "Мене звати Павло. А як тебе звати?"
   },
   {
    "en": "How are you?",
@@ -62,10 +62,10 @@
    "exUk": "Як сказати 'ложка' англійською?"
   },
   {
-   "en": "Where are you from?",
-   "uk": "Звідки ви?",
-   "ex": "Where are you from? — I'm from Ukraine.",
-   "exUk": "Звідки ви? — Я з України."
+   "en": "Good morning!",
+   "uk": "Доброго ранку!",
+   "ex": "Good morning! Did you sleep well?",
+   "exUk": "Доброго ранку! Добре спав?"
   },
   {
    "en": "I live in …",
@@ -237,7 +237,7 @@
   },
   {
    "en": "thirsty",
-   "uk": "той, хто хоче пити",
+   "uk": "спраглий (хочеться пити)",
    "ex": "I'm thirsty. Can I have some water?",
    "exUk": "Я хочу пити. Можна води?"
   },

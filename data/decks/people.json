@@ -74,10 +74,10 @@
    "exUk": "Він мій найкращий друг."
   },
   {
-   "en": "neighbour",
-   "uk": "сусід",
-   "ex": "Our neighbours are very friendly.",
-   "exUk": "Наші сусіди дуже привітні."
+   "en": "aunt / uncle",
+   "uk": "тітка / дядько",
+   "ex": "My aunt and uncle live in Lviv.",
+   "exUk": "Мої тітка й дядько живуть у Львові."
   },
   {
    "en": "boyfriend / girlfriend",
@@ -184,7 +184,7 @@
   {
    "en": "head",
    "uk": "голова",
-   "ex": "I have a headache.",
+   "ex": "My head hurts.",
    "exUk": "У мене болить голова."
   },
   {
@@ -230,16 +230,16 @@
    "exUk": "З днем народження!"
   },
   {
-   "en": "to celebrate",
-   "uk": "святкувати",
-   "ex": "We celebrate Christmas twice.",
-   "exUk": "Ми святкуємо Різдво двічі."
+   "en": "hair",
+   "uk": "волосся",
+   "ex": "She has long dark hair.",
+   "exUk": "У неї довге темне волосся."
   },
   {
-   "en": "to grow up",
-   "uk": "рости, дорослішати",
-   "ex": "I grew up in a small town.",
-   "exUk": "Я виріс у маленькому містечку."
+   "en": "to be born",
+   "uk": "народитися",
+   "ex": "I was born in 1990.",
+   "exUk": "Я народився в 1990 році."
   }
  ]
 }

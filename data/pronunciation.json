@@ -291,8 +291,8 @@
   {
    "a": "hold",
    "b": "old",
-   "ipaA": "/hoʊld/",
-   "ipaB": "/oʊld/",
+   "ipaA": "/həʊld/",
+   "ipaB": "/əʊld/",
    "sound": "h / —",
    "tip": ""
   },
@@ -340,8 +340,8 @@
    "a": "law",
    "b": "low",
    "ipaA": "/lɔː/",
-   "ipaB": "/loʊ/",
-   "sound": "ɔː / oʊ",
+   "ipaB": "/ləʊ/",
+   "sound": "ɔː / əʊ",
    "tip": ""
   }
  ],

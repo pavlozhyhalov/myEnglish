@@ -8,10 +8,10 @@
    "exUk": "Як на мене, це чудова ідея."
   },
   {
-   "en": "to be honest",
-   "uk": "чесно кажучи",
-   "ex": "To be honest, I didn't like the film.",
-   "exUk": "Чесно кажучи, фільм мені не сподобався."
+   "en": "on second thoughts",
+   "uk": "хоча ні, якщо добре подумати",
+   "ex": "Let's go out. On second thoughts, let's stay in.",
+   "exUk": "Ходімо кудись. Хоча ні, краще залишмося вдома."
   },
   {
    "en": "having said that",
@@ -34,20 +34,20 @@
   {
    "en": "it goes without saying",
    "uk": "само собою зрозуміло",
-   "ex": "It goes without saying that you're welcome.",
-   "exUk": "Само собою, ти бажаний гість."
+   "ex": "It goes without saying that safety comes first.",
+   "exUk": "Само собою зрозуміло, що безпека понад усе."
   },
   {
-   "en": "by the way",
-   "uk": "до речі",
-   "ex": "By the way, did you call your mum?",
-   "exUk": "До речі, ти подзвонив мамі?"
+   "en": "be that as it may",
+   "uk": "хай там як",
+   "ex": "Be that as it may, we have to decide today.",
+   "exUk": "Хай там як, вирішити треба сьогодні."
   },
   {
-   "en": "anyway",
-   "uk": "так чи інакше; загалом",
-   "ex": "Anyway, let's get back to the point.",
-   "exUk": "Так чи інакше, повернімося до суті."
+   "en": "if anything",
+   "uk": "якщо вже на те пішло; швидше навпаки",
+   "ex": "It's not worse — if anything, it's better.",
+   "exUk": "Не гірше — швидше навіть краще."
   },
   {
    "en": "as I was saying",
@@ -56,10 +56,10 @@
    "exUk": "Як я казав, зустріч о п'ятій."
   },
   {
-   "en": "I see your point, but…",
-   "uk": "розумію вашу думку, але…",
-   "ex": "I see your point, but I don't agree.",
-   "exUk": "Розумію вашу думку, але не погоджуюсь."
+   "en": "to put it mildly",
+   "uk": "м'яко кажучи",
+   "ex": "The service was slow, to put it mildly.",
+   "exUk": "Обслуговування було, м'яко кажучи, повільним."
   },
   {
    "en": "I couldn't agree more.",
@@ -125,7 +125,7 @@
    "en": "whereas",
    "uk": "тоді як",
    "ex": "I like tea, whereas my wife prefers coffee.",
-   "exUk": "Я люблю чай, тоді як дружина надає перевагу каві."
+   "exUk": "Я люблю чай, тоді як дружина більше любить каву."
   },
   {
    "en": "provided that",
@@ -153,9 +153,9 @@
   },
   {
    "en": "for what it's worth",
-   "uk": "якщо тобі це щось дасть",
+   "uk": "якщо це щось важить",
    "ex": "For what it's worth, I think you did the right thing.",
-   "exUk": "Якщо тобі це щось дасть — я думаю, ти вчинив правильно."
+   "exUk": "Якщо це щось важить, я думаю, ти вчинив правильно."
   },
   {
    "en": "if I may",
@@ -189,9 +189,9 @@
   },
   {
    "en": "I take your point.",
-   "uk": "Я вас зрозумів, приймаю.",
+   "uk": "Розумію ваш аргумент.",
    "ex": "I take your point, but the budget is limited.",
-   "exUk": "Приймаю, але бюджет обмежений."
+   "exUk": "Розумію ваш аргумент, але бюджет обмежений."
   },
   {
    "en": "Not to mention…",
@@ -224,16 +224,16 @@
    "exUk": "Скільки ти заробляєш? — Я б не хотів казати."
   },
   {
-   "en": "It's up to you.",
-   "uk": "Вирішуй сам.",
-   "ex": "Pizza or sushi? — It's up to you.",
-   "exUk": "Піца чи суші? — Вирішуй сам."
+   "en": "as it happens",
+   "uk": "так склалося, що; між іншим",
+   "ex": "As it happens, I know her brother.",
+   "exUk": "Так склалося, що я знаю її брата."
   },
   {
-   "en": "Fair enough.",
-   "uk": "Справедливо. / Гаразд.",
-   "ex": "I can't come, I'm working. — Fair enough.",
-   "exUk": "Не можу прийти, працюю. — Гаразд, зрозуміло."
+   "en": "in other words",
+   "uk": "іншими словами",
+   "ex": "In other words, we're out of money.",
+   "exUk": "Іншими словами, у нас закінчилися гроші."
   },
   {
    "en": "Come to think of it…",

@@ -3,11 +3,20 @@ import { HttpError } from './http.ts';
 const BASE = 'https://generativelanguage.googleapis.com';
 const TIMEOUT_MS = 30_000;
 
-/** fetch з тайм-аутом: зависла модель вважається перевантаженою — пробуємо наступну */
-async function gfetch(url: string, init: RequestInit, ms = TIMEOUT_MS): Promise<Response> {
+/**
+ * fetch з тайм-аутом: зависла модель вважається перевантаженою — пробуємо наступну.
+ * firstByteOnly: тайм-аут лише до заголовків відповіді (для стрімінгу — довгий потік не обривається).
+ */
+async function gfetch(url: string, init: RequestInit, ms = TIMEOUT_MS, firstByteOnly = false): Promise<Response> {
+  const ac = new AbortController();
+  const timer = setTimeout(() => ac.abort(new DOMException('timeout', 'TimeoutError')), ms);
   try {
-    return await fetch(url, { ...init, signal: AbortSignal.timeout(ms) });
+    const res = await fetch(url, { ...init, signal: ac.signal });
+    if (firstByteOnly) clearTimeout(timer);
+    else { const done = () => clearTimeout(timer); res.clone().arrayBuffer().then(done, done); }
+    return res;
   } catch (e) {
+    clearTimeout(timer);
     if ((e as Error).name === 'TimeoutError' || (e as Error).name === 'AbortError') throw new HttpError(503, 'overloaded', 'Gemini timeout');
     throw e;
   }
@@ -45,7 +54,17 @@ async function mapError(res: Response): Promise<HttpError> {
   if (res.status === 403) return new HttpError(503, 'no_key', msg);
   if (res.status === 404) return new HttpError(404, 'model_not_found', msg);
   if (res.status === 503 || res.status === 500) return new HttpError(503, 'overloaded', msg);
+  if (res.status === 400) return new HttpError(502, 'bad_model_request', msg.slice(0, 200));
   return new HttpError(502, 'gemini', `Gemini ${res.status}: ${msg.slice(0, 200)}`);
+}
+
+/** Текст першого кандидата; порожня/заблокована відповідь — помилка 'empty' (пробуємо наступну модель) */
+function candidateText(j: any): string {
+  const c = j?.candidates?.[0];
+  const parts = c?.content?.parts || [];
+  const text = parts.filter((p: { thought?: boolean }) => !p.thought).map((p: { text?: string }) => p.text || '').join('');
+  if (!text.trim()) throw new HttpError(502, 'empty', `Empty reply (${c?.finishReason || j?.promptFeedback?.blockReason || 'no candidates'})`);
+  return text;
 }
 
 /** Пробує моделі по черзі, якщо попередня не знайдена */
@@ -54,8 +73,8 @@ async function withModels<T>(models: string[], fn: (m: string) => Promise<T>): P
   for (const m of models) {
     try { return await fn(m); } catch (e) {
       last = e;
-      // немає моделі або вона перевантажена — пробуємо наступну
-      if (e instanceof HttpError && (e.code === 'model_not_found' || e.code === 'overloaded')) continue;
+      // немає моделі, перевантажена, вичерпана її квота, не прийняла параметри чи відповіла порожньо — пробуємо наступну
+      if (e instanceof HttpError && ['model_not_found', 'overloaded', 'rate_limited', 'bad_model_request', 'empty'].includes(e.code)) continue;
       throw e;
     }
   }
@@ -68,9 +87,7 @@ export async function generate(models: string[], o: GenOpts): Promise<string> {
       method: 'POST', headers: { 'Content-Type': 'application/json', 'x-goog-api-key': apiKey() }, body: JSON.stringify(body(o)),
     });
     if (!res.ok) throw await mapError(res);
-    const j = await res.json();
-    const parts = j?.candidates?.[0]?.content?.parts || [];
-    return parts.filter((p: { thought?: boolean }) => !p.thought).map((p: { text?: string }) => p.text || '').join('');
+    return candidateText(await res.json());
   });
 }
 
@@ -88,7 +105,7 @@ export async function streamSSE(models: string[], o: GenOpts): Promise<ReadableS
   const res = await withModels(models, async (model) => {
     const r = await gfetch(`${BASE}/v1beta/models/${model}:streamGenerateContent?alt=sse`, {
       method: 'POST', headers: { 'Content-Type': 'application/json', 'x-goog-api-key': apiKey() }, body: JSON.stringify(body(o)),
-    }, 90_000);
+    }, 45_000, true);
     if (!r.ok) throw await mapError(r);
     return r;
   });
@@ -98,7 +115,12 @@ export async function streamSSE(models: string[], o: GenOpts): Promise<ReadableS
   let buf = '';
   return new ReadableStream({
     async pull(ctrl) {
-      const { value, done } = await reader.read();
+      let chunk: ReadableStreamReadResult<Uint8Array>;
+      try { chunk = await reader.read(); } catch {
+        // обрив потоку від Gemini — клієнт отримує зрозумілу помилку, а не TypeError
+        ctrl.enqueue(enc.encode('data: {"error":{"code":"overloaded"}}\n\n')); ctrl.close(); return;
+      }
+      const { value, done } = chunk;
       if (done) { ctrl.enqueue(enc.encode('data: {"done":true}\n\n')); ctrl.close(); return; }
       buf += dec.decode(value, { stream: true });
       let i;

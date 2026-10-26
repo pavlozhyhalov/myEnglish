@@ -24,6 +24,8 @@ Deno.serve(handler(async (req) => {
   await charge(ctx, 'tts');
   const { pcm, rate } = await tts(TTS_MODELS, text, voice);
   const file = wav(pcm, rate);
-  ctx.admin.storage.from('tts').upload(key, file, { contentType: 'audio/wav', upsert: true }).then(() => {}, () => {});
+  const up = ctx.admin.storage.from('tts').upload(key, file, { contentType: 'audio/wav', upsert: true }).then(() => {}, () => {});
+  // deno-lint-ignore no-explicit-any
+  const rt = (globalThis as any).EdgeRuntime; if (rt?.waitUntil) rt.waitUntil(up);
   return new Response(file.buffer as ArrayBuffer, { headers });
 }));

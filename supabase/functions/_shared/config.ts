@@ -10,5 +10,6 @@ export const LIMITS = {
   textCalls: Number(env('LIMIT_TEXT_CALLS')) || 200,
   voiceSeconds: (Number(env('LIMIT_VOICE_MINUTES')) || 60) * 60,
   ttsCalls: Number(env('LIMIT_TTS_CALLS')) || 300,
+  liveTokens: Number(env('LIMIT_LIVE_TOKENS')) || 40,
 };
 export const LIVE_VOICES = ['Puck', 'Charon', 'Kore', 'Fenrir', 'Aoede', 'Leda', 'Orus', 'Zephyr'];

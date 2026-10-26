@@ -3,17 +3,41 @@
 import { handler, json, HttpError, cors } from '../_shared/http.ts';
 import { authenticate, charge, usage } from '../_shared/auth.ts';
 import { generate, generateJson, streamSSE, tts, createLiveToken, type Content } from '../_shared/gemini.ts';
-import { createClient } from 'npm:@supabase/supabase-js@2.118.0';
+import type { SupabaseClient } from 'npm:@supabase/supabase-js@2.118.0';
 import { TEXT_MODELS, TTS_MODELS, LIVE_MODELS, LIMITS } from '../_shared/config.ts';
 import { loadStudent, modePrompt, basePrompt, type Scenario } from '../_shared/prompts.ts';
 
 type Msg = { role: 'user' | 'model'; text: string };
+const ACTIONS = new Set(['usage', 'chat', 'summary', 'check_text', 'exercises', 'fill_word', 'check_translation', 'dialogue', 'transcribe', 'hint']);
+const AUDIO_MIME = /^audio\/(webm|ogg|mp4|mpeg|wav|x-wav|aac|m4a)(;.*)?$/;
+/** Рядок з обмеженням довжини (захист від роздутих промптів і витрат) */
+const str = (v: unknown, max: number) => (v == null ? '' : String(v)).slice(0, max);
+function clampScenario(s: unknown): Scenario | null {
+  if (!s || typeof s !== 'object') return null;
+  const o = s as Record<string, unknown>;
+  return {
+    title: str(o.title, 200), situation: str(o.situation, 1000), myRole: str(o.myRole, 300), tutorRole: str(o.tutorRole, 300), goal: str(o.goal, 600),
+    phrases: Array.isArray(o.phrases) ? o.phrases.slice(0, 12).map(x => str(x, 200)) : [],
+  };
+}
+/** Фонова робота після відповіді (інакше рантайм може її обірвати) */
+function background(pr: Promise<unknown>) {
+  // deno-lint-ignore no-explicit-any
+  const rt = (globalThis as any).EdgeRuntime;
+  if (rt?.waitUntil) rt.waitUntil(pr); else pr.catch(() => {});
+}
 const MISTAKE_TYPES = ['articles', 'tenses', 'prepositions', 'word_order', 'vocabulary', 'pronunciation', 'other'];
 
 function toContents(messages: Msg[], start = '(The student has opened the session. Begin now.)'): Content[] {
   const out: Content[] = [];
-  for (const m of (messages || []).slice(-40)) {
-    const text = String(m.text || '').slice(0, 6000);
+  let budget = 60_000;   // загальний ліміт історії (символів), новіші повідомлення в пріоритеті
+  const recent = (Array.isArray(messages) ? messages : []).slice(-40).reverse().map(m => {
+    const text = String(m?.text || '').slice(0, Math.max(0, Math.min(6000, budget)));
+    budget -= text.length;
+    return { ...m, text };
+  }).reverse();
+  for (const m of recent) {
+    const text = m.text;
     if (!text) continue;
     const role = m.role === 'user' ? 'user' : 'model';
     const last = out[out.length - 1];
@@ -25,7 +49,7 @@ function toContents(messages: Msg[], start = '(The student has opened the sessio
 }
 
 function transcript(messages: Msg[]) {
-  return (messages || []).slice(-80).map(m => `${m.role === 'user' ? 'STUDENT' : 'TUTOR'}: ${String(m.text || '').slice(0, 3000)}`).join('\n');
+  return (Array.isArray(messages) ? messages : []).slice(-80).map(m => `${m?.role === 'user' ? 'STUDENT' : 'TUTOR'}: ${String(m?.text || '').slice(0, 3000)}`).join('\n').slice(-80_000);
 }
 
 const S = (type: string, extra: Record<string, unknown> = {}) => ({ type, ...extra });
@@ -114,7 +138,7 @@ function cleanExercises(list: any[]) {
   return out;
 }
 
-/** Діагностика без авторизації: лише факт наявності секретів і доступність моделей (без значень). */
+/** Діагностика без авторизації: лише факт наявності секретів і доступність налаштованих моделей (булеві, без значень і текстів помилок). */
 async function health() {
   const key = Deno.env.get('GEMINI_API_KEY') || '';
   const out: Record<string, unknown> = {
@@ -139,8 +163,6 @@ async function health() {
     out.text_models = pick(TEXT_MODELS);
     out.tts_models = pick(TTS_MODELS);
     out.live_models = pick(LIVE_MODELS);
-    out.live_candidates = [...names].filter(n => /live|native-audio/.test(n)).slice(0, 20);
-    out.tts_candidates = [...names].filter(n => /tts/.test(n)).slice(0, 20);
   }
   return out;
 }
@@ -179,11 +201,11 @@ async function liveProbe() {
   });
 }
 
-/** Глибока перевірка: реальні виклики Gemini (текст, JSON, TTS, токен Live). Не частіше разу на 10 хв. */
-async function deepHealth(only?: string) {
-  const admin = createClient(Deno.env.get('SUPABASE_URL')!, Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!, { auth: { persistSession: false } });
-  const { data: last } = await admin.from('health_checks').select('ts').order('ts', { ascending: false }).limit(1).maybeSingle();
-  if (last && Date.now() - Date.parse(last.ts) < 10 * 60_000) throw new HttpError(429, 'rate_limited', 'Deep health check: once per 10 minutes');
+/** Глибока перевірка (лише для allowlist): реальні виклики Gemini. Слот займається атомарно — не частіше разу на 10 хв. */
+async function deepHealth(admin: SupabaseClient, only?: string) {
+  const { data: slot, error: slotErr } = await admin.rpc('claim_health_slot');
+  if (slotErr) throw new HttpError(503, 'server', 'Health slot failed');
+  if (!slot) throw new HttpError(429, 'busy_health', 'Deep health check: once per 10 minutes');
   const r: Record<string, unknown> = {};
   const step = async (name: string, fn: () => Promise<unknown>) => {
     const t = Date.now();
@@ -198,15 +220,18 @@ async function deepHealth(only?: string) {
     return { token_prefix: t.token.split('/')[0], model: LIVE_MODELS[0] };
   });
   await step('live_ws', () => liveProbe());
-  await admin.from('health_checks').insert({ result: r });
+  await admin.from('health_checks').update({ result: r }).eq('id', slot);
   return r;
 }
 
 Deno.serve(handler(async (req) => {
+  if (Number(req.headers.get('content-length') || 0) > 9_000_000) throw new HttpError(413, 'bad_request', 'Request too large');
   const p = await req.json().catch(() => ({}));
-  if (p.action === 'health') return json(p.deep ? await deepHealth(p.only) : await health());
+  if (p.action === 'health' && !p.deep) return json(await health());
   const ctx = await authenticate(req);
+  if (p.action === 'health') return json(await deepHealth(ctx.admin, p.only));
   const action = String(p.action || '');
+  if (!ACTIONS.has(action)) throw new HttpError(400, 'bad_request', 'Unknown action');
 
   if (action === 'usage') {
     // клієнт звітує тривалість голосової сесії
@@ -216,20 +241,24 @@ Deno.serve(handler(async (req) => {
     return json({ ...u, limits: LIMITS });
   }
 
+  // перевірка вводу до списання ліміту
+  if (action === 'fill_word' && !(Array.isArray(p.words) ? p.words : [p.word]).some((w: unknown) => String(w || '').trim())) throw new HttpError(400, 'bad_request', 'No words');
+  if (action === 'transcribe' && (!p.audio || String(p.audio).length > 8_000_000)) throw new HttpError(400, 'bad_request', 'Audio missing or too large');
+  if (action === 'transcribe' && !AUDIO_MIME.test(String(p.mime || 'audio/webm'))) throw new HttpError(400, 'bad_request', 'Unsupported audio type');
   await charge(ctx, 'text');
   const st = await loadStudent(ctx);
 
   switch (action) {
     case 'chat': {
-      const system = modePrompt(String(p.mode || 'chat'), st, { scenario: p.scenarioData as Scenario, drillType: p.drillType, topic: p.topic, voice: !!p.voice });
+      const system = modePrompt(String(p.mode || 'chat'), st, { scenario: clampScenario(p.scenarioData), drillType: str(p.drillType, 40), topic: str(p.topic, 300), voice: !!p.voice });
       const contents = toContents(p.messages || []);
       if (p.stream === false) {
         const text = await generate(TEXT_MODELS, { system, contents, temperature: 0.8, maxTokens: 1500 });
         return json({ text });
       }
       const stream = await streamSSE(TEXT_MODELS, { system, contents, temperature: 0.8, maxTokens: 1500 });
-      // заодно чистимо старі розмови (30 днів)
-      ctx.admin.rpc('purge_old_chats').then(() => {}, () => {});
+      // заодно чистимо старі розмови (30 днів) — у фоні, після відповіді
+      background(Promise.resolve(ctx.admin.rpc('purge_old_chats')).then(() => {}, () => {}));
       return new Response(stream, { headers: { ...cors, 'Content-Type': 'text/event-stream', 'Cache-Control': 'no-cache' } });
     }
 
@@ -250,7 +279,7 @@ TASK: Analyse the finished ${p.mode === 'voice' ? 'VOICE (transcribed speech —
       const kind = { email: 'an email', teams: 'a Microsoft Teams message', report: 'a work report', other: 'a text' }[String(p.kind)] || 'a text';
       const system = `${basePrompt(st)}
 
-TASK: The student wrote ${kind}${p.task ? ` for this task: "${p.task}"` : ''}. Review it like a demanding but kind English teacher and return JSON:
+TASK: The student wrote ${kind}${p.task ? ` for this task: "${str(p.task, 1000)}"` : ''}. Review it like a demanding but kind English teacher and return JSON:
 - scores (0–10 each): grammar, vocabulary, tone (appropriate for the situation and reader), structure.
 - corrections: every important mistake: exact wrong fragment, corrected fragment, type, explanation in Ukrainian.
 - improved: the full improved version in natural English with the right register for the reader, keeping the student's meaning and approximate length.
@@ -261,7 +290,7 @@ TASK: The student wrote ${kind}${p.task ? ` for this task: "${p.task}"` : ''}. R
 
     case 'exercises': {
       const count = Math.max(3, Math.min(15, Number(p.count) || 10));
-      const ex = (p.examples || []).slice(0, 10).map((m: Msg & { wrong: string; right: string }) => `"${m.wrong}" → "${m.right}"`).join('; ');
+      const ex = (Array.isArray(p.examples) ? p.examples : []).slice(0, 10).map((m: Msg & { wrong: string; right: string }) => `"${str(m.wrong, 200)}" → "${str(m.right, 200)}"`).join('; ');
       const system = `${basePrompt(st)}
 
 TASK: Create ${count} varied exercises on: ${String(p.topic || 'general B1–B2 grammar').slice(0, 300)}.
@@ -273,8 +302,7 @@ Use varied everyday contexts (daily life, travel, people, hobbies, home, shoppin
     }
 
     case 'fill_word': {
-      const words = (Array.isArray(p.words) ? p.words : [p.word]).map((w: string) => String(w || '').trim()).filter(Boolean).slice(0, 40);
-      if (!words.length) throw new HttpError(400, 'bad_request', 'No words');
+      const words = (Array.isArray(p.words) ? p.words : [p.word]).map((w: string) => str(w, 120).trim()).filter(Boolean).slice(0, 40);
       const system = `You are a precise English–Ukrainian lexicographer helping a Ukrainian learner of English who lives in Poland.
 For each English word or phrase return: uk (natural Ukrainian translation, 1–3 variants separated by ", "), pos, ipa (General American IPA in slashes), 2 natural examples (everyday contexts; if the word is technical or work-related, one example from that context) each with Ukrainian translation, 2–4 common collocations, 1–3 synonyms, CEFR level, topic (one of: everyday, smalltalk, food, travel, city, opinions, home, phrasal, collocations, work, general) and kind. Keep input order, keep the student's spelling of en unless it is clearly a typo (then fix it).`;
       const res = await generateJson(TEXT_MODELS, { system, contents: [{ role: 'user', parts: [{ text: words.join('\n') }] }], schema: WORD_SCHEMA, temperature: 0.2 });
@@ -283,7 +311,7 @@ For each English word or phrase return: uk (natural Ukrainian translation, 1–3
 
     case 'check_translation': {
       const system = `You check a Ukrainian → English translation by a ${st.level} learner. Accept any natural, grammatically correct translation that keeps the meaning, even if it differs from the reference. Minor punctuation or capitalisation issues are fine. Return JSON: correct, better (the best natural version), explanation_uk (one short sentence in Ukrainian about what was wrong or why it is fine).`;
-      const text = `Ukrainian: ${p.uk}\nReference: ${(Array.isArray(p.reference) ? p.reference : [p.reference]).join(' | ')}\nStudent: ${p.answer}`;
+      const text = `Ukrainian: ${str(p.uk, 500)}\nReference: ${(Array.isArray(p.reference) ? p.reference : [p.reference]).slice(0, 8).map((x: unknown) => str(x, 500)).join(' | ')}\nStudent: ${str(p.answer, 1000)}`;
       const res = await generateJson(TEXT_MODELS, { system, contents: [{ role: 'user', parts: [{ text }] }], schema: TRANSLATION_SCHEMA, temperature: 0.1 });
       return json(res);
     }
@@ -296,7 +324,6 @@ For each English word or phrase return: uk (natural Ukrainian translation, 1–3
 
     case 'transcribe': {
       const audio = String(p.audio || '');
-      if (!audio || audio.length > 8_000_000) throw new HttpError(400, 'bad_request', 'Audio missing or too large');
       const text = await generate(TEXT_MODELS, {
         contents: [{ role: 'user', parts: [{ inlineData: { mimeType: String(p.mime || 'audio/webm'), data: audio } }, { text: 'Transcribe this English speech exactly as spoken (do not correct mistakes). Return only the transcript text.' }] }],
         temperature: 0,

@@ -13,7 +13,12 @@ export function json(body: unknown, status = 200, extra: Record<string, string> 
 }
 
 export function errorResponse(e: unknown) {
-  if (e instanceof HttpError) return json({ error: { code: e.code, message: e.message } }, e.status);
+  if (e instanceof HttpError) {
+    // текст помилок Gemini (квоти, ідентифікатори проєкту) — лише в лог, клієнту — код
+    const upstream = ['gemini', 'rate_limited', 'overloaded', 'no_key', 'model_not_found', 'empty', 'bad_model_request'].includes(e.code);
+    if (upstream) console.error('upstream', e.code, e.message.slice(0, 300));
+    return json({ error: { code: e.code, message: upstream ? e.code : e.message } }, e.status);
+  }
   // логуємо без вмісту розмов
   console.error('internal', (e as Error)?.name, (e as Error)?.message?.slice(0, 200));
   return json({ error: { code: 'server', message: 'Internal error' } }, 500);

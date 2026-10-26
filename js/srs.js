@@ -111,6 +111,7 @@ export async function newCards(limit) {
   if (!left) return [];
   const out = [];
   const known = new Set(store.all('cards').filter(c => c.reps > 0).map(c => c.id));
+  const knownEn = new Set(store.all('cards').filter(c => c.reps > 0).map(c => String(c.en).toLowerCase()));
   // власні непройдені
   for (const c of store.all('cards')) {
     if (out.length >= left) break;
@@ -126,7 +127,8 @@ export async function newCards(limit) {
           while (it.i < it.d.cards.length) {
             const c = it.d.cards[it.i++];
             const id = starterId(it.d.id, c.en);
-            if (known.has(id) || out.some(o => o.id === id)) continue;
+            // те саме слово в іншій колоді — не вводимо вдруге
+            if (known.has(id) || out.some(o => o.id === id || o.en.toLowerCase() === c.en.toLowerCase()) || knownEn.has(c.en.toLowerCase())) continue;
             out.push(store.get('cards', id) || rowFromStarter(it.d.id, c));
             break;
           }

@@ -39,9 +39,9 @@
   },
   {
    "en": "on the same page",
-   "uk": "мислити однаково, бути в курсі",
+   "uk": "однаково розуміти ситуацію",
    "ex": "Let's make sure we're on the same page.",
-   "exUk": "Переконаймося, що ми розуміємо одне одного."
+   "exUk": "Переконаймося, що ми однаково все розуміємо."
   },
   {
    "en": "the ball is in your court",
@@ -93,9 +93,9 @@
   },
   {
    "en": "a blessing in disguise",
-   "uk": "нещастя на щастя",
+   "uk": "не було б щастя, та нещастя допомогло",
    "ex": "Losing that job was a blessing in disguise.",
-   "exUk": "Втрата тієї роботи — не було б щастя, та нещастя допомогло."
+   "exUk": "Втрата тієї роботи зрештою пішла мені на користь."
   },
   {
    "en": "beat around the bush",
@@ -159,7 +159,7 @@
   },
   {
    "en": "pull someone's leg",
-   "uk": "жартувати з когось",
+   "uk": "розігрувати когось, жартувати",
    "ex": "Relax, I'm just pulling your leg.",
    "exUk": "Розслабся, я просто жартую."
   },
@@ -195,7 +195,7 @@
   },
   {
    "en": "up in the air",
-   "uk": "невирішено",
+   "uk": "ще не вирішено, під питанням",
    "ex": "Our holiday plans are still up in the air.",
    "exUk": "Наші плани на відпустку ще не визначені."
   },
@@ -219,7 +219,7 @@
   },
   {
    "en": "back to square one",
-   "uk": "назад на початок",
+   "uk": "знову з нуля, назад на початок",
    "ex": "The plan failed, so we're back to square one.",
    "exUk": "План провалився, тож починаємо спочатку."
   },
@@ -243,9 +243,9 @@
   },
   {
    "en": "give someone the benefit of the doubt",
-   "uk": "повірити на слово",
+   "uk": "повірити, попри сумніви",
    "ex": "I'll give him the benefit of the doubt.",
-   "exUk": "Я повірю йому цього разу."
+   "exUk": "Я повірю йому, хоч і маю сумніви."
   },
   {
    "en": "hang in there",
@@ -266,10 +266,10 @@
    "exUk": "У великому місті важко зводити кінці з кінцями."
   },
   {
-   "en": "on the fence",
-   "uk": "вагатися",
-   "ex": "I'm still on the fence about the new job.",
-   "exUk": "Я досі вагаюся щодо нової роботи."
+   "en": "learn the ropes",
+   "uk": "увійти в курс справи, освоїти ази",
+   "ex": "It takes a few weeks to learn the ropes.",
+   "exUk": "Щоб увійти в курс справи, потрібно кілька тижнів."
   },
   {
    "en": "out of the blue",
@@ -278,8 +278,8 @@
    "exUk": "Він подзвонив мені зовсім несподівано."
   },
   {
-   "en": "rings a bell",
-   "uk": "щось нагадує",
+   "en": "ring a bell",
+   "uk": "здаватися знайомим, щось нагадувати",
    "ex": "Her name rings a bell.",
    "exUk": "Її ім'я мені щось нагадує."
   },

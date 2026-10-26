@@ -65,7 +65,7 @@ export async function levelProgress(idx, level = myLevel()) {
   for (const d of decks) for (const c of d.cards) {
     wTotal++;
     const row = cards.get(`${d.id}:${slug(c.en)}`);
-    if (row && row.reps > 0 && (row.stability || 0) >= 7) wDone++;
+    if (row && row.reps > 0 && (row.scheduled_days || 0) >= 7) wDone++;
   }
   const gPct = lessons.length ? gDone / lessons.length : 1;
   const wPct = wTotal ? wDone / wTotal : 1;

@@ -186,7 +186,7 @@
    "id": "g14",
    "skill": "grammar",
    "level": "B1",
-   "prompt": "She asked me where I ___.",
+   "prompt": "She asked me where I ___ before I moved to Kraków.",
    "options": [
     "live",
     "lived",
@@ -410,7 +410,7 @@
    "id": "g30",
    "skill": "grammar",
    "level": "C1",
-   "prompt": "She is said ___ a fortune.",
+   "prompt": "She is said ___ a fortune last year.",
    "options": [
     "to make",
     "to have made",
@@ -566,7 +566,7 @@
    "level": "B1",
    "prompt": "I can't ___ out how this works.",
    "options": [
-    "find",
+    "take",
     "figure",
     "look",
     "make"

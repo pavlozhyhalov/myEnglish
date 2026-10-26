@@ -15,7 +15,8 @@
 
 ## Структура
 - `js/app.js` — старт, шапка, маршрути, синхронізація, SW. `js/router.js` — hash-роутер.
-- `js/store.js` — локальний стан (IndexedDB) + синхронізація з Supabase (LWW за `updated_at`, черга `dirty`).
+- `js/store.js` — локальний стан (IndexedDB) + синхронізація з Supabase: черга `dirty`, upsert з `defaultToNull: false`, pull за серверним `synced_at` (міграція 0008),
+  на сервері тригер `sync_guard` — старіший `updated_at` не перезаписує новіший. Видалення всюди м'яке (`deleted`). Збій однієї таблиці не блокує решту.
 - `js/srs.js` — FSRS (ts-fsrs) і черга карток. Стартові картки з `data/decks/*.json` потрапляють у БД лише після першого показу (id = `deck:slug(en)`).
 - `js/stats.js` — сесії (час), стрік, помилки, прогрес уроків.
 - `js/ai.js` — виклики edge-функцій; `js/speech.js` — TTS/розпізнавання; `js/live/*` — Gemini Live (WebSocket + AudioWorklet) і режим «рація».
@@ -62,4 +63,5 @@
   Тригер `sessions_resonance` на `public.sessions` (міграції 0005–0006) → `private.resonance_push_day()` → `pg_net` → RPC `ingest_upsert` у Resonance.
   Ключ — у `public.integrations` (RLS без політик), у Resonance лише його sha256 (`external_ingest_keys`). Видалення сесії перераховує день.
   Supabase MCP вимагає ручного підтвердження для `drop`/`revoke`/`update` без `where` — у міграціях обходитись `create or replace` і явним `where`.
+- 2026-10-26 · Ліміти AI атомарні (`charge_ai_usage`), токени Live рахуються (`LIMIT_LIVE_TOKENS`, деф. 40/день); глибока діагностика `tutor` — лише для allowlist (`claim_health_slot`). Міграція 0007.
 - Відкрите: рішення по голосу після Фази 0 (Gemini Live / «рація» / інший провайдер) — власник фіксує в `#/lab/live`, переноситься сюди.

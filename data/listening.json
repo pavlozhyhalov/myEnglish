@@ -8,7 +8,7 @@
   {
    "level": "A2",
    "text": "Can I have a cup of tea, please?",
-   "uk": "Можна мені чашку чаю?"
+   "uk": "Можна мені чашку чаю, будь ласка?"
   },
   {
    "level": "A2",
@@ -148,7 +148,7 @@
   {
    "level": "B1",
    "text": "Although it was expensive, the hotel was worth every penny.",
-   "uk": "Хоча готель був дорогий, він вартував кожної копійки."
+   "uk": "Хоча готель був дорогий, він був вартий кожної копійки."
   },
   {
    "level": "B2",
@@ -302,8 +302,8 @@
   },
   {
    "level": "C1",
-   "text": "Had I known about the delay, I would have taken an earlier train.",
-   "uk": "Якби я знав про затримку, сів би на ранній потяг."
+   "text": "Should you need any further information, please do not hesitate to contact us.",
+   "uk": "Якщо вам знадобиться додаткова інформація, будь ласка, звертайтеся до нас."
   },
   {
    "level": "C1",
@@ -313,12 +313,12 @@
   {
    "level": "C1",
    "text": "The proposal, while ambitious, overlooks several practical constraints.",
-   "uk": "Пропозиція хоч і амбітна, але ігнорує кілька практичних обмежень."
+   "uk": "Пропозиція хоч і амбітна, але не враховує кількох практичних обмежень."
   },
   {
    "level": "C1",
-   "text": "Not only did they cancel the event, but they also refused to refund the tickets.",
-   "uk": "Вони не лише скасували захід, а й відмовилися повернути гроші за квитки."
+   "text": "Hardly had we sat down when the fire alarm went off.",
+   "uk": "Ледве ми сіли, як спрацювала пожежна сигналізація."
   },
   {
    "level": "C1",
@@ -373,7 +373,7 @@
   {
    "level": "C1",
    "text": "She has a remarkable ability to put people at ease.",
-   "uk": "Вона має дивовижну здатність заспокоювати людей."
+   "uk": "Вона має дивовижну здатність допомагати людям почуватися невимушено."
   }
  ],
  "dialogues": [
@@ -435,21 +435,21 @@
     {
      "q": "What does Pavlo order to drink?",
      "options": [
-      "A small latte",
       "A large cappuccino",
+      "A small latte",
       "Black coffee"
      ],
-     "answer": 1,
+     "answer": 0,
      "explanation_uk": "Can I have a large cappuccino."
     },
     {
      "q": "What kind of milk does he choose?",
      "options": [
       "Regular milk",
-      "Oat milk",
-      "No milk"
+      "No milk",
+      "Oat milk"
      ],
-     "answer": 1
+     "answer": 2
     },
     {
      "q": "What does he order to eat?",
@@ -464,20 +464,20 @@
      "q": "Where will he have his order?",
      "options": [
       "At home",
-      "In the café",
-      "In the car"
+      "In the car",
+      "In the café"
      ],
-     "answer": 1,
+     "answer": 2,
      "explanation_uk": "For here — на місці."
     },
     {
      "q": "How much does he pay?",
      "options": [
-      "£5.80",
       "£8.50",
+      "£5.80",
       "£18.50"
      ],
-     "answer": 1
+     "answer": 0
     }
    ]
   },
@@ -544,11 +544,11 @@
     {
      "q": "When did the science museum open?",
      "options": [
-      "Last week",
       "Last month",
+      "Last week",
       "Last year"
      ],
-     "answer": 1
+     "answer": 0
     },
     {
      "q": "How long did Anna stay at the museum?",
@@ -571,11 +571,11 @@
     {
      "q": "What is near the museum?",
      "options": [
-      "A cinema",
       "An Italian restaurant",
+      "A cinema",
       "A park"
      ],
-     "answer": 1
+     "answer": 0
     }
    ]
   },
@@ -634,10 +634,10 @@
      "q": "How long is the delay?",
      "options": [
       "One hour",
-      "Three hours",
-      "Five hours"
+      "Five hours",
+      "Three hours"
      ],
-     "answer": 1
+     "answer": 2
     },
     {
      "q": "Where was the connection?",
@@ -660,11 +660,11 @@
     {
      "q": "What happens to the suitcase?",
      "options": [
-      "He must collect it",
       "It is transferred automatically",
+      "He must collect it",
       "It goes on a later flight"
      ],
-     "answer": 1
+     "answer": 0
     },
     {
      "q": "How can he get compensation?",
@@ -731,20 +731,20 @@
     {
      "q": "How much are the utilities in winter?",
      "options": [
-      "About 280",
       "About 400",
+      "About 280",
       "About 2,800"
      ],
-     "answer": 1
+     "answer": 0
     },
     {
      "q": "When will the deposit be returned?",
      "options": [
       "After six months",
-      "At the end, if there is no damage",
-      "Never"
+      "Never",
+      "At the end, if there is no damage"
      ],
-     "answer": 1
+     "answer": 2
     },
     {
      "q": "Why does Pavlo want a long contract?",
@@ -759,19 +759,19 @@
      "q": "How long is the first contract?",
      "options": [
       "Six months",
-      "One year",
-      "Two years"
+      "Two years",
+      "One year"
      ],
-     "answer": 1
+     "answer": 2
     },
     {
      "q": "What condition does the landlord set for painting?",
      "options": [
-      "They must pay extra",
       "Only a light colour",
+      "They must pay extra",
       "A professional must do it"
      ],
-     "answer": 1
+     "answer": 0
     }
    ]
   },
@@ -847,11 +847,11 @@
     {
      "q": "Who does Tom live with?",
      "options": [
-      "Alone",
       "With his wife and two kids",
+      "Alone",
       "With his parents"
      ],
-     "answer": 1,
+     "answer": 0,
      "explanation_uk": "with my wife and my two kids"
     },
     {
@@ -867,21 +867,21 @@
     {
      "q": "Where is the shop?",
      "options": [
-      "Around the corner",
       "Far away",
-      "Next to the station"
+      "Next to the station",
+      "Around the corner"
      ],
-     "answer": 0,
+     "answer": 2,
      "explanation_uk": "just around the corner"
     },
     {
      "q": "When does the shop close?",
      "options": [
       "At 8 pm",
-      "At 10 pm",
-      "At midnight"
+      "At midnight",
+      "At 10 pm"
      ],
-     "answer": 1,
+     "answer": 2,
      "explanation_uk": "At ten in the evening."
     }
    ]
@@ -948,11 +948,11 @@
     {
      "q": "Where is Pavlo going?",
      "options": [
-      "Kraków",
       "Warsaw",
+      "Kraków",
       "Gdańsk"
      ],
-     "answer": 1,
+     "answer": 0,
      "explanation_uk": "a ticket to Warsaw"
     },
     {
@@ -969,20 +969,20 @@
      "q": "Which train does he choose?",
      "options": [
       "8:15",
-      "10:40",
-      "12:00"
+      "12:00",
+      "10:40"
      ],
-     "answer": 1,
+     "answer": 2,
      "explanation_uk": "The 10:40, please."
     },
     {
      "q": "How long is the journey?",
      "options": [
-      "About 1.5 hours",
       "About 2.5 hours",
+      "About 1.5 hours",
       "About 4 hours"
      ],
-     "answer": 1,
+     "answer": 0,
      "explanation_uk": "About two and a half hours."
     },
     {
@@ -1059,21 +1059,21 @@
     {
      "q": "What was wrong with the steak?",
      "options": [
-      "It was cold",
       "It was overcooked",
+      "It was cold",
       "It was too small"
      ],
-     "answer": 1,
+     "answer": 0,
      "explanation_uk": "practically well done — пересмажений"
     },
     {
      "q": "Why can't his wife eat cheese?",
      "options": [
       "She's vegan",
-      "She's lactose intolerant",
-      "She doesn't like it"
+      "She doesn't like it",
+      "She's lactose intolerant"
      ],
-     "answer": 1,
+     "answer": 2,
      "explanation_uk": "she's lactose intolerant"
     },
     {
@@ -1089,21 +1089,21 @@
     {
      "q": "What does the waiter offer?",
      "options": [
-      "A dessert",
       "Free drinks",
+      "A dessert",
       "A discount voucher"
      ],
-     "answer": 1,
+     "answer": 0,
      "explanation_uk": "a drink on the house — напої за рахунок закладу"
     },
     {
      "q": "What will happen with the bill?",
      "options": [
-      "The steak will be free",
       "The whole meal will be free",
-      "Nothing changes"
+      "Nothing changes",
+      "The steak will be free"
      ],
-     "answer": 0,
+     "answer": 2,
      "explanation_uk": "take the steak off your bill"
     }
    ]
@@ -1181,40 +1181,40 @@
      "q": "What does Anna think has been lost?",
      "options": [
       "Productivity",
-      "Team cohesion",
-      "Salary"
+      "Salary",
+      "Team cohesion"
      ],
-     "answer": 1,
+     "answer": 2,
      "explanation_uk": "team cohesion"
     },
     {
      "q": "Who finds remote work especially hard, according to Anna?",
      "options": [
-      "Managers",
       "New employees",
+      "Managers",
       "IT staff"
      ],
-     "answer": 1,
+     "answer": 0,
      "explanation_uk": "new hires"
     },
     {
      "q": "What does Pavlo propose?",
      "options": [
       "Full office return",
-      "Fully remote work",
-      "A hybrid model with anchor days"
+      "A hybrid model with anchor days",
+      "Fully remote work"
      ],
-     "answer": 2,
+     "answer": 1,
      "explanation_uk": "a hybrid model — two anchor days"
     },
     {
      "q": "What will Pavlo do by Friday?",
      "options": [
-      "Talk to the CEO",
       "Send round a draft proposal",
+      "Talk to the CEO",
       "Book a meeting room"
      ],
-     "answer": 1,
+     "answer": 0,
      "explanation_uk": "draft something and send it round by Friday"
     }
    ]

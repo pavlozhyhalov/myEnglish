@@ -9,12 +9,12 @@ const COLUMNS = {
   decks: ['id', 'name', 'enabled', 'builtin', 'updated_at', 'deleted'],
   cards: ['id', 'deck_id', 'en', 'uk', 'ipa', 'pos', 'examples', 'tags', 'extra', 'due', 'stability', 'difficulty',
     'elapsed_days', 'scheduled_days', 'learning_steps', 'reps', 'lapses', 'state', 'last_review', 'created_at', 'updated_at', 'deleted'],
-  reviews: ['id', 'card_id', 'rating', 'state', 'ts', 'elapsed', 'updated_at'],
-  lessons_progress: ['id', 'best', 'last_score', 'attempts', 'completed_at', 'next_review', 'review_stage', 'updated_at'],
+  reviews: ['id', 'card_id', 'rating', 'state', 'ts', 'elapsed', 'updated_at', 'deleted'],
+  lessons_progress: ['id', 'best', 'last_score', 'attempts', 'completed_at', 'next_review', 'review_stage', 'updated_at', 'deleted'],
   mistakes: ['id', 'wrong', 'right', 'type', 'explanation_uk', 'source', 'count', 'streak', 'resolved', 'ref', 'created_at', 'updated_at', 'deleted'],
-  sessions: ['id', 'type', 'seconds', 'xp', 'day', 'ts', 'ref', 'updated_at'],
+  sessions: ['id', 'type', 'seconds', 'xp', 'day', 'ts', 'ref', 'updated_at', 'deleted'],
   tutor_chats: ['id', 'mode', 'scenario', 'title', 'messages', 'summary', 'seconds', 'created_at', 'updated_at', 'deleted'],
-  tests: ['id', 'type', 'ref', 'scores', 'details', 'created_at', 'updated_at'],
+  tests: ['id', 'type', 'ref', 'scores', 'details', 'created_at', 'updated_at', 'deleted'],
 };
 // Скільки днів історії тримати локально (решта — лише на сервері)
 const LOCAL_KEEP_DAYS = { reviews: 120, sessions: 400 };
@@ -22,7 +22,8 @@ const LOCAL_KEEP_DAYS = { reviews: 120, sessions: 400 };
 const data = Object.fromEntries(TABLES.map(t => [t, new Map()]));
 let profile = { data: {}, updated_at: null };
 let dirty = new Set();            // "table|id" або "profile"
-let meta = { lastPull: {}, userId: null };
+// lastPull — курсор за серверним synced_at (v: 2); старі курсори за updated_at скидаються
+let meta = { lastPull: {}, userId: null, v: 2 };
 const listeners = new Set();
 
 // ---------- IndexedDB (key-value) ----------
@@ -62,7 +63,7 @@ let saveTimer = null;
 function scheduleSave(key) {
   pendingSave.add(key);
   clearTimeout(saveTimer);
-  saveTimer = setTimeout(flush, 300);
+  saveTimer = setTimeout(flush, 100);
 }
 export async function flush() {
   clearTimeout(saveTimer);
@@ -83,6 +84,7 @@ export async function load() {
   if (p) profile = p;
   if (d) dirty = new Set(d);
   if (m) meta = { lastPull: {}, ...m };
+  if (meta.v !== 2) meta = { ...meta, lastPull: {}, v: 2 };
   TABLES.forEach((t, i) => { for (const row of tables[i] || []) data[t].set(row.id, row); });
   housekeeping();
 }
@@ -95,8 +97,9 @@ function housekeeping() {
   }
   // Повний текст розмов — 30 днів, далі лише підсумок
   const cut = now - LIMITS.chatRetentionDays * 864e5;
+  // лише локально, без позначки «змінено»: сервер чистить сам (purge_old_chats), а touch() міг би воскресити розмову, видалену на іншому пристрої
   for (const r of data.tutor_chats.values()) {
-    if (r.messages && Date.parse(r.created_at) < cut) { r.messages = null; touch('tutor_chats', r); }
+    if (r.messages && !r.deleted && Date.parse(r.created_at) < cut) { r.messages = null; scheduleSave('tutor_chats'); }
   }
 }
 
@@ -180,7 +183,9 @@ export async function sync() {
       meta.lastPull = {};
     }
     meta.userId = userId;
-    await push(userId);
+    // збій однієї таблиці не блокує решту і не зупиняє отримання змін
+    const pushErr = await push(userId).then(() => null, (e) => e);
+    if (pushErr) console.warn('sync push', pushErr);
     const changed = await pull();
     scheduleSave('meta'); await flush();
     if (changed.length) changed.forEach(emit);
@@ -206,16 +211,20 @@ async function push(userId) {
     for (const c of COLUMNS[t]) if (r[c] !== undefined) row[c] = r[c];
     (byTable[t] ||= []).push({ key, row });
   }
+  let firstErr = null;
   if (dirty.has('profile')) {
-    const { error } = await supa.from('profiles').upsert({ user_id: userId, data: profile.data, updated_at: profile.updated_at || nowIso() });
-    if (error) throw error;
-    dirty.delete('profile');
+    const pu = profile.updated_at || nowIso();
+    const { error } = await supa.from('profiles').upsert({ user_id: userId, data: profile.data, updated_at: pu });
+    if (error) firstErr ||= error;
+    // зміна профілю під час запиту лишається брудною
+    else if ((profile.updated_at || pu) === pu) dirty.delete('profile');
   }
   for (const [t, list] of Object.entries(byTable)) {
     for (let i = 0; i < list.length; i += 400) {
       const chunk = list.slice(i, i + 400);
-      const { error } = await supa.from(t).upsert(chunk.map(c => c.row), { onConflict: 'user_id,id' });
-      if (error) throw error;
+      // defaultToNull: false — відсутні в рядку колонки беруть DEFAULT, а не NULL (рядки в пакеті мають різні набори полів)
+      const { error } = await supa.from(t).upsert(chunk.map(c => c.row), { onConflict: 'user_id,id', defaultToNull: false });
+      if (error) { firstErr ||= error; break; }
       chunk.forEach(c => {
         // якщо за час запиту запис змінився ще раз — лишаємо брудним
         const cur = data[t].get(c.row.id);
@@ -225,10 +234,11 @@ async function push(userId) {
   }
   for (const [t, ids] of Object.entries(deletes)) {
     const { error } = await supa.from(t).delete().in('id', ids);
-    if (error) throw error;
+    if (error) { firstErr ||= error; continue; }
     ids.forEach(id => dirty.delete(t + '|' + id + '|del'));
   }
   scheduleSave('dirty');
+  if (firstErr) throw firstErr;
 }
 
 async function pull() {
@@ -238,6 +248,7 @@ async function pull() {
     const { data: rows, error } = await supa.from('profiles').select('*').limit(1);
     if (error) throw error;
     const r = rows?.[0];
+    if (r) delete r.synced_at;
     if (r && !dirty.has('profile') && T(r.updated_at) > T(profile.updated_at)) {
       profile = { data: r.data || {}, updated_at: r.updated_at };
       scheduleSave('profile'); changed.push('profile');
@@ -246,14 +257,16 @@ async function pull() {
   for (const t of TABLES) {
     let since = meta.lastPull[t];
     if (!since && LOCAL_KEEP_DAYS[t]) since = new Date(Date.now() - LOCAL_KEEP_DAYS[t] * 864e5).toISOString();
+    // курсор — серверний synced_at; порядок (synced_at, id) стабільний між сторінками
     let from = 0, maxTs = meta.lastPull[t] || null, got = false;
     for (;;) {
-      let q = supa.from(t).select('*').order('updated_at', { ascending: true }).range(from, from + 999);
-      if (since) q = q.gt('updated_at', since);
+      let q = supa.from(t).select('*').order('synced_at', { ascending: true }).order('id', { ascending: true }).range(from, from + 999);
+      if (since) q = q.gt('synced_at', since);
       const { data: rows, error } = await q;
       if (error) throw error;
       for (const r of rows) {
-        delete r.user_id;
+        const st = r.synced_at;
+        delete r.user_id; delete r.synced_at;
         const local = data[t].get(r.id);
         const isDirty = dirty.has(t + '|' + r.id);
         if (!local || T(r.updated_at) > T(local.updated_at)) {
@@ -261,7 +274,7 @@ async function pull() {
           if (isDirty) dirty.delete(t + '|' + r.id);
           got = true;
         }
-        if (!maxTs || T(r.updated_at) > T(maxTs)) maxTs = r.updated_at;
+        if (!maxTs || T(st) > T(maxTs)) maxTs = st;
       }
       if (rows.length < 1000) break;
       from += 1000;
@@ -295,7 +308,7 @@ export async function importJson(obj) {
 }
 export async function wipeLocal() {
   TABLES.forEach(t => data[t].clear());
-  profile = { data: {}, updated_at: null }; dirty.clear(); meta = { lastPull: {}, userId: null };
+  profile = { data: {}, updated_at: null }; dirty.clear(); meta = { lastPull: {}, userId: null, v: 2 };
   ['profile', 'dirty', 'meta', ...TABLES].forEach(scheduleSave);
   await flush();
 }

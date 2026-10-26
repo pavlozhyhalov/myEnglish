@@ -166,9 +166,9 @@ export function deleteChat(id) {
   if (!chat) return;
   let sessions = store.all('sessions').filter(s => s.ref === id);
   if (!sessions.length) {
-    // старі розмови без прив'язки: та сама дата і тривалість
-    const day = dayKey(chat.created_at);
-    const s = store.all('sessions').find(x => !x.ref && ['tutor', 'voice', 'writing'].includes(x.type) && x.day === day && Math.abs((x.seconds || 0) - (chat.seconds || 0)) <= 2);
+    // старі розмови без прив'язки: сесія завершилась після початку розмови (до 6 год) і має ту саму тривалість
+    const t0 = Date.parse(chat.created_at);
+    const s = store.all('sessions').find(x => !x.ref && ['tutor', 'voice', 'writing'].includes(x.type) && Date.parse(x.ts) >= t0 && Date.parse(x.ts) - t0 < 6 * 3600e3 && Math.abs((x.seconds || 0) - (chat.seconds || 0)) <= 2);
     if (s) sessions = [s];
   }
   for (const s of sessions) store.remove('sessions', s.id);
@@ -177,7 +177,7 @@ export function deleteChat(id) {
     const ex = store.all('mistakes').find(x => norm(x.wrong) === norm(m.wrong) && norm(x.right) === norm(m.right));
     if (!ex) continue;
     if ((ex.count || 1) > 1) { ex.count -= 1; store.put('mistakes', ex); }
-    else if (!ex.ref || ex.ref === id) store.remove('mistakes', ex.id);
+    else if (ex.ref === id || (!ex.ref && (ex.source || 'tutor') === 'tutor')) store.remove('mistakes', ex.id);
   }
   store.remove('tutor_chats', id);
 }
