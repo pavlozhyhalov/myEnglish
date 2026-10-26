@@ -518,5 +518,365 @@
    "Perhaps we could pick this up after the session."
   ],
   "level": "C1"
+ },
+ {
+  "id": "train-ticket",
+  "group": "travel",
+  "emoji": "city",
+  "title": "Квиток на потяг",
+  "short": "Куди, коли, скільки коштує",
+  "situation": "Ви на вокзалі в Кракові й хочете поїхати до Варшави в суботу. Підходите до каси.",
+  "myRole": "Пасажир",
+  "tutorRole": "Касир на вокзалі (ticket office), говорить повільно і просто",
+  "goal": "Купити квиток туди й назад, дізнатися час відправлення, платформу і ціну.",
+  "phrases": [
+   "A ticket to Warsaw, please.",
+   "A return ticket, please.",
+   "What time is the next train?",
+   "How much is it?",
+   "Which platform is it?",
+   "Thank you. Goodbye!"
+  ],
+  "level": "A1"
+ },
+ {
+  "id": "cafe-simple",
+  "group": "life",
+  "emoji": "coffee",
+  "title": "Кава й тістечко",
+  "short": "Просте замовлення в кафе",
+  "situation": "Ви в маленькому кафе біля дому. Хочете чай або каву і щось солодке.",
+  "myRole": "Відвідувач кафе",
+  "tutorRole": "Бариста (barista), говорить повільно і просто",
+  "goal": "Привітатися, замовити напій і десерт, запитати ціну і заплатити.",
+  "phrases": [
+   "Hello! A tea, please.",
+   "A small coffee with milk, please.",
+   "And a piece of cake, please.",
+   "How much is that?",
+   "Here you are.",
+   "Thank you very much!"
+  ],
+  "level": "A1"
+ },
+ {
+  "id": "ask-way",
+  "group": "travel",
+  "emoji": "magnifier",
+  "title": "Дорога до музею",
+  "short": "Прості питання про дорогу",
+  "situation": "Ви турист у Лондоні. Шукаєте музей і найближчу станцію метро.",
+  "myRole": "Турист",
+  "tutorRole": "Перехожий (passer-by) на вулиці, пояснює простими словами",
+  "goal": "Запитати, де музей, зрозуміти просту відповідь (прямо, ліворуч, праворуч), уточнити, чи далеко, і знайти метро.",
+  "phrases": [
+   "Excuse me, where is the museum?",
+   "Is it far?",
+   "Go straight on?",
+   "Left or right?",
+   "Where is the metro station?",
+   "Thank you for your help!"
+  ],
+  "level": "A1"
+ },
+ {
+  "id": "hostel",
+  "group": "travel",
+  "emoji": "key",
+  "title": "У хостелі",
+  "short": "Заселення, сніданок, Wi-Fi",
+  "situation": "Ви з Вітою приїхали до Праги на вихідні й заселяєтеся в хостел. Бронювання на ваше ім'я.",
+  "myRole": "Гість хостелу",
+  "tutorRole": "Адміністратор хостелу (receptionist)",
+  "goal": "Назвати ім'я, підтвердити бронювання на дві ночі, дізнатися про сніданок, Wi-Fi і час виїзду.",
+  "phrases": [
+   "Hi! I have a booking.",
+   "My name is Pavlo.",
+   "It's for two nights.",
+   "Is breakfast included?",
+   "What's the Wi-Fi password?",
+   "What time is check-out?"
+  ],
+  "level": "A1"
+ },
+ {
+  "id": "market",
+  "group": "life",
+  "emoji": "shop",
+  "title": "На ринку",
+  "short": "Фрукти, вага, ціна",
+  "situation": "Субота, ви на ринку в Кракові. Продавець говорить англійською. Вам потрібні яблука, банани і полуниця.",
+  "myRole": "Покупець",
+  "tutorRole": "Продавець фруктів на ринку",
+  "goal": "Купити три види фруктів, запитати ціну за кілограм, сказати, скільки треба, і заплатити.",
+  "phrases": [
+   "How much are the apples?",
+   "One kilo, please.",
+   "Two bananas, please.",
+   "Are they sweet?",
+   "That's all, thanks.",
+   "Can I pay by card?"
+  ],
+  "level": "A1"
+ },
+ {
+  "id": "my-family",
+  "group": "life",
+  "emoji": "wave",
+  "title": "Моя сім'я",
+  "short": "Розповідь про родину",
+  "situation": "Ви на курсі англійської, і новий одногрупник питає про вашу сім'ю.",
+  "myRole": "Студент курсу англійської",
+  "tutorRole": "Новий одногрупник (classmate) на курсі англійської",
+  "goal": "Розповісти про дружину, батьків, братів чи сестер, сказати, де вони живуть, і поставити такі самі питання.",
+  "phrases": [
+   "I'm married. My wife's name is Vita.",
+   "We live in Kraków.",
+   "My parents live in Ukraine.",
+   "I have one brother.",
+   "We don't have children yet.",
+   "Do you have a big family?"
+  ],
+  "level": "A1"
+ },
+ {
+  "id": "hairdresser",
+  "group": "life",
+  "emoji": "sparkles",
+  "title": "У перукарні",
+  "short": "Стрижка, довжина, ціна",
+  "situation": "Ви записалися до перукаря. Хочете коротку, але не надто, стрижку і підрівняти бороду.",
+  "myRole": "Клієнт",
+  "tutorRole": "Перукар (hairdresser / barber)",
+  "goal": "Пояснити, яку стрижку хочете і скільки зрізати, відповісти на питання майстра і заплатити.",
+  "phrases": [
+   "Just a trim, please.",
+   "Not too short on top, please.",
+   "Can you take a bit more off the sides?",
+   "Could you also trim my beard?",
+   "That looks great, thanks.",
+   "How much do I owe you?"
+  ],
+  "level": "A2"
+ },
+ {
+  "id": "book-table",
+  "group": "life",
+  "emoji": "phone",
+  "title": "Бронювання столика",
+  "short": "Дзвінок у ресторан",
+  "situation": "У Віти скоро день народження. Ви телефонуєте в ресторан, щоб забронювати столик на двох у п'ятницю ввечері.",
+  "myRole": "Клієнт, який телефонує",
+  "tutorRole": "Адміністратор ресторану на телефоні",
+  "goal": "Забронювати столик на дату й час, назвати ім'я і телефон, попросити місце біля вікна, запитати про торт.",
+  "phrases": [
+   "I'd like to book a table for two, please.",
+   "For this Friday at seven.",
+   "Could we have a table by the window?",
+   "It's my wife's birthday.",
+   "Can we bring our own cake?",
+   "The booking is under the name Pavlo."
+  ],
+  "level": "A2"
+ },
+ {
+  "id": "lost-luggage",
+  "group": "travel",
+  "emoji": "package",
+  "title": "Загублений багаж",
+  "short": "Заява, опис валізи, доставка",
+  "situation": "Ви прилетіли до Лісабона, а вашої валізи немає на стрічці. Ви йдете до стійки розшуку багажу.",
+  "myRole": "Пасажир",
+  "tutorRole": "Співробітник служби розшуку багажу (lost luggage desk)",
+  "goal": "Повідомити про проблему, описати валізу і її вміст, залишити контакти, з'ясувати, коли й куди її доставлять і чи буде компенсація.",
+  "phrases": [
+   "My suitcase didn't arrive.",
+   "It's a medium-sized black suitcase with a red tag.",
+   "I've got my baggage tag here.",
+   "Could you deliver it to my hotel?",
+   "How long will it take to find it?",
+   "Can I claim for things I need to buy in the meantime?"
+  ],
+  "level": "B1"
+ },
+ {
+  "id": "dinner-invite",
+  "group": "life",
+  "emoji": "food",
+  "title": "Запросити сусіда на вечерю",
+  "short": "Знайомство, запрошення, деталі",
+  "situation": "У квартиру навпроти нещодавно переїхав новий сусід. Ви зустрілися на сходах і хочете запросити його на вечерю з вами і Вітою.",
+  "myRole": "Сусід, який запрошує",
+  "tutorRole": "Новий сусід, привітний, але трохи сором'язливий",
+  "goal": "Познайомитися, запросити на вечерю, домовитися про день і час, дізнатися, чого він не їсть.",
+  "phrases": [
+   "We haven't met properly — I'm Pavlo from flat 12.",
+   "Would you like to come over for dinner?",
+   "How about Saturday evening?",
+   "Is there anything you don't eat?",
+   "Don't bring anything, just yourself.",
+   "Looking forward to it!"
+  ],
+  "level": "B1"
+ },
+ {
+  "id": "used-car",
+  "group": "life",
+  "emoji": "handshake",
+  "title": "Купівля вживаного авто",
+  "short": "Огляд, недоліки, торг",
+  "situation": "Ви знайшли оголошення: вживана Škoda Octavia за 32 000 злотих. Ви з Вітою плануєте дитину, тож потрібне надійне сімейне авто. Під час огляду ви помічаєте подряпини і зношені шини.",
+  "myRole": "Покупець",
+  "tutorRole": "Приватний продавець авто: хоче продати швидко, але якомога дорожче",
+  "goal": "З'ясувати історію авто, вказати на недоліки, запропонувати нижчу ціну й дійти компромісу.",
+  "phrases": [
+   "Has it ever been in an accident?",
+   "Do you have the full service history?",
+   "I've noticed the tyres are quite worn.",
+   "Would you consider 28,000?",
+   "That's a bit more than I was hoping to pay.",
+   "If you can meet me halfway, we have a deal."
+  ],
+  "level": "B2"
+ },
+ {
+  "id": "bill-error",
+  "group": "life",
+  "emoji": "phone",
+  "title": "Помилка в рахунку",
+  "short": "Дзвінок мобільному оператору",
+  "situation": "Цього місяця рахунок за телефон удвічі більший: вам нарахували роумінг, хоча ви не виїжджали з Польщі.",
+  "myRole": "Клієнт оператора",
+  "tutorRole": "Консультант служби підтримки, спершу відповідає шаблонно",
+  "goal": "Пояснити проблему, наполягти на перевірці, домогтися повернення коштів і письмового підтвердження.",
+  "phrases": [
+   "I'm calling about an error on my latest bill.",
+   "I've been charged for roaming, but I haven't left the country.",
+   "Could you look into it, please?",
+   "I'd like the charge to be refunded.",
+   "Could you confirm that in writing?",
+   "If it can't be resolved, I'd like to speak to a supervisor."
+  ],
+  "level": "B2"
+ },
+ {
+  "id": "new-hobby",
+  "group": "life",
+  "emoji": "muscle",
+  "title": "Нове хобі для друга",
+  "short": "Переконати й розвіяти сумніви",
+  "situation": "Ви вже пів року ходите на скелелазіння і хочете, щоб друг Марек спробував разом із вами. Він вважає, що це небезпечно і дорого.",
+  "myRole": "Друг, який переконує",
+  "tutorRole": "Друг Марек, скептичний і трохи лінивий",
+  "goal": "Розповісти про переваги, відповісти на заперечення (безпека, ціна, час) і домовитися про пробне заняття.",
+  "phrases": [
+   "You should really give it a try.",
+   "Honestly, it's much safer than it looks.",
+   "The first session is free, so you've got nothing to lose.",
+   "It's a great way to switch off after work.",
+   "I'll show you the basics myself.",
+   "Why don't we go together this Thursday?"
+  ],
+  "level": "B2"
+ },
+ {
+  "id": "mediate-friends",
+  "group": "life",
+  "emoji": "handshake",
+  "title": "Примирити друзів",
+  "short": "Посередництво в суперечці",
+  "situation": "Ваші друзі Олег і Кася посварилися через спільну відпустку: Кася скасувала поїздку в останню мить, і Олег утратив гроші за бронювання. Ви запросили Олега на каву, щоб допомогти їм помиритися.",
+  "myRole": "Спільний друг, посередник",
+  "tutorRole": "Друг Олег, ображений і впевнений, що правий",
+  "goal": "Вислухати, визнати його почуття, показати іншу точку зору й підвести до розмови з Касею без звинувачень.",
+  "phrases": [
+   "I can see why you'd feel let down.",
+   "Let's try to look at it from her point of view.",
+   "I'm not taking sides here — I just want you two to sort it out.",
+   "Is it possible there was a misunderstanding?",
+   "What would it take for you to put this behind you?",
+   "Would you be open to talking it through over coffee?"
+  ],
+  "level": "C1"
+ },
+ {
+  "id": "radio-call",
+  "group": "life",
+  "emoji": "mic",
+  "title": "Дзвінок на радіо",
+  "short": "Прямий ефір про проблему міста",
+  "situation": "Місцеве англомовне радіо в Кракові проводить ефір про затори і нову платну зону паркування. Ви додзвонилися в прямий ефір.",
+  "myRole": "Слухач, який телефонує в ефір",
+  "tutorRole": "Ведучий радіо (radio host): ставить гострі запитання і перебиває",
+  "goal": "Чітко викласти позицію, навести приклад з власного досвіду, відповісти на заперечення ведучого і запропонувати рішення — коротко, бо ефірний час обмежений.",
+  "phrases": [
+   "Thanks for having me on the show.",
+   "As someone who drives across the city every day…",
+   "The real issue, as I see it, is…",
+   "With all due respect, that misses the point.",
+   "What I'd like to see instead is…",
+   "To put it in a nutshell…"
+  ],
+  "level": "C1"
+ },
+ {
+  "id": "business-feedback",
+  "group": "life",
+  "emoji": "bulb",
+  "title": "Чесний відгук другу",
+  "short": "Тактовна критика бізнес-ідеї",
+  "situation": "Друг Андрій хоче звільнитися і вкласти всі заощадження в кав'ярню з настільними іграми. Він просить вашої чесної думки. Ідея цікава, але плану немає: жодних розрахунків, а оренда в центрі дуже дорога.",
+  "myRole": "Друг, якого питають про думку",
+  "tutorRole": "Друг Андрій, натхненний і чутливий до критики",
+  "goal": "Відзначити сильні сторони, тактовно назвати ризики, поставити питання, що змусять подумати, і запропонувати конкретний наступний крок, не зіпсувавши дружби.",
+  "phrases": [
+   "I really admire you for wanting to do this.",
+   "Can I be completely honest with you?",
+   "Have you thought about how you'd cover the rent in the first few months?",
+   "It might be worth testing the idea before you quit your job.",
+   "I'm only saying this because I want it to work.",
+   "Whatever you decide, I've got your back."
+  ],
+  "level": "C1"
+ },
+ {
+  "id": "parking-fine",
+  "group": "life",
+  "emoji": "warning",
+  "title": "Оскарження штрафу за паркування",
+  "short": "Ввічливо, але наполегливо",
+  "situation": "Ви отримали штраф 100 злотих за паркування без квитка, хоча оплатили паркування в застосунку — просто ввели неправильний номер авто на одну цифру. Ви прийшли до міського відділу паркування.",
+  "myRole": "Водій, який оскаржує штраф",
+  "tutorRole": "Співробітник міського відділу паркування: ввічливий, але тримається правил",
+  "goal": "Пояснити ситуацію, показати докази оплати, ввічливо попросити скасувати або зменшити штраф і з'ясувати, як подати офіційну скаргу.",
+  "phrases": [
+   "I'd like to appeal against a parking fine, if that's possible.",
+   "I did pay for parking — here's the confirmation in the app.",
+   "It seems I entered the wrong registration number by mistake.",
+   "I appreciate that rules are rules, but this was a genuine error.",
+   "Would it be possible to cancel the fine or at least reduce it?",
+   "What's the procedure for submitting a formal appeal?"
+  ],
+  "level": "B2"
+ },
+ {
+  "id": "parents-meeting",
+  "group": "life",
+  "emoji": "seedling",
+  "title": "Батьківські збори",
+  "short": "Аргументувати зміну в садочку",
+  "situation": "У міжнародному садочку батьківські збори. Ви хочете переконати керівництво і інших батьків замінити солодкі перекуси здоровими і більше часу проводити з дітьми на вулиці. Частина батьків вважає, що це зайві клопоти й витрати.",
+  "myRole": "Батько, який пропонує зміну",
+  "tutorRole": "Директорка садочка, що веде збори і озвучує заперечення інших батьків (вартість, організація, «діти не їстимуть»)",
+  "goal": "Чітко сформулювати пропозицію, підкріпити її аргументами, тактовно відповісти на заперечення, запропонувати компроміс і домовитися про пробний період.",
+  "phrases": [
+   "I'd like to raise something that I think matters to all of us.",
+   "There's growing evidence that children who spend more time outdoors…",
+   "I take your point about the cost, but it needn't be expensive.",
+   "What if we tried it for a month and then reviewed it together?",
+   "I'd be more than happy to help organise it.",
+   "Could we perhaps put it to a vote before the end of the meeting?"
+  ],
+  "level": "C1"
  }
 ]

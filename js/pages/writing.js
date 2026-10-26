@@ -5,7 +5,7 @@ import { toast } from '../ui/toast.js';
 import { go } from '../router.js';
 import { setTitle } from '../ui/shell.js';
 import { activityTimer } from '../stats.js';
-import { byFit, levelTag, myLevel } from '../level.js';
+import { byFit, levelTag, myLevel, levelChips, levelCounts, levelPick, filterByLevel, fallbackNote } from '../level.js';
 
 const DRAFT_KEY = (id) => `me:wdraft:${id}`;
 
@@ -15,11 +15,17 @@ export default async function writing(view, r) {
     const t = tasks.find(x => x.id === r.parts[0]);
     if (t) return taskView(view, t);
   }
+  const list = h('div.stack');
+  const draw = () => {
+    const { items, fallback } = filterByLevel(tasks, levelPick('writing'));
+    list.replaceChildren(fallbackNote(fallback), h('div.list', byFit(items).map(t => h('a.list-row', { href: `#/writing/${t.id}` },
+      emo(t.emoji || 'envelope'), h('div.grow', h('div', { style: { fontWeight: 600 } }, t.title), h('div.sub', `${t.kindLabel} · ${t.words} слів`)), levelTag(t.level), ic('caret-right', { size: 18 })))));
+  };
   view.replaceChildren(h('div.stack-lg',
-    h('section.row', h('div.emoji-circle', emo('writing')), h('div.grow', h('h1', { style: { margin: 0 } }, 'Письмо'), h('div.small.dim', `Листи, повідомлення й есе з шаблонами фраз · спершу рівень ${myLevel()}`))),
-    h('div.list', byFit(tasks).map(t => h('a.list-row', { href: `#/writing/${t.id}` },
-      emo(t.emoji || 'envelope'), h('div.grow', h('div', { style: { fontWeight: 600 } }, t.title), h('div.sub', `${t.kindLabel} · ${t.words} слів`)), levelTag(t.level), ic('caret-right', { size: 18 })))),
+    h('section.row', h('div.emoji-circle', emo('writing')), h('div.grow', h('h1', { style: { margin: 0 } }, 'Письмо'), h('div.small.dim', `Листи, повідомлення й есе з шаблонами фраз · ваш рівень ${myLevel()}`))),
+    levelChips('writing', levelCounts(tasks), draw), list,
     h('a.btn.soft.block', { href: '#/tutor?mode=check' }, ic('sparkle', { fill: true }), 'Перевірити довільний текст')));
+  draw();
 }
 
 function taskView(view, t) {

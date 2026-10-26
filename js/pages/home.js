@@ -3,11 +3,11 @@ import { h, ic, emo, ring, fmtMin } from '../ui/dom.js';
 import { S, plural } from '../strings.js';
 import * as store from '../store.js';
 import * as srs from '../srs.js';
-import { allDecks, grammarIndex } from '../data.js';
+import { allDecks, grammarIndex, scenarios as loadScenarios, writingTasks, listening as loadListening, pronunciation as loadPron } from '../data.js';
 import { todaySeconds, streak, week, mistakesByType, lessonsToReview, lessonDone, today, dayKey } from '../stats.js';
 import { speak } from '../speech.js';
 import { toast } from '../ui/toast.js';
-import { myLevel, LEVEL_NAME, nextLessonByLevel, byFit, diff, levelProgress, nextLevel } from '../level.js';
+import { myLevel, LEVEL_NAME, LEVELS, nextLessonByLevel, byFit, diff, levelProgress, nextLevel, setLevel, filterByLevel, pickOfDay } from '../level.js';
 
 export default async function home(view) {
   const st = store.settings();
@@ -62,6 +62,41 @@ export default async function home(view) {
 
   const blocks = [greet, hero];
 
+  // ---- рівень: що зараз вивчаємо і скільки до наступного ----
+  const lvl = myLevel();
+  blocks.push(h('section.card.stack',
+    h('a.row', { href: '#/progress', style: { color: 'inherit', textDecoration: 'none' } },
+      h('div.level-badge', lvl),
+      h('div.grow', h('div', { style: { fontWeight: 600 } }, `Рівень ${lvl} · ${LEVEL_NAME[lvl]}`),
+        h('div.xs.dim', `Уроки ${lp.grammar.done}/${lp.grammar.total} · слова ${lp.words.done}/${lp.words.total}`)),
+      h('span.num.small', `${lp.pct}%`)),
+    h('div.progress', h('i', { style: { width: `${lp.pct}%` } })),
+    lp.ready ? h('div.small', { style: { color: 'var(--accent-ink)', fontWeight: 600 } }, `Ви майже опанували ${lvl} — час переходити на ${nextLevel()}`) : null,
+    // швидка зміна рівня: план, урок дня і завдання нижче одразу перебудовуються
+    h('div.level-pick', LEVELS.map(l => h('button.chip', { type: 'button', 'aria-pressed': String(l === lvl), 'aria-label': `Рівень ${l}`, onclick: () => {
+      if (l === lvl) return;
+      setLevel(l, 'manual'); toast(`Рівень ${l}: завдання оновлено`); home(view);
+    } }, l)))));
+
+  // ---- завдання рівня на сьогодні: змінюються щодня і зі зміною рівня ----
+  const [scen, wtasks, lis, pron] = await Promise.all([loadScenarios(), writingTasks(), loadListening(), loadPron()]);
+  const sc = pickOfDay(filterByLevel(scen.filter(x => x.group !== 'work'), 'mine').items, 'scen');
+  const wt = pickOfDay(filterByLevel(wtasks, 'mine').items, 'writing');
+  const dlgs = filterByLevel(lis.dialogues, 'mine').items;
+  const dl = pickOfDay(dlgs, 'dialogue');
+  const topics = [...new Set(filterByLevel(pron.shadowing, 'mine').items.map(s => s.topic))];
+  const tp = pickOfDay(topics, 'shadow');
+  const task = (icon, kind, title, href) => h('a.list-row', { href }, h('span.tile-ico', emo(icon)), h('div.grow', h('div.xs.dim', kind), h('div', { style: { fontWeight: 600 } }, title)), ic('caret-right', { size: 18 }));
+  const rows = [
+    sc && task('theater', 'Розмова з вчителем', sc.title, `#/scenarios/${sc.id}`),
+    dl && task('headphone', 'Аудіювання', dl.title, `#/listening?tab=dialogues&d=${encodeURIComponent(dl.title)}`),
+    wt && task('writing', 'Письмо', wt.title, `#/writing/${wt.id}`),
+    tp && task('mouth', 'Вимова', tp, `#/pronunciation?topic=${encodeURIComponent(tp)}`),
+  ].filter(Boolean);
+  if (rows.length) blocks.push(h('section.stack', { style: { gap: '8px' } },
+    h('div.row', h('div.section-title.grow', `Завдання рівня ${lvl} на сьогодні`), h('span.xs.dim', 'нові щодня')),
+    h('div.list', rows)));
+
   if (firstRun) {
     blocks.push(h('section.card.accent.hero',
       emo('target', 'xl'),
@@ -70,17 +105,6 @@ export default async function home(view) {
       h('a.btn.primary.block', { href: '#/tests/placement' }, 'Визначити мій рівень'),
       h('button.btn.ghost', { type: 'button', onclick: () => { store.setProf({ placementDone: 'skipped' }); home(view); } }, 'Пропустити')));
   } else {
-    // ---- рівень: що зараз вивчаємо і скільки до наступного ----
-    const lvl = myLevel();
-    blocks.push(h('a.card.stack', { href: '#/progress', style: { color: 'inherit', textDecoration: 'none' } },
-      h('div.row',
-        h('div.level-badge', lvl),
-        h('div.grow', h('div', { style: { fontWeight: 600 } }, `Рівень ${lvl} · ${LEVEL_NAME[lvl]}`),
-          h('div.xs.dim', `Уроки ${lp.grammar.done}/${lp.grammar.total} · слова ${lp.words.done}/${lp.words.total}`)),
-        h('span.num.small', `${lp.pct}%`)),
-      h('div.progress', h('i', { style: { width: `${lp.pct}%` } })),
-      lp.ready ? h('div.small', { style: { color: 'var(--accent-ink)', fontWeight: 600 } }, `Ви майже опанували ${lvl} — час переходити на ${nextLevel()}`) : null));
-
     // ---- стрік і тиждень ----
     const n = streak();
     blocks.push(h('section.card.stack',

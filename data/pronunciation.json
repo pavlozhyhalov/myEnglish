@@ -437,6 +437,390 @@
    "en": "That's the last thing I expected.",
    "uk": "Цього я очікував найменше.",
    "level": "C1"
+  },
+  {
+   "topic": "Магазин і ціни",
+   "en": "How much is this?",
+   "uk": "Скільки це коштує?",
+   "level": "A1"
+  },
+  {
+   "topic": "Магазин і ціни",
+   "en": "That's too expensive.",
+   "uk": "Це занадто дорого.",
+   "level": "A1"
+  },
+  {
+   "topic": "Магазин і ціни",
+   "en": "Can I pay by card?",
+   "uk": "Можна оплатити карткою?",
+   "level": "A1"
+  },
+  {
+   "topic": "Магазин і ціни",
+   "en": "I'd like two apples, please.",
+   "uk": "Мені два яблука, будь ласка.",
+   "level": "A1"
+  },
+  {
+   "topic": "Магазин і ціни",
+   "en": "Do you have a bag?",
+   "uk": "У вас є пакет?",
+   "level": "A1"
+  },
+  {
+   "topic": "Магазин і ціни",
+   "en": "Here you are. Keep the change.",
+   "uk": "Ось, будь ласка. Решти не треба.",
+   "level": "A1"
+  },
+  {
+   "topic": "Щодня",
+   "en": "I get up at seven.",
+   "uk": "Я встаю о сьомій.",
+   "level": "A1"
+  },
+  {
+   "topic": "Щодня",
+   "en": "I have breakfast at home.",
+   "uk": "Я снідаю вдома.",
+   "level": "A1"
+  },
+  {
+   "topic": "Щодня",
+   "en": "I go to work by bus.",
+   "uk": "Я їжджу на роботу автобусом.",
+   "level": "A1"
+  },
+  {
+   "topic": "Щодня",
+   "en": "I'm tired today.",
+   "uk": "Я сьогодні втомився.",
+   "level": "A1"
+  },
+  {
+   "topic": "Щодня",
+   "en": "What time is it?",
+   "uk": "Котра година?",
+   "level": "A1"
+  },
+  {
+   "topic": "Щодня",
+   "en": "I go to bed at eleven.",
+   "uk": "Я лягаю спати об одинадцятій.",
+   "level": "A1"
+  },
+  {
+   "topic": "Ввічливі фрази",
+   "en": "Thank you very much.",
+   "uk": "Дуже дякую.",
+   "level": "A1"
+  },
+  {
+   "topic": "Ввічливі фрази",
+   "en": "You're welcome.",
+   "uk": "Будь ласка (у відповідь на подяку).",
+   "level": "A1"
+  },
+  {
+   "topic": "Ввічливі фрази",
+   "en": "Excuse me, please.",
+   "uk": "Перепрошую.",
+   "level": "A1"
+  },
+  {
+   "topic": "Ввічливі фрази",
+   "en": "I'm sorry, I don't understand.",
+   "uk": "Вибачте, я не розумію.",
+   "level": "A1"
+  },
+  {
+   "topic": "Ввічливі фрази",
+   "en": "Can you speak more slowly, please?",
+   "uk": "Можете говорити повільніше, будь ласка?",
+   "level": "A1"
+  },
+  {
+   "topic": "Ввічливі фрази",
+   "en": "Have a nice day!",
+   "uk": "Гарного дня!",
+   "level": "A1"
+  },
+  {
+   "topic": "Транспорт",
+   "en": "A return ticket to Manchester, please.",
+   "uk": "Квиток туди й назад до Манчестера, будь ласка.",
+   "level": "A2"
+  },
+  {
+   "topic": "Транспорт",
+   "en": "Which platform does it leave from?",
+   "uk": "З якої платформи він відправляється?",
+   "level": "A2"
+  },
+  {
+   "topic": "Транспорт",
+   "en": "Does this bus go to the city centre?",
+   "uk": "Цей автобус їде в центр міста?",
+   "level": "A2"
+  },
+  {
+   "topic": "Транспорт",
+   "en": "Could you tell me when to get off?",
+   "uk": "Можете сказати, коли мені виходити?",
+   "level": "A2"
+  },
+  {
+   "topic": "Транспорт",
+   "en": "The next train is cancelled.",
+   "uk": "Наступний потяг скасовано.",
+   "level": "A2"
+  },
+  {
+   "topic": "Транспорт",
+   "en": "How long does it take to get there?",
+   "uk": "Скільки часу туди їхати?",
+   "level": "A2"
+  },
+  {
+   "topic": "Транспорт",
+   "en": "I missed the last bus home.",
+   "uk": "Я спізнився на останній автобус додому.",
+   "level": "A2"
+  },
+  {
+   "topic": "Транспорт",
+   "en": "Can you drop me off here, please?",
+   "uk": "Можете висадити мене тут, будь ласка?",
+   "level": "A2"
+  },
+  {
+   "topic": "Плани й пропозиції",
+   "en": "Do you fancy going for a walk later?",
+   "uk": "Не хочеш пізніше прогулятися?",
+   "level": "B1"
+  },
+  {
+   "topic": "Плани й пропозиції",
+   "en": "Shall we meet outside the cinema at eight?",
+   "uk": "Зустрінемося біля кінотеатру о восьмій?",
+   "level": "B1"
+  },
+  {
+   "topic": "Плани й пропозиції",
+   "en": "I'm afraid I can't make it on Saturday.",
+   "uk": "На жаль, у суботу я не зможу.",
+   "level": "B1"
+  },
+  {
+   "topic": "Плани й пропозиції",
+   "en": "How about trying that new Thai place?",
+   "uk": "Може, спробуємо той новий тайський ресторан?",
+   "level": "B1"
+  },
+  {
+   "topic": "Плани й пропозиції",
+   "en": "Let's play it by ear and see how we feel.",
+   "uk": "Вирішимо на місці, як буде настрій.",
+   "level": "B1"
+  },
+  {
+   "topic": "Плани й пропозиції",
+   "en": "I was thinking of inviting a few friends round.",
+   "uk": "Я думав запросити кількох друзів у гості.",
+   "level": "B1"
+  },
+  {
+   "topic": "Скарги й прохання",
+   "en": "I'm sorry to bother you, but the music is rather loud.",
+   "uk": "Вибачте, що турбую, але музика досить гучна.",
+   "level": "B2"
+  },
+  {
+   "topic": "Скарги й прохання",
+   "en": "I'd like to speak to the manager, if that's possible.",
+   "uk": "Я хотів би поговорити з менеджером, якщо можна.",
+   "level": "B2"
+  },
+  {
+   "topic": "Скарги й прохання",
+   "en": "I've been waiting for over an hour and nobody's got back to me.",
+   "uk": "Я чекаю вже понад годину, і ніхто мені не відповів.",
+   "level": "B2"
+  },
+  {
+   "topic": "Скарги й прохання",
+   "en": "Would you mind keeping the noise down after ten?",
+   "uk": "Чи не могли б ви не шуміти після десятої?",
+   "level": "B2"
+  },
+  {
+   "topic": "Скарги й прохання",
+   "en": "This isn't what I ordered, I'm afraid.",
+   "uk": "Боюся, це не те, що я замовляв.",
+   "level": "B2"
+  },
+  {
+   "topic": "Скарги й прохання",
+   "en": "I was wondering if you could give me a refund.",
+   "uk": "Чи не могли б ви повернути мені гроші?",
+   "level": "B2"
+  },
+  {
+   "topic": "Скарги й прохання",
+   "en": "I'd appreciate it if you could sort this out today.",
+   "uk": "Буду вдячний, якщо ви владнаєте це сьогодні.",
+   "level": "B2"
+  },
+  {
+   "topic": "Розповідь історії",
+   "en": "You'll never guess what happened to me yesterday.",
+   "uk": "Ти не повіриш, що зі мною вчора сталося.",
+   "level": "B2"
+  },
+  {
+   "topic": "Розповідь історії",
+   "en": "So there I was, standing in the pouring rain.",
+   "uk": "І ось я стою під зливою.",
+   "level": "B2"
+  },
+  {
+   "topic": "Розповідь історії",
+   "en": "All of a sudden, the lights went out.",
+   "uk": "Раптом згасло світло.",
+   "level": "B2"
+  },
+  {
+   "topic": "Розповідь історії",
+   "en": "At first I thought it was a joke.",
+   "uk": "Спочатку я подумав, що це жарт.",
+   "level": "B2"
+  },
+  {
+   "topic": "Розповідь історії",
+   "en": "To cut a long story short, we missed the flight.",
+   "uk": "Коротше кажучи, ми спізнилися на рейс.",
+   "level": "B2"
+  },
+  {
+   "topic": "Розповідь історії",
+   "en": "It turned out he'd been there the whole time.",
+   "uk": "Виявилося, що він увесь час був там.",
+   "level": "B2"
+  },
+  {
+   "topic": "Розповідь історії",
+   "en": "Looking back, it was actually quite funny.",
+   "uk": "Озираючись назад, це було навіть кумедно.",
+   "level": "B2"
+  },
+  {
+   "topic": "Тактовна незгода",
+   "en": "I take your point, but I'm not entirely convinced.",
+   "uk": "Я розумію вашу думку, але не зовсім переконаний.",
+   "level": "C1"
+  },
+  {
+   "topic": "Тактовна незгода",
+   "en": "I see where you're coming from, though I'd put it slightly differently.",
+   "uk": "Я розумію, звідки у вас така думка, хоча я сформулював би трохи інакше.",
+   "level": "C1"
+  },
+  {
+   "topic": "Тактовна незгода",
+   "en": "With all due respect, I think that's a bit of an oversimplification.",
+   "uk": "При всій повазі, мені здається, це дещо спрощено.",
+   "level": "C1"
+  },
+  {
+   "topic": "Тактовна незгода",
+   "en": "That's one way of looking at it, but have you considered the cost?",
+   "uk": "Можна й так подивитися, але ви врахували вартість?",
+   "level": "C1"
+  },
+  {
+   "topic": "Тактовна незгода",
+   "en": "I'm not sure I'd go quite that far.",
+   "uk": "Не певен, що я зайшов би аж так далеко.",
+   "level": "C1"
+  },
+  {
+   "topic": "Тактовна незгода",
+   "en": "Correct me if I'm wrong, but didn't we agree on something else?",
+   "uk": "Виправте мене, якщо помиляюся, але хіба ми не домовлялися про інше?",
+   "level": "C1"
+  },
+  {
+   "topic": "Риторика й наголос",
+   "en": "It's not what you say — it's how you say it.",
+   "uk": "Важливо не що ти кажеш, а як ти це кажеш.",
+   "level": "C1"
+  },
+  {
+   "topic": "Риторика й наголос",
+   "en": "The question isn't whether we can, but whether we should.",
+   "uk": "Питання не в тому, чи можемо ми, а в тому, чи слід.",
+   "level": "C1"
+  },
+  {
+   "topic": "Риторика й наголос",
+   "en": "Not once, not twice, but three times in a single week.",
+   "uk": "Не раз, не двічі, а тричі за один тиждень.",
+   "level": "C1"
+  },
+  {
+   "topic": "Риторика й наголос",
+   "en": "I didn't just like it — I absolutely loved it.",
+   "uk": "Мені не просто сподобалося — я в повному захваті.",
+   "level": "C1"
+  },
+  {
+   "topic": "Риторика й наголос",
+   "en": "If anything, things have got worse, not better.",
+   "uk": "Якщо вже на те пішло, стало гірше, а не краще.",
+   "level": "C1"
+  },
+  {
+   "topic": "Риторика й наголос",
+   "en": "What really matters, in the end, is how we treat each other.",
+   "uk": "Що справді важить зрешто — це те, як ми ставимося одне до одного.",
+   "level": "C1"
+  },
+  {
+   "topic": "Складні звукосполучення",
+   "en": "The thirty-three thieves thought they'd thrilled the throne.",
+   "uk": "Тридцять три злодії думали, що потішили трон.",
+   "level": "C1"
+  },
+  {
+   "topic": "Складні звукосполучення",
+   "en": "Red lorry, yellow lorry, rolling round the roundabout.",
+   "uk": "Червона вантажівка, жовта вантажівка котяться по кільцю.",
+   "level": "C1"
+  },
+  {
+   "topic": "Складні звукосполучення",
+   "en": "Which witch was worried about the weather on Wednesday?",
+   "uk": "Котра відьма хвилювалася через погоду в середу?",
+   "level": "C1"
+  },
+  {
+   "topic": "Складні звукосполучення",
+   "en": "She sells sixth-form textbooks and sixty-six crisps.",
+   "uk": "Вона продає підручники для старших класів і шістдесят шість пачок чипсів.",
+   "level": "C1"
+  },
+  {
+   "topic": "Складні звукосполучення",
+   "en": "The months' strengths are clearly explained in these texts.",
+   "uk": "Сильні сторони кожного місяця чітко пояснено в цих текстах.",
+   "level": "C1"
+  },
+  {
+   "topic": "Складні звукосполучення",
+   "en": "Rory's rural world was rarely really worthwhile.",
+   "uk": "Сільський світ Рорі рідко був справді вартим уваги.",
+   "level": "C1"
   }
  ],
  "pairs": [

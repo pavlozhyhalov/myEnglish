@@ -674,5 +674,621 @@
   ],
   "sample": "Night Trams in Kraków: A Resident's Report\n\nIntroduction\nThe aim of this report is to assess the night tram service introduced last spring. It is based on my own experience and on conversations with neighbours and friends who use it regularly.\n\nWhat has changed\nPreviously, public transport stopped shortly before midnight, leaving taxis as the only option. Four tram lines now run every thirty minutes until 4 am at weekends.\n\nWhat has worked well\nOn the positive side, the service has made the city centre far more accessible in the evenings. It has proved particularly popular with students and hospitality staff, many of whom finish work late and previously spent a considerable part of their wages on taxis. The trams are clean, and the presence of security staff has made passengers feel noticeably safer.\n\nWhat has not\nHowever, a number of issues remain. The service does not yet reach several large residential districts, so many residents still face a long walk home. In addition, timetable information at stops is often out of date, which causes unnecessary frustration.\n\nRecommendations\nIn light of the above, I would recommend extending at least one line to the outer districts and introducing live departure boards at the busiest stops. It would also be advisable to run the service on Thursday nights.\n\nConclusion\nOverall, the scheme has been a success, although it will only reach its full potential once these gaps are addressed.",
   "level": "C1"
+ },
+ {
+  "id": "text-friend",
+  "kind": "teams",
+  "kindLabel": "Повідомлення · друг",
+  "emoji": "phone",
+  "title": "Коротке повідомлення другу",
+  "task": "Напишіть другові коротке повідомлення: як у вас справи, що ви робите цього тижня, і запропонуйте зустрітися на каву.",
+  "context": "",
+  "words": "25–50",
+  "phrases": [
+   {
+    "group": "Привітання",
+    "items": [
+     "Hi Mark!",
+     "How are you?",
+     "I'm fine, thanks."
+    ]
+   },
+   {
+    "group": "Новини",
+    "items": [
+     "I'm very busy this week.",
+     "I have English lessons on Monday and Wednesday.",
+     "Vita is well too."
+    ]
+   },
+   {
+    "group": "Пропозиція",
+    "items": [
+     "Are you free on Friday?",
+     "Let's have a coffee.",
+     "What about 5 o'clock?"
+    ]
+   },
+   {
+    "group": "Завершення",
+    "items": [
+     "See you soon!",
+     "Bye!"
+    ]
+   }
+  ],
+  "sample": "Hi Mark!\n\nHow are you? I'm fine, thanks. I'm very busy this week. I have English lessons on Monday and Wednesday. Vita is well too. Are you free on Friday? Let's have a coffee in the city centre. What about 5 o'clock?\n\nSee you soon!\nPavlo",
+  "level": "A1"
+ },
+ {
+  "id": "my-flat",
+  "kind": "other",
+  "kindLabel": "Опис · дім",
+  "emoji": "house",
+  "title": "Моя квартира",
+  "task": "Опишіть свою квартиру: де вона, скільки в ній кімнат, що є в кімнатах і що вам подобається найбільше.",
+  "context": "",
+  "words": "30–50",
+  "phrases": [
+   {
+    "group": "Де",
+    "items": [
+     "Our flat is in…",
+     "It is near a park.",
+     "It is on the third floor."
+    ]
+   },
+   {
+    "group": "Кімнати",
+    "items": [
+     "There are two rooms.",
+     "There is a small kitchen.",
+     "The living room has a sofa and a TV."
+    ]
+   },
+   {
+    "group": "Що подобається",
+    "items": [
+     "I like the balcony best.",
+     "It is very sunny.",
+     "It is small, but it is nice."
+    ]
+   }
+  ],
+  "sample": "Our flat is in Kraków, near a big park. It is small, but it is nice. There are two rooms, a kitchen and a bathroom. The living room has a sofa, a TV and a lot of plants. I like the balcony best, because it is very sunny.",
+  "level": "A1"
+ },
+ {
+  "id": "shopping-note",
+  "kind": "other",
+  "kindLabel": "Записка · покупки",
+  "emoji": "shop",
+  "title": "Записка зі списком покупок",
+  "task": "Напишіть дружині записку: ви сьогодні працюєте допізна. Попросіть купити кілька продуктів (напишіть список) і скажіть, коли будете вдома.",
+  "context": "",
+  "words": "25–45",
+  "phrases": [
+   {
+    "group": "Початок",
+    "items": [
+     "Hi Vita,",
+     "I'm at work until 7 today.",
+     "Can you go to the shop, please?"
+    ]
+   },
+   {
+    "group": "Список",
+    "items": [
+     "We need:",
+     "a loaf of bread",
+     "a bottle of milk",
+     "six eggs",
+     "some cheese"
+    ]
+   },
+   {
+    "group": "Завершення",
+    "items": [
+     "The money is on the table.",
+     "I'll be home at 8.",
+     "Thank you!",
+     "Love,"
+    ]
+   }
+  ],
+  "sample": "Hi Vita,\n\nI'm at work until 7 today. Can you go to the shop, please? We need:\nbread\nmilk\nsix eggs\ntomatoes\nsome cheese\n\nThe money is on the table. I'll be home at 8. Thank you!\n\nLove,\nPavlo",
+  "level": "A1"
+ },
+ {
+  "id": "my-weekend",
+  "kind": "other",
+  "kindLabel": "Розповідь",
+  "emoji": "calendar",
+  "title": "Мої вихідні",
+  "task": "Напишіть, що ви зазвичай робите на вихідних: коли встаєте, куди ходите, з ким і що вам подобається найбільше.",
+  "context": "",
+  "words": "30–50",
+  "phrases": [
+   {
+    "group": "Субота",
+    "items": [
+     "At the weekend I get up late.",
+     "On Saturday morning we go to the market.",
+     "In the afternoon we walk in the park."
+    ]
+   },
+   {
+    "group": "Неділя",
+    "items": [
+     "On Sunday I cook lunch.",
+     "In the evening we watch a film.",
+     "Sometimes we visit friends."
+    ]
+   },
+   {
+    "group": "Враження",
+    "items": [
+     "I love weekends!",
+     "It's my favourite day.",
+     "I don't work at the weekend."
+    ]
+   }
+  ],
+  "sample": "At the weekend I get up late, at about nine. On Saturday morning Vita and I go to the market and buy fruit and vegetables. In the afternoon we walk in the park or visit friends. On Sunday I cook lunch and we watch a film. I love weekends!",
+  "level": "A1"
+ },
+ {
+  "id": "hotel-enquiry",
+  "kind": "email",
+  "kindLabel": "Лист · запит",
+  "emoji": "key",
+  "title": "Питання до готелю: сніданок і паркування",
+  "task": "Ви з дружиною забронювали готель у Гданську на три ночі й їдете автомобілем. Напишіть у готель: запитайте, чи входить сніданок у ціну і о котрій він, чи є парковка і скільки вона коштує, і чи можна заселитися пізно ввечері.",
+  "context": "",
+  "words": "50–90",
+  "phrases": [
+   {
+    "group": "Початок",
+    "items": [
+     "Dear Sir or Madam,",
+     "We have a booking at your hotel from … to ….",
+     "I'm writing to ask a few questions."
+    ]
+   },
+   {
+    "group": "Питання",
+    "items": [
+     "Is breakfast included in the price?",
+     "What time is breakfast served?",
+     "Do you have a car park?",
+     "How much does parking cost per night?",
+     "Is it possible to check in late?"
+    ]
+   },
+   {
+    "group": "Завершення",
+    "items": [
+     "Thank you for your help.",
+     "I look forward to your reply.",
+     "Best regards,"
+    ]
+   }
+  ],
+  "sample": "Dear Sir or Madam,\n\nMy wife and I have a booking at your hotel from 14 to 17 July. I'm writing to ask a few questions. Is breakfast included in the price, and what time is it served? We are coming by car, so could you tell me if you have a car park and how much it costs per night? Also, we will arrive quite late, at about 11 pm. Is it possible to check in then?\n\nThank you for your help.\n\nBest regards,\nPavlo",
+  "level": "A2"
+ },
+ {
+  "id": "birthday-invite",
+  "kind": "other",
+  "kindLabel": "Запрошення",
+  "emoji": "party",
+  "title": "Запрошення на день народження",
+  "task": "Напишіть друзям запрошення на свій день народження: коли і де вечірка, що буде (їжа, музика), що взяти з собою і до якого дня відповісти.",
+  "context": "",
+  "words": "50–90",
+  "phrases": [
+   {
+    "group": "Привітання",
+    "items": [
+     "Hi everyone!",
+     "Dear friends,",
+     "I'd love to celebrate with you!"
+    ]
+   },
+   {
+    "group": "Коли і де",
+    "items": [
+     "The party is on Saturday, 12 June, at 7 pm.",
+     "It's at our flat.",
+     "Here is the address: …"
+    ]
+   },
+   {
+    "group": "Що буде",
+    "items": [
+     "There will be food, music and games.",
+     "Vita is making her famous Ukrainian dishes.",
+     "You don't need to bring anything."
+    ]
+   },
+   {
+    "group": "Завершення",
+    "items": [
+     "Please let me know by Wednesday if you can come.",
+     "See you there!",
+     "Hope you can make it!"
+    ]
+   }
+  ],
+  "sample": "Hi everyone!\n\nMy birthday is next month, and I'd love to celebrate with you! The party is on Saturday, 12 June, at 7 pm at our flat (15 Długa Street, flat 12). Vita is making her famous Ukrainian dishes, and there will be music and games. You don't need to bring anything — just come and have fun! Please let me know by Wednesday if you can come.\n\nSee you there!\nPavlo",
+  "level": "A2"
+ },
+ {
+  "id": "product-review",
+  "kind": "other",
+  "kindLabel": "Відгук · товар",
+  "emoji": "star",
+  "title": "Відгук про покупку",
+  "task": "Напишіть короткий відгук на сайті магазину про річ, яку ви нещодавно купили (наприклад, кавоварку або навушники): що купили, що подобається, що ні, і чи радите іншим.",
+  "context": "",
+  "words": "50–90",
+  "phrases": [
+   {
+    "group": "Що купили",
+    "items": [
+     "I bought this … a month ago.",
+     "I use it every day.",
+     "It was quite cheap."
+    ]
+   },
+   {
+    "group": "Плюси",
+    "items": [
+     "It's easy to use.",
+     "The coffee tastes great.",
+     "It looks nice in our kitchen."
+    ]
+   },
+   {
+    "group": "Мінуси",
+    "items": [
+     "The only problem is that…",
+     "It's a bit noisy.",
+     "It's not easy to clean."
+    ]
+   },
+   {
+    "group": "Висновок",
+    "items": [
+     "I would recommend it.",
+     "It's good value for money.",
+     "Four stars out of five."
+    ]
+   }
+  ],
+  "sample": "I bought this coffee machine a month ago, and I use it every day. It's very easy to use, and the coffee tastes great — my wife loves the cappuccino. It also looks nice in our kitchen. The only problem is that it's a bit noisy in the morning, and it's not easy to clean. But for this price, it's good value for money. I would recommend it. Four stars out of five.",
+  "level": "A2"
+ },
+ {
+  "id": "trip-story",
+  "kind": "other",
+  "kindLabel": "Розповідь · історія",
+  "emoji": "plane",
+  "title": "Незабутня подорож",
+  "task": "Розкажіть історію подорожі, яка вам запам'яталася: куди і з ким ви їздили, що сталося (можливо, щось несподіване), що ви відчували і чому ця подорож для вас особлива.",
+  "context": "",
+  "words": "90–140",
+  "phrases": [
+   {
+    "group": "Початок",
+    "items": [
+     "A few years ago, my wife and I went to…",
+     "It was our first trip abroad together.",
+     "We had planned everything carefully."
+    ]
+   },
+   {
+    "group": "Що сталося",
+    "items": [
+     "While we were walking…, it started to rain.",
+     "Suddenly, we realised that…",
+     "Luckily, a local man helped us."
+    ]
+   },
+   {
+    "group": "Почуття",
+    "items": [
+     "At first we were worried, but…",
+     "I'll never forget…",
+     "It was one of the best days of my life."
+    ]
+   },
+   {
+    "group": "Завершення",
+    "items": [
+     "Looking back, …",
+     "That trip taught me that…",
+     "We still laugh about it."
+    ]
+   }
+  ],
+  "sample": "Three years ago, Vita and I went to the mountains in Georgia. It was our first big trip together, and we had planned everything carefully. On the third day, we decided to walk to a small village. While we were walking, it started to rain heavily, and suddenly we realised that we were lost. Our phones had no signal. At first we were really worried, but then an old shepherd appeared and invited us to his house. His wife gave us hot tea and fresh bread, and we spent the evening laughing and talking with our hands. Looking back, that trip taught me that the best moments are often the ones you don't plan. We still laugh about it.",
+  "level": "B1"
+ },
+ {
+  "id": "delivery-complaint",
+  "kind": "email",
+  "kindLabel": "Лист · скарга",
+  "emoji": "package",
+  "title": "Офіційна скарга до служби доставки",
+  "task": "Кур'єр привіз посилку на чотири дні пізніше, ніж обіцяли, і залишив її біля дверей під дощем, не подзвонивши. Коробку пошкоджено, настільна лампа всередині розбита. Напишіть офіційну скаргу: опишіть, що сталося, поясніть наслідки і чітко вимагайте компенсації.",
+  "context": "",
+  "words": "140–200",
+  "phrases": [
+   {
+    "group": "Вступ",
+    "items": [
+     "I am writing to complain about the delivery of my parcel (tracking number …).",
+     "I am writing to express my dissatisfaction with…"
+    ]
+   },
+   {
+    "group": "Що сталося",
+    "items": [
+     "The parcel was due to arrive on…, but it was not delivered until…",
+     "Despite my clear instructions, the courier…",
+     "As a result, the contents were damaged beyond repair."
+    ]
+   },
+   {
+    "group": "Вимога",
+    "items": [
+     "I would therefore like a full refund of…",
+     "I expect to receive a reply within 14 days.",
+     "I have attached photos of the damage."
+    ]
+   },
+   {
+    "group": "Завершення",
+    "items": [
+     "If the matter is not resolved, I will have no choice but to…",
+     "I look forward to hearing from you.",
+     "Yours faithfully,"
+    ]
+   }
+  ],
+  "sample": "Dear Sir or Madam,\n\nI am writing to complain about the delivery of my parcel (tracking number PL4829105). The parcel was due to arrive on 3 March, but it was not delivered until 7 March, despite several messages from your company confirming the original date.\n\nWhat is more, the courier did not ring the bell or call me, even though I was at home all day. Instead, he left the parcel outside the building in the rain. By the time I found it, the box was soaked and torn, and the lamp inside was broken beyond repair. I have attached photos of the damage and a copy of the receipt.\n\nI would therefore like a full refund of the lamp (249 zł) and the delivery fee (19 zł). I would also appreciate an explanation of why your courier ignored the delivery instructions.\n\nI expect to receive a reply within 14 days. If the matter is not resolved, I will have no choice but to take it further with the consumer protection office.\n\nYours faithfully,\nPavlo",
+  "level": "B2"
+ },
+ {
+  "id": "essay-social-media",
+  "kind": "other",
+  "kindLabel": "Есе · думка",
+  "emoji": "brain",
+  "title": "Есе: соцмережі для дітей",
+  "task": "Напишіть есе-думку: чи варто дозволяти дітям до 13 років користуватися соцмережами? Наведіть аргументи за і проти, підтримайте їх прикладами і сформулюйте власну позицію.",
+  "context": "",
+  "words": "140–200",
+  "phrases": [
+   {
+    "group": "Вступ",
+    "items": [
+     "Nowadays, more and more children…",
+     "This raises the question of whether…",
+     "In my view, …"
+    ]
+   },
+   {
+    "group": "Аргументи",
+    "items": [
+     "On the one hand, …",
+     "On the other hand, …",
+     "For example, …",
+     "What is more, …"
+    ]
+   },
+   {
+    "group": "Контраргумент",
+    "items": [
+     "Some people argue that…",
+     "While this may be true, …",
+     "However, this does not mean that…"
+    ]
+   },
+   {
+    "group": "Висновок",
+    "items": [
+     "To sum up, …",
+     "All in all, I believe that…",
+     "The key is…"
+    ]
+   }
+  ],
+  "sample": "Nowadays, more and more children own a smartphone before they turn ten. This raises the question of whether they should be allowed to use social media at such a young age. In my view, it is better for them to wait.\n\nOn the one hand, social media can help children stay in touch with friends and discover new interests. For example, a shy child might find others who love the same music or games. What is more, parents sometimes argue that banning these apps only makes children want them more.\n\nOn the other hand, the risks are serious. Young children are not yet able to deal with online bullying, unrealistic images or contact with strangers. Many apps are also designed to be addictive, which can affect sleep, concentration and even self-esteem.\n\nWhile it may be true that children will meet social media sooner or later, this does not mean they need to start at eight or nine. To sum up, I believe children under thirteen should wait, and parents should introduce social media gradually and with clear rules.",
+  "level": "B2"
+ },
+ {
+  "id": "recommendation-letter",
+  "kind": "email",
+  "kindLabel": "Лист · рекомендація",
+  "emoji": "handshake",
+  "title": "Рекомендаційний лист для друга",
+  "task": "Ваш друг Тарас хоче орендувати квартиру, і власник просить рекомендацію від людини, яка його добре знає. Напишіть лист: як давно і звідки ви знаєте Тараса, які в нього якості, наведіть конкретні приклади і чітко порекомендуйте його.",
+  "context": "",
+  "words": "140–200",
+  "phrases": [
+   {
+    "group": "Вступ",
+    "items": [
+     "I am writing to recommend…",
+     "I have known … for over … years.",
+     "We first met when…"
+    ]
+   },
+   {
+    "group": "Якості",
+    "items": [
+     "He is extremely reliable and responsible.",
+     "He always keeps his promises.",
+     "He gets on well with people."
+    ]
+   },
+   {
+    "group": "Приклади",
+    "items": [
+     "For instance, when…, he…",
+     "I remember one occasion when…",
+     "This shows that…"
+    ]
+   },
+   {
+    "group": "Завершення",
+    "items": [
+     "I have no hesitation in recommending him.",
+     "I am confident that he would be an excellent tenant.",
+     "Please do not hesitate to contact me if you need any further information."
+    ]
+   }
+  ],
+  "sample": "Dear Ms Nowak,\n\nI am writing to recommend Taras Melnyk as a tenant for your flat. I have known Taras for over eight years. We first met at university in Lviv, and since moving to Kraków we have remained close friends.\n\nTaras is one of the most reliable and responsible people I know. He always pays his bills on time and keeps his promises, however small. For instance, when my wife and I were away for a month last summer, Taras looked after our flat. He watered the plants, checked the post and even fixed a dripping tap without being asked.\n\nHe is also quiet, tidy and considerate. He gets on well with everyone in his current building, and his neighbours often ask him for help. In addition, he has a stable job as an accountant, so I have no doubt that he can afford the rent.\n\nI have no hesitation in recommending him, and I am confident that he would be an excellent tenant. Please do not hesitate to contact me if you need any further information.\n\nKind regards,\nPavlo",
+  "level": "B2"
+ },
+ {
+  "id": "city-article",
+  "kind": "other",
+  "kindLabel": "Стаття · журнал",
+  "emoji": "city",
+  "title": "Стаття для журналу: життя в місті",
+  "task": "Англомовний журнал для іноземців у вашому місті шукає статті «Життя тут очима новоприбулого». Напишіть статтю: що вас здивувало, що подобається і що дратує, дайте практичні поради новачкам. Придумайте помітний заголовок і звертайтеся до читача напряму.",
+  "context": "",
+  "words": "200–280",
+  "phrases": [
+   {
+    "group": "Заголовок і вступ",
+    "items": [
+     "Ever wondered what it's really like to…?",
+     "When I first arrived in…, I had no idea that…",
+     "Three years on, …"
+    ]
+   },
+   {
+    "group": "Враження",
+    "items": [
+     "What struck me most was…",
+     "Much as I love…, I can't help being irritated by…",
+     "It took me a while to get used to…"
+    ]
+   },
+   {
+    "group": "Поради",
+    "items": [
+     "If I could give newcomers one piece of advice, it would be…",
+     "Don't be put off by…",
+     "It's well worth…"
+    ]
+   },
+   {
+    "group": "Завершення",
+    "items": [
+     "All in all, …",
+     "Give it time, and…",
+     "You might just find that…"
+    ]
+   }
+  ],
+  "sample": "Kraków: A City That Grows on You\n\nWhen I first arrived in Kraków with my wife three years ago, I expected to stay for a year at most. Three years on, we're still here — and, to our own surprise, we're thinking of raising a family here.\n\nWhat struck me most at the beginning was how compact the city is. You can cross the Old Town on foot in fifteen minutes, yet every street seems to hide a courtyard café, a bookshop or a tiny gallery. Locals may seem reserved at first, but once you've been invited to someone's name-day party, you'll realise how warm they really are.\n\nMuch as I love the city, I can't help being irritated by a few things. The smog in winter can be genuinely unpleasant, and the trams, while cheap, are packed at rush hour. Paperwork is another story altogether: be prepared to visit the same office more than once.\n\nIf I could give newcomers one piece of advice, it would be to learn at least some Polish. Even a few clumsy phrases will open doors that English alone cannot. It's also well worth getting out of the centre: Kazimierz and Podgórze have a character of their own, and the lake at Zakrzówek is perfect on a hot summer day. Don't be put off by the grey November weather either — that's exactly when the cafés feel cosiest.\n\nAll in all, Kraków rewards patience. Give it time, and you might just find that it stops feeling like a stopover and starts feeling like home.",
+  "level": "C1"
+ },
+ {
+  "id": "community-proposal",
+  "kind": "other",
+  "kindLabel": "Пропозиція · громада",
+  "emoji": "seedling",
+  "title": "Пропозиція: оновити двір будинку",
+  "task": "Двір вашого будинку занедбаний: старий дитячий майданчик, немає лавок, скрізь машини. Напишіть пропозицію для спільноти мешканців: опишіть поточну ситуацію, запропонуйте конкретні зміни, оцініть вартість і переваги, передбачте можливі заперечення і запропонуйте наступні кроки.",
+  "context": "",
+  "words": "200–280",
+  "phrases": [
+   {
+    "group": "Вступ",
+    "items": [
+     "The purpose of this proposal is to…",
+     "At present, the courtyard is…",
+     "Many residents have expressed concern about…"
+    ]
+   },
+   {
+    "group": "Пропозиції",
+    "items": [
+     "I would propose the following changes:",
+     "Firstly, … Secondly, …",
+     "This would not only…, but also…"
+    ]
+   },
+   {
+    "group": "Вартість і заперечення",
+    "items": [
+     "The estimated cost would be…",
+     "This could be partly funded by…",
+     "It could be argued that…; however, …"
+    ]
+   },
+   {
+    "group": "Наступні кроки",
+    "items": [
+     "I would therefore suggest that…",
+     "As a first step, …",
+     "I would be happy to coordinate…"
+    ]
+   }
+  ],
+  "sample": "Proposal: Bringing Our Courtyard Back to Life\n\nIntroduction\nThe purpose of this proposal is to suggest how the courtyard behind our building could be turned into a pleasant shared space. At present, it is used mainly as an informal car park. The playground equipment is rusty and, in places, unsafe, and there is nowhere to sit. Many residents, particularly families and older neighbours, have expressed concern about this.\n\nProposed changes\nFirstly, I would propose limiting parking to the marked spaces along the wall, which would free up the central area. Secondly, the old climbing frame should be replaced with a small, certified play area on a safe rubber surface. Finally, we could add four benches, two bike racks and a few raised flower beds that residents could look after together. This would not only make the courtyard safer, but also give neighbours a reason to meet and get to know each other.\n\nCost and possible objections\nThe estimated cost is around 45,000 zł. This could be partly funded by the city's participatory budget, with the remainder covered by our renovation fund over two years. It could be argued that drivers would lose convenient spaces; however, only three cars currently park outside the marked bays, and there are free spaces in the street nearby.\n\nNext steps\nI would therefore suggest that the proposal be put to a vote at the next residents' meeting. As a first step, I would be happy to collect quotes from contractors and prepare a simple plan.",
+  "level": "C1"
+ },
+ {
+  "id": "critical-review",
+  "kind": "other",
+  "kindLabel": "Рецензія",
+  "emoji": "book",
+  "title": "Критична рецензія на книгу або фільм",
+  "task": "Напишіть для англомовного блогу рецензію на книгу або фільм, які ви нещодавно прочитали чи подивилися. Коротко представте твір без спойлерів, проаналізуйте сильні та слабкі сторони (сюжет, персонажі, стиль), обґрунтуйте свою оцінку і скажіть, кому його радите.",
+  "context": "",
+  "words": "200–280",
+  "phrases": [
+   {
+    "group": "Вступ",
+    "items": [
+     "… is the latest novel by…",
+     "Set in…, the story follows…",
+     "Without giving too much away, …"
+    ]
+   },
+   {
+    "group": "Сильні сторони",
+    "items": [
+     "What makes the book stand out is…",
+     "The author handles … with remarkable subtlety.",
+     "It is a deeply moving portrayal of…"
+    ]
+   },
+   {
+    "group": "Слабкі сторони",
+    "items": [
+     "That said, the pace occasionally drags.",
+     "Some readers may find … frustrating.",
+     "My only real reservation is…"
+    ]
+   },
+   {
+    "group": "Вердикт",
+    "items": [
+     "On balance, …",
+     "I would wholeheartedly recommend it to anyone who…",
+     "Four stars out of five."
+    ]
+   }
+  ],
+  "sample": "Klara and the Sun by Kazuo Ishiguro\n\nKazuo Ishiguro's Klara and the Sun is narrated by Klara, an \"Artificial Friend\" — a solar-powered robot bought as a companion for Josie, a lonely and often unwell teenager. Without giving too much away, the novel follows Klara as she tries to understand the family she has joined and to protect the girl she has come to care for.\n\nWhat makes the book stand out is its narrator. Klara observes the world with a mixture of precision and innocence, and Ishiguro handles this limited point of view with remarkable subtlety. We often understand more than she does, which makes her loyalty all the more heartbreaking. Her almost religious faith in the Sun, which she believes can heal, is one of the most original ideas I have come across in recent fiction. At its heart, the novel is a quiet but deeply moving reflection on love, loneliness and what makes a person irreplaceable.\n\nThat said, the pace occasionally drags, particularly in the first third, where Klara's careful descriptions of the shop can feel repetitive. Some readers may also find the world-building frustratingly vague: key elements of this future society are hinted at but never fully explained. My only real reservation, however, is that the ending, though beautiful, feels slightly rushed.\n\nOn balance, this is a thoughtful, elegant and memorable novel rather than a gripping one. I would wholeheartedly recommend it to anyone who enjoys slow, reflective fiction and is willing to read between the lines. Four stars out of five.",
+  "level": "C1"
  }
 ]

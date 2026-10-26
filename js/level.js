@@ -44,6 +44,54 @@ export function levelTag(l) {
   return h('span.tag' + (d === 0 ? '.accent' : ''), { title: LEVEL_NAME[l], style: d > 1 ? { opacity: 0.6 } : null }, l);
 }
 
+// ---------- Фільтр за рівнем на сторінках завдань ----------
+// Вибір пам'ятається для кожної сторінки до перезавантаження; за замовчуванням — «мій рівень»,
+// тож зміна рівня в налаштуваннях одразу змінює завдання на всіх сторінках.
+const picked = new Map();
+export function levelPick(page) { return picked.get(page) || 'mine'; }
+
+/** Елементи вибраного рівня; якщо для мого рівня нічого немає — найближчі (з позначкою fallback) */
+export function filterByLevel(list, sel, get = (x) => x.level) {
+  if (sel === 'all') return { items: byFit(list, get), fallback: false };
+  const l = sel === 'mine' ? myLevel() : sel;
+  const items = list.filter(x => get(x) === l);
+  if (items.length || sel !== 'mine') return { items, fallback: false };
+  const near = byFit(list, get);
+  const lv = near.length ? get(near[0]) : null;
+  return { items: near.filter(x => get(x) === lv), fallback: lv };
+}
+
+/**
+ * Рядок чипів «Мій (B1) · A1 · A2 · B1 · B2 · C1 · Усі» з лічильниками.
+ * counts — { A1: n, … } (рівні без завдань приховані); onPick(sel) — перемалювати список.
+ */
+export function levelChips(page, counts, onPick) {
+  const wrap = h('div.chips.scroll.level-chips', { role: 'group', 'aria-label': 'Рівень завдань' });
+  const opts = [['mine', `Мій · ${myLevel()}`], ...LEVELS.filter(l => counts[l]).map(l => [l, `${l} · ${counts[l]}`]), ['all', 'Усі']];
+  const draw = () => wrap.replaceChildren(...opts.map(([v, t]) => h('button.chip', { type: 'button', 'aria-pressed': String(levelPick(page) === v), onclick: () => { picked.set(page, v); draw(); onPick(v); } }, t)));
+  draw();
+  return wrap;
+}
+export function levelCounts(list, get = (x) => x.level) {
+  const c = {};
+  for (const x of list) { const l = get(x); if (l) c[l] = (c[l] || 0) + 1; }
+  return c;
+}
+/** Підпис під списком, коли для мого рівня немає завдань і показано найближчий рівень */
+export function fallbackNote(lv) {
+  // порожній рядок, а не null: replaceChildren(null) вставив би текст «null»
+  return lv ? h('p.xs.dim', { style: { margin: '0 2px' } }, `Для рівня ${myLevel()} тут ще немає завдань — показано найближчий рівень ${lv}.`) : '';
+}
+
+/** Детермінований вибір «на сьогодні»: той самий день і рівень → той самий елемент */
+export function pickOfDay(list, salt = '') {
+  if (!list.length) return null;
+  const d = new Date();
+  const key = `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}|${myLevel()}|${salt}`;
+  let hsh = 0; for (const ch of key) hsh = (hsh * 31 + ch.charCodeAt(0)) >>> 0;
+  return list[hsh % list.length];
+}
+
 const lessonDone = (id) => !!store.get('lessons_progress', id)?.completed_at;
 
 /** Наступний урок за рівнем: непройдений свого рівня → прогалини нижче → наступний рівень → будь-який */

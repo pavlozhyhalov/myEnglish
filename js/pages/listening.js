@@ -9,12 +9,15 @@ import { activityTimer, addMistake } from '../stats.js';
 import { tutor, aiErrorText } from '../ai.js';
 import { user } from '../supa.js';
 import { toast } from '../ui/toast.js';
-import { LEVELS, myLevel, byFit, levelTag, rank } from '../level.js';
+import { LEVELS, myLevel, byFit, levelTag, rank, levelChips, levelCounts, levelPick, filterByLevel, fallbackNote } from '../level.js';
+
+let openTitle = null;
 
 export default async function listening(view, r) {
   const data = await loadListening();
   const timer = activityTimer('listening');
   let tab = r.query.tab || 'dictation';
+  openTitle = r.query.d || null;   // посилання з головної «Завдання рівня» відкриває конкретний діалог
   const body = h('div');
   const accent = seg([['US', 'US'], ['UK', 'UK']], store.settings().accent, v => store.setSetting('accent', v));
   const tabs = seg([['dictation', 'Диктант'], ['dialogues', 'Діалоги']], tab, v => { tab = v; draw(); });
@@ -125,11 +128,22 @@ function wordMismatch(target, given) {
 // ---------- Діалоги ----------
 function dialogues(box, data, timer) {
   const topics = ['У кафе', 'Плани на вихідні', 'В аеропорту', 'Оренда квартири', 'У лікаря', 'Знайомство на вечірці', 'Покупки й повернення', 'Подорож потягом', 'Обговорення фільму', 'Співбесіда'];
-  const list = byFit(data.dialogues);
+  // діалоги вибраного рівня (за замовчуванням — мого)
+  const listBox = h('div.stack');
+  const drawList = () => {
+    const { items, fallback } = filterByLevel(data.dialogues, levelPick('dialogues'));
+    listBox.replaceChildren(fallbackNote(fallback), h('div.list', byFit(items).map(d => h('button.list-row', { type: 'button', onclick: () => playDialogue(box, d, timer, () => dialogues(box, data, timer)) },
+      emo(d.emoji || 'headphone'), h('div.grow', h('div', { style: { fontWeight: 600 } }, d.title), h('div.sub', `${d.lines.length} реплік · ${d.questions.length} питань`)), levelTag(d.level), ic('caret-right', { size: 18 })))));
+  };
+  drawList();
+  if (openTitle) {
+    const d = data.dialogues.find(x => x.title === openTitle);
+    openTitle = null;
+    if (d) { playDialogue(box, d, timer, () => dialogues(box, data, timer)); return; }
+  }
   box.replaceChildren(h('div.stack',
     h('div.section-title', 'Готові діалоги (офлайн)'),
-    h('div.list', list.map(d => h('button.list-row', { type: 'button', onclick: () => playDialogue(box, d, timer, () => dialogues(box, data, timer)) },
-      emo(d.emoji || 'headphone'), h('div.grow', h('div', { style: { fontWeight: 600 } }, d.title), h('div.sub', `${d.lines.length} реплік · ${d.questions.length} питань`)), levelTag(d.level), ic('caret-right', { size: 18 })))),
+    levelChips('dialogues', levelCounts(data.dialogues), drawList), listBox,
     h('div.section-title', 'Новий діалог від AI'),
     h('div.chips', topics.map(t => h('button.chip', { type: 'button', onclick: async (e) => {
       if (!user()) { toast(S.err.needLogin); return; }

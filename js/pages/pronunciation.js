@@ -3,7 +3,7 @@ import { h, ic, emo, seg, progress } from '../ui/dom.js';
 import { pronunciation as loadData } from '../data.js';
 import { speak, stop as stopSpeech, recognize, canRecognize, recordAndTranscribe, compareWords } from '../speech.js';
 import { activityTimer, addMistake } from '../stats.js';
-import { byFit } from '../level.js';
+import { byFit, levelChips, levelCounts, levelPick, filterByLevel, fallbackNote } from '../level.js';
 import { user } from '../supa.js';
 
 async function listen(onInterim) {
@@ -17,6 +17,8 @@ function errText(e) {
   return 'Не вдалося розпізнати, спробуйте ще';
 }
 
+let wantTopic = null;
+
 export default async function pronunciation(view, r) {
   const data = await loadData();
   const timer = activityTimer('pronunciation');
@@ -28,6 +30,7 @@ export default async function pronunciation(view, r) {
     return () => { stopSpeech(); timer.stop(); };
   }
   let tab = r.query.tab === 'pairs' ? 'pairs' : 'shadowing';
+  wantTopic = r.query.topic || null;   // посилання з головної відкриває конкретну тему
   view.replaceChildren(h('div.stack-lg', seg([['shadowing', 'Повтор фраз'], ['pairs', 'Пари слів']], tab, v => { tab = v; draw(); }), body));
   const draw = () => { stopSpeech(); ({ shadowing, pairs })[tab](body, data, timer); };
   draw();
@@ -61,17 +64,27 @@ function practiceBlock(text, timer, { uk, onResult } = {}) {
 }
 
 function shadowing(box, data, timer) {
-  // теми — спершу свого рівня, далі наступного й нижчих
+  // теми вибраного рівня (за замовчуванням — мого); зміна рівня змінює набір фраз
   const lvOf = (g) => data.shadowing.find(s => s.topic === g)?.level;
-  const groups = byFit([...new Set(data.shadowing.map(s => s.topic))], lvOf);
-  let topic = groups[0];
+  const allTopics = [...new Set(data.shadowing.map(s => s.topic))];
   const list = h('div.stack');
-  const draw = () => list.replaceChildren(...data.shadowing.filter(s => s.topic === topic).map(s => practiceBlock(s.en, timer, { uk: s.uk })));
+  const topicsBox = h('div.stack');
+  let topic = null;
+  const drawList = () => list.replaceChildren(...data.shadowing.filter(s => s.topic === topic).map(s => practiceBlock(s.en, timer, { uk: s.uk })));
+  const drawTopics = () => {
+    const { items, fallback } = filterByLevel(allTopics, levelPick('shadowing'), lvOf);
+    const groups = byFit(items, lvOf);
+    if (wantTopic && allTopics.includes(wantTopic)) { topic = wantTopic; wantTopic = null; if (!groups.includes(topic)) groups.unshift(topic); }
+    if (!groups.includes(topic)) topic = groups[0] || null;
+    topicsBox.replaceChildren(fallbackNote(fallback),
+      h('div.chips.scroll', groups.map(g => h('button.chip', { type: 'button', 'aria-pressed': String(g === topic), onclick: (e) => { topic = g; e.currentTarget.parentNode.querySelectorAll('.chip').forEach(c => c.setAttribute('aria-pressed', String(c === e.currentTarget))); drawList(); } }, lvOf(g) ? `${g} · ${lvOf(g)}` : g))));
+    drawList();
+  };
+  const counts = levelCounts(data.shadowing);
   box.replaceChildren(h('div.stack',
     h('p.small.dim', 'Прослухайте фразу, повторіть з тією ж інтонацією і темпом. Зелене — збіг, червоне — розпізнано інакше.'),
-    h('div.chips.scroll', groups.map(g => h('button.chip', { type: 'button', 'aria-pressed': String(g === topic), onclick: (e) => { topic = g; e.currentTarget.parentNode.querySelectorAll('.chip').forEach(c => c.setAttribute('aria-pressed', String(c === e.currentTarget))); draw(); } }, lvOf(g) ? `${g} · ${lvOf(g)}` : g))),
-    list));
-  draw();
+    levelChips('shadowing', counts, drawTopics), topicsBox, list));
+  drawTopics();
 }
 
 function pairs(box, data, timer) {
