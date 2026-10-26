@@ -1,0 +1,305 @@
+{
+ "id": "culture-media",
+ "cards": [
+  {
+   "en": "a box-office hit",
+   "uk": "касовий хіт",
+   "ex": "The film was a box-office hit all over Europe.",
+   "exUk": "Фільм став касовим хітом по всій Європі."
+  },
+  {
+   "en": "blockbuster",
+   "uk": "блокбастер",
+   "ex": "I'm not in the mood for another superhero blockbuster.",
+   "exUk": "Я не в настрої для ще одного блокбастера про супергероїв."
+  },
+  {
+   "en": "sequel",
+   "uk": "продовження (сиквел)",
+   "ex": "The sequel wasn't nearly as good as the original.",
+   "exUk": "Продовження було далеко не таким гарним, як оригінал."
+  },
+  {
+   "en": "plot",
+   "uk": "сюжет",
+   "ex": "The plot was so complicated that I got lost halfway through.",
+   "exUk": "Сюжет був такий заплутаний, що на середині я загубився."
+  },
+  {
+   "en": "a plot twist",
+   "uk": "несподіваний поворот сюжету",
+   "ex": "Nobody saw that plot twist coming.",
+   "exUk": "Такого повороту сюжету ніхто не очікував."
+  },
+  {
+   "en": "cast",
+   "uk": "акторський склад",
+   "ex": "The film has an amazing cast.",
+   "exUk": "У фільмі чудовий акторський склад."
+  },
+  {
+   "en": "to star in",
+   "uk": "грати головну роль у",
+   "ex": "She starred in a popular Polish TV series.",
+   "exUk": "Вона грала головну роль у популярному польському серіалі."
+  },
+  {
+   "en": "director",
+   "uk": "режисер",
+   "ex": "The director won an award at Cannes.",
+   "exUk": "Режисер отримав нагороду в Каннах."
+  },
+  {
+   "en": "soundtrack",
+   "uk": "саундтрек, музика до фільму",
+   "ex": "I loved the soundtrack so much that I downloaded it.",
+   "exUk": "Мені так сподобався саундтрек, що я його завантажив."
+  },
+  {
+   "en": "subtitles",
+   "uk": "субтитри",
+   "ex": "We usually watch films in English with subtitles.",
+   "exUk": "Зазвичай ми дивимося фільми англійською із субтитрами."
+  },
+  {
+   "en": "dubbed",
+   "uk": "дубльований",
+   "ex": "I'd rather watch the original than the dubbed version.",
+   "exUk": "Я радше подивлюся оригінал, ніж дубльовану версію."
+  },
+  {
+   "en": "trailer",
+   "uk": "трейлер",
+   "ex": "The trailer gave away too much of the story.",
+   "exUk": "Трейлер розкрив забагато сюжету."
+  },
+  {
+   "en": "a spoiler",
+   "uk": "спойлер",
+   "ex": "Don't tell me how it ends — no spoilers!",
+   "exUk": "Не кажи, чим закінчиться, — без спойлерів!"
+  },
+  {
+   "en": "genre",
+   "uk": "жанр",
+   "ex": "Horror isn't really my favourite genre.",
+   "exUk": "Жахи — не зовсім мій улюблений жанр."
+  },
+  {
+   "en": "documentary",
+   "uk": "документальний фільм",
+   "ex": "We watched a fascinating documentary about the ocean.",
+   "exUk": "Ми подивилися захопливий документальний фільм про океан."
+  },
+  {
+   "en": "to be based on a true story",
+   "uk": "бути заснованим на реальних подіях",
+   "ex": "The film is based on a true story.",
+   "exUk": "Фільм заснований на реальних подіях."
+  },
+  {
+   "en": "review",
+   "uk": "рецензія, відгук",
+   "ex": "The book got mixed reviews.",
+   "exUk": "Книжка отримала неоднозначні відгуки."
+  },
+  {
+   "en": "critic",
+   "uk": "критик",
+   "ex": "Critics loved it, but audiences found it boring.",
+   "exUk": "Критикам сподобалося, а глядачам видалося нудним."
+  },
+  {
+   "en": "critically acclaimed",
+   "uk": "схвалений критиками",
+   "ex": "It's a critically acclaimed novel, but I couldn't finish it.",
+   "exUk": "Це роман, схвалений критиками, але я не зміг його дочитати."
+  },
+  {
+   "en": "to get rave reviews",
+   "uk": "отримати захоплені відгуки",
+   "ex": "Her new play got rave reviews.",
+   "exUk": "Її нова п'єса отримала захоплені відгуки."
+  },
+  {
+   "en": "overrated",
+   "uk": "переоцінений",
+   "ex": "In my opinion, that series is completely overrated.",
+   "exUk": "На мою думку, цей серіал дуже переоцінений."
+  },
+  {
+   "en": "underrated",
+   "uk": "недооцінений",
+   "ex": "It's one of the most underrated films of the decade.",
+   "exUk": "Це один із найбільш недооцінених фільмів десятиліття."
+  },
+  {
+   "en": "gripping",
+   "uk": "захопливий, що не відпускає",
+   "ex": "The second season is absolutely gripping.",
+   "exUk": "Другий сезон неймовірно захопливий."
+  },
+  {
+   "en": "a page-turner",
+   "uk": "книжка, від якої не відірватися",
+   "ex": "This thriller is a real page-turner.",
+   "exUk": "Від цього трилера просто не відірватися."
+  },
+  {
+   "en": "thought-provoking",
+   "uk": "що змушує замислитися",
+   "ex": "It's a thought-provoking film about family and loss.",
+   "exUk": "Це фільм про родину й втрату, що змушує замислитися."
+  },
+  {
+   "en": "predictable",
+   "uk": "передбачуваний",
+   "ex": "The ending was so predictable.",
+   "exUk": "Фінал був надто передбачуваний."
+  },
+  {
+   "en": "far-fetched",
+   "uk": "надуманий, неправдоподібний",
+   "ex": "The story was a bit far-fetched, but still fun.",
+   "exUk": "Історія була трохи надумана, але все одно цікава."
+  },
+  {
+   "en": "moving",
+   "uk": "зворушливий",
+   "ex": "The last scene was incredibly moving.",
+   "exUk": "Остання сцена була неймовірно зворушлива."
+  },
+  {
+   "en": "hilarious",
+   "uk": "дуже смішний, кумедний",
+   "ex": "The film was hilarious — we couldn't stop laughing.",
+   "exUk": "Фільм був страшенно смішний — ми не могли перестати сміятися."
+  },
+  {
+   "en": "a must-see",
+   "uk": "те, що обов'язково варто побачити",
+   "ex": "This exhibition is a must-see if you're in Kraków.",
+   "exUk": "Цю виставку варто обов'язково побачити, якщо ви в Кракові."
+  },
+  {
+   "en": "bestseller",
+   "uk": "бестселер",
+   "ex": "Her first novel became an international bestseller.",
+   "exUk": "Її перший роман став світовим бестселером."
+  },
+  {
+   "en": "novel",
+   "uk": "роман",
+   "ex": "I'm reading a novel by a young Ukrainian author.",
+   "exUk": "Я читаю роман молодого українського автора."
+  },
+  {
+   "en": "protagonist",
+   "uk": "головний герой",
+   "ex": "The protagonist is a doctor who moves to a small village.",
+   "exUk": "Головний герой — лікар, який переїжджає в маленьке село."
+  },
+  {
+   "en": "to be set in",
+   "uk": "відбуватися в (про дію твору)",
+   "ex": "The story is set in London in the 1960s.",
+   "exUk": "Дія відбувається в Лондоні в 1960-х."
+  },
+  {
+   "en": "to binge-watch",
+   "uk": "дивитися серіал запоєм",
+   "ex": "We binge-watched the whole series in one weekend.",
+   "exUk": "Ми переглянули весь серіал запоєм за одні вихідні."
+  },
+  {
+   "en": "season finale",
+   "uk": "фінал сезону",
+   "ex": "The season finale ended on a cliffhanger.",
+   "exUk": "Фінал сезону обірвався на найцікавішому."
+  },
+  {
+   "en": "streaming service",
+   "uk": "стрімінговий сервіс",
+   "ex": "Which streaming service has the best documentaries?",
+   "exUk": "На якому стрімінговому сервісі найкращі документальні фільми?"
+  },
+  {
+   "en": "gig",
+   "uk": "концерт (живий виступ)",
+   "ex": "We're going to a jazz gig on Saturday.",
+   "exUk": "У суботу ми йдемо на джазовий концерт."
+  },
+  {
+   "en": "lyrics",
+   "uk": "текст пісні",
+   "ex": "I love the melody, but I don't understand the lyrics.",
+   "exUk": "Мені подобається мелодія, але я не розумію тексту."
+  },
+  {
+   "en": "catchy",
+   "uk": "чіпкий, що легко запам'ятовується",
+   "ex": "That song is so catchy — I can't get it out of my head.",
+   "exUk": "Ця пісня така чіпка — не можу викинути її з голови."
+  },
+  {
+   "en": "to release an album",
+   "uk": "випустити альбом",
+   "ex": "The band is releasing a new album in spring.",
+   "exUk": "Навесні гурт випускає новий альбом."
+  },
+  {
+   "en": "exhibition",
+   "uk": "виставка",
+   "ex": "There's a great photography exhibition at the National Museum.",
+   "exUk": "У Національному музеї чудова фотовиставка."
+  },
+  {
+   "en": "masterpiece",
+   "uk": "шедевр",
+   "ex": "Many people consider it his masterpiece.",
+   "exUk": "Багато хто вважає це його шедевром."
+  },
+  {
+   "en": "acting",
+   "uk": "акторська гра",
+   "ex": "The acting was brilliant, but the script was weak.",
+   "exUk": "Акторська гра була блискуча, а от сценарій слабкий."
+  },
+  {
+   "en": "audience",
+   "uk": "глядачі, публіка",
+   "ex": "The audience laughed all the way through.",
+   "exUk": "Глядачі сміялися від початку до кінця."
+  },
+  {
+   "en": "standing ovation",
+   "uk": "овації стоячи",
+   "ex": "The orchestra got a standing ovation.",
+   "exUk": "Оркестрові аплодували стоячи."
+  },
+  {
+   "en": "sold out",
+   "uk": "розпроданий (про квитки)",
+   "ex": "The concert was sold out within an hour.",
+   "exUk": "Квитки на концерт розпродали за годину."
+  },
+  {
+   "en": "not my cup of tea",
+   "uk": "не мій смак, не до душі",
+   "ex": "Opera isn't really my cup of tea.",
+   "exUk": "Опера — не зовсім те, що мені до душі."
+  },
+  {
+   "en": "to keep someone on the edge of their seat",
+   "uk": "тримати когось у напрузі",
+   "ex": "The thriller kept me on the edge of my seat.",
+   "exUk": "Трилер тримав мене в напрузі."
+  },
+  {
+   "en": "adaptation",
+   "uk": "екранізація, адаптація",
+   "ex": "The film adaptation is better than the book.",
+   "exUk": "Екранізація краща за книжку."
+  }
+ ]
+}

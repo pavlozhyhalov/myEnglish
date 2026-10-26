@@ -1,0 +1,275 @@
+{
+ "id": "feelings-b1",
+ "cards": [
+  {
+   "en": "grateful",
+   "uk": "вдячний",
+   "ex": "I'm really grateful for all your help with the move.",
+   "exUk": "Я дуже вдячний за всю твою допомогу з переїздом."
+  },
+  {
+   "en": "lonely",
+   "uk": "самотній",
+   "ex": "She felt lonely during her first months in Kraków.",
+   "exUk": "Перші місяці в Кракові вона почувалася самотньою."
+  },
+  {
+   "en": "homesick",
+   "uk": "який сумує за домом",
+   "ex": "I sometimes get homesick when I hear Ukrainian songs.",
+   "exUk": "Іноді я сумую за домом, коли чую українські пісні."
+  },
+  {
+   "en": "anxious",
+   "uk": "тривожний, стривожений",
+   "ex": "He always gets anxious before a doctor's appointment.",
+   "exUk": "Він завжди хвилюється перед прийомом у лікаря."
+  },
+  {
+   "en": "scared of",
+   "uk": "наляканий, який боїться (чогось)",
+   "ex": "My niece is scared of the dark.",
+   "exUk": "Моя племінниця боїться темряви."
+  },
+  {
+   "en": "terrified",
+   "uk": "нажаханий",
+   "ex": "I was terrified when the plane started shaking.",
+   "exUk": "Я був нажаханий, коли літак почало трусити."
+  },
+  {
+   "en": "furious",
+   "uk": "розлючений",
+   "ex": "Vita was furious when the delivery didn't arrive again.",
+   "exUk": "Віта була розлючена, коли доставка знову не приїхала."
+  },
+  {
+   "en": "frustrated",
+   "uk": "роздратований (через безсилля)",
+   "ex": "I get frustrated when I can't find the right word.",
+   "exUk": "Мене дратує, коли я не можу знайти потрібне слово."
+  },
+  {
+   "en": "ashamed of",
+   "uk": "якому соромно за",
+   "ex": "He was ashamed of what he had said.",
+   "exUk": "Йому було соромно за те, що він сказав."
+  },
+  {
+   "en": "to feel guilty",
+   "uk": "відчувати провину",
+   "ex": "I feel guilty that I haven't called my mum this week.",
+   "exUk": "Я відчуваю провину, що цього тижня не подзвонив мамі."
+  },
+  {
+   "en": "delighted",
+   "uk": "дуже радий, у захваті",
+   "ex": "We were delighted to hear your good news.",
+   "exUk": "Ми були дуже раді почути твою добру новину."
+  },
+  {
+   "en": "thrilled",
+   "uk": "у захваті, страшенно радий",
+   "ex": "She was thrilled with her birthday present.",
+   "exUk": "Вона була в захваті від подарунка на день народження."
+  },
+  {
+   "en": "calm",
+   "uk": "спокійний",
+   "ex": "Try to stay calm and breathe slowly.",
+   "exUk": "Намагайся зберігати спокій і дихати повільно."
+  },
+  {
+   "en": "hopeful",
+   "uk": "сповнений надії",
+   "ex": "The doctors are hopeful that he'll recover quickly.",
+   "exUk": "Лікарі сподіваються, що він швидко одужає."
+  },
+  {
+   "en": "heartbroken",
+   "uk": "з розбитим серцем",
+   "ex": "She was heartbroken when her dog died.",
+   "exUk": "Коли помер її пес, у неї було розбите серце."
+  },
+  {
+   "en": "shocked",
+   "uk": "шокований",
+   "ex": "We were shocked by the price of the tickets.",
+   "exUk": "Ми були шоковані ціною квитків."
+  },
+  {
+   "en": "surprised",
+   "uk": "здивований",
+   "ex": "I was surprised to see him at the party.",
+   "exUk": "Я здивувався, побачивши його на вечірці."
+  },
+  {
+   "en": "amazed",
+   "uk": "вражений",
+   "ex": "I'm amazed at how fast children learn languages.",
+   "exUk": "Мене вражає, як швидко діти вчать мови."
+  },
+  {
+   "en": "satisfied with",
+   "uk": "задоволений (чимось)",
+   "ex": "Are you satisfied with your new flat?",
+   "exUk": "Ти задоволений своєю новою квартирою?"
+  },
+  {
+   "en": "insecure",
+   "uk": "невпевнений у собі",
+   "ex": "He feels insecure about his accent.",
+   "exUk": "Він почувається невпевнено через свій акцент."
+  },
+  {
+   "en": "confident",
+   "uk": "впевнений",
+   "ex": "I feel more confident speaking English now.",
+   "exUk": "Тепер я почуваюся впевненіше, коли говорю англійською."
+  },
+  {
+   "en": "overwhelmed",
+   "uk": "приголомшений, перевантажений",
+   "ex": "I felt overwhelmed by all the paperwork.",
+   "exUk": "Мене приголомшила вся ця паперова тяганина."
+  },
+  {
+   "en": "worn out",
+   "uk": "виснажений",
+   "ex": "I'm completely worn out after this week.",
+   "exUk": "Я геть виснажений після цього тижня."
+  },
+  {
+   "en": "restless",
+   "uk": "неспокійний, який не може всидіти",
+   "ex": "The kids get restless on long car journeys.",
+   "exUk": "Діти стають неспокійними під час довгих поїздок автомобілем."
+  },
+  {
+   "en": "impatient",
+   "uk": "нетерплячий",
+   "ex": "Don't be so impatient — the bus will come soon.",
+   "exUk": "Не будь таким нетерплячим — автобус скоро приїде."
+  },
+  {
+   "en": "sensitive",
+   "uk": "чутливий, вразливий",
+   "ex": "She's very sensitive to criticism.",
+   "exUk": "Вона дуже болісно сприймає критику."
+  },
+  {
+   "en": "cheerful",
+   "uk": "життєрадісний, бадьорий",
+   "ex": "Our neighbour is always cheerful in the morning.",
+   "exUk": "Наш сусід завжди бадьорий зранку."
+  },
+  {
+   "en": "grumpy",
+   "uk": "буркотливий, сердитий",
+   "ex": "I'm a bit grumpy until I've had my coffee.",
+   "exUk": "Я трохи буркотливий, поки не вип'ю кави."
+  },
+  {
+   "en": "nostalgic",
+   "uk": "сповнений ностальгії",
+   "ex": "Old photos always make me feel nostalgic.",
+   "exUk": "Старі фотографії завжди викликають у мене ностальгію."
+  },
+  {
+   "en": "curious",
+   "uk": "допитливий; якому цікаво",
+   "ex": "I'm curious to know how the film ends.",
+   "exUk": "Мені цікаво дізнатися, чим закінчиться фільм."
+  },
+  {
+   "en": "to be in a good mood",
+   "uk": "бути в гарному настрої",
+   "ex": "You're in a good mood today! What happened?",
+   "exUk": "Ти сьогодні в гарному настрої! Що сталося?"
+  },
+  {
+   "en": "to be in a bad mood",
+   "uk": "бути в поганому настрої",
+   "ex": "Sorry, I'm in a bad mood — I didn't sleep well.",
+   "exUk": "Вибач, я в поганому настрої — погано спав."
+  },
+  {
+   "en": "to feel at ease",
+   "uk": "почуватися невимушено, комфортно",
+   "ex": "Our hosts made us feel at ease straight away.",
+   "exUk": "Господарі одразу допомогли нам почуватися невимушено."
+  },
+  {
+   "en": "to be on edge",
+   "uk": "бути на нервах",
+   "ex": "I've been on edge all day waiting for the test results.",
+   "exUk": "Я цілий день на нервах, чекаючи результатів аналізів."
+  },
+  {
+   "en": "to lose your temper",
+   "uk": "вийти з себе",
+   "ex": "I lost my temper and shouted at the driver.",
+   "exUk": "Я вийшов із себе й накричав на водія."
+  },
+  {
+   "en": "to burst into tears",
+   "uk": "розплакатися",
+   "ex": "When she heard the news, she burst into tears.",
+   "exUk": "Почувши новину, вона розплакалася."
+  },
+  {
+   "en": "to burst out laughing",
+   "uk": "розсміятися",
+   "ex": "We all burst out laughing at his joke.",
+   "exUk": "Ми всі розсміялися з його жарту."
+  },
+  {
+   "en": "to be over the moon",
+   "uk": "бути на сьомому небі",
+   "ex": "They were over the moon when they found out they were expecting a baby.",
+   "exUk": "Вони були на сьомому небі, коли дізналися, що чекають дитину."
+  },
+  {
+   "en": "to feel down",
+   "uk": "бути пригніченим, сумувати",
+   "ex": "I've been feeling a bit down lately.",
+   "exUk": "Останнім часом мені трохи сумно."
+  },
+  {
+   "en": "mixed feelings",
+   "uk": "змішані почуття",
+   "ex": "I have mixed feelings about moving abroad.",
+   "exUk": "У мене змішані почуття щодо переїзду за кордон."
+  },
+  {
+   "en": "to bottle up your feelings",
+   "uk": "тримати почуття в собі",
+   "ex": "It's not healthy to bottle up your feelings.",
+   "exUk": "Тримати почуття в собі — шкідливо."
+  },
+  {
+   "en": "to hurt someone's feelings",
+   "uk": "образити когось, зачепити почуття",
+   "ex": "I didn't mean to hurt your feelings.",
+   "exUk": "Я не хотів тебе образити."
+  },
+  {
+   "en": "to take something personally",
+   "uk": "сприймати щось на свій рахунок",
+   "ex": "Don't take it personally — he's rude to everyone.",
+   "exUk": "Не сприймай це на свій рахунок — він грубий з усіма."
+  },
+  {
+   "en": "to be sick of",
+   "uk": "мати досить (чогось), набриднути",
+   "ex": "I'm sick of this rainy weather.",
+   "exUk": "Мені набридла ця дощова погода."
+  },
+  {
+   "en": "to have butterflies in your stomach",
+   "uk": "дуже хвилюватися (перед чимось)",
+   "ex": "I always have butterflies in my stomach before a job interview.",
+   "exUk": "Перед співбесідою я завжди дуже хвилююся."
+  }
+ ]
+}

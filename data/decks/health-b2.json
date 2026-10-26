@@ -1,0 +1,305 @@
+{
+ "id": "health-b2",
+ "cards": [
+  {
+   "en": "wellbeing",
+   "uk": "добробут, гарне самопочуття",
+   "ex": "Regular exercise is good for your physical and mental wellbeing.",
+   "exUk": "Регулярні фізичні вправи корисні для фізичного й психічного самопочуття."
+  },
+  {
+   "en": "mental health",
+   "uk": "психічне здоров'я",
+   "ex": "It's important to talk openly about mental health.",
+   "exUk": "Про психічне здоров'я важливо говорити відкрито."
+  },
+  {
+   "en": "burnout",
+   "uk": "вигорання",
+   "ex": "After two years without a holiday, he was close to burnout.",
+   "exUk": "Після двох років без відпустки він був близький до вигорання."
+  },
+  {
+   "en": "anxiety",
+   "uk": "тривожність, тривога",
+   "ex": "She suffers from anxiety, especially in crowded places.",
+   "exUk": "Вона страждає від тривожності, особливо в людних місцях."
+  },
+  {
+   "en": "depression",
+   "uk": "депресія",
+   "ex": "Depression is an illness, not a sign of weakness.",
+   "exUk": "Депресія — це хвороба, а не ознака слабкості."
+  },
+  {
+   "en": "to cope with",
+   "uk": "справлятися з",
+   "ex": "How do you cope with stress?",
+   "exUk": "Як ти справляєшся зі стресом?"
+  },
+  {
+   "en": "to unwind",
+   "uk": "розслабитися, відпочити",
+   "ex": "I like to unwind with a long walk after work.",
+   "exUk": "Після роботи я люблю розслабитися довгою прогулянкою."
+  },
+  {
+   "en": "work-life balance",
+   "uk": "баланс між роботою й особистим життям",
+   "ex": "Since we started planning a family, a good work-life balance matters more to me.",
+   "exUk": "Відколи ми плануємо дитину, баланс між роботою й особистим життям для мене важливіший."
+  },
+  {
+   "en": "a sedentary lifestyle",
+   "uk": "малорухливий спосіб життя",
+   "ex": "A sedentary lifestyle can lead to back problems.",
+   "exUk": "Малорухливий спосіб життя може призвести до проблем зі спиною."
+  },
+  {
+   "en": "a balanced diet",
+   "uk": "збалансоване харчування",
+   "ex": "A balanced diet includes plenty of fruit and vegetables.",
+   "exUk": "Збалансоване харчування включає багато фруктів і овочів."
+  },
+  {
+   "en": "to lose your appetite",
+   "uk": "втратити апетит",
+   "ex": "When I'm stressed, I lose my appetite.",
+   "exUk": "Коли я в стресі, у мене зникає апетит."
+  },
+  {
+   "en": "to give up smoking",
+   "uk": "кинути палити",
+   "ex": "My dad gave up smoking ten years ago.",
+   "exUk": "Мій тато кинув палити десять років тому."
+  },
+  {
+   "en": "insomnia",
+   "uk": "безсоння",
+   "ex": "She's been suffering from insomnia since she changed jobs.",
+   "exUk": "Відколи вона змінила роботу, її мучить безсоння."
+  },
+  {
+   "en": "to get enough sleep",
+   "uk": "висипатися",
+   "ex": "If you don't get enough sleep, it's hard to concentrate.",
+   "exUk": "Якщо не висипаєшся, важко зосередитися."
+  },
+  {
+   "en": "to be prone to",
+   "uk": "бути схильним до",
+   "ex": "I'm prone to headaches when the weather changes.",
+   "exUk": "Я схильний до головного болю, коли змінюється погода."
+  },
+  {
+   "en": "to boost your immune system",
+   "uk": "зміцнювати імунітет",
+   "ex": "Fresh fruit and enough sleep help to boost your immune system.",
+   "exUk": "Свіжі фрукти й достатній сон допомагають зміцнити імунітет."
+  },
+  {
+   "en": "mindfulness",
+   "uk": "усвідомленість (практика уважності)",
+   "ex": "Ten minutes of mindfulness a day helps me stay calm.",
+   "exUk": "Десять хвилин усвідомленості на день допомагають мені зберігати спокій."
+  },
+  {
+   "en": "therapist",
+   "uk": "психотерапевт",
+   "ex": "Talking to a therapist really helped her.",
+   "exUk": "Розмови з психотерапевтом їй дуже допомогли."
+  },
+  {
+   "en": "to be referred to a specialist",
+   "uk": "отримати направлення до фахівця",
+   "ex": "I was referred to a specialist for my knee.",
+   "exUk": "Мене направили до фахівця щодо коліна."
+  },
+  {
+   "en": "GP",
+   "uk": "сімейний лікар, терапевт",
+   "ex": "You should make an appointment with your GP.",
+   "exUk": "Тобі варто записатися до сімейного лікаря."
+  },
+  {
+   "en": "to pull a muscle",
+   "uk": "потягнути м'яз",
+   "ex": "I pulled a muscle in my back lifting a heavy box.",
+   "exUk": "Я потягнув м'яз спини, коли піднімав важку коробку."
+  },
+  {
+   "en": "physiotherapy",
+   "uk": "фізіотерапія",
+   "ex": "After the operation, she needed months of physiotherapy.",
+   "exUk": "Після операції їй знадобилися місяці фізіотерапії."
+  },
+  {
+   "en": "dosage",
+   "uk": "дозування",
+   "ex": "Don't exceed the recommended dosage.",
+   "exUk": "Не перевищуйте рекомендоване дозування."
+  },
+  {
+   "en": "to be diagnosed with",
+   "uk": "отримати діагноз",
+   "ex": "He was diagnosed with diabetes last year.",
+   "exUk": "Торік йому діагностували діабет."
+  },
+  {
+   "en": "chronic",
+   "uk": "хронічний",
+   "ex": "She has chronic back pain.",
+   "exUk": "У неї хронічний біль у спині."
+  },
+  {
+   "en": "high blood pressure",
+   "uk": "високий тиск",
+   "ex": "My grandfather has high blood pressure.",
+   "exUk": "У мого дідуся високий тиск."
+  },
+  {
+   "en": "to examine",
+   "uk": "оглядати (пацієнта)",
+   "ex": "The doctor examined me and said it was nothing serious.",
+   "exUk": "Лікар оглянув мене й сказав, що нічого серйозного."
+  },
+  {
+   "en": "treatment",
+   "uk": "лікування",
+   "ex": "The treatment takes about three weeks.",
+   "exUk": "Лікування триває близько трьох тижнів."
+  },
+  {
+   "en": "to make a full recovery",
+   "uk": "повністю одужати",
+   "ex": "The doctors expect her to make a full recovery.",
+   "exUk": "Лікарі очікують, що вона повністю одужає."
+  },
+  {
+   "en": "to be on medication",
+   "uk": "приймати ліки (на постійній основі)",
+   "ex": "Are you on any medication at the moment?",
+   "exUk": "Ви зараз приймаєте якісь ліки?"
+  },
+  {
+   "en": "to have an operation",
+   "uk": "перенести операцію",
+   "ex": "She had an operation on her knee last spring.",
+   "exUk": "Минулої весни їй прооперували коліно."
+  },
+  {
+   "en": "life expectancy",
+   "uk": "очікувана тривалість життя",
+   "ex": "Life expectancy in Europe has risen over the last century.",
+   "exUk": "За останнє століття очікувана тривалість життя в Європі зросла."
+  },
+  {
+   "en": "to get back into shape",
+   "uk": "повернутися у форму",
+   "ex": "I want to get back into shape before summer.",
+   "exUk": "Хочу повернутися у форму до літа."
+  },
+  {
+   "en": "to faint",
+   "uk": "знепритомніти",
+   "ex": "It was so hot on the tram that a woman fainted.",
+   "exUk": "У трамваї було так спекотно, що одна жінка знепритомніла."
+  },
+  {
+   "en": "swollen",
+   "uk": "опухлий, набряклий",
+   "ex": "My ankle is still swollen.",
+   "exUk": "Моя щиколотка досі опухла."
+  },
+  {
+   "en": "rash",
+   "uk": "висип",
+   "ex": "The baby has a rash on his arms.",
+   "exUk": "У малюка висип на руках."
+  },
+  {
+   "en": "to sprain your ankle",
+   "uk": "підвернути щиколотку (розтягнути зв'язки)",
+   "ex": "I sprained my ankle playing football.",
+   "exUk": "Я підвернув щиколотку, коли грав у футбол."
+  },
+  {
+   "en": "stiff",
+   "uk": "скутий, затерплий",
+   "ex": "I woke up with a stiff neck.",
+   "exUk": "Я прокинувся із затерплою шиєю."
+  },
+  {
+   "en": "run-down",
+   "uk": "виснажений, ослаблений",
+   "ex": "You look a bit run-down — maybe you need a holiday.",
+   "exUk": "Ти виглядаєш трохи виснаженим — може, тобі потрібна відпустка."
+  },
+  {
+   "en": "self-care",
+   "uk": "турбота про себе",
+   "ex": "Self-care isn't selfish — it's necessary.",
+   "exUk": "Турбота про себе — це не егоїзм, а необхідність."
+  },
+  {
+   "en": "to set boundaries",
+   "uk": "встановлювати межі",
+   "ex": "It's healthy to set boundaries with friends and family.",
+   "exUk": "Встановлювати межі з друзями й рідними — це здорово."
+  },
+  {
+   "en": "to open up about",
+   "uk": "відкритися, розповісти (про почуття)",
+   "ex": "It took him a long time to open up about his problems.",
+   "exUk": "Йому знадобилося багато часу, щоб розповісти про свої проблеми."
+  },
+  {
+   "en": "mood swings",
+   "uk": "перепади настрою",
+   "ex": "Lack of sleep can cause mood swings.",
+   "exUk": "Недосипання може спричиняти перепади настрою."
+  },
+  {
+   "en": "to take a toll on",
+   "uk": "негативно позначатися на",
+   "ex": "Stress at work is taking a toll on his health.",
+   "exUk": "Стрес на роботі негативно позначається на його здоров'ї."
+  },
+  {
+   "en": "to lead a healthy lifestyle",
+   "uk": "вести здоровий спосіб життя",
+   "ex": "They've been leading a healthier lifestyle since they decided to have a baby.",
+   "exUk": "Відколи вони вирішили завести дитину, вони ведуть здоровіший спосіб життя."
+  },
+  {
+   "en": "panic attack",
+   "uk": "панічна атака",
+   "ex": "She had a panic attack in the middle of the exam.",
+   "exUk": "Посеред іспиту в неї сталася панічна атака."
+  },
+  {
+   "en": "to get a second opinion",
+   "uk": "порадитися з іншим лікарем",
+   "ex": "If you're not sure, get a second opinion.",
+   "exUk": "Якщо не впевнений, порадься з іншим лікарем."
+  },
+  {
+   "en": "to stay hydrated",
+   "uk": "пити достатньо води",
+   "ex": "Remember to stay hydrated when it's hot.",
+   "exUk": "Не забувай пити достатньо води в спеку."
+  },
+  {
+   "en": "posture",
+   "uk": "постава",
+   "ex": "Sitting at a laptop all day is bad for your posture.",
+   "exUk": "Сидіти цілий день за ноутбуком шкідливо для постави."
+  },
+  {
+   "en": "to be under a lot of pressure",
+   "uk": "бути під сильним тиском",
+   "ex": "I've been under a lot of pressure lately and I can't sleep.",
+   "exUk": "Останнім часом я під сильним тиском і не можу спати."
+  }
+ ]
+}

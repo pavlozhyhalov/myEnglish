@@ -153,6 +153,24 @@
   "count": 45
  },
  {
+  "id": "feelings-b1",
+  "name": "Почуття й стан",
+  "emoji": "brain",
+  "group": "general",
+  "level": "B1",
+  "desc": "Емоції, настрій, реакції, як про них говорити",
+  "count": 45
+ },
+ {
+  "id": "home-services",
+  "name": "Побут і сервіси",
+  "emoji": "key",
+  "group": "general",
+  "level": "B1",
+  "desc": "Ремонт, комуналка, оренда, сусіди, доставки",
+  "count": 45
+ },
+ {
   "id": "collocations",
   "name": "Колокації",
   "emoji": "sparkles",
@@ -186,6 +204,42 @@
   "group": "general",
   "level": "B2",
   "desc": "Поширені фразові дієслова рівня B2",
+  "count": 50
+ },
+ {
+  "id": "culture-media",
+  "name": "Культура й медіа",
+  "emoji": "theater",
+  "group": "general",
+  "level": "B2",
+  "desc": "Фільми, книжки, музика, рецензії, думки про мистецтво",
+  "count": 50
+ },
+ {
+  "id": "environment",
+  "name": "Довкілля й екологія",
+  "emoji": "seedling",
+  "group": "general",
+  "level": "B2",
+  "desc": "Клімат, відходи, енергія, природа, екозвички",
+  "count": 45
+ },
+ {
+  "id": "health-b2",
+  "name": "Здоров'я й психологія",
+  "emoji": "muscle",
+  "group": "general",
+  "level": "B2",
+  "desc": "Самопочуття, стрес, спосіб життя, розмова з лікарем",
+  "count": 50
+ },
+ {
+  "id": "collocations-b2",
+  "name": "Колокації 2",
+  "emoji": "sparkles",
+  "group": "general",
+  "level": "B2",
+  "desc": "Стійкі словосполучення: take offence, a slim chance…",
   "count": 50
  },
  {

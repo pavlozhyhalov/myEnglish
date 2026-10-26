@@ -1,0 +1,275 @@
+{
+ "id": "environment",
+ "cards": [
+  {
+   "en": "carbon footprint",
+   "uk": "вуглецевий слід",
+   "ex": "Flying less is the easiest way to reduce your carbon footprint.",
+   "exUk": "Менше літати — найпростіший спосіб зменшити свій вуглецевий слід."
+  },
+  {
+   "en": "greenhouse gases",
+   "uk": "парникові гази",
+   "ex": "Cars and factories produce greenhouse gases.",
+   "exUk": "Автомобілі й заводи виробляють парникові гази."
+  },
+  {
+   "en": "fossil fuels",
+   "uk": "викопне паливо",
+   "ex": "We need to stop relying on fossil fuels.",
+   "exUk": "Нам треба перестати покладатися на викопне паливо."
+  },
+  {
+   "en": "solar panels",
+   "uk": "сонячні панелі",
+   "ex": "Our neighbours have put solar panels on their roof.",
+   "exUk": "Наші сусіди встановили сонячні панелі на даху."
+  },
+  {
+   "en": "wind farm",
+   "uk": "вітрова електростанція",
+   "ex": "They're building a wind farm off the coast.",
+   "exUk": "Біля узбережжя будують вітрову електростанцію."
+  },
+  {
+   "en": "sustainable",
+   "uk": "сталий, екологічно відповідальний",
+   "ex": "We try to buy clothes from sustainable brands.",
+   "exUk": "Ми намагаємося купувати одяг екологічно відповідальних брендів."
+  },
+  {
+   "en": "eco-friendly",
+   "uk": "екологічний, безпечний для довкілля",
+   "ex": "These cleaning products are eco-friendly.",
+   "exUk": "Ці засоби для прибирання безпечні для довкілля."
+  },
+  {
+   "en": "biodegradable",
+   "uk": "біорозкладний",
+   "ex": "Are these bags really biodegradable?",
+   "exUk": "Ці пакети справді біорозкладні?"
+  },
+  {
+   "en": "single-use plastic",
+   "uk": "одноразовий пластик",
+   "ex": "Many cafés have stopped using single-use plastic.",
+   "exUk": "Багато кав'ярень відмовилися від одноразового пластику."
+  },
+  {
+   "en": "landfill",
+   "uk": "сміттєзвалище, полігон",
+   "ex": "Most of our rubbish still ends up in landfill.",
+   "exUk": "Більшість нашого сміття досі потрапляє на звалище."
+  },
+  {
+   "en": "compost",
+   "uk": "компост",
+   "ex": "We put our vegetable peelings in the compost.",
+   "exUk": "Ми кидаємо овочеві очистки в компост."
+  },
+  {
+   "en": "to reduce waste",
+   "uk": "зменшувати кількість відходів",
+   "ex": "Buying in bulk helps to reduce waste.",
+   "exUk": "Купівля великими упаковками допомагає зменшити кількість відходів."
+  },
+  {
+   "en": "to sort rubbish",
+   "uk": "сортувати сміття",
+   "ex": "In Poland you have to sort rubbish into five bins.",
+   "exUk": "У Польщі сміття треба сортувати в п'ять контейнерів."
+  },
+  {
+   "en": "deforestation",
+   "uk": "вирубування лісів",
+   "ex": "Deforestation is destroying the Amazon rainforest.",
+   "exUk": "Вирубування лісів знищує тропічні ліси Амазонії."
+  },
+  {
+   "en": "endangered species",
+   "uk": "зникаючий вид",
+   "ex": "The lynx is an endangered species in many countries.",
+   "exUk": "У багатьох країнах рись — вид під загрозою зникнення."
+  },
+  {
+   "en": "extinct",
+   "uk": "вимерлий",
+   "ex": "Dinosaurs became extinct millions of years ago.",
+   "exUk": "Динозаври вимерли мільйони років тому."
+  },
+  {
+   "en": "habitat",
+   "uk": "середовище існування",
+   "ex": "Many animals are losing their natural habitat.",
+   "exUk": "Багато тварин втрачають своє природне середовище існування."
+  },
+  {
+   "en": "wildlife",
+   "uk": "дика природа, тваринний світ",
+   "ex": "The national park is full of wildlife.",
+   "exUk": "Національний парк багатий на диких тварин."
+  },
+  {
+   "en": "biodiversity",
+   "uk": "біорізноманіття",
+   "ex": "Pesticides are a serious threat to biodiversity.",
+   "exUk": "Пестициди — серйозна загроза біорізноманіттю."
+  },
+  {
+   "en": "drought",
+   "uk": "посуха",
+   "ex": "The drought has ruined this year's harvest.",
+   "exUk": "Посуха знищила цьогорічний урожай."
+  },
+  {
+   "en": "flooding",
+   "uk": "повені, підтоплення",
+   "ex": "Heavy rain caused flooding in the south of the country.",
+   "exUk": "Сильні дощі спричинили повені на півдні країни."
+  },
+  {
+   "en": "heatwave",
+   "uk": "сильна спека, хвиля спеки",
+   "ex": "During the heatwave, temperatures reached 38 degrees.",
+   "exUk": "Під час спеки температура сягала 38 градусів."
+  },
+  {
+   "en": "wildfire",
+   "uk": "лісова пожежа",
+   "ex": "Wildfires are becoming more common in southern Europe.",
+   "exUk": "У південній Європі лісові пожежі стають дедалі частішими."
+  },
+  {
+   "en": "rising sea levels",
+   "uk": "підвищення рівня моря",
+   "ex": "Rising sea levels threaten coastal cities.",
+   "exUk": "Підвищення рівня моря загрожує прибережним містам."
+  },
+  {
+   "en": "extreme weather",
+   "uk": "екстремальні погодні явища",
+   "ex": "Extreme weather is becoming the new normal.",
+   "exUk": "Екстремальні погодні явища стають новою нормою."
+  },
+  {
+   "en": "natural disaster",
+   "uk": "стихійне лихо",
+   "ex": "The earthquake was the worst natural disaster in decades.",
+   "exUk": "Землетрус став найгіршим стихійним лихом за десятиліття."
+  },
+  {
+   "en": "the ozone layer",
+   "uk": "озоновий шар",
+   "ex": "The ozone layer protects us from the sun's harmful rays.",
+   "exUk": "Озоновий шар захищає нас від шкідливого сонячного випромінювання."
+  },
+  {
+   "en": "smog",
+   "uk": "смог",
+   "ex": "In winter, Kraków often suffers from smog.",
+   "exUk": "Узимку Краків часто потерпає від смогу."
+  },
+  {
+   "en": "exhaust fumes",
+   "uk": "вихлопні гази",
+   "ex": "Breathing in exhaust fumes is bad for your lungs.",
+   "exUk": "Вдихати вихлопні гази шкідливо для легень."
+  },
+  {
+   "en": "to pollute",
+   "uk": "забруднювати",
+   "ex": "Factories used to pollute the river with chemicals.",
+   "exUk": "Колись заводи забруднювали річку хімікатами."
+  },
+  {
+   "en": "contaminated",
+   "uk": "забруднений, заражений",
+   "ex": "Don't drink the water — it might be contaminated.",
+   "exUk": "Не пий цю воду — вона може бути забруднена."
+  },
+  {
+   "en": "electric vehicle",
+   "uk": "електромобіль",
+   "ex": "We're thinking of getting an electric vehicle.",
+   "exUk": "Ми думаємо придбати електромобіль."
+  },
+  {
+   "en": "to go green",
+   "uk": "перейти на екологічний спосіб життя",
+   "ex": "Lots of small businesses are trying to go green.",
+   "exUk": "Чимало малих підприємств намагаються стати екологічнішими."
+  },
+  {
+   "en": "energy-efficient",
+   "uk": "енергоефективний",
+   "ex": "Energy-efficient light bulbs last much longer.",
+   "exUk": "Енергоефективні лампочки служать набагато довше."
+  },
+  {
+   "en": "to save energy",
+   "uk": "заощаджувати енергію",
+   "ex": "Turn the heating down a bit to save energy.",
+   "exUk": "Зменш трохи опалення, щоб заощадити енергію."
+  },
+  {
+   "en": "on standby",
+   "uk": "у режимі очікування",
+   "ex": "Don't leave the TV on standby all night.",
+   "exUk": "Не залишай телевізор у режимі очікування на всю ніч."
+  },
+  {
+   "en": "organic",
+   "uk": "органічний",
+   "ex": "Organic vegetables are more expensive, but they taste better.",
+   "exUk": "Органічні овочі дорожчі, але смачніші."
+  },
+  {
+   "en": "locally grown",
+   "uk": "місцевого виробництва (вирощений поруч)",
+   "ex": "We buy locally grown fruit at the market.",
+   "exUk": "Ми купуємо на ринку фрукти місцевого виробництва."
+  },
+  {
+   "en": "plant-based diet",
+   "uk": "рослинний раціон",
+   "ex": "A plant-based diet can be good for you and for the planet.",
+   "exUk": "Рослинний раціон може бути корисним і для вас, і для планети."
+  },
+  {
+   "en": "reusable",
+   "uk": "багаторазовий",
+   "ex": "I always carry a reusable water bottle.",
+   "exUk": "Я завжди ношу з собою багаторазову пляшку для води."
+  },
+  {
+   "en": "packaging",
+   "uk": "упаковка, пакування",
+   "ex": "There's far too much packaging on supermarket food.",
+   "exUk": "У супермаркетах на продуктах забагато упаковки."
+  },
+  {
+   "en": "environmentalist",
+   "uk": "захисник довкілля, еколог",
+   "ex": "Environmentalists are protesting against the new motorway.",
+   "exUk": "Захисники довкілля протестують проти нової автомагістралі."
+  },
+  {
+   "en": "conservation",
+   "uk": "охорона природи, збереження",
+   "ex": "She works for a wildlife conservation charity.",
+   "exUk": "Вона працює в благодійній організації з охорони дикої природи."
+  },
+  {
+   "en": "carbon neutral",
+   "uk": "вуглецево нейтральний",
+   "ex": "The city wants to become carbon neutral by 2040.",
+   "exUk": "Місто хоче стати вуглецево нейтральним до 2040 року."
+  },
+  {
+   "en": "nature reserve",
+   "uk": "заповідник",
+   "ex": "We spent the day walking in a nature reserve.",
+   "exUk": "Ми провели день, гуляючи заповідником."
+  }
+ ]
+}

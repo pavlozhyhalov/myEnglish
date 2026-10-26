@@ -1,0 +1,275 @@
+{
+ "id": "home-services",
+ "cards": [
+  {
+   "en": "letting agent",
+   "uk": "агент з оренди, рієлтор",
+   "ex": "The letting agent showed us three flats in one afternoon.",
+   "exUk": "Агент з оренди показав нам три квартири за один день."
+  },
+  {
+   "en": "flatmate",
+   "uk": "сусід по квартирі",
+   "ex": "My old flatmate never did the washing-up.",
+   "exUk": "Мій колишній сусід по квартирі ніколи не мив посуд."
+  },
+  {
+   "en": "inventory",
+   "uk": "опис майна (при заселенні)",
+   "ex": "Check the inventory carefully when you move in.",
+   "exUk": "Уважно перевір опис майна, коли заселяєшся."
+  },
+  {
+   "en": "electricity bill",
+   "uk": "рахунок за електроенергію",
+   "ex": "Our electricity bill doubled this winter.",
+   "exUk": "Цієї зими наш рахунок за електроенергію подвоївся."
+  },
+  {
+   "en": "communal areas",
+   "uk": "місця загального користування",
+   "ex": "Please don't leave bikes in the communal areas.",
+   "exUk": "Будь ласка, не залишайте велосипеди в місцях загального користування."
+  },
+  {
+   "en": "to read the meter",
+   "uk": "знімати показники лічильника",
+   "ex": "Someone from the gas company came to read the meter.",
+   "exUk": "Приходив працівник газової компанії зняти показники лічильника."
+  },
+  {
+   "en": "boiler",
+   "uk": "котел, бойлер",
+   "ex": "The boiler has stopped working, so there's no hot water.",
+   "exUk": "Котел перестав працювати, тож гарячої води немає."
+  },
+  {
+   "en": "radiator",
+   "uk": "батарея (радіатор)",
+   "ex": "The radiator in the bedroom is stone cold.",
+   "exUk": "Батарея в спальні геть холодна."
+  },
+  {
+   "en": "plumber",
+   "uk": "сантехнік",
+   "ex": "We need to call a plumber — the toilet won't flush.",
+   "exUk": "Треба викликати сантехніка — унітаз не зливає."
+  },
+  {
+   "en": "electrician",
+   "uk": "електрик",
+   "ex": "An electrician is coming to fix the sockets in the kitchen.",
+   "exUk": "Електрик прийде полагодити розетки на кухні."
+  },
+  {
+   "en": "handyman",
+   "uk": "майстер на всі руки",
+   "ex": "We found a handyman to put up the shelves.",
+   "exUk": "Ми знайшли майстра, щоб повісити полиці."
+  },
+  {
+   "en": "to leak",
+   "uk": "протікати",
+   "ex": "The kitchen tap has been leaking for days.",
+   "exUk": "Кухонний кран протікає вже кілька днів."
+  },
+  {
+   "en": "blocked",
+   "uk": "засмічений, забитий",
+   "ex": "The bathroom sink is blocked again.",
+   "exUk": "Раковина у ванній знову засмічена."
+  },
+  {
+   "en": "to be on the blink",
+   "uk": "барахлити, працювати з перебоями",
+   "ex": "The dishwasher is on the blink again.",
+   "exUk": "Посудомийка знову барахлить."
+  },
+  {
+   "en": "out of order",
+   "uk": "не працює, несправний",
+   "ex": "The lift is out of order, so we'll have to take the stairs.",
+   "exUk": "Ліфт не працює, тож доведеться йти сходами."
+  },
+  {
+   "en": "power cut",
+   "uk": "відключення електроенергії",
+   "ex": "There was a power cut last night and the fridge defrosted.",
+   "exUk": "Учора ввечері вимкнули світло, і холодильник розморозився."
+  },
+  {
+   "en": "fuse box",
+   "uk": "електрощиток (із запобіжниками)",
+   "ex": "Check the fuse box — maybe a fuse has blown.",
+   "exUk": "Перевір електрощиток — може, вибило запобіжник."
+  },
+  {
+   "en": "mould",
+   "uk": "пліснява",
+   "ex": "There's mould on the bathroom ceiling.",
+   "exUk": "На стелі у ванній пліснява."
+  },
+  {
+   "en": "damp",
+   "uk": "вологий, сирий; вогкість",
+   "ex": "The flat is cold and damp in winter.",
+   "exUk": "Узимку в квартирі холодно й сиро."
+  },
+  {
+   "en": "quote",
+   "uk": "кошторис, попередня ціна",
+   "ex": "Let's get a few quotes before we choose a builder.",
+   "exUk": "Візьмімо кілька кошторисів, перш ніж обирати будівельника."
+  },
+  {
+   "en": "to get something fixed",
+   "uk": "віддати щось у ремонт, полагодити (не самому)",
+   "ex": "I need to get my bike fixed before the weekend.",
+   "exUk": "Мені треба полагодити велосипед до вихідних."
+  },
+  {
+   "en": "warranty",
+   "uk": "гарантія",
+   "ex": "The fridge is still under warranty, so the repair is free.",
+   "exUk": "Холодильник ще на гарантії, тож ремонт безкоштовний."
+  },
+  {
+   "en": "appliance",
+   "uk": "побутовий прилад",
+   "ex": "All the kitchen appliances are included in the rent.",
+   "exUk": "Уся кухонна техніка входить в орендну плату."
+  },
+  {
+   "en": "to turn off the water supply",
+   "uk": "перекрити воду",
+   "ex": "Turn off the water supply before you change the tap.",
+   "exUk": "Перекрий воду, перш ніж міняти кран."
+  },
+  {
+   "en": "to flood",
+   "uk": "затопити",
+   "ex": "The neighbours upstairs flooded our bathroom.",
+   "exUk": "Сусіди згори затопили нашу ванну."
+  },
+  {
+   "en": "next-door neighbour",
+   "uk": "сусід (з квартири поруч)",
+   "ex": "Our next-door neighbour waters our plants when we're away.",
+   "exUk": "Наш сусід поливає наші рослини, коли нас немає."
+  },
+  {
+   "en": "to complain about the noise",
+   "uk": "скаржитися на шум",
+   "ex": "The people downstairs complained about the noise.",
+   "exUk": "Сусіди знизу поскаржилися на шум."
+  },
+  {
+   "en": "intercom",
+   "uk": "домофон",
+   "ex": "Just buzz the intercom and I'll let you in.",
+   "exUk": "Просто подзвони в домофон, і я тебе впущу."
+  },
+  {
+   "en": "caretaker",
+   "uk": "доглядач будинку, завгосп",
+   "ex": "Ask the caretaker for a key to the bike room.",
+   "exUk": "Попроси в доглядача ключ від велосипедної кімнати."
+  },
+  {
+   "en": "bin collection",
+   "uk": "вивезення сміття",
+   "ex": "Bin collection is on Tuesdays in our street.",
+   "exUk": "На нашій вулиці сміття вивозять по вівторках."
+  },
+  {
+   "en": "service charge",
+   "uk": "плата за обслуговування будинку",
+   "ex": "The service charge covers cleaning and lighting in the stairwell.",
+   "exUk": "Плата за обслуговування покриває прибирання й освітлення під'їзду."
+  },
+  {
+   "en": "to give notice",
+   "uk": "попередити про виїзд (розірвання договору)",
+   "ex": "We have to give a month's notice before we move out.",
+   "exUk": "Ми маємо попередити за місяць, перш ніж виїхати."
+  },
+  {
+   "en": "furnished / unfurnished",
+   "uk": "мебльований / без меблів",
+   "ex": "We're looking for a furnished two-bedroom flat.",
+   "exUk": "Ми шукаємо мебльовану квартиру з двома спальнями."
+  },
+  {
+   "en": "to move house",
+   "uk": "переїжджати (в інше житло)",
+   "ex": "We're moving house next month.",
+   "exUk": "Наступного місяця ми переїжджаємо."
+  },
+  {
+   "en": "removal company",
+   "uk": "компанія з перевезення речей",
+   "ex": "We hired a removal company to move the furniture.",
+   "exUk": "Ми найняли компанію, щоб перевезти меблі."
+  },
+  {
+   "en": "broadband",
+   "uk": "домашній інтернет (широкосмуговий)",
+   "ex": "The broadband in our new flat is really slow.",
+   "exUk": "Інтернет у нашій новій квартирі дуже повільний."
+  },
+  {
+   "en": "to set up a direct debit",
+   "uk": "налаштувати автоматичну оплату",
+   "ex": "I've set up a direct debit for the electricity bill.",
+   "exUk": "Я налаштував автоматичну оплату рахунку за електрику."
+  },
+  {
+   "en": "delivery slot",
+   "uk": "часовий проміжок доставки",
+   "ex": "I booked a delivery slot between six and eight.",
+   "exUk": "Я обрав доставку з шостої до восьмої."
+  },
+  {
+   "en": "to sign for a parcel",
+   "uk": "розписатися за посилку",
+   "ex": "Could you sign for my parcel if I'm not at home?",
+   "exUk": "Можеш розписатися за мою посилку, якщо мене не буде вдома?"
+  },
+  {
+   "en": "courier",
+   "uk": "кур'єр",
+   "ex": "The courier left the parcel with our neighbour.",
+   "exUk": "Кур'єр залишив посилку в нашого сусіда."
+  },
+  {
+   "en": "parcel locker",
+   "uk": "поштомат",
+   "ex": "I'll get it delivered to a parcel locker near work.",
+   "exUk": "Я замовлю доставку в поштомат біля роботи."
+  },
+  {
+   "en": "to leave something on the doorstep",
+   "uk": "залишити щось під дверима",
+   "ex": "The courier just left the box on the doorstep.",
+   "exUk": "Кур'єр просто залишив коробку під дверима."
+  },
+  {
+   "en": "to send someone round",
+   "uk": "прислати когось (додому)",
+   "ex": "The landlord says he'll send someone round to fix the heating.",
+   "exUk": "Орендодавець каже, що пришле когось полагодити опалення."
+  },
+  {
+   "en": "to be locked out",
+   "uk": "не мати змоги потрапити додому (без ключів)",
+   "ex": "I was locked out and had to call Vita.",
+   "exUk": "Я не міг потрапити додому, і довелося дзвонити Віті."
+  },
+  {
+   "en": "smoke alarm",
+   "uk": "датчик диму",
+   "ex": "The smoke alarm goes off every time I make toast.",
+   "exUk": "Датчик диму спрацьовує щоразу, коли я роблю тости."
+  }
+ ]
+}
