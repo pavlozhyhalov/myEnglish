@@ -189,7 +189,9 @@
     "I am reading a book right now.",
     "I'm reading a book right now.",
     "Now I am reading a book.",
-    "Now I'm reading a book."
+    "Now I'm reading a book.",
+    "I am reading a book at the moment.",
+    "I'm reading a book at the moment."
    ],
    "explanation": "Зараз → am + reading."
   },

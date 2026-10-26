@@ -92,7 +92,7 @@
   },
   {
    "type": "choice",
-   "prompt": "___ feeling ill, Vita went to her friend's wedding.",
+   "prompt": "___ her cold, Vita went to her friend's wedding.",
    "options": [
     "Despite",
     "Although",
@@ -100,7 +100,7 @@
     "Whereas"
    ],
    "answer": "Despite",
-   "explanation": "Після despite — форма на -ing."
+   "explanation": "Після despite — іменник (her cold); although і even though потребують повного речення, whereas — порівняння двох фактів."
   },
   {
    "type": "choice",
@@ -186,7 +186,8 @@
    "type": "order",
    "prompt": "Попри втому, ми пішли на вечірку.",
    "answer": [
-    "Despite being tired, we went to the party."
+    "Despite being tired, we went to the party.",
+    "We went to the party despite being tired."
    ],
    "explanation": "despite + being + прикметник."
   },
@@ -214,7 +215,11 @@
     "Even though the apartment is small, we like it.",
     "Although the flat is small, we love it.",
     "Despite the flat being small, we like it.",
-    "The flat is small, but we like it."
+    "The flat is small, but we like it.",
+    "Though the apartment is small, we like it.",
+    "We like the flat although it is small.",
+    "We like the flat even though it's small.",
+    "We like the flat, even though it's small."
    ],
    "explanation": "Although + повне речення."
   }

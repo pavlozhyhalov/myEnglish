@@ -45,7 +45,7 @@
    ],
    [
     "But for…",
-    "But for the rain, it was a perfect day.",
+    "But for the rain, it would have been a perfect day.",
     "If it hadn't been for the rain"
    ]
   ]
@@ -190,7 +190,8 @@
    "type": "order",
    "prompt": "Якби не дощ, ми б пішли на прогулянку.",
    "answer": [
-    "But for the rain, we would have gone for a walk."
+    "But for the rain, we would have gone for a walk.",
+    "We would have gone for a walk but for the rain."
    ],
    "explanation": "But for + іменник + would have + V3."
   },

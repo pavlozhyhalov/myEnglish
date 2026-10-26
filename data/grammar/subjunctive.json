@@ -184,8 +184,7 @@
    "type": "order",
    "prompt": "Я наполягаю, щоб він залишився.",
    "answer": [
-    "I insist that he stay.",
-    "I insist that he should stay."
+    "I insist that he stay."
    ],
    "explanation": "insist that + базова форма."
   },

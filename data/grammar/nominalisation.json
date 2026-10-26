@@ -191,7 +191,7 @@
    "prompt": "Через брак часу ми скасували поїздку.",
    "answer": [
     "Due to a lack of time, we cancelled the trip.",
-    "Due to lack of time, we cancelled the trip."
+    "We cancelled the trip due to a lack of time."
    ],
    "explanation": "Due to + іменникова група — офіційний стиль."
   },

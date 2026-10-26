@@ -160,7 +160,10 @@
    "sentence": "The weather is much cold today.",
    "wrongIndex": 3,
    "correction": "very",
-   "alt": [],
+   "alt": [
+    "really",
+    "so"
+   ],
    "explanation": "Перед прикметником кажемо very."
   },
   {

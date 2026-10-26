@@ -92,7 +92,7 @@
   },
   {
    "type": "choice",
-   "prompt": "She ___ look tired lately — is everything OK?",
+   "prompt": "She ___ look tired right now — maybe she should lie down.",
    "options": [
     "does",
     "do",

@@ -5,7 +5,7 @@
  "unit": "Будова речення",
  "level": "A1",
  "mistakeType": "other",
- "explanation": "Щоб сказати, що вам подобається чи ні, використовуйте: **love** (дуже люблю), **like** (люблю, подобається), **enjoy** (отримую задоволення), **don't mind** (не проти), **don't like** (не люблю), **hate** (терпіти не можу).\n\nПісля них ставимо **іменник** або **дієслово з -ing**: *I love **pizza**. I love **cooking**.* Не кажіть ~~I like cook~~.\n\nЗ he / she / it — закінчення **-s**: *Vita **likes** reading. He **hates** waiting.* Заперечення — **don't / doesn't like**, питання — ***Do** you like…? **Does** she like…?*\n\nНе плутайте з **would like** (хотів би): *I'd like a coffee* = я б хотів каву зараз.",
+ "explanation": "Щоб сказати, що вам подобається чи ні, використовуйте: **love** (дуже люблю), **like** (люблю, подобається), **enjoy** (отримую задоволення), **don't mind** (не проти), **don't like** (не люблю), **hate** (терпіти не можу).\n\nПісля них ставимо **іменник** або **дієслово з -ing**: *I love **pizza**. I love **cooking**.* Не кажіть ~~I like cook~~. Після **like, love, hate** можна сказати й **to + дієслово** — значення майже те саме: *I like **to read**.* Але після **enjoy** і **don't mind** — лише -ing.\n\nЗ he / she / it — закінчення **-s**: *Vita **likes** reading. He **hates** waiting.* Заперечення — **don't / doesn't like**, питання — ***Do** you like…? **Does** she like…?*\n\nНе плутайте з **would like** (хотів би): *I'd like a coffee* = я б хотів каву зараз.",
  "formula": [
   "like / love / hate / enjoy + іменник: I love pizza.",
   "like / love / hate / enjoy + V-ing: I love cooking.",
@@ -155,7 +155,8 @@
    "prompt": "Do you like ___ (travel)?",
    "answer": [
     "travelling",
-    "traveling"
+    "traveling",
+    "to travel"
    ],
    "explanation": "Після like — V-ing."
   },
@@ -163,7 +164,8 @@
    "type": "input",
    "prompt": "My brother loves ___ (play) football.",
    "answer": [
-    "playing"
+    "playing",
+    "to play"
    ],
    "explanation": "Після love — V-ing."
   },
