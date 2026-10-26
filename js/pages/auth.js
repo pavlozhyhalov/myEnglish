@@ -37,14 +37,14 @@ export default function auth(view) {
         go('/', { replace: true });
       } else {
         const r = await signUp(email.value.trim(), pass.value);
-        // email власника підтверджується автоматично (тригер у БД) — одразу входимо
+        // email підтверджується автоматично (тригер у БД) — одразу входимо
         if (!r.session) await signIn(email.value.trim(), pass.value);
         toast('Акаунт створено');
         await store.sync().catch(() => {});
         go('/', { replace: true });
       }
     } catch (err) {
-      const t = /invalid login/i.test(err.message) ? 'Невірний email або пароль' : /not confirmed/i.test(err.message) ? 'Email ще не підтверджено — перевірте пошту' : /signups not allowed|disabled|database error saving new user/i.test(err.message) ? 'Реєстрація закрита: застосунок персональний' : err.message;
+      const t = /invalid login/i.test(err.message) ? 'Невірний email або пароль' : /not confirmed/i.test(err.message) ? 'Email ще не підтверджено — перевірте пошту' : /too many signups|database error saving new user/i.test(err.message) ? 'Сьогодні вже зареєструвалось забагато людей — спробуйте завтра' : /already registered/i.test(err.message) ? 'Такий email уже зареєстровано — увійдіть' : /password/i.test(err.message) ? 'Пароль має бути щонайменше 6 символів' : err.message;
       msg.replaceChildren(h('div.feedback.no', t));
     } finally { btn.disabled = false; }
   } },

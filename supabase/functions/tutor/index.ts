@@ -1,7 +1,7 @@
 // Edge Function `tutor`: чат зі стрімінгом, підсумок сесії, перевірка тексту,
 // генерація вправ, автозаповнення слів, перевірка перекладу, діалоги, транскрипція.
 import { handler, json, HttpError, cors } from '../_shared/http.ts';
-import { authenticate, charge, usage } from '../_shared/auth.ts';
+import { authenticate, charge, usage, isAdmin } from '../_shared/auth.ts';
 import { generate, generateJson, streamSSE, tts, createLiveToken, type Content } from '../_shared/gemini.ts';
 import type { SupabaseClient } from 'npm:@supabase/supabase-js@2.118.0';
 import { TEXT_MODELS, TTS_MODELS, LIVE_MODELS, LIMITS } from '../_shared/config.ts';
@@ -201,7 +201,7 @@ async function liveProbe() {
   });
 }
 
-/** Глибока перевірка (лише для allowlist): реальні виклики Gemini. Слот займається атомарно — не частіше разу на 10 хв. */
+/** Глибока перевірка (лише для адміністраторів з ALLOWED_USERS): реальні виклики Gemini. Слот займається атомарно — не частіше разу на 10 хв. */
 async function deepHealth(admin: SupabaseClient, only?: string) {
   const { data: slot, error: slotErr } = await admin.rpc('claim_health_slot');
   if (slotErr) throw new HttpError(503, 'server', 'Health slot failed');
@@ -229,7 +229,10 @@ Deno.serve(handler(async (req) => {
   const p = await req.json().catch(() => ({}));
   if (p.action === 'health' && !p.deep) return json(await health());
   const ctx = await authenticate(req);
-  if (p.action === 'health') return json(await deepHealth(ctx.admin, p.only));
+  if (p.action === 'health') {
+    if (!isAdmin(ctx.user)) throw new HttpError(403, 'not_allowed');
+    return json(await deepHealth(ctx.admin, p.only));
+  }
   const action = String(p.action || '');
   if (!ACTIONS.has(action)) throw new HttpError(400, 'bad_request', 'Unknown action');
 

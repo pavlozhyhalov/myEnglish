@@ -179,8 +179,10 @@ export async function sync() {
   try {
     const userId = session.user.id;
     if (meta.userId && meta.userId !== userId) {
-      // інший акаунт на цьому пристрої — тягнемо все заново
-      meta.lastPull = {};
+      // інший акаунт на цьому пристрої: дані попереднього (вони вже в його хмарі) не показуємо й не відправляємо в новий —
+      // очищаємо локальну копію і тягнемо все заново
+      await wipeLocal();
+      TABLES.forEach(emit); emit('profile');
     }
     meta.userId = userId;
     // збій однієї таблиці не блокує решту і не зупиняє отримання змін

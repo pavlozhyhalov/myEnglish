@@ -4,7 +4,10 @@ import { LIMITS } from './config.ts';
 
 export type Ctx = { user: User; db: SupabaseClient; admin: SupabaseClient };
 
-/** JWT Supabase + allowlist (ALLOWED_USERS: uuid або email через кому) */
+/**
+ * JWT Supabase. Доступ — будь-якому користувачу, що увійшов (реєстрація відкрита, ліміти — на кожного окремо).
+ * Обмежити колом людей: секрет ACCESS_MODE=allowlist + ALLOWED_USERS (uuid або email через кому).
+ */
 export async function authenticate(req: Request): Promise<Ctx> {
   const auth = req.headers.get('Authorization') || '';
   const token = auth.replace(/^Bearer\s+/i, '');
@@ -16,12 +19,20 @@ export async function authenticate(req: Request): Promise<Ctx> {
   const { data, error } = await db.auth.getUser(token);
   if (error || !data.user) throw new HttpError(401, 'need_login');
   const user = data.user;
-  const allowed = (Deno.env.get('ALLOWED_USERS') || '').split(',').map(s => s.trim().toLowerCase()).filter(Boolean);
-  if (!allowed.includes(user.id.toLowerCase()) && !(user.email && allowed.includes(user.email.toLowerCase()))) {
-    throw new HttpError(403, 'not_allowed');
+  if ((Deno.env.get('ACCESS_MODE') || '').toLowerCase() === 'allowlist') {
+    const allowed = (Deno.env.get('ALLOWED_USERS') || '').split(',').map(s => s.trim().toLowerCase()).filter(Boolean);
+    if (!allowed.includes(user.id.toLowerCase()) && !(user.email && allowed.includes(user.email.toLowerCase()))) {
+      throw new HttpError(403, 'not_allowed');
+    }
   }
   const admin = createClient(url, service, { auth: { persistSession: false } });
   return { user, db, admin };
+}
+
+/** Адміністратори (ALLOWED_USERS): глибока діагностика та інші службові дії */
+export function isAdmin(user: User) {
+  const list = (Deno.env.get('ALLOWED_USERS') || '').split(',').map(s => s.trim().toLowerCase()).filter(Boolean);
+  return list.includes(user.id.toLowerCase()) || (!!user.email && list.includes(user.email.toLowerCase()));
 }
 
 function warsawDay() {
