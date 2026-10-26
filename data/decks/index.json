@@ -6,7 +6,8 @@
   "group": "general",
   "level": "A1",
   "desc": "Привітання, час, числа, базові дієслова",
-  "count": 60
+  "count": 60,
+  "withEx": 60
  },
  {
   "id": "people",
@@ -15,7 +16,8 @@
   "group": "general",
   "level": "A1",
   "desc": "Родина, зовнішність, почуття",
-  "count": 40
+  "count": 40,
+  "withEx": 40
  },
  {
   "id": "home-daily",
@@ -24,7 +26,8 @@
   "group": "general",
   "level": "A1",
   "desc": "Кімнати, речі, щоденні дії",
-  "count": 50
+  "count": 50,
+  "withEx": 50
  },
  {
   "id": "food-a1",
@@ -33,7 +36,8 @@
   "group": "general",
   "level": "A1",
   "desc": "Продукти, напої, страви, смаки",
-  "count": 50
+  "count": 50,
+  "withEx": 50
  },
  {
   "id": "city-a1",
@@ -42,7 +46,8 @@
   "group": "general",
   "level": "A1",
   "desc": "Місця в місті, транспорт, як знайти дорогу",
-  "count": 50
+  "count": 50,
+  "withEx": 50
  },
  {
   "id": "clothes-colours",
@@ -51,7 +56,8 @@
   "group": "general",
   "level": "A1",
   "desc": "Речі в гардеробі, розміри й посадка, кольори",
-  "count": 45
+  "count": 45,
+  "withEx": 45
  },
  {
   "id": "time-numbers",
@@ -60,7 +66,8 @@
   "group": "general",
   "level": "A1",
   "desc": "Дні, місяці, порядкові числа, котра година",
-  "count": 50
+  "count": 50,
+  "withEx": 50
  },
  {
   "id": "verbs-a1",
@@ -69,7 +76,8 @@
   "group": "general",
   "level": "A1",
   "desc": "50 найуживаніших дієслів із простими прикладами",
-  "count": 50
+  "count": 50,
+  "withEx": 50
  },
  {
   "id": "everyday",
@@ -78,7 +86,8 @@
   "group": "general",
   "level": "A2",
   "desc": "Розпорядок, побут, корисні фрази",
-  "count": 60
+  "count": 60,
+  "withEx": 60
  },
  {
   "id": "smalltalk",
@@ -87,7 +96,8 @@
   "group": "general",
   "level": "A2",
   "desc": "Знайомство, підтримка розмови",
-  "count": 40
+  "count": 40,
+  "withEx": 40
  },
  {
   "id": "food",
@@ -96,7 +106,8 @@
   "group": "general",
   "level": "A2",
   "desc": "Замовлення, рахунок, покупки",
-  "count": 40
+  "count": 40,
+  "withEx": 40
  },
  {
   "id": "home",
@@ -105,7 +116,8 @@
   "group": "general",
   "level": "A2",
   "desc": "Родина, дім, гості",
-  "count": 30
+  "count": 30,
+  "withEx": 30
  },
  {
   "id": "health",
@@ -114,7 +126,8 @@
   "group": "general",
   "level": "A2",
   "desc": "Симптоми, лікар, аптека, спорт",
-  "count": 40
+  "count": 40,
+  "withEx": 40
  },
  {
   "id": "weather-nature",
@@ -123,7 +136,8 @@
   "group": "general",
   "level": "A2",
   "desc": "Погода, пори року, прогулянки",
-  "count": 40
+  "count": 40,
+  "withEx": 40
  },
  {
   "id": "money",
@@ -132,7 +146,8 @@
   "group": "general",
   "level": "A2",
   "desc": "Ціни, оплата, повернення, бюджет",
-  "count": 40
+  "count": 40,
+  "withEx": 40
  },
  {
   "id": "hobbies",
@@ -141,7 +156,8 @@
   "group": "general",
   "level": "A2",
   "desc": "Спорт, музика, ігри, кіно, як часто",
-  "count": 50
+  "count": 50,
+  "withEx": 50
  },
  {
   "id": "travel-a2",
@@ -150,7 +166,8 @@
   "group": "general",
   "level": "A2",
   "desc": "Каса, вокзал, потяг, аеропорт, готель",
-  "count": 45
+  "count": 45,
+  "withEx": 45
  },
  {
   "id": "jobs-people",
@@ -159,7 +176,8 @@
   "group": "general",
   "level": "A2",
   "desc": "Професії в побуті, колеги, клієнти, гості",
-  "count": 40
+  "count": 40,
+  "withEx": 40
  },
  {
   "id": "travel",
@@ -168,7 +186,8 @@
   "group": "general",
   "level": "B1",
   "desc": "Аеропорт, готель, дорога",
-  "count": 50
+  "count": 50,
+  "withEx": 50
  },
  {
   "id": "city",
@@ -177,7 +196,8 @@
   "group": "general",
   "level": "B1",
   "desc": "Лікар, банк, оренда, повернення",
-  "count": 50
+  "count": 50,
+  "withEx": 50
  },
  {
   "id": "opinions",
@@ -186,7 +206,8 @@
   "group": "general",
   "level": "B1",
   "desc": "Згода, незгода, почуття",
-  "count": 40
+  "count": 40,
+  "withEx": 40
  },
  {
   "id": "phrasal",
@@ -195,7 +216,8 @@
   "group": "general",
   "level": "B1",
   "desc": "Найуживаніші phrasal verbs",
-  "count": 50
+  "count": 50,
+  "withEx": 50
  },
  {
   "id": "tech-online",
@@ -204,7 +226,8 @@
   "group": "general",
   "level": "B1",
   "desc": "Смартфони, застосунки, соцмережі, паролі й збої вдома",
-  "count": 50
+  "count": 50,
+  "withEx": 50
  },
  {
   "id": "relationships",
@@ -213,7 +236,8 @@
   "group": "general",
   "level": "B1",
   "desc": "Дружба, побачення, шлюб, сварки й риси характеру",
-  "count": 45
+  "count": 45,
+  "withEx": 45
  },
  {
   "id": "parenting",
@@ -222,7 +246,8 @@
   "group": "general",
   "level": "B1",
   "desc": "Вагітність, пологи, догляд за малюком, садочок",
-  "count": 45
+  "count": 45,
+  "withEx": 45
  },
  {
   "id": "feelings-b1",
@@ -231,7 +256,8 @@
   "group": "general",
   "level": "B1",
   "desc": "Емоції, настрій, реакції, як про них говорити",
-  "count": 45
+  "count": 45,
+  "withEx": 45
  },
  {
   "id": "home-services",
@@ -240,7 +266,8 @@
   "group": "general",
   "level": "B1",
   "desc": "Ремонт, комуналка, оренда, сусіди, доставки",
-  "count": 45
+  "count": 45,
+  "withEx": 45
  },
  {
   "id": "collocations",
@@ -249,7 +276,8 @@
   "group": "general",
   "level": "B2",
   "desc": "make / do / take / have / get",
-  "count": 40
+  "count": 40,
+  "withEx": 40
  },
  {
   "id": "idioms",
@@ -258,7 +286,8 @@
   "group": "general",
   "level": "B2",
   "desc": "Живі вирази носіїв",
-  "count": 50
+  "count": 50,
+  "withEx": 50
  },
  {
   "id": "news-society",
@@ -267,7 +296,8 @@
   "group": "general",
   "level": "B2",
   "desc": "Політика, економіка, довкілля, злочини й медіа",
-  "count": 50
+  "count": 50,
+  "withEx": 50
  },
  {
   "id": "phrasal-advanced",
@@ -276,7 +306,8 @@
   "group": "general",
   "level": "B2",
   "desc": "Поширені фразові дієслова рівня B2",
-  "count": 50
+  "count": 50,
+  "withEx": 50
  },
  {
   "id": "culture-media",
@@ -285,7 +316,8 @@
   "group": "general",
   "level": "B2",
   "desc": "Фільми, книжки, музика, рецензії, думки про мистецтво",
-  "count": 50
+  "count": 50,
+  "withEx": 50
  },
  {
   "id": "environment",
@@ -294,7 +326,8 @@
   "group": "general",
   "level": "B2",
   "desc": "Клімат, відходи, енергія, природа, екозвички",
-  "count": 45
+  "count": 45,
+  "withEx": 45
  },
  {
   "id": "health-b2",
@@ -303,7 +336,8 @@
   "group": "general",
   "level": "B2",
   "desc": "Самопочуття, стрес, спосіб життя, розмова з лікарем",
-  "count": 50
+  "count": 50,
+  "withEx": 50
  },
  {
   "id": "collocations-b2",
@@ -312,7 +346,8 @@
   "group": "general",
   "level": "B2",
   "desc": "Стійкі словосполучення: take offence, a slim chance…",
-  "count": 50
+  "count": 50,
+  "withEx": 50
  },
  {
   "id": "advanced",
@@ -321,7 +356,8 @@
   "group": "general",
   "level": "C1",
   "desc": "Точні слова для складних думок",
-  "count": 50
+  "count": 50,
+  "withEx": 50
  },
  {
   "id": "discourse",
@@ -330,7 +366,8 @@
   "group": "general",
   "level": "C1",
   "desc": "Як аргументувати, погоджуватися, пом'якшувати",
-  "count": 40
+  "count": 40,
+  "withEx": 40
  },
  {
   "id": "idioms-c1",
@@ -339,7 +376,8 @@
   "group": "general",
   "level": "C1",
   "desc": "Рідші, але живі ідіоми для природного мовлення",
-  "count": 50
+  "count": 50,
+  "withEx": 50
  },
  {
   "id": "phrasal-c1",
@@ -348,7 +386,8 @@
   "group": "general",
   "level": "C1",
   "desc": "Тонкі фразові дієслова: gloss over, iron out, pan out",
-  "count": 50
+  "count": 50,
+  "withEx": 50
  },
  {
   "id": "opinions-c1",
@@ -357,7 +396,8 @@
   "group": "general",
   "level": "C1",
   "desc": "Слова, щоб тонко висловлювати думку й сперечатися",
-  "count": 50
+  "count": 50,
+  "withEx": 50
  },
  {
   "id": "emotions-c1",
@@ -366,7 +406,8 @@
   "group": "general",
   "level": "C1",
   "desc": "Відтінки почуттів і риси характеру",
-  "count": 50
+  "count": 50,
+  "withEx": 50
  },
  {
   "id": "register-c1",
@@ -375,7 +416,8 @@
   "group": "general",
   "level": "C1",
   "desc": "Пари «офіційне ↔ розмовне»: commence, reckon, skint",
-  "count": 50
+  "count": 50,
+  "withEx": 50
  },
  {
   "id": "word-formation-c1",
@@ -384,7 +426,8 @@
   "group": "general",
   "level": "C1",
   "desc": "Родини слів і стійкі сполучення рівня C1",
-  "count": 50
+  "count": 50,
+  "withEx": 50
  },
  {
   "id": "cnc",
@@ -394,7 +437,8 @@
   "level": "B1",
   "desc": "Верстати, інструмент, режими",
   "count": 60,
-  "default": false
+  "default": false,
+  "withEx": 60
  },
  {
   "id": "cad",
@@ -404,7 +448,8 @@
   "level": "B1",
   "desc": "Допуски, моделі, креслення",
   "count": 50,
-  "default": false
+  "default": false,
+  "withEx": 50
  },
  {
   "id": "quality",
@@ -414,7 +459,8 @@
   "level": "B2",
   "desc": "Контроль, дефекти, 8D",
   "count": 50,
-  "default": false
+  "default": false,
+  "withEx": 50
  },
  {
   "id": "lean",
@@ -424,7 +470,8 @@
   "level": "B2",
   "desc": "5S, кайдзен, втрати",
   "count": 40,
-  "default": false
+  "default": false,
+  "withEx": 40
  },
  {
   "id": "correspondence",
@@ -434,6 +481,7 @@
   "level": "B2",
   "desc": "Листи постачальникам і клієнтам",
   "count": 60,
-  "default": false
+  "default": false,
+  "withEx": 60
  }
 ]

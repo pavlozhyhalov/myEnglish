@@ -1,7 +1,7 @@
 // Інтервальне повторення: обгортка над ts-fsrs + черга карток
 import { fsrs, generatorParameters, createEmptyCard, Rating, State } from '../vendor/ts-fsrs.js';
 import * as store from './store.js';
-import { allDecks, deckIndex, slug } from './data.js';
+import { withCards, deckIndex, slug } from './data.js';
 import { today } from './stats.js';
 import { fitOrder, diff } from './level.js';
 
@@ -123,10 +123,12 @@ export async function newCards(limit) {
     if (en.has(c.deck_id) && !c.reps) out.push(c);
   }
   if (out.length < left) {
-    const starters = (await allDecks()).filter(d => en.has(d.id) && diff(d.level) <= 1);
-    // групи за доречністю рівня (свій → наступний → нижчі, ближчі першими); усередині групи колоди чергуються
+    const starters = ds.filter(d => d.builtin && en.has(d.id) && diff(d.level) <= 1);
+    // групи за доречністю рівня (свій → наступний → нижчі, ближчі першими); усередині групи колоди чергуються.
+    // Файли колод вантажаться погрупно: наступна група — лише якщо попередньої не вистачило
     for (const group of [...new Set(starters.map(d => fitOrder(d.level)))].sort((a, b) => a - b)) {
-      const iters = starters.filter(d => fitOrder(d.level) === group).map(d => ({ d, i: 0 }));
+      if (out.length >= left) break;
+      const iters = (await withCards(starters.filter(d => fitOrder(d.level) === group))).map(d => ({ d, i: 0 }));
       while (out.length < left && iters.some(it => it.i < it.d.cards.length)) {
         for (const it of iters) {
           while (it.i < it.d.cards.length) {

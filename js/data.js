@@ -15,11 +15,13 @@ export async function json(path) {
 
 export const deckIndex = () => json('data/decks/index.json');
 export const deck = (id) => json(`data/decks/${id}.json`);
-export async function allDecks() {
-  const idx = await deckIndex();
-  const decks = await Promise.all(idx.map(d => deck(d.id)));
-  return idx.map((d, i) => ({ ...d, cards: decks[i].cards }));
+/** Колоди з картками — вантажаться лише файли переданих колод (записи з deckIndex або srs.decks) */
+export async function withCards(metas) {
+  const decks = await Promise.all(metas.map(d => deck(d.id)));
+  return metas.map((d, i) => ({ ...d, cards: decks[i].cards }));
 }
+/** Усі 48 колод (~0,5 МБ) — лише там, де справді потрібні всі слова (словник, пошук) */
+export async function allDecks() { return withCards(await deckIndex()); }
 export const grammarIndex = () => json('data/grammar/index.json');
 export const lesson = (id) => json(`data/grammar/${id}.json`);
 export const scenarios = () => json('data/scenarios.json');

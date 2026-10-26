@@ -9,8 +9,9 @@ import { toast } from '../ui/toast.js';
 import { streak, lastNDays, totalSeconds, weekSeconds, todaySeconds, skillLevels, MISTAKE_TYPES } from '../stats.js';
 
 export default async function progressPage(view) {
-  const [c, gIdx] = await Promise.all([srs.counts(), grammarIndex()]);
-  const lp = await levelProgress(gIdx);
+  // лічильники карток і опанування рівня вантажать лише колоди потрібних рівнів (спільний кеш data.js)
+  const gP = grammarIndex();
+  const [c, gIdx, lp] = await Promise.all([srs.counts(), gP, gP.then(g => levelProgress(g))]);
   const lvl = myLevel();
   const days = lastNDays(30);
   const maxSec = Math.max(60, ...days.map(d => d.seconds));
@@ -57,13 +58,13 @@ export default async function progressPage(view) {
       h('div.section-title', 'Слова'),
       h('div.grid3', stat(c.learned, 'вивчено (інтервал ≥ 21 дн.)'), stat(c.total, 'у роботі'), stat(c.due, 'до повтору зараз')),
       h('div.section-title', 'Прогноз повторів на 7 днів'),
-      h('div.bars', { style: { height: '80px' } }, fc.map(n => h('i' + (n ? '' : '.zero'), { style: { height: `${Math.max(2, n / maxFc * 100)}%` }, title: String(n) }))),
+      h('div.bars', { style: { height: '80px' }, role: 'img', 'aria-label': `Прогноз повторів на 7 днів: ${fc.join(', ')}` }, fc.map(n => h('i' + (n ? '' : '.zero'), { style: { height: `${Math.max(2, n / maxFc * 100)}%` }, title: String(n) }))),
       h('div.bars-labels', fc.map((n, i) => h('span', i === 0 ? `сьог. ${n}` : String(n)))),
       fc.some(n => n) ? null : h('div.xs.dim', 'Повторів поки не заплановано — почніть вчити картки.')),
 
     h('section.card.stack',
       h('div.row', h('div.level-badge', lvl), h('div.grow', h('div.section-title', `Рівень ${lvl} · ${LEVEL_NAME[lvl]}`), h('div.xs.dim', `Опановано ${lp.pct}% · перехід від ${READY_PCT}%`))),
-      bar(lp.pct),
+      bar(lp.pct, 'Опанування рівня'),
       h('div.grid2', stat(`${lp.grammar.done}/${lp.grammar.total}`, `уроків граматики ${lvl}`), stat(`${lp.words.done}/${lp.words.total}`, `слів ${lvl} закріплено`)),
       h('div.xs.dim', 'Слово вважається закріпленим для рівня, коли інтервал повтору сягає 7 днів. Рахуються уроки й колоди саме цього рівня.'),
       lp.ready ? h('button.btn.primary.block', { type: 'button', onclick: () => { const n = nextLevel(); setLevel(n, 'progress'); toast(`Рівень ${n}: план і завдання оновлено`); progressPage(view); } }, `Перейти на ${nextLevel()}`) : null,
@@ -76,7 +77,7 @@ export default async function progressPage(view) {
 
     h('section.card.stack',
       h('div.section-title', 'Граматика'),
-      h('div.row', h('div.grow', bar(done / gIdx.length * 100)), h('span.small', `${done}/${gIdx.length}`)),
+      h('div.row', h('div.grow', bar(done / gIdx.length * 100, 'Пройдено уроків граматики')), h('span.small', `${done}/${gIdx.length}`)),
       tests.length ? h('div.stack', { style: { gap: '4px' } }, h('div.section-title', 'Останні тести'), tests.map(t => h('div.row.small', h('span.grow', t.type === 'placement' ? 'Рівень' : t.type === 'weekly' ? 'Тижневий' : `Урок: ${t.ref}`), h('span.dim', new Date(t.created_at).toLocaleDateString('uk-UA')), h('b', t.type === 'placement' ? t.scores.overall : `${t.scores.score}%`)))) : null),
 
     h('section.card.stack',

@@ -3,7 +3,7 @@ import { h, ic, emo, clear } from '../ui/dom.js';
 import { S, plural } from '../strings.js';
 import * as store from '../store.js';
 import * as srs from '../srs.js';
-import { allDecks } from '../data.js';
+import { allDecks, deckIndex } from '../data.js';
 import { speak } from '../speech.js';
 import { tutor, aiErrorText } from '../ai.js';
 import { user } from '../supa.js';
@@ -28,8 +28,10 @@ export default async function vocab(view, r) {
   // перегляд і додавання слів — теж навчання: час рахується (пауза після 2 хв бездіяльності)
   const timer = activityTimer('vocab');
   onLeave(view, () => timer.stop());
-  const decks = await allDecks();
-  const deckName = Object.fromEntries([...decks.map(d => [d.id, d.name]), ['my', 'Мої слова']]);
+  // сторінка (теми, мої слова) — одразу з каталогу; слова вбудованих колод (~0,5 МБ) дозавантажуються
+  const idx = await deckIndex();
+  const deckName = Object.fromEntries([...idx.map(d => [d.id, d.name]), ['my', 'Мої слова']]);
+  let decks = [], loading = true;
   let topic = r.query.topic || 'all', status = 'all', sort = 'recent', q = '', limit = 80, tag = 'all';
 
   const listBox = h('div');
@@ -61,8 +63,9 @@ export default async function vocab(view, r) {
     if (sort === 'az') rows.sort((a, b) => a.en.localeCompare(b.en));
     else if (sort === 'due') rows.sort((a, b) => (a.due ? Date.parse(a.due) : Infinity) - (b.due ? Date.parse(b.due) : Infinity));
     else rows.sort((a, b) => (b.last_review || b.created_at || '').localeCompare(a.last_review || a.created_at || ''));
-    countEl.textContent = `${rows.length} ${plural(rows.length, 'запис', 'записи', 'записів')}`;
+    countEl.textContent = loading && topic !== 'my' ? 'Завантаження слів…' : `${rows.length} ${plural(rows.length, 'запис', 'записи', 'записів')}`;
     clear(listBox);
+    if (!rows.length && loading && topic !== 'my') { listBox.append(h('div.empty', h('p', 'Завантаження…'))); return; }
     if (!rows.length) { listBox.append(h('div.empty', emo('magnifier', 'xl'), h('p', 'Нічого не знайдено'))); return; }
     listBox.append(h('div.list', rows.slice(0, limit).map(c => {
       const [cls, label] = STATUS_TAG[statusOf(c)];
@@ -73,7 +76,7 @@ export default async function vocab(view, r) {
     if (rows.length > limit) listBox.append(h('button.btn.ghost.block', { type: 'button', onclick: () => { limit += 120; draw(); } }, 'Показати ще'));
   }
 
-  const topics = [['all', 'Усі теми'], ...decks.map(d => [d.id, d.name]), ['my', 'Мої слова']];
+  const topics = [['all', 'Усі теми'], ...idx.map(d => [d.id, d.name]), ['my', 'Мої слова']];
   view.replaceChildren(h('div.stack',
     h('div.row', h('button.btn.primary.grow', { type: 'button', onclick: () => addWord(draw) }, ic('plus'), 'Додати слово'),
       h('button.btn.soft.grow', { type: 'button', onclick: () => bulkAdd(draw) }, ic('notebook'), 'Списком')),
@@ -84,6 +87,8 @@ export default async function vocab(view, r) {
     h('div.row.between', countEl, h('select.input', { 'aria-label': 'Сортування', style: { width: 'auto', minHeight: '36px', padding: '4px 10px' }, onchange: (e) => { sort = e.target.value; draw(); } }, SORTS.map(([v, t]) => h('option', { value: v }, t)))),
     listBox));
   draw();
+  allDecks().then(d => { decks = d; }, e => { console.warn('decks', e); toast('Не вдалося завантажити слова колод', { kind: 'bad' }); })
+    .finally(() => { loading = false; if (view.isConnected) draw(); });
 }
 
 function detail(c, deckName, onChange) {

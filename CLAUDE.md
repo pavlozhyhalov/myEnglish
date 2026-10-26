@@ -11,7 +11,7 @@
 - Gemini API key — лише в секретах Supabase (`GEMINI_API_KEY`). Перед комітом: `git grep -nE "AIza|sk-|service_role"` має бути порожнім.
 - Усі рядки інтерфейсу — українською; спільні — у `js/strings.js`.
 - AI-відповіді в DOM — лише через `textContent` або `js/ui/md.js` (без innerHTML сирого тексту). md.js: вкладені `*курсив **жирний***`, `~~закреслене~~`; формули — `mdInline()`.
-- **Будь-яка зміна фронтенду → `scripts/bump.sh`** (піднімає BUILD у `js/config.js`, `sw.js`, `?v=` в `index.html`, оновлює `precache-list.js`).
+- **Будь-яка зміна фронтенду → `scripts/bump.sh`** (піднімає BUILD у `js/config.js`, `sw.js`, `?v=` в `index.html`, пише `precache-list.js` з хешами вмісту — SW копіює незмінені файли зі старого кешу; перераховує `count`/`withEx` у `data/decks/index.json`).
 
 ## Структура
 - `js/app.js` — старт, шапка, маршрути, синхронізація, SW. `js/router.js` — hash-роутер: кожна сторінка рендериться у власний контейнер (`[data-page]`),

@@ -2,7 +2,7 @@
 // урок дня, нові слова, складність диктантів, рекомендовані сценарії й письмо, калібрування AI.
 import * as store from './store.js';
 import { h } from './ui/dom.js';
-import { allDecks, slug } from './data.js';
+import { deckIndex, withCards, slug } from './data.js';
 
 export const LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1'];
 export const LEVEL_NAME = { A1: 'Початковий', A2: 'Базовий', B1: 'Середній', B2: 'Вище середнього', C1: 'Просунутий' };
@@ -112,10 +112,11 @@ export function nextLessonByLevel(idx) {
 export async function levelProgress(idx, level = myLevel()) {
   const lessons = idx.filter(l => l.level === level);
   const gDone = lessons.filter(l => lessonDone(l.id)).length;
-  const general = (await allDecks()).filter(d => d.level === level && d.group !== 'work');
+  const general = (await deckIndex()).filter(d => d.level === level && d.group !== 'work');
   // вимкнені колоди не рахуються (інакше рівень неможливо опанувати); якщо вимкнено всі — рахуємо всі
   const isOn = (d) => { const r = store.get('decks', d.id); return r ? r.enabled !== false : d.default !== false; };
-  const decks = general.some(isOn) ? general.filter(isOn) : general;
+  // вантажаться лише колоди цього рівня
+  const decks = await withCards(general.some(isOn) ? general.filter(isOn) : general);
   // слово рахується один раз: те саме слово з іншої колоди (чи «Моїх слів») нова черга вдруге не вводить
   const mastered = new Set();
   for (const c of store.all('cards')) if (c.reps > 0 && (c.scheduled_days || 0) >= 7) { mastered.add(c.id); mastered.add(String(c.en || '').toLowerCase()); }

@@ -63,6 +63,8 @@ export async function render() {
   const restoreY = isBack ? scrollPos.get(location.hash) || 0 : 0;
   if (current?.cleanup) { try { current.cleanup(); } catch (e) { console.error(e); } }
   leave(current?.host);
+  // стара сторінка вже прибрана — поки вантажиться нова, вона не реагує на дотики
+  if (current?.host) current.host.inert = true;
   current = null;
   const loader = routes.get(r.name);
   const view = document.getElementById('view');
@@ -71,14 +73,16 @@ export async function render() {
   const host = document.createElement('div');
   host.dataset.page = r.name;
   if (!loader) { view.replaceChildren(host); current = { name: r.name, cleanup: null, host }; listeners.forEach(fn => fn(r)); notFound?.(host, r); return; }
+  // перше відкриття розділу (модуль іще не завантажено) або повільні дані сторінки — легка заглушка через 150 мс
+  const ph = placeholder(view, host, seq);
   try {
     const mod = await loader();
     if (seq !== renderSeq) return;            // користувач вже пішов далі
-    view.replaceChildren(host);
+    if (host.parentNode !== view || view.childNodes.length !== 1) view.replaceChildren(host);
     current = { name: r.name, cleanup: null, host };
     view.className = '';
-    void view.offsetWidth;
-    view.className = 'page-enter';
+    // анімація входу — на новому контейнері сторінки: вона стартує сама, без примусового перерахунку розмітки
+    host.className = 'page-enter';
     window.scrollTo(0, 0);
     listeners.forEach(fn => fn(r));
     const cleanup = await mod.default(host, r);
@@ -87,8 +91,38 @@ export async function render() {
     if (restoreY) requestAnimationFrame(() => window.scrollTo(0, restoreY));
   } catch (e) {
     console.error(e);
-    if (seq === renderSeq) host.textContent = 'Помилка завантаження сторінки: ' + e.message;
+    if (seq === renderSeq) { if (host.parentNode !== view) view.replaceChildren(host); host.textContent = 'Помилка завантаження сторінки: ' + e.message; }
+  } finally {
+    ph.done();
   }
+}
+
+/**
+ * Заглушка «Завантаження…»: з'являється, лише якщо за 150 мс сторінка нічого не показала.
+ * Поки модуль вантажиться — займає місце старої сторінки; далі зникає, щойно сторінка додасть свій вміст.
+ */
+function placeholder(view, host, seq) {
+  let el = null, mo = null;
+  const t = setTimeout(() => {
+    if (seq !== renderSeq || host.childNodes.length) return;
+    el = document.createElement('div');
+    el.className = 'empty';
+    el.style.minHeight = '60vh';
+    el.setAttribute('role', 'status');
+    const p = document.createElement('p');
+    p.textContent = 'Завантаження…';
+    el.append(p);
+    host.append(el);
+    if (host.parentNode !== view) view.replaceChildren(host);
+    mo = new MutationObserver(() => { if (host.childNodes.length > 1 || !el.isConnected) done(); });
+    mo.observe(host, { childList: true });
+  }, 150);
+  function done() {
+    clearTimeout(t);
+    mo?.disconnect();
+    if (el?.parentNode === host) el.remove();
+  }
+  return { done };
 }
 
 export function start() {

@@ -3,7 +3,7 @@ import { h, ic, emo, ring, fmtMin } from '../ui/dom.js';
 import { S, plural } from '../strings.js';
 import * as store from '../store.js';
 import * as srs from '../srs.js';
-import { allDecks, grammarIndex, scenarios as loadScenarios, writingTasks, listening as loadListening, pronunciation as loadPron } from '../data.js';
+import { withCards, grammarIndex, scenarios as loadScenarios, writingTasks, listening as loadListening, pronunciation as loadPron } from '../data.js';
 import { todaySeconds, streak, week, mistakesByType, lessonsToReview, lessonDone, today, dayKey } from '../stats.js';
 import { speak } from '../speech.js';
 import { toast } from '../ui/toast.js';
@@ -16,11 +16,11 @@ export default async function home(view) {
   const lvl = myLevel();
   const st = store.settings();
   const prof = store.prof();
-  const [counts, gIdx, allD, deckState] = await Promise.all([srs.counts(), grammarIndex(), allDecks(), srs.decks()]);
-  const on = new Set(deckState.filter(d => d.enabled).map(d => d.id));
-  const decks = allD.filter(d => on.has(d.id));
+  // для плану дня потрібні лише лічильники карток (колоди свого рівня); опанування рівня і слово дня — дозавантажуються
+  const [counts, gIdx, deckState] = await Promise.all([srs.counts(), grammarIndex(), srs.decks()]);
+  // увімкнені вбудовані колоди (метадані з каталогу, без карток)
+  const decks = deckState.filter(d => d.builtin && d.enabled);
   const firstRun = !prof.placementDone && !prof.levelSource && store.count('sessions') === 0;
-  const lp = await levelProgress(gIdx, lvl);
   if (view.__tok !== tok) return;
 
   const hour = new Date().getHours();
@@ -79,15 +79,24 @@ export default async function home(view) {
       h('button.btn.ghost', { type: 'button', onclick: () => { store.setProf({ placementDone: 'skipped' }); home(view); } }, 'Пропустити')));
   }
 
-  // ---- рівень: що зараз вивчаємо і скільки до наступного ----
+  // ---- рівень: що зараз вивчаємо і скільки до наступного (числа — після завантаження колод рівня) ----
+  const lpInfo = h('div.xs.dim', '\u00a0');
+  const lpPct = h('span.num.small');
+  const lpFill = h('i', { style: { width: '0%' } });
+  const lpBar = h('div.progress', { role: 'progressbar', 'aria-label': 'Опанування рівня', 'aria-valuemin': 0, 'aria-valuemax': 100, 'aria-valuenow': 0 }, lpFill);
+  levelProgress(gIdx, lvl).then(lp => {
+    lpInfo.textContent = `Уроки ${lp.grammar.done}/${lp.grammar.total} · слова ${lp.words.done}/${lp.words.total}`;
+    lpPct.textContent = `${lp.pct}%`;
+    lpFill.style.width = `${lp.pct}%`;
+    lpBar.setAttribute('aria-valuenow', String(lp.pct));
+    if (lp.ready) lpBar.after(h('div.small', { style: { color: 'var(--accent-ink)', fontWeight: 600 } }, `Ви майже опанували ${lvl} — час переходити на ${nextLevel()}`));
+  }).catch(e => console.warn('level', e));
   blocks.push(h('section.card.stack',
     h('a.row', { href: '#/progress', style: { color: 'inherit', textDecoration: 'none' } },
       h('div.level-badge', lvl),
-      h('div.grow', h('div', { style: { fontWeight: 600 } }, `Рівень ${lvl} · ${LEVEL_NAME[lvl]}`),
-        h('div.xs.dim', `Уроки ${lp.grammar.done}/${lp.grammar.total} · слова ${lp.words.done}/${lp.words.total}`)),
-      h('span.num.small', `${lp.pct}%`)),
-    h('div.progress', h('i', { style: { width: `${lp.pct}%` } })),
-    lp.ready ? h('div.small', { style: { color: 'var(--accent-ink)', fontWeight: 600 } }, `Ви майже опанували ${lvl} — час переходити на ${nextLevel()}`) : null,
+      h('div.grow', h('div', { style: { fontWeight: 600 } }, `Рівень ${lvl} · ${LEVEL_NAME[lvl]}`), lpInfo),
+      lpPct),
+    lpBar,
     // швидка зміна рівня: план, урок дня і завдання нижче одразу перебудовуються
     h('div.level-pick', LEVELS.map(l => h('button.chip', { type: 'button', 'aria-pressed': String(l === lvl), 'aria-label': `Рівень ${l}`, onclick: () => {
       if (l === lvl) return;
@@ -115,9 +124,11 @@ export default async function home(view) {
           d.goal ? ic('check', { size: 16 }) : null),
         d.name)))));
 
-    // ---- слово дня ----
-    const w = wordOfDay(decks.filter(d => diff(d.level) <= 1 && diff(d.level) >= -1));
-    if (w) {
+    // ---- слово дня (вантажиться одна колода; блок з'являється на своєму місці) ----
+    const wodSlot = document.createComment('word-of-day');
+    blocks.push(wodSlot);
+    wordOfDay(decks.filter(d => diff(d.level) <= 1 && diff(d.level) >= -1)).then(w => {
+      if (!w || !wodSlot.parentNode) return;
       const inCards = store.get('cards', w.id) || store.all('cards').find(c => c.en.toLowerCase() === w.en.toLowerCase());
       const addBtn = h('button.btn.soft.sm', {
         type: 'button', disabled: !!inCards,
@@ -127,7 +138,7 @@ export default async function home(view) {
           toast('Додано — з\'явиться першим серед нових');
         },
       }, inCards ? 'Уже в картках' : 'Додати в картки');
-      blocks.push(h('section.card.stack',
+      wodSlot.replaceWith(h('section.card.stack',
         h('div.row', h('span.eyebrow.grow', 'Слово дня'), h('span.tag', w.deckName)),
         h('div.row',
           h('div.grow', h('div.en', { style: { fontSize: 'var(--fs-xl)' } }, w.card.en), w.card.ipa ? h('div.ipa.small', w.card.ipa) : null),
@@ -135,7 +146,7 @@ export default async function home(view) {
         h('div', w.card.uk),
         w.card.ex ? h('div.row.small', h('button.icon-btn', { type: 'button', 'aria-label': 'Прослухати приклад', onclick: () => speak(w.card.ex) }, ic('speaker-high', { size: 20 })), h('i.dim.grow', w.card.ex)) : null,
         h('div', addBtn)));
-    }
+    }).catch(e => console.warn('word of day', e));
 
     // ---- слабкі місця ----
     const weak = mistakesByType().slice(0, 3);
@@ -196,12 +207,27 @@ function pickLesson(idx) {
   return nextLessonByLevel(idx);
 }
 
-function wordOfDay(decks) {
-  const pool = [];
-  for (const d of decks) for (const c of d.cards) if (c.ex) pool.push({ deck: d.id, deckName: d.name, card: c, id: srs.starterId(d.id, c.en), en: c.en });
-  if (!pool.length) return null;
+/**
+ * Слово дня: детермінований вибір з усіх карток із прикладом у переданих колодах (у порядку каталогу).
+ * Каталог знає, скільки в колоді карток із прикладом (withEx) — вантажиться лише колода з обраним словом.
+ */
+async function wordOfDay(metas) {
   const k = today();
   let hsh = 0; for (const ch of k) hsh = (hsh * 31 + ch.charCodeAt(0)) >>> 0;
+  const item = (d, c) => ({ deck: d.id, deckName: d.name, card: c, id: srs.starterId(d.id, c.en), en: c.en });
+  if (metas.every(d => Number.isInteger(d.withEx))) {
+    const total = metas.reduce((a, d) => a + d.withEx, 0);
+    if (!total) return null;
+    let n = hsh % total, d = null;
+    for (const m of metas) { if (n < m.withEx) { d = m; break; } n -= m.withEx; }
+    const [full] = await withCards([d]);
+    const withEx = full.cards.filter(c => c.ex);
+    // каталог збігається з колодою — готово; інакше (застарілий index.json) рахуємо по всіх колодах
+    if (withEx.length === d.withEx) return item(d, withEx[n]);
+  }
+  const pool = [];
+  for (const d of await withCards(metas)) for (const c of d.cards) if (c.ex) pool.push(item(d, c));
+  if (!pool.length) return null;
   return pool[hsh % pool.length];
 }
 
