@@ -1,0 +1,227 @@
+{
+ "id": "ellipsis-substitution",
+ "title": "Заміна і пропуск: so, not, one, do so",
+ "titleEn": "Ellipsis and substitution",
+ "unit": "Просунуті конструкції",
+ "level": "C1",
+ "mistakeType": "other",
+ "explanation": "Носії не повторюють те, що вже зрозуміло: замінюють коротким словом (**substitution**) або просто пропускають (**ellipsis**). Без цього мова звучить як підручник.\n\n**so / not** замінюють ціле речення після *think, hope, expect, suppose, guess, be afraid, seem, appear*: *\"Will it rain?\" — \"I **think so**.\" / \"I **hope not**.\"* У запереченні з *think* частіше ***I don't think so***, але завжди ***I hope not***, ***I'm afraid not***, ***I guess not***.\n\n**one / ones** замінюють злічуваний іменник: *I don't like the red **one**; I prefer the blue **ones**.* Також *this one, the one on the left, a cheaper one*. З незлічуваними не вживається: *I prefer red wine to white* (не ~~white one~~).\n\n**so do I / neither have I / do so.** «Я теж» — ***so** + допоміжне + підмет*: *Vita loves sushi, and **so do I**.* «Я теж ні» — ***neither / nor***: *I haven't been there, and **neither has** she.* **do so** замінює дію (трохи офіційно): *You can pay online. — I've already **done so**.*\n\n**Пропуск після допоміжного і після to:** *\"Are you coming?\" — \"Yes, I **am**.\"* *I'd love to go, but I **can't**.* Після **to** дієслово випадає: *\"Do you want to come?\" — \"I'd love **to**.\"* *Sorry, I didn't mean **to**.* У розмові пропускають і початок: *(Do you) Want a coffee? (That) Sounds good.*",
+ "formula": [
+  "I think **so** · I hope **not** · I'm afraid **not**",
+  "a / the / this + (прикметник) + **one(s)**",
+  "**so do I · neither have I** · I'd love **to** · Yes, I **can**"
+ ],
+ "table": {
+  "head": [
+   "Повністю",
+   "Скорочено",
+   "Прийом"
+  ],
+  "rows": [
+   [
+    "I think it will be sunny.",
+    "I think so.",
+    "so замість речення"
+   ],
+   [
+    "I hope it won't rain.",
+    "I hope not.",
+    "not замість заперечного речення"
+   ],
+   [
+    "I want the big bag.",
+    "I want the big one.",
+    "one замість іменника"
+   ],
+   [
+    "I like jazz and Vita likes jazz too.",
+    "I like jazz, and so does Vita.",
+    "so + допоміжне + підмет"
+   ],
+   [
+    "Would you like to join us? — I'd love to join you.",
+    "I'd love to.",
+    "пропуск після to"
+   ],
+   [
+    "Have you paid? — Yes, I have paid.",
+    "Yes, I have.",
+    "пропуск після допоміжного"
+   ]
+  ]
+ },
+ "examples": [
+  {
+   "en": "\"Is the pharmacy still open?\" — \"I'm afraid not.\"",
+   "uk": "«Аптека ще відчинена?» — «Боюся, що ні.»"
+  },
+  {
+   "en": "\"Are we going to be late?\" — \"I hope not!\"",
+   "uk": "«Ми запізнимося?» — «Сподіваюся, що ні!»"
+  },
+  {
+   "en": "These sunglasses are too dark. Have you got any lighter ones?",
+   "uk": "Ці окуляри затемні. У вас є світліші?"
+  },
+  {
+   "en": "Vita hasn't seen the film, and neither have I.",
+   "uk": "Віта не бачила цього фільму, і я теж."
+  },
+  {
+   "en": "\"Can you come to the barbecue?\" — \"I'd love to, but I can't.\"",
+   "uk": "«Прийдеш на барбекю?» — «Дуже хотів би, але не можу.»"
+  },
+  {
+   "en": "If you'd like to cancel your booking, you can do so online.",
+   "uk": "Якщо хочете скасувати бронювання, це можна зробити онлайн."
+  }
+ ],
+ "tip": "«Я теж» = ***so do I / so am I / so have I*** (залежно від допоміжного), «я теж ні» = ***neither do I***. Не ~~I too don't~~.",
+ "exercises": [
+  {
+   "type": "choice",
+   "prompt": "\"Will the shop be open on Sunday?\" — \"I don't think ___.\"",
+   "options": [
+    "so",
+    "it",
+    "that",
+    "yes"
+   ],
+   "answer": "so",
+   "explanation": "so замінює ціле речення після think."
+  },
+  {
+   "type": "choice",
+   "prompt": "\"Is there any milk left?\" — \"I'm afraid ___.\"",
+   "options": [
+    "not",
+    "no",
+    "don't",
+    "so not"
+   ],
+   "answer": "not",
+   "explanation": "Заперечна коротка відповідь — I'm afraid not."
+  },
+  {
+   "type": "choice",
+   "prompt": "I don't like this jacket. Can I try the black ___?",
+   "options": [
+    "one",
+    "ones",
+    "it",
+    "that"
+   ],
+   "answer": "one",
+   "explanation": "one замінює злічуваний іменник в однині."
+  },
+  {
+   "type": "choice",
+   "prompt": "\"I love living in Kraków.\" — \"So ___ I.\"",
+   "options": [
+    "do",
+    "am",
+    "have",
+    "love"
+   ],
+   "answer": "do",
+   "explanation": "Present Simple → so do I."
+  },
+  {
+   "type": "choice",
+   "prompt": "\"I can't swim very well.\" — \"Neither ___ I.\"",
+   "options": [
+    "can",
+    "do",
+    "am",
+    "can't"
+   ],
+   "answer": "can",
+   "explanation": "Після neither — стверджувальне допоміжне з речення."
+  },
+  {
+   "type": "choice",
+   "prompt": "\"Do you want to come to the cinema?\" — \"I'd love ___!\"",
+   "options": [
+    "to",
+    "it",
+    "so",
+    "that"
+   ],
+   "answer": "to",
+   "explanation": "Після to дієслово пропускаємо."
+  },
+  {
+   "type": "input",
+   "prompt": "\"Is Vita coming tonight?\" — \"I hope ___. I haven't seen her for ages.\"",
+   "answer": [
+    "so"
+   ],
+   "explanation": "I hope so — «сподіваюся, що так»."
+  },
+  {
+   "type": "input",
+   "prompt": "These shoes are too small. Do you have any bigger ___?",
+   "answer": [
+    "ones"
+   ],
+   "explanation": "ones замінює іменник у множині."
+  },
+  {
+   "type": "input",
+   "prompt": "\"Have you locked the car?\" — \"Yes, I ___.\"",
+   "answer": [
+    "have"
+   ],
+   "explanation": "Коротка відповідь повторює допоміжне."
+  },
+  {
+   "type": "error",
+   "sentence": "I hope no, because we're having a barbecue.",
+   "wrongIndex": 2,
+   "correction": "not",
+   "alt": [],
+   "explanation": "Заперечна заміна речення — I hope not."
+  },
+  {
+   "type": "error",
+   "sentence": "I don't like white wine, but I love red one.",
+   "wrongIndex": 9,
+   "correction": "wine",
+   "alt": [],
+   "explanation": "one не замінює незлічуваний іменник."
+  },
+  {
+   "type": "order",
+   "prompt": "Віта не була в Римі, і я теж.",
+   "answer": [
+    "Vita hasn't been to Rome, and neither have I."
+   ],
+   "explanation": "«І я теж ні» — neither + допоміжне + підмет."
+  },
+  {
+   "type": "transform",
+   "prompt": "I want to go, but I can't go.",
+   "instruction": "Приберіть повтор",
+   "answer": [
+    "I want to, but I can't.",
+    "I want to go, but I can't."
+   ],
+   "explanation": "Після to і допоміжного дієслово можна пропустити."
+  },
+  {
+   "type": "translate",
+   "uk": "Думаю, що ні. (відповідь на «Will he come?»)",
+   "answer": [
+    "I don't think so.",
+    "I think not.",
+    "I don't think he will.",
+    "I don't think he'll come.",
+    "I suppose not.",
+    "I guess not.",
+    "I don't suppose so.",
+    "I don't suppose he will."
+   ],
+   "explanation": "Найприродніше — I don't think so."
+  }
+ ]
+}

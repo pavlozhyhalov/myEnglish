@@ -1,0 +1,222 @@
+{
+ "id": "conjunctions-contrast",
+ "title": "Протиставлення: although, despite, whereas",
+ "titleEn": "Contrast: although, despite, however, whereas",
+ "unit": "Будова речення",
+ "level": "B2",
+ "mistakeType": "other",
+ "explanation": "Слова протиставлення схожі за змістом, але вимагають **різної граматики** після себе. Саме тут найчастіші помилки.\n\n**although / even though / though** + повне речення (підмет + дієслово): *Although it was raining, we went out.* **even though** — сильніше: «хоча навіть». **though** у розмові може стояти **в кінці** речення у значенні «утім»: *It was expensive. Worth it, **though**.*\n\n**despite / in spite of** + іменник, займенник або -ing: *despite **the rain***, *in spite of **being** tired*. Ніколи ~~despite of~~. Щоб після despite поставити речення, кажемо **despite the fact that**: *Despite the fact that it was raining, we went out.*\n\n**however / nevertheless / even so** з'єднують **два окремі речення**; після них кома: *The flat is small. **However**, it's in a great location.* However може стояти й усередині: *The flat, **however**, is in a great location.* Але не можна з'єднати ним дві частини одного речення через кому, як *but*.\n\n**whereas / while** порівнюють два факти, що контрастують: *I'm an early bird, **whereas** Vita loves staying up late.* **On the other hand** — «з іншого боку», зазвичай на початку нового речення.",
+ "formula": [
+  "**although / even though** + підмет + дієслово",
+  "**despite / in spite of** + іменник / V-ing · despite **the fact that** + речення",
+  "Речення. **However,** речення. · A, **whereas** B"
+ ],
+ "table": {
+  "head": [
+   "Слово",
+   "Що після нього",
+   "Приклад"
+  ],
+  "rows": [
+   [
+    "although / even though",
+    "речення",
+    "Although it was cold, we went for a walk."
+   ],
+   [
+    "despite / in spite of",
+    "іменник або -ing",
+    "Despite the cold, we went for a walk."
+   ],
+   [
+    "despite the fact that",
+    "речення",
+    "Despite the fact that it was cold, we went out."
+   ],
+   [
+    "however / nevertheless",
+    "нове речення + кома",
+    "It was cold. However, we went out."
+   ],
+   [
+    "whereas / while",
+    "контраст двох фактів",
+    "I love winter, whereas Vita prefers summer."
+   ],
+   [
+    "though (у кінці)",
+    "розмовне «утім»",
+    "It was cold. We enjoyed it, though."
+   ]
+  ]
+ },
+ "examples": [
+  {
+   "en": "Even though we'd booked a table, we had to wait for twenty minutes.",
+   "uk": "Хоча ми забронювали столик, нам довелося чекати двадцять хвилин."
+  },
+  {
+   "en": "In spite of the traffic, we got to the airport on time.",
+   "uk": "Попри затори, ми вчасно дісталися до аеропорту."
+  },
+  {
+   "en": "Despite living in Poland for three years, I still mix up some words.",
+   "uk": "Попри те що живу в Польщі три роки, я досі плутаю деякі слова."
+  },
+  {
+   "en": "The flat is quite small. However, the location is perfect.",
+   "uk": "Квартира досить маленька. Проте розташування ідеальне."
+  },
+  {
+   "en": "I'm a morning person, whereas Vita is a night owl.",
+   "uk": "Я — жайворонок, тоді як Віта — сова."
+  },
+  {
+   "en": "The concert was expensive. It was worth every złoty, though.",
+   "uk": "Концерт був дорогий. Утім, вартий кожного злотого."
+  }
+ ],
+ "tip": "Після **despite** не буває ні *of*, ні речення: ~~despite it was raining~~ → *despite **the rain*** або *despite **the fact that** it was raining*.",
+ "exercises": [
+  {
+   "type": "choice",
+   "prompt": "___ it was raining, we had a picnic in the park.",
+   "options": [
+    "Although",
+    "Despite",
+    "In spite of",
+    "However"
+   ],
+   "answer": "Although",
+   "explanation": "Після although іде повне речення."
+  },
+  {
+   "type": "choice",
+   "prompt": "___ feeling ill, Vita went to her friend's wedding.",
+   "options": [
+    "Despite",
+    "Although",
+    "Even though",
+    "Whereas"
+   ],
+   "answer": "Despite",
+   "explanation": "Після despite — форма на -ing."
+  },
+  {
+   "type": "choice",
+   "prompt": "The hotel was lovely. ___, the food was terrible.",
+   "options": [
+    "However",
+    "Although",
+    "Despite",
+    "Whereas"
+   ],
+   "answer": "However",
+   "explanation": "However з комою починає нове речення."
+  },
+  {
+   "type": "choice",
+   "prompt": "My brother loves big cities, ___ I prefer the countryside.",
+   "options": [
+    "whereas",
+    "despite",
+    "however",
+    "in spite of"
+   ],
+   "answer": "whereas",
+   "explanation": "whereas порівнює два протилежні факти."
+  },
+  {
+   "type": "choice",
+   "prompt": "We enjoyed the trip in spite ___ the bad weather.",
+   "options": [
+    "of",
+    "that",
+    "the fact"
+   ],
+   "answer": "of",
+   "explanation": "Сталий вираз — in spite of."
+  },
+  {
+   "type": "input",
+   "prompt": "___ the fact that he's rich, he's very modest. (одне слово)",
+   "answer": [
+    "despite"
+   ],
+   "explanation": "despite the fact that + речення."
+  },
+  {
+   "type": "input",
+   "prompt": "It was a long flight. I slept most of the way, ___. (розмовне «утім» у кінці)",
+   "answer": [
+    "though"
+   ],
+   "explanation": "though у кінці речення — розмовне «утім»."
+  },
+  {
+   "type": "input",
+   "prompt": "___ I've lived here for years, I still get lost in the Old Town. (навіть хоча, 2 слова)",
+   "answer": [
+    "even though"
+   ],
+   "explanation": "even though + речення — посилене «хоча»."
+  },
+  {
+   "type": "error",
+   "sentence": "Although the rain, we went to the beach.",
+   "wrongIndex": 0,
+   "correction": "Despite",
+   "alt": [
+    "In spite of"
+   ],
+   "explanation": "Перед іменником — despite або in spite of."
+  },
+  {
+   "type": "error",
+   "sentence": "I like coffee, however my wife prefers tea.",
+   "wrongIndex": 3,
+   "correction": "but",
+   "alt": [
+    "whereas",
+    "while"
+   ],
+   "explanation": "However не з'єднує частини одного речення через кому."
+  },
+  {
+   "type": "order",
+   "prompt": "Попри втому, ми пішли на вечірку.",
+   "answer": [
+    "Despite being tired, we went to the party."
+   ],
+   "explanation": "despite + being + прикметник."
+  },
+  {
+   "type": "transform",
+   "prompt": "It was very late, but we went for a walk.",
+   "instruction": "Почніть з Despite…",
+   "answer": [
+    "Despite the late hour, we went for a walk.",
+    "Despite it being very late, we went for a walk.",
+    "Despite it being late, we went for a walk.",
+    "Despite the fact that it was very late, we went for a walk.",
+    "Despite the fact that it was late, we went for a walk."
+   ],
+   "explanation": "Після despite — іменник, -ing або the fact that."
+  },
+  {
+   "type": "translate",
+   "uk": "Хоча квартира маленька, нам вона подобається.",
+   "answer": [
+    "Although the flat is small, we like it.",
+    "Even though the flat is small, we like it.",
+    "Though the flat is small, we like it.",
+    "Although the apartment is small, we like it.",
+    "Even though the apartment is small, we like it.",
+    "Although the flat is small, we love it.",
+    "Despite the flat being small, we like it.",
+    "The flat is small, but we like it."
+   ],
+   "explanation": "Although + повне речення."
+  }
+ ]
+}

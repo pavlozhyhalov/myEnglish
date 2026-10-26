@@ -1,0 +1,223 @@
+{
+ "id": "emphasis-do-auxiliary",
+ "title": "Емфаза: do, What he did was…, so / such",
+ "titleEn": "Emphasis: emphatic do, do-clefts, so / such",
+ "unit": "Просунуті конструкції",
+ "level": "C1",
+ "mistakeType": "word_order",
+ "explanation": "**Емфатичне do / does / did + V** означає «справді, таки, ж»: *I **do** like your new haircut!* *She **did** call — you just didn't hear.* Так заперечують чужу думку, підкреслюють контраст або щирість. В усному мовленні на *do* падає наголос.\n\nУ наказах **Do + V** звучить гостинно або наполегливо: ***Do** sit down. **Do** let me know if you need anything.* Наголосити можна й наявне допоміжне: *I **have** finished! It **is** cold today!*\n\n**What + підмет + did / does + was / is + (to) V** виділяє саму **дію**: ***What we did was (to) book** a cheaper hotel.* ***What you need to do is call** the landlord.* Подібно: ***All I did was ask** a question!* — «я ж лише запитав».\n\n**so / such** для емоційного підсилення: **so** + прикметник чи прислівник, **such (a)** + (прикметник) + іменник: *She's **so** kind. It was **such a** lovely evening. They make **such** good coffee.* З наслідком: *so … that / such … that*.\n\nІнші підсилювачі: **the very** (*the very first time* — «найперший раз»), **-self** (*I fixed it **myself***), **on earth / ever** у питаннях (*What **on earth** is that? Why **ever** would you do that?*), **at all** у запереченнях (*I don't mind **at all***).",
+ "formula": [
+  "**do / does / did** + V — «справді, таки»",
+  "**What** + підмет + **did was (to)** + V",
+  "**so** + прикметник · **such (a)** + прикметник + іменник"
+ ],
+ "table": {
+  "head": [
+   "Засіб",
+   "Приклад",
+   "Відтінок"
+  ],
+  "rows": [
+   [
+    "emphatic do",
+    "I do love this song!",
+    "щиро, справді"
+   ],
+   [
+    "did + V",
+    "I did lock the door — I'm sure!",
+    "заперечення сумніву"
+   ],
+   [
+    "Do + наказ",
+    "Do help yourself to some cake.",
+    "гостинно, наполегливо"
+   ],
+   [
+    "What … did was",
+    "What I did was call the police.",
+    "виділення дії"
+   ],
+   [
+    "such a",
+    "It was such a long day.",
+    "підсилення іменника"
+   ],
+   [
+    "on earth",
+    "Where on earth have you been?",
+    "здивування, роздратування"
+   ]
+  ]
+ },
+ "examples": [
+  {
+   "en": "I do understand how you feel, but we can't afford it right now.",
+   "uk": "Я справді розумію, що ти відчуваєш, але зараз ми не можемо собі цього дозволити."
+  },
+  {
+   "en": "Vita did warn me about the traffic!",
+   "uk": "Віта ж попереджала мене про затори!"
+  },
+  {
+   "en": "Do come in — make yourself at home.",
+   "uk": "Заходьте, будь ласка, — почувайтеся як удома."
+  },
+  {
+   "en": "What we did was rent a car and drive along the coast.",
+   "uk": "Ми зробили так: узяли машину напрокат і поїхали вздовж узбережжя."
+  },
+  {
+   "en": "It was such a beautiful wedding that I almost cried.",
+   "uk": "Весілля було таке гарне, що я ледь не заплакав."
+  },
+  {
+   "en": "What on earth are you doing up so early?",
+   "uk": "Що ти взагалі робиш на ногах так рано?"
+  }
+ ],
+ "tip": "Після емфатичного **do / does / did** дієслово — у базовій формі: *She **does** look tired* (не ~~does looks~~), *I **did** tell you* (не ~~did told~~).",
+ "exercises": [
+  {
+   "type": "choice",
+   "prompt": "I know you think I forgot, but I ___ send the email yesterday!",
+   "options": [
+    "did",
+    "do",
+    "was",
+    "have"
+   ],
+   "answer": "did",
+   "explanation": "Емфатичне did + V про минуле."
+  },
+  {
+   "type": "choice",
+   "prompt": "She ___ look tired lately — is everything OK?",
+   "options": [
+    "does",
+    "do",
+    "is",
+    "did"
+   ],
+   "answer": "does",
+   "explanation": "Емфатичне does + V для she."
+  },
+  {
+   "type": "choice",
+   "prompt": "It was ___ lovely evening — thank you for inviting us.",
+   "options": [
+    "such a",
+    "so",
+    "so a",
+    "such"
+   ],
+   "answer": "such a",
+   "explanation": "such a + прикметник + іменник в однині."
+  },
+  {
+   "type": "choice",
+   "prompt": "What I did ___ call the landlord and complain.",
+   "options": [
+    "was",
+    "did",
+    "is",
+    "had"
+   ],
+   "answer": "was",
+   "explanation": "What I did was + V."
+  },
+  {
+   "type": "choice",
+   "prompt": "Where ___ have you been? We've been worried sick!",
+   "options": [
+    "on earth",
+    "in earth",
+    "at all",
+    "the very"
+   ],
+   "answer": "on earth",
+   "explanation": "on earth підсилює питання."
+  },
+  {
+   "type": "input",
+   "prompt": "\"You don't like my soup.\" — \"That's not true! I ___ (like) it!\" (емфатично, 2 слова)",
+   "answer": [
+    "do like"
+   ],
+   "explanation": "Емфатичне do + V заперечує чужу думку."
+  },
+  {
+   "type": "input",
+   "prompt": "___ sit down and have a cup of tea. (ввічливе запрошення)",
+   "answer": [
+    "do"
+   ],
+   "explanation": "Do + наказ звучить гостинно."
+  },
+  {
+   "type": "input",
+   "prompt": "The flat was ___ small that we couldn't fit a sofa in it.",
+   "answer": [
+    "so"
+   ],
+   "explanation": "so + прикметник + that."
+  },
+  {
+   "type": "input",
+   "prompt": "What you need to ___ is talk to her honestly.",
+   "answer": [
+    "do"
+   ],
+   "explanation": "What you need to do is + V."
+  },
+  {
+   "type": "error",
+   "sentence": "She does looks great in that dress.",
+   "wrongIndex": 2,
+   "correction": "look",
+   "alt": [],
+   "explanation": "Після does — базова форма без -s."
+  },
+  {
+   "type": "error",
+   "sentence": "It was so a good film that we watched it twice.",
+   "wrongIndex": 2,
+   "correction": "such",
+   "alt": [],
+   "explanation": "Перед a + прикметник + іменник — such."
+  },
+  {
+   "type": "order",
+   "prompt": "Я справді люблю цей район.",
+   "answer": [
+    "I do love this neighbourhood."
+   ],
+   "explanation": "Емфатичне do перед дієсловом."
+  },
+  {
+   "type": "transform",
+   "prompt": "We took a taxi.",
+   "instruction": "Виділіть дію: What we did…",
+   "answer": [
+    "What we did was take a taxi.",
+    "What we did was to take a taxi."
+   ],
+   "explanation": "What + підмет + did was + (to) V."
+  },
+  {
+   "type": "translate",
+   "uk": "Я ж казав тобі, що буде дощ!",
+   "answer": [
+    "I did tell you it would rain!",
+    "I did tell you that it would rain!",
+    "I did tell you it was going to rain!",
+    "I did tell you that it was going to rain!",
+    "I told you it would rain!",
+    "I told you it was going to rain!",
+    "I told you that it would rain!",
+    "I did say it would rain!"
+   ],
+   "explanation": "«Ж казав» — емфатичне did tell."
+  }
+ ]
+}

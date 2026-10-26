@@ -1,0 +1,226 @@
+{
+ "id": "verb-patterns-advanced",
+ "title": "-ing чи to: дієслова, що змінюють значення",
+ "titleEn": "Verb patterns: -ing vs to-infinitive (meaning change)",
+ "unit": "Будова речення",
+ "level": "B2",
+ "mistakeType": "other",
+ "explanation": "Деякі дієслова вживаються і з **-ing**, і з **to + V**, але значення різне. Загальне правило: **-ing** — дія, що **вже відбулася** або сама дія як процес; **to + V** — дія, яку **ще треба зробити**, або мета.\n\n**remember / forget:** + -ing — пам'ятати чи забути, що щось **було**: *I'll never forget **meeting** Vita.* + to — не забути **зробити**: *Remember **to buy** milk. I forgot **to call** Mum.*\n\n**stop:** + -ing — припинити: *I've stopped **drinking** coffee.* + to — зупинитися, **щоб** щось зробити: *We stopped **to buy** coffee.* **go on:** + -ing — продовжувати те саме; + to — перейти до чогось нового: *After the castle, the guide went on **to show** us the cathedral.*\n\n**try:** + to — намагатися (важко, може не вийти): *I tried **to open** the jar.* + -ing — спробувати як експеримент: *Try **adding** some salt.* **regret:** + -ing — шкодувати про минуле: *I regret **not learning** Polish earlier.* + to — офіційне «з жалем повідомляємо»: *We regret **to inform** you…*\n\n**mean:** + to — мати намір: *I meant **to call** you.* + -ing — означати: *Moving abroad means **leaving** your friends.* **need + -ing** має пасивне значення: *The car needs **washing*** = needs to be washed.",
+ "formula": [
+  "**-ing** — те, що вже сталося, або сама дія",
+  "**to + V** — те, що треба зробити, або мета",
+  "remember · forget · stop · try · regret · go on · mean"
+ ],
+ "table": {
+  "head": [
+   "Дієслово",
+   "+ -ing",
+   "+ to V"
+  ],
+  "rows": [
+   [
+    "remember",
+    "I remember locking the door. (пам'ятаю, що замкнув)",
+    "Remember to lock the door. (не забудь замкнути)"
+   ],
+   [
+    "forget",
+    "I'll never forget seeing the sea for the first time.",
+    "Don't forget to call your mum."
+   ],
+   [
+    "stop",
+    "He stopped smoking. (кинув)",
+    "He stopped to smoke. (зупинився, щоб покурити)"
+   ],
+   [
+    "try",
+    "Try restarting the router. (як експеримент)",
+    "I tried to fix it, but couldn't. (намагався)"
+   ],
+   [
+    "regret",
+    "I regret saying that. (шкодую, що сказав)",
+    "We regret to tell you… (з жалем повідомляємо)"
+   ],
+   [
+    "mean",
+    "Living here means paying high rent. (означає)",
+    "I meant to text you. (збирався)"
+   ]
+  ]
+ },
+ "examples": [
+  {
+   "en": "Do you remember meeting Vita's parents for the first time?",
+   "uk": "Пам'ятаєш, як ти вперше познайомився з батьками Віти?"
+  },
+  {
+   "en": "Please remember to water the plants while we're away.",
+   "uk": "Будь ласка, не забудь поливати рослини, поки нас не буде."
+  },
+  {
+   "en": "We stopped to take some photos of the castle.",
+   "uk": "Ми зупинилися, щоб сфотографувати замок."
+  },
+  {
+   "en": "If you can't sleep, try drinking some warm milk.",
+   "uk": "Якщо не можеш заснути, спробуй випити теплого молока."
+  },
+  {
+   "en": "I regret not visiting my grandparents more often.",
+   "uk": "Шкодую, що не відвідував бабусю з дідусем частіше."
+  },
+  {
+   "en": "Sorry, I meant to reply yesterday, but I forgot.",
+   "uk": "Вибач, я збирався відповісти вчора, але забув."
+  }
+ ],
+ "tip": "Запитайте себе: дія **вже була** (→ -ing) чи **ще має бути** (→ to)? *I remember **paying*** — я вже заплатив; *Remember **to pay*** — ще треба заплатити.",
+ "exercises": [
+  {
+   "type": "choice",
+   "prompt": "Please remember ___ the door when you leave.",
+   "options": [
+    "to lock",
+    "locking",
+    "lock"
+   ],
+   "answer": "to lock",
+   "explanation": "Не забути зробити — remember to + V."
+  },
+  {
+   "type": "choice",
+   "prompt": "I'll never forget ___ Kraków for the first time.",
+   "options": [
+    "seeing",
+    "to see",
+    "see"
+   ],
+   "answer": "seeing",
+   "explanation": "Спогад про минуле — forget + -ing."
+  },
+  {
+   "type": "choice",
+   "prompt": "We were tired, so we stopped ___ a coffee at a petrol station.",
+   "options": [
+    "to have",
+    "having",
+    "have"
+   ],
+   "answer": "to have",
+   "explanation": "Зупинитися з метою — stop to + V."
+  },
+  {
+   "type": "choice",
+   "prompt": "The soup is a bit bland. Try ___ some lemon juice.",
+   "options": [
+    "adding",
+    "added",
+    "to adding"
+   ],
+   "answer": "adding",
+   "explanation": "Спробувати як експеримент — try + -ing."
+  },
+  {
+   "type": "choice",
+   "prompt": "Vita has stopped ___ meat — she's vegetarian now.",
+   "options": [
+    "eating",
+    "to eat",
+    "eat"
+   ],
+   "answer": "eating",
+   "explanation": "Припинити щось робити — stop + -ing."
+  },
+  {
+   "type": "choice",
+   "prompt": "I regret ___ so rude to him yesterday.",
+   "options": [
+    "being",
+    "to be",
+    "be"
+   ],
+   "answer": "being",
+   "explanation": "Шкодувати про минуле — regret + -ing."
+  },
+  {
+   "type": "input",
+   "prompt": "Sorry, I meant ___ (call) you, but I was busy.",
+   "answer": [
+    "to call"
+   ],
+   "explanation": "Мати намір — mean to + V."
+  },
+  {
+   "type": "input",
+   "prompt": "Our car really needs ___ (wash) — it's filthy.",
+   "answer": [
+    "washing",
+    "to be washed"
+   ],
+   "explanation": "need + -ing має пасивне значення."
+  },
+  {
+   "type": "input",
+   "prompt": "I forgot ___ (buy) bread, so we'll have pasta.",
+   "answer": [
+    "to buy"
+   ],
+   "explanation": "Забути зробити — forget to + V."
+  },
+  {
+   "type": "error",
+   "sentence": "Don't forget calling your mum tonight.",
+   "wrongIndex": 2,
+   "correction": "to call",
+   "alt": [],
+   "explanation": "Не забути зробити — forget to + V."
+  },
+  {
+   "type": "error",
+   "sentence": "The kitchen floor needs clean after the party.",
+   "wrongIndex": 4,
+   "correction": "cleaning",
+   "alt": [
+    "to be cleaned"
+   ],
+   "explanation": "Після need у пасивному значенні — -ing."
+  },
+  {
+   "type": "order",
+   "prompt": "Не забудь купити квитки.",
+   "answer": [
+    "Don't forget to buy the tickets."
+   ],
+   "explanation": "Дія ще попереду — forget to + V."
+  },
+  {
+   "type": "transform",
+   "prompt": "I'm sorry that I didn't learn Polish earlier.",
+   "instruction": "Почніть з I regret…",
+   "answer": [
+    "I regret not learning Polish earlier.",
+    "I regret not having learned Polish earlier.",
+    "I regret not having learnt Polish earlier.",
+    "I regret that I didn't learn Polish earlier."
+   ],
+   "explanation": "Шкодувати про минуле — regret + not + -ing."
+  },
+  {
+   "type": "translate",
+   "uk": "Я пам'ятаю, що вимкнув праску.",
+   "answer": [
+    "I remember turning off the iron.",
+    "I remember switching off the iron.",
+    "I remember turning the iron off.",
+    "I remember switching the iron off.",
+    "I remember unplugging the iron.",
+    "I remember that I turned off the iron.",
+    "I remember that I switched off the iron.",
+    "I remember having turned off the iron."
+   ],
+   "explanation": "Пам'ятати про вже зроблене — remember + -ing."
+  }
+ ]
+}

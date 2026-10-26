@@ -1,0 +1,215 @@
+{
+ "id": "relative-advanced",
+ "title": "Відносні речення: whose, whom, which",
+ "titleEn": "Advanced relative clauses",
+ "unit": "Будова речення",
+ "level": "B2",
+ "mistakeType": "other",
+ "explanation": "**Неозначальні (non-defining) речення** додають додаткову інформацію про вже зрозумілу людину чи річ. Вони стоять **у комах**, у них **не буває that**, і займенник **не можна пропустити**: *My brother, **who** lives in Lviv, is a doctor.* Без цієї частини речення все одно має сенс.\n\n**whose** — «чий / чия / чиє», і про людей, і про речі: *the neighbours **whose** dog barks all night*, *a town **whose** streets are full of cafés*. Після whose одразу йде іменник. Не плутайте з *who's* = *who is / who has*.\n\n**whom** — офіційна форма додатка, особливо **після прийменника**: *the woman **to whom** I spoke*, *the friend **with whom** I travelled*. У розмові частіше *who* і прийменник у кінці: *the woman (who) I spoke **to***. Після кількості — лише **of whom / of which**: *I have two cousins, **both of whom** live in Canada*; *We tried three cafés, **none of which** was open.*\n\n**which про все речення:** після коми *which* може коментувати не одне слово, а всю попередню думку: *He forgot our anniversary, **which** upset Vita a lot.* Тут не можна *what* чи *that*.\n\nПрийменник: офіційно — перед *which/whom* (*the flat **in which** we live*), розмовно — у кінці (*the flat we live **in***). Варіант ~~in that~~ неможливий.",
+ "formula": [
+  "речення, **which** + … — коментар до всього речення",
+  "**whose** + іменник · прийменник + **whom / which**",
+  "some / most / all / none **of whom / of which**"
+ ],
+ "table": {
+  "head": [
+   "Конструкція",
+   "Приклад",
+   "Примітка"
+  ],
+  "rows": [
+   [
+    "non-defining",
+    "Our landlord, who is Polish, speaks good English.",
+    "коми, без that"
+   ],
+   [
+    "whose",
+    "We met a couple whose flat overlooks the river.",
+    "чий / чия + іменник"
+   ],
+   [
+    "прийменник + whom",
+    "The woman to whom I spoke was very helpful.",
+    "офіційно; розмовно: who I spoke to"
+   ],
+   [
+    "of whom / of which",
+    "I have two cousins, both of whom live in Canada.",
+    "кількість + of whom / of which"
+   ],
+   [
+    "which = усе речення",
+    "The train was late, which meant we missed the concert.",
+    "не what і не that"
+   ]
+  ]
+ },
+ "examples": [
+  {
+   "en": "Kraków, which is my favourite city, gets very busy in summer.",
+   "uk": "Краків, який є моїм улюбленим містом, улітку дуже переповнений."
+  },
+  {
+   "en": "Vita found a doctor whose clinic is just around the corner.",
+   "uk": "Віта знайшла лікарку, чия клініка зовсім поруч."
+  },
+  {
+   "en": "He didn't reply to my message, which was a bit rude.",
+   "uk": "Він не відповів на моє повідомлення, що було трохи грубо."
+  },
+  {
+   "en": "We invited twenty people, most of whom came.",
+   "uk": "Ми запросили двадцять людей, більшість із яких прийшли."
+  },
+  {
+   "en": "The friend with whom I travelled to Italy now lives in Berlin.",
+   "uk": "Друг, з яким я подорожував до Італії, тепер живе в Берліні."
+  },
+  {
+   "en": "That's the café we usually go to.",
+   "uk": "Це кафе, у яке ми зазвичай ходимо."
+  }
+ ],
+ "tip": "Після коми ніколи не ставимо **that**: ~~My flat, that is small~~ → *My flat, **which** is small…* А «що» про все речення — це **which**, а не *what*.",
+ "exercises": [
+  {
+   "type": "choice",
+   "prompt": "My sister-in-law, ___ lives in Gdańsk, is coming to visit.",
+   "options": [
+    "who",
+    "that",
+    "which",
+    "whom"
+   ],
+   "answer": "who",
+   "explanation": "Про людину в реченні з комами — who, не that."
+  },
+  {
+   "type": "choice",
+   "prompt": "We missed the last bus, ___ meant we had to walk home.",
+   "options": [
+    "which",
+    "what",
+    "that",
+    "who"
+   ],
+   "answer": "which",
+   "explanation": "Коментар до всього речення — лише which."
+  },
+  {
+   "type": "choice",
+   "prompt": "I met a woman ___ husband goes to the same gym as me.",
+   "options": [
+    "whose",
+    "who",
+    "who's",
+    "which"
+   ],
+   "answer": "whose",
+   "explanation": "whose + іменник означає «чий / чия»."
+  },
+  {
+   "type": "choice",
+   "prompt": "The people with ___ we shared the flat were from Spain.",
+   "options": [
+    "whom",
+    "who",
+    "that",
+    "which"
+   ],
+   "answer": "whom",
+   "explanation": "Після прийменника про людей — whom."
+  },
+  {
+   "type": "choice",
+   "prompt": "I've got three close friends, all of ___ are married.",
+   "options": [
+    "whom",
+    "who",
+    "them",
+    "which"
+   ],
+   "answer": "whom",
+   "explanation": "Після all of про людей — whom."
+  },
+  {
+   "type": "input",
+   "prompt": "Our neighbours, ___ garden is full of roses, invited us for tea. (чий)",
+   "answer": [
+    "whose"
+   ],
+   "explanation": "whose + іменник: whose garden."
+  },
+  {
+   "type": "input",
+   "prompt": "She lent me her bike, ___ was really kind of her. (коментар до всього речення)",
+   "answer": [
+    "which"
+   ],
+   "explanation": "which коментує всю попередню думку."
+  },
+  {
+   "type": "input",
+   "prompt": "The doctor to ___ I was referred speaks Ukrainian. (офіційно, про людину)",
+   "answer": [
+    "whom"
+   ],
+   "explanation": "Після to про людину — whom."
+  },
+  {
+   "type": "error",
+   "sentence": "The new flat, that we rented last month, is very bright.",
+   "wrongIndex": 3,
+   "correction": "which",
+   "alt": [],
+   "explanation": "У реченні з комами вживаємо which, не that."
+  },
+  {
+   "type": "error",
+   "sentence": "He forgot my birthday, what really upset me.",
+   "wrongIndex": 4,
+   "correction": "which",
+   "alt": [],
+   "explanation": "Коментар до всього речення вводить which, не what."
+  },
+  {
+   "type": "error",
+   "sentence": "That's the man who's car was stolen.",
+   "wrongIndex": 3,
+   "correction": "whose",
+   "alt": [],
+   "explanation": "«Чий» — whose; who's означає who is."
+  },
+  {
+   "type": "order",
+   "prompt": "Ми запросили десять людей, більшість із яких прийшли.",
+   "answer": [
+    "We invited ten people, most of whom came."
+   ],
+   "explanation": "most of whom — про людей."
+  },
+  {
+   "type": "transform",
+   "prompt": "The bus was late. This made us miss the film.",
+   "instruction": "Об'єднайте в одне речення за допомогою which",
+   "answer": [
+    "The bus was late, which made us miss the film."
+   ],
+   "explanation": "which після коми замінює this і коментує все речення."
+  },
+  {
+   "type": "translate",
+   "uk": "Віта, яка не любить холод, хоче поїхати в Іспанію.",
+   "answer": [
+    "Vita, who doesn't like the cold, wants to go to Spain.",
+    "Vita, who doesn't like cold, wants to go to Spain.",
+    "Vita, who doesn't like cold weather, wants to go to Spain.",
+    "Vita, who hates the cold, wants to go to Spain.",
+    "Vita, who doesn't like the cold, wants to travel to Spain.",
+    "Vita, who dislikes the cold, wants to go to Spain."
+   ],
+   "explanation": "Додаткова інформація про людину — у комах з who."
+  }
+ ]
+}

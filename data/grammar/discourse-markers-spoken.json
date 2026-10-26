@@ -1,0 +1,225 @@
+{
+ "id": "discourse-markers-spoken",
+ "title": "Розмовні маркери: mind you, as it happens",
+ "titleEn": "Spoken discourse markers",
+ "unit": "Просунуті конструкції",
+ "level": "C1",
+ "mistakeType": "vocabulary",
+ "explanation": "**Discourse markers** — короткі вирази, якими носії «склеюють» розмову, показують своє ставлення і виграють час. У підручниках їх мало, але без них мова звучить книжно.\n\n**Застереження:** **mind you** — «утім, зважте», додає протилежну або уточнювальну думку: *The flat's tiny. **Mind you**, the view is amazing.* **Having said that / That said** — «водночас, проте»: *It's expensive. **Having said that**, it's worth it.*\n\n**Збіг і уточнення:** **as it happens / as a matter of fact** — «якраз, до речі»: *\"Do you know a good dentist?\" — \"**As it happens**, my cousin is one.\"* **Actually** — уточнення або м'яке заперечення: *\"You're from Lviv?\" — \"**Actually**, I'm from Kyiv.\"*\n\n**Згадати, змінити тему:** **come to think of it** — «якщо подумати, тепер, як згадав»: ***Come to think of it**, I haven't seen Marek for months.* **By the way** — змінити тему; **anyway** — повернутися до головного чи завершити: ***Anyway**, where was I?* **Speaking of / Talking of** — «до речі про…»: ***Speaking of** holidays, have you booked anything?*\n\n**Підсумок:** **at the end of the day** — «зрештою, кінець кінцем»: ***At the end of the day**, it's your decision.* Також **the thing is…** («справа в тому, що»), **basically** («коротше»), **I mean** («тобто»), **to be honest** («чесно кажучи»). Не вживайте всі одразу: одного-двох на кілька реплік достатньо.",
+ "formula": [
+  "застереження: **mind you · having said that · that said**",
+  "збіг: **as it happens · as a matter of fact · actually**",
+  "згадати / тема / підсумок: **come to think of it · speaking of · anyway · at the end of the day**"
+ ],
+ "table": {
+  "head": [
+   "Маркер",
+   "Значення",
+   "Приклад"
+  ],
+  "rows": [
+   [
+    "mind you",
+    "утім, зважте",
+    "It's a long walk. Mind you, the views are worth it."
+   ],
+   [
+    "as it happens",
+    "якраз, до речі",
+    "As it happens, I'm free on Friday."
+   ],
+   [
+    "come to think of it",
+    "тепер, як подумати",
+    "Come to think of it, she did seem upset."
+   ],
+   [
+    "at the end of the day",
+    "зрештою",
+    "At the end of the day, family comes first."
+   ],
+   [
+    "having said that",
+    "водночас, проте",
+    "It's pricey. Having said that, the food is great."
+   ],
+   [
+    "speaking of…",
+    "до речі про…",
+    "Speaking of food, are you hungry?"
+   ]
+  ]
+ },
+ "examples": [
+  {
+   "en": "The new café is a bit pricey. Mind you, the cakes are amazing.",
+   "uk": "Нове кафе трохи дороге. Утім, тістечка неймовірні."
+  },
+  {
+   "en": "\"Do you know anyone with a van?\" — \"As it happens, my brother-in-law has one.\"",
+   "uk": "«Ти знаєш когось із бусом?» — «Якраз мій шурин має.»"
+  },
+  {
+   "en": "Come to think of it, we haven't been to the cinema since summer.",
+   "uk": "Якщо подумати, ми не були в кіно з літа."
+  },
+  {
+   "en": "At the end of the day, what matters is that we're happy.",
+   "uk": "Зрештою, головне — що ми щасливі."
+  },
+  {
+   "en": "I'm not a big fan of hiking. Having said that, the Tatras were stunning.",
+   "uk": "Я не великий фанат походів. Проте Татри були приголомшливі."
+  },
+  {
+   "en": "Anyway, enough about me — how was your trip?",
+   "uk": "Гаразд, досить про мене — як твоя подорож?"
+  }
+ ],
+ "tip": "**Mind you** вводить **протилежну** або уточнювальну думку, а не просте продовження: *The hotel was old. **Mind you**, it was very clean.*",
+ "exercises": [
+  {
+   "type": "choice",
+   "prompt": "The flat is quite small. ___, it's right in the city centre.",
+   "options": [
+    "Mind you",
+    "As it happens",
+    "Speaking of",
+    "By the way"
+   ],
+   "answer": "Mind you",
+   "explanation": "Mind you додає протилежну думку."
+  },
+  {
+   "type": "choice",
+   "prompt": "\"Do you know a good hairdresser?\" — \"___, my sister is one!\"",
+   "options": [
+    "As it happens",
+    "Mind you",
+    "At the end of the day",
+    "Having said that"
+   ],
+   "answer": "As it happens",
+   "explanation": "As it happens — «якраз, до речі»."
+  },
+  {
+   "type": "choice",
+   "prompt": "___, I haven't heard from Olek in ages. I should give him a call.",
+   "options": [
+    "Come to think of it",
+    "Mind you",
+    "Having said that",
+    "As a result"
+   ],
+   "answer": "Come to think of it",
+   "explanation": "Come to think of it — «тепер, як подумати»."
+  },
+  {
+   "type": "choice",
+   "prompt": "We can argue all night, but ___, it's your money and your decision.",
+   "options": [
+    "at the end of the day",
+    "as it happens",
+    "come to think of it",
+    "speaking of"
+   ],
+   "answer": "at the end of the day",
+   "explanation": "at the end of the day — «зрештою»."
+  },
+  {
+   "type": "choice",
+   "prompt": "___ holidays, have you two decided where to go this summer?",
+   "options": [
+    "Speaking of",
+    "Mind you",
+    "Anyway of",
+    "As it happens"
+   ],
+   "answer": "Speaking of",
+   "explanation": "Speaking of + іменник — «до речі про»."
+  },
+  {
+   "type": "input",
+   "prompt": "The hotel was a bit noisy. Having ___ that, the staff were lovely. (одне слово)",
+   "answer": [
+    "said"
+   ],
+   "explanation": "Having said that — «проте»."
+  },
+  {
+   "type": "input",
+   "prompt": "Come to ___ of it, you never told me how the interview went. (одне слово)",
+   "answer": [
+    "think"
+   ],
+   "explanation": "Сталий вираз — come to think of it."
+  },
+  {
+   "type": "input",
+   "prompt": "It's expensive. ___ you, everything in Kraków is expensive these days. (одне слово)",
+   "answer": [
+    "mind"
+   ],
+   "explanation": "Mind you — «утім, зважте»."
+  },
+  {
+   "type": "input",
+   "prompt": "At the ___ of the day, health is more important than money. (одне слово)",
+   "answer": [
+    "end"
+   ],
+   "explanation": "Сталий вираз — at the end of the day."
+  },
+  {
+   "type": "error",
+   "sentence": "As it happen, I was going to call you.",
+   "wrongIndex": 2,
+   "correction": "happens",
+   "alt": [],
+   "explanation": "Сталий вираз — as it happens."
+  },
+  {
+   "type": "error",
+   "sentence": "Come to think about it, we never paid him back.",
+   "wrongIndex": 3,
+   "correction": "of",
+   "alt": [],
+   "explanation": "Сталий вираз — come to think of it."
+  },
+  {
+   "type": "order",
+   "prompt": "Зрештою, це твоє рішення.",
+   "answer": [
+    "At the end of the day, it's your decision."
+   ],
+   "explanation": "At the end of the day на початку речення."
+  },
+  {
+   "type": "transform",
+   "prompt": "The weather was bad. But the food was excellent.",
+   "instruction": "Поєднайте за допомогою Mind you",
+   "answer": [
+    "The weather was bad. Mind you, the food was excellent."
+   ],
+   "explanation": "Mind you вводить протилежну думку."
+  },
+  {
+   "type": "translate",
+   "uk": "До речі, у мене якраз вільний вечір у п'ятницю.",
+   "answer": [
+    "As it happens, I'm free on Friday evening.",
+    "As it happens, I have a free evening on Friday.",
+    "As it happens, I've got a free evening on Friday.",
+    "As it happens, I'm free on Friday night.",
+    "As it happens, I have Friday evening free.",
+    "As a matter of fact, I'm free on Friday evening.",
+    "As a matter of fact, I have a free evening on Friday.",
+    "Actually, I'm free on Friday evening.",
+    "Actually, I have a free evening on Friday.",
+    "By the way, I'm free on Friday evening.",
+    "By the way, I have a free evening on Friday."
+   ],
+   "explanation": "As it happens — «якраз, до речі»."
+  }
+ ]
+}

@@ -1,0 +1,221 @@
+{
+ "id": "articles-advanced",
+ "title": "Артиклі: узагальнення, унікальне, заклади",
+ "titleEn": "Advanced articles: generic, unique, institutions",
+ "unit": "Іменник і артиклі",
+ "level": "B2",
+ "mistakeType": "articles",
+ "explanation": "**Про клас загалом** можна говорити трьома способами. Найчастіше — **множина без артикля**: *Cats are independent.* **a/an + однина** — будь-який представник: *A cat needs less attention than a dog.* **the + однина** — книжно, про вид, винахід або музичний інструмент: *The smartphone has changed our lives. Vita plays **the** guitar.*\n\n**the + прикметник** означає групу людей: *the rich, the poor, the elderly, the young, the homeless, the unemployed*. Дієслово — у множині, без -s у прикметнику: *The elderly **need** more support.* Так само національності на -sh/-ch/-ese: *the French, the Polish, the Chinese*.\n\n**Єдине у своєму роді** — з the: *the sun, the moon, the internet, the environment, the weather, the government, the police*. А *space* (космос), *nature*, *society*, *life* у загальному значенні — без артикля: *I love **nature**.*\n\n**Заклади за призначенням** — без артикля: *go to **school** / **church** / **university** / **bed** / **prison**, be in **hospital*** (як учень, вірянин, пацієнт). Якщо йдеться про будівлю — з the: *I went to **the** school to talk to the teacher.* (Американці кажуть *in the hospital*.)\n\n**Географія:** з the — річки, моря, гірські хребти, країни у множині або з «of»: *the Vistula, the Baltic, the Tatras, the Netherlands, the USA, the University of Warsaw*. Без артикля — окремі гори, озера, більшість країн і вулиць: *Mount Everest, Lake Como, Poland, Floriańska Street*.",
+ "formula": [
+  "загалом: **∅ + множина** · **a + однина** · **the + однина** (вид, винахід, інструмент)",
+  "**the + прикметник** = група людей: *the elderly, the homeless*",
+  "go to **school / bed / church** (за призначенням) vs **the** school (будівля)"
+ ],
+ "table": {
+  "head": [
+   "Випадок",
+   "Приклад",
+   "Чому"
+  ],
+  "rows": [
+   [
+    "загалом (множина)",
+    "Dogs need a lot of attention.",
+    "∅ — про всіх собак"
+   ],
+   [
+    "вид / винахід",
+    "The bicycle is the greenest way to travel.",
+    "the + однина — книжно"
+   ],
+   [
+    "група людей",
+    "The elderly often feel lonely.",
+    "the + прикметник, дієслово в множині"
+   ],
+   [
+    "заклад за призначенням",
+    "My grandad is in hospital.",
+    "він пацієнт"
+   ],
+   [
+    "заклад як будівля",
+    "I went to the hospital to visit him.",
+    "я відвідувач"
+   ],
+   [
+    "єдине",
+    "The internet is down again.",
+    "одне на всіх"
+   ]
+  ]
+ },
+ "examples": [
+  {
+   "en": "Children learn languages faster than adults.",
+   "uk": "Діти вивчають мови швидше, ніж дорослі."
+  },
+  {
+   "en": "The government should do more for the homeless.",
+   "uk": "Уряд має більше робити для безхатьків."
+  },
+  {
+   "en": "Vita plays the guitar, and I play the piano a bit.",
+   "uk": "Віта грає на гітарі, а я трохи на піаніно."
+  },
+  {
+   "en": "Her grandma has been in hospital since Monday.",
+   "uk": "Її бабуся в лікарні з понеділка."
+  },
+  {
+   "en": "We went hiking in the Tatras last summer.",
+   "uk": "Минулого літа ми ходили в похід у Татри."
+  },
+  {
+   "en": "A good doctor always listens to the patient.",
+   "uk": "Хороший лікар завжди вислуховує пацієнта."
+  }
+ ],
+ "tip": "Про речі загалом найбезпечніше — **множина без артикля**: *I love **dogs**.* А ~~I love the dogs~~ означає «цих конкретних собак».",
+ "exercises": [
+  {
+   "type": "choice",
+   "prompt": "I've never really liked ___ — I'm more of a dog person.",
+   "options": [
+    "cats",
+    "the cats",
+    "a cats"
+   ],
+   "answer": "cats",
+   "explanation": "Про тварин загалом — множина без артикля."
+  },
+  {
+   "type": "choice",
+   "prompt": "Who invented ___ telephone?",
+   "options": [
+    "the",
+    "a",
+    "—"
+   ],
+   "answer": "the",
+   "explanation": "Про винахід як вид — the + однина."
+  },
+  {
+   "type": "choice",
+   "prompt": "The new law should help ___.",
+   "options": [
+    "the unemployed",
+    "unemployed",
+    "the unemployeds",
+    "an unemployed"
+   ],
+   "answer": "the unemployed",
+   "explanation": "the + прикметник означає групу людей і не має -s."
+  },
+  {
+   "type": "choice",
+   "prompt": "I'm exhausted — I'm going to ___.",
+   "options": [
+    "bed",
+    "the bed",
+    "a bed"
+   ],
+   "answer": "bed",
+   "explanation": "go to bed — за призначенням, без артикля."
+  },
+  {
+   "type": "choice",
+   "prompt": "We spent a week by ___ in Croatia.",
+   "options": [
+    "the sea",
+    "sea",
+    "a sea"
+   ],
+   "answer": "the sea",
+   "explanation": "by the sea — «на морі», завжди з the."
+  },
+  {
+   "type": "choice",
+   "prompt": "___ Vistula flows through Kraków.",
+   "options": [
+    "The",
+    "A",
+    "—"
+   ],
+   "answer": "The",
+   "explanation": "Назви річок вживаються з the."
+  },
+  {
+   "type": "input",
+   "prompt": "Last year we went skiing in ___ Alps. (артикль)",
+   "answer": [
+    "the"
+   ],
+   "explanation": "Гірські хребти — з the."
+  },
+  {
+   "type": "input",
+   "prompt": "___ rich should pay more taxes, in my opinion. (артикль)",
+   "answer": [
+    "the"
+   ],
+   "explanation": "the rich — група людей."
+  },
+  {
+   "type": "input",
+   "prompt": "Can you play ___ violin? (артикль)",
+   "answer": [
+    "the"
+   ],
+   "explanation": "Музичні інструменти — з the."
+  },
+  {
+   "type": "error",
+   "sentence": "The government should help the elderlies.",
+   "wrongIndex": 5,
+   "correction": "elderly",
+   "alt": [],
+   "explanation": "Після the прикметник не має -s: the elderly."
+  },
+  {
+   "type": "error",
+   "sentence": "A sun was so strong that we stayed inside.",
+   "wrongIndex": 0,
+   "correction": "The",
+   "alt": [],
+   "explanation": "Сонце єдине — the sun."
+  },
+  {
+   "type": "order",
+   "prompt": "Безробітним потрібно більше підтримки.",
+   "answer": [
+    "The unemployed need more support."
+   ],
+   "explanation": "the + прикметник + дієслово в множині."
+  },
+  {
+   "type": "transform",
+   "prompt": "Old people often feel lonely.",
+   "instruction": "Замініть old people на the + прикметник",
+   "answer": [
+    "The old often feel lonely.",
+    "The elderly often feel lonely."
+   ],
+   "explanation": "the elderly / the old — люди похилого віку загалом."
+  },
+  {
+   "type": "translate",
+   "uk": "Ми любимо море, але не любимо спеку.",
+   "answer": [
+    "We love the sea, but we don't like the heat.",
+    "We love the sea, but we don't like heat.",
+    "We love the sea, but we hate the heat.",
+    "We like the sea, but we don't like the heat.",
+    "We love the sea, but don't like the heat.",
+    "We love the seaside, but we don't like the heat.",
+    "We love the sea, but we don't like hot weather."
+   ],
+   "explanation": "the sea, the heat — з означеним артиклем."
+  }
+ ]
+}

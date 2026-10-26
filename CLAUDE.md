@@ -23,7 +23,7 @@
 - `js/ai.js` — виклики edge-функцій; `js/speech.js` — TTS/розпізнавання; `js/live/*` — Gemini Live (WebSocket + AudioWorklet) і режим «рація».
 - `js/ui/*` — компоненти (drawer, quickbar, sheet, toast, exercises, md, icons). `js/pages/*` — по файлу на розділ.
 - `supabase/migrations/*` — SQL; `supabase/functions/{tutor,live-token,tts,_shared}` — edge-функції (Deno).
-- Контент (усе з полем `level` A1–C1): `data/decks` (28 колод, ~1310 карток), `data/grammar` (58 уроків), `data/scenarios.json`, `writing.json`, `listening.json`, `pronunciation.json`, `placement.json`.
+- Контент (усе з полем `level` A1–C1): `data/decks` (48 колод, ~2275 карток, ~400 на рівень), `data/grammar` (84 уроки), `data/scenarios.json`, `writing.json`, `listening.json`, `pronunciation.json`, `placement.json`.
 
 ## Деплой
 - Фронтенд: push у `main` → GitHub Pages.

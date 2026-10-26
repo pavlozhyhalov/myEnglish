@@ -1,0 +1,224 @@
+{
+ "id": "nominalisation",
+ "title": "Номіналізація: іменники замість дієслів",
+ "titleEn": "Nominalisation: turning verbs into nouns",
+ "unit": "Просунуті конструкції",
+ "level": "C1",
+ "mistakeType": "vocabulary",
+ "explanation": "**Nominalisation** — перетворення дієслова чи прикметника на іменник: *decide → **decision**, fail → **failure**, important → **importance***. Текст стає офіційнішим, щільнішим і менш особистим. Це стиль листів до установ, скарг, відгуків і новин.\n\nПорівняйте: *The hotel didn't respond, and we were disappointed.* → ***The hotel's lack of response** was disappointing.* *Prices went up, so people complained.* → ***The increase in prices** led to **complaints**.*\n\nТипові суфікси: **-tion / -sion** (inform → information, decide → decision), **-ment** (improve → improvement, pay → payment), **-ance / -ence** (perform → performance, prefer → preference), **-al** (arrive → arrival, refuse → refusal), **-ure** (fail → failure, close → closure), **-ness / -ity** (aware → awareness, available → availability). Деякі іменники збігаються з дієсловом: *a delay, a change, a visit, a rise, a cut*.\n\nУ іменника — свої прийменники: *an increase **in**, a rise **in**, a demand **for**, a lack **of**, a solution **to**, a reason **for**, damage **to**, an effect **on***. І свої дієслова-партнери: *make a decision, make an improvement, give an explanation, take action, make a complaint*.\n\nНе перестарайтеся: у розмові природніші дієслова (*We decided…*). Номіналізація доречна в офіційному листі (*Following **the cancellation** of my flight…*), у скарзі та в письмових завданнях рівня C1.",
+ "formula": [
+  "дієслово / прикметник → **іменник**: decide → decision, aware → awareness",
+  "**the** + іменник + **of / in / for** + …",
+  "**Following / Due to / Despite** + іменник — офіційний стиль"
+ ],
+ "table": {
+  "head": [
+   "Розмовно (дієслово)",
+   "Офіційно (іменник)",
+   "Іменник"
+  ],
+  "rows": [
+   [
+    "The train arrived late, so we missed the bus.",
+    "The late arrival of the train meant we missed the bus.",
+    "arrival"
+   ],
+   [
+    "They cancelled my flight.",
+    "Following the cancellation of my flight…",
+    "cancellation"
+   ],
+   [
+    "Rents have gone up a lot.",
+    "There has been a sharp increase in rents.",
+    "increase in"
+   ],
+   [
+    "Nobody explained why.",
+    "No explanation was given.",
+    "explanation"
+   ],
+   [
+    "We didn't have enough information.",
+    "There was a lack of information.",
+    "lack of"
+   ],
+   [
+    "She refused to help.",
+    "Her refusal to help surprised us.",
+    "refusal"
+   ]
+  ]
+ },
+ "examples": [
+  {
+   "en": "I am writing to complain about the cancellation of my order.",
+   "uk": "Пишу, щоб поскаржитися на скасування мого замовлення."
+  },
+  {
+   "en": "Due to the closure of the main road, buses are delayed.",
+   "uk": "Через закриття головної дороги автобуси затримуються."
+  },
+  {
+   "en": "There has been a significant improvement in air quality in Kraków.",
+   "uk": "Якість повітря в Кракові значно покращилася."
+  },
+  {
+   "en": "The lack of parking spaces is a real problem in our area.",
+   "uk": "Брак паркомісць — справжня проблема в нашому районі."
+  },
+  {
+   "en": "His failure to reply was rather rude.",
+   "uk": "Те, що він не відповів, було досить неввічливо."
+  },
+  {
+   "en": "We are still waiting for an explanation of the extra charge.",
+   "uk": "Ми досі чекаємо пояснення щодо додаткової плати."
+  }
+ ],
+ "tip": "Запам'ятовуйте пару «іменник + прийменник»: *increase **in***, *demand **for***, *lack **of*** (не ~~lack in~~), *solution **to*** (не ~~solution of~~).",
+ "exercises": [
+  {
+   "type": "choice",
+   "prompt": "We are still waiting for the ___ of our new sofa.",
+   "options": [
+    "delivery",
+    "deliver",
+    "delivering",
+    "delivered"
+   ],
+   "answer": "delivery",
+   "explanation": "Після the … of потрібен іменник — delivery."
+  },
+  {
+   "type": "choice",
+   "prompt": "There has been a sharp increase ___ the price of electricity.",
+   "options": [
+    "in",
+    "of",
+    "on",
+    "at"
+   ],
+   "answer": "in",
+   "explanation": "an increase in — зростання чогось."
+  },
+  {
+   "type": "choice",
+   "prompt": "The ___ of the local swimming pool upset many families.",
+   "options": [
+    "closure",
+    "close",
+    "closed",
+    "closes"
+   ],
+   "answer": "closure",
+   "explanation": "Іменник від close — closure."
+  },
+  {
+   "type": "choice",
+   "prompt": "His ___ to apologise made the situation worse.",
+   "options": [
+    "refusal",
+    "refuse",
+    "refused",
+    "refuses"
+   ],
+   "answer": "refusal",
+   "explanation": "Іменник від refuse — refusal."
+  },
+  {
+   "type": "choice",
+   "prompt": "There is a lack ___ affordable housing in big cities.",
+   "options": [
+    "of",
+    "in",
+    "for",
+    "with"
+   ],
+   "answer": "of",
+   "explanation": "a lack of — брак чогось."
+  },
+  {
+   "type": "input",
+   "prompt": "We apologise for any ___ (inconvenient) this may cause.",
+   "answer": [
+    "inconvenience"
+   ],
+   "explanation": "Іменник від inconvenient — inconvenience."
+  },
+  {
+   "type": "input",
+   "prompt": "I'm writing to request ___ (inform) about your evening courses.",
+   "answer": [
+    "information"
+   ],
+   "explanation": "Іменник від inform — information."
+  },
+  {
+   "type": "input",
+   "prompt": "The ___ (arrive) of our first guests was delayed by snow.",
+   "answer": [
+    "arrival"
+   ],
+   "explanation": "Іменник від arrive — arrival."
+  },
+  {
+   "type": "input",
+   "prompt": "We've noticed a big ___ (improve) in his English.",
+   "answer": [
+    "improvement"
+   ],
+   "explanation": "Іменник від improve — improvement."
+  },
+  {
+   "type": "error",
+   "sentence": "There was a big rise of prices last year.",
+   "wrongIndex": 5,
+   "correction": "in",
+   "alt": [],
+   "explanation": "a rise in — зростання чогось."
+  },
+  {
+   "type": "error",
+   "sentence": "We were annoyed by his fail to call us back.",
+   "wrongIndex": 5,
+   "correction": "failure",
+   "alt": [],
+   "explanation": "Іменник від fail — failure."
+  },
+  {
+   "type": "order",
+   "prompt": "Через брак часу ми скасували поїздку.",
+   "answer": [
+    "Due to a lack of time, we cancelled the trip.",
+    "Due to lack of time, we cancelled the trip."
+   ],
+   "explanation": "Due to + іменникова група — офіційний стиль."
+  },
+  {
+   "type": "transform",
+   "prompt": "The flight was cancelled, so we stayed in Warsaw for another night.",
+   "instruction": "Почніть з Due to the cancellation…",
+   "answer": [
+    "Due to the cancellation of the flight, we stayed in Warsaw for another night.",
+    "Due to the cancellation of our flight, we stayed in Warsaw for another night.",
+    "Due to the cancellation of the flight, we stayed in Warsaw another night.",
+    "Due to the cancellation of our flight, we stayed in Warsaw another night."
+   ],
+   "explanation": "Дієслово cancel → іменник cancellation."
+  },
+  {
+   "type": "translate",
+   "uk": "Ми досі чекаємо на рішення орендодавця.",
+   "answer": [
+    "We are still waiting for the landlord's decision.",
+    "We are still waiting for a decision from the landlord.",
+    "We are still waiting for the decision of the landlord.",
+    "We are still waiting for our landlord's decision.",
+    "We are still waiting for a decision from our landlord.",
+    "We are still waiting for the landlord to decide."
+   ],
+   "explanation": "Рішення — decision."
+  }
+ ]
+}

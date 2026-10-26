@@ -600,8 +600,48 @@
   "summary": "Сполучники роблять мову зв'язною і «дорослою»."
  },
  {
-  "id": "conditional-3",
+  "id": "relative-advanced",
   "n": 61,
+  "title": "Відносні речення: whose, whom, which",
+  "titleEn": "Advanced relative clauses",
+  "unit": "Будова речення",
+  "level": "B2",
+  "mistakeType": "other",
+  "summary": "Речення в комах без that, whose, whom, of whom/which, which про все речення"
+ },
+ {
+  "id": "verb-patterns-advanced",
+  "n": 62,
+  "title": "-ing чи to: дієслова, що змінюють значення",
+  "titleEn": "Verb patterns: -ing vs to-infinitive (meaning change)",
+  "unit": "Будова речення",
+  "level": "B2",
+  "mistakeType": "other",
+  "summary": "remember/forget/stop/try/regret/mean + -ing чи to; need + -ing"
+ },
+ {
+  "id": "participles-adjectives",
+  "n": 63,
+  "title": "Прикметники на -ed і -ing",
+  "titleEn": "-ed and -ing adjectives",
+  "unit": "Будова речення",
+  "level": "B2",
+  "mistakeType": "vocabulary",
+  "summary": "bored чи boring: почуття чи причина; прийменники після -ed"
+ },
+ {
+  "id": "conjunctions-contrast",
+  "n": 64,
+  "title": "Протиставлення: although, despite, whereas",
+  "titleEn": "Contrast: although, despite, however, whereas",
+  "unit": "Будова речення",
+  "level": "B2",
+  "mistakeType": "other",
+  "summary": "although + речення, despite + іменник/-ing, however, whereas, though"
+ },
+ {
+  "id": "conditional-3",
+  "n": 65,
   "title": "Умовні речення 3 типу і змішані",
   "titleEn": "Third and mixed conditionals",
   "unit": "Умовні речення",
@@ -611,7 +651,7 @@
  },
  {
   "id": "wish",
-  "n": 62,
+  "n": 66,
   "title": "I wish, if only",
   "titleEn": "Wishes and regrets: I wish / if only",
   "unit": "Умовні речення",
@@ -621,7 +661,7 @@
  },
  {
   "id": "causative",
-  "n": 63,
+  "n": 67,
   "title": "Have something done",
   "titleEn": "Causative: have / get something done",
   "unit": "Пасив і непряма мова",
@@ -631,7 +671,7 @@
  },
  {
   "id": "passive-advanced",
-  "n": 64,
+  "n": 68,
   "title": "Пасив у різних часах і have something done",
   "titleEn": "Passive in other tenses; have something done",
   "unit": "Пасив і непряма мова",
@@ -641,7 +681,7 @@
  },
  {
   "id": "reported-questions",
-  "n": 65,
+  "n": 69,
   "title": "Непряма мова: питання",
   "titleEn": "Reported questions and indirect questions",
   "unit": "Пасив і непряма мова",
@@ -650,8 +690,28 @@
   "summary": "У непрямих питаннях прямий порядок слів і без do/does/did: She asked me where I lived. Для так/ні — if / whether."
  },
  {
+  "id": "reported-advanced",
+  "n": 70,
+  "title": "Дієслова непрямої мови: suggest, advise, warn",
+  "titleEn": "Reporting verbs and their patterns",
+  "unit": "Пасив і непряма мова",
+  "level": "B2",
+  "mistakeType": "other",
+  "summary": "offer to, warn sb not to, deny/suggest -ing, apologise for, accuse of"
+ },
+ {
+  "id": "articles-advanced",
+  "n": 71,
+  "title": "Артиклі: узагальнення, унікальне, заклади",
+  "titleEn": "Advanced articles: generic, unique, institutions",
+  "unit": "Іменник і артиклі",
+  "level": "B2",
+  "mistakeType": "articles",
+  "summary": "Загальне ∅/a/the, the + прикметник, єдине, go to bed/school, географія"
+ },
+ {
   "id": "mixed-conditionals",
-  "n": 66,
+  "n": 72,
   "title": "Змішані умовні речення",
   "titleEn": "Mixed conditionals",
   "unit": "Умовні речення",
@@ -660,8 +720,18 @@
   "summary": "Змішані умовні поєднують різний час в умові й результаті."
  },
  {
+  "id": "conditionals-advanced",
+  "n": 73,
+  "title": "Умова без if: unless, provided, should you…",
+  "titleEn": "Advanced conditionals: unless, provided that, inversion, but for",
+  "unit": "Умовні речення",
+  "level": "C1",
+  "mistakeType": "other",
+  "summary": "unless, as long as, in case, Should you/Were I/Had I, but for"
+ },
+ {
   "id": "inversion",
-  "n": 67,
+  "n": 74,
   "title": "Інверсія для наголосу",
   "titleEn": "Inversion after negative adverbials",
   "unit": "Просунуті конструкції",
@@ -671,7 +741,7 @@
  },
  {
   "id": "cleft-sentences",
-  "n": 68,
+  "n": 75,
   "title": "Виділення: It is … that, What I need is…",
   "titleEn": "Cleft sentences for emphasis",
   "unit": "Просунуті конструкції",
@@ -681,7 +751,7 @@
  },
  {
   "id": "participle-clauses",
-  "n": 69,
+  "n": 76,
   "title": "Дієприкметникові звороти",
   "titleEn": "Participle clauses",
   "unit": "Просунуті конструкції",
@@ -691,7 +761,7 @@
  },
  {
   "id": "unreal-past",
-  "n": 70,
+  "n": 77,
   "title": "It's time, would rather, as if",
   "titleEn": "Unreal past: it's time, would rather, as if, wish (review)",
   "unit": "Просунуті конструкції",
@@ -701,12 +771,72 @@
  },
  {
   "id": "hedging",
-  "n": 71,
+  "n": 78,
   "title": "Пом'якшення висловлювань",
   "titleEn": "Hedging and softening",
   "unit": "Просунуті конструкції",
   "level": "C1",
   "mistakeType": "other",
   "summary": "seem/tend to, it would appear, arguably, might well: м'яко й обережно"
+ },
+ {
+  "id": "subjunctive",
+  "n": 79,
+  "title": "Умовний спосіб: insist that he be",
+  "titleEn": "The subjunctive: suggest that he be",
+  "unit": "Просунуті конструкції",
+  "level": "C1",
+  "mistakeType": "tenses",
+  "summary": "insist/suggest that he be, It's essential that…, not + V, be + V3"
+ },
+ {
+  "id": "emphasis-do-auxiliary",
+  "n": 80,
+  "title": "Емфаза: do, What he did was…, so / such",
+  "titleEn": "Emphasis: emphatic do, do-clefts, so / such",
+  "unit": "Просунуті конструкції",
+  "level": "C1",
+  "mistakeType": "word_order",
+  "summary": "I do like it, Do sit down, What we did was…, such a, on earth"
+ },
+ {
+  "id": "ellipsis-substitution",
+  "n": 81,
+  "title": "Заміна і пропуск: so, not, one, do so",
+  "titleEn": "Ellipsis and substitution",
+  "unit": "Просунуті конструкції",
+  "level": "C1",
+  "mistakeType": "other",
+  "summary": "I think so / hope not, one(s), so do I / neither have I, I'd love to"
+ },
+ {
+  "id": "nominalisation",
+  "n": 82,
+  "title": "Номіналізація: іменники замість дієслів",
+  "titleEn": "Nominalisation: turning verbs into nouns",
+  "unit": "Просунуті конструкції",
+  "level": "C1",
+  "mistakeType": "vocabulary",
+  "summary": "decide → decision, increase in, lack of; офіційний стиль листів і скарг"
+ },
+ {
+  "id": "discourse-markers-spoken",
+  "n": 83,
+  "title": "Розмовні маркери: mind you, as it happens",
+  "titleEn": "Spoken discourse markers",
+  "unit": "Просунуті конструкції",
+  "level": "C1",
+  "mistakeType": "vocabulary",
+  "summary": "mind you, as it happens, come to think of it, at the end of the day"
+ },
+ {
+  "id": "advanced-passive",
+  "n": 84,
+  "title": "Пасив: it is said, is believed to have, get",
+  "titleEn": "Advanced passive: reporting structures, get, having been",
+  "unit": "Пасив і непряма мова",
+  "level": "C1",
+  "mistakeType": "tenses",
+  "summary": "It is said that, is believed to have V3, get stolen, having been done"
  }
 ]

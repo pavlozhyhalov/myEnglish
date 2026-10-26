@@ -1,0 +1,224 @@
+{
+ "id": "conditionals-advanced",
+ "title": "Умова без if: unless, provided, should you…",
+ "titleEn": "Advanced conditionals: unless, provided that, inversion, but for",
+ "unit": "Умовні речення",
+ "level": "C1",
+ "mistakeType": "other",
+ "explanation": "Окрім *if*, умову вводять інші слова. **unless** = *if … not* («якщо не»): *We'll go to the beach **unless** it rains.* Після unless дієслово стверджувальне: ~~unless it doesn't rain~~.\n\n**provided (that) / providing (that) / as long as / on condition that** — «за умови, що», наголос на одній обов'язковій умові: *You can borrow my car **as long as** you bring it back by six.* *on condition that* — офіційно. **suppose / supposing / what if** — уявна ситуація: ***Supposing** you won the lottery, what would you do?* А **in case** — не умова, а «на випадок, якщо»: *Take an umbrella **in case** it rains.*\n\n**Інверсія замість if** (книжно, ввічливо): **Should you** + V = *If you (should)…*: ***Should you** need anything, just call reception.* **Were I / Were it** = *If I were*: ***Were I** in your position, I'd accept.* **Had I** + V3 = *If I had*: ***Had we known** about the strike, we'd have taken the car.* Заперечення: ***Had I not** seen it…* (не ~~Hadn't I~~).\n\n**But for / Were it not for / Had it not been for** + іменник = «якби не…»: ***But for** your help, we'd never have found the flat.* ***Were it not for** the weather, Kraków would be perfect.* (теперішнє) ***Had it not been for** the GPS, we'd have got lost.* (минуле)\n\n**otherwise / or else** — «інакше»: *Hurry up, **otherwise** we'll miss the train.* **even if** — «навіть якщо»: *I'll go **even if** it rains.*",
+ "formula": [
+  "**unless** = if … not · **as long as / provided (that)** = лише за умови",
+  "**Should you** + V · **Were I** … · **Had I** + V3 — інверсія замість if",
+  "**But for / Were it not for / Had it not been for** + іменник — «якби не»"
+ ],
+ "table": {
+  "head": [
+   "Конструкція",
+   "Приклад",
+   "= з if"
+  ],
+  "rows": [
+   [
+    "unless",
+    "I won't go unless you come with me.",
+    "if you don't come"
+   ],
+   [
+    "as long as",
+    "You can stay as long as you're quiet.",
+    "only if you're quiet"
+   ],
+   [
+    "Should you…",
+    "Should you need help, call me.",
+    "If you need help"
+   ],
+   [
+    "Were I…",
+    "Were I you, I'd talk to her.",
+    "If I were you"
+   ],
+   [
+    "Had I…",
+    "Had I known, I'd have come earlier.",
+    "If I had known"
+   ],
+   [
+    "But for…",
+    "But for the rain, it was a perfect day.",
+    "If it hadn't been for the rain"
+   ]
+  ]
+ },
+ "examples": [
+  {
+   "en": "We'll have the barbecue outside unless it starts raining.",
+   "uk": "Влаштуємо барбекю надворі, якщо не почнеться дощ."
+  },
+  {
+   "en": "You can use my bike as long as you lock it properly.",
+   "uk": "Можеш узяти мій велосипед, якщо добре його замкнеш."
+  },
+  {
+   "en": "Should you have any questions, please don't hesitate to contact us.",
+   "uk": "Якщо у вас виникнуть запитання, будь ласка, звертайтеся."
+  },
+  {
+   "en": "Had we left ten minutes earlier, we wouldn't have missed the train.",
+   "uk": "Якби ми вийшли на десять хвилин раніше, не спізнилися б на потяг."
+  },
+  {
+   "en": "Were it not for Vita, I'd never cook anything healthy.",
+   "uk": "Якби не Віта, я б ніколи не готував нічого корисного."
+  },
+  {
+   "en": "Take some cash in case the card machine isn't working.",
+   "uk": "Візьми готівку на випадок, якщо термінал не працюватиме."
+  }
+ ],
+ "tip": "**unless** уже містить заперечення: *I'll come **unless** I'm busy* = *if I'm **not** busy*. Не додавайте ще одне *not*.",
+ "exercises": [
+  {
+   "type": "choice",
+   "prompt": "We'll walk to the restaurant ___ it's raining.",
+   "options": [
+    "unless",
+    "if",
+    "in case",
+    "provided"
+   ],
+   "answer": "unless",
+   "explanation": "unless = якщо не."
+  },
+  {
+   "type": "choice",
+   "prompt": "You can borrow my camera ___ you're careful with it.",
+   "options": [
+    "as long as",
+    "unless",
+    "in case",
+    "otherwise"
+   ],
+   "answer": "as long as",
+   "explanation": "as long as — «за умови, що»."
+  },
+  {
+   "type": "choice",
+   "prompt": "___ you need anything, just ring the bell.",
+   "options": [
+    "Should",
+    "Would",
+    "Had",
+    "Were"
+   ],
+   "answer": "Should",
+   "explanation": "Should you + V = If you need."
+  },
+  {
+   "type": "choice",
+   "prompt": "___ I known about the party, I would have come.",
+   "options": [
+    "Had",
+    "Should",
+    "Were",
+    "If"
+   ],
+   "answer": "Had",
+   "explanation": "Had I + V3 = If I had known."
+  },
+  {
+   "type": "choice",
+   "prompt": "___ your help, we would never have finished on time.",
+   "options": [
+    "But for",
+    "Unless",
+    "Provided",
+    "As long as"
+   ],
+   "answer": "But for",
+   "explanation": "But for + іменник = «якби не»."
+  },
+  {
+   "type": "input",
+   "prompt": "___ I in your shoes, I'd accept the offer. (інверсія)",
+   "answer": [
+    "were"
+   ],
+   "explanation": "Were I = If I were."
+  },
+  {
+   "type": "input",
+   "prompt": "Take a jacket ___ it gets cold in the evening. (на випадок, якщо — 2 слова)",
+   "answer": [
+    "in case"
+   ],
+   "explanation": "in case — «на випадок, якщо»."
+  },
+  {
+   "type": "input",
+   "prompt": "___ it not been for the GPS, we'd have got lost. (інверсія)",
+   "answer": [
+    "had"
+   ],
+   "explanation": "Had it not been for — «якби не» про минуле."
+  },
+  {
+   "type": "input",
+   "prompt": "I won't tell anyone ___ you want me to. (якщо не)",
+   "answer": [
+    "unless"
+   ],
+   "explanation": "unless = if … not."
+  },
+  {
+   "type": "error",
+   "sentence": "Had we leave earlier, we would have caught the train.",
+   "wrongIndex": 2,
+   "correction": "left",
+   "alt": [],
+   "explanation": "Had + підмет + V3."
+  },
+  {
+   "type": "error",
+   "sentence": "You can stay with us as long as you'll help with the cleaning.",
+   "wrongIndex": 8,
+   "correction": "you",
+   "alt": [],
+   "explanation": "Після as long as — теперішній час, не will."
+  },
+  {
+   "type": "order",
+   "prompt": "Якби не дощ, ми б пішли на прогулянку.",
+   "answer": [
+    "But for the rain, we would have gone for a walk."
+   ],
+   "explanation": "But for + іменник + would have + V3."
+  },
+  {
+   "type": "transform",
+   "prompt": "If you need any help, please call me.",
+   "instruction": "Почніть з Should…",
+   "answer": [
+    "Should you need any help, please call me.",
+    "Should you need help, please call me."
+   ],
+   "explanation": "Should you + V замість If you."
+  },
+  {
+   "type": "translate",
+   "uk": "Якби я знав, я б тобі сказав.",
+   "answer": [
+    "Had I known, I would have told you.",
+    "Had I known, I'd have told you.",
+    "Had I known, I would've told you.",
+    "If I had known, I would have told you.",
+    "If I'd known, I would have told you.",
+    "If I'd known, I'd have told you.",
+    "If I had known, I'd have told you.",
+    "If I knew, I would tell you.",
+    "If I knew, I'd tell you."
+   ],
+   "explanation": "Had I known = If I had known."
+  }
+ ]
+}

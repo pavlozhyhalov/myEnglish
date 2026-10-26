@@ -1,0 +1,220 @@
+{
+ "id": "subjunctive",
+ "title": "Умовний спосіб: insist that he be",
+ "titleEn": "The subjunctive: suggest that he be",
+ "unit": "Просунуті конструкції",
+ "level": "C1",
+ "mistakeType": "tenses",
+ "explanation": "**Subjunctive** — після слів вимоги, поради чи важливості дієслово стоїть у **базовій формі**: без -s, без часу, однаково для всіх осіб. *The doctor insisted that Vita **rest** for a week.* (не *rests*)\n\nТакі дієслова: **suggest, recommend, insist, demand, request, propose, ask, advise, urge**: *I suggest that he **call** them tomorrow.* Минулий час головного речення нічого не змінює: *He insisted that I **stay*** (не *stayed*).\n\nПрикметники: **It is essential / vital / important / crucial / necessary / imperative / advisable that…**: *It's essential that everyone **be** on time.* Так само після іменників: *my suggestion that…, the recommendation that…*\n\n**Заперечення** — просто **not** перед дієсловом, без *do*: *She insisted that he **not tell** anyone.* **Пасив** — **be + V3**: *They requested that the room **be cleaned**.*\n\nУ британській мові часто кажуть **should + V**: *I suggest that he **should call**.* У розмові можна й звичайний час (*I suggest he calls*). Subjunctive звучить офіційніше, але природний у листах і правилах, а також у сталих виразах: *If need be* («якщо буде потреба»), *Be that as it may* («хай там як»), *God save the King*.",
+ "formula": [
+  "suggest / insist / recommend / demand **that** + підмет + **V** (базова форма)",
+  "It is **essential / vital / important that** + підмет + **V / be**",
+  "заперечення: that he **not** + V · пасив: that it **be** + V3"
+ ],
+ "table": {
+  "head": [
+   "Тригер",
+   "Subjunctive",
+   "Розмовний варіант (BrE)"
+  ],
+  "rows": [
+   [
+    "insist",
+    "She insisted that he stay for dinner.",
+    "…that he should stay"
+   ],
+   [
+    "suggest",
+    "I suggest that she see a doctor.",
+    "…that she should see / she sees"
+   ],
+   [
+    "it's essential",
+    "It's essential that he be there.",
+    "…that he should be there"
+   ],
+   [
+    "recommend + not",
+    "They recommend that you not drink the tap water.",
+    "…that you shouldn't drink"
+   ],
+   [
+    "request + пасив",
+    "We requested that the room be cleaned.",
+    "…should be cleaned"
+   ]
+  ]
+ },
+ "examples": [
+  {
+   "en": "The landlord insisted that we pay the deposit in cash.",
+   "uk": "Орендодавець наполіг, щоб ми заплатили заставу готівкою."
+  },
+  {
+   "en": "The doctor recommended that Vita take folic acid.",
+   "uk": "Лікар порадив Віті приймати фолієву кислоту."
+  },
+  {
+   "en": "It's vital that the car seat be fitted correctly.",
+   "uk": "Дуже важливо, щоб дитяче автокрісло було правильно встановлене."
+  },
+  {
+   "en": "I suggest that he not mention it to his mother.",
+   "uk": "Пропоную, щоб він не згадував про це своїй мамі."
+  },
+  {
+   "en": "My grandma always demanded that everyone be at the table by six.",
+   "uk": "Бабуся завжди вимагала, щоб усі були за столом до шостої."
+  },
+  {
+   "en": "If need be, we can stay another night.",
+   "uk": "Якщо буде потреба, можемо залишитися ще на ніч."
+  }
+ ],
+ "tip": "Головна ознака — **немає -s** у третій особі: *I insist that he **come***. Якщо сумніваєтеся, скажіть *that he **should** come* — це теж правильно.",
+ "exercises": [
+  {
+   "type": "choice",
+   "prompt": "The doctor insisted that he ___ smoking immediately.",
+   "options": [
+    "stop",
+    "stops",
+    "stopping",
+    "to stop"
+   ],
+   "answer": "stop",
+   "explanation": "Після insist that — базова форма дієслова."
+  },
+  {
+   "type": "choice",
+   "prompt": "It's essential that every guest ___ on time.",
+   "options": [
+    "be",
+    "being",
+    "to be",
+    "been"
+   ],
+   "answer": "be",
+   "explanation": "Після It's essential that — базова форма be."
+  },
+  {
+   "type": "choice",
+   "prompt": "They recommended that we ___ the tap water.",
+   "options": [
+    "not drink",
+    "don't drink",
+    "not to drink",
+    "no drink"
+   ],
+   "answer": "not drink",
+   "explanation": "Заперечення в subjunctive — not + V без do."
+  },
+  {
+   "type": "choice",
+   "prompt": "The guest requested that his room ___ before noon.",
+   "options": [
+    "be cleaned",
+    "been cleaned",
+    "to be cleaned",
+    "being cleaned"
+   ],
+   "answer": "be cleaned",
+   "explanation": "Пасив у subjunctive — be + V3."
+  },
+  {
+   "type": "input",
+   "prompt": "Vita's mum insisted that we ___ (stay) for dinner.",
+   "answer": [
+    "stay",
+    "should stay"
+   ],
+   "explanation": "insist that + базова форма або should + V."
+  },
+  {
+   "type": "input",
+   "prompt": "It is vital that the form ___ (sign) by both parents. (пасив, 2 слова)",
+   "answer": [
+    "be signed",
+    "should be signed"
+   ],
+   "explanation": "Пасив у subjunctive — be + V3."
+  },
+  {
+   "type": "input",
+   "prompt": "I propose that the party ___ (move) to Saturday. (пасив, 2 слова)",
+   "answer": [
+    "be moved",
+    "should be moved"
+   ],
+   "explanation": "propose that + be + V3."
+  },
+  {
+   "type": "input",
+   "prompt": "The guide advised that we ___ (not / leave) our bags unattended. (2 слова)",
+   "answer": [
+    "not leave",
+    "should not leave",
+    "shouldn't leave"
+   ],
+   "explanation": "Заперечення — not + базова форма."
+  },
+  {
+   "type": "error",
+   "sentence": "The teacher demanded that he apologises to the whole class.",
+   "wrongIndex": 5,
+   "correction": "apologise",
+   "alt": [
+    "should apologise",
+    "apologize",
+    "should apologize"
+   ],
+   "explanation": "Після demand that — базова форма без -s."
+  },
+  {
+   "type": "error",
+   "sentence": "My doctor recommended that I avoiding coffee.",
+   "wrongIndex": 5,
+   "correction": "avoid",
+   "alt": [
+    "should avoid"
+   ],
+   "explanation": "Після recommend that — базова форма дієслова."
+  },
+  {
+   "type": "order",
+   "prompt": "Я наполягаю, щоб він залишився.",
+   "answer": [
+    "I insist that he stay.",
+    "I insist that he should stay."
+   ],
+   "explanation": "insist that + базова форма."
+  },
+  {
+   "type": "transform",
+   "prompt": "You must be there at eight. It's essential.",
+   "instruction": "Почніть з It's essential that…",
+   "answer": [
+    "It's essential that you be there at eight.",
+    "It's essential that you should be there at eight.",
+    "It's essential that you are there at eight."
+   ],
+   "explanation": "It's essential that + be."
+  },
+  {
+   "type": "translate",
+   "uk": "Лікар порадив, щоб Віта більше відпочивала.",
+   "answer": [
+    "The doctor recommended that Vita rest more.",
+    "The doctor suggested that Vita rest more.",
+    "The doctor advised that Vita rest more.",
+    "The doctor recommended that Vita should rest more.",
+    "The doctor suggested that Vita should rest more.",
+    "The doctor recommended Vita rest more.",
+    "The doctor advised Vita to rest more.",
+    "The doctor recommended that Vita get more rest.",
+    "The doctor advised Vita to get more rest."
+   ],
+   "explanation": "recommend that + базова форма."
+  }
+ ]
+}

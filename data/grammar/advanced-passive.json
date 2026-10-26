@@ -1,0 +1,223 @@
+{
+ "id": "advanced-passive",
+ "title": "Пасив: it is said, is believed to have, get",
+ "titleEn": "Advanced passive: reporting structures, get, having been",
+ "unit": "Пасив і непряма мова",
+ "level": "C1",
+ "mistakeType": "tenses",
+ "explanation": "**Безособовий пасив** — типовий для новин, чуток і відгуків: **It is said / thought / believed / reported / expected that** + речення: *It is said that the castle is haunted.*\n\n**Особова конструкція:** **підмет + is said / believed / thought + to V**: *The castle **is said to be** haunted.* Якщо дія сталася раніше — **to have + V3**: *He **is believed to have left** the country.* Якщо триває зараз — **to be + V-ing**: *She **is thought to be living** in Berlin.*\n\n**get + V3** — розмовний пасив, часто про несподіване, неприємне або про зміну стану: *My bike **got stolen**. We **got stuck** in traffic. They **got married** in June.* Також *get dressed, get lost, get hurt, get paid, get invited*.\n\n**Пасивні герундій та інфінітив:** **being + V3** (*I hate **being told** what to do*), **having been + V3** — пасивна дія, що сталася раніше (*Having been warned about pickpockets, we kept our bags close*), **to be + V3** (*I'd like **to be invited***), **to have been + V3** (*She was lucky **to have been chosen***).\n\nУ розмові замість *It is said that…* частіше кажуть *They say… / Apparently…*. Книжна конструкція доречна в новинах, офіційних текстах і письмових завданнях.",
+ "formula": [
+  "**It is said / thought / believed that** + речення",
+  "підмет + **is said to** + V · **to have** + V3 (раніше) · **to be** + V-ing (зараз)",
+  "**get** + V3 (розмовне) · **being / having been** + V3"
+ ],
+ "table": {
+  "head": [
+   "Конструкція",
+   "Приклад",
+   "Значення"
+  ],
+  "rows": [
+   [
+    "It is said that…",
+    "It is said that the restaurant is the best in town.",
+    "кажуть, що…"
+   ],
+   [
+    "is said to + V",
+    "The restaurant is said to be the best in town.",
+    "те саме, особова форма"
+   ],
+   [
+    "is believed to have + V3",
+    "The thief is believed to have escaped through the window.",
+    "дія в минулому"
+   ],
+   [
+    "is thought to be + V-ing",
+    "He is thought to be hiding in the mountains.",
+    "дія триває"
+   ],
+   [
+    "get + V3",
+    "Our flight got cancelled.",
+    "розмовний пасив"
+   ],
+   [
+    "having been + V3",
+    "Having been told the museum was closed, we went to a café.",
+    "пасивна дія раніше"
+   ]
+  ]
+ },
+ "examples": [
+  {
+   "en": "The new bridge is expected to open next spring.",
+   "uk": "Очікується, що новий міст відкриють наступної весни."
+  },
+  {
+   "en": "It is believed that the fire started in the kitchen.",
+   "uk": "Вважають, що пожежа почалася на кухні."
+  },
+  {
+   "en": "The painting is thought to have been stolen in the 1940s.",
+   "uk": "Вважають, що картину викрали в 1940-х."
+  },
+  {
+   "en": "We got lost on the way to the lake.",
+   "uk": "Ми заблукали дорогою до озера."
+  },
+  {
+   "en": "Nobody likes being kept waiting.",
+   "uk": "Ніхто не любить, коли його змушують чекати."
+  },
+  {
+   "en": "Having been invited to the wedding, we had to buy a present.",
+   "uk": "Оскільки нас запросили на весілля, треба було купити подарунок."
+  }
+ ],
+ "tip": "Час «живе» в інфінітиві: *He **is said to live** here* — живе зараз; *He **is said to have lived** here* — колись жив.",
+ "exercises": [
+  {
+   "type": "choice",
+   "prompt": "The castle is said ___ haunted.",
+   "options": [
+    "to be",
+    "being",
+    "that it is",
+    "be"
+   ],
+   "answer": "to be",
+   "explanation": "is said + to V."
+  },
+  {
+   "type": "choice",
+   "prompt": "The singer is believed ___ the country last night.",
+   "options": [
+    "to have left",
+    "to leave",
+    "leaving",
+    "to be left"
+   ],
+   "answer": "to have left",
+   "explanation": "Дія в минулому — to have + V3."
+  },
+  {
+   "type": "choice",
+   "prompt": "It ___ that prices will rise again next year.",
+   "options": [
+    "is expected",
+    "expects",
+    "is expecting",
+    "has expected"
+   ],
+   "answer": "is expected",
+   "explanation": "Безособовий пасив — It is expected that."
+  },
+  {
+   "type": "choice",
+   "prompt": "My phone ___ stolen on the tram yesterday.",
+   "options": [
+    "got",
+    "became",
+    "was getting",
+    "had"
+   ],
+   "answer": "got",
+   "explanation": "Розмовний пасив — get + V3."
+  },
+  {
+   "type": "choice",
+   "prompt": "I can't stand ___ what to do all the time.",
+   "options": [
+    "being told",
+    "to tell",
+    "telling",
+    "having told"
+   ],
+   "answer": "being told",
+   "explanation": "Пасивний герундій — being + V3."
+  },
+  {
+   "type": "input",
+   "prompt": "The suspect is thought ___ (hide) somewhere in the city. (зараз, 3 слова)",
+   "answer": [
+    "to be hiding"
+   ],
+   "explanation": "Дія триває — to be + V-ing."
+  },
+  {
+   "type": "input",
+   "prompt": "The house is believed ___ (build) in the 18th century. (4 слова)",
+   "answer": [
+    "to have been built"
+   ],
+   "explanation": "Пасив у минулому — to have been + V3."
+  },
+  {
+   "type": "input",
+   "prompt": "___ (warn) about the storm, we stayed at home. (пасив, 3 слова)",
+   "answer": [
+    "having been warned"
+   ],
+   "explanation": "Пасивна дія раніше — having been + V3."
+  },
+  {
+   "type": "input",
+   "prompt": "We ___ (get / stick) in traffic for two hours. (минулий час, 2 слова)",
+   "answer": [
+    "got stuck"
+   ],
+   "explanation": "get stuck — «застрягти»."
+  },
+  {
+   "type": "error",
+   "sentence": "The restaurant is said to serving the best pierogi in Kraków.",
+   "wrongIndex": 5,
+   "correction": "serve",
+   "alt": [],
+   "explanation": "Після is said to — базова форма дієслова."
+  },
+  {
+   "type": "error",
+   "sentence": "He is believed to have leave the country.",
+   "wrongIndex": 5,
+   "correction": "left",
+   "alt": [],
+   "explanation": "Після to have — третя форма (V3)."
+  },
+  {
+   "type": "order",
+   "prompt": "Кажуть, що він дуже багатий.",
+   "answer": [
+    "He is said to be very rich."
+   ],
+   "explanation": "підмет + is said to be."
+  },
+  {
+   "type": "transform",
+   "prompt": "People think that the fire started in the kitchen.",
+   "instruction": "Почніть з The fire is thought…",
+   "answer": [
+    "The fire is thought to have started in the kitchen."
+   ],
+   "explanation": "Дія в минулому — to have + V3."
+  },
+  {
+   "type": "translate",
+   "uk": "Вважають, що він живе в Канаді.",
+   "answer": [
+    "He is believed to live in Canada.",
+    "He is thought to live in Canada.",
+    "It is believed that he lives in Canada.",
+    "It is thought that he lives in Canada.",
+    "He is believed to be living in Canada.",
+    "He is thought to be living in Canada.",
+    "People believe that he lives in Canada.",
+    "People think he lives in Canada.",
+    "People think that he lives in Canada."
+   ],
+   "explanation": "is believed to + V або It is believed that."
+  }
+ ]
+}

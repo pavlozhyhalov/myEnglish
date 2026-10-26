@@ -1,0 +1,217 @@
+{
+ "id": "participles-adjectives",
+ "title": "Прикметники на -ed і -ing",
+ "titleEn": "-ed and -ing adjectives",
+ "unit": "Будова речення",
+ "level": "B2",
+ "mistakeType": "vocabulary",
+ "explanation": "Багато прикметників мають дві форми. **-ing** описує те, що **викликає** почуття, — річ, людину чи ситуацію: *The film was **boring**.* **-ed** описує те, що людина **відчуває**: *I was **bored**.*\n\nПомилка тут змінює зміст: *I'm **boring*** — «я нудна людина», а *I'm **bored*** — «мені нудно». Так само *I'm **confusing*** («я заплутую інших») vs *I'm **confused*** («я розгубився»), *She's **interesting*** vs *She's **interested***.\n\nПоширені пари: *interested / interesting, excited / exciting, tired / tiring, embarrassed / embarrassing, annoyed / annoying, surprised / surprising, disappointed / disappointing, relaxed / relaxing, worried / worrying, exhausted / exhausting, amazed / amazing, confused / confusing, overwhelmed / overwhelming, terrified / terrifying*.\n\nПісля **-ed** часто йде прийменник: *interested **in***, *excited **about***, *worried **about***, *tired **of*** («набридло»), *bored **with***, *disappointed **with / by***, *surprised **at / by***, *embarrassed **about***.\n\nЗ підметом *it* — майже завжди **-ing**: *It's **worrying** that…*, *It was **embarrassing** to…* Сильні прикметники (*exhausted, amazing, terrifying*) краще підсилювати словами *absolutely, really*, а не *very*.",
+ "formula": [
+  "річ / ситуація викликає почуття → **-ing**: *The trip was tiring.*",
+  "людина відчуває → **-ed**: *We were tired.*",
+  "-ed + прийменник: interested **in**, excited **about**, tired **of**"
+ ],
+ "table": {
+  "head": [
+   "Почуття (-ed)",
+   "Причина (-ing)",
+   "Приклад"
+  ],
+  "rows": [
+   [
+    "bored",
+    "boring",
+    "I was bored because the lecture was boring."
+   ],
+   [
+    "tired",
+    "tiring",
+    "It was a tiring day, so we're really tired."
+   ],
+   [
+    "embarrassed",
+    "embarrassing",
+    "I felt embarrassed — it was so embarrassing!"
+   ],
+   [
+    "annoyed",
+    "annoying",
+    "The noise is annoying. I'm getting annoyed."
+   ],
+   [
+    "confused",
+    "confusing",
+    "This tax form is confusing. I'm confused."
+   ],
+   [
+    "disappointed",
+    "disappointing",
+    "The hotel was disappointing. We were disappointed."
+   ]
+  ]
+ },
+ "examples": [
+  {
+   "en": "Vita was really excited about our trip to Portugal.",
+   "uk": "Віта дуже раділа нашій поїздці до Португалії."
+  },
+  {
+   "en": "Moving to a new country can be exhausting.",
+   "uk": "Переїзд до нової країни може бути виснажливим."
+  },
+  {
+   "en": "I'm not interested in football, to be honest.",
+   "uk": "Чесно кажучи, мене не цікавить футбол."
+  },
+  {
+   "en": "It's worrying that prices keep going up.",
+   "uk": "Тривожно, що ціни постійно зростають."
+  },
+  {
+   "en": "We were amazed by the view from the top.",
+   "uk": "Нас вразив вигляд з вершини."
+  },
+  {
+   "en": "I'm tired of waiting for the landlord to fix the heating.",
+   "uk": "Мені набридло чекати, поки орендодавець полагодить опалення."
+  }
+ ],
+ "tip": "Перевірка: можна сказати «**мені** …»? Тоді **-ed**: *мені нудно* → *I'm **bored***. Скажете *I'm boring* — це «я нудний».",
+ "exercises": [
+  {
+   "type": "choice",
+   "prompt": "The film was so ___ that I fell asleep.",
+   "options": [
+    "boring",
+    "bored",
+    "bore"
+   ],
+   "answer": "boring",
+   "explanation": "Фільм викликає нудьгу — -ing."
+  },
+  {
+   "type": "choice",
+   "prompt": "I was really ___ when I forgot his name at the party.",
+   "options": [
+    "embarrassed",
+    "embarrassing",
+    "embarrass"
+   ],
+   "answer": "embarrassed",
+   "explanation": "Людина відчуває сором — -ed."
+  },
+  {
+   "type": "choice",
+   "prompt": "Are you ___ in coming to the concert with us?",
+   "options": [
+    "interested",
+    "interesting",
+    "interest"
+   ],
+   "answer": "interested",
+   "explanation": "interested in — людина зацікавлена."
+  },
+  {
+   "type": "choice",
+   "prompt": "The instructions for this coffee machine are really ___.",
+   "options": [
+    "confusing",
+    "confused",
+    "confuse"
+   ],
+   "answer": "confusing",
+   "explanation": "Інструкція заплутує — -ing."
+  },
+  {
+   "type": "choice",
+   "prompt": "We were ___ with the service at that restaurant.",
+   "options": [
+    "disappointed",
+    "disappointing",
+    "disappoint"
+   ],
+   "answer": "disappointed",
+   "explanation": "Ми відчували розчарування — -ed."
+  },
+  {
+   "type": "input",
+   "prompt": "After a ___ (relax) weekend in Zakopane, we felt great.",
+   "answer": [
+    "relaxing"
+   ],
+   "explanation": "Вихідні розслабляють — -ing."
+  },
+  {
+   "type": "input",
+   "prompt": "Vita is ___ (excite) about her new job.",
+   "answer": [
+    "excited"
+   ],
+   "explanation": "Віта відчуває радість — -ed."
+  },
+  {
+   "type": "input",
+   "prompt": "I'm ___ (tire) of eating pasta every day.",
+   "answer": [
+    "tired"
+   ],
+   "explanation": "tired of — «набридло»."
+  },
+  {
+   "type": "error",
+   "sentence": "I'm so boring — there's nothing to do here.",
+   "wrongIndex": 2,
+   "correction": "bored",
+   "alt": [],
+   "explanation": "Мені нудно — bored; boring означає «нудний»."
+  },
+  {
+   "type": "error",
+   "sentence": "The news was very surprised for everyone.",
+   "wrongIndex": 4,
+   "correction": "surprising",
+   "alt": [],
+   "explanation": "Новина викликає подив — -ing."
+  },
+  {
+   "type": "error",
+   "sentence": "She's interested about photography.",
+   "wrongIndex": 2,
+   "correction": "in",
+   "alt": [],
+   "explanation": "Після interested — прийменник in."
+  },
+  {
+   "type": "order",
+   "prompt": "Мені набридло чекати.",
+   "answer": [
+    "I'm tired of waiting."
+   ],
+   "explanation": "tired of + -ing — «набридло»."
+  },
+  {
+   "type": "transform",
+   "prompt": "The museum interested us a lot.",
+   "instruction": "Почніть з We were…",
+   "answer": [
+    "We were very interested in the museum.",
+    "We were really interested in the museum.",
+    "We were interested in the museum."
+   ],
+   "explanation": "Про почуття людей — interested in."
+  },
+  {
+   "type": "translate",
+   "uk": "Ця подорож була виснажливою, але я не шкодую.",
+   "answer": [
+    "The trip was exhausting, but I don't regret it.",
+    "This trip was exhausting, but I don't regret it.",
+    "The journey was exhausting, but I don't regret it.",
+    "This journey was exhausting, but I don't regret it.",
+    "The trip was tiring, but I don't regret it.",
+    "This trip was tiring, but I don't regret it."
+   ],
+   "explanation": "Подорож виснажує — exhausting."
+  }
+ ]
+}
