@@ -3,152 +3,440 @@
   {
    "topic": "Повсякдення",
    "en": "What are you up to this weekend?",
-   "uk": "Які плани на вихідні?"
+   "uk": "Які плани на вихідні?",
+   "level": "A2"
   },
   {
    "topic": "Повсякдення",
    "en": "I'm running a bit late, sorry.",
-   "uk": "Я трохи запізнююся, вибач."
+   "uk": "Я трохи запізнююся, вибач.",
+   "level": "A2"
   },
   {
    "topic": "Повсякдення",
    "en": "Could you give me a hand with this?",
-   "uk": "Можеш мені з цим допомогти?"
+   "uk": "Можеш мені з цим допомогти?",
+   "level": "A2"
   },
   {
    "topic": "Повсякдення",
    "en": "I'll think about it and let you know.",
-   "uk": "Я подумаю і дам знати."
+   "uk": "Я подумаю і дам знати.",
+   "level": "A2"
   },
   {
    "topic": "Повсякдення",
    "en": "It's not a big deal, don't worry.",
-   "uk": "Нічого страшного, не хвилюйся."
+   "uk": "Нічого страшного, не хвилюйся.",
+   "level": "A2"
   },
   {
    "topic": "Повсякдення",
    "en": "I haven't seen you for ages!",
-   "uk": "Сто років тебе не бачив!"
+   "uk": "Сто років тебе не бачив!",
+   "level": "A2"
   },
   {
    "topic": "Повсякдення",
    "en": "Let me know if you need anything.",
-   "uk": "Скажи, якщо щось буде потрібно."
+   "uk": "Скажи, якщо щось буде потрібно.",
+   "level": "A2"
   },
   {
    "topic": "Кафе і магазин",
    "en": "Can I have a flat white, please?",
-   "uk": "Можна мені флет вайт?"
+   "uk": "Можна мені флет вайт?",
+   "level": "A2"
   },
   {
    "topic": "Кафе і магазин",
    "en": "Could we have the bill, please?",
-   "uk": "Можна рахунок?"
+   "uk": "Можна рахунок?",
+   "level": "A2"
   },
   {
    "topic": "Кафе і магазин",
    "en": "Do you have this in a smaller size?",
-   "uk": "У вас є менший розмір?"
+   "uk": "У вас є менший розмір?",
+   "level": "A2"
   },
   {
    "topic": "Кафе і магазин",
    "en": "I'd like to return this, please.",
-   "uk": "Я хотів би це повернути."
+   "uk": "Я хотів би це повернути.",
+   "level": "A2"
   },
   {
    "topic": "Кафе і магазин",
    "en": "Is service included?",
-   "uk": "Обслуговування включено?"
+   "uk": "Обслуговування включено?",
+   "level": "A2"
   },
   {
    "topic": "Кафе і магазин",
    "en": "Just looking, thanks.",
-   "uk": "Просто дивлюся, дякую."
+   "uk": "Просто дивлюся, дякую.",
+   "level": "A2"
   },
   {
    "topic": "Подорожі",
    "en": "Excuse me, how do I get to the station?",
-   "uk": "Перепрошую, як дістатися до вокзалу?"
+   "uk": "Перепрошую, як дістатися до вокзалу?",
+   "level": "B1"
   },
   {
    "topic": "Подорожі",
    "en": "I have a reservation under the name Zhyhalov.",
-   "uk": "У мене бронювання на прізвище Жигалов."
+   "uk": "У мене бронювання на прізвище Жигалов.",
+   "level": "B1"
   },
   {
    "topic": "Подорожі",
    "en": "Is this seat taken?",
-   "uk": "Це місце зайняте?"
+   "uk": "Це місце зайняте?",
+   "level": "B1"
   },
   {
    "topic": "Подорожі",
    "en": "My flight has been delayed.",
-   "uk": "Мій рейс затримали."
+   "uk": "Мій рейс затримали.",
+   "level": "B1"
   },
   {
    "topic": "Подорожі",
    "en": "Could you take a photo of us?",
-   "uk": "Можете нас сфотографувати?"
+   "uk": "Можете нас сфотографувати?",
+   "level": "B1"
   },
   {
    "topic": "Подорожі",
    "en": "What time is checkout?",
-   "uk": "О котрій виселення?"
+   "uk": "О котрій виселення?",
+   "level": "B1"
   },
   {
    "topic": "Думки й реакції",
    "en": "To be honest, I'm not so sure about that.",
-   "uk": "Чесно кажучи, я не впевнений."
+   "uk": "Чесно кажучи, я не впевнений.",
+   "level": "B1"
   },
   {
    "topic": "Думки й реакції",
    "en": "That's a really good point.",
-   "uk": "Це дуже слушна думка."
+   "uk": "Це дуже слушна думка.",
+   "level": "B1"
   },
   {
    "topic": "Думки й реакції",
    "en": "I see what you mean, but I disagree.",
-   "uk": "Розумію, що ти маєш на увазі, але не погоджуюся."
+   "uk": "Розумію, що ти маєш на увазі, але не погоджуюся.",
+   "level": "B1"
   },
   {
    "topic": "Думки й реакції",
    "en": "I couldn't agree more.",
-   "uk": "Цілком згоден."
+   "uk": "Цілком згоден.",
+   "level": "B1"
   },
   {
    "topic": "Думки й реакції",
    "en": "What would you do in my place?",
-   "uk": "Що б ти зробив на моєму місці?"
+   "uk": "Що б ти зробив на моєму місці?",
+   "level": "B1"
   },
   {
    "topic": "Думки й реакції",
    "en": "That sounds like a great idea!",
-   "uk": "Звучить як чудова ідея!"
+   "uk": "Звучить як чудова ідея!",
+   "level": "B1"
   },
   {
    "topic": "Звуки θ/ð/w",
    "en": "I think three of them are thirty.",
-   "uk": "Думаю, троє з них мають тридцять."
+   "uk": "Думаю, троє з них мають тридцять.",
+   "level": "B1"
   },
   {
    "topic": "Звуки θ/ð/w",
    "en": "The weather is worse this week.",
-   "uk": "Цього тижня погода гірша."
+   "uk": "Цього тижня погода гірша.",
+   "level": "B1"
   },
   {
    "topic": "Звуки θ/ð/w",
    "en": "Thank you for the wonderful evening.",
-   "uk": "Дякую за чудовий вечір."
+   "uk": "Дякую за чудовий вечір.",
+   "level": "B1"
   },
   {
    "topic": "Звуки θ/ð/w",
    "en": "Would you like water with that?",
-   "uk": "Бажаєте до цього води?"
+   "uk": "Бажаєте до цього води?",
+   "level": "B1"
   },
   {
    "topic": "Звуки θ/ð/w",
    "en": "They're over there with their mother.",
-   "uk": "Вони он там зі своєю мамою."
+   "uk": "Вони он там зі своєю мамою.",
+   "level": "B1"
+  },
+  {
+   "topic": "Знайомство",
+   "en": "Hi, I'm Pavlo. Nice to meet you.",
+   "uk": "Привіт, я Павло. Приємно познайомитися.",
+   "level": "A1"
+  },
+  {
+   "topic": "Знайомство",
+   "en": "Where are you from?",
+   "uk": "Звідки ви?",
+   "level": "A1"
+  },
+  {
+   "topic": "Знайомство",
+   "en": "I'm from Ukraine, but I live in Kraków.",
+   "uk": "Я з України, але живу в Кракові.",
+   "level": "A1"
+  },
+  {
+   "topic": "Знайомство",
+   "en": "What do you do?",
+   "uk": "Чим ви займаєтеся?",
+   "level": "A1"
+  },
+  {
+   "topic": "Знайомство",
+   "en": "This is my wife, Vita.",
+   "uk": "Це моя дружина, Віта.",
+   "level": "A1"
+  },
+  {
+   "topic": "Знайомство",
+   "en": "See you tomorrow!",
+   "uk": "До завтра!",
+   "level": "A1"
+  },
+  {
+   "topic": "Знайомство",
+   "en": "Sorry, can you say that again?",
+   "uk": "Вибачте, можете повторити?",
+   "level": "A1"
+  },
+  {
+   "topic": "Лікар і аптека",
+   "en": "I'd like to make an appointment, please.",
+   "uk": "Я хотів би записатися на прийом.",
+   "level": "A2"
+  },
+  {
+   "topic": "Лікар і аптека",
+   "en": "I've had a sore throat since Monday.",
+   "uk": "У мене болить горло з понеділка.",
+   "level": "A2"
+  },
+  {
+   "topic": "Лікар і аптека",
+   "en": "How often should I take it?",
+   "uk": "Як часто це приймати?",
+   "level": "A2"
+  },
+  {
+   "topic": "Лікар і аптека",
+   "en": "Do I need a prescription?",
+   "uk": "Мені потрібен рецепт?",
+   "level": "A2"
+  },
+  {
+   "topic": "Лікар і аптека",
+   "en": "Is there anything for a headache?",
+   "uk": "Є щось від головного болю?",
+   "level": "A2"
+  },
+  {
+   "topic": "Лікар і аптека",
+   "en": "I feel much better, thanks.",
+   "uk": "Мені набагато краще, дякую.",
+   "level": "A2"
+  },
+  {
+   "topic": "Телефон і повідомлення",
+   "en": "Hi, it's Pavlo. Is this a good time?",
+   "uk": "Привіт, це Павло. Зручно говорити?",
+   "level": "B1"
+  },
+  {
+   "topic": "Телефон і повідомлення",
+   "en": "Sorry, you're breaking up.",
+   "uk": "Вибач, тебе погано чути.",
+   "level": "B1"
+  },
+  {
+   "topic": "Телефон і повідомлення",
+   "en": "Could you call me back in ten minutes?",
+   "uk": "Можеш передзвонити за десять хвилин?",
+   "level": "B1"
+  },
+  {
+   "topic": "Телефон і повідомлення",
+   "en": "I'm calling about the flat you advertised.",
+   "uk": "Я дзвоню щодо квартири, яку ви рекламували.",
+   "level": "B1"
+  },
+  {
+   "topic": "Телефон і повідомлення",
+   "en": "Let me just check my calendar.",
+   "uk": "Дай мені перевірити календар.",
+   "level": "B1"
+  },
+  {
+   "topic": "Телефон і повідомлення",
+   "en": "I'll text you the address.",
+   "uk": "Я надішлю тобі адресу повідомленням.",
+   "level": "B1"
+  },
+  {
+   "topic": "Інтонація питань",
+   "en": "You're coming tonight, aren't you?",
+   "uk": "Ти ж прийдеш сьогодні ввечері?",
+   "level": "B1"
+  },
+  {
+   "topic": "Інтонація питань",
+   "en": "Do you want tea or coffee?",
+   "uk": "Ти хочеш чай чи каву?",
+   "level": "B1"
+  },
+  {
+   "topic": "Інтонація питань",
+   "en": "Where did you park the car?",
+   "uk": "Де ти припаркував машину?",
+   "level": "B1"
+  },
+  {
+   "topic": "Інтонація питань",
+   "en": "It's lovely weather, isn't it?",
+   "uk": "Гарна погода, правда ж?",
+   "level": "B1"
+  },
+  {
+   "topic": "Інтонація питань",
+   "en": "Really? I had no idea!",
+   "uk": "Справді? Я й гадки не мав!",
+   "level": "B1"
+  },
+  {
+   "topic": "Інтонація питань",
+   "en": "Could you possibly help me with this?",
+   "uk": "Чи не могли б ви мені з цим допомогти?",
+   "level": "B1"
+  },
+  {
+   "topic": "Наголос і емоції",
+   "en": "I didn't say she took it — I said she borrowed it.",
+   "uk": "Я не казав, що вона це взяла, — я сказав, що позичила.",
+   "level": "B2"
+  },
+  {
+   "topic": "Наголос і емоції",
+   "en": "That's absolutely brilliant news!",
+   "uk": "Це просто чудова новина!",
+   "level": "B2"
+  },
+  {
+   "topic": "Наголос і емоції",
+   "en": "I'm not angry, I'm just a bit disappointed.",
+   "uk": "Я не злюся, я просто трохи розчарований.",
+   "level": "B2"
+  },
+  {
+   "topic": "Наголос і емоції",
+   "en": "Honestly, I couldn't care less.",
+   "uk": "Чесно, мені абсолютно байдуже.",
+   "level": "B2"
+  },
+  {
+   "topic": "Наголос і емоції",
+   "en": "Wait, you did WHAT?",
+   "uk": "Стривай, ти зробив ЩО?",
+   "level": "B2"
+  },
+  {
+   "topic": "Наголос і емоції",
+   "en": "Well, that's one way of looking at it.",
+   "uk": "Ну, можна й так на це подивитися.",
+   "level": "B2"
+  },
+  {
+   "topic": "Зв'язне мовлення",
+   "en": "What are you going to do about it?",
+   "uk": "Що ти з цим робитимеш?",
+   "level": "B2"
+  },
+  {
+   "topic": "Зв'язне мовлення",
+   "en": "I should have told you earlier.",
+   "uk": "Мені слід було сказати тобі раніше.",
+   "level": "B2"
+  },
+  {
+   "topic": "Зв'язне мовлення",
+   "en": "Did you get a chance to look at it?",
+   "uk": "Ти встиг на це подивитися?",
+   "level": "B2"
+  },
+  {
+   "topic": "Зв'язне мовлення",
+   "en": "Let me know if you need anything.",
+   "uk": "Дай знати, якщо щось потрібно.",
+   "level": "B2"
+  },
+  {
+   "topic": "Зв'язне мовлення",
+   "en": "I've got to go, I'm afraid.",
+   "uk": "Боюся, мені треба йти.",
+   "level": "B2"
+  },
+  {
+   "topic": "Зв'язне мовлення",
+   "en": "It's not as easy as it looks.",
+   "uk": "Це не так просто, як здається.",
+   "level": "B2"
+  },
+  {
+   "topic": "Ідіоми в мовленні",
+   "en": "Let's not beat around the bush.",
+   "uk": "Не ходімо манівцями.",
+   "level": "C1"
+  },
+  {
+   "topic": "Ідіоми в мовленні",
+   "en": "To be fair, it was a bit of a long shot.",
+   "uk": "Чесно кажучи, шансів було небагато.",
+   "level": "C1"
+  },
+  {
+   "topic": "Ідіоми в мовленні",
+   "en": "I'll take your word for it.",
+   "uk": "Повірю тобі на слово.",
+   "level": "C1"
+  },
+  {
+   "topic": "Ідіоми в мовленні",
+   "en": "It's easier said than done.",
+   "uk": "Легше сказати, ніж зробити.",
+   "level": "C1"
+  },
+  {
+   "topic": "Ідіоми в мовленні",
+   "en": "We'll cross that bridge when we come to it.",
+   "uk": "Будемо вирішувати проблеми, коли вони виникнуть.",
+   "level": "C1"
+  },
+  {
+   "topic": "Ідіоми в мовленні",
+   "en": "That's the last thing I expected.",
+   "uk": "Цього я очікував найменше.",
+   "level": "C1"
   }
  ],
  "pairs": [
@@ -343,6 +631,134 @@
    "ipaB": "/ləʊ/",
    "sound": "ɔː / əʊ",
    "tip": ""
+  },
+  {
+   "a": "very",
+   "b": "wary",
+   "ipaA": "/ˈveri/",
+   "ipaB": "/ˈweəri/",
+   "sound": "v / w",
+   "tip": "/v/ — верхні зуби торкаються нижньої губи; /w/ — губи кружечком, без зубів."
+  },
+  {
+   "a": "van",
+   "b": "one",
+   "ipaA": "/væn/",
+   "ipaB": "/wʌn/",
+   "sound": "v / w",
+   "tip": "Для /v/ відчуйте вібрацію губи; /w/ — як коротке «у» на початку."
+  },
+  {
+   "a": "sing",
+   "b": "sin",
+   "ipaA": "/sɪŋ/",
+   "ipaB": "/sɪn/",
+   "sound": "ŋ / n",
+   "tip": "/ŋ/ — задня частина язика до піднебіння, як у «банк» без «к»; не додавайте «г»."
+  },
+  {
+   "a": "thing",
+   "b": "thin",
+   "ipaA": "/θɪŋ/",
+   "ipaB": "/θɪn/",
+   "sound": "ŋ / n",
+   "tip": "Закінчення -ng — один носовий звук, без «г» в кінці."
+  },
+  {
+   "a": "right",
+   "b": "light",
+   "ipaA": "/raɪt/",
+   "ipaB": "/laɪt/",
+   "sound": "r / l",
+   "tip": "Англійське /r/ — язик не торкається піднебіння і не вібрує; /l/ — кінчик язика за зубами."
+  },
+  {
+   "a": "fry",
+   "b": "fly",
+   "ipaA": "/fraɪ/",
+   "ipaB": "/flaɪ/",
+   "sound": "r / l",
+   "tip": "Після f губи вже готові: для /r/ язик трохи загнутий назад."
+  },
+  {
+   "a": "hot",
+   "b": "hut",
+   "ipaA": "/hɒt/",
+   "ipaB": "/hʌt/",
+   "sound": "ɒ / ʌ",
+   "tip": "/ɒ/ — округлені губи, коротко; /ʌ/ — нейтральне «а», рот розслаблений."
+  },
+  {
+   "a": "cot",
+   "b": "coat",
+   "ipaA": "/kɒt/",
+   "ipaB": "/kəʊt/",
+   "sound": "ɒ / əʊ",
+   "tip": "/əʊ/ — дифтонг: від нейтрального звуку до «у»."
+  },
+  {
+   "a": "walk",
+   "b": "work",
+   "ipaA": "/wɔːk/",
+   "ipaB": "/wɜːk/",
+   "sound": "ɔː / ɜː",
+   "tip": "/ɔː/ — губи округлені, довго; /ɜː/ — губи нейтральні, звук «е-о» без округлення."
+  },
+  {
+   "a": "letter",
+   "b": "ladder",
+   "ipaA": "/ˈletə/",
+   "ipaB": "/ˈlædə/",
+   "sound": "e / æ",
+   "tip": "/æ/ — рот відкритий ширше, ніж для /e/."
+  },
+  {
+   "a": "pen",
+   "b": "pan",
+   "ipaA": "/pen/",
+   "ipaB": "/pæn/",
+   "sound": "e / æ",
+   "tip": "Опустіть щелепу для /æ/ — звук між «е» і «а»."
+  },
+  {
+   "a": "price",
+   "b": "prize",
+   "ipaA": "/praɪs/",
+   "ipaB": "/praɪz/",
+   "sound": "s / z",
+   "tip": "Перед дзвінким /z/ голосний трохи довший; /z/ — дзвінкий, з вібрацією."
+  },
+  {
+   "a": "place",
+   "b": "plays",
+   "ipaA": "/pleɪs/",
+   "ipaB": "/pleɪz/",
+   "sound": "s / z",
+   "tip": "-s після голосного в дієсловах часто звучить як /z/."
+  },
+  {
+   "a": "rich",
+   "b": "ridge",
+   "ipaA": "/rɪtʃ/",
+   "ipaB": "/rɪdʒ/",
+   "sound": "tʃ / dʒ",
+   "tip": "/tʃ/ — глухий «ч»; /dʒ/ — дзвінкий «дж»."
+  },
+  {
+   "a": "cheap",
+   "b": "jeep",
+   "ipaA": "/tʃiːp/",
+   "ipaB": "/dʒiːp/",
+   "sound": "tʃ / dʒ",
+   "tip": "Покладіть руку на горло: для /dʒ/ відчуєте вібрацію."
+  },
+  {
+   "a": "berry",
+   "b": "very",
+   "ipaA": "/ˈberi/",
+   "ipaB": "/ˈveri/",
+   "sound": "b / v",
+   "tip": "/b/ — обидві губи; /v/ — зуби і нижня губа."
   }
  ],
  "sounds": [
@@ -465,6 +881,66 @@
     "leave"
    ],
    "sentence": "He had a bad dog and a big bag."
+  },
+  {
+   "symbol": "r",
+   "title": "/r/ — red",
+   "short": "Англійське «р» без вібрації",
+   "tip": "Кінчик язика трохи загнутий назад і не торкається піднебіння. Не «гарчіть», як в українському «р». У британській вимові після голосного (car, work) /r/ не вимовляється.",
+   "words": [
+    "red",
+    "right",
+    "very",
+    "sorry",
+    "street",
+    "around"
+   ],
+   "sentence": "Really, the restaurant on the right is very expensive."
+  },
+  {
+   "symbol": "ŋ",
+   "title": "/ŋ/ — sing",
+   "short": "Задньоязиковий носовий",
+   "tip": "Задня частина язика притиснута до піднебіння, повітря через ніс. В кінці слова не додавайте «г»: sing, а не «сінг-г».",
+   "words": [
+    "sing",
+    "long",
+    "thing",
+    "morning",
+    "English",
+    "thinking"
+   ],
+   "sentence": "I'm thinking of going running in the morning."
+  },
+  {
+   "symbol": "v",
+   "title": "/v/ — very",
+   "short": "Дзвінкий губно-зубний",
+   "tip": "Верхні зуби легко на нижній губі, голос увімкнено. Не плутайте з /w/ (губи кружечком) — very ≠ wary.",
+   "words": [
+    "very",
+    "voice",
+    "five",
+    "love",
+    "evening",
+    "November"
+   ],
+   "sentence": "We visited Vienna in November and loved every evening."
+  },
+  {
+   "symbol": "ʌ",
+   "title": "/ʌ/ — cup",
+   "short": "Коротке нейтральне «а»",
+   "tip": "Рот розслаблений, щелепа трохи опущена, звук короткий — щось між «а» і «о». cup, love, money.",
+   "words": [
+    "cup",
+    "love",
+    "money",
+    "mother",
+    "bus",
+    "something"
+   ],
+   "sentence": "My mother loves a cup of coffee in the sun."
   }
  ]
 }

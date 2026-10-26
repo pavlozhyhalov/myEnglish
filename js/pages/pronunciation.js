@@ -3,6 +3,7 @@ import { h, ic, emo, seg, progress } from '../ui/dom.js';
 import { pronunciation as loadData } from '../data.js';
 import { speak, stop as stopSpeech, recognize, canRecognize, recordAndTranscribe, compareWords } from '../speech.js';
 import { activityTimer, addMistake } from '../stats.js';
+import { byFit } from '../level.js';
 import { user } from '../supa.js';
 
 async function listen(onInterim) {
@@ -60,13 +61,15 @@ function practiceBlock(text, timer, { uk, onResult } = {}) {
 }
 
 function shadowing(box, data, timer) {
-  const groups = [...new Set(data.shadowing.map(s => s.topic))];
+  // теми — спершу свого рівня, далі наступного й нижчих
+  const lvOf = (g) => data.shadowing.find(s => s.topic === g)?.level;
+  const groups = byFit([...new Set(data.shadowing.map(s => s.topic))], lvOf);
   let topic = groups[0];
   const list = h('div.stack');
   const draw = () => list.replaceChildren(...data.shadowing.filter(s => s.topic === topic).map(s => practiceBlock(s.en, timer, { uk: s.uk })));
   box.replaceChildren(h('div.stack',
     h('p.small.dim', 'Прослухайте фразу, повторіть з тією ж інтонацією і темпом. Зелене — збіг, червоне — розпізнано інакше.'),
-    h('div.chips.scroll', groups.map(g => h('button.chip', { type: 'button', 'aria-pressed': String(g === topic), onclick: (e) => { topic = g; e.currentTarget.parentNode.querySelectorAll('.chip').forEach(c => c.setAttribute('aria-pressed', String(c === e.currentTarget))); draw(); } }, g))),
+    h('div.chips.scroll', groups.map(g => h('button.chip', { type: 'button', 'aria-pressed': String(g === topic), onclick: (e) => { topic = g; e.currentTarget.parentNode.querySelectorAll('.chip').forEach(c => c.setAttribute('aria-pressed', String(c === e.currentTarget))); draw(); } }, lvOf(g) ? `${g} · ${lvOf(g)}` : g))),
     list));
   draw();
 }
