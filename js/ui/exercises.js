@@ -12,6 +12,8 @@ const CONTR = {
   "we've": 'we have', "they've": 'they have', "i'll": 'i will', "you'll": 'you will', "we'll": 'we will', "they'll": 'they will',
   "he'll": 'he will', "she'll": 'she will', "it'll": 'it will', "i'd": 'i would', "you'd": 'you would', "we'd": 'we would', "they'd": 'they would',
   "he'd": 'he would', "she'd": 'she would', "let's": 'let us', "there's": 'there is', "that's": 'that is', "what's": 'what is', 'can not': 'cannot',
+  // окремі скорочення (у вправі «знайдіть помилку» виправляють одне слово: «'ll stay»)
+  "'ll": 'will', "'re": 'are', "'ve": 'have', "'m": 'am', "'d": 'would',
 };
 export function normalize(s) {
   let t = String(s ?? '').toLowerCase().replace(/[’‘`]/g, "'").replace(/[“”]/g, '"').replace(/\s+/g, ' ').trim();
@@ -166,7 +168,10 @@ export function render(ex, report, next) {
       if (reported || picked == null) return;
       if (!fix.value.trim()) { fix.focus(); fix.placeholder = 'Напишіть, як правильно'; return; }
       const okIdx = picked === ex.wrongIndex;
-      const okFix = matches(fix.value, [ex.correction, ...(ex.alt || [])]);
+      const fixes = [ex.correction, ...(ex.alt || [])];
+      // приймаємо й виправлення разом із сусіднім словом: «we'll stay», «I'll tell»
+      const prev = words[ex.wrongIndex - 1] || '';
+      const okFix = matches(fix.value, fixes) || (!!prev && matches(fix.value, fixes.map(f => `${prev} ${f}`)));
       done(okIdx && okFix, `${words[picked]} → ${fix.value.trim()}`);
       wrap.querySelectorAll('.chip').forEach(c => c.classList.remove('on'));
       if (!okIdx) wrap.children[picked]?.classList.add('wrong');

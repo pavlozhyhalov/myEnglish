@@ -1,6 +1,6 @@
 // Картки: огляд колод і повторення FSRS
 import { h, ic, emo, fmtInterval, toggle } from '../ui/dom.js';
-import { plural } from '../strings.js';
+import { S, plural } from '../strings.js';
 import * as store from '../store.js';
 import * as srs from '../srs.js';
 import { speak, stop as stopSpeech, recognize, canRecognize, compareWords, recordAndTranscribe } from '../speech.js';
@@ -27,7 +27,7 @@ export default async function cards(view, r) {
       total
         ? h('a.btn.primary.lg.block', { href: '#/cards/review' }, ic('play', { fill: true }), `Почати · ${total} ${plural(total, 'картка', 'картки', 'карток')}`)
         : h('div.stack', emo('party', 'xl'), h('p', 'На сьогодні все повторено.'), h('p.dim.small', 'Нові картки з\'являться завтра. Ліміт нових — у налаштуваннях.'))),
-    ...[['general', 'Колоди: загальна англійська'], ['work', 'Робота (за вибором)'], ['my', 'Власні']].map(([g, title]) => {
+    ...[['general', 'Колоди: загальна англійська'], ['work', 'Робота (за вибором)'], ['my', 'Мої слова']].map(([g, title]) => {
       const list = g === 'general' ? byFit(decks.filter(d => d.group === g)) : decks.filter(d => (d.group || 'my') === g);
       if (!list.length) return null;
       return h('section.stack', { style: { gap: '8px' } }, h('div.section-title', title),
@@ -38,7 +38,7 @@ export default async function cards(view, r) {
           toggle(d.enabled, (v) => srs.setDeckEnabled(d, v), `Колода ${d.name}`)))));
     }),
     h('a.btn.soft.block', { href: '#/vocab' }, ic('plus'), 'Додати свої слова'),
-    h('p.xs.dim.center', 'Клавіатура: Space — показати, 1–4 — оцінка. Свайп вліво — «Знову», вправо — «Добре».')));
+    h('p.xs.dim.center', 'Клавіатура: пробіл — показати, 1–4 — оцінка. Свайп уліво — «Знову», управо — «Добре».')));
 }
 
 /**
@@ -95,7 +95,7 @@ export async function runReview(view, { limit = Infinity, onExit, onDone, embedd
     const ex = cur.examples?.[0];
     const cloze = kind === 'cloze' ? srs.clozeOf(cur) : null;
     const front = h('div.face.front');
-    const kindLabel = { 'en-uk': 'EN → UK', 'uk-en': 'UK → EN', audio: 'Аудіо', cloze: 'Пропуск' }[kind];
+    const kindLabel = { 'en-uk': 'EN → UA', 'uk-en': 'UA → EN', audio: 'Аудіо', cloze: 'Пропуск' }[kind];
     front.append(h('span.kind', kindLabel + (cur.reps ? '' : ' · нова')));
     if (kind === 'en-uk') {
       front.append(h('div.big', cur.en), speakBtn(cur.en));
@@ -111,7 +111,7 @@ export async function runReview(view, { limit = Infinity, onExit, onDone, embedd
             const res = await recognize({ onInterim: t => { said.textContent = t; } });
             const cmp = compareWords(cur.en, res.text);
             said.replaceChildren(h('span', res.text || '—'), ' ', h('b', { class: cmp.pct >= 80 ? 'good' : 'bad' }, `${cmp.pct}%`));
-          } catch (err) { said.textContent = err.code === 'mic' ? 'Немає доступу до мікрофона' : 'Не вдалося розпізнати'; }
+          } catch (err) { said.textContent = err.code === 'mic' ? S.err.mic : (err.message === 'unsupported' ? S.err.speechUnsupported : 'Не вдалося розпізнати'); }
         },
       }, ic('microphone', { size: 18 }), 'Відповісти голосом'));
     } else if (kind === 'audio') {
@@ -194,7 +194,7 @@ export async function runReview(view, { limit = Infinity, onExit, onDone, embedd
     setFocus(false);
     view.replaceChildren(h('div.hero',
       emo(done ? 'party' : 'cards', 'xl'),
-      h('h1', done ? 'Повторення завершено' : 'Немає карток'),
+      h('h1', done ? 'Повторення завершено' : 'Немає карток для повторення'),
       done ? h('p.dim', `${done} ${plural(done, 'картка', 'картки', 'карток')} · «Знову»: ${again} · ${(sess?.seconds || 0) < 60 ? 'менше хвилини' : `${Math.round(sess.seconds / 60)} хв`}`) : null,
       h('div.row', h('a.btn.soft', { href: '#/' }, 'На головну'), h('button.btn.primary', { type: 'button', onclick: () => onExit?.() }, 'До колод'))));
   }
@@ -221,7 +221,7 @@ export function sayBlock(target) {
           h('div', cmp.words.map(w => [h('span', { class: w.ok ? 'word-ok' : 'word-no' }, w.raw), ' '])),
           h('div', h('b', { class: cmp.pct >= 80 ? 'good' : cmp.pct >= 50 ? 'warn' : 'bad' }, `${cmp.pct}%`), h('span.dim', ` · почуто: «${res.text || '—'}»`)));
       } catch (err) {
-        out.textContent = err.code === 'mic' || err.name === 'NotAllowedError' ? 'Немає доступу до мікрофона' : (err.message === 'unsupported' ? 'Браузер не підтримує розпізнавання' : 'Не вдалося розпізнати');
+        out.textContent = err.code === 'mic' || err.name === 'NotAllowedError' ? S.err.mic : (err.message === 'unsupported' ? S.err.speechUnsupported : 'Не вдалося розпізнати');
       }
     },
   }, ic('microphone', { size: 18 }), 'Сказати');

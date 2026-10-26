@@ -1849,7 +1849,7 @@
     },
     {
      "speaker": 0,
-     "text": "Let me check... Yes, a double room for two nights. Can I see your passport, please?"
+     "text": "Let me check… Yes, a double room for two nights. Can I see your passport, please?"
     },
     {
      "speaker": 1,
@@ -2198,7 +2198,7 @@
     },
     {
      "speaker": 0,
-     "text": "Thank you. Let me have a look... OK, the driver says he left it with a neighbour at number 14."
+     "text": "Thank you. Let me have a look… OK, the driver says he left it with a neighbour at number 14."
     },
     {
      "speaker": 1,
@@ -3344,7 +3344,7 @@
     },
     {
      "speaker": 0,
-     "text": "Let me check... Yes, we've got one in black, but not in blue, I'm afraid."
+     "text": "Let me check… Yes, we've got one in black, but not in blue, I'm afraid."
     },
     {
      "speaker": 1,
@@ -4205,7 +4205,7 @@
     },
     {
      "speaker": 1,
-     "text": "That rather changes how you read her expression. She looks less demure and more... watchful."
+     "text": "That rather changes how you read her expression. She looks less demure and more… watchful."
     },
     {
      "speaker": 0,
@@ -4267,7 +4267,7 @@
       "He decides she looks unhappy"
      ],
      "answer": 0,
-     "explanation_uk": "She looks less demure and more... watchful — контекст змінює сприйняття."
+     "explanation_uk": "She looks less demure and more… watchful — контекст змінює сприйняття."
     },
     {
      "q": "What is the guide's overall approach?",

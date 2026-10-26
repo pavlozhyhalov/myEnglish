@@ -1,4 +1,4 @@
-// Кероване заняття ~15 хв: картки → міні-урок граматики → розмова з вчителем
+// Кероване заняття ~15 хв: картки → міні-урок граматики → розмова із вчителем
 import { h, ic, emo } from '../ui/dom.js';
 import { plural } from '../strings.js';
 import * as store from '../store.js';
@@ -75,8 +75,8 @@ export default async function session(view) {
       onMistake: (ex, given) => addMistake({ wrong: given || '—', right: answerText(ex), type: lesson.mistakeType || 'tenses', explanation_uk: `${lesson.title}: ${ex.explanation || ''}`, source: 'exercise' }),
       onDone: (res) => {
         summary.score = res.score;
-        // урок заняття зараховується так само, як у розділі «Граматика» (інакше повтор лишається простроченим)
-        if (rev?.id === lesson.id || res.score >= 80) recordLesson(lesson.id, res.score);
+        // кожна спроба зберігається так само, як у розділі «Граматика» (зараховується від 80%)
+        recordLesson(lesson.id, res.score);
         timer.poke();
         timer.stop();
         box.append(h('button.btn.primary.block', { type: 'button', style: { marginTop: '12px' }, onclick: () => next(2) }, 'Далі', ic('arrow-right')));
@@ -100,7 +100,7 @@ export default async function session(view) {
         h('div.row', emo('cards'), h('div.grow', 'Картки'), h('b', String(summary.cards))),
         h('div.row', emo('puzzle'), h('div.grow', lesson.title), h('b', summary.score == null ? '—' : `${summary.score}%`)),
         h('div.row', emo('mic'), h('div.grow', 'Розмова'), h('b', summary.talk ? `${Math.round(summary.talk / 60)} хв` : '—'))),
-      summary.chatId ? h('a.btn.soft.block', { href: `#/tutor?chat=${summary.chatId}` }, 'Підсумок розмови з вчителем') : null,
+      summary.chatId ? h('a.btn.soft.block', { href: `#/tutor?chat=${summary.chatId}` }, 'Підсумок розмови із вчителем') : null,
       h('a.btn.primary.block.lg', { href: '#/' }, 'На головну')));
   }
 

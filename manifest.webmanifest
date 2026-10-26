@@ -1,7 +1,7 @@
 {
   "name": "myEnglish",
   "short_name": "myEnglish",
-  "description": "AI-вчитель, картки FSRS і курс граматики B1→B2",
+  "description": "AI-вчитель, картки FSRS і курс граматики A1–C1",
   "lang": "uk",
   "start_url": "./#/",
   "scope": "./",

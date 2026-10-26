@@ -1,6 +1,6 @@
 // Тести: визначення рівня (адаптивний), за уроком, тижневий
 import { h, ic, emo, progress } from '../ui/dom.js';
-import { S } from '../strings.js';
+import { S, plural } from '../strings.js';
 import * as store from '../store.js';
 import { placement as loadPlacement, grammarIndex, lesson as loadLesson, allDecks } from '../data.js';
 import { render as renderExercise, answerText } from '../ui/exercises.js';
@@ -68,7 +68,7 @@ function resultList(results) {
       const btn = h('button.btn.sm.soft', { type: 'button', onclick: () => {
         addMistake({ wrong: r.given || '—', right: answerText(r.ex), type: r.ex.mistakeType || 'other', explanation_uk: r.ex.explanation || '', source: 'test' });
         btn.disabled = true; btn.textContent = 'Додано';
-      } }, 'В помилки');
+      } }, 'Додати в помилки');
       return h('div.card.tight.stack', { style: { gap: '4px' } },
         h('div.small', r.ex.prompt || r.ex.uk || r.ex.sentence || ''),
         h('div.small', h('span.bad', r.given || '—'), ' → ', h('b.good', answerText(r.ex))),
@@ -97,8 +97,8 @@ async function placementTest(view) {
   let block = 0, cur = null;
 
   view.replaceChildren(h('div.hero', emo('target', 'xl'), h('h1', 'Визначимо ваш рівень'),
-    h('p.dim', `${total} питань: граматика, лексика, аудіювання. Тест адаптивний — питання підлаштовуються під відповіді. Потім 3 хвилини розмови з вчителем.`),
-    h('p.small.dim', 'Не вгадуйте: якщо не знаєте — оберіть будь-що й рухайтесь далі.'),
+    h('p.dim', `${total} ${plural(total, 'питання', 'питання', 'питань')}: граматика, лексика, аудіювання. Тест адаптивний — питання підлаштовуються під ваші відповіді. Потім 3 хвилини розмови із вчителем.`),
+    h('p.small.dim', 'Якщо не знаєте відповіді — не страшно: оберіть будь-який варіант і рухайтеся далі.'),
     h('button.btn.primary.lg', { type: 'button', onclick: start }, 'Почати')));
 
   function pick(skill, lvl) {
@@ -254,7 +254,7 @@ async function weeklyTest(view) {
   const qs = [];
   for (const c of cards.sort(() => Math.random() - 0.5).slice(0, lessons.length ? 10 : 15)) {
     const distract = allCards.filter(x => x.uk !== c.uk).sort(() => Math.random() - 0.5).slice(0, 3).map(x => x.uk);
-    if (Math.random() < 0.5) qs.push({ type: 'choice', prompt: c.en, audio: c.en, options: [c.uk, ...distract].sort(() => Math.random() - 0.5), answer: c.uk, mistakeType: 'vocabulary', instruction: 'Що означає?' });
+    if (Math.random() < 0.5) qs.push({ type: 'choice', prompt: c.en, audio: c.en, options: [c.uk, ...distract].sort(() => Math.random() - 0.5), answer: c.uk, mistakeType: 'vocabulary', instruction: 'Що це означає?' });
     else qs.push({ type: 'input', prompt: `${c.uk}`, answer: [c.en], mistakeType: 'vocabulary', instruction: 'Напишіть англійською' });
   }
   for (const p of lessons.slice(0, 5)) {

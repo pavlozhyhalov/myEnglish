@@ -102,7 +102,7 @@
   },
   {
    "type": "input",
-   "prompt": "She speaks ___ French fluently. (поставте \"-\" якщо артикль не потрібен)",
+   "prompt": "She speaks ___ French fluently. (поставте «-», якщо артикль не потрібен)",
    "answer": [
     "-",
     "—"
