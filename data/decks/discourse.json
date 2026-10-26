@@ -27,7 +27,7 @@
   },
   {
    "en": "that being said",
-   "uk": "з огляду на це, проте",
+   "uk": "утім, разом з тим, проте",
    "ex": "That being said, we still need a plan.",
    "exUk": "Проте нам усе одно потрібен план."
   },
@@ -111,7 +111,7 @@
   },
   {
    "en": "nevertheless",
-   "uk": "проте, тим не менше",
+   "uk": "проте, однак, усе ж таки",
    "ex": "It was raining. Nevertheless, we went out.",
    "exUk": "Ішов дощ. Проте ми вийшли."
   },
@@ -147,15 +147,15 @@
   },
   {
    "en": "all things considered",
-   "uk": "зваживши все",
+   "uk": "зважаючи на все, зваживши все",
    "ex": "All things considered, it was a good decision.",
-   "exUk": "Зваживши все, це було добре рішення."
+   "exUk": "Зважаючи на все, це було добре рішення."
   },
   {
    "en": "for what it's worth",
-   "uk": "якщо це щось важить",
+   "uk": "якщо (моя думка) щось важить",
    "ex": "For what it's worth, I think you did the right thing.",
-   "exUk": "Якщо це щось важить, я думаю, ти вчинив правильно."
+   "exUk": "Якщо моя думка щось важить, ти вчинив правильно."
   },
   {
    "en": "if I may",

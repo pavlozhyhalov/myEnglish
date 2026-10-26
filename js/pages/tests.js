@@ -129,7 +129,8 @@ async function placementTest(view) {
         while (!q && ++block < plan.length) q = pick(plan[block][0], lvlOf(plan[block][0]));
         if (!q) return null;
         used.add(q.id); cur = q;
-        return { ...q, type: 'choice', instruction: q.skill === 'listening' ? 'Прослухайте і оберіть відповідь (кнопка з динаміком — ще раз)' : undefined };
+        // варіанти перемішуємо: позиція правильної відповіді не повинна підказувати
+        return { ...q, type: 'choice', options: [...q.options].sort(() => Math.random() - 0.5), instruction: q.skill === 'listening' ? 'Прослухайте і оберіть відповідь (кнопка з динаміком — ще раз)' : undefined };
       },
       onFinish: (results) => finishPlacement(results),
     });

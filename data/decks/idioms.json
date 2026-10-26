@@ -5,7 +5,7 @@
    "en": "a piece of cake",
    "uk": "простіше простого",
    "ex": "The test was a piece of cake.",
-   "exUk": "Тест був простіше простого."
+   "exUk": "Тест — простіше простого."
   },
   {
    "en": "break the ice",
@@ -33,9 +33,9 @@
   },
   {
    "en": "once in a blue moon",
-   "uk": "дуже рідко",
+   "uk": "дуже рідко, раз на сто років",
    "ex": "We eat out once in a blue moon.",
-   "exUk": "Ми їмо поза домом дуже рідко."
+   "exUk": "Ми дуже рідко ходимо в ресторан."
   },
   {
    "en": "on the same page",
@@ -131,7 +131,7 @@
    "en": "in hot water",
    "uk": "у халепі",
    "ex": "He's in hot water with his boss.",
-   "exUk": "У нього проблеми з начальником."
+   "exUk": "Він у халепі: начальник ним дуже невдоволений."
   },
   {
    "en": "jump to conclusions",
@@ -299,7 +299,7 @@
    "en": "the best of both worlds",
    "uk": "найкраще з обох варіантів",
    "ex": "Working from home two days a week is the best of both worlds.",
-   "exUk": "Два дні з дому на тиждень — найкраще з обох варіантів."
+   "exUk": "Працювати вдома два дні на тиждень — найкраще з обох варіантів."
   }
  ]
 }

@@ -109,14 +109,16 @@
    "type": "error",
    "sentence": "If I had knew, I would have come.",
    "wrongIndex": 3,
-   "correction": "known",
-   "alt": [],
+   "correction": "known,",
+   "alt": [
+    "known"
+   ],
    "explanation": "Past Perfect: had + V3 (known)."
   },
   {
    "type": "error",
-   "sentence": "If he had driven slower, he would have avoid the accident.",
-   "wrongIndex": 8,
+   "sentence": "If he had driven more carefully, he would have avoid the accident.",
+   "wrongIndex": 9,
    "correction": "avoided",
    "alt": [],
    "explanation": "would have + V3."

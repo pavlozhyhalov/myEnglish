@@ -109,9 +109,9 @@
    "type": "error",
    "sentence": "If I see Tom tomorrow, I tell him.",
    "wrongIndex": 6,
-   "correction": "'ll tell",
+   "correction": "will tell",
    "alt": [
-    "will tell"
+    "'ll tell"
    ],
    "explanation": "Результат у майбутньому — will."
   },

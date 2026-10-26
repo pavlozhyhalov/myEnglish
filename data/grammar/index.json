@@ -7,7 +7,7 @@
   "unit": "Основи речення",
   "level": "A1",
   "mistakeType": "word_order",
-  "summary": "В англійській реченні завжди є дієслово. Там, де українською ми кажемо «Я…"
+  "summary": "am / is / are: «Я вдома» → I am at home; заперечення й питання"
  },
  {
   "id": "articles-a-an",
@@ -27,7 +27,7 @@
   "unit": "Іменник і артиклі",
   "level": "A1",
   "mistakeType": "articles",
-  "summary": "Множина: зазвичай + -s (car → cars), після -s, -sh, -ch, -x + -es (bus → buses,…"
+  "summary": "-s, -es, -ies, -ves і винятки (men, children); this / that, these / those"
  },
  {
   "id": "adjectives-word-order-basic",
@@ -47,7 +47,7 @@
   "unit": "Іменник і артиклі",
   "level": "A1",
   "mistakeType": "articles",
-  "summary": "Чий? — my (мій), your (твій/ваш), his (його), her (її), its (його/її про річ),…"
+  "summary": "my, your, his, her, its, our, their; 's для людей; whose"
  },
  {
   "id": "present-simple-basics",
@@ -57,7 +57,7 @@
   "unit": "Теперішні часи",
   "level": "A1",
   "mistakeType": "tenses",
-  "summary": "Present Simple — для того, що відбувається регулярно або завжди: звички,…"
+  "summary": "Звички й факти: he / she / it + -s; do / does у запереченнях і питаннях"
  },
  {
   "id": "like-love-hate-ing",
@@ -97,7 +97,7 @@
   "unit": "Основи речення",
   "level": "A1",
   "mistakeType": "word_order",
-  "summary": "There is / there are — коли кажемо, що щось є / існує десь: There is a café…"
+  "summary": "There is + однина, there are + множина; заперечення й питання"
  },
  {
   "id": "prepositions-basic",
@@ -117,7 +117,7 @@
   "unit": "Основи речення",
   "level": "A1",
   "mistakeType": "word_order",
-  "summary": "Щоб сказати, що щось маєш (У мене є…), англійською кажуть I have або…"
+  "summary": "I have = I've got, she has = she's got; заперечення й питання з do чи без нього"
  },
  {
   "id": "can-cant",
@@ -127,7 +127,7 @@
   "unit": "Модальні дієслова",
   "level": "A1",
   "mistakeType": "word_order",
-  "summary": "Can — могти, вміти: I can swim. Також для прохань і дозволу: Can I have a…"
+  "summary": "Уміння, прохання, дозвіл; can без -s, після нього дієслово без to"
  },
  {
   "id": "was-were",
@@ -157,7 +157,7 @@
   "unit": "Теперішні часи",
   "level": "A2",
   "mistakeType": "tenses",
-  "summary": "Present Simple — для того, що відбувається регулярно, завжди або загалом: звички,…"
+  "summary": "Звички й факти чи «зараз / тимчасово»; слова-підказки, дієслова стану"
  },
  {
   "id": "past-simple-basics",
@@ -167,7 +167,7 @@
   "unit": "Минулі часи",
   "level": "A2",
   "mistakeType": "tenses",
-  "summary": "Past Simple — завершена дія в минулому: yesterday, last week, in 2019, two days…"
+  "summary": "-ed і неправильні дієслова, was / were, did у запереченнях і питаннях"
  },
  {
   "id": "going-to",
@@ -177,7 +177,7 @@
   "unit": "Майбутнє",
   "level": "A2",
   "mistakeType": "tenses",
-  "summary": "be going to + V — про плани й наміри, які вже вирішені: I'm going to visit my…"
+  "summary": "Плани й наміри; прогноз за ознаками: It's going to rain"
  },
  {
   "id": "will-future",
@@ -197,7 +197,7 @@
   "unit": "Будова речення",
   "level": "A2",
   "mistakeType": "word_order",
-  "summary": "Схема питання: (питальне слово) + допоміжне + підмет + основне дієслово."
+  "summary": "Допоміжне + підмет + дієслово; питання до підмета без do; хвостики"
  },
  {
   "id": "object-pronouns",
@@ -207,7 +207,7 @@
   "unit": "Будова речення",
   "level": "A2",
   "mistakeType": "word_order",
-  "summary": "Займенники-підмети стоять перед дієсловом: I, you, he, she, it, we, they. Після…"
+  "summary": "I → me, he → him, she → her, we → us, they → them після дієслова й прийменника"
  },
  {
   "id": "possessive-pronouns",
@@ -227,7 +227,7 @@
   "unit": "Будова речення",
   "level": "A2",
   "mistakeType": "word_order",
-  "summary": "Як часто? always (завжди) → usually (зазвичай) → often (часто) → sometimes…"
+  "summary": "always, usually, often, sometimes, never: перед дієсловом, але після be"
  },
  {
   "id": "adverbs-manner",
@@ -257,7 +257,7 @@
   "unit": "Іменник і артиклі",
   "level": "A2",
   "mistakeType": "articles",
-  "summary": "Злічувані іменники можна порахувати (an apple, two apples), незлічувані — ні…"
+  "summary": "some у ствердженнях, any в запереченнях і питаннях; many, much, a lot of"
  },
  {
   "id": "comparatives",
@@ -327,7 +327,7 @@
   "unit": "Теперішні часи",
   "level": "B1",
   "mistakeType": "tenses",
-  "summary": "Деякі дієслова описують стан, а не дію. Їх зазвичай не ставлять у Continuous, навіть…"
+  "summary": "know, want, like, believe зазвичай без Continuous; think і have у двох значеннях"
  },
  {
   "id": "past-simple-continuous",
@@ -337,7 +337,7 @@
   "unit": "Минулі часи",
   "level": "B1",
   "mistakeType": "tenses",
-  "summary": "Past Simple — завершена дія в минулому (часто з точним часом: yesterday, last year, in…"
+  "summary": "Тривала дія-фон (was cooking) і коротка дія (rang); when і while"
  },
  {
   "id": "present-perfect",
@@ -347,7 +347,7 @@
   "unit": "Минулі часи",
   "level": "B1",
   "mistakeType": "tenses",
-  "summary": "Present Perfect зв'язує минуле з теперішнім. Важливий результат або досвід, а не…"
+  "summary": "Досвід, результат, новини, незавершений період; already, yet, just"
  },
  {
   "id": "perfect-vs-past",
@@ -357,7 +357,7 @@
   "unit": "Минулі часи",
   "level": "B1",
   "mistakeType": "tenses",
-  "summary": "Головне питання: чи важливий точний час у минулому?"
+  "summary": "Точний час у минулому → Past Simple; досвід і результат → Present Perfect"
  },
  {
   "id": "perfect-continuous",
@@ -367,7 +367,7 @@
   "unit": "Минулі часи",
   "level": "B1",
   "mistakeType": "tenses",
-  "summary": "Present Perfect Continuous — дія почалася в минулому і триває досі (або щойно…"
+  "summary": "have been + V-ing: дія триває досі; for і since, How long…?"
  },
  {
   "id": "past-perfect",
@@ -377,7 +377,7 @@
   "unit": "Минулі часи",
   "level": "B1",
   "mistakeType": "tenses",
-  "summary": "Past Perfect — «минуле в минулому»: дія відбулася раніше за іншу минулу дію."
+  "summary": "had + V3: дія, що відбулася раніше за іншу минулу; by the time, already"
  },
  {
   "id": "used-to",
@@ -387,7 +387,7 @@
   "unit": "Минулі часи",
   "level": "B1",
   "mistakeType": "tenses",
-  "summary": "used to + V — звичка або стан у минулому, якого вже немає: I used to smoke (раніше…"
+  "summary": "used to + V (раніше), would для повторюваних дій, be / get used to + -ing"
  },
  {
   "id": "future-forms",
@@ -447,7 +447,7 @@
   "unit": "Іменник і артиклі",
   "level": "B1",
   "mistakeType": "other",
-  "summary": "Спершу визначте: іменник злічуваний (apple, chair, friend) чи незлічуваний (water,…"
+  "summary": "many / much, a lot of, (a) few / (a) little, some / any"
  },
  {
   "id": "relative-clauses",
@@ -457,7 +457,7 @@
   "unit": "Будова речення",
   "level": "B1",
   "mistakeType": "word_order",
-  "summary": "Відносні речення уточнюють, про кого / що йдеться."
+  "summary": "who, which, that, where, whose; коли займенник можна пропустити"
  },
  {
   "id": "gerund-infinitive",
@@ -467,7 +467,7 @@
   "unit": "Будова речення",
   "level": "B1",
   "mistakeType": "other",
-  "summary": "Після деяких дієслів іде -ing, після інших — to + V. Це треба запам'ятати."
+  "summary": "enjoy + -ing, decide + to V; -ing після прийменників; stop, remember, try"
  },
  {
   "id": "phrasal-verbs",
@@ -477,7 +477,7 @@
   "unit": "Будова речення",
   "level": "B1",
   "mistakeType": "word_order",
-  "summary": "Фразове дієслово = дієслово + частка (up, off, out, on…), значення часто нове: give up…"
+  "summary": "Роздільні й нероздільні: turn it off, look after her; тридільні дієслова"
  },
  {
   "id": "so-such-too-enough",
@@ -487,7 +487,7 @@
   "unit": "Будова речення",
   "level": "B1",
   "mistakeType": "word_order",
-  "summary": "so + прикметник/прислівник: It was so cold! She speaks so fast."
+  "summary": "so + прикметник, such a + іменник, too + прикметник, прикметник + enough"
  },
  {
   "id": "question-tags",
@@ -507,7 +507,7 @@
   "unit": "Умовні речення",
   "level": "B1",
   "mistakeType": "tenses",
-  "summary": "Zero conditional — загальні істини, завжди так: If you heat ice, it melts."
+  "summary": "Загальні істини й реальне майбутнє: If + Present, will + V; unless"
  },
  {
   "id": "conditional-2",
@@ -517,7 +517,7 @@
   "unit": "Умовні речення",
   "level": "B1",
   "mistakeType": "tenses",
-  "summary": "Second conditional — уявна, нереальна або малоймовірна ситуація в теперішньому чи…"
+  "summary": "Уявне теперішнє: If + Past Simple, would + V; If I were you"
  },
  {
   "id": "passive-basic",
@@ -527,7 +527,7 @@
   "unit": "Пасив і непряма мова",
   "level": "B1",
   "mistakeType": "tenses",
-  "summary": "Пасив — коли важливо, що сталося, а не хто це зробив (або виконавець…"
+  "summary": "be + V3: is spoken, was built; by + виконавець; I was born"
  },
  {
   "id": "reported-statements",
@@ -557,7 +557,7 @@
   "unit": "Майбутнє",
   "level": "B2",
   "mistakeType": "tenses",
-  "summary": "Future Continuous (will be + V-ing) — дія буде тривати в певний момент майбутнього:…"
+  "summary": "will be + V-ing (буде в процесі) і will have + V3 (завершиться до…)"
  },
  {
   "id": "future-in-past",
@@ -597,7 +597,7 @@
   "unit": "Будова речення",
   "level": "B2",
   "mistakeType": "word_order",
-  "summary": "Сполучники роблять мову зв'язною і «дорослою»."
+  "summary": "although, despite, however, because of, so, in case"
  },
  {
   "id": "relative-advanced",
@@ -647,7 +647,7 @@
   "unit": "Умовні речення",
   "level": "B2",
   "mistakeType": "tenses",
-  "summary": "Third conditional — уявне минуле, якого вже не змінити (жаль, критика, «а що якби»)."
+  "summary": "Уявне минуле: If + had V3, would have V3; змішаний тип"
  },
  {
   "id": "wish",
@@ -667,7 +667,7 @@
   "unit": "Пасив і непряма мова",
   "level": "B2",
   "mistakeType": "tenses",
-  "summary": "Коли хтось інший робить щось для нас (зазвичай за гроші), кажемо have + об'єкт…"
+  "summary": "have / get + об'єкт + V3: I had my hair cut, she had her bag stolen"
  },
  {
   "id": "passive-advanced",
@@ -717,7 +717,7 @@
   "unit": "Умовні речення",
   "level": "C1",
   "mistakeType": "tenses",
-  "summary": "Змішані умовні поєднують різний час в умові й результаті."
+  "summary": "Минула умова → теперішній результат і теперішня умова → минулий результат"
  },
  {
   "id": "conditionals-advanced",
@@ -737,7 +737,7 @@
   "unit": "Просунуті конструкції",
   "level": "C1",
   "mistakeType": "word_order",
-  "summary": "Після заперечних і обмежувальних слів на початку речення порядок слів — як у…"
+  "summary": "Never have I…, Not only did…, No sooner … than, Under no circumstances"
  },
  {
   "id": "cleft-sentences",
@@ -747,7 +747,7 @@
   "unit": "Просунуті конструкції",
   "level": "C1",
   "mistakeType": "word_order",
-  "summary": "Cleft sentences допомагають наголосити на одній частині речення — як інтонація…"
+  "summary": "It was Vita who…, What I need is…, All I want is…"
  },
  {
   "id": "participle-clauses",
@@ -757,7 +757,7 @@
   "unit": "Просунуті конструкції",
   "level": "C1",
   "mistakeType": "word_order",
-  "summary": "Participle clauses скорочують речення і роблять мову щільнішою (листи,…"
+  "summary": "Feeling tired, … · Having finished, … · Built in 1890, …"
  },
  {
   "id": "unreal-past",
@@ -767,7 +767,7 @@
   "unit": "Просунуті конструкції",
   "level": "C1",
   "mistakeType": "tenses",
-  "summary": "Після деяких виразів Past Simple означає не минуле, а нереальне / бажане…"
+  "summary": "It's time we went, I'd rather you didn't, as if he knew"
  },
  {
   "id": "hedging",

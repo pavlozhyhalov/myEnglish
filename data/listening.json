@@ -93,7 +93,7 @@
   {
    "level": "B1",
    "text": "Would you mind waiting here for a few minutes?",
-   "uk": "Не заперечуєте почекати тут кілька хвилин?"
+   "uk": "Ви не проти почекати тут кілька хвилин?"
   },
   {
    "level": "B1",
@@ -128,7 +128,7 @@
   {
    "level": "B1",
    "text": "I'm not used to driving on the left side of the road.",
-   "uk": "Я не звик їздити по лівому боці дороги."
+   "uk": "Я не звик їздити лівим боком дороги."
   },
   {
    "level": "B1",
@@ -158,12 +158,12 @@
   {
    "level": "B2",
    "text": "By the time we got to the station, the last train had already left.",
-   "uk": "Поки ми дісталися вокзалу, останній потяг уже поїхав."
+   "uk": "Коли ми дісталися до вокзалу, останній потяг уже поїхав."
   },
   {
    "level": "B2",
    "text": "I wish I had more time to read, but work keeps me really busy.",
-   "uk": "Хотів би я мати більше часу на читання, але робота мене дуже займає."
+   "uk": "Хотів би я мати більше часу на читання, але робота забирає майже весь мій час."
   },
   {
    "level": "B2",
@@ -173,7 +173,7 @@
   {
    "level": "B2",
    "text": "The new bridge is expected to be finished by the end of next year.",
-   "uk": "Новий міст очікують завершити до кінця наступного року."
+   "uk": "Очікується, що новий міст добудують до кінця наступного року."
   },
   {
    "level": "B2",
@@ -193,7 +193,7 @@
   {
    "level": "B2",
    "text": "The more you practise speaking, the more confident you'll become.",
-   "uk": "Чим більше ти практикуєш мовлення, тим впевненішим ставатимеш."
+   "uk": "Чим більше ти практикуєшся в розмові, тим упевненішим ставатимеш."
   },
   {
    "level": "B2",
@@ -328,7 +328,7 @@
   {
    "level": "C1",
    "text": "By the time the ambulance arrived, the situation had already been brought under control.",
-   "uk": "Поки приїхала швидка, ситуацію вже взяли під контроль."
+   "uk": "Коли приїхала швидка, ситуацію вже взяли під контроль."
   },
   {
    "level": "C1",
@@ -373,7 +373,7 @@
   {
    "level": "C1",
    "text": "She has a remarkable ability to put people at ease.",
-   "uk": "Вона має дивовижну здатність допомагати людям почуватися невимушено."
+   "uk": "У неї дивовижний хист допомагати людям почуватися невимушено."
   },
   {
    "level": "A1",
@@ -787,8 +787,8 @@
   },
   {
    "level": "B2",
-   "text": "Let's not beat around the bush: we simply can't afford a new car right now.",
-   "uk": "Не ходімо манівцями: зараз ми просто не можемо дозволити собі нову машину."
+   "text": "Let's not beat about the bush: we simply can't afford a new car right now.",
+   "uk": "Не будемо ходити околясом: зараз ми просто не можемо дозволити собі нову машину."
   },
   {
    "level": "B2",
@@ -2702,7 +2702,7 @@
     },
     {
      "speaker": 0,
-     "text": "That's twelve zloty."
+     "text": "That's twelve złoty."
     },
     {
      "speaker": 1,
@@ -2900,7 +2900,7 @@
     },
     {
      "speaker": 0,
-     "text": "Three zloty each, or five for twelve zloty."
+     "text": "Three złoty each, or five for twelve złoty."
     },
     {
      "speaker": 1,
@@ -2916,7 +2916,7 @@
     },
     {
      "speaker": 0,
-     "text": "The bread is eight, and the cookies are twelve. That's twenty zloty, please."
+     "text": "The bread is eight, and the cookies are twelve. That's twenty złoty, please."
     },
     {
      "speaker": 1,
@@ -2952,7 +2952,7 @@
       "Five"
      ],
      "answer": 2,
-     "explanation_uk": "Five cookies, please — п'ять печив."
+     "explanation_uk": "Five cookies, please — п'ять печивок."
     },
     {
      "q": "Who are the cookies for?",
@@ -2967,12 +2967,12 @@
     {
      "q": "How much does she pay in total?",
      "options": [
-      "Twenty zloty",
-      "Eight zloty",
-      "Twelve zloty"
+      "Twenty złoty",
+      "Eight złoty",
+      "Twelve złoty"
      ],
      "answer": 0,
-     "explanation_uk": "That's twenty zloty — разом двадцять злотих."
+     "explanation_uk": "That's twenty złoty — разом двадцять злотих."
     }
    ]
   },
@@ -3098,7 +3098,7 @@
     },
     {
      "speaker": 0,
-     "text": "It's fifteen zloty an hour, or sixty for the whole day."
+     "text": "It's fifteen złoty an hour, or sixty for the whole day."
     },
     {
      "speaker": 1,
@@ -3114,7 +3114,7 @@
     },
     {
      "speaker": 0,
-     "text": "Helmets are free, but a lock costs five zloty extra."
+     "text": "Helmets are free, but a lock costs five złoty extra."
     },
     {
      "speaker": 1,
@@ -3176,7 +3176,7 @@
       "A lock"
      ],
      "answer": 2,
-     "explanation_uk": "Helmets are free, but a lock costs five zloty extra — шоломи безкоштовні, замок — доплата."
+     "explanation_uk": "Helmets are free, but a lock costs five złoty extra — шоломи безкоштовні, замок — доплата."
     },
     {
      "q": "When must they return the bikes?",
@@ -3225,7 +3225,7 @@
     },
     {
      "speaker": 0,
-     "text": "Then I'd choose express. It costs ninety zloty."
+     "text": "Then I'd choose express. It costs ninety złoty."
     },
     {
      "speaker": 1,
@@ -3673,7 +3673,7 @@
     },
     {
      "speaker": 0,
-     "text": "I did, but to be honest, my heart's not in it anymore. I've been toying with the idea of retraining as a teacher."
+     "text": "I did, but to be honest, my heart's not in it any more. I've been toying with the idea of retraining as a teacher."
     },
     {
      "speaker": 1,
@@ -3743,7 +3743,7 @@
       "His boss is difficult"
      ],
      "answer": 0,
-     "explanation_uk": "My heart's not in it anymore — душа більше не лежить до цієї роботи; підвищення він якраз отримав."
+     "explanation_uk": "My heart's not in it any more — душа більше не лежить до цієї роботи; підвищення він якраз отримав."
     },
     {
      "q": "What is \"the sticking point\" for Marek?",
@@ -3832,7 +3832,7 @@
     },
     {
      "speaker": 1,
-     "text": "Understandably. Transparency would be key — publish exactly how every zloty is spent."
+     "text": "Understandably. Transparency would be key — publish exactly how every złoty is spent."
     },
     {
      "speaker": 0,

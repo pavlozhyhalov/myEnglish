@@ -59,7 +59,7 @@
    "en": "to sign up",
    "uk": "зареєструватися",
    "ex": "It only takes a minute to sign up.",
-   "exUk": "Зареєструватися можна лише за хвилину."
+   "exUk": "Реєстрація забирає лише хвилину."
   },
   {
    "en": "to reset a password",
@@ -203,7 +203,7 @@
    "en": "to mute",
    "uk": "вимкнути звук, вимкнути мікрофон",
    "ex": "Could you mute your microphone, please? There's an echo.",
-   "exUk": "Можеш, будь ласка, вимкнути мікрофон? Є відлуння."
+   "exUk": "Можеш, будь ласка, вимкнути мікрофон? Чути відлуння."
   },
   {
    "en": "to stream",

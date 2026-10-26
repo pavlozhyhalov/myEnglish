@@ -118,7 +118,7 @@
     "items": [
      "Unfortunately, the item arrived damaged.",
      "I received the wrong size.",
-     "The package was opened when it arrived.",
+     "The package had been opened when it arrived.",
      "I have attached some photos."
     ]
    },
@@ -296,7 +296,7 @@
     ]
    }
   ],
-  "sample": "Dear Mr Novak,\n\nI am writing on behalf of our company, a bicycle manufacturer based in Kraków. We are looking for a reliable supplier of machined aluminium parts. Could you please send us a quote for 500 pieces of the part in the attached drawing (material 6061-T6, anodized black)? All dimensions must be within the tolerances shown, and we would need an inspection report with each delivery.\n\nOur target lead time is 4 weeks. Would it be possible to get 5 samples first?\n\nWe would appreciate your reply by Friday. Please let me know if you need any further information.\n\nBest regards,\nPavlo Zhyhalov",
+  "sample": "Dear Mr Novak,\n\nI am writing on behalf of our company, a bicycle manufacturer based in Kraków. We are looking for a reliable supplier of machined aluminium parts. Could you please send us a quote for 500 pieces of the part in the attached drawing (material 6061-T6, anodised black)? All dimensions must be within the tolerances shown, and we would need an inspection report with each delivery.\n\nOur target lead time is 4 weeks. Would it be possible to get 5 samples first?\n\nWe would appreciate your reply by Friday. Please let me know if you need any further information.\n\nBest regards,\nPavlo Zhyhalov",
   "level": "B2",
   "group": "work"
  },
@@ -831,7 +831,7 @@
     "group": "Враження",
     "items": [
      "I love weekends!",
-     "It's my favourite day.",
+     "Saturday is my favourite day.",
      "I don't work at the weekend."
     ]
    }
@@ -1290,7 +1290,7 @@
     ]
    }
   ],
-  "sample": "Klara and the Sun by Kazuo Ishiguro\n\nKazuo Ishiguro's Klara and the Sun is narrated by Klara, an \"Artificial Friend\" — a solar-powered robot bought as a companion for Josie, a lonely and often unwell teenager. Without giving too much away, the novel follows Klara as she tries to understand the family she has joined and to protect the girl she has come to care for.\n\nWhat makes the book stand out is its narrator. Klara observes the world with a mixture of precision and innocence, and Ishiguro handles this limited point of view with remarkable subtlety. We often understand more than she does, which makes her loyalty all the more heartbreaking. Her almost religious faith in the Sun, which she believes can heal, is one of the most original ideas I have come across in recent fiction. At its heart, the novel is a quiet but deeply moving reflection on love, loneliness and what makes a person irreplaceable.\n\nThat said, the pace occasionally drags, particularly in the first third, where Klara's careful descriptions of the shop can feel repetitive. Some readers may also find the world-building frustratingly vague: key elements of this future society are hinted at but never fully explained. My only real reservation, however, is that the ending, though beautiful, feels slightly rushed.\n\nOn balance, this is a thoughtful, elegant and memorable novel rather than a gripping one. I would wholeheartedly recommend it to anyone who enjoys slow, reflective fiction and is willing to read between the lines. Four stars out of five.",
+  "sample": "Klara and the Sun by Kazuo Ishiguro\n\nKazuo Ishiguro's Klara and the Sun is narrated by Klara, an \"Artificial Friend\" — a solar-powered robot bought as a companion for Josie, a lonely and often unwell teenager. Without giving too much away, the novel follows Klara as she tries to understand the family she has joined and to protect the girl she has come to care for.\n\nWhat makes the book stand out is its narrator. Klara observes the world with a mixture of precision and innocence, and Ishiguro handles this limited point of view with remarkable subtlety. We often understand more than she does, which makes her loyalty all the more heartbreaking. Her almost religious faith in the Sun, which she believes can heal, is one of the most original ideas I have come across in recent fiction. At its heart, the novel is a quiet but deeply moving reflection on love, loneliness and what makes a person irreplaceable.\n\nThat said, the pace occasionally drags, particularly in the first third, where Klara's careful descriptions of the shop can feel repetitive. Some readers may also find the world-building frustratingly vague: key elements of this future society are hinted at but never fully explained. My main reservation, however, is that the ending, though beautiful, feels slightly rushed.\n\nOn balance, this is a thoughtful, elegant and memorable novel rather than a gripping one. I would wholeheartedly recommend it to anyone who enjoys slow, reflective fiction and is willing to read between the lines. Four stars out of five.",
   "level": "C1"
  }
 ]

@@ -11,7 +11,7 @@
    "en": "a nurse",
    "uk": "медсестра, медбрат",
    "ex": "The nurse took my blood pressure.",
-   "exUk": "Медсестра поміряла мені тиск."
+   "exUk": "Медсестра виміряла мені тиск."
   },
   {
    "en": "a teacher",
@@ -113,7 +113,7 @@
    "en": "a programmer",
    "uk": "програміст, програмістка",
    "ex": "My friend is a programmer and works from home.",
-   "exUk": "Мій друг — програміст і працює з дому."
+   "exUk": "Мій друг — програміст і працює дистанційно."
   },
   {
    "en": "a manager",
@@ -225,9 +225,9 @@
   },
   {
    "en": "to work from home",
-   "uk": "працювати з дому",
+   "uk": "працювати вдома, дистанційно",
    "ex": "I work from home on Fridays.",
-   "exUk": "По п'ятницях я працюю з дому."
+   "exUk": "По п'ятницях я працюю вдома."
   },
   {
    "en": "full-time / part-time",

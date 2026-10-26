@@ -110,19 +110,19 @@
   },
   {
    "type": "error",
-   "sentence": "I'm not believing his story.",
-   "wrongIndex": 2,
-   "correction": "believe",
+   "sentence": "I am not believe his story.",
+   "wrongIndex": 1,
+   "correction": "do",
    "alt": [],
-   "explanation": "believe — стан: I don't believe."
+   "explanation": "believe — дієслово стану, не вживається в Continuous: I don't (do not) believe."
   },
   {
    "type": "error",
-   "sentence": "Are you knowing where my keys are?",
-   "wrongIndex": 2,
-   "correction": "know",
+   "sentence": "Are you know where my keys are?",
+   "wrongIndex": 0,
+   "correction": "Do",
    "alt": [],
-   "explanation": "Do you know…?"
+   "explanation": "know — дієслово стану: питання через Do — Do you know…?"
   },
   {
    "type": "order",

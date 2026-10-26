@@ -48,11 +48,11 @@
  "examples": [
   {
    "en": "Kraków, which is my favourite city, gets very busy in summer.",
-   "uk": "Краків, який є моїм улюбленим містом, улітку дуже переповнений."
+   "uk": "Улітку в Кракові, моєму улюбленому місті, дуже людно."
   },
   {
    "en": "Vita found a doctor whose clinic is just around the corner.",
-   "uk": "Віта знайшла лікарку, чия клініка зовсім поруч."
+   "uk": "Віта знайшла лікарку, у якої клініка зовсім поруч."
   },
   {
    "en": "He didn't reply to my message, which was a bit rude.",
@@ -60,7 +60,7 @@
   },
   {
    "en": "We invited twenty people, most of whom came.",
-   "uk": "Ми запросили двадцять людей, більшість із яких прийшли."
+   "uk": "Ми запросили двадцять людей, більшість із яких прийшла."
   },
   {
    "en": "The friend with whom I travelled to Italy now lives in Berlin.",
@@ -68,7 +68,7 @@
   },
   {
    "en": "That's the café we usually go to.",
-   "uk": "Це кафе, у яке ми зазвичай ходимо."
+   "uk": "Це кафе, куди ми зазвичай ходимо."
   }
  ],
  "tip": "Після коми ніколи не ставимо **that**: ~~My flat, that is small~~ → *My flat, **which** is small…* А «що» про все речення — це **which**, а не *what*.",
@@ -183,7 +183,7 @@
   },
   {
    "type": "order",
-   "prompt": "Ми запросили десять людей, більшість із яких прийшли.",
+   "prompt": "Ми запросили десять людей, більшість із яких прийшла.",
    "answer": [
     "We invited ten people, most of whom came."
    ],

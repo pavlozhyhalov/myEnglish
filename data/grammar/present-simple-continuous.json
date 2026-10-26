@@ -143,11 +143,11 @@
   },
   {
    "type": "error",
-   "sentence": "I am knowing the answer.",
-   "wrongIndex": 2,
-   "correction": "know",
+   "sentence": "I am not agree with you.",
+   "wrongIndex": 1,
+   "correction": "do",
    "alt": [],
-   "explanation": "know — дієслово стану, Continuous не вживається."
+   "explanation": "agree — дієслово стану, Continuous не вживається; заперечення — do not (don't) agree."
   },
   {
    "type": "error",

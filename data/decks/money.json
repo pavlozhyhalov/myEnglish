@@ -10,8 +10,8 @@
   {
    "en": "card",
    "uk": "картка",
-   "ex": "Can I pay by card?",
-   "exUk": "Можна оплатити карткою?"
+   "ex": "I left my card at home, so I paid in cash.",
+   "exUk": "Я залишив картку вдома, тож заплатив готівкою."
   },
   {
    "en": "change",
@@ -112,8 +112,8 @@
   {
    "en": "cash machine / ATM",
    "uk": "банкомат",
-   "ex": "Is there a cash machine near here?",
-   "exUk": "Тут поблизу є банкомат?"
+   "ex": "The nearest cash machine is next to the bank.",
+   "exUk": "Найближчий банкомат — біля банку."
   },
   {
    "en": "to withdraw money",
@@ -178,8 +178,8 @@
   {
    "en": "size",
    "uk": "розмір",
-   "ex": "Do you have this in a bigger size?",
-   "exUk": "У вас є це на розмір більше?"
+   "ex": "What size are these shoes?",
+   "exUk": "Якого розміру ці черевики?"
   },
   {
    "en": "to compare prices",

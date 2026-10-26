@@ -124,9 +124,9 @@
    "type": "error",
    "sentence": "If it rains tomorrow, we stays at home.",
    "wrongIndex": 5,
-   "correction": "'ll stay",
+   "correction": "will stay",
    "alt": [
-    "will stay"
+    "'ll stay"
    ],
    "explanation": "Головна частина: will + V."
   },

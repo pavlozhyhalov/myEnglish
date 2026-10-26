@@ -3,7 +3,7 @@ import { fsrs, generatorParameters, createEmptyCard, Rating, State } from '../ve
 import * as store from './store.js';
 import { allDecks, deckIndex, slug } from './data.js';
 import { today } from './stats.js';
-import { byFit, diff } from './level.js';
+import { fitOrder, diff } from './level.js';
 
 export { Rating, State };
 let scheduler = null;
@@ -107,7 +107,7 @@ export async function dueCards(now = new Date()) {
 
 /**
  * Нові картки на сьогодні: власні («Мої слова») першими, далі стартові колоди за рівнем:
- * спершу колоди мого рівня, потім наступного, потім нижчих. Колоди на 2+ рівні вище нових слів не дають.
+ * спершу колоди мого рівня, потім наступного, потім нижчих (від найближчого). Колоди на 2+ рівні вище нових слів не дають.
  */
 export async function newCards(limit) {
   const ds = await decks();
@@ -123,10 +123,10 @@ export async function newCards(limit) {
     if (en.has(c.deck_id) && !c.reps) out.push(c);
   }
   if (out.length < left) {
-    const starters = byFit((await allDecks()).filter(d => en.has(d.id) && diff(d.level) <= 1));
-    const pri = (d) => diff(d.level) === 0 ? 0 : diff(d.level) === 1 ? 1 : 2;
-    for (const group of [0, 1, 2]) {
-      const iters = starters.filter(d => pri(d) === group).map(d => ({ d, i: 0 }));
+    const starters = (await allDecks()).filter(d => en.has(d.id) && diff(d.level) <= 1);
+    // групи за доречністю рівня (свій → наступний → нижчі, ближчі першими); усередині групи колоди чергуються
+    for (const group of [...new Set(starters.map(d => fitOrder(d.level)))].sort((a, b) => a - b)) {
+      const iters = starters.filter(d => fitOrder(d.level) === group).map(d => ({ d, i: 0 }));
       while (out.length < left && iters.some(it => it.i < it.d.cards.length)) {
         for (const it of iters) {
           while (it.i < it.d.cards.length) {

@@ -6,10 +6,10 @@
    "level": "A1",
    "prompt": "I ___ a student.",
    "options": [
-    "am",
+    "be",
     "is",
-    "are",
-    "be"
+    "am",
+    "are"
    ],
    "answer": "am",
    "explanation": "I + am."
@@ -20,10 +20,10 @@
    "level": "A1",
    "prompt": "I have two ___.",
    "options": [
-    "child",
     "childs",
     "children",
-    "childrens"
+    "childrens",
+    "child"
    ],
    "answer": "children",
    "explanation": "child → children (особлива множина)."
@@ -34,10 +34,10 @@
    "level": "A1",
    "prompt": "___ is your name?",
    "options": [
-    "What",
     "Who",
-    "Where",
-    "How"
+    "What",
+    "How",
+    "Where"
    ],
    "answer": "What",
    "explanation": "What is your name? — Як тебе звати?"
@@ -48,10 +48,10 @@
    "level": "A1",
    "prompt": "___ you like pizza?",
    "options": [
-    "Do",
-    "Does",
+    "Is",
     "Are",
-    "Is"
+    "Do",
+    "Does"
    ],
    "answer": "Do",
    "explanation": "Питання в Present Simple: Do + you."
@@ -62,9 +62,9 @@
    "level": "A1",
    "prompt": "He ___ like coffee.",
    "options": [
+    "isn't",
     "don't",
     "doesn't",
-    "isn't",
     "not"
    ],
    "answer": "doesn't",
@@ -76,10 +76,10 @@
    "level": "A1",
    "prompt": "There ___ two cats in the garden.",
    "options": [
-    "is",
-    "are",
     "be",
-    "am"
+    "am",
+    "is",
+    "are"
    ],
    "answer": "are",
    "explanation": "There are + множина."
@@ -90,10 +90,10 @@
    "level": "A1",
    "prompt": "This is my sister. ___ name is Anna.",
    "options": [
-    "Her",
     "His",
+    "Their",
     "She",
-    "Their"
+    "Her"
    ],
    "answer": "Her",
    "explanation": "Her — її (про жінку)."
@@ -104,10 +104,10 @@
    "level": "A1",
    "prompt": "I get up ___ seven o'clock.",
    "options": [
+    "to",
     "at",
-    "in",
     "on",
-    "to"
+    "in"
    ],
    "answer": "at",
    "explanation": "at + година."
@@ -566,9 +566,9 @@
    "level": "A1",
    "prompt": "The opposite of \"big\" is…",
    "options": [
-    "small",
     "long",
     "old",
+    "small",
     "tall"
    ],
    "answer": "small"
@@ -579,10 +579,10 @@
    "level": "A1",
    "prompt": "You eat soup with a ___.",
    "options": [
-    "spoon",
     "knife",
+    "cup",
     "plate",
-    "cup"
+    "spoon"
    ],
    "answer": "spoon"
   },
@@ -592,10 +592,10 @@
    "level": "A1",
    "prompt": "Monday, Tuesday, ___, Thursday",
    "options": [
+    "Saturday",
     "Wednesday",
     "Friday",
-    "Sunday",
-    "Saturday"
+    "Sunday"
    ],
    "answer": "Wednesday"
   },
@@ -605,10 +605,10 @@
    "level": "A1",
    "prompt": "My mother's brother is my…",
    "options": [
-    "uncle",
+    "grandfather",
     "aunt",
     "cousin",
-    "grandfather"
+    "uncle"
    ],
    "answer": "uncle",
    "explanation": "uncle — дядько."
@@ -619,10 +619,10 @@
    "level": "A1",
    "prompt": "It's very cold today. Put on your ___.",
    "options": [
-    "coat",
-    "shorts",
+    "sandals",
     "sunglasses",
-    "sandals"
+    "coat",
+    "shorts"
    ],
    "answer": "coat"
   },
@@ -632,10 +632,10 @@
    "level": "A1",
    "prompt": "\"Thank you!\" — \"___\"",
    "options": [
-    "You're welcome",
     "Sorry",
-    "Goodbye",
-    "Excuse me"
+    "Excuse me",
+    "You're welcome",
+    "Goodbye"
    ],
    "answer": "You're welcome",
    "explanation": "Відповідь на подяку."
@@ -646,10 +646,10 @@
    "level": "A1",
    "prompt": "You sleep in the ___.",
    "options": [
-    "bedroom",
     "kitchen",
+    "garden",
     "bathroom",
-    "garden"
+    "bedroom"
    ],
    "answer": "bedroom"
   },
@@ -1066,9 +1066,9 @@
    "prompt": "How old is the son?",
    "options": [
     "15",
+    "16",
     "50",
-    "5",
-    "16"
+    "5"
    ],
    "answer": "15",
    "explanation": "fifteen = 15, fifty = 50.",
@@ -1080,10 +1080,10 @@
    "level": "A1",
    "prompt": "What time is it?",
    "options": [
+    "8:30",
     "7:30",
     "6:30",
-    "7:15",
-    "8:30"
+    "7:15"
    ],
    "answer": "7:30",
    "explanation": "half past seven = 7:30.",
@@ -1095,10 +1095,10 @@
    "level": "A1",
    "prompt": "Where is the cat?",
    "options": [
+    "Next to the table",
     "Under the table",
-    "On the table",
     "Under the bed",
-    "Next to the table"
+    "On the table"
    ],
    "answer": "Under the table",
    "audio": "The cat is under the table."
@@ -1109,10 +1109,10 @@
    "level": "A1",
    "prompt": "What does the speaker want to drink?",
    "options": [
-    "Orange juice",
+    "Tea",
     "Apple juice",
     "Water",
-    "Tea"
+    "Orange juice"
    ],
    "answer": "Orange juice",
    "audio": "Can I have a glass of orange juice, please?"

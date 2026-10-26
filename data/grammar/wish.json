@@ -30,7 +30,7 @@
   },
   {
    "en": "I wish the neighbours would turn the music down.",
-   "uk": "Хоч би сусіди зробили музику тихіше."
+   "uk": "Хоч би сусіди стишили музику."
   }
  ],
  "exercises": [
@@ -114,13 +114,13 @@
   },
   {
    "type": "error",
-   "sentence": "I wish I didn't eat that fish yesterday.",
+   "sentence": "I wish I didn't come to that party last night.",
    "wrongIndex": 3,
    "correction": "hadn't",
    "alt": [
     "had not"
    ],
-   "explanation": "Минуле → hadn't eaten."
+   "explanation": "Жаль про минуле → wish + Past Perfect: hadn't come."
   },
   {
    "type": "order",

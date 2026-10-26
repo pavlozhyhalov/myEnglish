@@ -5,7 +5,7 @@
  "unit": "Будова речення",
  "level": "B1",
  "mistakeType": "word_order",
- "explanation": "Відносні речення уточнюють, **про кого / що** йдеться.\n\n- **who** — люди: *the man **who** lives next door*\n- **which** — речі, тварини: *the phone **which** I bought*\n- **that** — і люди, і речі (розмовне, лише в «уточнювальних» реченнях)\n- **where** — місця: *the city **where** I was born*\n- **whose** — чий: *the woman **whose** car was stolen*\n\nЯкщо *who/which/that* — **додаток** (після нього є свій підмет), його можна пропустити: *the film (that) **we** watched*.\n\nДодаткова інформація в комах — **лише which/who**, без that: *My sister, **who** lives in Lviv, is a doctor.*",
+ "explanation": "Відносні речення уточнюють, **про кого / що** йдеться.\n\n- **who** — люди: *the man **who** lives next door*\n- **which** — речі, тварини: *the phone **which** I bought*\n- **that** — і люди, і речі (лише в обмежувальних реченнях без ком; особливо часто в розмові)\n- **where** — місця: *the city **where** I was born*\n- **whose** — чий: *the woman **whose** car was stolen*\n\nЯкщо *who/which/that* — **додаток** (після нього є свій підмет), його можна пропустити: *the film (that) **we** watched*.\n\nДодаткова інформація в комах — **лише which/who**, без that: *My sister, **who** lives in Lviv, is a doctor.*",
  "formula": [
   "людина + who/that · річ + which/that",
   "місце + where · чий + whose"

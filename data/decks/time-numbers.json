@@ -268,14 +268,14 @@
   {
    "en": "What's the date today?",
    "uk": "Яке сьогодні число?",
-   "ex": "– What's the date today? – It's the third of June.",
-   "exUk": "– Яке сьогодні число? – Третє червня."
+   "ex": "What's the date today? — It's the third of June.",
+   "exUk": "Яке сьогодні число? — Третє червня."
   },
   {
    "en": "What day is it today?",
    "uk": "Який сьогодні день?",
-   "ex": "– What day is it today? – It's Friday.",
-   "exUk": "– Який сьогодні день? – П'ятниця."
+   "ex": "What day is it today? — It's Friday.",
+   "exUk": "Який сьогодні день? — П'ятниця."
   },
   {
    "en": "on time",

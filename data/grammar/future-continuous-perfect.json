@@ -21,7 +21,7 @@
   },
   {
    "en": "By the time you get here, I'll have cooked dinner.",
-   "uk": "Поки ти доїдеш, я вже приготую вечерю."
+   "uk": "Коли ти приїдеш, я вже приготую вечерю."
   },
   {
    "en": "I'll have saved enough money by summer.",
@@ -103,12 +103,10 @@
   },
   {
    "type": "error",
-   "sentence": "By next year I will have learn English for five years.",
-   "wrongIndex": 6,
-   "correction": "learned",
-   "alt": [
-    "learnt"
-   ],
+   "sentence": "By Friday I will have finish the report.",
+   "wrongIndex": 5,
+   "correction": "finished",
+   "alt": [],
    "explanation": "will have + V3."
   },
   {

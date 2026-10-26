@@ -84,12 +84,12 @@
   },
   {
    "en": "to put on",
-   "uk": "одягнути",
+   "uk": "вдягнути, надягти (одяг)",
    "tags": [
     "phrasal"
    ],
    "ex": "Put on your coat, it's cold.",
-   "exUk": "Одягни пальто, холодно."
+   "exUk": "Вдягни пальто, холодно."
   },
   {
    "en": "to take off",
@@ -205,7 +205,7 @@
    "tags": [
     "phrasal"
    ],
-   "ex": "Fill out this form, please.",
+   "ex": "Fill in this form, please.",
    "exUk": "Заповніть цей бланк, будь ласка."
   },
   {
@@ -386,7 +386,7 @@
     "phrasal"
    ],
    "ex": "Let's eat out tonight — I'm too tired to cook.",
-   "exUk": "Давай повечеряємо в ресторані — я надто втомився готувати."
+   "exUk": "Давай повечеряємо в ресторані — я надто втомився, щоб готувати."
   },
   {
    "en": "to go out",
