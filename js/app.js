@@ -11,6 +11,7 @@ import { sectionFor } from './nav.js';
 import { supa, initAuth, onAuth } from './supa.js';
 import { streak } from './stats.js';
 import { setTitle, applyTheme, isDark } from './ui/shell.js';
+import { keepAwake } from './ui/wakelock.js';
 
 // ---------- Режим клавіатури: рамка фокусу видима лише після Tab/стрілок ----------
 addEventListener('keydown', (e) => {
@@ -68,6 +69,14 @@ const pages = {
   lab: () => import('./pages/lab.js'),
 };
 
+// Сторінки з завданнями: картки, уроки, вправи, тести, заняття, вчитель, аудіювання, вимова, письмо, сценарії, помилки
+const PRACTICE = new Set(['cards', 'exercises', 'tests', 'session', 'tutor', 'listening', 'pronunciation', 'mistakes', 'lab']);
+function isPracticeRoute(r) {
+  if (PRACTICE.has(r.name)) return true;
+  // урок граматики, конкретне завдання з письма чи сценарій (але не списки)
+  return ['grammar', 'writing', 'scenarios'].includes(r.name) && r.parts.length > 0;
+}
+
 async function boot() {
   await store.load();
   applyTheme();
@@ -86,6 +95,8 @@ async function boot() {
     drawerActive(sec ? sec.id : '');
     qbActive(sec ? sec.id : r.name);
     document.body.classList.remove('focus-mode');
+    // екран не гасне на сторінках із завданнями (налаштування «Не вимикати екран під час завдань»)
+    keepAwake(store.settings().keepAwake !== false && isPracticeRoute(r));
   });
 
   // Авторизація і синхронізація

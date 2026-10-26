@@ -210,6 +210,7 @@ self.PRECACHE = [
   './js/ui/sheet.js',
   './js/ui/shell.js',
   './js/ui/toast.js',
+  './js/ui/wakelock.js',
   './vendor/supabase.js',
   './vendor/ts-fsrs.js',
 ];

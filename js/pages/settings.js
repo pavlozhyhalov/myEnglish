@@ -41,6 +41,7 @@ export default function settings(view) {
       range('dailyGoal', 5, 60, 5, v => `${v} хв на день`),
       h('div.list-row', h('div.grow', 'Нових карток на день')),
       range('newPerDay', 0, 50, 1, v => `${v} карток`),
+      row('Не вимикати екран під час завдань', toggle(st.keepAwake !== false, (v) => { store.setSetting('keepAwake', v); }, 'Не вимикати екран'), 'Працює в сучасних браузерах; на iPhone — iOS 16.4+'),
       row('Цільова утримуваність FSRS', select('retention', [[0.85, '85%'], [0.9, '90%'], [0.95, '95%']].map(([v, t]) => [String(v), t]), 'Утримуваність'), 'Вища — частіші повтори'),
     ]),
     group('Озвучення', [
