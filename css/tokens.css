@@ -37,14 +37,18 @@
   --ink:#0B1530; --ink-dim:#586480;
   --accent:#1E3A8A; --accent-hover:#172E6E; --accent-ink:#1E3A8A; --accent-soft:#E5EBFA; --on-accent:#FFFFFF;
   --hero:#1E3A8A; --hero-edge:#1E3A8A; --hero-dim:#C7D3F5;
-  --good:#15803D; --warn:#A15C07; --bad:#B42318;
+  --good:#137538; --warn:#A15C07; --bad:#B42318;
   --good-soft:#DCF3E4; --warn-soft:#FBF0D9; --bad-soft:#FBE3E0;
   --shadow-card:0 1px 2px rgba(11,21,48,.05),0 8px 24px rgba(11,21,48,.05);
   --shadow-sm:0 1px 3px rgba(11,21,48,.12);
   --shadow-float:0 8px 28px rgba(11,21,48,.12),0 1px 3px rgba(11,21,48,.06);
   --scrim:rgba(8,14,30,.45);
   /* вибраний сегмент, доріжки прогресу, вимкнений перемикач */
-  --seg-on:#FFFFFF; --track:#E3E8F2; --switch-off:#D5DCE8;
+  --seg-on:#FFFFFF; --track:#E3E8F2; --switch-off:#B8C2D4;
+  /* межа полів вводу й контурних кнопок — помітніша за --line */
+  --line-strong:#C3CBDA;
+  /* текст/значок на суцільному --good / --bad (у темній темі вони світлі — потрібен темний текст) */
+  --on-good:#FFFFFF; --on-bad:#FFFFFF;
 }
 /* Ніч: акцент світліший, щоб кнопки не зливались із тлом; текст-акцент — блакитний */
 @media (prefers-color-scheme:dark){
@@ -60,7 +64,8 @@
     --shadow-sm:0 1px 2px rgba(0,0,0,.5);
     --shadow-float:0 8px 28px rgba(0,0,0,.5);
     --scrim:rgba(0,0,0,.6);
-    --seg-on:#2B3B66; --track:#2A3652; --switch-off:#3A4868;
+    --seg-on:#2B3B66; --track:#2A3652; --switch-off:#4A5A80;
+    --line-strong:#34425F; --on-good:#0B1530; --on-bad:#1A0B08;
   }
 }
 :root[data-theme="dark"]{
@@ -75,6 +80,7 @@
   --shadow-sm:0 1px 2px rgba(0,0,0,.5);
   --shadow-float:0 8px 28px rgba(0,0,0,.5);
   --scrim:rgba(0,0,0,.6);
-  --seg-on:#2B3B66; --track:#2A3652; --switch-off:#3A4868;
+  --seg-on:#2B3B66; --track:#2A3652; --switch-off:#4A5A80;
+  --line-strong:#34425F; --on-good:#0B1530; --on-bad:#1A0B08;
 }
 @media (prefers-reduced-motion:reduce){:root{--dur:0ms}}

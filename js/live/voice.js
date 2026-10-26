@@ -153,7 +153,7 @@ export async function voiceSession(view, opts = {}) {
 
   function fail(e) {
     setState('');
-    notice.replaceChildren(h('div.feedback.no', ERR[e.code] || aiErrorText(e) || S.err.generic),
+    notice.replaceChildren(h(e.code === 'need_login' ? 'div.notice' : 'div.feedback.no', ERR[e.code] || aiErrorText(e) || S.err.generic),
       e.code === 'need_login' ? h('a.btn.primary', { href: '#/auth', style: { marginTop: '12px' } }, 'Увійти') : null);
     controls.replaceChildren(h('button.btn.soft', { type: 'button', onclick: () => go('/tutor', { replace: true }) }, 'Назад'));
   }
@@ -166,7 +166,8 @@ export async function voiceSession(view, opts = {}) {
     try { live?.close(); } catch { /* */ }
     audio?.stop(); audio = null; micLevel = outLevel = 0;
     const why = err?.code === 'quota' ? S.err.quota : err?.code === 'no_key' ? S.err.noKey : `Live недоступний${err?.message ? ` (${String(err.message).slice(0, 80)})` : ''} — перемкнулись на режим «рація».`;
-    notice.replaceChildren(h('div.feedback.no', why), h('div.xs.dim', { style: { marginTop: '6px' } }, 'Утримуйте кнопку, говоріть, відпустіть — вчитель відповість голосом.'));
+    // перехід на «рацію» — інформація, а не помилка (помилки квоти/ключа нижче йдуть у fail)
+    notice.replaceChildren(h('div.notice', why), h('div.xs.dim', { style: { marginTop: '6px' } }, 'Утримуйте кнопку, говоріть, відпустіть — вчитель відповість голосом.'));
     if (err?.code === 'quota' || err?.code === 'no_key' || err?.code === 'not_allowed') { fail(err); return; }
     setState('Режим «рація»');
     pttBtn.hidden = false;

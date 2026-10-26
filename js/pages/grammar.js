@@ -46,7 +46,7 @@ export default async function grammar(view, r) {
   view.replaceChildren(h('div.stack-lg',
     h('section.card.stack',
       h('div.row', emo('puzzle', 'lg'), h('div.grow', h('h1', { style: { margin: 0 } }, 'Граматика'), h('div.small.dim', `Пройдено ${done} з ${idx.length} · урок зараховується від 80%`))),
-      h('div.progress', h('i', { style: { width: `${done / idx.length * 100}%` } })),
+      h('div.progress', { role: 'progressbar', 'aria-label': 'Пройдено уроків', 'aria-valuemin': 0, 'aria-valuemax': 100, 'aria-valuenow': Math.round(done / idx.length * 100) }, h('i', { style: { width: `${done / idx.length * 100}%` } })),
       next ? h('a.btn.primary.block', { href: `#/grammar/${next.id}` }, ic('play', { fill: true }), `Продовжити: ${next.title}`) : h('div.feedback.ok', 'Курс пройдено! Повторюйте уроки за графіком.')),
     h('p.xs.dim', { style: { margin: '0 2px' } }, `Уроки підібрано під рівень ${mine}. Змінити рівень — у «Налаштуваннях» або тестом.`),
     ...LEVELS.map(levelSection)));

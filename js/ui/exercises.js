@@ -37,12 +37,16 @@ const shuffle = (arr) => { const a = arr.slice(); for (let i = a.length - 1; i >
 export function runExercises(container, exercises, { onDone, onMistake, title } = {}) {
   let i = 0, correct = 0;
   const results = [];
-  const head = h('div.row', h('div.grow', progress(0)), h('span.xs.dim.num'));
+  const head = h('div.row', h('div.grow', progress(0, 'Пройдено вправ')), h('span.xs.dim.num'));
   const body = h('div.stack');
+  // подвійний тап по «Далі» не має одразу відповісти на наступну вправу
+  let shownAt = 0;
+  body.addEventListener('click', (e) => { if (Date.now() - shownAt < 350) { e.preventDefault(); e.stopPropagation(); } }, true);
   container.replaceChildren(h('div.stack', title ? h('h2', title) : null, head, body));
 
   function show() {
-    head.firstChild.replaceChildren(progress(i / exercises.length * 100));
+    shownAt = Date.now();
+    head.firstChild.replaceChildren(progress(i / exercises.length * 100, 'Пройдено вправ'));
     head.lastChild.textContent = `${i + 1}/${exercises.length}`;
     const ex = exercises[i];
     body.replaceChildren(render(ex, (ok, given, extra) => {
@@ -54,7 +58,7 @@ export function runExercises(container, exercises, { onDone, onMistake, title } 
 
   function finish() {
     const score = Math.round(correct / exercises.length * 100);
-    head.firstChild.replaceChildren(progress(100));
+    head.firstChild.replaceChildren(progress(100, 'Пройдено вправ'));
     const res = { score, correct, total: exercises.length, results };
     if (onDone?.(res) === false) return;
     body.replaceChildren(resultView(res));
@@ -91,7 +95,8 @@ export function answerText(ex) {
 
 /** Рендер однієї вправи; report(ok, given) викликається один раз; next() — далі */
 export function render(ex, report, next) {
-  const fb = h('div');
+  // результат озвучують читачі екрана
+  const fb = h('div', { role: 'status', 'aria-live': 'polite' });
   const nextBtn = h('button.btn.primary.block', { type: 'button', hidden: true, onclick: next }, 'Далі');
   let reported = false;
   const done = (ok, given, extraText) => {
@@ -103,6 +108,8 @@ export function render(ex, report, next) {
       ex.explanation ? h('div.dim', ex.explanation) : null));
     nextBtn.hidden = false;
     nextBtn.focus({ preventScroll: true });
+    // «Далі» має бути видно (не під нижньою панеллю): відступ задає scroll-padding-bottom
+    requestAnimationFrame(() => nextBtn.scrollIntoView({ block: 'nearest', behavior: 'smooth' }));
   };
   const instr = (t) => h('div.xs.dim', t);
   const speakIt = (t) => h('button.icon-btn.soft', { type: 'button', 'aria-label': 'Прослухати', onclick: () => speak(t) }, ic('speaker-high', { size: 20 }));

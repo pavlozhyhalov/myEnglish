@@ -1,5 +1,8 @@
 *,*::before,*::after{box-sizing:border-box}
-html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%;
+  /* елементи, що прокручуються у видиму зону (фокус, scrollIntoView), не ховаються під шапку й нижню панель */
+  scroll-padding-top:calc(var(--header-h) + var(--safe-t) + 8px);scroll-padding-bottom:calc(var(--quickbar-h) + var(--safe-b) + 16px)}
+html:has(body.focus-mode){scroll-padding-bottom:calc(var(--safe-b) + 16px)}
 body{
   margin:0;min-height:100dvh;background:var(--bg);color:var(--ink);
   font-family:var(--font-body);font-size:var(--fs-md);line-height:1.5;
@@ -13,10 +16,12 @@ button,input,textarea,select{font:inherit;color:inherit}
 button{cursor:pointer}
 img,svg{display:block}
 .ico{flex:none}
-:focus-visible{outline:3px solid var(--accent-ink);outline-offset:2px;border-radius:6px}
+/* без border-radius: інакше кнопка з програмним фокусом («Далі» у вправах) міняє форму — контур і так повторює заокруглення */
+:focus-visible{outline:3px solid var(--accent-ink);outline-offset:2px}
 /* рамка фокусу — лише для клавіатури: після дотику програмний фокус (закрите меню, «Далі» у вправах) не обводиться */
 html:not(.kbd) :focus-visible{outline:none}
 ::selection{background:var(--accent-soft)}
+::placeholder{color:var(--ink-dim);opacity:.8}
 [hidden]{display:none!important}
 .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 .ipa{font-family:var(--font-ipa);color:var(--ink-dim)}
@@ -30,7 +35,7 @@ html:not(.kbd) :focus-visible{outline:none}
 /* Лейаут */
 .app-header{
   position:fixed;inset:0 0 auto 0;z-index:30;height:calc(var(--header-h) + var(--safe-t));
-  padding:var(--safe-t) 8px 0;display:flex;align-items:center;gap:4px;
+  padding:var(--safe-t) max(8px,env(safe-area-inset-right)) 0 max(8px,env(safe-area-inset-left));display:flex;align-items:center;gap:4px;
   background:color-mix(in srgb,var(--bg) 88%,transparent);
   backdrop-filter:saturate(1.4) blur(12px);-webkit-backdrop-filter:saturate(1.4) blur(12px);
 }
@@ -42,16 +47,19 @@ html:not(.kbd) :focus-visible{outline:none}
 .wordmark b{color:var(--accent-ink);font-weight:inherit}
 .app-header .right{display:flex;align-items:center;gap:2px}
 main#view{
-  padding:calc(var(--header-h) + var(--safe-t) + 8px) 16px calc(var(--quickbar-h) + var(--safe-b) + 32px);
+  padding:calc(var(--header-h) + var(--safe-t) + 8px) max(16px,env(safe-area-inset-right)) calc(var(--quickbar-h) + var(--safe-b) + 32px) max(16px,env(safe-area-inset-left));
   max-width:720px;margin:0 auto;min-height:100dvh;
 }
 body.focus-mode main#view{padding-bottom:calc(var(--safe-b) + 24px)}
-body.focus-mode .quickbar{transform:translateY(120%)}
+/* сховану панель не можна сфокусувати Tab-ом: visibility вимикається після анімації */
+body.focus-mode .quickbar{transform:translateY(120%);visibility:hidden;transition:transform var(--dur) var(--ease),visibility 0s linear var(--dur)}
 
 @media (min-width:1100px){
   body.drawer-pinned .drawer{transform:none;box-shadow:none;border-right:1px solid var(--line)}
   body.drawer-pinned .scrim{display:none}
-  body.drawer-pinned .app-header,body.drawer-pinned main#view,body.drawer-pinned .quickbar-wrap{margin-left:320px}
+  body.drawer-pinned .app-header,body.drawer-pinned .quickbar-wrap{margin-left:320px}
+  /* вміст — по центру вільної області, на одній осі з нижньою панеллю */
+  body.drawer-pinned main#view{margin-left:calc(320px + max(0px,(100% - 1040px) / 2))}
   body.drawer-pinned .app-header{left:0}
   body.drawer-pinned .btn-menu{visibility:hidden}
   body.drawer-pinned .drawer{width:320px}
@@ -65,7 +73,8 @@ body.focus-mode .quickbar{transform:translateY(120%)}
 .grow{flex:1;min-width:0}
 .center{text-align:center}
 .grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
-@media (min-width:600px){.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}}
+/* три показники в ряд і на телефоні (раніше на вузькому екрані стовпчик великих «0») */
+.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
 .section-title{font-family:var(--font-body);font-size:var(--fs-xs);font-weight:600;color:var(--ink-dim);margin:8px 2px 0;text-transform:uppercase;letter-spacing:.06em}
 .eyebrow{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--accent-ink)}
 .page-enter{animation:pageIn var(--dur) var(--ease)}

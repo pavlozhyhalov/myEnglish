@@ -27,13 +27,15 @@ export default async function session(view) {
 
   const stepsBar = (cur) => h('div.steps', steps.map((_, i) => h('i', { class: i < cur ? 'done' : i === cur ? 'on' : '' })));
 
+  const lockBtns = (e) => e.currentTarget.parentNode.querySelectorAll('button').forEach(b => { b.disabled = true; });
   function interstitial(cur, emoji, title, text, onGo, goLabel = 'Далі') {
     setFocus(true);
     view.replaceChildren(h('div.stack-lg',
       h('div.row', h('button.icon-btn', { type: 'button', 'aria-label': 'Вийти', onclick: exit }, ic('x')), h('div.grow', stepsBar(cur))),
       h('div.hero', emo(emoji, 'xl'), h('div.xs.dim', `Етап ${cur + 1} з ${steps.length}`), h('h1', title), h('p.dim', text),
-        h('button.btn.primary.lg', { type: 'button', onclick: (e) => { e.currentTarget.disabled = true; onGo(); } }, goLabel),
-        h('button.btn.ghost', { type: 'button', onclick: () => next(cur + 1) }, 'Пропустити етап'))));
+        // після першого тапу обидві кнопки вимикаються: інакше «Пропустити» під час асинхронного старту накладав етапи
+        h('button.btn.primary.lg', { type: 'button', onclick: (e) => { lockBtns(e); onGo(); } }, goLabel),
+        h('button.btn.ghost', { type: 'button', onclick: (e) => { lockBtns(e); next(cur + 1); } }, 'Пропустити етап'))));
   }
 
   function next(stage) {

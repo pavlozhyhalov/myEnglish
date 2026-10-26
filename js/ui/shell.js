@@ -8,12 +8,20 @@ export function setTitle(t) {
   if (el) {
     if (t === 'myEnglish') el.replaceChildren(h('span.wordmark', h('b', 'my'), 'English'));
     else el.textContent = t;
+    // заголовок сторінки для читачів екрана (на головній свій h1 — привітання)
+    if (t === 'myEnglish') { el.removeAttribute('role'); el.removeAttribute('aria-level'); }
+    else { el.setAttribute('role', 'heading'); el.setAttribute('aria-level', '1'); }
   }
   document.title = t && t !== 'myEnglish' ? `${t} · myEnglish` : 'myEnglish';
 }
 
 /** Режим фокусу: ховає нижню панель (повтор карток, голосова сесія) */
-export function setFocus(on) { document.body.classList.toggle('focus-mode', !!on); }
+export function setFocus(on) {
+  document.body.classList.toggle('focus-mode', !!on);
+  // схована панель не має потрапляти в Tab-порядок
+  const qb = document.querySelector('.quickbar-wrap');
+  if (qb) qb.inert = !!on;
+}
 
 export function isDark() {
   const t = document.documentElement.dataset.theme;

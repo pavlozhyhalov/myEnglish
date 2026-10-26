@@ -44,7 +44,9 @@ function header() {
     h('div.title#page-title', S.app),
     h('div.right', streakBtn,
       h('button.icon-btn.btn-theme', { type: 'button', 'aria-label': S.themeToggle, onclick: cycleTheme }, ic('sun'))));
-  document.body.prepend(el);
+  // посилання «Перейти до змісту» лишається першим у Tab-порядку
+  const skip = document.querySelector('body > .sr-only');
+  if (skip) skip.after(el); else document.body.prepend(el);
 }
 
 // ---------- Маршрути ----------

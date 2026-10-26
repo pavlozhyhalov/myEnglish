@@ -24,36 +24,58 @@ export function logSession(type, seconds, ref = null) {
   const sinceMidnight = Math.floor((now - midnight) / 1000);
   const before = seconds - sinceMidnight;
   if (before >= 5 && sinceMidnight >= 5) {
-    store.put('sessions', { type, seconds: before, xp: 0, day: dayKey(new Date(midnight - 1000)), ts: new Date(midnight - 1000).toISOString(), ref: ref || null });
+    const first = store.put('sessions', { type, seconds: before, xp: 0, day: dayKey(new Date(midnight - 1000)), ts: new Date(midnight - 1000).toISOString(), ref: ref || null });
     const row = store.put('sessions', { type, seconds: sinceMidnight, xp: 0, day: today(), ts: store.nowIso(), ref: ref || null });
-    return row && { ...row, seconds };
+    return row && { ...row, seconds, ids: [first?.id, row.id].filter(Boolean) };
   }
   // менше 5 с з одного боку півночі — увесь час у день, де його більше
   const day = before >= sinceMidnight ? dayKey(new Date(midnight - 1000)) : today();
   return store.put('sessions', { type, seconds, xp: 0, day, ts: store.nowIso(), ref: ref || null });
 }
 
-/** Таймер активності сторінки: рахує лише видимий час, з паузою після 2 хв бездіяльності */
+/**
+ * Таймер активності сторінки: рахує лише видимий час, з паузою після 2 хв бездіяльності.
+ * Коли застосунок ховають або закривають, накопичений час одразу записується (інакше незавершене заняття губилося),
+ * далі таймер рахує заново; stop() повертає загальну тривалість у seconds.
+ */
 export function activityTimer(type) {
-  let acc = 0, last = Date.now(), lastInput = Date.now(), stopped = false, ref = null;
+  let acc = 0, total = 0, last = Date.now(), lastInput = Date.now(), stopped = false, ref = null;
+  const saved = [];   // id проміжних записів — щоб проставити їм ref (видалення розмови прибирає весь її час)
   const tick = () => {
     const now = Date.now();
     if (!document.hidden && now - lastInput < 120000) acc += now - last;
     last = now;
   };
+  const checkpoint = () => {
+    if (stopped) return;
+    tick();
+    const row = logSession(type, acc / 1000, ref);
+    if (row) { saved.push(...[].concat(row.ids || row.id)); total += acc; acc = 0; }
+    store.flush();   // одразу на диск: схована вкладка може більше не отримати таймер
+  };
+  const onHide = () => { if (document.hidden) checkpoint(); };
   const iv = setInterval(tick, 5000);
   const mark = () => { tick(); lastInput = Date.now(); };
   const evs = ['pointerdown', 'keydown', 'touchstart'];
   evs.forEach(e => window.addEventListener(e, mark, { passive: true }));
+  document.addEventListener('visibilitychange', onHide);
+  window.addEventListener('pagehide', checkpoint);
   return {
     setRef(r) { ref = r; },
     poke: mark,
-    seconds() { tick(); return acc / 1000; },
+    seconds() { tick(); return (total + acc) / 1000; },
     stop() {
       if (stopped) return null;
-      stopped = true; tick(); clearInterval(iv);
+      tick(); clearInterval(iv);
       evs.forEach(e => window.removeEventListener(e, mark));
-      return logSession(type, acc / 1000, ref);
+      document.removeEventListener('visibilitychange', onHide);
+      window.removeEventListener('pagehide', checkpoint);
+      if (ref) for (const id of saved) { const r = store.get('sessions', id); if (r && !r.ref) store.put('sessions', { ...r, ref }); }
+      const row = logSession(type, acc / 1000, ref);
+      stopped = true;
+      const sec = Math.round((total + acc) / 1000);
+      if (!total) return row;
+      return row ? { ...row, seconds: sec } : (sec >= 5 ? { type, seconds: sec, ref } : null);
     },
   };
 }

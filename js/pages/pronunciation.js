@@ -118,7 +118,7 @@ function pairs(box, data, timer) {
     const btnA = h('button.opt', { type: 'button', onclick: () => choose('a') }, h('b.grow', p.a), h('span.ipa.small', p.ipaA || ''));
     const btnB = h('button.opt', { type: 'button', onclick: () => choose('b') }, h('b.grow', p.b), h('span.ipa.small', p.ipaB || ''));
     box.replaceChildren(h('div.stack',
-      h('div.row', h('div.grow', progress(i / all.length * 100)), h('span.xs.dim', `${i + 1}/${all.length}`)),
+      h('div.row', h('div.grow', progress(i / all.length * 100, 'Пройдено фраз')), h('span.xs.dim', `${i + 1}/${all.length}`)),
       h('div.center.stack', h('div.small.dim', `Звук: ${p.sound}`),
         h('button.icon-btn.soft', { type: 'button', style: { width: '88px', height: '88px', borderRadius: '50%', margin: '0 auto' }, 'aria-label': 'Прослухати', onclick: () => speak(word) }, ic('speaker-high', { size: 40 })),
         h('div.small.dim', 'Що ви почули?')),
@@ -130,7 +130,7 @@ function pairs(box, data, timer) {
 
 function sounds(box, data, timer) {
   box.replaceChildren(h('div.stack', data.sounds.map(s => h('details.card',
-    h('summary.row', { style: { cursor: 'pointer', listStyle: 'none' } }, h('div.emoji-circle', { style: { minWidth: '48px', width: 'auto', padding: '0 8px', height: '48px', fontFamily: 'var(--font-ipa)', fontSize: s.symbol.length > 2 ? '16px' : '22px', fontWeight: 600, color: 'var(--accent-ink)' } }, s.symbol),
+    h('summary.row', h('div.emoji-circle', { style: { minWidth: '48px', width: 'auto', padding: '0 8px', height: '48px', fontFamily: 'var(--font-ipa)', fontSize: s.symbol.length > 2 ? '16px' : '22px', fontWeight: 600, color: 'var(--accent-ink)' } }, s.symbol),
       h('div.grow', h('div', { style: { fontWeight: 600 } }, s.title), h('div.xs.dim', s.short)), ic('caret-down', { size: 18 })),
     h('div.stack', { style: { marginTop: '12px' } },
       h('div.small', s.tip),

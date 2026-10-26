@@ -47,17 +47,6 @@ async function kvGet(key) {
     });
   } catch { try { return JSON.parse(localStorage.getItem('me:' + key)); } catch { return undefined; } }
 }
-async function kvSet(key, val) {
-  try {
-    const db = await idb();
-    await new Promise((res, rej) => {
-      const tx = db.transaction('kv', 'readwrite');
-      tx.objectStore('kv').put(val, key);
-      tx.oncomplete = res; tx.onerror = () => rej(tx.error);
-    });
-  } catch { try { localStorage.setItem('me:' + key, JSON.stringify(val)); } catch { /* квота */ } }
-}
-
 const pendingSave = new Set();
 let saveTimer = null;
 function scheduleSave(key) {
@@ -65,18 +54,51 @@ function scheduleSave(key) {
   clearTimeout(saveTimer);
   saveTimer = setTimeout(flush, 100);
 }
-export async function flush() {
+// Усі відкладені ключі — одним readwrite-транзакцією, викликаною синхронно (без await між put):
+// при закритті вкладки (pagehide) чекати не можна, а окремі транзакції могли зберегти t:cards без dirty
+// (зміна лишалася локально, але не синхронізувалась).
+let dbHandle = null;
+idb().then(db => { dbHandle = db; }, () => {});
+function snapshot(k) {
+  if (k === 'profile') return profile;
+  if (k === 'dirty') return [...dirty];
+  if (k === 'meta') return meta;
+  return [...data[k].values()];
+}
+const storeKey = (k) => (k === 'profile' || k === 'dirty' || k === 'meta') ? k : 't:' + k;
+export function flush() {
   clearTimeout(saveTimer);
   const keys = [...pendingSave]; pendingSave.clear();
-  for (const k of keys) {
-    if (k === 'profile') await kvSet('profile', profile);
-    else if (k === 'dirty') await kvSet('dirty', [...dirty]);
-    else if (k === 'meta') await kvSet('meta', meta);
-    else await kvSet('t:' + k, [...data[k].values()]);
-  }
+  if (!keys.length) return Promise.resolve();
+  const entries = keys.map(k => [storeKey(k), snapshot(k)]);
+  const journaled = [...journalRows.keys()];
+  const fallback = () => { for (const [key, val] of entries) { try { localStorage.setItem('me:' + key, JSON.stringify(val)); } catch { /* квота */ } } };
+  const write = (db) => new Promise((res) => {
+    try {
+      const tx = db.transaction('kv', 'readwrite');
+      const os = tx.objectStore('kv');
+      for (const [key, val] of entries) os.put(val, key);
+      tx.oncomplete = () => { for (const k of journaled) journalRows.delete(k); if (!journalRows.size) clearJournal(); res(); };
+      tx.onerror = tx.onabort = () => { fallback(); res(); };
+    } catch { fallback(); res(); }
+  });
+  if (dbHandle) return write(dbHandle);
+  return idb().then(write, () => fallback());
 }
-window.addEventListener('pagehide', () => { flush(); });
-document.addEventListener('visibilitychange', () => { if (document.hidden) flush(); });
+// Журнал: браузер не завжди встигає завершити транзакцію IndexedDB під час закриття/перезавантаження,
+// тому змінені, ще не збережені рядки синхронно дублюються в localStorage і відновлюються під час load().
+const journalRows = new Map();   // "table|id" → рядок
+const JOURNAL = 'me:journal';
+function clearJournal() { try { localStorage.removeItem(JOURNAL); } catch { /* недоступно */ } }
+function writeJournal() {
+  if (!journalRows.size && !pendingSave.has('profile')) return;
+  try {
+    localStorage.setItem(JOURNAL, JSON.stringify({ userId: meta.userId, rows: [...journalRows].map(([k, r]) => [k.split('|')[0], r]), profile: pendingSave.has('profile') ? profile : null }));
+  } catch { /* квота — лишається звичайне збереження */ }
+}
+function saveNow() { writeJournal(); flush(); }
+window.addEventListener('pagehide', saveNow);
+document.addEventListener('visibilitychange', () => { if (document.hidden) saveNow(); });
 
 // ---------- Завантаження ----------
 export async function load() {
@@ -86,7 +108,22 @@ export async function load() {
   if (m) meta = { lastPull: {}, ...m };
   if (meta.v !== 2) meta = { ...meta, lastPull: {}, v: 2 };
   TABLES.forEach((t, i) => { for (const row of tables[i] || []) data[t].set(row.id, row); });
+  applyJournal();
   housekeeping();
+}
+
+function applyJournal() {
+  let j = null;
+  try { j = JSON.parse(localStorage.getItem(JOURNAL)); } catch { /* пошкоджений */ }
+  if (!j || (j.userId || null) !== (meta.userId || null)) { clearJournal(); return; }
+  for (const [t, r] of j.rows || []) {
+    if (!data[t] || !r?.id) continue;
+    const cur = data[t].get(r.id);
+    if (cur && cur.updated_at && r.updated_at && cur.updated_at > r.updated_at) continue;
+    data[t].set(r.id, r); dirty.add(t + '|' + r.id); journalRows.set(t + '|' + r.id, r); scheduleSave(t);
+  }
+  if (j.profile && (!profile.updated_at || (j.profile.updated_at || '') > profile.updated_at)) { profile = j.profile; dirty.add('profile'); scheduleSave('profile'); }
+  scheduleSave('dirty');
 }
 
 function housekeeping() {
@@ -120,6 +157,7 @@ function touch(table, row) {
   row.updated_at = nowIso();
   data[table].set(row.id, row);
   dirty.add(table + '|' + row.id);
+  journalRows.set(table + '|' + row.id, row);
   scheduleSave(table); scheduleSave('dirty');
 }
 
@@ -310,7 +348,7 @@ export async function importJson(obj) {
 }
 export async function wipeLocal() {
   TABLES.forEach(t => data[t].clear());
-  profile = { data: {}, updated_at: null }; dirty.clear(); meta = { lastPull: {}, userId: null, v: 2 };
+  profile = { data: {}, updated_at: null }; dirty.clear(); journalRows.clear(); meta = { lastPull: {}, userId: null, v: 2 };
   ['profile', 'dirty', 'meta', ...TABLES].forEach(scheduleSave);
   await flush();
   // чернетки письма, лог голосу та інші локальні дрібниці

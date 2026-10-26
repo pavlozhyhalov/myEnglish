@@ -59,7 +59,7 @@ function taskView(view, t) {
     h('section.card.accent.stack', h('div.section-title', 'Завдання'), h('div', t.task), t.context ? h('div.small.dim', t.context) : null),
     h('section.stack', { style: { gap: '8px' } }, h('div.section-title', 'Шаблони фраз — торкніться, щоб вставити'),
       t.phrases.map(g => h('details.card', { open: g === t.phrases[0] ? true : null },
-        h('summary.small', { style: { fontWeight: 600, cursor: 'pointer' } }, g.group),
+        h('summary.small', g.group),
         h('div.chips', { style: { marginTop: '10px' } }, g.items.map(p => h('button.chip', { type: 'button', style: { whiteSpace: 'normal', textAlign: 'left', background: 'var(--surface-2)' }, onclick: () => insert(p) }, p)))))),
     h('section.stack', { style: { gap: '6px' } }, ta, wc),
     h('button.btn.primary.lg.block', { type: 'button', onclick: () => {
@@ -68,6 +68,6 @@ function taskView(view, t) {
       timer.stop();
       go(`/tutor?mode=check&kind=${t.kind}&task=${encodeURIComponent(t.task)}`);
     } }, ic('sparkle', { fill: true }), 'Перевірити у вчителя'),
-    t.sample ? h('details.card', h('summary.small.dim', { style: { cursor: 'pointer' } }, 'Зразок відповіді'), h('div.small', { style: { whiteSpace: 'pre-wrap', marginTop: '8px' } }, t.sample)) : null));
+    t.sample ? h('details.card', h('summary.small.dim', 'Зразок відповіді'), h('div.small', { style: { whiteSpace: 'pre-wrap', marginTop: '8px' } }, t.sample)) : null));
   return () => timer.stop();
 }

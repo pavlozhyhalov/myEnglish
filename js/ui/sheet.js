@@ -1,5 +1,6 @@
 // Bottom sheet замість модалок на мобільному
 import { h } from './dom.js';
+import { pushModal } from './modal.js';
 
 // Поки відкрита шторка, сторінка під нею не прокручується (iOS ігнорує overflow:hidden — фіксуємо body)
 let openCount = 0, savedY = 0;
@@ -19,22 +20,20 @@ export function sheet(title, content, { onClose } = {}) {
   const body = h('div.sheet', { role: 'dialog', 'aria-modal': 'true', 'aria-label': title || 'Діалог', tabindex: '-1' },
     h('div.grab', { 'aria-hidden': 'true' }), title ? h('h2', title) : null, content);
   const prevFocus = document.activeElement;
-  let closed = false;
+  let closed = false, popModal = null;
   const close = () => {
     if (closed) return; closed = true;
     scrim.classList.remove('open'); body.classList.remove('open');
-    document.removeEventListener('keydown', onKey);
+    popModal?.();
     window.removeEventListener('hashchange', close);
     lock(false);
     setTimeout(() => { scrim.remove(); body.remove(); }, 260);
     prevFocus?.focus?.({ preventScroll: true });
     onClose?.();
   };
-  const onKey = (e) => { if (e.key === 'Escape') close(); };
   scrim.addEventListener('click', close);
   scrim.addEventListener('touchmove', e => e.preventDefault(), { passive: false });
   lock(true);
-  document.addEventListener('keydown', onKey);
   // перехід на іншу сторінку (жест «назад», нижня панель) закриває шторку
   window.addEventListener('hashchange', close);
   // свайп вниз за «ручку»
@@ -47,6 +46,7 @@ export function sheet(title, content, { onClose } = {}) {
     if (dy > 90) close();
   });
   document.body.append(scrim, body);
+  popModal = pushModal([scrim, body], close);   // Escape закриває лише верхню шторку
   requestAnimationFrame(() => { scrim.classList.add('open'); body.classList.add('open'); body.focus({ preventScroll: true }); });
   return { close, el: body };
 }

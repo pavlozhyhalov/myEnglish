@@ -42,7 +42,7 @@ export function byFit(list, get = (x) => x.level) {
 export function levelTag(l) {
   if (!l) return null;
   const d = diff(l);
-  return h('span.tag' + (d === 0 ? '.accent' : ''), { title: LEVEL_NAME[l], style: d > 1 ? { opacity: 0.6 } : null }, l);
+  return h('span.tag' + (d === 0 ? '.accent' : d > 1 ? '.far' : ''), { title: LEVEL_NAME[l] }, l);
 }
 
 // ---------- Фільтр за рівнем на сторінках завдань ----------

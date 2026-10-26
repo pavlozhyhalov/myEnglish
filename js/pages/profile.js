@@ -62,7 +62,7 @@ export default function profile(view) {
         h('div.xs.dim', u ? u.email : 'Локальний режим — дані зберігаються на цьому пристрої')),
       h('a.tag.accent', { href: '#/settings', title: 'Змінити рівень' }, `${lvl} · ${LEVEL_NAME[lvl]}`)),
     h('p.small.dim', { style: { margin: '0 2px' } }, 'Ці дані бачить лише AI-вчитель: за ними він обирає теми розмов, приклади й звертання. Усі поля необов\'язкові — заповніть те, що хочете.'),
-    !u ? h('div.feedback.no', 'AI-вчитель працює після входу. Дані профілю збережуться й синхронізуються, щойно ви ввійдете.', h('div', { style: { marginTop: '8px' } }, h('a.btn.sm.soft', { href: '#/auth' }, 'Увійти'))) : null,
+    !u ? h('div.notice', 'AI-вчитель працює після входу. Дані профілю збережуться й синхронізуються, щойно ви ввійдете.', h('div', { style: { marginTop: '8px' } }, h('a.btn.sm.soft', { href: '#/auth' }, 'Увійти'))) : null,
 
     h('section.stack', { style: { gap: '8px' } }, h('div.section-title', 'Про вас'),
       h('div.card.stack',

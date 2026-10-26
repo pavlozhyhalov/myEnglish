@@ -8,14 +8,25 @@
 .btn:active{transform:scale(.97)}
 .btn:disabled{opacity:.5;pointer-events:none}
 .btn.primary{background:var(--accent);color:var(--on-accent)}
-@media (hover:hover){.btn.primary:hover{background:var(--accent-hover)}}
-.btn.outline{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.btn.outline{background:transparent;color:var(--ink);border:1px solid var(--line-strong)}
 .btn.soft{background:var(--accent-soft);color:var(--accent-ink)}
 .btn.ghost{background:transparent;color:var(--accent-ink)}
 .btn.danger{background:var(--bad-soft);color:var(--bad)}
 .btn.block{width:100%}
 .btn.lg{min-height:56px;font-size:var(--fs-md);border-radius:var(--radius)}
 .btn.sm{min-height:36px;padding:6px 12px;font-size:var(--fs-xs)}
+/* наведення — лише для миші: на дотику :hover «залипає» */
+@media (hover:hover){
+  .btn.primary:hover{background:var(--accent-hover)}
+  .btn:not(.primary):not(.ghost):hover{filter:brightness(.97)}
+  .btn.ghost:hover,.btn.outline:hover{background:var(--surface-2)}
+  a.list-row:hover,button.list-row:hover,.tile:hover{background:var(--surface-2)}
+  .chip:not(.on):not([aria-pressed="true"]):hover,.opt:not(.right):not(.wrong):hover{border-color:var(--line-strong)}
+  .level-sec>summary:hover,details.card>summary:hover{color:var(--accent-ink)}
+}
+/* зона дотику ≥44px для компактних елементів (36–40px): невидиме розширення по вертикалі */
+.chip,.btn.sm,.seg button{position:relative}
+.chip::after,.btn.sm::after,.seg button::after{content:"";position:absolute;inset:-4px 0}
 .icon-btn{
   width:44px;height:44px;display:inline-grid;place-items:center;border:0;border-radius:12px;
   background:transparent;color:var(--ink);transition:background var(--dur);
@@ -83,7 +94,7 @@ button.list-row:active,a.list-row:active{background:var(--surface-2)}
 
 /* Чипи */
 .chips{display:flex;gap:8px;flex-wrap:wrap}
-.chips.scroll{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin:0 -16px;padding:0 16px}
+.chips.scroll{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin:-4px -16px;padding:4px 16px}
 .chips.scroll::-webkit-scrollbar{display:none}
 .chip{
   display:inline-flex;align-items:center;gap:6px;min-height:36px;padding:6px 14px;
@@ -91,11 +102,14 @@ button.list-row:active,a.list-row:active{background:var(--surface-2)}
   font-size:var(--fs-sm);font-weight:500;white-space:nowrap;
 }
 .chip[aria-pressed="true"],.chip.on{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+a.tag{text-decoration:none}
 .tag{display:inline-block;padding:3px 10px;border-radius:var(--radius-pill);background:var(--surface-2);font-size:var(--fs-xs);font-weight:600;color:var(--ink-dim)}
 .tag.good{background:var(--good-soft);color:var(--good)}
 .tag.bad{background:var(--bad-soft);color:var(--bad)}
 .tag.warn{background:var(--warn-soft);color:var(--warn)}
 .tag.accent{background:var(--accent-soft);color:var(--accent-ink)}
+/* рівень далеко від мого: приглушено, але читабельно (--ink-dim ≥ 5:1 в обох темах) */
+.tag.far{background:transparent;color:var(--ink-dim);border:1px dashed color-mix(in srgb,var(--ink-dim) 60%,transparent);padding:2px 9px}
 
 /* Сегментований перемикач */
 .seg{display:flex;background:var(--surface-2);border-radius:var(--radius-btn);padding:4px;gap:4px}
@@ -107,8 +121,10 @@ button.list-row:active,a.list-row:active{background:var(--surface-2)}
 .field label,.label{font-size:var(--fs-xs);color:var(--ink-dim);font-weight:500}
 .input,textarea.input,select.input{
   width:100%;min-height:48px;padding:12px 14px;border-radius:var(--radius-btn);
-  border:1px solid var(--line);background:var(--surface);color:var(--ink);outline:none;
+  border:1px solid var(--line-strong);background:var(--surface);color:var(--ink);outline:none;
 }
+/* поле після перевірки: «застигле», але текст читабельний (без сірого браузерного стилю) */
+.input:disabled{background:var(--surface-2);border-color:transparent;color:var(--ink);-webkit-text-fill-color:var(--ink);opacity:1}
 .input:focus{border-color:var(--accent-ink);box-shadow:0 0 0 3px var(--accent-soft)}
 textarea.input{resize:vertical;min-height:120px;line-height:1.45}
 .switch{position:relative;width:52px;height:32px;flex:none}
@@ -132,7 +148,7 @@ textarea.input{resize:vertical;min-height:120px;line-height:1.45}
 .drawer.open{transform:none;box-shadow:var(--shadow-float)}
 .drawer .brand,.drawer .profile{flex:none}
 .drawer{touch-action:none}
-.drawer nav{flex:1;min-height:0;overflow-x:hidden;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;touch-action:pan-y}
+.drawer nav{flex:1;min-height:0;-webkit-mask-image:linear-gradient(#000 calc(100% - 20px),transparent);mask-image:linear-gradient(#000 calc(100% - 20px),transparent);padding-bottom:16px;overflow-x:hidden;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;touch-action:pan-y}
 /* сторінка під відкритим меню зафіксована (позицію прокрутки зберігає drawer.js) */
 body.drawer-open{position:fixed;left:0;right:0;overflow:hidden}
 .drawer .brand{display:flex;align-items:center;gap:10px;padding:8px 10px 16px;font-family:var(--font-head);font-weight:700;font-size:var(--fs-lg);letter-spacing:-.01em}
@@ -174,8 +190,8 @@ html.kbd .drawer a.item:focus-visible{outline:2px solid var(--accent-ink);outlin
 .toasts{position:fixed;left:0;right:0;bottom:calc(var(--quickbar-h) + var(--safe-b) + 16px);z-index:80;display:flex;flex-direction:column;align-items:center;gap:8px;pointer-events:none;padding:0 16px}
 body.focus-mode .toasts{bottom:calc(var(--safe-b) + 24px)}
 .toast{pointer-events:auto;max-width:520px;background:var(--ink);color:var(--bg);padding:12px 16px;border-radius:14px;font-size:var(--fs-sm);font-weight:500;box-shadow:var(--shadow-float);animation:toastIn var(--dur) var(--ease);display:flex;gap:12px;align-items:center}
-.toast .btn{min-height:32px;padding:4px 10px;background:transparent;color:var(--bg);text-decoration:underline}
-.toast.bad{background:var(--bad);color:#fff}
+.toast .btn{min-height:44px;margin:-8px -6px -8px 0;padding:4px 10px;background:transparent;color:inherit;text-decoration:underline}
+.toast.bad{background:var(--bad);color:var(--on-bad)}
 @keyframes toastIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
 
 /* ---------- Bottom sheet ---------- */
@@ -188,6 +204,7 @@ body.focus-mode .toasts{bottom:calc(var(--safe-b) + 24px)}
   max-width:640px;margin:0 auto;
 }
 .sheet.open{transform:none}
+.sheet{border:1px solid var(--line);border-bottom:0}
 .sheet .grab{width:40px;height:5px;border-radius:3px;background:var(--line);margin:4px auto 14px}
 .sheet h2{margin-bottom:12px}
 
@@ -209,7 +226,7 @@ body.focus-mode .toasts{bottom:calc(var(--safe-b) + 24px)}
 
 /* Чекліст */
 .check-item{display:flex;align-items:center;gap:12px;min-height:52px;padding:6px 0;text-decoration:none;color:var(--ink)}
-.check-item .box{width:26px;height:26px;border-radius:8px;border:2px solid var(--line);display:grid;place-items:center;flex:none;color:var(--on-accent)}
+.check-item .box{width:26px;height:26px;border-radius:8px;border:2px solid var(--line-strong);display:grid;place-items:center;flex:none;color:var(--on-good)}
 .check-item.done .box{background:var(--good);border-color:var(--good)}
 .check-item.done .t{text-decoration:line-through;color:var(--ink-dim)}
 
@@ -250,9 +267,10 @@ body.focus-mode .toasts{bottom:calc(var(--safe-b) + 24px)}
 .msg ul,.msg ol{margin:4px 0 8px;padding-left:20px}
 .msg code{background:var(--surface-2);padding:1px 5px;border-radius:5px;font-size:.92em}
 .msg .tools{display:flex;gap:4px;margin-top:6px}
-.msg .tools .icon-btn{width:34px;height:34px}
+.msg .tools .icon-btn{width:34px;height:34px;position:relative}
+.msg .tools .icon-btn::after{content:"";position:absolute;inset:-5px}
 .fix{margin-top:8px;border-top:1px solid var(--line);padding-top:6px}
-.fix summary{cursor:pointer;font-size:12px;color:var(--warn);font-weight:700;text-transform:uppercase;letter-spacing:.04em;list-style:none;display:flex;align-items:center;gap:6px;min-height:32px}
+.fix summary{cursor:pointer;font-size:12px;color:var(--warn);font-weight:700;text-transform:uppercase;letter-spacing:.04em;list-style:none;display:flex;align-items:center;gap:6px;min-height:44px}
 .fix summary::-webkit-details-marker{display:none}
 .fix ul{padding-left:18px;font-size:var(--fs-sm)}
 .composer{
@@ -276,7 +294,8 @@ body.focus-mode .composer{bottom:calc(var(--safe-b) + 8px)}
 .voice .stage{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;min-height:0}
 .aura{position:relative;width:200px;height:200px;display:grid;place-items:center}
 .aura .core{width:120px;height:120px;border-radius:50%;background:var(--accent);display:grid;place-items:center;z-index:2;transition:transform 90ms linear}
-.aura .core .emo{width:56px;height:56px;color:#fff}
+.aura .core .emo{width:56px;height:56px;color:var(--on-accent)}
+.aura.me .core .emo{color:var(--on-good)}
 .aura .halo{position:absolute;inset:0;border-radius:50%;background:var(--accent-soft);transition:transform 90ms linear,opacity var(--dur)}
 .aura .halo.h2{inset:20px;background:var(--accent);opacity:.18}
 .aura.me .core{background:var(--good)}
@@ -287,16 +306,16 @@ body.focus-mode .composer{bottom:calc(var(--safe-b) + 8px)}
 .subs .line.me{background:var(--accent-soft);align-self:flex-end}
 .voice .controls{display:flex;justify-content:center;gap:14px;flex-wrap:wrap}
 .voice .ctrl{display:flex;flex-direction:column;align-items:center;gap:6px;font-size:var(--fs-xs);color:var(--ink-dim);border:0;background:transparent}
-.voice .ctrl .c{width:60px;height:60px;border-radius:50%;background:var(--surface);display:grid;place-items:center;color:var(--ink)}
-.voice .ctrl.stop .c{background:var(--bad);color:#fff}
+.voice .ctrl .c{width:60px;height:60px;border-radius:50%;background:var(--surface);border:1px solid var(--line);display:grid;place-items:center;color:var(--ink)}
+.voice .ctrl.stop .c{background:var(--bad);color:var(--on-bad)}
 .voice .ctrl.on .c{background:var(--accent-soft);color:var(--accent-ink)}
 .ptt{width:96px;height:96px;border-radius:50%;border:0;background:var(--accent);color:#fff;display:grid;place-items:center;box-shadow:var(--shadow-float);touch-action:none;-webkit-user-select:none;user-select:none}
-.ptt.rec{background:var(--bad);transform:scale(1.06)}
+.ptt.rec{background:var(--bad);color:var(--on-bad);transform:scale(1.06)}
 
 /* ---------- Вправи ---------- */
 .opt{
   display:flex;align-items:center;gap:10px;width:100%;min-height:52px;padding:12px 14px;border-radius:var(--radius-btn);
-  border:2px solid var(--line);background:var(--surface);text-align:left;font-weight:500;
+  border:2px solid var(--line);background:var(--surface);color:var(--ink);text-align:left;font-weight:500;
 }
 .opt.sel{border-color:var(--accent-ink)}
 .opt.right{border-color:var(--good);background:var(--good-soft)}
@@ -348,8 +367,9 @@ body.focus-mode .composer{bottom:calc(var(--safe-b) + 8px)}
 .hero{display:flex;flex-direction:column;align-items:center;text-align:center;gap:14px;padding:24px 8px}
 
 /* ---------- Розділи за рівнями (граматика) ---------- */
-.level-sec{background:var(--surface);border:1px solid var(--line);box-shadow:var(--shadow-card);border-radius:var(--radius);padding:12px 14px}
-.level-sec>summary{list-style:none;cursor:pointer;gap:10px;min-height:32px}
+.level-sec{background:var(--surface);border:1px solid var(--line);box-shadow:var(--shadow-card);border-radius:var(--radius);padding:0 14px}
+.level-sec[open]{padding-bottom:14px}
+.level-sec>summary{list-style:none;cursor:pointer;gap:10px;min-height:56px}
 .level-sec>summary::-webkit-details-marker{display:none}
 .level-sec>summary::after{content:'';width:8px;height:8px;border-right:2px solid var(--ink-dim);border-bottom:2px solid var(--ink-dim);transform:rotate(45deg);margin:0 4px 4px;transition:transform var(--dur)}
 .level-sec[open]>summary::after{transform:rotate(225deg);margin-bottom:-2px}
@@ -363,3 +383,18 @@ body.sheet-open{position:fixed;left:0;right:0;overflow:hidden}
 .word-bank.done,.answer-line.done{pointer-events:none;opacity:.6}
 /* кнопка збереження в довгій шторці — завжди видно */
 .sheet-actions{position:sticky;bottom:calc(-1 * (var(--safe-b) + 20px));background:var(--surface);padding:10px 0 calc(var(--safe-b) + 20px);margin:4px 0 calc(-1 * (var(--safe-b) + 20px))}
+
+/* Розгортні картки (<details class="card">): письмо — шаблони фраз, звуки вимови.
+   Без системного трикутника; шеврон як у розділах граматики; рядок заголовка ≥44px */
+details.card>summary{list-style:none;cursor:pointer;min-height:44px;display:flex;align-items:center;gap:10px;margin:-4px 0}
+details.card>summary::-webkit-details-marker{display:none}
+details.card>summary:not(.row)::after{content:'';flex:none;margin-left:auto;width:8px;height:8px;border-right:2px solid var(--ink-dim);border-bottom:2px solid var(--ink-dim);transform:rotate(45deg);margin-right:4px;margin-bottom:4px;transition:transform var(--dur)}
+details.card[open]>summary:not(.row)::after{transform:rotate(225deg);margin-bottom:-2px}
+details.card>summary.row>.ico:last-child{color:var(--ink-dim);transition:transform var(--dur)}
+details.card[open]>summary.row>.ico:last-child{transform:rotate(180deg)}
+
+/* Картка, весь вміст якої прихований (напр. текст діалогу до «Показати текст»), не малює порожню рамку */
+.card:has(> [hidden]:only-child){display:none}
+
+/* Інформаційна плашка (не помилка): «працює після входу» тощо */
+.notice{border-radius:var(--radius-btn);padding:12px 14px;font-size:var(--fs-sm);background:var(--accent-soft);color:var(--ink)}

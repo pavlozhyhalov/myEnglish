@@ -93,8 +93,8 @@ export function ring(value, max, { size = 96, stroke = 10, label } = {}) {
     svg, h('div.label', label ?? h('b', String(value))));
 }
 
-export function progress(pct) {
-  return h('div.progress', { role: 'progressbar', 'aria-valuenow': Math.round(pct), 'aria-valuemin': 0, 'aria-valuemax': 100 },
+export function progress(pct, label = 'Прогрес') {
+  return h('div.progress', { role: 'progressbar', 'aria-label': label, 'aria-valuenow': Math.round(pct), 'aria-valuemin': 0, 'aria-valuemax': 100 },
     h('i', { style: { width: Math.max(0, Math.min(100, pct)) + '%' } }));
 }
 

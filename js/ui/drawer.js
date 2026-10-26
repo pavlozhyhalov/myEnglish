@@ -6,6 +6,7 @@ import * as store from '../store.js';
 import { weekSeconds } from '../stats.js';
 import { user, signOut } from '../supa.js';
 import { go } from '../router.js';
+import { pushModal } from './modal.js';
 
 let drawer, scrim, list, profileBox, current = 'home';
 
@@ -19,7 +20,6 @@ export function initDrawer() {
   renderList();
   renderProfile();
   store.on(t => { if (t === 'sessions' || t === 'profile') renderProfile(); });
-  document.addEventListener('keydown', e => { if (e.key === 'Escape' && drawer.classList.contains('open')) close(); });
 
   // відкривається кнопкою; закривається тапом по фону, пунктом, Esc або свайпом уліво (лише вліво — вправо не тягнеться)
   scrim.addEventListener('touchmove', e => e.preventDefault(), { passive: false });
@@ -59,7 +59,7 @@ export function renderProfile() {
   const u = user();
   const name = (store.prof().about?.name || '').trim();
   clear(profileBox).append(h('div.profile-card',
-    h('a.row.grow', { href: '#/profile', onclick: close, style: { color: 'inherit', textDecoration: 'none', minWidth: 0 }, 'aria-label': 'Профіль' },
+    h('a.row.grow', { href: '#/profile', onclick: close, style: { color: 'inherit', textDecoration: 'none', minWidth: 0 } },
       h('div.level-badge', ic('user', { size: 22 })),
       h('div.grow',
         h('div', { style: { fontWeight: 600 } }, name || (u ? (u.email || '').split('@')[0] : S.guest)),
@@ -96,10 +96,13 @@ function lockScroll(on) {
   }
 }
 
+let popModal = null;
 export function open() {
+  if (drawer.classList.contains('open')) return;
   drawer.classList.add('open'); scrim.classList.add('open');
   lockScroll(true);
   syncA11y();
+  popModal = pushModal([drawer, scrim], close);   // Tab не виходить за меню, Escape закриває лише його
   // фокус на саму панель (без видимої рамки), щоб не обводити пункт меню
   drawer.focus({ preventScroll: true, focusVisible: false });
 }
@@ -107,6 +110,7 @@ export function close() {
   if (!drawer?.classList.contains('open')) return;
   drawer.classList.remove('open'); scrim.classList.remove('open');
   lockScroll(false);
+  popModal?.(); popModal = null;
   syncA11y();
   // фокус на кнопку меню повертаємо лише при роботі з клавіатури; після дотику — без обведення кнопки
   // режим клавіатури — клас html.kbd (js/app.js)

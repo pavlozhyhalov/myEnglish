@@ -7,6 +7,7 @@ import { speak, stop as stopSpeech, recognize, canRecognize, compareWords, recor
 import { activityTimer } from '../stats.js';
 import { setFocus, setTitle } from '../ui/shell.js';
 import { toast } from '../ui/toast.js';
+import { modalOpen } from '../ui/modal.js';
 import { go } from '../router.js';
 import { myLevel, diff, levelTag, byFit } from '../level.js';
 
@@ -62,7 +63,7 @@ export async function runReview(view, { limit = Infinity, onExit, onDone, embedd
   let done = 0, again = 0, cur = null, shownAt = 0, flipped = false;
 
   const counters = h('div.counters');
-  const bar = h('div.progress', h('i', { style: { width: '0%' } }));
+  const bar = h('div.progress', { role: 'progressbar', 'aria-label': 'Пройдено карток', 'aria-valuemin': 0, 'aria-valuemax': 100 }, h('i', { style: { width: '0%' } }));
   const stage = h('div.flash-wrap');
   const actions = h('div');
   const root = h('div.stack',
@@ -73,7 +74,8 @@ export async function runReview(view, { limit = Infinity, onExit, onDone, embedd
   function updateCounters() {
     const n = queue.filter(c => !c.reps).length, d = queue.length - n;
     counters.replaceChildren(h('span', h('b.good', String(n))), h('span', h('b.warn', String(d))));
-    bar.firstChild.style.width = `${startCount ? Math.min(100, done / startCount * 100) : 100}%`;
+    const pct = startCount ? Math.min(100, done / startCount * 100) : 100;
+    bar.firstChild.style.width = `${pct}%`; bar.setAttribute('aria-valuenow', String(Math.round(pct)));
   }
 
   const waitUntil = new WeakMap();
@@ -132,22 +134,29 @@ export async function runReview(view, { limit = Infinity, onExit, onDone, embedd
       sayBlock(cur.en),
       h('a.small', { href: `#/tutor?ask=${encodeURIComponent(cur.en)}`, onclick: (e) => e.stopPropagation() }, 'Запитати вчителя про це слово'));
 
-    const flash = h('div.flash', { role: 'button', tabindex: '0', 'aria-label': 'Картка. Натисніть, щоб перевернути' }, front, back);
+    back.inert = true;
+    const flash = h('div.flash', { role: 'group', 'aria-label': 'Картка' }, front, back);
     flash.addEventListener('click', () => { if (!flipped) flip(); });
     attachSwipe(flash);
     stage.replaceChildren(flash);
     actions.replaceChildren(h('button.btn.primary.lg.block', { type: 'button', onclick: flip }, 'Показати'));
   }
 
+  let flippedAt = 0;
   function flip() {
     if (flipped) return;
     flipped = true;
+    flippedAt = Date.now();
+    // зворотний бік — у Tab-порядку лише після перевертання
+    stage.firstChild.querySelector('.face.back').inert = false;
+    stage.firstChild.querySelector('.face.front').inert = true;
     stage.firstChild.classList.add('flipped');
     if (srs.cardKind(cur) !== 'en-uk' && store.settings().autoSpeak !== false) speak(cur.en);
     const iv = srs.preview(cur);
     const labels = [[1, 'again', 'Знову'], [2, 'hard', 'Важко'], [3, 'good', 'Добре'], [4, 'easy', 'Легко']];
     actions.replaceChildren(h('div.grades', labels.map(([g, cls, t]) =>
-      h('button.grade.' + cls, { type: 'button', onclick: () => rate(g) }, t, h('small', fmtInterval(iv[g]))))));
+      // подвійний тап по «Показати» не має одразу оцінити картку: кнопки оцінки з'являються на тому самому місці
+      h('button.grade.' + cls, { type: 'button', onclick: () => { if (Date.now() - flippedAt > 400) rate(g); } }, t, h('small', fmtInterval(iv[g]))))));
   }
 
   function rate(g) {
@@ -175,7 +184,9 @@ export async function runReview(view, { limit = Infinity, onExit, onDone, embedd
   }
 
   function onKey(e) {
-    if (e.target.matches('input, textarea')) return;
+    if (e.target.matches('input, textarea') || modalOpen()) return;
+    // Enter/пробіл на кнопці чи посиланні — їхня власна дія (напр., «Знову»), а не «Добре»
+    if ((e.code === 'Space' || e.key === 'Enter') && e.target.closest('button, a, [role=button]')) return;
     if (e.code === 'Space' || e.key === 'Enter') { e.preventDefault(); if (!flipped) flip(); else rate(3); }
     else if (flipped && ['1', '2', '3', '4'].includes(e.key)) rate(Number(e.key));
     else if (e.key === 'Escape') finish(true);

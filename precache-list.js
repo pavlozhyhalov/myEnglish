@@ -206,6 +206,7 @@ self.PRECACHE = [
   './js/ui/exercises.js',
   './js/ui/icons.js',
   './js/ui/md.js',
+  './js/ui/modal.js',
   './js/ui/quickbar.js',
   './js/ui/sheet.js',
   './js/ui/shell.js',

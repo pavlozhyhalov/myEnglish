@@ -45,7 +45,7 @@ function overview(view) {
 /** Показує питання по одному; next(prevResult) повертає наступне питання або null */
 function runner(view, { title, total, next, onFinish }) {
   setFocus(true);
-  const head = h('div.row', h('button.icon-btn', { type: 'button', 'aria-label': 'Вийти', onclick: () => { stopSpeech(); setFocus(false); location.hash = '#/tests'; } }, ic('x')), h('div.grow', progress(0)), h('span.xs.dim.num'));
+  const head = h('div.row', h('button.icon-btn', { type: 'button', 'aria-label': 'Вийти', onclick: () => { stopSpeech(); setFocus(false); location.hash = '#/tests'; } }, ic('x')), h('div.grow', progress(0, 'Пройдено питань')), h('span.xs.dim.num'));
   const body = h('div.stack');
   view.replaceChildren(h('div.stack', h('h2', title), head, body));
   const results = [];
@@ -53,7 +53,7 @@ function runner(view, { title, total, next, onFinish }) {
   const step = (q) => {
     if (!q) { stopSpeech(); setFocus(false); onFinish(results); return; }
     n++;
-    head.children[1].replaceChildren(progress((n - 1) / total * 100));
+    head.children[1].replaceChildren(progress((n - 1) / total * 100, 'Пройдено питань'));
     head.lastChild.textContent = `${n}/${total}`;
     body.replaceChildren(renderExercise(q, (ok, given) => { results.push({ ex: q, ok, given }); }, () => step(next(results[results.length - 1]))));
     if (q.audio) setTimeout(() => speak(q.audio), 300);

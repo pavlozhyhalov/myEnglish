@@ -75,7 +75,7 @@ function dictation(box, data, timer) {
       const nextBtn = h('button.btn.primary.block', { type: 'button', hidden: true, onclick: () => { i++; step(); } }, 'Далі');
       inp.addEventListener('keydown', e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); checkBtn.hidden ? nextBtn.click() : checkBtn.click(); } });
       box.replaceChildren(h('div.stack',
-        h('div.row', h('div.grow', progress(i / items.length * 100)), h('span.xs.dim', `${i + 1}/${items.length}`)),
+        h('div.row', h('div.grow', progress(i / items.length * 100, 'Пройдено завдань')), h('span.xs.dim', `${i + 1}/${items.length}`)),
         h('div.row', { style: { justifyContent: 'center', gap: '12px' } },
           h('button.btn.soft.lg', { type: 'button', onclick: () => play(1) }, ic('speaker-high'), '1×'),
           h('button.btn.soft.lg', { type: 'button', onclick: () => play(0.8) }, ic('speaker-high'), '0,8×'),
