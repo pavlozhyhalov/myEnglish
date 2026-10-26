@@ -12,6 +12,10 @@ import { supa, initAuth, onAuth } from './supa.js';
 import { streak } from './stats.js';
 import { setTitle, applyTheme, isDark } from './ui/shell.js';
 
+// ---------- Режим клавіатури: рамка фокусу видима лише після Tab/стрілок ----------
+addEventListener('keydown', (e) => { if (['Tab', 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.key)) document.documentElement.classList.add('kbd'); }, true);
+addEventListener('pointerdown', () => document.documentElement.classList.remove('kbd'), true);
+
 // ---------- Тема ----------
 function cycleTheme() {
   // перемикач у шапці: світла ↔ темна (Авто — у налаштуваннях)
