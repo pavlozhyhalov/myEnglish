@@ -59,7 +59,7 @@ async function grammarPractice(view, unitSlug, lv) {
     onDone: (res) => {
       timer.poke();
       setTimeout(() => box.append(h('div.stack', { style: { marginTop: '12px' } },
-        h('a.btn.primary.block', { href: `#/exercises/grammar/${unitSlug}`, onclick: (e) => { e.preventDefault(); go(`/exercises/grammar/${unitSlug}${lvl ? `?lv=${lvl}` : ''}`); } }, ic('arrow-clockwise'), 'Ще 10 вправ'))));
+        h('a.btn.primary.block', { href: `#/exercises/grammar/${unitSlug}${lvl ? `?lv=${lvl}` : ''}`, onclick: (e) => { e.preventDefault(); go(`/exercises/grammar/${unitSlug}${lvl ? `?lv=${lvl}` : ''}`); } }, ic('arrow-clockwise'), 'Ще 10 вправ'))));
     },
   });
   return () => timer.stop();

@@ -25,6 +25,7 @@ export const diff = (l) => rank(l || 'B1') - rank(myLevel());
 export function setLevel(level, source = 'manual') {
   if (!LEVELS.includes(level)) return;
   store.setSetting('level', level);
+  picked.clear();   // фільтри сторінок знову показують «мій рівень»
   store.setProf({ level, levelSource: source, levelSetAt: new Date().toISOString() });
 }
 

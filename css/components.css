@@ -144,7 +144,7 @@ body.drawer-open{position:fixed;left:0;right:0;overflow:hidden}
 }
 @media (hover:hover){.drawer a.item:hover{background:var(--surface-2)}}
 .drawer:focus{outline:none}
-.drawer a.item:focus-visible{outline:2px solid var(--accent-ink);outline-offset:-2px}
+html.kbd .drawer a.item:focus-visible{outline:2px solid var(--accent-ink);outline-offset:-2px}
 .drawer a.item[aria-current="page"]{background:var(--accent-soft);color:var(--accent-ink);font-weight:600}
 .drawer .profile{padding-top:12px}
 .profile-card{display:flex;align-items:center;gap:12px;background:var(--surface-2);border-radius:var(--radius);padding:12px}

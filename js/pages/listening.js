@@ -17,7 +17,8 @@ export default async function listening(view, r) {
   const data = await loadListening();
   const timer = activityTimer('listening');
   let tab = r.query.tab || 'dictation';
-  openTitle = r.query.d || null;   // посилання з головної «Завдання рівня» відкриває конкретний діалог
+  openTitle = tab === 'dialogues' ? r.query.d || null : null;   // посилання з головної «Завдання рівня» відкриває конкретний діалог
+  if (openTitle) history.replaceState(null, '', '#/listening?tab=dialogues');   // «Назад» і перезавантаження — до списку
   const body = h('div');
   const accent = seg([['US', 'US'], ['UK', 'UK']], store.settings().accent, v => store.setSetting('accent', v));
   const tabs = seg([['dictation', 'Диктант'], ['dialogues', 'Діалоги']], tab, v => { tab = v; draw(); });
@@ -149,7 +150,9 @@ function dialogues(box, data, timer) {
       if (!user()) { toast(S.err.needLogin); return; }
       const chip = e.currentTarget; chip.disabled = true; chip.textContent = 'Генерую…';
       try {
+        const g = box.__gen;
         const d = await tutor('dialogue', { topic: t });
+        if (box.__gen !== g || !box.isConnected) return;   // користувач перейшов на іншу вкладку
         playDialogue(box, { ...d, level: 'AI', speakers: d.speakers }, timer, () => dialogues(box, data, timer));
       } catch (err) { toast(aiErrorText(err), { kind: 'bad' }); chip.disabled = false; chip.textContent = t; }
     } }, t)))));

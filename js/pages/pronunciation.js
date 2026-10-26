@@ -80,7 +80,7 @@ function shadowing(box, data, timer) {
       h('div.chips.scroll', groups.map(g => h('button.chip', { type: 'button', 'aria-pressed': String(g === topic), onclick: (e) => { topic = g; e.currentTarget.parentNode.querySelectorAll('.chip').forEach(c => c.setAttribute('aria-pressed', String(c === e.currentTarget))); drawList(); } }, lvOf(g) ? `${g} · ${lvOf(g)}` : g))));
     drawList();
   };
-  const counts = levelCounts(data.shadowing);
+  const counts = levelCounts(allTopics, lvOf);
   box.replaceChildren(h('div.stack',
     h('p.small.dim', 'Прослухайте фразу, повторіть з тією ж інтонацією і темпом. Зелене — збіг, червоне — розпізнано інакше.'),
     levelChips('shadowing', counts, drawTopics), topicsBox, list));

@@ -8,10 +8,6 @@ import { user, signOut } from '../supa.js';
 import { go } from '../router.js';
 
 let drawer, scrim, list, profileBox, current = 'home';
-// останній спосіб введення: клавіатура чи дотик/миша
-let keyboardUser = false;
-addEventListener('keydown', (e) => { if (e.key === 'Tab' || e.key === 'Escape' || e.key === 'Enter' || e.key === ' ') keyboardUser = true; }, true);
-addEventListener('pointerdown', () => { keyboardUser = false; }, true);
 
 export function initDrawer() {
   scrim = h('div.scrim', { onclick: close });
@@ -109,7 +105,8 @@ export function close() {
   lockScroll(false);
   syncA11y();
   // фокус на кнопку меню повертаємо лише при роботі з клавіатури; після дотику — без обведення кнопки
-  if (keyboardUser) document.querySelector('.btn-menu')?.focus({ preventScroll: true });
+  // режим клавіатури — клас html.kbd (js/app.js)
+  if (document.documentElement.classList.contains('kbd')) document.querySelector('.btn-menu')?.focus({ preventScroll: true });
   else if (drawer.contains(document.activeElement)) document.activeElement.blur();
 }
 /** Свайп уліво по відкритому меню: панель їде за пальцем, відпускання далі 30% ширини або швидкий змах — закриває */

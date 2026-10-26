@@ -13,7 +13,12 @@ import { streak } from './stats.js';
 import { setTitle, applyTheme, isDark } from './ui/shell.js';
 
 // ---------- Режим клавіатури: рамка фокусу видима лише після Tab/стрілок ----------
-addEventListener('keydown', (e) => { if (['Tab', 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.key)) document.documentElement.classList.add('kbd'); }, true);
+addEventListener('keydown', (e) => {
+  if (e.ctrlKey || e.metaKey || e.altKey) return;
+  // Enter у полі відповіді (вправи, диктант) переводить фокус на «Далі» — рамка має бути видима
+  const typing = /^(INPUT|TEXTAREA)$/.test(e.target?.tagName || '');
+  if (['Tab', 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Escape'].includes(e.key) || (e.key === 'Enter' && typing)) document.documentElement.classList.add('kbd');
+}, true);
 addEventListener('pointerdown', () => document.documentElement.classList.remove('kbd'), true);
 
 // ---------- Тема ----------

@@ -10,13 +10,17 @@ import { toast } from '../ui/toast.js';
 import { myLevel, LEVEL_NAME, LEVELS, nextLessonByLevel, byFit, diff, levelProgress, nextLevel, setLevel, filterByLevel, pickOfDay } from '../level.js';
 
 export default async function home(view) {
+  // токен рендеру: швидкі перемикання рівня — показується лише останній рендер
+  const tok = view.__tok = (view.__tok || 0) + 1;
+  const lvl = myLevel();
   const st = store.settings();
   const prof = store.prof();
   const [counts, gIdx, allD, deckState] = await Promise.all([srs.counts(), grammarIndex(), allDecks(), srs.decks()]);
   const on = new Set(deckState.filter(d => d.enabled).map(d => d.id));
   const decks = allD.filter(d => on.has(d.id));
   const firstRun = !prof.placementDone && !prof.levelSource && store.count('sessions') === 0;
-  const lp = await levelProgress(gIdx);
+  const lp = await levelProgress(gIdx, lvl);
+  if (view.__tok !== tok) return;
 
   const hour = new Date().getHours();
   const sec = todaySeconds();
@@ -63,7 +67,6 @@ export default async function home(view) {
   const blocks = [greet, hero];
 
   // ---- рівень: що зараз вивчаємо і скільки до наступного ----
-  const lvl = myLevel();
   blocks.push(h('section.card.stack',
     h('a.row', { href: '#/progress', style: { color: 'inherit', textDecoration: 'none' } },
       h('div.level-badge', lvl),
@@ -75,27 +78,14 @@ export default async function home(view) {
     // швидка зміна рівня: план, урок дня і завдання нижче одразу перебудовуються
     h('div.level-pick', LEVELS.map(l => h('button.chip', { type: 'button', 'aria-pressed': String(l === lvl), 'aria-label': `Рівень ${l}`, onclick: () => {
       if (l === lvl) return;
-      setLevel(l, 'manual'); toast(`Рівень ${l}: завдання оновлено`); home(view);
+      setLevel(l, 'manual'); toast(`Рівень ${l}: завдання оновлено`);
+      home(view).then(() => view.querySelector(`.level-pick [aria-label="Рівень ${l}"]`)?.focus({ preventScroll: true }));
     } }, l)))));
 
-  // ---- завдання рівня на сьогодні: змінюються щодня і зі зміною рівня ----
-  const [scen, wtasks, lis, pron] = await Promise.all([loadScenarios(), writingTasks(), loadListening(), loadPron()]);
-  const sc = pickOfDay(filterByLevel(scen.filter(x => x.group !== 'work'), 'mine').items, 'scen');
-  const wt = pickOfDay(filterByLevel(wtasks, 'mine').items, 'writing');
-  const dlgs = filterByLevel(lis.dialogues, 'mine').items;
-  const dl = pickOfDay(dlgs, 'dialogue');
-  const topics = [...new Set(filterByLevel(pron.shadowing, 'mine').items.map(s => s.topic))];
-  const tp = pickOfDay(topics, 'shadow');
-  const task = (icon, kind, title, href) => h('a.list-row', { href }, h('span.tile-ico', emo(icon)), h('div.grow', h('div.xs.dim', kind), h('div', { style: { fontWeight: 600 } }, title)), ic('caret-right', { size: 18 }));
-  const rows = [
-    sc && task('theater', 'Розмова з вчителем', sc.title, `#/scenarios/${sc.id}`),
-    dl && task('headphone', 'Аудіювання', dl.title, `#/listening?tab=dialogues&d=${encodeURIComponent(dl.title)}`),
-    wt && task('writing', 'Письмо', wt.title, `#/writing/${wt.id}`),
-    tp && task('mouth', 'Вимова', tp, `#/pronunciation?topic=${encodeURIComponent(tp)}`),
-  ].filter(Boolean);
-  if (rows.length) blocks.push(h('section.stack', { style: { gap: '8px' } },
-    h('div.row', h('div.section-title.grow', `Завдання рівня ${lvl} на сьогодні`), h('span.xs.dim', 'нові щодня')),
-    h('div.list', rows)));
+  // ---- завдання рівня на сьогодні: змінюються щодня і зі зміною рівня (дані вантажаться після першого показу) ----
+  const tasksBox = h('section.stack', { style: { gap: '8px' } });
+  blocks.push(tasksBox);
+  fillLevelTasks(tasksBox, lvl).catch(() => tasksBox.remove());
 
   if (firstRun) {
     blocks.push(h('section.card.accent.hero',
@@ -162,7 +152,28 @@ export default async function home(view) {
     }
   }
 
+  if (view.__tok !== tok) return;
   view.replaceChildren(h('div.stack-lg', blocks));
+}
+
+async function fillLevelTasks(box, lvl) {
+  const [scen, wtasks, lis, pron] = await Promise.all([loadScenarios(), writingTasks(), loadListening(), loadPron()]);
+  const sc = pickOfDay(filterByLevel(scen.filter(x => x.group !== 'work'), 'mine').items, 'scen');
+  const wt = pickOfDay(filterByLevel(wtasks, 'mine').items, 'writing');
+  const dl = pickOfDay(filterByLevel(lis.dialogues, 'mine').items, 'dialogue');
+  // тема вимови — за рівнем самої теми (як на сторінці вимови)
+  const topicLevel = new Map();
+  for (const s of pron.shadowing) if (!topicLevel.has(s.topic)) topicLevel.set(s.topic, s.level);
+  const tp = pickOfDay(filterByLevel([...topicLevel.keys()], 'mine', t => topicLevel.get(t)).items, 'shadow');
+  const task = (icon, kind, title, href) => h('a.list-row', { href }, h('span.tile-ico', emo(icon)), h('div.grow', h('div.xs.dim', kind), h('div', { style: { fontWeight: 600 } }, title)), ic('caret-right', { size: 18 }));
+  const rows = [
+    sc && task('theater', 'Розмова з вчителем', sc.title, `#/scenarios/${sc.id}`),
+    dl && task('headphone', 'Аудіювання', dl.title, `#/listening?tab=dialogues&d=${encodeURIComponent(dl.title)}`),
+    wt && task('writing', 'Письмо', wt.title, `#/writing/${wt.id}`),
+    tp && task('mouth', 'Вимова', tp, `#/pronunciation?topic=${encodeURIComponent(tp)}`),
+  ].filter(Boolean);
+  if (!rows.length) { box.remove(); return; }
+  box.replaceChildren(h('div.row', h('div.section-title.grow', `Завдання рівня ${lvl} на сьогодні`), h('span.xs.dim', 'нові щодня')), h('div.list', rows));
 }
 
 function pickLesson(idx) {
