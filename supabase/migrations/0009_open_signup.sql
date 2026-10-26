@@ -12,6 +12,7 @@ begin
   if (select count(*) from auth.users where created_at > now() - interval '24 hours') >= 10 then
     raise exception 'Too many signups today, try again tomorrow';
   end if;
+  new.created_at := coalesce(new.created_at, now());
   new.email_confirmed_at := coalesce(new.email_confirmed_at, now());
   return new;
 end;
