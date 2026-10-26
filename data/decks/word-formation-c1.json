@@ -1,0 +1,305 @@
+{
+ "id": "word-formation-c1",
+ "cards": [
+  {
+   "en": "to justify · justification · justifiable",
+   "uk": "виправдовувати · виправдання · виправданий",
+   "ex": "There's no justification for such rudeness.",
+   "exUk": "Такій грубості немає виправдання."
+  },
+  {
+   "en": "to persuade · persuasion · persuasive",
+   "uk": "переконувати · переконання (умовляння) · переконливий",
+   "ex": "With a little persuasion, he agreed to come.",
+   "exUk": "Трохи вмовлянь — і він погодився прийти."
+  },
+  {
+   "en": "to deceive · deception · deceptive",
+   "uk": "обманювати · обман · оманливий",
+   "ex": "Appearances can be deceptive.",
+   "exUk": "Зовнішність буває оманливою."
+  },
+  {
+   "en": "to cast doubt on",
+   "uk": "ставити під сумнів",
+   "ex": "New evidence has cast doubt on his story.",
+   "exUk": "Нові докази поставили під сумнів його розповідь."
+  },
+  {
+   "en": "a foregone conclusion",
+   "uk": "наперед відомий результат",
+   "ex": "The result of the match was a foregone conclusion.",
+   "exUk": "Результат матчу був відомий наперед."
+  },
+  {
+   "en": "to hesitate · hesitation · hesitant",
+   "uk": "вагатися · вагання · нерішучий",
+   "ex": "She accepted without hesitation.",
+   "exUk": "Вона погодилася без вагань."
+  },
+  {
+   "en": "to diversify · diversity · diverse",
+   "uk": "урізноманітнювати · різноманітність · різноманітний",
+   "ex": "Kraków has become far more diverse in recent years.",
+   "exUk": "Останніми роками Краків став набагато різноманітнішим."
+  },
+  {
+   "en": "to imply · implication · implicit",
+   "uk": "натякати; означати · наслідок; натяк · неявний",
+   "ex": "What are the implications of this decision?",
+   "exUk": "Які наслідки матиме це рішення?"
+  },
+  {
+   "en": "to perceive · perception · perceptive",
+   "uk": "сприймати · сприйняття · проникливий",
+   "ex": "She's very perceptive about people.",
+   "exUk": "Вона дуже проникливо розуміє людей."
+  },
+  {
+   "en": "to vary · variation · various · variable",
+   "uk": "змінюватися · варіація · різноманітні · мінливий",
+   "ex": "The weather here is highly variable.",
+   "exUk": "Погода тут дуже мінлива."
+  },
+  {
+   "en": "to deprive · deprivation · deprived",
+   "uk": "позбавляти · позбавлення; нестача · знедолений",
+   "ex": "Sleep deprivation affects your mood.",
+   "exUk": "Нестача сну впливає на настрій."
+  },
+  {
+   "en": "to prevail · prevalence · prevalent",
+   "uk": "переважати · поширеність · поширений",
+   "ex": "This attitude is still prevalent among older people.",
+   "exUk": "Таке ставлення досі поширене серед людей старшого віку."
+  },
+  {
+   "en": "to resolve · resolution · resolute",
+   "uk": "вирішувати · рішення; обіцянка собі · рішучий",
+   "ex": "My New Year's resolution is to read more in English.",
+   "exUk": "Моя новорічна обіцянка — більше читати англійською."
+  },
+  {
+   "en": "to exceed · excess · excessive",
+   "uk": "перевищувати · надлишок · надмірний",
+   "ex": "Excessive screen time can harm children's sleep.",
+   "exUk": "Надмірний час біля екрана може шкодити сну дітей."
+  },
+  {
+   "en": "to compel · compulsion · compulsory",
+   "uk": "змушувати · примус; потяг · обов'язковий",
+   "ex": "Is voting compulsory in your country?",
+   "exUk": "Чи є голосування обов'язковим у вашій країні?"
+  },
+  {
+   "en": "to assume · assumption · to make assumptions",
+   "uk": "припускати · припущення · робити поспішні висновки",
+   "ex": "Don't make assumptions about people you've just met.",
+   "exUk": "Не роби поспішних висновків про людей, з якими щойно познайомився."
+  },
+  {
+   "en": "to evolve · evolution · evolutionary",
+   "uk": "розвиватися · еволюція · еволюційний",
+   "ex": "Language is constantly evolving.",
+   "exUk": "Мова постійно розвивається."
+  },
+  {
+   "en": "to intervene · intervention",
+   "uk": "втручатися · втручання",
+   "ex": "Without medical intervention, he wouldn't have survived.",
+   "exUk": "Без медичного втручання він би не вижив."
+  },
+  {
+   "en": "to signify · significance · significant · insignificant",
+   "uk": "означати · значення · значущий · незначний",
+   "ex": "The date has special significance for us.",
+   "exUk": "Ця дата має для нас особливе значення."
+  },
+  {
+   "en": "to commit · commitment · committed",
+   "uk": "зобов'язуватися · відданість; зобов'язання · відданий",
+   "ex": "Learning a language takes real commitment.",
+   "exUk": "Вивчення мови вимагає справжньої відданості."
+  },
+  {
+   "en": "to acquire · acquisition · an acquired taste",
+   "uk": "набувати · набуття · смак, який треба розпробувати",
+   "ex": "Olives are an acquired taste.",
+   "exUk": "Смак оливок треба розпробувати."
+  },
+  {
+   "en": "to inhabit · inhabitant · uninhabited",
+   "uk": "населяти · мешканець · безлюдний",
+   "ex": "We camped on an uninhabited island.",
+   "exUk": "Ми стали табором на безлюдному острові."
+  },
+  {
+   "en": "to underestimate · to overestimate",
+   "uk": "недооцінювати · переоцінювати",
+   "ex": "Never underestimate how long the queue at the post office can be.",
+   "exUk": "Ніколи не недооцінюй, якою довгою може бути черга на пошті."
+  },
+  {
+   "en": "to broaden · to widen · to deepen",
+   "uk": "розширювати · розширювати(ся) · поглиблювати",
+   "ex": "Travel broadens the mind.",
+   "exUk": "Подорожі розширюють світогляд."
+  },
+  {
+   "en": "to confide · confidence · confidential",
+   "uk": "довіряти (таємницю) · довіра; впевненість · конфіденційний",
+   "ex": "She confided in me that she was thinking of moving abroad.",
+   "exUk": "Вона по секрету сказала мені, що думає переїхати за кордон."
+  },
+  {
+   "en": "to wield influence",
+   "uk": "мати вплив; користуватися впливом",
+   "ex": "Influencers wield enormous influence over young people.",
+   "exUk": "Інфлюенсери мають величезний вплив на молодь."
+  },
+  {
+   "en": "to harbour doubts",
+   "uk": "мати (таїти) сумніви",
+   "ex": "I still harbour doubts about his intentions.",
+   "exUk": "У мене досі є сумніви щодо його намірів."
+  },
+  {
+   "en": "to strike a balance",
+   "uk": "знайти баланс; дотримати рівноваги",
+   "ex": "It's hard to strike a balance between work and family.",
+   "exUk": "Важко знайти баланс між роботою та сім'єю."
+  },
+  {
+   "en": "to bear the brunt of",
+   "uk": "прийняти на себе основний удар",
+   "ex": "Small towns bore the brunt of the floods.",
+   "exUk": "Основного удару повені зазнали маленькі містечка."
+  },
+  {
+   "en": "to come under fire",
+   "uk": "потрапити під шквал критики",
+   "ex": "The mayor came under fire for the new parking fees.",
+   "exUk": "Мер потрапив під шквал критики через нові тарифи на паркування."
+  },
+  {
+   "en": "to make amends",
+   "uk": "загладити провину",
+   "ex": "He bought her flowers to make amends.",
+   "exUk": "Він купив їй квіти, щоб загладити провину."
+  },
+  {
+   "en": "to take precedence over",
+   "uk": "мати перевагу над; бути важливішим за",
+   "ex": "Family takes precedence over everything else.",
+   "exUk": "Сім'я для мене важливіша за все інше."
+  },
+  {
+   "en": "to set a precedent",
+   "uk": "створити прецедент",
+   "ex": "If we let him do it, it'll set a precedent.",
+   "exUk": "Якщо ми йому це дозволимо, це створить прецедент."
+  },
+  {
+   "en": "to run the risk of",
+   "uk": "ризикувати (чимось)",
+   "ex": "If you don't book now, you run the risk of missing out.",
+   "exUk": "Якщо не забронюєш зараз, ризикуєш залишитися ні з чим."
+  },
+  {
+   "en": "to endure · endurance · enduring",
+   "uk": "витримувати · витривалість · тривалий; незгасний",
+   "ex": "Running a marathon is a real test of endurance.",
+   "exUk": "Марафон — справжнє випробування на витривалість."
+  },
+  {
+   "en": "far-reaching consequences",
+   "uk": "далекосяжні наслідки",
+   "ex": "The decision will have far-reaching consequences.",
+   "exUk": "Це рішення матиме далекосяжні наслідки."
+  },
+  {
+   "en": "a stark contrast",
+   "uk": "разючий контраст",
+   "ex": "The quiet village was in stark contrast to the busy city.",
+   "exUk": "Тихе село разюче контрастувало з галасливим містом."
+  },
+  {
+   "en": "to alienate · alienation · alien",
+   "uk": "відштовхувати; віддаляти · відчуження · чужий",
+   "ex": "His rude jokes alienated half the guests.",
+   "exUk": "Його грубі жарти відштовхнули половину гостей."
+  },
+  {
+   "en": "a heated debate",
+   "uk": "гаряча суперечка; бурхлива дискусія",
+   "ex": "There was a heated debate about where to go on holiday.",
+   "exUk": "Розгорілася гаряча суперечка про те, куди поїхати у відпустку."
+  },
+  {
+   "en": "a hidden agenda",
+   "uk": "приховані наміри",
+   "ex": "I suspect he has a hidden agenda.",
+   "exUk": "Підозрюю, у нього є приховані наміри."
+  },
+  {
+   "en": "to go to great lengths",
+   "uk": "докладати величезних зусиль; іти на все",
+   "ex": "They went to great lengths to keep the party a secret.",
+   "exUk": "Вони доклали величезних зусиль, щоб вечірка залишилася таємницею."
+  },
+  {
+   "en": "deeply (regret, moved)",
+   "uk": "глибоко; щиро",
+   "ex": "I deeply regret what I said.",
+   "exUk": "Я глибоко шкодую про свої слова."
+  },
+  {
+   "en": "a lame excuse",
+   "uk": "непереконливе (кульгаве) виправдання",
+   "ex": "That's a pretty lame excuse for being late.",
+   "exUk": "Це досить кульгаве виправдання для запізнення."
+  },
+  {
+   "en": "painfully (slow, shy)",
+   "uk": "болісно; нестерпно",
+   "ex": "The service was painfully slow.",
+   "exUk": "Обслуговування було нестерпно повільним."
+  },
+  {
+   "en": "fiercely independent",
+   "uk": "вкрай незалежний",
+   "ex": "My grandmother is fiercely independent.",
+   "exUk": "Моя бабуся вкрай незалежна."
+  },
+  {
+   "en": "a sense of belonging",
+   "uk": "відчуття приналежності",
+   "ex": "Joining the choir gave me a sense of belonging.",
+   "exUk": "Спів у хорі дав мені відчуття приналежності."
+  },
+  {
+   "en": "to lose sight of",
+   "uk": "забувати про; втрачати з поля зору",
+   "ex": "Don't lose sight of why you started learning English.",
+   "exUk": "Не забувай, навіщо ти почав вивчати англійську."
+  },
+  {
+   "en": "to have a vested interest in",
+   "uk": "бути особисто зацікавленим у",
+   "ex": "He has a vested interest in keeping prices high.",
+   "exUk": "Він особисто зацікавлений у тому, щоб ціни залишалися високими."
+  },
+  {
+   "en": "to bridge the gap",
+   "uk": "подолати розрив",
+   "ex": "The course aims to bridge the gap between school and university.",
+   "exUk": "Курс має на меті подолати розрив між школою та університетом."
+  },
+  {
+   "en": "to pay tribute to",
+   "uk": "вшанувати; віддати належне",
+   "ex": "Fans paid tribute to the late singer outside his home.",
+   "exUk": "Шанувальники вшанували пам'ять покійного співака біля його будинку."
+  }
+ ]
+}

@@ -1,0 +1,305 @@
+{
+ "id": "idioms-c1",
+ "cards": [
+  {
+   "en": "to add insult to injury",
+   "uk": "на додачу до всього; ще й посипати сіль на рану",
+   "ex": "He was late, and to add insult to injury, he forgot the tickets.",
+   "exUk": "Він запізнився, а на додачу до всього ще й забув квитки."
+  },
+  {
+   "en": "to bite the bullet",
+   "uk": "зціпити зуби й зробити; наважитися",
+   "ex": "I finally bit the bullet and booked the dentist.",
+   "exUk": "Я нарешті наважився й записався до стоматолога."
+  },
+  {
+   "en": "to cut someone some slack",
+   "uk": "бути поблажливим до когось",
+   "ex": "Cut him some slack — it's his first week.",
+   "exUk": "Будь до нього поблажливішим — це його перший тиждень."
+  },
+  {
+   "en": "to get the wrong end of the stick",
+   "uk": "неправильно зрозуміти",
+   "ex": "I think you've got the wrong end of the stick — I wasn't criticising you.",
+   "exUk": "Здається, ти мене неправильно зрозумів — я тебе не критикував."
+  },
+  {
+   "en": "to go down a storm",
+   "uk": "мати шалений успіх",
+   "ex": "Her lemon cake went down a storm at the party.",
+   "exUk": "Її лимонний пиріг мав шалений успіх на вечірці."
+  },
+  {
+   "en": "to have a chip on your shoulder",
+   "uk": "мати образу на весь світ; комплексувати",
+   "ex": "He's got a chip on his shoulder about not going to university.",
+   "exUk": "Він досі комплексує через те, що не вступив до університету."
+  },
+  {
+   "en": "to keep someone at arm's length",
+   "uk": "тримати когось на відстані",
+   "ex": "She tends to keep new people at arm's length.",
+   "exUk": "Вона схильна тримати нових людей на відстані."
+  },
+  {
+   "en": "to let sleeping dogs lie",
+   "uk": "не ворушити минулого; не будити лихо, поки тихо",
+   "ex": "I was going to mention the argument, but decided to let sleeping dogs lie.",
+   "exUk": "Я хотів згадати ту сварку, але вирішив не будити лихо, поки воно тихо."
+  },
+  {
+   "en": "the tip of the iceberg",
+   "uk": "верхівка айсберга",
+   "ex": "The complaints we've heard are just the tip of the iceberg.",
+   "exUk": "Скарги, які ми чули, — це лише верхівка айсберга."
+  },
+  {
+   "en": "to be at a loose end",
+   "uk": "не мати чим зайнятися",
+   "ex": "If you're at a loose end on Saturday, come round for dinner.",
+   "exUk": "Якщо в суботу не матимеш чим зайнятися, приходь на вечерю."
+  },
+  {
+   "en": "to be on tenterhooks",
+   "uk": "бути як на голках",
+   "ex": "We were on tenterhooks waiting for the results.",
+   "exUk": "Ми чекали на результати, як на голках."
+  },
+  {
+   "en": "to bend over backwards",
+   "uk": "зі шкіри геть лізти; з усіх сил старатися",
+   "ex": "Our hosts bent over backwards to make us feel welcome.",
+   "exUk": "Господарі з усіх сил старалися, щоб ми почувалися як удома."
+  },
+  {
+   "en": "a storm in a teacup",
+   "uk": "буря в склянці води",
+   "ex": "Don't worry about their row — it's a storm in a teacup.",
+   "exUk": "Не переймайся їхньою сваркою — це буря в склянці води."
+  },
+  {
+   "en": "to have your heart set on something",
+   "uk": "дуже чогось прагнути; мріяти про щось",
+   "ex": "She's got her heart set on a flat by the river.",
+   "exUk": "Вона мріє про квартиру біля річки."
+  },
+  {
+   "en": "to throw caution to the wind",
+   "uk": "відкинути обережність; ризикнути",
+   "ex": "We threw caution to the wind and booked a last-minute trip to Lisbon.",
+   "exUk": "Ми відкинули обережність і в останню хвилину забронювали поїздку до Лісабона."
+  },
+  {
+   "en": "to be in two minds",
+   "uk": "вагатися; не могти вирішити",
+   "ex": "I'm in two minds about whether to go to the reunion.",
+   "exUk": "Я вагаюся, чи йти на зустріч випускників."
+  },
+  {
+   "en": "to put a brave face on it",
+   "uk": "триматися молодцем; робити добру міну при поганій грі",
+   "ex": "He was clearly upset but put a brave face on it.",
+   "exUk": "Він явно засмутився, але тримався молодцем."
+  },
+  {
+   "en": "to rub someone up the wrong way",
+   "uk": "дратувати когось",
+   "ex": "There's something about his tone that rubs me up the wrong way.",
+   "exUk": "Щось у його тоні мене дратує."
+  },
+  {
+   "en": "to be a far cry from",
+   "uk": "бути зовсім не схожим на; бути далеким від",
+   "ex": "Our tiny flat is a far cry from the house I grew up in.",
+   "exUk": "Наша крихітна квартира зовсім не схожа на будинок, де я виріс."
+  },
+  {
+   "en": "to steal someone's thunder",
+   "uk": "перехопити чужу славу; відібрати увагу",
+   "ex": "She announced her engagement at my birthday party and stole my thunder.",
+   "exUk": "Вона оголосила про заручини на моєму дні народження й перетягнула всю увагу на себе."
+  },
+  {
+   "en": "to make a mountain out of a molehill",
+   "uk": "робити з мухи слона",
+   "ex": "It's only a scratch on the car — don't make a mountain out of a molehill.",
+   "exUk": "Це лише подряпина на машині — не роби з мухи слона."
+  },
+  {
+   "en": "to turn a blind eye to",
+   "uk": "заплющувати очі на",
+   "ex": "The landlord turns a blind eye to pets as long as there's no damage.",
+   "exUk": "Орендодавець заплющує очі на тварин, якщо немає шкоди."
+  },
+  {
+   "en": "to be up in arms",
+   "uk": "бути обуреним; здійняти бучу",
+   "ex": "Locals are up in arms about the new car park.",
+   "exUk": "Місцеві мешканці обурені новою парковкою."
+  },
+  {
+   "en": "a double-edged sword",
+   "uk": "палиця з двома кінцями",
+   "ex": "Fame can be a double-edged sword.",
+   "exUk": "Слава може бути палицею з двома кінцями."
+  },
+  {
+   "en": "to go against the grain",
+   "uk": "суперечити натурі; йти всупереч",
+   "ex": "It goes against the grain to throw away good food.",
+   "exUk": "Викидати добру їжу — не в моїй натурі."
+  },
+  {
+   "en": "to keep your cards close to your chest",
+   "uk": "не розкривати своїх планів",
+   "ex": "She's keeping her cards close to her chest about the new job.",
+   "exUk": "Вона не розкриває подробиць про нову роботу."
+  },
+  {
+   "en": "to be thrown in at the deep end",
+   "uk": "одразу пірнути з головою; почати без підготовки",
+   "ex": "When I moved to Kraków, I was thrown in at the deep end with Polish.",
+   "exUk": "Коли я переїхав до Кракова, мені довелося одразу пірнути в польську з головою."
+  },
+  {
+   "en": "a stone's throw from",
+   "uk": "рукою подати до",
+   "ex": "Our flat is a stone's throw from the river.",
+   "exUk": "Від нашої квартири до річки рукою подати."
+  },
+  {
+   "en": "to call a spade a spade",
+   "uk": "називати речі своїми іменами",
+   "ex": "My grandmother always called a spade a spade.",
+   "exUk": "Моя бабуся завжди називала речі своїми іменами."
+  },
+  {
+   "en": "to have a field day",
+   "uk": "розгулятися; дістати чудову нагоду",
+   "ex": "The tabloids will have a field day with this story.",
+   "exUk": "Жовта преса розгуляється на цій історії."
+  },
+  {
+   "en": "to be on the mend",
+   "uk": "іти на поправку",
+   "ex": "Dad had a nasty flu, but he's on the mend now.",
+   "exUk": "Тато тяжко перехворів на грип, але тепер іде на поправку."
+  },
+  {
+   "en": "to touch a nerve",
+   "uk": "зачепити за живе",
+   "ex": "His comment about her accent clearly touched a nerve.",
+   "exUk": "Його коментар про її акцент явно зачепив її за живе."
+  },
+  {
+   "en": "hold your horses",
+   "uk": "не гарячкуй; стривай",
+   "ex": "Hold your horses — let's read the rental agreement first.",
+   "exUk": "Не гарячкуй — спершу прочитаймо договір оренди."
+  },
+  {
+   "en": "to be par for the course",
+   "uk": "бути звичною справою; нічого дивного",
+   "ex": "Delays on this line are par for the course.",
+   "exUk": "Затримки на цій лінії — звична справа."
+  },
+  {
+   "en": "to go off the rails",
+   "uk": "збитися з пуття; піти шкереберть",
+   "ex": "He went off the rails a bit after his parents split up.",
+   "exUk": "Після розлучення батьків він трохи збився з пуття."
+  },
+  {
+   "en": "to put the cart before the horse",
+   "uk": "ставити віз попереду коня",
+   "ex": "Buying furniture before you've found a flat is putting the cart before the horse.",
+   "exUk": "Купувати меблі, ще не знайшовши квартиру, — це ставити віз попереду коня."
+  },
+  {
+   "en": "to get your wires crossed",
+   "uk": "не зрозуміти одне одного",
+   "ex": "We got our wires crossed — I thought we were meeting at seven.",
+   "exUk": "Ми не зрозуміли одне одного — я думав, ми зустрічаємося о сьомій."
+  },
+  {
+   "en": "to be on the cards",
+   "uk": "бути ймовірним; назрівати",
+   "ex": "A move to Warsaw might be on the cards next year.",
+   "exUk": "Наступного року, можливо, назріває переїзд до Варшави."
+  },
+  {
+   "en": "to give someone the cold shoulder",
+   "uk": "ігнорувати когось; холодно поводитися",
+   "ex": "She's been giving me the cold shoulder since the party.",
+   "exUk": "Після вечірки вона мене ігнорує."
+  },
+  {
+   "en": "to have the last laugh",
+   "uk": "сміятися останнім; зрештою виграти",
+   "ex": "Everyone mocked his old car, but he had the last laugh when it outlasted theirs.",
+   "exUk": "Усі глузували з його старої машини, але сміявся останнім він: вона пережила їхні."
+  },
+  {
+   "en": "to sweep something under the carpet",
+   "uk": "замітати під килим; замовчувати",
+   "ex": "You can't just sweep the problem under the carpet.",
+   "exUk": "Не можна просто замести проблему під килим."
+  },
+  {
+   "en": "like a fish out of water",
+   "uk": "не у своїй тарілці",
+   "ex": "At the posh dinner I felt like a fish out of water.",
+   "exUk": "На тій пафосній вечері я почувався не у своїй тарілці."
+  },
+  {
+   "en": "to drop someone a line",
+   "uk": "черкнути комусь кілька рядків",
+   "ex": "Drop me a line when you get to Berlin.",
+   "exUk": "Черкни мені, коли доберешся до Берліна."
+  },
+  {
+   "en": "to know something inside out",
+   "uk": "знати як свої п'ять пальців",
+   "ex": "She knows Kraków's Old Town inside out.",
+   "exUk": "Вона знає Старе місто Кракова як свої п'ять пальців."
+  },
+  {
+   "en": "to take something in your stride",
+   "uk": "сприймати спокійно; не робити з цього драми",
+   "ex": "She took the bad news in her stride.",
+   "exUk": "Вона спокійно сприйняла погані новини."
+  },
+  {
+   "en": "to stick your neck out",
+   "uk": "ризикнути; підставитися",
+   "ex": "I'll stick my neck out and say they'll win the league.",
+   "exUk": "Ризикну сказати, що вони виграють чемпіонат."
+  },
+  {
+   "en": "to leave a lot to be desired",
+   "uk": "залишати бажати кращого",
+   "ex": "The service at that restaurant leaves a lot to be desired.",
+   "exUk": "Обслуговування в тому ресторані залишає бажати кращого."
+  },
+  {
+   "en": "to be no spring chicken",
+   "uk": "бути вже не першої молодості",
+   "ex": "I'm no spring chicken, but I still cycle to the market.",
+   "exUk": "Я вже не першої молодості, але досі їжджу на ринок велосипедом."
+  },
+  {
+   "en": "to have a bee in your bonnet",
+   "uk": "бути одержимим якоюсь ідеєю",
+   "ex": "He's got a bee in his bonnet about recycling.",
+   "exUk": "Він просто одержимий темою сортування сміття."
+  },
+  {
+   "en": "to pass the buck",
+   "uk": "перекладати відповідальність",
+   "ex": "Stop passing the buck and admit it was your idea.",
+   "exUk": "Годі перекладати відповідальність — визнай, що це була твоя ідея."
+  }
+ ]
+}

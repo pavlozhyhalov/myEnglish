@@ -1,0 +1,305 @@
+{
+ "id": "opinions-c1",
+ "cards": [
+  {
+   "en": "to contend",
+   "uk": "стверджувати; обстоювати думку",
+   "ex": "Some experts contend that the policy will backfire.",
+   "exUk": "Деякі експерти стверджують, що ця політика матиме зворотний ефект."
+  },
+  {
+   "en": "to concede",
+   "uk": "(неохоче) визнавати",
+   "ex": "I'll concede that you have a point.",
+   "exUk": "Визнаю, що в твоїх словах є сенс."
+  },
+  {
+   "en": "to dismiss",
+   "uk": "відкидати; відмахуватися від",
+   "ex": "He dismissed the idea as unrealistic.",
+   "exUk": "Він відкинув цю ідею як нереалістичну."
+  },
+  {
+   "en": "to refute",
+   "uk": "спростовувати",
+   "ex": "She calmly refuted every claim he made.",
+   "exUk": "Вона спокійно спростувала кожне його твердження."
+  },
+  {
+   "en": "to advocate",
+   "uk": "обстоювати; виступати за",
+   "ex": "She advocates cycling as the best way to get around the city.",
+   "exUk": "Вона обстоює велосипед як найкращий спосіб пересуватися містом."
+  },
+  {
+   "en": "to dispute",
+   "uk": "заперечувати; оскаржувати",
+   "ex": "Nobody disputes that the city needs more green spaces.",
+   "exUk": "Ніхто не заперечує, що місту потрібно більше зелених зон."
+  },
+  {
+   "en": "to call into question",
+   "uk": "ставити під сумнів",
+   "ex": "The new study calls into question what we thought we knew about sleep.",
+   "exUk": "Нове дослідження ставить під сумнів те, що ми знали про сон."
+  },
+  {
+   "en": "to maintain",
+   "uk": "стверджувати; запевняти",
+   "ex": "He maintains that he never received the letter.",
+   "exUk": "Він запевняє, що так і не отримав листа."
+  },
+  {
+   "en": "to assert",
+   "uk": "заявляти; стверджувати; відстоювати",
+   "ex": "She asserted her right to speak.",
+   "exUk": "Вона відстояла своє право висловитися."
+  },
+  {
+   "en": "to presume",
+   "uk": "припускати; гадати",
+   "ex": "I presume you've already heard the news.",
+   "exUk": "Припускаю, ти вже чув новину."
+  },
+  {
+   "en": "to speculate",
+   "uk": "гадати; робити припущення",
+   "ex": "It's pointless to speculate about what might have happened.",
+   "exUk": "Немає сенсу гадати, що могло статися."
+  },
+  {
+   "en": "to oversimplify",
+   "uk": "надмірно спрощувати",
+   "ex": "I think you're oversimplifying a complex issue.",
+   "exUk": "Думаю, ти надмірно спрощуєш складне питання."
+  },
+  {
+   "en": "to sway",
+   "uk": "схилити (на свій бік); вплинути",
+   "ex": "Her argument swayed me in the end.",
+   "exUk": "Зрештою її аргумент схилив мене на її бік."
+  },
+  {
+   "en": "to reiterate",
+   "uk": "повторювати (наголошуючи)",
+   "ex": "Let me reiterate: I'm not against the idea.",
+   "exUk": "Повторю: я не проти цієї ідеї."
+  },
+  {
+   "en": "to elaborate on",
+   "uk": "докладніше пояснити; розвинути (думку)",
+   "ex": "Could you elaborate on what you mean?",
+   "exUk": "Можете докладніше пояснити, що ви маєте на увазі?"
+  },
+  {
+   "en": "to substantiate",
+   "uk": "обґрунтувати; підтвердити",
+   "ex": "Can you substantiate that claim?",
+   "exUk": "Чи можете ви обґрунтувати це твердження?"
+  },
+  {
+   "en": "to waver",
+   "uk": "вагатися; хитатися",
+   "ex": "She never wavered in her support for him.",
+   "exUk": "Вона ніколи не вагалася, підтримуючи його."
+  },
+  {
+   "en": "to take issue with",
+   "uk": "не погоджуватися з; заперечувати",
+   "ex": "I take issue with the idea that young people are lazy.",
+   "exUk": "Я не погоджуюся з думкою, що молодь лінива."
+  },
+  {
+   "en": "to play devil's advocate",
+   "uk": "грати роль адвоката диявола",
+   "ex": "Let me play devil's advocate for a moment.",
+   "exUk": "Дозволь я на хвилинку побуду адвокатом диявола."
+  },
+  {
+   "en": "I beg to differ.",
+   "uk": "Дозволю собі не погодитися.",
+   "ex": "I beg to differ — the film was brilliant.",
+   "exUk": "Дозволю собі не погодитися — фільм був блискучий."
+  },
+  {
+   "en": "compelling",
+   "uk": "переконливий; непереборний",
+   "ex": "She made a compelling case for moving to the countryside.",
+   "exUk": "Вона навела переконливі аргументи на користь переїзду за місто."
+  },
+  {
+   "en": "to hold water",
+   "uk": "бути переконливим; витримувати критику",
+   "ex": "His excuse doesn't hold water.",
+   "exUk": "Його виправдання не витримує критики."
+  },
+  {
+   "en": "contentious",
+   "uk": "суперечливий; дражливий",
+   "ex": "Immigration remains a contentious issue.",
+   "exUk": "Імміграція залишається дражливою темою."
+  },
+  {
+   "en": "dubious",
+   "uk": "сумнівний; скептичний",
+   "ex": "I'm dubious about his so-called miracle diet.",
+   "exUk": "Я скептично ставлюся до його так званої чудодійної дієти."
+  },
+  {
+   "en": "tenuous",
+   "uk": "хиткий; слабкий (зв'язок, аргумент)",
+   "ex": "The link between the two events is tenuous at best.",
+   "exUk": "Зв'язок між цими двома подіями в кращому разі дуже хиткий."
+  },
+  {
+   "en": "sound (advice, argument)",
+   "uk": "слушний; обґрунтований",
+   "ex": "That sounds like sound advice.",
+   "exUk": "Схоже на слушну пораду."
+  },
+  {
+   "en": "flawed",
+   "uk": "хибний; з вадами",
+   "ex": "The argument is fundamentally flawed.",
+   "exUk": "Цей аргумент хибний за своєю суттю."
+  },
+  {
+   "en": "to weigh in on",
+   "uk": "висловитися щодо; долучитися до дискусії",
+   "ex": "Everyone in the family weighed in on the wedding plans.",
+   "exUk": "Усі в родині висловилися щодо планів весілля."
+  },
+  {
+   "en": "one-sided",
+   "uk": "однобокий",
+   "ex": "It was a very one-sided account of what happened.",
+   "exUk": "Це була дуже однобока розповідь про те, що сталося."
+  },
+  {
+   "en": "debatable",
+   "uk": "дискусійний; спірний",
+   "ex": "Whether it was worth the money is debatable.",
+   "exUk": "Чи вартувало воно цих грошей — питання спірне."
+  },
+  {
+   "en": "valid",
+   "uk": "слушний; обґрунтований; чинний",
+   "ex": "You raise a valid point.",
+   "exUk": "Ви порушуєте слушне питання."
+  },
+  {
+   "en": "misguided",
+   "uk": "хибний; помилковий (хоч і з добрими намірами)",
+   "ex": "Their efforts were well-meant but misguided.",
+   "exUk": "Їхні зусилля були з добрими намірами, але хибні."
+  },
+  {
+   "en": "nuanced",
+   "uk": "виважений; з урахуванням нюансів",
+   "ex": "She gave a nuanced view of a complex issue.",
+   "exUk": "Вона висловила виважений погляд на складну проблему."
+  },
+  {
+   "en": "a sweeping generalisation",
+   "uk": "огульне узагальнення",
+   "ex": "Saying all politicians are corrupt is a sweeping generalisation.",
+   "exUk": "Казати, що всі політики корумповані, — це огульне узагальнення."
+  },
+  {
+   "en": "ill-informed",
+   "uk": "погано обізнаний; необізнаний",
+   "ex": "Much of the online debate is ill-informed.",
+   "exUk": "Значна частина дискусій у мережі ведеться без знання справи."
+  },
+  {
+   "en": "clear-cut",
+   "uk": "однозначний; чіткий",
+   "ex": "The answer isn't as clear-cut as it seems.",
+   "exUk": "Відповідь не така однозначна, як здається."
+  },
+  {
+   "en": "dogmatic",
+   "uk": "догматичний; категоричний",
+   "ex": "He's quite dogmatic about his diet.",
+   "exUk": "Він доволі категоричний щодо свого харчування."
+  },
+  {
+   "en": "impartial",
+   "uk": "неупереджений; безсторонній",
+   "ex": "It's hard to stay impartial when friends are involved.",
+   "exUk": "Важко залишатися неупередженим, коли йдеться про друзів."
+  },
+  {
+   "en": "a moot point",
+   "uk": "спірне питання; питання, що вже не має значення",
+   "ex": "Whether we'd have enjoyed the concert is a moot point — it's sold out.",
+   "exUk": "Чи сподобався б нам концерт — тепер уже неважливо: квитки розпродані."
+  },
+  {
+   "en": "untenable",
+   "uk": "неспроможний; що не витримує критики",
+   "ex": "That argument is simply untenable.",
+   "exUk": "Цей аргумент просто не витримує критики."
+  },
+  {
+   "en": "preposterous",
+   "uk": "абсурдний; безглуздий",
+   "ex": "The idea that he'd lie to me is preposterous.",
+   "exUk": "Думка, що він мені збреше, абсурдна."
+  },
+  {
+   "en": "misleading",
+   "uk": "оманливий; що вводить в оману",
+   "ex": "The headline is deliberately misleading.",
+   "exUk": "Заголовок навмисно вводить в оману."
+  },
+  {
+   "en": "conceivable",
+   "uk": "можливий; мислимий",
+   "ex": "It's conceivable that the shop will close.",
+   "exUk": "Цілком можливо, що магазин закриється."
+  },
+  {
+   "en": "inconclusive",
+   "uk": "непереконливий; що не дає однозначної відповіді",
+   "ex": "The evidence is inconclusive.",
+   "exUk": "Докази не дають однозначної відповіді."
+  },
+  {
+   "en": "a stance on",
+   "uk": "позиція щодо",
+   "ex": "What's your stance on nuclear energy?",
+   "exUk": "Яка твоя позиція щодо атомної енергетики?"
+  },
+  {
+   "en": "a counterargument",
+   "uk": "контраргумент",
+   "ex": "A common counterargument is that it's too expensive.",
+   "exUk": "Поширений контраргумент — що це надто дорого."
+  },
+  {
+   "en": "a grey area",
+   "uk": "сіра зона; неоднозначне питання",
+   "ex": "Whether that counts as cheating is a grey area.",
+   "exUk": "Чи вважати це шахрайством — питання неоднозначне."
+  },
+  {
+   "en": "a fallacy",
+   "uk": "хибне уявлення; логічна помилка",
+   "ex": "It's a fallacy that you need to be rich to travel.",
+   "exUk": "Це хибне уявлення, що для подорожей треба бути багатим."
+  },
+  {
+   "en": "to have reservations about",
+   "uk": "мати сумніви щодо",
+   "ex": "I have some reservations about the plan.",
+   "exUk": "У мене є певні сумніви щодо цього плану."
+  },
+  {
+   "en": "to stand to reason",
+   "uk": "бути логічним; само собою зрозуміло",
+   "ex": "It stands to reason that prices will go up.",
+   "exUk": "Логічно, що ціни зростуть."
+  }
+ ]
+}

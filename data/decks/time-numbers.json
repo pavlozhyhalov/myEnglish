@@ -1,0 +1,305 @@
+{
+ "id": "time-numbers",
+ "cards": [
+  {
+   "en": "Tuesday",
+   "uk": "вівторок",
+   "ex": "I have an English lesson on Tuesday.",
+   "exUk": "У вівторок у мене урок англійської."
+  },
+  {
+   "en": "Wednesday",
+   "uk": "середа",
+   "ex": "See you on Wednesday!",
+   "exUk": "Побачимося в середу!"
+  },
+  {
+   "en": "Thursday",
+   "uk": "четвер",
+   "ex": "We go to the gym on Thursdays.",
+   "exUk": "Ми ходимо в спортзал по четвергах."
+  },
+  {
+   "en": "Friday",
+   "uk": "п'ятниця",
+   "ex": "What are you doing on Friday night?",
+   "exUk": "Що ти робиш у п'ятницю ввечері?"
+  },
+  {
+   "en": "Saturday",
+   "uk": "субота",
+   "ex": "On Saturday we're visiting Vita's parents.",
+   "exUk": "У суботу ми їдемо в гості до батьків Віти."
+  },
+  {
+   "en": "Sunday",
+   "uk": "неділя",
+   "ex": "Most shops in Poland are closed on Sundays.",
+   "exUk": "У Польщі більшість магазинів по неділях зачинені."
+  },
+  {
+   "en": "January",
+   "uk": "січень",
+   "ex": "January is the coldest month.",
+   "exUk": "Січень — найхолодніший місяць."
+  },
+  {
+   "en": "February",
+   "uk": "лютий",
+   "ex": "February is the shortest month.",
+   "exUk": "Лютий — найкоротший місяць."
+  },
+  {
+   "en": "March",
+   "uk": "березень",
+   "ex": "Spring starts in March.",
+   "exUk": "Весна починається в березні."
+  },
+  {
+   "en": "April",
+   "uk": "квітень",
+   "ex": "It often rains in April.",
+   "exUk": "У квітні часто йде дощ."
+  },
+  {
+   "en": "May",
+   "uk": "травень",
+   "ex": "The weather is lovely in May.",
+   "exUk": "У травні чудова погода."
+  },
+  {
+   "en": "June",
+   "uk": "червень",
+   "ex": "The days are long in June.",
+   "exUk": "У червні дні довгі."
+  },
+  {
+   "en": "July",
+   "uk": "липень",
+   "ex": "We're going on holiday in July.",
+   "exUk": "У липні ми їдемо у відпустку."
+  },
+  {
+   "en": "August",
+   "uk": "серпень",
+   "ex": "August is usually very hot.",
+   "exUk": "Серпень зазвичай дуже спекотний."
+  },
+  {
+   "en": "September",
+   "uk": "вересень",
+   "ex": "School starts in September.",
+   "exUk": "Навчання в школі починається у вересні."
+  },
+  {
+   "en": "October",
+   "uk": "жовтень",
+   "ex": "The leaves fall in October.",
+   "exUk": "У жовтні опадає листя."
+  },
+  {
+   "en": "November",
+   "uk": "листопад",
+   "ex": "November is cold and grey.",
+   "exUk": "Листопад холодний і сірий."
+  },
+  {
+   "en": "December",
+   "uk": "грудень",
+   "ex": "Christmas is in December.",
+   "exUk": "Різдво — у грудні."
+  },
+  {
+   "en": "second",
+   "uk": "другий",
+   "ex": "This is my second time in London.",
+   "exUk": "Я в Лондоні вдруге."
+  },
+  {
+   "en": "third",
+   "uk": "третій",
+   "ex": "Take the third street on the left.",
+   "exUk": "Поверніть у третю вулицю ліворуч."
+  },
+  {
+   "en": "fifth",
+   "uk": "п'ятий",
+   "ex": "Today is the fifth of May.",
+   "exUk": "Сьогодні п'яте травня."
+  },
+  {
+   "en": "twelfth",
+   "uk": "дванадцятий",
+   "ex": "My birthday is on the twelfth of March.",
+   "exUk": "Мій день народження дванадцятого березня."
+  },
+  {
+   "en": "thirty-first",
+   "uk": "тридцять перший",
+   "ex": "We're having a party on the thirty-first of December.",
+   "exUk": "Тридцять першого грудня в нас вечірка."
+  },
+  {
+   "en": "thirteen / thirty",
+   "uk": "тринадцять, тридцять",
+   "ex": "Did you say thirteen or thirty?",
+   "exUk": "Ти сказав тринадцять чи тридцять?"
+  },
+  {
+   "en": "fifteen / fifty",
+   "uk": "п'ятнадцять, п'ятдесят",
+   "ex": "The bus comes every fifteen minutes.",
+   "exUk": "Автобус ходить кожні п'ятнадцять хвилин."
+  },
+  {
+   "en": "eighteen / eighty",
+   "uk": "вісімнадцять, вісімдесят",
+   "ex": "My grandad is eighty.",
+   "exUk": "Моєму дідусеві вісімдесят."
+  },
+  {
+   "en": "a thousand",
+   "uk": "тисяча",
+   "ex": "The flat costs three thousand złoty a month.",
+   "exUk": "Квартира коштує три тисячі злотих на місяць."
+  },
+  {
+   "en": "a million",
+   "uk": "мільйон",
+   "ex": "Almost two million people live in Warsaw.",
+   "exUk": "У Варшаві живе майже два мільйони людей."
+  },
+  {
+   "en": "half",
+   "uk": "половина, пів",
+   "ex": "I'll be there in half an hour.",
+   "exUk": "Я буду там за пів години."
+  },
+  {
+   "en": "a week",
+   "uk": "тиждень",
+   "ex": "I go to the gym three times a week.",
+   "exUk": "Я ходжу в спортзал тричі на тиждень."
+  },
+  {
+   "en": "a month",
+   "uk": "місяць",
+   "ex": "The course lasts a month.",
+   "exUk": "Курс триває місяць."
+  },
+  {
+   "en": "a year",
+   "uk": "рік",
+   "ex": "I've been learning English for a year.",
+   "exUk": "Я вчу англійську вже рік."
+  },
+  {
+   "en": "an hour",
+   "uk": "година",
+   "ex": "The film is two hours long.",
+   "exUk": "Фільм триває дві години."
+  },
+  {
+   "en": "a minute",
+   "uk": "хвилина",
+   "ex": "Wait a minute, please.",
+   "exUk": "Зачекайте хвилинку, будь ласка."
+  },
+  {
+   "en": "o'clock",
+   "uk": "рівно (про годину)",
+   "ex": "It's five o'clock.",
+   "exUk": "Зараз рівно п'ята."
+  },
+  {
+   "en": "a quarter past ten",
+   "uk": "чверть на одинадцяту, десята п'ятнадцять",
+   "ex": "The film starts at a quarter past ten.",
+   "exUk": "Фільм починається о десятій п'ятнадцять."
+  },
+  {
+   "en": "midday",
+   "uk": "полудень, опівдні",
+   "ex": "Let's meet at midday.",
+   "exUk": "Зустріньмося опівдні."
+  },
+  {
+   "en": "midnight",
+   "uk": "північ, опівночі",
+   "ex": "I went to bed after midnight.",
+   "exUk": "Я ліг спати після півночі."
+  },
+  {
+   "en": "in the afternoon",
+   "uk": "вдень, після обіду",
+   "ex": "I'm free in the afternoon.",
+   "exUk": "Я вільний після обіду."
+  },
+  {
+   "en": "the day after tomorrow",
+   "uk": "післязавтра",
+   "ex": "We're leaving the day after tomorrow.",
+   "exUk": "Ми їдемо післязавтра."
+  },
+  {
+   "en": "the day before yesterday",
+   "uk": "позавчора",
+   "ex": "I saw him the day before yesterday.",
+   "exUk": "Я бачив його позавчора."
+  },
+  {
+   "en": "last week",
+   "uk": "минулого тижня",
+   "ex": "I was ill last week.",
+   "exUk": "Минулого тижня я хворів."
+  },
+  {
+   "en": "next month",
+   "uk": "наступного місяця",
+   "ex": "We're moving next month.",
+   "exUk": "Наступного місяця ми переїжджаємо."
+  },
+  {
+   "en": "ago",
+   "uk": "тому",
+   "ex": "I called her ten minutes ago.",
+   "exUk": "Я дзвонив їй десять хвилин тому."
+  },
+  {
+   "en": "What's the date today?",
+   "uk": "Яке сьогодні число?",
+   "ex": "– What's the date today? – It's the third of June.",
+   "exUk": "– Яке сьогодні число? – Третє червня."
+  },
+  {
+   "en": "What day is it today?",
+   "uk": "Який сьогодні день?",
+   "ex": "– What day is it today? – It's Friday.",
+   "exUk": "– Який сьогодні день? – П'ятниця."
+  },
+  {
+   "en": "on time",
+   "uk": "вчасно",
+   "ex": "The train was on time.",
+   "exUk": "Потяг прибув вчасно."
+  },
+  {
+   "en": "soon",
+   "uk": "скоро, незабаром",
+   "ex": "See you soon!",
+   "exUk": "Скоро побачимося!"
+  },
+  {
+   "en": "now",
+   "uk": "зараз, тепер",
+   "ex": "I'm busy now. Can I call you later?",
+   "exUk": "Я зараз зайнятий. Можна я передзвоню пізніше?"
+  },
+  {
+   "en": "tonight",
+   "uk": "сьогодні ввечері, сьогодні вночі",
+   "ex": "What are we having for dinner tonight?",
+   "exUk": "Що в нас сьогодні на вечерю?"
+  }
+ ]
+}

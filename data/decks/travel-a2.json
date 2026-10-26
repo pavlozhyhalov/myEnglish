@@ -1,0 +1,275 @@
+{
+ "id": "travel-a2",
+ "cards": [
+  {
+   "en": "a ticket office",
+   "uk": "квиткова каса, каса",
+   "ex": "The ticket office is next to the entrance.",
+   "exUk": "Каса поруч із входом."
+  },
+  {
+   "en": "a ticket machine",
+   "uk": "квитковий автомат",
+   "ex": "You can buy a ticket from the machine on the tram.",
+   "exUk": "Квиток можна купити в автоматі в трамваї."
+  },
+  {
+   "en": "How much is a ticket to…?",
+   "uk": "Скільки коштує квиток до…?",
+   "ex": "How much is a ticket to Gdańsk?",
+   "exUk": "Скільки коштує квиток до Гданська?"
+  },
+  {
+   "en": "a timetable",
+   "uk": "розклад",
+   "ex": "Let's check the timetable.",
+   "exUk": "Давай перевіримо розклад."
+  },
+  {
+   "en": "departures / arrivals",
+   "uk": "відправлення, прибуття; виліт, приліт",
+   "ex": "Look at the departures board.",
+   "exUk": "Подивись на табло відправлень."
+  },
+  {
+   "en": "a seat reservation",
+   "uk": "бронювання місця",
+   "ex": "Do I need a seat reservation on this train?",
+   "exUk": "Чи потрібно бронювати місце в цьому потязі?"
+  },
+  {
+   "en": "first class / second class",
+   "uk": "перший клас, другий клас",
+   "ex": "A second-class ticket is much cheaper.",
+   "exUk": "Квиток другого класу набагато дешевший."
+  },
+  {
+   "en": "a carriage",
+   "uk": "вагон",
+   "ex": "Our seats are in carriage 7.",
+   "exUk": "Наші місця в сьомому вагоні."
+  },
+  {
+   "en": "a sleeper train",
+   "uk": "нічний потяг зі спальними місцями",
+   "ex": "We took a sleeper train to Budapest.",
+   "exUk": "Ми їхали до Будапешта нічним потягом."
+  },
+  {
+   "en": "When is the next train to…?",
+   "uk": "Коли наступний потяг до…?",
+   "ex": "When is the next train to Warsaw?",
+   "exUk": "Коли наступний потяг до Варшави?"
+  },
+  {
+   "en": "Does this train stop in…?",
+   "uk": "Цей потяг зупиняється в…?",
+   "ex": "Does this train stop in Katowice?",
+   "exUk": "Цей потяг зупиняється в Катовицях?"
+  },
+  {
+   "en": "a coach",
+   "uk": "міжміський автобус",
+   "ex": "The coach to Lviv leaves at nine.",
+   "exUk": "Автобус до Львова відправляється о дев'ятій."
+  },
+  {
+   "en": "the airport",
+   "uk": "аеропорт",
+   "ex": "The airport is twenty minutes by train.",
+   "exUk": "До аеропорту двадцять хвилин потягом."
+  },
+  {
+   "en": "a flight",
+   "uk": "рейс, переліт",
+   "ex": "Our flight is at 6 a.m.",
+   "exUk": "Наш рейс о шостій ранку."
+  },
+  {
+   "en": "a suitcase",
+   "uk": "валіза",
+   "ex": "My suitcase is too heavy.",
+   "exUk": "Моя валіза занадто важка."
+  },
+  {
+   "en": "a backpack",
+   "uk": "рюкзак",
+   "ex": "I only travel with a backpack.",
+   "exUk": "Я подорожую лише з рюкзаком."
+  },
+  {
+   "en": "a passport",
+   "uk": "паспорт",
+   "ex": "Don't forget your passport!",
+   "exUk": "Не забудь паспорт!"
+  },
+  {
+   "en": "an ID card",
+   "uk": "посвідчення особи, ID-картка",
+   "ex": "Can I see your ID card, please?",
+   "exUk": "Можна ваше посвідчення особи, будь ласка?"
+  },
+  {
+   "en": "a hotel",
+   "uk": "готель",
+   "ex": "We stayed at a small hotel near the beach.",
+   "exUk": "Ми зупинилися в невеликому готелі біля пляжу."
+  },
+  {
+   "en": "reception",
+   "uk": "рецепція",
+   "ex": "Please leave the key at reception.",
+   "exUk": "Будь ласка, залиште ключ на рецепції."
+  },
+  {
+   "en": "a single room / a double room",
+   "uk": "одномісний номер, двомісний номер",
+   "ex": "I'd like a double room, please.",
+   "exUk": "Я б хотів двомісний номер, будь ласка."
+  },
+  {
+   "en": "for two nights",
+   "uk": "на дві ночі",
+   "ex": "We'd like a room for two nights.",
+   "exUk": "Нам потрібен номер на дві ночі."
+  },
+  {
+   "en": "Do you have any rooms available?",
+   "uk": "У вас є вільні номери?",
+   "ex": "Do you have any rooms available for tonight?",
+   "exUk": "У вас є вільні номери на сьогодні?"
+  },
+  {
+   "en": "a key card",
+   "uk": "картка-ключ",
+   "ex": "My key card doesn't work.",
+   "exUk": "Моя картка-ключ не працює."
+  },
+  {
+   "en": "What's the Wi-Fi password?",
+   "uk": "Який пароль від Wi-Fi?",
+   "ex": "Excuse me, what's the Wi-Fi password?",
+   "exUk": "Перепрошую, який пароль від Wi-Fi?"
+  },
+  {
+   "en": "a lift",
+   "uk": "ліфт",
+   "ex": "The lift is out of order.",
+   "exUk": "Ліфт не працює."
+  },
+  {
+   "en": "a hostel",
+   "uk": "хостел",
+   "ex": "Hostels are cheaper than hotels.",
+   "exUk": "Хостели дешевші за готелі."
+  },
+  {
+   "en": "a souvenir",
+   "uk": "сувенір",
+   "ex": "Let's buy some souvenirs for our parents.",
+   "exUk": "Купімо сувеніри для батьків."
+  },
+  {
+   "en": "a tourist information centre",
+   "uk": "туристичний інформаційний центр",
+   "ex": "Ask at the tourist information centre.",
+   "exUk": "Запитайте в туристичному інформаційному центрі."
+  },
+  {
+   "en": "abroad",
+   "uk": "за кордоном, за кордон",
+   "ex": "Have you ever lived abroad?",
+   "exUk": "Ти колись жив за кордоном?"
+  },
+  {
+   "en": "a trip",
+   "uk": "поїздка, подорож",
+   "ex": "How was your trip?",
+   "exUk": "Як минула поїздка?"
+  },
+  {
+   "en": "a journey",
+   "uk": "поїздка, дорога",
+   "ex": "The journey takes three hours.",
+   "exUk": "Дорога займає три години."
+  },
+  {
+   "en": "to travel",
+   "uk": "подорожувати, їздити",
+   "ex": "We love to travel.",
+   "exUk": "Ми любимо подорожувати."
+  },
+  {
+   "en": "to arrive",
+   "uk": "прибувати, приїжджати",
+   "ex": "The train arrives at 10:15.",
+   "exUk": "Потяг прибуває о 10:15."
+  },
+  {
+   "en": "in advance",
+   "uk": "заздалегідь",
+   "ex": "It's cheaper to book tickets in advance.",
+   "exUk": "Квитки дешевше бронювати заздалегідь."
+  },
+  {
+   "en": "to change trains",
+   "uk": "робити пересадку",
+   "ex": "We have to change trains in Warsaw.",
+   "exUk": "У Варшаві нам треба зробити пересадку."
+  },
+  {
+   "en": "Can I leave my luggage here?",
+   "uk": "Можна залишити тут багаж?",
+   "ex": "Can I leave my luggage here until five?",
+   "exUk": "Можна залишити тут багаж до п'ятої?"
+  },
+  {
+   "en": "a taxi rank",
+   "uk": "стоянка таксі",
+   "ex": "The taxi rank is outside the station.",
+   "exUk": "Стоянка таксі — біля вокзалу."
+  },
+  {
+   "en": "an exit / an entrance",
+   "uk": "вихід, вхід",
+   "ex": "Where's the exit?",
+   "exUk": "Де вихід?"
+  },
+  {
+   "en": "Where are the toilets?",
+   "uk": "Де туалет?",
+   "ex": "Excuse me, where are the toilets?",
+   "exUk": "Перепрошую, де туалет?"
+  },
+  {
+   "en": "a waiting room",
+   "uk": "зала очікування",
+   "ex": "Let's sit in the waiting room.",
+   "exUk": "Посидьмо в залі очікування."
+  },
+  {
+   "en": "a ticket inspector",
+   "uk": "контролер",
+   "ex": "The ticket inspector asked to see our tickets.",
+   "exUk": "Контролер попросив показати квитки."
+  },
+  {
+   "en": "a fine",
+   "uk": "штраф",
+   "ex": "If you don't have a ticket, you'll get a fine.",
+   "exUk": "Якщо в тебе немає квитка, отримаєш штраф."
+  },
+  {
+   "en": "a guidebook",
+   "uk": "путівник",
+   "ex": "I bought a guidebook to Rome.",
+   "exUk": "Я купив путівник по Риму."
+  },
+  {
+   "en": "to validate a ticket",
+   "uk": "прокомпостувати квиток",
+   "ex": "Don't forget to validate your ticket on the tram.",
+   "exUk": "Не забудь прокомпостувати квиток у трамваї."
+  }
+ ]
+}

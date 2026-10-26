@@ -1,0 +1,305 @@
+{
+ "id": "hobbies",
+ "cards": [
+  {
+   "en": "free time",
+   "uk": "вільний час",
+   "ex": "What do you do in your free time?",
+   "exUk": "Що ти робиш у вільний час?"
+  },
+  {
+   "en": "a hobby",
+   "uk": "хобі, захоплення",
+   "ex": "Do you have any hobbies?",
+   "exUk": "У тебе є якісь хобі?"
+  },
+  {
+   "en": "to be interested in",
+   "uk": "цікавитися (чимось)",
+   "ex": "I'm interested in history.",
+   "exUk": "Я цікавлюся історією."
+  },
+  {
+   "en": "to enjoy",
+   "uk": "любити (щось робити), отримувати задоволення",
+   "ex": "I really enjoy cooking.",
+   "exUk": "Я дуже люблю готувати."
+  },
+  {
+   "en": "to be good at",
+   "uk": "добре вміти, мати хист до",
+   "ex": "Vita is good at drawing.",
+   "exUk": "Віта добре малює."
+  },
+  {
+   "en": "to be keen on",
+   "uk": "захоплюватися, дуже любити",
+   "ex": "He's keen on football.",
+   "exUk": "Він захоплюється футболом."
+  },
+  {
+   "en": "to go swimming",
+   "uk": "ходити плавати, ходити на плавання",
+   "ex": "We go swimming on Sundays.",
+   "exUk": "Ми ходимо плавати по неділях."
+  },
+  {
+   "en": "to go running",
+   "uk": "бігати, ходити на пробіжку",
+   "ex": "I go running before work.",
+   "exUk": "Я бігаю перед роботою."
+  },
+  {
+   "en": "to go skiing",
+   "uk": "кататися на лижах",
+   "ex": "We go skiing in Zakopane every winter.",
+   "exUk": "Щозими ми їздимо кататися на лижах у Закопане."
+  },
+  {
+   "en": "to play football",
+   "uk": "грати у футбол",
+   "ex": "I play football with friends on Fridays.",
+   "exUk": "По п'ятницях я граю у футбол із друзями."
+  },
+  {
+   "en": "to play the guitar",
+   "uk": "грати на гітарі",
+   "ex": "I'd love to learn to play the guitar.",
+   "exUk": "Я дуже хотів би навчитися грати на гітарі."
+  },
+  {
+   "en": "to play chess",
+   "uk": "грати в шахи",
+   "ex": "My dad taught me to play chess.",
+   "exUk": "Тато навчив мене грати в шахи."
+  },
+  {
+   "en": "board games",
+   "uk": "настільні ігри",
+   "ex": "We often play board games with friends.",
+   "exUk": "Ми часто граємо з друзями в настільні ігри."
+  },
+  {
+   "en": "video games",
+   "uk": "відеоігри, комп'ютерні ігри",
+   "ex": "He plays video games every evening.",
+   "exUk": "Він щовечора грає у відеоігри."
+  },
+  {
+   "en": "to go to the gym",
+   "uk": "ходити в спортзал",
+   "ex": "I try to go to the gym after work.",
+   "exUk": "Я намагаюся ходити в спортзал після роботи."
+  },
+  {
+   "en": "to do yoga",
+   "uk": "займатися йогою",
+   "ex": "Vita does yoga every morning.",
+   "exUk": "Віта щоранку займається йогою."
+  },
+  {
+   "en": "to draw",
+   "uk": "малювати (олівцем)",
+   "ex": "I can't draw at all.",
+   "exUk": "Я зовсім не вмію малювати."
+  },
+  {
+   "en": "to paint",
+   "uk": "малювати фарбами; фарбувати",
+   "ex": "She paints landscapes.",
+   "exUk": "Вона малює пейзажі."
+  },
+  {
+   "en": "to sing",
+   "uk": "співати",
+   "ex": "He sings in a choir.",
+   "exUk": "Він співає в хорі."
+  },
+  {
+   "en": "to dance",
+   "uk": "танцювати",
+   "ex": "Do you want to dance?",
+   "exUk": "Хочеш потанцювати?"
+  },
+  {
+   "en": "photography",
+   "uk": "фотографія (як хобі), фотографування",
+   "ex": "Photography is my favourite hobby.",
+   "exUk": "Фотографія — моє улюблене хобі."
+  },
+  {
+   "en": "to go camping",
+   "uk": "ходити в похід з наметом",
+   "ex": "We went camping by the lake.",
+   "exUk": "Ми їздили з наметом на озеро."
+  },
+  {
+   "en": "to go fishing",
+   "uk": "ходити на риболовлю, рибалити",
+   "ex": "My grandad goes fishing every weekend.",
+   "exUk": "Мій дідусь щовихідних ходить на риболовлю."
+  },
+  {
+   "en": "gardening",
+   "uk": "садівництво, робота в саду",
+   "ex": "My mum loves gardening.",
+   "exUk": "Моя мама обожнює поратися в саду."
+  },
+  {
+   "en": "a concert",
+   "uk": "концерт",
+   "ex": "We're going to a concert on Friday.",
+   "exUk": "У п'ятницю ми йдемо на концерт."
+  },
+  {
+   "en": "an exhibition",
+   "uk": "виставка",
+   "ex": "There's a new exhibition at the museum.",
+   "exUk": "У музеї нова виставка."
+  },
+  {
+   "en": "a match",
+   "uk": "матч",
+   "ex": "Did you watch the match last night?",
+   "exUk": "Ти дивився вчорашній матч?"
+  },
+  {
+   "en": "a film",
+   "uk": "фільм",
+   "ex": "Have you seen any good films lately?",
+   "exUk": "Ти бачив останнім часом якісь хороші фільми?"
+  },
+  {
+   "en": "a TV series",
+   "uk": "серіал",
+   "ex": "We're watching a new TV series.",
+   "exUk": "Ми дивимося новий серіал."
+  },
+  {
+   "en": "a novel",
+   "uk": "роман",
+   "ex": "I'm reading a great novel.",
+   "exUk": "Я читаю чудовий роман."
+  },
+  {
+   "en": "a podcast",
+   "uk": "подкаст",
+   "ex": "I listen to podcasts on the tram.",
+   "exUk": "Я слухаю подкасти в трамваї."
+  },
+  {
+   "en": "a team",
+   "uk": "команда",
+   "ex": "Which team do you support?",
+   "exUk": "За яку команду ти вболіваєш?"
+  },
+  {
+   "en": "to win",
+   "uk": "вигравати, перемагати",
+   "ex": "Our team won 2–1.",
+   "exUk": "Наша команда виграла 2:1."
+  },
+  {
+   "en": "to score a goal",
+   "uk": "забити гол",
+   "ex": "He scored a goal in the last minute.",
+   "exUk": "Він забив гол на останній хвилині."
+  },
+  {
+   "en": "to join a club",
+   "uk": "вступити до клубу, записатися в клуб",
+   "ex": "I want to join a running club.",
+   "exUk": "Я хочу записатися в клуб бігу."
+  },
+  {
+   "en": "to practise",
+   "uk": "тренуватися, практикуватися",
+   "ex": "I practise the guitar every day.",
+   "exUk": "Я щодня тренуюся грати на гітарі."
+  },
+  {
+   "en": "to take lessons",
+   "uk": "брати уроки, ходити на заняття",
+   "ex": "She takes dance lessons.",
+   "exUk": "Вона ходить на уроки танців."
+  },
+  {
+   "en": "to collect",
+   "uk": "колекціонувати, збирати",
+   "ex": "My brother collects stamps.",
+   "exUk": "Мій брат колекціонує марки."
+  },
+  {
+   "en": "a jigsaw puzzle",
+   "uk": "пазл",
+   "ex": "We did a 1,000-piece jigsaw puzzle.",
+   "exUk": "Ми склали пазл на тисячу деталей."
+  },
+  {
+   "en": "a musical instrument",
+   "uk": "музичний інструмент",
+   "ex": "Do you play a musical instrument?",
+   "exUk": "Ти граєш на якомусь музичному інструменті?"
+  },
+  {
+   "en": "How often do you…?",
+   "uk": "Як часто ти…?",
+   "ex": "How often do you go swimming?",
+   "exUk": "Як часто ти ходиш плавати?"
+  },
+  {
+   "en": "once a week",
+   "uk": "раз на тиждень",
+   "ex": "I see my friends once a week.",
+   "exUk": "Я бачуся з друзями раз на тиждень."
+  },
+  {
+   "en": "twice a month",
+   "uk": "двічі на місяць",
+   "ex": "We eat out twice a month.",
+   "exUk": "Ми ходимо в ресторан двічі на місяць."
+  },
+  {
+   "en": "relaxing",
+   "uk": "розслаблювальний, заспокійливий",
+   "ex": "Fishing is very relaxing.",
+   "exUk": "Риболовля дуже заспокоює."
+  },
+  {
+   "en": "exciting",
+   "uk": "захопливий",
+   "ex": "The match was really exciting.",
+   "exUk": "Матч був дуже захопливий."
+  },
+  {
+   "en": "to have fun",
+   "uk": "розважатися, весело проводити час",
+   "ex": "Have fun at the party!",
+   "exUk": "Веселої вечірки!"
+  },
+  {
+   "en": "to go on a picnic",
+   "uk": "піти на пікнік",
+   "ex": "Let's go on a picnic this weekend.",
+   "exUk": "Ходімо на пікнік цими вихідними."
+  },
+  {
+   "en": "a festival",
+   "uk": "фестиваль",
+   "ex": "There's a music festival in Kraków every summer.",
+   "exUk": "Щоліта в Кракові проходить музичний фестиваль."
+  },
+  {
+   "en": "the theatre",
+   "uk": "театр",
+   "ex": "We go to the theatre twice a year.",
+   "exUk": "Ми ходимо в театр двічі на рік."
+  },
+  {
+   "en": "to try something new",
+   "uk": "спробувати щось нове",
+   "ex": "This year I want to try something new.",
+   "exUk": "Цього року я хочу спробувати щось нове."
+  }
+ ]
+}

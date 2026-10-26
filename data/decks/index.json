@@ -261,6 +261,60 @@
   "count": 40
  },
  {
+  "id": "idioms-c1",
+  "name": "Ідіоми C1",
+  "emoji": "sparkles",
+  "group": "general",
+  "level": "C1",
+  "desc": "Рідші, але живі ідіоми для природного мовлення",
+  "count": 50
+ },
+ {
+  "id": "phrasal-c1",
+  "name": "Фразові дієслова C1",
+  "emoji": "puzzle",
+  "group": "general",
+  "level": "C1",
+  "desc": "Тонкі фразові дієслова: gloss over, iron out, pan out",
+  "count": 50
+ },
+ {
+  "id": "opinions-c1",
+  "name": "Аргументація й нюанси",
+  "emoji": "bulb",
+  "group": "general",
+  "level": "C1",
+  "desc": "Слова, щоб тонко висловлювати думку й сперечатися",
+  "count": 50
+ },
+ {
+  "id": "emotions-c1",
+  "name": "Тонкі емоції й характер",
+  "emoji": "theater",
+  "group": "general",
+  "level": "C1",
+  "desc": "Відтінки почуттів і риси характеру",
+  "count": 50
+ },
+ {
+  "id": "register-c1",
+  "name": "Офіційно й розмовно",
+  "emoji": "speaking",
+  "group": "general",
+  "level": "C1",
+  "desc": "Пари «офіційне ↔ розмовне»: commence, reckon, skint",
+  "count": 50
+ },
+ {
+  "id": "word-formation-c1",
+  "name": "Словотвір і колокації C1",
+  "emoji": "brain",
+  "group": "general",
+  "level": "C1",
+  "desc": "Родини слів і стійкі сполучення рівня C1",
+  "count": 50
+ },
+ {
   "id": "cnc",
   "name": "CNC і обробка",
   "emoji": "wrench",

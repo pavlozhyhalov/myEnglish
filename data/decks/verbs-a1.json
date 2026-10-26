@@ -1,0 +1,305 @@
+{
+ "id": "verbs-a1",
+ "cards": [
+  {
+   "en": "to be",
+   "uk": "бути",
+   "ex": "We are from Ukraine.",
+   "exUk": "Ми з України."
+  },
+  {
+   "en": "to have",
+   "uk": "мати",
+   "ex": "We have a small flat in Kraków.",
+   "exUk": "У нас невелика квартира в Кракові."
+  },
+  {
+   "en": "to do",
+   "uk": "робити",
+   "ex": "What are you doing?",
+   "exUk": "Що ти робиш?"
+  },
+  {
+   "en": "to make",
+   "uk": "робити, готувати, створювати",
+   "ex": "I make coffee every morning.",
+   "exUk": "Я щоранку готую каву."
+  },
+  {
+   "en": "to get",
+   "uk": "отримувати, діставати",
+   "ex": "Did you get my message?",
+   "exUk": "Ти отримав моє повідомлення?"
+  },
+  {
+   "en": "to take",
+   "uk": "брати, взяти",
+   "ex": "Take an umbrella.",
+   "exUk": "Візьми парасольку."
+  },
+  {
+   "en": "to give",
+   "uk": "давати, дати",
+   "ex": "Can you give me your number?",
+   "exUk": "Можеш дати мені свій номер?"
+  },
+  {
+   "en": "to see",
+   "uk": "бачити",
+   "ex": "I can't see without my glasses.",
+   "exUk": "Без окулярів я нічого не бачу."
+  },
+  {
+   "en": "to look at",
+   "uk": "дивитися на",
+   "ex": "Look at this photo!",
+   "exUk": "Подивись на це фото!"
+  },
+  {
+   "en": "to watch",
+   "uk": "дивитися (фільм, матч)",
+   "ex": "We watched a film last night.",
+   "exUk": "Учора ввечері ми дивилися фільм."
+  },
+  {
+   "en": "to hear",
+   "uk": "чути",
+   "ex": "Can you hear me?",
+   "exUk": "Ти мене чуєш?"
+  },
+  {
+   "en": "to listen (to)",
+   "uk": "слухати",
+   "ex": "Listen to me, please.",
+   "exUk": "Послухай мене, будь ласка."
+  },
+  {
+   "en": "to say",
+   "uk": "казати, сказати",
+   "ex": "What did you say?",
+   "exUk": "Що ти сказав?"
+  },
+  {
+   "en": "to tell",
+   "uk": "розповідати, казати (комусь)",
+   "ex": "Tell me about your day.",
+   "exUk": "Розкажи мені про свій день."
+  },
+  {
+   "en": "to speak",
+   "uk": "говорити, розмовляти (мовою)",
+   "ex": "Do you speak Polish?",
+   "exUk": "Ти говориш польською?"
+  },
+  {
+   "en": "to talk",
+   "uk": "розмовляти, говорити",
+   "ex": "Can we talk later?",
+   "exUk": "Можемо поговорити пізніше?"
+  },
+  {
+   "en": "to ask",
+   "uk": "питати, просити",
+   "ex": "Can I ask you a question?",
+   "exUk": "Можна тебе дещо запитати?"
+  },
+  {
+   "en": "to answer",
+   "uk": "відповідати",
+   "ex": "He didn't answer my question.",
+   "exUk": "Він не відповів на моє запитання."
+  },
+  {
+   "en": "to think",
+   "uk": "думати",
+   "ex": "I think it's a good idea.",
+   "exUk": "Я думаю, це гарна ідея."
+  },
+  {
+   "en": "to understand",
+   "uk": "розуміти",
+   "ex": "Do you understand me?",
+   "exUk": "Ти мене розумієш?"
+  },
+  {
+   "en": "to learn",
+   "uk": "вчити, вивчати",
+   "ex": "I'm learning English.",
+   "exUk": "Я вчу англійську."
+  },
+  {
+   "en": "to study",
+   "uk": "вчитися, навчатися",
+   "ex": "She studies at university.",
+   "exUk": "Вона навчається в університеті."
+  },
+  {
+   "en": "to teach",
+   "uk": "навчати, викладати",
+   "ex": "Can you teach me to cook?",
+   "exUk": "Можеш навчити мене готувати?"
+  },
+  {
+   "en": "to work",
+   "uk": "працювати",
+   "ex": "I work five days a week.",
+   "exUk": "Я працюю п'ять днів на тиждень."
+  },
+  {
+   "en": "to live",
+   "uk": "жити",
+   "ex": "We live in Kraków.",
+   "exUk": "Ми живемо в Кракові."
+  },
+  {
+   "en": "to play",
+   "uk": "грати, гратися",
+   "ex": "The children are playing in the garden.",
+   "exUk": "Діти граються в саду."
+  },
+  {
+   "en": "to start",
+   "uk": "починати(ся)",
+   "ex": "When do you start work?",
+   "exUk": "О котрій ти починаєш роботу?"
+  },
+  {
+   "en": "to finish",
+   "uk": "закінчувати",
+   "ex": "I finish work at five.",
+   "exUk": "Я закінчую роботу о п'ятій."
+  },
+  {
+   "en": "to stop",
+   "uk": "зупиняти(ся), припиняти",
+   "ex": "Please stop talking.",
+   "exUk": "Будь ласка, перестаньте розмовляти."
+  },
+  {
+   "en": "to sit down",
+   "uk": "сідати, сісти",
+   "ex": "Please sit down.",
+   "exUk": "Сідайте, будь ласка."
+  },
+  {
+   "en": "to stand up",
+   "uk": "вставати, встати",
+   "ex": "Everyone stood up.",
+   "exUk": "Усі встали."
+  },
+  {
+   "en": "to run",
+   "uk": "бігати, бігти",
+   "ex": "I run in the park every morning.",
+   "exUk": "Щоранку я бігаю в парку."
+  },
+  {
+   "en": "to love",
+   "uk": "любити, кохати",
+   "ex": "I love this city.",
+   "exUk": "Я люблю це місто."
+  },
+  {
+   "en": "to call",
+   "uk": "дзвонити, телефонувати",
+   "ex": "I'll call you tonight.",
+   "exUk": "Я подзвоню тобі ввечері."
+  },
+  {
+   "en": "to write",
+   "uk": "писати",
+   "ex": "Write your name here, please.",
+   "exUk": "Напишіть тут своє ім'я, будь ласка."
+  },
+  {
+   "en": "to find",
+   "uk": "знаходити, знайти",
+   "ex": "I can't find my keys.",
+   "exUk": "Не можу знайти ключі."
+  },
+  {
+   "en": "to lose",
+   "uk": "губити, втрачати; програвати",
+   "ex": "Don't lose your ticket.",
+   "exUk": "Не загуби квиток."
+  },
+  {
+   "en": "to put",
+   "uk": "класти, ставити",
+   "ex": "Put your bag here.",
+   "exUk": "Поклади сумку сюди."
+  },
+  {
+   "en": "to bring",
+   "uk": "приносити, привозити",
+   "ex": "Can you bring some bread?",
+   "exUk": "Можеш принести хліба?"
+  },
+  {
+   "en": "to try",
+   "uk": "пробувати, намагатися",
+   "ex": "Try this cake. It's delicious!",
+   "exUk": "Спробуй цей торт. Він дуже смачний!"
+  },
+  {
+   "en": "to use",
+   "uk": "використовувати, користуватися",
+   "ex": "Can I use your phone?",
+   "exUk": "Можна скористатися твоїм телефоном?"
+  },
+  {
+   "en": "to feel",
+   "uk": "почуватися, відчувати",
+   "ex": "How do you feel today?",
+   "exUk": "Як ти сьогодні почуваєшся?"
+  },
+  {
+   "en": "to meet",
+   "uk": "зустрічати(ся), знайомитися",
+   "ex": "Let's meet at six.",
+   "exUk": "Зустріньмося о шостій."
+  },
+  {
+   "en": "to leave",
+   "uk": "іти, виїжджати; залишати",
+   "ex": "What time do you leave home?",
+   "exUk": "О котрій ти виходиш з дому?"
+  },
+  {
+   "en": "to stay",
+   "uk": "залишатися, зупинятися",
+   "ex": "Stay here. I'll be back soon.",
+   "exUk": "Залишайся тут. Я скоро повернуся."
+  },
+  {
+   "en": "to sell",
+   "uk": "продавати",
+   "ex": "They sell fresh fish here.",
+   "exUk": "Тут продають свіжу рибу."
+  },
+  {
+   "en": "to send",
+   "uk": "надсилати, відправляти",
+   "ex": "I'll send you the photos.",
+   "exUk": "Я надішлю тобі фото."
+  },
+  {
+   "en": "to wash",
+   "uk": "мити, прати",
+   "ex": "Wash your hands before dinner.",
+   "exUk": "Помий руки перед вечерею."
+  },
+  {
+   "en": "to remember",
+   "uk": "пам'ятати, згадувати",
+   "ex": "I don't remember his name.",
+   "exUk": "Я не пам'ятаю, як його звати."
+  },
+  {
+   "en": "to show",
+   "uk": "показувати",
+   "ex": "Can you show me the way?",
+   "exUk": "Можете показати мені дорогу?"
+  }
+ ]
+}

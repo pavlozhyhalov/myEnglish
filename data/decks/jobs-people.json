@@ -1,0 +1,245 @@
+{
+ "id": "jobs-people",
+ "cards": [
+  {
+   "en": "a doctor",
+   "uk": "лікар, лікарка",
+   "ex": "You should see a doctor.",
+   "exUk": "Тобі варто піти до лікаря."
+  },
+  {
+   "en": "a nurse",
+   "uk": "медсестра, медбрат",
+   "ex": "The nurse took my blood pressure.",
+   "exUk": "Медсестра поміряла мені тиск."
+  },
+  {
+   "en": "a teacher",
+   "uk": "вчитель, вчителька",
+   "ex": "My English teacher is from Manchester.",
+   "exUk": "Мій учитель англійської з Манчестера."
+  },
+  {
+   "en": "a shop assistant",
+   "uk": "продавець, консультант у магазині",
+   "ex": "Ask the shop assistant.",
+   "exUk": "Запитай у продавця."
+  },
+  {
+   "en": "a waiter / a waitress",
+   "uk": "офіціант, офіціантка",
+   "ex": "The waiter brought us the menu.",
+   "exUk": "Офіціант приніс нам меню."
+  },
+  {
+   "en": "a chef",
+   "uk": "кухар, шеф-кухар",
+   "ex": "The chef here is Italian.",
+   "exUk": "Кухар тут — італієць."
+  },
+  {
+   "en": "a driver",
+   "uk": "водій",
+   "ex": "The bus driver was very friendly.",
+   "exUk": "Водій автобуса був дуже привітний."
+  },
+  {
+   "en": "a police officer",
+   "uk": "поліцейський, поліцейська",
+   "ex": "A police officer helped us find the way.",
+   "exUk": "Поліцейський допоміг нам знайти дорогу."
+  },
+  {
+   "en": "a firefighter",
+   "uk": "пожежник, рятувальник",
+   "ex": "The firefighters arrived in five minutes.",
+   "exUk": "Пожежники приїхали за п'ять хвилин."
+  },
+  {
+   "en": "a hairdresser",
+   "uk": "перукар, перукарка",
+   "ex": "I'm going to the hairdresser's tomorrow.",
+   "exUk": "Завтра я йду до перукаря."
+  },
+  {
+   "en": "a builder",
+   "uk": "будівельник",
+   "ex": "The builders are working next door.",
+   "exUk": "Будівельники працюють у сусідньому будинку."
+  },
+  {
+   "en": "a plumber",
+   "uk": "сантехнік",
+   "ex": "We need to call a plumber.",
+   "exUk": "Треба викликати сантехніка."
+  },
+  {
+   "en": "an electrician",
+   "uk": "електрик",
+   "ex": "The electrician fixed the lights.",
+   "exUk": "Електрик полагодив світло."
+  },
+  {
+   "en": "a mechanic",
+   "uk": "механік, автомеханік",
+   "ex": "The mechanic says the car is fine.",
+   "exUk": "Механік каже, що з машиною все гаразд."
+  },
+  {
+   "en": "a cleaner",
+   "uk": "прибиральник, прибиральниця",
+   "ex": "The cleaner comes on Fridays.",
+   "exUk": "Прибиральниця приходить по п'ятницях."
+  },
+  {
+   "en": "a lawyer",
+   "uk": "юрист, адвокат",
+   "ex": "You should talk to a lawyer.",
+   "exUk": "Тобі варто порадитися з юристом."
+  },
+  {
+   "en": "an accountant",
+   "uk": "бухгалтер",
+   "ex": "My accountant does my taxes.",
+   "exUk": "Мій бухгалтер займається моїми податками."
+  },
+  {
+   "en": "an engineer",
+   "uk": "інженер",
+   "ex": "Is your husband an engineer too?",
+   "exUk": "Твій чоловік теж інженер?"
+  },
+  {
+   "en": "a programmer",
+   "uk": "програміст, програмістка",
+   "ex": "My friend is a programmer and works from home.",
+   "exUk": "Мій друг — програміст і працює з дому."
+  },
+  {
+   "en": "a manager",
+   "uk": "менеджер, керівник",
+   "ex": "I need to talk to my manager.",
+   "exUk": "Мені треба поговорити зі своїм керівником."
+  },
+  {
+   "en": "a receptionist",
+   "uk": "адміністратор, рецепціоніст",
+   "ex": "The receptionist gave us the keys.",
+   "exUk": "Адміністратор дав нам ключі."
+  },
+  {
+   "en": "a pharmacist",
+   "uk": "фармацевт, аптекар",
+   "ex": "Ask the pharmacist about it.",
+   "exUk": "Запитайте про це у фармацевта."
+  },
+  {
+   "en": "a vet",
+   "uk": "ветеринар",
+   "ex": "We took the cat to the vet.",
+   "exUk": "Ми відвезли кота до ветеринара."
+  },
+  {
+   "en": "a courier",
+   "uk": "кур'єр",
+   "ex": "The courier left the parcel with our neighbour.",
+   "exUk": "Кур'єр залишив посилку в нашого сусіда."
+  },
+  {
+   "en": "a cashier",
+   "uk": "касир, касирка",
+   "ex": "The cashier gave me the wrong change.",
+   "exUk": "Касир дав мені неправильну решту."
+  },
+  {
+   "en": "a farmer",
+   "uk": "фермер",
+   "ex": "We buy eggs from a local farmer.",
+   "exUk": "Ми купуємо яйця в місцевого фермера."
+  },
+  {
+   "en": "a translator",
+   "uk": "перекладач, перекладачка",
+   "ex": "We used a translator for the documents.",
+   "exUk": "Для документів ми звернулися до перекладача."
+  },
+  {
+   "en": "a nanny",
+   "uk": "няня",
+   "ex": "We're looking for a nanny.",
+   "exUk": "Ми шукаємо няню."
+  },
+  {
+   "en": "a student",
+   "uk": "студент, студентка",
+   "ex": "My sister is a student in Wrocław.",
+   "exUk": "Моя сестра — студентка у Вроцлаві."
+  },
+  {
+   "en": "a colleague",
+   "uk": "колега",
+   "ex": "I'm having lunch with a colleague.",
+   "exUk": "Я обідаю з колегою."
+  },
+  {
+   "en": "a boss",
+   "uk": "начальник, бос",
+   "ex": "My boss is very nice.",
+   "exUk": "Мій начальник дуже приємний."
+  },
+  {
+   "en": "a customer",
+   "uk": "клієнт, покупець",
+   "ex": "The customer is always right.",
+   "exUk": "Клієнт завжди правий."
+  },
+  {
+   "en": "a stranger",
+   "uk": "незнайомець, незнайома людина",
+   "ex": "Don't talk to strangers.",
+   "exUk": "Не розмовляй з незнайомцями."
+  },
+  {
+   "en": "a guest",
+   "uk": "гість",
+   "ex": "We're having guests for dinner.",
+   "exUk": "У нас на вечерю будуть гості."
+  },
+  {
+   "en": "a flatmate",
+   "uk": "сусід по квартирі",
+   "ex": "I lived with two flatmates as a student.",
+   "exUk": "Студентом я жив із двома сусідами по квартирі."
+  },
+  {
+   "en": "an employee",
+   "uk": "працівник, співробітник",
+   "ex": "The company has fifty employees.",
+   "exUk": "У компанії п'ятдесят працівників."
+  },
+  {
+   "en": "to work as",
+   "uk": "працювати (ким)",
+   "ex": "My brother works as a driver.",
+   "exUk": "Мій брат працює водієм."
+  },
+  {
+   "en": "to work from home",
+   "uk": "працювати з дому",
+   "ex": "I work from home on Fridays.",
+   "exUk": "По п'ятницях я працюю з дому."
+  },
+  {
+   "en": "full-time / part-time",
+   "uk": "на повний робочий день, на неповний робочий день",
+   "ex": "She works part-time in a café.",
+   "exUk": "Вона працює неповний день у кав'ярні."
+  },
+  {
+   "en": "to be retired",
+   "uk": "бути на пенсії",
+   "ex": "My parents are retired.",
+   "exUk": "Мої батьки на пенсії."
+  }
+ ]
+}

@@ -1,0 +1,305 @@
+{
+ "id": "phrasal-c1",
+ "cards": [
+  {
+   "en": "to gloss over",
+   "uk": "оминати; згадувати побіжно",
+   "ex": "The article glosses over the real causes of the crisis.",
+   "exUk": "Стаття побіжно оминає справжні причини кризи."
+  },
+  {
+   "en": "to iron out",
+   "uk": "владнати; усунути (недоліки)",
+   "ex": "We still need to iron out a few details before the trip.",
+   "exUk": "Нам ще треба владнати кілька деталей перед поїздкою."
+  },
+  {
+   "en": "to pan out",
+   "uk": "складатися; виходити (про події)",
+   "ex": "Let's see how things pan out before we decide.",
+   "exUk": "Подивімося, як усе складеться, перш ніж вирішувати."
+  },
+  {
+   "en": "to mull over",
+   "uk": "обмірковувати",
+   "ex": "I need a few days to mull it over.",
+   "exUk": "Мені треба кілька днів, щоб це обміркувати."
+  },
+  {
+   "en": "to stumble upon",
+   "uk": "випадково натрапити на",
+   "ex": "We stumbled upon a lovely little café near Kazimierz.",
+   "exUk": "Ми випадково натрапили на чудову маленьку кав'ярню біля Казімежа."
+  },
+  {
+   "en": "to fob someone off",
+   "uk": "відбутися від когось; відмахнутися",
+   "ex": "Don't let them fob you off with excuses — ask for a refund.",
+   "exUk": "Не дозволяй їм відбутися відмовками — вимагай повернення грошей."
+  },
+  {
+   "en": "to rope someone in",
+   "uk": "втягнути когось; залучити",
+   "ex": "My sister roped me into helping with her move.",
+   "exUk": "Сестра втягнула мене в допомогу з переїздом."
+  },
+  {
+   "en": "to chip in",
+   "uk": "скинутися; докинути слово",
+   "ex": "We all chipped in for her birthday present.",
+   "exUk": "Ми всі скинулися їй на подарунок до дня народження."
+  },
+  {
+   "en": "to fizzle out",
+   "uk": "зійти нанівець; згаснути",
+   "ex": "Their romance fizzled out after a few months.",
+   "exUk": "Їхній роман згас за кілька місяців."
+  },
+  {
+   "en": "to hold out for",
+   "uk": "не погоджуватися на менше; чекати кращого",
+   "ex": "I'm holding out for a flat with a balcony.",
+   "exUk": "Я чекаю на квартиру з балконом і на менше не погоджуюся."
+  },
+  {
+   "en": "to lash out at",
+   "uk": "накинутися на (словами чи кулаками)",
+   "ex": "He lashed out at his brother for no reason.",
+   "exUk": "Він ні з того ні з сього накинувся на брата."
+  },
+  {
+   "en": "to own up to",
+   "uk": "зізнатися в",
+   "ex": "Nobody owned up to eating the last slice.",
+   "exUk": "Ніхто не зізнався, що з'їв останній шматок."
+  },
+  {
+   "en": "to play down",
+   "uk": "применшувати",
+   "ex": "She played down the seriousness of her illness.",
+   "exUk": "Вона применшувала серйозність своєї хвороби."
+  },
+  {
+   "en": "to play up",
+   "uk": "вередувати; барахлити; давати про себе знати",
+   "ex": "My knee is playing up again.",
+   "exUk": "Коліно знову дає про себе знати."
+  },
+  {
+   "en": "to shrug off",
+   "uk": "відмахнутися від; не зважати на",
+   "ex": "He shrugged off the criticism and kept going.",
+   "exUk": "Він відмахнувся від критики й не зупинився."
+  },
+  {
+   "en": "to spur on",
+   "uk": "підганяти; спонукати; підбадьорювати",
+   "ex": "The crowd spurred the runners on.",
+   "exUk": "Натовп підбадьорював бігунів."
+  },
+  {
+   "en": "to stave off",
+   "uk": "відвернути; відтягнути",
+   "ex": "We had a snack to stave off hunger until dinner.",
+   "exUk": "Ми перекусили, щоб протриматися без голоду до вечері."
+  },
+  {
+   "en": "to tide someone over",
+   "uk": "допомогти комусь протриматися",
+   "ex": "Could you lend me fifty złoty to tide me over till Friday?",
+   "exUk": "Позичиш мені п'ятдесят злотих, щоб я протримався до п'ятниці?"
+  },
+  {
+   "en": "to weigh up",
+   "uk": "зважувати (варіанти)",
+   "ex": "I'm weighing up whether to rent or buy.",
+   "exUk": "Я зважую, орендувати житло чи купити."
+  },
+  {
+   "en": "to dawn on",
+   "uk": "доходити (до когось); осяяти",
+   "ex": "It suddenly dawned on me that I'd left my keys at home.",
+   "exUk": "Раптом до мене дійшло, що я залишив ключі вдома."
+  },
+  {
+   "en": "to wriggle out of",
+   "uk": "викрутитися; ухилитися від",
+   "ex": "He always wriggles out of doing the washing-up.",
+   "exUk": "Він завжди викручується, щоб не мити посуд."
+  },
+  {
+   "en": "to drift apart",
+   "uk": "віддалитися одне від одного",
+   "ex": "We drifted apart after university.",
+   "exUk": "Після університету ми віддалилися одне від одного."
+  },
+  {
+   "en": "to egg someone on",
+   "uk": "підбурювати когось",
+   "ex": "His friends egged him on to jump into the lake.",
+   "exUk": "Друзі підбурювали його стрибнути в озеро."
+  },
+  {
+   "en": "to get across",
+   "uk": "донести (думку)",
+   "ex": "I struggled to get my point across in Polish.",
+   "exUk": "Мені було важко донести свою думку польською."
+  },
+  {
+   "en": "to bank on",
+   "uk": "розраховувати на",
+   "ex": "Don't bank on the weather staying dry.",
+   "exUk": "Не розраховуй, що погода буде сухою."
+  },
+  {
+   "en": "to scrape by",
+   "uk": "ледве зводити кінці з кінцями",
+   "ex": "As students, we scraped by on very little.",
+   "exUk": "Студентами ми ледве зводили кінці з кінцями."
+  },
+  {
+   "en": "to sail through",
+   "uk": "легко пройти; без зусиль скласти",
+   "ex": "She sailed through her driving test.",
+   "exUk": "Вона без зусиль склала іспит з водіння."
+  },
+  {
+   "en": "to shy away from",
+   "uk": "уникати; цуратися",
+   "ex": "He never shies away from difficult conversations.",
+   "exUk": "Він ніколи не уникає складних розмов."
+  },
+  {
+   "en": "to single out",
+   "uk": "виокремити; вибрати (з-поміж інших)",
+   "ex": "The teacher singled her out for praise.",
+   "exUk": "Учителька окремо її похвалила."
+  },
+  {
+   "en": "to stem from",
+   "uk": "походити від; випливати з",
+   "ex": "Her fear of dogs stems from a childhood incident.",
+   "exUk": "Її страх перед собаками бере початок з випадку в дитинстві."
+  },
+  {
+   "en": "to whip up",
+   "uk": "швиденько приготувати; розпалити (емоції)",
+   "ex": "I can whip up an omelette in five minutes.",
+   "exUk": "Я можу швиденько приготувати омлет за п'ять хвилин."
+  },
+  {
+   "en": "to zone out",
+   "uk": "відключитися; замислитися",
+   "ex": "Sorry, I zoned out for a second — what did you say?",
+   "exUk": "Вибач, я на секунду відключився — що ти сказав?"
+  },
+  {
+   "en": "to dwell on",
+   "uk": "зациклюватися на",
+   "ex": "Try not to dwell on past mistakes.",
+   "exUk": "Намагайся не зациклюватися на минулих помилках."
+  },
+  {
+   "en": "to fall back on",
+   "uk": "вдатися до (запасного варіанту)",
+   "ex": "It's good to have some savings to fall back on.",
+   "exUk": "Добре мати заощадження на чорний день."
+  },
+  {
+   "en": "to kick off",
+   "uk": "почати(ся); стартувати",
+   "ex": "The festival kicks off on Friday evening.",
+   "exUk": "Фестиваль стартує в п'ятницю ввечері."
+  },
+  {
+   "en": "to hit back at",
+   "uk": "дати відсіч",
+   "ex": "The singer hit back at critics on social media.",
+   "exUk": "Співачка дала відсіч критикам у соцмережах."
+  },
+  {
+   "en": "to rake in",
+   "uk": "загрібати (гроші)",
+   "ex": "That little bakery must be raking it in.",
+   "exUk": "Ця маленька пекарня, мабуть, загрібає гроші лопатою."
+  },
+  {
+   "en": "to splash out on",
+   "uk": "розщедритися на",
+   "ex": "We splashed out on a really nice hotel for our anniversary.",
+   "exUk": "На річницю ми розщедрилися на дуже гарний готель."
+  },
+  {
+   "en": "to tone down",
+   "uk": "пом'якшити; притишити",
+   "ex": "You might want to tone down your language in front of the kids.",
+   "exUk": "Можливо, при дітях варто пом'якшити вирази."
+  },
+  {
+   "en": "to wind down",
+   "uk": "розслабитися; поступово згортати",
+   "ex": "I read for half an hour to wind down before bed.",
+   "exUk": "Я читаю пів години, щоб розслабитися перед сном."
+  },
+  {
+   "en": "to bring about",
+   "uk": "спричинити; призвести до",
+   "ex": "The internet has brought about huge changes in how we learn.",
+   "exUk": "Інтернет спричинив величезні зміни в тому, як ми навчаємося."
+  },
+  {
+   "en": "to boil down to",
+   "uk": "зводитися до",
+   "ex": "In the end, it all boils down to money.",
+   "exUk": "Зрештою все зводиться до грошей."
+  },
+  {
+   "en": "to fend for yourself",
+   "uk": "самому дбати про себе",
+   "ex": "At eighteen, he had to fend for himself.",
+   "exUk": "У вісімнадцять йому довелося самому про себе дбати."
+  },
+  {
+   "en": "to crop up",
+   "uk": "несподівано виникати",
+   "ex": "Something's cropped up, so I can't make it tonight.",
+   "exUk": "Дещо несподівано виникло, тож сьогодні ввечері я не зможу."
+  },
+  {
+   "en": "to lap up",
+   "uk": "насолоджуватися; жадібно ловити",
+   "ex": "The kids lapped up all the attention.",
+   "exUk": "Діти насолоджувалися загальною увагою."
+  },
+  {
+   "en": "to pore over",
+   "uk": "уважно вивчати; сидіти над",
+   "ex": "We pored over the map, planning our route.",
+   "exUk": "Ми уважно вивчали мапу, плануючи маршрут."
+  },
+  {
+   "en": "to churn out",
+   "uk": "штампувати; клепати",
+   "ex": "That author churns out a novel every year.",
+   "exUk": "Той автор клепає по роману щороку."
+  },
+  {
+   "en": "to butt in",
+   "uk": "встрявати; перебивати",
+   "ex": "Sorry to butt in, but I couldn't help overhearing.",
+   "exUk": "Вибачте, що встряю, але я мимоволі почув."
+  },
+  {
+   "en": "to bounce back",
+   "uk": "оговтатися; швидко відновитися",
+   "ex": "She bounced back quickly after the operation.",
+   "exUk": "Після операції вона швидко оговталася."
+  },
+  {
+   "en": "to clam up",
+   "uk": "замкнутися в собі; замовкнути",
+   "ex": "Whenever we ask about his past, he clams up.",
+   "exUk": "Щоразу, коли ми питаємо про його минуле, він замикається в собі."
+  }
+ ]
+}

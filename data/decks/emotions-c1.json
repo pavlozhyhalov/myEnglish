@@ -1,0 +1,305 @@
+{
+ "id": "emotions-c1",
+ "cards": [
+  {
+   "en": "wistful",
+   "uk": "сумовито-замріяний; з легкою ностальгією",
+   "ex": "She gave a wistful smile as she looked at the old photos.",
+   "exUk": "Розглядаючи старі фото, вона сумовито всміхнулася."
+  },
+  {
+   "en": "exasperated",
+   "uk": "доведений до краю; роздратований",
+   "ex": "'Not again!' she said, exasperated.",
+   "exUk": "«Знову?!» — сказала вона, доведена до краю."
+  },
+  {
+   "en": "magnanimous",
+   "uk": "великодушний",
+   "ex": "He was magnanimous in defeat.",
+   "exUk": "Він був великодушним у поразці."
+  },
+  {
+   "en": "elated",
+   "uk": "у захваті; окрилений",
+   "ex": "We were elated when we heard the news.",
+   "exUk": "Ми були в захваті, коли почули новину."
+  },
+  {
+   "en": "crestfallen",
+   "uk": "пригнічений; похнюплений",
+   "ex": "He looked crestfallen when she said no.",
+   "exUk": "Коли вона відмовила, він похнюпився."
+  },
+  {
+   "en": "apprehensive",
+   "uk": "стривожений; сповнений побоювань",
+   "ex": "I was a bit apprehensive about meeting her parents.",
+   "exUk": "Я трохи побоювався знайомства з її батьками."
+  },
+  {
+   "en": "indignant",
+   "uk": "обурений",
+   "ex": "She was indignant at being accused of lying.",
+   "exUk": "Вона була обурена, що її звинуватили в брехні."
+  },
+  {
+   "en": "sheepish",
+   "uk": "зніяковілий",
+   "ex": "He gave me a sheepish grin.",
+   "exUk": "Він зніяковіло всміхнувся мені."
+  },
+  {
+   "en": "smug",
+   "uk": "самовдоволений",
+   "ex": "He looked very smug after winning the argument.",
+   "exUk": "Вигравши суперечку, він мав дуже самовдоволений вигляд."
+  },
+  {
+   "en": "bemused",
+   "uk": "спантеличений; збентежений",
+   "ex": "She looked bemused by all the fuss.",
+   "exUk": "Вона здавалася спантеличеною всім цим галасом."
+  },
+  {
+   "en": "disgruntled",
+   "uk": "невдоволений; незадоволений",
+   "ex": "Disgruntled passengers waited for hours.",
+   "exUk": "Невдоволені пасажири чекали годинами."
+  },
+  {
+   "en": "forlorn",
+   "uk": "самотній і сумний; покинутий",
+   "ex": "A forlorn dog was waiting outside the shop.",
+   "exUk": "Біля магазину чекав самотній, сумний пес."
+  },
+  {
+   "en": "jaded",
+   "uk": "пересичений; знуджений",
+   "ex": "After years of travelling, he'd become rather jaded.",
+   "exUk": "Після років подорожей він став доволі пересиченим."
+  },
+  {
+   "en": "ambivalent",
+   "uk": "з двоїстими почуттями",
+   "ex": "I feel ambivalent about moving back home.",
+   "exUk": "У мене двоїсті почуття щодо повернення додому."
+  },
+  {
+   "en": "despondent",
+   "uk": "зневірений; пригнічений",
+   "ex": "He grew despondent after months of looking for a flat.",
+   "exUk": "Після місяців пошуку квартири він зневірився."
+  },
+  {
+   "en": "euphoric",
+   "uk": "в ейфорії",
+   "ex": "The fans were euphoric after the final whistle.",
+   "exUk": "Після фінального свистка вболівальники були в ейфорії."
+  },
+  {
+   "en": "flustered",
+   "uk": "розгублений; схвильований",
+   "ex": "I got flustered and forgot her name.",
+   "exUk": "Я розгубився й забув її ім'я."
+  },
+  {
+   "en": "rattled",
+   "uk": "вибитий з колії; знервований",
+   "ex": "The near miss on the motorway left me rattled.",
+   "exUk": "Небезпечна ситуація на трасі вибила мене з колії."
+  },
+  {
+   "en": "resentful",
+   "uk": "ображений; що затаїв образу",
+   "ex": "She felt resentful that nobody had thanked her.",
+   "exUk": "Вона затаїла образу, бо ніхто їй не подякував."
+  },
+  {
+   "en": "remorseful",
+   "uk": "сповнений каяття",
+   "ex": "He seemed genuinely remorseful.",
+   "exUk": "Здавалося, він щиро кається."
+  },
+  {
+   "en": "content",
+   "uk": "задоволений (спокійно, без претензій)",
+   "ex": "She's content with a simple life.",
+   "exUk": "Вона задоволена простим життям."
+  },
+  {
+   "en": "serene",
+   "uk": "безтурботний; спокійний",
+   "ex": "She remained serene despite the chaos around her.",
+   "exUk": "Вона залишалася спокійною попри хаос довкола."
+  },
+  {
+   "en": "awestruck",
+   "uk": "вражений; сповнений благоговіння",
+   "ex": "We stood awestruck at the top of the mountain.",
+   "exUk": "Ми стояли на вершині гори, вражені побаченим."
+  },
+  {
+   "en": "petrified",
+   "uk": "заціпенілий від страху",
+   "ex": "I'm petrified of spiders.",
+   "exUk": "Я до смерті боюся павуків."
+  },
+  {
+   "en": "livid",
+   "uk": "розлючений",
+   "ex": "Mum was livid when she saw the mess.",
+   "exUk": "Мама була розлючена, коли побачила безлад."
+  },
+  {
+   "en": "touchy",
+   "uk": "образливий; вразливий (на якусь тему)",
+   "ex": "He's a bit touchy about his weight.",
+   "exUk": "Він трохи вразливий щодо своєї ваги."
+  },
+  {
+   "en": "aloof",
+   "uk": "відсторонений; холодний",
+   "ex": "At first she seemed aloof, but she's actually just shy.",
+   "exUk": "Спершу вона здавалася відстороненою, але насправді просто сором'язлива."
+  },
+  {
+   "en": "abrasive",
+   "uk": "різкий; грубуватий",
+   "ex": "His abrasive manner puts people off.",
+   "exUk": "Його різка манера відштовхує людей."
+  },
+  {
+   "en": "gregarious",
+   "uk": "товариський; компанійський",
+   "ex": "She's gregarious and loves big parties.",
+   "exUk": "Вона компанійська й обожнює великі вечірки."
+  },
+  {
+   "en": "diffident",
+   "uk": "несміливий; невпевнений у собі",
+   "ex": "He's diffident about his own abilities.",
+   "exUk": "Він невпевнений у своїх здібностях."
+  },
+  {
+   "en": "conscientious",
+   "uk": "сумлінний",
+   "ex": "She's a conscientious student who never misses a class.",
+   "exUk": "Вона сумлінна студентка, яка не пропускає жодного заняття."
+  },
+  {
+   "en": "headstrong",
+   "uk": "свавільний; норовливий",
+   "ex": "Their headstrong daughter does exactly as she pleases.",
+   "exUk": "Їхня норовлива донька робить саме те, що їй заманеться."
+  },
+  {
+   "en": "impetuous",
+   "uk": "поривчастий; імпульсивний",
+   "ex": "It was an impetuous decision, but I don't regret it.",
+   "exUk": "Це було імпульсивне рішення, але я не шкодую."
+  },
+  {
+   "en": "unassuming",
+   "uk": "скромний; без претензій",
+   "ex": "Despite his fame, he's remarkably unassuming.",
+   "exUk": "Попри славу, він напрочуд скромний."
+  },
+  {
+   "en": "outspoken",
+   "uk": "відвертий; прямолінійний",
+   "ex": "She's outspoken on environmental issues.",
+   "exUk": "Вона відверто висловлюється на екологічні теми."
+  },
+  {
+   "en": "tactful",
+   "uk": "тактовний",
+   "ex": "Try to be tactful when you tell her.",
+   "exUk": "Спробуй бути тактовним, коли їй казатимеш."
+  },
+  {
+   "en": "thick-skinned",
+   "uk": "товстошкірий; необразливий",
+   "ex": "You need to be thick-skinned to read the comments online.",
+   "exUk": "Треба мати товсту шкіру, щоб читати коментарі в інтернеті."
+  },
+  {
+   "en": "gullible",
+   "uk": "легковірний; довірливий",
+   "ex": "Don't be so gullible — it's obviously a scam.",
+   "exUk": "Не будь таким легковірним — це очевидне шахрайство."
+  },
+  {
+   "en": "vindictive",
+   "uk": "мстивий",
+   "ex": "He can be vindictive if you cross him.",
+   "exUk": "Він може бути мстивим, якщо перейдеш йому дорогу."
+  },
+  {
+   "en": "fickle",
+   "uk": "непостійний; мінливий",
+   "ex": "Football fans can be fickle.",
+   "exUk": "Футбольні вболівальники бувають непостійними."
+  },
+  {
+   "en": "pragmatic",
+   "uk": "прагматичний; практичний",
+   "ex": "She takes a pragmatic approach to problems.",
+   "exUk": "Вона прагматично підходить до проблем."
+  },
+  {
+   "en": "compassionate",
+   "uk": "співчутливий; милосердний",
+   "ex": "The nurse was incredibly compassionate.",
+   "exUk": "Медсестра була неймовірно співчутливою."
+  },
+  {
+   "en": "earnest",
+   "uk": "серйозний; щирий",
+   "ex": "He's an earnest young man who wants to do good.",
+   "exUk": "Він серйозний молодий чоловік, який хоче робити добро."
+  },
+  {
+   "en": "condescending",
+   "uk": "зверхній; поблажливий",
+   "ex": "I hate it when he's condescending to waiters.",
+   "exUk": "Ненавиджу, коли він зверхньо поводиться з офіціантами."
+  },
+  {
+   "en": "resourceful",
+   "uk": "винахідливий; кмітливий",
+   "ex": "Being resourceful helped her survive her first year abroad.",
+   "exUk": "Винахідливість допомогла їй пережити перший рік за кордоном."
+  },
+  {
+   "en": "even-tempered",
+   "uk": "урівноважений",
+   "ex": "My dad is very even-tempered — he hardly ever shouts.",
+   "exUk": "Мій тато дуже врівноважений — майже ніколи не кричить."
+  },
+  {
+   "en": "cantankerous",
+   "uk": "сварливий; буркотливий",
+   "ex": "Our cantankerous neighbour complains about everything.",
+   "exUk": "Наш сварливий сусід скаржиться на все."
+  },
+  {
+   "en": "affable",
+   "uk": "привітний; доброзичливий",
+   "ex": "The hotel owner was an affable man in his sixties.",
+   "exUk": "Власник готелю був привітним чоловіком років шістдесяти."
+  },
+  {
+   "en": "sullen",
+   "uk": "похмурий; насуплений",
+   "ex": "The teenager sat in sullen silence.",
+   "exUk": "Підліток сидів у похмурій мовчанці."
+  },
+  {
+   "en": "wary",
+   "uk": "насторожений; обережний",
+   "ex": "I'm wary of people who flatter too much.",
+   "exUk": "Я насторожено ставлюся до людей, які надто лестять."
+  }
+ ]
+}
