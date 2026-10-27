@@ -341,10 +341,10 @@ Deno.serve(handler(async (req) => {
       const system = modePrompt(String(p.mode || 'chat'), st, { scenario: clampScenario(p.scenarioData), drillType: str(p.drillType, 40), topic: str(p.topic, 300), voice: !!p.voice });
       const contents = toContents(p.messages || []);
       if (p.stream === false) {
-        const text = await generate(TEXT_MODELS, { system, contents, temperature: 0.8, maxTokens: 1500 });
+        const text = await generate(TEXT_MODELS, { system, contents, temperature: 0.8, maxTokens: 6000 });
         return json({ text });
       }
-      const stream = await streamSSE(TEXT_MODELS, { system, contents, temperature: 0.8, maxTokens: 1500 });
+      const stream = await streamSSE(TEXT_MODELS, { system, contents, temperature: 0.8, maxTokens: 6000 });
       // заодно чистимо старі розмови (30 днів) — у фоні, після відповіді
       background(Promise.resolve(ctx.admin.rpc('purge_old_chats')).then(() => {}, () => {}));
       return new Response(stream, { headers: { ...cors, 'Content-Type': 'text/event-stream', 'Cache-Control': 'no-cache' } });
