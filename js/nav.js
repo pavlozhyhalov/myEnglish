@@ -13,13 +13,16 @@ export const SECTIONS = [
   { id: 'cards', icon: 'cards', href: '#/cards', group: 'practice' },
   { id: 'exgrammar', icon: 'lightning', href: '#/exercises/grammar', group: 'practice' },
   { id: 'listening', icon: 'headphones', href: '#/listening', group: 'practice' },
+  { id: 'reading', icon: 'book-open', href: '#/reading', group: 'practice' },
   { id: 'pronunciation', icon: 'waveform', href: '#/pronunciation', group: 'practice' },
   { id: 'writing', icon: 'pencil-line', href: '#/writing', group: 'practice' },
   { id: 'scenarios', icon: 'users-three', href: '#/scenarios', group: 'practice' },
+  { id: 'diary', icon: 'notebook', href: '#/diary', group: 'practice' },
   { id: 'tests', icon: 'exam', href: '#/tests', group: 'practice' },
   { id: 'mistakes', icon: 'warning-circle', href: '#/mistakes', group: 'practice' },
   // Я
   { id: 'profile', icon: 'user', href: '#/profile', group: 'me' },
+  { id: 'friends', icon: 'users', href: '#/friends', group: 'me' },
   { id: 'progress', icon: 'chart-line-up', href: '#/progress', group: 'me' },
   { id: 'settings', icon: 'gear-six', href: '#/settings', group: 'me' },
 ].map(s => ({ ...s, emoji: s.icon, label: S.nav[s.id], long: S.navLong[s.id] || S.nav[s.id] }));

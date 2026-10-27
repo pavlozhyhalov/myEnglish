@@ -3,10 +3,10 @@ export const S = {
   app: 'myEnglish',
   nav: {
     home: 'Головна', tutor: 'Вчитель', cards: 'Картки', vocab: 'Лексика', grammar: 'Граматика',
-    listening: 'Аудіювання', pronunciation: 'Вимова', writing: 'Письмо', scenarios: 'Розмова',
+    listening: 'Аудіювання', reading: 'Читання', pronunciation: 'Вимова', writing: 'Письмо', scenarios: 'Розмова',
     sounds: 'Звуки', exgrammar: 'Граматика', exercises: 'Вправи',
-    tests: 'Тести', mistakes: 'Помилки', progress: 'Прогрес', settings: 'Налаштування', profile: 'Профіль',
-    session: 'Заняття', auth: 'Вхід', lab: 'Лабораторія Live',
+    tests: 'Тести', mistakes: 'Помилки', progress: 'Прогрес', settings: 'Налаштування', profile: 'Профіль', friends: 'Друзі',
+    session: 'Заняття', auth: 'Вхід', lab: 'Лабораторія Live', diary: 'Щоденник',
   },
   navLong: { tutor: 'Вчитель (AI)', vocab: 'Слова й фрази', sounds: 'Звуки й вимова', mistakes: 'Мої помилки', scenarios: 'Розмова (сценарії)', exgrammar: 'Граматика', tests: 'Тести' },
   groups: { theory: 'Теорія', practice: 'Вправи', me: 'Я' },
@@ -46,8 +46,8 @@ export const S = {
     vocabulary: 'Лексика', pronunciation: 'Вимова', other: 'Інше',
   },
   sessionTypes: {
-    cards: 'Картки', grammar: 'Граматика', tutor: 'Вчитель', voice: 'Голос', listening: 'Аудіювання',
-    pronunciation: 'Вимова', writing: 'Письмо', test: 'Тест', session: 'Заняття', vocab: 'Лексика', mistakes: 'Помилки',
+    cards: 'Картки', grammar: 'Граматика', tutor: 'Вчитель', voice: 'Голос', listening: 'Аудіювання', reading: 'Читання',
+    pronunciation: 'Вимова', writing: 'Письмо', test: 'Тест', session: 'Заняття', vocab: 'Лексика', mistakes: 'Помилки', diary: 'Щоденник',
   },
 };
 

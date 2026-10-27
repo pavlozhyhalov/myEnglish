@@ -1,14 +1,15 @@
 // Edge Function `tutor`: чат зі стрімінгом, підсумок сесії, перевірка тексту,
-// генерація вправ, автозаповнення слів, перевірка перекладу, діалоги, транскрипція.
+// генерація вправ, автозаповнення слів, перевірка перекладу, діалоги, транскрипція,
+// щоденник, вправи на власні помилки, тижнева порада.
 import { handler, json, HttpError, cors } from '../_shared/http.ts';
 import { authenticate, charge, usage, isAdmin } from '../_shared/auth.ts';
 import { generate, generateJson, streamSSE, tts, createLiveToken, type Content } from '../_shared/gemini.ts';
 import type { SupabaseClient } from 'npm:@supabase/supabase-js@2.118.0';
 import { TEXT_MODELS, TTS_MODELS, LIVE_MODELS, LIMITS } from '../_shared/config.ts';
-import { loadStudent, modePrompt, taskPrompt, type Scenario } from '../_shared/prompts.ts';
+import { loadStudent, modePrompt, taskPrompt, diaryPrompt, mistakeDrillPrompt, weeklyPrompt, type Scenario } from '../_shared/prompts.ts';
 
 type Msg = { role: 'user' | 'model'; text: string };
-const ACTIONS = new Set(['usage', 'chat', 'summary', 'check_text', 'exercises', 'fill_word', 'check_translation', 'dialogue', 'transcribe', 'hint']);
+const ACTIONS = new Set(['usage', 'chat', 'summary', 'check_text', 'exercises', 'fill_word', 'check_translation', 'dialogue', 'transcribe', 'hint', 'diary', 'mistake_drill', 'weekly']);
 const AUDIO_MIME = /^audio\/(webm|ogg|mp4|mpeg|wav|x-wav|aac|m4a)(;.*)?$/;
 /** Рядок з обмеженням довжини (захист від роздутих промптів і витрат) */
 const str = (v: unknown, max: number) => (v == null ? '' : String(v)).slice(0, max);
@@ -72,20 +73,93 @@ const CHECK_SCHEMA = OBJ({
   comment_uk: S('STRING'),
 }, ['scores', 'corrections', 'improved', 'comment_uk']);
 
-const EX_SCHEMA = OBJ({
-  exercises: ARR(OBJ({
-    type: S('STRING', { enum: ['choice', 'input', 'order', 'error', 'transform', 'translate'] }),
-    instruction: S('STRING'),
-    prompt: S('STRING'),
-    options: ARR(S('STRING')),
-    answer: S('STRING'),
-    alternatives: ARR(S('STRING')),
-    sentence: S('STRING'),
-    wrong_word: S('STRING'),
-    uk: S('STRING'),
-    explanation: S('STRING'),
-  }, ['type', 'answer', 'explanation'])),
+const EX_ITEM: Record<string, unknown> = {
+  type: S('STRING', { enum: ['choice', 'input', 'order', 'error', 'transform', 'translate'] }),
+  instruction: S('STRING'),
+  prompt: S('STRING'),
+  options: ARR(S('STRING')),
+  answer: S('STRING'),
+  alternatives: ARR(S('STRING')),
+  sentence: S('STRING'),
+  wrong_word: S('STRING'),
+  uk: S('STRING'),
+  explanation: S('STRING'),
+};
+const EX_SCHEMA = OBJ({ exercises: ARR(OBJ(EX_ITEM, ['type', 'answer', 'explanation'])) }, ['exercises']);
+
+/** Те саме, але кожна вправа прив'язана до помилки учня (target — індекс у переданому списку) */
+const DRILL_SCHEMA = OBJ({
+  exercises: ARR(OBJ({ ...EX_ITEM, target: S('INTEGER') }, ['type', 'answer', 'explanation', 'target'])),
 }, ['exercises']);
+
+const DIARY_SCHEMA = OBJ({
+  corrected: S('STRING'),
+  natural: S('STRING'),
+  mistakes: ARR(OBJ({ wrong: S('STRING'), right: S('STRING'), type: S('STRING', { enum: MISTAKE_TYPES }), explanation_uk: S('STRING') }, ['wrong', 'right', 'type', 'explanation_uk'])),
+  words: ARR(OBJ({ en: S('STRING'), uk: S('STRING') }, ['en', 'uk'])),
+  feedback_uk: S('STRING'),
+}, ['corrected', 'natural', 'mistakes', 'words', 'feedback_uk']);
+
+const WEEKLY_SCHEMA = OBJ({
+  summary_uk: S('STRING'),
+  tips: ARR(S('STRING')),
+  goal_uk: S('STRING'),
+  focus_en: S('STRING'),
+}, ['summary_uk', 'tips', 'goal_uk', 'focus_en']);
+
+const txt = (v: unknown, max: number) => (typeof v === 'string' ? v : v == null ? '' : String(v)).replace(/\r/g, '').trim().slice(0, max);
+const normFrag = (s: string) => s.toLowerCase().replace(/[^\p{L}\p{N}' ]/gu, '').replace(/\s+/g, ' ').trim();
+
+/** Відповідь щоденника від моделі → безпечний для клієнта формат; биті елементи відкидаємо */
+export function cleanDiary(r: any) {
+  const o = r && typeof r === 'object' ? r : {};
+  const seen = new Set<string>();
+  const mistakes = [];
+  for (const m of Array.isArray(o.mistakes) ? o.mistakes : []) {
+    if (!m || typeof m !== 'object') continue;
+    const wrong = txt(m.wrong, 200).replace(/^["«“]+|["»”]+$/g, ''), right = txt(m.right, 200).replace(/^["«“]+|["»”]+$/g, '');
+    const key = normFrag(wrong) + '|' + normFrag(right);
+    if (!wrong || !right || normFrag(wrong) === normFrag(right) || seen.has(key)) continue;
+    seen.add(key);
+    mistakes.push({ wrong, right, type: MISTAKE_TYPES.includes(m.type) ? m.type : 'other', explanation_uk: txt(m.explanation_uk, 300) });
+    if (mistakes.length >= 12) break;
+  }
+  const words = [];
+  const seenW = new Set<string>();
+  for (const w of Array.isArray(o.words) ? o.words : []) {
+    if (!w || typeof w !== 'object') continue;
+    const en = txt(w.en, 80), uk = txt(w.uk, 120);
+    if (!en || !uk || !/[a-z]/i.test(en) || seenW.has(en.toLowerCase())) continue;
+    seenW.add(en.toLowerCase());
+    words.push({ en, uk });
+    if (words.length >= 5) break;
+  }
+  return { corrected: txt(o.corrected, 6000), natural: txt(o.natural, 6000), mistakes, words, feedback_uk: txt(o.feedback_uk, 800) };
+}
+
+export function cleanWeekly(r: any) {
+  const o = r && typeof r === 'object' ? r : {};
+  const tips = (Array.isArray(o.tips) ? o.tips : []).map((t: unknown) => txt(t, 300)).filter(Boolean).slice(0, 3);
+  return { summary_uk: txt(o.summary_uk, 800), tips, goal_uk: txt(o.goal_uk, 300), focus_en: txt(o.focus_en, 200) };
+}
+
+/** Компактна тижнева статистика від клієнта: лише числа і короткі рядки (захист промпту і витрат) */
+export function clampWeekStats(v: unknown) {
+  const o = (v && typeof v === 'object' ? v : {}) as Record<string, unknown>;
+  const n = (x: unknown, max = 100000) => Math.max(0, Math.min(max, Math.round(Number(x) || 0)));
+  return {
+    minutes_by_day: (Array.isArray(o.minutes_by_day) ? o.minutes_by_day : []).slice(0, 7).map(x => n(x, 1440)),
+    total_minutes: n(o.total_minutes, 10080), prev_week_minutes: n(o.prev_week_minutes, 10080), daily_goal_minutes: n(o.daily_goal_minutes, 600),
+    cards_reviewed: n(o.cards_reviewed), new_cards: n(o.new_cards), lessons_completed: n(o.lessons_completed), lessons_practised: n(o.lessons_practised),
+    mistakes_added: n(o.mistakes_added), mistakes_fixed: n(o.mistakes_fixed), open_mistakes: n(o.open_mistakes),
+    streak_days: n(o.streak_days, 5000), diary_entries: n(o.diary_entries, 100), tutor_chats: n(o.tutor_chats, 500),
+    time_by_activity: Object.fromEntries(Object.entries((o.time_by_activity && typeof o.time_by_activity === 'object' ? o.time_by_activity : {}) as Record<string, unknown>)
+      .slice(0, 16).map(([k, x]) => [str(k, 20).replace(/[^a-z_]/g, ''), n(x, 10080)]).filter(([k]) => k)),
+    top_mistakes: (Array.isArray(o.top_mistakes) ? o.top_mistakes : []).slice(0, 8).map((m: any) => ({
+      wrong: str(m?.wrong, 120), right: str(m?.right, 120), type: MISTAKE_TYPES.includes(m?.type) ? m.type : 'other', count: n(m?.count, 999),
+    })).filter((m: { wrong: string; right: string }) => m.wrong && m.right),
+  };
+}
 
 const WORD_SCHEMA = OBJ({
   words: ARR(OBJ({
@@ -108,10 +182,12 @@ const DIALOGUE_SCHEMA = OBJ({
 }, ['title', 'speakers', 'lines', 'questions']);
 
 /** Нормалізація вправ від моделі у формат клієнта; биті — відкидаємо */
-function cleanExercises(list: any[]) {
-  const out = [];
+export function cleanExercises(list: any[]) {
+  const out: Record<string, unknown>[] = [];
   for (const e of list || []) {
-    const base = { type: e.type, instruction: e.instruction || undefined, explanation: e.explanation || '' };
+    if (!e || typeof e !== 'object') continue;
+    const base: Record<string, unknown> = { type: e.type, instruction: e.instruction || undefined, explanation: e.explanation || '' };
+    if (Number.isInteger(e.target)) base.target = e.target;   // вправи на помилки: індекс помилки учня
     const alts = [e.answer, ...(e.alternatives || [])].filter(Boolean);
     if (e.type === 'choice') {
       // без дублікатів; правильна відповідь — рівно один варіант
@@ -255,6 +331,8 @@ Deno.serve(handler(async (req) => {
   if (action === 'fill_word' && !(Array.isArray(p.words) ? p.words : [p.word]).some((w: unknown) => String(w || '').trim())) throw new HttpError(400, 'bad_request', 'No words');
   if (action === 'transcribe' && (!p.audio || String(p.audio).length > 8_000_000)) throw new HttpError(400, 'bad_request', 'Audio missing or too large');
   if (action === 'transcribe' && !AUDIO_MIME.test(String(p.mime || 'audio/webm'))) throw new HttpError(400, 'bad_request', 'Unsupported audio type');
+  if (action === 'diary' && String(p.text || '').trim().length < 3) throw new HttpError(400, 'bad_request', 'Empty entry');
+  if (action === 'mistake_drill' && !(Array.isArray(p.mistakes) && p.mistakes.some((m: any) => str(m?.wrong, 200).trim() && str(m?.right, 200).trim()))) throw new HttpError(400, 'bad_request', 'No mistakes');
   await charge(ctx, 'text');
   const st = await loadStudent(ctx);
 
@@ -361,6 +439,30 @@ Return JSON: correct; better = the best natural English version (if the student'
       const system = `${taskPrompt(st)}\n\nTASK: The student is in a spoken conversation (transcript in the user message) and does not know what to say next. Give exactly 3 possible replies the STUDENT could say to the tutor's last line, in English, numbered 1–3, one line each: 1) very simple, 2) at ${st.level} level, 3) a bit richer (${NEXT_LEVEL[st.level] || 'C2'}), ideally using a word they are learning. Each reply is at most 15 words and fits the conversation. No other text.`;
       const text = await generate(TEXT_MODELS, { system, contents: [{ role: 'user', parts: [{ text: transcript(p.messages || []) }] }], temperature: 0.8 });
       return json({ text });
+    }
+
+    case 'diary': {
+      const system = diaryPrompt(st, str(p.question, 300).replace(/\s+/g, ' ').trim());
+      const res = await generateJson(TEXT_MODELS, { system, contents: [{ role: 'user', parts: [{ text: String(p.text || '').slice(0, 6000) }] }], schema: DIARY_SCHEMA, temperature: 0.4 });
+      return json(cleanDiary(res));
+    }
+
+    case 'mistake_drill': {
+      // один рядок на помилку: переноси в даних учня не мають ламати нумерований список у промпті
+      const one = (v: unknown) => str(v, 200).replace(/\s+/g, ' ').trim();
+      const list = (p.mistakes as any[]).slice(0, 12).map(m => ({ wrong: one(m?.wrong), right: one(m?.right), type: MISTAKE_TYPES.includes(m?.type) ? m.type : 'other', note: one(m?.explanation_uk) }))
+        .filter(m => m.wrong && m.right);
+      const count = Math.max(3, Math.min(15, Number(p.count) || 10));
+      const lines = list.map((m, i) => `${i}. "${m.wrong}" → "${m.right}" (${m.type})${m.note ? ` — ${m.note}` : ''}`).join('\n');
+      const res = await generateJson<{ exercises: unknown[] }>(TEXT_MODELS, { system: mistakeDrillPrompt(st, lines, count), contents: [{ role: 'user', parts: [{ text: 'Generate the exercises.' }] }], schema: DRILL_SCHEMA, temperature: 0.7 });
+      const exercises = cleanExercises(res.exercises as any[]).filter(e => typeof e.target === 'number' && (e.target as number) >= 0 && (e.target as number) < list.length);
+      return json({ exercises });
+    }
+
+    case 'weekly': {
+      const stats = clampWeekStats(p.stats);
+      const res = await generateJson(TEXT_MODELS, { system: weeklyPrompt(st), contents: [{ role: 'user', parts: [{ text: JSON.stringify(stats) }] }], schema: WEEKLY_SCHEMA, temperature: 0.5 });
+      return json(cleanWeekly(res));
     }
 
     default:

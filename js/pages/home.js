@@ -159,7 +159,7 @@ export default async function home(view) {
     }
 
     // ---- остання розмова ----
-    const last = store.all('tutor_chats').filter(c => c.summary || c.messages?.length).sort((a, b) => b.created_at.localeCompare(a.created_at))[0];
+    const last = store.all('tutor_chats').filter(c => c.mode !== 'diary' && (c.summary || c.messages?.length)).sort((a, b) => b.created_at.localeCompare(a.created_at))[0];
     if (last) {
       const words = (last.summary?.new_words || []).slice(0, 3);
       blocks.push(h('section.card.stack',
@@ -176,7 +176,8 @@ export default async function home(view) {
 }
 
 async function fillLevelTasks(box, lvl) {
-  const [scen, wtasks, lis, pron] = await Promise.all([loadScenarios(), writingTasks(), loadListening(), loadPron()]);
+  const [scen, wtasks, lis, pron, rdMod] = await Promise.all([loadScenarios(), writingTasks(), loadListening(), loadPron(), import('./reading.js')]);
+  const rd = rdMod.textOfDay(await rdMod.readingTexts());
   const sc = pickOfDay(filterByLevel(scen.filter(x => x.group !== 'work'), 'mine').items, 'scen');
   const wt = pickOfDay(filterByLevel(wtasks.filter(x => x.group !== 'work'), 'mine').items, 'writing');
   const dl = pickOfDay(filterByLevel(lis.dialogues, 'mine').items, 'dialogue');
@@ -190,6 +191,10 @@ async function fillLevelTasks(box, lvl) {
     dl && task('headphone', 'Аудіювання', dl.title, `#/listening?tab=dialogues&d=${encodeURIComponent(dl.title)}`),
     wt && task('writing', 'Письмо', wt.title, `#/writing/${wt.id}`),
     tp && task('mouth', 'Вимова', tp, `#/pronunciation?topic=${encodeURIComponent(tp)}`),
+    rd && task('book-open', 'Читання', rd.title, `#/reading/${rd.id}`),
+    // щоденник — поки сьогодні ще немає запису
+    !store.all('tutor_chats').some(c => c.mode === 'diary' && !c.deleted && dayKey(new Date(c.created_at)) === today())
+      && task('notebook', 'Щоденник · 2–3 хвилини', 'Розкажіть про свій день — вчитель виправить', '#/diary'),
   ].filter(Boolean);
   if (!rows.length) { box.remove(); return; }
   box.replaceChildren(h('div.row', h('div.section-title.grow', `Завдання рівня ${lvl} на сьогодні`), h('span.xs.dim', 'нові щодня')), h('div.list', rows));

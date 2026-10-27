@@ -1,5 +1,5 @@
 // Service worker: офлайн-кеш оболонки й контенту. AI і Supabase — завжди мережа.
-const BUILD = '20261026201237';
+const BUILD = '20261027132415';
 const CACHE = `myenglish-${BUILD}`;
 importScripts(`precache-list.js?v=${BUILD}`);
 
@@ -120,5 +120,36 @@ self.addEventListener('fetch', (e) => {
       e.waitUntil(put.catch(() => {}));
     }
     return res;
+  })());
+});
+
+// ---------- Web Push: нагадування (функція push, міграція 0011) ----------
+self.addEventListener('push', (e) => {
+  let d = {};
+  try { d = e.data ? e.data.json() : {}; } catch { d = { body: e.data ? e.data.text() : '' }; }
+  const url = typeof d.url === 'string' && d.url.startsWith('#/') ? d.url : '#/';
+  e.waitUntil(self.registration.showNotification(d.title || 'myEnglish', {
+    body: d.body || '',
+    tag: d.tag || 'myenglish-reminder',
+    icon: 'assets/icons/icon-192.png',
+    badge: 'assets/icons/icon-192.png',
+    lang: 'uk',
+    data: { url },
+  }));
+});
+
+self.addEventListener('notificationclick', (e) => {
+  e.notification.close();
+  const hash = e.notification.data?.url || '#/';
+  const target = new URL(hash, self.registration.scope).href;
+  e.waitUntil((async () => {
+    const wins = await self.clients.matchAll({ type: 'window', includeUncontrolled: true });
+    const win = wins.find(c => c.url.startsWith(self.registration.scope));
+    if (win) {
+      // відкритий застосунок: переходимо за адресою (лише зміна #) і показуємо вікно
+      const c = await win.navigate(target).catch(() => null);
+      return (c || win).focus();
+    }
+    return self.clients.openWindow(target);
   })());
 });

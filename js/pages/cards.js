@@ -10,6 +10,7 @@ import { toast } from '../ui/toast.js';
 import { modalOpen } from '../ui/modal.js';
 import { go } from '../router.js';
 import { myLevel, diff, levelTag, byFit } from '../level.js';
+import { aiErrorText } from '../ai.js';
 
 export default async function cards(view, r) {
   if (r.parts[0] === 'review') {
@@ -218,12 +219,35 @@ function speakBtn(text, size = 24) {
   return h('button.icon-btn.soft', { type: 'button', 'aria-label': 'Прослухати', onclick: (e) => { e.stopPropagation(); speak(text); } }, ic('speaker-high', { size }));
 }
 
-/** Кнопка «Сказати» з оцінкою вимови */
+/** Кнопка «Сказати» з оцінкою вимови: після входу — AI-оцінка (функція pron), інакше — розпізнавання браузера */
 export function sayBlock(target) {
-  const out = h('div.small');
+  const out = h('div.small', { 'aria-live': 'polite' });
+  let ctrl = null;
+  const label = () => btn.replaceChildren(ic('microphone', { size: 18 }), 'Сказати');
   const btn = h('button.btn.soft.sm', {
     type: 'button', onclick: async (e) => {
       e.stopPropagation();
+      if (ctrl) { btn.disabled = true; ctrl.abort(); return; }   // «Готово»
+      btn.disabled = true;   // подвійний тап під час завантаження модуля
+      const P = await import('./pronunciation.js');
+      btn.disabled = false;
+      if (P.aiReady()) {
+        const c = ctrl = new AbortController();
+        btn.disabled = true; out.textContent = 'Вмикаю мікрофон…';
+        // картку змінено або сторінку покинуто під час запису — вимкнути мікрофон одразу, без відправлення
+        const watch = setInterval(() => { if (!btn.isConnected) c.abort(); }, 300);
+        try {
+          const res = await P.assessPhrase(target, {
+            signal: c.signal, cancelled: () => !btn.isConnected,
+            onRecording: () => { btn.disabled = false; btn.replaceChildren(ic('stop', { size: 18 }), 'Готово'); out.textContent = 'Запис… скажіть і натисніть «Готово»'; },
+            onRecorded: () => { btn.disabled = true; out.textContent = 'Оцінюю вимову…'; },
+          });
+          out.replaceChildren(P.renderAssessment(res, { compact: true }));
+        } catch (err) {
+          out.textContent = err.code === 'mic' || err.name === 'NotAllowedError' ? S.err.mic : err.code === 'short' ? 'Запис надто короткий' : (aiErrorText(err) || 'Не вдалося оцінити');
+        } finally { clearInterval(watch); ctrl = null; btn.disabled = false; label(); }
+        return;
+      }
       out.textContent = 'Слухаю…';
       try {
         const res = canRecognize() ? await recognize({ onInterim: t => { out.textContent = t; } }) : await recordAndTranscribe({ maxMs: 6000 });

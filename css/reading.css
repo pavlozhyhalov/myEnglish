@@ -1,0 +1,19 @@
+/* Читання і слова, що перекладаються дотиком (js/ui/wordtap.js, js/pages/reading.js) */
+.reading-text{font-size:var(--fs-lg);line-height:1.7}
+.reading-text p{margin:0 0 .9em}
+.reading-text p:last-child{margin-bottom:0}
+.reading-text p.speaking{background:var(--accent-soft);border-radius:8px;box-shadow:0 0 0 6px var(--accent-soft)}
+
+.wordtap .w{cursor:pointer;border-radius:4px;-webkit-tap-highlight-color:transparent;transition:background-color var(--dur, .2s)}
+@media (hover:hover){.wordtap .w:hover{background:var(--surface-2)}}
+.wordtap .w:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+.wordtap .w:active{background:var(--accent-soft)}
+.wordtap .w.gl{text-decoration:underline dotted color-mix(in srgb,var(--accent) 70%,transparent);text-decoration-thickness:2px;text-underline-offset:4px}
+
+.wt-head{font-size:var(--fs-xl);font-weight:600;overflow-wrap:anywhere}
+.wt-uk{font-size:var(--fs-lg)}
+.wt-ctx{font-style:italic;border-left:3px solid var(--line-strong);padding-left:10px;margin:0}
+.wt-entry + .section-title{margin-top:8px}
+
+.reading-gloss summary{cursor:pointer}
+.reading-day{text-decoration:none;color:inherit}

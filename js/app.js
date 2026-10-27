@@ -8,7 +8,8 @@ import { initQuickbar, setActive as qbActive } from './ui/quickbar.js';
 import { toast } from './ui/toast.js';
 import { route, fallback, onRoute, start, go } from './router.js';
 import { sectionFor } from './nav.js';
-import { supa, initAuth, onAuth } from './supa.js';
+import { initAuth, onAuth, onClient } from './supa.js';
+import { initErrlog } from './errlog.js';
 import { streak } from './stats.js';
 import { setTitle, applyTheme, isDark } from './ui/shell.js';
 import { keepAwake } from './ui/wakelock.js';
@@ -57,27 +58,33 @@ const pages = {
   vocab: () => import('./pages/vocab.js'),
   grammar: () => import('./pages/grammar.js'),
   listening: () => import('./pages/listening.js'),
+  reading: () => import('./pages/reading.js'),
   pronunciation: () => import('./pages/pronunciation.js'),
   writing: () => import('./pages/writing.js'),
   scenarios: () => import('./pages/scenarios.js'),
+  diary: () => import('./pages/diary.js'),
   tests: () => import('./pages/tests.js'),
   exercises: () => import('./pages/exercises.js'),
   mistakes: () => import('./pages/mistakes.js'),
   progress: () => import('./pages/progress.js'),
   settings: () => import('./pages/settings.js'),
   profile: () => import('./pages/profile.js'),
+  friends: () => import('./pages/friends.js'),
   session: () => import('./pages/session.js'),
   auth: () => import('./pages/auth.js'),
   lab: () => import('./pages/lab.js'),
+  admin: () => import('./pages/admin.js'),
 };
 
 // Сторінки з завданнями: картки, уроки, вправи, тести, заняття, вчитель, аудіювання, вимова, письмо, сценарії, помилки
-const PRACTICE = new Set(['cards', 'exercises', 'tests', 'session', 'tutor', 'listening', 'pronunciation', 'mistakes', 'lab']);
+const PRACTICE = new Set(['cards', 'exercises', 'tests', 'session', 'tutor', 'listening', 'pronunciation', 'mistakes', 'lab', 'diary']);
 function isPracticeRoute(r) {
   if (PRACTICE.has(r.name)) return true;
   // урок граматики, конкретне завдання з письма чи сценарій (але не списки)
-  return ['grammar', 'writing', 'scenarios'].includes(r.name) && r.parts.length > 0;
+  return ['grammar', 'writing', 'scenarios', 'reading'].includes(r.name) && r.parts.length > 0;
 }
+
+initErrlog();
 
 async function boot() {
   await store.load();
@@ -102,14 +109,15 @@ async function boot() {
   });
 
   // Авторизація і синхронізація
-  store.attachSupabase(supa);
+  // клієнт Supabase вантажиться ліниво (js/supa.js); синхронізація — щойно він готовий
+  onClient((c) => { store.attachSupabase(c); store.sync().catch(e => console.warn('sync', e)); });
   try { await initAuth(); } catch (e) { console.warn('auth', e); }
   renderProfile();
   onAuth((s) => {
     renderProfile();
     if (s) { store.sync().then(ok => ok && toast(S.synced)).catch(e => console.warn(e)); }
+    else if ('serviceWorker' in navigator) import('./push.js').then(m => m.forgetDevice()).catch(() => {});   // нагадування — лише для акаунта, що увійшов
   });
-  store.sync().catch(e => console.warn('sync', e));
   window.addEventListener('online', () => { toast(S.online); store.queueSync(300); });
   window.addEventListener('offline', () => toast(S.offline, { ms: 4500 }));
   document.addEventListener('visibilitychange', () => { if (!document.hidden) store.queueSync(500); });

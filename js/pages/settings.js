@@ -11,6 +11,7 @@ import { user } from '../supa.js';
 import { speak, englishVoices } from '../speech.js';
 import { arrange } from '../ui/quickbar.js';
 import { LEVELS, LEVEL_NAME, LEVEL_DESC, myLevel, setLevel } from '../level.js';
+import { pushSupport, reminderPrefs, setReminderPrefs, remindersOn, enable as enablePush, disable as disablePush, syncPrefs, pushErrorText } from '../push.js';
 
 const RANGE_LABEL = { dailyGoal: 'Денна мета, хвилин', newPerDay: 'Нових карток на день', rate: 'Швидкість озвучення' };
 
@@ -45,6 +46,7 @@ export default function settings(view) {
       row('Не вимикати екран під час завдань', toggle(st.keepAwake !== false, (v) => { store.setSetting('keepAwake', v); }, 'Не вимикати екран'), 'Працює в сучасних браузерах; на iPhone — iOS 16.4+'),
       row('Цільова утримуваність FSRS', select('retention', [[0.85, '85%'], [0.9, '90%'], [0.95, '95%']].map(([v, t]) => [String(v), t]), 'Утримуваність'), 'Вища — частіші повтори'),
     ]),
+    remindersGroup(),
     group('Озвучення', [
       h('div', { style: { padding: '12px 14px' } }, seg([['US', 'Акцент US'], ['UK', 'Акцент UK']], st.accent, set('accent'))),
       h('div.list-row', h('div.grow', 'Швидкість')),
@@ -75,7 +77,71 @@ export default function settings(view) {
       h('div.list-row', h('div.grow', h('div', 'Очистити дані на пристрої'), h('div.sub', 'Хмарна копія не зачіпається')),
         h('button.btn.sm.danger', { type: 'button', onclick: wipe }, 'Очистити')),
     ]),
-    h('p.xs.dim.center', `myEnglish · збірка ${BUILD}`, h('br'), h('a', { href: '#/lab/live' }, 'Лабораторія Live (діагностика голосу)'))));
+    h('p.xs.dim.center', `myEnglish · збірка ${BUILD}`, h('br'), h('a', { href: '#/lab/live' }, 'Лабораторія Live (діагностика голосу)'),
+      ((slot) => { if (user()) import('./admin.js').then(m => m.adminLink(slot)).catch(() => {}); return slot; })(h('span')))));
+}
+
+// ---------- Нагадування (Web Push) ----------
+function remindersGroup() {
+  const list = h('div.list');
+  const sec = h('section.stack', { style: { gap: '8px' } }, h('div.section-title', 'Нагадування'), list);
+  let on = false, busy = false;
+
+  const row = (label, control, sub) => h('div.list-row', h('div.grow', h('div', label), sub ? h('div.sub', sub) : null), control);
+  const kindToggle = (k, label, sub) => row(label, toggle(reminderPrefs()[k], (v) => { setReminderPrefs({ [k]: v }); pushPrefs(); }, label), sub);
+  const pushPrefs = () => syncPrefs().catch(e => toast(pushErrorText(e), { kind: 'bad' }));
+
+  async function flip(v) {
+    if (busy) return;
+    busy = true;
+    try {
+      if (v) { await enablePush(); toast(`Нагадування ввімкнено · ${reminderPrefs().time}`); }
+      else { await disablePush(); toast('Нагадування на цьому пристрої вимкнено'); }
+    } catch (e) {
+      console.warn('push', e);
+      toast(pushErrorText(e), { kind: 'bad', ms: 5000 });
+    }
+    busy = false;
+    render();
+  }
+
+  async function render() {
+    const st = pushSupport();
+    on = await remindersOn();
+    const p = reminderPrefs();
+    const time = h('input.input', {
+      type: 'time', value: p.time, step: 900, 'aria-label': 'Час нагадування', style: { width: 'auto', minHeight: '40px' },
+      onchange: (e) => { if (/^\d{2}:\d{2}$/.test(e.target.value)) { setReminderPrefs({ time: e.target.value }); pushPrefs(); } },
+    });
+    const master = toggle(on, flip, 'Нагадування на цьому пристрої');
+    const canToggle = st === 'ok' && !!user();
+    if (!canToggle && !on) master.querySelector('input').disabled = true;
+    const status = on ? `Щодня о ${p.time}, якщо є про що нагадати`
+      : st === 'ok' ? (user() ? 'Вимкнено' : 'Працює після входу в акаунт') : pushErrorText({ code: st });
+    const rows = [
+      row('Нагадування на цьому пристрої', master, status),
+      row('Час', time, 'За місцевим часом пристрою'),
+      kindToggle('cards', 'Повторити картки', 'Якщо є картки, які пора повторити'),
+      kindToggle('streak', 'Стрік під загрозою', 'Якщо сьогодні ще менше 5 хв практики'),
+    ];
+    const notes = [];
+    if (st === 'ios-install') {
+      notes.push(h('div.notice', h('b', 'Як увімкнути нагадування на iPhone чи iPad'),
+        h('ol', { style: { margin: '6px 0 0', paddingLeft: '20px' } },
+          h('li', 'Відкрийте myEnglish у Safari.'),
+          h('li', 'Натисніть «Поділитися» (квадрат зі стрілкою вгору).'),
+          h('li', 'Оберіть «На початковий екран» і натисніть «Додати».'),
+          h('li', 'Запустіть myEnglish з іконки на екрані «Додому» й увімкніть нагадування тут.')),
+        h('div.xs.dim', { style: { marginTop: '6px' } }, 'Потрібна iOS 16.4 або новіша. У звичайній вкладці Safari push-сповіщення недоступні.')));
+    } else if (st === 'ok' && !user()) {
+      notes.push(h('div.notice', 'Нагадування надсилає сервер, тому потрібен акаунт.', h('div', { style: { marginTop: '8px' } }, h('a.btn.sm.soft', { href: '#/auth' }, 'Увійти'))));
+    }
+    list.replaceChildren(...rows);
+    sec.replaceChildren(sec.firstChild, list, ...notes);
+  }
+
+  render();
+  return sec;
 }
 
 /** Вибір рівня: впливає на урок дня, нові слова, диктанти, рекомендовані сценарії й письмо, складність AI */

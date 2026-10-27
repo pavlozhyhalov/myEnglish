@@ -137,6 +137,37 @@ export async function recordAndTranscribe({ maxMs = 15000, signal } = {}) {
   return { text: (res.text || '').trim(), alternatives: [], confidence: 0 };
 }
 
+/** Чи можна записати аудіо (MediaRecorder + мікрофон) — для AI-оцінки вимови */
+export const canRecord = () => typeof MediaRecorder !== 'undefined' && !!navigator.mediaDevices?.getUserMedia;
+
+/**
+ * Записати аудіо без розпізнавання: до maxMs або до abort через signal.
+ * onStart() — мікрофон увімкнено. Повертає { audio (base64), mime, ms }.
+ */
+export async function recordAudio({ maxMs = 12000, signal, onStart } = {}) {
+  const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+  const mime = MediaRecorder.isTypeSupported('audio/webm') ? 'audio/webm' : (MediaRecorder.isTypeSupported('audio/mp4') ? 'audio/mp4' : '');
+  const release = () => stream.getTracks().forEach(tr => tr.stop());
+  let rec;
+  try {
+    rec = new MediaRecorder(stream, mime ? { mimeType: mime } : undefined);
+    if (signal?.aborted) throw new DOMException('aborted', 'AbortError');
+    rec.start();
+  } catch (e) { release(); throw e; }   // мікрофон не лишається увімкненим після збою
+  const chunks = [];
+  rec.ondataavailable = (e) => e.data.size && chunks.push(e.data);
+  const done = new Promise(res => { rec.onstop = res; });
+  const t0 = Date.now();
+  const halt = () => rec.state !== 'inactive' && rec.stop();
+  onStart?.();
+  const t = setTimeout(halt, maxMs);
+  signal?.addEventListener('abort', halt);
+  await done; clearTimeout(t);
+  release();
+  const blob = new Blob(chunks, { type: rec.mimeType || 'audio/webm' });
+  return { audio: await blobToBase64(blob), mime: blob.type.split(';')[0] || 'audio/webm', ms: Date.now() - t0 };
+}
+
 export function blobToBase64(blob) {
   return new Promise((res, rej) => {
     const fr = new FileReader();

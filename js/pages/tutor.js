@@ -4,6 +4,7 @@ import { S, plural } from '../strings.js';
 import * as store from '../store.js';
 import * as srs from '../srs.js';
 import { md } from '../ui/md.js';
+import { tappable } from '../ui/wordtap.js';
 import { tutor, tutorStream, aiErrorText } from '../ai.js';
 import { user } from '../supa.js';
 import { speak, recognize, canRecognize } from '../speech.js';
@@ -45,7 +46,7 @@ function needLoginCard() {
 
 function overview(view) {
   const st = store.settings();
-  const chats = store.all('tutor_chats').sort((a, b) => b.created_at.localeCompare(a.created_at));
+  const chats = store.all('tutor_chats').filter(c => c.mode !== 'diary').sort((a, b) => b.created_at.localeCompare(a.created_at));
   view.replaceChildren(h('div.stack-lg',
     h('section.row', h('div.emoji-circle', emo('teacher')), h('div.grow', h('h1', st.tutorName), h('div.small.dim', 'Ваш AI-вчитель англійської'))),
     needLoginCard(),
@@ -60,7 +61,7 @@ function history(view, chats) {
   let selecting = false;
   const picked = new Set();
   const draw = () => {
-    const list = store.all('tutor_chats').sort((a, b) => b.created_at.localeCompare(a.created_at));
+    const list = store.all('tutor_chats').filter(c => c.mode !== 'diary').sort((a, b) => b.created_at.localeCompare(a.created_at));
     const head = h('div.row', h('div.section-title.grow', `Історія${list.length ? ` · ${list.length}` : ''}`),
       list.length ? h('button.btn.sm.ghost', { type: 'button', onclick: () => { selecting = !selecting; picked.clear(); draw(); } }, selecting ? 'Скасувати' : 'Вибрати') : null);
     if (!list.length) { box.replaceChildren(head, h('div.empty', emo('speech', 'xl'), h('p', 'Поки що розмов немає. Почніть з вільної або голосової розмови.'))); return; }
@@ -117,11 +118,21 @@ export function parseReply(text) {
 function msgView(m, { onSpeak = true } = {}) {
   if (m.role === 'user') return h('div.msg.me', m.text);
   const { body, fixes } = m.fixes ? { body: m.text, fixes: m.fixes } : parseReply(m.text);
-  const el = h('div.msg.ai', md(body));
+  // англійські слова відповіді вчителя перекладаються дотиком (лише готові повідомлення, не під час стрімінгу)
+  const el = h('div.msg.ai', tappable(h('div.msg-body', md(body)), { onAsk: askInChat }));
   if (fixes.length) el.append(h('details.fix', h('summary', ic('pencil-simple', { size: 16 }), `Виправлення (${fixes.length})`),
     h('ul', fixes.map(f => h('li', f.wrong ? [h('s.bad', f.wrong), ' → ', h('b.good', f.right)] : h('b', f.right), f.why ? h('div.xs.dim', f.why) : null)))));
   if (onSpeak) el.append(h('div.tools', h('button.icon-btn', { type: 'button', 'aria-label': 'Озвучити', onclick: () => speak(stripForSpeech(body)) }, ic('speaker-high', { size: 18 }))));
   return el;
+}
+/** «Запитати вчителя» зі слова в чаті: питання підставляється в поле вводу (не надсилається і не витрачає ліміт AI без згоди) */
+function askInChat(word) {
+  const ta = document.querySelector('.composer textarea');
+  if (!ta) { location.hash = `#/tutor?ask=${encodeURIComponent(word)}`; return; }
+  const q = `What does "${word}" mean here?`;
+  ta.value = ta.value.trim() ? `${ta.value.trimEnd()}\n${q}` : q;   // чернетку не затираємо
+  ta.dispatchEvent(new Event('input'));
+  ta.focus();
 }
 function stripForSpeech(t) { return t.replace(/[*_`#>]/g, '').replace(/\[[^\]]*\]/g, ''); }
 
@@ -139,6 +150,8 @@ async function chat(view, opts) {
 async function openChat(view, id) {
   const row = store.get('tutor_chats', id);
   if (!row) { view.replaceChildren(h('div.empty', h('p', 'Розмову не знайдено'), h('a.btn.soft', { href: '#/tutor' }, 'До вчителя'))); return; }
+  // записи щоденника живуть у tutor_chats (mode 'diary'), але відкриваються на своїй сторінці
+  if (row.mode === 'diary') { go('/diary/' + encodeURIComponent(id), { replace: true }); return; }
   if (row.mode === 'check') return checkResultView(view, row);
   if (!row.messages?.length) return summaryView(view, row);
   let scenario = null;

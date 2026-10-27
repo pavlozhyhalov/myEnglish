@@ -36,6 +36,8 @@ export async function ai(fn, action, payload = {}, { signal } = {}) {
   return res.json();
 }
 export const tutor = (action, payload, opts) => ai('tutor', action, payload, opts);
+/** AI-оцінка вимови (edge-функція pron): pron('assess', { audio, mime, text, accent }) */
+export const pron = (action, payload, opts) => ai('pron', action, payload, opts);
 
 /** Стрімінг тексту (SSE: data: {"t":"..."}) */
 export async function tutorStream(payload, onText, { signal } = {}) {
