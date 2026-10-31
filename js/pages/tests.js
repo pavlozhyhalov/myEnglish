@@ -130,19 +130,23 @@ const WRITING_BAND = {
 };
 const wordCount = (t) => (String(t).match(/[A-Za-z]+(?:['’][A-Za-z]+)?/g) || []).length;
 const canVoice = () => !!(navigator.mediaDevices?.getUserMedia && (window.AudioContext || window.webkitAudioContext));
+/** Чи можна озвучити аудіювання: голос браузера або Gemini TTS (після входу). Без звуку частину пропускаємо, а не рахуємо як помилки */
+const canListen = () => typeof speechSynthesis !== 'undefined' || (store.settings().ttsEngine === 'gemini' && !!user());
 
 async function placementTest(view) {
   setTitle('Визначення рівня');
   const bank = (await loadPlacement()).items.filter(q => CAT.LEVELS.includes(q.level) && Array.isArray(q.options) && q.options.length);
   const byId = new Map(bank.map(q => [q.id, q]));
-  const skills = CAT.skillsIn(bank);
+  const bankSkills = CAT.skillsIn(bank);
+  const skills = bankSkills.filter(s => s !== 'listening' || canListen());
   // питання трьох останніх тестів (і тексти, до яких вони були) — лише якщо свіжих на потрібному рівні вже немає
   const seen = seenRecently('placement');
   for (const id of [...seen]) { const g = byId.get(id)?.group; if (g != null) seen.add(`group:${g}`); }
   const timer = activityTimer('test');
   onLeave(view, () => { timer.stop(); stopSpeech(); setFocus(false); });
   let run = loadRun();
-  if (run && (run.skills || []).join() !== skills.join()) run = null;   // банк питань змінився — починаємо заново
+  // банк питань змінився (зникла частина) — починаємо заново; окремі зниклі питання не заважають (оцінка — за збереженим рівнем)
+  if (run && (!Array.isArray(run.skills) || !run.skills.length || run.skills.some(s => !bankSkills.includes(s)))) run = null;
 
   // ---------- оцінки ----------
   const estimates = () => {
@@ -204,6 +208,8 @@ async function placementTest(view) {
     if (!s) return afterReceptive();
     const resp = run.resp[s];
     let q = run.cur ? byId.get(run.cur.id) : null;
+    // питання змінили після паузи (інші варіанти) — підбираємо нове
+    if (q && !(Array.isArray(run.cur.options) && run.cur.options.length === q.options.length && run.cur.options.every(o => q.options.includes(o)))) { run.cur = null; q = null; }
     if (!q) {
       const last = resp.length ? byId.get(resp[resp.length - 1].id) : null;
       q = CAT.nextItem(bank, { skill: s, est: estFor(s), used: usedIds(), seen, last });
@@ -215,9 +221,13 @@ async function placementTest(view) {
     const n = resp.length + 1;
     const share = Math.min(1, (resp.length) / max);
     const overall = (run.skill + share) / run.skills.length;
-    let choice = null, plays = 0;
-    const record = (ok, given) => {
-      resp.push({ id: q.id, skill: s, level: q.level, ok, given, ...(q.group != null ? { group: q.group } : {}) });
+    let choice = null, plays = 0, done = false;
+    const shownAt = Date.now();
+    const record = (ok, given, dk = false) => {
+      // подвійний дотик: друге натискання не має відповісти на наступне питання
+      if (done || Date.now() - shownAt < 300) return;
+      done = true;
+      resp.push({ id: q.id, skill: s, level: q.level, ok, given, ...(dk ? { dk: true } : {}), ...(q.group != null ? { group: q.group } : {}) });
       run.cur = null; saveRun(run); timer.poke();
       stopSpeech();
       ask();
@@ -235,6 +245,10 @@ async function placementTest(view) {
       else listen.lastChild.textContent = `Ще раз (${3 - plays})`;
     } }, ic('speaker-high', { size: 18 }), h('span', 'Прослухати')) : null;
     const instr = s === 'listening' ? 'Прослухайте і оберіть відповідь (не більше трьох разів)' : s === 'reading' ? 'Прочитайте текст і оберіть відповідь' : s === 'vocabulary' ? 'Оберіть слово, що підходить' : 'Оберіть правильний варіант';
+    const noSound = s === 'listening' ? h('button.btn.ghost.sm', { type: 'button', onclick: () => {
+      if (!confirm('Пропустити аудіювання? Ця частина не врахується в рівні.')) return;
+      stopSpeech(); run.resp[s] = []; run.noSound = true; run.skill++; run.cur = null; saveRun(run); ask();
+    } }, 'Немає звуку — пропустити частину') : null;
     const pairNote = q.group != null && resp.length && resp[resp.length - 1].group === q.group ? h('span.tag', 'Той самий текст, друге питання') : null;
     view.replaceChildren(h('div.stack.pl-run',
       h('div.row', h('button.icon-btn', { type: 'button', 'aria-label': 'Пауза — продовжити можна пізніше', title: 'Пауза', onclick: pause }, ic('pause')),
@@ -245,7 +259,8 @@ async function placementTest(view) {
       q.passage ? h('div.card.pl-passage', { lang: 'en' }, q.passage) : null,
       h('div.row', h('div.grow.pl-prompt', { lang: 'en' }, q.prompt), listen),
       h('div.stack', { role: 'group', 'aria-label': 'Варіанти відповіді' }, opts),
-      h('div.row', h('button.btn.ghost', { type: 'button', onclick: () => record(false, '—') }, 'Не знаю'), nextBtn)));
+      h('div.row', h('button.btn.ghost', { type: 'button', onclick: () => record(false, '—', true) }, 'Не знаю'), nextBtn),
+      noSound));
     if (listen) setTimeout(() => listen.isConnected && plays === 0 && listen.click(), 300);
   }
 
@@ -262,7 +277,8 @@ async function placementTest(view) {
   // ---------- письмо ----------
   function writingStep() {
     setFocus(false);
-    if (!user() || !navigator.onLine || run.writing?.result || run.writing?.skipped) { run.phase = 'speaking'; saveRun(run); return resume(); }
+    if (!user() || run.writing?.result || run.writing?.skipped) { run.phase = 'speaking'; saveRun(run); return resume(); }
+    if (!navigator.onLine) return offlineStep(writingStep);
     const est = receptiveOverall()?.level || 'B1';
     const cfg = WRITING_BAND[est];
     if (!run.writing?.task) {
@@ -323,8 +339,14 @@ async function placementTest(view) {
           tutor('level_writing', { text, task: taskText, target: run.writing.target }),
           new Promise((_, rej) => setTimeout(() => rej(new Error('timeout')), 60000)),
         ]);
+        if (!res?.level) {
+          // не англійською, переписана умова тощо — пояснюємо й даємо переписати (або пропустити)
+          send.disabled = false; ta.disabled = false;
+          err.replaceChildren(h('div.feedback.no', res?.comment_uk || 'Не вдалося оцінити текст. Спробуйте ще раз або пропустіть письмо.'));
+          return;
+        }
         clearInterval(tick);
-        run.writing = { ...run.writing, words: wordCount(text), result: res && typeof res === 'object' ? res : { level: null } };
+        run.writing = { ...run.writing, words: wordCount(text), result: res };
         run.phase = 'speaking'; saveRun(run); timer.poke();
         resume();
       } catch (e) {
@@ -334,10 +356,25 @@ async function placementTest(view) {
     }
   }
 
+  /** Немає мережі: письмо й розмову оцінює вчитель онлайн — спробувати ще раз або завершити без них */
+  function offlineStep(retry) {
+    setFocus(false);
+    view.replaceChildren(h('div.hero', emo('warning', 'xl'), h('h2', 'Немає з\'єднання з інтернетом'),
+      h('p.dim', 'Письмо й розмову оцінює вчитель онлайн. Під\'єднайтеся до мережі й спробуйте ще раз — або завершіть тест без цих частин.'),
+      h('div.stack', { style: { gap: '8px', width: '100%' } },
+        h('button.btn.primary.block', { type: 'button', onclick: retry }, 'Спробувати ще раз'),
+        h('button.btn.soft.block', { type: 'button', onclick: () => {
+          if (!run.writing?.result) run.writing = { ...(run.writing || {}), skipped: 'offline' };
+          if (!run.speaking) run.speaking = { skipped: 'offline' };
+          run.phase = 'done'; saveRun(run); finish();
+        } }, 'Завершити без них'))));
+  }
+
   // ---------- розмова ----------
   function speakingStep() {
     setFocus(false);
-    if (!user() || !navigator.onLine || run.speaking) { run.phase = 'done'; saveRun(run); return finish(); }
+    if (!user() || run.speaking) { run.phase = 'done'; saveRun(run); return finish(); }
+    if (!navigator.onLine) return offlineStep(speakingStep);
     const est = receptiveOverall()?.level || 'B1';
     const skip = (why) => { run.speaking = { skipped: why || true }; run.phase = 'done'; saveRun(run); finish(); };
     if (!canVoice()) {
@@ -416,8 +453,10 @@ async function placementTest(view) {
       run.speaking?.level ? bar('speaking', run.speaking.level, 'за розмовою') : null,
     ];
     const skipped = [
-      !wr?.level ? (run.writing?.skipped ? 'письмо пропущено' : wr ? 'письмо не оцінено' : user() ? null : 'письмо й розмова — після входу') : null,
-      run.speaking?.skipped ? (run.speaking.skipped === 'no_mic' ? 'розмова недоступна' : run.speaking.skipped === 'failed' ? 'розмову не вдалося оцінити' : 'розмову пропущено') : null,
+      run.noSound ? 'аудіювання пропущено (немає звуку)' : null,
+      bankSkills.includes('listening') && !run.skills.includes('listening') ? 'аудіювання — немає озвучення в цьому браузері' : null,
+      !wr?.level ? (run.writing?.skipped === 'offline' ? 'письмо — немає з\'єднання' : run.writing?.skipped ? 'письмо пропущено' : wr ? 'письмо не оцінено' : user() ? null : 'письмо й розмова — після входу') : null,
+      run.speaking?.skipped ? (run.speaking.skipped === 'offline' ? 'розмова — немає з\'єднання' : run.speaking.skipped === 'no_mic' ? 'розмова недоступна' : run.speaking.skipped === 'failed' ? 'розмову не вдалося оцінити' : 'розмову пропущено') : null,
     ].filter(Boolean);
     view.replaceChildren(h('div.stack-lg.pl-result',
       h('div.hero', emo('trophy', 'xl'), h('div.xs.dim', 'Ваш рівень'), h('div.num.pl-big', o.display),

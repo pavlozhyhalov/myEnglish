@@ -77,7 +77,7 @@ export default async function progressPage(view) {
 
     h('section.card.stack',
       h('div.section-title', 'Рівень за навичками'),
-      h('div.grid2', Object.entries({ grammar: 'Граматика', vocabulary: 'Лексика', listening: 'Аудіювання', speaking: 'Говоріння' }).map(([k, t]) => stat(skills[k] || '—', t))),
+      h('div.grid2', Object.entries({ grammar: 'Граматика', vocabulary: 'Лексика', reading: 'Читання', listening: 'Аудіювання', writing: 'Письмо', speaking: 'Говоріння' }).map(([k, t]) => stat(skills[k] || '—', t))),
       h('div.xs.dim', 'За останнім тестом на рівень і розмовами із вчителем')),
 
     h('section.card.stack',

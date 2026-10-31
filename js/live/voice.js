@@ -201,7 +201,8 @@ export async function voiceSession(view, opts = {}) {
     setState('');
     notice.replaceChildren(h(e.code === 'need_login' ? 'div.notice' : 'div.feedback.no', ERR[e.code] || aiErrorText(e) || S.err.generic),
       e.code === 'need_login' ? h('a.btn.primary', { href: '#/auth', style: { marginTop: '12px' } }, 'Увійти') : null);
-    controls.replaceChildren(h('button.btn.soft', { type: 'button', onclick: () => go('/tutor', { replace: true }) }, 'Назад'));
+    // у тесті рівня — повертаємось у тест (він зарахує «розмову не вдалося оцінити»), інакше — до вчителя
+    controls.replaceChildren(h('button.btn.soft', { type: 'button', onclick: () => { if (opts.onFinish) { ended = true; cleanup(); opts.onFinish(row); } else go('/tutor', { replace: true }); } }, 'Назад'));
   }
 
   // ---------- запасний режим «рація» ----------

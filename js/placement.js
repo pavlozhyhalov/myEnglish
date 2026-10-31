@@ -6,6 +6,9 @@
 // він відповідає правильно хоча б на ~62% питань. Оцінка θ — EAP (апостеріорне середнє) на сітці
 // зі слабким нормальним апріорі: для першої навички — посередині шкали, для наступних — біля оцінки
 // попередніх (так алгоритм швидше знаходить межу і не «стрибає» після однієї випадкової відповіді).
+// «Не знаю» — неправильна відповідь без вгадування: хто чесно так відповідає, вгадує рідше, тому ймовірність
+// вгадати (1/4) для нього зменшується пропорційно частці «Не знаю» серед питань, яких він не знав.
+// Інакше чесного учня система вважала б слабшим (менше «вгаданих» правильних, ніж очікує модель).
 
 export const LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1'];
 export const TOP = LEVELS.length - 1;
@@ -18,8 +21,8 @@ export const RULES = {
   listening: { min: 8, max: 12 },
 };
 export const SE_STOP = 0.45;
-/** Додаткова умова зупинки (класифікаційна): ≥ 60% імовірності на одному рівні або SE ≤ 0.35 */
-export const MASS_STOP = 0.6;
+/** Додаткова умова зупинки (класифікаційна): ≥ 70% імовірності на одному рівні або SE ≤ 0.35 */
+export const MASS_STOP = 0.7;
 export const SE_FINE = 0.35;
 /** Ваги навичок у загальному рівні (перенормовуються за тими, що були пройдені) */
 export const WEIGHTS = { grammar: 0.25, vocabulary: 0.25, reading: 0.2, listening: 0.15, writing: 0.075, speaking: 0.075 };
@@ -48,13 +51,14 @@ export function priorFrom(prevThetas = []) {
 
 /**
  * EAP-оцінка θ і її стандартна похибка (апостеріорне SD).
- * responses: [{ lvl: 0..4 | 'B1', ok: bool }]
+ * responses: [{ lvl: 0..4 | 'B1', ok: bool, dk?: bool }] — dk: «Не знаю»
  */
 export function estimateTheta(responses, prior = priorFrom()) {
-  const rs = responses.map(r => ({ d: typeof r.lvl === 'number' ? r.lvl : LEVELS.indexOf(r.level ?? r.lvl), ok: !!r.ok })).filter(r => r.d >= 0);
+  const rs = responses.map(r => ({ d: typeof r.lvl === 'number' ? r.lvl : LEVELS.indexOf(r.level ?? r.lvl), ok: !!r.ok, dk: !r.ok && (!!r.dk || r.given === '—') })).filter(r => r.d >= 0);
+  const c = guessRate(rs);
   const logw = GRID.map(t => {
     let l = -0.5 * ((t - prior.mu) / prior.sd) ** 2;
-    for (const { d, ok } of rs) { const p = pCorrect(t, d); l += Math.log(ok ? p : 1 - p); }
+    for (const { d, ok } of rs) { const p = c + (1 - c) * sig(A * (t - d)); l += Math.log(ok ? p : 1 - p); }
     return l;
   });
   const mx = Math.max(...logw);
@@ -63,6 +67,15 @@ export function estimateTheta(responses, prior = priorFrom()) {
   const theta = GRID.reduce((a, t, i) => a + t * w[i], 0) / sum;
   const v = GRID.reduce((a, t, i) => a + (t - theta) ** 2 * w[i], 0) / sum;
   return { theta, se: Math.sqrt(v), n: rs.length };
+}
+
+/**
+ * Імовірність вгадати для цього учня: 1/4 · (1 − k), k — частка «Не знаю» серед питань, яких він не знав
+ * (не знав = «Не знаю» + неправильні / (3/4), бо чверть невідомих він вгадав би). +1 у знаменнику — згладжування.
+ */
+function guessRate(rs) {
+  const dk = rs.filter(r => r.dk).length, wrong = rs.filter(r => !r.ok && !r.dk).length;
+  return C * (1 - dk / (dk + wrong / (1 - C) + 1));
 }
 
 /** Рівень (індекс) за θ */

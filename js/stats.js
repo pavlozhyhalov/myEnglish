@@ -185,7 +185,7 @@ export function lessonsToReview() {
 /** Рівень за навичками: з останнього тесту на рівень + сигнали розмов */
 export function skillLevels() {
   const prof = store.prof();
-  const out = { grammar: null, vocabulary: null, listening: null, speaking: null, ...(prof.skills || {}) };
+  const out = { grammar: null, vocabulary: null, reading: null, listening: null, writing: null, speaking: null, ...(prof.skills || {}) };
   const signals = store.all('tutor_chats').filter(c => c.summary?.level_signal && c.summary.level_assessment?.enough_data !== false).sort((a, b) => b.created_at.localeCompare(a.created_at)).slice(0, 5);
   if (signals.length) {
     const order = ['A1', 'A2', 'B1', 'B2', 'C1'];
