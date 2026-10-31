@@ -157,7 +157,7 @@ body.drawer-open{position:fixed;left:0;right:0;overflow:hidden}
 .drawer a.item{
   display:flex;align-items:center;gap:14px;min-height:46px;padding:0 12px;border-radius:12px;
   color:var(--ink);text-decoration:none;font-weight:500;
-  -webkit-tap-highlight-color:transparent;
+  -webkit-tap-highlight-color:transparent;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none;
   transition:background-color .18s ease,color .18s ease,transform .18s cubic-bezier(.2,.8,.2,1);
 }
 /* відгук на дотик: блок під пальцем підсвічується й злегка «втискається» (клас ставить drawer.js) */

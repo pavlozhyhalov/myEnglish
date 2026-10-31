@@ -154,19 +154,26 @@ function swipeToClose(el) {
 
 export function toggle() { drawer.classList.contains('open') ? close() : open(); }
 
-/** Відгук на дотик у меню: клас .pressed на пункті під пальцем; якщо палець поїхав (прокрутка/свайп) — знімаємо */
+/**
+ * Відгук на дотик у меню: пункт під пальцем підсвічений, поки палець тримається (а не лише «моргає»);
+ * якщо палець поїхав (прокрутка/свайп) — підсвітку знімаємо. На сенсорі — touch-події (iOS скасовує pointer-події
+ * під час довгого утримання), мишею — pointer-події.
+ */
 function pressFeedback(root) {
+  const SEL = 'a.item, .profile-card a, .profile .btn';
   let el = null, x0 = 0, y0 = 0, t = 0;
-  const off = () => { clearTimeout(t); if (el) { const e = el; el = null; t = setTimeout(() => e.classList.remove('pressed'), 90); } };
-  root.addEventListener('pointerdown', (e) => {
-    const target = e.target.closest('a.item, .profile-card a, .profile .btn');
-    if (!target) return;
-    clearTimeout(t); if (el) el.classList.remove('pressed');
-    el = target; x0 = e.clientX; y0 = e.clientY;
-    el.classList.add('pressed');
-  }, { passive: true });
-  root.addEventListener('pointermove', (e) => { if (el && Math.hypot(e.clientX - x0, e.clientY - y0) > 8) { el.classList.remove('pressed'); el = null; } }, { passive: true });
-  root.addEventListener('pointerup', off, { passive: true });
-  root.addEventListener('pointercancel', () => { if (el) { el.classList.remove('pressed'); el = null; } }, { passive: true });
-  root.addEventListener('scroll', () => { if (el) { el.classList.remove('pressed'); el = null; } }, { passive: true, capture: true });
+  const press = (target, x, y) => { clearTimeout(t); if (el && el !== target) el.classList.remove('pressed'); el = target; x0 = x; y0 = y; el.classList.add('pressed'); };
+  const drop = () => { if (el) { el.classList.remove('pressed'); el = null; } };
+  const release = () => { clearTimeout(t); if (el) { const e = el; el = null; t = setTimeout(() => e.classList.remove('pressed'), 120); } };
+  const moved = (x, y) => { if (el && Math.hypot(x - x0, y - y0) > 10) drop(); };
+  root.addEventListener('touchstart', (e) => { const tg = e.target.closest(SEL); if (tg && e.touches.length === 1) press(tg, e.touches[0].clientX, e.touches[0].clientY); }, { passive: true });
+  root.addEventListener('touchmove', (e) => moved(e.touches[0].clientX, e.touches[0].clientY), { passive: true });
+  root.addEventListener('touchend', release, { passive: true });
+  root.addEventListener('touchcancel', drop, { passive: true });
+  root.addEventListener('pointerdown', (e) => { if (e.pointerType !== 'touch') { const tg = e.target.closest(SEL); if (tg) press(tg, e.clientX, e.clientY); } }, { passive: true });
+  root.addEventListener('pointermove', (e) => { if (e.pointerType !== 'touch') moved(e.clientX, e.clientY); }, { passive: true });
+  root.addEventListener('pointerup', (e) => { if (e.pointerType !== 'touch') release(); }, { passive: true });
+  root.addEventListener('scroll', drop, { passive: true, capture: true });
+  // довге утримання не відкриває системне меню посилання (iOS) — інакше воно забирає дотик
+  root.addEventListener('contextmenu', (e) => { if (e.target.closest(SEL)) e.preventDefault(); });
 }
