@@ -24,6 +24,7 @@ export function initDrawer() {
   // відкривається кнопкою; закривається тапом по фону, пунктом, Esc або свайпом уліво (лише вліво — вправо не тягнеться)
   scrim.addEventListener('touchmove', e => e.preventDefault(), { passive: false });
   swipeToClose(drawer);
+  pressFeedback(drawer);
   swipeToClose(scrim);
 
   if (store.settings().pinDrawer !== false) document.body.classList.add('drawer-pinned');
@@ -152,3 +153,20 @@ function swipeToClose(el) {
 }
 
 export function toggle() { drawer.classList.contains('open') ? close() : open(); }
+
+/** Відгук на дотик у меню: клас .pressed на пункті під пальцем; якщо палець поїхав (прокрутка/свайп) — знімаємо */
+function pressFeedback(root) {
+  let el = null, x0 = 0, y0 = 0, t = 0;
+  const off = () => { clearTimeout(t); if (el) { const e = el; el = null; t = setTimeout(() => e.classList.remove('pressed'), 90); } };
+  root.addEventListener('pointerdown', (e) => {
+    const target = e.target.closest('a.item, .profile-card a, .profile .btn');
+    if (!target) return;
+    clearTimeout(t); if (el) el.classList.remove('pressed');
+    el = target; x0 = e.clientX; y0 = e.clientY;
+    el.classList.add('pressed');
+  }, { passive: true });
+  root.addEventListener('pointermove', (e) => { if (el && Math.hypot(e.clientX - x0, e.clientY - y0) > 8) { el.classList.remove('pressed'); el = null; } }, { passive: true });
+  root.addEventListener('pointerup', off, { passive: true });
+  root.addEventListener('pointercancel', () => { if (el) { el.classList.remove('pressed'); el = null; } }, { passive: true });
+  root.addEventListener('scroll', () => { if (el) { el.classList.remove('pressed'); el = null; } }, { passive: true, capture: true });
+}

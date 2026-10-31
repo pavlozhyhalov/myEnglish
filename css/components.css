@@ -157,7 +157,14 @@ body.drawer-open{position:fixed;left:0;right:0;overflow:hidden}
 .drawer a.item{
   display:flex;align-items:center;gap:14px;min-height:46px;padding:0 12px;border-radius:12px;
   color:var(--ink);text-decoration:none;font-weight:500;
+  -webkit-tap-highlight-color:transparent;
+  transition:background-color .18s ease,color .18s ease,transform .18s cubic-bezier(.2,.8,.2,1);
 }
+/* відгук на дотик: блок під пальцем підсвічується й злегка «втискається» (клас ставить drawer.js) */
+.drawer a.item.pressed{background:var(--accent-soft);color:var(--accent-ink);transform:scale(.97);transition-duration:.06s}
+.drawer a.item.pressed svg{color:var(--accent-ink)}
+.drawer .profile-card a.pressed,.drawer .profile .btn.pressed{transform:scale(.97);opacity:.85}
+@media (prefers-reduced-motion:reduce){.drawer a.item,.drawer a.item.pressed{transform:none;transition:background-color .1s}}
 @media (hover:hover){.drawer a.item:hover{background:var(--surface-2)}}
 .drawer:focus{outline:none}
 html.kbd .drawer a.item:focus-visible{outline:2px solid var(--accent-ink);outline-offset:-2px}
