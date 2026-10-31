@@ -38,12 +38,17 @@ export default async function progressPage(view) {
   for (const s of store.all('sessions')) byType[s.type] = (byType[s.type] || 0) + s.seconds;
 
   const stat = (v, label) => h('div.stat', h('b', String(v)), h('span', label));
+  // «Запитати вчителя про це» → консультація (режим coach) про відповідний розділ
+  const ask = (sec) => h('a.btn.sm.ghost', { href: `#/tutor?mode=coach&section=${sec}`, style: { alignSelf: 'flex-start', color: 'var(--accent-ink)' } }, ic('chat-circle-dots', { size: 16 }), 'Запитати вчителя про це');
   const dayLbl = (d) => d.date.toLocaleDateString('uk-UA', { day: 'numeric', month: 'short' });
 
   view.replaceChildren(h('div.stack-lg',
     h('section.card.row', emo('fire', 'xl'),
       h('div.grow', h('div.num', { style: { fontSize: 'var(--fs-2xl)' } }, String(streak())), h('div.small.dim', `${plural(streak(), 'день', 'дні', 'днів')} поспіль`)),
       h('div.stat', { style: { textAlign: 'right' } }, h('b', fmtMin(totalSeconds())), h('span', 'всього практики'))),
+
+    h('a.card.row.analysis-link', { href: '#/analysis', style: { textDecoration: 'none', color: 'inherit' } }, ic('chart-pie-slice', { size: 24 }),
+      h('div.grow', h('div', { style: { fontWeight: 600 } }, 'Детальний аналіз →'), h('div.xs.dim', 'Сильні й слабкі сторони, тренди помилок, утримання слів, план від вчителя'))),
 
     weeklyCard(),
 
@@ -65,7 +70,7 @@ export default async function progressPage(view) {
       h('div.section-title', 'Прогноз повторів на 7 днів'),
       h('div.bars', { style: { height: '80px' }, role: 'img', 'aria-label': `Прогноз повторів на 7 днів: ${fc.join(', ')}` }, fc.map(n => h('i' + (n ? '' : '.zero'), { style: { height: `${Math.max(2, n / maxFc * 100)}%` }, title: String(n) }))),
       h('div.bars-labels', fc.map((n, i) => h('span', i === 0 ? `сьог. ${n}` : String(n)))),
-      fc.some(n => n) ? null : h('div.xs.dim', 'Повторів поки не заплановано — почніть вчити картки.')),
+      fc.some(n => n) ? null : h('div.xs.dim', 'Повторів поки не заплановано — почніть вчити картки.'), ask('vocabulary')),
 
     h('section.card.stack',
       h('div.row', h('div.level-badge', lvl), h('div.grow', h('div.section-title', `Рівень ${lvl} · ${LEVEL_NAME[lvl]}`), h('div.xs.dim', `Опановано ${lp.pct}% · перехід від ${READY_PCT}%`))),
@@ -78,18 +83,18 @@ export default async function progressPage(view) {
     h('section.card.stack',
       h('div.section-title', 'Рівень за навичками'),
       h('div.grid2', Object.entries({ grammar: 'Граматика', vocabulary: 'Лексика', reading: 'Читання', listening: 'Аудіювання', writing: 'Письмо', speaking: 'Говоріння' }).map(([k, t]) => stat(skills[k] || '—', t))),
-      h('div.xs.dim', 'За останнім тестом на рівень і розмовами із вчителем')),
+      h('div.xs.dim', 'За останнім тестом на рівень і розмовами із вчителем'), ask('placement')),
 
     h('section.card.stack',
       h('div.section-title', 'Граматика'),
       h('div.row', h('div.grow', bar(done / gIdx.length * 100, 'Пройдено уроків граматики')), h('span.small', `${done}/${gIdx.length}`)),
-      tests.length ? h('div.stack', { style: { gap: '4px' } }, h('div.section-title', 'Останні тести'), tests.map(t => h('div.row.small', h('span.grow', t.type === 'placement' ? 'Рівень' : t.type === 'weekly' ? 'Тижневий' : `Урок: ${t.ref}`), h('span.dim', new Date(t.created_at).toLocaleDateString('uk-UA')), h('b', t.type === 'placement' ? t.scores.overall : `${t.scores.score}%`)))) : null),
+      tests.length ? h('div.stack', { style: { gap: '4px' } }, h('div.section-title', 'Останні тести'), tests.map(t => h('div.row.small', h('span.grow', t.type === 'placement' ? 'Рівень' : t.type === 'weekly' ? 'Тижневий' : `Урок: ${t.ref}`), h('span.dim', new Date(t.created_at).toLocaleDateString('uk-UA')), h('b', t.type === 'placement' ? t.scores.overall : `${t.scores.score}%`)))) : null, ask('grammar')),
 
     h('section.card.stack',
       h('div.section-title', 'Типи помилок і динаміка'),
       dyn.length ? dyn.map(d => h('div.row',
         h('div.grow', h('div', S.mistakeTypes[d.t]), h('div.xs.dim', `усього: ${d.total} · відкритих: ${d.open}`)),
-        h('span.tag' + (d.w1 < d.w2 ? '.good' : d.w1 > d.w2 ? '.bad' : ''), `тиждень: ${d.w1} ${d.w1 < d.w2 ? '↓' : d.w1 > d.w2 ? '↑' : '='}`))) : h('div.small.dim', 'Даних поки немає')),
+        h('span.tag' + (d.w1 < d.w2 ? '.good' : d.w1 > d.w2 ? '.bad' : ''), `тиждень: ${d.w1} ${d.w1 < d.w2 ? '↓' : d.w1 > d.w2 ? '↑' : '='}`))) : h('div.small.dim', 'Даних поки немає'), dyn.length ? ask('mistakes') : null),
     h('p.xs.dim.center', `${store.count('reviews')} ${plural(store.count('reviews'), 'оцінка', 'оцінки', 'оцінок')} карток у журналі на пристрої`)));
 }
 
@@ -122,7 +127,7 @@ export function periodStats(fromKey, toKey) {
     mistakesFixed: ms.filter(m => m.resolved && inDay(m.updated_at)).length,
     openMistakes: ms.filter(m => !m.resolved).length,
     diary: chats.filter(c => c.mode === 'diary').length,
-    chats: chats.filter(c => c.mode !== 'diary').length,
+    chats: chats.filter(c => c.mode !== 'diary' && c.mode !== 'coach').length,
   };
 }
 

@@ -20,10 +20,12 @@ export const SECTIONS = [
   { id: 'diary', icon: 'notebook', href: '#/diary', group: 'practice' },
   { id: 'tests', icon: 'exam', href: '#/tests', group: 'practice' },
   { id: 'mistakes', icon: 'warning-circle', href: '#/mistakes', group: 'practice' },
+  { id: 'games', icon: 'game-controller', href: '#/games', group: 'practice' },
   // Я
   { id: 'profile', icon: 'user', href: '#/profile', group: 'me' },
   { id: 'friends', icon: 'users', href: '#/friends', group: 'me' },
   { id: 'progress', icon: 'chart-line-up', href: '#/progress', group: 'me' },
+  { id: 'analysis', icon: 'chart-pie-slice', href: '#/analysis', group: 'me' },
   { id: 'settings', icon: 'gear-six', href: '#/settings', group: 'me' },
 ].map(s => ({ ...s, emoji: s.icon, label: S.nav[s.id], long: S.navLong[s.id] || S.nav[s.id] }));
 

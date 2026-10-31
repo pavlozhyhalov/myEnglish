@@ -40,8 +40,8 @@ export default async function home(view) {
 
   const plan = [];
   if (toReview > 0 || reviewedToday) plan.push({
-    emoji: 'cards', href: '#/cards', done: toReview === 0,
-    text: toReview ? `Повторити ${toReview} ${plural(toReview, 'картку', 'картки', 'карток')}` : 'Картки на сьогодні повторено',
+    emoji: 'cards', href: toReview ? '#/cards/train' : '#/cards', done: toReview === 0,
+    text: toReview ? `Тренування слів · ${toReview} ${plural(toReview, 'слово', 'слова', 'слів')}` : 'Слова на сьогодні повторено',
   });
   if (passedMeta) plan.push({ emoji: 'puzzle', href: `#/grammar/${passedMeta.id}`, done: true, text: `Урок дня: ${passedMeta.title}` });
   else if (nextLesson) plan.push({
@@ -159,7 +159,7 @@ export default async function home(view) {
     }
 
     // ---- остання розмова ----
-    const last = store.all('tutor_chats').filter(c => c.mode !== 'diary' && (c.summary || c.messages?.length)).sort((a, b) => b.created_at.localeCompare(a.created_at))[0];
+    const last = store.all('tutor_chats').filter(c => c.mode !== 'diary' && c.mode !== 'coach' && (c.summary || c.messages?.length)).sort((a, b) => b.created_at.localeCompare(a.created_at))[0];
     if (last) {
       const words = (last.summary?.new_words || []).slice(0, 3);
       blocks.push(h('section.card.stack',

@@ -17,6 +17,11 @@ export default async function cards(view, r) {
     setTitle('Повторення');
     return runReview(view, { onExit: () => go('/cards', { replace: true }) });
   }
+  if (r.parts[0] === 'train') {
+    setTitle('Тренування слів');
+    const { runTrain } = await import('./wordtrain.js');
+    return runTrain(view, { onExit: () => go('/cards', { replace: true }) });
+  }
   const c = await srs.counts();
   const decks = await srs.decks();
   const total = c.due + c.fresh;
@@ -27,7 +32,10 @@ export default async function cards(view, r) {
         h('div', h('b.warn', String(c.due)), h('div.xs.dim', 'до повтору')),
         h('div', h('b', String(c.learned)), h('div.xs.dim', 'вивчені'))),
       total
-        ? h('a.btn.primary.lg.block', { href: '#/cards/review' }, ic('play', { fill: true }), `Почати · ${total} ${plural(total, 'картка', 'картки', 'карток')}`)
+        ? h('div.stack', { style: { gap: '8px' } },
+          h('a.btn.primary.lg.block', { href: '#/cards/train' }, ic('lightning', { fill: true }), `Тренування слів · ${total} ${plural(total, 'слово', 'слова', 'слів')}`),
+          h('p.xs.dim', { style: { margin: 0 } }, 'Впізнати, почути, написати, скласти речення — оцінку для повторів застосунок ставить сам.'),
+          h('a.btn.ghost.block', { href: '#/cards/review' }, ic('cards'), 'Швидкий повтор (картки)'))
         : h('div.stack', emo('party', 'xl'), h('p', 'На сьогодні все повторено.'), h('p.dim.small', 'Нові картки з\'являться завтра. Ліміт нових — у налаштуваннях.'))),
     ...[['general', 'Колоди: загальна англійська'], ['work', 'Робота (за вибором)'], ['my', 'Мої слова']].map(([g, title]) => {
       const list = g === 'general' ? byFit(decks.filter(d => d.group === g)) : decks.filter(d => (d.group || 'my') === g);
@@ -40,7 +48,7 @@ export default async function cards(view, r) {
           toggle(d.enabled, (v) => srs.setDeckEnabled(d, v), `Колода ${d.name}`)))));
     }),
     h('a.btn.soft.block', { href: '#/vocab' }, ic('plus'), 'Додати свої слова'),
-    h('p.xs.dim.center', 'Клавіатура: пробіл — показати, 1–4 — оцінка. Свайп уліво — «Знову», управо — «Добре».')));
+    h('p.xs.dim.center', 'Тренування: 1–4 — варіант, Enter — далі. Швидкий повтор: пробіл — показати, 1–4 — оцінка, свайп уліво — «Знову», управо — «Добре».')));
 }
 
 /**
