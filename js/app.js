@@ -13,6 +13,7 @@ import { initErrlog } from './errlog.js';
 import { streak } from './stats.js';
 import { setTitle, applyTheme, isDark } from './ui/shell.js';
 import { keepAwake } from './ui/wakelock.js';
+import { initSelectLookup } from './ui/selectlookup.js';
 
 // ---------- Режим клавіатури: рамка фокусу видима лише після Tab/стрілок ----------
 addEventListener('keydown', (e) => {
@@ -94,6 +95,7 @@ async function boot() {
   header();
   initDrawer();
   initQuickbar();
+  initSelectLookup();   // виділення англійських слів → «Що це?»
   applyTheme();
 
   for (const [name, loader] of Object.entries(pages)) route(name, loader);

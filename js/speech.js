@@ -133,7 +133,8 @@ export async function recordAndTranscribe({ maxMs = 15000, signal } = {}) {
   stream.getTracks().forEach(tr => tr.stop());
   const blob = new Blob(chunks, { type: rec.mimeType || 'audio/webm' });
   const b64 = await blobToBase64(blob);
-  const res = await tutor('transcribe', { audio: b64, mime: blob.type.split(';')[0] });
+  // учень говорить англійською з акцентом — підказуємо моделі, щоб не «вгадувала» іншу мову
+  const res = await tutor('transcribe', { audio: b64, mime: blob.type.split(';')[0], hint: 'learner' });
   return { text: (res.text || '').trim(), alternatives: [], confidence: 0 };
 }
 

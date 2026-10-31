@@ -156,7 +156,7 @@ function reader(view, t, list) {
     h('div.row', h('a.icon-btn', { href: '#/reading', 'aria-label': 'Назад' }, ic('arrow-left')),
       h('div.grow', h('h1', { style: { margin: 0 } }, t.title), h('div.small.dim', t.titleUk))),
     h('div.chips', levelTag(t.level), h('span.tag', topicLabel(t)), h('span.tag', `${words(t)} слів · ~${minutes(t)} хв`), p ? h('span.tag.good', 'прочитано') : null),
-    h('div.row.wrap', playBtn, h('span.xs.dim.grow', 'Торкніться будь-якого слова — побачите переклад')),
+    h('div.row.wrap', playBtn, h('span.xs.dim.grow', 'Торкніться слова або виділіть фразу — побачите переклад')),
     h('section.card', article),
     glossary,
     quiz));

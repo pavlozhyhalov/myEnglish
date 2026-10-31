@@ -39,8 +39,12 @@ export const tutor = (action, payload, opts) => ai('tutor', action, payload, opt
 /** AI-оцінка вимови (edge-функція pron): pron('assess', { audio, mime, text, accent }) */
 export const pron = (action, payload, opts) => ai('pron', action, payload, opts);
 
-/** Стрімінг тексту (SSE: data: {"t":"..."}) */
-export async function tutorStream(payload, onText, { signal } = {}) {
+/**
+ * Стрімінг тексту (SSE: data: {"t":"..."}). Повертає весь текст.
+ * Новий сервер після тексту шле data: {"end":true} → onEnd(full) (відповідь уже повна, можна показувати),
+ * далі необов'язкову data: {"meta":{suggestions,words,memory,plan}} → onMeta(meta). Старий сервер не шле жодної з них.
+ */
+export async function tutorStream(payload, onText, { signal, onMeta, onEnd } = {}) {
   if (!navigator.onLine) throw new AiError('offline', S.err.offline);
   const res = await fetch(`${FUNCTIONS_URL}/tutor`, {
     method: 'POST', headers: await headers(), body: JSON.stringify({ action: 'chat', stream: true, ...payload }), signal,
@@ -49,25 +53,32 @@ export async function tutorStream(payload, onText, { signal } = {}) {
   const reader = res.body.getReader();
   const dec = new TextDecoder();
   let buf = '', full = '';
+  const handle = (ev) => {
+    for (const line of ev.split('\n')) {
+      if (!line.startsWith('data:')) continue;
+      const d = line.slice(5).trim();
+      if (!d) continue;
+      let j;
+      try { j = JSON.parse(d); } catch { continue; }
+      if (j.error) throw new AiError(j.error.code, MSG[j.error.code] || j.error.message);
+      if (typeof j.t === 'string' && j.t) { full += j.t; onText(full, j.t); }
+      if (j.end) { try { onEnd?.(full); } catch (e) { console.warn('end', e); } }
+      if (j.meta && typeof j.meta === 'object') { try { onMeta?.(j.meta); } catch (e) { console.warn('meta', e); } }
+    }
+  };
   for (;;) {
     const { value, done } = await reader.read();
     if (done) break;
-    buf += dec.decode(value, { stream: true });
+    buf += dec.decode(value, { stream: true }).replace(/\r\n/g, '\n');
     let i;
     while ((i = buf.indexOf('\n\n')) >= 0) {
       const ev = buf.slice(0, i); buf = buf.slice(i + 2);
-      for (const line of ev.split('\n')) {
-        if (!line.startsWith('data:')) continue;
-        const d = line.slice(5).trim();
-        if (!d) continue;
-        try {
-          const j = JSON.parse(d);
-          if (j.error) throw new AiError(j.error.code, MSG[j.error.code] || j.error.message);
-          if (j.t) { full += j.t; onText(full, j.t); }
-        } catch (e) { if (e instanceof AiError) throw e; }
-      }
+      handle(ev);
     }
   }
+  // остання подія без завершального порожнього рядка
+  buf += dec.decode();
+  if (buf.trim()) handle(buf);
   return full;
 }
 

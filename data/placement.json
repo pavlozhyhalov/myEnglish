@@ -113,9 +113,387 @@
    "explanation": "at + година."
   },
   {
+   "id": "g101",
+   "skill": "grammar",
+   "level": "A1",
+   "prompt": "They ___ from Spain.",
+   "options": [
+    "is",
+    "am",
+    "are",
+    "be"
+   ],
+   "answer": "are",
+   "explanation": "they + are."
+  },
+  {
+   "id": "g102",
+   "skill": "grammar",
+   "level": "A1",
+   "prompt": "My brother ___ TV every evening.",
+   "options": [
+    "watches",
+    "watching",
+    "watchs",
+    "watch"
+   ],
+   "answer": "watches",
+   "explanation": "he/she/it + -es після -ch: watches."
+  },
+  {
+   "id": "g103",
+   "skill": "grammar",
+   "level": "A1",
+   "prompt": "Is this ___ umbrella?",
+   "options": [
+    "yours",
+    "you",
+    "your",
+    "you're"
+   ],
+   "answer": "your",
+   "explanation": "Перед іменником — присвійний займенник your."
+  },
+  {
+   "id": "g104",
+   "skill": "grammar",
+   "level": "A1",
+   "prompt": "She is ___ engineer.",
+   "options": [
+    "many",
+    "any",
+    "an",
+    "a"
+   ],
+   "answer": "an",
+   "explanation": "an перед голосним звуком: an engineer."
+  },
+  {
+   "id": "g105",
+   "skill": "grammar",
+   "level": "A1",
+   "prompt": "___ is that man? — He's my teacher.",
+   "options": [
+    "Which",
+    "Where",
+    "What",
+    "Who"
+   ],
+   "answer": "Who",
+   "explanation": "Who — хто (про людину)."
+  },
+  {
+   "id": "g106",
+   "skill": "grammar",
+   "level": "A1",
+   "prompt": "___ shoes are new.",
+   "options": [
+    "This",
+    "These",
+    "It",
+    "That"
+   ],
+   "answer": "These",
+   "explanation": "Множина → these."
+  },
+  {
+   "id": "g107",
+   "skill": "grammar",
+   "level": "A1",
+   "prompt": "We have English lessons ___ Monday.",
+   "options": [
+    "to",
+    "at",
+    "in",
+    "on"
+   ],
+   "answer": "on",
+   "explanation": "on + день тижня."
+  },
+  {
+   "id": "g108",
+   "skill": "grammar",
+   "level": "A1",
+   "prompt": "My birthday is ___ June.",
+   "options": [
+    "at",
+    "on",
+    "to",
+    "in"
+   ],
+   "answer": "in",
+   "explanation": "in + місяць."
+  },
+  {
+   "id": "g109",
+   "skill": "grammar",
+   "level": "A1",
+   "prompt": "Penguins ___ fly.",
+   "options": [
+    "not can",
+    "can't",
+    "don't can",
+    "aren't"
+   ],
+   "answer": "can't",
+   "explanation": "Заперечення can — can't (cannot)."
+  },
+  {
+   "id": "g110",
+   "skill": "grammar",
+   "level": "A1",
+   "prompt": "___ there a supermarket near here?",
+   "options": [
+    "Are",
+    "Does",
+    "Do",
+    "Is"
+   ],
+   "answer": "Is",
+   "explanation": "Питання: Is there + однина?"
+  },
+  {
+   "id": "g111",
+   "skill": "grammar",
+   "level": "A1",
+   "prompt": "She ___ got a brother and a sister.",
+   "options": [
+    "does",
+    "is",
+    "have",
+    "has"
+   ],
+   "answer": "has",
+   "explanation": "he/she/it + has got."
+  },
+  {
+   "id": "g112",
+   "skill": "grammar",
+   "level": "A1",
+   "prompt": "Look at ___! They're dancing.",
+   "options": [
+    "them",
+    "theirs",
+    "they",
+    "their"
+   ],
+   "answer": "them",
+   "explanation": "Після прийменника — об'єктний займенник them."
+  },
+  {
+   "id": "g113",
+   "skill": "grammar",
+   "level": "A1",
+   "prompt": "He ___ coffee in the morning.",
+   "options": [
+    "always drink",
+    "always drinks",
+    "drinks always",
+    "is always drink"
+   ],
+   "answer": "always drinks",
+   "explanation": "Прислівник частоти стоїть перед основним дієсловом; he + -s."
+  },
+  {
+   "id": "g114",
+   "skill": "grammar",
+   "level": "A1",
+   "prompt": "What ___ you doing now?",
+   "options": [
+    "are",
+    "do",
+    "does",
+    "is"
+   ],
+   "answer": "are",
+   "explanation": "Present Continuous: are you doing."
+  },
+  {
+   "id": "g115",
+   "skill": "grammar",
+   "level": "A1",
+   "prompt": "Please ___ the door.",
+   "options": [
+    "close",
+    "to close",
+    "closes",
+    "closing"
+   ],
+   "answer": "close",
+   "explanation": "Наказовий спосіб — дієслово без закінчень."
+  },
+  {
+   "id": "g116",
+   "skill": "grammar",
+   "level": "A1",
+   "prompt": "How many ___ are there in your class?",
+   "options": [
+    "a student",
+    "student",
+    "students",
+    "studentes"
+   ],
+   "answer": "students",
+   "explanation": "How many + множина."
+  },
+  {
+   "id": "g117",
+   "skill": "grammar",
+   "level": "A1",
+   "prompt": "My ___ car is red.",
+   "options": [
+    "father's",
+    "father",
+    "father is",
+    "fathers"
+   ],
+   "answer": "father's",
+   "explanation": "Присвійний відмінок: father's — батькова."
+  },
+  {
+   "id": "g118",
+   "skill": "grammar",
+   "level": "A1",
+   "prompt": "___ old are you?",
+   "options": [
+    "What",
+    "Where",
+    "How",
+    "Who"
+   ],
+   "answer": "How",
+   "explanation": "How old…? — Скільки років?"
+  },
+  {
+   "id": "g119",
+   "skill": "grammar",
+   "level": "A1",
+   "prompt": "Can you help ___?",
+   "options": [
+    "me",
+    "I",
+    "my",
+    "mine"
+   ],
+   "answer": "me",
+   "explanation": "Після дієслова — me."
+  },
+  {
+   "id": "g120",
+   "skill": "grammar",
+   "level": "A1",
+   "prompt": "The children ___ in the garden now.",
+   "options": [
+    "are playing",
+    "is playing",
+    "playing",
+    "play"
+   ],
+   "answer": "are playing",
+   "explanation": "now → Present Continuous; children — множина."
+  },
+  {
+   "id": "g122",
+   "skill": "grammar",
+   "level": "A1",
+   "prompt": "I ___ a car. I go by bike.",
+   "options": [
+    "don't have",
+    "not have",
+    "doesn't have",
+    "am not have"
+   ],
+   "answer": "don't have",
+   "explanation": "I + don't have."
+  },
+  {
+   "id": "g361",
+   "skill": "grammar",
+   "level": "A1",
+   "prompt": "Where ___ she live?",
+   "options": [
+    "is",
+    "does",
+    "are",
+    "do"
+   ],
+   "answer": "does",
+   "explanation": "Питання з she у Present Simple: does."
+  },
+  {
+   "id": "g362",
+   "skill": "grammar",
+   "level": "A1",
+   "prompt": "This is our house. ___ garden is big.",
+   "options": [
+    "It",
+    "Its",
+    "It's",
+    "Is"
+   ],
+   "answer": "Its",
+   "explanation": "Its — його (про річ); it's = it is."
+  },
+  {
+   "id": "g363",
+   "skill": "grammar",
+   "level": "A1",
+   "prompt": "There ___ any eggs in the fridge.",
+   "options": [
+    "aren't",
+    "not",
+    "isn't",
+    "no"
+   ],
+   "answer": "aren't",
+   "explanation": "There aren't any + множина."
+  },
+  {
+   "id": "g364",
+   "skill": "grammar",
+   "level": "A1",
+   "prompt": "Wait ___ me, please!",
+   "options": [
+    "for",
+    "on",
+    "to",
+    "at"
+   ],
+   "answer": "for",
+   "explanation": "wait for — чекати на."
+  },
+  {
+   "id": "g365",
+   "skill": "grammar",
+   "level": "A1",
+   "prompt": "We ___ at home yesterday.",
+   "options": [
+    "was",
+    "were",
+    "are",
+    "be"
+   ],
+   "answer": "were",
+   "explanation": "we + were (минулий час to be)."
+  },
+  {
+   "id": "g366",
+   "skill": "grammar",
+   "level": "A1",
+   "prompt": "There are some apples ___ the table.",
+   "options": [
+    "on",
+    "at",
+    "of",
+    "to"
+   ],
+   "answer": "on",
+   "explanation": "on the table — на столі."
+  },
+  {
    "id": "g1",
    "skill": "grammar",
-   "level": "A2",
+   "level": "A1",
    "prompt": "She ___ to work by bus every day.",
    "options": [
     "go",
@@ -125,6 +503,20 @@
    ],
    "answer": "goes",
    "explanation": "he/she/it + -s."
+  },
+  {
+   "id": "g121",
+   "skill": "grammar",
+   "level": "A2",
+   "prompt": "My flat is ___ the second floor.",
+   "options": [
+    "on",
+    "in",
+    "to",
+    "at"
+   ],
+   "answer": "on",
+   "explanation": "on the … floor — на поверсі."
   },
   {
    "id": "g2",
@@ -223,6 +615,398 @@
    ],
    "answer": "speak",
    "explanation": "can + V."
+  },
+  {
+   "id": "g123",
+   "skill": "grammar",
+   "level": "A2",
+   "prompt": "I ___ the film yesterday. I was too tired.",
+   "options": [
+    "wasn't watch",
+    "don't watch",
+    "didn't watch",
+    "didn't watched"
+   ],
+   "answer": "didn't watch",
+   "explanation": "Заперечення в Past Simple: didn't + V."
+  },
+  {
+   "id": "g124",
+   "skill": "grammar",
+   "level": "A2",
+   "prompt": "___ you see Sam yesterday?",
+   "options": [
+    "Do",
+    "Were",
+    "Did",
+    "Have"
+   ],
+   "answer": "Did",
+   "explanation": "yesterday → Past Simple: Did you…?"
+  },
+  {
+   "id": "g125",
+   "skill": "grammar",
+   "level": "A2",
+   "prompt": "This is the ___ day of the year!",
+   "options": [
+    "most hot",
+    "hottest",
+    "hotest",
+    "hotter"
+   ],
+   "answer": "hottest",
+   "explanation": "Найвищий ступінь: hot → hottest (подвоєння t)."
+  },
+  {
+   "id": "g126",
+   "skill": "grammar",
+   "level": "A2",
+   "prompt": "Tomorrow I'm ___ visit my grandparents.",
+   "options": [
+    "will",
+    "go to",
+    "going",
+    "going to"
+   ],
+   "answer": "going to",
+   "explanation": "Намір: be going to + V."
+  },
+  {
+   "id": "g127",
+   "skill": "grammar",
+   "level": "A2",
+   "prompt": "How ___ sugar do you take in your tea?",
+   "options": [
+    "many",
+    "lot",
+    "few",
+    "much"
+   ],
+   "answer": "much",
+   "explanation": "Незлічуване → how much."
+  },
+  {
+   "id": "g128",
+   "skill": "grammar",
+   "level": "A2",
+   "prompt": "There are too ___ people here.",
+   "options": [
+    "more",
+    "lot of",
+    "much",
+    "many"
+   ],
+   "answer": "many",
+   "explanation": "Злічуване у множині → too many."
+  },
+  {
+   "id": "g129",
+   "skill": "grammar",
+   "level": "A2",
+   "prompt": "You look tired. You ___ go to bed early.",
+   "options": [
+    "should to",
+    "must to",
+    "ought",
+    "should"
+   ],
+   "answer": "should",
+   "explanation": "Порада: should + V (ought вимагає to)."
+  },
+  {
+   "id": "g130",
+   "skill": "grammar",
+   "level": "A2",
+   "prompt": "I ___ wear a uniform at school. It's the rule.",
+   "options": [
+    "have to",
+    "must to",
+    "having to",
+    "has to"
+   ],
+   "answer": "have to",
+   "explanation": "Обов'язок за правилом: I have to."
+  },
+  {
+   "id": "g131",
+   "skill": "grammar",
+   "level": "A2",
+   "prompt": "She drives very ___.",
+   "options": [
+    "care",
+    "more careful",
+    "careful",
+    "carefully"
+   ],
+   "answer": "carefully",
+   "explanation": "Як? — прислівник: carefully."
+  },
+  {
+   "id": "g132",
+   "skill": "grammar",
+   "level": "A2",
+   "prompt": "This bag isn't big ___ for all my things.",
+   "options": [
+    "very",
+    "enough",
+    "so",
+    "too"
+   ],
+   "answer": "enough",
+   "explanation": "Прикметник + enough — достатньо."
+  },
+  {
+   "id": "g133",
+   "skill": "grammar",
+   "level": "A2",
+   "prompt": "What ___ you doing at eight o'clock last night?",
+   "options": [
+    "were",
+    "did",
+    "was",
+    "are"
+   ],
+   "answer": "were",
+   "explanation": "Past Continuous: were you doing."
+  },
+  {
+   "id": "g134",
+   "skill": "grammar",
+   "level": "A2",
+   "prompt": "Who ___ this cake? It's delicious!",
+   "options": [
+    "made",
+    "maked",
+    "did made",
+    "making"
+   ],
+   "answer": "made",
+   "explanation": "Питання до підмета — без did: Who made…?"
+  },
+  {
+   "id": "g135",
+   "skill": "grammar",
+   "level": "A2",
+   "prompt": "I enjoy ___ in the sea.",
+   "options": [
+    "to swim",
+    "swimming",
+    "swim",
+    "swims"
+   ],
+   "answer": "swimming",
+   "explanation": "enjoy + -ing."
+  },
+  {
+   "id": "g136",
+   "skill": "grammar",
+   "level": "A2",
+   "prompt": "I went to the shop ___ some bread.",
+   "options": [
+    "for buy",
+    "buy",
+    "to buy",
+    "for buying"
+   ],
+   "answer": "to buy",
+   "explanation": "Мета: to + V."
+  },
+  {
+   "id": "g137",
+   "skill": "grammar",
+   "level": "A2",
+   "prompt": "Is this pen ___? — Yes, it's mine.",
+   "options": [
+    "yourself",
+    "you",
+    "your",
+    "yours"
+   ],
+   "answer": "yours",
+   "explanation": "Без іменника — yours (твій)."
+  },
+  {
+   "id": "g138",
+   "skill": "grammar",
+   "level": "A2",
+   "prompt": "I'm meeting my friends ___ Friday evening.",
+   "options": [
+    "at",
+    "in",
+    "on",
+    "to"
+   ],
+   "answer": "on",
+   "explanation": "on + день (Friday evening)."
+  },
+  {
+   "id": "g139",
+   "skill": "grammar",
+   "level": "A2",
+   "prompt": "My cold is ___ today than yesterday. I feel terrible.",
+   "options": [
+    "more bad",
+    "badder",
+    "worst",
+    "worse"
+   ],
+   "answer": "worse",
+   "explanation": "bad → worse → worst."
+  },
+  {
+   "id": "g140",
+   "skill": "grammar",
+   "level": "A2",
+   "prompt": "I think it ___ tomorrow. Take an umbrella.",
+   "options": [
+    "will rain",
+    "is rain",
+    "rains",
+    "raining"
+   ],
+   "answer": "will rain",
+   "explanation": "I think + will — прогноз."
+  },
+  {
+   "id": "g141",
+   "skill": "grammar",
+   "level": "A2",
+   "prompt": "He ___ his leg when he was skiing.",
+   "options": [
+    "was breaking",
+    "broke",
+    "breaks",
+    "has broke"
+   ],
+   "answer": "broke",
+   "explanation": "Коротка дія на тлі тривалої — Past Simple: broke."
+  },
+  {
+   "id": "g142",
+   "skill": "grammar",
+   "level": "A2",
+   "prompt": "Can I have ___ water, please?",
+   "options": [
+    "a few",
+    "some",
+    "an",
+    "many"
+   ],
+   "answer": "some",
+   "explanation": "Незлічуване в проханні → some."
+  },
+  {
+   "id": "g143",
+   "skill": "grammar",
+   "level": "A2",
+   "prompt": "There were ___ people at the concert — about ten thousand!",
+   "options": [
+    "a lot of",
+    "much",
+    "little",
+    "a few"
+   ],
+   "answer": "a lot of",
+   "explanation": "Багато людей → a lot of."
+  },
+  {
+   "id": "g144",
+   "skill": "grammar",
+   "level": "A2",
+   "prompt": "I was born ___ 1998.",
+   "options": [
+    "on",
+    "since",
+    "at",
+    "in"
+   ],
+   "answer": "in",
+   "explanation": "in + рік."
+  },
+  {
+   "id": "g367",
+   "skill": "grammar",
+   "level": "A2",
+   "prompt": "This is ___ restaurant in town.",
+   "options": [
+    "the most good",
+    "the best",
+    "best",
+    "the better"
+   ],
+   "answer": "the best",
+   "explanation": "good → better → the best."
+  },
+  {
+   "id": "g368",
+   "skill": "grammar",
+   "level": "A2",
+   "prompt": "I'm not as tall ___ my brother.",
+   "options": [
+    "than",
+    "so",
+    "like",
+    "as"
+   ],
+   "answer": "as",
+   "explanation": "not as … as — не такий …, як."
+  },
+  {
+   "id": "g369",
+   "skill": "grammar",
+   "level": "A2",
+   "prompt": "We didn't have ___ time, so we took a taxi.",
+   "options": [
+    "a lot",
+    "few",
+    "many",
+    "much"
+   ],
+   "answer": "much",
+   "explanation": "Незлічуване в запереченні → much."
+  },
+  {
+   "id": "g370",
+   "skill": "grammar",
+   "level": "A2",
+   "prompt": "Could you speak more ___, please?",
+   "options": [
+    "slowlier",
+    "slowest",
+    "slow",
+    "slowly"
+   ],
+   "answer": "slowly",
+   "explanation": "Прислівник: more slowly."
+  },
+  {
+   "id": "g371",
+   "skill": "grammar",
+   "level": "A2",
+   "prompt": "I ___ my grandparents next Sunday. We've already planned it.",
+   "options": [
+    "am visit",
+    "visit",
+    "visited",
+    "am visiting"
+   ],
+   "answer": "am visiting",
+   "explanation": "Домовленість на майбутнє → Present Continuous."
+  },
+  {
+   "id": "g372",
+   "skill": "grammar",
+   "level": "A2",
+   "prompt": "When I was a child, I ___ ride a bike.",
+   "options": [
+    "can",
+    "could",
+    "can to",
+    "could to"
+   ],
+   "answer": "could",
+   "explanation": "Уміння в минулому: could + V."
   },
   {
    "id": "g9",
@@ -337,6 +1121,398 @@
    "explanation": "used to + V."
   },
   {
+   "id": "g145",
+   "skill": "grammar",
+   "level": "B1",
+   "prompt": "Have you finished your homework ___?",
+   "options": [
+    "still",
+    "until",
+    "yet",
+    "just"
+   ],
+   "answer": "yet",
+   "explanation": "yet — у питаннях і запереченнях наприкінці речення."
+  },
+  {
+   "id": "g146",
+   "skill": "grammar",
+   "level": "B1",
+   "prompt": "I ___ my keys. I can't find them anywhere.",
+   "options": [
+    "was losing",
+    "had lost",
+    "have lost",
+    "am losing"
+   ],
+   "answer": "have lost",
+   "explanation": "Результат у теперішньому → Present Perfect."
+  },
+  {
+   "id": "g147",
+   "skill": "grammar",
+   "level": "B1",
+   "prompt": "If I ___ you, I'd talk to her.",
+   "options": [
+    "am",
+    "were",
+    "will be",
+    "would be"
+   ],
+   "answer": "were",
+   "explanation": "Порада: If I were you…"
+  },
+  {
+   "id": "g148",
+   "skill": "grammar",
+   "level": "B1",
+   "prompt": "English ___ in many countries.",
+   "options": [
+    "is spoken",
+    "is speaking",
+    "speaks",
+    "has spoken"
+   ],
+   "answer": "is spoken",
+   "explanation": "Пасив теперішнього: is + V3."
+  },
+  {
+   "id": "g149",
+   "skill": "grammar",
+   "level": "B1",
+   "prompt": "That's the café ___ we first met.",
+   "options": [
+    "what",
+    "who",
+    "where",
+    "which"
+   ],
+   "answer": "where",
+   "explanation": "Місце → where."
+  },
+  {
+   "id": "g150",
+   "skill": "grammar",
+   "level": "B1",
+   "prompt": "She's the woman ___ lives next door.",
+   "options": [
+    "which",
+    "where",
+    "whose",
+    "who"
+   ],
+   "answer": "who",
+   "explanation": "Про людину → who."
+  },
+  {
+   "id": "g151",
+   "skill": "grammar",
+   "level": "B1",
+   "prompt": "He ___ be at home — his car is outside.",
+   "options": [
+    "must",
+    "mustn't",
+    "needn't",
+    "can't"
+   ],
+   "answer": "must",
+   "explanation": "Впевнене припущення → must."
+  },
+  {
+   "id": "g152",
+   "skill": "grammar",
+   "level": "B1",
+   "prompt": "I forgot ___ the door, so the cat got out.",
+   "options": [
+    "close",
+    "closing",
+    "closed",
+    "to close"
+   ],
+   "answer": "to close",
+   "explanation": "forget to do — забути зробити."
+  },
+  {
+   "id": "g153",
+   "skill": "grammar",
+   "level": "B1",
+   "prompt": "It was ___ a good film that we watched it twice.",
+   "options": [
+    "so",
+    "such",
+    "too",
+    "very"
+   ],
+   "answer": "such",
+   "explanation": "such + a + прикметник + іменник."
+  },
+  {
+   "id": "g154",
+   "skill": "grammar",
+   "level": "B1",
+   "prompt": "You're coming tomorrow, ___?",
+   "options": [
+    "aren't you",
+    "won't you",
+    "don't you",
+    "isn't it"
+   ],
+   "answer": "aren't you",
+   "explanation": "Розділове питання: are → aren't you."
+  },
+  {
+   "id": "g155",
+   "skill": "grammar",
+   "level": "B1",
+   "prompt": "Could you tell me where ___?",
+   "options": [
+    "the station",
+    "the station is",
+    "is the station",
+    "does the station be"
+   ],
+   "answer": "the station is",
+   "explanation": "Непряме питання — прямий порядок слів."
+  },
+  {
+   "id": "g156",
+   "skill": "grammar",
+   "level": "B1",
+   "prompt": "My parents didn't ___ me stay out late.",
+   "options": [
+    "allow",
+    "let",
+    "permit",
+    "agree"
+   ],
+   "answer": "let",
+   "explanation": "let + кого + V без to."
+  },
+  {
+   "id": "g157",
+   "skill": "grammar",
+   "level": "B1",
+   "prompt": "When I arrived, everyone ___ home.",
+   "options": [
+    "had gone",
+    "goes",
+    "have gone",
+    "has gone"
+   ],
+   "answer": "had gone",
+   "explanation": "Дія раніше за іншу в минулому → Past Perfect."
+  },
+  {
+   "id": "g158",
+   "skill": "grammar",
+   "level": "B1",
+   "prompt": "He told me he ___ tired.",
+   "options": [
+    "was",
+    "be",
+    "were",
+    "is being"
+   ],
+   "answer": "was",
+   "explanation": "Непряма мова: is → was."
+  },
+  {
+   "id": "g159",
+   "skill": "grammar",
+   "level": "B1",
+   "prompt": "We've got ___ time — hurry up!",
+   "options": [
+    "very few",
+    "a few",
+    "many",
+    "very little"
+   ],
+   "answer": "very little",
+   "explanation": "Незлічуване time → little (мало)."
+  },
+  {
+   "id": "g160",
+   "skill": "grammar",
+   "level": "B1",
+   "prompt": "This is the first time I ___ sushi.",
+   "options": [
+    "am eating",
+    "ate",
+    "have eaten",
+    "eat"
+   ],
+   "answer": "have eaten",
+   "explanation": "This is the first time + Present Perfect."
+  },
+  {
+   "id": "g161",
+   "skill": "grammar",
+   "level": "B1",
+   "prompt": "Unless you hurry, you ___ the bus.",
+   "options": [
+    "will miss",
+    "missed",
+    "would miss",
+    "miss"
+   ],
+   "answer": "will miss",
+   "explanation": "Unless = if not; перший тип умовних."
+  },
+  {
+   "id": "g162",
+   "skill": "grammar",
+   "level": "B1",
+   "prompt": "The letters ___ every morning at nine.",
+   "options": [
+    "deliver",
+    "are delivering",
+    "delivered",
+    "are delivered"
+   ],
+   "answer": "are delivered",
+   "explanation": "Листи доставляють → пасив: are delivered."
+  },
+  {
+   "id": "g163",
+   "skill": "grammar",
+   "level": "B1",
+   "prompt": "I'm interested ___ photography.",
+   "options": [
+    "at",
+    "about",
+    "in",
+    "on"
+   ],
+   "answer": "in",
+   "explanation": "interested in."
+  },
+  {
+   "id": "g164",
+   "skill": "grammar",
+   "level": "B1",
+   "prompt": "I ___ three cups of coffee so far today.",
+   "options": [
+    "had had",
+    "have",
+    "am having",
+    "have had"
+   ],
+   "answer": "have had",
+   "explanation": "so far today → Present Perfect."
+  },
+  {
+   "id": "g165",
+   "skill": "grammar",
+   "level": "B1",
+   "prompt": "Would you mind ___ the window?",
+   "options": [
+    "opened",
+    "to open",
+    "open",
+    "opening"
+   ],
+   "answer": "opening",
+   "explanation": "Would you mind + -ing."
+  },
+  {
+   "id": "g166",
+   "skill": "grammar",
+   "level": "B1",
+   "prompt": "The more you practise, the ___ you get.",
+   "options": [
+    "more better",
+    "good",
+    "better",
+    "best"
+   ],
+   "answer": "better",
+   "explanation": "The more…, the better…"
+  },
+  {
+   "id": "g373",
+   "skill": "grammar",
+   "level": "B1",
+   "prompt": "It's the most beautiful place I ___ visited.",
+   "options": [
+    "have never",
+    "ever have",
+    "had never",
+    "have ever"
+   ],
+   "answer": "have ever",
+   "explanation": "Найвищий ступінь + I have ever…"
+  },
+  {
+   "id": "g374",
+   "skill": "grammar",
+   "level": "B1",
+   "prompt": "The meeting was cancelled, ___ we went home early.",
+   "options": [
+    "because",
+    "but",
+    "although",
+    "so"
+   ],
+   "answer": "so",
+   "explanation": "so — тому (наслідок)."
+  },
+  {
+   "id": "g375",
+   "skill": "grammar",
+   "level": "B1",
+   "prompt": "Oh no! My bike ___. It isn't where I left it.",
+   "options": [
+    "has stolen",
+    "is stealing",
+    "has been stolen",
+    "has been stealing"
+   ],
+   "answer": "has been stolen",
+   "explanation": "Результат у теперішньому + пасив → Present Perfect Passive: has been + V3."
+  },
+  {
+   "id": "g376",
+   "skill": "grammar",
+   "level": "B1",
+   "prompt": "I'm not sure, but she ___ be at the gym.",
+   "options": [
+    "might",
+    "mustn't",
+    "must",
+    "can't"
+   ],
+   "answer": "might",
+   "explanation": "Непевне припущення → might."
+  },
+  {
+   "id": "g377",
+   "skill": "grammar",
+   "level": "B1",
+   "prompt": "He apologised ___ late.",
+   "options": [
+    "for be",
+    "to be",
+    "of being",
+    "for being"
+   ],
+   "answer": "for being",
+   "explanation": "apologise for + -ing."
+  },
+  {
+   "id": "g378",
+   "skill": "grammar",
+   "level": "B1",
+   "prompt": "I don't know ___ to do.",
+   "options": [
+    "that",
+    "if",
+    "what",
+    "so"
+   ],
+   "answer": "what",
+   "explanation": "what to do — що робити."
+  },
+  {
    "id": "g17",
    "skill": "grammar",
    "level": "B2",
@@ -447,6 +1623,398 @@
    ],
    "answer": "whose",
    "explanation": "Чий."
+  },
+  {
+   "id": "g167",
+   "skill": "grammar",
+   "level": "B2",
+   "prompt": "If we ___ earlier, we wouldn't have missed the train.",
+   "options": [
+    "have left",
+    "left",
+    "had left",
+    "would have left"
+   ],
+   "answer": "had left",
+   "explanation": "Третій тип: If + Past Perfect."
+  },
+  {
+   "id": "g168",
+   "skill": "grammar",
+   "level": "B2",
+   "prompt": "She asked me ___ I could help her.",
+   "options": [
+    "what",
+    "so",
+    "that",
+    "if"
+   ],
+   "answer": "if",
+   "explanation": "Непряме загальне питання → if."
+  },
+  {
+   "id": "g169",
+   "skill": "grammar",
+   "level": "B2",
+   "prompt": "The doctor told me ___ so much coffee.",
+   "options": [
+    "to not drinking",
+    "don't drink",
+    "not drinking",
+    "not to drink"
+   ],
+   "answer": "not to drink",
+   "explanation": "Непряме прохання: told me not to + V."
+  },
+  {
+   "id": "g170",
+   "skill": "grammar",
+   "level": "B2",
+   "prompt": "I wish I ___ speak Japanese. It would be so useful.",
+   "options": [
+    "can",
+    "will",
+    "could",
+    "would"
+   ],
+   "answer": "could",
+   "explanation": "Бажання про теперішнє: wish + could."
+  },
+  {
+   "id": "g171",
+   "skill": "grammar",
+   "level": "B2",
+   "prompt": "The road ___ at the moment, so we'll have to take a detour.",
+   "options": [
+    "repairs",
+    "is being repaired",
+    "is repairing",
+    "has repaired"
+   ],
+   "answer": "is being repaired",
+   "explanation": "Пасив тривалого часу: is being + V3."
+  },
+  {
+   "id": "g172",
+   "skill": "grammar",
+   "level": "B2",
+   "prompt": "This time tomorrow, I ___ on a beach in Greece.",
+   "options": [
+    "will have lain",
+    "would lie",
+    "will be lying",
+    "lie"
+   ],
+   "answer": "will be lying",
+   "explanation": "Процес у певний момент майбутнього → Future Continuous."
+  },
+  {
+   "id": "g173",
+   "skill": "grammar",
+   "level": "B2",
+   "prompt": "I remember ___ this song when I was a child.",
+   "options": [
+    "to hear",
+    "hear",
+    "heard",
+    "hearing"
+   ],
+   "answer": "hearing",
+   "explanation": "remember + -ing — пам'ятати, що робив."
+  },
+  {
+   "id": "g174",
+   "skill": "grammar",
+   "level": "B2",
+   "prompt": "You ___ have brought a present — but thank you, it's lovely!",
+   "options": [
+    "couldn't",
+    "can't",
+    "needn't",
+    "mustn't"
+   ],
+   "answer": "needn't",
+   "explanation": "needn't have + V3 — зробили, хоча не було потреби."
+  },
+  {
+   "id": "g175",
+   "skill": "grammar",
+   "level": "B2",
+   "prompt": "Paris, ___ is the capital of France, is my favourite city.",
+   "options": [
+    "where",
+    "that",
+    "what",
+    "which"
+   ],
+   "answer": "which",
+   "explanation": "У відокремленому підрядному — which, не that."
+  },
+  {
+   "id": "g176",
+   "skill": "grammar",
+   "level": "B2",
+   "prompt": "Take an umbrella ___ it rains.",
+   "options": [
+    "unless",
+    "otherwise",
+    "so that",
+    "in case"
+   ],
+   "answer": "in case",
+   "explanation": "in case — на випадок, якщо."
+  },
+  {
+   "id": "g177",
+   "skill": "grammar",
+   "level": "B2",
+   "prompt": "I'm slowly getting used to ___ on the left.",
+   "options": [
+    "drive",
+    "have driven",
+    "driving",
+    "drove"
+   ],
+   "answer": "driving",
+   "explanation": "get used to + -ing — звикати."
+  },
+  {
+   "id": "g178",
+   "skill": "grammar",
+   "level": "B2",
+   "prompt": "You'd better ___ now, or you'll be late.",
+   "options": [
+    "left",
+    "leaving",
+    "leave",
+    "to leave"
+   ],
+   "answer": "leave",
+   "explanation": "had better + V без to."
+  },
+  {
+   "id": "g179",
+   "skill": "grammar",
+   "level": "B2",
+   "prompt": "___ the email, she realised she'd forgotten the attachment.",
+   "options": [
+    "Being sent",
+    "Having sent",
+    "Have sent",
+    "Sent"
+   ],
+   "answer": "Having sent",
+   "explanation": "Дія, що передувала, — Having + V3."
+  },
+  {
+   "id": "g180",
+   "skill": "grammar",
+   "level": "B2",
+   "prompt": "By the end of this year, I ___ here for a decade.",
+   "options": [
+    "am working",
+    "have worked",
+    "will have worked",
+    "will work"
+   ],
+   "answer": "will have worked",
+   "explanation": "By + момент у майбутньому → Future Perfect."
+  },
+  {
+   "id": "g181",
+   "skill": "grammar",
+   "level": "B2",
+   "prompt": "He's not answering his phone. He ___ have left it at home.",
+   "options": [
+    "needn't",
+    "can't",
+    "mustn't",
+    "might"
+   ],
+   "answer": "might",
+   "explanation": "Можливість у минулому: might have + V3."
+  },
+  {
+   "id": "g182",
+   "skill": "grammar",
+   "level": "B2",
+   "prompt": "I'd rather ___ at home tonight.",
+   "options": [
+    "staying",
+    "stay",
+    "stayed",
+    "to stay"
+   ],
+   "answer": "stay",
+   "explanation": "I'd rather + V без to."
+  },
+  {
+   "id": "g183",
+   "skill": "grammar",
+   "level": "B2",
+   "prompt": "Not ___ the answer, I kept quiet.",
+   "options": [
+    "knowing",
+    "know",
+    "known",
+    "to know"
+   ],
+   "answer": "knowing",
+   "explanation": "Дієприслівниковий зворот: Not knowing… — не знаючи."
+  },
+  {
+   "id": "g184",
+   "skill": "grammar",
+   "level": "B2",
+   "prompt": "It's no use ___ about it now.",
+   "options": [
+    "worrying",
+    "to worry",
+    "worried",
+    "worry"
+   ],
+   "answer": "worrying",
+   "explanation": "It's no use + -ing."
+  },
+  {
+   "id": "g185",
+   "skill": "grammar",
+   "level": "B2",
+   "prompt": "The thief was seen ___ through the window.",
+   "options": [
+    "climbed",
+    "to climbing",
+    "climbing",
+    "climb"
+   ],
+   "answer": "climbing",
+   "explanation": "be seen + -ing (або to + V)."
+  },
+  {
+   "id": "g186",
+   "skill": "grammar",
+   "level": "B2",
+   "prompt": "Hardly anyone came to the meeting, ___?",
+   "options": [
+    "didn't he",
+    "didn't they",
+    "did they",
+    "did he"
+   ],
+   "answer": "did they",
+   "explanation": "Hardly — заперечне слово, тож хвостик стверджувальний; anyone → they."
+  },
+  {
+   "id": "g187",
+   "skill": "grammar",
+   "level": "B2",
+   "prompt": "She suggested ___ a taxi.",
+   "options": [
+    "taking",
+    "to take",
+    "take",
+    "us to take"
+   ],
+   "answer": "taking",
+   "explanation": "suggest + -ing."
+  },
+  {
+   "id": "g188",
+   "skill": "grammar",
+   "level": "B2",
+   "prompt": "I'll lend you the money ___ you pay me back by Friday.",
+   "options": [
+    "unless",
+    "in case",
+    "provided that",
+    "even if"
+   ],
+   "answer": "provided that",
+   "explanation": "provided that — за умови, що."
+  },
+  {
+   "id": "g379",
+   "skill": "grammar",
+   "level": "B2",
+   "prompt": "This is the flat ___ I grew up.",
+   "options": [
+    "which",
+    "in which",
+    "in that",
+    "where in"
+   ],
+   "answer": "in which",
+   "explanation": "Прийменник + which: the flat in which I grew up (= where I grew up). Після прийменника that не вживають."
+  },
+  {
+   "id": "g380",
+   "skill": "grammar",
+   "level": "B2",
+   "prompt": "The house needs ___.",
+   "options": [
+    "paint",
+    "to painting",
+    "to paint",
+    "painting"
+   ],
+   "answer": "painting",
+   "explanation": "need + -ing — у пасивному значенні (треба пофарбувати)."
+  },
+  {
+   "id": "g381",
+   "skill": "grammar",
+   "level": "B2",
+   "prompt": "He ___ to the gym for years, and he's in great shape.",
+   "options": [
+    "will go",
+    "has been going",
+    "is going",
+    "goes"
+   ],
+   "answer": "has been going",
+   "explanation": "for years до теперішнього → Present Perfect Continuous."
+  },
+  {
+   "id": "g382",
+   "skill": "grammar",
+   "level": "B2",
+   "prompt": "Whatever ___, don't press the red button.",
+   "options": [
+    "do you",
+    "you do",
+    "you will do",
+    "will you do"
+   ],
+   "answer": "you do",
+   "explanation": "Whatever + прямий порядок слів: you do."
+  },
+  {
+   "id": "g383",
+   "skill": "grammar",
+   "level": "B2",
+   "prompt": "I regret ___ to her like that. I was rude.",
+   "options": [
+    "to speak",
+    "speaking",
+    "speak",
+    "spoken"
+   ],
+   "answer": "speaking",
+   "explanation": "regret + -ing — шкодувати про зроблене."
+  },
+  {
+   "id": "g384",
+   "skill": "grammar",
+   "level": "B2",
+   "prompt": "There's no ___ talking to him — he never listens.",
+   "options": [
+    "point",
+    "reason",
+    "purpose",
+    "aim"
+   ],
+   "answer": "point",
+   "explanation": "There's no point + -ing — немає сенсу."
   },
   {
    "id": "g25",
@@ -561,6 +2129,398 @@
    "explanation": "deny + -ing."
   },
   {
+   "id": "g189",
+   "skill": "grammar",
+   "level": "C1",
+   "prompt": "No sooner had we sat down ___ the lights went out.",
+   "options": [
+    "than",
+    "then",
+    "when",
+    "that"
+   ],
+   "answer": "than",
+   "explanation": "No sooner … than."
+  },
+  {
+   "id": "g190",
+   "skill": "grammar",
+   "level": "C1",
+   "prompt": "If she had taken the job, she ___ in Paris now.",
+   "options": [
+    "had lived",
+    "would have lived",
+    "will live",
+    "would be living"
+   ],
+   "answer": "would be living",
+   "explanation": "Змішаний тип: минула умова — теперішній наслідок."
+  },
+  {
+   "id": "g191",
+   "skill": "grammar",
+   "level": "C1",
+   "prompt": "It was only when I got home ___ I realised I'd lost my wallet.",
+   "options": [
+    "which",
+    "what",
+    "when",
+    "that"
+   ],
+   "answer": "that",
+   "explanation": "Підсилювальна конструкція It was … that."
+  },
+  {
+   "id": "g192",
+   "skill": "grammar",
+   "level": "C1",
+   "prompt": "The committee recommended that he ___ immediately.",
+   "options": [
+    "resigns",
+    "to resign",
+    "will resign",
+    "resign"
+   ],
+   "answer": "resign",
+   "explanation": "Після recommend that — суб'юнктив: дієслово без закінчень (resign), навіть після he."
+  },
+  {
+   "id": "g193",
+   "skill": "grammar",
+   "level": "C1",
+   "prompt": "___ it not for the traffic, we would be there by now.",
+   "options": [
+    "Did",
+    "Had",
+    "Were",
+    "Should"
+   ],
+   "answer": "Were",
+   "explanation": "Were it not for… = If it weren't for…"
+  },
+  {
+   "id": "g194",
+   "skill": "grammar",
+   "level": "C1",
+   "prompt": "What I need right now ___ a long holiday.",
+   "options": [
+    "has",
+    "are",
+    "is",
+    "was being"
+   ],
+   "answer": "is",
+   "explanation": "Конструкція What I need is…"
+  },
+  {
+   "id": "g195",
+   "skill": "grammar",
+   "level": "C1",
+   "prompt": "Only after the meeting ___ how serious the situation was.",
+   "options": [
+    "I did realise",
+    "did I realise",
+    "I realised",
+    "realised I"
+   ],
+   "answer": "did I realise",
+   "explanation": "Інверсія після Only after."
+  },
+  {
+   "id": "g196",
+   "skill": "grammar",
+   "level": "C1",
+   "prompt": "He talks as if he ___ everything.",
+   "options": [
+    "would know",
+    "has known",
+    "knew",
+    "is knowing"
+   ],
+   "answer": "knew",
+   "explanation": "as if + Past — нереальне порівняння."
+  },
+  {
+   "id": "g197",
+   "skill": "grammar",
+   "level": "C1",
+   "prompt": "Little ___ that she was being watched.",
+   "options": [
+    "she did know",
+    "she knew",
+    "knew she",
+    "did she know"
+   ],
+   "answer": "did she know",
+   "explanation": "Інверсія після Little."
+  },
+  {
+   "id": "g198",
+   "skill": "grammar",
+   "level": "C1",
+   "prompt": "Under no circumstances ___ the door to strangers.",
+   "options": [
+    "open you",
+    "you open",
+    "should you open",
+    "you should open"
+   ],
+   "answer": "should you open",
+   "explanation": "Інверсія після Under no circumstances."
+  },
+  {
+   "id": "g199",
+   "skill": "grammar",
+   "level": "C1",
+   "prompt": "The new bridge is ___ to be completed next spring.",
+   "options": [
+    "due",
+    "dated",
+    "near",
+    "close"
+   ],
+   "answer": "due",
+   "explanation": "be due to — запланований на певний час."
+  },
+  {
+   "id": "g200",
+   "skill": "grammar",
+   "level": "C1",
+   "prompt": "So ___ was the storm that the whole village lost power.",
+   "options": [
+    "much severe",
+    "severe",
+    "severity",
+    "severely"
+   ],
+   "answer": "severe",
+   "explanation": "So + прикметник + was … that — інверсія для наголосу."
+  },
+  {
+   "id": "g201",
+   "skill": "grammar",
+   "level": "C1",
+   "prompt": "Much ___ I'd like to help, I simply don't have the time.",
+   "options": [
+    "like",
+    "how",
+    "as",
+    "so"
+   ],
+   "answer": "as",
+   "explanation": "Much as… — хоч як…"
+  },
+  {
+   "id": "g202",
+   "skill": "grammar",
+   "level": "C1",
+   "prompt": "Supposing you ___ the lottery, what would you do?",
+   "options": [
+    "will win",
+    "won",
+    "would win",
+    "have won"
+   ],
+   "answer": "won",
+   "explanation": "Supposing + Past — уявна ситуація."
+  },
+  {
+   "id": "g203",
+   "skill": "grammar",
+   "level": "C1",
+   "prompt": "She left early ___ miss the last train.",
+   "options": [
+    "so as not to",
+    "for not to",
+    "so that not to",
+    "in order not"
+   ],
+   "answer": "so as not to",
+   "explanation": "so as not to + V — щоб не…"
+  },
+  {
+   "id": "g204",
+   "skill": "grammar",
+   "level": "C1",
+   "prompt": "___ his age, he's remarkably fit.",
+   "options": [
+    "Despite of",
+    "Although",
+    "For",
+    "In spite"
+   ],
+   "answer": "For",
+   "explanation": "for = як на: for his age — як на свій вік. Despite of та In spite без of — помилкові; although вимагає підрядного речення."
+  },
+  {
+   "id": "g205",
+   "skill": "grammar",
+   "level": "C1",
+   "prompt": "It's essential that every passenger ___ a valid ticket.",
+   "options": [
+    "to have",
+    "having",
+    "have",
+    "had"
+   ],
+   "answer": "have",
+   "explanation": "Після It's essential that — суб'юнктив: have (без закінчення -s)."
+  },
+  {
+   "id": "g206",
+   "skill": "grammar",
+   "level": "C1",
+   "prompt": "___ to the public in 1890, the museum houses over a million objects.",
+   "options": [
+    "Being opened",
+    "Having opened",
+    "Opened",
+    "Opening"
+   ],
+   "answer": "Opened",
+   "explanation": "Пасивний дієприкметниковий зворот: музей відкрили → Opened."
+  },
+  {
+   "id": "g207",
+   "skill": "grammar",
+   "level": "C1",
+   "prompt": "She's the kind of person ___ advice everyone seeks.",
+   "options": [
+    "which",
+    "whose",
+    "whom",
+    "who's"
+   ],
+   "answer": "whose",
+   "explanation": "whose + іменник — чия порада."
+  },
+  {
+   "id": "g208",
+   "skill": "grammar",
+   "level": "C1",
+   "prompt": "I ___ lock the door last night — I remember doing it!",
+   "options": [
+    "did",
+    "do",
+    "was",
+    "have"
+   ],
+   "answer": "did",
+   "explanation": "Підсилювальне did + V у минулому."
+  },
+  {
+   "id": "g209",
+   "skill": "grammar",
+   "level": "C1",
+   "prompt": "If the plan ___ to fail, we would lose everything.",
+   "options": [
+    "will",
+    "were",
+    "would",
+    "is going"
+   ],
+   "answer": "were",
+   "explanation": "If … were to + V — гіпотетична умова."
+  },
+  {
+   "id": "g210",
+   "skill": "grammar",
+   "level": "C1",
+   "prompt": "She's ___ but shy — she'll talk to anyone.",
+   "options": [
+    "nothing",
+    "everything",
+    "anything",
+    "something"
+   ],
+   "answer": "anything",
+   "explanation": "anything but — аж ніяк не."
+  },
+  {
+   "id": "g385",
+   "skill": "grammar",
+   "level": "C1",
+   "prompt": "But for your help, we ___ on time.",
+   "options": [
+    "would never have finished",
+    "never finished",
+    "hadn't finished",
+    "won't finish"
+   ],
+   "answer": "would never have finished",
+   "explanation": "But for + іменник = якби не…; минула нереальна ситуація → would have + V3."
+  },
+  {
+   "id": "g386",
+   "skill": "grammar",
+   "level": "C1",
+   "prompt": "It's not so much the money ___ the time that worries me.",
+   "options": [
+    "so",
+    "as",
+    "than",
+    "that"
+   ],
+   "answer": "as",
+   "explanation": "not so much … as … — не стільки …, скільки …"
+  },
+  {
+   "id": "g387",
+   "skill": "grammar",
+   "level": "C1",
+   "prompt": "She came close ___ the record.",
+   "options": [
+    "to break",
+    "at breaking",
+    "breaking",
+    "to breaking"
+   ],
+   "answer": "to breaking",
+   "explanation": "come close to + -ing — мало не зробити."
+  },
+  {
+   "id": "g388",
+   "skill": "grammar",
+   "level": "C1",
+   "prompt": "___ is often the case, the simplest solution was the best one.",
+   "options": [
+    "Which",
+    "As",
+    "It",
+    "What"
+   ],
+   "answer": "As",
+   "explanation": "As is often the case — як це часто буває."
+  },
+  {
+   "id": "g389",
+   "skill": "grammar",
+   "level": "C1",
+   "prompt": "No matter ___ hard I try, I can't remember her name.",
+   "options": [
+    "what",
+    "however",
+    "so",
+    "how"
+   ],
+   "answer": "how",
+   "explanation": "No matter how + прикметник/прислівник."
+  },
+  {
+   "id": "g390",
+   "skill": "grammar",
+   "level": "C1",
+   "prompt": "The children were nowhere ___ be seen.",
+   "options": [
+    "for",
+    "that",
+    "to",
+    "as"
+   ],
+   "answer": "to",
+   "explanation": "nowhere to be seen — ніде не видно."
+  },
+  {
    "id": "v89",
    "skill": "vocabulary",
    "level": "A1",
@@ -654,6 +2614,328 @@
    "answer": "bedroom"
   },
   {
+   "id": "v211",
+   "skill": "vocabulary",
+   "level": "A1",
+   "prompt": "Seven, eight, nine, ___",
+   "options": [
+    "ten",
+    "twelve",
+    "eleven",
+    "six"
+   ],
+   "answer": "ten",
+   "explanation": "seven, eight, nine, ten — 7, 8, 9, 10."
+  },
+  {
+   "id": "v212",
+   "skill": "vocabulary",
+   "level": "A1",
+   "prompt": "On a sunny day the sky is…",
+   "options": [
+    "brown",
+    "black",
+    "blue",
+    "green"
+   ],
+   "answer": "blue",
+   "explanation": "blue — синій, блакитний."
+  },
+  {
+   "id": "v213",
+   "skill": "vocabulary",
+   "level": "A1",
+   "prompt": "I live in a small ___ with two bedrooms.",
+   "options": [
+    "garden",
+    "kitchen",
+    "table",
+    "flat"
+   ],
+   "answer": "flat",
+   "explanation": "flat — квартира."
+  },
+  {
+   "id": "v214",
+   "skill": "vocabulary",
+   "level": "A1",
+   "prompt": "A doctor works in a ___.",
+   "options": [
+    "hospital",
+    "bank",
+    "school",
+    "shop"
+   ],
+   "answer": "hospital",
+   "explanation": "hospital — лікарня."
+  },
+  {
+   "id": "v215",
+   "skill": "vocabulary",
+   "level": "A1",
+   "prompt": "We have breakfast in the ___.",
+   "options": [
+    "evening",
+    "night",
+    "morning",
+    "afternoon"
+   ],
+   "answer": "morning",
+   "explanation": "breakfast — сніданок, уранці."
+  },
+  {
+   "id": "v216",
+   "skill": "vocabulary",
+   "level": "A1",
+   "prompt": "I'm going to bed. I'm very ___.",
+   "options": [
+    "thirsty",
+    "hungry",
+    "busy",
+    "tired"
+   ],
+   "answer": "tired",
+   "explanation": "tired — втомлений."
+  },
+  {
+   "id": "v217",
+   "skill": "vocabulary",
+   "level": "A1",
+   "prompt": "There are twelve ___ in a year.",
+   "options": [
+    "weeks",
+    "hours",
+    "months",
+    "days"
+   ],
+   "answer": "months",
+   "explanation": "month — місяць."
+  },
+  {
+   "id": "v218",
+   "skill": "vocabulary",
+   "level": "A1",
+   "prompt": "A cat, a dog and a horse are ___.",
+   "options": [
+    "fruits",
+    "animals",
+    "clothes",
+    "colours"
+   ],
+   "answer": "animals",
+   "explanation": "animals — тварини."
+  },
+  {
+   "id": "v219",
+   "skill": "vocabulary",
+   "level": "A1",
+   "prompt": "I wash my hands with ___ and water.",
+   "options": [
+    "paper",
+    "soap",
+    "bread",
+    "salt"
+   ],
+   "answer": "soap",
+   "explanation": "soap — мило."
+  },
+  {
+   "id": "v220",
+   "skill": "vocabulary",
+   "level": "A1",
+   "prompt": "You need a ___ to open the door.",
+   "options": [
+    "pencil",
+    "key",
+    "towel",
+    "spoon"
+   ],
+   "answer": "key",
+   "explanation": "key — ключ."
+  },
+  {
+   "id": "v221",
+   "skill": "vocabulary",
+   "level": "A1",
+   "prompt": "You say \"Good night!\"…",
+   "options": [
+    "when you start eating",
+    "when you meet someone in the morning",
+    "before you go to bed",
+    "when someone says thank you"
+   ],
+   "answer": "before you go to bed",
+   "explanation": "Good night — на добраніч."
+  },
+  {
+   "id": "v222",
+   "skill": "vocabulary",
+   "level": "A1",
+   "prompt": "I'm ___. Can I have a glass of water?",
+   "options": [
+    "thirsty",
+    "cold",
+    "hungry",
+    "tired"
+   ],
+   "answer": "thirsty",
+   "explanation": "thirsty — хочу пити."
+  },
+  {
+   "id": "v223",
+   "skill": "vocabulary",
+   "level": "A1",
+   "prompt": "You buy food and drinks at the ___.",
+   "options": [
+    "bank",
+    "post office",
+    "supermarket",
+    "library"
+   ],
+   "answer": "supermarket",
+   "explanation": "supermarket — супермаркет."
+  },
+  {
+   "id": "v224",
+   "skill": "vocabulary",
+   "level": "A1",
+   "prompt": "A ___ has four legs and says \"woof\".",
+   "options": [
+    "fish",
+    "dog",
+    "bird",
+    "cat"
+   ],
+   "answer": "dog",
+   "explanation": "dog — собака."
+  },
+  {
+   "id": "v225",
+   "skill": "vocabulary",
+   "level": "A1",
+   "prompt": "Your ___ is between your eyes and your mouth.",
+   "options": [
+    "hand",
+    "foot",
+    "ear",
+    "nose"
+   ],
+   "answer": "nose",
+   "explanation": "nose — ніс."
+  },
+  {
+   "id": "v226",
+   "skill": "vocabulary",
+   "level": "A1",
+   "prompt": "It's raining. Take an ___.",
+   "options": [
+    "ice cream",
+    "egg",
+    "orange",
+    "umbrella"
+   ],
+   "answer": "umbrella",
+   "explanation": "umbrella — парасолька."
+  },
+  {
+   "id": "v227",
+   "skill": "vocabulary",
+   "level": "A1",
+   "prompt": "Can you ___ me the time? — It's three o'clock.",
+   "options": [
+    "tell",
+    "speak",
+    "talk",
+    "say"
+   ],
+   "answer": "tell",
+   "explanation": "tell somebody the time — сказати, котра година."
+  },
+  {
+   "id": "v228",
+   "skill": "vocabulary",
+   "level": "A1",
+   "prompt": "Saturday and Sunday are the ___.",
+   "options": [
+    "weekend",
+    "morning",
+    "week",
+    "holiday"
+   ],
+   "answer": "weekend",
+   "explanation": "weekend — вихідні."
+  },
+  {
+   "id": "v229",
+   "skill": "vocabulary",
+   "level": "A1",
+   "prompt": "You wear ___ on your feet.",
+   "options": [
+    "gloves",
+    "a scarf",
+    "shoes",
+    "a hat"
+   ],
+   "answer": "shoes",
+   "explanation": "shoes — взуття, черевики."
+  },
+  {
+   "id": "v391",
+   "skill": "vocabulary",
+   "level": "A1",
+   "prompt": "I'm hungry. Let's ___ something.",
+   "options": [
+    "drink",
+    "sleep",
+    "eat",
+    "wear"
+   ],
+   "answer": "eat",
+   "explanation": "eat — їсти."
+  },
+  {
+   "id": "v392",
+   "skill": "vocabulary",
+   "level": "A1",
+   "prompt": "I read a ___ every evening before bed.",
+   "options": [
+    "chair",
+    "book",
+    "cup",
+    "bed"
+   ],
+   "answer": "book",
+   "explanation": "read a book — читати книжку."
+  },
+  {
+   "id": "v393",
+   "skill": "vocabulary",
+   "level": "A1",
+   "prompt": "What's the ___ like today? — It's sunny.",
+   "options": [
+    "time",
+    "date",
+    "colour",
+    "weather"
+   ],
+   "answer": "weather",
+   "explanation": "weather — погода."
+  },
+  {
+   "id": "v394",
+   "skill": "vocabulary",
+   "level": "A1",
+   "prompt": "Ten minus three is ___.",
+   "options": [
+    "thirteen",
+    "eight",
+    "seven",
+    "six"
+   ],
+   "answer": "seven",
+   "explanation": "10 − 3 = 7."
+  },
+  {
    "id": "v33",
    "skill": "vocabulary",
    "level": "A2",
@@ -738,9 +3020,345 @@
    "explanation": ""
   },
   {
-   "id": "v39",
+   "id": "v230",
    "skill": "vocabulary",
    "level": "A2",
+   "prompt": "I ___ my homework every evening.",
+   "options": [
+    "take",
+    "do",
+    "have",
+    "make"
+   ],
+   "answer": "do",
+   "explanation": "do homework — робити домашнє завдання."
+  },
+  {
+   "id": "v231",
+   "skill": "vocabulary",
+   "level": "A2",
+   "prompt": "Please ___ the light. It's dark in here.",
+   "options": [
+    "turn round",
+    "turn on",
+    "turn off",
+    "turn down"
+   ],
+   "answer": "turn on",
+   "explanation": "turn on — увімкнути."
+  },
+  {
+   "id": "v232",
+   "skill": "vocabulary",
+   "level": "A2",
+   "prompt": "The opposite of \"arrive\" is…",
+   "options": [
+    "stay",
+    "come",
+    "leave",
+    "reach"
+   ],
+   "answer": "leave",
+   "explanation": "arrive — прибувати, leave — вирушати."
+  },
+  {
+   "id": "v233",
+   "skill": "vocabulary",
+   "level": "A2",
+   "prompt": "A person who serves food in a restaurant is a ___.",
+   "options": [
+    "chef",
+    "waiter",
+    "guest",
+    "cashier"
+   ],
+   "answer": "waiter",
+   "explanation": "waiter — офіціант."
+  },
+  {
+   "id": "v234",
+   "skill": "vocabulary",
+   "level": "A2",
+   "prompt": "You can wash your clothes in the ___.",
+   "options": [
+    "oven",
+    "washing machine",
+    "dishwasher",
+    "fridge"
+   ],
+   "answer": "washing machine",
+   "explanation": "washing machine — пральна машина."
+  },
+  {
+   "id": "v235",
+   "skill": "vocabulary",
+   "level": "A2",
+   "prompt": "My train ___ at 10:15, so I have to leave home at 9:30.",
+   "options": [
+    "opens",
+    "goes out",
+    "leaves",
+    "takes"
+   ],
+   "answer": "leaves",
+   "explanation": "The train leaves — потяг відправляється."
+  },
+  {
+   "id": "v236",
+   "skill": "vocabulary",
+   "level": "A2",
+   "prompt": "It's very ___ today — over 30 degrees.",
+   "options": [
+    "cloudy",
+    "cool",
+    "wet",
+    "hot"
+   ],
+   "answer": "hot",
+   "explanation": "Понад 30 градусів — hot (спекотно)."
+  },
+  {
+   "id": "v237",
+   "skill": "vocabulary",
+   "level": "A2",
+   "prompt": "Can you ___ me with my bags?",
+   "options": [
+    "carry",
+    "bring",
+    "hold",
+    "help"
+   ],
+   "answer": "help",
+   "explanation": "help somebody with something — допомогти з чимось."
+  },
+  {
+   "id": "v238",
+   "skill": "vocabulary",
+   "level": "A2",
+   "prompt": "My flight was ___, so I waited at the airport for three hours.",
+   "options": [
+    "lost",
+    "broken",
+    "delayed",
+    "missed"
+   ],
+   "answer": "delayed",
+   "explanation": "delayed — затриманий."
+  },
+  {
+   "id": "v239",
+   "skill": "vocabulary",
+   "level": "A2",
+   "prompt": "Excuse me, how do I ___ to the station?",
+   "options": [
+    "arrive",
+    "come",
+    "get",
+    "reach"
+   ],
+   "answer": "get",
+   "explanation": "get to — дістатися до."
+  },
+  {
+   "id": "v240",
+   "skill": "vocabulary",
+   "level": "A2",
+   "prompt": "A ___ is a place where you can borrow books.",
+   "options": [
+    "library",
+    "museum",
+    "gallery",
+    "bookshop"
+   ],
+   "answer": "library",
+   "explanation": "library — бібліотека (bookshop — книгарня)."
+  },
+  {
+   "id": "v241",
+   "skill": "vocabulary",
+   "level": "A2",
+   "prompt": "I usually ___ a shower in the morning.",
+   "options": [
+    "make",
+    "wash",
+    "do",
+    "have"
+   ],
+   "answer": "have",
+   "explanation": "have a shower — помитися під душем."
+  },
+  {
+   "id": "v242",
+   "skill": "vocabulary",
+   "level": "A2",
+   "prompt": "She's very ___. She gives presents to everyone and always helps.",
+   "options": [
+    "lazy",
+    "generous",
+    "mean",
+    "boring"
+   ],
+   "answer": "generous",
+   "explanation": "generous — щедрий."
+  },
+  {
+   "id": "v243",
+   "skill": "vocabulary",
+   "level": "A2",
+   "prompt": "Put the milk in the ___ or it will go bad.",
+   "options": [
+    "fridge",
+    "cupboard",
+    "oven",
+    "sink"
+   ],
+   "answer": "fridge",
+   "explanation": "fridge — холодильник."
+  },
+  {
+   "id": "v244",
+   "skill": "vocabulary",
+   "level": "A2",
+   "prompt": "Sorry I'm late. I ___ the bus.",
+   "options": [
+    "left",
+    "forgot",
+    "lost",
+    "missed"
+   ],
+   "answer": "missed",
+   "explanation": "miss the bus — запізнитися на автобус."
+  },
+  {
+   "id": "v245",
+   "skill": "vocabulary",
+   "level": "A2",
+   "prompt": "What do you do in your ___ time? — I play the guitar.",
+   "options": [
+    "empty",
+    "clear",
+    "free",
+    "open"
+   ],
+   "answer": "free",
+   "explanation": "free time — вільний час."
+  },
+  {
+   "id": "v246",
+   "skill": "vocabulary",
+   "level": "A2",
+   "prompt": "In a supermarket, you pay at the ___.",
+   "options": [
+    "checkout",
+    "gate",
+    "platform",
+    "reception"
+   ],
+   "answer": "checkout",
+   "explanation": "checkout — каса."
+  },
+  {
+   "id": "v247",
+   "skill": "vocabulary",
+   "level": "A2",
+   "prompt": "My grandfather is 80, but he's still very ___ — he walks ten kilometres a day.",
+   "options": [
+    "ill",
+    "fit",
+    "old",
+    "lazy"
+   ],
+   "answer": "fit",
+   "explanation": "fit — у добрій формі."
+  },
+  {
+   "id": "v248",
+   "skill": "vocabulary",
+   "level": "A2",
+   "prompt": "I'd like to ___ some money from the cash machine.",
+   "options": [
+    "take up",
+    "take away",
+    "take off",
+    "take out"
+   ],
+   "answer": "take out",
+   "explanation": "take out money — зняти гроші."
+  },
+  {
+   "id": "v395",
+   "skill": "vocabulary",
+   "level": "A2",
+   "prompt": "I'm going to the ___ to send a parcel.",
+   "options": [
+    "bus station",
+    "police station",
+    "petrol station",
+    "post office"
+   ],
+   "answer": "post office",
+   "explanation": "post office — пошта."
+  },
+  {
+   "id": "v396",
+   "skill": "vocabulary",
+   "level": "A2",
+   "prompt": "My sister got ___ last year. Her husband is very nice.",
+   "options": [
+    "marry",
+    "wedding",
+    "married",
+    "engaged"
+   ],
+   "answer": "married",
+   "explanation": "get married — одружитися."
+  },
+  {
+   "id": "v397",
+   "skill": "vocabulary",
+   "level": "A2",
+   "prompt": "Can you ___ the dog for a walk?",
+   "options": [
+    "bring",
+    "take",
+    "carry",
+    "go"
+   ],
+   "answer": "take",
+   "explanation": "take the dog for a walk — вигуляти собаку."
+  },
+  {
+   "id": "v398",
+   "skill": "vocabulary",
+   "level": "A2",
+   "prompt": "I always ___ my teeth before bed.",
+   "options": [
+    "brush",
+    "comb",
+    "wipe",
+    "cut"
+   ],
+   "answer": "brush",
+   "explanation": "brush one's teeth — чистити зуби."
+  },
+  {
+   "id": "v259",
+   "skill": "vocabulary",
+   "level": "A2",
+   "prompt": "I'm ___ of spiders.",
+   "options": [
+    "worried",
+    "keen",
+    "interested",
+    "scared"
+   ],
+   "answer": "scared",
+   "explanation": "be scared of — боятися."
+  },
+  {
+   "id": "v39",
+   "skill": "vocabulary",
+   "level": "B1",
    "prompt": "The doctor gave me a ___ for some medicine.",
    "options": [
     "receipt",
@@ -764,20 +3382,6 @@
    ],
    "answer": "up",
    "explanation": "give up — здатися."
-  },
-  {
-   "id": "v41",
-   "skill": "vocabulary",
-   "level": "B1",
-   "prompt": "I can't ___ out how this works.",
-   "options": [
-    "take",
-    "figure",
-    "look",
-    "make"
-   ],
-   "answer": "figure",
-   "explanation": "figure out."
   },
   {
    "id": "v42",
@@ -848,6 +3452,356 @@
    ],
    "answer": "made",
    "explanation": "make a mistake."
+  },
+  {
+   "id": "v249",
+   "skill": "vocabulary",
+   "level": "B1",
+   "prompt": "Can you ___ after my cat while I'm away?",
+   "options": [
+    "care",
+    "see",
+    "take",
+    "look"
+   ],
+   "answer": "look",
+   "explanation": "look after — доглядати."
+  },
+  {
+   "id": "v250",
+   "skill": "vocabulary",
+   "level": "B1",
+   "prompt": "I ___ an old friend in town yesterday — what a surprise!",
+   "options": [
+    "ran into",
+    "ran out",
+    "ran over",
+    "ran away"
+   ],
+   "answer": "ran into",
+   "explanation": "run into — випадково зустріти."
+  },
+  {
+   "id": "v251",
+   "skill": "vocabulary",
+   "level": "B1",
+   "prompt": "Please ___ this form and give it to the receptionist.",
+   "options": [
+    "fill on",
+    "fill at",
+    "fill up",
+    "fill in"
+   ],
+   "answer": "fill in",
+   "explanation": "fill in a form — заповнити бланк."
+  },
+  {
+   "id": "v252",
+   "skill": "vocabulary",
+   "level": "B1",
+   "prompt": "The concert was ___ because the singer was ill.",
+   "options": [
+    "called up",
+    "called back",
+    "called in",
+    "called off"
+   ],
+   "answer": "called off",
+   "explanation": "call off — скасувати."
+  },
+  {
+   "id": "v253",
+   "skill": "vocabulary",
+   "level": "B1",
+   "prompt": "It's a ___ of time arguing about it.",
+   "options": [
+    "loss",
+    "waste",
+    "lack",
+    "lot"
+   ],
+   "answer": "waste",
+   "explanation": "a waste of time — марна трата часу."
+  },
+  {
+   "id": "v254",
+   "skill": "vocabulary",
+   "level": "B1",
+   "prompt": "She's very ___ — she's always on time and does what she promises.",
+   "options": [
+    "generous",
+    "ambitious",
+    "reliable",
+    "curious"
+   ],
+   "answer": "reliable",
+   "explanation": "reliable — надійний."
+  },
+  {
+   "id": "v255",
+   "skill": "vocabulary",
+   "level": "B1",
+   "prompt": "If your phone battery is \"flat\", it…",
+   "options": [
+    "needs charging",
+    "is very thin",
+    "is broken",
+    "is brand new"
+   ],
+   "answer": "needs charging",
+   "explanation": "flat battery — розряджений акумулятор."
+  },
+  {
+   "id": "v256",
+   "skill": "vocabulary",
+   "level": "B1",
+   "prompt": "I'd like to ___ this jacket. Where are the changing rooms?",
+   "options": [
+    "try out",
+    "put up",
+    "try on",
+    "take on"
+   ],
+   "answer": "try on",
+   "explanation": "try on — приміряти."
+  },
+  {
+   "id": "v257",
+   "skill": "vocabulary",
+   "level": "B1",
+   "prompt": "The opposite of \"generous\" is…",
+   "options": [
+    "rude",
+    "kind",
+    "mean",
+    "poor"
+   ],
+   "answer": "mean",
+   "explanation": "mean — скупий."
+  },
+  {
+   "id": "v258",
+   "skill": "vocabulary",
+   "level": "B1",
+   "prompt": "Could you ___ down the music? I'm trying to sleep.",
+   "options": [
+    "set",
+    "put",
+    "turn",
+    "take"
+   ],
+   "answer": "turn",
+   "explanation": "turn down — зробити тихіше."
+  },
+  {
+   "id": "v260",
+   "skill": "vocabulary",
+   "level": "B1",
+   "prompt": "Let's ___ a break and have some coffee.",
+   "options": [
+    "get",
+    "do",
+    "take",
+    "make"
+   ],
+   "answer": "take",
+   "explanation": "take a break — зробити перерву."
+  },
+  {
+   "id": "v261",
+   "skill": "vocabulary",
+   "level": "B1",
+   "prompt": "I'm afraid I can't ___ a new car right now. It's too expensive.",
+   "options": [
+    "spend",
+    "pay",
+    "cost",
+    "afford"
+   ],
+   "answer": "afford",
+   "explanation": "afford — дозволити собі (фінансово)."
+  },
+  {
+   "id": "v262",
+   "skill": "vocabulary",
+   "level": "B1",
+   "prompt": "Can you do me a ___? Could you post this letter?",
+   "options": [
+    "hand",
+    "help",
+    "gift",
+    "favour"
+   ],
+   "answer": "favour",
+   "explanation": "do somebody a favour — зробити послугу."
+  },
+  {
+   "id": "v263",
+   "skill": "vocabulary",
+   "level": "B1",
+   "prompt": "We ___ an hour waiting for the bus.",
+   "options": [
+    "cost",
+    "used",
+    "paid",
+    "spent"
+   ],
+   "answer": "spent",
+   "explanation": "spend time — витрачати час."
+  },
+  {
+   "id": "v264",
+   "skill": "vocabulary",
+   "level": "B1",
+   "prompt": "She ___ her father — they have the same eyes and smile.",
+   "options": [
+    "takes up",
+    "looks for",
+    "takes after",
+    "looks after"
+   ],
+   "answer": "takes after",
+   "explanation": "take after — бути схожим на родича."
+  },
+  {
+   "id": "v265",
+   "skill": "vocabulary",
+   "level": "B1",
+   "prompt": "How long does it ___ to get to the airport?",
+   "options": [
+    "spend",
+    "last",
+    "need",
+    "take"
+   ],
+   "answer": "take",
+   "explanation": "It takes … to get — щоб дістатися, потрібно (стільки часу)."
+  },
+  {
+   "id": "v266",
+   "skill": "vocabulary",
+   "level": "B1",
+   "prompt": "This shirt doesn't ___ me. It's too big.",
+   "options": [
+    "go",
+    "wear",
+    "match",
+    "fit"
+   ],
+   "answer": "fit",
+   "explanation": "fit — пасувати за розміром."
+  },
+  {
+   "id": "v267",
+   "skill": "vocabulary",
+   "level": "B1",
+   "prompt": "The museum is ___ visiting. It's fantastic.",
+   "options": [
+    "value",
+    "deserve",
+    "worthy",
+    "worth"
+   ],
+   "answer": "worth",
+   "explanation": "be worth + -ing — варто."
+  },
+  {
+   "id": "v399",
+   "skill": "vocabulary",
+   "level": "B1",
+   "prompt": "I'm going to ___ a course in photography.",
+   "options": [
+    "learn",
+    "get",
+    "make",
+    "do"
+   ],
+   "answer": "do",
+   "explanation": "do a course — пройти курс."
+  },
+  {
+   "id": "v401",
+   "skill": "vocabulary",
+   "level": "B1",
+   "prompt": "I've ___ weight since I started running.",
+   "options": [
+    "lost",
+    "missed",
+    "left",
+    "fallen"
+   ],
+   "answer": "lost",
+   "explanation": "lose weight — схуднути."
+  },
+  {
+   "id": "v402",
+   "skill": "vocabulary",
+   "level": "B1",
+   "prompt": "Could you give me a ___ to the station? — Sure, get in.",
+   "options": [
+    "trip",
+    "lift",
+    "drive",
+    "journey"
+   ],
+   "answer": "lift",
+   "explanation": "give somebody a lift — підвезти."
+  },
+  {
+   "id": "v281",
+   "skill": "vocabulary",
+   "level": "B1",
+   "prompt": "She's ___ in three languages — English, French and Arabic.",
+   "options": [
+    "fluently",
+    "fluid",
+    "fluent",
+    "flowing"
+   ],
+   "answer": "fluent",
+   "explanation": "fluent in — вільно володіти."
+  },
+  {
+   "id": "v283",
+   "skill": "vocabulary",
+   "level": "B1",
+   "prompt": "The thunder ___ the baby up.",
+   "options": [
+    "woke",
+    "rose",
+    "stood",
+    "raised"
+   ],
+   "answer": "woke",
+   "explanation": "wake somebody up — розбудити."
+  },
+  {
+   "id": "v41",
+   "skill": "vocabulary",
+   "level": "B2",
+   "prompt": "I can't ___ out how this works.",
+   "options": [
+    "take",
+    "figure",
+    "look",
+    "make"
+   ],
+   "answer": "figure",
+   "explanation": "figure out."
+  },
+  {
+   "id": "v400",
+   "skill": "vocabulary",
+   "level": "B2",
+   "prompt": "The hotel room had a ___ view of the sea.",
+   "options": [
+    "breath",
+    "breathtaking",
+    "breathless",
+    "breathing"
+   ],
+   "answer": "breathtaking",
+   "explanation": "breathtaking — захопливий."
   },
   {
    "id": "v47",
@@ -948,6 +3902,314 @@
    "explanation": "Ходити манівцями."
   },
   {
+   "id": "v268",
+   "skill": "vocabulary",
+   "level": "B2",
+   "prompt": "The price ___ breakfast.",
+   "options": [
+    "includes",
+    "contains",
+    "consists",
+    "involves"
+   ],
+   "answer": "includes",
+   "explanation": "include — включати (у ціну)."
+  },
+  {
+   "id": "v269",
+   "skill": "vocabulary",
+   "level": "B2",
+   "prompt": "Could you keep an ___ on my bag for a minute?",
+   "options": [
+    "eye",
+    "look",
+    "ear",
+    "hand"
+   ],
+   "answer": "eye",
+   "explanation": "keep an eye on — наглядати."
+  },
+  {
+   "id": "v271",
+   "skill": "vocabulary",
+   "level": "B2",
+   "prompt": "Her new book has received excellent ___ from critics.",
+   "options": [
+    "reviews",
+    "reports",
+    "opinions",
+    "critics"
+   ],
+   "answer": "reviews",
+   "explanation": "review — рецензія, відгук."
+  },
+  {
+   "id": "v272",
+   "skill": "vocabulary",
+   "level": "B2",
+   "prompt": "I'm ___ my driving test next week, so I'm practising every day.",
+   "options": [
+    "making",
+    "taking",
+    "passing",
+    "giving"
+   ],
+   "answer": "taking",
+   "explanation": "take a test — складати іспит; pass — скласти успішно."
+  },
+  {
+   "id": "v273",
+   "skill": "vocabulary",
+   "level": "B2",
+   "prompt": "This sofa is so ___. I could sleep on it.",
+   "options": [
+    "confident",
+    "comfortable",
+    "considerate",
+    "convenient"
+   ],
+   "answer": "comfortable",
+   "explanation": "comfortable — зручний (для тіла); convenient — зручний (для справ)."
+  },
+  {
+   "id": "v274",
+   "skill": "vocabulary",
+   "level": "B2",
+   "prompt": "He ___ his promise and never called me.",
+   "options": [
+    "lost",
+    "broke",
+    "missed",
+    "cut"
+   ],
+   "answer": "broke",
+   "explanation": "break a promise — порушити обіцянку."
+  },
+  {
+   "id": "v275",
+   "skill": "vocabulary",
+   "level": "B2",
+   "prompt": "Smoking is ___ in all public buildings.",
+   "options": [
+    "denied",
+    "rejected",
+    "refused",
+    "banned"
+   ],
+   "answer": "banned",
+   "explanation": "ban — заборонити."
+  },
+  {
+   "id": "v276",
+   "skill": "vocabulary",
+   "level": "B2",
+   "prompt": "Let's ___ the subject. I don't want to talk about it.",
+   "options": [
+    "turn",
+    "swap",
+    "change",
+    "move"
+   ],
+   "answer": "change",
+   "explanation": "change the subject — змінити тему."
+  },
+  {
+   "id": "v277",
+   "skill": "vocabulary",
+   "level": "B2",
+   "prompt": "After months of training, she finally ___ her goal of running a marathon.",
+   "options": [
+    "succeeded",
+    "gained",
+    "achieved",
+    "won"
+   ],
+   "answer": "achieved",
+   "explanation": "achieve a goal — досягти мети."
+  },
+  {
+   "id": "v278",
+   "skill": "vocabulary",
+   "level": "B2",
+   "prompt": "He's always ___ about something — the weather, his job, his neighbours.",
+   "options": [
+    "explaining",
+    "praising",
+    "complaining",
+    "apologising"
+   ],
+   "answer": "complaining",
+   "explanation": "complain about — скаржитися."
+  },
+  {
+   "id": "v279",
+   "skill": "vocabulary",
+   "level": "B2",
+   "prompt": "I had a ___ escape — the car missed me by centimetres.",
+   "options": [
+    "thin",
+    "narrow",
+    "short",
+    "small"
+   ],
+   "answer": "narrow",
+   "explanation": "a narrow escape — ледь урятуватися."
+  },
+  {
+   "id": "v280",
+   "skill": "vocabulary",
+   "level": "B2",
+   "prompt": "\"It's a piece of cake\" means…",
+   "options": [
+    "It's a sweet dessert",
+    "It's very easy",
+    "It's only a small part",
+    "It's a waste of time"
+   ],
+   "answer": "It's very easy",
+   "explanation": "a piece of cake — дуже просто."
+  },
+  {
+   "id": "v282",
+   "skill": "vocabulary",
+   "level": "B2",
+   "prompt": "Prices have ___ dramatically this year.",
+   "options": [
+    "aroused",
+    "risen",
+    "raised",
+    "arisen"
+   ],
+   "answer": "risen",
+   "explanation": "rise (неперехідне) — зростати; raise — піднімати щось."
+  },
+  {
+   "id": "v284",
+   "skill": "vocabulary",
+   "level": "B2",
+   "prompt": "I'm afraid there's been a ___ — I ordered the fish, not the chicken.",
+   "options": [
+    "mix-in",
+    "set-up",
+    "mix-up",
+    "break-up"
+   ],
+   "answer": "mix-up",
+   "explanation": "mix-up — плутанина."
+  },
+  {
+   "id": "v285",
+   "skill": "vocabulary",
+   "level": "B2",
+   "prompt": "It ___ my mind to call you. Sorry!",
+   "options": [
+    "dropped",
+    "slipped",
+    "ran",
+    "fell"
+   ],
+   "answer": "slipped",
+   "explanation": "slip one's mind — вилетіти з голови."
+  },
+  {
+   "id": "v286",
+   "skill": "vocabulary",
+   "level": "B2",
+   "prompt": "She's very ___ — she can never make up her mind.",
+   "options": [
+    "inconsiderate",
+    "indecisive",
+    "independent",
+    "insensitive"
+   ],
+   "answer": "indecisive",
+   "explanation": "indecisive — нерішучий."
+  },
+  {
+   "id": "v403",
+   "skill": "vocabulary",
+   "level": "B2",
+   "prompt": "I'm afraid this milk has gone ___.",
+   "options": [
+    "down",
+    "off",
+    "out",
+    "away"
+   ],
+   "answer": "off",
+   "explanation": "go off — зіпсуватися (про їжу)."
+  },
+  {
+   "id": "v404",
+   "skill": "vocabulary",
+   "level": "B2",
+   "prompt": "We need to ___ up with a better plan.",
+   "options": [
+    "make",
+    "keep",
+    "catch",
+    "come"
+   ],
+   "answer": "come",
+   "explanation": "come up with — вигадати, запропонувати."
+  },
+  {
+   "id": "v405",
+   "skill": "vocabulary",
+   "level": "B2",
+   "prompt": "Her speech ___ a lot of interest.",
+   "options": [
+    "attended",
+    "affected",
+    "attracted",
+    "appealed"
+   ],
+   "answer": "attracted",
+   "explanation": "attract interest — привернути увагу."
+  },
+  {
+   "id": "v406",
+   "skill": "vocabulary",
+   "level": "B2",
+   "prompt": "These boots are really ___ — I've had them for ten years and they're still fine.",
+   "options": [
+    "hard-working",
+    "hard-hearted",
+    "hard-wearing",
+    "hard-pressed"
+   ],
+   "answer": "hard-wearing",
+   "explanation": "hard-wearing — зносостійкий."
+  },
+  {
+   "id": "v408",
+   "skill": "vocabulary",
+   "level": "B2",
+   "prompt": "She ___ the offer down without a second thought.",
+   "options": [
+    "put",
+    "let",
+    "turned",
+    "brought"
+   ],
+   "answer": "turned",
+   "explanation": "turn down — відхилити."
+  },
+  {
+   "id": "v270",
+   "skill": "vocabulary",
+   "level": "C1",
+   "prompt": "We had to ___ a lot of money to fix the roof.",
+   "options": [
+    "fork out",
+    "pull out",
+    "give out",
+    "check out"
+   ],
+   "answer": "fork out",
+   "explanation": "fork out — неохоче викласти чималі гроші (розмовне)."
+  },
+  {
    "id": "v54",
    "skill": "vocabulary",
    "level": "C1",
@@ -1046,6 +4308,314 @@
    "explanation": "Приголомшена."
   },
   {
+   "id": "v287",
+   "skill": "vocabulary",
+   "level": "C1",
+   "prompt": "The two accounts of the accident were completely at ___.",
+   "options": [
+    "odds",
+    "sides",
+    "ends",
+    "loss"
+   ],
+   "answer": "odds",
+   "explanation": "be at odds — суперечити одне одному."
+  },
+  {
+   "id": "v288",
+   "skill": "vocabulary",
+   "level": "C1",
+   "prompt": "His explanation was rather ___ — nobody understood what he meant.",
+   "options": [
+    "candid",
+    "coherent",
+    "convoluted",
+    "concise"
+   ],
+   "answer": "convoluted",
+   "explanation": "convoluted — заплутаний."
+  },
+  {
+   "id": "v289",
+   "skill": "vocabulary",
+   "level": "C1",
+   "prompt": "She has a ___ for languages; she picked up Italian in months.",
+   "options": [
+    "flare",
+    "flaw",
+    "fling",
+    "flair"
+   ],
+   "answer": "flair",
+   "explanation": "a flair for — хист до."
+  },
+  {
+   "id": "v290",
+   "skill": "vocabulary",
+   "level": "C1",
+   "prompt": "We'll have to bite the ___ and tell them the truth.",
+   "options": [
+    "dust",
+    "bullet",
+    "tongue",
+    "hand"
+   ],
+   "answer": "bullet",
+   "explanation": "bite the bullet — наважитися на неприємне."
+  },
+  {
+   "id": "v291",
+   "skill": "vocabulary",
+   "level": "C1",
+   "prompt": "The report ___ several key issues that need addressing.",
+   "options": [
+    "flashes",
+    "enlightens",
+    "brightens",
+    "highlights"
+   ],
+   "answer": "highlights",
+   "explanation": "highlight — висвітлювати, наголошувати."
+  },
+  {
+   "id": "v292",
+   "skill": "vocabulary",
+   "level": "C1",
+   "prompt": "The government has ___ a new campaign against smoking.",
+   "options": [
+    "kicked",
+    "fired",
+    "launched",
+    "thrown"
+   ],
+   "answer": "launched",
+   "explanation": "launch a campaign — розпочати кампанію."
+  },
+  {
+   "id": "v293",
+   "skill": "vocabulary",
+   "level": "C1",
+   "prompt": "I'm in two ___ about whether to accept the offer.",
+   "options": [
+    "thoughts",
+    "minds",
+    "hearts",
+    "heads"
+   ],
+   "answer": "minds",
+   "explanation": "be in two minds — вагатися."
+  },
+  {
+   "id": "v294",
+   "skill": "vocabulary",
+   "level": "C1",
+   "prompt": "Please ___ from using your phones during the performance.",
+   "options": [
+    "retain",
+    "remain",
+    "restrain",
+    "refrain"
+   ],
+   "answer": "refrain",
+   "explanation": "refrain from — утримуватися від (офіційне)."
+  },
+  {
+   "id": "v295",
+   "skill": "vocabulary",
+   "level": "C1",
+   "prompt": "Thanks to her ___ planning, the event ran smoothly.",
+   "options": [
+    "ridiculous",
+    "superfluous",
+    "meticulous",
+    "spontaneous"
+   ],
+   "answer": "meticulous",
+   "explanation": "meticulous — ретельний."
+  },
+  {
+   "id": "v296",
+   "skill": "vocabulary",
+   "level": "C1",
+   "prompt": "\"To cut corners\" means…",
+   "options": [
+    "to do something badly to save time or money",
+    "to avoid an argument",
+    "to take a shorter route",
+    "to reduce prices"
+   ],
+   "answer": "to do something badly to save time or money",
+   "explanation": "cut corners — халтурити, економлячи час чи гроші."
+  },
+  {
+   "id": "v297",
+   "skill": "vocabulary",
+   "level": "C1",
+   "prompt": "The scandal ___ his reputation.",
+   "options": [
+    "polished",
+    "tarnished",
+    "furnished",
+    "varnished"
+   ],
+   "answer": "tarnished",
+   "explanation": "tarnish — заплямувати."
+  },
+  {
+   "id": "v298",
+   "skill": "vocabulary",
+   "level": "C1",
+   "prompt": "There's a ___ difference between the two — most people wouldn't notice.",
+   "options": [
+    "subtitle",
+    "sublime",
+    "sudden",
+    "subtle"
+   ],
+   "answer": "subtle",
+   "explanation": "subtle — ледь помітний."
+  },
+  {
+   "id": "v299",
+   "skill": "vocabulary",
+   "level": "C1",
+   "prompt": "He's always blowing his own ___ — it gets tiresome.",
+   "options": [
+    "flute",
+    "drum",
+    "whistle",
+    "trumpet"
+   ],
+   "answer": "trumpet",
+   "explanation": "blow one's own trumpet — вихвалятися."
+  },
+  {
+   "id": "v300",
+   "skill": "vocabulary",
+   "level": "C1",
+   "prompt": "We need someone who can think on their ___.",
+   "options": [
+    "legs",
+    "toes",
+    "hands",
+    "feet"
+   ],
+   "answer": "feet",
+   "explanation": "think on one's feet — швидко орієнтуватися."
+  },
+  {
+   "id": "v301",
+   "skill": "vocabulary",
+   "level": "C1",
+   "prompt": "I'd take everything he says with a pinch of ___.",
+   "options": [
+    "sugar",
+    "salt",
+    "spice",
+    "pepper"
+   ],
+   "answer": "salt",
+   "explanation": "with a pinch of salt — зі скептицизмом."
+  },
+  {
+   "id": "v302",
+   "skill": "vocabulary",
+   "level": "C1",
+   "prompt": "The festival attracts visitors from far and ___.",
+   "options": [
+    "wide",
+    "beyond",
+    "near",
+    "away"
+   ],
+   "answer": "wide",
+   "explanation": "from far and wide — звідусіль."
+  },
+  {
+   "id": "v303",
+   "skill": "vocabulary",
+   "level": "C1",
+   "prompt": "In a formal letter, \"We got your letter\" is better written as \"We ___ your letter\".",
+   "options": [
+    "gained",
+    "earned",
+    "received",
+    "acquired"
+   ],
+   "answer": "received",
+   "explanation": "receive — офіційний відповідник get."
+  },
+  {
+   "id": "v304",
+   "skill": "vocabulary",
+   "level": "C1",
+   "prompt": "The film's ending was so ___ that the audience argued about it for hours.",
+   "options": [
+    "ambitious",
+    "anonymous",
+    "ambiguous",
+    "unanimous"
+   ],
+   "answer": "ambiguous",
+   "explanation": "ambiguous — неоднозначний."
+  },
+  {
+   "id": "v305",
+   "skill": "vocabulary",
+   "level": "C1",
+   "prompt": "Her latest novel has been ___ acclaimed.",
+   "options": [
+    "critical",
+    "criticism",
+    "critically",
+    "critic"
+   ],
+   "answer": "critically",
+   "explanation": "critically acclaimed — схвалений критиками."
+  },
+  {
+   "id": "v407",
+   "skill": "vocabulary",
+   "level": "C1",
+   "prompt": "His remarks were completely ___ — they had nothing to do with the discussion.",
+   "options": [
+    "salient",
+    "irrelevant",
+    "germane",
+    "pertinent"
+   ],
+   "answer": "irrelevant",
+   "explanation": "irrelevant — недоречний; pertinent, germane — доречний."
+  },
+  {
+   "id": "v409",
+   "skill": "vocabulary",
+   "level": "C1",
+   "prompt": "The negotiations reached an ___ — neither side would compromise.",
+   "options": [
+    "input",
+    "impact",
+    "impulse",
+    "impasse"
+   ],
+   "answer": "impasse",
+   "explanation": "impasse — глухий кут."
+  },
+  {
+   "id": "v410",
+   "skill": "vocabulary",
+   "level": "C1",
+   "prompt": "Despite the setbacks, she remained ___ about the project's chances.",
+   "options": [
+    "sanguine",
+    "gloomy",
+    "morose",
+    "despondent"
+   ],
+   "answer": "sanguine",
+   "explanation": "sanguine — сповнений оптимізму."
+  },
+  {
    "id": "l96",
    "skill": "listening",
    "level": "A1",
@@ -1118,6 +4688,171 @@
    "audio": "Can I have a glass of orange juice, please?"
   },
   {
+   "id": "l306",
+   "skill": "listening",
+   "level": "A1",
+   "prompt": "What number is the house?",
+   "options": [
+    "33",
+    "3",
+    "30",
+    "13"
+   ],
+   "answer": "13",
+   "explanation": "thirteen = 13, thirty = 30.",
+   "audio": "I live at number thirteen, Park Road."
+  },
+  {
+   "id": "l307",
+   "skill": "listening",
+   "level": "A1",
+   "prompt": "How many sisters has the speaker got?",
+   "options": [
+    "Two",
+    "One",
+    "None",
+    "Three"
+   ],
+   "answer": "One",
+   "explanation": "two brothers and one sister.",
+   "audio": "I've got two brothers and one sister."
+  },
+  {
+   "id": "l308",
+   "skill": "listening",
+   "level": "A1",
+   "prompt": "What is the speaker's favourite colour?",
+   "options": [
+    "Red",
+    "Green",
+    "Grey",
+    "Blue"
+   ],
+   "answer": "Green",
+   "explanation": "green — зелений.",
+   "audio": "My favourite colour is green."
+  },
+  {
+   "id": "l309",
+   "skill": "listening",
+   "level": "A1",
+   "prompt": "When does the shop open?",
+   "options": [
+    "10:00",
+    "9:00",
+    "9:30",
+    "5:00"
+   ],
+   "answer": "9:00",
+   "explanation": "nine o'clock = 9:00.",
+   "audio": "The shop opens at nine o'clock."
+  },
+  {
+   "id": "l310",
+   "skill": "listening",
+   "level": "A1",
+   "prompt": "What is the speaker's job?",
+   "options": [
+    "Teacher",
+    "Doctor",
+    "Driver",
+    "Nurse"
+   ],
+   "answer": "Nurse",
+   "explanation": "nurse — медсестра / медбрат.",
+   "audio": "I'm a nurse. I work at night."
+  },
+  {
+   "id": "l311",
+   "skill": "listening",
+   "level": "A1",
+   "prompt": "Where is the bag?",
+   "options": [
+    "On the chair",
+    "Behind the door",
+    "On the table",
+    "Under the chair"
+   ],
+   "answer": "On the chair",
+   "explanation": "on the chair, next to the door.",
+   "audio": "My bag is on the chair, next to the door."
+  },
+  {
+   "id": "l312",
+   "skill": "listening",
+   "level": "A1",
+   "prompt": "When do they go swimming?",
+   "options": [
+    "On Saturdays",
+    "On Thursdays",
+    "On Tuesdays",
+    "Every day"
+   ],
+   "answer": "On Tuesdays",
+   "explanation": "every Tuesday — щовівторка.",
+   "audio": "We go swimming every Tuesday."
+  },
+  {
+   "id": "l313",
+   "skill": "listening",
+   "level": "A1",
+   "prompt": "How much is the coffee?",
+   "options": [
+    "£5.20",
+    "£2.15",
+    "£2.50",
+    "£12.50"
+   ],
+   "answer": "£2.50",
+   "explanation": "two pounds fifty = £2.50.",
+   "audio": "This coffee is two pounds fifty."
+  },
+  {
+   "id": "l314",
+   "skill": "listening",
+   "level": "A1",
+   "prompt": "Where does the speaker live now?",
+   "options": [
+    "Canada",
+    "Scotland",
+    "England",
+    "Ireland"
+   ],
+   "answer": "Ireland",
+   "explanation": "from Canada, but I live in Ireland now.",
+   "audio": "I'm from Canada, but I live in Ireland now."
+  },
+  {
+   "id": "l315",
+   "skill": "listening",
+   "level": "A1",
+   "prompt": "What is the weather like?",
+   "options": [
+    "Cold and rainy",
+    "Cold and windy",
+    "Warm and windy",
+    "Hot and sunny"
+   ],
+   "answer": "Cold and windy",
+   "explanation": "cold and windy, but it isn't raining.",
+   "audio": "It's cold and windy today, but it isn't raining."
+  },
+  {
+   "id": "l316",
+   "skill": "listening",
+   "level": "A1",
+   "prompt": "What colour is her hair?",
+   "options": [
+    "Black",
+    "Blonde",
+    "Red",
+    "Brown"
+   ],
+   "answer": "Black",
+   "explanation": "long black hair and brown eyes.",
+   "audio": "My sister has got long black hair and brown eyes."
+  },
+  {
    "id": "l61",
    "skill": "listening",
    "level": "A2",
@@ -1166,7 +4901,7 @@
    "id": "l64",
    "skill": "listening",
    "level": "A2",
-   "prompt": "What does the woman want?",
+   "prompt": "What does the speaker want?",
    "options": [
     "A tea",
     "A coffee with milk",
@@ -1181,7 +4916,7 @@
    "id": "l65",
    "skill": "listening",
    "level": "A2",
-   "prompt": "When is his birthday?",
+   "prompt": "When is the speaker's birthday?",
    "options": [
     "13 May",
     "30 May",
@@ -1191,6 +4926,171 @@
    "answer": "13 May",
    "explanation": "",
    "audio": "My birthday is on the thirteenth of May."
+  },
+  {
+   "id": "l317",
+   "skill": "listening",
+   "level": "A2",
+   "prompt": "Which platform does the train leave from?",
+   "options": [
+    "6",
+    "9",
+    "7",
+    "16"
+   ],
+   "answer": "6",
+   "explanation": "platform six — платформа 6.",
+   "audio": "The next train to Manchester leaves from platform six."
+  },
+  {
+   "id": "l318",
+   "skill": "listening",
+   "level": "A2",
+   "prompt": "Where is the speaker going today?",
+   "options": [
+    "To work",
+    "To the gym",
+    "To the dentist",
+    "Home"
+   ],
+   "answer": "To the dentist",
+   "explanation": "usually … the gym, but today … the dentist.",
+   "audio": "I usually go to the gym after work, but today I'm going to the dentist."
+  },
+  {
+   "id": "l319",
+   "skill": "listening",
+   "level": "A2",
+   "prompt": "What should you do at the traffic lights?",
+   "options": [
+    "Go straight on",
+    "Stop and wait",
+    "Turn right",
+    "Turn left"
+   ],
+   "answer": "Turn left",
+   "explanation": "Turn left at the traffic lights.",
+   "audio": "Turn left at the traffic lights, and the museum is on your right."
+  },
+  {
+   "id": "l320",
+   "skill": "listening",
+   "level": "A2",
+   "prompt": "How much was the jacket?",
+   "options": [
+    "£20",
+    "£25",
+    "£15",
+    "£52"
+   ],
+   "answer": "£25",
+   "explanation": "twenty-five pounds = £25.",
+   "audio": "I bought this jacket in the sales. It was only twenty-five pounds."
+  },
+  {
+   "id": "l321",
+   "skill": "listening",
+   "level": "A2",
+   "prompt": "What was the weather like?",
+   "options": [
+    "It rained all the time",
+    "It was sunny",
+    "It snowed",
+    "It was windy"
+   ],
+   "answer": "It rained all the time",
+   "explanation": "It rained the whole time — дощ ішов весь час.",
+   "audio": "Last weekend we went camping by a lake. It rained the whole time!"
+  },
+  {
+   "id": "l322",
+   "skill": "listening",
+   "level": "A2",
+   "prompt": "How old is the speaker's brother?",
+   "options": [
+    "19",
+    "29",
+    "17",
+    "21"
+   ],
+   "answer": "21",
+   "explanation": "19 + 2 = 21.",
+   "audio": "My brother is two years older than me. I'm nineteen."
+  },
+  {
+   "id": "l323",
+   "skill": "listening",
+   "level": "A2",
+   "prompt": "When does the speaker want to have dinner?",
+   "options": [
+    "On Thursday",
+    "At the weekend",
+    "On Tuesday",
+    "On Wednesday"
+   ],
+   "answer": "On Thursday",
+   "explanation": "change the dinner to Thursday.",
+   "audio": "Can we change the dinner to Thursday? I'm busy on Wednesday."
+  },
+  {
+   "id": "l324",
+   "skill": "listening",
+   "level": "A2",
+   "prompt": "How many people is the table for?",
+   "options": [
+    "Eight",
+    "Five",
+    "Two",
+    "Four"
+   ],
+   "answer": "Four",
+   "explanation": "a table for four people.",
+   "audio": "Hello, I'd like to book a table for four people at eight o'clock."
+  },
+  {
+   "id": "l325",
+   "skill": "listening",
+   "level": "A2",
+   "prompt": "Which colours can you buy the T-shirt in?",
+   "options": [
+    "Blue and white",
+    "Only blue",
+    "Red and white",
+    "Blue and red"
+   ],
+   "answer": "Red and white",
+   "explanation": "Синя розпродана, є червона і біла.",
+   "audio": "I'm sorry, the blue T-shirt is sold out, but we've got it in red and white."
+  },
+  {
+   "id": "l326",
+   "skill": "listening",
+   "level": "A2",
+   "prompt": "What time will they meet?",
+   "options": [
+    "7:20",
+    "6:20",
+    "6:40",
+    "7:00"
+   ],
+   "answer": "6:40",
+   "explanation": "twenty to seven = 6:40.",
+   "audio": "The film starts at seven, so let's meet outside the cinema at twenty to seven."
+  },
+  {
+   "id": "l327",
+   "skill": "listening",
+   "level": "A2",
+   "prompt": "What is good about the flat?",
+   "options": [
+    "Its price",
+    "Its garden",
+    "Its location",
+    "Its size"
+   ],
+   "answer": "Its location",
+   "explanation": "very close to the city centre — гарне розташування.",
+   "audio": "My new flat is small, but it's very close to the city centre."
   },
   {
    "id": "l66",
@@ -1226,7 +5126,7 @@
    "id": "l68",
    "skill": "listening",
    "level": "B1",
-   "prompt": "How long has she lived in Kraków?",
+   "prompt": "How long has the speaker lived in Kraków?",
    "options": [
     "Two years",
     "Five years",
@@ -1256,7 +5156,7 @@
    "id": "l70",
    "skill": "listening",
    "level": "B1",
-   "prompt": "What does the man suggest?",
+   "prompt": "What does the speaker suggest?",
    "options": [
     "Taking a taxi",
     "Walking",
@@ -1266,6 +5166,171 @@
    "answer": "Taking a taxi",
    "explanation": "",
    "audio": "It's getting late. Why don't we just take a taxi?"
+  },
+  {
+   "id": "l328",
+   "skill": "listening",
+   "level": "B1",
+   "prompt": "How did the speaker travel?",
+   "options": [
+    "On foot",
+    "By bus",
+    "By bike",
+    "By car"
+   ],
+   "answer": "By bike",
+   "explanation": "I came by bike.",
+   "audio": "I was going to take the car, but my brother borrowed it, so I came by bike."
+  },
+  {
+   "id": "l329",
+   "skill": "listening",
+   "level": "B1",
+   "prompt": "Which platform does the train leave from now?",
+   "options": [
+    "4",
+    "14",
+    "2",
+    "10"
+   ],
+   "answer": "4",
+   "explanation": "platform four instead of platform two.",
+   "audio": "Attention, please. The ten forty train to Bristol will now depart from platform four instead of platform two."
+  },
+  {
+   "id": "l330",
+   "skill": "listening",
+   "level": "B1",
+   "prompt": "Why doesn't the speaker want to watch the film?",
+   "options": [
+    "The speaker has seen it twice",
+    "The speaker is too tired",
+    "The film is too scary",
+    "The film is too long"
+   ],
+   "answer": "The speaker has seen it twice",
+   "explanation": "I've already seen that film twice.",
+   "audio": "I've already seen that film twice, so could we watch something else?"
+  },
+  {
+   "id": "l331",
+   "skill": "listening",
+   "level": "B1",
+   "prompt": "What should you NOT buy?",
+   "options": [
+    "Eggs",
+    "Bread",
+    "Butter",
+    "Milk"
+   ],
+   "answer": "Bread",
+   "explanation": "don't buy bread — there's plenty left.",
+   "audio": "We're out of milk and eggs, but don't buy bread — there's plenty left."
+  },
+  {
+   "id": "l332",
+   "skill": "listening",
+   "level": "B1",
+   "prompt": "When can the patient see the doctor?",
+   "options": [
+    "Tomorrow afternoon",
+    "Next week",
+    "Today",
+    "Tomorrow morning"
+   ],
+   "answer": "Tomorrow morning",
+   "explanation": "fully booked today … tomorrow morning.",
+   "audio": "I'm afraid Dr Patel is fully booked today. Can you come in tomorrow morning instead?"
+  },
+  {
+   "id": "l333",
+   "skill": "listening",
+   "level": "B1",
+   "prompt": "What is true about the speaker now?",
+   "options": [
+    "They still hate vegetables",
+    "They only eat meat",
+    "They never eat vegetables",
+    "They eat vegetables every day"
+   ],
+   "answer": "They eat vegetables every day",
+   "explanation": "used to hate — колись; now I eat them every day.",
+   "audio": "I used to hate vegetables when I was a child, but now I eat them every day."
+  },
+  {
+   "id": "l334",
+   "skill": "listening",
+   "level": "B1",
+   "prompt": "What does the speaker advise?",
+   "options": [
+    "Staying at home",
+    "Leaving after six",
+    "Leaving before six",
+    "Taking the train"
+   ],
+   "answer": "Leaving before six",
+   "explanation": "If you leave before six, you'll avoid the traffic.",
+   "audio": "If you leave before six, you'll avoid the traffic. After that, it's a nightmare."
+  },
+  {
+   "id": "l335",
+   "skill": "listening",
+   "level": "B1",
+   "prompt": "What was the original price of the jacket?",
+   "options": [
+    "£40",
+    "£18",
+    "£60",
+    "£80"
+   ],
+   "answer": "£80",
+   "explanation": "half price — £40 замість £80.",
+   "audio": "The jacket was half price, so I paid forty pounds instead of eighty."
+  },
+  {
+   "id": "l336",
+   "skill": "listening",
+   "level": "B1",
+   "prompt": "Why can't the speaker come to the barbecue?",
+   "options": [
+    "It's a family birthday",
+    "They don't like barbecues",
+    "They are working",
+    "They are ill"
+   ],
+   "answer": "It's a family birthday",
+   "explanation": "my grandmother's ninetieth birthday.",
+   "audio": "Sorry, I can't come to the barbecue on Sunday — it's my grandmother's ninetieth birthday."
+  },
+  {
+   "id": "l337",
+   "skill": "listening",
+   "level": "B1",
+   "prompt": "Why is Mia moving to Edinburgh?",
+   "options": [
+    "Her family lives there",
+    "She is getting married",
+    "She got a job there",
+    "She is going to university"
+   ],
+   "answer": "She got a job there",
+   "explanation": "Mia's got the job in Edinburgh.",
+   "audio": "Have you heard? Mia's got the job in Edinburgh, so she's moving there next month."
+  },
+  {
+   "id": "l338",
+   "skill": "listening",
+   "level": "B1",
+   "prompt": "How long is the break?",
+   "options": [
+    "12 minutes",
+    "2 hours",
+    "30 minutes",
+    "20 minutes"
+   ],
+   "answer": "20 minutes",
+   "explanation": "a twenty-minute break.",
+   "audio": "The tour lasts about two hours, and there's a twenty-minute break for coffee in the middle."
   },
   {
    "id": "l71",
@@ -1343,6 +5408,171 @@
    "audio": "I'd rather we stayed in tonight, if you don't mind. I'm exhausted."
   },
   {
+   "id": "l339",
+   "skill": "listening",
+   "level": "B2",
+   "prompt": "What happened with the kitchen?",
+   "options": [
+    "It still hasn't been painted",
+    "Someone else painted it",
+    "It was painted months ago",
+    "The speaker painted it"
+   ],
+   "answer": "Someone else painted it",
+   "explanation": "I paid someone to do it — найняв когось.",
+   "audio": "I'd been meaning to repaint the kitchen for months, but in the end I paid someone to do it."
+  },
+  {
+   "id": "l340",
+   "skill": "listening",
+   "level": "B2",
+   "prompt": "What has the speaker just found out?",
+   "options": [
+    "The museum has moved",
+    "The museum is free on Mondays",
+    "The museum is closed today",
+    "The museum opens later today"
+   ],
+   "answer": "The museum is closed today",
+   "explanation": "If I'd known the museum was closed on Mondays… — отже, сьогодні зачинено.",
+   "audio": "If I'd known the museum was closed on Mondays, I wouldn't have come all this way."
+  },
+  {
+   "id": "l341",
+   "skill": "listening",
+   "level": "B2",
+   "prompt": "What is the speaker's view?",
+   "options": [
+    "The film left out too much",
+    "Both were excellent",
+    "The book was too long",
+    "The film was better than the book"
+   ],
+   "answer": "The film left out too much",
+   "explanation": "They cut out half of the story.",
+   "audio": "Honestly, the book was much better than the film. They cut out half of the story."
+  },
+  {
+   "id": "l342",
+   "skill": "listening",
+   "level": "B2",
+   "prompt": "How are they travelling now?",
+   "options": [
+    "By car",
+    "By coach",
+    "By train",
+    "By plane"
+   ],
+   "answer": "By car",
+   "explanation": "we're driving down instead.",
+   "audio": "We were supposed to fly on Friday, but the airline went bust, so we're driving down instead."
+  },
+  {
+   "id": "l343",
+   "skill": "listening",
+   "level": "B2",
+   "prompt": "What is the problem?",
+   "options": [
+    "She called to apologise",
+    "She didn't have lunch",
+    "She still hasn't come back",
+    "She came back too early"
+   ],
+   "answer": "She still hasn't come back",
+   "explanation": "nearly four and still no sign of her.",
+   "audio": "She told me she'd be back by lunchtime, but it's nearly four and there's still no sign of her."
+  },
+  {
+   "id": "l344",
+   "skill": "listening",
+   "level": "B2",
+   "prompt": "What does the speaker think?",
+   "options": [
+    "It's better to wait",
+    "Prices will rise",
+    "It's a bad idea",
+    "They should do it now"
+   ],
+   "answer": "It's better to wait",
+   "explanation": "we should wait until prices come down.",
+   "audio": "I'm not against the idea in principle, I just think we should wait until prices come down a bit."
+  },
+  {
+   "id": "l345",
+   "skill": "listening",
+   "level": "B2",
+   "prompt": "What does the speaker ask for?",
+   "options": [
+    "Help to find the bank",
+    "A reminder to call the bank",
+    "Some money from the bank",
+    "A lift to the bank"
+   ],
+   "answer": "A reminder to call the bank",
+   "explanation": "give me a nudge — нагадайте мені; go clean out of my head — геть вилетіти з голови.",
+   "audio": "Could you give me a nudge tomorrow about ringing the bank? Otherwise it'll go clean out of my head."
+  },
+  {
+   "id": "l346",
+   "skill": "listening",
+   "level": "B2",
+   "prompt": "What is the drawback of the flat?",
+   "options": [
+    "The rent is high",
+    "The walls are thin",
+    "The neighbours are rude",
+    "The flat is ugly"
+   ],
+   "answer": "The walls are thin",
+   "explanation": "the walls are so thin…",
+   "audio": "The flat itself is lovely, but the walls are so thin that you can hear everything the neighbours say."
+  },
+  {
+   "id": "l347",
+   "skill": "listening",
+   "level": "B2",
+   "prompt": "What has the speaker done?",
+   "options": [
+    "Changed doctors",
+    "Given up sugar completely",
+    "Started eating more sugar",
+    "Eaten less sugar"
+   ],
+   "answer": "Eaten less sugar",
+   "explanation": "cut down on — зменшити споживання (не відмовитися).",
+   "audio": "I've cut down on sugar since my last check-up. My doctor was a bit worried about it."
+  },
+  {
+   "id": "l348",
+   "skill": "listening",
+   "level": "B2",
+   "prompt": "How much is a ticket booked online before Friday?",
+   "options": [
+    "£40",
+    "£25",
+    "£10",
+    "£30"
+   ],
+   "answer": "£30",
+   "explanation": "a quarter off — знижка 25%: £40 − £10 = £30.",
+   "audio": "Tickets are normally forty pounds, but if you book online before Friday, you get a quarter off."
+  },
+  {
+   "id": "l349",
+   "skill": "listening",
+   "level": "B2",
+   "prompt": "What does the speaker mean?",
+   "options": [
+    "They will come later tonight",
+    "They want to check the weather",
+    "They are worried about the rain",
+    "They can't come tonight, maybe another time"
+   ],
+   "answer": "They can't come tonight, maybe another time",
+   "explanation": "take a rain check — перенести на інший раз.",
+   "audio": "Sorry, I'll have to take a rain check on tonight — something's come up at home."
+  },
+  {
    "id": "l76",
    "skill": "listening",
    "level": "C1",
@@ -1416,6 +5646,1451 @@
    "answer": "Not making a hasty decision",
    "explanation": "",
    "audio": "I wouldn't rush into anything. Let's sleep on it and talk again tomorrow."
+  },
+  {
+   "id": "l350",
+   "skill": "listening",
+   "level": "C1",
+   "prompt": "What is the speaker's opinion of the restaurant?",
+   "options": [
+    "It was excellent",
+    "It was too crowded",
+    "It's not worth going back to",
+    "It was very cheap"
+   ],
+   "answer": "It's not worth going back to",
+   "explanation": "can't imagine anyone rushing back — навряд чи хтось захоче повернутися.",
+   "audio": "I'm not saying the restaurant was bad, exactly, but I can't imagine anyone rushing back."
+  },
+  {
+   "id": "l351",
+   "skill": "listening",
+   "level": "C1",
+   "prompt": "What is implied?",
+   "options": [
+    "The forecast was accurate",
+    "They stayed at home",
+    "They didn't check the forecast",
+    "The weather turned out worse than forecast"
+   ],
+   "answer": "The weather turned out worse than forecast",
+   "explanation": "Прогноз був хибний, тому вони й вирушили.",
+   "audio": "Had the forecast been even remotely accurate, we'd never have set off up the mountain in the first place."
+  },
+  {
+   "id": "l352",
+   "skill": "listening",
+   "level": "C1",
+   "prompt": "What does the speaker suggest about her?",
+   "options": [
+    "She isn't good at her job",
+    "She prefers working in a team",
+    "She is very popular",
+    "She doesn't work well with others"
+   ],
+   "answer": "She doesn't work well with others",
+   "explanation": "not exactly a team player — погано працює в команді.",
+   "audio": "She's brilliant at what she does, no question, but she's not exactly a team player, is she?"
+  },
+  {
+   "id": "l353",
+   "skill": "listening",
+   "level": "C1",
+   "prompt": "What does the speaker want?",
+   "options": [
+    "Anyone with doubts to say so now",
+    "To cancel the project",
+    "To extend the deadline",
+    "To renegotiate the price"
+   ],
+   "answer": "Anyone with doubts to say so now",
+   "explanation": "second thoughts — сумніви; now's the time to say so.",
+   "audio": "It goes without saying that the deadline's non-negotiable, so if anyone's having second thoughts, now's the time to say so."
+  },
+  {
+   "id": "l354",
+   "skill": "listening",
+   "level": "C1",
+   "prompt": "How did meeting the parents go?",
+   "options": [
+    "As badly as feared",
+    "It was cancelled",
+    "Better than expected",
+    "It was very formal"
+   ],
+   "answer": "Better than expected",
+   "explanation": "dreading … but in the event it was surprisingly relaxed.",
+   "audio": "I'd been dreading meeting her parents for weeks, but in the event it was surprisingly relaxed — they even laughed at my jokes."
+  },
+  {
+   "id": "l355",
+   "skill": "listening",
+   "level": "C1",
+   "prompt": "What is the speaker's view of the new system?",
+   "options": [
+    "It has solved the problem",
+    "It's too early to say",
+    "It has reduced the traffic",
+    "It has made things worse"
+   ],
+   "answer": "It has made things worse",
+   "explanation": "Far from solving… — замість розв'язати, лише погіршила.",
+   "audio": "Far from solving the problem, the new one-way system has only made the congestion in the town centre worse."
+  },
+  {
+   "id": "l356",
+   "skill": "listening",
+   "level": "C1",
+   "prompt": "What does the speaker think about him?",
+   "options": [
+    "He is always punctual",
+    "He might well turn up late",
+    "He won't come at all",
+    "He will apologise"
+   ],
+   "answer": "He might well turn up late",
+   "explanation": "I wouldn't put it past him — від нього можна цього чекати.",
+   "audio": "Mind you, I wouldn't put it past him to turn up an hour late and pretend nothing's happened."
+  },
+  {
+   "id": "l357",
+   "skill": "listening",
+   "level": "C1",
+   "prompt": "What do they think they should do?",
+   "options": [
+    "Ask for a lower price",
+    "Take the flat despite its condition",
+    "Turn the flat down",
+    "Keep looking"
+   ],
+   "answer": "Take the flat despite its condition",
+   "explanation": "we'd be mad to turn it down — було б безумством відмовитися.",
+   "audio": "The flat's a bit of a fixer-upper, to put it mildly, but at that price we'd be mad to turn it down."
+  },
+  {
+   "id": "l358",
+   "skill": "listening",
+   "level": "C1",
+   "prompt": "What does the speaker say about the concert?",
+   "options": [
+    "It has been moved",
+    "It has been cancelled",
+    "It was a great success",
+    "It started late"
+   ],
+   "answer": "It has been cancelled",
+   "explanation": "the gig's been pulled — концерт скасували (розмовне).",
+   "audio": "I gather the gig's been pulled at the last minute — something about the lead singer losing her voice."
+  },
+  {
+   "id": "l359",
+   "skill": "listening",
+   "level": "C1",
+   "prompt": "What is the speaker's conclusion about the course?",
+   "options": [
+    "It is free",
+    "It is too expensive",
+    "It is good value",
+    "Private lessons are better"
+   ],
+   "answer": "It is good value",
+   "explanation": "Granted, … but … it's actually a bargain.",
+   "audio": "Granted, the course isn't cheap, but when you weigh it against what you'd pay for private lessons, it's actually a bargain."
+  },
+  {
+   "id": "l360",
+   "skill": "listening",
+   "level": "C1",
+   "prompt": "What does the speaker say about volunteering?",
+   "options": [
+    "They underestimated the paperwork",
+    "They knew exactly what to expect",
+    "They enjoy paperwork",
+    "They refused to volunteer"
+   ],
+   "answer": "They underestimated the paperwork",
+   "explanation": "If I'd had any inkling… — гадки не мав, скільки паперів.",
+   "audio": "If I'd had any inkling of how much paperwork was involved, I'd have thought twice about volunteering."
+  },
+  {
+   "id": "r411",
+   "skill": "reading",
+   "level": "A1",
+   "prompt": "When does the pool close on Saturday?",
+   "options": [
+    "At 9 pm",
+    "At 8 am",
+    "At 6 pm",
+    "At 7 am"
+   ],
+   "answer": "At 6 pm",
+   "explanation": "Saturday and Sunday, 8 am – 6 pm.",
+   "passage": "SWIMMING POOL\nOpening times: Monday to Friday, 7 am – 9 pm. Saturday and Sunday, 8 am – 6 pm.\nChildren under 8 must swim with an adult.\nPlease do not eat or drink by the pool.\nTowels: £1. The café is open every day.",
+   "group": "rp1"
+  },
+  {
+   "id": "r412",
+   "skill": "reading",
+   "level": "A1",
+   "prompt": "Who must swim with an adult?",
+   "options": [
+    "Everyone at the weekend",
+    "Children over 8",
+    "Children under 8",
+    "All children"
+   ],
+   "answer": "Children under 8",
+   "explanation": "Children under 8 must swim with an adult.",
+   "passage": "SWIMMING POOL\nOpening times: Monday to Friday, 7 am – 9 pm. Saturday and Sunday, 8 am – 6 pm.\nChildren under 8 must swim with an adult.\nPlease do not eat or drink by the pool.\nTowels: £1. The café is open every day.",
+   "group": "rp1"
+  },
+  {
+   "id": "r413",
+   "skill": "reading",
+   "level": "A1",
+   "prompt": "Where is Jo now?",
+   "options": [
+    "At home",
+    "At the supermarket",
+    "At the gym",
+    "At work"
+   ],
+   "answer": "At the supermarket",
+   "explanation": "I'm at the supermarket now.",
+   "passage": "Hi Sam,\nI'm at the supermarket now. We haven't got any milk or bread, so I'm buying them. Do we need eggs? I've already got apples and bananas. Please call me before six — after six I'm at the gym. See you tonight!\nJo",
+   "group": "rp2"
+  },
+  {
+   "id": "r414",
+   "skill": "reading",
+   "level": "A1",
+   "prompt": "What does Jo want to know?",
+   "options": [
+    "If they need milk",
+    "If they need eggs",
+    "Where Sam is",
+    "What time the gym opens"
+   ],
+   "answer": "If they need eggs",
+   "explanation": "Do we need eggs?",
+   "passage": "Hi Sam,\nI'm at the supermarket now. We haven't got any milk or bread, so I'm buying them. Do we need eggs? I've already got apples and bananas. Please call me before six — after six I'm at the gym. See you tonight!\nJo",
+   "group": "rp2"
+  },
+  {
+   "id": "r415",
+   "skill": "reading",
+   "level": "A1",
+   "prompt": "Who does Alex live with?",
+   "options": [
+    "Nobody",
+    "A sister",
+    "A friend",
+    "Their parents"
+   ],
+   "answer": "A friend",
+   "explanation": "with my friend Chris.",
+   "passage": "My name is Alex. I'm twenty-five and I live in a small flat in Bristol with my friend Chris. I work in a café near the station. I start work at seven in the morning, so I get up at six. In the evening I like cooking and watching films.",
+   "group": "rp3"
+  },
+  {
+   "id": "r416",
+   "skill": "reading",
+   "level": "A1",
+   "prompt": "What time does Alex get up?",
+   "options": [
+    "At eight",
+    "At six",
+    "At five",
+    "At seven"
+   ],
+   "answer": "At six",
+   "explanation": "I get up at six.",
+   "passage": "My name is Alex. I'm twenty-five and I live in a small flat in Bristol with my friend Chris. I work in a café near the station. I start work at seven in the morning, so I get up at six. In the evening I like cooking and watching films.",
+   "group": "rp3"
+  },
+  {
+   "id": "r417",
+   "skill": "reading",
+   "level": "A1",
+   "prompt": "Where is the hotel?",
+   "options": [
+    "In the city centre",
+    "In the mountains",
+    "Next to the beach",
+    "Near the station"
+   ],
+   "answer": "Next to the beach",
+   "explanation": "Our hotel is next to the beach.",
+   "passage": "Hello from Spain! The weather is hot and sunny every day. Our hotel is next to the beach. In the morning we swim in the sea, and in the afternoon we sleep. The food is very good, but it's expensive. We come home on Friday.\nLove,\nMax",
+   "group": "rp4"
+  },
+  {
+   "id": "r418",
+   "skill": "reading",
+   "level": "A1",
+   "prompt": "What is the problem with the food?",
+   "options": [
+    "There isn't much",
+    "It's expensive",
+    "It's cold",
+    "It isn't good"
+   ],
+   "answer": "It's expensive",
+   "explanation": "The food is very good, but it's expensive.",
+   "passage": "Hello from Spain! The weather is hot and sunny every day. Our hotel is next to the beach. In the morning we swim in the sea, and in the afternoon we sleep. The food is very good, but it's expensive. We come home on Friday.\nLove,\nMax",
+   "group": "rp4"
+  },
+  {
+   "id": "r419",
+   "skill": "reading",
+   "level": "A1",
+   "prompt": "How much is the soup?",
+   "options": [
+    "£2",
+    "£3",
+    "£4",
+    "£5"
+   ],
+   "answer": "£4",
+   "explanation": "Today's soup: tomato, £4.",
+   "passage": "CAFÉ ROSA\nBreakfast: 8–11 am. Lunch: 12–3 pm.\nToday's soup: tomato, £4.\nSandwiches (cheese or chicken): £5.\nTea or coffee: £2.\nOn Mondays: free cake with every coffee!\nWe have tables in the garden too. Please pay at the counter.\nClosed on Sundays. Come and see us!",
+   "group": "rp5"
+  },
+  {
+   "id": "r420",
+   "skill": "reading",
+   "level": "A1",
+   "prompt": "When can you get free cake?",
+   "options": [
+    "On Mondays, with a coffee",
+    "On Sundays",
+    "Every day",
+    "At breakfast time"
+   ],
+   "answer": "On Mondays, with a coffee",
+   "explanation": "On Mondays: free cake with every coffee.",
+   "passage": "CAFÉ ROSA\nBreakfast: 8–11 am. Lunch: 12–3 pm.\nToday's soup: tomato, £4.\nSandwiches (cheese or chicken): £5.\nTea or coffee: £2.\nOn Mondays: free cake with every coffee!\nWe have tables in the garden too. Please pay at the counter.\nClosed on Sundays. Come and see us!",
+   "group": "rp5"
+  },
+  {
+   "id": "r421",
+   "skill": "reading",
+   "level": "A1",
+   "prompt": "Why is Leo not at school today?",
+   "options": [
+    "He is ill",
+    "He is at the dentist's",
+    "He is on holiday",
+    "He is late"
+   ],
+   "answer": "He is ill",
+   "explanation": "My son Leo is ill today.",
+   "passage": "Dear Ms Green,\nMy son Leo is ill today. He has a cold and a headache, so he is in bed and can't come to school. He doesn't want to eat, but he is drinking a lot of water. I think he can come back on Wednesday.\nThank you,\nPat Brown",
+   "group": "rp6"
+  },
+  {
+   "id": "r422",
+   "skill": "reading",
+   "level": "A1",
+   "prompt": "When does the parent think Leo can come back?",
+   "options": [
+    "Next week",
+    "On Monday",
+    "Tomorrow",
+    "On Wednesday"
+   ],
+   "answer": "On Wednesday",
+   "explanation": "I think he can come back on Wednesday.",
+   "passage": "Dear Ms Green,\nMy son Leo is ill today. He has a cold and a headache, so he is in bed and can't come to school. He doesn't want to eat, but he is drinking a lot of water. I think he can come back on Wednesday.\nThank you,\nPat Brown",
+   "group": "rp6"
+  },
+  {
+   "id": "r423",
+   "skill": "reading",
+   "level": "A1",
+   "prompt": "How much is the room?",
+   "options": [
+    "£400 a week",
+    "£40 a month",
+    "£100 a week",
+    "£400 a month"
+   ],
+   "answer": "£400 a month",
+   "explanation": "£400 a month.",
+   "passage": "ROOM FOR RENT\nBig room in a quiet house, near the park and the bus stop. The room has a big bed, a desk and a window over the garden. £400 a month. You share the kitchen and the bathroom. No pets, please.\nCall Kim: 07700 900123",
+   "group": "rp7"
+  },
+  {
+   "id": "r424",
+   "skill": "reading",
+   "level": "A1",
+   "prompt": "What can't you have in the house?",
+   "options": [
+    "A television",
+    "Pets",
+    "Visitors",
+    "A bike"
+   ],
+   "answer": "Pets",
+   "explanation": "No pets, please.",
+   "passage": "ROOM FOR RENT\nBig room in a quiet house, near the park and the bus stop. The room has a big bed, a desk and a window over the garden. £400 a month. You share the kitchen and the bathroom. No pets, please.\nCall Kim: 07700 900123",
+   "group": "rp7"
+  },
+  {
+   "id": "r425",
+   "skill": "reading",
+   "level": "A1",
+   "prompt": "Where did they have lunch?",
+   "options": [
+    "By the river",
+    "In a restaurant",
+    "In the garden",
+    "In the kitchen"
+   ],
+   "answer": "In the garden",
+   "explanation": "We had lunch in the garden.",
+   "passage": "On Saturday I visited my grandparents. They live in a village by a river. We had lunch in the garden: fish, potatoes and salad. After lunch, my grandfather and I walked to the river. It was cold, so we didn't swim. In the evening I took the train home.",
+   "group": "rp8"
+  },
+  {
+   "id": "r426",
+   "skill": "reading",
+   "level": "A1",
+   "prompt": "Why didn't they swim?",
+   "options": [
+    "They were tired",
+    "It was cold",
+    "The river was dirty",
+    "They had no time"
+   ],
+   "answer": "It was cold",
+   "explanation": "It was cold, so we didn't swim.",
+   "passage": "On Saturday I visited my grandparents. They live in a village by a river. We had lunch in the garden: fish, potatoes and salad. After lunch, my grandfather and I walked to the river. It was cold, so we didn't swim. In the evening I took the train home.",
+   "group": "rp8"
+  },
+  {
+   "id": "r427",
+   "skill": "reading",
+   "level": "A2",
+   "prompt": "What is different in the summer?",
+   "options": [
+    "The library closes at 8 pm every day",
+    "Children can't borrow books",
+    "The library opens later",
+    "Members can borrow fewer books"
+   ],
+   "answer": "The library opens later",
+   "explanation": "will open at 10 am instead of 9 am.",
+   "passage": "CITY LIBRARY — SUMMER CHANGES\nFrom 1 July to 31 August, the library will open at 10 am instead of 9 am, but on Thursdays it will stay open until 8 pm. The children's section will be closed for painting during the first two weeks of July, but you can still borrow children's books at the main desk. Good news: members can now borrow up to ten books at a time. Please bring your library card.",
+   "group": "rp9"
+  },
+  {
+   "id": "r428",
+   "skill": "reading",
+   "level": "A2",
+   "prompt": "Where can you get children's books in early July?",
+   "options": [
+    "Only online",
+    "In the children's section",
+    "At the main desk",
+    "Nowhere"
+   ],
+   "answer": "At the main desk",
+   "explanation": "you can still borrow children's books at the main desk.",
+   "passage": "CITY LIBRARY — SUMMER CHANGES\nFrom 1 July to 31 August, the library will open at 10 am instead of 9 am, but on Thursdays it will stay open until 8 pm. The children's section will be closed for painting during the first two weeks of July, but you can still borrow children's books at the main desk. Good news: members can now borrow up to ten books at a time. Please bring your library card.",
+   "group": "rp9"
+  },
+  {
+   "id": "r429",
+   "skill": "reading",
+   "level": "A2",
+   "prompt": "Why will Robin be late?",
+   "options": [
+    "Robin doesn't know the way",
+    "Robin is making a cake",
+    "Robin's cousin is arriving",
+    "Robin is working until seven"
+   ],
+   "answer": "Robin is working until seven",
+   "explanation": "I'm working until seven, so I'll be a bit late.",
+   "passage": "Hi Dana,\nThanks for inviting me to your party on Saturday! I'd love to come, but I'm working until seven, so I'll be a bit late — probably around eight. Can I bring anything? I can make my famous chocolate cake, or I can bring some drinks. Also, is it OK if my cousin comes with me? She's staying with me this week and doesn't know anyone in town.\nRobin",
+   "group": "rp10"
+  },
+  {
+   "id": "r430",
+   "skill": "reading",
+   "level": "A2",
+   "prompt": "What does Robin ask Dana?",
+   "options": [
+    "If Dana can make a cake",
+    "If a cousin can come too",
+    "Where the party is",
+    "What time the party starts"
+   ],
+   "answer": "If a cousin can come too",
+   "explanation": "is it OK if my cousin comes with me?",
+   "passage": "Hi Dana,\nThanks for inviting me to your party on Saturday! I'd love to come, but I'm working until seven, so I'll be a bit late — probably around eight. Can I bring anything? I can make my famous chocolate cake, or I can bring some drinks. Also, is it OK if my cousin comes with me? She's staying with me this week and doesn't know anyone in town.\nRobin",
+   "group": "rp10"
+  },
+  {
+   "id": "r431",
+   "skill": "reading",
+   "level": "A2",
+   "prompt": "Why did Ana start making cakes?",
+   "options": [
+    "Bread was too expensive",
+    "She didn't like baking bread",
+    "The homeless centre asked her",
+    "Her customers asked for them"
+   ],
+   "answer": "Her customers asked for them",
+   "explanation": "her customers asked for cakes.",
+   "passage": "Ana Lopez opened her small bakery in Leeds five years ago. At first she baked only bread, but her customers asked for cakes, so now she makes both. Every morning she starts work at four o'clock. \"It's hard to get up so early,\" she says, \"but I love the smell of fresh bread.\" At the end of the day, she gives the bread that is left to a local centre for homeless people.",
+   "group": "rp11"
+  },
+  {
+   "id": "r432",
+   "skill": "reading",
+   "level": "A2",
+   "prompt": "What happens to the bread that isn't sold?",
+   "options": [
+    "It's sold cheaply the next day",
+    "It goes to a homeless centre",
+    "Ana takes it home",
+    "It goes in the bin"
+   ],
+   "answer": "It goes to a homeless centre",
+   "explanation": "she gives the bread that is left to a local centre.",
+   "passage": "Ana Lopez opened her small bakery in Leeds five years ago. At first she baked only bread, but her customers asked for cakes, so now she makes both. Every morning she starts work at four o'clock. \"It's hard to get up so early,\" she says, \"but I love the smell of fresh bread.\" At the end of the day, she gives the bread that is left to a local centre for homeless people.",
+   "group": "rp11"
+  },
+  {
+   "id": "r433",
+   "skill": "reading",
+   "level": "A2",
+   "prompt": "What was the problem with the room?",
+   "options": [
+    "The bed was uncomfortable",
+    "It had no sea view",
+    "It was noisy",
+    "It was dirty"
+   ],
+   "answer": "It had no sea view",
+   "explanation": "we couldn't see the sea — only the car park.",
+   "passage": "We stayed at the Sea View Hotel for three nights. Our room was clean and the bed was comfortable, but we couldn't see the sea — only the car park! The staff were very friendly, and breakfast was excellent, with lots of fresh fruit. The hotel is a ten-minute walk from the beach. It isn't cheap, but I'd happily stay there again.",
+   "group": "rp12"
+  },
+  {
+   "id": "r434",
+   "skill": "reading",
+   "level": "A2",
+   "prompt": "What does the writer think of the hotel overall?",
+   "options": [
+    "They would stay there again",
+    "Breakfast was poor",
+    "It's very cheap",
+    "The staff were rude"
+   ],
+   "answer": "They would stay there again",
+   "explanation": "I'd happily stay there again.",
+   "passage": "We stayed at the Sea View Hotel for three nights. Our room was clean and the bed was comfortable, but we couldn't see the sea — only the car park! The staff were very friendly, and breakfast was excellent, with lots of fresh fruit. The hotel is a ten-minute walk from the beach. It isn't cheap, but I'd happily stay there again.",
+   "group": "rp12"
+  },
+  {
+   "id": "r435",
+   "skill": "reading",
+   "level": "A2",
+   "prompt": "How much do ten classes cost?",
+   "options": [
+    "£40",
+    "£60",
+    "£6",
+    "£15"
+   ],
+   "answer": "£40",
+   "explanation": "£40 for ten classes.",
+   "passage": "NEW! YOGA FOR BEGINNERS\nEvery Tuesday and Thursday, 6.30–7.30 pm, Room 3. You don't need any experience. Please wear comfortable clothes and bring some water. Mats are free to use. The teacher, Lee, has ten years' experience. Your first class is free; after that, each class costs £6, or you can pay £40 for ten classes. Book at reception — there are only 15 places!",
+   "group": "rp13"
+  },
+  {
+   "id": "r436",
+   "skill": "reading",
+   "level": "A2",
+   "prompt": "What should you bring?",
+   "options": [
+    "A book",
+    "A mat",
+    "Money for the first class",
+    "Some water"
+   ],
+   "answer": "Some water",
+   "explanation": "bring some water; mats are free.",
+   "passage": "NEW! YOGA FOR BEGINNERS\nEvery Tuesday and Thursday, 6.30–7.30 pm, Room 3. You don't need any experience. Please wear comfortable clothes and bring some water. Mats are free to use. The teacher, Lee, has ten years' experience. Your first class is free; after that, each class costs £6, or you can pay £40 for ten classes. Book at reception — there are only 15 places!",
+   "group": "rp13"
+  },
+  {
+   "id": "r437",
+   "skill": "reading",
+   "level": "A2",
+   "prompt": "Why is the train late?",
+   "options": [
+    "There are too many passengers",
+    "The driver is ill",
+    "The weather is bad",
+    "There's a problem with the signals"
+   ],
+   "answer": "There's a problem with the signals",
+   "explanation": "there's a problem with the signals.",
+   "passage": "Hi Mum,\nThe train's late again — there's a problem with the signals near Oxford. We aren't moving at the moment, and nobody knows when we'll start again. I don't think I'll be home for dinner, so please don't wait for me. I'll get a sandwich at the station. My phone battery is low, so I'll text you when I get to Reading.\nLove,\nJamie",
+   "group": "rp14"
+  },
+  {
+   "id": "r438",
+   "skill": "reading",
+   "level": "A2",
+   "prompt": "What does Jamie ask Mum to do?",
+   "options": [
+    "To meet Jamie at the station",
+    "To buy a sandwich",
+    "To charge Jamie's phone",
+    "Not to wait for Jamie for dinner"
+   ],
+   "answer": "Not to wait for Jamie for dinner",
+   "explanation": "please don't wait for me.",
+   "passage": "Hi Mum,\nThe train's late again — there's a problem with the signals near Oxford. We aren't moving at the moment, and nobody knows when we'll start again. I don't think I'll be home for dinner, so please don't wait for me. I'll get a sandwich at the station. My phone battery is low, so I'll text you when I get to Reading.\nLove,\nJamie",
+   "group": "rp14"
+  },
+  {
+   "id": "r439",
+   "skill": "reading",
+   "level": "A2",
+   "prompt": "Why do many people cycle to work?",
+   "options": [
+    "It's often faster than driving",
+    "The shop owners asked them to",
+    "The buses are expensive",
+    "Cars aren't allowed in the city"
+   ],
+   "answer": "It's often faster than driving",
+   "explanation": "it's often quicker to cycle than to drive.",
+   "passage": "More and more people in Cambridge are cycling to work. The city has new cycle lanes, and in the morning traffic it's often quicker to cycle than to drive. Cycling is also cheaper than paying for parking. But not everyone is happy. Some shop owners say they have fewer customers now, because there aren't many places to park a car near their shops.",
+   "group": "rp15"
+  },
+  {
+   "id": "r440",
+   "skill": "reading",
+   "level": "A2",
+   "prompt": "Why are some shop owners unhappy?",
+   "options": [
+    "It's hard for drivers to park near their shops",
+    "Bikes are expensive",
+    "Cyclists are dangerous",
+    "The cycle lanes are closed"
+   ],
+   "answer": "It's hard for drivers to park near their shops",
+   "explanation": "there aren't many places to park a car near their shops.",
+   "passage": "More and more people in Cambridge are cycling to work. The city has new cycle lanes, and in the morning traffic it's often quicker to cycle than to drive. Cycling is also cheaper than paying for parking. But not everyone is happy. Some shop owners say they have fewer customers now, because there aren't many places to park a car near their shops.",
+   "group": "rp15"
+  },
+  {
+   "id": "r441",
+   "skill": "reading",
+   "level": "A2",
+   "prompt": "How long should you wait before you take the tea bag out?",
+   "options": [
+    "Three to five minutes",
+    "Less than three minutes",
+    "One minute",
+    "Ten minutes"
+   ],
+   "answer": "Three to five minutes",
+   "explanation": "Wait for three to five minutes — not less!",
+   "passage": "How to make a cup of tea the British way. First, boil some fresh water. Put a tea bag in a cup and pour the hot water over it. Wait for three to five minutes — not less! Then take the tea bag out. You can add milk if you like, and sugar too, but many people don't take sugar these days.",
+   "group": "rp16"
+  },
+  {
+   "id": "r442",
+   "skill": "reading",
+   "level": "A2",
+   "prompt": "What does the text say about sugar?",
+   "options": [
+    "You put it in before the water",
+    "Many people don't take it now",
+    "You must always add it",
+    "It makes the tea stronger"
+   ],
+   "answer": "Many people don't take it now",
+   "explanation": "many people don't take sugar these days.",
+   "passage": "How to make a cup of tea the British way. First, boil some fresh water. Put a tea bag in a cup and pour the hot water over it. Wait for three to five minutes — not less! Then take the tea bag out. You can add milk if you like, and sugar too, but many people don't take sugar these days.",
+   "group": "rp16"
+  },
+  {
+   "id": "r443",
+   "skill": "reading",
+   "level": "B1",
+   "prompt": "What is the main reason for the email?",
+   "options": [
+    "The parcel never arrived",
+    "The jacket was damaged",
+    "The wrong jacket was sent",
+    "Sam wants their money back"
+   ],
+   "answer": "The wrong jacket was sent",
+   "explanation": "inside there was a black jacket in size L — не та річ.",
+   "passage": "Dear Sir or Madam,\nLast week I ordered a blue winter jacket (size M) from your website. The parcel arrived yesterday, two days later than you promised, and inside there was a black jacket in size L. I have attached a photo. I would like to return it and receive the correct jacket as soon as possible, as I am going on holiday on 15 December. Could you also tell me whether I need to pay for the return postage? I don't think I should, as the mistake was yours.\nI look forward to hearing from you.\nYours faithfully,\nSam Taylor",
+   "group": "rp17"
+  },
+  {
+   "id": "r444",
+   "skill": "reading",
+   "level": "B1",
+   "prompt": "Why does Sam think the return should be free?",
+   "options": [
+    "The parcel arrived late",
+    "Sam is going on holiday",
+    "The company made the mistake",
+    "The jacket was expensive"
+   ],
+   "answer": "The company made the mistake",
+   "explanation": "I don't think I should, as the mistake was yours.",
+   "passage": "Dear Sir or Madam,\nLast week I ordered a blue winter jacket (size M) from your website. The parcel arrived yesterday, two days later than you promised, and inside there was a black jacket in size L. I have attached a photo. I would like to return it and receive the correct jacket as soon as possible, as I am going on holiday on 15 December. Could you also tell me whether I need to pay for the return postage? I don't think I should, as the mistake was yours.\nI look forward to hearing from you.\nYours faithfully,\nSam Taylor",
+   "group": "rp17"
+  },
+  {
+   "id": "r445",
+   "skill": "reading",
+   "level": "B1",
+   "prompt": "Who started the garden?",
+   "options": [
+    "A group of retired neighbours",
+    "Sixty families",
+    "The council",
+    "Local businesses"
+   ],
+   "answer": "A group of retired neighbours",
+   "explanation": "The idea came from a group of retired neighbours.",
+   "passage": "Three years ago, the empty land behind Hill Street was full of rubbish. Today it is a community garden where neighbours grow vegetables, fruit and flowers. The idea came from a group of retired neighbours who were tired of the mess. They asked the council for permission, and local businesses gave them tools and seeds. Now more than sixty families have a small piece of land there. \"It's not just about vegetables,\" says one member. \"I've lived on this street for twenty years, but I only got to know my neighbours when the garden opened.\"",
+   "group": "rp18"
+  },
+  {
+   "id": "r446",
+   "skill": "reading",
+   "level": "B1",
+   "prompt": "What does the member's comment suggest?",
+   "options": [
+    "The neighbours often argue",
+    "The garden has brought neighbours together",
+    "The vegetables are excellent",
+    "The garden is too small"
+   ],
+   "answer": "The garden has brought neighbours together",
+   "explanation": "I only got to know my neighbours when the garden opened.",
+   "passage": "Three years ago, the empty land behind Hill Street was full of rubbish. Today it is a community garden where neighbours grow vegetables, fruit and flowers. The idea came from a group of retired neighbours who were tired of the mess. They asked the council for permission, and local businesses gave them tools and seeds. Now more than sixty families have a small piece of land there. \"It's not just about vegetables,\" says one member. \"I've lived on this street for twenty years, but I only got to know my neighbours when the garden opened.\"",
+   "group": "rp18"
+  },
+  {
+   "id": "r447",
+   "skill": "reading",
+   "level": "B1",
+   "prompt": "What is the writer's main point?",
+   "options": [
+    "Coffee is bad for you",
+    "Everyone should drink more water",
+    "Doctors disagree about everything",
+    "You don't have to drink exactly eight glasses a day"
+   ],
+   "answer": "You don't have to drink exactly eight glasses a day",
+   "explanation": "there's no scientific reason for that exact number.",
+   "passage": "Everyone tells you to drink eight glasses of water a day, but is it really necessary? According to many doctors, there's no scientific reason for that exact number. We also get water from food, tea, coffee and fruit, and most healthy adults can simply drink when they feel thirsty. Of course, you need more on hot days or when you exercise. Older people, however, don't always feel thirsty, so they should be more careful. For most of us, though, there's no need to count every glass — the body usually knows what it needs.",
+   "group": "rp19"
+  },
+  {
+   "id": "r448",
+   "skill": "reading",
+   "level": "B1",
+   "prompt": "Who should be more careful, according to the text?",
+   "options": [
+    "Young children",
+    "People who rarely exercise",
+    "Coffee drinkers",
+    "Older people"
+   ],
+   "answer": "Older people",
+   "explanation": "Older people … don't always feel thirsty.",
+   "passage": "Everyone tells you to drink eight glasses of water a day, but is it really necessary? According to many doctors, there's no scientific reason for that exact number. We also get water from food, tea, coffee and fruit, and most healthy adults can simply drink when they feel thirsty. Of course, you need more on hot days or when you exercise. Older people, however, don't always feel thirsty, so they should be more careful. For most of us, though, there's no need to count every glass — the body usually knows what it needs.",
+   "group": "rp19"
+  },
+  {
+   "id": "r449",
+   "skill": "reading",
+   "level": "B1",
+   "prompt": "Why will the water be switched off?",
+   "options": [
+    "The lifts are being repaired",
+    "Old pipes are being replaced",
+    "The car park is being cleaned",
+    "There is a leak in one flat"
+   ],
+   "answer": "Old pipes are being replaced",
+   "explanation": "while engineers replace old pipes.",
+   "passage": "IMPORTANT INFORMATION FOR RESIDENTS\nThe water will be switched off in all flats on Wednesday 12 March from 9 am to 3 pm, while engineers replace old pipes in the basement. Please fill some bottles with water the evening before. Engineers may need to enter some flats for a few minutes; they will knock first. The lifts will work as usual, but the car park entrance will be closed from 8 am. If you need your car during the day, please move it to the street on Tuesday night. We are sorry for any inconvenience.\nBuilding Management",
+   "group": "rp20"
+  },
+  {
+   "id": "r450",
+   "skill": "reading",
+   "level": "B1",
+   "prompt": "What should residents who need their car on Wednesday do?",
+   "options": [
+    "Ask the engineers for a key",
+    "Drive out before 9 am",
+    "Park it on the street on Tuesday night",
+    "Take it out through the basement"
+   ],
+   "answer": "Park it on the street on Tuesday night",
+   "explanation": "please move it to the street on Tuesday night.",
+   "passage": "IMPORTANT INFORMATION FOR RESIDENTS\nThe water will be switched off in all flats on Wednesday 12 March from 9 am to 3 pm, while engineers replace old pipes in the basement. Please fill some bottles with water the evening before. Engineers may need to enter some flats for a few minutes; they will knock first. The lifts will work as usual, but the car park entrance will be closed from 8 am. If you need your car during the day, please move it to the street on Tuesday night. We are sorry for any inconvenience.\nBuilding Management",
+   "group": "rp20"
+  },
+  {
+   "id": "r451",
+   "skill": "reading",
+   "level": "B1",
+   "prompt": "How did the writer feel at the start?",
+   "options": [
+    "Bored with the course",
+    "Angry with the neighbour",
+    "Nervous and lonely",
+    "Excited and confident"
+   ],
+   "answer": "Nervous and lonely",
+   "explanation": "I was nervous … I didn't speak to anyone.",
+   "passage": "When I moved to Glasgow for university, I was nervous about living alone for the first time. In the first week I didn't speak to anyone, and I spent most evenings in my room. Then my neighbour knocked on my door and asked if I wanted to join the climbing club. I'd never climbed before, but I said yes. It was the best decision I made that year. Climbing was hard at first, but the people in the club were patient and friendly, and some of them are still my closest friends.",
+   "group": "rp21"
+  },
+  {
+   "id": "r452",
+   "skill": "reading",
+   "level": "B1",
+   "prompt": "Why does the writer think joining the club was a good decision?",
+   "options": [
+    "They made close friends there",
+    "Climbing was easy for them",
+    "It was free",
+    "It helped with their studies"
+   ],
+   "answer": "They made close friends there",
+   "explanation": "some of them are still my closest friends.",
+   "passage": "When I moved to Glasgow for university, I was nervous about living alone for the first time. In the first week I didn't speak to anyone, and I spent most evenings in my room. Then my neighbour knocked on my door and asked if I wanted to join the climbing club. I'd never climbed before, but I said yes. It was the best decision I made that year. Climbing was hard at first, but the people in the club were patient and friendly, and some of them are still my closest friends.",
+   "group": "rp21"
+  },
+  {
+   "id": "r453",
+   "skill": "reading",
+   "level": "B1",
+   "prompt": "What does the writer recommend?",
+   "options": [
+    "Booking a guided tour",
+    "Spending an hour there",
+    "Going on a weekday",
+    "Eating in the café"
+   ],
+   "answer": "Going on a weekday",
+   "explanation": "try to go on a weekday if you can.",
+   "passage": "If you're visiting York with children, the Railway Museum is a must. Entry is free, although they ask for a small donation. There are huge old trains you can walk through, and the kids loved the driving simulator, which costs £5. The café is quite expensive, so we brought sandwiches and ate them in the picnic area outside. The gift shop is small but nice. We spent four hours there and still didn't see everything. My only complaint is that it gets very crowded at weekends, so try to go on a weekday if you can.",
+   "group": "rp22"
+  },
+  {
+   "id": "r454",
+   "skill": "reading",
+   "level": "B1",
+   "prompt": "Which part of the visit costs money?",
+   "options": [
+    "Walking through the trains",
+    "The simulator",
+    "The picnic area",
+    "Entry to the museum"
+   ],
+   "answer": "The simulator",
+   "explanation": "the driving simulator, which costs £5.",
+   "passage": "If you're visiting York with children, the Railway Museum is a must. Entry is free, although they ask for a small donation. There are huge old trains you can walk through, and the kids loved the driving simulator, which costs £5. The café is quite expensive, so we brought sandwiches and ate them in the picnic area outside. The gift shop is small but nice. We spent four hours there and still didn't see everything. My only complaint is that it gets very crowded at weekends, so try to go on a weekday if you can.",
+   "group": "rp22"
+  },
+  {
+   "id": "r455",
+   "skill": "reading",
+   "level": "B1",
+   "prompt": "What did the study find?",
+   "options": [
+    "Alarm clocks are bad for sleep",
+    "People with phones by the bed slept less",
+    "Phone screens cause headaches",
+    "Most people sleep only forty minutes"
+   ],
+   "answer": "People with phones by the bed slept less",
+   "explanation": "slept, on average, forty minutes less.",
+   "passage": "Should you keep your phone in the bedroom? A recent study of 2,000 adults found that people who kept their phones next to the bed slept, on average, forty minutes less than those who left them in another room. Most of the people in the study were aged between twenty and fifty. The problem isn't only the light from the screen; it's also the temptation to check messages in the middle of the night. The researchers suggest buying a cheap alarm clock, so that you don't need your phone to wake you up, and switching off notifications an hour before bed.",
+   "group": "rp23"
+  },
+  {
+   "id": "r456",
+   "skill": "reading",
+   "level": "B1",
+   "prompt": "Why do the researchers suggest buying an alarm clock?",
+   "options": [
+    "Because phones are too loud",
+    "So that people don't need their phone in the bedroom",
+    "Because alarm clocks wake people earlier",
+    "Because alarm clocks are more accurate"
+   ],
+   "answer": "So that people don't need their phone in the bedroom",
+   "explanation": "so that you don't need your phone to wake you up.",
+   "passage": "Should you keep your phone in the bedroom? A recent study of 2,000 adults found that people who kept their phones next to the bed slept, on average, forty minutes less than those who left them in another room. Most of the people in the study were aged between twenty and fifty. The problem isn't only the light from the screen; it's also the temptation to check messages in the middle of the night. The researchers suggest buying a cheap alarm clock, so that you don't need your phone to wake you up, and switching off notifications an hour before bed.",
+   "group": "rp23"
+  },
+  {
+   "id": "r457",
+   "skill": "reading",
+   "level": "B1",
+   "prompt": "Why shouldn't Charlie use the washing machine late at night?",
+   "options": [
+    "It's broken",
+    "It disturbs the neighbours",
+    "It uses too much electricity",
+    "Morgan needs it"
+   ],
+   "answer": "It disturbs the neighbours",
+   "explanation": "the neighbours downstairs complain about the noise.",
+   "passage": "Hi Charlie,\nWelcome to the flat! The front door key is in the small box by the door — the code is the one I sent you. The Wi-Fi password is on the fridge. Please don't use the washing machine after 10 pm, because the neighbours downstairs complain about the noise. Rubbish goes out on Monday mornings: the green bin is for recycling and the black one is for everything else. If there are any problems, text me, but I'm on a flight on Friday, so I won't reply until the evening. Enjoy your stay!\nMorgan",
+   "group": "rp24"
+  },
+  {
+   "id": "r458",
+   "skill": "reading",
+   "level": "B1",
+   "prompt": "When might Morgan be slow to reply?",
+   "options": [
+    "On Friday",
+    "After 10 pm",
+    "At the weekend",
+    "On Monday morning"
+   ],
+   "answer": "On Friday",
+   "explanation": "I'm on a flight on Friday.",
+   "passage": "Hi Charlie,\nWelcome to the flat! The front door key is in the small box by the door — the code is the one I sent you. The Wi-Fi password is on the fridge. Please don't use the washing machine after 10 pm, because the neighbours downstairs complain about the noise. Rubbish goes out on Monday mornings: the green bin is for recycling and the black one is for everything else. If there are any problems, text me, but I'm on a flight on Friday, so I won't reply until the evening. Enjoy your stay!\nMorgan",
+   "group": "rp24"
+  },
+  {
+   "id": "r459",
+   "skill": "reading",
+   "level": "B2",
+   "prompt": "What is the main purpose of the article?",
+   "options": [
+    "To criticise the volunteers",
+    "To advertise one café in Bristol",
+    "To describe repair cafés, their benefits and their limits",
+    "To explain how to repair a toaster"
+   ],
+   "answer": "To describe repair cafés, their benefits and their limits",
+   "explanation": "Стаття описує ідею, переваги й обмеження.",
+   "passage": "In a church hall in Bristol, a retired engineer is opening up a toaster while its owner watches closely. This is a repair café, one of hundreds that have appeared across the UK over the past decade. The idea is simple: volunteers with practical skills fix broken household items for free, and visitors are encouraged to learn how to do it themselves. Organisers say the cafés save tonnes of waste from going to landfill every year. But the benefits aren't only environmental. \"People come in with a lamp and leave having chatted to three strangers,\" says one organiser. Not everything can be saved, of course. Many modern devices are designed in ways that make them almost impossible to open, and spare parts can be hard to find. Campaigners argue that manufacturers should be required by law to make their products easier to repair.",
+   "group": "rp25"
+  },
+  {
+   "id": "r460",
+   "skill": "reading",
+   "level": "B2",
+   "prompt": "According to the article, why can't some items be repaired?",
+   "options": [
+    "They are designed to be very hard to open",
+    "The volunteers lack the skills",
+    "The cafés are too busy",
+    "Their owners don't want them fixed"
+   ],
+   "answer": "They are designed to be very hard to open",
+   "explanation": "designed in ways that make them almost impossible to open.",
+   "passage": "In a church hall in Bristol, a retired engineer is opening up a toaster while its owner watches closely. This is a repair café, one of hundreds that have appeared across the UK over the past decade. The idea is simple: volunteers with practical skills fix broken household items for free, and visitors are encouraged to learn how to do it themselves. Organisers say the cafés save tonnes of waste from going to landfill every year. But the benefits aren't only environmental. \"People come in with a lamp and leave having chatted to three strangers,\" says one organiser. Not everything can be saved, of course. Many modern devices are designed in ways that make them almost impossible to open, and spare parts can be hard to find. Campaigners argue that manufacturers should be required by law to make their products easier to repair.",
+   "group": "rp25"
+  },
+  {
+   "id": "r461",
+   "skill": "reading",
+   "level": "B2",
+   "prompt": "What is the writer's attitude to tipping?",
+   "options": [
+    "Against all tipping",
+    "Tips should always be 20 per cent",
+    "It's a tradition that must be protected",
+    "Fine for table service, but not for simple counter service"
+   ],
+   "answer": "Fine for table service, but not for simple counter service",
+   "explanation": "I don't object to tipping in principle … What I find uncomfortable…",
+   "passage": "I've lost count of the times I've stood at a café counter while a card machine asked whether I'd like to add 10, 15 or 20 per cent to the price of a coffee. I don't object to tipping in principle. When a waiter has looked after me all evening, I'm happy to leave something extra. That feels like a genuine thank-you for attentive service. What I find uncomfortable is the expectation that I should tip someone for simply handing me a cup across the counter. It turns a kind gesture into a form of social pressure, and I suspect many people press \"15%\" simply to avoid looking mean in front of the queue. Surely it would be fairer for businesses to pay their staff properly and include that in their prices?",
+   "group": "rp26"
+  },
+  {
+   "id": "r462",
+   "skill": "reading",
+   "level": "B2",
+   "prompt": "Why, in the writer's opinion, do many people choose 15%?",
+   "options": [
+    "Because the coffee is good",
+    "To avoid looking mean",
+    "Because the law requires it",
+    "To help the café pay its rent"
+   ],
+   "answer": "To avoid looking mean",
+   "explanation": "simply to avoid looking mean in front of the queue.",
+   "passage": "I've lost count of the times I've stood at a café counter while a card machine asked whether I'd like to add 10, 15 or 20 per cent to the price of a coffee. I don't object to tipping in principle. When a waiter has looked after me all evening, I'm happy to leave something extra. That feels like a genuine thank-you for attentive service. What I find uncomfortable is the expectation that I should tip someone for simply handing me a cup across the counter. It turns a kind gesture into a form of social pressure, and I suspect many people press \"15%\" simply to avoid looking mean in front of the queue. Surely it would be fairer for businesses to pay their staff properly and include that in their prices?",
+   "group": "rp26"
+  },
+  {
+   "id": "r463",
+   "skill": "reading",
+   "level": "B2",
+   "prompt": "What does the reviewer praise?",
+   "options": [
+    "The description of the town",
+    "The fast-moving plot",
+    "The way the family's problems are solved",
+    "The ending"
+   ],
+   "answer": "The description of the town",
+   "explanation": "Hale captures the atmosphere of a fading seaside resort with real skill.",
+   "passage": "Rachel Hale's new novel follows a family who return to the coastal town they left twenty years earlier. Her previous book was a well-deserved bestseller, so expectations were high. The opening chapters are beautifully written, and Hale captures the atmosphere of a fading seaside resort in winter with real skill. The problem is that very little actually happens. The family argue, make up and argue again, and by the halfway point I had stopped caring whether they would ever resolve their differences. The ending, when it finally comes, feels rushed, as if the author had suddenly run out of time. At just under four hundred pages, it is also rather long. Readers who enjoy quiet, character-driven fiction may find more to love than I did, but anyone hoping for a gripping plot should look elsewhere.",
+   "group": "rp27"
+  },
+  {
+   "id": "r464",
+   "skill": "reading",
+   "level": "B2",
+   "prompt": "Who might enjoy the book more than the reviewer did?",
+   "options": [
+    "Readers who like quiet, character-based stories",
+    "Readers who want an exciting plot",
+    "Fans of short books",
+    "People who live by the sea"
+   ],
+   "answer": "Readers who like quiet, character-based stories",
+   "explanation": "Readers who enjoy quiet, character-driven fiction may find more to love.",
+   "passage": "Rachel Hale's new novel follows a family who return to the coastal town they left twenty years earlier. Her previous book was a well-deserved bestseller, so expectations were high. The opening chapters are beautifully written, and Hale captures the atmosphere of a fading seaside resort in winter with real skill. The problem is that very little actually happens. The family argue, make up and argue again, and by the halfway point I had stopped caring whether they would ever resolve their differences. The ending, when it finally comes, feels rushed, as if the author had suddenly run out of time. At just under four hundred pages, it is also rather long. Readers who enjoy quiet, character-driven fiction may find more to love than I did, but anyone hoping for a gripping plot should look elsewhere.",
+   "group": "rp27"
+  },
+  {
+   "id": "r465",
+   "skill": "reading",
+   "level": "B2",
+   "prompt": "What is the current situation?",
+   "options": [
+    "The decision has been delayed",
+    "A new pool is being built",
+    "The pool has already closed",
+    "The pool will definitely stay open"
+   ],
+   "answer": "The decision has been delayed",
+   "explanation": "have been put on hold … agreed to delay its decision.",
+   "passage": "Plans to close the town's only swimming pool have been put on hold after a campaign by local residents. The council had argued that the 1970s building was too expensive to run and would need at least £2 million of repairs over the next five years. However, more than 8,000 people signed a petition, pointing out that the nearest alternative pool is a forty-minute bus ride away and that local schools would lose their swimming lessons. The council has now agreed to delay its decision until the end of the year while it looks into whether a local charity could take over the running of the pool. Campaigners have welcomed the news but say the fight is not over yet, as the charity has not yet confirmed that it can afford to take on the building.",
+   "group": "rp28"
+  },
+  {
+   "id": "r466",
+   "skill": "reading",
+   "level": "B2",
+   "prompt": "Why do the campaigners say \"the fight is not over yet\"?",
+   "options": [
+    "The petition failed",
+    "The pool could still close",
+    "The charity has refused to help",
+    "The repairs have already started"
+   ],
+   "answer": "The pool could still close",
+   "explanation": "Рішення лише відкладено — басейн усе ще можуть закрити.",
+   "passage": "Plans to close the town's only swimming pool have been put on hold after a campaign by local residents. The council had argued that the 1970s building was too expensive to run and would need at least £2 million of repairs over the next five years. However, more than 8,000 people signed a petition, pointing out that the nearest alternative pool is a forty-minute bus ride away and that local schools would lose their swimming lessons. The council has now agreed to delay its decision until the end of the year while it looks into whether a local charity could take over the running of the pool. Campaigners have welcomed the news but say the fight is not over yet, as the charity has not yet confirmed that it can afford to take on the building.",
+   "group": "rp28"
+  },
+  {
+   "id": "r467",
+   "skill": "reading",
+   "level": "B2",
+   "prompt": "What does the adviser recommend?",
+   "options": [
+    "Forgetting about the money",
+    "Talking to the friend directly but kindly",
+    "Ending the friendship",
+    "Asking mutual friends for help"
+   ],
+   "answer": "Talking to the friend directly but kindly",
+   "explanation": "raise it directly but kindly.",
+   "passage": "Q: My best friend borrowed £300 from me six months ago and hasn't mentioned it since. I don't want to lose the friendship, but I need the money. What should I do?\nA: Money between friends is always tricky, but staying silent is likely to damage the friendship far more than a polite conversation would. Your friend may genuinely have forgotten, or may be too embarrassed to bring it up. Choose a relaxed moment and raise it directly but kindly — something like, \"I hate to ask, but could we sort out a plan for that money?\" Suggesting small monthly payments may make it easier for them to agree. Most people would rather settle a debt than lose a friend. Whatever happens, avoid dropping hints or complaining to mutual friends; that only builds resentment.",
+   "group": "rp29"
+  },
+  {
+   "id": "r468",
+   "skill": "reading",
+   "level": "B2",
+   "prompt": "In the last sentence, what does \"that\" refer to?",
+   "options": [
+    "Raising the subject directly",
+    "Dropping hints or complaining to mutual friends",
+    "Suggesting monthly payments",
+    "Staying silent"
+   ],
+   "answer": "Dropping hints or complaining to mutual friends",
+   "explanation": "that = dropping hints or complaining to mutual friends — натяки й скарги спільним друзям.",
+   "passage": "Q: My best friend borrowed £300 from me six months ago and hasn't mentioned it since. I don't want to lose the friendship, but I need the money. What should I do?\nA: Money between friends is always tricky, but staying silent is likely to damage the friendship far more than a polite conversation would. Your friend may genuinely have forgotten, or may be too embarrassed to bring it up. Choose a relaxed moment and raise it directly but kindly — something like, \"I hate to ask, but could we sort out a plan for that money?\" Suggesting small monthly payments may make it easier for them to agree. Most people would rather settle a debt than lose a friend. Whatever happens, avoid dropping hints or complaining to mutual friends; that only builds resentment.",
+   "group": "rp29"
+  },
+  {
+   "id": "r469",
+   "skill": "reading",
+   "level": "B2",
+   "prompt": "What is the main weakness of apps, according to teachers?",
+   "options": [
+    "They are too expensive",
+    "They take up too much time",
+    "They send too many reminders",
+    "They don't develop real conversation skills"
+   ],
+   "answer": "They don't develop real conversation skills",
+   "explanation": "rather than on holding real conversations.",
+   "passage": "Language-learning apps have made it easier than ever to fit study into a busy day. Ten minutes on the bus, a quick quiz before bed — it all adds up, and the reminders and daily streaks keep many learners coming back. Yet teachers point out that apps tend to focus on recognising words and translating short sentences rather than on holding real conversations. Many apps also reward speed, which can encourage guessing. A learner can build an impressive streak of several hundred days and still struggle to order a meal abroad. Few experts suggest abandoning apps altogether. Instead, they recommend using them as one part of a wider routine that includes speaking with real people, listening to podcasts and reading for pleasure. As one teacher puts it, \"The app is the warm-up, not the whole workout.\"",
+   "group": "rp30"
+  },
+  {
+   "id": "r470",
+   "skill": "reading",
+   "level": "B2",
+   "prompt": "What does the teacher mean by \"the warm-up, not the whole workout\"?",
+   "options": [
+    "Apps are useful, but not enough on their own",
+    "Apps are better than doing sport",
+    "You should study before exercising",
+    "Apps are the most important part of learning"
+   ],
+   "answer": "Apps are useful, but not enough on their own",
+   "explanation": "Застосунок — лише частина навчання.",
+   "passage": "Language-learning apps have made it easier than ever to fit study into a busy day. Ten minutes on the bus, a quick quiz before bed — it all adds up, and the reminders and daily streaks keep many learners coming back. Yet teachers point out that apps tend to focus on recognising words and translating short sentences rather than on holding real conversations. Many apps also reward speed, which can encourage guessing. A learner can build an impressive streak of several hundred days and still struggle to order a meal abroad. Few experts suggest abandoning apps altogether. Instead, they recommend using them as one part of a wider routine that includes speaking with real people, listening to podcasts and reading for pleasure. As one teacher puts it, \"The app is the warm-up, not the whole workout.\"",
+   "group": "rp30"
+  },
+  {
+   "id": "r471",
+   "skill": "reading",
+   "level": "B2",
+   "prompt": "What is changing for items bought in store?",
+   "options": [
+    "Customers will have less time to return them",
+    "Receipts will no longer be needed",
+    "Sale items can now be refunded",
+    "They must be returned online"
+   ],
+   "answer": "Customers will have less time to return them",
+   "explanation": "14 days, rather than 28.",
+   "passage": "CHANGES TO OUR RETURNS POLICY\nFrom 1 March, customers will have 14 days, rather than 28, to return items bought in store. Items must be unused and in their original packaging, and you will need to show your receipt or the card you paid with. Refunds will be made to the original payment method; we are no longer able to give cash refunds for card payments. Sale items can be exchanged but not refunded. Online orders are not affected and can still be returned within 28 days. Gift receipts will be accepted, but refunds for gifts will be given as store credit. These changes do not affect your legal rights if an item is faulty. If you have any questions, please ask a member of staff or visit our website for full details.",
+   "group": "rp31"
+  },
+  {
+   "id": "r472",
+   "skill": "reading",
+   "level": "B2",
+   "prompt": "Which of these customers can get a refund?",
+   "options": [
+    "Someone who wants cash for a card payment",
+    "Someone with neither a receipt nor the card",
+    "Someone who wants cash back for a sale item",
+    "Someone returning an unused item ordered online 20 days ago"
+   ],
+   "answer": "Someone returning an unused item ordered online 20 days ago",
+   "explanation": "Online orders … can still be returned within 28 days.",
+   "passage": "CHANGES TO OUR RETURNS POLICY\nFrom 1 March, customers will have 14 days, rather than 28, to return items bought in store. Items must be unused and in their original packaging, and you will need to show your receipt or the card you paid with. Refunds will be made to the original payment method; we are no longer able to give cash refunds for card payments. Sale items can be exchanged but not refunded. Online orders are not affected and can still be returned within 28 days. Gift receipts will be accepted, but refunds for gifts will be given as store credit. These changes do not affect your legal rights if an item is faulty. If you have any questions, please ask a member of staff or visit our website for full details.",
+   "group": "rp31"
+  },
+  {
+   "id": "r473",
+   "skill": "reading",
+   "level": "B2",
+   "prompt": "Why did the writer use to say yes to everything?",
+   "options": [
+    "They were afraid of disappointing people",
+    "They were interested in the committees",
+    "They enjoyed being busy",
+    "They wanted to earn more money"
+   ],
+   "answer": "They were afraid of disappointing people",
+   "explanation": "in reality I was afraid of disappointing people.",
+   "passage": "For years I was the kind of person who said yes to everything: extra shifts, favours for friends, committees I had no real interest in. I told myself I was being helpful, but in reality I was afraid of disappointing people. My diary was full for weeks ahead, and I rarely had an evening to myself. The turning point came when I fell asleep at a friend's wedding because I'd been up until three finishing someone else's project. Since then, I've been learning to say no — politely, and without long explanations. Saying no now feels less like rejection and more like honesty. It hasn't been easy, and a couple of people were clearly annoyed at first. But I now have time for the things that matter to me, and, perhaps surprisingly, my relationships are better for it.",
+   "group": "rp32"
+  },
+  {
+   "id": "r474",
+   "skill": "reading",
+   "level": "B2",
+   "prompt": "How does the writer feel about the change now?",
+   "options": [
+    "Sorry that it happened so late",
+    "Unsure whether it was the right decision",
+    "Guilty about annoying people",
+    "Positive, despite some difficulties"
+   ],
+   "answer": "Positive, despite some difficulties",
+   "explanation": "It hasn't been easy … but … my relationships are better for it.",
+   "passage": "For years I was the kind of person who said yes to everything: extra shifts, favours for friends, committees I had no real interest in. I told myself I was being helpful, but in reality I was afraid of disappointing people. My diary was full for weeks ahead, and I rarely had an evening to myself. The turning point came when I fell asleep at a friend's wedding because I'd been up until three finishing someone else's project. Since then, I've been learning to say no — politely, and without long explanations. Saying no now feels less like rejection and more like honesty. It hasn't been easy, and a couple of people were clearly annoyed at first. But I now have time for the things that matter to me, and, perhaps surprisingly, my relationships are better for it.",
+   "group": "rp32"
+  },
+  {
+   "id": "r475",
+   "skill": "reading",
+   "level": "C1",
+   "prompt": "What is the writer's main concern?",
+   "options": [
+    "Podcasts are a waste of time",
+    "People don't get up early enough",
+    "Discipline is overrated",
+    "Treating all time as an investment leaves no room for unstructured time"
+   ],
+   "answer": "Treating all time as an investment leaves no room for unstructured time",
+   "explanation": "in treating every hour as an investment, we risk forgetting how simply to spend time.",
+   "passage": "Scroll through any social media feed and you'll find someone extolling the virtues of a 5 am start, a cold shower and a meticulously colour-coded diary. The message, implicit or otherwise, is that time not spent improving oneself is time wasted. It's an appealing idea, not least because it suggests that success lies entirely within our control. It also flatters those who already have the time and money to follow such regimes. Yet the more I read about these routines, the more I suspect they say less about productivity than about anxiety. A walk without a podcast, an afternoon with nothing scheduled — these are increasingly framed as indulgences to be earned rather than as ordinary parts of a life. I'm not arguing that discipline is overrated; plenty of worthwhile things require it. My concern is that, in treating every hour as an investment, we risk forgetting how simply to spend time — and that some of our best ideas arrive precisely when we stop trying to have them.",
+   "group": "rp33"
+  },
+  {
+   "id": "r476",
+   "skill": "reading",
+   "level": "C1",
+   "prompt": "What does the writer suggest about these productivity routines?",
+   "options": [
+    "They suit only social media influencers",
+    "They guarantee success",
+    "They may reflect anxiety more than efficiency",
+    "They have been scientifically proven to work"
+   ],
+   "answer": "They may reflect anxiety more than efficiency",
+   "explanation": "they say less about productivity than about anxiety.",
+   "passage": "Scroll through any social media feed and you'll find someone extolling the virtues of a 5 am start, a cold shower and a meticulously colour-coded diary. The message, implicit or otherwise, is that time not spent improving oneself is time wasted. It's an appealing idea, not least because it suggests that success lies entirely within our control. It also flatters those who already have the time and money to follow such regimes. Yet the more I read about these routines, the more I suspect they say less about productivity than about anxiety. A walk without a podcast, an afternoon with nothing scheduled — these are increasingly framed as indulgences to be earned rather than as ordinary parts of a life. I'm not arguing that discipline is overrated; plenty of worthwhile things require it. My concern is that, in treating every hour as an investment, we risk forgetting how simply to spend time — and that some of our best ideas arrive precisely when we stop trying to have them.",
+   "group": "rp33"
+  },
+  {
+   "id": "r477",
+   "skill": "reading",
+   "level": "C1",
+   "prompt": "What is the reviewer's overall tone?",
+   "options": [
+    "Wholeheartedly enthusiastic",
+    "Sceptical, but not entirely negative",
+    "Neutral and purely descriptive",
+    "Angry and dismissive"
+   ],
+   "answer": "Sceptical, but not entirely negative",
+   "explanation": "Іронія щодо «концепції», але похвала окремим стравам.",
+   "passage": "There is a particular kind of restaurant in which the menu requires more explanation than the food. Ember, which opened last month on the high street, is very much that kind of place. Our server spent several minutes guiding us through the \"concept\" — fire, foraging, a vague commitment to \"conversation between ingredients\" — before we were allowed to order. The room itself is handsome, all exposed brick and low lighting, and the staff are unfailingly charming. The wine list is short but well chosen. To be fair, some dishes were genuinely accomplished: the smoked beetroot was a quietly brilliant thing, sweet and earthy in equal measure. Others seemed more interested in surprising us than in tasting good; I'm still not sure what the pine-needle foam was trying to say. Portions, it must be said, are small. At £85 a head before drinks, Ember is asking a great deal of its customers' patience as well as their wallets. It may well find its feet in time. For now, I'd wait.",
+   "group": "rp34"
+  },
+  {
+   "id": "r478",
+   "skill": "reading",
+   "level": "C1",
+   "prompt": "What does the reviewer mean by \"For now, I'd wait\"?",
+   "options": [
+    "Wait until the prices are reduced",
+    "Book well in advance",
+    "It's better to go later, once the restaurant has improved",
+    "Expect to wait a long time for a table"
+   ],
+   "answer": "It's better to go later, once the restaurant has improved",
+   "explanation": "It may well find its feet in time — варто зачекати, поки ресторан покращиться.",
+   "passage": "There is a particular kind of restaurant in which the menu requires more explanation than the food. Ember, which opened last month on the high street, is very much that kind of place. Our server spent several minutes guiding us through the \"concept\" — fire, foraging, a vague commitment to \"conversation between ingredients\" — before we were allowed to order. The room itself is handsome, all exposed brick and low lighting, and the staff are unfailingly charming. The wine list is short but well chosen. To be fair, some dishes were genuinely accomplished: the smoked beetroot was a quietly brilliant thing, sweet and earthy in equal measure. Others seemed more interested in surprising us than in tasting good; I'm still not sure what the pine-needle foam was trying to say. Portions, it must be said, are small. At £85 a head before drinks, Ember is asking a great deal of its customers' patience as well as their wallets. It may well find its feet in time. For now, I'd wait.",
+   "group": "rp34"
+  },
+  {
+   "id": "r479",
+   "skill": "reading",
+   "level": "C1",
+   "prompt": "According to the text, why might students who sleep after learning remember more?",
+   "options": [
+    "They study only in the morning",
+    "They spend longer studying",
+    "The brain strengthens memories during deep sleep",
+    "They feel less stressed"
+   ],
+   "answer": "The brain strengthens memories during deep sleep",
+   "explanation": "the brain appears to replay the day's experiences, strengthening some connections.",
+   "passage": "For decades, sleep was regarded by many as little more than a period of inactivity — a necessary interruption to more important pursuits. Research over the past thirty years has overturned that view. During deep sleep, the brain appears to replay the day's experiences, strengthening some connections while allowing others to fade. This may explain why students who sleep after learning tend to remember more than those who stay up revising, even when the latter spend longer with their books. Even short naps seem to offer some of the same benefits. The findings have practical implications, though these are not always welcome. Telling teenagers to get more sleep is one thing; persuading schools to start later is quite another, given the knock-on effects on transport, staffing and parents' working hours. Still, a handful of schools that have experimented with later start times report modest improvements in both attendance and results — evidence that, at the very least, deserves to be taken seriously.",
+   "group": "rp35"
+  },
+  {
+   "id": "r480",
+   "skill": "reading",
+   "level": "C1",
+   "prompt": "What is the writer's attitude to later school start times?",
+   "options": [
+    "Convinced they would solve every problem",
+    "Strongly opposed",
+    "Cautiously supportive",
+    "Completely indifferent"
+   ],
+   "answer": "Cautiously supportive",
+   "explanation": "modest improvements … deserves to be taken seriously.",
+   "passage": "For decades, sleep was regarded by many as little more than a period of inactivity — a necessary interruption to more important pursuits. Research over the past thirty years has overturned that view. During deep sleep, the brain appears to replay the day's experiences, strengthening some connections while allowing others to fade. This may explain why students who sleep after learning tend to remember more than those who stay up revising, even when the latter spend longer with their books. Even short naps seem to offer some of the same benefits. The findings have practical implications, though these are not always welcome. Telling teenagers to get more sleep is one thing; persuading schools to start later is quite another, given the knock-on effects on transport, staffing and parents' working hours. Still, a handful of schools that have experimented with later start times report modest improvements in both attendance and results — evidence that, at the very least, deserves to be taken seriously.",
+   "group": "rp35"
+  },
+  {
+   "id": "r481",
+   "skill": "reading",
+   "level": "C1",
+   "prompt": "Why do critics call the entry fee \"symbolic\"?",
+   "options": [
+    "It applies only to residents",
+    "It was introduced too late",
+    "It's too small to change visitors' behaviour",
+    "The money goes to the cruise companies"
+   ],
+   "answer": "It's too small to change visitors' behaviour",
+   "explanation": "at €5 … it is hardly likely to deter anyone.",
+   "passage": "Residents of the old town have long been used to sharing their streets with visitors, but many now feel the balance has tipped. In peak season, cruise ships can bring up to 15,000 day-trippers into an area where fewer than 4,000 people actually live. Souvenir shops have gradually replaced bakeries and hardware stores, and rents have risen as flats are converted into holiday lets. Some long-standing residents have simply moved out to the suburbs. Local officials are reluctant to discourage tourism outright — it accounts for roughly a third of the region's income — and have instead introduced a modest entry fee for day visitors on the busiest days. Critics dismiss the measure as symbolic: at €5, they argue, it is hardly likely to deter anyone who has already paid for a cruise. Supporters counter that the money will fund street cleaning and housing for residents, and that the fee was never intended to stop visitors altogether, merely to make them pay their way.",
+   "group": "rp36"
+  },
+  {
+   "id": "r482",
+   "skill": "reading",
+   "level": "C1",
+   "prompt": "According to its supporters, what is the fee meant to do?",
+   "options": [
+    "Stop tourism completely",
+    "Bring rents down immediately",
+    "Reduce the number of cruise ships",
+    "Make visitors contribute to local costs"
+   ],
+   "answer": "Make visitors contribute to local costs",
+   "explanation": "merely to make them pay their way.",
+   "passage": "Residents of the old town have long been used to sharing their streets with visitors, but many now feel the balance has tipped. In peak season, cruise ships can bring up to 15,000 day-trippers into an area where fewer than 4,000 people actually live. Souvenir shops have gradually replaced bakeries and hardware stores, and rents have risen as flats are converted into holiday lets. Some long-standing residents have simply moved out to the suburbs. Local officials are reluctant to discourage tourism outright — it accounts for roughly a third of the region's income — and have instead introduced a modest entry fee for day visitors on the busiest days. Critics dismiss the measure as symbolic: at €5, they argue, it is hardly likely to deter anyone who has already paid for a cruise. Supporters counter that the money will fund street cleaning and housing for residents, and that the fee was never intended to stop visitors altogether, merely to make them pay their way.",
+   "group": "rp36"
+  },
+  {
+   "id": "r483",
+   "skill": "reading",
+   "level": "C1",
+   "prompt": "How has the writer's view of being \"in between\" changed?",
+   "options": [
+    "From feeling proud to feeling ashamed",
+    "From wanting to leave to wanting to go home",
+    "It hasn't changed at all",
+    "From seeing it as a failure to seeing it as an enrichment"
+   ],
+   "answer": "From seeing it as a failure to seeing it as an enrichment",
+   "explanation": "unsettling … These days … an expanded one.",
+   "passage": "When people ask whether I miss home, I never quite know how to answer. I left at nineteen, and I have now lived abroad for longer than I lived in the town where I grew up. My accent, I'm told, has drifted somewhere between the two, belonging comfortably to neither. On visits back, old friends tease me for pausing mid-sentence in search of a word I once used without thinking; here, people still occasionally ask where I'm \"really\" from. For a long time I found this in-between state unsettling, as if I had failed to commit fully to either place. I envied friends who seemed to know exactly where they belonged. These days I see it differently. Having two sets of references — two ways of making a joke, of apologising, of saying no — feels less like a divided identity than an expanded one. I may not belong entirely anywhere, but I've stopped thinking of that as a loss.",
+   "group": "rp37"
+  },
+  {
+   "id": "r484",
+   "skill": "reading",
+   "level": "C1",
+   "prompt": "What does the writer imply about visits home?",
+   "options": [
+    "Old friends refuse to see them",
+    "They speak only their new language there",
+    "They have no friends left there",
+    "Their first language is no longer completely automatic"
+   ],
+   "answer": "Their first language is no longer completely automatic",
+   "explanation": "pausing mid-sentence in search of a word I once used without thinking.",
+   "passage": "When people ask whether I miss home, I never quite know how to answer. I left at nineteen, and I have now lived abroad for longer than I lived in the town where I grew up. My accent, I'm told, has drifted somewhere between the two, belonging comfortably to neither. On visits back, old friends tease me for pausing mid-sentence in search of a word I once used without thinking; here, people still occasionally ask where I'm \"really\" from. For a long time I found this in-between state unsettling, as if I had failed to commit fully to either place. I envied friends who seemed to know exactly where they belonged. These days I see it differently. Having two sets of references — two ways of making a joke, of apologising, of saying no — feels less like a divided identity than an expanded one. I may not belong entirely anywhere, but I've stopped thinking of that as a loss.",
+   "group": "rp37"
+  },
+  {
+   "id": "r485",
+   "skill": "reading",
+   "level": "C1",
+   "prompt": "What concern do some researchers raise?",
+   "options": [
+    "Second-hand clothes are of poor quality",
+    "Clothing manufacturers are losing money",
+    "Easy reselling may encourage people to buy more new clothes",
+    "Resale apps are too complicated"
+   ],
+   "answer": "Easy reselling may encourage people to buy more new clothes",
+   "explanation": "the ease of reselling encourages people to buy more new clothes.",
+   "passage": "The resale market for clothing has boomed in recent years, helped by apps that make selling an unwanted jacket as easy as taking a photograph. Even fast-fashion brands have now launched resale platforms of their own. On the face of it, this is good news for the environment: every garment that finds a second owner is one fewer that needs to be manufactured. The picture, however, is more complicated than it first appears. Some researchers worry that the ease of reselling encourages people to buy more new clothes in the first place, reassured by the thought that they can always recoup part of the cost later. In that case, the second-hand market could end up fuelling the very overconsumption it was supposed to curb. Others point out that posting individual parcels across the country carries its own environmental cost. None of this means that buying second-hand is pointless — merely that its benefits depend heavily on how it changes our overall habits.",
+   "group": "rp38"
+  },
+  {
+   "id": "r486",
+   "skill": "reading",
+   "level": "C1",
+   "prompt": "What is the writer's conclusion?",
+   "options": [
+    "Buying second-hand helps only if it changes our overall habits",
+    "Buying second-hand is pointless",
+    "Buying second-hand is always better for the environment",
+    "People should stop posting clothes"
+   ],
+   "answer": "Buying second-hand helps only if it changes our overall habits",
+   "explanation": "its benefits depend heavily on how it changes our overall habits.",
+   "passage": "The resale market for clothing has boomed in recent years, helped by apps that make selling an unwanted jacket as easy as taking a photograph. Even fast-fashion brands have now launched resale platforms of their own. On the face of it, this is good news for the environment: every garment that finds a second owner is one fewer that needs to be manufactured. The picture, however, is more complicated than it first appears. Some researchers worry that the ease of reselling encourages people to buy more new clothes in the first place, reassured by the thought that they can always recoup part of the cost later. In that case, the second-hand market could end up fuelling the very overconsumption it was supposed to curb. Others point out that posting individual parcels across the country carries its own environmental cost. None of this means that buying second-hand is pointless — merely that its benefits depend heavily on how it changes our overall habits.",
+   "group": "rp38"
+  },
+  {
+   "id": "r487",
+   "skill": "reading",
+   "level": "C1",
+   "prompt": "What is the association's position?",
+   "options": [
+    "It would accept later hours at weekends only, with conditions",
+    "It wants all events to end at 10 pm",
+    "It wants the venue to close",
+    "It fully supports the extension"
+   ],
+   "answer": "It would accept later hours at weekends only, with conditions",
+   "explanation": "a later licence at weekends only, coupled with a commitment…",
+   "passage": "Dear Councillor Ahmed,\nI am writing on behalf of the Riverside Residents' Association regarding the proposed extension of opening hours at the Quayside venue. While we recognise the venue's contribution to the town's cultural life — indeed, many of our members are regular patrons — and appreciate that it employs a number of local people, we have serious reservations about permitting events to continue until 2 am on weekdays. Noise from departing customers is already a recurring problem after midnight, and residents with young children or early starts have been disproportionately affected. Several have also reported litter and broken glass on the riverside path. We would therefore urge the council to consider a compromise: a later licence at weekends only, coupled with a commitment from the venue to place staff at the exits to encourage quiet departures. We would welcome the opportunity to discuss this further, and have invited the venue's management to our next meeting on 4 May.\nYours sincerely,\nJordan Ellis, Chair",
+   "group": "rp39"
+  },
+  {
+   "id": "r488",
+   "skill": "reading",
+   "level": "C1",
+   "prompt": "Why does the writer mention that many members are regular patrons?",
+   "options": [
+    "To complain about ticket prices",
+    "To show that the association is not simply against the venue",
+    "To admit that members cause the noise",
+    "To ask for free tickets"
+   ],
+   "answer": "To show that the association is not simply against the venue",
+   "explanation": "Аргумент на користь неупередженості.",
+   "passage": "Dear Councillor Ahmed,\nI am writing on behalf of the Riverside Residents' Association regarding the proposed extension of opening hours at the Quayside venue. While we recognise the venue's contribution to the town's cultural life — indeed, many of our members are regular patrons — and appreciate that it employs a number of local people, we have serious reservations about permitting events to continue until 2 am on weekdays. Noise from departing customers is already a recurring problem after midnight, and residents with young children or early starts have been disproportionately affected. Several have also reported litter and broken glass on the riverside path. We would therefore urge the council to consider a compromise: a later licence at weekends only, coupled with a commitment from the venue to place staff at the exits to encourage quiet departures. We would welcome the opportunity to discuss this further, and have invited the venue's management to our next meeting on 4 May.\nYours sincerely,\nJordan Ellis, Chair",
+   "group": "rp39"
+  },
+  {
+   "id": "r489",
+   "skill": "reading",
+   "level": "C1",
+   "prompt": "According to the research mentioned, when does reading have an advantage over listening?",
+   "options": [
+    "In every case",
+    "With novels read by famous actors",
+    "With simple stories",
+    "With dense, technical texts"
+   ],
+   "answer": "With dense, technical texts",
+   "explanation": "the picture changes with dense, technical material.",
+   "passage": "Does listening to an audiobook count as reading? The question provokes surprisingly strong feelings. Sales of audiobooks have grown steadily for over a decade, so the debate is unlikely to go away. Purists insist that something is lost when the words reach us through another person's voice: the listener no longer controls the pace, cannot easily linger over a sentence, and is at the mercy of the narrator's interpretation. Enthusiasts reply that stories were told aloud long before they were written down, and that a skilled narrator can illuminate a text rather than distort it. Research, for what it's worth, suggests that comprehension of straightforward narrative is broadly similar whether a text is heard or read, though the picture changes with dense, technical material, where the ability to reread seems to matter. Perhaps the more useful question is not whether listening counts, but what we want from a particular book — and whether, for some of us, the real choice is between an audiobook and no book at all.",
+   "group": "rp40"
+  },
+  {
+   "id": "r490",
+   "skill": "reading",
+   "level": "C1",
+   "prompt": "What does the final sentence suggest?",
+   "options": [
+    "Audiobooks should replace printed books",
+    "Listening is always better than reading",
+    "The debate is pointless because few people read",
+    "For some people, audiobooks are the only realistic way to enjoy books"
+   ],
+   "answer": "For some people, audiobooks are the only realistic way to enjoy books",
+   "explanation": "the real choice is between an audiobook and no book at all.",
+   "passage": "Does listening to an audiobook count as reading? The question provokes surprisingly strong feelings. Sales of audiobooks have grown steadily for over a decade, so the debate is unlikely to go away. Purists insist that something is lost when the words reach us through another person's voice: the listener no longer controls the pace, cannot easily linger over a sentence, and is at the mercy of the narrator's interpretation. Enthusiasts reply that stories were told aloud long before they were written down, and that a skilled narrator can illuminate a text rather than distort it. Research, for what it's worth, suggests that comprehension of straightforward narrative is broadly similar whether a text is heard or read, though the picture changes with dense, technical material, where the ability to reread seems to matter. Perhaps the more useful question is not whether listening counts, but what we want from a particular book — and whether, for some of us, the real choice is between an audiobook and no book at all.",
+   "group": "rp40"
   }
  ]
 }

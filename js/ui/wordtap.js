@@ -9,10 +9,12 @@ import { speak } from '../speech.js';
 import * as store from '../store.js';
 import * as srs from '../srs.js';
 import { allDecks } from '../data.js';
+import { user } from '../supa.js';
 
-const WORD = /[A-Za-z]+(?:['’][A-Za-z]+)*(?:-[A-Za-z]+)*/g;
+export const WORD = /[A-Za-z]+(?:['’][A-Za-z]+)*(?:-[A-Za-z]+)*/g;
 const SKIP = 'code,pre,a,button,input,textarea,select,summary,svg,.w,[data-notap]';
 const norm = (s) => String(s || '').toLowerCase().replace(/’/g, "'").replace(/\s+/g, ' ').trim();
+const hasSelection = () => !!window.getSelection?.()?.toString().trim();
 const escRe = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
 // ---------- Пошук у колодах (вантажиться лише після першого дотику) ----------
@@ -160,21 +162,29 @@ export function tappable(root, { glossary = [], onAsk = null, mark = false } = {
   const words = () => [...root.querySelectorAll('span.w')];
   const first = root.querySelector('span.w');
   if (first) first.tabIndex = 0;   // «блукаючий» tabindex: одна зупинка Tab на весь текст, далі — стрілки
+  root.__wt = { gl, onAsk };       // для пошуку за виділенням (js/ui/selectlookup.js): словничок і «Запитати вчителя» цього тексту
   if (root.__wordtap) return root;
   root.__wordtap = true;
   root.classList.add('wordtap');
   const focusWord = (el) => { if (!el) return; words().forEach(x => { x.tabIndex = -1; }); el.tabIndex = 0; el.focus(); };
+  // Мишею: подвійний клік виділяє слово (→ «Що це?»), тож одиночний відкриває шторку з невеликою затримкою.
+  // Дотиком: довге натискання виділяє (click не приходить), короткий дотик — одразу шторка.
+  let pending = null, lastPointer = 'mouse';
+  root.addEventListener('pointerdown', (e) => { lastPointer = e.pointerType || 'mouse'; }, true);
   root.addEventListener('click', (e) => {
     const el = e.target.closest?.('span.w');
+    clearTimeout(pending); pending = null;
     if (!el || !root.contains(el)) return;
-    if (window.getSelection?.()?.toString()) return;   // виділення тексту — не дотик
+    if (e.detail > 1) return;                            // другий клік подвійного — це виділення
+    if (hasSelection()) return;                          // виділення тексту — не дотик
     words().forEach(x => { x.tabIndex = -1; }); el.tabIndex = 0;
-    open(el, gl, onAsk);
+    const go = () => { pending = null; if (!hasSelection() && el.isConnected) open(el, root.__wt.gl, root.__wt.onAsk); };
+    if (lastPointer === 'mouse' && e.detail === 1) pending = setTimeout(go, 260); else go();
   });
   root.addEventListener('keydown', (e) => {
     const el = e.target.closest?.('span.w');
     if (!el) return;
-    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(el, gl, onAsk); return; }
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(el, root.__wt.gl, root.__wt.onAsk); return; }
     if (!['ArrowRight', 'ArrowLeft', 'Home', 'End'].includes(e.key)) return;
     e.preventDefault();
     const all = words(), i = all.indexOf(el);
@@ -183,17 +193,34 @@ export function tappable(root, { glossary = [], onAsk = null, mark = false } = {
   return root;
 }
 
+
+// ---------- Контекст: речення навколо слова чи виділення ----------
+const BLOCK = 'p,li,dd,dt,td,th,blockquote,figcaption,h1,h2,h3,h4,.msg-body,div';
+/** Блок тексту, в якому стоїть вузол */
+export const blockOf = (node) => (node?.nodeType === 1 ? node : node?.parentElement)?.closest(BLOCK) || null;
+/** Речення з тексту block, що містить фрагмент [at, at + len) (довше 220 символів — порожньо) */
+export function sentenceAround(block, at, len = 0) {
+  const full = String(block?.textContent || '');
+  if (!full) return '';
+  const start = Math.max(full.lastIndexOf('. ', at), full.lastIndexOf('! ', at), full.lastIndexOf('? ', at), full.lastIndexOf('\n', at));
+  const endM = full.slice(at + len).search(/[.!?](\s|$)|\n/);
+  const s = full.slice(start < 0 ? 0 : start + 1, endM < 0 ? full.length : at + len + endM + 1).replace(/\s+/g, ' ').trim();
+  return s.length > 220 ? '' : s;
+}
+/** Зміщення початку вузла/діапазону від початку блоку */
+export function offsetIn(block, node, offset = 0) {
+  const r = document.createRange();
+  r.setStart(block, 0);
+  try { r.setEnd(node, offset); } catch { return 0; }
+  return r.toString().length;
+}
+
 /** Речення, в якому стоїть слово (для прикладу в картці) */
 function sentenceOf(el) {
   const block = el.closest('p,li,div') || el.parentElement;
-  const full = block.textContent;
-  const pre = document.createRange();
-  pre.setStart(block, 0); pre.setEndBefore(el);
-  const at = pre.toString().length;
-  const start = Math.max(full.lastIndexOf('. ', at), full.lastIndexOf('! ', at), full.lastIndexOf('? ', at));
-  const endM = full.slice(at).search(/[.!?](\s|$)/);
-  const s = full.slice(start < 0 ? 0 : start + 2, endM < 0 ? full.length : at + endM + 1).trim();
-  return s.length > 220 ? '' : s;
+  const r = document.createRange();
+  r.setStart(block, 0); r.setEndBefore(el);
+  return sentenceAround(block, r.toString().length, el.textContent.length);
 }
 
 /** Наступні слова після el у тому самому блоці */
@@ -210,9 +237,19 @@ const knownCard = (en) => {
   return store.all('cards').find(c => norm(c.en) === k || norm(String(c.en).replace(/^to\s+/i, '')) === k);
 };
 
+// Звідки слово (для пам'яті вчителя й поля extra.source картки)
+const SRC = {
+  reading: 'reading', tutor: 'a chat with the tutor', grammar: 'a grammar lesson', scenarios: 'a role-play scenario', writing: 'writing practice',
+  listening: 'listening practice', cards: 'flashcards', diary: 'the diary', exercises: 'exercises', mistakes: 'the mistakes review',
+  pronunciation: 'pronunciation practice', vocab: 'the word list', tests: 'a test', session: 'a lesson', home: 'the home screen',
+};
+const routeKey = () => location.hash.replace(/^#\/?/, '').split(/[/?]/)[0] || 'home';
+export const sourceOfRoute = () => SRC[routeKey()] || 'the app';
+
 /**
  * Додати слово в «Мої слова»: слово ввімкненої вбудованої колоди — та сама картка (без дубля),
- * інакше (власне слово або колода вимкнена — її картки в чергу не потрапляють) — власна картка
+ * інакше (власне слово, AI-переклад або колода вимкнена — її картки в чергу не потрапляють) — власна картка.
+ * Приклад — речення, де слово трапилось; далі — приклади з колоди чи від AI.
  */
 async function addToMine(entry, example) {
   if (entry.deckId && entry.card) {
@@ -221,16 +258,41 @@ async function addToMine(entry, example) {
     const deck = (await srs.decks()).find(d => d.id === entry.deckId);
     if (deck?.enabled) { store.put('cards', srs.rowFromStarter(entry.deckId, entry.card)); return 'starter'; }
   }
-  const examples = entry.card?.ex ? [{ en: entry.card.ex, uk: entry.card.exUk || '' }] : example ? [{ en: example, uk: '' }] : [];
-  const r = srs.addCard({ en: entry.en, uk: entry.uk, ipa: entry.ipa || null, examples, tags: [], extra: { source: 'reading' } });
+  const examples = [];
+  const push = (en, uk = '') => { if (en && !examples.some(x => norm(x.en) === norm(en))) examples.push({ en, uk }); };
+  if (entry.card?.ex) push(entry.card.ex, entry.card.exUk || '');
+  else if (example) push(example);
+  for (const x of entry.examples || []) push(x.en, x.uk || '');
+  const r = srs.addCard({ en: entry.en, uk: entry.uk, ipa: entry.ipa || null, pos: entry.pos || null, examples: examples.slice(0, 3), tags: [], extra: { source: routeKey() } });
   return r.created ? 'created' : 'exists';
 }
+const inCards = (entry) => !!knownCard(entry.en) || (entry.deckId && entry.card && !!store.get('cards', srs.starterId(entry.deckId, entry.card.en)));
 
-function entryBlock(entry, example, sourceLabel) {
-  const exists = () => !!knownCard(entry.en) || (entry.deckId && entry.card && !!store.get('cards', srs.starterId(entry.deckId, entry.card.en)));
+// ---------- «Не знаю — сказати вчителю»: картка + факт у пам'яті вчителя (profiles.data.memory) ----------
+const UNKNOWN_RE = /^Didn't know the (word|phrase) /;
+const UNKNOWN_CAP = 12;   // такі факти не витісняють решту пам'яті (MEM_CAP): старіші за 12-м прибираються — слово лишається в картках
+const factKey = (w) => `"${norm(w)}"`;
+async function knowsUnknown(word) {
+  const { memoryFacts } = await import('../pages/profile.js');
+  return memoryFacts().some(f => UNKNOWN_RE.test(f.text) && norm(f.text).includes(factKey(word)));
+}
+async function markUnknown(word, entry, example, source) {
+  let card = null;
+  if (entry?.uk) card = await addToMine(entry, example).catch(() => 'error');
+  const { rememberFacts, memoryFacts, forgetFacts } = await import('../pages/profile.js');
+  const w = word.replace(/["“”]/g, '').slice(0, 60);
+  if (!(await knowsUnknown(w))) {
+    rememberFacts([`Didn't know the ${/\s/.test(w) ? 'phrase' : 'word'} "${w}" (seen in: ${source})`]);
+    const old = memoryFacts().filter(f => UNKNOWN_RE.test(f.text)).sort((a, b) => String(b.at || '').localeCompare(String(a.at || ''))).slice(UNKNOWN_CAP);
+    if (old.length) forgetFacts(old.map(f => f.id));
+  }
+  toast(card === 'starter' || card === 'created' ? 'Вчитель знатиме, що це слово для вас нове. Його додано в «Мої слова»' : 'Вчитель знатиме, що це слово для вас нове');
+}
+
+function entryBlock(entry, example, sourceLabel, refresh) {
   const addBtn = h('button.btn.soft', { type: 'button' });
   const paint = () => {
-    const on = exists();
+    const on = inCards(entry);
     addBtn.disabled = on;
     addBtn.replaceChildren(ic(on ? 'check' : 'plus'), on ? 'Уже у ваших словах' : 'Додати в мої слова');
   };
@@ -242,52 +304,161 @@ function entryBlock(entry, example, sourceLabel) {
     paint();
   });
   paint();
+  refresh?.add(paint);
   const ex = entry.ex && norm(entry.ex) !== norm(example) ? entry.ex : null;
   return h('div.stack.wt-entry', { style: { gap: '8px' } },
-    h('div.row', h('div.grow', h('div.wt-head', entry.en), entry.ipa ? h('div.ipa', entry.ipa) : null),
+    h('div.row', h('div.grow', h('div.wt-head', { lang: 'en' }, entry.en), entry.ipa ? h('div.ipa', entry.ipa) : null),
       h('button.icon-btn.soft', { type: 'button', 'aria-label': `Прослухати: ${entry.en}`, onclick: () => speak(entry.en) }, ic('speaker-high'))),
     h('div.wt-uk', entry.uk),
     sourceLabel ? h('div', h('span.tag', sourceLabel)) : null,
-    ex ? h('div.example', h('div.grow', h('div.small', ex), entry.exUk ? h('div.xs.dim', entry.exUk) : null)) : null,
+    ex ? h('div.example', h('div.grow', h('div.small', { lang: 'en' }, ex), entry.exUk ? h('div.xs.dim', entry.exUk) : null)) : null,
     h('div.row.wrap', addBtn));
 }
 
-async function open(el, gl, onAsk) {
-  const surface = el.textContent.replace(/\s+/g, ' ').trim();
-  const example = sentenceOf(el);
+// ---------- AI-переклад слова чи фрази в контексті (дія tutor `fill_word`; context — речення, де трапилось) ----------
+const aiCache = new Map();
+const canAi = () => !!user() && navigator.onLine;
+function aiLookup(text, sentence) {
+  const k = norm(text);
+  if (!aiCache.has(k)) {
+    aiCache.set(k, import('../ai.js')
+      .then(({ tutor }) => tutor('fill_word', { words: [text], context: String(sentence || '').slice(0, 300) }))
+      .then(r => {
+        const w = r?.words?.[0];
+        if (!w?.uk) return null;
+        const examples = (Array.isArray(w.examples) ? w.examples : []).filter(x => x?.en).slice(0, 2);
+        return { en: String(w.en || text), uk: String(w.uk), ipa: w.ipa || null, pos: w.pos || null, examples, ex: examples[0]?.en || null, exUk: examples[0]?.uk || null };
+      })
+      .catch(e => { aiCache.delete(k); throw e; }));
+  }
+  return aiCache.get(k);
+}
+
+/** Фраза з кількох слів у колодах: ціла, з початковою формою першого або останнього слова */
+async function lookupPhrase(words) {
+  const m = await deckIndexMap();
+  const rest = words.slice(1).map(norm).join(' '), head = words.slice(0, -1).map(norm).join(' ');
+  for (const { f, adj } of lemmaForms(words[0])) { if (adj) continue; const v = m.get(`${f} ${rest}`); if (v) return v; }
+  for (const { f } of lemmaForms(words[words.length - 1])) { const v = m.get(`${head} ${f}`); if (v) return v; }
+  return null;
+}
+
+/** Кнопка «Прослухати» */
+const speakBtn = (text) => h('button.icon-btn.soft', { type: 'button', 'aria-label': `Прослухати: ${text}`, onclick: () => speak(text) }, ic('speaker-high'));
+
+/**
+ * Шторка зі значенням слова чи фрази (1–5 слів).
+ * text — слово/фраза; sentence — речення, де трапилось; next — наступні слова (фразові дієслова для одного слова);
+ * gl — словничок тексту (Map); onAsk(word) — «Запитати вчителя»; auto — одразу питати AI, якщо в словнику немає
+ * (для виділення — так; для дотику — кнопкою, щоб випадковий дотик не витрачав ліміт).
+ */
+export async function lookupText({ text, sentence = '', next = [], gl = null, onAsk = null, source = sourceOfRoute(), auto = true } = {}) {
+  const surface = String(text || '').replace(/[’]/g, "'").replace(/\s+/g, ' ').replace(/^[^A-Za-z]+|[^A-Za-z]+$/g, '').trim();
+  if (!surface) return null;
+  const words = surface.match(WORD) || [surface];
   const body = h('div.stack');
   const s = sheet(null, body);
-  const ctx = example ? h('p.small.dim.wt-ctx', { lang: 'en' }, example) : null;
-  const ask = (word) => h('button.btn.ghost', { type: 'button', onclick: () => {
+  const refresh = new Set();
+  const ctx = sentence && norm(sentence) !== norm(surface) ? h('p.small.dim.wt-ctx', { lang: 'en' }, sentence) : null;
+
+  const askBtn = (word) => h('button.btn.ghost', { type: 'button', onclick: () => {
     s.close();
     if (onAsk) onAsk(word); else location.hash = `#/tutor?ask=${encodeURIComponent(word)}`;
-  } }, ic('chat-circle-dots'), 'Запитати вчителя');
+  } }, ic('chat-circle-dots'), onAsk ? 'Запитати вчителя' : 'Пояснити з вчителем');
+  const unknownBtn = (word, entry) => {
+    const b = h('button.btn.soft', { type: 'button' }, ic('question'), 'Не знаю — сказати вчителю');
+    const done = () => { b.disabled = true; b.replaceChildren(ic('check'), 'Вчитель знає, що слово нове'); };
+    knowsUnknown(word).then(k => { if (k) done(); }).catch(() => {});
+    b.addEventListener('click', async () => {
+      b.disabled = true;
+      try { await markUnknown(word, entry, sentence, source); done(); refresh.forEach(f => f()); }
+      catch (e) { console.warn('unknown word', e); toast('Не вдалося зберегти'); b.disabled = false; }
+    });
+    return b;
+  };
+  const actions = (word, entry) => h('div.row.wrap.wt-actions', unknownBtn(word, entry), askBtn(word));
+  const show = (...parts) => { if (body.isConnected) body.replaceChildren(...parts.filter(Boolean)); };
 
-  const g = el.dataset.g && gl.get(el.dataset.g);
+  // 1) словничок тексту
+  const g = gl?.get?.(norm(surface));
   if (g) {
-    body.replaceChildren(entryBlock({ en: g.en || g.w, uk: g.uk, ipa: g.ipa || null }, example, 'Словничок тексту'), ctx || '');
+    const entry = { en: g.en || g.w, uk: g.uk, ipa: g.ipa || null };
+    show(entryBlock(entry, sentence, 'Словничок тексту', refresh), ctx, actions(surface, entry));
     // IPA зі словника колод, якщо в словничку її немає
-    if (!g.ipa) lookupDeck(g.en || g.w).then(({ hit }) => {
-      if (hit?.ipa && norm(hit.en).replace(/^to /, '') === norm(g.en || g.w).replace(/^to /, '') && body.isConnected) {
+    if (!g.ipa) lookupDeck(entry.en).then(({ hit }) => {
+      if (hit?.ipa && norm(hit.en).replace(/^to /, '') === norm(entry.en).replace(/^to /, '') && body.isConnected) {
         body.querySelector('.wt-head')?.after(h('div.ipa', hit.ipa));
       }
     }).catch(() => {});
-    return;
+    return s;
   }
-  body.replaceChildren(h('div.wt-head', surface), h('p.dim', 'Шукаю…'));
-  let res;
-  try { res = await lookupDeck(surface, nextWords(el)); }
-  catch { res = { hit: null, phrase: null }; }
-  if (!body.isConnected) return;
-  const { hit, phrase } = res;
-  if (!hit && !phrase) {
-    body.replaceChildren(
-      h('div.row', h('div.grow.wt-head', surface), h('button.icon-btn.soft', { type: 'button', 'aria-label': `Прослухати: ${surface}`, onclick: () => speak(surface) }, ic('speaker-high'))),
-      h('p.dim', 'Немає в словнику'), ctx || '', h('div.row.wrap', ask(surface)));
-    return;
+
+  // 2) колоди
+  show(h('div.row', h('div.grow.wt-head', { lang: 'en' }, surface), speakBtn(surface)), h('p.dim', { role: 'status' }, 'Шукаю…'));
+  let hit = null, phrase = null;
+  try {
+    if (words.length === 1) ({ hit, phrase } = await lookupDeck(words[0], next));
+    else hit = await lookupPhrase(words);
+  } catch { /* колоди не завантажились — далі AI або «Немає в словнику» */ }
+  if (!body.isConnected) return s;
+  if (hit || phrase) {
+    const main = hit || phrase;
+    const parts = [];
+    if (hit) parts.push(entryBlock(hit, sentence, `Колода «${hit.deckName}»`, refresh));
+    if (phrase && phrase !== hit) parts.push(h('div.section-title', 'Можливо, це фраза'), entryBlock(phrase, sentence, `Колода «${phrase.deckName}»`, refresh));
+    show(...parts, ctx, actions(hit ? surface : phrase.en, main));
+    return s;
   }
-  const parts = [];
-  if (hit) parts.push(entryBlock(hit, example, `Колода «${hit.deckName}»`));
-  if (phrase && phrase !== hit) parts.push(h('div.section-title', 'Можливо, це фраза'), entryBlock(phrase, example, `Колода «${phrase.deckName}»`));
-  body.replaceChildren(...parts, ctx || '', h('div.row.wrap', ask(hit ? surface : phrase.en)));
+
+  // 3) AI-переклад у контексті
+  const head = h('div.row', h('div.grow.wt-head', { lang: 'en' }, surface), speakBtn(surface));
+  const runAi = async () => {
+    show(head, h('p.dim', { role: 'status' }, 'Перекладаю з урахуванням речення…'), ctx);
+    try {
+      const entry = await aiLookup(surface, sentence);
+      if (!entry) throw new Error('empty');
+      show(entryBlock(entry, sentence, 'Переклад AI', refresh), ctx, actions(surface, entry));
+    } catch (e) {
+      const { aiErrorText } = await import('../ai.js');
+      show(head, h('p.dim', 'Немає в словнику'), h('p.small.dim', aiErrorText(e) || 'Не вдалося перекласти'), ctx, actions(surface, null));
+    }
+  };
+  if (canAi() && auto) { runAi(); return s; }
+  show(head, h('p.dim', 'Немає в словнику'), ctx,
+    canAi() ? h('div.row.wrap', h('button.btn.soft', { type: 'button', onclick: runAi }, ic('translate'), 'Перекласти з AI')) : h('p.small.dim', 'Переклад від AI — після входу і з інтернетом.'),
+    actions(surface, null));
+  return s;
+}
+
+/** Шторка з перекладом довшого фрагмента (понад 5 слів) — дія tutor `translate` */
+export async function translateFragment({ text, onAsk = null } = {}) {
+  const frag = String(text || '').replace(/\s+/g, ' ').trim().slice(0, 1500);
+  if (!frag) return null;
+  const out = h('div.wt-uk', { role: 'status' });
+  const body = h('div.stack',
+    h('div.row', h('p.grow.wt-frag', { lang: 'en' }, frag), speakBtn(frag)), out);
+  const s = sheet('Переклад', body);
+  const ask = h('button.btn.ghost', { type: 'button', onclick: () => {
+    s.close();
+    const q = frag.length > 300 ? frag.slice(0, 300) + '…' : frag;
+    if (onAsk) onAsk(q); else location.hash = `#/tutor?ask=${encodeURIComponent(q)}`;
+  } }, ic('chat-circle-dots'), onAsk ? 'Запитати вчителя' : 'Пояснити з вчителем');
+  body.append(h('div.row.wrap.wt-actions', ask));
+  if (!canAi()) { out.replaceChildren(h('span.dim', 'Переклад від AI — після входу і з інтернетом.')); return s; }
+  out.replaceChildren(h('span.dim', 'Перекладаю…'));
+  try {
+    const { tutor } = await import('../ai.js');
+    const r = await tutor('translate', { text: frag, to: 'uk' });
+    const uk = String(r?.uk || r?.text || '').trim();
+    if (!uk) throw new Error('empty');
+    out.textContent = uk;
+  } catch (e) {
+    const { aiErrorText } = await import('../ai.js');
+    out.replaceChildren(h('span.dim', aiErrorText(e) || 'Не вдалося перекласти'));
+  }
+  return s;
+}
+
+function open(el, gl, onAsk) {
+  return lookupText({ text: el.textContent, sentence: sentenceOf(el), next: nextWords(el), gl, onAsk, auto: false });
 }

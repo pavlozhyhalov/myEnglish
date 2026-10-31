@@ -1,0 +1,97 @@
+/* AI-вчитель: чат, виправлення, дії з повідомленнями, підказки, старт і підсумок */
+.tutor-chat .msg{max-width:88%}
+.msg.ai .msg-body{overflow-wrap:anywhere}
+.msg.ai.pending{padding:10px 14px}
+.typing.inline{display:flex;margin-top:4px}
+.typing.inline i{width:5px;height:5px}
+.msg-label{display:flex;align-items:center;gap:4px;font-size:12px;font-weight:700;color:var(--accent-ink);margin-bottom:4px}
+
+/* дії під повідомленням вчителя: компактний рядок без рамок */
+.msg-acts{display:flex;flex-wrap:wrap;gap:2px;margin:6px -6px -6px}
+.mact{display:inline-flex;align-items:center;gap:4px;min-height:36px;min-width:36px;justify-content:center;padding:4px 8px;border:0;border-radius:12px;
+  background:transparent;color:var(--ink-dim);font:inherit;font-size:12.5px;font-weight:600;cursor:pointer}
+.mact:hover{background:var(--surface-2);color:var(--ink)}
+.mact[aria-pressed="true"],.mact[aria-expanded="true"]{background:var(--accent-soft);color:var(--accent-ink)}
+.mact:focus-visible{outline:2px solid var(--accent-ink);outline-offset:1px}
+.msg-tr{margin-top:8px;padding:8px 10px;border-radius:12px;background:var(--surface-2);font-size:var(--fs-sm)}
+.msg-tr p:last-child{margin-bottom:0}
+.msg-words{margin-top:10px;display:flex;flex-direction:column;gap:6px}
+.word-chip{max-width:100%;font-size:13px;gap:4px;min-height:34px;padding:4px 10px}
+.word-chip b{font-weight:700}
+.word-chip span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+.word-chip:disabled{opacity:.75;cursor:default}
+
+/* картка виправлень — під реплікою учня */
+.fixcard{align-self:flex-end;max-width:88%;min-width:0;margin-top:-6px;background:var(--warn-soft);border-radius:16px;border-top-right-radius:6px;padding:0 12px;font-size:var(--fs-sm)}
+.fixcard summary{list-style:none;display:flex;align-items:center;gap:6px;min-height:40px;cursor:pointer;color:var(--ink);min-width:0}
+.fixcard summary::-webkit-details-marker{display:none}
+.fixcard summary>svg:first-child{color:var(--warn);flex:none}
+.fixcard summary>svg:last-child{flex:none;color:var(--ink-dim);transition:transform var(--dur) var(--ease)}
+.fixcard[open] summary>svg:last-child{transform:rotate(180deg)}
+.fix-title{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--warn);flex:none}
+.fix-peek{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:13px}
+.fix-peek s{color:var(--ink-dim)}
+.fixcard[open] .fix-peek{visibility:hidden}
+.fixcard ul{list-style:none;margin:0;padding:0 0 10px;display:flex;flex-direction:column;gap:10px}
+.fixcard li{display:flex;flex-direction:column;gap:2px;align-items:flex-start}
+.fix-line{overflow-wrap:anywhere}
+.fix-line s{text-decoration-thickness:1.5px}
+.fix-line .arrow{color:var(--ink-dim)}
+.fix-add{min-height:32px;padding:4px 8px;margin-left:-8px;gap:4px}
+
+.mem-note{align-self:flex-start;display:flex;align-items:center;gap:6px;max-width:88%;margin-top:-4px;padding:2px 4px;font-size:12.5px;color:var(--ink-dim)}
+.mem-note svg{flex:none;color:var(--accent-ink)}
+.mem-undo{border:0;background:transparent;color:var(--accent-ink);font:inherit;font-weight:700;padding:6px 4px;min-height:32px;cursor:pointer;flex:none}
+
+/* нижня панель: підказки + поле вводу; над клавіатурою iOS — через --kb */
+.tutor-dock{position:sticky;bottom:calc(var(--quickbar-h) + var(--safe-b) + 8px);z-index:5;display:flex;flex-direction:column;gap:8px;
+  box-shadow:0 9px 0 var(--bg);background:linear-gradient(to bottom,transparent,var(--bg) 14px)}
+.tutor-dock .composer{position:static;box-shadow:var(--shadow-float)}
+body.focus-mode .tutor-dock{bottom:calc(var(--safe-b) + 8px)}
+body.kb-open .tutor-dock{bottom:calc(var(--kb,0px) + 8px)}
+body.kb-open .quickbar-wrap{visibility:hidden}
+.sugg{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding:2px 2px 0;margin:0 -2px;align-items:center;-webkit-overflow-scrolling:touch}
+.sugg::-webkit-scrollbar{display:none}
+.sugg[hidden]{display:none}
+.sugg .chip{flex:none;white-space:nowrap;min-height:36px;font-size:13.5px;background:var(--surface)}
+.sugg-chip{max-width:85%;overflow:hidden;text-overflow:ellipsis}
+.sugg-ic{flex:none;display:grid;place-items:center;width:24px;color:var(--warn)}
+.hint-chip{gap:6px;color:var(--ink)}
+.hint-chip svg{color:var(--warn)}
+.jump{position:absolute;right:6px;top:-52px;width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:var(--surface);color:var(--ink);
+  box-shadow:var(--shadow-float);display:grid;place-items:center;cursor:pointer}
+.jump[hidden]{display:none}
+
+/* план заняття і старт */
+.plan summary{list-style:none;display:flex;align-items:center;gap:8px;cursor:pointer;font-weight:700;min-height:28px}
+.plan summary::-webkit-details-marker{display:none}
+.plan summary svg:first-child{color:var(--accent-ink)}
+.plan[open] summary svg:last-child{transform:rotate(180deg)}
+.plan ol{margin:8px 0 0;padding-left:22px;font-size:var(--fs-sm)}
+.plan li+li{margin-top:4px}
+.tutor-start .chips .chip{max-width:100%;overflow:hidden;text-overflow:ellipsis}
+.start-focus{justify-content:flex-start;text-align:left;align-items:center;height:auto;padding-block:10px}
+.start-focus .grow{display:flex;flex-direction:column;min-width:0}
+.start-focus-t{font-weight:500;white-space:normal}
+.start-prev{text-decoration:none;color:inherit;gap:10px}
+
+/* підсумок */
+.sum-mistakes{gap:12px}
+.sum-mistake{display:flex;flex-direction:column;gap:4px;align-items:flex-start;padding-bottom:12px;border-bottom:1px solid var(--line)}
+.sum-mistake:last-child{border-bottom:0;padding-bottom:0}
+.sum-word{display:flex;align-items:center;gap:6px;min-width:0}
+.sum-word .grow{min-width:0;overflow-wrap:anywhere}
+
+/* профіль: пам'ять вчителя */
+.mem-list .list-row{align-items:center}
+.mem-list .small{overflow-wrap:anywhere}
+
+/* голос: підказка */
+.voice-hint{text-align:left}
+.voice-hint ol{margin:4px 0 0;padding-left:20px}
+
+/* повідомлення застосунку — над панеллю вводу, а не поверх неї */
+body:has(.tutor-dock) .toasts{bottom:calc(var(--quickbar-h) + var(--safe-b) + 124px)}
+body.focus-mode:has(.tutor-dock) .toasts{bottom:calc(var(--safe-b) + 124px)}
+body.kb-open:has(.tutor-dock) .toasts{bottom:calc(var(--kb,0px) + 124px)}
+.voice .subs .line.pending{opacity:.65}

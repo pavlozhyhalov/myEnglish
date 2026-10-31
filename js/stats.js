@@ -186,7 +186,7 @@ export function lessonsToReview() {
 export function skillLevels() {
   const prof = store.prof();
   const out = { grammar: null, vocabulary: null, listening: null, speaking: null, ...(prof.skills || {}) };
-  const signals = store.all('tutor_chats').filter(c => c.summary?.level_signal).sort((a, b) => b.created_at.localeCompare(a.created_at)).slice(0, 5);
+  const signals = store.all('tutor_chats').filter(c => c.summary?.level_signal && c.summary.level_assessment?.enough_data !== false).sort((a, b) => b.created_at.localeCompare(a.created_at)).slice(0, 5);
   if (signals.length) {
     const order = ['A1', 'A2', 'B1', 'B2', 'C1'];
     const avg = signals.reduce((a, c) => a + Math.max(0, order.indexOf(c.summary.level_signal)), 0) / signals.length;

@@ -29,21 +29,60 @@ export function apiKey() {
 }
 
 export type Content = { role: 'user' | 'model'; parts: Array<Record<string, unknown>> };
+export type Thinking = 'off' | 'low' | 'medium' | 'high';
 export type GenOpts = {
   system?: string;
   contents: Content[];
   schema?: Record<string, unknown>;
   temperature?: number;
   maxTokens?: number;
+  /** Скільки «думати»: off — найшвидше (службові виклики), low — чат, medium — аналітика. Не задано — типова поведінка моделі. */
+  thinking?: Thinking;
+  /** Тайм-аут одного виклику моделі, мс (типово 30 с) */
+  timeoutMs?: number;
 };
 
-function body(o: GenOpts) {
+/** Моделі, що не прийняли thinkingConfig (кеш теплого екземпляра) — далі без нього */
+const noThinking = new Set<string>();
+
+/** thinkingConfig для сімейства моделі: 2.5 — бюджет токенів, новіші — рівень */
+export function thinkingConfig(model: string, t?: Thinking): Record<string, unknown> | null {
+  if (!t || noThinking.has(model)) return null;
+  const pro = /pro/.test(model);
+  if (/gemini-2\.5/.test(model)) {
+    const budget = { off: pro ? 128 : 0, low: 512, medium: 2048, high: -1 }[t];
+    return { thinkingBudget: budget };
+  }
+  const level = { off: pro ? 'low' : 'minimal', low: 'low', medium: pro ? 'high' : 'medium', high: 'high' }[t];
+  return { thinkingLevel: level };
+}
+
+function body(o: GenOpts, model = '') {
   const generationConfig: Record<string, unknown> = { temperature: o.temperature ?? 0.7 };
   if (o.maxTokens) generationConfig.maxOutputTokens = o.maxTokens;
   if (o.schema) { generationConfig.responseMimeType = 'application/json'; generationConfig.responseSchema = o.schema; }
+  const th = thinkingConfig(model, o.thinking);
+  if (th) generationConfig.thinkingConfig = th;
   const b: Record<string, unknown> = { contents: o.contents, generationConfig };
   if (o.system) b.systemInstruction = { parts: [{ text: o.system }] };
   return b;
+}
+
+/** Запит до моделі; якщо модель не прийняла thinkingConfig (400) — один повтор без нього */
+async function call(model: string, method: string, o: GenOpts, ms: number, firstByteOnly = false): Promise<Response> {
+  const go = () => gfetch(`${BASE}/v1beta/models/${model}:${method}`, {
+    method: 'POST', headers: { 'Content-Type': 'application/json', 'x-goog-api-key': apiKey() }, body: JSON.stringify(body(o, model)),
+  }, ms, firstByteOnly);
+  let res = await go();
+  if (!res.ok && res.status === 400 && thinkingConfig(model, o.thinking)) {
+    const err = await mapError(res);
+    // лише якщо помилка справді про «роздуми»; інакше (схема, розмір запиту…) — звичайна помилка, кеш не псуємо
+    if (err.code !== 'bad_model_request' || !/think/i.test(err.message)) throw err;
+    noThinking.add(model);
+    res = await go();
+  }
+  if (!res.ok) throw await mapError(res);
+  return res;
 }
 
 async function mapError(res: Response): Promise<HttpError> {
@@ -58,36 +97,55 @@ async function mapError(res: Response): Promise<HttpError> {
   return new HttpError(502, 'gemini', `Gemini ${res.status}: ${msg.slice(0, 200)}`);
 }
 
-/** Текст першого кандидата; порожня/заблокована відповідь — помилка 'empty' (пробуємо наступну модель) */
-function candidateText(j: any): string {
+/**
+ * Текст першого кандидата. Порожня/заблокована відповідь — 'empty'; обрізана лімітом токенів (MAX_TOKENS) — 'truncated'
+ * (зазвичай токени з'їли «роздуми»): обидві — повтор без роздумів або наступна модель.
+ */
+export function candidateText(j: any): string {
   const c = j?.candidates?.[0];
   const parts = c?.content?.parts || [];
   const text = parts.filter((p: { thought?: boolean }) => !p.thought).map((p: { text?: string }) => p.text || '').join('');
   if (!text.trim()) throw new HttpError(502, 'empty', `Empty reply (${c?.finishReason || j?.promptFeedback?.blockReason || 'no candidates'})`);
+  if (c?.finishReason === 'MAX_TOKENS') {
+    console.error('truncated', text.length, j?.usageMetadata?.thoughtsTokenCount ?? '');
+    throw new HttpError(502, 'truncated', `Truncated reply (${text.length} chars)`);
+  }
   return text;
 }
 
-/** Пробує моделі по черзі, якщо попередня не знайдена */
+/** Модель, що відповіла 429 (квота/частота), пропускається на COOLDOWN_MS у теплому екземплярі — без зайвих запитів і затримок */
+const COOLDOWN_MS = 120_000;
+const cooled = new Map<string, number>();
+export function coolDown(model: string, ms = COOLDOWN_MS) { cooled.set(model, Date.now() + ms); }
+export function isCooled(model: string) { return (cooled.get(model) || 0) > Date.now(); }
+
+const RETRYABLE = ['model_not_found', 'overloaded', 'rate_limited', 'bad_model_request', 'empty', 'truncated'];
+
+/** Пробує моделі по черзі (охолоджені — в кінці черги); перевантажена/без квоти/порожня — наступна */
 async function withModels<T>(models: string[], fn: (m: string) => Promise<T>): Promise<T> {
   let last: unknown;
-  for (const m of models) {
+  const order = [...models.filter(m => !isCooled(m)), ...models.filter(m => isCooled(m))];
+  for (const m of order) {
     try { return await fn(m); } catch (e) {
       last = e;
-      // немає моделі, перевантажена, вичерпана її квота, не прийняла параметри чи відповіла порожньо — пробуємо наступну
-      if (e instanceof HttpError && ['model_not_found', 'overloaded', 'rate_limited', 'bad_model_request', 'empty'].includes(e.code)) continue;
+      if (e instanceof HttpError && e.code === 'rate_limited') coolDown(m);
+      if (e instanceof HttpError && RETRYABLE.includes(e.code)) continue;
       throw e;
     }
   }
+  // клієнт знає код 'empty' («не вдалося отримати відповідь»), а не внутрішній 'truncated'
+  if (last instanceof HttpError && last.code === 'truncated') throw new HttpError(502, 'empty', last.message);
   throw last;
 }
 
 export async function generate(models: string[], o: GenOpts): Promise<string> {
   return withModels(models, async (model) => {
-    const res = await gfetch(`${BASE}/v1beta/models/${model}:generateContent`, {
-      method: 'POST', headers: { 'Content-Type': 'application/json', 'x-goog-api-key': apiKey() }, body: JSON.stringify(body(o)),
-    });
-    if (!res.ok) throw await mapError(res);
-    return candidateText(await res.json());
+    const once = async (oo: GenOpts) => candidateText(await (await call(model, 'generateContent', oo, oo.timeoutMs || TIMEOUT_MS)).json());
+    try { return await once(o); } catch (e) {
+      // порожньо чи обрізано через «роздуми» — один повтор тієї ж моделі без них
+      if (e instanceof HttpError && (e.code === 'empty' || e.code === 'truncated') && o.thinking && o.thinking !== 'off') return await once({ ...o, thinking: 'off' });
+      throw e;
+    }
   });
 }
 
@@ -100,42 +158,60 @@ export async function generateJson<T = unknown>(models: string[], o: GenOpts): P
   }
 }
 
+/**
+ * Стрімінг тексту: модель обирається до повернення (помилка моделі — звичайний HttpError, а не обірваний потік),
+ * далі — шматки тексту без «роздумів». Обрив потоку від Gemini — HttpError('overloaded').
+ */
+export type TextStream = AsyncGenerator<string> & { info: { finishReason: string; chars: number } };
+export async function streamText(models: string[], o: GenOpts): Promise<TextStream> {
+  const res = await withModels(models, (model) => call(model, 'streamGenerateContent?alt=sse', o, o.timeoutMs || 45_000, true));
+  const reader = res.body!.getReader();
+  const dec = new TextDecoder();
+  // причина завершення (MAX_TOKENS — обрізано) і довжина тексту — для відновлення в викликача
+  const info = { finishReason: '', chars: 0 };
+  const gen = (async function* () {
+    let buf = '';
+    try {
+      for (;;) {
+        let chunk: ReadableStreamReadResult<Uint8Array>;
+        try { chunk = await reader.read(); } catch { throw new HttpError(503, 'overloaded', 'Gemini stream broken'); }
+        if (chunk.done) break;
+        buf += dec.decode(chunk.value, { stream: true });
+        let i;
+        while ((i = buf.indexOf('\n')) >= 0) {
+          const line = buf.slice(0, i).trim(); buf = buf.slice(i + 1);
+          if (!line.startsWith('data:')) continue;
+          let j: any;
+          try { j = JSON.parse(line.slice(5)); } catch { continue; }
+          const c = j?.candidates?.[0];
+          if (c?.finishReason) info.finishReason = String(c.finishReason);
+          const parts = c?.content?.parts || [];
+          const t = parts.filter((p: { thought?: boolean }) => !p.thought).map((p: { text?: string }) => p.text || '').join('');
+          if (t) { info.chars += t.length; yield t; }
+        }
+      }
+      if (info.finishReason === 'MAX_TOKENS') console.error('truncated stream', info.chars);
+    } finally { reader.cancel().catch(() => {}); }
+  })();
+  return Object.assign(gen, { info });
+}
+
 /** Стрімінг: повертає ReadableStream SSE для клієнта (data: {"t": "..."}) */
 export async function streamSSE(models: string[], o: GenOpts): Promise<ReadableStream<Uint8Array>> {
-  const res = await withModels(models, async (model) => {
-    const r = await gfetch(`${BASE}/v1beta/models/${model}:streamGenerateContent?alt=sse`, {
-      method: 'POST', headers: { 'Content-Type': 'application/json', 'x-goog-api-key': apiKey() }, body: JSON.stringify(body(o)),
-    }, 45_000, true);
-    if (!r.ok) throw await mapError(r);
-    return r;
-  });
+  const it = await streamText(models, o);
   const enc = new TextEncoder();
-  const dec = new TextDecoder();
-  const reader = res.body!.getReader();
-  let buf = '';
   return new ReadableStream({
     async pull(ctrl) {
-      let chunk: ReadableStreamReadResult<Uint8Array>;
-      try { chunk = await reader.read(); } catch {
+      try {
+        const { value, done } = await it.next();
+        if (done) { ctrl.enqueue(enc.encode('data: {"done":true}\n\n')); ctrl.close(); return; }
+        ctrl.enqueue(enc.encode(`data: ${JSON.stringify({ t: value })}\n\n`));
+      } catch {
         // обрив потоку від Gemini — клієнт отримує зрозумілу помилку, а не TypeError
-        ctrl.enqueue(enc.encode('data: {"error":{"code":"overloaded"}}\n\n')); ctrl.close(); return;
-      }
-      const { value, done } = chunk;
-      if (done) { ctrl.enqueue(enc.encode('data: {"done":true}\n\n')); ctrl.close(); return; }
-      buf += dec.decode(value, { stream: true });
-      let i;
-      while ((i = buf.indexOf('\n')) >= 0) {
-        const line = buf.slice(0, i).trim(); buf = buf.slice(i + 1);
-        if (!line.startsWith('data:')) continue;
-        try {
-          const j = JSON.parse(line.slice(5));
-          const parts = j?.candidates?.[0]?.content?.parts || [];
-          const t = parts.filter((p: { thought?: boolean }) => !p.thought).map((p: { text?: string }) => p.text || '').join('');
-          if (t) ctrl.enqueue(enc.encode(`data: ${JSON.stringify({ t })}\n\n`));
-        } catch { /* неповний рядок */ }
+        ctrl.enqueue(enc.encode('data: {"error":{"code":"overloaded"}}\n\n')); ctrl.close();
       }
     },
-    cancel() { reader.cancel(); },
+    cancel() { it.return(undefined); },
   });
 }
 

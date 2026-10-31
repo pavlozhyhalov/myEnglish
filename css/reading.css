@@ -17,3 +17,17 @@
 
 .reading-gloss summary{cursor:pointer}
 .reading-day{text-decoration:none;color:inherit}
+
+/* Пошук за виділенням (js/ui/selectlookup.js): плашка «Що це?» біля виділення / над нижньою панеллю */
+.sel-pill{position:fixed;left:0;top:0;z-index:75;display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:0 18px;
+  border:1px solid var(--line);border-radius:999px;background:var(--surface);color:var(--ink);font:inherit;font-weight:600;
+  box-shadow:var(--shadow-float);cursor:pointer;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;
+  -webkit-tap-highlight-color:transparent;animation:sel-pill-in var(--dur, .2s) var(--ease, ease-out)}
+.sel-pill[hidden]{display:none}
+.sel-pill svg{width:20px;height:20px;color:var(--accent-ink, var(--accent))}
+.sel-pill:active{background:var(--surface-2)}
+.sel-pill:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@keyframes sel-pill-in{from{opacity:0}to{opacity:1}}
+@media (prefers-reduced-motion:reduce){.sel-pill{animation:none}}
+.wt-frag{margin:0;font-style:italic;overflow-wrap:anywhere}
+.wt-actions{margin-top:4px}

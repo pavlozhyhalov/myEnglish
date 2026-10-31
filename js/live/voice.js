@@ -9,7 +9,7 @@ import { speak, stop as stopSpeech, recognize, canRecognize, recordAndTranscribe
 import { logSession } from '../stats.js';
 import { scenarios as loadScenarios } from '../data.js';
 import { setFocus } from '../ui/shell.js';
-import { summarize } from '../pages/tutor.js';
+import { summarize, parseHint } from '../pages/tutor.js';
 import { go, onLeave } from '../router.js';
 
 const ERR = {
@@ -75,13 +75,58 @@ export async function voiceSession(view, opts = {}) {
   }
   function closeTurns() { const last = row.messages[row.messages.length - 1]; if (last) last.closed = true; }
   function renderSubs() {
-    const recent = row.messages.slice(-6);
-    subs.replaceChildren(...recent.map(m => h('div.line' + (m.role === 'user' ? '.me' : ''), m.text.trim())));
+    const recent = row.messages.slice(-6).filter(m => m.text.trim());
+    subs.replaceChildren(...recent.map(m => h('div.line' + (m.role === 'user' ? '.me' : '') + (m.pending ? '.pending' : ''),
+      m.text.trim(), m.pending ? h('span.xs.dim', ' · уточнюю…') : null)));
     subs.scrollTop = subs.scrollHeight;
   }
 
+  // ---------- точне розпізнавання реплік учня ----------
+  // Live визначає мову автоматично й часто записує англійську з акцентом іншою мовою/алфавітом.
+  // Тому кожну репліку учня (аудіо з мікрофона між репліками вчителя) повторно розпізнаємо як англійську
+  // мову учня-українця — це бачить учень у субтитрах, і саме цей текст іде в підсумок та оцінку рівня.
+  let seg = [], segSpeech = 0, tutorTalking = false, cutIdx = 0;
+  const fixes = new Set();
+  const MAX_SEG = 300;   // ~30 с (пакети по 100 мс)
+  function onPcm(buf, rms) {
+    if (tutorTalking || micMuted) return;
+    seg.push(buf); if (rms > 0.02) segSpeech++;
+    if (seg.length > MAX_SEG) seg.shift();
+  }
+  function cutSegment() {
+    const chunks = seg, speech = segSpeech;
+    seg = []; segSpeech = 0;
+    const from = cutIdx; cutIdx = row.messages.length;
+    const users = row.messages.slice(from).filter(m => m.role === 'user');
+    if (speech < 5 || mode !== 'live') return;   // < ~0,5 с мовлення — нічого уточнювати
+    let target = users[users.length - 1];
+    if (!target) {   // Live не розпізнав нічого — додаємо репліку перед відповіддю вчителя
+      target = { role: 'user', text: '', closed: true };
+      const mi = row.messages.findIndex((m, i) => i >= from && m.role === 'model');
+      row.messages.splice(mi < 0 ? row.messages.length : mi, 0, target);
+    }
+    for (const u of users) if (u !== target) u.text = '';   // кілька шматків однієї репліки зливаються в один
+    target.pending = true; renderSubs();
+    const job = tutor('transcribe', { audio: wavBase64(chunks), mime: 'audio/wav', hint: 'learner' })
+      .then(r => { if (r?.text && r.text.trim() && !/^\[?unclear\]?$/i.test(r.text.trim())) target.text = r.text.trim(); })
+      .catch(e => log('transcribe failed ' + (e.code || e.message)))
+      .finally(() => { target.pending = false; renderSubs(); fixes.delete(job); });
+    fixes.add(job);
+  }
+  function wavBase64(chunks) {
+    const n = chunks.reduce((a, c) => a + c.byteLength, 0);
+    const out = new Uint8Array(44 + n), dv = new DataView(out.buffer);
+    const w = (o, str) => { for (let i = 0; i < str.length; i++) out[o + i] = str.charCodeAt(i); };
+    w(0, 'RIFF'); dv.setUint32(4, 36 + n, true); w(8, 'WAVE'); w(12, 'fmt '); dv.setUint32(16, 16, true);
+    dv.setUint16(20, 1, true); dv.setUint16(22, 1, true); dv.setUint32(24, 16000, true); dv.setUint32(28, 32000, true);
+    dv.setUint16(32, 2, true); dv.setUint16(34, 16, true); w(36, 'data'); dv.setUint32(40, n, true);
+    let o = 44; for (const c of chunks) { out.set(new Uint8Array(c), o); o += c.byteLength; }
+    let bin = ''; for (let i = 0; i < out.length; i += 0x8000) bin += String.fromCharCode.apply(null, out.subarray(i, i + 0x8000));
+    return btoa(bin);
+  }
+
   // ---------- аура ----------
-  let micLevel = 0, outLevel = 0, raf = 0;
+  let micLevel = 0, outLevel = 0, raf = 0, lastRms = 0;
   function animate() {
     const lv = Math.max(micLevel * 3, outLevel * 3);
     const me = micLevel * 3 > outLevel * 3 && micLevel > 0.02;
@@ -124,8 +169,8 @@ export async function voiceSession(view, opts = {}) {
     log(`audio ok · in ${info.inRate} Hz (${info.inState}) · out ${info.outRate} Hz (${info.outState})`);
     audio.addEventListener('mic-level', e => { micLevel = e.detail; });
     audio.addEventListener('out-level', e => { outLevel = e.detail; });
-    audio.addEventListener('speaking', () => { if (mode === 'live') setState(`Говорить ${st.tutorName}`); });
-    audio.addEventListener('idle', () => { if (mode === 'live' && live?.ready) setState(micMuted ? 'Мікрофон вимкнено' : 'Слухаю…'); });
+    audio.addEventListener('speaking', () => { tutorTalking = true; cutSegment(); if (mode === 'live') setState(`Говорить ${st.tutorName}`); });
+    audio.addEventListener('idle', () => { tutorTalking = false; if (mode === 'live' && live?.ready) setState(micMuted ? 'Мікрофон вимкнено' : 'Слухаю…'); });
 
     const scenData = scenario ? { title: scenario.title, situation: scenario.situation, myRole: scenario.myRole, tutorRole: scenario.tutorRole, goal: scenario.goal, phrases: scenario.phrases } : null;
     live = new LiveClient({ scenario: scenData, topic: opts.topic, voice: st.voice });
@@ -138,7 +183,8 @@ export async function voiceSession(view, opts = {}) {
     live.addEventListener('reconnecting', () => { setState(S.err.network); });
     live.addEventListener('ready', () => { setState('Слухаю…'); notice.textContent = ''; });
     live.addEventListener('error', e => { log('error ' + e.detail?.message); switchToFallback(e.detail); });
-    audio.addEventListener('pcm', e => live.sendAudio(e.detail));
+    audio.addEventListener('pcm', e => { live.sendAudio(e.detail); onPcm(e.detail, lastRms); });
+    audio.addEventListener('mic-level', e => { lastRms = e.detail; });
 
     await live.connect();
     started = Date.now();
@@ -235,7 +281,10 @@ export async function voiceSession(view, opts = {}) {
     try {
       notice.textContent = 'Підказка…';
       const r = await tutor('hint', { messages: row.messages.map(m => ({ role: m.role, text: m.text })) });
-      notice.replaceChildren(h('div.card.tight', { style: { textAlign: 'left', whiteSpace: 'pre-wrap' } }, r.text));
+      const opts = parseHint(r.text);
+      notice.replaceChildren(opts.length
+        ? h('div.card.tight.voice-hint', h('div.xs.dim', 'Можна відповісти так:'), h('ol', { lang: 'en' }, opts.map(o => h('li', o))))
+        : h('div.card.tight', { style: { textAlign: 'left', whiteSpace: 'pre-wrap' } }, r.text));
     } catch (e) { notice.textContent = aiErrorText(e); }
   }
   function slower() {
@@ -249,7 +298,7 @@ export async function voiceSession(view, opts = {}) {
     saved = true;
     const seconds = elapsed();
     row.seconds = seconds;
-    row.messages = row.messages.map(({ role, text }) => ({ role, text: text.trim() })).filter(m => m.text);
+    row.messages = row.messages.map(({ role, text }) => ({ role, text: (text || '').trim() })).filter(m => m.text);
     if (row.messages.length) store.put('tutor_chats', row);
     if (seconds > 5) {
       logSession('voice', seconds, row.id || null);
@@ -261,6 +310,12 @@ export async function voiceSession(view, opts = {}) {
   async function finish() {
     if (ended) return;
     ended = true;
+    // остання репліка учня ще не уточнена — уточнюємо й чекаємо (до 12 с), щоб підсумок і оцінка рахувались з правильного тексту
+    if (mode === 'live' && !tutorTalking) cutSegment();
+    if (fixes.size) {
+      setState('Уточнюю ваші репліки…');
+      await Promise.race([Promise.allSettled([...fixes]), new Promise(r => setTimeout(r, 12000))]);
+    }
     try { cleanup(); } catch (e) { log('cleanup error ' + e.message); }
     try { save(); } catch (e) { log('save error ' + e.message); }
     if (opts.onFinish) return opts.onFinish(row);
