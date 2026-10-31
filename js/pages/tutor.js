@@ -26,6 +26,29 @@ export const MODES = [
   { id: 'drill', emoji: 'target', title: 'Слабке місце', desc: 'Міні-урок на помилку' },
 ];
 
+// Консультація про власні результати (режим 'coach'): розділи, вступ і перші питання (без запиту до AI)
+const COACH_SECTIONS = { overview: 'загальний прогрес', placement: 'рівень за навичками', speaking: 'говоріння', writing: 'письмо', vocabulary: 'слова', grammar: 'граматика', mistakes: 'помилки', habits: 'звички й час' };
+const COACH_INTRO = {
+  overview: 'Я бачу ваші результати в застосунку: тест, розмови, картки, уроки, помилки й час. Запитайте, що вас цікавить, — відповім за вашими даними.',
+  placement: 'Поговорімо про рівень ваших навичок за тестом: чому він саме такий і як підтягнути найслабшу навичку.',
+  speaking: 'Поговорімо про ваше говоріння: оцінки після розмов, критерії CEFR і що їх стримує.',
+  writing: 'Поговорімо про ваше письмо: щоденник, перевірені тексти й типові помилки.',
+  vocabulary: 'Поговорімо про ваші слова: скільки запам\'ятовується, що забувається і як повторювати ефективніше.',
+  grammar: 'Поговорімо про граматику: пройдені уроки, бали й прогалини.',
+  mistakes: 'Поговорімо про ваші помилки: що повторюється, що вже виправлено і як позбутися решти.',
+  habits: 'Поговорімо про ваші звички: скільки й коли ви вчитеся і як зробити заняття регулярнішими.',
+};
+const COACH_STARTERS = {
+  overview: ['Що в мене виходить найкраще?', 'Що найбільше стримує мій прогрес?', 'Який план на тиждень мені підійде?'],
+  placement: ['Чому в мене саме такий рівень?', 'Яка навичка найслабша і що з нею робити?', 'Коли варто перепройти тест?'],
+  speaking: ['Чому моє говоріння оцінено саме так?', 'Який критерій найслабший?', 'Як підготуватися до наступного рівня?'],
+  writing: ['Які помилки я роблю в письмі найчастіше?', 'Як писати складніше для свого рівня?', 'Скільки писати на тиждень?'],
+  vocabulary: ['Чи добре я запам\'ятовую слова?', 'Скільки нових слів мені брати на день?', 'Що робити зі словами, які забуваю?'],
+  grammar: ['Які теми мені варто повторити?', 'Де в мене прогалини нижче мого рівня?', 'Який урок пройти наступним?'],
+  mistakes: ['Яка моя найчастіша помилка?', 'Чому я повторюю ті самі помилки?', 'Що потренувати першим?'],
+  habits: ['Чи достатньо я займаюся?', 'Як не пропускати дні?', 'Скільки хвилин на день мені треба?'],
+};
+
 export default async function tutorPage(view, r) {
   const q = r.query;
   if (q.mode === 'voice') {
@@ -34,7 +57,7 @@ export default async function tutorPage(view, r) {
   }
   if (q.chat) return openChat(view, q.chat);
   if (q.mode === 'check') return checkMode(view, q);
-  if (q.mode || q.ask || q.scenario) return chat(view, { mode: q.mode || (q.scenario ? 'scenario' : 'chat'), scenario: q.scenario, type: q.type, ask: q.ask, topic: q.topic });
+  if (q.mode || q.ask || q.scenario) return chat(view, { mode: q.mode || (q.scenario ? 'scenario' : 'chat'), scenario: q.scenario, type: q.type, ask: q.ask, topic: q.topic, section: q.section });
   return overview(view);
 }
 
@@ -68,8 +91,8 @@ function history(view, chats) {
     if (!list.length) { box.replaceChildren(head, h('div.empty', emo('speech', 'xl'), h('p', 'Поки що розмов немає. Почніть з вільної або голосової розмови.'))); return; }
     const rows = list.slice(0, 60).map(c => {
       const info = [h('div', { style: { fontWeight: 600 } }, c.title || 'Розмова'),
-        h('div.sub', `${new Date(c.created_at).toLocaleDateString('uk-UA', { day: 'numeric', month: 'short' })} · ${fmtMin(c.seconds || 0)}${c.summary && !c.summary.partial ? '' : ' · без підсумку'}`)];
-      const icon = emo(c.mode === 'voice' ? 'mic' : c.mode === 'check' ? 'writing' : c.mode === 'scenario' ? 'theater' : 'speech');
+        h('div.sub', `${new Date(c.created_at).toLocaleDateString('uk-UA', { day: 'numeric', month: 'short' })}${c.mode === 'coach' ? ' · консультація' : ` · ${fmtMin(c.seconds || 0)}${c.summary && !c.summary.partial ? '' : ' · без підсумку'}`}`)];
+      const icon = emo(c.mode === 'voice' ? 'mic' : c.mode === 'check' ? 'writing' : c.mode === 'scenario' ? 'theater' : c.mode === 'coach' ? 'chart-pie-slice' : 'speech');
       if (selecting) {
         const cb = h('input.check', { type: 'checkbox', checked: picked.has(c.id), 'aria-label': `Вибрати: ${c.title || 'Розмова'}`, onchange: (e) => { e.target.checked ? picked.add(c.id) : picked.delete(c.id); draw(); } });
         return h('label.list-row', cb, icon, h('div.grow', info));
@@ -224,6 +247,11 @@ async function chat(view, opts) {
   let scenario = null;
   if (opts.scenario) scenario = (await loadScenarios()).find(s => s.id === opts.scenario);
   const typeLabel = opts.type ? (S.mistakeTypes[opts.type] || opts.type) : null;
+  if (opts.mode === 'coach') {
+    const section = Object.hasOwn(COACH_SECTIONS, opts.section || '') ? opts.section : 'overview';
+    const row = { mode: 'coach', scenario: null, title: `Консультація: ${COACH_SECTIONS[section]}`, messages: [], summary: null, seconds: 0, meta: { section, topicLabel: `Консультація · ${COACH_SECTIONS[section]}` } };
+    return chatUI(view, row, {});
+  }
   const title = scenario ? scenario.title : opts.mode === 'drill' ? `Тренування: ${typeLabel || 'слабке місце'}` : opts.mode === 'explain' ? 'Поясни' : opts.ask ? `Слово: ${opts.ask}` : 'Вільна розмова';
   const row = { mode: opts.mode, scenario: opts.scenario || null, title, messages: [], summary: null, seconds: 0, meta: { type: opts.type || null, topic: opts.topic || null } };
   return chatUI(view, row, { scenario, ask: opts.ask, topic: opts.topic });
@@ -235,6 +263,8 @@ async function openChat(view, id) {
   // записи щоденника живуть у tutor_chats (mode 'diary'), але відкриваються на своїй сторінці
   if (row.mode === 'diary') { go('/diary/' + encodeURIComponent(id), { replace: true }); return; }
   if (row.mode === 'check') return checkResultView(view, row);
+  // консультація без тексту (повний текст розмов зберігається 30 днів) — підсумку в неї немає
+  if (row.mode === 'coach' && !row.messages?.length) { view.replaceChildren(h('div.empty', emo('chart-pie-slice', 'xl'), h('p', 'Текст цієї консультації вже не зберігається.'), h('a.btn.soft', { href: `#/tutor?mode=coach&section=${encodeURIComponent(row.meta?.section || 'overview')}` }, 'Нова консультація'))); return; }
   if (!row.messages?.length) return summaryView(view, row);
   let scenario = null;
   if (row.scenario) scenario = (await loadScenarios()).find(s => s.id === row.scenario);
@@ -248,9 +278,18 @@ function chatUI(view, row, { scenario, ask, topic, resumed } = {}) {
   setTitle(row.title);
   const st = store.settings();
   row.meta = row.meta || {};
-  const timer = activityTimer('tutor');
+  // консультація (mode 'coach'): розмова українською про власні результати — без виправлень, перекладу й підказок англійською,
+  // час не зараховується як практика англійської; із запитами йде зведення результатів (js/analysis.js, рахується раз на розмову)
+  const coach = row.mode === 'coach';
+  // meta не синхронізується (немає в COLUMNS) — на іншому пристрої розділ відновлюється з назви розмови
+  const section = !coach ? null : Object.hasOwn(COACH_SECTIONS, row.meta.section || '') ? row.meta.section
+    : Object.keys(COACH_SECTIONS).find(k => row.title === `Консультація: ${COACH_SECTIONS[k]}`) || 'overview';
+  if (coach) row.meta.topicLabel ||= `Консультація · ${COACH_SECTIONS[section]}`;
+  let digestP = null;
+  const coachDigest = () => (digestP ||= import('../analysis.js').then(m => m.compute().then(A => m.digest(A, section))).catch(() => { digestP = null; return null; }));
+  const timer = coach ? { setRef() {}, poke() {}, seconds: () => 0, stop: () => null } : activityTimer('tutor');
   const coarse = matchMedia('(pointer: coarse)').matches;
-  const PH = 'Напишіть англійською…';
+  const PH = coach ? 'Запитайте про свої результати…' : 'Напишіть англійською…';
   const list = h('div.chat', { 'aria-live': 'polite', 'aria-relevant': 'additions' });
   const ta = h('textarea', { rows: 1, placeholder: PH, 'aria-label': 'Повідомлення', enterkeyhint: coarse ? 'enter' : 'send' });
   // поки вчитель відповідає, кнопка стає «Зупинити»: відповідь можна перервати й одразу написати нову (інакше ввід «зависав»)
@@ -266,7 +305,8 @@ function chatUI(view, row, { scenario, ask, topic, resumed } = {}) {
     sendBtn.setAttribute('aria-label', on ? 'Зупинити відповідь' : 'Надіслати');
     sendBtn.replaceChildren(ic(on ? 'stop' : 'paper-plane-right', { fill: true }));
   };
-  const micBtn = canRecognize() ? h('button.icon-btn', { type: 'button', 'aria-label': 'Надиктувати', onclick: dictate }, ic('microphone')) : null;
+  // диктування розпізнає англійську — у консультації (українською) його немає
+  const micBtn = canRecognize() && !coach ? h('button.icon-btn', { type: 'button', 'aria-label': 'Надиктувати', onclick: dictate }, ic('microphone')) : null;
   const finishBtn = h('button.btn.sm.soft', { type: 'button', onclick: finish }, 'Завершити');
   const hintBtn = h('button.chip.hint-chip', { type: 'button', onclick: hint }, ic('lightbulb', { size: 16 }), 'Підказка');
   const sugg = h('div.sugg', { role: 'group', 'aria-label': 'Що відповісти' });
@@ -324,7 +364,7 @@ function chatUI(view, row, { scenario, ask, topic, resumed } = {}) {
     h('div.small', scenario.situation), h('div.small', h('b', 'Мета: '), scenario.goal)) : null;
 
   view.replaceChildren(h('div.stack.tutor-chat',
-    h('div.row.tutor-head', h('a.icon-btn', { href: '#/tutor', 'aria-label': 'Назад' }, ic('arrow-left')),
+    h('div.row.tutor-head', h('a.icon-btn', { href: coach ? '#/analysis' : '#/tutor', 'aria-label': 'Назад' }, ic('arrow-left')),
       h('span.avatar', { 'aria-hidden': 'true' }, (st.tutorName || 'A').charAt(0).toUpperCase()),
       h('div.grow', h('div.name', st.tutorName), h('div.xs.dim', row.meta.topicLabel || MODES.find(m => m.id === row.mode)?.title || 'Розмова')), finishBtn),
     needLoginCard(), intro, planBox, list, extra, dock));
@@ -372,7 +412,7 @@ function chatUI(view, row, { scenario, ask, topic, resumed } = {}) {
     const bubble = h('div.msg.ai', m.kind === 'simpler' ? h('div.msg-label', ic('text-aa', { size: 14 }), 'Простіше') : null,
       tappable(h('div.msg-body', md(parsed.body)), { onAsk: askInChat }));
     if (m.words?.length) bubble.append(wordsBlock(m.words));
-    if (actions) {
+    if (actions && !coach) {
       const text = stripForSpeech(parsed.body);
       let tr = null;
       const listen = (rate) => async (e) => {
@@ -416,12 +456,12 @@ function chatUI(view, row, { scenario, ask, topic, resumed } = {}) {
 
   function setSuggestions(list2) {
     suggestions = list2 || [];
-    const chips = suggestions.map(s => h('button.chip.sugg-chip', { type: 'button', lang: 'en', 'aria-label': `Підставити відповідь: ${s}`, onclick: () => {
+    const chips = suggestions.map(s => h('button.chip.sugg-chip', { type: 'button', lang: coach ? 'uk' : 'en', 'aria-label': coach ? `Підставити питання: ${s}` : `Підставити відповідь: ${s}`, onclick: () => {
       ta.value = s; ta.dispatchEvent(new Event('input')); ta.focus();
       try { ta.setSelectionRange(s.length, s.length); } catch { /* */ }
     } }, s));
-    sugg.replaceChildren(...(chips.length ? [h('span.sugg-ic', { 'aria-hidden': 'true' }, ic('lightbulb', { size: 16 })), ...chips] : [hintBtn]));
-    sugg.hidden = busy || !row.messages.some(m => m.role === 'model') || !user();
+    sugg.replaceChildren(...(chips.length ? [h('span.sugg-ic', { 'aria-hidden': 'true' }, ic('lightbulb', { size: 16 })), ...chips] : coach ? [] : [hintBtn]));
+    sugg.hidden = busy || (!coach && !row.messages.some(m => m.role === 'model')) || !user() || (coach && !chips.length);
   }
 
   for (const m of row.messages) if (!m.hidden) list.append(...render(m));
@@ -497,7 +537,8 @@ function chatUI(view, row, { scenario, ask, topic, resumed } = {}) {
       follow();
     };
     try {
-      const payload = { mode: row.mode, scenario: row.scenario, scenarioData: scenario || null, drillType: row.meta?.type, topic, messages: row.messages.map(m => (m.hidden ? { role: m.role, text: m.text, cue: true } : { role: m.role, text: m.text })) };
+      const extraP = coach ? { section, coachDigest: await coachDigest() } : {};
+      const payload = { ...extraP, mode: row.mode, scenario: row.scenario, scenarioData: scenario || null, drillType: row.meta?.type, topic, messages: row.messages.map(m => (m.hidden ? { role: m.role, text: m.text, cue: true } : { role: m.role, text: m.text })) };
       let lastPaint = 0, body = null;
       const full = await tutorStream(payload, (acc) => {
         lastData = Date.now();
@@ -589,6 +630,7 @@ function chatUI(view, row, { scenario, ask, topic, resumed } = {}) {
   async function finish() {
     const userTurns = row.messages.filter(m => m.role === 'user' && !m.hidden).length;
     cleanup();
+    if (coach) { go('/analysis', { replace: true }); return; }
     if (userTurns < 1) { go('/tutor', { replace: true }); return; }
     await summarize(view, row);
   }
@@ -631,7 +673,10 @@ function chatUI(view, row, { scenario, ask, topic, resumed } = {}) {
         h('div.grow', h('div', { style: { fontWeight: 600 } }, 'Продовжити минулу розмову'), h('div.xs.dim', `${prev.title || 'Розмова'} · ${fmtDay(prev.updated_at || prev.created_at)}`)), ic('caret-right', { size: 18 })) : null,
       h('div.xs.dim', 'Або просто напишіть перше повідомлення внизу.'));
   }
-  if (!resumed && user()) {
+  if (coach && !resumed) {
+    list.append(...renderModel({ role: 'model', text: COACH_INTRO[section] }, { actions: false }));
+    if (user()) setSuggestions(COACH_STARTERS[section]);
+  } else if (!resumed && user()) {
     if (ask) send(`Please explain the word or phrase "${ask}": meaning, how and when to use it in everyday situations, 3 natural examples, common collocations and mistakes Ukrainian speakers make with it.`);
     else if (row.mode === 'explain') list.append(...renderModel({ role: 'model', text: 'Що пояснити? Наприклад: **Чим Present Perfect відрізняється від Past Simple?** Напишіть питання українською або англійською.' }, { actions: false }));
     else if (row.mode === 'chat' && !topic) { startPanel = buildStart(); list.before(startPanel); }

@@ -5,10 +5,10 @@ export const S = {
     home: 'Головна', tutor: 'Вчитель', cards: 'Картки', vocab: 'Лексика', grammar: 'Граматика',
     listening: 'Аудіювання', reading: 'Читання', pronunciation: 'Вимова', writing: 'Письмо', scenarios: 'Розмова',
     sounds: 'Звуки', exgrammar: 'Граматика', exercises: 'Вправи',
-    tests: 'Тести', mistakes: 'Помилки', progress: 'Прогрес', settings: 'Налаштування', profile: 'Профіль', friends: 'Друзі',
-    session: 'Заняття', auth: 'Вхід', lab: 'Лабораторія Live', diary: 'Щоденник',
+    tests: 'Тести', mistakes: 'Помилки', progress: 'Прогрес', analysis: 'Аналіз', settings: 'Налаштування', profile: 'Профіль', friends: 'Друзі',
+    session: 'Заняття', auth: 'Вхід', lab: 'Лабораторія Live', diary: 'Щоденник', games: 'Ігри',
   },
-  navLong: { tutor: 'Вчитель (AI)', vocab: 'Слова й фрази', sounds: 'Звуки й вимова', mistakes: 'Мої помилки', scenarios: 'Розмова (сценарії)', exgrammar: 'Граматика', tests: 'Тести' },
+  navLong: { tutor: 'Вчитель (AI)', vocab: 'Слова й фрази', sounds: 'Звуки й вимова', mistakes: 'Мої помилки', scenarios: 'Розмова (сценарії)', exgrammar: 'Граматика', tests: 'Тести', analysis: 'Аналіз навчання' },
   groups: { theory: 'Теорія', practice: 'Вправи', me: 'Я' },
   menu: 'Меню', close: 'Закрити', back: 'Назад', themeToggle: 'Перемкнути тему',
   streak: (n) => `Стрік: ${n} ${plural(n, 'день', 'дні', 'днів')} поспіль`,
@@ -47,7 +47,7 @@ export const S = {
   },
   sessionTypes: {
     cards: 'Картки', grammar: 'Граматика', tutor: 'Вчитель', voice: 'Голос', listening: 'Аудіювання', reading: 'Читання',
-    pronunciation: 'Вимова', writing: 'Письмо', test: 'Тест', session: 'Заняття', vocab: 'Лексика', mistakes: 'Помилки', diary: 'Щоденник',
+    pronunciation: 'Вимова', writing: 'Письмо', test: 'Тест', session: 'Заняття', vocab: 'Лексика', mistakes: 'Помилки', diary: 'Щоденник', game: 'Ігри',
   },
 };
 

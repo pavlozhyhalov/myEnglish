@@ -4,7 +4,7 @@ import { plural } from '../strings.js';
 import * as store from '../store.js';
 import * as srs from '../srs.js';
 import { grammarIndex, lesson as loadLesson } from '../data.js';
-import { runReview } from './cards.js';
+import { runTrain } from './wordtrain.js';
 import { runExercises, answerText } from '../ui/exercises.js';
 import { md, mdInline } from '../ui/md.js';
 import { activityTimer, addMistake, lessonsToReview, recordLesson } from '../stats.js';
@@ -44,8 +44,8 @@ export default async function session(view) {
     if (stage === 0) {
       const n = Math.min(20, counts.due + counts.fresh);
       if (!n) return next(1);
-      interstitial(0, 'cards', `Повторимо ${n} ${plural(n, 'картку', 'картки', 'карток')}`, 'Близько 5 хвилин. Оцінюйте чесно — так FSRS точніше планує повтори.', async () => {
-        cleanup = await runReview(view, { limit: 20, onDone: (st) => { summary.cards = st.done; next(1); } });
+      interstitial(0, 'cards', `Тренування: ${n} ${plural(n, 'слово', 'слова', 'слів')}`, 'Близько 5 хвилин: впізнати, почути, написати. Оцінку для повторів застосунок ставить сам.', async () => {
+        cleanup = await runTrain(view, { limit: 20, onDone: (st) => { summary.cards = st.done; next(1); } });
       });
     } else if (stage === 1) {
       interstitial(1, 'puzzle', lesson.title, 'Коротке правило і 5 вправ.', () => grammarStep());
@@ -99,7 +99,7 @@ export default async function session(view) {
     view.replaceChildren(h('div.stack-lg',
       h('div.hero', emo('party', 'xl'), h('h1', 'Заняття завершено!'), h('p.dim', min ? `${min} хв практики` : 'Менше хвилини практики')),
       h('section.card.stack',
-        h('div.row', emo('cards'), h('div.grow', 'Картки'), h('b', String(summary.cards))),
+        h('div.row', emo('cards'), h('div.grow', 'Слова'), h('b', String(summary.cards))),
         h('div.row', emo('puzzle'), h('div.grow', lesson.title), h('b', summary.score == null ? '—' : `${summary.score}%`)),
         h('div.row', emo('mic'), h('div.grow', 'Розмова'), h('b', summary.talk ? `${Math.round(summary.talk / 60)} хв` : '—'))),
       summary.chatId ? h('a.btn.soft.block', { href: `#/tutor?chat=${summary.chatId}` }, 'Підсумок розмови із вчителем') : null,

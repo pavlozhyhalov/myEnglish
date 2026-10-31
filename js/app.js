@@ -68,6 +68,7 @@ const pages = {
   exercises: () => import('./pages/exercises.js'),
   mistakes: () => import('./pages/mistakes.js'),
   progress: () => import('./pages/progress.js'),
+  analysis: () => import('./pages/analysis.js'),
   settings: () => import('./pages/settings.js'),
   profile: () => import('./pages/profile.js'),
   friends: () => import('./pages/friends.js'),
@@ -75,10 +76,11 @@ const pages = {
   auth: () => import('./pages/auth.js'),
   lab: () => import('./pages/lab.js'),
   admin: () => import('./pages/admin.js'),
+  games: () => import('./pages/games.js'),
 };
 
 // Сторінки з завданнями: картки, уроки, вправи, тести, заняття, вчитель, аудіювання, вимова, письмо, сценарії, помилки
-const PRACTICE = new Set(['cards', 'exercises', 'tests', 'session', 'tutor', 'listening', 'pronunciation', 'mistakes', 'lab', 'diary']);
+const PRACTICE = new Set(['cards', 'exercises', 'tests', 'session', 'tutor', 'listening', 'pronunciation', 'mistakes', 'lab', 'diary', 'games']);
 function isPracticeRoute(r) {
   if (PRACTICE.has(r.name)) return true;
   // урок граматики, конкретне завдання з письма чи сценарій (але не списки)

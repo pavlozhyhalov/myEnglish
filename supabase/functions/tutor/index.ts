@@ -8,10 +8,13 @@ import type { SupabaseClient } from 'npm:@supabase/supabase-js@2.118.0';
 import { TEXT_MODELS, CHAT_MODELS, SMART_MODELS, FAST_MODELS, META_ENABLED, TTS_MODELS, LIVE_MODELS, LIMITS } from '../_shared/config.ts';
 import { memoryRule, loadStudent, UK_STYLE, modePrompt, taskPrompt, diaryPrompt, mistakeDrillPrompt, weeklyPrompt, metaPrompt, sessionFocus, type Scenario, type Student } from '../_shared/prompts.ts';
 import { precheck as levelWritingCheck, levelWritingPrompt, LEVEL_WRITING_SCHEMA, cleanLevelWriting, countWords } from './level_writing.ts';
+import { precheck as analysisCheck, analysisPrompt, ANALYSIS_SCHEMA, cleanAnalysis, cleanDigest, section as coachSection, coachPrompt, coachMetaPrompt, COACH_META_SCHEMA, cleanCoachMeta } from './analysis.ts';
 import { replyStream, splitReply, cleanFixes, formatFixes, cleanMeta, cleanSummary, lastStudentText, cueText, translateInput, type Meta } from './reply.ts';
+import { precheck as wordStoryCheck, wordStoryPrompt, WORD_STORY_SCHEMA, cleanWordStory, LEVELS as STORY_LEVELS, type StoryWord, type Level as StoryLevel } from './words.ts';
 
 type Msg = { role: 'user' | 'model'; text: string; cue?: boolean };
-const ACTIONS = new Set(['usage', 'chat', 'summary', 'check_text', 'exercises', 'fill_word', 'check_translation', 'dialogue', 'transcribe', 'hint', 'diary', 'mistake_drill', 'weekly', 'translate', 'level_writing']);
+const ACTIONS = new Set(['usage', 'chat', 'summary', 'check_text', 'exercises', 'fill_word', 'check_translation', 'dialogue', 'transcribe', 'hint', 'diary', 'mistake_drill', 'weekly', 'translate', 'level_writing', 'analysis']);
+ACTIONS.add('word_story');
 const AUDIO_MIME = /^audio\/(webm|ogg|mp4|mpeg|wav|x-wav|aac|m4a)(;.*)?$/;
 /** Рядок з обмеженням довжини (захист від роздутих промптів і витрат) */
 const str = (v: unknown, max: number) => (v == null ? '' : String(v)).slice(0, max);
@@ -99,6 +102,13 @@ async function buildMeta(m: MetaCtx, reply: string): Promise<Meta | null> {
 }
 async function metaCall(m: MetaCtx, reply: string): Promise<Meta | null> {
   const { st, mode, scenario, student, start } = m;
+  // консультація: наступні питання українською, пам'ять — лише явні цілі учня
+  if (mode === 'coach') {
+    try {
+      const r = await generateJson(FAST_MODELS, { system: coachMetaPrompt(m.topic || 'overview', st.memory), contents: [{ role: 'user', parts: [{ text: `LEARNER'S LAST MESSAGE:\n${student.slice(0, 2000) || '(none)'}\n\nCOACH'S REPLY:\n${reply.slice(0, 4000)}` }] }], schema: COACH_META_SCHEMA, temperature: 0.4, thinking: 'off', maxTokens: 500, timeoutMs: 5000 });
+      return cleanCoachMeta(r, !!student, st.memory);
+    } catch (e) { if ((e as HttpError).code === 'rate_limited') metaPausedUntil = Date.now() + META_PAUSE_MS; return null; }
+  }
   try {
     const text = `STUDENT'S LAST MESSAGE:\n${student.slice(0, 2000) || '(none — the start of the session; no facts to remember)'}\n\nTUTOR'S REPLY:\n${reply.slice(0, 4000)}`;
     const r = await generateJson(FAST_MODELS, {
@@ -411,6 +421,10 @@ Deno.serve(handler(async (req) => {
   const lw = action === 'level_writing' ? levelWritingCheck(p) : null;
   if (lw && 'error' in lw) throw new HttpError(400, 'bad_request', lw.error);
   if (lw && 'result' in lw) return json(lw.result);
+  const an = action === 'analysis' ? analysisCheck(p) : null;
+  if (an && 'error' in an) throw new HttpError(400, 'bad_request', an.error);
+  const ws = action === 'word_story' ? wordStoryCheck(p) : null;
+  if (ws && 'error' in ws) throw new HttpError(400, 'bad_request', ws.error);
   await charge(ctx, 'text');
   const st = await loadStudent(ctx);
 
@@ -418,17 +432,20 @@ Deno.serve(handler(async (req) => {
     case 'chat': {
       const mode = String(p.mode || 'chat');
       const scenario = clampScenario(p.scenarioData);
-      const system = modePrompt(mode, st, { scenario, drillType: str(p.drillType, 40), topic: str(p.topic, 300), voice: !!p.voice });
+      // консультація про власні результати: зведення від клієнта — лише дані (очищене й обмежене), розділ — з білого списку
+      const coachSec = mode === 'coach' ? coachSection(p.section) : '';
+      const system = mode === 'coach' ? coachPrompt(st, cleanDigest(p.coachDigest), coachSec) : modePrompt(mode, st, { scenario, drillType: str(p.drillType, 40), topic: str(p.topic, 300), voice: !!p.voice });
       const contents = toContents(p.messages || []);
       const student = lastStudentText(p.messages || []);
       const cueTurn = [...(Array.isArray(p.messages) ? p.messages : [])].reverse().find((m: Msg) => m?.role === 'user')?.cue === true;
       const wantMeta = p.meta !== false && !p.voice;
+      const noFix = mode === 'explain' || mode === 'coach';
       // ліміт з запасом: токени «роздумів» моделі рахуються в maxOutputTokens — з 1500 довгі пояснення (тренування) обривались на півслові
       const opts: GenOpts = { system, contents, temperature: 0.7, maxTokens: 6000, thinking: 'low' };
       // виправлення перевіряються на сервері: фрагмент має бути в повідомленні учня, без «виправлень» правильного
-      const fixBlock = (raw: string | null) => (raw == null || p.voice || !student || mode === 'explain' ? '' : formatFixes(cleanFixes(raw, student, st.strictness)));
-      const start = mode !== 'explain' && !(Array.isArray(p.messages) ? p.messages : []).some((m: Msg) => m?.role === 'model');
-      const metaCtx: MetaCtx = { st, mode, scenario, student, start, cueTurn, drillType: str(p.drillType, 40), topic: str(p.topic, 300) };
+      const fixBlock = (raw: string | null) => (raw == null || p.voice || !student || noFix ? '' : formatFixes(cleanFixes(raw, student, st.strictness)));
+      const start = !noFix && !(Array.isArray(p.messages) ? p.messages : []).some((m: Msg) => m?.role === 'model');
+      const metaCtx: MetaCtx = { st, mode, scenario, student, start, cueTurn, drillType: str(p.drillType, 40), topic: mode === 'coach' ? coachSec : str(p.topic, 300) };
       if (p.stream === false) {
         const full = await generate(CHAT_MODELS, opts);
         const { body, fixRaw } = splitReply(full);
@@ -591,10 +608,30 @@ ${UK_STYLE}`;
       return json(cleanLevelWriting(res, { target, words: countWords(text) }));
     }
 
+    case 'analysis': {
+      // глибокий аналіз: лише очищене зведення від клієнта, без розмов; низька температура, відповідь перевіряється
+      const digest = (an as { digest: Record<string, unknown> }).digest;
+      const res = await generateJson(SMART_MODELS, { system: analysisPrompt(st), contents: [{ role: 'user', parts: [{ text: JSON.stringify(digest) }] }], schema: ANALYSIS_SCHEMA, temperature: 0.2, thinking: 'medium', maxTokens: 8000 });
+      return json(cleanAnalysis(res));
+    }
+
     case 'weekly': {
       const stats = clampWeekStats(p.stats);
       const res = await generateJson(TEXT_MODELS, { system: weeklyPrompt(st), contents: [{ role: 'user', parts: [{ text: JSON.stringify(stats) }] }], schema: WEEKLY_SCHEMA, temperature: 0.5, thinking: 'low' });
       return json(cleanWeekly(res));
+    }
+
+    case 'word_story': {
+      // історія зі слів тренування: «used» — лише слова, що справді є в тексті; непридатна відповідь — ще одна спроба
+      const { words, level: lv } = ws as { words: StoryWord[]; level: StoryLevel | null };
+      const level = lv || (STORY_LEVELS.includes(st.level as StoryLevel) ? st.level as StoryLevel : 'B1');
+      const system = wordStoryPrompt(words, level, taskPrompt(st));
+      for (let attempt = 0; attempt < 2; attempt++) {
+        const res = await generateJson(TEXT_MODELS, { system, contents: [{ role: 'user', parts: [{ text: attempt ? 'Write the text. Use the listed words and keep to the length.' : 'Write the text.' }] }], schema: WORD_STORY_SCHEMA, temperature: attempt ? 0.6 : 0.8, thinking: 'low', maxTokens: 3000 });
+        const story = cleanWordStory(res, words, level);
+        if (story) return json(story);
+      }
+      throw new HttpError(502, 'empty', 'Story did not use the words');
     }
 
     default:
