@@ -30,14 +30,17 @@ export class LiveClient extends EventTarget {
     this.ready = false;
     this.retries = 0;
     this.resumeTimer = null;
+    this.basic = false;          // true — токен без налаштувань VAD (модель їх не прийняла)
+    this.resumeWanted = false;   // планове перепідключення чекає кінця репліки вчителя
+    this.pending = [];           // аудіо учня, поки триває перепідключення (до ~4 с) — щоб не губити слова
   }
   emit(type, detail) { this.dispatchEvent(new CustomEvent(type, { detail })); }
   log(t) { this.emit('log', t); }
 
   async getToken() {
-    const t = await liveToken({ fallback: this.fallback, scenario: this.opts.scenario, topic: this.opts.topic, voice: this.opts.voice });
+    const t = await liveToken({ fallback: this.fallback, basic: this.basic, scenario: this.opts.scenario, topic: this.opts.topic, voice: this.opts.voice });
     this.token = t;
-    this.log(`token ok · model ${t.model} · voice ${t.voice} · ${Math.round(t.voiceSecondsLeft / 60)} хв ліміту`);
+    this.log(`token ok · model ${t.model} · voice ${t.voice} · pause ${t.pauseMs || 'auto'} ms · ${Math.round(t.voiceSecondsLeft / 60)} хв ліміту`);
     return t;
   }
 
@@ -62,6 +65,7 @@ export class LiveClient extends EventTarget {
         if (msg.setupComplete) {
           this.ready = true; this.retries = 0;
           this.log('setup complete');
+          this.flushPending();
           this.scheduleResume();
           if (!settled) { settled = true; resolve(); }
           this.emit('ready');
@@ -80,6 +84,13 @@ export class LiveClient extends EventTarget {
         if (!settled) {
           settled = true;
           // модель недоступна → пробуємо запасну
+          // налаштування паузи не прийнято (невідоме поле / недопустиме значення) → той самий токен без них
+          if (!wasReady && !this.basic && (ev.code === 1007 || /realtime|activity|sensitivity|silence|unknown name|invalid/i.test(ev.reason || ''))) {
+            this.basic = true; this.token = null; this.handle = null;
+            this.log('VAD config rejected, basic setup');
+            try { await this.connect(); resolve(); } catch (e) { reject(e); }
+            return;
+          }
           if (!wasReady && /model|not found|not supported|unsupported/i.test(ev.reason || '') && this.token?.hasMoreModels) {
             this.fallback++; this.token = null; this.handle = null;
             this.log('fallback model');
@@ -113,18 +124,30 @@ export class LiveClient extends EventTarget {
     }
   }
 
-  /** Проактивне відновлення сесії приблизно кожні 10 хв */
+  /** Проактивне відновлення сесії приблизно кожні 10 хв — у паузі між репліками, а не посеред фрази */
   scheduleResume() {
     clearTimeout(this.resumeTimer);
+    this.resumeWanted = false;
     this.resumeTimer = setTimeout(() => {
-      if (!this.ready || !this.handle) return;
-      this.log('planned session resumption');
-      const old = this.ws;
-      this.ws = null;
-      old.onclose = null; old.close();
-      this.emit('reconnecting');
-      this.connect().catch(() => { if (!this.closedByUser) this.reconnect(); });
+      this.resumeWanted = true;
+      // якщо вчитель так і не закінчить репліку (учень довго говорить) — все одно через 60 с
+      this.resumeTimer = setTimeout(() => this.resumeNow('planned (timeout)'), 60_000);
     }, LIMITS.sessionResumeMs);
+  }
+  resumeNow(why) {
+    clearTimeout(this.resumeTimer);
+    this.resumeWanted = false;
+    if (!this.ready || !this.handle || this.closedByUser) return;
+    this.log(`session resumption · ${why}`);
+    const old = this.ws;
+    this.ws = null; this.ready = false;
+    old.onclose = null; old.close();
+    this.emit('reconnecting');
+    this.connect().catch(() => { if (!this.closedByUser) this.reconnect(); });
+  }
+  flushPending() {
+    const q = this.pending; this.pending = [];
+    for (const b of q) this.sendAudio(b);
   }
 
   onServer(msg) {
@@ -134,7 +157,12 @@ export class LiveClient extends EventTarget {
     }
     if (msg.goAway) {
       this.log(`goAway ${msg.goAway.timeLeft || ''}`);
-      if (this.handle && !this.closedByUser) { const old = this.ws; this.ws = null; old.onclose = null; old.close(); this.emit('reconnecting'); this.connect().catch(() => { if (!this.closedByUser) this.reconnect(); }); }
+      // сервер скоро закриє з'єднання: якщо часу досить — чекаємо кінця репліки вчителя, інакше — одразу
+      const left = parseFloat(String(msg.goAway.timeLeft || '0')) || 0;
+      if (this.handle && !this.closedByUser) {
+        if (left > 8) { this.resumeWanted = true; clearTimeout(this.resumeTimer); this.resumeTimer = setTimeout(() => this.resumeNow('goAway'), (left - 5) * 1000); }
+        else this.resumeNow('goAway');
+      }
     }
     const sc = msg.serverContent;
     if (!sc) return;
@@ -150,11 +178,18 @@ export class LiveClient extends EventTarget {
         this.emit('audio', f32);
       }
     }
-    if (sc.turnComplete) this.emit('turn');
+    if (sc.turnComplete) {
+      this.emit('turn');
+      if (this.resumeWanted) this.resumeNow('turn end');
+    }
   }
 
   sendAudio(buf) {
-    if (!this.ready || this.ws?.readyState !== 1) return;
+    if (!this.ready || this.ws?.readyState !== 1) {
+      // перепідключення: зберігаємо останні ~4 с мовлення і відправляємо після setupComplete
+      if (this.handle && !this.closedByUser) { this.pending.push(buf); if (this.pending.length > 40) this.pending.shift(); }
+      return;
+    }
     this.ws.send(JSON.stringify({ realtimeInput: { audio: { data: b64.enc(buf), mimeType: 'audio/pcm;rate=16000' } } }));
   }
   sendText(text) {

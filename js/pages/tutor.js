@@ -225,8 +225,12 @@ function askInChat(word) {
   ta.focus();
 }
 
+/** Тема «мої помилки» — для тексту й голосу (≤300 символів: сервер обрізає тему) */
+export const MISTAKES_TOPIC = { label: 'Мої помилки', topic: 'Work on the student\'s own mistakes: name 2 of their most frequent recent mistakes (wrong → right), then keep a natural conversation that makes them use the correct forms; notice when they get it right.' };
+export const focusTopic = (focus) => ({ label: 'Порада вчителя', topic: `Focus recommended after the last session (practise it naturally in conversation): ${focus}`.slice(0, 300) });
+
 /** Ідеї тем для старту: інтереси з профілю + побутові теми */
-function topicIdeas() {
+export function topicIdeas() {
   const st = store.settings();
   const mine = String(about().interests || '').split(/[,;\n/]|\s+(?:і|й|та|and)\s+/).map(x => x.replace(/[.!]+$/, '').trim()).filter(x => x.length >= 2 && x.length <= 40).slice(0, 4)
     .map(x => ({ label: x.charAt(0).toUpperCase() + x.slice(1), topic: `One of the student's interests: «${x}». Talk with them about it.` }));
@@ -665,8 +669,8 @@ function chatUI(view, row, { scenario, ask, topic, resumed } = {}) {
     const ideas = topicIdeas();
     return h('section.card.stack.tutor-start',
       h('div.section-title', 'Про що поговоримо?'),
-      h('div.chips', ideas.map(t => h('button.chip', { type: 'button', onclick: () => begin(t) }, t.label))),
-      focus ? h('button.btn.soft.block.start-focus', { type: 'button', onclick: () => begin({ label: 'Порада вчителя', topic: `Focus recommended after the last session (practise it naturally in conversation): ${focus}` }) },
+      h('div.chips', [MISTAKES_TOPIC, ...ideas].map(t => h('button.chip', { type: 'button', onclick: () => begin(t) }, t.label))),
+      focus ? h('button.btn.soft.block.start-focus', { type: 'button', onclick: () => begin(focusTopic(focus)) },
         ic('target', { size: 18 }), h('span.grow', h('span.xs.dim', 'Порада з минулого разу'), h('span.start-focus-t', focus))) : null,
       h('button.btn.primary.block', { type: 'button', onclick: () => begin(null) }, ic('sparkle', { fill: true }), 'Нехай вчитель почне'),
       prev ? h('a.list-row.start-prev', { href: `#/tutor?chat=${encodeURIComponent(prev.id)}` }, ic('arrow-clockwise', { size: 20 }),

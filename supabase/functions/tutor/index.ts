@@ -340,6 +340,8 @@ async function liveProbe() {
     generationConfig: { responseModalities: ['AUDIO'], speechConfig: { voiceConfig: { prebuiltVoiceConfig: { voiceName: 'Puck' } } } },
     systemInstruction: { parts: [{ text: 'You are a friendly English tutor. Answer in one short sentence.' }] },
     inputAudioTranscription: {}, outputAudioTranscription: {}, sessionResumption: {},
+    // та сама пауза для учня, що й у live-token: перевірка, що модель приймає налаштування
+    realtimeInputConfig: { automaticActivityDetection: { startOfSpeechSensitivity: 'START_SENSITIVITY_LOW', endOfSpeechSensitivity: 'END_SENSITIVITY_LOW', prefixPaddingMs: 200, silenceDurationMs: 1300 } },
   }, { uses: 2, minutes: 2 });
   const url = `wss://generativelanguage.googleapis.com/ws/google.ai.generativelanguage.v1alpha.GenerativeService.BidiGenerateContentConstrained?access_token=${encodeURIComponent(tok.token)}`;
   return await new Promise((resolve) => {

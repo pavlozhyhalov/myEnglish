@@ -1,12 +1,12 @@
 import { assertEquals, assert, assertRejects } from 'jsr:@std/assert@1';
 import { thinkingConfig, generate, streamText, candidateText, isCooled } from './gemini.ts';
-import { readMemory, sessionFocus, basePrompt, modePrompt, metaPrompt, wordsForLevel, todayLabel, memoryRule, UK_STYLE, type Student } from './prompts.ts';
+import { readMemory, readHistory, sessionFocus, basePrompt, modePrompt, metaPrompt, wordsForLevel, todayLabel, memoryRule, UK_STYLE, type Student } from './prompts.ts';
 
 const st = (over: Partial<Student> = {}): Student => ({
   level: 'B1', tutorName: 'Alex', tutorTone: 'friendly', explainLang: 'uk', strictness: 'important', voice: 'Puck', workFocus: false,
   weak: [{ type: 'articles', count: 5, examples: ['"I have car" → "I have a car"'] }], words: ['commute', 'reliable', 'afford'], lastFocus: null,
   about: { name: '', pronoun: 'they', nativeLang: 'Ukrainian', otherLangs: '', location: '', age: '', occupation: '', family: '', interests: '', goals: [], avoid: '', notes: '' },
-  memory: [], recent: [], ...over,
+  memory: [], recent: [], history: [], voicePauseMs: 1300, ...over,
 });
 
 Deno.test('thinkingConfig per model family', () => {
@@ -163,4 +163,23 @@ Deno.test('prompt rules from eval: one question, one word, explain without FIX, 
   assert(memoryRule(st(), 3, '2026-10-27, Tuesday').includes('Today is 2026-10-27, Tuesday'));
   assert(/^\d{4}-\d{2}-\d{2}, \w+day$/.test(todayLabel()));
   assert(metaPrompt(st(), 'chat').includes('British English'));
+});
+
+Deno.test('readHistory: summaries → compact lines, skips empty and bad rows', () => {
+  const h = readHistory([
+    { mode: 'voice', updated_at: '2026-10-30T13:27:33Z', summary: { summary: 'Говорили про прогулянку.', mistakes: [{ wrong: 'I feeling tired', right: "I'm feeling tired" }, { wrong: '', right: 'x' }], next_focus: 'Past Simple' } },
+    { mode: 'chat', updated_at: '2026-10-29', summary: null },
+    { mode: 'chat', updated_at: '2026-10-28', summary: { summary: '', mistakes: [] } },
+  ]);
+  assertEquals(h.length, 1);
+  assert(h[0].startsWith('2026-10-30 (voice): Говорили'));
+  assert(h[0].includes(`"I feeling tired" → "I'm feeling tired"`));
+  assert(h[0].includes('Recommended next: Past Simple'));
+});
+
+Deno.test('basePrompt: student leads, honest memory, history only when present', () => {
+  const p = basePrompt(st({ history: ['2026-10-30: walk'] }));
+  assert(p.includes('THE STUDENT LEADS'));
+  assert(p.includes('PREVIOUS SESSIONS'));
+  assert(!basePrompt(st()).includes('PREVIOUS SESSIONS'));
 });

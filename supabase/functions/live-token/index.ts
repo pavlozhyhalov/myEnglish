@@ -36,7 +36,28 @@ Deno.serve(handler(async (req) => {
     outputAudioTranscription: {},
     sessionResumption: {},
     contextWindowCompression: { slidingWindow: {} },
+    // учень підбирає слова з паузами: не обриваємо його (довша тиша, низька чутливість кінця мовлення),
+    // і вуличний шум не перебиває вчителя (низька чутливість початку). basic — відкат, якщо модель не прийняла налаштування.
+    ...(p.basic ? {} : {
+      realtimeInputConfig: {
+        automaticActivityDetection: {
+          startOfSpeechSensitivity: 'START_SENSITIVITY_LOW',
+          endOfSpeechSensitivity: 'END_SENSITIVITY_LOW',
+          prefixPaddingMs: 200,
+          silenceDurationMs: st.voicePauseMs,
+        },
+      },
+    }),
   };
-  const tok = await createLiveToken(setup, { uses: 5, minutes: 30 });
-  return json({ ...tok, model, voice, voiceSecondsLeft: left, hasMoreModels: idx < LIVE_MODELS.length - 1 });
+  let basic = !!p.basic;
+  let tok;
+  try { tok = await createLiveToken(setup, { uses: 5, minutes: 30 }); } catch (e) {
+    // Google не прийняв налаштування паузи — токен без них (голос працює зі стандартною паузою)
+    if (basic || (e as HttpError).code !== 'bad_model_request') throw e;
+    console.error('live-token: VAD config rejected', String((e as Error).message).slice(0, 200));
+    delete (setup as Record<string, unknown>).realtimeInputConfig;
+    basic = true;
+    tok = await createLiveToken(setup, { uses: 5, minutes: 30 });
+  }
+  return json({ ...tok, model, voice, pauseMs: basic ? 0 : st.voicePauseMs, voiceSecondsLeft: left, hasMoreModels: idx < LIVE_MODELS.length - 1 });
 }));

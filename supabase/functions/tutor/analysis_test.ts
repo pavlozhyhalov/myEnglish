@@ -4,7 +4,7 @@ import type { Student } from '../_shared/prompts.ts';
 
 const ST: Student = {
   level: 'B1', tutorName: 'Emma', tutorTone: 'friendly', explainLang: 'uk', strictness: 'important', voice: 'Kore', workFocus: false,
-  weak: [], words: [], lastFocus: null, memory: [], recent: [],
+  weak: [], words: [], lastFocus: null, memory: [], recent: [], history: [], voicePauseMs: 1300,
   about: { name: '', pronoun: 'they', nativeLang: 'Ukrainian', otherLangs: '', location: '', age: '', occupation: '', family: '', interests: '', goals: [], avoid: '', notes: '' },
 };
 

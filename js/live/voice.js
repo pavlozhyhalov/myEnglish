@@ -9,7 +9,7 @@ import { speak, stop as stopSpeech, recognize, canRecognize, recordAndTranscribe
 import { logSession } from '../stats.js';
 import { scenarios as loadScenarios } from '../data.js';
 import { setFocus } from '../ui/shell.js';
-import { summarize, parseHint } from '../pages/tutor.js';
+import { summarize, parseHint, topicIdeas, MISTAKES_TOPIC, focusTopic } from '../pages/tutor.js';
 import { go, onLeave } from '../router.js';
 
 const ERR = {
@@ -150,17 +150,30 @@ export async function voiceSession(view, opts = {}) {
   // ---------- старт Live: лише по тапу — iOS вмикає звук і мікрофон тільки в момент жесту ----------
   setState('Усе готово до розмови');
   const savedControls = [...controls.childNodes];
+  let topic = opts.topic || null;
   await new Promise((resolve) => {
-    const startBtn = h('button.btn.primary.lg', { type: 'button', style: { minWidth: '240px' }, onclick: () => {
+    const begin = (t) => {
       audio = new AudioIO().prepare();     // синхронно, в жесті
+      if (t) { topic = t.topic; row.title = `Голос: ${t.label}`; }
       controls.replaceChildren(...savedControls);
+      notice.replaceChildren();
       resolve();
-    } }, ic('microphone', { fill: true }), 'Почати розмову');
+    };
+    const startBtn = h('button.btn.primary.lg', { type: 'button', style: { minWidth: '240px' }, onclick: () => begin(null) }, ic('microphone', { fill: true }), 'Почати розмову');
     controls.replaceChildren(startBtn, h('button.btn.ghost', { type: 'button', onclick: () => {
       ended = true; cleanup(); resolve();
       if (opts.onFinish) opts.onFinish(row); else go('/tutor', { replace: true });
     } }, 'Назад'));
-    notice.textContent = 'Порада: у навушниках вчитель чує вас краще.';
+    const tip = 'Порада: у навушниках вчитель чує вас краще.';
+    // вільна розмова: можна одразу обрати, про що говорити (тап по темі теж стартує сесію)
+    if (!scenario && !topic && !opts.onFinish) {
+      const focus = store.prof()?.lastFocus;
+      const picks = [MISTAKES_TOPIC, ...(focus ? [focusTopic(focus)] : []), ...topicIdeas().slice(0, 5)];
+      notice.replaceChildren(h('div.stack.voice-topics', { style: { gap: '8px' } },
+        h('div.xs.dim', 'Тема (необов\'язково) — або просто почніть, і вчитель запропонує сам:'),
+        h('div.chips', { style: { justifyContent: 'center' } }, picks.map(t => h('button.chip', { type: 'button', onclick: () => begin(t) }, t.label))),
+        h('div.xs.dim', tip)));
+    } else notice.textContent = tip;
   });
   if (ended) return cleanup;
   setState('Підключення…'); notice.textContent = '';
@@ -173,7 +186,7 @@ export async function voiceSession(view, opts = {}) {
     audio.addEventListener('idle', () => { tutorTalking = false; if (mode === 'live' && live?.ready) setState(micMuted ? 'Мікрофон вимкнено' : 'Слухаю…'); });
 
     const scenData = scenario ? { title: scenario.title, situation: scenario.situation, myRole: scenario.myRole, tutorRole: scenario.tutorRole, goal: scenario.goal, phrases: scenario.phrases } : null;
-    live = new LiveClient({ scenario: scenData, topic: opts.topic, voice: st.voice });
+    live = new LiveClient({ scenario: scenData, topic, voice: st.voice });
     live.addEventListener('log', e => log(e.detail));
     live.addEventListener('audio', e => audio?.play(e.detail));
     live.addEventListener('interrupted', () => { audio.clear(); closeTurns(); });
@@ -235,7 +248,7 @@ export async function voiceSession(view, opts = {}) {
         addText('user', res.text); closeTurns();
         setState(`${st.tutorName} думає…`);
         const scenData = scenario ? { title: scenario.title, situation: scenario.situation, myRole: scenario.myRole, tutorRole: scenario.tutorRole, goal: scenario.goal, phrases: scenario.phrases } : null;
-        const reply = await tutor('chat', { stream: false, voice: true, mode: scenario ? 'scenario' : 'chat', scenarioData: scenData, topic: opts.topic, messages: row.messages.map(m => ({ role: m.role, text: m.text })) });
+        const reply = await tutor('chat', { stream: false, voice: true, mode: scenario ? 'scenario' : 'chat', scenarioData: scenData, topic, messages: row.messages.map(m => ({ role: m.role, text: m.text })) });
         addText('model', reply.text); closeTurns();
         setState(`Говорить ${st.tutorName}`);
         aura.classList.remove('me');
@@ -260,7 +273,7 @@ export async function voiceSession(view, opts = {}) {
         try {
           setState(`${st.tutorName} думає…`);
           const scenData = scenario ? { title: scenario.title, situation: scenario.situation, myRole: scenario.myRole, tutorRole: scenario.tutorRole, goal: scenario.goal, phrases: scenario.phrases } : null;
-          const reply = await tutor('chat', { stream: false, voice: true, mode: scenario ? 'scenario' : 'chat', scenarioData: scenData, topic: opts.topic, messages: [] });
+          const reply = await tutor('chat', { stream: false, voice: true, mode: scenario ? 'scenario' : 'chat', scenarioData: scenData, topic, messages: [] });
           addText('model', reply.text); closeTurns();
           await speak(reply.text.replace(/[*_#]/g, ''), { engine: st.ttsEngine, geminiVoice: st.voice });
           setState('Утримуйте кнопку і говоріть');
