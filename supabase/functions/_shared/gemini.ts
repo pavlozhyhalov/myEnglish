@@ -115,6 +115,7 @@ export function candidateText(j: any): string {
 
 /** Модель, що відповіла 429 (квота/частота), пропускається на COOLDOWN_MS у теплому екземплярі — без зайвих запитів і затримок */
 const COOLDOWN_MS = 120_000;
+const OVERLOAD_COOLDOWN_MS = 5 * 60_000;
 const cooled = new Map<string, number>();
 export function coolDown(model: string, ms = COOLDOWN_MS) { cooled.set(model, Date.now() + ms); }
 export function isCooled(model: string) { return (cooled.get(model) || 0) > Date.now(); }
@@ -129,6 +130,9 @@ async function withModels<T>(models: string[], fn: (m: string) => Promise<T>): P
     try { return await fn(m); } catch (e) {
       last = e;
       if (e instanceof HttpError && e.code === 'rate_limited') coolDown(m);
+      // зависла / перевантажена / зникла модель — теж відкладаємо: наступні запити не чекають її тайм-ауту
+      if (e instanceof HttpError && e.code === 'overloaded') coolDown(m, OVERLOAD_COOLDOWN_MS);
+      if (e instanceof HttpError && e.code === 'model_not_found') coolDown(m, 60 * 60_000);
       if (e instanceof HttpError && RETRYABLE.includes(e.code)) continue;
       throw e;
     }

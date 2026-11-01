@@ -462,7 +462,8 @@ Deno.serve(handler(async (req) => {
       const wantMeta = p.meta !== false && !p.voice;
       const noFix = mode === 'explain' || mode === 'coach';
       // ліміт з запасом: токени «роздумів» моделі рахуються в maxOutputTokens — з 1500 довгі пояснення (тренування) обривались на півслові
-      const opts: GenOpts = { system, contents, temperature: 0.7, maxTokens: 6000, thinking: 'low' };
+      // timeoutMs для потоку — до першого байта: робоча модель відповідає за 1–3 с, зависла — не тримає учня 45 с
+      const opts: GenOpts = { system, contents, temperature: 0.7, maxTokens: 6000, thinking: 'low', timeoutMs: 15_000 };
       // виправлення перевіряються на сервері: фрагмент має бути в повідомленні учня, без «виправлень» правильного
       const fixBlock = (raw: string | null) => (raw == null || p.voice || !student || noFix ? '' : formatFixes(cleanFixes(raw, student, st.strictness)));
       const start = !noFix && !(Array.isArray(p.messages) ? p.messages : []).some((m: Msg) => m?.role === 'model');
