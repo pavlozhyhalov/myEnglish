@@ -1,4 +1,5 @@
 import type { Ctx } from './auth.ts';
+import type { Dispute } from './rules.ts';
 
 export type Student = {
   level: string;
@@ -18,6 +19,8 @@ export type Student = {
   recent: string[];
   /** Підсумки останніх розмов (новіші першими): що обговорювали, помилки, рекомендація */
   history: string[];
+  /** Виправлення, які учень оскаржив («Не згоден»): не виправляти знову */
+  disputes: Dispute[];
   /** Відкриті помилки з id (найчастіші першими) — для визначення засвоєних у підсумку */
   open: Array<{ id: string; wrong: string; right: string }>;
   /** Пауза (мс), після якої голосовий вчитель вважає репліку учня завершеною */
@@ -124,9 +127,17 @@ export async function loadStudent(ctx: Ctx): Promise<Student> {
     memory: readMemory(d.memory),
     recent,
     history: readHistory(chats?.data || []),
+    disputes: readDisputes(d.disputes),
     open: (mistakes.data || []).slice(0, 15).map(m => ({ id: String(m.id), wrong: cut(m.wrong, 80), right: cut(m.right, 80) })).filter(m => m.wrong && m.right),
     voicePauseMs: VOICE_PAUSE[s.voicePause as string] || VOICE_PAUSE.normal,
   };
+}
+
+/** profiles.data.disputes = [{ wrong, right, at }] → до 40 найновіших */
+export function readDisputes(v: unknown): Dispute[] {
+  return (Array.isArray(v) ? v : []).filter(x => x && typeof x === 'object')
+    .map(x => ({ wrong: cut((x as Record<string, unknown>).wrong, 120), right: cut((x as Record<string, unknown>).right, 120) }))
+    .filter(x => x.wrong).slice(-40);
 }
 
 /** Скільки тиші (мс) голосовий вчитель чекає, перш ніж відповісти: учневі, що підбирає слова, потрібно більше */
@@ -267,6 +278,15 @@ This is what you really know about earlier lessons. Use it for continuity (recyc
 `;
 }
 
+/** Виправлення, з якими учень не погодився: не повторювати */
+export function disputeBlock(st: Student) {
+  if (!st.disputes.length) return '';
+  return `
+CORRECTIONS THE STUDENT DISAGREED WITH (they pressed «I disagree» — do not correct these again, do not argue; if one is a real error that matters, at most explain it once only when asked):
+${st.disputes.slice(-20).map(d => `- "${d.wrong}" → "${d.right}"`).join('\n')}
+`;
+}
+
 /** Хто веде розмову: учень. Запити учня про формат заняття виконуються одразу. */
 function leadBlock(st: Student) {
   return `
@@ -315,7 +335,7 @@ ${weak}
 
 ${st.recent.length ? `RECENT MISTAKES — recycle them: create a natural chance for the STUDENT to use the correct form; if they get it right, notice it in a few words. The left side is the student's wrong version — never use it in your own sentences:\n${st.recent.map(r => `- ${r}`).join('\n')}\n\n` : ''}WORDS THE STUDENT IS LEARNING — at most ONE of them per message, and only when it fits the current topic in its normal meaning and usual collocation (never metaphorically, never bending the topic or grammar to squeeze it in; skipping them is better than forcing them). When the student uses one correctly, notice it briefly:
 ${st.words.length ? st.words.join(', ') : '(none yet)'}
-${memoryBlock(st)}${historyBlock(st)}${planBlock(focus)}${leadBlock(st)}
+${memoryBlock(st)}${historyBlock(st)}${disputeBlock(st)}${planBlock(focus)}${leadBlock(st)}
 HOW TO TEACH
 - LEVEL ${st.level}: ${levelStyle(st)}
 - Comprehensible input, i+1: speak mostly within the student's level with a little new language (a word, a phrase, a structure) they can understand from context. Never go far above it.

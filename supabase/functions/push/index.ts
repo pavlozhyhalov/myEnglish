@@ -91,6 +91,13 @@ async function monitor(db: SupabaseClient, secret: string, vapid: Vapid) {
   const bad = Object.entries((res && typeof res === 'object' ? res : {}) as Record<string, any>).filter(([, v]) => !v || v.ok === false || (typeof v === 'string'));
   const live = (res as any)?.live_ws?.info;
   if (live && (!live.setup || !live.audio_bytes)) bad.push(['live_ws', { error: `setup ${live.setup} audio ${live.audio_bytes} ${live.close_reason || ''}` }]);
+  // автотест якості моделей (еталон із 30 речень): погані моделі tutor відкладає сам; тривога — якщо добрих не лишилось
+  const ev = await fetch(`${Deno.env.get('SUPABASE_URL')}/functions/v1/tutor`, { method: 'POST', headers: { 'Content-Type': 'application/json', 'x-cron-secret': secret }, body: JSON.stringify({ action: 'health', deep: true, eval: true }) })
+    .then(r => r.json()).catch(() => null) as Record<string, { recall?: number; excluded?: boolean }> | null;
+  const scored = Object.values(ev || {}).filter(v => typeof v?.recall === 'number');
+  const good = scored.filter(v => !v.excluded);
+  if (!scored.length || !good.length) bad.push(['quality', { error: scored.length ? 'усі моделі нижче порогу якості' : 'автотест якості не відповів' }]);
+  console.info('quality', JSON.stringify(ev).slice(0, 400));
   console.info('monitor', bad.length ? bad.map(([k]) => k).join(',') : 'ok');
   if (!bad.length) return;
   const text = bad.map(([k, v]) => `${k}: ${String(v?.error || v || '').slice(0, 120)}`).join('; ');

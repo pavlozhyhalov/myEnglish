@@ -1,5 +1,6 @@
 // Чисті функції для відповіді вчителя: відокремлення блоку ---FIX--- під час стрімінгу,
 // перевірка виправлень, очищення meta (підказки, слова, пам'ять). Без залежностей — покриті reply_test.ts.
+import { isDisputed, ruleOf, typeOfRule, type Dispute } from '../_shared/rules.ts';
 
 export const FIX = '---FIX---';
 
@@ -87,7 +88,7 @@ export function foundIn(fragment: string, message: string) {
  * Рядки блоку виправлень → перевірені виправлення. Відкидаємо: биті рядки, «None», фрагменти, яких немає в повідомленні учня,
  * виправлення без зміни (для strictness 'important' — також лише регістр/пунктуація), британське ↔ американське написання, кирилицю.
  */
-export function cleanFixes(raw: string, studentMsg: string, strictness: 'important' | 'all' = 'important', max = 5): Fix[] {
+export function cleanFixes(raw: string, studentMsg: string, strictness: 'important' | 'all' = 'important', max = 5, disputes: Dispute[] = []): Fix[] {
   const out: Fix[] = [];
   const seen = new Set<string>();
   for (let line of String(raw || '').split('\n')) {
@@ -106,6 +107,7 @@ export function cleanFixes(raw: string, studentMsg: string, strictness: 'importa
     if (strictness === 'important' && norm(wrong) === norm(right)) continue;
     if (spellingVariant(wrong, right)) continue;
     if (studentMsg && !foundIn(wrong, studentMsg)) continue;
+    if (isDisputed({ wrong, right }, disputes)) continue;
     const key = norm(wrong) + '|' + norm(right);
     if (seen.has(key)) continue;
     seen.add(key);
@@ -246,7 +248,7 @@ export function cleanAssessment(a: any) {
   };
 }
 
-export function cleanSummary(r: any, st: { words: string[]; memory: string[]; level: string }) {
+export function cleanSummary(r: any, st: { words: string[]; memory: string[]; level: string; disputes?: Dispute[] }) {
   const o = r && typeof r === 'object' ? r : {};
   const seen = new Set<string>();
   const mistakes = [];
@@ -255,9 +257,11 @@ export function cleanSummary(r: any, st: { words: string[]; memory: string[]; le
     const wrong = unquote(tx(m.wrong, 200)), right = unquote(tx(m.right, 200));
     const key = norm(wrong) + '|' + norm(right);
     if (!wrong || !right || norm(wrong) === norm(right) || spellingVariant(wrong, right) || seen.has(key)) continue;
+    if (isDisputed({ wrong, right }, st.disputes || [])) continue;
     seen.add(key);
-    mistakes.push({ wrong, right, type: MISTAKE_TYPES.includes(m.type) ? m.type : 'other', explanation_uk: tx(m.explanation_uk, 300) });
-    if (mistakes.length >= 10) break;
+    const rule = ruleOf(m.rule);
+    mistakes.push({ wrong, right, type: typeOfRule(rule, MISTAKE_TYPES.includes(m.type) ? m.type : 'other'), rule, explanation_uk: tx(m.explanation_uk, 300) });
+    if (mistakes.length >= 15) break;
   }
   const learning = new Map(st.words.map(w => [w.toLowerCase(), w]));
   const practised = [...new Set((Array.isArray(o.practised_words) ? o.practised_words : [])
