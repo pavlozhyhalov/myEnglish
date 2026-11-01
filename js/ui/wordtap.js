@@ -318,8 +318,22 @@ function entryBlock(entry, example, sourceLabel, refresh) {
 // ---------- AI-переклад слова чи фрази в контексті (дія tutor `fill_word`; context — речення, де трапилось) ----------
 const aiCache = new Map();
 const canAi = () => !!user() && navigator.onLine;
+// збережені переклади (до 400 слів, новіші в кінці) — повторне слово не витрачає безкоштовний ліміт AI
+const SAVED_KEY = 'me:wt-ai', SAVED_MAX = 400;
+let saved = null;
+function savedMap() {
+  if (!saved) { try { saved = new Map(JSON.parse(localStorage.getItem(SAVED_KEY) || '[]')); } catch { saved = new Map(); } }
+  return saved;
+}
+function saveEntry(k, entry) {
+  const m = savedMap();
+  m.delete(k); m.set(k, entry);
+  while (m.size > SAVED_MAX) m.delete(m.keys().next().value);
+  try { localStorage.setItem(SAVED_KEY, JSON.stringify([...m])); } catch { /* приватний режим / переповнено */ }
+}
 function aiLookup(text, sentence) {
   const k = norm(text);
+  if (!aiCache.has(k) && savedMap().has(k)) aiCache.set(k, Promise.resolve(savedMap().get(k)));
   if (!aiCache.has(k)) {
     aiCache.set(k, import('../ai.js')
       .then(({ tutor }) => tutor('fill_word', { words: [text], context: String(sentence || '').slice(0, 300) }))
@@ -327,7 +341,9 @@ function aiLookup(text, sentence) {
         const w = r?.words?.[0];
         if (!w?.uk) return null;
         const examples = (Array.isArray(w.examples) ? w.examples : []).filter(x => x?.en).slice(0, 2);
-        return { en: String(w.en || text), uk: String(w.uk), ipa: w.ipa || null, pos: w.pos || null, examples, ex: examples[0]?.en || null, exUk: examples[0]?.uk || null };
+        const entry = { en: String(w.en || text), uk: String(w.uk), ipa: w.ipa || null, pos: w.pos || null, examples, ex: examples[0]?.en || null, exUk: examples[0]?.uk || null };
+        saveEntry(k, entry);
+        return entry;
       })
       .catch(e => { aiCache.delete(k); throw e; }));
   }

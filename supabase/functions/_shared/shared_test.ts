@@ -1,5 +1,5 @@
 import { assertEquals, assert, assertRejects } from 'jsr:@std/assert@1';
-import { thinkingConfig, generate, streamText, candidateText, isCooled } from './gemini.ts';
+import { retryAfterMs, thinkingConfig, generate, streamText, candidateText, isCooled } from './gemini.ts';
 import { readMemory, readHistory, sessionFocus, basePrompt, modePrompt, metaPrompt, wordsForLevel, todayLabel, memoryRule, UK_STYLE, type Student } from './prompts.ts';
 
 const st = (over: Partial<Student> = {}): Student => ({
@@ -182,4 +182,12 @@ Deno.test('basePrompt: student leads, honest memory, history only when present',
   assert(p.includes('THE STUDENT LEADS'));
   assert(p.includes('PREVIOUS SESSIONS'));
   assert(!basePrompt(st()).includes('PREVIOUS SESSIONS'));
+});
+
+Deno.test('retryAfterMs: daily quota waits until reset, per-minute ~1 min', () => {
+  const day = { error: { details: [{ violations: [{ quotaId: 'GenerateRequestsPerDayPerProjectPerModel-FreeTier' }] }, { retryDelay: '37375s' }] } };
+  assertEquals(retryAfterMs(day), 37375_000);
+  const minute = { error: { details: [{ violations: [{ quotaId: 'GenerateRequestsPerMinutePerProjectPerModel-FreeTier' }] }, { retryDelay: '12s' }] } };
+  assertEquals(retryAfterMs(minute), 30_000);
+  assertEquals(retryAfterMs(null), 30_000);
 });

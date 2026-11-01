@@ -1,7 +1,7 @@
 // Згенеровано scripts/bump.sh — не редагувати вручну
 // шлях → хеш вмісту (sha256, 12 символів)
 self.PRECACHE = {
-  './': '7e040897e30a', './index.html': '7e040897e30a', './manifest.webmanifest': 'a99fcb655734',
+  './': 'bb7b565daf31', './index.html': 'bb7b565daf31', './manifest.webmanifest': 'a99fcb655734',
   './assets/icons/apple-touch-icon.png': '92b8c14d44a7',
   './assets/icons/icon-192.png': '7002ccee6bcd',
   './assets/icons/icon-512.png': '4cdfc491602e',
@@ -178,7 +178,7 @@ self.PRECACHE = {
   './js/ai.js': '7eb8286ecdab',
   './js/analysis.js': '4891e34fd803',
   './js/app.js': 'd632c813d945',
-  './js/config.js': 'bb52d5f72fbd',
+  './js/config.js': 'afb3a3530885',
   './js/data.js': 'b13181517b77',
   './js/errlog.js': 'b1996f6e588a',
   './js/games/build.js': 'd70e61f86bee',
@@ -239,7 +239,7 @@ self.PRECACHE = {
   './js/ui/shell.js': '79942838a898',
   './js/ui/toast.js': '32b2f9891fbb',
   './js/ui/wakelock.js': 'e468aab0d7e6',
-  './js/ui/wordtap.js': '4493bef43235',
+  './js/ui/wordtap.js': '111ea7852102',
   './js/wordlogic.js': '6d0cf18a6fec',
   './vendor/supabase.js': 'a5e5632da0e4',
   './vendor/ts-fsrs.js': '0c6643ddc779',

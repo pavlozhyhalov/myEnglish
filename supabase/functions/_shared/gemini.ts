@@ -85,10 +85,20 @@ async function call(model: string, method: string, o: GenOpts, ms: number, first
   return res;
 }
 
+/** Скільки чекати після 429: Google віддає retryDelay ("37375s"); денний ліміт — до скидання, хвилинний — ~1 хв */
+export function retryAfterMs(j: any): number {
+  const details = Array.isArray(j?.error?.details) ? j.error.details : [];
+  const delay = details.map((d: any) => /^(\d+(?:\.\d+)?)s$/.exec(String(d?.retryDelay || ''))).find(Boolean);
+  const perDay = details.some((d: any) => (d?.violations || []).some((v: any) => /PerDay/i.test(String(v?.quotaId || ''))));
+  const sec = delay ? Number(delay[1]) : 0;
+  if (perDay) return Math.min(Math.max(sec * 1000, 10 * 60_000), 24 * 3600_000);
+  return Math.min(Math.max(sec * 1000, 30_000), 10 * 60_000);
+}
+
 async function mapError(res: Response): Promise<HttpError> {
-  let msg = '';
-  try { const j = await res.json(); msg = j?.error?.message || ''; } catch { /* */ }
-  if (res.status === 429) return new HttpError(429, 'rate_limited', msg);
+  let msg = '', j: any = null;
+  try { j = await res.json(); msg = j?.error?.message || ''; } catch { /* */ }
+  if (res.status === 429) return Object.assign(new HttpError(429, 'rate_limited', msg), { retryMs: retryAfterMs(j) });
   if (res.status === 400 && /api key/i.test(msg)) return new HttpError(503, 'no_key', msg);
   if (res.status === 403) return new HttpError(503, 'no_key', msg);
   if (res.status === 404) return new HttpError(404, 'model_not_found', msg);
@@ -117,7 +127,17 @@ export function candidateText(j: any): string {
 const COOLDOWN_MS = 120_000;
 const OVERLOAD_COOLDOWN_MS = 5 * 60_000;
 const cooled = new Map<string, number>();
-export function coolDown(model: string, ms = COOLDOWN_MS) { cooled.set(model, Date.now() + ms); }
+let onCool: ((all: Record<string, number>) => void) | null = null;
+export function coolDown(model: string, ms = COOLDOWN_MS) {
+  cooled.set(model, Date.now() + ms);
+  // довгі паузи (денний ліміт) — зберегти, щоб новий екземпляр функції не перевіряв вичерпані моделі заново
+  if (ms >= 10 * 60_000 && onCool) onCool(Object.fromEntries([...cooled].filter(([, t]) => t > Date.now())));
+}
+/** Збережені паузи моделей (з БД) і обробник збереження — підключає функція з доступом до БД */
+export function useCooldownStore(saved: Record<string, number> | null, save: (all: Record<string, number>) => void) {
+  for (const [m, t] of Object.entries(saved || {})) if (typeof t === 'number' && t > Date.now() && t > (cooled.get(m) || 0)) cooled.set(m, t);
+  onCool = save;
+}
 export function isCooled(model: string) { return (cooled.get(model) || 0) > Date.now(); }
 
 const RETRYABLE = ['model_not_found', 'overloaded', 'rate_limited', 'bad_model_request', 'empty', 'truncated'];
@@ -129,7 +149,8 @@ async function withModels<T>(models: string[], fn: (m: string) => Promise<T>): P
   for (const m of order) {
     try { return await fn(m); } catch (e) {
       last = e;
-      if (e instanceof HttpError && e.code === 'rate_limited') coolDown(m);
+      // ліміт вичерпано — модель пропускається до скидання ліміту (денний — до опівночі за тихоокеанським часом)
+      if (e instanceof HttpError && e.code === 'rate_limited') coolDown(m, (e as HttpError & { retryMs?: number }).retryMs || COOLDOWN_MS);
       // зависла / перевантажена / зникла модель — теж відкладаємо: наступні запити не чекають її тайм-ауту
       if (e instanceof HttpError && e.code === 'overloaded') coolDown(m, OVERLOAD_COOLDOWN_MS);
       if (e instanceof HttpError && e.code === 'model_not_found') coolDown(m, 60 * 60_000);
