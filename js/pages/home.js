@@ -104,6 +104,24 @@ export default async function home(view) {
       home(view).then(() => view.querySelector(`.level-pick [aria-label="Рівень ${l}"]`)?.focus({ preventScroll: true }));
     } }, l)))));
 
+  // ---- звіт за минулий місяць: перші 7 днів місяця, якщо тоді були заняття (модуль аналізу — лише тоді) ----
+  const now = new Date();
+  if (now.getDate() <= 7) {
+    const pm = new Date(now.getFullYear(), now.getMonth() - 1, 15);
+    const pym = `${pm.getFullYear()}-${String(pm.getMonth() + 1).padStart(2, '0')}`;
+    if (store.all('sessions').some(s => s.day?.startsWith(pym) && s.seconds > 0)) {
+      const slot = document.createComment('month-report');
+      blocks.push(slot);
+      import('../analysis.js').then(({ MONTH_ACC }) => {
+        if (!slot.parentNode) return;
+        slot.replaceWith(h('a.card.row.rp-link', { href: `#/report?m=${pym}` },
+          h('span.tile-ico', ic('calendar-blank', { size: 22 })),
+          h('div.grow', h('div', { style: { fontWeight: 600 } }, `Ваш звіт за ${MONTH_ACC[pm.getMonth()]} готовий`), h('div.xs.dim', 'Хвилини, рівень у розмовах, закриті помилки й ваш голос — тоді й зараз')),
+          ic('caret-right', { size: 18 })));
+      }).catch(() => slot.remove());
+    }
+  }
+
   // ---- завдання рівня на сьогодні: змінюються щодня і зі зміною рівня (дані вантажаться після першого показу) ----
   const tasksBox = h('section.stack', { style: { gap: '8px' } });
   blocks.push(tasksBox);

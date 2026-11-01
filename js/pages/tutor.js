@@ -5,10 +5,10 @@ import * as store from '../store.js';
 import * as srs from '../srs.js';
 import { md, mdInline } from '../ui/md.js';
 import { tappable, lookupDeck } from '../ui/wordtap.js';
-import { ai, tutor, tutorStream, aiErrorText, AiError } from '../ai.js';
+import { ai, tutor, tutorStream, pron, aiErrorText, AiError } from '../ai.js';
 import { user } from '../supa.js';
 import { speak, stop as stopSpeech, recognize, canRecognize } from '../speech.js';
-import { activityTimer, addMistake, deleteChat } from '../stats.js';
+import { activityTimer, addMistake, deleteChat, mistakeHit } from '../stats.js';
 import { confirmSheet } from '../ui/sheet.js';
 import { scenarios as loadScenarios } from '../data.js';
 import { runExercises } from '../ui/exercises.js';
@@ -51,14 +51,94 @@ const COACH_STARTERS = {
 
 export default async function tutorPage(view, r) {
   const q = r.query;
+  // місія з життя: сценарій без id, лежить у sessionStorage (див. missionsBlock)
+  const mission = q.mission ? readMission() : null;
+  if (q.mission && !mission) {
+    view.replaceChildren(h('div.empty', emo('flag', 'xl'), h('p', 'Місію не знайдено — складіть нові на сторінці вчителя.'), h('a.btn.soft', { href: '#/tutor' }, 'До вчителя')));
+    return;
+  }
   if (q.mode === 'voice') {
     const { voiceSession } = await import('../live/voice.js');
-    return voiceSession(view, { scenario: q.scenario, topic: q.topic });
+    return voiceSession(view, { scenario: q.scenario, topic: q.topic, mission });
   }
   if (q.chat) return openChat(view, q.chat);
   if (q.mode === 'check') return checkMode(view, q);
-  if (q.mode || q.ask || q.scenario) return chat(view, { mode: q.mode || (q.scenario ? 'scenario' : 'chat'), scenario: q.scenario, type: q.type, ask: q.ask, topic: q.topic, section: q.section });
+  if (q.mode || q.ask || q.scenario) return chat(view, { mode: q.mode || (q.scenario ? 'scenario' : 'chat'), scenario: q.scenario, type: q.type, ask: q.ask, topic: q.topic, section: q.section, mission });
   return overview(view);
+}
+
+// ---------- Місії з життя: 3 рольові ігри з профілю учня (дія mission) ----------
+const MISSION_KEY = 'me:mission', MISSIONS_KEY = 'me:missions';
+const ssGet = (k) => { try { return JSON.parse(sessionStorage.getItem(k) || 'null'); } catch { return null; } };
+const ssSet = (k, v) => { try { sessionStorage.setItem(k, JSON.stringify(v)); } catch { /* приватний режим */ } };
+/** Місія у формі сценарію (без id) або null, якщо дані неповні */
+export function cleanMission(m) {
+  if (!m || typeof m !== 'object') return null;
+  const t = (v, n) => String(v ?? '').replace(/\s+/g, ' ').trim().slice(0, n);
+  const x = { id: null, title: t(m.title, 80), why_uk: t(m.why_uk, 240), situation: t(m.situation, 600), myRole: t(m.myRole, 120), tutorRole: t(m.tutorRole, 120), goal: t(m.goal, 300),
+    phrases: (Array.isArray(m.phrases) ? m.phrases : []).map(p => t(p, 160)).filter(Boolean).slice(0, 8) };
+  return x.title && x.situation && x.myRole && x.tutorRole && x.goal ? x : null;
+}
+function readMission() { return cleanMission(ssGet(MISSION_KEY)); }
+function startMission(m, how) {
+  ssSet(MISSION_KEY, m);
+  go(how === 'voice' ? '/tutor?mode=voice&mission=1' : '/tutor?mode=scenario&mission=1');
+}
+
+function missionsBlock() {
+  const list = h('div.mission-list');
+  const status = h('div.mission-status', { 'aria-live': 'polite' });
+  const btn = h('button.btn.start', { type: 'button', onclick: load });
+  const paintBtn = (busy, has) => {
+    btn.disabled = busy;
+    btn.replaceChildren(ic(busy ? 'hourglass' : has ? 'arrow-clockwise' : 'sparkle', { size: 18, fill: !busy && !has }),
+      busy ? 'Складаю місії…' : has ? 'Інші місії' : 'Скласти місії');
+  };
+  const render = (missions) => {
+    list.replaceChildren(...missions.map(missionCard));
+    paintBtn(false, missions.length > 0);
+  };
+  async function load() {
+    if (!user()) { toast(S.err.needLogin); return; }
+    paintBtn(true, false);
+    status.textContent = 'Вчитель переглядає ваш профіль і плани — це займе кілька секунд.';
+    try {
+      const res = await tutor('mission', {});
+      const missions = (res?.missions || []).map(cleanMission).filter(Boolean).slice(0, 3);
+      if (!missions.length) throw new AiError('empty', S.err.aiFailed);
+      ssSet(MISSIONS_KEY, { ts: Date.now(), missions });
+      status.textContent = '';
+      render(missions);
+    } catch (e) {
+      status.textContent = aiErrorText(e) || S.err.generic;
+      const cached = ssGet(MISSIONS_KEY);
+      paintBtn(false, !!cached?.missions?.length);
+    }
+  }
+  const cached = ssGet(MISSIONS_KEY);
+  const missions = (cached?.missions || []).map(cleanMission).filter(Boolean);
+  render(missions);
+  return h('section.mission-hero',
+    h('div.row', { style: { alignItems: 'flex-start', gap: '12px' } },
+      h('span.mission-ico', { 'aria-hidden': 'true' }, ic('flag', { size: 22 })),
+      h('div.grow', h('div.label', 'Персонально для вас'), h('h2.mission-h', 'Місії з вашого життя'),
+        h('div.sub', 'Вчитель складе 3 ситуації за вашим профілем і планами — дзвінок, візит, розмова з сусідом — щоб ви підготувалися до реальних розмов.'))),
+    list, status, btn);
+}
+
+function missionCard(m) {
+  return h('article.mission-card',
+    h('div.mission-title', m.title),
+    m.why_uk ? h('div.mission-why', m.why_uk) : null,
+    h('div.mission-sit', m.situation),
+    h('div.mission-meta', h('span', h('b', 'Ви: '), m.myRole), h('span', h('b', 'Співрозмовник: '), m.tutorRole)),
+    h('div.mission-goal', ic('target', { size: 16 }), h('span', h('b', 'Мета: '), m.goal)),
+    m.phrases.length ? h('details.mission-phrases',
+      h('summary', ic('chat-centered-text', { size: 16 }), h('span.grow', `Корисні фрази · ${m.phrases.length}`), ic('caret-down', { size: 16 })),
+      h('ul', { lang: 'en' }, m.phrases.map(p => h('li', h('button.mission-phrase', { type: 'button', 'aria-label': `Прослухати: ${p}`, onclick: () => speak(p) }, ic('speaker-high', { size: 14 }), h('span', p)))))) : null,
+    h('div.mission-acts',
+      h('button.btn.mission-go', { type: 'button', onclick: () => startMission(m, 'voice') }, ic('microphone', { size: 18, fill: true }), 'Голосом'),
+      h('button.btn.mission-go.alt', { type: 'button', onclick: () => startMission(m, 'text') }, ic('chat-circle-dots', { size: 18 }), 'Текстом')));
 }
 
 function needLoginCard() {
@@ -74,6 +154,7 @@ function overview(view) {
   view.replaceChildren(h('div.stack-lg',
     h('section.row', h('div.emoji-circle', emo('teacher')), h('div.grow', h('h1', st.tutorName), h('div.small.dim', 'Ваш AI-вчитель англійської'))),
     needLoginCard(),
+    missionsBlock(),
     h('div.grid2', MODES.map(m => h('a.tile', { href: m.href || `#/tutor?mode=${m.id}` },
       h('div.emoji-circle', emo(m.emoji)), h('div', h('div.name', m.title), h('div.status', m.desc))))),
     history(view, chats)));
@@ -249,12 +330,17 @@ export function topicIdeas() {
 // ---------- Текстовий чат ----------
 async function chat(view, opts) {
   let scenario = null;
-  if (opts.scenario) scenario = (await loadScenarios()).find(s => s.id === opts.scenario);
+  if (opts.mission) scenario = opts.mission;
+  else if (opts.scenario) scenario = (await loadScenarios()).find(s => s.id === opts.scenario);
   const typeLabel = opts.type ? (S.mistakeTypes[opts.type] || opts.type) : null;
   if (opts.mode === 'coach') {
     const section = Object.hasOwn(COACH_SECTIONS, opts.section || '') ? opts.section : 'overview';
     const row = { mode: 'coach', scenario: null, title: `Консультація: ${COACH_SECTIONS[section]}`, messages: [], summary: null, seconds: 0, meta: { section, topicLabel: `Консультація · ${COACH_SECTIONS[section]}` } };
     return chatUI(view, row, {});
+  }
+  if (opts.mission) {
+    const row = { mode: 'scenario', scenario: null, title: `Місія: ${scenario.title}`, messages: [], summary: null, seconds: 0, meta: { type: null, topic: null, mission: opts.mission, topicLabel: `Місія · ${scenario.title}` } };
+    return chatUI(view, row, { scenario });
   }
   const title = scenario ? scenario.title : opts.mode === 'drill' ? `Тренування: ${typeLabel || 'слабке місце'}` : opts.mode === 'explain' ? 'Поясни' : opts.ask ? `Слово: ${opts.ask}` : 'Вільна розмова';
   const row = { mode: opts.mode, scenario: opts.scenario || null, title, messages: [], summary: null, seconds: 0, meta: { type: opts.type || null, topic: opts.topic || null } };
@@ -272,6 +358,8 @@ async function openChat(view, id) {
   if (!row.messages?.length) return summaryView(view, row);
   let scenario = null;
   if (row.scenario) scenario = (await loadScenarios()).find(s => s.id === row.scenario);
+  // місія (сценарій без id) — з локальної копії розмови (meta не синхронізується)
+  if (!scenario && row.meta?.mission) scenario = cleanMission(row.meta.mission);
   return chatUI(view, row, { scenario, topic: row.meta?.topic || null, resumed: true });
 }
 
@@ -690,35 +778,68 @@ function chatUI(view, row, { scenario, ask, topic, resumed } = {}) {
 }
 
 // ---------- Підсумок сесії ----------
-export async function summarize(view, row, { voice = false } = {}) {
+// Підсумок рахує Pro-модель — до хвилини: текст очікування змінюється, щоб екран не здавався завислим
+const SUMMARY_STEPS = ['Перечитую розмову…', 'Перевіряю ваші репліки…', 'Шукаю помилки, які повторюються…', 'Оцінюю рівень за критеріями CEFR…', 'Добираю нові слова…', 'Готую пораду на наступний раз…', 'Майже готово — докладний розбір займає до хвилини…'];
+const SPEECH_KEYS = ['words', 'speech_sec', 'wpm', 'avg_len', 'repeats', 'fillers', 'unique_ratio', 'turns'];
+
+/** opts.voice — голосова сесія; opts.pronTurns — репліки з аудіо для оцінки вимови (лише одразу після голосу, у пам'яті) */
+export async function summarize(view, row, { voice = false, pronTurns = null } = {}) {
   setFocus(false);
-  view.replaceChildren(h('div.hero', emo('hourglass', 'xl'), h('h2', 'Вчитель готує підсумок…'), h('p.dim.small', 'Помилки, нові слова, рекомендація')));
+  const stepEl = h('p.dim.small.sum-wait', { 'aria-live': 'polite' }, SUMMARY_STEPS[0]);
+  view.replaceChildren(h('div.hero', emo('hourglass', 'xl'), h('h2', 'Вчитель готує підсумок…'), stepEl,
+    h('div.sum-wait-bar', { 'aria-hidden': 'true' }, h('i'))));
+  let step = 0;
+  const tick = setInterval(() => {
+    if (!stepEl.isConnected) { clearInterval(tick); return; }
+    step = Math.min(SUMMARY_STEPS.length - 1, step + 1);
+    stepEl.textContent = SUMMARY_STEPS[step];
+  }, 8000);
   try {
-    const res = await tutor('summary', { mode: row.mode, messages: (row.messages || []).filter(m => !m.hidden).map(m => ({ role: m.role, text: m.text })) });
+    const prev = row.summary || null;
+    const payload = { mode: row.mode, messages: (row.messages || []).filter(m => !m.hidden).map(m => ({ role: m.role, text: m.text })) };
+    // метрики мовлення голосової сесії (рахує voice.js); без виміряного часу мовлення (режим «рація») — не надсилаємо
+    const sp = prev?.speech;
+    if (row.mode === 'voice' && sp?.words && sp.speech_sec >= 5) payload.speech = Object.fromEntries(SPEECH_KEYS.map(k => [k, Number(sp[k]) || 0]));
+    const res = await tutor('summary', payload);
     // повторний підсумок продовженої розмови (і помилки, вже додані з виправлень) не зараховуються вдруге
-    const prevList = row.summary?.mistakes || [];
+    const prevList = prev?.mistakes || [];
     const before = new Set(prevList.map(mkey));
     const mistakes = [...(res.mistakes || [])];
     // помилки, додані з карток виправлень, лишаються в списку розмови (для deleteChat)
     for (const m of prevList) if (!mistakes.some(x => mkey(x) === mkey(m))) mistakes.push(m);
-    row.summary = { ...res, mistakes };
+    // засвоєні помилки: правильне вживання зараховується один раз на розмову (повторний підсумок не рахує вдруге)
+    const applied = new Set(Array.isArray(prev?.mastered_applied) ? prev.mastered_applied : []);
+    const mastered = [...new Set((Array.isArray(res.mastered) ? res.mastered : []).map(String))].slice(0, 5);
+    for (const id of mastered) {
+      if (applied.has(id)) continue;
+      const m = store.get('mistakes', id);
+      if (!m || m.deleted) continue;
+      if (!m.resolved) mistakeHit(m, true);
+      applied.add(id);
+    }
+    const next = { ...res, mistakes, mastered };
+    if (applied.size) next.mastered_applied = [...applied];
+    if (prev?.speech) next.speech = prev.speech;
+    // запис репліки міг завантажитись раніше за підсумок (або завантажиться пізніше — voice.js допише сам)
+    if (row.summary?.clip) next.clip = row.summary.clip;
+    row.summary = next;
     store.put('tutor_chats', row);
     for (const m of res.mistakes || []) if (!before.has(mkey(m))) addMistake({ ...m, source: 'tutor', ref: row.id });
     store.setProf({ lastFocus: res.next_focus || null });
     // новий сервер повертає й факти про учня з усієї розмови
     if (Array.isArray(res.memory) && res.memory.length) rememberFacts(res.memory);
   } catch (e) {
-    view.replaceChildren(h('div.hero', emo('warning', 'xl'), h('p', aiErrorText(e)),
-      h('div.row', h('a.btn.soft', { href: '#/tutor' }, 'До вчителя'), h('button.btn.primary', { type: 'button', onclick: () => summarize(view, row, { voice }) }, 'Спробувати ще раз'))));
+    view.replaceChildren(h('div.hero', emo('warning', 'xl'), h('p', aiErrorText(e) || S.err.generic),
+      h('div.row', h('a.btn.soft', { href: '#/tutor' }, 'До вчителя'), h('button.btn.primary', { type: 'button', onclick: () => summarize(view, row, { voice, pronTurns }) }, 'Спробувати ще раз'))));
     return;
-  }
-  return summaryView(view, row);
+  } finally { clearInterval(tick); }
+  return summaryView(view, row, { pronTurns });
 }
 
-export function summaryView(view, row) {
+export function summaryView(view, row, { pronTurns = null } = {}) {
   const s = row.summary;
   if (!s || s.partial) {
-    view.replaceChildren(h('div.hero', h('p', 'Підсумку ще немає.'), h('button.btn.primary', { type: 'button', onclick: () => summarize(view, row) }, 'Зробити підсумок')));
+    view.replaceChildren(h('div.hero', h('p', 'Підсумку ще немає.'), h('button.btn.primary', { type: 'button', onclick: () => summarize(view, row, { voice: row.mode === 'voice' }) }, 'Зробити підсумок')));
     return;
   }
   const words = (s.new_words || []).filter(w => w?.en);
@@ -770,11 +891,107 @@ export function summaryView(view, row) {
       h('div.row.wrap', h('a.btn.sm.soft', { href: '#/mistakes' }, ic('warning-circle', { size: 16 }), 'Мої помилки'),
         topType ? h('a.btn.sm.soft', { href: `#/tutor?mode=drill&type=${encodeURIComponent(topType)}` }, ic('target', { size: 16 }), `Міні-урок: ${S.mistakeTypes[topType] || topType}`) : null))
       : h('section.card.row', emo('check'), h('div', 'Помилок не помічено. Так тримати!')),
+    masteredCard(s),
+    row.mode === 'voice' ? speechCard(s) : null,
+    pronTurns?.length ? pronCard(pronTurns) : null,
     words.length ? h('section.card.stack', h('div.section-title', `Нові слова · ${words.length}`), wordsBox, addAll) : null,
     s.next_focus ? h('section.card.accent.stack', h('div.section-title', 'Наступного разу'), h('div', s.next_focus),
       h('a.btn.sm.primary', { href: `#/tutor?mode=chat&topic=${encodeURIComponent(`Focus recommended after the last session (practise it naturally in conversation): ${s.next_focus}`)}`, style: { alignSelf: 'flex-start' } }, ic('arrow-right', { size: 16 }), 'Почати з цього')) : null,
     h('div.row', h('a.btn.soft.grow', { href: '#/' }, 'На головну'), h('a.btn.primary.grow', { href: '#/tutor' }, 'Нова розмова')),
     deleteButton(row)));
+}
+
+/** «Засвоєно»: помилки, які учень цього разу вжив правильно (3 рази поспіль — закрито) */
+function masteredCard(s) {
+  const items = (Array.isArray(s.mastered) ? s.mastered : []).map(id => store.get('mistakes', String(id))).filter(m => m && !m.deleted);
+  if (!items.length) return null;
+  return h('section.card.stack.sum-mastered', h('div.row', ic('check-circle', { size: 22 }), h('div.section-title.grow', `Засвоєно · ${items.length}`)),
+    h('div.xs.dim', 'Цього разу ви сказали правильно те, що раніше було помилкою.'),
+    h('div.stack', { style: { gap: '10px' } }, items.map(m => {
+      const n = Math.min(3, m.streak || 0);
+      return h('div.sum-mastered-row',
+        h('div.grow', h('div.fix-line', h('s.bad', m.wrong), h('span.arrow', { 'aria-label': 'правильно:' }, ' → '), h('b.good', m.right))),
+        m.resolved ? h('span.tag.good', ic('check', { size: 12 }), ' закрито')
+          : h('span.mastered-dots', { role: 'img', 'aria-label': `Правильно поспіль: ${n} з 3` }, [0, 1, 2].map(i => h('i', { class: i < n ? 'on' : '' }))));
+    })));
+}
+
+/** Метрики мовлення голосової сесії + порада з плавності */
+function speechCard(s) {
+  const sp = s.speech;
+  const tip = String(s.fluency_tip_uk || '').trim();
+  if (!sp?.words && !tip) return null;
+  const stat = (v, label) => h('div.stat', h('b', v), h('span', label));
+  const stats = sp?.words ? [
+    sp.wpm > 0 ? stat(String(sp.wpm), 'Темп, слів/хв') : null,
+    stat(String(sp.avg_len), 'Середня репліка, слів'),
+    stat(String(sp.repeats || 0), 'Повтори («I I»)'),
+    stat(`${Math.round((sp.unique_ratio || 0) * 100)}%`, 'Різноманітність словника'),
+  ].filter(Boolean) : [];
+  return h('section.card.stack.sum-speech', h('div.row', ic('waveform', { size: 22 }), h('div.section-title.grow', 'Як ви говорили')),
+    stats.length ? h('div.grid2.sum-stats', stats) : null,
+    sp?.words ? h('div.xs.dim', `${sp.words} ${plural(sp.words, 'слово', 'слова', 'слів')} за ${sp.turns} ${plural(sp.turns, 'репліку', 'репліки', 'реплік')}${sp.fillers ? ` · «е-е»: ${sp.fillers}` : ''}. Для тих, хто вчить мову, типово 60–110 слів/хв, вільне мовлення — 120–160.`) : null,
+    tip ? h('div.sum-tip', ic('lightbulb', { size: 18 }), h('div', mdInline(tip))) : null);
+}
+
+/** Вимова у вашій розмові: AI-оцінка кількох реплік (кожна — 1 запит AI, тому за кнопкою) */
+function pronCard(turns) {
+  const box = h('div.stack', { style: { gap: '14px' } });
+  let player = null;
+  const play = (t) => {
+    // власний запис репліки: WAV у пам'яті → тимчасове посилання (звільняється після відтворення)
+    let url;
+    try {
+      const bin = atob(t.audio), u8 = new Uint8Array(bin.length);
+      for (let i = 0; i < bin.length; i++) u8[i] = bin.charCodeAt(i);
+      url = URL.createObjectURL(new Blob([u8], { type: 'audio/wav' }));
+    } catch { return; }
+    stopSpeech();
+    try { player?.pause(); } catch { /* */ }
+    const a = player = new Audio(url);
+    const free = () => URL.revokeObjectURL(url);
+    a.addEventListener('ended', free, { once: true }); a.addEventListener('error', free, { once: true }); a.addEventListener('pause', free, { once: true });
+    a.play().catch(free);
+  };
+  const rows = turns.map(t => {
+    const out = h('div', { 'aria-live': 'polite' });
+    const el = h('div.pron-turn',
+      h('div.row', { style: { alignItems: 'flex-start', gap: '8px' } },
+        h('div.grow.small', { lang: 'en' }, `«${t.text}»`),
+        h('button.icon-btn', { type: 'button', 'aria-label': 'Прослухати свій запис', onclick: () => play(t) }, ic('play', { size: 18 }))),
+      out);
+    return { t, out, el };
+  });
+  box.append(...rows.map(r => r.el));
+  const btn = h('button.btn.primary.block', { type: 'button' }, ic('waveform', { size: 18 }), `Перевірити вимову (${turns.length} ${plural(turns.length, 'репліка', 'репліки', 'реплік')})`);
+  btn.addEventListener('click', async () => {
+    if (!user()) { toast(S.err.needLogin); return; }
+    btn.disabled = true;
+    btn.replaceChildren(ic('hourglass', { size: 18 }), 'Оцінюю вимову…');
+    let renderAssessment = null;
+    try { ({ renderAssessment } = await import('./pronunciation.js')); } catch { /* компактний запасний вигляд нижче */ }
+    let failed = 0;
+    for (const r of rows) {
+      if (r.done) continue;
+      r.out.replaceChildren(h('div.xs.dim', 'Оцінюю…'));
+      try {
+        const res = await pron('assess', { text: r.t.text, audio: r.t.audio, mime: 'audio/wav', accent: store.settings().accent === 'US' ? 'US' : 'UK' });
+        r.done = true;
+        r.out.replaceChildren(renderAssessment ? renderAssessment(res, { compact: true }) : h('div.small', h('b', `${res.score}/100`),
+          (res.words || []).filter(w => w.status !== 'ok').length ? ` · слова: ${(res.words || []).filter(w => w.status !== 'ok').map(w => w.word).join(', ')}` : ''));
+      } catch (e) {
+        failed++;
+        r.out.replaceChildren(h('div.xs', { style: { color: 'var(--bad)' } }, aiErrorText(e) || 'Не вдалося оцінити вимову.'));
+        if (e?.code === 'quota' || e?.code === 'need_login' || e?.code === 'offline') break;
+      }
+    }
+    if (failed) { btn.disabled = false; btn.replaceChildren(ic('arrow-clockwise', { size: 18 }), 'Спробувати ще раз'); }
+    else btn.replaceWith(h('a.btn.soft.block', { href: '#/pronunciation' }, ic('waveform', { size: 18 }), 'Тренувати вимову'));
+  });
+  const card = h('section.card.stack.sum-pron', h('div.row', ic('microphone', { size: 22 }), h('div.section-title.grow', 'Вимова у вашій розмові')),
+    h('div.xs.dim', 'Кілька ваших найдовших реплік з цієї розмови. AI оцінить вимову кожного слова — по одному запиту AI на репліку.'),
+    box, btn);
+  return card;
 }
 
 const CRIT_UK = { range: 'Словник і граматика', accuracy: 'Точність', fluency: 'Плавність', interaction: 'Взаємодія', coherence: 'Зв\'язність' };

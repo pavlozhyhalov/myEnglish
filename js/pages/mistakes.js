@@ -10,30 +10,67 @@ import { user } from '../supa.js';
 
 const SRC = { tutor: 'вчитель', test: 'тест', exercise: 'вправа', diary: 'щоденник', voice: 'голос', pronunciation: 'вимова' };
 
+const DAY = 864e5;
+/** Голосова розмова на власні помилки учня (тема для вчителя — англійською) */
+export const TALK_HREF = '#/tutor?mode=voice&topic=' + encodeURIComponent('Work on the student\'s own mistakes: name 2 of their most frequent recent mistakes (wrong → right), then keep a natural conversation that makes them use the correct forms; notice when they get it right.');
+const fmtDay = (iso) => new Date(iso).toLocaleDateString('uk-UA', { day: 'numeric', month: 'short', year: new Date(iso).getFullYear() === new Date().getFullYear() ? undefined : 'numeric' });
+
+/** Засвоєння помилки: 3 крапки (правильні вживання поспіль) */
+export function masteryDots(streakN, label = true) {
+  const n = Math.max(0, Math.min(3, streakN || 0));
+  return h('span.mk-dots', { role: 'img', 'aria-label': `Засвоєння: ${n} з 3` },
+    label ? h('span', `Засвоєння: ${n}/3`) : null,
+    h('span.mk-dots-row', { 'aria-hidden': 'true' }, [0, 1, 2].map(i => h('i' + (i < n ? '.on' : '')))));
+}
+
 export default function mistakes(view, r) {
-  let showResolved = false;
+  let tab = r?.query?.tab === 'closed' ? 'closed' : 'open';
   const body = h('div.stack-lg');
   const draw = () => {
-    const groups = mistakesByType({ includeResolved: showResolved });
-    const total = store.all('mistakes').filter(m => !m.resolved).length;
-    const resolved = store.all('mistakes').filter(m => m.resolved).length;
-    body.replaceChildren(
-      h('section.card.stack',
-        h('div.row', emo('target', 'lg'), h('div.grow', h('div', { style: { fontWeight: 600 } }, `${total} ${plural(total, 'помилка', 'помилки', 'помилок')} у роботі`), h('div.xs.dim', `Виправлено: ${resolved} · помилка вважається виправленою після 3 правильних відповідей поспіль`))),
-        total ? h('button.btn.primary.block', { type: 'button', onclick: () => drill(body, draw, timer) }, ic('barbell'), 'Вправи на мої помилки') : null,
-        h('button.btn.sm.ghost', { type: 'button', style: { alignSelf: 'flex-start' }, onclick: () => { showResolved = !showResolved; draw(); } }, showResolved ? 'Сховати виправлені' : 'Показати виправлені')),
-      groups.length ? '' : h('div.empty', emo('sparkles', 'xl'), h('p', 'Список порожній. Помилки з розмов, вправ і тестів з\'являтимуться тут.')),
+    const all = store.all('mistakes');
+    const openN = all.filter(m => !m.resolved).length;
+    const closedList = all.filter(m => m.resolved).sort((a, b) => String(b.updated_at || '').localeCompare(String(a.updated_at || '')));
+    const closed30 = closedList.filter(m => Date.now() - Date.parse(m.updated_at || 0) < 30 * DAY).length;
+    const tabBtn = (id, label, n) => h('button.chip', { type: 'button', 'aria-pressed': String(tab === id), onclick: () => { if (tab !== id) { tab = id; draw(); } } }, `${label} · ${n}`);
+    const head = h('section.card.stack',
+      h('div.row', emo('target', 'lg'),
+        h('div.grow', h('div', { style: { fontWeight: 600 } }, `${openN} ${plural(openN, 'помилка', 'помилки', 'помилок')} у роботі`),
+          h('div.xs.dim', `Усього закрито: ${closedList.length}`)),
+        h('div.stat.mk-closed', { 'aria-label': `Закрито за 30 днів: ${closed30}` }, h('b', String(closed30)), h('span', 'закрито за 30 днів'))),
+      h('p.mk-how', ic('info', { size: 18 }), h('span', 'Скажіть правильну форму в розмові з вчителем або у вправах 3 рази поспіль — помилку буде закрито.')),
+      openN ? h('div.mk-actions',
+        h('button.btn.primary', { type: 'button', onclick: () => drill(body, draw, timer) }, ic('barbell', { size: 18 }), 'Вправи на мої помилки'),
+        h('a.btn.soft', { href: TALK_HREF }, ic('microphone', { size: 18 }), 'Потренувати в розмові')) : null,
+      h('div.chips', { role: 'group', 'aria-label': 'Показати' }, tabBtn('open', 'Відкриті', openN), tabBtn('closed', 'Закриті', closedList.length)));
+
+    if (tab === 'closed') {
+      body.replaceChildren(head, closedList.length
+        ? h('section.stack', { style: { gap: '8px' } },
+          h('div.section-title', 'Закриті — від нових'),
+          h('div.list', closedList.map(m => h('div.list-row', { style: { alignItems: 'flex-start' } },
+            h('span.mk-done', ic('check-circle', { size: 20 })),
+            h('div.grow.stack', { style: { gap: '2px' } },
+              h('div', h('s.dim', m.wrong), ' → ', h('b.good', m.right)),
+              h('div.xs.dim', `${S.mistakeTypes[m.type] || m.type} · ×${m.count || 1} · закрито ${m.updated_at ? fmtDay(m.updated_at) : ''}`)),
+            delBtn(m)))))
+        : h('div.empty', emo('sparkles', 'xl'), h('p', 'Закритих помилок поки немає. Коли ви 3 рази поспіль скажете правильно, помилка з\'явиться тут.')));
+      return;
+    }
+    const groups = mistakesByType();
+    body.replaceChildren(head,
+      groups.length ? '' : h('div.empty', emo('sparkles', 'xl'), h('p', openN || !closedList.length ? 'Список порожній. Помилки з розмов, вправ і тестів з\'являтимуться тут.' : 'Відкритих помилок немає — усе закрито!')),
       ...groups.map(g => h('section.stack', { style: { gap: '8px' } },
-        h('div.row', h('div.section-title.grow', `${S.mistakeTypes[g.type] || g.type} · ${g.total}`),
+        h('div.row.mk-ghead', h('div.section-title.grow', `${S.mistakeTypes[g.type] || g.type} · ${g.total}`),
           h('button.btn.sm.soft', { type: 'button', onclick: () => selfCheck(body, g.items.filter(m => !m.resolved), draw) }, ic('check-circle', { size: 16 }), 'Перевірити себе'),
           h('a.btn.sm.primary', { href: `#/tutor?mode=drill&type=${g.type}` }, 'Потренувати')),
         h('div.list', g.items.sort((a, b) => (b.count || 1) - (a.count || 1)).map(m => h('div.list-row', { style: { alignItems: 'flex-start' } },
           h('div.grow.stack', { style: { gap: '2px' } },
             h('div', h('s.bad', m.wrong), ' → ', h('b.good', m.right)),
             m.explanation_uk ? h('div.xs.dim', m.explanation_uk) : null,
-            h('div.xs.dim', `×${m.count || 1} · ${SRC[m.source] || m.source} · ${m.resolved ? 'виправлено' : `прогрес ${m.streak || 0}/3`}`)),
-          h('button.icon-btn', { type: 'button', 'aria-label': 'Видалити', onclick: async () => { if (await confirmSheet('Видалити помилку?', `${m.wrong} → ${m.right}`, 'Видалити', { danger: true })) { store.remove('mistakes', m.id); draw(); } } }, ic('trash', { size: 18 }))))))));
+            h('div.row.xs.dim.mk-meta', h('span.grow', `×${m.count || 1} · ${SRC[m.source] || m.source || 'вчитель'}`), masteryDots(m.streak))),
+          delBtn(m)))))));
   };
+  const delBtn = (m) => h('button.icon-btn', { type: 'button', 'aria-label': 'Видалити', onclick: async () => { if (await confirmSheet('Видалити помилку?', `${m.wrong} → ${m.right}`, 'Видалити', { danger: true })) { store.remove('mistakes', m.id); draw(); } } }, ic('trash', { size: 18 }));
   // час самоперевірки рахується як практика (стрік, Resonance)
   const timer = activityTimer('mistakes');
   view.replaceChildren(body);

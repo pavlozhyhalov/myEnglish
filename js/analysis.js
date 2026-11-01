@@ -235,6 +235,159 @@ export function readingPart() {
   return { texts: xs.length, avgBest: xs.length ? Math.round(avg(xs.map(x => Number(x.best) || 0))) : null };
 }
 
+// ---------- Мовлення в голосових розмовах (summary.speech: темп, довжина реплік, повтори, різноманітність) ----------
+const MIN_SPEECH_WORDS = 20;   // коротші сесії — шум (кілька реплік), у динаміку не йдуть
+const fin = (x) => { const n = Number(x); return Number.isFinite(n) ? n : null; };
+/** Частка (0…1 або 0…100) → відсоток */
+const ratioPct = (x) => { const n = fin(x); return n == null || n < 0 ? null : Math.round(n <= 1 ? n * 100 : Math.min(100, n)); };
+export const SPEECH_KEYS = ['wpm', 'avgLen', 'rep100', 'fill100', 'unique'];
+
+/** Голосові розмови з виміряним мовленням (у порядку дат); filter — напр. лише за місяць */
+export function speechSessions(filter = null) {
+  return store.all('tutor_chats')
+    .filter(c => c.mode === 'voice' && c.summary?.speech && (fin(c.summary.speech.words) || 0) >= MIN_SPEECH_WORDS && (!filter || filter(c)))
+    .sort((a, b) => String(a.created_at).localeCompare(String(b.created_at)))
+    .map(c => {
+      const s = c.summary.speech, w = fin(s.words);
+      return {
+        id: c.id, at: c.created_at, words: w, sec: fin(s.speech_sec), turns: fin(s.turns),
+        wpm: fin(s.wpm) != null ? Math.round(s.wpm) : null,
+        avgLen: fin(s.avg_len) != null ? round(s.avg_len, 1) : null,
+        rep100: fin(s.repeats) != null ? round(s.repeats / w * 100, 1) : null,
+        fill100: fin(s.fillers) != null ? round(s.fillers / w * 100, 1) : null,
+        unique: ratioPct(s.unique_ratio),
+      };
+    });
+}
+
+/**
+ * Динаміка мовлення: середнє перших сесій (до 3, не більше половини) проти останньої сесії.
+ * Менше 2 сесій — лише остання (first = null).
+ */
+export function speechPart(list = speechSessions()) {
+  const n = list.length;
+  const mean = (xs) => {
+    const o = {};
+    for (const k of SPEECH_KEYS) { const v = avg(xs.map(x => x[k]).filter(v => v != null)); o[k] = v == null ? null : k === 'wpm' || k === 'unique' ? Math.round(v) : round(v, 1); }
+    return o;
+  };
+  const k = Math.min(3, Math.max(1, Math.floor(n / 2)));
+  return {
+    n, sessions: list, firstN: k,
+    first: n >= 2 ? mean(list.slice(0, k)) : null,
+    latest: n ? mean([list[n - 1]]) : null,
+    words: list.reduce((a, s) => a + (s.words || 0), 0),
+  };
+}
+
+const fmtN = (x) => String(x).replace('.', ',');
+/** Висновки простими словами: «Темп зріс з 62 до 78 слів/хв». a — було, b — зараз */
+export function speechLines(a, b) {
+  if (!a || !b) return [];
+  const out = [];
+  const ch = (k, minAbs, minRel = 0) => {
+    if (a[k] == null || b[k] == null) return 0;
+    const d = b[k] - a[k];
+    if (Math.abs(d) < minAbs || (a[k] && Math.abs(d / a[k]) < minRel)) return 0;
+    return Math.sign(d);
+  };
+  const w = ch('wpm', 3, 0.05);
+  if (a.wpm != null && b.wpm != null) out.push(w > 0 ? `Темп зріс з ${a.wpm} до ${b.wpm} слів/хв.` : w < 0 ? `Темп знизився з ${a.wpm} до ${b.wpm} слів/хв — це нормально, коли теми стають складнішими.` : `Темп стабільний — близько ${b.wpm} слів/хв.`);
+  const l = ch('avgLen', 0.5, 0.08);
+  if (l) out.push(l > 0 ? `Репліки довшають: з ${fmtN(a.avgLen)} до ${fmtN(b.avgLen)} ${pluralF(b.avgLen, 'слова', 'слів', 'слів', 'слова')} в середньому — ви говорите розгорнутіше.`
+    : `Репліки коротшають: з ${fmtN(a.avgLen)} до ${fmtN(b.avgLen)} ${pluralF(b.avgLen, 'слова', 'слів', 'слів', 'слова')}. Спробуйте додавати «because…», «for example…».`);
+  const r = ch('rep100', 0.5, 0.15);
+  if (r) out.push(r < 0 ? `Повторів і самовиправлень менше: ${fmtN(a.rep100)} → ${fmtN(b.rep100)} на 100 слів — мовлення плавніше.`
+    : `Повторів більше: ${fmtN(a.rep100)} → ${fmtN(b.rep100)} на 100 слів. Говоріть трохи повільніше, але без зупинок.`);
+  const f = ch('fill100', 0.5, 0.15);
+  if (f) out.push(f < 0 ? `Заповнювачів пауз (um, uh) менше: ${fmtN(a.fill100)} → ${fmtN(b.fill100)} на 100 слів.` : `Заповнювачів пауз (um, uh) більше: ${fmtN(a.fill100)} → ${fmtN(b.fill100)} на 100 слів.`);
+  const u = ch('unique', 3);
+  if (u) out.push(u > 0 ? `Словник різноманітніший: ${a.unique}% → ${b.unique}% різних слів.` : `Різних слів менше: ${a.unique}% → ${b.unique}%. Пробуйте синоніми замість повторів того самого слова.`);
+  return out;
+}
+
+// ---------- Звіт за місяць ----------
+export const MONTH_UK = ['Січень', 'Лютий', 'Березень', 'Квітень', 'Травень', 'Червень', 'Липень', 'Серпень', 'Вересень', 'Жовтень', 'Листопад', 'Грудень'];
+/** «у жовтні» */
+export const MONTH_IN = ['січні', 'лютому', 'березні', 'квітні', 'травні', 'червні', 'липні', 'серпні', 'вересні', 'жовтні', 'листопаді', 'грудні'];
+/** «за жовтень» */
+export const MONTH_ACC = ['січень', 'лютий', 'березень', 'квітень', 'травень', 'червень', 'липень', 'серпень', 'вересень', 'жовтень', 'листопад', 'грудень'];
+export const monthKey = (d = new Date()) => dayKey(d).slice(0, 7);
+export const isMonthKey = (s) => typeof s === 'string' && /^\d{4}-(0[1-9]|1[0-2])$/.test(s);
+export function shiftMonth(ym, n) { const [y, m] = ym.split('-').map(Number); const d = new Date(y, m - 1 + n, 15, 12); return monthKey(d); }
+export const monthTitle = (ym) => { const [y, m] = ym.split('-').map(Number); return `${MONTH_UK[m - 1]} ${y}`; };
+const monthOf = (iso) => (iso ? dayKey(new Date(iso)).slice(0, 7) : '');
+
+/** Місяці з будь-якими даними (час, розмови, помилки, повтори) + поточний; від нових до старих */
+export function reportMonths() {
+  const set = new Set([monthKey()]);
+  for (const s of store.all('sessions')) if (s.day && (s.seconds || 0) > 0) set.add(s.day.slice(0, 7));
+  for (const c of store.all('tutor_chats')) if (c.created_at) set.add(monthOf(c.created_at));
+  for (const m of store.all('mistakes')) if (m.created_at) set.add(monthOf(m.created_at));
+  for (const r of store.all('reviews')) if (r.ts) set.add(monthOf(r.ts));
+  return [...set].filter(isMonthKey).sort().reverse();
+}
+
+const CRIT_LEVELS = (a) => { const o = {}; for (const x of Array.isArray(a?.criteria) ? a.criteria : []) if (CRIT.includes(x?.name) && LEVELS.includes(x.level)) o[x.name] = x.level; return o; };
+
+/** Усе для звіту за місяць ym ('2026-11'); deckIdx — каталог колод (для «закріплено зараз») */
+export function monthPart(ym, deckIdx = [], now = new Date()) {
+  const [y, m] = ym.split('-').map(Number);
+  const nDays = new Date(y, m, 0).getDate();
+  const cur = ym === monthKey(now), future = ym > monthKey(now);
+  const todayK = dayKey(now);
+  // час: по днях місяця
+  const byDay = new Map();
+  for (const s of store.all('sessions')) if (s.day?.startsWith(ym)) byDay.set(s.day, (byDay.get(s.day) || 0) + (s.seconds || 0));
+  const days = Array.from({ length: nDays }, (_, i) => { const k = `${ym}-${String(i + 1).padStart(2, '0')}`; return { key: k, day: i + 1, sec: byDay.get(k) || 0, future: k > todayK }; });
+  let run = 0, bestRun = 0;
+  for (const d of days) { if (d.sec >= ACTIVE_DAY_SEC) { run++; bestRun = Math.max(bestRun, run); } else run = 0; }
+  const seconds = days.reduce((a, d) => a + d.sec, 0);
+  const prevYm = shiftMonth(ym, -1);
+  // поточний місяць порівнюємо з тими самими днями минулого (1…сьогодні), інакше — з усім минулим місяцем
+  const cutDay = cur ? `${prevYm}-${String(now.getDate()).padStart(2, '0')}` : `${prevYm}-31`;
+  const prevSec = store.all('sessions').filter(s => s.day?.startsWith(prevYm) && s.day <= cutDay).reduce((a, s) => a + (s.seconds || 0), 0);
+  const byType = {};
+  for (const s of store.all('sessions')) if (s.day?.startsWith(ym)) byType[s.type] = (byType[s.type] || 0) + (s.seconds || 0);
+  // розмови
+  const chats = store.all('tutor_chats').filter(c => monthOf(c.created_at) === ym).sort((a, b) => String(a.created_at).localeCompare(String(b.created_at)));
+  const voice = chats.filter(c => c.mode === 'voice');
+  const text = chats.filter(c => ['chat', 'scenario', 'drill'].includes(c.mode));
+  // рівень у розмовах: перша й остання оцінка місяця (лише з достатнім мовленням)
+  const assessed = chats.filter(c => !['diary', 'check', 'coach'].includes(c.mode) && LEVELS.includes(c.summary?.level_signal) && c.summary?.level_assessment && c.summary.level_assessment.enough_data !== false)
+    .map(c => ({ at: c.created_at, mode: c.mode === 'voice' ? 'voice' : 'text', level: c.summary.level_signal, sublevel: c.summary.level_assessment.sublevel || null, crit: CRIT_LEVELS(c.summary.level_assessment) }));
+  // мовлення
+  const speech = speechPart(speechSessions(c => monthOf(c.created_at) === ym));
+  // помилки
+  const ms = store.all('mistakes');
+  const born = ms.filter(x => monthOf(x.created_at || x.updated_at) === ym);
+  const closed = ms.filter(x => x.resolved && monthOf(x.updated_at) === ym);
+  const open = ms.filter(x => !x.resolved && x.wrong && x.right).sort((a, b) => (b.count || 1) - (a.count || 1) || (a.streak || 0) - (b.streak || 0) || t(b.updated_at) - t(a.updated_at));
+  // слова: нові (перший показ — повтор зі стану New), усі повтори; «закріплено» — лише станом на зараз
+  const revs = store.all('reviews').filter(r => monthOf(r.ts) === ym);
+  const started = new Set(revs.filter(r => r.state === 0).map(r => r.card_id)).size;
+  const oldReviews = (now - new Date(y, m, 1)) > 110 * DAY;   // повтори старші ~120 днів на пристрої не зберігаються
+  return {
+    ym, title: monthTitle(ym), monthIdx: m - 1, cur, future, nDays,
+    seconds, prevSec, prevYm, days, activeDays: days.filter(d => d.sec >= ACTIVE_DAY_SEC).length, bestRun,
+    byType: Object.fromEntries(Object.entries(byType).sort((a, b) => b[1] - a[1]).map(([k, v]) => [k, Math.round(v / 60)])),
+    voice: voice.length, voiceSec: voice.reduce((a, c) => a + (c.seconds || 0), 0), text: text.length,
+    diary: chats.filter(c => c.mode === 'diary').length, checks: chats.filter(c => c.mode === 'check').length,
+    level: { n: assessed.length, first: assessed[0] || null, last: assessed.length > 1 ? assessed[assessed.length - 1] : null },
+    speech,
+    mistakes: { added: born.length, closed: closed.length, open: open.length, top: open.slice(0, 3).map(x => ({ id: x.id, wrong: x.wrong, right: x.right, type: x.type, count: x.count || 1, streak: x.streak || 0 })) },
+    words: { reviews: revs.length, started, oldReviews, solidNow: cur ? vocabPart(deckIdx, now.getTime()).solid : null },
+  };
+}
+
+/** Записи голосу учня (summary.clip) — від найстарішого до найновішого */
+export function voiceClips() {
+  return store.all('tutor_chats')
+    .filter(c => c.summary?.clip && typeof c.summary.clip.path === 'string' && c.summary.clip.path)
+    .sort((a, b) => String(a.created_at).localeCompare(String(b.created_at)))
+    .map(c => ({ id: c.id, at: c.created_at, path: c.summary.clip.path, text: String(c.summary.clip.text || ''), sec: fin(c.summary.clip.sec) }));
+}
+
 /** Повний локальний аналіз (вантажить лише каталоги: індекс колод, граматики, сценарії) */
 export async function compute() {
   const [deckIdx, gIdx, scen] = await Promise.all([deckIndex().catch(() => []), grammarIndex().catch(() => []), loadScenarios().catch(() => [])]);
@@ -244,7 +397,7 @@ export async function compute() {
   return {
     at: new Date().toISOString(), level, next: nextLevel(level), levelSource: prof.levelSource || null, lp,
     placement: placementPart(), speaking: speakingPart(), writing: writingPart(), vocab: vocabPart(deckIdx),
-    grammar: grammarPart(gIdx), mistakes: mistakesPart(), habits: habitsPart(), reading: readingPart(),
+    grammar: grammarPart(gIdx), mistakes: mistakesPart(), habits: habitsPart(), reading: readingPart(), speech: speechPart(),
     scenarios: byFit(scen.filter(s => s.group !== 'work' || store.settings().workFocus)).slice(0, 6).map(s => ({ id: s.id, title: s.title, level: s.level })),
   };
 }
@@ -331,6 +484,13 @@ export function insight(section, A) {
       parts.push(`Виправлено ${m.resolvedPct}% (${m.resolved} з ${m.total}).`);
       return parts.join(' ');
     }
+    case 'speech': {
+      const sp = A.speech;
+      if (!sp?.n) return 'Поговоріть із вчителем голосом 2–3 рази — тут з\'явиться ваш темп мовлення, довжина реплік і плавність.';
+      if (sp.n < 2) return `Є одна виміряна голосова розмова: ${sp.latest.wpm ?? '—'} слів/хв. Поговоріть голосом ще 1–2 рази, щоб побачити динаміку.`;
+      const ls = speechLines(sp.first, sp.latest);
+      return [`Порівняння: ${sp.firstN === 1 ? 'перша розмова' : `перші ${sp.firstN} розмови`} проти останньої.`, ...ls.slice(0, 2)].join(' ');
+    }
     case 'habits': {
       const hb = A.habits;
       if (!hb.totalMin) return 'Занять ще не записано. Навіть 10–15 хвилин щодня дають більше, ніж година раз на тиждень.';
@@ -347,6 +507,8 @@ export function insight(section, A) {
 // ---------- Компактне зведення для вчителя (≤ 6 КБ, без розмов — лише числа і короткі приклади) ----------
 const cutS = (s, n) => String(s ?? '').replace(/\s+/g, ' ').trim().slice(0, n);
 export const DIGEST_MAX = 6000;
+/** Метрики мовлення для вчителя: зрозумілі назви ключів (сервер пропускає лише [a-z0-9_]) */
+const speechDigest = (x) => ({ words_per_min: x.wpm, avg_turn_words: x.avgLen, repeats_per_100_words: x.rep100, fillers_per_100_words: x.fill100, unique_words_pct: x.unique });
 
 export function digest(A, section = 'overview') {
   const d = {
@@ -359,6 +521,11 @@ export function digest(A, section = 'overview') {
       recent: A.speaking.sessions.slice(-6).map(s => ({ date: s.at?.slice(0, 10), level: s.level, sublevel: s.sublevel, confidence: s.confidence })),
       reasons: A.speaking.reasons.map(r => cutS(r, 220)), to_next: cutS(A.speaking.toNext, 220),
     },
+    speech: A.speech?.n ? {
+      voice_sessions: A.speech.n, compare: A.speech.first ? `first ${A.speech.firstN} sessions avg vs latest session` : 'latest session only',
+      first_avg: A.speech.first ? speechDigest(A.speech.first) : null, latest: speechDigest(A.speech.latest),
+      wpm_by_session: A.speech.sessions.slice(-8).map(s => s.wpm), avg_turn_words_by_session: A.speech.sessions.slice(-8).map(s => s.avgLen),
+    } : null,
     writing: { text_checks: A.writing.checks, scores_0_10: A.writing.scores, scores_prev: A.writing.scoresPrev, diary_entries: A.writing.diary, diary_avg_words: A.writing.diaryWords, errors_per_100_words: A.writing.errPer100, errors_per_100_prev: A.writing.errPer100Prev },
     vocabulary: {
       in_work: A.vocab.inWork, learning: A.vocab.learning, review: A.vocab.review, mature_21d: A.vocab.mature, solid_7d: A.vocab.solid, due_now: A.vocab.due,
@@ -383,6 +550,7 @@ export function digest(A, section = 'overview') {
   };
   // розмір: спершу скорочуємо приклади, далі — менш важливі списки
   const trims = [() => { d.mistakes.examples = d.mistakes.examples.slice(0, 8); }, () => { d.speaking.reasons = d.speaking.reasons.slice(0, 2); }, () => { d.scenarios = d.scenarios.slice(0, 3); d.vocabulary.weak_words = d.vocabulary.weak_words.slice(0, 3); },
+    () => { if (d.speech) { delete d.speech.wpm_by_session; delete d.speech.avg_turn_words_by_session; } },
     () => { d.mistakes.examples = []; d.mistakes.recurring = d.mistakes.recurring.slice(0, 4); }, () => { d.speaking.recent = d.speaking.recent.slice(-3); d.grammar.weak_lessons = d.grammar.weak_lessons.slice(0, 2); d.grammar.due_review = []; }];
   for (const fn of trims) { if (JSON.stringify(d).length <= DIGEST_MAX) break; fn(); }
   return d;

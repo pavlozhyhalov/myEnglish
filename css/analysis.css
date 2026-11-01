@@ -40,3 +40,68 @@
 .an-act .ico{flex:none;color:var(--ink-dim)}
 .an-meta{gap:8px;align-items:center}
 .analysis .wrap{flex-wrap:wrap}
+
+/* Мовлення (метрики голосових розмов) — також у звіті за місяць */
+.sp-row b{min-width:44px;text-align:right}
+.sp-row b.good{color:var(--good)}
+.sp-row b.bad{color:var(--bad)}
+.sp-row .xs.dim{white-space:nowrap}
+.sp-lines{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:4px}
+.sp-fig{margin:0;display:flex;flex-direction:column;gap:4px}
+.sp-fig figcaption{gap:8px;color:var(--ink-dim)}
+.sp-fig figcaption b{color:var(--ink);font-weight:600}
+.sp-fig .bars-labels{margin-top:0}
+.an-spark .area{fill:var(--accent-ink);opacity:.08;stroke:none}
+.an-spark .dot.last{fill:var(--surface);stroke:var(--accent-ink);stroke-width:2.5}
+
+/* Мої помилки: як закривається помилка, засвоєння 0–3 */
+.mk-how{display:flex;gap:8px;align-items:flex-start;margin:0;padding:10px 12px;border-radius:var(--radius-btn);background:var(--surface-2);font-size:var(--fs-xs);line-height:1.45;color:var(--ink-dim)}
+.mk-how .ico{flex:none;margin-top:1px;color:var(--accent-ink)}
+.mk-actions{display:grid;grid-template-columns:1fr;gap:8px}
+@media (min-width:520px){.mk-actions{grid-template-columns:1fr 1fr}}
+.mk-meta{gap:8px;align-items:center;flex-wrap:wrap}
+.mk-dots{display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+.mk-dots-row{display:inline-flex;gap:3px}
+.mk-dots-row i{width:8px;height:8px;border-radius:50%;background:var(--track)}
+.mk-dots-row i.on{background:var(--good)}
+.mk-done{color:var(--good);display:grid;place-items:center;padding-top:1px}
+.mk-closed{text-align:right;flex:none}
+.mk-closed b{color:var(--good)}
+
+/* Звіт за місяць (#/report) */
+.report .an-title{font-size:var(--fs-md);margin:0}
+.report .card > .row > .ico{color:var(--ink-dim);flex:none}
+.rp-months .chip{flex:none}
+.rp-hero{gap:12px;position:relative;overflow:hidden}
+.rp-hero::after{content:"";position:absolute;right:-60px;top:-60px;width:180px;height:180px;border-radius:50%;background:rgba(255,255,255,.06);pointer-events:none}
+.rp-hero .row{gap:8px;color:var(--hero-dim)}
+.rp-month{font-family:var(--font-head);font-weight:700;font-size:30px;line-height:1.1;letter-spacing:-.02em;margin:0;color:#fff}
+.rp-big{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.rp-big > div{display:flex;flex-direction:column;gap:2px;min-width:0}
+.rp-big b{font-family:var(--font-head);font-weight:700;font-size:28px;line-height:1.1;letter-spacing:-.02em}
+.rp-big span{font-size:var(--fs-xs);color:var(--hero-dim);line-height:1.3}
+.rp-days{display:flex;align-items:flex-end;gap:2px;height:56px;margin-top:4px}
+.rp-days i{flex:1;background:#fff;border-radius:3px 3px 1px 1px;opacity:.9;min-width:0}
+.rp-days i.zero{background:rgba(255,255,255,.22);opacity:1}
+.rp-days i.future{background:rgba(255,255,255,.1)}
+.rp-days-lbl{display:flex;justify-content:space-between;font-size:11px;color:var(--hero-dim);margin-top:-6px}
+.rp-good b{color:var(--good)}
+.rp-lv{display:flex;align-items:flex-end;gap:12px}
+.rp-lv > div:not(.grow){display:flex;flex-direction:column;gap:4px;align-items:flex-start}
+.rp-lv .level-badge{width:auto;min-width:52px;padding:0 10px;height:48px;font-size:17px}
+.rp-lv-arrow{color:var(--ink-dim);padding-bottom:12px}
+.rp-lv > .grow{text-align:right;padding-bottom:4px}
+.rp-mk{display:flex;flex-direction:column;gap:2px;padding:8px 0;border-top:1px solid var(--line)}
+.rp-mk .row{gap:8px}
+.rp-acts{gap:8px}
+.report .wrap{flex-wrap:wrap}
+.rp-clips{display:grid;grid-template-columns:1fr;gap:12px}
+@media (min-width:560px){.rp-clips{grid-template-columns:1fr 1fr}}
+.rp-clip{display:flex;flex-direction:column;gap:8px;padding:12px;border-radius:var(--radius-btn);background:var(--surface-2)}
+.rp-clip .row{gap:8px}
+.rp-clip audio{width:100%;height:44px}
+.rp-clip-text{margin:0;font-size:var(--fs-sm);line-height:1.45;font-style:italic;overflow-wrap:anywhere}
+.rp-link{text-decoration:none;color:inherit}
+.rp-link > .ico{color:var(--accent-ink);flex:none}
+.mk-ghead{flex-wrap:wrap;gap:8px}
+.mk-ghead .section-title{flex-basis:100%;margin-top:4px}

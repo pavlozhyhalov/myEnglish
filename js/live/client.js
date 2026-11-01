@@ -2,6 +2,9 @@
 import { LIVE_WS_URL, LIMITS, BUILD } from '../config.js';
 import { liveToken, AiError } from '../ai.js';
 
+// токен дозволяє відкрити нову сесію протягом 60 с після створення — беремо з запасом
+const NEW_SESSION_MS = 50_000;
+
 const b64 = {
   enc(buf) {
     const bytes = new Uint8Array(buf);
@@ -33,20 +36,26 @@ export class LiveClient extends EventTarget {
     this.basic = false;          // true — токен без налаштувань VAD (модель їх не прийняла)
     this.resumeWanted = false;   // планове перепідключення чекає кінця репліки вчителя
     this.pending = [];           // аудіо учня, поки триває перепідключення (до ~4 с) — щоб не губити слова
+    this.tokenAt = 0;
   }
+  /** З'єднання відкрите й сесія налаштована (можна слати аудіо й текст) */
+  get open() { return this.ready && this.ws?.readyState === 1 && !this.closedByUser; }
   emit(type, detail) { this.dispatchEvent(new CustomEvent(type, { detail })); }
   log(t) { this.emit('log', t); }
 
   async getToken() {
     const t = await liveToken({ fallback: this.fallback, basic: this.basic, scenario: this.opts.scenario, topic: this.opts.topic, voice: this.opts.voice });
     this.token = t;
+    this.tokenAt = Date.now();
     this.log(`token ok · model ${t.model} · voice ${t.voice} · pause ${t.pauseMs || 'auto'} ms · ${Math.round(t.voiceSecondsLeft / 60)} хв ліміту`);
     return t;
   }
 
   async connect() {
     if (this.closedByUser) throw new AiError('closed', 'closed');
-    if (!this.token || Date.parse(this.token.expireTime) - Date.now() < 60000) await this.getToken();
+    // нову сесію ефемерний токен відкриває лише ~60 с після створення (newSessionExpireTime); відновлення за handle — довше
+    const stale = !this.handle && Date.now() - (this.tokenAt || 0) > NEW_SESSION_MS;
+    if (!this.token || stale || Date.parse(this.token.expireTime) - Date.now() < 60000) await this.getToken();
     return new Promise((resolve, reject) => {
       let settled = false;
       const ws = new WebSocket(`${LIVE_WS_URL}?access_token=${encodeURIComponent(this.token.token)}`);
@@ -234,7 +243,12 @@ export class AudioIO extends EventTarget {
     this.cap = new AudioWorkletNode(this.inCtx, 'capture');
     this.src.connect(this.cap);
     this.cap.port.onmessage = (e) => {
-      if (e.data.type === 'pcm') this.dispatchEvent(new CustomEvent('pcm', { detail: e.data.data }));
+      if (e.data.type === 'pcm') {
+        // rms — середня гучність усього пакета 100 мс (для обліку часу мовлення)
+        const ev = new CustomEvent('pcm', { detail: e.data.data });
+        ev.rms = typeof e.data.rms === 'number' ? e.data.rms : undefined;
+        this.dispatchEvent(ev);
+      }
       else this.dispatchEvent(new CustomEvent('mic-level', { detail: e.data.rms }));
     };
     this.player = new AudioWorkletNode(this.outCtx, 'player', { outputChannelCount: [1] });

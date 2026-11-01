@@ -399,8 +399,9 @@ async function placementTest(view) {
               let level = null;
               try {
                 if (!row.messages.some(m => m.role === 'user')) throw new Error('empty');
-                const s = await tutor('summary', { mode: 'voice', messages: row.messages });
-                row.summary = s; row.title = 'Тест на рівень: розмова'; store.put('tutor_chats', row);
+                const s = await tutor('summary', { mode: 'voice', messages: row.messages.map(m => ({ role: m.role, text: m.text })) });
+                // метрики мовлення (summary.speech від voice.js) лишаються — їх рахує «Аналіз» і звіт за місяць
+                row.summary = row.summary?.speech ? { ...s, speech: row.summary.speech } : s; row.title = 'Тест на рівень: розмова'; store.put('tutor_chats', row);
                 // замало мовлення — говоріння не враховуємо (краще без оцінки, ніж хибне A1)
                 level = CAT.LEVELS.includes(s?.level_signal) && s.level_assessment?.enough_data !== false ? s.level_signal : null;
               } catch { level = null; }
