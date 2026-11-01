@@ -1,5 +1,5 @@
 import { assertEquals, assert } from 'jsr:@std/assert@1';
-import { FixSplitter, splitReply, cleanFixes, formatFixes, cleanMeta, cleanMemory, spellingVariant, foundIn, lastStudentText } from './reply.ts';
+import { latinizeName, latinizeStream, FixSplitter, splitReply, cleanFixes, formatFixes, cleanMeta, cleanMemory, spellingVariant, foundIn, lastStudentText } from './reply.ts';
 
 function stream(chunks: string[]) {
   const sp = new FixSplitter();
@@ -228,4 +228,12 @@ Deno.test('cleanMeta: grammar terms / praise not words; relative-time memory dro
   assertEquals(m.words, [{ en: 'pay off', uk: 'окупитися' }]);
   assertEquals(m.memory, ['Ran a half-marathon on 25 Oct 2026 in 2:05']);
   assertEquals(m.plan, ['Розмова про похід', 'Підсумок і виправлення']);
+});
+
+Deno.test('latinizeName: English context → Latin, Ukrainian context unchanged; stream split', async () => {
+  assertEquals(latinizeName('That sounds like a cosy evening, Тарасе! What film did you watch?', 'Тарас', 'Taras'), 'That sounds like a cosy evening, Taras! What film did you watch?');
+  assertEquals(latinizeName('Тарасе, ви добре впоралися з розповіддю.', 'Тарас', 'Taras'), 'Тарасе, ви добре впоралися з розповіддю.');
+  async function* src() { yield 'Great job, Тар'; yield 'асе! Tell me more about it.'; }
+  let out = ''; for await (const c of latinizeStream(src() as any, 'Тарас', 'Taras')) out += c;
+  assertEquals(out, 'Great job, Taras! Tell me more about it.');
 });

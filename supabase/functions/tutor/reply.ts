@@ -352,3 +352,46 @@ export function replyStream(it: AsyncGenerator<string> & { info?: { finishReason
     cancel() { closed = true; it.return(undefined).catch(() => {}); },
   });
 }
+
+// ---------- Ім'я учня латиницею в англійському тексті ----------
+// Модель інколи пише «Тарасе» в англійському реченні (кличний відмінок з українських підсумків). Замінюємо кириличні форми імені
+// на латинську, якщо навколо переважає латиниця; в українських реченнях лишаємо як є.
+const LETTER = /\p{L}/u;
+function nameRe(cyr: string) {
+  const stem = cyr.trim().split(/\s+/)[0].replace(/[аеєиіїоуюяйь]$/i, '');
+  if (stem.length < 2 || !/[Ѐ-ӿ]/.test(stem)) return null;
+  return new RegExp(`(?<!\\p{L})${stem.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\p{L}{0,3}(?!\\p{L})`, 'gu');
+}
+const latinShare = (s: string) => {
+  const lat = (s.match(/[A-Za-z]/g) || []).length, cyr = (s.match(/[Ѐ-ӿ]/g) || []).length;
+  return lat > cyr * 2;
+};
+/** Замінити в тексті; before — попередній контекст (для потоку) */
+export function latinizeName(text: string, cyr: string, latin: string, before = '') {
+  const re = nameRe(cyr);
+  if (!re || !latin || latin === cyr) return text;
+  return text.replace(re, (m, off: number) => {
+    const ctx = (before + text).slice(Math.max(0, before.length + off - 60), before.length + off + m.length + 60).replace(m, '');
+    return latinShare(ctx) ? latin : m;
+  });
+}
+/** Обгортка потоку: кирилична «хвостова» частина чанка (можливо, неповне ім'я) притримується до наступного чанка */
+export function latinizeStream<T extends AsyncGenerator<string>>(it: T, cyr: string, latin: string): T {
+  if (!nameRe(cyr) || !latin || latin === cyr) return it;
+  let prev = '';
+  const gen = (async function* () {
+    let hold = '';
+    for await (const chunk of it) {
+      let s = hold + chunk;
+      const m = /[Ѐ-ӿ]+$/u.exec(s);
+      hold = m ? m[0] : '';
+      if (hold) s = s.slice(0, -hold.length);
+      if (!s) continue;
+      const out = latinizeName(s, cyr, latin, prev.slice(-80));
+      prev += out;
+      yield out;
+    }
+    if (hold) { const out = latinizeName(hold, cyr, latin, prev.slice(-80)); yield out; }
+  })();
+  return Object.assign(gen, { info: (it as unknown as { info?: unknown }).info }) as unknown as T;
+}

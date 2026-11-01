@@ -6,10 +6,10 @@ import { authenticate, charge, usage, isAdmin } from '../_shared/auth.ts';
 import { generate, generateJson, streamText, tts, createLiveToken, useCooldownStore, type Content, type GenOpts } from '../_shared/gemini.ts';
 import { createClient, type SupabaseClient } from 'npm:@supabase/supabase-js@2.118.0';
 import { TEXT_MODELS, CHAT_MODELS, SMART_MODELS, PRO_MODELS, LIGHT_MODELS, FAST_MODELS, META_ENABLED, TTS_MODELS, LIVE_MODELS, LIMITS } from '../_shared/config.ts';
-import { memoryRule, loadStudent, todayLabel, UK_STYLE, modePrompt, taskPrompt, diaryPrompt, mistakeDrillPrompt, weeklyPrompt, metaPrompt, sessionFocus, type Scenario, type Student } from '../_shared/prompts.ts';
+import { latinName, memoryRule, loadStudent, todayLabel, UK_STYLE, modePrompt, taskPrompt, diaryPrompt, mistakeDrillPrompt, weeklyPrompt, metaPrompt, sessionFocus, type Scenario, type Student } from '../_shared/prompts.ts';
 import { precheck as levelWritingCheck, levelWritingPrompt, LEVEL_WRITING_SCHEMA, cleanLevelWriting, countWords } from './level_writing.ts';
 import { precheck as analysisCheck, analysisPrompt, ANALYSIS_SCHEMA, cleanAnalysis, cleanDigest, section as coachSection, coachPrompt, coachMetaPrompt, COACH_META_SCHEMA, cleanCoachMeta } from './analysis.ts';
-import { replyStream, splitReply, cleanFixes, formatFixes, cleanMeta, cleanSummary, lastStudentText, cueText, translateInput, type Meta } from './reply.ts';
+import { latinizeName, latinizeStream, replyStream, splitReply, cleanFixes, formatFixes, cleanMeta, cleanSummary, lastStudentText, cueText, translateInput, type Meta } from './reply.ts';
 import { VOICE_CHECK_SCHEMA, voiceCheckPrompt, cleanVoiceCheck, clampSpeech, summaryExtra, cleanMastered, MISSION_SCHEMA, missionPrompt, cleanMissions } from './coach.ts';
 import { precheck as wordStoryCheck, wordStoryPrompt, WORD_STORY_SCHEMA, cleanWordStory, LEVELS as STORY_LEVELS, type StoryWord, type Level as StoryLevel } from './words.ts';
 
@@ -484,12 +484,12 @@ Deno.serve(handler(async (req) => {
       const start = !noFix && !(Array.isArray(p.messages) ? p.messages : []).some((m: Msg) => m?.role === 'model');
       const metaCtx: MetaCtx = { st, mode, scenario, student, start, cueTurn, drillType: str(p.drillType, 40), topic: mode === 'coach' ? coachSec : str(p.topic, 300) };
       if (p.stream === false) {
-        const full = await generate(CHAT_MODELS, opts);
+        const full = latinizeName(await generate(CHAT_MODELS, opts), st.about.name, latinName(st.about.name));
         const { body, fixRaw } = splitReply(full);
         const meta = wantMeta ? await buildMeta(metaCtx, body) : null;
         return json({ text: body + fixBlock(fixRaw), ...(meta ? { meta } : {}) });
       }
-      const it = await streamText(CHAT_MODELS, opts);
+      const it = latinizeStream(await streamText(CHAT_MODELS, opts), st.about.name, latinName(st.about.name));
       // обрізана «роздумами» чи порожня відповідь: одне продовження без потоку і без роздумів
       const recover = (partial: string) => generate(CHAT_MODELS, {
         ...opts, thinking: 'off',
