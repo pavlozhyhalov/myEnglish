@@ -69,6 +69,7 @@ const pages = {
   mistakes: () => import('./pages/mistakes.js'),
   progress: () => import('./pages/progress.js'),
   analysis: () => import('./pages/analysis.js'),
+  report: () => import('./pages/report.js'),
   settings: () => import('./pages/settings.js'),
   profile: () => import('./pages/profile.js'),
   friends: () => import('./pages/friends.js'),

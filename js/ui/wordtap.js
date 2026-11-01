@@ -343,6 +343,27 @@ async function lookupPhrase(words) {
   return null;
 }
 
+/**
+ * Швидкий переклад без інтерфейсу (бульбашка над виділенням): словничок тексту → колоди → AI у контексті.
+ * → { en, uk, ipa, source } | { none: true, reason } (немає в словнику і AI недоступний)
+ */
+export async function quickLookup({ text, sentence = '', next = [], gl = null } = {}) {
+  const surface = String(text || '').replace(/[’]/g, "'").replace(/\s+/g, ' ').replace(/^[^A-Za-z]+|[^A-Za-z]+$/g, '').trim();
+  if (!surface) return { none: true, reason: 'empty' };
+  const g = gl?.get?.(norm(surface));
+  if (g) return { en: g.en || g.w, uk: g.uk, ipa: g.ipa || null, source: 'glossary' };
+  const words = surface.match(WORD) || [surface];
+  try {
+    const r = words.length === 1 ? await lookupDeck(words[0], next) : { hit: await lookupPhrase(words), phrase: null };
+    const v = r.phrase || r.hit;
+    if (v) return { en: v.en, uk: v.uk, ipa: v.ipa || null, source: 'deck' };
+  } catch { /* колоди недоступні — далі AI */ }
+  if (!canAi()) return { none: true, reason: user() ? 'offline' : 'login' };
+  const e = await aiLookup(surface, sentence);
+  if (!e) throw new Error('empty');
+  return { en: e.en, uk: e.uk, ipa: e.ipa, source: 'ai' };
+}
+
 /** Кнопка «Прослухати» */
 const speakBtn = (text) => h('button.icon-btn.soft', { type: 'button', 'aria-label': `Прослухати: ${text}`, onclick: () => speak(text) }, ic('speaker-high'));
 

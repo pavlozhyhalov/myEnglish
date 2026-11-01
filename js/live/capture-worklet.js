@@ -7,6 +7,8 @@ class Capture extends AudioWorkletProcessor {
     this.n = 0;
     this.pos = 0;           // дробова позиція для ресемплінгу
     this.muted = false;
+    this.pSum = 0;          // сума квадратів і кількість семплів поточного пакета — rms пакета
+    this.pN = 0;
     this.port.onmessage = (e) => { if (e.data?.type === 'mute') this.muted = e.data.value; };
   }
   process(inputs) {
@@ -15,6 +17,7 @@ class Capture extends AudioWorkletProcessor {
     let sum = 0;
     for (let i = 0; i < ch.length; i++) sum += ch[i] * ch[i];
     const rms = Math.sqrt(sum / ch.length);
+    this.pSum += sum; this.pN += ch.length;
     // простий ресемплінг (лінійна вибірка) до 16 кГц
     for (; this.pos < ch.length; this.pos += this.ratio) {
       const i = Math.floor(this.pos), f = this.pos - i;
@@ -22,7 +25,9 @@ class Capture extends AudioWorkletProcessor {
       const v = this.muted ? 0 : Math.max(-1, Math.min(1, s));
       this.buf[this.n++] = v < 0 ? v * 0x8000 : v * 0x7fff;
       if (this.n === this.buf.length) {
-        this.port.postMessage({ type: 'pcm', data: this.buf.buffer, rms: this.muted ? 0 : rms }, [this.buf.buffer]);
+        const prms = this.pN ? Math.sqrt(this.pSum / this.pN) : rms;
+        this.pSum = 0; this.pN = 0;
+        this.port.postMessage({ type: 'pcm', data: this.buf.buffer, rms: this.muted ? 0 : prms }, [this.buf.buffer]);
         this.buf = new Int16Array(1600);
         this.n = 0;
       }

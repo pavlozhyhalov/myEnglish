@@ -26,8 +26,9 @@ export const SECTIONS = [
   { id: 'friends', icon: 'users', href: '#/friends', group: 'me' },
   { id: 'progress', icon: 'chart-line-up', href: '#/progress', group: 'me' },
   { id: 'analysis', icon: 'chart-pie-slice', href: '#/analysis', group: 'me' },
+  { id: 'report', icon: 'calendar-blank', href: '#/report', group: 'me', label: 'Звіт', long: 'Звіт за місяць' },
   { id: 'settings', icon: 'gear-six', href: '#/settings', group: 'me' },
-].map(s => ({ ...s, emoji: s.icon, label: S.nav[s.id], long: S.navLong[s.id] || S.nav[s.id] }));
+].map(s => ({ ...s, emoji: s.icon, label: s.label || S.nav[s.id], long: s.long || S.navLong[s.id] || S.nav[s.id] }));
 
 export const byId = Object.fromEntries(SECTIONS.map(s => [s.id, s]));
 export const GROUPS = ['theory', 'practice', 'me'];

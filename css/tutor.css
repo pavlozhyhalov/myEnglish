@@ -95,3 +95,70 @@ body:has(.tutor-dock) .toasts{bottom:calc(var(--quickbar-h) + var(--safe-b) + 12
 body.focus-mode:has(.tutor-dock) .toasts{bottom:calc(var(--safe-b) + 124px)}
 body.kb-open:has(.tutor-dock) .toasts{bottom:calc(var(--kb,0px) + 124px)}
 .voice .subs .line.pending{opacity:.65}
+
+/* голос: миттєві виправлення під реплікою учня */
+.vfix-count{display:inline-flex;align-items:center;gap:4px;min-height:32px;padding:4px 10px;border:0;border-radius:var(--radius-pill);
+  background:var(--warn-soft);color:var(--warn);font:inherit;font-size:12.5px;font-weight:700;cursor:pointer;margin-top:-10px}
+.vfix-count[hidden]{display:none}
+.vfixes{align-self:flex-end;display:flex;flex-direction:column;align-items:flex-end;gap:4px;max-width:92%;margin-top:-4px}
+.vfix{display:flex;flex-direction:column;align-items:flex-end;gap:1px;max-width:100%;min-height:36px;padding:5px 10px;border:0;border-radius:12px;border-top-right-radius:4px;
+  background:var(--warn-soft);color:var(--ink);font:inherit;font-size:13px;text-align:right;cursor:pointer;transition:box-shadow var(--dur) var(--ease)}
+.vfix-line{overflow-wrap:anywhere}
+.vfix-line s{color:var(--ink-dim);text-decoration-thickness:1.5px}
+.vfix-line b{color:var(--good)}
+.vfix-arrow{color:var(--ink-dim)}
+.vfix-why{font-size:11.5px;color:var(--ink-dim);line-height:1.3}
+.vfix.playing{box-shadow:0 0 0 2px var(--warn)}
+.vfix.wait{animation:vfix-wait .5s var(--ease)}
+@keyframes vfix-wait{0%,100%{transform:none}30%{transform:translateX(-3px)}60%{transform:translateX(3px)}}
+@media (prefers-reduced-motion:reduce){.vfix.wait{animation:none;opacity:.6}}
+
+/* місії з життя: синя картка в стилі плану дня */
+.mission-hero{background:var(--hero);border:1px solid var(--hero-edge);color:#fff;border-radius:24px;padding:18px;display:flex;flex-direction:column;gap:14px}
+.mission-hero .label{font-size:var(--fs-xs);font-weight:600;color:var(--hero-dim)}
+.mission-h{margin:2px 0 4px;color:#fff;font-size:var(--fs-lg)}
+.mission-hero .sub{font-size:var(--fs-xs);color:var(--hero-dim);line-height:1.4}
+.mission-ico{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;flex:none;background:rgba(255,255,255,.14);color:#fff}
+.mission-hero .btn.start{background:#fff;color:var(--hero);font-weight:700;min-height:48px;border-radius:var(--radius-btn);gap:8px}
+.mission-hero .btn.start:disabled{opacity:.85}
+.mission-status{font-size:var(--fs-xs);color:var(--hero-dim)}
+.mission-status:empty{display:none}
+.mission-list{display:flex;flex-direction:column;gap:10px}
+.mission-list:empty{display:none}
+.mission-card{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);border-radius:18px;padding:14px;display:flex;flex-direction:column;gap:8px;font-size:var(--fs-sm)}
+.mission-title{font-family:var(--font-head);font-weight:700;font-size:var(--fs-md);line-height:1.2}
+.mission-why{color:var(--hero-dim);font-size:var(--fs-xs)}
+.mission-meta{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:var(--fs-xs);color:var(--hero-dim)}
+.mission-meta b{color:#fff;font-weight:600}
+.mission-goal{display:flex;gap:6px;align-items:flex-start}
+.mission-goal svg{flex:none;margin-top:2px}
+.mission-phrases summary{list-style:none;display:flex;align-items:center;gap:6px;min-height:36px;cursor:pointer;font-weight:600;color:#fff}
+.mission-phrases summary::-webkit-details-marker{display:none}
+.mission-phrases[open] summary>svg:last-child{transform:rotate(180deg)}
+.mission-phrases ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:2px}
+.mission-phrase{display:flex;align-items:flex-start;gap:6px;width:100%;min-height:36px;padding:6px 8px;border:0;border-radius:10px;background:transparent;color:#fff;font:inherit;text-align:left;cursor:pointer}
+.mission-phrase:hover{background:rgba(255,255,255,.1)}
+.mission-phrase svg{flex:none;margin-top:3px;opacity:.8}
+.mission-acts{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:2px}
+.mission-go{background:#fff;color:var(--hero);font-weight:700;gap:6px}
+.mission-go.alt{background:rgba(255,255,255,.14);color:#fff}
+.mission-hero :focus-visible{outline-color:#fff}
+
+/* підсумок: очікування, засвоєно, мовлення, вимова */
+.sum-wait{min-height:1.5em;transition:opacity var(--dur) var(--ease)}
+.sum-wait-bar{width:min(240px,70%);height:4px;border-radius:4px;background:var(--surface-2);overflow:hidden}
+.sum-wait-bar i{display:block;height:100%;width:35%;border-radius:4px;background:var(--accent);animation:sum-wait 1.6s ease-in-out infinite}
+@keyframes sum-wait{0%{transform:translateX(-100%)}100%{transform:translateX(290%)}}
+@media (prefers-reduced-motion:reduce){.sum-wait-bar i{animation:none;width:100%;opacity:.35}}
+.sum-mastered>.row>svg,.sum-speech>.row>svg,.sum-pron>.row>svg{color:var(--accent-ink);flex:none}
+.sum-mastered>.row>svg{color:var(--good)}
+.sum-mastered-row{display:flex;align-items:center;gap:10px}
+.sum-mastered-row .tag{display:inline-flex;align-items:center;gap:2px;flex:none}
+.mastered-dots{display:inline-flex;gap:4px;flex:none}
+.mastered-dots i{width:10px;height:10px;border-radius:50%;border:2px solid var(--good);box-sizing:border-box}
+.mastered-dots i.on{background:var(--good)}
+.sum-stats{gap:12px}
+.sum-tip{display:flex;gap:8px;align-items:flex-start;padding:10px 12px;border-radius:var(--radius-btn);background:var(--accent-soft);font-size:var(--fs-sm)}
+.sum-tip svg{flex:none;color:var(--accent-ink);margin-top:1px}
+.pron-turn{display:flex;flex-direction:column;gap:8px;padding-bottom:12px;border-bottom:1px solid var(--line)}
+.pron-turn:last-child{border-bottom:0;padding-bottom:0}

@@ -8,7 +8,7 @@ import { tutor, aiErrorText } from '../ai.js';
 import { user } from '../supa.js';
 import { grammarIndex, json, scenarios as loadScenarios } from '../data.js';
 import { LEVELS, LEVEL_NAME } from '../level.js';
-import { compute, insight, digest, digestHash, activityHref, ACTIVITY, CRIT, CRIT_UK, SKILL_UK } from '../analysis.js';
+import { compute, insight, digest, digestHash, activityHref, ACTIVITY, CRIT, CRIT_UK, SKILL_UK, speechLines } from '../analysis.js';
 
 const DAY = 864e5;
 const rk = (l) => LEVELS.indexOf(l);
@@ -26,6 +26,7 @@ export default async function analysisPage(view) {
     deepCard(A),
     section('placement', 'Рівень за навичками', 'target', A, placementBody(A)),
     section('speaking', 'Говоріння', 'chat-circle-dots', A, speakingBody(A)),
+    section('speech', 'Мовлення', 'waveform', A, speechBody(A), 'speaking'),
     section('writing', 'Письмо', 'pencil-line', A, writingBody(A)),
     section('vocabulary', 'Слова', 'cards', A, vocabBody(A)),
     section('grammar', 'Граматика', 'puzzle-piece', A, grammarBody(A)),
@@ -35,13 +36,13 @@ export default async function analysisPage(view) {
 }
 
 // ---------- Каркас розділу: заголовок, висновок одним рядком, вміст, «Запитати про це» ----------
-function section(id, title, icon, A, body) {
+function section(id, title, icon, A, body, coach = id) {
   const text = insight(id, A);
   return h('section.card.stack.an-sec', { 'aria-labelledby': `an-${id}` },
     h('div.row', ic(icon, { size: 22 }), h('h2.an-title.grow', { id: `an-${id}` }, title)),
     text ? h('p.an-insight', text) : null,
     body,
-    h('a.btn.sm.ghost.an-ask', { href: coachHref(id), 'aria-label': `Запитати вчителя про розділ «${title}»` }, ic('chat-circle-dots', { size: 16 }), 'Запитати про це'));
+    h('a.btn.sm.ghost.an-ask', { href: coachHref(coach), 'aria-label': `Запитати вчителя про розділ «${title}»` }, ic('chat-circle-dots', { size: 16 }), 'Запитати про це'));
 }
 
 function overviewCard(A) {
@@ -197,6 +198,90 @@ function speakingBody(A) {
     s.reasons.length ? h('details.an-more', h('summary.small', 'Чому така оцінка (з останніх розмов)'), h('ul.small', s.reasons.map(r => h('li', mdInline(r))))) : null,
     s.toNext ? h('div.small', h('b', 'До наступного рівня: '), mdInline(s.toNext)) : null,
     s.insufficient ? h('div.xs.dim', `Ще ${s.insufficient} ${plural(s.insufficient, 'розмова', 'розмови', 'розмов')} без оцінки — замало мовлення.`) : null);
+}
+
+// ---------- Мовлення: темп, довжина реплік, повтори, різноманітність (голосові розмови) ----------
+/** Підписи й формат метрик мовлення; better: 1 — більше краще, -1 — менше краще */
+export const SPEECH_META = {
+  wpm: { label: 'Темп', unit: 'слів/хв', better: 1, fmt: (v) => String(v) },
+  avgLen: { label: 'Довжина репліки', unit: 'слів', better: 1, fmt: (v) => num(v) },
+  rep100: { label: 'Повтори й самовиправлення', unit: 'на 100 слів', better: -1, fmt: (v) => num(v) },
+  fill100: { label: 'Заповнювачі пауз (um, uh)', unit: 'на 100 слів', better: -1, fmt: (v) => num(v) },
+  unique: { label: 'Різні слова', unit: '% від усіх', better: 1, fmt: (v) => `${v}%` },
+};
+
+/** Рядок «було → зараз» для метрики: значення, стрілка, підсвітка напрямку (краще / гірше) */
+export function speechRow(k, a, b) {
+  const M = SPEECH_META[k];
+  if (b?.[k] == null) return null;
+  const was = a?.[k];
+  let tone = '';
+  if (was != null && b[k] !== was) {
+    const rel = was ? Math.abs((b[k] - was) / was) : 1;
+    if (rel >= 0.05) tone = Math.sign(b[k] - was) === M.better ? 'good' : 'bad';
+  }
+  return h('div.an-tr.sp-row', { role: 'row' },
+    h('span.grow', { role: 'cell' }, M.label, h('span.xs.dim', ` · ${M.unit}`)),
+    was != null ? h('span.xs.dim', { role: 'cell' }, M.fmt(was), ' →') : null,
+    h('b' + (tone ? `.${tone}` : ''), { role: 'cell' }, M.fmt(b[k])));
+}
+
+/**
+ * Невеликий лінійний графік метрики по сесіях (у порядку дат): лінія, точки з підказками, мін./макс. зліва.
+ * points: [{ at, v }]
+ */
+export function metricChart(points, { label = '', fmt = String, unit = '' } = {}) {
+  const ps = points.filter(p => p.v != null);
+  if (ps.length < 2) return null;
+  const W = 320, H = 84, pad = { l: 34, r: 10, t: 10, b: 10 };
+  const ns = 'http://www.w3.org/2000/svg';
+  const el = (tag, attrs) => { const e = document.createElementNS(ns, tag); for (const [k, v] of Object.entries(attrs)) e.setAttribute(k, v); return e; };
+  const vs = ps.map(p => p.v);
+  let lo = Math.min(...vs), hi = Math.max(...vs);
+  if (hi - lo < 1e-9) { lo -= 1; hi += 1; }
+  const m = (hi - lo) * 0.12; lo -= m; hi += m;
+  const x = (i) => pad.l + (W - pad.l - pad.r) * i / (ps.length - 1);
+  const y = (v) => pad.t + (H - pad.t - pad.b) * (1 - (v - lo) / (hi - lo));
+  const svg = el('svg', { viewBox: `0 0 ${W} ${H}`, class: 'an-spark sp-chart', role: 'img', 'aria-label': `${label}: ${ps.map(p => fmt(p.v)).join(', ')} ${unit}`.trim() });
+  const vmax = Math.max(...vs), vmin = Math.min(...vs);
+  for (const v of vmax === vmin ? [vmax] : [vmax, vmin]) {
+    svg.append(el('line', { x1: pad.l, x2: W - pad.r, y1: y(v), y2: y(v), class: 'grid' }));
+    const tx = el('text', { x: 0, y: y(v) + 4, class: 'lbl' }); tx.textContent = fmt(v); svg.append(tx);
+  }
+  // м'яка заливка під лінією
+  svg.append(el('polygon', { points: `${x(0)},${H - pad.b} ${ps.map((p, i) => `${x(i)},${y(p.v)}`).join(' ')} ${x(ps.length - 1)},${H - pad.b}`, class: 'area' }));
+  svg.append(el('polyline', { points: ps.map((p, i) => `${x(i)},${y(p.v)}`).join(' '), class: 'line' }));
+  ps.forEach((p, i) => {
+    const last = i === ps.length - 1;
+    const c = el('circle', { cx: x(i), cy: y(p.v), r: last ? 5 : 3.5, class: last ? 'dot last' : 'dot' });
+    const tt = el('title', {}); tt.textContent = `${fmtDate(p.at)}: ${fmt(p.v)} ${unit}`.trim();
+    c.append(tt); svg.append(c);
+  });
+  return h('figure.sp-fig',
+    h('figcaption.row.xs', h('span.grow', label), h('b', `${fmt(ps[ps.length - 1].v)} ${unit}`.trim())),
+    svg,
+    h('div.bars-labels', h('span', fmtDate(ps[0].at)), h('span', `${ps.length} ${plural(ps.length, 'розмова', 'розмови', 'розмов')}`), h('span', fmtDate(ps[ps.length - 1].at))));
+}
+
+function speechBody(A) {
+  const sp = A.speech;
+  if (!sp?.n) return emptyNote('Поговоріть голосом 2–3 рази, щоб побачити динаміку: темп, довжину реплік і плавність.', '#/tutor?mode=voice', 'Поговорити');
+  const list = sp.sessions.slice(-20);
+  const lines = speechLines(sp.first, sp.latest);
+  return h('div.stack', { style: { gap: '12px' } },
+    h('div.grid3',
+      stat(sp.latest.wpm ?? '—', 'слів/хв, остання'),
+      stat(sp.latest.avgLen != null ? num(sp.latest.avgLen) : '—', 'слів у репліці'),
+      stat(sp.n, plural(sp.n, 'голосова розмова', 'голосові розмови', 'голосових розмов'))),
+    sp.first ? h('div.stack', { style: { gap: '2px' } },
+      h('div.xs.dim', `${sp.firstN === 1 ? 'Перша розмова' : `Середнє перших ${sp.firstN}`} → остання`),
+      h('div.an-table', { role: 'table', 'aria-label': 'Мовлення: було і зараз' }, Object.keys(SPEECH_META).map(k => speechRow(k, sp.first, sp.latest)))) : null,
+    // перші два висновки — уже в рядку зверху; решта — тут
+    lines.length > 2 ? h('ul.small.sp-lines', lines.slice(2).map(l => h('li', l))) : null,
+    metricChart(list.map(s => ({ at: s.at, v: s.wpm })), { label: 'Темп', unit: 'слів/хв' }),
+    metricChart(list.map(s => ({ at: s.at, v: s.avgLen })), { label: 'Середня довжина репліки', fmt: num, unit: 'слів' }),
+    sp.n < 2 ? h('div.small.dim', 'Поговоріть голосом 2–3 рази, щоб побачити динаміку.') : null,
+    h('div.xs.dim', 'Рахуються голосові розмови, де ви сказали щонайменше 20 слів. Повтори — коли ви кажете слово двічі або починаєте фразу заново.'));
 }
 
 function writingBody(A) {

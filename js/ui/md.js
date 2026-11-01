@@ -43,10 +43,15 @@ function inline(text) {
   return out;
 }
 
+/** Залишки LaTeX від моделі ($\\rightarrow$, \\to) → звичайні символи */
+const TEX = { rightarrow: '→', Rightarrow: '⇒', to: '→', leftarrow: '←', times: '×', approx: '≈', neq: '≠', le: '≤', ge: '≥' };
+const untex = (s) => s.replace(/\$?\\(rightarrow|Rightarrow|to|leftarrow|times|approx|neq|le|ge)\b\$?/g, (_, k) => TEX[k]);
+
 /** Лише інлайн-розмітка (для формул і коротких рядків) */
-export function mdInline(src) { return inline(String(src || '')); }
+export function mdInline(src) { return inline(untex(String(src || ''))); }
 
 export function md(src) {
+  src = untex(String(src || ''));
   const frag = document.createDocumentFragment();
   const lines = String(src || '').replace(/\r/g, '').split('\n');
   let list = null, para = [];

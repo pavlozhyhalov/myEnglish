@@ -218,5 +218,8 @@ export function deleteChat(id) {
     if ((ex.count || 1) > 1) { ex.count -= 1; store.put('mistakes', ex); }
     else if (ex.ref === id || (!ex.ref && (ex.source || 'tutor') === 'tutor')) store.remove('mistakes', ex.id);
   }
+  // аудіофрагмент розмови (звіт «тоді й зараз») — теж видаляємо зі сховища; без мережі — лишається, не критично
+  const clip = chat.summary?.clip?.path;
+  if (clip) import('./supa.js').then(({ getSupa }) => getSupa()).then(sb => sb?.storage.from('voice-clips').remove([clip])).catch(() => {});
   store.remove('tutor_chats', id);
 }
