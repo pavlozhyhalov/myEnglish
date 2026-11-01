@@ -101,7 +101,8 @@ const DIGEST_GUIDE = `HOW TO READ THE DATA (JSON from the app; all numbers are r
 - grammar: lessons done/total per level, avg_best/avg_last % in lesson exercises, weak_lessons (best < 80%), due_review, next_lesson (id usable in plan), lesson/weekly test averages.
 - mistakes: logged mistakes (from conversations, diary, exercises): by_type with new in the last 14 days vs the 14 before, recurring (count ≥ 3), examples (recent open ones: wrong → right).
 - habits: minutes and active days (≥ 5 min) for each of the last 8 weeks (oldest → newest), streak, daily goal, best time of day, minutes by activity in 30 days.
-- reading: texts read and average comprehension score. scenarios: role-play scenes that fit the level (ids usable in plan).`;
+- reading: texts read and average comprehension score. scenarios: role-play scenes that fit the level (ids usable in plan).
+- speech: delivery metrics measured in voice sessions; first_avg = mean of the first sessions, latest = the last session; words_per_min (learners ≈ 60–110, fluent ≈ 120–160), avg_turn_words, repeats_per_100_words and fillers_per_100_words (lower is better), unique_words_pct; *_by_session = oldest → newest.`;
 
 export function analysisPrompt(st: Student) {
   return `${taskPrompt(st)}
