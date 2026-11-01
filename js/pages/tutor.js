@@ -8,7 +8,8 @@ import { tappable, lookupDeck } from '../ui/wordtap.js';
 import { ai, tutor, tutorStream, pron, aiErrorText, AiError } from '../ai.js';
 import { user } from '../supa.js';
 import { speak, stop as stopSpeech, recognize, canRecognize } from '../speech.js';
-import { activityTimer, addMistake, deleteChat, mistakeHit } from '../stats.js';
+import { activityTimer, addMistake, deleteChat, mistakeHit, ruleHit, disputeFix, isDisputed } from '../stats.js';
+import { ruleLabel } from '../rules.js';
 import { confirmSheet } from '../ui/sheet.js';
 import { scenarios as loadScenarios } from '../data.js';
 import { runExercises } from '../ui/exercises.js';
@@ -477,7 +478,12 @@ function chatUI(view, row, { scenario, ask, topic, resumed } = {}) {
         h('span.fix-peek', first.wrong ? [h('s', first.wrong), ' → ', h('b', first.right)] : h('b', first.right)), ic('caret-down', { size: 16 })),
       h('ul', m.fixes.map(f => h('li',
         h('div.fix-line', f.wrong ? [h('s.bad', f.wrong), h('span.arrow', { 'aria-label': 'правильно:' }, ' → '), h('b.good', f.right)] : h('b.good', f.right)),
-        f.why ? h('div.xs.dim', mdInline(f.why)) : null, addBtn(f)))));
+        f.why ? h('div.xs.dim', mdInline(f.why)) : null,
+        h('div.row.wrap.fix-acts', addBtn(f), f.wrong ? h('button.btn.sm.ghost.disagree', { type: 'button', disabled: isDisputed(f.wrong, f.right), onclick: (e) => {
+          disputeFix(f, row.summary?.mistakes ? row : null);
+          const b = e.currentTarget; b.disabled = true; b.replaceChildren(ic('check', { size: 14 }), 'Більше не виправлятиме');
+          b.closest('li')?.classList.add('disputed');
+        } }, ic('x-circle', { size: 14 }), isDisputed(f.wrong, f.right) ? 'Більше не виправлятиме' : 'Не згоден') : null)))));
   }
   function recordFix(f) {
     persist(true);
@@ -797,6 +803,10 @@ export async function summarize(view, row, { voice = false, pronTurns = null } =
   try {
     const prev = row.summary || null;
     const payload = { mode: row.mode, messages: (row.messages || []).filter(m => !m.hidden).map(m => ({ role: m.role, text: m.text })) };
+    // виправлення, вже показані під час розмови (картки в чаті, підказки під репліками в голосі), — сервер гарантує їх у підсумку
+    const turnFixes = (row.messages || []).flatMap(m => (Array.isArray(m.fixes) ? m.fixes : [])).filter(f => f?.wrong && f?.right)
+      .map(f => ({ wrong: f.wrong, right: f.right, why: f.why || f.why_uk || '' })).slice(0, 30);
+    if (turnFixes.length) payload.turn_fixes = turnFixes;
     // метрики мовлення голосової сесії (рахує voice.js); без виміряного часу мовлення (режим «рація») — не надсилаємо
     const sp = prev?.speech;
     if (row.mode === 'voice' && sp?.words && sp.speech_sec >= 5) payload.speech = Object.fromEntries(SPEECH_KEYS.map(k => [k, Number(sp[k]) || 0]));
@@ -816,6 +826,10 @@ export async function summarize(view, row, { voice = false, pronTurns = null } =
       if (!m || m.deleted) continue;
       if (!m.resolved) mistakeHit(m, true);
       applied.add(id);
+      // правильне вживання правила зараховується й іншим відкритим помилкам цього правила
+      const done = new Set([...applied]);
+      ruleHit(m.rule, done);
+      for (const x of done) applied.add(x);
     }
     const next = { ...res, mistakes, mastered };
     if (applied.size) next.mastered_applied = [...applied];
@@ -887,7 +901,9 @@ export function summaryView(view, row, { pronTurns = null } = {}) {
       h('div.stack.sum-mistakes', mistakes.map(m => h('div.sum-mistake',
         h('div.fix-line', h('s.bad', m.wrong), h('span.arrow', { 'aria-label': 'правильно:' }, ' → '), h('b.good', m.right)),
         m.explanation_uk ? h('div.xs.dim', mdInline(m.explanation_uk)) : null,
-        m.type && S.mistakeTypes[m.type] ? h('span.tag', S.mistakeTypes[m.type]) : null))),
+        h('div.row.wrap.sum-mistake-foot',
+          ruleLabel(m.rule) && m.rule !== 'other' ? h('span.tag', ruleLabel(m.rule)) : m.type && S.mistakeTypes[m.type] ? h('span.tag', S.mistakeTypes[m.type]) : null,
+          disagreeBtn(m, row, () => summaryView(view, row, { pronTurns })))))),
       h('div.row.wrap', h('a.btn.sm.soft', { href: '#/mistakes' }, ic('warning-circle', { size: 16 }), 'Мої помилки'),
         topType ? h('a.btn.sm.soft', { href: `#/tutor?mode=drill&type=${encodeURIComponent(topType)}` }, ic('target', { size: 16 }), `Міні-урок: ${S.mistakeTypes[topType] || topType}`) : null))
       : h('section.card.row', emo('check'), h('div', 'Помилок не помічено. Так тримати!')),
@@ -994,6 +1010,15 @@ function pronCard(turns) {
   return card;
 }
 
+/** «Не згоден»: вчитель більше так не виправлятиме, помилка зникає зі статистики */
+function disagreeBtn(f, row, onDone) {
+  return h('button.btn.sm.ghost.disagree', { type: 'button', title: 'Вчитель помилився — більше так не виправлятиме', onclick: () => {
+    disputeFix(f, row);
+    toast('Зрозумів: це виправлення більше не з\'явиться');
+    onDone?.();
+  } }, ic('x-circle', { size: 14 }), 'Не згоден');
+}
+
 const CRIT_UK = { range: 'Словник і граматика', accuracy: 'Точність', fluency: 'Плавність', interaction: 'Взаємодія', coherence: 'Зв\'язність' };
 const SUB_UK = { low: 'нижня межа', mid: 'середина рівня', high: 'верхня межа' };
 const CONF_UK = { low: 'приблизна оцінка', medium: 'досить упевнено', high: 'упевнено' };
@@ -1005,8 +1030,18 @@ function levelLabel(s) {
 function assessmentCard(s) {
   const a = s.level_assessment;
   if (!s.level_signal || !a) return null;
-  return h('section.card.stack', h('div.row', h('div.section-title.grow', `Оцінка рівня: ${levelLabel(s)}`), h('span.tag', CONF_UK[a.confidence] || '')),
+  // загальний рівень за останніми розмовами (зважено за обсягом мовлення й упевненістю) — стабільніший за одну розмову
+  const rolling = h('div.rolling-level', { hidden: true });
+  import('../analysis.js').then(({ conversationLevel }) => {
+    const r = conversationLevel();
+    if (!r || r.sessions < 2 || !rolling.isConnected) return;
+    rolling.hidden = false;
+    rolling.replaceChildren(h('span.tag.accent', `${r.level}${r.sublevel === 'high' ? '+' : ''}`),
+      h('span.small', `Ваш рівень за останніми ${r.sessions} ${plural(r.sessions, 'розмовою', 'розмовами', 'розмовами')} · ${SUB_UK[r.sublevel]}, ${CONF_UK[r.confidence]}`));
+  }).catch(() => {});
+  return h('section.card.stack', h('div.row', h('div.section-title.grow', `Оцінка цієї розмови: ${levelLabel(s)}`), h('span.tag', CONF_UK[a.confidence] || '')),
     h('div.xs.dim', `${SUB_UK[a.sublevel] || ''}${a.enough_data ? '' : ' · замало мовлення для точної оцінки — поговоріть довше'}`),
+    rolling,
     a.criteria.length ? h('div.stack', { style: { gap: '8px' } }, a.criteria.map(c => h('div.row', { style: { alignItems: 'flex-start', gap: '10px' } },
       h('span.tag.accent', { style: { minWidth: '34px', textAlign: 'center' } }, c.level),
       h('div.grow', h('div.small', { style: { fontWeight: 600 } }, CRIT_UK[c.name] || c.name), c.note_uk ? h('div.xs.dim', mdInline(c.note_uk)) : null)))) : null,
@@ -1048,7 +1083,7 @@ function checkMode(view, q) {
     try {
       const res = await tutor('check_text', { text, kind, task: q.task || null });
       const row = store.put('tutor_chats', { mode: 'check', title: `Перевірка: ${text.slice(0, 40)}…`, messages: [{ role: 'user', text }], summary: res, seconds: Math.round(timer.seconds()) });
-      for (const c of res.corrections || []) addMistake({ wrong: c.wrong, right: c.right, type: c.type, explanation_uk: c.explanation_uk, source: 'tutor', ref: row.id });
+      for (const c of res.corrections || []) addMistake({ wrong: c.wrong, right: c.right, type: c.type, rule: c.rule, explanation_uk: c.explanation_uk, source: 'tutor', ref: row.id });
       timer.poke();
       timer.setRef(row.id);
       timer.stop();

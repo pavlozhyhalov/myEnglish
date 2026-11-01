@@ -1,5 +1,6 @@
 // Активність (час), стрік, помилки — похідні дані зі сховища
 import * as store from './store.js';
+import { RULES } from './rules.js';
 
 const ACTIVE_DAY_SEC = 5 * 60;   // день зараховується в стрік від 5 хв практики
 
@@ -132,12 +133,87 @@ export function totalSeconds() { return store.all('sessions').reduce((a, s) => a
 const norm = (s) => String(s || '').toLowerCase().replace(/[^\p{L}\p{N}' ]/gu, '').replace(/\s+/g, ' ').trim();
 export const MISTAKE_TYPES = ['articles', 'tenses', 'prepositions', 'word_order', 'vocabulary', 'pronunciation', 'other'];
 
-export function addMistake({ wrong, right, type, explanation_uk, source, ref }) {
+export function addMistake({ wrong, right, type, rule, explanation_uk, source, ref }) {
   if (!wrong || !right || norm(wrong) === norm(right)) return null;
   if (!MISTAKE_TYPES.includes(type)) type = 'other';
+  rule = RULES[rule] ? rule : null;
+  if (rule && rule !== 'other') type = RULES[rule].type;
+  // оскаржене учнем («Не згоден») — не додаємо
+  if (isDisputed(wrong, right)) return null;
+  // помилка на це правило знову — засвоєння правила починається спочатку
+  if (rule && rule !== 'other') ruleMiss(rule);
   const ex = store.all('mistakes').find(m => norm(m.wrong) === norm(wrong) && norm(m.right) === norm(right));
-  if (ex) { ex.count = (ex.count || 1) + 1; ex.streak = 0; ex.resolved = false; return store.put('mistakes', ex); }
-  return store.put('mistakes', { wrong, right, type, explanation_uk: explanation_uk || '', source: source || 'tutor', count: 1, streak: 0, resolved: false, ref: ref || null });
+  if (ex) { ex.count = (ex.count || 1) + 1; ex.streak = 0; ex.resolved = false; if (rule && !ex.rule) ex.rule = rule; return store.put('mistakes', ex); }
+  return store.put('mistakes', { wrong, right, type, rule, explanation_uk: explanation_uk || '', source: source || 'tutor', count: 1, streak: 0, resolved: false, ref: ref || null });
+}
+const openOfRule = (rule) => store.all('mistakes').filter(m => !m.deleted && !m.resolved && m.rule === rule);
+/** Помилка на правило: серія правильних використань відкритих помилок цього правила обнуляється */
+function ruleMiss(rule) {
+  for (const m of openOfRule(rule)) if (m.streak) { m.streak = 0; store.put('mistakes', m); }
+}
+/** Правильне використання правила в розмові: +1 до серії кожної відкритої помилки цього правила (3 поспіль — закрито) */
+export function ruleHit(rule, done = new Set()) {
+  if (!rule || rule === 'other') return 0;
+  let n = 0;
+  for (const m of openOfRule(rule)) if (!done.has(m.id)) { done.add(m.id); mistakeHit(m, true); n++; }
+  return n;
+}
+/** Відкриті помилки, згруповані за правилом (без правила — за типом): прогрес правила = найменша серія серед його помилок */
+export function mistakesByRule() {
+  const g = new Map();
+  for (const m of store.all('mistakes')) {
+    if (m.deleted || m.resolved) continue;
+    const key = m.rule && m.rule !== 'other' ? m.rule : `type:${m.type || 'other'}`;
+    const e = g.get(key) || { key, rule: key.startsWith('type:') ? null : key, label: RULES[key]?.uk || null, type: m.type, total: 0, items: [], streak: 3 };
+    e.total += m.count || 1; e.items.push(m); e.streak = Math.min(e.streak, m.streak || 0);
+    g.set(key, e);
+  }
+  return [...g.values()].sort((a, b) => b.total - a.total);
+}
+
+// ---------- «Не згоден» з виправленням ----------
+const disputes = () => (Array.isArray(store.prof().disputes) ? store.prof().disputes : []);
+export function isDisputed(wrong, right) {
+  const w = norm(wrong), r = norm(right);
+  return !!w && disputes().some(d => norm(d.wrong) === w && (!d.right || norm(d.right) === r));
+}
+/**
+ * Учень не згоден з виправленням: вчитель більше його не робить (profiles.data.disputes → сервер),
+ * а помилка зникає зі статистики (лічильник −1 або видалення). row — розмова, з підсумку якої прибрати.
+ */
+export function disputeFix({ wrong, right }, row = null) {
+  if (!wrong) return;
+  const list = disputes().filter(d => !(norm(d.wrong) === norm(wrong) && norm(d.right) === norm(right)));
+  store.setProf({ disputes: [...list, { wrong: String(wrong).slice(0, 120), right: String(right || '').slice(0, 120), at: new Date().toISOString() }].slice(-40) });
+  const ex = store.all('mistakes').find(m => !m.deleted && norm(m.wrong) === norm(wrong) && norm(m.right) === norm(right));
+  if (ex) { if ((ex.count || 1) > 1) { ex.count -= 1; store.put('mistakes', ex); } else store.remove('mistakes', ex.id); }
+  if (row?.summary?.mistakes) {
+    row.summary.mistakes = row.summary.mistakes.filter(m => !(norm(m.wrong) === norm(wrong) && norm(m.right) === norm(right)));
+    store.put('tutor_chats', row);
+  }
+}
+
+/** Помилки без правила (старі, з карток виправлень) — класифікувати на сервері; раз на сесію застосунку, до 40 за раз */
+let classifying = null;
+export function classifyPending() {
+  if (classifying) return classifying;
+  // лише помилки з мовлення й письма (вправи й тести мають власний тип і часто порожню відповідь «—»)
+  const pending = store.all('mistakes').filter(m => !m.deleted && !m.rule && ['tutor', 'diary'].includes(m.source || 'tutor') && m.wrong && m.wrong !== '—').slice(0, 40);
+  if (!pending.length) return Promise.resolve(0);
+  classifying = import('./ai.js').then(({ tutor }) => tutor('classify', { items: pending.map(m => ({ wrong: m.wrong, right: m.right })) }))
+    .then(r => {
+      let n = 0;
+      for (const x of r?.items || []) {
+        const m = pending[x.i];
+        if (!m || !RULES[x.rule]) continue;
+        m.rule = x.rule;
+        if (x.rule !== 'other' && (!m.type || m.type === 'other')) m.type = RULES[x.rule].type;
+        store.put('mistakes', m); n++;
+      }
+      return n;
+    })
+    .catch(() => 0);
+  return classifying;
 }
 /** Правильне застосування: 3 поспіль — виправлено */
 export function mistakeHit(m, correct) {

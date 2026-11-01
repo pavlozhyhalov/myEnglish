@@ -162,3 +162,12 @@ body.kb-open:has(.tutor-dock) .toasts{bottom:calc(var(--kb,0px) + 124px)}
 .sum-tip svg{flex:none;color:var(--accent-ink);margin-top:1px}
 .pron-turn{display:flex;flex-direction:column;gap:8px;padding-bottom:12px;border-bottom:1px solid var(--line)}
 .pron-turn:last-child{border-bottom:0;padding-bottom:0}
+
+/* «Не згоден», правило помилки, загальний рівень */
+.sum-mistake-foot{gap:6px;align-items:center;margin-top:4px}
+.disagree{color:var(--ink-dim);padding-inline:8px;min-height:32px}
+.disagree[disabled]{opacity:.7}
+.fix-acts{gap:6px;margin-top:4px}
+li.disputed .fix-line{opacity:.55}
+.rolling-level{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:12px;background:var(--accent-soft)}
+.rolling-level[hidden]{display:none}

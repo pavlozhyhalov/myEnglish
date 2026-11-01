@@ -1,8 +1,9 @@
-// Помилки: мій список, групування за типом, самоперевірка, тренування групи
+// Помилки: мій список, групування за правилом граматики (без правила — за типом), самоперевірка, тренування групи
 import { h, ic, emo } from '../ui/dom.js';
 import { S, plural } from '../strings.js';
 import * as store from '../store.js';
-import { mistakesByType, mistakeHit, activityTimer } from '../stats.js';
+import { mistakesByRule, mistakeHit, activityTimer, classifyPending, disputeFix } from '../stats.js';
+import { ruleLabel } from '../rules.js';
 import { matches, runExercises, resultView } from '../ui/exercises.js';
 import { confirmSheet } from '../ui/sheet.js';
 import { tutor, aiErrorText } from '../ai.js';
@@ -56,18 +57,22 @@ export default function mistakes(view, r) {
         : h('div.empty', emo('sparkles', 'xl'), h('p', 'Закритих помилок поки немає. Коли ви 3 рази поспіль скажете правильно, помилка з\'явиться тут.')));
       return;
     }
-    const groups = mistakesByType();
+    // групи — за правилом граматики (помилки без правила — за типом); засвоєння правила = найменша серія серед його помилок
+    const groups = mistakesByRule();
     body.replaceChildren(head,
       groups.length ? '' : h('div.empty', emo('sparkles', 'xl'), h('p', openN || !closedList.length ? 'Список порожній. Помилки з розмов, вправ і тестів з\'являтимуться тут.' : 'Відкритих помилок немає — усе закрито!')),
       ...groups.map(g => h('section.stack', { style: { gap: '8px' } },
-        h('div.row.mk-ghead', h('div.section-title.grow', `${S.mistakeTypes[g.type] || g.type} · ${g.total}`),
+        h('div.row.mk-ghead', h('div.grow.stack', { style: { gap: '2px' } },
+            h('div.section-title', `${g.label || S.mistakeTypes[g.type] || g.type} · ${g.total}`),
+            g.rule && g.items.length > 1 ? h('div.xs.dim.mk-rule', masteryDots(g.streak, false), h('span', `правило засвоєно на ${Math.min(3, g.streak)}/3`)) : null),
           h('button.btn.sm.soft', { type: 'button', onclick: () => selfCheck(body, g.items.filter(m => !m.resolved), draw) }, ic('check-circle', { size: 16 }), 'Перевірити себе'),
           h('a.btn.sm.primary', { href: `#/tutor?mode=drill&type=${g.type}` }, 'Потренувати')),
         h('div.list', g.items.sort((a, b) => (b.count || 1) - (a.count || 1)).map(m => h('div.list-row', { style: { alignItems: 'flex-start' } },
           h('div.grow.stack', { style: { gap: '2px' } },
             h('div', h('s.bad', m.wrong), ' → ', h('b.good', m.right)),
             m.explanation_uk ? h('div.xs.dim', m.explanation_uk) : null,
-            h('div.row.xs.dim.mk-meta', h('span.grow', `×${m.count || 1} · ${SRC[m.source] || m.source || 'вчитель'}`), masteryDots(m.streak))),
+            h('div.row.xs.dim.mk-meta', h('span.grow', `×${m.count || 1} · ${SRC[m.source] || m.source || 'вчитель'}`), masteryDots(m.streak)),
+            ['tutor', 'diary'].includes(m.source || 'tutor') ? h('button.btn.sm.ghost.disagree', { type: 'button', title: 'Вчитель помилився — більше так не виправлятиме', onclick: () => { disputeFix(m); draw(); } }, ic('x-circle', { size: 14 }), 'Не згоден') : null),
           delBtn(m)))))));
   };
   const delBtn = (m) => h('button.icon-btn', { type: 'button', 'aria-label': 'Видалити', onclick: async () => { if (await confirmSheet('Видалити помилку?', `${m.wrong} → ${m.right}`, 'Видалити', { danger: true })) { store.remove('mistakes', m.id); draw(); } } }, ic('trash', { size: 18 }));
@@ -75,6 +80,8 @@ export default function mistakes(view, r) {
   const timer = activityTimer('mistakes');
   view.replaceChildren(body);
   draw();
+  // старі помилки без правила — розкласти за правилами (раз на сесію, після входу)
+  if (user() && navigator.onLine) classifyPending().then(n => { if (n && body.isConnected) draw(); });
   return () => { drillAbort?.abort(); timer.stop(); };
 }
 

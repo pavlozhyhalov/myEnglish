@@ -58,6 +58,40 @@ export function placementPart(now = Date.now()) {
 }
 
 /** Розмови з оцінкою рівня (лише достатньо мовлення) — критерії CEFR у часі */
+/**
+ * Рівень у розмовах — ковзна зважена оцінка за останніми 10 розмовами (а не одна коротка розмова):
+ * вага = обсяг власного мовлення (слова, насичення на ~250) × упевненість оцінки × свіжість (0,85 за кожну старішу розмову);
+ * замало мовлення (enough_data=false) — вага 0,15. Підрівень: low −0,3, high +0,3. Упевненість — з сумарної ваги й розкиду.
+ */
+const SUB_OFF = { low: -0.3, mid: 0, high: 0.3 };
+const CONF_W = { low: 0.4, medium: 0.7, high: 1 };
+const studentWords = (c) => Number(c.summary?.speech?.words) || (c.messages || []).filter(m => m.role === 'user' && !m.hidden)
+  .reduce((n, m) => n + (String(m.text || '').match(/[A-Za-z]+(?:'[A-Za-z]+)?/g) || []).length, 0);
+export function conversationLevel(chats = null, crit = null) {
+  const list = (chats || store.all('tutor_chats').filter(c => !c.deleted && !['diary', 'check', 'coach'].includes(c.mode) && c.summary?.level_assessment && LEVELS.includes(c.summary.level_signal)))
+    .sort((a, b) => String(b.created_at).localeCompare(String(a.created_at))).slice(0, 10);
+  let wsum = 0, xsum = 0, n = 0;
+  const xs = [];
+  list.forEach((c, k) => {
+    const a = c.summary.level_assessment;
+    const lvl = crit ? (a.criteria || []).find(x => x?.name === crit)?.level : c.summary.level_signal;
+    if (!LEVELS.includes(lvl)) return;
+    const x = rk(lvl) + (crit ? 0 : (SUB_OFF[a.sublevel] || 0));
+    const w = Math.min(1, studentWords(c) / 250) * (a.enough_data === false ? 0.15 : (CONF_W[a.confidence] || 0.6)) * 0.85 ** k;
+    if (w <= 0) return;
+    wsum += w; xsum += w * x; n++; xs.push([x, w]);
+  });
+  if (!wsum) return null;
+  const mean = xsum / wsum;
+  const sd = Math.sqrt(xs.reduce((acc, [x, w]) => acc + w * (x - mean) ** 2, 0) / wsum);
+  const i = Math.max(0, Math.min(LEVELS.length - 1, Math.round(mean)));
+  const frac = mean - i;
+  return {
+    level: LEVELS[i], sublevel: frac <= -0.15 ? 'low' : frac >= 0.15 ? 'high' : 'mid', value: Math.round(mean * 100) / 100, sessions: n,
+    confidence: wsum >= 2.5 && sd <= 0.5 ? 'high' : wsum >= 1 && sd <= 0.8 ? 'medium' : 'low',
+  };
+}
+
 export function speakingPart() {
   const chats = store.all('tutor_chats')
     .filter(c => !['diary', 'check', 'coach'].includes(c.mode) && c.summary?.level_assessment && LEVELS.includes(c.summary.level_signal))
@@ -81,7 +115,8 @@ export function speakingPart() {
   const levels = ok.map(c => rk(c.summary.level_signal));
   return {
     total: chats.length, enough: ok.length, insufficient: chats.length - ok.length,
-    current: levels.length ? LEVELS[Math.round(avg(levels.slice(-5)))] : null,
+    current: conversationLevel()?.level || (levels.length ? LEVELS[Math.round(avg(levels.slice(-5)))] : null),
+    rolling: conversationLevel(),
     sessions, trend, reasons,
     toNext: ok.length ? ok[ok.length - 1].summary.level_assessment.to_next_uk || '' : '',
   };

@@ -11,7 +11,7 @@ const COLUMNS = {
     'elapsed_days', 'scheduled_days', 'learning_steps', 'reps', 'lapses', 'state', 'last_review', 'created_at', 'updated_at', 'deleted'],
   reviews: ['id', 'card_id', 'rating', 'state', 'ts', 'elapsed', 'updated_at', 'deleted'],
   lessons_progress: ['id', 'best', 'last_score', 'attempts', 'completed_at', 'next_review', 'review_stage', 'updated_at', 'deleted'],
-  mistakes: ['id', 'wrong', 'right', 'type', 'explanation_uk', 'source', 'count', 'streak', 'resolved', 'ref', 'created_at', 'updated_at', 'deleted'],
+  mistakes: ['id', 'wrong', 'right', 'type', 'rule', 'explanation_uk', 'source', 'count', 'streak', 'resolved', 'ref', 'created_at', 'updated_at', 'deleted'],
   sessions: ['id', 'type', 'seconds', 'xp', 'day', 'ts', 'ref', 'updated_at', 'deleted'],
   tutor_chats: ['id', 'mode', 'scenario', 'title', 'messages', 'summary', 'seconds', 'created_at', 'updated_at', 'deleted'],
   tests: ['id', 'type', 'ref', 'scores', 'details', 'created_at', 'updated_at', 'deleted'],
