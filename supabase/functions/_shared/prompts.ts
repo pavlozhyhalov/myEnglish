@@ -18,6 +18,8 @@ export type Student = {
   recent: string[];
   /** Підсумки останніх розмов (новіші першими): що обговорювали, помилки, рекомендація */
   history: string[];
+  /** Відкриті помилки з id (найчастіші першими) — для визначення засвоєних у підсумку */
+  open: Array<{ id: string; wrong: string; right: string }>;
   /** Пауза (мс), після якої голосовий вчитель вважає репліку учня завершеною */
   voicePauseMs: number;
 };
@@ -76,7 +78,7 @@ const TYPE_EN: Record<string, string> = {
 export async function loadStudent(ctx: Ctx): Promise<Student> {
   const [prof, mistakes, cards, chats] = await Promise.all([
     ctx.db.from('profiles').select('data').maybeSingle(),
-    ctx.db.from('mistakes').select('wrong,right,type,count,updated_at').eq('resolved', false).eq('deleted', false).order('count', { ascending: false }).limit(40),
+    ctx.db.from('mistakes').select('id,wrong,right,type,count,updated_at').eq('resolved', false).eq('deleted', false).order('count', { ascending: false }).limit(40),
     // слова, які учень зараз вчить: спершу ті, що вже «на часі» (повторення в розмові = вилучення з пам'яті)
     ctx.db.from('cards').select('en,deck_id,stability,due').eq('deleted', false).gt('reps', 0).lt('stability', 21).order('due', { ascending: true }).limit(40),
     // останні розмови з підсумком — щоб вчитель справді пам'ятав, що було минулого разу
@@ -109,6 +111,7 @@ export async function loadStudent(ctx: Ctx): Promise<Student> {
     memory: readMemory(d.memory),
     recent,
     history: readHistory(chats?.data || []),
+    open: (mistakes.data || []).slice(0, 15).map(m => ({ id: String(m.id), wrong: cut(m.wrong, 80), right: cut(m.right, 80) })).filter(m => m.wrong && m.right),
     voicePauseMs: VOICE_PAUSE[s.voicePause as string] || VOICE_PAUSE.normal,
   };
 }

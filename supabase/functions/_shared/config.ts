@@ -8,6 +8,8 @@ export const TEXT_MODELS = list(env('GEMINI_TEXT_MODEL'), 'gemini-flash-latest',
 export const CHAT_MODELS = list(env('GEMINI_CHAT_MODEL'), ...TEXT_MODELS);
 /** Аналітика сесії (підсумок, перевірка текстів, щоденник): GEMINI_SMART_MODEL — напр. gemini-pro-latest, з відкатом на flash */
 export const SMART_MODELS = list(env('GEMINI_SMART_MODEL'), ...TEXT_MODELS);
+/** Найважливіші оцінки (підсумок розмови з рівнем, глибокий аналіз, письмо тесту рівня): Pro першою, на 429/перевантаження — flash */
+export const PRO_MODELS = list(env('GEMINI_PRO_MODEL'), 'gemini-pro-latest', 'gemini-2.5-pro', ...SMART_MODELS);
 /** Швидкі службові виклики після відповіді (підказки, слова, пам'ять): окрема квота flash-lite, без «роздумів» */
 // кожна модель має власну квоту: після 429 модель охолоджується (gemini.ts), і черга йде далі
 export const FAST_MODELS = list(env('GEMINI_FAST_MODEL'), 'gemini-flash-lite-latest', 'gemini-2.5-flash-lite', 'gemini-2.5-flash', 'gemini-flash-latest');

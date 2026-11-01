@@ -6,7 +6,7 @@ const st = (over: Partial<Student> = {}): Student => ({
   level: 'B1', tutorName: 'Alex', tutorTone: 'friendly', explainLang: 'uk', strictness: 'important', voice: 'Puck', workFocus: false,
   weak: [{ type: 'articles', count: 5, examples: ['"I have car" → "I have a car"'] }], words: ['commute', 'reliable', 'afford'], lastFocus: null,
   about: { name: '', pronoun: 'they', nativeLang: 'Ukrainian', otherLangs: '', location: '', age: '', occupation: '', family: '', interests: '', goals: [], avoid: '', notes: '' },
-  memory: [], recent: [], history: [], voicePauseMs: 1300, ...over,
+  memory: [], recent: [], history: [], open: [], voicePauseMs: 1300, ...over,
 });
 
 Deno.test('thinkingConfig per model family', () => {

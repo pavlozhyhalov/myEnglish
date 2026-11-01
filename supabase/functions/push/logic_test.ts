@@ -1,5 +1,5 @@
 // deno test supabase/functions/push/logic_test.ts
-import { buildMessage, isDue, localParts, plural, safeEqual, streakFrom, timeToMinutes } from './logic.ts';
+import { nudgeInput, cleanNudge, monitorDue, buildMessage, isDue, localParts, plural, safeEqual, streakFrom, timeToMinutes } from './logic.ts';
 import { b64uDecode, b64uEncode, encrypt, vapidHeader } from './webpush.ts';
 
 function eq(a: unknown, b: unknown, msg = '') {
@@ -67,4 +67,16 @@ Deno.test('encrypt header layout and vapid jwt', async () => {
   eq(payload.aud, 'https://fcm.googleapis.com'); eq(payload.sub, 'mailto:a@b.c');
   const ok = await crypto.subtle.verify({ name: 'ECDSA', hash: 'SHA-256' }, vk.publicKey, b64uDecode(m[3]), new TextEncoder().encode(`${m[1]}.${m[2]}`));
   eq(ok, true, 'signature');
+});
+
+const ok = (c: unknown) => { if (!c) throw new Error('assertion failed'); };
+Deno.test('nudge: input only with personal data, clean falls back on bad output', () => {
+  eq(nudgeInput({ memory: [], due: 1, todaySec: 0, streak: 0 }), null);
+  ok(nudgeInput({ memory: ['Plans a trip to Gdańsk on 1 Nov 2026'], due: 1, todaySec: 0, streak: 2 })!.includes('Gdańsk'));
+  const fb = { title: 't', body: 'b', url: '#/', tag: 'x' };
+  eq(cleanNudge({ title: '', body: 'x', topic_en: '' }, fb), fb);
+  eq(cleanNudge({ title: 'Hello there', body: 'Let us talk today', topic_en: '' }, fb), fb);
+  const good = cleanNudge({ title: 'Як минула поїздка?', body: 'Розкажіть вчителю про Гданськ — 5 хвилин голосом.', topic_en: 'Ask about the trip to Gdańsk.' }, fb);
+  ok(good.url.startsWith('#/tutor?mode=voice&topic='));
+  ok(monitorDue(new Date('2026-11-02T06:05:00Z')) && !monitorDue(new Date('2026-11-02T06:20:00Z')));
 });
