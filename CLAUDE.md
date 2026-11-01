@@ -66,7 +66,7 @@
   Тригер `sessions_resonance` на `public.sessions` (міграції 0005–0006) → `private.resonance_push_day()` → `pg_net` → RPC `ingest_upsert` у Resonance.
   Ключ — у `public.integrations` (RLS без політик), у Resonance лише його sha256 (`external_ingest_keys`). Видалення сесії перераховує день.
   Supabase MCP вимагає ручного підтвердження для `drop`/`revoke`/`update` без `where` — у міграціях обходитись `create or replace` і явним `where`.
-- 2026-10-26 · Ліміти AI атомарні (`charge_ai_usage`), токени Live рахуються (`LIMIT_LIVE_TOKENS`, деф. 40/день); глибока діагностика `tutor` — лише для allowlist (`claim_health_slot`). Міграція 0007.
+- 2026-10-26 · Ліміти AI атомарні (`charge_ai_usage`), токени Live рахуються (`LIMIT_LIVE_TOKENS`, деф. 80/день з 2026-11-01 — попереднє з'єднання голосу); глибока діагностика `tutor` — лише для allowlist (`claim_health_slot`). Міграція 0007.
 - **2026-10-26 · Профіль учня (`#/profile`) — дані для AI.** Ім'я, звертання (кличний відмінок для привітання), займенник (he/she/they), вік, місто, мови, рід занять, сім'я,
   цілі, інтереси, теми, яких уникати, нотатки. Зберігаються в `profiles.data.about`; сервер — `readAbout()`/`studentBlock()` у `_shared/prompts.ts` (обрізання довжин).
   Промпти не містять жорстко зашитих даних про власника — лише з профілю; звертання до учня нейтральне або за займенником з профілю.
