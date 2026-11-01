@@ -46,6 +46,19 @@ function readAbout(a: Record<string, unknown> = {}): About {
     avoid: cut(a.avoid, 200), notes: cut(a.notes, 500),
   };
 }
+// Українське ім'я → латиниця (офіційна транслітерація КМУ 2010): Тарас → Taras, Олена → Olena
+const TR: Record<string, string> = { а: 'a', б: 'b', в: 'v', г: 'h', ґ: 'g', д: 'd', е: 'e', є: 'ie', ж: 'zh', з: 'z', и: 'y', і: 'i', ї: 'i', й: 'i', к: 'k', л: 'l', м: 'm', н: 'n', о: 'o', п: 'p', р: 'r', с: 's', т: 't', у: 'u', ф: 'f', х: 'kh', ц: 'ts', ч: 'ch', ш: 'sh', щ: 'shch', ь: '', ю: 'iu', я: 'ia', 'ʼ': '', "'": '', '’': '', ы: 'y', э: 'e', ё: 'io', ъ: '' };
+const TR_START: Record<string, string> = { є: 'ye', ї: 'yi', й: 'y', ю: 'yu', я: 'ya' };
+export function latinName(name: string) {
+  if (!/[Ѐ-ӿ]/.test(name)) return name;
+  return name.replace(/[Ѐ-ӿʼ'’]+/g, (w) => {
+    const low = w.toLowerCase().replace(/зг/g, 'zgh');
+    let out = '';
+    for (let i = 0; i < low.length; i++) out += (i === 0 && TR_START[low[i]]) || TR[low[i]] || low[i];
+    return w[0] === w[0].toUpperCase() ? out.charAt(0).toUpperCase() + out.slice(1) : out;
+  });
+}
+
 /** Займенники учня для промптів */
 export function pron(st: Student) {
   const p = st.about.pronoun;
@@ -55,7 +68,7 @@ export function pron(st: Student) {
 function studentBlock(st: Student) {
   const a = st.about, P = pron(st);
   const lines = [
-    a.name ? `- Name: ${a.name} — address the student by this name. In English text always write it in Latin letters (transliterate Cyrillic: Тарас → Taras, Олена → Olena); in Ukrainian text — in Cyrillic, in the vocative. Refer to the student as "${P.s}".` : `- Refer to the student as "${P.s}". If you don't know their name, you may ask once.`,
+    a.name ? `- Name: ${latinName(a.name)}${latinName(a.name) !== a.name ? ` (in Ukrainian: ${a.name})` : ''} — address the student by name. In ENGLISH sentences write exactly "${latinName(a.name)}" (never Cyrillic, never a Ukrainian vocative form); only inside Ukrainian sentences use Cyrillic in the vocative. Refer to the student as "${P.s}".` : `- Refer to the student as "${P.s}". If you don't know their name, you may ask once.`,
     `- Native language: ${a.nativeLang}${a.otherLangs ? `. Also speaks: ${a.otherLangs}` : ''}. Expect typical mistakes of ${a.nativeLang} speakers.`,
     a.location && `- Lives in: ${a.location}`,
     a.age && `- Age: ${a.age}`,
@@ -386,7 +399,7 @@ This mode overrides HOW TO TEACH where they conflict. No corrections block in th
     ].filter(Boolean).join('; ');
     parts.push(`
 MODE: FREE CONVERSATION${opts.topic ? `\nSession topic / instructions from the app (follow them as an English tutor; if they ask you to vary difficulty, e.g. a level check, they override LEVEL): ${opts.topic}` : ''}
-If this is the start, greet the student briefly${st.about.name ? ` by name (${st.about.name})` : ''} and ${opts.topic ? 'start on the topic' : `${st.memory.length ? 'either follow up on ONE thing you remember about them (a plan, an event, a hobby) or ' : ''}suggest 2–3 concrete topics (ideas: ${ideas}) with one opening question`}. Never pick a topic the student asked to avoid.
+If this is the start, greet the student briefly${st.about.name ? ` by name ("${latinName(st.about.name)}")` : ''} and ${opts.topic ? 'start on the topic' : `${st.memory.length ? 'either follow up on ONE thing you remember about them (a plan, an event, a hobby) or ' : ''}suggest 2–3 concrete topics (ideas: ${ideas}) with one opening question`}. Never pick a topic the student asked to avoid.
 Keep the conversation going: if a topic runs dry, move to a related one yourself. Every few turns, push the student a little beyond their comfort zone (a follow-up "why?", "what would you do if…", a new useful phrase).`);
   }
   if (voice) {

@@ -1,6 +1,6 @@
 import { assertEquals, assert, assertRejects } from 'jsr:@std/assert@1';
 import { retryAfterMs, thinkingConfig, generate, streamText, candidateText, isCooled } from './gemini.ts';
-import { readMemory, readHistory, sessionFocus, basePrompt, modePrompt, metaPrompt, wordsForLevel, todayLabel, memoryRule, UK_STYLE, type Student } from './prompts.ts';
+import { latinName, readMemory, readHistory, sessionFocus, basePrompt, modePrompt, metaPrompt, wordsForLevel, todayLabel, memoryRule, UK_STYLE, type Student } from './prompts.ts';
 
 const st = (over: Partial<Student> = {}): Student => ({
   level: 'B1', tutorName: 'Alex', tutorTone: 'friendly', explainLang: 'uk', strictness: 'important', voice: 'Puck', workFocus: false,
@@ -190,4 +190,12 @@ Deno.test('retryAfterMs: daily quota waits until reset, per-minute ~1 min', () =
   const minute = { error: { details: [{ violations: [{ quotaId: 'GenerateRequestsPerMinutePerProjectPerModel-FreeTier' }] }, { retryDelay: '12s' }] } };
   assertEquals(retryAfterMs(minute), 30_000);
   assertEquals(retryAfterMs(null), 30_000);
+});
+
+Deno.test('latinName: official Ukrainian transliteration', () => {
+  assertEquals(latinName('Тарас'), 'Taras');
+  assertEquals(latinName('Олена'), 'Olena');
+  assertEquals(latinName('Юрій'), 'Yurii');
+  assertEquals(latinName('Євген'), 'Yevhen');
+  assertEquals(latinName('Pavlo'), 'Pavlo');
 });
