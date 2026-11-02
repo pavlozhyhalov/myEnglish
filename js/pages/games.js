@@ -1,4 +1,5 @@
-// Ігри: «Слово дня» (Wordle), «Швидкий переклад», «Збери речення» — слова й речення мого рівня.
+// Ігри: «Слово дня» (Wordle), «Швидкий переклад», «Збери речення» — слова й речення мого рівня;
+// мовні: «Поясни слово», «Хвилина без "uh"» (AI слухає), «Детектив помилок» (з ваших реальних помилок).
 import { h, ic } from '../ui/dom.js';
 import { myLevel, levelTag } from '../level.js';
 import { today } from '../stats.js';
@@ -8,6 +9,9 @@ const GAMES = {
   wordle: () => import('../games/wordle.js'),
   rush: () => import('../games/rush.js'),
   build: () => import('../games/build.js'),
+  explain: () => import('../games/explain.js'),
+  minute: () => import('../games/minute.js'),
+  detective: () => import('../games/detective.js'),
 };
 
 export default async function games(view, r) {
@@ -27,10 +31,16 @@ function hub(view) {
     h('div.grow', h('div.name', title), h('div.xs.dim', desc), status ? h('div.xs.g-status', status) : null),
     ic('caret-right', { size: 18 }));
   view.replaceChildren(h('div.stack-lg.games',
-    h('div.row', h('p.dim.grow', { style: { margin: 0 } }, 'Слова й речення вашого рівня. Час у грі зараховується в навчання.'), levelTag(lv), muteButton()),
+    h('div.row', h('p.dim.grow', { style: { margin: 0 } }, 'Слова, речення й мовлення вашого рівня. Час у грі зараховується в навчання.'), levelTag(lv), muteButton()),
+    h('div.section-title', 'Слова й речення'),
     h('div.stack',
       tile('#/games/wordle', 'text-aa', 'Слово дня', 'Вгадайте англійське слово з 5 літер за 6 спроб', wordleStatus),
       tile('#/games/rush', 'lightning', 'Швидкий переклад', '60 секунд: оберіть переклад, поки не скінчився час', best('rush4') || best('rushtf') ? `Рекорд: ${Math.max(best('rush4'), best('rushtf'))}` : null),
-      tile('#/games/build', 'puzzle-piece', 'Збери речення', 'Складіть речення з перемішаних слів на швидкість', best('build') ? `Рекорд: ${best('build')}` : null)),
-    h('a.btn.ghost', { href: '#/games/wordle?mode=practice' }, ic('arrow-clockwise', { size: 18 }), 'Тренування «Слова дня» без обмежень')));
+      tile('#/games/build', 'puzzle-piece', 'Збери речення', 'Складіть речення з перемішаних слів на швидкість', best('build') ? `Рекорд: ${best('build')}` : null),
+      h('a.btn.ghost', { href: '#/games/wordle?mode=practice' }, ic('arrow-clockwise', { size: 18 }), 'Тренування «Слова дня» без обмежень')),
+    h('div.section-title', 'Говоріння й помилки'),
+    h('div.stack',
+      tile('#/games/explain', 'chat-circle-dots', 'Поясни слово', 'Поясніть англійською слово з ваших карток — AI вгадує', best('explain') ? `Рекорд: ${best('explain')} з 15` : null),
+      tile('#/games/minute', 'timer', 'Хвилина без «uh»', 'Говоріть хвилину на тему — три заминки, і ви вибули', best('minute') ? `Рекорд: ${best('minute')} с` : null),
+      tile('#/games/detective', 'magnifying-glass', 'Детектив помилок', 'Знайдіть помилку за 5 секунд — з ваших реальних помилок', best('detective') ? `Рекорд: ${best('detective')}` : null))));
 }

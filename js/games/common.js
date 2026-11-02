@@ -147,3 +147,75 @@ export function gameHead(extra) {
     h('a.btn.ghost.sm.g-back', { href: '#/games' }, ic('arrow-left', { size: 18 }), 'Усі ігри'),
     h('div.grow'), extra || null, muteButton());
 }
+
+// ---------- Мовні ігри: вхід, мікрофон, кільце відліку, індикатор гучності ----------
+const SVG_NS = 'http://www.w3.org/2000/svg';
+const svgEl = (tag, attrs = {}) => { const el = document.createElementNS(SVG_NS, tag); for (const [k, v] of Object.entries(attrs)) el.setAttribute(k, v); return el; };
+
+/** Картка «потрібен вхід» для ігор, де мовлення розпізнає AI */
+export function gameLoginCard(text) {
+  return h('section.card.stack.g-login',
+    h('div.row', { style: { alignItems: 'flex-start', gap: '12px' } }, h('span.tile-ico', ic('microphone', { size: 22 })),
+      h('div.grow.stack', { style: { gap: '4px' } }, h('div.g-strong', 'Потрібен вхід в акаунт'), h('div.small.dim', text))),
+    h('a.btn.primary.block', { href: '#/auth' }, 'Увійти'),
+    h('a.btn.ghost.block', { href: '#/games' }, 'Інші ігри'));
+}
+
+const MIC_ERR = {
+  denied: ['Немає дозволу на мікрофон', [
+    'На iPhone: Параметри → Програми → Safari → Мікрофон → «Дозволити» (в iOS 17 і раніше — Параметри → Safari → Мікрофон).',
+    'Або в Safari: «аА» в адресному рядку → Параметри вебсайту → Мікрофон → «Дозволити».',
+    'У Chrome: значок замка біля адреси → Мікрофон → «Дозволити».']],
+  missing: ['Мікрофон не знайдено', ['Під\'єднайте навушники з мікрофоном або перевірте, чи мікрофон не вимкнено в системі.']],
+  busy: ['Мікрофон зайнятий', ['Його використовує інша програма — дзвінок, диктофон, інша вкладка. Закрийте її і спробуйте ще раз.']],
+  unsupported: ['Запис звуку недоступний', ['Цей браузер не вміє записувати звук. Оновіть iOS або відкрийте застосунок у Safari чи Chrome.']],
+  other: ['Не вдалося ввімкнути мікрофон', ['Спробуйте ще раз. Якщо не допоможе — перезапустіть застосунок.']],
+};
+/** Картка помилки мікрофона; kind — з micErrorKind() (js/fluency.js) */
+export function micErrorCard(kind, onRetry) {
+  const [title, lines] = MIC_ERR[kind] || MIC_ERR.other;
+  return h('section.card.stack.g-err', { role: 'alert' },
+    h('div.row', { style: { alignItems: 'flex-start', gap: '12px' } }, h('span.tile-ico.g-err-ico', ic('microphone-slash', { size: 22 })),
+      h('div.grow.stack', { style: { gap: '6px' } }, h('div.g-strong', title), lines.map(l => h('div.small.dim', l)))),
+    onRetry && kind !== 'unsupported' ? h('button.btn.primary.block', { type: 'button', onclick: onRetry }, ic('arrow-clockwise', { size: 18 }), 'Спробувати ще раз') : null);
+}
+
+/** Кільце відліку: { el, set(leftMs, totalMs) } — секунди в центрі, останні 5 с — попереджувальний колір */
+export function countdownRing(size = 168, stroke = 10, sub = 'секунд') {
+  const r = (size - stroke) / 2, c = 2 * Math.PI * r;
+  const s = svgEl('svg', { viewBox: `0 0 ${size} ${size}`, 'aria-hidden': 'true' });
+  const mk = (cls) => svgEl('circle', { class: cls, cx: size / 2, cy: size / 2, r, fill: 'none', 'stroke-width': stroke, 'stroke-linecap': 'round', 'stroke-dasharray': c, 'stroke-dashoffset': 0, transform: `rotate(-90 ${size / 2} ${size / 2})` });
+  const bar = mk('g-ring-bar');
+  s.append(mk('g-ring-track'), bar);
+  const secEl = h('b.g-ring-sec.num', '0');
+  const el = h('div.g-ring', { style: { width: size + 'px', height: size + 'px' } }, s, h('div.g-ring-in', secEl, h('span.g-ring-sub', sub)));
+  let lastSec = -1;
+  return {
+    el,
+    set(left, total) {
+      bar.setAttribute('stroke-dashoffset', String(c * (1 - Math.max(0, Math.min(1, left / total)))));
+      const sec = Math.ceil(left / 1000);
+      if (sec !== lastSec) { lastSec = sec; secEl.textContent = String(sec); el.classList.toggle('low', sec <= 5); }
+    },
+  };
+}
+
+/** Індикатор гучності мікрофона: стовпчики, що біжать праворуч наліво */
+export function levelMeter(n = 14) {
+  const bars = Array.from({ length: n }, () => h('i'));
+  const el = h('div.g-meter', { 'aria-hidden': 'true' }, bars);
+  const hist = new Array(n).fill(0);
+  let t = 0;
+  return {
+    el,
+    push(level, voiced) {
+      const now = performance.now();
+      if (now - t < (reducedMotion() ? 250 : 90)) return;
+      t = now;
+      hist.shift(); hist.push(level < 0 ? 0 : level);
+      bars.forEach((b, i) => { b.style.transform = `scaleY(${Math.max(0.15, hist[i]).toFixed(3)})`; });
+      el.classList.toggle('on', !!voiced);
+      el.classList.toggle('none', level < 0);
+    },
+  };
+}

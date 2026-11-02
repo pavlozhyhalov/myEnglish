@@ -1,0 +1,78 @@
+/* «Детектив помилок» (#/games/detective) — фішки-слова, таймер раунду, розбір помилки */
+.dt-note{gap:8px;align-items:flex-start;color:var(--accent-ink)}
+.dt-note .xs{color:var(--ink)}
+
+.dt-bar{height:6px;border-radius:3px;background:var(--track);overflow:hidden}
+.dt-bar span{display:block;height:100%;background:var(--accent);transform-origin:left center;will-change:transform}
+.dt-bar.hurry span{background:var(--bad)}
+.g-pill.dt-hot{border-color:var(--warn);color:var(--warn)}
+.g-pill.dt-hot .ico{color:var(--warn)}
+
+.dt-stage{position:relative;display:flex;flex-direction:column;gap:12px;border-radius:var(--radius);min-width:0}
+.dt-stage.dt-in .dt-card{animation:dtIn 220ms var(--ease) both}
+.dt-card{display:flex;flex-direction:column;align-items:flex-start;gap:10px;padding:16px 14px 18px;min-width:0}
+.dt-ask{align-self:stretch;gap:8px;min-height:24px}
+.dt-src{display:inline-flex;align-items:center;gap:4px;flex:none}
+.dt-sent{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;align-self:stretch;min-width:0}
+
+.dt-chip{min-height:44px;min-width:44px;max-width:100%;padding:8px 14px;border-radius:var(--radius-btn);border:1.5px solid var(--line-strong);
+  background:var(--surface);color:var(--ink);font:inherit;font-size:var(--fs-md);font-weight:600;line-height:1.2;overflow-wrap:anywhere;
+  cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent;box-shadow:var(--shadow-sm);
+  transition:transform 90ms ease,background var(--dur),border-color var(--dur),color var(--dur)}
+.dt-chip:active:not(:disabled){transform:scale(.94)}
+.dt-chip:disabled{cursor:default;opacity:1}
+.dt-chip:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.dt-chip.ok{background:var(--good);border-color:var(--good);color:var(--on-good);animation:dtPop 260ms var(--ease)}
+.dt-chip.clean{border-color:var(--good);background:var(--good-soft)}
+.dt-chip.no{background:var(--bad-soft);border-color:var(--bad);color:var(--bad)}
+.dt-chip.was{border-color:var(--good);border-style:dashed;background:var(--good-soft)}
+
+.dt-none{min-height:52px;width:100%;background:var(--surface);border:1.5px solid var(--line-strong);font-weight:600;color:var(--ink)}
+.dt-none .ico{color:var(--good)}
+.dt-none:disabled{opacity:1}
+.dt-none.ok{background:var(--good);border-color:var(--good);color:var(--on-good)}
+.dt-none.ok .ico{color:var(--on-good)}
+.dt-none.no{background:var(--bad-soft);border-color:var(--bad);color:var(--bad)}
+.dt-none.was{border-color:var(--good);border-style:dashed;background:var(--good-soft)}
+.dt-next{min-height:52px;width:100%}
+
+.dt-reveal{display:flex;flex-direction:column;gap:10px;padding:14px;min-width:0;animation:dtIn 200ms var(--ease) both}
+.dt-reveal.miss{border-color:var(--bad);cursor:pointer}
+.dt-reveal.hit{border-color:var(--good)}
+.dt-verdict{gap:6px}
+.dt-verdict.no{color:var(--bad)}
+.dt-verdict.ok{color:var(--good)}
+.dt-diff{justify-content:flex-start;gap:6px 6px;font-size:var(--fs-md);line-height:1.4}
+.dt-w{padding:2px 2px;overflow-wrap:anywhere}
+.dt-del{color:var(--bad);text-decoration:line-through;text-decoration-thickness:2px;opacity:.85}
+.dt-ins{text-decoration:none;background:var(--good-soft);color:var(--good);font-weight:700;border-radius:6px;padding:2px 6px}
+.dt-gap{display:inline-flex;align-items:center;gap:4px;color:var(--good);font-weight:600}
+.dt-rule{gap:6px;flex-wrap:wrap}
+.dt-rule .tag{display:inline-flex;align-items:center;gap:4px}
+.dt-tip{margin:0;font-size:var(--fs-sm);color:var(--ink);line-height:1.4}
+
+.dt-pop{position:absolute;z-index:2;top:-14px;right:14px;padding:2px 12px;border-radius:var(--radius-pill);background:var(--good);color:var(--on-good);
+  font-family:var(--font-head);font-weight:700;font-size:var(--fs-md);box-shadow:var(--shadow-sm);pointer-events:none;animation:dtFloat 850ms var(--ease) forwards}
+.dt-pop.big{font-size:var(--fs-lg);background:var(--warn);padding:4px 14px}
+.dt-stage.flash-ok .dt-card,.dt-stage.flash-ok .dt-reveal{box-shadow:0 0 0 3px color-mix(in srgb,var(--good) 55%,transparent)}
+.dt-stage.flash-no .dt-card,.dt-stage.flash-no .dt-reveal{box-shadow:0 0 0 3px color-mix(in srgb,var(--bad) 55%,transparent)}
+.dt-stage.shake .dt-card,.dt-stage.shake .dt-reveal{animation:dtShake 340ms}
+
+.dt-miss{align-items:flex-start;gap:10px}
+.dt-miss .grow{min-width:0}
+.dt-miss-head{gap:6px;flex-wrap:wrap}
+.dt-miss-head .tag{display:inline-flex;align-items:center;gap:4px}
+.dt-ex{margin-top:2px;overflow-wrap:anywhere}
+.dt-ex-tip{margin-top:2px;color:var(--ink-dim)}
+.dt-miss > .tag{flex:none}
+.dt .btn.soft.block{display:flex;justify-content:center}
+
+@keyframes dtIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@keyframes dtPop{50%{transform:scale(1.12)}}
+@keyframes dtFloat{from{opacity:0;transform:translateY(6px) scale(.9)}20%{opacity:1;transform:translateY(0) scale(1.05)}70%{opacity:1}to{opacity:0;transform:translateY(-16px)}}
+@keyframes dtShake{20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}
+
+@media (prefers-reduced-motion:reduce){
+  .dt-stage.dt-in .dt-card,.dt-reveal,.dt-chip.ok,.dt-stage.shake .dt-card,.dt-stage.shake .dt-reveal,.dt-pop{animation:none}
+  .dt-chip,.dt-chip:active:not(:disabled){transition:none;transform:none}
+}
