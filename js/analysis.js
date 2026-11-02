@@ -60,7 +60,7 @@ export function placementPart(now = Date.now()) {
 /** Розмови з оцінкою рівня (лише достатньо мовлення) — критерії CEFR у часі */
 /**
  * Рівень у розмовах — ковзна зважена оцінка за останніми 10 розмовами (а не одна коротка розмова):
- * вага = обсяг власного мовлення (слова, насичення на ~250) × упевненість оцінки × свіжість (0,85 за кожну старішу розмову);
+ * вага = обсяг власного мовлення (слова, насичення на ~250) × упевненість оцінки × свіжість (0,85 за кожну старішу розмову); підсумок — зважена медіана;
  * замало мовлення (enough_data=false) — вага 0,15. Підрівень: low −0,3, high +0,3. Упевненість — з сумарної ваги й розкиду.
  */
 const SUB_OFF = { low: -0.3, mid: 0, high: 0.3 };
@@ -82,7 +82,10 @@ export function conversationLevel(chats = null, crit = null) {
     wsum += w; xsum += w * x; n++; xs.push([x, w]);
   });
   if (!wsum) return null;
-  const mean = xsum / wsum;
+  // зважена медіана (а не середнє): одна неправдоподібна оцінка не тягне загальний рівень
+  const sorted = [...xs].sort((p, q) => p[0] - q[0]);
+  let acc = 0, mean = sorted[sorted.length - 1][0];
+  for (const [x, w] of sorted) { acc += w; if (acc >= wsum / 2) { mean = x; break; } }
   const sd = Math.sqrt(xs.reduce((acc, [x, w]) => acc + w * (x - mean) ** 2, 0) / wsum);
   const i = Math.max(0, Math.min(LEVELS.length - 1, Math.round(mean)));
   const frac = mean - i;

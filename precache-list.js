@@ -1,7 +1,7 @@
 // Згенеровано scripts/bump.sh — не редагувати вручну
 // шлях → хеш вмісту (sha256, 12 символів)
 self.PRECACHE = {
-  './': '14c3344c6c7f', './index.html': '14c3344c6c7f', './manifest.webmanifest': 'a99fcb655734',
+  './': '355a2807e4ae', './index.html': '355a2807e4ae', './manifest.webmanifest': 'a99fcb655734',
   './assets/icons/apple-touch-icon.png': '92b8c14d44a7',
   './assets/icons/icon-192.png': '7002ccee6bcd',
   './assets/icons/icon-512.png': '4cdfc491602e',
@@ -178,9 +178,9 @@ self.PRECACHE = {
   './fonts/unbounded-latin-ext-600-normal.woff2': '42cebe48e87b',
   './fonts/unbounded-latin-ext-700-normal.woff2': '886ac002ab58',
   './js/ai.js': '7eb8286ecdab',
-  './js/analysis.js': '3864cd4aa7c6',
+  './js/analysis.js': '3acccdd710ca',
   './js/app.js': '8ca5c69eb40f',
-  './js/config.js': '83d3161af8de',
+  './js/config.js': '1182ba6218bf',
   './js/daily.js': 'bdd66d51019f',
   './js/data.js': 'b13181517b77',
   './js/errlog.js': 'b1996f6e588a',

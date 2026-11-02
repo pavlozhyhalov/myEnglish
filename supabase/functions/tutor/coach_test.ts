@@ -1,5 +1,5 @@
 import { assertEquals, assert } from 'jsr:@std/assert@1';
-import { mergeTurnFixes, scoreEval, GOLDEN, cleanClassify, cleanVoiceCheck, clampSpeech, cleanMastered, cleanMissions, summaryExtra } from './coach.ts';
+import { calibrateLevel, mergeTurnFixes, scoreEval, GOLDEN, cleanClassify, cleanVoiceCheck, clampSpeech, cleanMastered, cleanMissions, summaryExtra } from './coach.ts';
 
 const ST = { open: [{ id: 'm1', wrong: 'I feeling tired', right: "I'm feeling tired" }] } as any;
 
@@ -40,4 +40,15 @@ Deno.test('scoreEval: recall over known mistakes, fp on correct sentences', () =
   const r = scoreEval({ items });
   assert(r.recall < 1 && r.fp === 1);
   assertEquals(cleanClassify({ items: [{ i: 0, rule: 'prep-dependent' }, { i: 9, rule: 'x' }] }, 2), [{ i: 0, rule: 'prep-dependent', type: 'prepositions' }]);
+});
+
+Deno.test('calibrateLevel: long connected turns cannot be A1; far below usual level → low confidence', () => {
+  const mk = () => ({ level_signal: 'A1', level_assessment: { confidence: 'high', sublevel: 'mid', criteria: [{ name: 'fluency', level: 'A1' }], reasons_uk: ['x'] } });
+  const a = calibrateLevel(mk(), { words: 497, avg_len: 20.7, turns: 24 }, 'B1');
+  assertEquals(a.level_signal, 'A2');
+  assertEquals(a.level_assessment.confidence, 'high');
+  const b = calibrateLevel(mk(), { words: 60, avg_len: 4, turns: 10 }, 'B1');
+  assertEquals([b.level_signal, b.level_assessment.confidence], ['A1', 'low']);
+  const c = calibrateLevel({ level_signal: 'B1', level_assessment: { confidence: 'medium', criteria: [], reasons_uk: [] } }, null, 'B1');
+  assertEquals(c.level_assessment.confidence, 'medium');
 });

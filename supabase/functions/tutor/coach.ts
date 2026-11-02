@@ -205,3 +205,30 @@ export function scoreEval(r: unknown) {
   });
   return { recall: total ? Math.round((hit / total) * 100) / 100 : 0, fp, answered: by.size };
 }
+
+/**
+ * Захист від неправдоподібної оцінки рівня (рішення 2026-11-02, реальний випадок: A1 «упевнено» при 21 слові на репліку):
+ * 1) нижня межа за виміряним мовленням — довгі зв'язні репліки несумісні з A1 (A2 ≥ 8 слів/репліку, B1-межа не ставиться автоматично);
+ * 2) оцінка на 2+ рівні нижча за рівень учня — ненадійна: упевненість «low» і пояснення.
+ */
+const LV = ['A1', 'A2', 'B1', 'B2', 'C1'];
+// deno-lint-ignore no-explicit-any
+export function calibrateLevel<T extends { level_signal: string; level_assessment: any }>(sum: T, speech: { words: number; avg_len: number; turns: number } | null, studentLevel: string): T {
+  const a = sum.level_assessment;
+  if (!a) return sum;
+  const notes: string[] = [];
+  if (speech && speech.words >= 150 && speech.turns >= 5 && speech.avg_len >= 8 && sum.level_signal === 'A1') {
+    sum.level_signal = 'A2';
+    a.sublevel = 'high';
+    for (const c of a.criteria || []) if (c.name === 'fluency' && c.level === 'A1') c.level = 'A2';
+    notes.push(`Ви говорили зв'язними репліками (у середньому ${speech.avg_len} слова), а це вже вище за A1 — оцінку уточнено за виміряним мовленням.`);
+  }
+  const gap = LV.indexOf(studentLevel) - LV.indexOf(sum.level_signal);
+  if (LV.includes(studentLevel) && gap >= 2) {
+    a.confidence = 'low';
+    notes.push(`Ця оцінка значно нижча за ваш звичний рівень (${studentLevel}), тому вважаю її приблизною: у загальний рівень вона майже не впливає.`);
+  }
+  if (notes.length) a.reasons_uk = [...notes, ...(Array.isArray(a.reasons_uk) ? a.reasons_uk : [])].slice(0, 5);
+  return sum;
+}
+
