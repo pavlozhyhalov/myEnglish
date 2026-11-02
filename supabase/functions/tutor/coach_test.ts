@@ -56,7 +56,7 @@ Deno.test('calibrateLevel: long connected turns cannot be A1; far below usual le
 Deno.test('recognitionContext: tutor line + profile/memory names, nothing when empty', () => {
   const st: any = { about: { location: 'Kraków', occupation: 'engineer', interests: 'cycling, PlayStation games', otherLangs: '' }, memory: ['Went skiing in Zakopane in Jan 2026', 'Plays Warships Legends'], words: ['commute'] };
   const c = recognitionContext(st, 'Did you get sick on Saturday or Sunday?');
-  assert(c.includes('the tutor just said') && c.includes('Zakopane') && c.includes('Warships Legends') && c.includes('Kraków'));
+  assert(c.includes('the tutor just said') && c.includes('Zakopane') && c.includes('Warships Legends') && c.includes('Kraków') && !c.includes('Went') && !c.includes('Jan,'));
   assertEquals(recognitionContext({ about: {} as any, memory: [], words: [] } as any, ''), '');
 });
 
