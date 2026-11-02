@@ -1,5 +1,5 @@
 import type { Ctx } from './auth.ts';
-import type { Dispute } from './rules.ts';
+import { RULES, type Dispute } from './rules.ts';
 
 export type Student = {
   level: string;
@@ -19,6 +19,8 @@ export type Student = {
   recent: string[];
   /** Підсумки останніх розмов (новіші першими): що обговорювали, помилки, рекомендація */
   history: string[];
+  /** Правила тижня (profiles.data.weeklyFocus): 3 правила, які учень закриває цього тижня, з прикладами його помилок */
+  focus: Array<{ rule: string; en: string; examples: string[] }>;
   /** Виправлення, які учень оскаржив («Не згоден»): не виправляти знову */
   disputes: Dispute[];
   /** Відкриті помилки з id (найчастіші першими) — для визначення засвоєних у підсумку */
@@ -94,7 +96,7 @@ const TYPE_EN: Record<string, string> = {
 export async function loadStudent(ctx: Ctx): Promise<Student> {
   const [prof, mistakes, cards, chats] = await Promise.all([
     ctx.db.from('profiles').select('data').maybeSingle(),
-    ctx.db.from('mistakes').select('id,wrong,right,type,count,updated_at').eq('resolved', false).eq('deleted', false).order('count', { ascending: false }).limit(40),
+    ctx.db.from('mistakes').select('id,wrong,right,type,rule,count,updated_at').eq('resolved', false).eq('deleted', false).order('count', { ascending: false }).limit(40),
     // слова, які учень зараз вчить: спершу ті, що вже «на часі» (повторення в розмові = вилучення з пам'яті)
     ctx.db.from('cards').select('en,deck_id,stability,due').eq('deleted', false).gt('reps', 0).lt('stability', 21).order('due', { ascending: true }).limit(40),
     // останні розмови з підсумком — щоб вчитель справді пам'ятав, що було минулого разу
@@ -128,9 +130,20 @@ export async function loadStudent(ctx: Ctx): Promise<Student> {
     recent,
     history: readHistory(chats?.data || []),
     disputes: readDisputes(d.disputes),
+    focus: readFocus(d.weeklyFocus, mistakes.data || []),
     open: (mistakes.data || []).slice(0, 15).map(m => ({ id: String(m.id), wrong: cut(m.wrong, 80), right: cut(m.right, 80) })).filter(m => m.wrong && m.right),
     voicePauseMs: VOICE_PAUSE[s.voicePause as string] || VOICE_PAUSE.normal,
   };
+}
+
+/** profiles.data.weeklyFocus = { week, rules: [id…] } → до 3 правил з описом і 2 прикладами відкритих помилок учня */
+export function readFocus(v: unknown, mistakes: Array<{ wrong?: unknown; right?: unknown; rule?: unknown }>) {
+  const ids = (v && typeof v === 'object' && Array.isArray((v as { rules?: unknown }).rules) ? (v as { rules: unknown[] }).rules : [])
+    .filter((x): x is string => typeof x === 'string' && x in RULES && x !== 'other').slice(0, 3);
+  return ids.map(rule => ({
+    rule, en: RULES[rule].en,
+    examples: mistakes.filter(m => m.rule === rule).slice(0, 2).map(m => `"${cut(m.wrong, 60)}" → "${cut(m.right, 60)}"`),
+  }));
 }
 
 /** profiles.data.disputes = [{ wrong, right, at }] → до 40 найновіших */
@@ -278,6 +291,15 @@ This is what you really know about earlier lessons. Use it for continuity (recyc
 `;
 }
 
+/** Правила тижня: учень свідомо закриває 3 правила — вчитель створює для них нагоди в кожній розмові */
+export function focusBlock(st: Student) {
+  if (!st.focus.length) return '';
+  return `
+THIS WEEK'S RULES — the student is closing these ${st.focus.length} rules this week (their own recurring mistakes). In every session, without lecturing, create natural moments that need them (ask questions whose natural answer uses the rule), recast errors on them, and when the student gets one right, notice it in a few words (e.g. "Nice — you used 'I'm feeling' correctly!"). Never more than one such nudge per message:
+${st.focus.map(f => `- ${f.en}${f.examples.length ? ` (their mistakes: ${f.examples.join('; ')})` : ''}`).join('\n')}
+`;
+}
+
 /** Виправлення, з якими учень не погодився: не повторювати */
 export function disputeBlock(st: Student) {
   if (!st.disputes.length) return '';
@@ -335,7 +357,7 @@ ${weak}
 
 ${st.recent.length ? `RECENT MISTAKES — recycle them: create a natural chance for the STUDENT to use the correct form; if they get it right, notice it in a few words. The left side is the student's wrong version — never use it in your own sentences:\n${st.recent.map(r => `- ${r}`).join('\n')}\n\n` : ''}WORDS THE STUDENT IS LEARNING — at most ONE of them per message, and only when it fits the current topic in its normal meaning and usual collocation (never metaphorically, never bending the topic or grammar to squeeze it in; skipping them is better than forcing them). When the student uses one correctly, notice it briefly:
 ${st.words.length ? st.words.join(', ') : '(none yet)'}
-${memoryBlock(st)}${historyBlock(st)}${disputeBlock(st)}${planBlock(focus)}${leadBlock(st)}
+${memoryBlock(st)}${historyBlock(st)}${focusBlock(st)}${disputeBlock(st)}${planBlock(focus)}${leadBlock(st)}
 HOW TO TEACH
 - LEVEL ${st.level}: ${levelStyle(st)}
 - Comprehensible input, i+1: speak mostly within the student's level with a little new language (a word, a phrase, a structure) they can understand from context. Never go far above it.

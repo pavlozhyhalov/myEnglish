@@ -11,7 +11,7 @@ import { latinName, memoryRule, loadStudent, todayLabel, UK_STYLE, modePrompt, t
 import { precheck as levelWritingCheck, levelWritingPrompt, LEVEL_WRITING_SCHEMA, cleanLevelWriting, countWords } from './level_writing.ts';
 import { precheck as analysisCheck, analysisPrompt, ANALYSIS_SCHEMA, cleanAnalysis, cleanDigest, section as coachSection, coachPrompt, coachMetaPrompt, COACH_META_SCHEMA, cleanCoachMeta } from './analysis.ts';
 import { latinizeName, latinizeStream, replyStream, splitReply, cleanFixes, formatFixes, cleanMeta, cleanSummary, lastStudentText, cueText, translateInput, type Meta } from './reply.ts';
-import { calibrateLevel, clampTurnFixes, turnFixesPrompt, mergeTurnFixes, CLASSIFY_SCHEMA, classifyPrompt, cleanClassify, EVAL_SCHEMA, evalPrompt, evalInput, scoreEval, VOICE_CHECK_SCHEMA, voiceCheckPrompt, cleanVoiceCheck, clampSpeech, summaryExtra, cleanMastered, MISSION_SCHEMA, missionPrompt, cleanMissions } from './coach.ts';
+import { recognitionContext, learnerTranscribePrompt, fluencyTranscribePrompt, FLUENCY_SCHEMA, clampRounds, fluencyPrompt, cleanFluency, calibrateLevel, clampTurnFixes, turnFixesPrompt, mergeTurnFixes, CLASSIFY_SCHEMA, classifyPrompt, cleanClassify, EVAL_SCHEMA, evalPrompt, evalInput, scoreEval, VOICE_CHECK_SCHEMA, voiceCheckPrompt, cleanVoiceCheck, clampSpeech, summaryExtra, cleanMastered, MISSION_SCHEMA, missionPrompt, cleanMissions } from './coach.ts';
 import { precheck as wordStoryCheck, wordStoryPrompt, WORD_STORY_SCHEMA, cleanWordStory, LEVELS as STORY_LEVELS, type StoryWord, type Level as StoryLevel } from './words.ts';
 
 type Msg = { role: 'user' | 'model'; text: string; cue?: boolean };
@@ -19,6 +19,7 @@ const ACTIONS = new Set(['usage', 'chat', 'summary', 'check_text', 'exercises', 
 ACTIONS.add('word_story');
 ACTIONS.add('mission');
 ACTIONS.add('classify');
+ACTIONS.add('fluency_feedback');
 const AUDIO_MIME = /^audio\/(webm|ogg|mp4|mpeg|wav|x-wav|aac|m4a)(;.*)?$/;
 /** Рядок з обмеженням довжини (захист від роздутих промптів і витрат) */
 const str = (v: unknown, max: number) => (v == null ? '' : String(v)).slice(0, max);
@@ -634,17 +635,18 @@ ${UK_STYLE}`;
       const audio = String(p.audio || '');
       // hint 'learner': репліка учня-українця, що говорить англійською з акцентом (голосовий режим) —
       // без цього модель інколи «вгадує» іншу мову й пише чужим алфавітом
-      const learner = p.hint === 'learner';
+      const learner = p.hint === 'learner', fluency = p.hint === 'fluency';
+      // підказка розпізнаванню: остання репліка вчителя (від клієнта) + власні назви й слова учня (з профілю й пам'яті)
+      const ctxText = (learner || fluency) ? recognitionContext(st, str(p.context?.tutor ?? p.tutor, 300)) : '';
       // голос: точний текст репліки + до 2 миттєвих виправлень одним викликом
       if (learner && p.check) {
         const r = await generateJson(LIGHT_MODELS, {
-          contents: [{ role: 'user', parts: [{ inlineData: { mimeType: String(p.mime || 'audio/webm').split(';')[0], data: audio } }, { text: voiceCheckPrompt(st.level, st.disputes) }] }],
+          contents: [{ role: 'user', parts: [{ inlineData: { mimeType: String(p.mime || 'audio/webm').split(';')[0], data: audio } }, { text: voiceCheckPrompt(st.level, st.disputes, ctxText) }] }],
           schema: VOICE_CHECK_SCHEMA, temperature: 0, thinking: 'off', maxTokens: 1500, timeoutMs: 20_000,
         });
         return json(cleanVoiceCheck(r, st.disputes));
       }
-      const instr = learner
-        ? 'The speaker is a Ukrainian learner of English speaking ENGLISH with an accent. Transcribe exactly what they say in English (Latin letters), keeping their grammar mistakes, hesitations like "um" may be dropped. If they say a Ukrainian word, write that word in Ukrainian Cyrillic. Never output any other language or script, never translate, never answer. If nothing intelligible is said, return an empty string. Return only the transcript.'
+      const instr = fluency ? fluencyTranscribePrompt(ctxText) : learner ? learnerTranscribePrompt(ctxText)
         : 'Transcribe this speech exactly as spoken: do not correct mistakes, do not translate, do not answer it. Return only the transcript text (empty if there is no speech).';
       const text = await generate(LIGHT_MODELS, {
         contents: [{ role: 'user', parts: [{ inlineData: { mimeType: String(p.mime || 'audio/webm'), data: audio } }, { text: instr }] }],
@@ -717,6 +719,14 @@ ${UK_STYLE}`;
       const text = items.map((m: { wrong: string; right: string }, i: number) => `${i}. ${m.wrong} → ${m.right}`).join('\n');
       const res = await generateJson(LIGHT_MODELS, { system: classifyPrompt(), contents: [{ role: 'user', parts: [{ text }] }], schema: CLASSIFY_SCHEMA, temperature: 0, thinking: 'off', maxTokens: 3000 });
       return json({ items: cleanClassify(res, items.length) });
+    }
+
+    case 'fluency_feedback': {
+      // тренажер плавності (4-3-2): відгук на 1–3 раунди з виміряними числами; lite-модель
+      const rounds = clampRounds(p.rounds);
+      if (!rounds.length) return json({ summary_uk: '', better: [], gambits: [] });
+      const res = await generateJson(LIGHT_MODELS, { system: fluencyPrompt(st.level, str(p.topic, 200)), contents: [{ role: 'user', parts: [{ text: JSON.stringify({ topic: str(p.topic, 200), rounds }) }] }], schema: FLUENCY_SCHEMA, temperature: 0.4, thinking: 'low', maxTokens: 2000 });
+      return json(cleanFluency(res));
     }
 
     case 'mission': {

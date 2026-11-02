@@ -1,12 +1,12 @@
 import { assertEquals, assert, assertRejects } from 'jsr:@std/assert@1';
 import { retryAfterMs, thinkingConfig, generate, streamText, candidateText, isCooled } from './gemini.ts';
-import { latinName, readMemory, readHistory, sessionFocus, basePrompt, modePrompt, metaPrompt, wordsForLevel, todayLabel, memoryRule, UK_STYLE, type Student } from './prompts.ts';
+import { readFocus, latinName, readMemory, readHistory, sessionFocus, basePrompt, modePrompt, metaPrompt, wordsForLevel, todayLabel, memoryRule, UK_STYLE, type Student } from './prompts.ts';
 
 const st = (over: Partial<Student> = {}): Student => ({
   level: 'B1', tutorName: 'Alex', tutorTone: 'friendly', explainLang: 'uk', strictness: 'important', voice: 'Puck', workFocus: false,
   weak: [{ type: 'articles', count: 5, examples: ['"I have car" → "I have a car"'] }], words: ['commute', 'reliable', 'afford'], lastFocus: null,
   about: { name: '', pronoun: 'they', nativeLang: 'Ukrainian', otherLangs: '', location: '', age: '', occupation: '', family: '', interests: '', goals: [], avoid: '', notes: '' },
-  memory: [], recent: [], history: [], disputes: [], open: [], voicePauseMs: 1300, ...over,
+  memory: [], recent: [], history: [], focus: [], disputes: [], open: [], voicePauseMs: 1300, ...over,
 });
 
 Deno.test('thinkingConfig per model family', () => {
@@ -198,4 +198,11 @@ Deno.test('latinName: official Ukrainian transliteration', () => {
   assertEquals(latinName('Юрій'), 'Yurii');
   assertEquals(latinName('Євген'), 'Yevhen');
   assertEquals(latinName('Pavlo'), 'Pavlo');
+});
+
+Deno.test('readFocus + focusBlock: up to 3 known rules with the student examples', () => {
+  const f = readFocus({ rules: ['be-auxiliary', 'nope', 'prep-dependent', 'other'] }, [{ wrong: 'I feeling', right: "I'm feeling", rule: 'be-auxiliary' }]);
+  assertEquals(f.map(x => x.rule), ['be-auxiliary', 'prep-dependent']);
+  assert(basePrompt(st({ focus: f })).includes("THIS WEEK'S RULES"));
+  assert(!basePrompt(st()).includes("THIS WEEK'S RULES"));
 });

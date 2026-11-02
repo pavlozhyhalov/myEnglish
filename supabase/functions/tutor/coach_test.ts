@@ -1,5 +1,5 @@
 import { assertEquals, assert } from 'jsr:@std/assert@1';
-import { calibrateLevel, mergeTurnFixes, scoreEval, GOLDEN, cleanClassify, cleanVoiceCheck, clampSpeech, cleanMastered, cleanMissions, summaryExtra } from './coach.ts';
+import { recognitionContext, clampRounds, cleanFluency, calibrateLevel, mergeTurnFixes, scoreEval, GOLDEN, cleanClassify, cleanVoiceCheck, clampSpeech, cleanMastered, cleanMissions, summaryExtra } from './coach.ts';
 
 const ST = { open: [{ id: 'm1', wrong: 'I feeling tired', right: "I'm feeling tired" }] } as any;
 
@@ -51,4 +51,17 @@ Deno.test('calibrateLevel: long connected turns cannot be A1; far below usual le
   assertEquals([b.level_signal, b.level_assessment.confidence], ['A1', 'low']);
   const c = calibrateLevel({ level_signal: 'B1', level_assessment: { confidence: 'medium', criteria: [], reasons_uk: [] } }, null, 'B1');
   assertEquals(c.level_assessment.confidence, 'medium');
+});
+
+Deno.test('recognitionContext: tutor line + profile/memory names, nothing when empty', () => {
+  const st: any = { about: { location: 'Kraków', occupation: 'engineer', interests: 'cycling, PlayStation games', otherLangs: '' }, memory: ['Went skiing in Zakopane in Jan 2026', 'Plays Warships Legends'], words: ['commute'] };
+  const c = recognitionContext(st, 'Did you get sick on Saturday or Sunday?');
+  assert(c.includes('the tutor just said') && c.includes('Zakopane') && c.includes('Warships Legends') && c.includes('Kraków'));
+  assertEquals(recognitionContext({ about: {} as any, memory: [], words: [] } as any, ''), '');
+});
+
+Deno.test('fluency: rounds clamped, feedback cleaned', () => {
+  assertEquals(clampRounds([{ sec: 999, text: 'uh I I go', wpm: 80, fillers: 3, repeats: 1 }, { text: '' }]), [{ sec: 180, text: 'uh I I go', wpm: 80, fillers: 3, repeats: 1 }]);
+  const f = cleanFluency({ summary_uk: 'Добре', better: [{ from: 'I I I go', to: 'Well, I go' }, { from: 'x', to: 'x' }], gambits: ['Let me think…', 'дай подумати'] });
+  assertEquals([f.better.length, f.gambits], [1, ['Let me think…']]);
 });
