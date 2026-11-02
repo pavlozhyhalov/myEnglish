@@ -39,7 +39,9 @@
 .sel-pop-uk{font-size:16px;line-height:1.35}
 .sel-pop-uk.long{max-height:40vh;overflow:auto}
 .sel-pop-more{align-self:flex-start;margin-top:4px;display:inline-flex;align-items:center;gap:4px;border:0;background:none;padding:6px 0 0;
-  color:var(--accent-ink, var(--accent));font:600 14px/1 inherit;cursor:pointer}
+  color:var(--accent-ink, var(--accent));font-family:inherit;font-size:14px;font-weight:600;line-height:1;cursor:pointer;position:relative}
+/* «font:600 14px/1 inherit» був недійсним (inherit не можна в скороченні) — кнопка мала системний шрифт; зона дотику ≥ 44 px */
+.sel-pop-more::after{content:"";position:absolute;inset:-8px -10px -6px}
 @keyframes sel-q-in{from{opacity:0}to{opacity:1}}
 @media (prefers-reduced-motion:reduce){.sel-q,.sel-pop{animation:none}}
 .wt-frag{margin:0;font-style:italic;overflow-wrap:anywhere}

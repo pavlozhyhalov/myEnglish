@@ -38,7 +38,7 @@ export default async function grammar(view, r) {
     const body = h('div.stack', { style: { gap: '12px', marginTop: '8px' } }, units.map(u => h('div.stack', { style: { gap: '6px' } },
       h('div.xs.dim', { style: { margin: '0 2px', fontWeight: 600 } }, u.name), h('div.list', u.items.map(row)))));
     return h('details.level-sec', { open: lv === mine ? true : null },
-      h('summary.row', levelTag(lv), h('div.grow', h('b', LEVEL_NAME[lv]), lv === mine ? h('span.xs.dim', ' · ваш рівень') : diff(lv) > 0 ? h('span.xs.dim', ' · вище вашого') : null),
+      h('summary.row', levelTag(lv), h('div.grow', h('b', LEVEL_NAME[lv]), lv === mine ? h('span.xs.dim', ' ', h('span', { style: { whiteSpace: 'nowrap' } }, '· ваш рівень')) : diff(lv) > 0 ? h('span.xs.dim', ' ', h('span', { style: { whiteSpace: 'nowrap' } }, '· вище вашого')) : null),
         h('span.small.dim.num', `${d}/${items.length}`)),
       body);
   };

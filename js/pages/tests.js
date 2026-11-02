@@ -43,7 +43,7 @@ function overview(view) {
   const plDue = !lastPl || Date.now() - Date.parse(lastPl.created_at) > 30 * 864e5;
   const inRun = !!loadRun();
   const card = (emoji, title, desc, href, extra) => h('a.card.row', { href, style: { textDecoration: 'none', color: 'inherit' } },
-    h('div.emoji-circle', emo(emoji)), h('div.grow', h('div', { style: { fontWeight: 600 } }, title), h('div.xs.dim', desc)), extra || null, ic('caret-right', { size: 18 }));
+    h('div.emoji-circle', emo(emoji)), h('div.grow', h('div.row.wrap', { style: { fontWeight: 600, gap: '4px 8px' } }, h('span', title), extra || null), h('div.xs.dim', desc)), ic('caret-right', { size: 18 }));
   view.replaceChildren(h('div.stack-lg',
     card('target', 'Визначення рівня', inRun ? 'Тест не завершено — можна продовжити' : 'Адаптивний: 4 частини, письмо й розмова · ~25 хв', '#/tests/placement', inRun ? h('span.tag.accent', 'на паузі') : plDue ? h('span.tag.warn', lastPl ? 'час повторити' : 'не пройдено') : h('span.tag.good', lastPl.scores.overall)),
     card('memo', 'Тест за уроком', 'До 15 питань з уроку і його теми', '#/tests/lesson'),

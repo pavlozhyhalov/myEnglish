@@ -76,6 +76,9 @@ export async function voiceSession(view, opts = {}) {
   // вікно — у корені документа, а не в контейнері сторінки: стилі й анімації сторінки (transform, opacity) на iOS
   // роблять контейнер «базою» для position:fixed, і повноекранне вікно опинялося під шапкою, стиснуте
   document.body.append(ui);
+  // субтитри стискаються, коли на сцені з'являються лічильник виправлень чи повідомлення, — останні рядки лишаються видно
+  const subsRO = typeof ResizeObserver === 'function' ? new ResizeObserver(() => { subs.scrollTop = subs.scrollHeight; }) : null;
+  subsRO?.observe(subs);
   view.replaceChildren(h('div', { 'aria-hidden': 'true', style: { minHeight: '60dvh' } }));
   // прибирання реєструється одразу: сесія ще чекає тапу «Почати розмову», а користувач може піти
   onLeave(view, cleanup);
@@ -559,6 +562,7 @@ export async function voiceSession(view, opts = {}) {
     if (cleaned) return;
     cleaned = true;
     cancelAnimationFrame(raf);
+    subsRO?.disconnect();
     try { warmClient?.close(); } catch { /* */ }
     try { live?.close(); } catch { /* */ }
     try { audio?.stop(); } catch { /* */ }

@@ -181,7 +181,7 @@ html.kbd .drawer a.item:focus-visible{outline:2px solid var(--accent-ink);outlin
   background:var(--surface);border-top:1px solid var(--line);
   transition:transform var(--dur) var(--ease);
 }
-@media (min-width:600px){.quickbar{margin-bottom:12px;border:1px solid var(--line);box-shadow:var(--shadow-float);border-radius:22px;height:var(--quickbar-h);padding-bottom:0}}
+@media (min-width:600px){.quickbar{margin-bottom:calc(12px + var(--safe-b));border:1px solid var(--line);box-shadow:var(--shadow-float);border-radius:22px;height:var(--quickbar-h);padding-bottom:0}}
 .qb-item{
   flex:1;min-width:0;height:var(--quickbar-h);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;
   color:var(--ink-dim);text-decoration:none;font-size:11px;font-weight:500;border:0;background:transparent;
@@ -285,11 +285,15 @@ body.focus-mode .toasts{bottom:calc(var(--safe-b) + 24px)}
   background:var(--surface);border:1px solid var(--line);border-radius:26px;padding:6px;box-shadow:var(--shadow-float),0 9px 0 var(--bg);
 }
 .composer:focus-within{border-color:var(--accent-ink)}
+/* на широкому екрані (і iPhone горизонтально) панель — «пігулка» з відступом 12 px: поле вводу не заходить на неї */
+@media (min-width:600px){.composer{bottom:calc(var(--quickbar-h) + var(--safe-b) + 20px)}}
 .tutor-head{gap:10px}
 .tutor-head .avatar{width:40px;height:40px;border-radius:50%;background:var(--accent);color:var(--on-accent);display:grid;place-items:center;font-weight:700;flex:none}
 .tutor-head .name{font-weight:700;line-height:1.2}
 body.focus-mode .composer{bottom:calc(var(--safe-b) + 8px)}
 .composer textarea{flex:1;border:0;background:transparent;resize:none;min-height:44px;max-height:160px;padding:11px 10px;outline:none;line-height:1.4}
+/* підказка в один рядок: на вузькому екрані (360 px) вона переносилась, і порожнє поле росло до двох рядків */
+.composer textarea::placeholder{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .typing{display:inline-flex;gap:4px;padding:4px 0}
 .typing i{width:7px;height:7px;border-radius:50%;background:var(--ink-dim);animation:blink 1.2s infinite}
 .typing i:nth-child(2){animation-delay:.2s}.typing i:nth-child(3){animation-delay:.4s}
@@ -298,13 +302,21 @@ body.focus-mode .composer{bottom:calc(var(--safe-b) + 8px)}
 /* ---------- Голосовий режим ---------- */
 .voice{position:fixed;inset:0;z-index:70;background:var(--bg);display:flex;flex-direction:column;padding:calc(var(--safe-t) + 12px) 16px calc(var(--safe-b) + 20px)}
 .voice .top{display:flex;align-items:center;justify-content:space-between}
-.voice .stage{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;min-height:0}
-.aura{position:relative;width:200px;height:200px;display:grid;place-items:center}
-.aura .core{width:120px;height:120px;border-radius:50%;background:var(--accent);display:grid;place-items:center;z-index:2;transition:transform 90ms linear}
-.aura .core .emo{width:56px;height:56px;color:var(--on-accent)}
+/* Сцена: коли субтитрів і виправлень багато (невисокий екран), стискаються субтитри (вони прокручуються), а не коло;
+   якщо й цього мало — сцена прокручується, а не наїжджає на таймер і кнопки. Центрування — через auto-відступи (не justify-content:center:
+   той при переповненні виштовхує вміст і вгору, під верхню панель) */
+.voice .stage{flex:1;display:flex;flex-direction:column;align-items:center;gap:20px;min-height:0;overflow-y:auto;overscroll-behavior:contain}
+.voice .stage::before{content:"";margin-top:auto;margin-bottom:-20px}
+.voice .stage::after{content:"";margin-bottom:auto;margin-top:-20px}
+.voice .stage>*{flex:none}
+.voice .stage>.subs{flex:0 1 auto;min-height:72px}
+@media (max-height:700px){.voice .stage{gap:12px}.voice .stage::before{margin-bottom:-12px}.voice .stage::after{margin-top:-12px}}
+.aura{--aura:clamp(112px,24dvh,200px);position:relative;width:var(--aura);height:var(--aura);display:grid;place-items:center}
+.aura .core{width:60%;height:60%;border-radius:50%;background:var(--accent);display:grid;place-items:center;z-index:2;transition:transform 90ms linear}
+.aura .core .emo{width:47%;height:47%;color:var(--on-accent)}
 .aura.me .core .emo{color:var(--on-good)}
 .aura .halo{position:absolute;inset:0;border-radius:50%;background:var(--accent-soft);transition:transform 90ms linear,opacity var(--dur)}
-.aura .halo.h2{inset:20px;background:var(--accent);opacity:.18}
+.aura .halo.h2{inset:10%;background:var(--accent);opacity:.18}
 .aura.me .core{background:var(--good)}
 .aura.me .halo.h2{background:var(--good)}
 .voice .state{font-weight:600;color:var(--ink-dim)}

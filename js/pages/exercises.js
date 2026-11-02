@@ -35,7 +35,7 @@ async function grammarPractice(view, unitSlug, lv) {
           ic('caret-right', { size: 18 })))));
     };
     view.replaceChildren(h('div.stack-lg',
-      h('p.small.dim', { style: { margin: '0 2px' } }, 'Оберіть тему — 10 змішаних вправ з її уроків. Правила — у розділі «Теорія → Граматика».'),
+      h('p.small.dim', { style: { margin: '0 2px' } }, 'Оберіть тему — 10 змішаних вправ з її уроків. Правила — у меню «Вивчати → Граматика → Правила».'),
       levelChips('exgrammar', levelCounts(idx), draw), listBox));
     draw();
     return;
