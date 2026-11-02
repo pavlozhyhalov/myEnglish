@@ -8,7 +8,7 @@ import { speak, stop as stopSpeech } from '../speech.js';
 import { setTitle, setFocus } from '../ui/shell.js';
 import { norm, sameSentence, tilesOf } from '../wordlogic.js';
 import { BUILD_SECONDS, BUILD_BONUS, goodSentence, shuffledTiles, firstMismatch, buildPoints, bestUpdate, shuffleArr } from './logic.js';
-import { wordPool, gameState, saveGameState, beep, buzz, reducedMotion, gameHead, statPill } from './common.js';
+import { wordPool, gameState, saveGameState, beep, buzz, reducedMotion, gameHead, statPill, autoSpeak } from './common.js';
 
 /** Речення рівня: приклади з карток, які зараз вчаться, першими; далі колоди й уроки граматики мого рівня */
 async function sentences(lv) {
@@ -107,7 +107,7 @@ export default async function build(view) {
         left += BUILD_BONUS * 1000;
         draw(); beep('ok'); buzz(15);
         live.textContent = `Правильно! ${cur.en}`;
-        speak(cur.en).catch(() => {});
+        autoSpeak(cur.en);
         hud();
         setTimeout(next, 1100);
       } else {
@@ -127,7 +127,7 @@ export default async function build(view) {
       line.replaceChildren(h('div.feedback.no.en', { lang: 'en', style: { width: '100%' } }, cur.en));
       bankEl.replaceChildren();
       live.textContent = `Правильно: ${cur.en}`;
-      speak(cur.en).catch(() => {});
+      autoSpeak(cur.en);
       setTimeout(next, 1800);
     }
     const onKey = (e) => {

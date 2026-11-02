@@ -5,6 +5,7 @@ import { deckIndex, withCards, json } from '../data.js';
 import { myLevel, LEVELS } from '../level.js';
 import { h, ic } from '../ui/dom.js';
 import { mergeBest } from './logic.js';
+import { speak, stop as stopSpeech } from '../speech.js';
 
 const LS = 'me:games';
 
@@ -32,7 +33,9 @@ export function saveGameState(patch) {
 
 // ---------- Звук і вібрація ----------
 export const muted = () => !!readLocal().mute;
-export function setMuted(on) { const s = readLocal(); s.mute = !!on; writeLocal(s); }
+export function setMuted(on) { const s = readLocal(); s.mute = !!on; writeLocal(s); if (on) { try { stopSpeech(); } catch { /* */ } } }
+/** Автоматична озвучка в грі (після відповіді) — мовчить, якщо звук гри вимкнено. Кнопки «Прослухати» працюють завжди. */
+export function autoSpeak(text) { if (muted() || !text) return Promise.resolve(); return speak(text).catch(() => {}); }
 export const reducedMotion = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 let ctx = null;
@@ -77,7 +80,7 @@ export function muteButton() {
   const draw = () => {
     const m = muted();
     b.replaceChildren(ic(m ? 'speaker-slash' : 'speaker-high'));
-    b.setAttribute('aria-label', m ? 'Увімкнути звуки гри' : 'Вимкнути звуки гри');
+    b.setAttribute('aria-label', m ? 'Увімкнути звуки й озвучку гри' : 'Вимкнути звуки й озвучку гри');
     b.setAttribute('aria-pressed', String(m));
   };
   b.onclick = () => { setMuted(!muted()); draw(); if (!muted()) beep('tick'); };

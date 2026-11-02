@@ -1,7 +1,7 @@
 // Згенеровано scripts/bump.sh — не редагувати вручну
 // шлях → хеш вмісту (sha256, 12 символів)
 self.PRECACHE = {
-  './': '280afb858d36', './index.html': '280afb858d36', './manifest.webmanifest': 'a99fcb655734',
+  './': '818c730156ee', './index.html': '818c730156ee', './manifest.webmanifest': 'a99fcb655734',
   './assets/icons/apple-touch-icon.png': '92b8c14d44a7',
   './assets/icons/icon-192.png': '7002ccee6bcd',
   './assets/icons/icon-512.png': '4cdfc491602e',
@@ -183,14 +183,14 @@ self.PRECACHE = {
   './js/ai.js': '7eb8286ecdab',
   './js/analysis.js': '3acccdd710ca',
   './js/app.js': '96a35bccfd9e',
-  './js/config.js': '81d3ab095f49',
+  './js/config.js': 'f3b4778720eb',
   './js/daily.js': 'f8b7873c06bf',
   './js/data.js': 'b13181517b77',
   './js/errlog.js': 'b1996f6e588a',
   './js/fluency.js': 'bb2be54cb8d1',
   './js/focus.js': 'ea56221fdd20',
-  './js/games/build.js': 'd70e61f86bee',
-  './js/games/common.js': '11e2b61736c3',
+  './js/games/build.js': '8d0185a0310b',
+  './js/games/common.js': '562171102748',
   './js/games/detective.js': 'af1698cf0013',
   './js/games/explain.js': 'f9d917d354c0',
   './js/games/logic.js': 'e55f5441689e',
