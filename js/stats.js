@@ -1,6 +1,7 @@
 // Активність (час), стрік, помилки — похідні дані зі сховища
 import * as store from './store.js';
 import { RULES } from './rules.js';
+import { focusRules } from './focus.js';
 
 const ACTIVE_DAY_SEC = 5 * 60;   // день зараховується в стрік від 5 хв практики
 
@@ -332,23 +333,48 @@ function rpDueAt(m, at) {
 
 /**
  * Помилки, яким настав час повтору: відкриті, з мовлення/письма/вправ.
- * Порядок: правила з найбільшою кількістю відкритих помилок — першими, далі найчастіші помилки; не більше 2 на правило в одному наборі.
+ * Порядок: спершу правила тижня (js/focus.js, у їхньому порядку), далі правила з найбільшою кількістю відкритих помилок,
+ * найчастіші помилки; не більше 2 на правило в одному наборі.
+ * opts.only — лише ці правила (id); opts.perRule — скільки помилок одного правила в наборі (за замовчуванням 2).
  */
-export function dueRuleMistakes(limit = 10, now = Date.now()) {
+export function dueRuleMistakes(limit = 10, now = Date.now(), opts = {}) {
   const { at } = rpRead();
-  const open = rpOpen();
+  const only = Array.isArray(opts.only) ? new Set(opts.only) : null;
+  const perRuleMax = Math.max(1, Number(opts.perRule) || 2);
+  const open = rpOpen().filter(m => !only || only.has(rpKey(m)));
+  const focus = safeFocus();
+  const rank = (m) => { const i = focus.indexOf(rpKey(m)); return i < 0 ? focus.length : i; };
   const perRule = new Map();
   for (const m of open) perRule.set(rpKey(m), (perRule.get(rpKey(m)) || 0) + 1);
   const due = open.filter(m => rpDueAt(m, at) <= now)
-    .sort((a, b) => (perRule.get(rpKey(b)) - perRule.get(rpKey(a))) || rpKey(a).localeCompare(rpKey(b))
+    .sort((a, b) => (rank(a) - rank(b)) || (perRule.get(rpKey(b)) - perRule.get(rpKey(a))) || rpKey(a).localeCompare(rpKey(b))
       || (b.count || 1) - (a.count || 1) || (a.streak || 0) - (b.streak || 0));
   const out = [], used = new Map();
   for (const m of due) {
     if (out.length >= limit) break;
     const k = rpKey(m), n = used.get(k) || 0;
-    if (n >= 2) continue;
+    if (n >= perRuleMax) continue;
     used.set(k, n + 1); out.push(m);
   }
+  return out;
+}
+function safeFocus() { try { return focusRules(); } catch { return []; } }
+/**
+ * Тренування правил тижня (#/mistakes?practice=due&focus=1): спершу ті, кому настав час повтору (до 3 на правило),
+ * а якщо їх замало — інші відкриті помилки цих правил, які сьогодні ще не тренували (менша серія — першими).
+ */
+export function focusPracticeMistakes(limit = 8, now = Date.now()) {
+  const rules = safeFocus();
+  if (!rules.length) return [];
+  const out = dueRuleMistakes(limit, now, { only: rules, perRule: 3 });
+  if (out.length >= Math.min(4, limit)) return out;
+  const { at } = rpRead();
+  const have = new Set(out.map(m => m.id));
+  const extra = rpOpen().filter(m => rules.includes(rpKey(m)) && !have.has(m.id) && !(at[m.id] && dayKey(at[m.id]) === today()))
+    .sort((a, b) => rules.indexOf(rpKey(a)) - rules.indexOf(rpKey(b)) || (a.streak || 0) - (b.streak || 0) || (b.count || 1) - (a.count || 1));
+  // правила по черзі, щоб набір не складався з одного правила
+  const queues = rules.map(r => extra.filter(m => rpKey(m) === r));
+  while (out.length < limit && queues.some(q => q.length)) for (const q of queues) if (q.length && out.length < limit) out.push(q.shift());
   return out;
 }
 /** Скільки помилок чекає на повтор зараз (без обмеження набору) */

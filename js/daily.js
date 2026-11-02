@@ -5,6 +5,7 @@ import * as store from './store.js';
 import * as srs from './srs.js';
 import * as stats from './stats.js';
 import { RULES, ruleLabel } from './rules.js';
+import { weeklyFocus, focusProgress } from './focus.js';
 import { user } from './supa.js';
 import { plural } from './strings.js';
 
@@ -49,7 +50,7 @@ export function wordsTarget() { return readState().targets.words || WORDS_MAX; }
 /** Секунди розмови з вчителем (текст і голос) сьогодні */
 export function talkSecondsToday() {
   const d = stats.today();
-  return store.all('sessions').filter(s => s.day === d && (s.type === 'voice' || s.type === 'tutor')).reduce((a, s) => a + (s.seconds || 0), 0);
+  return store.all('sessions').filter(s => s.day === d && (s.type === 'voice' || s.type === 'tutor' || s.type === 'fluency')).reduce((a, s) => a + (s.seconds || 0), 0);
 }
 
 // ---------- Тема розмови ----------
@@ -133,11 +134,13 @@ export function voiceTopic(now = new Date()) {
     if (m.resolved || !m.rule || m.rule === 'other' || !RULES[m.rule]) continue;
     byRule.set(m.rule, (byRule.get(m.rule) || 0) + (m.count || 1));
   }
-  const top = [...byRule.entries()].sort((a, b) => b[1] - a[1])[0];
+  // правило тижня, ще не закрите, — перше; інакше найчастіше
+  const fr = safe(() => focusProgress(weeklyFocus(now)).find(p => !p.done)?.rule);
+  const top = fr && RULES[fr] ? [fr, byRule.get(fr) || 0] : [...byRule.entries()].sort((a, b) => b[1] - a[1])[0];
   if (top) {
     const lbl = ruleLabel(top[0]);
     return {
-      kind: 'mistakes', label: `Мої помилки: ${lbl}`, note: null,
+      kind: 'mistakes', label: top[0] === fr ? `Правило тижня: ${lbl}` : `Мої помилки: ${lbl}`, note: null,
       topic: `Work on the student's most frequent mistake pattern «${top[0]}» (${lbl}): briefly show one of their real mistakes (wrong → right), then keep a natural conversation that makes them use the correct form; notice when they get it right.`.slice(0, 300),
     };
   }
@@ -172,7 +175,9 @@ export async function buildPlan() {
     });
   }
 
-  // ---- б) Правила (контракт js/stats.js: dueRuleMistakes, rulePracticeToday) ----
+  // ---- б) Правила (контракт js/stats.js: dueRuleMistakes, rulePracticeToday); правила тижня — першими ----
+  const focus = safe(() => weeklyFocus());
+  const focusOpen = focus ? (safe(() => focusProgress(focus)) || []).filter(p => !p.done) : [];
   const dueRules = typeof stats.dueRuleMistakes === 'function' ? (safe(() => stats.dueRuleMistakes(RULES_MAX)) || []) : [];
   const practised = typeof stats.rulePracticeToday === 'function' ? (Number(safe(() => stats.rulePracticeToday())) || 0) : 0;
   const rTarget = freeze(st, 'rules', Math.min(RULES_MAX, dueRules.length + practised));
@@ -183,7 +188,11 @@ export async function buildPlan() {
     const left = Math.max(0, target - practised);
     steps.push({
       id: 'rules', icon: 'warning-circle', title: 'Правила',
-      desc: done && !practised ? 'Сьогодні нічого не чекає на повтор' : done ? `Відпрацьовано ${practised} ${plural(practised, 'помилку', 'помилки', 'помилок')}` : `${left} ${plural(left, 'помилка', 'помилки', 'помилок')} з ваших розмов — закріпити правило`,
+      desc: done && !practised ? 'Сьогодні нічого не чекає на повтор' : done ? `Відпрацьовано ${practised} ${plural(practised, 'помилку', 'помилки', 'помилок')}`
+        : focusOpen.length && dueRules.some(m => focusOpen.some(p => p.rule === m.rule))
+          ? shortTopic(`Правила тижня: ${focusOpen.map(p => p.label).join(', ')}`, 96)
+          : `${left} ${plural(left, 'помилка', 'помилки', 'помилок')} з ваших розмов — закріпити правило`,
+      focus: focusOpen.map(p => p.rule),
       minutes: 3, href: '#/mistakes?practice=due', done, progress: done ? 1 : Math.min(1, practised / target), skipped: false,
     });
   }

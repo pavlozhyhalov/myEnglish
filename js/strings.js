@@ -7,9 +7,9 @@ export const S = {
     sounds: 'Звуки', exgrammar: 'Граматика', exercises: 'Вправи',
     tests: 'Тести', mistakes: 'Помилки', progress: 'Прогрес', analysis: 'Аналіз', report: 'Звіт', settings: 'Налаштування', profile: 'Профіль', friends: 'Друзі',
     session: 'Заняття', auth: 'Вхід', lab: 'Лабораторія Live', diary: 'Щоденник', games: 'Ігри',
-    today: 'Мій день', phrases: 'Фразник',
+    today: 'Мій день', phrases: 'Фразник', fluency: 'Плавність',
   },
-  navLong: { tutor: 'Вчитель (AI)', vocab: 'Слова й фрази', sounds: 'Звуки й вимова', mistakes: 'Мої помилки', scenarios: 'Розмова (сценарії)', exgrammar: 'Граматика', tests: 'Тести', analysis: 'Аналіз навчання', report: 'Звіт за місяць', today: 'Мій день за 15 хвилин', phrases: 'Фразник' },
+  navLong: { tutor: 'Вчитель (AI)', vocab: 'Слова й фрази', sounds: 'Звуки й вимова', mistakes: 'Мої помилки', scenarios: 'Розмова (сценарії)', exgrammar: 'Граматика', tests: 'Тести', analysis: 'Аналіз навчання', report: 'Звіт за місяць', today: 'Мій день за 15 хвилин', phrases: 'Фразник', fluency: 'Тренажер плавності' },
   groups: { learn: 'Вивчати', practice: 'Практикувати', check: 'Контроль і прогрес', me: 'Я' },
   menu: 'Меню', close: 'Закрити', back: 'Назад', themeToggle: 'Перемкнути тему',
   streak: (n) => `Стрік: ${n} ${plural(n, 'день', 'дні', 'днів')} поспіль`,
@@ -48,7 +48,7 @@ export const S = {
   },
   sessionTypes: {
     cards: 'Картки', grammar: 'Граматика', tutor: 'Вчитель', voice: 'Голос', listening: 'Аудіювання', reading: 'Читання',
-    pronunciation: 'Вимова', writing: 'Письмо', test: 'Тест', session: 'Заняття', vocab: 'Лексика', mistakes: 'Помилки', diary: 'Щоденник', game: 'Ігри',
+    pronunciation: 'Вимова', writing: 'Письмо', test: 'Тест', session: 'Заняття', vocab: 'Лексика', mistakes: 'Помилки', diary: 'Щоденник', game: 'Ігри', fluency: 'Плавність',
   },
 };
 

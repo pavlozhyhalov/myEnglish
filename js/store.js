@@ -201,6 +201,9 @@ export function setSetting(k, v) { setProf({ settings: { ...(profile.data.settin
 let supa = null, syncing = false, syncAgain = false, syncTimer = null;
 export function attachSupabase(client) { supa = client; }
 export function pendingCount() { return dirty.size; }
+/** Чи завершилась синхронізація в цьому запуску (дані з інших пристроїв уже отримано) */
+let syncedThisSession = false;
+export function syncedOnce() { return syncedThisSession; }
 
 export function queueSync(delay = 1500) {
   if (!supa) return;
@@ -227,6 +230,7 @@ export async function sync() {
     const pushErr = await push(userId).then(() => null, (e) => e);
     if (pushErr) console.warn('sync push', pushErr);
     const changed = await pull();
+    if (!syncedThisSession) { syncedThisSession = true; emit('synced'); }
     scheduleSave('meta'); await flush();
     if (changed.length) changed.forEach(emit);
     return true;

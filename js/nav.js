@@ -19,6 +19,7 @@ export const SECTIONS = [
   // Практикувати
   { id: 'voice', icon: 'microphone', href: '#/tutor?mode=voice', group: 'practice', label: 'Голосом', long: 'Розмова голосом' },
   { id: 'scenarios', icon: 'users-three', href: '#/scenarios', group: 'practice' },
+  { id: 'fluency', icon: 'timer', href: '#/fluency', group: 'practice' },
   { id: 'listening', icon: 'headphones', href: '#/listening', group: 'practice' },
   { id: 'reading', icon: 'book-open', href: '#/reading', group: 'practice' },
   { id: 'writing', icon: 'pencil-line', href: '#/writing', group: 'practice' },
@@ -46,7 +47,7 @@ export const CATEGORIES = [
     { label: 'Вимова', items: [['sounds', 'Звуки'], ['pronunciation', 'Вправи на вимову']] },
   ] },
   { id: 'practice', label: 'Практикувати', icon: 'barbell', subs: [
-    { label: 'Говоріння', items: [['voice', 'Розмова голосом'], ['scenarios', 'Сценарії']] },
+    { label: 'Говоріння', items: [['voice', 'Розмова голосом'], ['scenarios', 'Сценарії'], ['fluency', 'Тренажер плавності']] },
     { label: 'Слухання й читання', items: [['listening', 'Аудіювання'], ['reading', 'Читання']] },
     { label: 'Письмо', items: [['writing', 'Письмо'], ['diary', 'Щоденник']] },
   ] },
@@ -59,7 +60,7 @@ export const CATEGORIES = [
   ] },
 ];
 /** Сторінка «Вправи» (#/exercises): усі розділи практики */
-export const PRACTICE_IDS = ['cards', 'exgrammar', 'voice', 'scenarios', 'listening', 'reading', 'pronunciation', 'writing', 'diary', 'mistakes', 'tests', 'games'];
+export const PRACTICE_IDS = ['cards', 'exgrammar', 'voice', 'scenarios', 'fluency', 'listening', 'reading', 'pronunciation', 'writing', 'diary', 'mistakes', 'tests', 'games'];
 
 export const byId = Object.fromEntries(SECTIONS.map(s => [s.id, s]));
 export const GROUPS = CATEGORIES.map(c => c.id);

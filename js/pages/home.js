@@ -2,10 +2,12 @@
 import { h, ic, emo, fmtMin } from '../ui/dom.js';
 import { S, plural } from '../strings.js';
 import * as store from '../store.js';
+import { user } from '../supa.js';
 import * as srs from '../srs.js';
 import { withCards, grammarIndex, scenarios as loadScenarios, writingTasks, listening as loadListening, pronunciation as loadPron } from '../data.js';
 import { todaySeconds, streak, week, mistakesByType, lessonsToReview, lessonDone, today, dayKey } from '../stats.js';
 import { buildPlan, markStarted } from '../daily.js';
+import { weeklyFocus, currentFocus, focusProgress, closedEarlier, canAddRule, addFocusRule, daysLeftInWeek } from '../focus.js';
 import { planRing, startNext } from './today.js';
 import { skel, skelCard, skelRow } from '../ui/skeleton.js';
 import { speak } from '../speech.js';
@@ -47,6 +49,22 @@ export default async function home(view) {
 
   // ---- рівень: поточний → наступний, опанування, рівень у розмовах ----
   blocks.push(levelCard(view, gIdx, lvl));
+
+  // ---- правила тижня: 3 правила замість усіх помилок одразу ----
+  const wf = weekFocusCard(view);
+  if (wf) blocks.push(wf);
+  else if (user() && !store.syncedOnce()) {
+    // правила нового тижня обираються після першої синхронізації — тоді й показуємо картку
+    const slot = document.createComment('week-focus');
+    blocks.push(slot);
+    const off = store.on((t) => {
+      if (t !== 'synced') return;
+      off();
+      if (!slot.isConnected) return;
+      const c = weekFocusCard(view);
+      if (c) slot.replaceWith(c);
+    });
+  }
 
   // ---- звіт за минулий місяць: перші 7 днів місяця, якщо тоді були заняття (модуль аналізу — лише тоді) ----
   const now = new Date();
@@ -108,7 +126,8 @@ export default async function home(view) {
     }).catch(e => console.warn('word of day', e));
 
     // ---- слабкі місця ----
-    const weak = mistakesByType().slice(0, 3);
+    // поки є «Правила тижня» — ця картка дублювала б їх
+    const weak = currentFocus() ? [] : mistakesByType().slice(0, 3);
     if (weak.length) {
       blocks.push(h('section.card.stack',
         h('div.hm-card-title', 'Слабкі місця'),
@@ -228,6 +247,45 @@ function levelCard(view, gIdx, lvl) {
           view.querySelector(`.level-pick [aria-label="Рівень ${l}"]`)?.focus({ preventScroll: true });
         });
       } }, l)))));
+}
+
+/** Позначка засвоєння правила: 3 крапки (правильні вживання поспіль) */
+const ruleDots = (n) => h('span.wf-dots', { 'aria-hidden': 'true' }, [0, 1, 2].map(i => h('i' + (i < n ? '.on' : ''))));
+
+/** «Правила тижня»: до 3 правил з найбільшою вагою помилок, прогрес кожного, тренування; усе закрито — свято й «Взяти ще правило» */
+function weekFocusCard(view) {
+  let f = null, pr = [];
+  try { f = weeklyFocus(); pr = f ? focusProgress(f) : []; } catch (e) { console.warn('focus', e); return null; }
+  if (!f || !pr.length) return null;
+  const doneN = pr.filter(p => p.done).length;
+  const won = doneN === pr.length;
+  const earlier = closedEarlier(f);
+  const left = daysLeftInWeek();
+  const sub = won ? 'Чудова робота! Усі правила закрито ще до кінця тижня.'
+    : `${left === 1 ? 'Останній день тижня' : `Ще ${left} ${plural(left, 'день', 'дні', 'днів')}`} · закрито ${doneN} з ${pr.length}`;
+  const rows = h('ol.wf-rows', pr.map((p, i) => h('li.wf-row' + (p.done ? '.done' : ''),
+    h('span.wf-mark', p.done ? ic('check', { size: 14 }) : h('b.num', String(i + 1))),
+    h('div.grow.wf-body',
+      h('div.wf-label', p.label),
+      h('div.wf-meta', p.done
+        ? h('span.wf-closed', p.closedThisWeek ? `закрито · ${p.closedThisWeek} ${plural(p.closedThisWeek, 'помилка', 'помилки', 'помилок')}` : 'закрито')
+        : [ruleDots(p.streakMin), h('span', `${p.openNow} ${plural(p.openNow, 'помилка', 'помилки', 'помилок')}${p.closedThisWeek ? ` · закрито ${p.closedThisWeek}` : ''}`)])),
+    h('span.sr-only', p.done ? 'закрито' : `засвоєння ${p.streakMin} з 3`))));
+  const more = canAddRule(f);
+  const actions = won
+    ? h('div.wf-actions',
+      more ? h('button.btn.primary.block', { type: 'button', onclick: () => { if (addFocusRule()) { toast('Нове правило тижня — вчитель уже знає'); home(view); } } }, ic('plus', { size: 18 }), 'Взяти ще правило') : null,
+      h('a.btn.soft.block', { href: '#/mistakes' }, 'Усі мої помилки'))
+    : h('a.btn.primary.block', { href: '#/mistakes?practice=due&focus=1' }, ic('barbell', { size: 18 }), 'Потренувати');
+  return h('section.card.stack.wf' + (won ? '.wf-won' : ''), { 'aria-label': 'Правила тижня' },
+    h('a.row.wf-head', { href: '#/mistakes' },
+      h('span.wf-ico', ic(won ? 'trophy' : 'target', { size: 22, fill: won })),
+      h('div.grow', h('div.hm-card-title', won ? 'Правила тижня закрито' : 'Правила тижня'), h('div.xs.dim', sub)),
+      ic('caret-right', { size: 16 })),
+    rows,
+    earlier.length ? h('div.xs.dim.wf-earlier', ic('check-circle', { size: 14 }), `Також закрито: ${earlier.map(x => x.label).join(', ')}`) : null,
+    won ? null : h('div.xs.dim.wf-hint', 'Вчитель створюватиме нагоди вжити ці правила в кожній розмові. Решта помилок чекає своєї черги.'),
+    actions);
 }
 
 /** Урок дня (як у старому плані): зарахований сьогодні — показуємо його з позначкою; інакше наступний за рівнем */

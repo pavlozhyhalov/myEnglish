@@ -5,7 +5,7 @@ import * as store from '../store.js';
 import { LiveClient, AudioIO } from './client.js';
 import { tutor, aiErrorText } from '../ai.js';
 import { user, getSupa } from '../supa.js';
-import { speak, stop as stopSpeech, recognize, canRecognize, recordAndTranscribe } from '../speech.js';
+import { speak, stop as stopSpeech, recognize, canRecognize, recordAndTranscribe, tutorContext } from '../speech.js';
 import { logSession } from '../stats.js';
 import { scenarios as loadScenarios } from '../data.js';
 import { setFocus } from '../ui/shell.js';
@@ -145,6 +145,7 @@ export async function voiceSession(view, opts = {}) {
   // мову учня-українця — це бачить учень у субтитрах, і саме цей текст іде в підсумок та оцінку рівня.
   // Заодно сервер повертає до 2 миттєвих виправлень (check: true).
   let seg = [], segFlags = [], segSpeech = 0, tutorTalking = false, cutIdx = 0;
+  let tutorLine = '';              // остання договорена репліка вчителя — контекст для розпізнавання наступної репліки учня
   let speechPackets = 0;           // скільки пакетів по 100 мс учень справді говорив (для темпу)
   let clipTurn = null;             // найдовша репліка ≤ 20 с — для звіту «до/після»
   const pronCands = [];            // до трьох найдовших реплік 3–15 с — для оцінки вимови (лише в пам'яті)
@@ -186,7 +187,12 @@ export async function voiceSession(view, opts = {}) {
     for (const u of users) if (u !== target) u.text = '';   // кілька шматків однієї репліки зливаються в один
     target.pending = true; renderSubs();
     const turn = trimTurn(chunks, flags);
-    const job = tutor('transcribe', { audio: b64(wavBytes(chunks)), mime: 'audio/wav', hint: 'learner', check: !opts.onFinish })
+    const payload = { audio: b64(wavBytes(chunks)), mime: 'audio/wav', hint: 'learner', check: !opts.onFinish };
+    // контекст розпізнавання: що вчитель сказав перед цією реплікою (відповідь учня — на це питання).
+    // Репліка, яку вчитель договорив останньою (подія idle), точніша за позицію в транскрипті: текст і звук Live приходять у різному порядку
+    const ctx = tutorContext(tutorLine || lastTutorBefore(row.messages.indexOf(target)));
+    if (ctx) payload.context = { tutor: ctx };
+    const job = tutor('transcribe', payload)
       .then(r => {
         const text = String(r?.text || '').trim();
         if (!text || /^\[?unclear\]?$/i.test(text)) return;
@@ -198,6 +204,14 @@ export async function voiceSession(view, opts = {}) {
       .catch(e => log('transcribe failed ' + (e.code || e.message)))
       .finally(() => { target.pending = false; renderSubs(); jobs.delete(job); });
     jobs.add(job);
+  }
+  /** Текст останньої репліки вчителя перед позицією idx у транскрипті ('' — вчитель ще нічого не сказав) */
+  function lastTutorBefore(idx) {
+    for (let i = (idx < 0 ? row.messages.length : idx) - 1; i >= 0; i--) {
+      const m = row.messages[i];
+      if (m.role === 'model' && !m.hidden && String(m.text || '').trim()) return m.text;
+    }
+    return '';
   }
   function wavBytes(chunks) {
     const n = chunks.reduce((a, c) => a + c.byteLength, 0);
@@ -318,7 +332,7 @@ export async function voiceSession(view, opts = {}) {
     audio.addEventListener('mic-level', e => { micLevel = e.detail; lastRms = e.detail; });
     audio.addEventListener('out-level', e => { outLevel = e.detail; });
     audio.addEventListener('speaking', () => { tutorTalking = true; cutSegment(); if (mode === 'live') setState(`Говорить ${st.tutorName}`); });
-    audio.addEventListener('idle', () => { tutorTalking = false; if (mode === 'live' && live?.ready) setState(micMuted ? 'Мікрофон вимкнено' : 'Слухаю…'); });
+    audio.addEventListener('idle', () => { tutorTalking = false; tutorLine = lastTutorBefore(-1) || tutorLine; if (mode === 'live' && live?.ready) setState(micMuted ? 'Мікрофон вимкнено' : 'Слухаю…'); });
 
     const pre = await liveP;
     if (ended) { try { pre?.close(); } catch { /* */ } return cleanup; }
@@ -391,7 +405,7 @@ export async function voiceSession(view, opts = {}) {
       pttBtn.classList.add('rec'); setState('Говоріть…');
       ac = new AbortController();
       try {
-        const res = canRecognize() ? await recognize({ signal: ac.signal, onInterim: t => { notice.textContent = t; } }) : await recordAndTranscribe({ signal: ac.signal, maxMs: 30000 });
+        const res = canRecognize() ? await recognize({ signal: ac.signal, onInterim: t => { notice.textContent = t; } }) : await recordAndTranscribe({ signal: ac.signal, maxMs: 30000, context: { tutor: lastTutorBefore(-1) } });
         pttBtn.classList.remove('rec');
         if (!res.text) { setState('Нічого не почуто. Спробуйте ще раз'); return; }
         notice.textContent = '';

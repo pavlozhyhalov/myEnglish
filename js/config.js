@@ -45,5 +45,6 @@ export const DEFAULTS = {
   pinDrawer: true,
   voiceSubs: true,
   workFocus: false,          // професійний (виробничий) контекст у вчителя — за вибором
+  autoWords: true,           // нові слова з підсумку розмови — у картки автоматично (до 5 за розмову, 10 на день)
 };
 
