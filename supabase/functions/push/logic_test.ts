@@ -78,5 +78,5 @@ Deno.test('nudge: input only with personal data, clean falls back on bad output'
   eq(cleanNudge({ title: 'Hello there', body: 'Let us talk today', topic_en: '' }, fb), fb);
   const good = cleanNudge({ title: 'Як минула поїздка?', body: 'Розкажіть вчителю про Гданськ — 5 хвилин голосом.', topic_en: 'Ask about the trip to Gdańsk.' }, fb);
   ok(good.url.startsWith('#/tutor?mode=voice&topic='));
-  ok(monitorDue(new Date('2026-11-02T06:05:00Z')) && !monitorDue(new Date('2026-11-02T06:20:00Z')));
+  ok(monitorDue(new Date('2026-11-02T09:05:00Z')) && !monitorDue(new Date('2026-11-02T09:20:00Z')) && !monitorDue(new Date('2026-11-02T06:05:00Z')));
 });

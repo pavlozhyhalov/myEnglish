@@ -112,7 +112,7 @@ export function cleanNudge(r: unknown, fallback: Message): Message {
   return { title, body, url: topic ? `#/tutor?mode=voice&topic=${encodeURIComponent(topic)}` : fallback.url, tag: fallback.tag };
 }
 
-/** Автомонітор — раз на добу: перший запуск cron (кожні 15 хв) після 06:00 UTC */
+/** Автомонітор — раз на добу: перший запуск cron (кожні 15 хв) після 09:00 UTC — уже після скидання денних лімітів Gemini (опівночі за тихоокеанським часом), щоб автотест перевірив і сильні моделі */
 export function monitorDue(now: Date) {
-  return now.getUTCHours() === 6 && now.getUTCMinutes() < 15;
+  return now.getUTCHours() === 9 && now.getUTCMinutes() < 15;
 }
