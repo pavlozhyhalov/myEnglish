@@ -1,6 +1,6 @@
 // Бокове меню (сендвіч)
 import { h, ic, clear } from './dom.js';
-import { SECTIONS, GROUPS } from '../nav.js';
+import { SECTIONS, byId, CATEGORIES, categoryOf } from '../nav.js';
 import { S } from '../strings.js';
 import * as store from '../store.js';
 import { weekSeconds } from '../stats.js';
@@ -44,15 +44,39 @@ function syncA11y() {
   if (visible) drawer.removeAttribute('aria-hidden'); else drawer.setAttribute('aria-hidden', 'true');
 }
 
+// Розкриті категорії меню — пам'ятаємо між запусками; категорія поточної сторінки розкривається сама
+const OPEN_KEY = 'me:nav-open';
+let openCats = (() => { try { const v = JSON.parse(localStorage.getItem(OPEN_KEY) || 'null'); return new Set(Array.isArray(v) ? v : []); } catch { return new Set(); } })();
+const saveOpen = () => { try { localStorage.setItem(OPEN_KEY, JSON.stringify([...openCats])); } catch { /* */ } };
+
 function renderList() {
   clear(list);
-  const item = (s) => h('a.item', { href: s.href, dataset: { id: s.id }, 'aria-current': s.id === current ? 'page' : null, onclick: close },
-    ic(s.icon, { fill: s.id === current }), h('span', s.long));
+  const item = (s, text) => h('a.item', { href: s.href, dataset: { id: s.id }, 'aria-current': s.id === current ? 'page' : null, onclick: close },
+    ic(s.icon, { fill: s.id === current }), h('span', text || s.long));
   for (const s of SECTIONS.filter(s => !s.group)) list.append(item(s));
-  for (const g of GROUPS) {
-    list.append(h('div.group', S.groups[g]));
-    for (const s of SECTIONS.filter(s => s.group === g)) list.append(item(s));
+  const activeCat = categoryOf(current);
+  if (activeCat) openCats.add(activeCat);
+  for (const c of CATEGORIES) {
+    const isOpen = openCats.has(c.id);
+    const bodyId = `nav-cat-${c.id}`;
+    const head = h('button.cat-head', { type: 'button', 'aria-expanded': String(isOpen), 'aria-controls': bodyId, dataset: { cat: c.id } },
+      ic(c.icon), h('span.grow', c.label), ic('caret-down', { size: 16 }));
+    const inner = h('div.cat-inner', c.subs.map(sb => h('div.cat-sub',
+      sb.label ? h('div.sub-label', sb.label) : null,
+      sb.items.map(([id, text]) => byId[id] ? item(byId[id], text) : null))));
+    const body = h('div.cat-body', { id: bodyId, inert: !isOpen }, inner);
+    const sec = h('section.cat' + (isOpen ? '.open' : ''), { dataset: { cat: c.id } }, head, body);
+    head.addEventListener('click', () => setCat(sec, !sec.classList.contains('open')));
+    list.append(sec);
   }
+}
+function setCat(sec, on) {
+  const id = sec.dataset.cat;
+  sec.classList.toggle('open', on);
+  sec.querySelector('.cat-head').setAttribute('aria-expanded', String(on));
+  sec.querySelector('.cat-body').inert = !on;
+  if (on) openCats.add(id); else openCats.delete(id);
+  saveOpen();
 }
 
 export function renderProfile() {
@@ -72,6 +96,10 @@ export function renderProfile() {
 export function setActive(id) {
   current = id;
   if (!list) return;
+  // розділ з закритої категорії — розкрити її (інші розкриті лишаються як є)
+  const cat = categoryOf(id);
+  const sec = cat && list.querySelector(`section.cat[data-cat="${cat}"]`);
+  if (sec && !sec.classList.contains('open')) setCat(sec, true);
   list.querySelectorAll('a.item').forEach(a => {
     const on = a.dataset.id === id;
     a.toggleAttribute('aria-current', on);
@@ -160,7 +188,7 @@ export function toggle() { drawer.classList.contains('open') ? close() : open();
  * під час довгого утримання), мишею — pointer-події.
  */
 function pressFeedback(root) {
-  const SEL = 'a.item, .profile-card a, .profile .btn';
+  const SEL = 'a.item, .cat-head, .profile-card a, .profile .btn';
   let el = null, x0 = 0, y0 = 0, t = 0;
   const press = (target, x, y) => { clearTimeout(t); if (el && el !== target) el.classList.remove('pressed'); el = target; x0 = x; y0 = y; el.classList.add('pressed'); };
   const drop = () => { if (el) { el.classList.remove('pressed'); el = null; } };

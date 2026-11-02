@@ -417,3 +417,23 @@ details.card[open]>summary.row>.ico:last-child{transform:rotate(180deg)}
 /* ---------- Натискання: однаково для головних кнопок і карток-посилань, без зсуву розмітки ---------- */
 a.card,button.card{transition:transform var(--dur) var(--ease),background var(--dur)}
 .btn.primary:active,.btn.start:active,a.card:active,button.card:active{transform:scale(.98)}
+
+/* Бокове меню: розкривні категорії → підкатегорії → розділи */
+.drawer .cat{margin-top:6px}
+.drawer .cat-head{width:100%;display:flex;align-items:center;gap:12px;min-height:46px;padding:0 12px;border:0;border-radius:12px;background:none;
+  color:var(--ink);font:600 var(--fs-md, 16px)/1.2 var(--font-body, inherit);text-align:left;cursor:pointer;-webkit-tap-highlight-color:transparent;
+  transition:background-color .15s,transform .15s}
+.drawer .cat-head > svg:first-child{color:var(--ink-dim)}
+.drawer .cat-head > svg:last-child{color:var(--ink-dim);transition:transform .22s var(--ease, ease)}
+.drawer .cat.open .cat-head > svg:last-child{transform:rotate(180deg)}
+.drawer .cat-head.pressed{background:var(--surface-2);transform:scale(.98)}
+@media (hover:hover){.drawer .cat-head:hover{background:var(--surface-2)}}
+html.kbd .drawer .cat-head:focus-visible{outline:2px solid var(--accent-ink);outline-offset:-2px}
+.drawer .cat-body{display:grid;grid-template-rows:0fr;transition:grid-template-rows .24s var(--ease, ease)}
+.drawer .cat.open .cat-body{grid-template-rows:1fr}
+.drawer .cat-inner{overflow:hidden;min-height:0;padding-left:12px;margin-left:21px;border-left:1px solid var(--line)}
+.drawer .cat.open .cat-inner{padding-bottom:4px}
+.drawer .sub-label{font-size:var(--fs-xs);color:var(--ink-dim);font-weight:600;padding:10px 12px 4px;text-transform:uppercase;letter-spacing:.06em}
+.drawer .cat-sub:first-child .sub-label{padding-top:6px}
+.drawer .cat-inner a.item{min-height:42px}
+@media (prefers-reduced-motion:reduce){.drawer .cat-body,.drawer .cat-head > svg:last-child{transition:none}}

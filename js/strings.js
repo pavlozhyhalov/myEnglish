@@ -10,7 +10,7 @@ export const S = {
     today: 'Мій день', phrases: 'Фразник',
   },
   navLong: { tutor: 'Вчитель (AI)', vocab: 'Слова й фрази', sounds: 'Звуки й вимова', mistakes: 'Мої помилки', scenarios: 'Розмова (сценарії)', exgrammar: 'Граматика', tests: 'Тести', analysis: 'Аналіз навчання', report: 'Звіт за місяць', today: 'Мій день за 15 хвилин', phrases: 'Фразник' },
-  groups: { theory: 'Теорія', practice: 'Вправи', me: 'Я' },
+  groups: { learn: 'Вивчати', practice: 'Практикувати', check: 'Контроль і прогрес', me: 'Я' },
   menu: 'Меню', close: 'Закрити', back: 'Назад', themeToggle: 'Перемкнути тему',
   streak: (n) => `Стрік: ${n} ${plural(n, 'день', 'дні', 'днів')} поспіль`,
   greet: (h) => h < 5 ? 'Добрий вечір' : h < 12 ? 'Доброго ранку' : h < 18 ? 'Добрий день' : 'Добрий вечір',

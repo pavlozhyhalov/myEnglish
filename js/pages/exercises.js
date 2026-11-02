@@ -1,7 +1,7 @@
 // Вправи: #/exercises — усі категорії практики; #/exercises/grammar — граматичні вправи за темами
 import { h, ic, emo } from '../ui/dom.js';
 import { S, plural } from '../strings.js';
-import { SECTIONS } from '../nav.js';
+import { byId, PRACTICE_IDS } from '../nav.js';
 import { grammarIndex, lesson as loadLesson } from '../data.js';
 import { runExercises, answerText } from '../ui/exercises.js';
 import { activityTimer, addMistake } from '../stats.js';
@@ -12,7 +12,7 @@ import { myLevel, LEVELS, levelChips, levelCounts, levelPick } from '../level.js
 export default async function exercises(view, r) {
   if (r.parts[0] === 'grammar') return grammarPractice(view, r.parts[1], r.query.lv);
   setTitle(S.nav.exercises);
-  view.replaceChildren(h('div.list', SECTIONS.filter(s => s.group === 'practice').map(s =>
+  view.replaceChildren(h('div.list', PRACTICE_IDS.map(id => byId[id]).filter(Boolean).map(s =>
     h('a.list-row', { href: s.href }, h('span.tile-ico', emo(s.icon)), h('div.grow', h('div', { style: { fontWeight: 600 } }, s.long)), ic('caret-right', { size: 18 })))));
 }
 
