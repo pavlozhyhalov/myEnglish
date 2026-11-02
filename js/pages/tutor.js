@@ -17,6 +17,7 @@ import { toast } from '../ui/toast.js';
 import { setTitle, setFocus } from '../ui/shell.js';
 import { go } from '../router.js';
 import { about, rememberFacts, undoRemember } from './profile.js';
+import { savePhrases, guessSituation, hasPhrase, situation as phraseSit } from '../phrases.js';
 
 export const MODES = [
   { id: 'chat', emoji: 'speech', title: 'Вільна розмова', desc: 'Текстом, на будь-яку тему' },
@@ -60,7 +61,7 @@ export default async function tutorPage(view, r) {
   }
   if (q.mode === 'voice') {
     const { voiceSession } = await import('../live/voice.js');
-    return voiceSession(view, { scenario: q.scenario, topic: q.topic, mission });
+    return voiceSession(view, { scenario: q.scenario, topic: q.topic, label: q.label, mission });
   }
   if (q.chat) return openChat(view, q.chat);
   if (q.mode === 'check') return checkMode(view, q);
@@ -137,9 +138,35 @@ function missionCard(m) {
     m.phrases.length ? h('details.mission-phrases',
       h('summary', ic('chat-centered-text', { size: 16 }), h('span.grow', `Корисні фрази · ${m.phrases.length}`), ic('caret-down', { size: 16 })),
       h('ul', { lang: 'en' }, m.phrases.map(p => h('li', h('button.mission-phrase', { type: 'button', 'aria-label': `Прослухати: ${p}`, onclick: () => speak(p) }, ic('speaker-high', { size: 14 }), h('span', p)))))) : null,
+    m.phrases.length ? missionSaveBtn(m) : null,
     h('div.mission-acts',
       h('button.btn.mission-go', { type: 'button', onclick: () => startMission(m, 'voice') }, ic('microphone', { size: 18, fill: true }), 'Голосом'),
       h('button.btn.mission-go.alt', { type: 'button', onclick: () => startMission(m, 'text') }, ic('chat-circle-dots', { size: 18 }), 'Текстом')));
+}
+
+/** «У фразник»: фрази місії — у фразник (ситуація — за назвою й описом місії) */
+function missionSaveBtn(m) {
+  const b = h('button.btn.mission-save', { type: 'button' });
+  const paint = (busy = false) => {
+    const all = m.phrases.every(hasPhrase);
+    b.disabled = busy || all;
+    b.replaceChildren(ic(busy ? 'hourglass' : all ? 'check' : 'plus', { size: 16 }), busy ? 'Зберігаю…' : all ? 'Фрази у фразнику' : `У фразник · ${m.phrases.length}`);
+  };
+  paint();
+  b.addEventListener('click', async () => {
+    const sit = guessSituation(`${m.title} ${m.situation} ${m.goal}`);
+    paint(true);
+    const r = await savePhrases(m.phrases.map(en => ({ en })), { situation: sit, source: 'mission' }).catch(() => null);
+    paint();
+    phraseSaved(r, sit);
+  });
+  return b;
+}
+/** Сповіщення після збереження у фразник: з переходом до ситуації */
+export function phraseSaved(r, sit) {
+  if (!r) { toast('Не вдалося зберегти фрази'); return; }
+  toast(r.added ? `У фразнику: +${r.added} · ${phraseSit(sit).uk}` : 'Ці фрази вже є у ваших картках',
+    { action: 'Відкрити', onAction: () => go(`/phrases/${sit}`) });
 }
 
 function needLoginCard() {
@@ -911,10 +938,57 @@ export function summaryView(view, row, { pronTurns = null } = {}) {
     row.mode === 'voice' ? speechCard(s) : null,
     pronTurns?.length ? pronCard(pronTurns) : null,
     words.length ? h('section.card.stack', h('div.section-title', `Нові слова · ${words.length}`), wordsBox, addAll) : null,
+    phrasesCard(row, s),
     s.next_focus ? h('section.card.accent.stack', h('div.section-title', 'Наступного разу'), h('div', s.next_focus),
       h('a.btn.sm.primary', { href: `#/tutor?mode=chat&topic=${encodeURIComponent(`Focus recommended after the last session (practise it naturally in conversation): ${s.next_focus}`)}`, style: { alignSelf: 'flex-start' } }, ic('arrow-right', { size: 16 }), 'Почати з цього')) : null,
     h('div.row', h('a.btn.soft.grow', { href: '#/' }, 'На головну'), h('a.btn.primary.grow', { href: '#/tutor' }, 'Нова розмова')),
     deleteButton(row)));
+}
+
+/** «Фрази з розмови»: виправлені фрагменти (≥ 2 слів) і нові вирази — у фразник */
+function phrasesCard(row, s) {
+  const words2 = (t) => String(t || '').trim().split(/\s+/).filter(w => /[a-z]/i.test(w)).length >= 2;
+  const seen = new Set();
+  const items = [
+    ...(s.mistakes || []).filter(m => words2(m.right)).map(m => ({ en: String(m.right).trim(), uk: '', from: 'fix' })),
+    ...(s.new_words || []).filter(w => w?.en && words2(w.en)).map(w => ({ en: String(w.en).trim(), uk: String(w.uk || '').trim(), from: 'word' })),
+  ].filter(x => { const k = x.en.toLowerCase().replace(/\s+/g, ' ').replace(/[.!?]+$/, ''); return !seen.has(k) && seen.add(k); }).slice(0, 12);
+  if (!items.length) return null;
+  const scen = row.scenario ? row.title : '';
+  const sit = guessSituation([row.meta?.mission?.title, row.meta?.mission?.situation, scen, row.meta?.topicLabel, row.meta?.topic, row.title].filter(Boolean).join(' '));
+  const all = h('button.btn.primary.block', { type: 'button' });
+  const paintAll = (busy = false) => {
+    const left = items.filter(x => !hasPhrase(x.en)).length;
+    all.disabled = busy || !left;
+    all.replaceChildren(ic(busy ? 'hourglass' : left ? 'plus' : 'check', { size: 18 }), busy ? 'Зберігаю…' : left ? `Зберегти всі${left < items.length ? ' решту' : ''} (${left})` : 'Усі фрази у фразнику');
+  };
+  const pick = (x) => {
+    const on = hasPhrase(x.en);
+    const b = h('button.icon-btn' + (on ? '' : '.soft'), { type: 'button', disabled: on, 'aria-label': on ? `${x.en} — уже у фразнику` : `У фразник: ${x.en}` }, ic(on ? 'check' : 'plus', { size: 18 }));
+    b.addEventListener('click', async () => {
+      b.disabled = true;
+      const r = await savePhrases([x], { situation: sit, source: 'summary' }).catch(() => null);
+      phraseSaved(r, sit);
+      el.replaceWith(pick(x));
+      paintAll();
+    });
+    const el = h('div.ph-pick',
+      h('div.grow', h('div', { lang: 'en', style: { fontWeight: 600 } }, x.en), x.uk ? h('div.xs.dim', x.uk) : h('div.xs.dim', x.from === 'fix' ? 'виправлений варіант' : '')),
+      h('button.icon-btn', { type: 'button', 'aria-label': `Прослухати: ${x.en}`, onclick: () => speak(x.en) }, ic('speaker-high', { size: 18 })), b);
+    return el;
+  };
+  const list = h('div', items.map(pick));
+  all.addEventListener('click', async () => {
+    paintAll(true);
+    const r = await savePhrases(items.filter(x => !hasPhrase(x.en)), { situation: sit, source: 'summary' }).catch(() => null);
+    phraseSaved(r, sit);
+    list.replaceChildren(...items.map(pick));
+    paintAll();
+  });
+  paintAll();
+  return h('section.card.stack.sum-phrases', h('div.row', ic('chat-centered-text', { size: 22 }), h('div.section-title.grow', { style: { margin: 0 } }, `Фрази з розмови · ${items.length}`)),
+    h('div.xs.dim.ph-sit', 'Збережіть у фразник, щоб сказати правильно наступного разу. Ситуація: ', h('b', phraseSit(sit).uk)),
+    list, all);
 }
 
 /** «Засвоєно»: помилки, які учень цього разу вжив правильно (3 рази поспіль — закрито) */

@@ -37,7 +37,7 @@ export async function voiceSession(view, opts = {}) {
   else if (opts.scenario) scenario = (await loadScenarios()).find(s => s.id === opts.scenario) || null;
   const isMission = !!(scenario && opts.mission);
 
-  const row = { mode: 'voice', scenario: scenario?.id || null, title: isMission ? `Місія: ${scenario.title}` : scenario ? `Голос: ${scenario.title}` : (opts.topic ? `Голос: ${opts.topic}` : 'Голосова розмова'), messages: [], summary: null, seconds: 0 };
+  const row = { mode: 'voice', scenario: scenario?.id || null, title: isMission ? `Місія: ${scenario.title}` : scenario ? `Голос: ${scenario.title}` : (opts.label ? `Голос: ${opts.label}` : opts.topic && opts.topic.length <= 40 && /[Ѐ-ӿ]/.test(opts.topic) ? `Голос: ${opts.topic}` : 'Голосова розмова'), messages: [], summary: null, seconds: 0 };
   if (isMission) row.meta = { mission: opts.mission, topicLabel: `Місія · ${scenario.title}` };
   let started = 0, elapsedBefore = 0, live = null, audio = null, ended = false, micMuted = false, mode = 'live';
   let saved = false, cleaned = false;

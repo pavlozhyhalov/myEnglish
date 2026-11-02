@@ -4,10 +4,12 @@ import { S } from './strings.js';
 
 export const SECTIONS = [
   { id: 'home', icon: 'house', href: '#/', group: null },
+  { id: 'today', icon: 'sun-horizon', href: '#/today', group: null },
   { id: 'tutor', icon: 'chat-circle-dots', href: '#/tutor', group: null },
   // Теорія
   { id: 'grammar', icon: 'puzzle-piece', href: '#/grammar', group: 'theory' },
   { id: 'vocab', icon: 'book-open-text', href: '#/vocab', group: 'theory' },
+  { id: 'phrases', icon: 'quotes', href: '#/phrases', group: 'theory' },
   { id: 'sounds', icon: 'ear', href: '#/pronunciation/sounds', group: 'theory' },
   // Вправи
   { id: 'cards', icon: 'cards', href: '#/cards', group: 'practice' },

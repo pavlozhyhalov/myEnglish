@@ -405,3 +405,15 @@ details.card[open]>summary.row>.ico:last-child{transform:rotate(180deg)}
 
 /* Інформаційна плашка (не помилка): «працює після входу» тощо */
 .notice{border-radius:var(--radius-btn);padding:12px 14px;font-size:var(--fs-sm);background:var(--accent-soft);color:var(--ink)}
+
+/* ---------- Скелети завантаження (js/ui/skeleton.js) ---------- */
+.skel{display:block;flex:none;max-width:100%;background:linear-gradient(90deg,var(--surface-2) 0%,color-mix(in srgb,var(--surface-2) 55%,var(--surface)) 45%,var(--surface-2) 90%);background-size:220% 100%;animation:skel 1.3s ease-in-out infinite}
+.skel.on-hero{background:linear-gradient(90deg,rgba(255,255,255,.12) 0%,rgba(255,255,255,.22) 45%,rgba(255,255,255,.12) 90%);background-size:220% 100%}
+.skel-lines{display:flex;flex-direction:column;margin-top:14px}
+.skel-card{pointer-events:none}
+@keyframes skel{from{background-position:120% 0}to{background-position:-100% 0}}
+@media (prefers-reduced-motion:reduce){.skel{animation:none}}
+
+/* ---------- Натискання: однаково для головних кнопок і карток-посилань, без зсуву розмітки ---------- */
+a.card,button.card{transition:transform var(--dur) var(--ease),background var(--dur)}
+.btn.primary:active,.btn.start:active,a.card:active,button.card:active{transform:scale(.98)}

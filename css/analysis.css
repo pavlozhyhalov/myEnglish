@@ -104,7 +104,13 @@
 .rp-link{text-decoration:none;color:inherit}
 .rp-link > .ico{color:var(--accent-ink);flex:none}
 .mk-ghead{flex-wrap:wrap;gap:8px}
-.mk-ghead .section-title{flex-basis:100%;margin-top:4px}
+.mk-ghead .section-title{margin-top:4px}
+.mk-ghead > .grow{flex-basis:100%}
 
 .mk-rule{display:flex;align-items:center;gap:6px}
 .disagree{color:var(--ink-dim);padding-inline:8px;min-height:32px;align-self:flex-start}
+
+/* Повтор правил за розкладом */
+.mk-due .tile-ico{width:44px;height:44px}
+.mk-due-t{font-weight:600}
+.mk-due-empty p{max-width:36ch}

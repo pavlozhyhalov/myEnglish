@@ -16,7 +16,7 @@ import { myLevel, fitOrder } from '../level.js';
 import { user } from '../supa.js';
 import { tutor, aiErrorText } from '../ai.js';
 import * as L from '../wordlogic.js';
-import { onLeave } from '../router.js';
+import { onLeave, parse } from '../router.js';
 
 const MAX_DUE = 30;            // повторів за сесію (решта — наступного разу)
 const MAX_NEW = 20;            // нових слів за сесію (у межах денного ліміту з налаштувань; довшу сесію обмежує TIME_CAP)
@@ -87,6 +87,15 @@ export async function runTrain(view, { limit = Infinity, onExit, onDone, practic
   setFocus(true);
   const timer = activityTimer('cards');
   const started = Date.now();
+  // «Мій день» (#/cards/train?daily=1): сесія обмежена ціллю плану, наприкінці — «Далі за планом»
+  const daily = !practice && !onDone && parse().query.daily === '1';
+  if (daily) {
+    try {
+      const D = await import('../daily.js');
+      const target = D.wordsTarget(), left = target - D.reviewedToday();
+      limit = Math.min(limit, left > 0 ? left : target);
+    } catch (e) { console.warn('daily', e); limit = Math.min(limit, 12); }
+  }
   const decks = await srs.decks();
   const deckMeta = new Map(decks.map(d => [d.id, d]));
   let words;
@@ -110,7 +119,8 @@ export async function runTrain(view, { limit = Infinity, onExit, onDone, practic
     view.replaceChildren(h('div.hero',
       emo('party', 'xl'), h('h1', 'На сьогодні все'),
       h('p.dim', 'Слів до повтору немає, денний ліміт нових вичерпано. Нові слова з\'являться завтра.'),
-      h('div.row.wrap', { style: { justifyContent: 'center' } }, h('a.btn.soft', { href: '#/' }, 'На головну'), h('a.btn.primary', { href: '#/vocab' }, ic('plus'), 'Додати свої слова'))));
+      daily ? h('a.btn.primary.lg.wt-daily-next', { href: '#/today' }, 'Далі за планом', ic('arrow-right')) : null,
+      h('div.row.wrap', { style: { justifyContent: 'center' } }, h('a.btn.soft', { href: '#/' }, 'На головну'), h('a.btn' + (daily ? '.soft' : '.primary'), { href: '#/vocab' }, ic('plus'), 'Додати свої слова'))));
     return () => {};
   }
 
@@ -503,7 +513,7 @@ export async function runTrain(view, { limit = Infinity, onExit, onDone, practic
     const stats = { done: results.filter(r => r.rating).length, again: results.filter(r => r.rating === 1).length, seconds, early };
     if (onDone) return onDone(stats);
     setFocus(false);
-    endScreen(view, { results, seconds, maxCombo, practice: !!practice, early, onExit, items });
+    endScreen(view, { results, seconds, maxCombo, practice: !!practice, early, onExit, items, daily });
   }
 
   next();
@@ -511,7 +521,7 @@ export async function runTrain(view, { limit = Infinity, onExit, onDone, practic
 }
 
 // ---------- Підсумок ----------
-function endScreen(view, { results, seconds, maxCombo, practice, early, onExit, items }) {
+function endScreen(view, { results, seconds, maxCombo, practice, early, onExit, items, daily = false }) {
   const sum = L.summarize(results);
   const practised = items.filter(it => it.answered).length;
   const min = Math.round(seconds / 60);
@@ -524,7 +534,9 @@ function endScreen(view, { results, seconds, maxCombo, practice, early, onExit, 
   view.replaceChildren(h('div.stack-lg',
     h('div.hero', emo(sum.accuracy >= 80 && sum.graded ? 'trophy' : 'party', 'xl'),
       h('h1', practice ? 'Повторення завершено' : early && !sum.graded ? 'Тренування перервано' : 'Тренування завершено'),
-      h('p.dim', practice ? `${practised} ${plural(practised, 'слово', 'слова', 'слів')} без оцінок — розклад FSRS не змінено` : sum.graded ? `${sum.graded} ${plural(sum.graded, 'слово', 'слова', 'слів')} · ${time} навчання` : 'Жодне слово ще не оцінено')),
+      h('p.dim', practice ? `${practised} ${plural(practised, 'слово', 'слова', 'слів')} без оцінок — розклад FSRS не змінено` : sum.graded ? `${sum.graded} ${plural(sum.graded, 'слово', 'слова', 'слів')} · ${time} навчання` : 'Жодне слово ще не оцінено'),
+      // «Мій день»: наступний крок плану — головна дія екрана
+      daily && !practice ? h('a.btn.primary.lg.wt-daily-next', { href: '#/today' }, 'Далі за планом', ic('arrow-right')) : null),
     practice ? null : h('section.card.wt-stats',
       stat(sum.learned, plural(sum.learned, 'нове слово', 'нові слова', 'нових слів'), '.good'),
       stat(sum.strengthened, 'закріплено'),
@@ -539,7 +551,7 @@ function endScreen(view, { results, seconds, maxCombo, practice, early, onExit, 
         h('button.icon-btn', { type: 'button', 'aria-label': `Прослухати ${r.en}`, onclick: () => speak(r.en) }, ic('speaker-high', { size: 20 }))))),
       h('button.btn.soft.block', { type: 'button', onclick: () => runTrain(view, { practice: hardest.map(r => r.card), onExit }).then(fn => onLeave(view, fn)) }, ic('arrow-clockwise'), 'Потренувати їх ще раз')) : null,
     !practice && words.length >= 4 ? storyBox : null,
-    h('div.row', { style: { justifyContent: 'center' } }, h('a.btn.soft', { href: '#/' }, 'На головну'), h('button.btn.primary', { type: 'button', onclick: () => onExit?.() }, 'До колод'))));
+    h('div.row', { style: { justifyContent: 'center' } }, h('a.btn.soft', { href: '#/' }, 'На головну'), h('button.btn' + (daily ? '.soft' : '.primary'), { type: 'button', onclick: () => onExit?.() }, 'До колод'))));
   if (!practice && words.length >= 4) storyOffer(storyBox, words);
 }
 

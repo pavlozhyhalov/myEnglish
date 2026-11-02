@@ -14,6 +14,7 @@ import { streak } from './stats.js';
 import { setTitle, applyTheme, isDark } from './ui/shell.js';
 import { keepAwake } from './ui/wakelock.js';
 import { initSelectLookup } from './ui/selectlookup.js';
+import { initDailyBar } from './ui/dailybar.js';
 
 // ---------- Режим клавіатури: рамка фокусу видима лише після Tab/стрілок ----------
 addEventListener('keydown', (e) => {
@@ -54,6 +55,8 @@ function header() {
 // ---------- Маршрути ----------
 const pages = {
   home: () => import('./pages/home.js'),
+  today: () => import('./pages/today.js'),
+  phrases: () => import('./pages/phrases.js'),
   tutor: () => import('./pages/tutor.js'),
   cards: () => import('./pages/cards.js'),
   vocab: () => import('./pages/vocab.js'),
@@ -81,7 +84,7 @@ const pages = {
 };
 
 // Сторінки з завданнями: картки, уроки, вправи, тести, заняття, вчитель, аудіювання, вимова, письмо, сценарії, помилки
-const PRACTICE = new Set(['cards', 'exercises', 'tests', 'session', 'tutor', 'listening', 'pronunciation', 'mistakes', 'lab', 'diary', 'games']);
+const PRACTICE = new Set(['today', 'cards', 'exercises', 'tests', 'session', 'tutor', 'listening', 'pronunciation', 'mistakes', 'lab', 'diary', 'games']);
 function isPracticeRoute(r) {
   if (PRACTICE.has(r.name)) return true;
   // урок граматики, конкретне завдання з письма чи сценарій (але не списки)
@@ -99,6 +102,7 @@ async function boot() {
   initDrawer();
   initQuickbar();
   initSelectLookup();   // виділення англійських слів → «Що це?»
+  initDailyBar();       // плашка «Далі за планом» (Мій день)
   applyTheme();
 
   for (const [name, loader] of Object.entries(pages)) route(name, loader);

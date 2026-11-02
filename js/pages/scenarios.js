@@ -4,6 +4,9 @@ import { scenarios as load } from '../data.js';
 import { speak } from '../speech.js';
 import { setTitle } from '../ui/shell.js';
 import * as store from '../store.js';
+import { savePhrases, guessSituation, hasPhrase, situation as phraseSit } from '../phrases.js';
+import { toast } from '../ui/toast.js';
+import { go } from '../router.js';
 import { byFit, levelTag, myLevel, levelChips, levelCounts, levelPick, filterByLevel, fallbackNote } from '../level.js';
 
 export default async function scenarios(view, r) {
@@ -41,8 +44,29 @@ function detail(view, s) {
       h('div', h('div.section-title', 'Вчитель грає'), h('div', s.tutorRole)),
       h('div', h('div.section-title', 'Мета'), h('div', s.goal))),
     h('section.card', h('div.section-title', 'Ключові фрази — прослухайте перед початком'),
-      s.phrases.map(p => h('div.example', h('button.icon-btn.soft', { type: 'button', 'aria-label': 'Прослухати', onclick: () => speak(p) }, ic('speaker-high', { size: 20 })), h('div.grow', p)))),
+      s.phrases.map(p => h('div.example', h('button.icon-btn.soft', { type: 'button', 'aria-label': 'Прослухати', onclick: () => speak(p) }, ic('speaker-high', { size: 20 })), h('div.grow', { lang: 'en' }, p))),
+      s.phrases.length ? saveBtn(s) : null),
     h('div.stack',
       h('a.btn.primary.lg.block', { href: `#/tutor?mode=voice&scenario=${s.id}` }, ic('microphone', { fill: true }), 'Почати голосом'),
       h('a.btn.soft.lg.block', { href: `#/tutor?scenario=${s.id}` }, ic('chat-circle-dots'), 'Почати текстом'))));
+}
+
+/** «Фрази сцени у фразник»: ситуація — за назвою й описом сценарію */
+function saveBtn(s) {
+  const b = h('button.btn.sm.soft', { type: 'button', style: { marginTop: '10px' } });
+  const paint = (busy = false) => {
+    const all = s.phrases.every(hasPhrase);
+    b.disabled = busy || all;
+    b.replaceChildren(ic(busy ? 'hourglass' : all ? 'check' : 'plus', { size: 16 }), busy ? 'Зберігаю…' : all ? 'Фрази сцени у фразнику' : 'Фрази сцени у фразник');
+  };
+  paint();
+  b.addEventListener('click', async () => {
+    const sit = guessSituation(`${s.title} ${s.short || ''} ${s.situation} ${s.tutorRole || ''}`);
+    paint(true);
+    const r = await savePhrases(s.phrases.map(en => ({ en })), { situation: sit, source: 'scenario' }).catch(() => null);
+    paint();
+    if (!r) { toast('Не вдалося зберегти фрази'); return; }
+    toast(r.added ? `У фразнику: +${r.added} · ${phraseSit(sit).uk}` : 'Ці фрази вже є у ваших картках', { action: 'Відкрити', onAction: () => go(`/phrases/${sit}`) });
+  });
+  return b;
 }
