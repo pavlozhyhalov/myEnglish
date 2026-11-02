@@ -77,5 +77,7 @@ body.focus-mode .quickbar{transform:translateY(120%);visibility:hidden;transitio
 .grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
 .section-title{font-family:var(--font-body);font-size:var(--fs-xs);font-weight:600;color:var(--ink-dim);margin:8px 2px 0;text-transform:uppercase;letter-spacing:.06em}
 .eyebrow{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--accent-ink)}
-.page-enter{animation:pageIn var(--dur) var(--ease)}
-@keyframes pageIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+/* перехід між сторінками: короткий (160 мс) і лише візуальний — нова сторінка реагує на дотик одразу */
+.page-enter{animation:pageIn 160ms var(--ease) both}
+@keyframes pageIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.page-enter{animation:none}}

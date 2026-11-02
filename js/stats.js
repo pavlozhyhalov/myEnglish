@@ -299,3 +299,81 @@ export function deleteChat(id) {
   if (clip) import('./supa.js').then(({ getSupa }) => getSupa()).then(sb => sb?.storage.from('voice-clips').remove([clip])).catch(() => {});
   store.remove('tutor_chats', id);
 }
+
+// ---------- Правила за розкладом (інтервальне повторення помилок, без зміни схеми) ----------
+// Остання практика кожної помилки й лічильник за день — у localStorage 'me:rule-practice':
+// { at: { [mistakeId]: isoTime }, days: { 'YYYY-MM-DD': n } }. Без сховища — працює з created_at, лічильник лише в пам'яті.
+const RP_KEY = 'me:rule-practice';
+const RP_SOURCES = new Set(['tutor', 'voice', 'diary', 'exercise']);   // мовлення, письмо, вправи (не тести)
+const RP_INTERVAL = [20 * 3600e3, 3 * 864e5, 7 * 864e5];               // серія 0 → 20 год, 1 → 3 дні, 2 → 7 днів
+let rpMem = null;
+function rpRead() {
+  try {
+    const v = JSON.parse(localStorage.getItem(RP_KEY) || 'null');
+    if (v && typeof v === 'object') return { at: v.at && typeof v.at === 'object' ? v.at : {}, days: v.days && typeof v.days === 'object' ? v.days : {} };
+  } catch { /* приватний режим або зіпсовані дані */ }
+  return rpMem || { at: {}, days: {} };
+}
+function rpWrite(v) {
+  // лише останні 14 днів лічильника; позначки — лише для наявних помилок
+  const keep = Object.keys(v.days).sort().slice(-14);
+  v.days = Object.fromEntries(keep.map(k => [k, v.days[k]]));
+  rpMem = v;
+  try { localStorage.setItem(RP_KEY, JSON.stringify(v)); } catch { /* недоступне — лишається в пам'яті */ }
+}
+const rpOpen = () => store.all('mistakes').filter(m => !m.deleted && !m.resolved && m.wrong && m.right && m.wrong !== '—'
+  && m.type !== 'pronunciation' && RP_SOURCES.has(m.source || 'tutor'));
+const rpKey = (m) => (m.rule && m.rule !== 'other' ? m.rule : `type:${m.type || 'other'}`);
+/** Час, коли помилку знову варто повторити (мс) */
+function rpDueAt(m, at) {
+  const last = Date.parse(at[m.id] || m.created_at || m.updated_at || 0) || 0;
+  return last + RP_INTERVAL[Math.max(0, Math.min(2, m.streak || 0))];
+}
+
+/**
+ * Помилки, яким настав час повтору: відкриті, з мовлення/письма/вправ.
+ * Порядок: правила з найбільшою кількістю відкритих помилок — першими, далі найчастіші помилки; не більше 2 на правило в одному наборі.
+ */
+export function dueRuleMistakes(limit = 10, now = Date.now()) {
+  const { at } = rpRead();
+  const open = rpOpen();
+  const perRule = new Map();
+  for (const m of open) perRule.set(rpKey(m), (perRule.get(rpKey(m)) || 0) + 1);
+  const due = open.filter(m => rpDueAt(m, at) <= now)
+    .sort((a, b) => (perRule.get(rpKey(b)) - perRule.get(rpKey(a))) || rpKey(a).localeCompare(rpKey(b))
+      || (b.count || 1) - (a.count || 1) || (a.streak || 0) - (b.streak || 0));
+  const out = [], used = new Map();
+  for (const m of due) {
+    if (out.length >= limit) break;
+    const k = rpKey(m), n = used.get(k) || 0;
+    if (n >= 2) continue;
+    used.set(k, n + 1); out.push(m);
+  }
+  return out;
+}
+/** Скільки помилок чекає на повтор зараз (без обмеження набору) */
+export function dueRuleCount(now = Date.now()) {
+  const { at } = rpRead();
+  return rpOpen().filter(m => rpDueAt(m, at) <= now).length;
+}
+/** Найближчий час наступного повтору (мс) або null, якщо відкритих помилок немає */
+export function nextRulePracticeAt() {
+  const { at } = rpRead();
+  const t = rpOpen().map(m => rpDueAt(m, at));
+  return t.length ? Math.min(...t) : null;
+}
+/** Скільки помилок повторено сьогодні */
+export function rulePracticeToday() { return Number(rpRead().days[today()]) || 0; }
+/** Відповідь у повторі правил: серія помилки (3 поспіль — закрито), позначка часу, лічильник дня */
+export function logRulePractice(m, correct) {
+  if (!m) return;
+  mistakeHit(m, correct);
+  const v = rpRead();
+  const ids = new Set(store.all('mistakes').map(x => x.id));
+  v.at = Object.fromEntries(Object.entries(v.at).filter(([id]) => ids.has(id)));
+  // лічильник дня — різні помилки: повторний підхід до тієї самої помилки сьогодні не зараховується вдруге
+  const again = v.at[m.id] && dayKey(v.at[m.id]) === today();
+  v.at[m.id] = new Date().toISOString();
+  if (!again) v.days[today()] = (Number(v.days[today()]) || 0) + 1;
+  rpWrite(v);
+}

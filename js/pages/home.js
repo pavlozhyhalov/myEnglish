@@ -1,10 +1,13 @@
-// Головна: план дня, стрік, слово дня, слабкі місця, остання розмова
-import { h, ic, emo, ring, fmtMin } from '../ui/dom.js';
+// Головна: «Сьогодні» (кільце «Мого дня», одна головна кнопка), рівень, також сьогодні, тиждень, слово дня, слабкі місця, остання розмова
+import { h, ic, emo, fmtMin } from '../ui/dom.js';
 import { S, plural } from '../strings.js';
 import * as store from '../store.js';
 import * as srs from '../srs.js';
 import { withCards, grammarIndex, scenarios as loadScenarios, writingTasks, listening as loadListening, pronunciation as loadPron } from '../data.js';
 import { todaySeconds, streak, week, mistakesByType, lessonsToReview, lessonDone, today, dayKey } from '../stats.js';
+import { buildPlan, markStarted } from '../daily.js';
+import { planRing, startNext } from './today.js';
+import { skel, skelCard, skelRow } from '../ui/skeleton.js';
 import { speak } from '../speech.js';
 import { toast } from '../ui/toast.js';
 import { greetName } from './profile.js';
@@ -16,60 +19,23 @@ export default async function home(view) {
   const lvl = myLevel();
   const st = store.settings();
   const prof = store.prof();
-  // для плану дня потрібні лише лічильники карток (колоди свого рівня); опанування рівня і слово дня — дозавантажуються
-  const [counts, gIdx, deckState] = await Promise.all([srs.counts(), grammarIndex(), srs.decks()]);
+  const firstRun = !prof.placementDone && !prof.levelSource && store.count('sessions') === 0;
+  // перший показ — одразу каркас зі скелетами (дані плану й колод дочитуються)
+  if (!view.firstChild) view.replaceChildren(h('div.stack-lg.hm', greeting(), h('section.plan-hero.hm-hero', heroSkeleton()), skelCard({ rows: 1 }), skelCard({ rows: 2 })));
+  const [gIdx, deckState] = await Promise.all([grammarIndex(), srs.decks()]);
   // увімкнені вбудовані колоди (метадані з каталогу, без карток)
   const decks = deckState.filter(d => d.builtin && d.enabled);
-  const firstRun = !prof.placementDone && !prof.levelSource && store.count('sessions') === 0;
   if (view.__tok !== tok) return;
 
-  const hour = new Date().getHours();
   const sec = todaySeconds();
-  const goal = st.dailyGoal * 60;
+  const blocks = [greeting()];
 
-  // ---- план дня ----
-  const nextLesson = pickLesson(gIdx);
-  const todayK = today();
-  const reviewedToday = store.all('reviews').some(r => dayKey(r.ts) === todayK);
-  // урок дня виконано, якщо сьогодні якийсь урок зараховано (≥ 80%) — тоді в плані показуємо саме його
-  const passedToday = store.all('lessons_progress').filter(p => p.updated_at && dayKey(p.updated_at) === todayK && (p.last_score ?? 0) >= 80)
-    .sort((a, b) => b.updated_at.localeCompare(a.updated_at))[0];
-  const passedMeta = passedToday && gIdx.find(l => l.id === passedToday.id);
-  const tutorSecToday = store.all('sessions').filter(s => s.day === todayK && (s.type === 'tutor' || s.type === 'voice')).reduce((a, s) => a + s.seconds, 0);
-  const toReview = counts.due + counts.fresh;
+  // ---- «Сьогодні»: кільце «Мого дня», хвилини й стрік, одна головна кнопка ----
+  const hero = h('section.plan-hero.hm-hero', { 'aria-label': 'Сьогодні' }, heroSkeleton());
+  blocks.push(hero);
+  const fillHero = (plan) => { if (view.__tok === tok) hero.replaceChildren(...heroContent(plan, sec, st)); };
+  buildPlan().then(fillHero).catch(e => { console.warn('plan', e); hero.replaceChildren(...heroFallback(sec, st)); });
 
-  const plan = [];
-  if (toReview > 0 || reviewedToday) plan.push({
-    emoji: 'cards', href: toReview ? '#/cards/train' : '#/cards', done: toReview === 0,
-    text: toReview ? `Тренування слів · ${toReview} ${plural(toReview, 'слово', 'слова', 'слів')}` : 'Слова на сьогодні повторено',
-  });
-  if (passedMeta) plan.push({ emoji: 'puzzle', href: `#/grammar/${passedMeta.id}`, done: true, text: `Урок дня: ${passedMeta.title}` });
-  else if (nextLesson) plan.push({
-    emoji: 'puzzle', href: `#/grammar/${nextLesson.id}`, done: false,
-    text: `${nextLesson.review ? 'Повторити урок' : 'Урок дня'}: ${nextLesson.title}`,
-  });
-  plan.push({ emoji: 'mic', href: '#/tutor?mode=voice', done: tutorSecToday >= 600, text: `10 хвилин розмови з ${st.tutorName}` });
-
-  const date = new Date().toLocaleDateString('uk-UA', { weekday: 'long', day: 'numeric', month: 'long' });
-  const greet = h('div.greet',
-    h('span.date', date.charAt(0).toUpperCase() + date.slice(1)),
-    h('h1', greetName() ? `${S.greet(hour)}, ${greetName()}` : S.greet(hour)));
-
-  // ---- синя картка: хвилини, кільце мети, план, старт ----
-  const mins = Math.round(sec / 60);
-  const left = Math.max(1, Math.ceil((goal - sec) / 60));
-  const hero = h('section.plan-hero',
-    h('div.row',
-      h('div.grow.stack', { style: { gap: '4px' } },
-        h('span.label', 'План на сьогодні'),
-        h('span.big', String(mins), h('small', ` / ${st.dailyGoal} хв`)),
-        h('span.sub', sec >= goal ? 'Денну мету виконано. Чудово!' : `Ще ${left} ${plural(left, 'хвилина', 'хвилини', 'хвилин')} до денної мети`)),
-      ring(mins, st.dailyGoal, { size: 72, stroke: 9, label: h('span') })),
-    h('div', plan.map(p => h('a.check-item' + (p.done ? '.done' : ''), { href: p.href },
-      h('span.box', p.done ? ic('check', { size: 14 }) : null), h('span.t.grow', p.text), p.done ? null : ic('caret-right', { size: 18 })))),
-    h('a.btn.start.block', { href: '#/session' }, ic('play', { fill: true, size: 18 }), 'Почати заняття · ~15 хв'));
-
-  const blocks = [greet, hero];
   if (firstRun) {
     blocks.push(h('section.card.accent.hero',
       emo('target', 'xl'),
@@ -79,30 +45,8 @@ export default async function home(view) {
       h('button.btn.ghost', { type: 'button', onclick: () => { store.setProf({ placementDone: 'skipped' }); home(view); } }, 'Пропустити')));
   }
 
-  // ---- рівень: що зараз вивчаємо і скільки до наступного (числа — після завантаження колод рівня) ----
-  const lpInfo = h('div.xs.dim', '\u00a0');
-  const lpPct = h('span.num.small');
-  const lpFill = h('i', { style: { width: '0%' } });
-  const lpBar = h('div.progress', { role: 'progressbar', 'aria-label': 'Опанування рівня', 'aria-valuemin': 0, 'aria-valuemax': 100, 'aria-valuenow': 0 }, lpFill);
-  levelProgress(gIdx, lvl).then(lp => {
-    lpInfo.textContent = `Уроки ${lp.grammar.done}/${lp.grammar.total} · слова ${lp.words.done}/${lp.words.total}`;
-    lpPct.textContent = `${lp.pct}%`;
-    lpFill.style.width = `${lp.pct}%`;
-    lpBar.setAttribute('aria-valuenow', String(lp.pct));
-    if (lp.ready) lpBar.after(h('div.small', { style: { color: 'var(--accent-ink)', fontWeight: 600 } }, `Ви майже опанували ${lvl} — час переходити на ${nextLevel()}`));
-  }).catch(e => console.warn('level', e));
-  blocks.push(h('section.card.stack',
-    h('a.row', { href: '#/progress', style: { color: 'inherit', textDecoration: 'none' } },
-      h('div.level-badge', lvl),
-      h('div.grow', h('div', { style: { fontWeight: 600 } }, `Рівень ${lvl} · ${LEVEL_NAME[lvl]}`), lpInfo),
-      lpPct),
-    lpBar,
-    // швидка зміна рівня: план, урок дня і завдання нижче одразу перебудовуються
-    h('div.level-pick', LEVELS.map(l => h('button.chip', { type: 'button', 'aria-pressed': String(l === lvl), 'aria-label': `Рівень ${l}`, onclick: () => {
-      if (l === lvl) return;
-      setLevel(l, 'manual'); toast(`Рівень ${l}: план і завдання оновлено`);
-      home(view).then(() => view.querySelector(`.level-pick [aria-label="Рівень ${l}"]`)?.focus({ preventScroll: true }));
-    } }, l)))));
+  // ---- рівень: поточний → наступний, опанування, рівень у розмовах ----
+  blocks.push(levelCard(view, gIdx, lvl));
 
   // ---- звіт за минулий місяць: перші 7 днів місяця, якщо тоді були заняття (модуль аналізу — лише тоді) ----
   const now = new Date();
@@ -114,7 +58,7 @@ export default async function home(view) {
       blocks.push(slot);
       import('../analysis.js').then(({ MONTH_ACC }) => {
         if (!slot.parentNode) return;
-        slot.replaceWith(h('a.card.row.rp-link', { href: `#/report?m=${pym}` },
+        slot.replaceWith(h('a.card.row.rp-link.hm-press', { href: `#/report?m=${pym}` },
           h('span.tile-ico', ic('calendar-blank', { size: 22 })),
           h('div.grow', h('div', { style: { fontWeight: 600 } }, `Ваш звіт за ${MONTH_ACC[pm.getMonth()]} готовий`), h('div.xs.dim', 'Хвилини, рівень у розмовах, закриті помилки й ваш голос — тоді й зараз')),
           ic('caret-right', { size: 18 })));
@@ -122,20 +66,17 @@ export default async function home(view) {
     }
   }
 
-  // ---- завдання рівня на сьогодні: змінюються щодня і зі зміною рівня (дані вантажаться після першого показу) ----
-  const tasksBox = h('section.stack', { style: { gap: '8px' } });
+  // ---- завдання рівня на сьогодні (з уроком дня) (змінюються щодня і зі зміною рівня) ----
+  const tasksBox = h('section.stack', { style: { gap: '8px' } }, h('div.section-title', `Завдання рівня ${lvl} на сьогодні`), h('div.list', skelRow(), skelRow(), skelRow()));
   blocks.push(tasksBox);
-  fillLevelTasks(tasksBox, lvl).catch(() => tasksBox.remove());
+  fillLevelTasks(tasksBox, lvl, lessonRow(gIdx)).catch(() => tasksBox.remove());
 
-  if (firstRun) {
-    // картка тесту рівня — одразу під планом дня
-  } else {
-    // ---- стрік і тиждень ----
+  if (!firstRun) {
+    // ---- тиждень ----
     const n = streak();
     blocks.push(h('section.card.stack',
       h('div.row',
-        h('span.tile-ico', emo('fire')),
-        h('div.grow', h('div.big-num', `${n} ${plural(n, 'день', 'дні', 'днів')}`), h('div.xs.dim', 'поспіль')),
+        h('div.grow', h('div.hm-card-title', 'Тиждень'), h('div.xs.dim', n ? `${n} ${plural(n, 'день', 'дні', 'днів')} поспіль · мета ${st.dailyGoal} хв на день` : `Мета — ${st.dailyGoal} хв на день`)),
         h('a.btn.ghost.sm', { href: '#/progress' }, S.nav.progress)),
       h('div.week', week().map(d => h('div.d',
         h('span.dot' + (d.goal ? '.on' : '') + (d.today ? '.today' : ''), { style: d.active && !d.goal ? { background: 'var(--accent-soft)' } : null, 'aria-label': `${d.name}: ${d.goal ? 'мету виконано' : d.active ? 'була практика' : 'без практики'}` },
@@ -170,7 +111,7 @@ export default async function home(view) {
     const weak = mistakesByType().slice(0, 3);
     if (weak.length) {
       blocks.push(h('section.card.stack',
-        h('div.section-title', 'Слабкі місця'),
+        h('div.hm-card-title', 'Слабкі місця'),
         weak.map(g => h('div.row',
           h('div.grow', h('div', { style: { fontWeight: 600 } }, S.mistakeTypes[g.type] || g.type), h('div.xs.dim', `${g.total} ${plural(g.total, 'помилка', 'помилки', 'помилок')}`)),
           h('a.btn.soft.sm', { href: `#/tutor?mode=drill&type=${g.type}` }, 'Потренувати')))));
@@ -181,8 +122,8 @@ export default async function home(view) {
     if (last) {
       const words = (last.summary?.new_words || []).slice(0, 3);
       blocks.push(h('section.card.stack',
-        h('div.section-title', 'Остання розмова із вчителем'),
-        h('div.row', emo(last.mode === 'voice' ? 'mic' : 'teacher'),
+        h('div.hm-card-title', 'Остання розмова із вчителем'),
+        h('div.row', h('span.tile-ico', emo(last.mode === 'voice' ? 'mic' : 'teacher')),
           h('div.grow', h('div', { style: { fontWeight: 600 } }, last.title || 'Розмова'), h('div.xs.dim', `${new Date(last.created_at).toLocaleDateString('uk-UA')} · ${fmtMin(last.seconds || 0)}`))),
         words.length ? h('div.chips', words.map(w => h('span.tag.accent', w.en))) : null,
         h('a.btn.soft', { href: `#/tutor?chat=${encodeURIComponent(last.id)}` }, 'Продовжити')));
@@ -190,10 +131,117 @@ export default async function home(view) {
   }
 
   if (view.__tok !== tok) return;
-  view.replaceChildren(h('div.stack-lg', blocks));
+  view.replaceChildren(h('div.stack-lg.hm', blocks));
 }
 
-async function fillLevelTasks(box, lvl) {
+function greeting() {
+  const date = new Date().toLocaleDateString('uk-UA', { weekday: 'long', day: 'numeric', month: 'long' });
+  const name = greetName();
+  const hour = new Date().getHours();
+  return h('div.greet',
+    h('span.date', date.charAt(0).toUpperCase() + date.slice(1)),
+    h('h1', name ? `${S.greet(hour)}, ${name}` : S.greet(hour)));
+}
+
+function heroSkeleton() {
+  return [
+    h('div.row', h('div.grow.stack', { style: { gap: '8px' } }, skel({ w: '30%', ht: 12, cls: 'on-hero' }), skel({ w: '45%', ht: 28, cls: 'on-hero' }), skel({ w: '55%', ht: 12, cls: 'on-hero' })),
+      skel({ w: '84px', ht: 84, r: '50%', cls: 'on-hero' })),
+    h('div.stack', { style: { gap: '10px' } }, [0, 1, 2].map(() => skel({ ht: 18, cls: 'on-hero' }))),
+    skel({ ht: 52, r: 'var(--radius-btn)', cls: 'on-hero' }),
+  ];
+}
+
+/** Вміст синьої картки «Сьогодні» */
+function heroContent(plan, sec, st) {
+  const pct = Math.round(plan.progress * 100);
+  const mins = Math.round(sec / 60);
+  const n = streak();
+  const top = h('div.row.hm-top',
+    h('div.grow.stack', { style: { gap: '4px' } },
+      h('a.label.hm-label', { href: '#/today' }, 'Мій день', ic('caret-right', { size: 14 })),
+      h('span.big', String(mins), h('small', ` хв сьогодні`)),
+      h('span.sub.hm-streak', ic('fire', { size: 14, fill: n > 0 }), n ? `${n} ${plural(n, 'день', 'дні', 'днів')} поспіль` : 'Стрік почнеться сьогодні', h('span.hm-goal', ` · мета ${st.dailyGoal} хв`))),
+    planRing(pct, { size: 84, stroke: 9, label: plan.allDone ? ic('check', { size: 30 }) : h('b.num.hm-pct', `${pct}%`), done: plan.allDone }));
+  const steps = h('div.hm-steps', plan.steps.map(s => h('a.check-item' + (s.done ? '.done' : '') + (s.skipped ? '.skipped' : '') + (s === plan.next ? '.next' : ''), { href: s.href, onclick: s.skipped ? null : () => markStarted() },
+    h('span.box', s.done ? ic('check', { size: 14 }) : null),
+    h('span.t.grow', s.title),
+    h('span.hm-min', s.done ? '' : s.skipped ? 'після входу' : `${s.id === 'voice' ? '5–7' : s.minutes} хв`),
+    s.done ? null : ic('caret-right', { size: 16 }))));
+  let btn;
+  if (plan.allDone) btn = h('a.btn.start.block.hm-start', { href: '#/today' }, ic('seal-check', { size: 20, fill: true }), 'Готово на сьогодні');
+  else if (plan.next) {
+    const fresh = !plan.started && !plan.steps.some(s => !s.skipped && s.progress > 0);
+    btn = h('button.btn.start.block.hm-start', { type: 'button', onclick: () => startNext(plan) },
+      ic('play', { fill: true, size: 18 }), fresh ? `Почати день · ${Math.round(plan.totalMin)} хв` : `Продовжити: ${plan.next.title}`);
+  } else btn = h('a.btn.start.block.hm-start', { href: '#/auth' }, 'Увійти, щоб поговорити з вчителем');
+  return [top, steps, btn];
+}
+
+/** Запасний вміст (план не вдалося обчислити): хвилини й посилання на «Мій день» */
+function heroFallback(sec, st) {
+  return [h('div.stack', { style: { gap: '4px' } }, h('span.label', 'Сьогодні'), h('span.big', String(Math.round(sec / 60)), h('small', ` / ${st.dailyGoal} хв`))),
+    h('a.btn.start.block.hm-start', { href: '#/today' }, ic('play', { fill: true, size: 18 }), 'Мій день')];
+}
+
+/** Картка рівня: поточний → наступний, % опанування, рівень у розмовах, швидка зміна рівня (згорнута) */
+function levelCard(view, gIdx, lvl) {
+  const nxt = nextLevel();
+  const lpInfo = h('div.xs.dim', ' ');
+  const lpPct = h('span.num.hm-level-pct', '—');
+  const lpFill = h('i', { style: { width: '0%' } });
+  const lpBar = h('div.progress', { role: 'progressbar', 'aria-label': 'Опанування рівня', 'aria-valuemin': 0, 'aria-valuemax': 100, 'aria-valuenow': 0 }, lpFill);
+  const extra = h('div.stack', { style: { gap: '6px' } });
+  levelProgress(gIdx, lvl).then(lp => {
+    lpInfo.textContent = `Уроки ${lp.grammar.done}/${lp.grammar.total} · слова ${lp.words.done}/${lp.words.total}`;
+    lpPct.textContent = `${lp.pct}%`;
+    lpFill.style.width = `${lp.pct}%`;
+    lpBar.setAttribute('aria-valuenow', String(lp.pct));
+    if (lp.ready) extra.prepend(h('div.small', { style: { color: 'var(--accent-ink)', fontWeight: 600 } }, `Ви майже опанували ${lvl} — час переходити на ${nxt}`));
+  }).catch(e => console.warn('level', e));
+  // рівень у розмовах — лише коли є ≥2 оцінені розмови (модуль аналізу вантажиться окремо)
+  import('../analysis.js').then(({ conversationLevel }) => {
+    const cl = conversationLevel();
+    if (!cl || cl.sessions < 2) return;
+    const sub = cl.sublevel === 'high' ? '+' : cl.sublevel === 'low' ? '−' : '';
+    extra.append(h('a.row.hm-conv', { href: '#/analysis' },
+      ic('microphone', { size: 18 }),
+      h('span.grow', 'У розмовах: ', h('b', `${cl.level}${sub}`), h('span.dim', ` · за ${cl.sessions} ${plural(cl.sessions, 'розмовою', 'розмовами', 'розмовами')}`)),
+      ic('caret-right', { size: 16 })));
+  }).catch(() => {});
+  return h('section.card.stack.hm-level',
+    h('a.row.hm-level-head', { href: '#/progress' },
+      h('div.level-badge', lvl),
+      h('div.grow',
+        h('div.hm-card-title.row', { style: { gap: '6px' } }, `Рівень ${lvl}`, lvl !== nxt ? [ic('arrow-right', { size: 14 }), nxt] : null),
+        h('div.xs.dim', LEVEL_NAME[lvl])),
+      lpPct),
+    lpBar, lpInfo, extra,
+    // швидка зміна рівня: план, урок дня і завдання нижче одразу перебудовуються
+    h('details.hm-levelpick',
+      h('summary', 'Змінити рівень'),
+      h('div.level-pick', LEVELS.map(l => h('button.chip', { type: 'button', 'aria-pressed': String(l === lvl), 'aria-label': `Рівень ${l}`, onclick: () => {
+        if (l === lvl) return;
+        setLevel(l, 'manual'); toast(`Рівень ${l}: план і завдання оновлено`);
+        home(view).then(() => {
+          const d = view.querySelector('.hm-levelpick'); if (d) d.open = true;
+          view.querySelector(`.level-pick [aria-label="Рівень ${l}"]`)?.focus({ preventScroll: true });
+        });
+      } }, l)))));
+}
+
+/** Урок дня (як у старому плані): зарахований сьогодні — показуємо його з позначкою; інакше наступний за рівнем */
+function lessonRow(gIdx) {
+  const todayK = today();
+  const passedToday = store.all('lessons_progress').filter(p => p.updated_at && dayKey(p.updated_at) === todayK && (p.last_score ?? 0) >= 80)
+    .sort((a, b) => b.updated_at.localeCompare(a.updated_at))[0];
+  const passedMeta = passedToday && gIdx.find(l => l.id === passedToday.id);
+  if (passedMeta) return { icon: 'puzzle', kind: 'Урок дня · зараховано', title: passedMeta.title, href: `#/grammar/${passedMeta.id}`, done: true };
+  const l = pickLesson(gIdx);
+  return l ? { icon: 'puzzle', kind: l.review ? 'Повторити урок' : 'Урок дня · граматика', title: l.title, href: `#/grammar/${l.id}` } : null;
+}
+
+async function fillLevelTasks(box, lvl, lesson) {
   const [scen, wtasks, lis, pron, rdMod] = await Promise.all([loadScenarios(), writingTasks(), loadListening(), loadPron(), import('./reading.js')]);
   const rd = rdMod.textOfDay(await rdMod.readingTexts());
   const sc = pickOfDay(filterByLevel(scen.filter(x => x.group !== 'work'), 'mine').items, 'scen');
@@ -203,8 +251,9 @@ async function fillLevelTasks(box, lvl) {
   const topicLevel = new Map();
   for (const s of pron.shadowing) if (!topicLevel.has(s.topic)) topicLevel.set(s.topic, s.level);
   const tp = pickOfDay(filterByLevel([...topicLevel.keys()], 'mine', t => topicLevel.get(t)).items, 'shadow');
-  const task = (icon, kind, title, href) => h('a.list-row', { href }, h('span.tile-ico', emo(icon)), h('div.grow', h('div.xs.dim', kind), h('div', { style: { fontWeight: 600 } }, title)), ic('caret-right', { size: 18 }));
+  const task = (icon, kind, title, href, done = false) => h('a.list-row', { href }, h('span.tile-ico', emo(icon)), h('div.grow', h('div.xs.dim', kind), h('div', { style: { fontWeight: 600 } }, title)), done ? h('span.tag.good', 'готово') : ic('caret-right', { size: 18 }));
   const rows = [
+    lesson && task(lesson.icon, lesson.kind, lesson.title, lesson.href, lesson.done),
     sc && task('theater', 'Розмова із вчителем', sc.title, `#/scenarios/${sc.id}`),
     dl && task('headphone', 'Аудіювання', dl.title, `#/listening?tab=dialogues&d=${encodeURIComponent(dl.title)}`),
     wt && task('writing', 'Письмо', wt.title, `#/writing/${wt.id}`),

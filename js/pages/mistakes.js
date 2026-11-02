@@ -2,7 +2,7 @@
 import { h, ic, emo } from '../ui/dom.js';
 import { S, plural } from '../strings.js';
 import * as store from '../store.js';
-import { mistakesByRule, mistakeHit, activityTimer, classifyPending, disputeFix } from '../stats.js';
+import { mistakesByRule, activityTimer, classifyPending, disputeFix, dueRuleMistakes, dueRuleCount, rulePracticeToday, logRulePractice, nextRulePracticeAt } from '../stats.js';
 import { ruleLabel } from '../rules.js';
 import { matches, runExercises, resultView } from '../ui/exercises.js';
 import { confirmSheet } from '../ui/sheet.js';
@@ -43,6 +43,7 @@ export default function mistakes(view, r) {
         h('button.btn.primary', { type: 'button', onclick: () => drill(body, draw, timer) }, ic('barbell', { size: 18 }), 'Вправи на мої помилки'),
         h('a.btn.soft', { href: TALK_HREF }, ic('microphone', { size: 18 }), 'Потренувати в розмові')) : null,
       h('div.chips', { role: 'group', 'aria-label': 'Показати' }, tabBtn('open', 'Відкриті', openN), tabBtn('closed', 'Закриті', closedList.length)));
+    const dueCard = tab === 'open' ? ruleDueCard() : null;
 
     if (tab === 'closed') {
       body.replaceChildren(head, closedList.length
@@ -59,7 +60,7 @@ export default function mistakes(view, r) {
     }
     // групи — за правилом граматики (помилки без правила — за типом); засвоєння правила = найменша серія серед його помилок
     const groups = mistakesByRule();
-    body.replaceChildren(head,
+    body.replaceChildren(head, dueCard || '',
       groups.length ? '' : h('div.empty', emo('sparkles', 'xl'), h('p', openN || !closedList.length ? 'Список порожній. Помилки з розмов, вправ і тестів з\'являтимуться тут.' : 'Відкритих помилок немає — усе закрито!')),
       ...groups.map(g => h('section.stack', { style: { gap: '8px' } },
         h('div.row.mk-ghead', h('div.grow.stack', { style: { gap: '2px' } },
@@ -79,7 +80,11 @@ export default function mistakes(view, r) {
   // час самоперевірки рахується як практика (стрік, Resonance)
   const timer = activityTimer('mistakes');
   view.replaceChildren(body);
-  draw();
+  if (r?.query?.practice === 'due') {
+    // повтор правил за розкладом (#/mistakes?practice=due): одразу вправи; «назад» — до списку без повторного запуску
+    const toList = () => { try { history.replaceState(history.state, '', '#/mistakes'); } catch { /* */ } draw(); };
+    dueDrill(body, toList, timer);
+  } else draw();
   // старі помилки без правила — розкласти за правилами (раз на сесію, після входу)
   if (user() && navigator.onLine) classifyPending().then(n => { if (n && body.isConnected) draw(); });
   return () => { drillAbort?.abort(); timer.stop(); };
@@ -108,11 +113,17 @@ export function localDrill(list, count = 10) {
   return out;
 }
 
-async function drill(box, onExit, timer) {
-  const list = topMistakes(10);
+/**
+ * Вправи на помилки. opts.list — свій набір (за замовчуванням найчастіші), opts.title/sub — заголовок,
+ * opts.due — повтор правил за розкладом: результат веде далі за планом дня.
+ */
+async function drill(box, onExit, timer, opts = {}) {
+  const list = opts.list || topMistakes(10);
   if (!list.length) return;
   timer?.poke();
-  const head = h('div.row', h('button.icon-btn', { type: 'button', 'aria-label': 'Назад', onclick: () => { drillAbort?.abort(); onExit(); } }, ic('arrow-left')), h('div.grow', h('div', { style: { fontWeight: 600 } }, 'Вправи на мої помилки'), h('div.xs.dim', `${list.length} ${plural(list.length, 'помилка', 'помилки', 'помилок')}, що повторюються найчастіше`)));
+  const head = h('div.row', h('button.icon-btn', { type: 'button', 'aria-label': 'Назад', onclick: () => { drillAbort?.abort(); onExit(); } }, ic('arrow-left')),
+    h('div.grow', h('div', { style: { fontWeight: 600 } }, opts.title || 'Вправи на мої помилки'),
+      h('div.xs.dim', opts.sub || `${list.length} ${plural(list.length, 'помилка', 'помилки', 'помилок')}, що повторюються найчастіше`)));
   const area = h('div.stack');
   box.replaceChildren(h('div.stack', head, area));
   let exercises = null, note = '';
@@ -143,16 +154,21 @@ async function drill(box, onExit, timer) {
         const m = store.get('mistakes', list[t]?.id);
         if (!m) continue;
         const was = m.resolved;
-        mistakeHit(m, ok);
+        logRulePractice(m, ok);
         if (ok) better++;
         if (m.resolved && !was) fixed++;
       }
       exBox.replaceChildren(h('div.stack', resultView(res),
         h('div.card.stack', { style: { gap: '4px' } },
           h('div', { style: { fontWeight: 600 } }, `Зараховано: ${better} з ${byTarget.size} ${plural(byTarget.size, 'помилки', 'помилок', 'помилок')}`),
-          h('div.xs.dim', fixed ? `Виправлено остаточно: ${fixed} (3 правильні підходи поспіль).` : 'Помилка вважається виправленою після 3 правильних підходів поспіль.')),
-        h('div.row', h('button.btn.soft.grow', { type: 'button', onclick: () => drill(box, onExit, timer) }, ic('arrow-clockwise', { size: 18 }), 'Ще раз'),
-          h('button.btn.primary.grow', { type: 'button', onclick: onExit }, 'До списку'))));
+          h('div.xs.dim', fixed ? `Виправлено остаточно: ${fixed} (3 правильні підходи поспіль).` : 'Помилка вважається виправленою після 3 правильних підходів поспіль.'),
+          opts.due ? h('div.xs.dim', nextNote(byTarget.size, better)) : null),
+        opts.due
+          ? h('div.stack', { style: { gap: '8px' } },
+            h('a.btn.primary.lg.block', { href: '#/today' }, 'Далі за планом', ic('arrow-right', { size: 18 })),
+            h('button.btn.soft.block', { type: 'button', onclick: onExit }, 'До списку помилок'))
+          : h('div.row', h('button.btn.soft.grow', { type: 'button', onclick: () => drill(box, onExit, timer) }, ic('arrow-clockwise', { size: 18 }), 'Ще раз'),
+            h('button.btn.primary.grow', { type: 'button', onclick: onExit }, 'До списку'))));
       return false;
     },
   });
@@ -176,7 +192,7 @@ function selfCheck(box, items, onExit) {
       if (!inp.value.trim()) return;
       const good = matches(inp.value, m.right);
       if (good) ok++;
-      mistakeHit(m, good);
+      logRulePractice(m, good);
       fb.replaceChildren(h('div.feedback.' + (good ? 'ok' : 'no'), good ? `Правильно! Прогрес ${m.streak}/3${m.resolved ? ' — виправлено!' : ''}` : `Правильно: ${m.right}`, m.explanation_uk ? h('div.dim', m.explanation_uk) : null));
       check.hidden = true; next.hidden = false; next.focus();
     } }, 'Перевірити');
@@ -188,4 +204,51 @@ function selfCheck(box, items, onExit) {
     inp.focus();
   };
   step();
+}
+
+// ---------- Правила за розкладом ----------
+/** Коли правило повернеться: помилка з правильною відповіддю — за 3–7 днів, з неправильною — завтра */
+function nextNote(total, ok) {
+  if (ok === total) return 'Ці правила повернуться на повтор через кілька днів — так вони закріпляться надовго.';
+  if (!ok) return 'Ці правила повернуться вже завтра — повторення через день найкраще закріплює.';
+  return 'Правила з помилками повернуться завтра, решта — через кілька днів.';
+}
+const fmtWhen = (t) => {
+  const d = new Date(t), now = new Date();
+  const tomorrow = new Date(now); tomorrow.setDate(now.getDate() + 1);
+  const hm = d.toLocaleTimeString('uk-UA', { hour: '2-digit', minute: '2-digit' });
+  if (d.toDateString() === now.toDateString()) return `сьогодні о ${hm}`;
+  if (d.toDateString() === tomorrow.toDateString()) return 'завтра';
+  return d.toLocaleDateString('uk-UA', { weekday: 'long', day: 'numeric', month: 'long' });
+};
+
+/** Картка на сторінці помилок: скільки правил чекає на повтор сьогодні */
+function ruleDueCard() {
+  const due = dueRuleCount(), done = rulePracticeToday();
+  if (!due && !done) return null;
+  return h('section.card.stack.mk-due', { 'aria-label': 'Повтор правил за розкладом' },
+    h('div.row', h('span.tile-ico', ic('clock', { size: 22 })),
+      h('div.grow', h('div.mk-due-t', due ? `Правила на повтор сьогодні: ${due}` : 'Правила на сьогодні повторено'),
+        h('div.xs.dim', due ? 'Повертаємося до помилок через 1, 3 і 7 днів — так правило запам\'ятовується надовго.'
+          : `Повторено сьогодні: ${done}. Наступні — ${fmtWhen(nextRulePracticeAt() || Date.now() + 864e5)}.`))),
+    due ? h('a.btn.primary.block', { href: '#/mistakes?practice=due' }, ic('play', { size: 18, fill: true }), 'Повторити зараз') : null);
+}
+
+/** Повтор правил: набір із 8 помилок, яким настав час; порожньо — дружній екран */
+function dueDrill(box, onExit, timer) {
+  const list = dueRuleMistakes(8);
+  if (!list.length) {
+    const next = nextRulePracticeAt();
+    const done = rulePracticeToday();
+    box.replaceChildren(h('div.hero.mk-due-empty', emo('check', 'xl'), h('h2', 'На сьогодні правила повторено'),
+      h('p.dim', done ? `Сьогодні ви повторили ${done} ${plural(done, 'помилку', 'помилки', 'помилок')}. ${next ? `Наступний повтор — ${fmtWhen(next)}.` : ''}`
+        : next ? `Наступний повтор — ${fmtWhen(next)}. Нові помилки з розмов і вправ потраплять сюди самі.` : 'Відкритих помилок немає. Нові помилки з розмов і вправ потраплять сюди самі.'),
+      h('div.stack', { style: { gap: '8px', width: '100%', maxWidth: '360px' } },
+        h('a.btn.primary.block', { href: '#/today' }, 'Далі за планом', ic('arrow-right', { size: 18 })),
+        h('button.btn.soft.block', { type: 'button', onclick: onExit }, 'До списку помилок'))));
+    return;
+  }
+  const rules = new Set(list.map(m => m.rule && m.rule !== 'other' ? m.rule : `type:${m.type}`)).size;
+  drill(box, onExit, timer, { list, due: true, title: 'Повтор правил',
+    sub: `${list.length} ${plural(list.length, 'помилка', 'помилки', 'помилок')} · ${rules} ${plural(rules, 'правило', 'правила', 'правил')} за розкладом` });
 }
