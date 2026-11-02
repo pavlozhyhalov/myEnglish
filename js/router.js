@@ -82,7 +82,13 @@ export async function render() {
     current = { name: r.name, cleanup: null, host };
     view.className = '';
     // анімація входу — на новому контейнері сторінки: вона стартує сама, без примусового перерахунку розмітки
+    // клас знімається після анімації: інакше (iOS Safari) контейнер лишається стековим контекстом і «базою» для position:fixed —
+    // повноекранні вікна (голос, тест) опиняються під шапкою й стискаються
     host.className = 'page-enter';
+    const done = () => host.classList.remove('page-enter');
+    host.addEventListener('animationend', done, { once: true });
+    host.addEventListener('animationcancel', done, { once: true });
+    setTimeout(done, 400);
     window.scrollTo(0, 0);
     listeners.forEach(fn => fn(r));
     const cleanup = await mod.default(host, r);

@@ -73,7 +73,10 @@ export async function voiceSession(view, opts = {}) {
     h('div.top', h('button.icon-btn', { type: 'button', 'aria-label': 'Завершити', onclick: () => finish() }, ic('x')), timerEl, subsBtn),
     h('div.stage', aura, stateEl, fixBadge, notice, scenario ? h('div.xs.dim.center', `${scenario.title} · ваша роль: ${scenario.myRole}`) : null, subs, logBox),
     pttBtn, controls);
-  view.replaceChildren(ui);
+  // вікно — у корені документа, а не в контейнері сторінки: стилі й анімації сторінки (transform, opacity) на iOS
+  // роблять контейнер «базою» для position:fixed, і повноекранне вікно опинялося під шапкою, стиснуте
+  document.body.append(ui);
+  view.replaceChildren(h('div', { 'aria-hidden': 'true', style: { minHeight: '60dvh' } }));
   // прибирання реєструється одразу: сесія ще чекає тапу «Почати розмову», а користувач може піти
   onLeave(view, cleanup);
 
@@ -561,6 +564,7 @@ export async function voiceSession(view, opts = {}) {
     try { audio?.stop(); } catch { /* */ }
     stopSpeech();
     setFocus(false);
+    ui.remove();
     // пішли зі сторінки без «Завершити» — все одно зберігаємо
     if (!ended) { ended = true; save(); }
   }
