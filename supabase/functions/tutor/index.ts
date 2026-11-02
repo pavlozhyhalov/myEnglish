@@ -11,7 +11,7 @@ import { latinName, memoryRule, loadStudent, todayLabel, UK_STYLE, modePrompt, t
 import { precheck as levelWritingCheck, levelWritingPrompt, LEVEL_WRITING_SCHEMA, cleanLevelWriting, countWords } from './level_writing.ts';
 import { precheck as analysisCheck, analysisPrompt, ANALYSIS_SCHEMA, cleanAnalysis, cleanDigest, section as coachSection, coachPrompt, coachMetaPrompt, COACH_META_SCHEMA, cleanCoachMeta } from './analysis.ts';
 import { latinizeName, latinizeStream, replyStream, splitReply, cleanFixes, formatFixes, cleanMeta, cleanSummary, lastStudentText, cueText, translateInput, type Meta } from './reply.ts';
-import { recognitionContext, learnerTranscribePrompt, fluencyTranscribePrompt, FLUENCY_SCHEMA, clampRounds, fluencyPrompt, cleanFluency, calibrateLevel, clampTurnFixes, turnFixesPrompt, mergeTurnFixes, CLASSIFY_SCHEMA, classifyPrompt, cleanClassify, EVAL_SCHEMA, evalPrompt, evalInput, scoreEval, VOICE_CHECK_SCHEMA, voiceCheckPrompt, cleanVoiceCheck, clampSpeech, summaryExtra, cleanMastered, MISSION_SCHEMA, missionPrompt, cleanMissions } from './coach.ts';
+import { GUESS_SCHEMA, guessPrompt, judgeGuess, cleanGuess, recognitionContext, learnerTranscribePrompt, fluencyTranscribePrompt, FLUENCY_SCHEMA, clampRounds, fluencyPrompt, cleanFluency, calibrateLevel, clampTurnFixes, turnFixesPrompt, mergeTurnFixes, CLASSIFY_SCHEMA, classifyPrompt, cleanClassify, EVAL_SCHEMA, evalPrompt, evalInput, scoreEval, VOICE_CHECK_SCHEMA, voiceCheckPrompt, cleanVoiceCheck, clampSpeech, summaryExtra, cleanMastered, MISSION_SCHEMA, missionPrompt, cleanMissions } from './coach.ts';
 import { precheck as wordStoryCheck, wordStoryPrompt, WORD_STORY_SCHEMA, cleanWordStory, LEVELS as STORY_LEVELS, type StoryWord, type Level as StoryLevel } from './words.ts';
 
 type Msg = { role: 'user' | 'model'; text: string; cue?: boolean };
@@ -20,6 +20,7 @@ ACTIONS.add('word_story');
 ACTIONS.add('mission');
 ACTIONS.add('classify');
 ACTIONS.add('fluency_feedback');
+ACTIONS.add('explain_guess');
 const AUDIO_MIME = /^audio\/(webm|ogg|mp4|mpeg|wav|x-wav|aac|m4a)(;.*)?$/;
 /** Рядок з обмеженням довжини (захист від роздутих промптів і витрат) */
 const str = (v: unknown, max: number) => (v == null ? '' : String(v)).slice(0, max);
@@ -475,7 +476,8 @@ Deno.serve(handler(async (req) => {
 
   // перевірка вводу до списання ліміту
   if (action === 'fill_word' && !(Array.isArray(p.words) ? p.words : [p.word]).some((w: unknown) => String(w || '').trim())) throw new HttpError(400, 'bad_request', 'No words');
-  if (action === 'transcribe' && (!p.audio || String(p.audio).length > 8_000_000)) throw new HttpError(400, 'bad_request', 'Audio missing or too large');
+  if ((action === 'transcribe' || action === 'explain_guess') && (!p.audio || String(p.audio).length > 8_000_000)) throw new HttpError(400, 'bad_request', 'Audio missing or too large');
+  if (action === 'explain_guess' && !String(p.target || '').trim()) throw new HttpError(400, 'bad_request', 'No target');
   if (action === 'transcribe' && !AUDIO_MIME.test(String(p.mime || 'audio/webm'))) throw new HttpError(400, 'bad_request', 'Unsupported audio type');
   if (action === 'translate' && !translateInput(p.text)) throw new HttpError(400, 'bad_request', 'Empty text');
   if (action === 'diary' && String(p.text || '').trim().length < 3) throw new HttpError(400, 'bad_request', 'Empty entry');
@@ -719,6 +721,18 @@ ${UK_STYLE}`;
       const text = items.map((m: { wrong: string; right: string }, i: number) => `${i}. ${m.wrong} → ${m.right}`).join('\n');
       const res = await generateJson(LIGHT_MODELS, { system: classifyPrompt(), contents: [{ role: 'user', parts: [{ text }] }], schema: CLASSIFY_SCHEMA, temperature: 0, thinking: 'off', maxTokens: 3000 });
       return json({ items: cleanClassify(res, items.length) });
+    }
+
+    case 'explain_guess': {
+      // гра «Поясни слово»: запис пояснення → транскрипт + 3 здогадки одним викликом; слово-ціль моделі не передається
+      const target = str(p.target, 60).trim();
+      const mime = String(p.mime || 'audio/webm').split(';')[0];
+      if (!AUDIO_MIME.test(mime)) throw new HttpError(400, 'bad_request', 'Unsupported audio type');
+      const r = cleanGuess(await generateJson(LIGHT_MODELS, {
+        contents: [{ role: 'user', parts: [{ inlineData: { mimeType: mime, data: String(p.audio) } }, { text: guessPrompt(recognitionContext(st, '')) }] }],
+        schema: GUESS_SCHEMA, temperature: 0.2, thinking: 'low', maxTokens: 1500, timeoutMs: 25_000,
+      }));
+      return json({ ...r, ...judgeGuess(target, r.transcript, r.guesses) });
     }
 
     case 'fluency_feedback': {

@@ -292,3 +292,27 @@ export function cleanFluency(r: unknown) {
   const gambits = (Array.isArray(o.gambits) ? o.gambits : []).map(g => txt(g, 80)).filter(g => /[a-z]/i.test(g)).slice(0, 3);
   return { summary_uk: txt(o.summary_uk, 600), better, gambits };
 }
+
+// ---------- Гра «Поясни слово»: AI вгадує слово з пояснення учня (саме слово моделі не показується) ----------
+export const GUESS_SCHEMA = OBJ({ transcript: S('STRING'), guesses: ARR(S('STRING')) }, ['transcript', 'guesses']);
+export const guessPrompt = (ctx = '') => `The audio is a Ukrainian learner of English (B1) describing ONE English word or short phrase WITHOUT saying it, like a party guessing game. 1) transcript: transcribe exactly what they say in English (Latin letters; keep mistakes; drop "um/uh"). If nothing intelligible is said, transcript = "". 2) guesses: your 3 best guesses for the word/phrase they describe, most likely first, each in its dictionary form (base verb without "to", singular noun). Never output anything else.${ctx ? `\n${ctx}` : ''}`;
+/** Нормалізація для порівняння: регістр, «to »/артиклі, множина й прості закінчення */
+export function normWord(s: unknown) {
+  let w = String(s || '').toLowerCase().replace(/[’']/g, "'").replace(/[^a-z' -]/g, ' ').replace(/\s+/g, ' ').trim();
+  w = w.replace(/^(to|a|an|the) /, '');
+  return w.split(' ').map(t => t.length > 4 ? t.replace(/(ies)$/, 'y').replace(/(ing|ed|es|s)$/, '') : t).join(' ');
+}
+/** Чи вгадано; чи учень назвав саме слово (порушення правил) */
+export function judgeGuess(target: string, transcript: string, guesses: string[]) {
+  const t = normWord(target);
+  const correct = !!t && guesses.slice(0, 3).some(g => normWord(g) === t);
+  const tr = ` ${normWord(transcript)} `;
+  const said = !!t && tr.includes(` ${t} `);
+  return { correct: correct && !said, said };
+}
+export function cleanGuess(r: unknown) {
+  const o = (r && typeof r === 'object' ? r : {}) as Record<string, unknown>;
+  const transcript = txt(o.transcript, 1500);
+  const guesses = [...new Set((Array.isArray(o.guesses) ? o.guesses : []).map(g => txt(g, 40)).filter(g => /[a-z]/i.test(g)))].slice(0, 3);
+  return { transcript, guesses };
+}

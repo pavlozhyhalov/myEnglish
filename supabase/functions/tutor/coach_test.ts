@@ -1,5 +1,5 @@
 import { assertEquals, assert } from 'jsr:@std/assert@1';
-import { recognitionContext, clampRounds, cleanFluency, calibrateLevel, mergeTurnFixes, scoreEval, GOLDEN, cleanClassify, cleanVoiceCheck, clampSpeech, cleanMastered, cleanMissions, summaryExtra } from './coach.ts';
+import { normWord, judgeGuess, cleanGuess, recognitionContext, clampRounds, cleanFluency, calibrateLevel, mergeTurnFixes, scoreEval, GOLDEN, cleanClassify, cleanVoiceCheck, clampSpeech, cleanMastered, cleanMissions, summaryExtra } from './coach.ts';
 
 const ST = { open: [{ id: 'm1', wrong: 'I feeling tired', right: "I'm feeling tired" }] } as any;
 
@@ -64,4 +64,13 @@ Deno.test('fluency: rounds clamped, feedback cleaned', () => {
   assertEquals(clampRounds([{ sec: 999, text: 'uh I I go', wpm: 80, fillers: 3, repeats: 1 }, { text: '' }]), [{ sec: 180, text: 'uh I I go', wpm: 80, fillers: 3, repeats: 1 }]);
   const f = cleanFluency({ summary_uk: 'Добре', better: [{ from: 'I I I go', to: 'Well, I go' }, { from: 'x', to: 'x' }], gambits: ['Let me think…', 'дай подумати'] });
   assertEquals([f.better.length, f.gambits], [1, ['Let me think…']]);
+});
+
+Deno.test('explain game: normalisation, judging, saying the word is a foul', () => {
+  assertEquals(normWord('To Rent'), 'rent');
+  assertEquals(normWord('landlords'), 'landlord');
+  assertEquals(judgeGuess('landlord', 'a person who owns the flat', ['owner', 'landlord']).correct, true);
+  assertEquals(judgeGuess('landlord', 'it is my landlord who owns it', ['landlord']), { correct: false, said: true });
+  assertEquals(judgeGuess('take off', 'what a plane does', ['land', 'take off']).correct, true);
+  assertEquals(cleanGuess({ transcript: 'x', guesses: ['a', 'a', 'б', 'c', 'd'] }).guesses, ['a', 'c', 'd']);
 });
