@@ -1,6 +1,6 @@
 import { assertEquals, assert, assertRejects } from 'jsr:@std/assert@1';
 import { retryAfterMs, thinkingConfig, generate, streamText, candidateText, isCooled } from './gemini.ts';
-import { readFocus, latinName, readMemory, readHistory, sessionFocus, basePrompt, modePrompt, metaPrompt, wordsForLevel, todayLabel, memoryRule, UK_STYLE, type Student } from './prompts.ts';
+import { isoWeek, readFocus, latinName, readMemory, readHistory, sessionFocus, basePrompt, modePrompt, metaPrompt, wordsForLevel, todayLabel, memoryRule, UK_STYLE, type Student } from './prompts.ts';
 
 const st = (over: Partial<Student> = {}): Student => ({
   level: 'B1', tutorName: 'Alex', tutorTone: 'friendly', explainLang: 'uk', strictness: 'important', voice: 'Puck', workFocus: false,
@@ -201,8 +201,15 @@ Deno.test('latinName: official Ukrainian transliteration', () => {
 });
 
 Deno.test('readFocus + focusBlock: up to 3 known rules with the student examples', () => {
-  const f = readFocus({ rules: ['be-auxiliary', 'nope', 'prep-dependent', 'other'] }, [{ wrong: 'I feeling', right: "I'm feeling", rule: 'be-auxiliary' }]);
+  const ms = [{ wrong: 'I feeling', right: "I'm feeling", rule: 'be-auxiliary' }, { wrong: 'depend of', right: 'depend on', rule: 'prep-dependent' }];
+  const f = readFocus({ rules: ['be-auxiliary', 'nope', 'prep-dependent', 'other', 'articles-a'] }, ms);
   assertEquals(f.map(x => x.rule), ['be-auxiliary', 'prep-dependent']);
+  const now = new Date('2026-11-02T10:00:00Z');
+  assertEquals(isoWeek(now), '2026-W45');
+  assertEquals(isoWeek(new Date('2026-11-08T20:00:00Z')), '2026-W45');
+  assertEquals(isoWeek(new Date('2027-01-01T10:00:00Z')), '2026-W53');
+  assertEquals(readFocus({ week: '2026-W44', rules: ['be-auxiliary'] }, ms, now), []);
+  assertEquals(readFocus({ week: '2026-W45', rules: ['be-auxiliary'] }, ms, now).length, 1);
   assert(basePrompt(st({ focus: f })).includes("THIS WEEK'S RULES"));
   assert(!basePrompt(st()).includes("THIS WEEK'S RULES"));
 });

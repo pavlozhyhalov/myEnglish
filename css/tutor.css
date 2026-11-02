@@ -172,3 +172,11 @@ body.kb-open:has(.tutor-dock) .toasts{bottom:calc(var(--kb,0px) + 124px)}
 li.disputed .fix-line{opacity:.55}
 .rolling-level{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:12px;background:var(--accent-soft)}
 .rolling-level[hidden]{display:none}
+
+/* Нові слова: додані в картки автоматично */
+.sum-auto{display:flex;align-items:flex-start;gap:10px;padding:10px 12px;border-radius:var(--radius-btn);background:var(--accent-soft)}
+.sum-auto[hidden]{display:none}
+.sum-auto-ico{display:grid;place-items:center;flex:none;color:var(--accent-ink);margin-top:1px}
+.sum-auto-t{font-weight:600;font-size:var(--fs-sm);color:var(--accent-ink)}
+.sum-word.is-auto b{color:var(--accent-ink)}
+.btn.ghost.sum-unadd{flex:none;color:var(--ink-dim);min-height:36px;padding-inline:10px}

@@ -2,10 +2,12 @@
 import { h, ic, emo } from '../ui/dom.js';
 import { S, plural } from '../strings.js';
 import * as store from '../store.js';
-import { mistakesByRule, activityTimer, classifyPending, disputeFix, dueRuleMistakes, dueRuleCount, rulePracticeToday, logRulePractice, nextRulePracticeAt } from '../stats.js';
+import { mistakesByRule, activityTimer, classifyPending, disputeFix, dueRuleMistakes, dueRuleCount, rulePracticeToday, logRulePractice, nextRulePracticeAt, focusPracticeMistakes } from '../stats.js';
+import { weeklyFocus, focusProgress, canSwap, swapRule, swapsLeft, nextCandidate, canAddRule, addFocusRule, closedEarlier, SWAPS_MAX } from '../focus.js';
 import { ruleLabel } from '../rules.js';
 import { matches, runExercises, resultView } from '../ui/exercises.js';
 import { confirmSheet } from '../ui/sheet.js';
+import { toast } from '../ui/toast.js';
 import { tutor, aiErrorText } from '../ai.js';
 import { user } from '../supa.js';
 
@@ -32,6 +34,10 @@ export default function mistakes(view, r) {
     const openN = all.filter(m => !m.resolved).length;
     const closedList = all.filter(m => m.resolved).sort((a, b) => String(b.updated_at || '').localeCompare(String(a.updated_at || '')));
     const closed30 = closedList.filter(m => Date.now() - Date.parse(m.updated_at || 0) < 30 * DAY).length;
+    // правила тижня (створюються, якщо їх ще немає) — головна дія сторінки; решта кнопок тоді вторинні
+    let focus = null;
+    try { focus = weeklyFocus(); } catch (e) { console.warn('focus', e); }
+    const hasFocus = !!focus && tab === 'open';
     const tabBtn = (id, label, n) => h('button.chip', { type: 'button', 'aria-pressed': String(tab === id), onclick: () => { if (tab !== id) { tab = id; draw(); } } }, `${label} · ${n}`);
     const head = h('section.card.stack',
       h('div.row', emo('target', 'lg'),
@@ -40,7 +46,7 @@ export default function mistakes(view, r) {
         h('div.stat.mk-closed', { 'aria-label': `Закрито за 30 днів: ${closed30}` }, h('b', String(closed30)), h('span', 'закрито за 30 днів'))),
       h('p.mk-how', ic('info', { size: 18 }), h('span', 'Скажіть правильну форму в розмові з вчителем або у вправах 3 рази поспіль — помилку буде закрито.')),
       openN ? h('div.mk-actions',
-        h('button.btn.primary', { type: 'button', onclick: () => drill(body, draw, timer) }, ic('barbell', { size: 18 }), 'Вправи на мої помилки'),
+        h(hasFocus ? 'button.btn.soft' : 'button.btn.primary', { type: 'button', onclick: () => drill(body, draw, timer) }, ic('barbell', { size: 18 }), 'Вправи на мої помилки'),
         h('a.btn.soft', { href: TALK_HREF }, ic('microphone', { size: 18 }), 'Потренувати в розмові')) : null,
       h('div.chips', { role: 'group', 'aria-label': 'Показати' }, tabBtn('open', 'Відкриті', openN), tabBtn('closed', 'Закриті', closedList.length)));
     const dueCard = tab === 'open' ? ruleDueCard() : null;
@@ -60,9 +66,55 @@ export default function mistakes(view, r) {
     }
     // групи — за правилом граматики (помилки без правила — за типом); засвоєння правила = найменша серія серед його помилок
     const groups = mistakesByRule();
-    body.replaceChildren(head, dueCard || '',
+    // правила тижня — першими й розгорнуто; решта — у згорнутому розділі «Інші правила»
+    const fRules = focus?.rules || [];
+    const focusGroups = groups.filter(g => g.rule && fRules.includes(g.rule)).sort((a, b) => fRules.indexOf(a.rule) - fRules.indexOf(b.rule));
+    const otherGroups = groups.filter(g => !focusGroups.includes(g));
+    const otherN = otherGroups.reduce((a, g) => a + g.items.length, 0);
+    const others = focusGroups.length && otherGroups.length
+      ? h('details.mk-others', { open: othersOpen, ontoggle: (e) => { othersOpen = e.currentTarget.open; } },
+        h('summary', h('span.grow', h('span.mk-others-t', `Інші правила · ${otherGroups.length}`), h('span.xs.dim', `${otherN} ${plural(otherN, 'помилка', 'помилки', 'помилок')} чекають своєї черги`))),
+        h('div.stack-lg.mk-others-body', otherGroups.map(g => groupView(g))))
+      : null;
+    body.replaceChildren(focus ? focusCard(focus) : '', head, dueCard || '',
       groups.length ? '' : h('div.empty', emo('sparkles', 'xl'), h('p', openN || !closedList.length ? 'Список порожній. Помилки з розмов, вправ і тестів з\'являтимуться тут.' : 'Відкритих помилок немає — усе закрито!')),
-      ...groups.map(g => h('section.stack', { style: { gap: '8px' } },
+      ...(others ? [...focusGroups.map(g => groupView(g, true)), others] : groups.map(g => groupView(g))));
+  };
+  let othersOpen = false;
+  /** Картка «Цього тижня — 3 правила»: прогрес, «Замінити» (до 2 разів на тиждень), тренування; усе закрито — «Взяти ще правило» */
+  const focusCard = (f) => {
+    const pr = focusProgress(f);
+    if (!pr.length) return '';
+    const won = pr.every(p => p.done);
+    const swappable = canSwap(f);
+    const earlier = closedEarlier(f);
+    const swap = async (p) => {
+      const nx = nextCandidate(f);
+      if (!nx) return;
+      const left = swapsLeft(f) - 1;
+      if (!await confirmSheet('Замінити правило?', `«${p.label}» почекає наступного тижня, натомість — «${ruleLabel(nx.rule)}». ${left ? `Після цього лишиться ще ${left} ${plural(left, 'заміна', 'заміни', 'замін')}.` : 'Це остання заміна цього тижня.'}`, 'Замінити')) return;
+      if (swapRule(p.rule)) { toast(`Нове правило тижня: ${ruleLabel(nx.rule)}`); draw(); }
+    };
+    return h('section.card.stack.wf.mk-focus' + (won ? '.wf-won' : ''), { 'aria-label': 'Правила тижня' },
+      h('div.row', { style: { gap: '12px' } },
+        h('span.wf-ico', ic(won ? 'trophy' : 'target', { size: 22, fill: won })),
+        h('div.grow', h('div.mk-focus-t', won ? 'Усі правила тижня закрито!' : `Цього тижня — ${pr.length} ${plural(pr.length, 'правило', 'правила', 'правил')}`),
+          h('div.xs.dim', won ? 'Чудова робота. Можна взяти ще одне правило — або відпочити до понеділка.' : 'Решта помилок чекає своєї черги.'))),
+      h('ol.wf-rows', pr.map((p, i) => h('li.wf-row' + (p.done ? '.done' : ''),
+        h('span.wf-mark', p.done ? ic('check', { size: 14 }) : h('b.num', String(i + 1))),
+        h('div.grow.wf-body',
+          h('div.wf-label', p.label),
+          h('div.wf-meta', p.done ? h('span.wf-closed', 'закрито')
+            : [h('span.wf-dots', { 'aria-hidden': 'true' }, [0, 1, 2].map(k => h('i' + (k < p.streakMin ? '.on' : '')))),
+              h('span', `${p.openNow} ${plural(p.openNow, 'помилка', 'помилки', 'помилок')}${p.closedThisWeek ? ` · закрито ${p.closedThisWeek}` : ''}`)])),
+        !p.done && swappable ? h('button.btn.sm.ghost.mk-swap', { type: 'button', 'aria-label': `Замінити правило: ${p.label}`, onclick: () => swap(p) }, ic('swap', { size: 16 }), 'Замінити') : null))),
+      earlier.length ? h('div.xs.dim.wf-earlier', ic('check-circle', { size: 14 }), `Також закрито: ${earlier.map(x => x.label).join(', ')}`) : null,
+      !won && (swappable || swapsLeft(f) < SWAPS_MAX) ? h('div.xs.dim', swapsLeft(f) ? `Правило можна замінити ще ${swapsLeft(f)} ${plural(swapsLeft(f), 'раз', 'рази', 'разів')} цього тижня.` : 'Замін цього тижня більше немає — нові правила в понеділок.') : null,
+      won
+        ? (canAddRule(f) ? h('button.btn.primary.block', { type: 'button', onclick: () => { if (addFocusRule()) { toast('Нове правило тижня — вчитель уже знає'); draw(); } } }, ic('plus', { size: 18 }), 'Взяти ще правило') : null)
+        : h('a.btn.primary.block', { href: '#/mistakes?practice=due&focus=1' }, ic('barbell', { size: 18 }), 'Потренувати правила тижня'));
+  };
+  const groupView = (g, inFocus = false) => h('section.stack' + (inFocus ? '.mk-fgroup' : ''), { style: { gap: '8px' } },
         h('div.row.mk-ghead', h('div.grow.stack', { style: { gap: '2px' } },
             h('div.section-title', `${g.label || S.mistakeTypes[g.type] || g.type} · ${g.total}`),
             g.rule && g.items.length > 1 ? h('div.xs.dim.mk-rule', masteryDots(g.streak, false), h('span', `правило засвоєно на ${Math.min(3, g.streak)}/3`)) : null),
@@ -74,8 +126,7 @@ export default function mistakes(view, r) {
             m.explanation_uk ? h('div.xs.dim', m.explanation_uk) : null,
             h('div.row.xs.dim.mk-meta', h('span.grow', `×${m.count || 1} · ${SRC[m.source] || m.source || 'вчитель'}`), masteryDots(m.streak)),
             ['tutor', 'diary'].includes(m.source || 'tutor') ? h('button.btn.sm.ghost.disagree', { type: 'button', title: 'Вчитель помилився — більше так не виправлятиме', onclick: () => { disputeFix(m); draw(); } }, ic('x-circle', { size: 14 }), 'Не згоден') : null),
-          delBtn(m)))))));
-  };
+          delBtn(m)))));
   const delBtn = (m) => h('button.icon-btn', { type: 'button', 'aria-label': 'Видалити', onclick: async () => { if (await confirmSheet('Видалити помилку?', `${m.wrong} → ${m.right}`, 'Видалити', { danger: true })) { store.remove('mistakes', m.id); draw(); } } }, ic('trash', { size: 18 }));
   // час самоперевірки рахується як практика (стрік, Resonance)
   const timer = activityTimer('mistakes');
@@ -83,7 +134,8 @@ export default function mistakes(view, r) {
   if (r?.query?.practice === 'due') {
     // повтор правил за розкладом (#/mistakes?practice=due): одразу вправи; «назад» — до списку без повторного запуску
     const toList = () => { try { history.replaceState(history.state, '', '#/mistakes'); } catch { /* */ } draw(); };
-    dueDrill(body, toList, timer);
+    if (r?.query?.focus === '1') focusDrill(body, toList, timer);
+    else dueDrill(body, toList, timer);
   } else draw();
   // старі помилки без правила — розкласти за правилами (раз на сесію, після входу)
   if (user() && navigator.onLine) classifyPending().then(n => { if (n && body.isConnected) draw(); });
@@ -163,11 +215,12 @@ async function drill(box, onExit, timer, opts = {}) {
           h('div', { style: { fontWeight: 600 } }, `Зараховано: ${better} з ${byTarget.size} ${plural(byTarget.size, 'помилки', 'помилок', 'помилок')}`),
           h('div.xs.dim', fixed ? `Виправлено остаточно: ${fixed} (3 правильні підходи поспіль).` : 'Помилка вважається виправленою після 3 правильних підходів поспіль.'),
           opts.due ? h('div.xs.dim', nextNote(byTarget.size, better)) : null),
+        opts.focus ? focusResult() : null,
         opts.due
           ? h('div.stack', { style: { gap: '8px' } },
             h('a.btn.primary.lg.block', { href: '#/today' }, 'Далі за планом', ic('arrow-right', { size: 18 })),
             h('button.btn.soft.block', { type: 'button', onclick: onExit }, 'До списку помилок'))
-          : h('div.row', h('button.btn.soft.grow', { type: 'button', onclick: () => drill(box, onExit, timer) }, ic('arrow-clockwise', { size: 18 }), 'Ще раз'),
+          : h('div.row', h('button.btn.soft.grow', { type: 'button', onclick: () => (opts.again ? opts.again() : drill(box, onExit, timer)) }, ic('arrow-clockwise', { size: 18 }), 'Ще раз'),
             h('button.btn.primary.grow', { type: 'button', onclick: onExit }, 'До списку'))));
       return false;
     },
@@ -251,4 +304,43 @@ function dueDrill(box, onExit, timer) {
   const rules = new Set(list.map(m => m.rule && m.rule !== 'other' ? m.rule : `type:${m.type}`)).size;
   drill(box, onExit, timer, { list, due: true, title: 'Повтор правил',
     sub: `${list.length} ${plural(list.length, 'помилка', 'помилки', 'помилок')} · ${rules} ${plural(rules, 'правило', 'правила', 'правил')} за розкладом` });
+}
+
+// ---------- Правила тижня ----------
+/** Тренування лише правил тижня (#/mistakes?practice=due&focus=1) */
+function focusDrill(box, onExit, timer) {
+  let f = null;
+  try { f = weeklyFocus(); } catch { /* */ }
+  if (!f) { dueDrill(box, onExit, timer); return; }
+  const list = focusPracticeMistakes(8);
+  if (!list.length) {
+    const pr = focusProgress(f);
+    const won = pr.length && pr.every(p => p.done);
+    box.replaceChildren(h('div.hero.mk-due-empty', emo(won ? 'trophy' : 'check', 'xl'),
+      h('h2', won ? 'Правила тижня закрито' : 'На сьогодні правила тижня відпрацьовано'),
+      h('p.dim', won ? 'Усі помилки цих правил закрито. Можна взяти ще одне правило на сторінці «Мої помилки».'
+        : 'Решту закріпите в розмові: вчитель створюватиме нагоди вжити ці правила. Повернімося до вправ завтра.'),
+      h('div.stack', { style: { gap: '8px', width: '100%', maxWidth: '360px' } },
+        h('a.btn.primary.block', { href: TALK_HREF }, ic('microphone', { size: 18 }), 'Потренувати в розмові'),
+        h('button.btn.soft.block', { type: 'button', onclick: onExit }, 'До списку помилок'))));
+    return;
+  }
+  const n = new Set(list.map(m => m.rule)).size;
+  drill(box, onExit, timer, { list, focus: true, again: () => focusDrill(box, onExit, timer), title: 'Правила тижня',
+    sub: `${list.length} ${plural(list.length, 'помилка', 'помилки', 'помилок')} · ${n} ${plural(n, 'правило', 'правила', 'правил')} тижня` });
+}
+
+/** Після вправ: де тепер кожне правило тижня (крапки засвоєння, закрито) */
+function focusResult() {
+  let pr = [];
+  try { pr = focusProgress(weeklyFocus()); } catch { return null; }
+  if (!pr.length) return null;
+  return h('div.card.stack.wf', { style: { gap: '4px' } },
+    h('div', { style: { fontWeight: 600 } }, 'Правила тижня зараз'),
+    h('ol.wf-rows', pr.map((p, i) => h('li.wf-row' + (p.done ? '.done' : ''),
+      h('span.wf-mark', p.done ? ic('check', { size: 14 }) : h('b.num', String(i + 1))),
+      h('div.grow.wf-body', h('div.wf-label', p.label),
+        h('div.wf-meta', p.done ? h('span.wf-closed', 'закрито')
+          : [h('span.wf-dots', { 'aria-hidden': 'true' }, [0, 1, 2].map(k => h('i' + (k < p.streakMin ? '.on' : '')))),
+            h('span', `${p.openNow} ${plural(p.openNow, 'помилка', 'помилки', 'помилок')} · засвоєння ${p.streakMin}/3`)]))))));
 }

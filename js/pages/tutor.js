@@ -8,7 +8,7 @@ import { tappable, lookupDeck } from '../ui/wordtap.js';
 import { ai, tutor, tutorStream, pron, aiErrorText, AiError } from '../ai.js';
 import { user } from '../supa.js';
 import { speak, stop as stopSpeech, recognize, canRecognize } from '../speech.js';
-import { activityTimer, addMistake, deleteChat, mistakeHit, ruleHit, disputeFix, isDisputed } from '../stats.js';
+import { activityTimer, addMistake, deleteChat, mistakeHit, ruleHit, disputeFix, isDisputed, today as localDay } from '../stats.js';
 import { ruleLabel } from '../rules.js';
 import { confirmSheet } from '../ui/sheet.js';
 import { scenarios as loadScenarios } from '../data.js';
@@ -271,19 +271,86 @@ export function parseHint(text) {
 // ---------- Слова в картки (той самий шлях, що й у wordtap: слово ввімкненої колоди — та сама картка, без дубля) ----------
 const wnorm = (s) => String(s || '').toLowerCase().replace(/’/g, "'").replace(/\s+/g, ' ').trim().replace(/^to /, '');
 export const wordKnown = (en) => { const k = wnorm(en); return store.all('cards').some(c => wnorm(c.en) === k); };
-export async function addWord(w) {
+/**
+ * Слово в картки. Повертає 'created' | 'starter' | 'exists'.
+ * opts.tags — додаткові теги картки (напр. 'auto'); opts.out — сюди записується id картки (щоб її можна було прибрати).
+ */
+export async function addWord(w, { tags = [], out = null } = {}) {
   if (wordKnown(w.en)) return 'exists';
+  const extraTags = (Array.isArray(tags) ? tags : []).filter(t => typeof t === 'string' && t);
   try {
     const { hit } = await lookupDeck(w.en);
     if (hit?.deckId && hit.card && wnorm(hit.en) === wnorm(w.en)) {
       const id = srs.starterId(hit.deckId, hit.card.en);
       if (store.get('cards', id)) return 'exists';
       const deck = (await srs.decks()).find(d => d.id === hit.deckId);
-      if (deck?.enabled) { store.put('cards', srs.rowFromStarter(hit.deckId, hit.card)); return 'starter'; }
+      if (deck?.enabled) {
+        const rowS = srs.rowFromStarter(hit.deckId, hit.card);
+        if (extraTags.length) rowS.tags = [...new Set([...(rowS.tags || []), ...extraTags])];
+        store.put('cards', rowS);
+        if (out) out.id = rowS.id;
+        return 'starter';
+      }
     }
   } catch { /* колоди не завантажились — додаємо власну картку */ }
-  const r = srs.addCard({ en: w.en, uk: w.uk, examples: w.example ? [{ en: w.example, uk: '' }] : [], tags: ['tutor'], extra: { source: 'tutor' } });
+  const r = srs.addCard({ en: w.en, uk: w.uk, examples: w.example ? [{ en: w.example, uk: '' }] : [], tags: ['tutor', ...extraTags], extra: { source: 'tutor' } });
+  if (out && r.created) out.id = r.row.id;
   return r.created ? 'created' : 'exists';
+}
+
+// ---------- Слова з розмов — у картки автоматично ----------
+// Після підсумку голосової, текстової розмови чи сценарію до 5 найкращих нових слів одразу йдуть у картки (тег 'auto'),
+// не більше 10 на день (лічильник — localStorage 'me:auto-words' = { day, n }). Що саме додано — summary.auto_words (синхронізується з розмовою),
+// тож «Прибрати» на екрані підсумку видаляє лише картки, створені автододаванням.
+const AUTO_MODES = new Set(['voice', 'chat', 'scenario']);
+const AUTO_PER_CHAT = 5, AUTO_PER_DAY = 10, AUTO_KEY = 'me:auto-words';
+let autoMem = null;
+function autoToday() {
+  try {
+    const v = JSON.parse(localStorage.getItem(AUTO_KEY) || 'null');
+    if (v && v.day === localDay()) return Number(v.n) || 0;
+    if (v) return 0;
+  } catch { /* приватний режим */ }
+  return autoMem && autoMem.day === localDay() ? autoMem.n : 0;
+}
+function autoCount(n) {
+  autoMem = { day: localDay(), n };
+  try { localStorage.setItem(AUTO_KEY, JSON.stringify(autoMem)); } catch { /* лишається в пам'яті */ }
+}
+/** Найкращі кандидати: слово чи коротка фраза (≤ 4 слів) з перекладом; з прикладом — вище; порядок сервера — за важливістю */
+export function pickAutoWords(words, n = AUTO_PER_CHAT) {
+  const seen = new Set();
+  return (Array.isArray(words) ? words : [])
+    .map((w, i) => ({ w, i }))
+    .filter(({ w }) => {
+      const en = String(w?.en || '').trim(), uk = String(w?.uk || '').trim();
+      if (!en || !uk || !/[a-z]/i.test(en) || en.split(/\s+/).length > 4 || en.length > 60) return false;
+      const k = wnorm(en);
+      if (seen.has(k) || wordKnown(en)) return false;
+      seen.add(k); return true;
+    })
+    .sort((a, b) => (b.w.example ? 1 : 0) - (a.w.example ? 1 : 0) || a.i - b.i)
+    .slice(0, n).map(x => x.w);
+}
+/** Додати слова з підсумку в картки (одна розмова — не більше 5 за всі її підсумки). Повертає список доданих або null, якщо вимкнено */
+async function autoAddWords(row) {
+  const s = row.summary;
+  if (!s || !AUTO_MODES.has(row.mode) || store.settings().autoWords === false) return null;
+  const prev = Array.isArray(s.auto_words) ? s.auto_words : [];
+  const room = Math.min(AUTO_PER_CHAT - prev.length, AUTO_PER_DAY - autoToday());
+  const added = [];
+  if (room > 0) {
+    for (const w of pickAutoWords(s.new_words, room)) {
+      const out = {};
+      const r = await addWord(w, { tags: ['auto'], out }).catch(() => 'error');
+      if ((r === 'created' || r === 'starter') && out.id) added.push({ en: String(w.en).trim(), id: out.id, at: new Date().toISOString() });
+    }
+    if (added.length) autoCount(autoToday() + added.length);
+  }
+  s.auto_words = [...prev, ...added];
+  // ліміт дня вичерпано, а цікаві слова лишились — підсумок про це скаже
+  s.auto_limit = s.auto_words.length < AUTO_PER_CHAT && autoToday() >= AUTO_PER_DAY && pickAutoWords(s.new_words, 1).length > 0;
+  return s.auto_words;
 }
 const wordsBlock = (words) => h('div.msg-words', h('div.xs.dim', 'Корисні слова — у картки одним дотиком'), h('div.chips', words.map(wordChip)));
 /** Кнопка «+ слово»: стан «уже в картках» перевіряється при показі */
@@ -863,7 +930,10 @@ export async function summarize(view, row, { voice = false, pronTurns = null } =
     if (prev?.speech) next.speech = prev.speech;
     // запис репліки міг завантажитись раніше за підсумок (або завантажиться пізніше — voice.js допише сам)
     if (row.summary?.clip) next.clip = row.summary.clip;
+    // слова, вже додані автоматично попереднім підсумком цієї розмови, — лишаються за нею
+    if (Array.isArray(prev?.auto_words)) next.auto_words = prev.auto_words;
     row.summary = next;
+    await autoAddWords(row).catch(e => console.warn('auto words', e));
     store.put('tutor_chats', row);
     for (const m of res.mistakes || []) if (!before.has(mkey(m))) addMistake({ ...m, source: 'tutor', ref: row.id });
     store.setProf({ lastFocus: res.next_focus || null });
@@ -886,12 +956,26 @@ export function summaryView(view, row, { pronTurns = null } = {}) {
   const words = (s.new_words || []).filter(w => w?.en);
   const mistakes = s.mistakes || [];
   const turns = (row.messages || []).filter(m => m.role === 'user' && !m.hidden).length;
-  const addAll = h('button.btn.primary.block', { type: 'button' });
+  // слова, додані автоматично (summary.auto_words): «Прибрати» видаляє лише ці картки
+  const autoList = Array.isArray(s.auto_words) ? s.auto_words : [];
+  const autoOf = (w) => autoList.find(a => wnorm(a.en) === wnorm(w.en));
+  const autoLive = (a) => !!(a && !a.removed && store.get('cards', a.id));
+  const addAll = h('button.btn.soft.block', { type: 'button' });
+  const autoNote = h('div.sum-auto');
   const paintAll = () => {
     const left = words.filter(w => !wordKnown(w.en)).length;
+    const nAuto = autoList.filter(autoLive).length;
+    addAll.hidden = !!nAuto && !left;
+    addAll.className = `btn block ${nAuto ? 'soft' : 'primary'}`;
     addAll.disabled = !left;
     addAll.replaceChildren(ic(left ? 'plus' : 'check'), left ? (left === words.length ? `Додати всі в картки (${left})` : `Додати решту в картки (${left})`) : 'Усі слова вже в картках');
+    autoNote.hidden = !nAuto;
+    autoNote.replaceChildren(h('span.sum-auto-ico', ic('sparkle', { size: 18, fill: true })),
+      h('div.grow', h('div.sum-auto-t', `Додано в картки автоматично: ${nAuto}`),
+        h('div.xs.dim', 'З\'являться серед нових у тренуванні слів. Зайве — «Прибрати».')));
+    trainBtn.hidden = !nAuto;
   };
+  const trainBtn = h('a.btn.primary.block', { href: '#/cards/train' }, ic('play', { size: 18, fill: true }), 'Повторити зараз');
   addAll.addEventListener('click', async () => {
     addAll.disabled = true;
     let n = 0;
@@ -900,15 +984,31 @@ export function summaryView(view, row, { pronTurns = null } = {}) {
     wordsBox.replaceChildren(...words.map(wordRow));
     paintAll();
   });
-  const wordRow = (w) => h('div.sum-word',
-    h('div.grow', h('div', h('b', { lang: 'en' }, w.en), ' — ', w.uk), w.example ? h('div.xs.dim', { lang: 'en' }, w.example) : null),
-    h('button.icon-btn', { type: 'button', 'aria-label': `Прослухати: ${w.en}`, onclick: () => speak(w.en) }, ic('speaker-high', { size: 18 })),
-    (() => {
-      const on = wordKnown(w.en);
-      const b = h('button.icon-btn' + (on ? '' : '.soft'), { type: 'button', disabled: on, 'aria-label': on ? `${w.en} — уже в картках` : `Додати в картки: ${w.en}` }, ic(on ? 'check' : 'plus', { size: 18 }));
-      b.addEventListener('click', async () => { b.disabled = true; const r = await addWord(w).catch(() => 'error'); toast(r === 'error' ? 'Не вдалося додати слово' : r === 'exists' ? 'Таке слово вже є в картках' : `Додано в картки: ${w.en}`); b.replaceWith(wordRow(w).lastChild); paintAll(); });
-      return b;
-    })());
+  /** Прибрати автододане слово: м'яке видалення лише картки, створеної автододаванням */
+  const removeAuto = (a, w) => {
+    const card = store.get('cards', a.id);
+    if (card && (card.tags || []).includes('auto')) store.remove('cards', a.id);
+    a.removed = true;
+    store.put('tutor_chats', row);
+    toast(`Прибрано з карток: ${w.en}`);
+    wordsBox.replaceChildren(...words.map(wordRow));
+    paintAll();
+  };
+  const wordRow = (w) => {
+    const a = autoOf(w);
+    const auto = autoLive(a);
+    return h('div.sum-word' + (auto ? '.is-auto' : ''),
+      h('div.grow', h('div', h('b', { lang: 'en' }, w.en), ' — ', w.uk), w.example ? h('div.xs.dim', { lang: 'en' }, w.example) : null),
+      h('button.icon-btn', { type: 'button', 'aria-label': `Прослухати: ${w.en}`, onclick: () => speak(w.en) }, ic('speaker-high', { size: 18 })),
+      auto
+        ? h('button.btn.sm.ghost.sum-unadd', { type: 'button', 'aria-label': `Прибрати з карток: ${w.en}`, onclick: () => removeAuto(a, w) }, 'Прибрати')
+        : (() => {
+          const on = wordKnown(w.en);
+          const b = h('button.icon-btn' + (on ? '' : '.soft'), { type: 'button', disabled: on, 'aria-label': on ? `${w.en} — уже в картках` : `Додати в картки: ${w.en}` }, ic(on ? 'check' : 'plus', { size: 18 }));
+          b.addEventListener('click', async () => { b.disabled = true; const r = await addWord(w).catch(() => 'error'); toast(r === 'error' ? 'Не вдалося додати слово' : r === 'exists' ? 'Таке слово вже є в картках' : `Додано в картки: ${w.en}`); wordsBox.replaceChildren(...words.map(wordRow)); paintAll(); });
+          return b;
+        })());
+  };
   const wordsBox = h('div.stack', { style: { gap: '10px' } }, words.map(wordRow));
   paintAll();
   // найчастіший тип помилок розмови → міні-урок на нього
@@ -937,7 +1037,9 @@ export function summaryView(view, row, { pronTurns = null } = {}) {
     masteredCard(s),
     row.mode === 'voice' ? speechCard(s) : null,
     pronTurns?.length ? pronCard(pronTurns) : null,
-    words.length ? h('section.card.stack', h('div.section-title', `Нові слова · ${words.length}`), wordsBox, addAll) : null,
+    words.length ? h('section.card.stack.sum-words', h('div.section-title', `Нові слова · ${words.length}`), autoNote, wordsBox,
+      s.auto_limit && words.some(w => !wordKnown(w.en)) ? h('div.xs.dim', `Сьогодні вже додано ${AUTO_PER_DAY} слів автоматично — решту можна додати вручну.`) : null,
+      h('div.stack', { style: { gap: '8px' } }, trainBtn, addAll)) : null,
     phrasesCard(row, s),
     s.next_focus ? h('section.card.accent.stack', h('div.section-title', 'Наступного разу'), h('div', s.next_focus),
       h('a.btn.sm.primary', { href: `#/tutor?mode=chat&topic=${encodeURIComponent(`Focus recommended after the last session (practise it naturally in conversation): ${s.next_focus}`)}`, style: { alignSelf: 'flex-start' } }, ic('arrow-right', { size: 16 }), 'Почати з цього')) : null,

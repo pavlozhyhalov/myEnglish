@@ -137,9 +137,22 @@ export async function loadStudent(ctx: Ctx): Promise<Student> {
 }
 
 /** profiles.data.weeklyFocus = { week, rules: [id…] } → до 3 правил з описом і 2 прикладами відкритих помилок учня */
-export function readFocus(v: unknown, mistakes: Array<{ wrong?: unknown; right?: unknown; rule?: unknown }>) {
-  const ids = (v && typeof v === 'object' && Array.isArray((v as { rules?: unknown }).rules) ? (v as { rules: unknown[] }).rules : [])
-    .filter((x): x is string => typeof x === 'string' && x in RULES && x !== 'other').slice(0, 3);
+/** ISO-тиждень 'YYYY-Www' (як js/focus.js isoWeek) за київським/варшавським днем — достатньо для звірки тижня фокусу */
+export function isoWeek(d = new Date()) {
+  const day = new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Warsaw' }).format(d);
+  const t = new Date(`${day}T12:00:00Z`);
+  t.setUTCDate(t.getUTCDate() - ((t.getUTCDay() + 6) % 7) + 3);          // четвер цього тижня визначає рік
+  const y = t.getUTCFullYear();
+  const jan4 = new Date(Date.UTC(y, 0, 4, 12));
+  jan4.setUTCDate(jan4.getUTCDate() - ((jan4.getUTCDay() + 6) % 7) + 3);  // четвер першого тижня
+  return `${y}-W${String(1 + Math.round((t.getTime() - jan4.getTime()) / 604800000)).padStart(2, '0')}`;
+}
+/** Лише правила поточного тижня й лише ті, що ще мають відкриті помилки (закриті вчителю вже не треба тренувати) */
+export function readFocus(v: unknown, mistakes: Array<{ wrong?: unknown; right?: unknown; rule?: unknown }>, now = new Date()) {
+  const o = (v && typeof v === 'object' ? v : {}) as { rules?: unknown; week?: unknown };
+  if (typeof o.week === 'string' && o.week !== isoWeek(now)) return [];
+  const ids = (Array.isArray(o.rules) ? o.rules : [])
+    .filter((x): x is string => typeof x === 'string' && x in RULES && x !== 'other' && mistakes.some(m => m.rule === x)).slice(0, 3);
   return ids.map(rule => ({
     rule, en: RULES[rule].en,
     examples: mistakes.filter(m => m.rule === rule).slice(0, 2).map(m => `"${cut(m.wrong, 60)}" → "${cut(m.right, 60)}"`),

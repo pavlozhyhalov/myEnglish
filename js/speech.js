@@ -118,8 +118,11 @@ export function recognize({ onInterim, lang, signal } = {}) {
   });
 }
 
-/** Запис аудіо (запасний варіант без Web Speech API) → транскрипція через Gemini */
-export async function recordAndTranscribe({ maxMs = 15000, signal } = {}) {
+/**
+ * Запис аудіо (запасний варіант без Web Speech API) → транскрипція через Gemini.
+ * context — необов'язково: { tutor: остання репліка вчителя } — допомагає точніше розпізнати відповідь учня.
+ */
+export async function recordAndTranscribe({ maxMs = 15000, signal, context = null } = {}) {
   const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
   const mime = MediaRecorder.isTypeSupported('audio/webm') ? 'audio/webm' : (MediaRecorder.isTypeSupported('audio/mp4') ? 'audio/mp4' : '');
   const rec = new MediaRecorder(stream, mime ? { mimeType: mime } : undefined);
@@ -134,8 +137,20 @@ export async function recordAndTranscribe({ maxMs = 15000, signal } = {}) {
   const blob = new Blob(chunks, { type: rec.mimeType || 'audio/webm' });
   const b64 = await blobToBase64(blob);
   // учень говорить англійською з акцентом — підказуємо моделі, щоб не «вгадувала» іншу мову
-  const res = await tutor('transcribe', { audio: b64, mime: blob.type.split(';')[0], hint: 'learner' });
+  const payload = { audio: b64, mime: blob.type.split(';')[0], hint: 'learner' };
+  const ctx = tutorContext(context?.tutor);
+  if (ctx) payload.context = { tutor: ctx };
+  const res = await tutor('transcribe', payload);
   return { text: (res.text || '').trim(), alternatives: [], confidence: 0 };
+}
+
+/** Остання репліка вчителя для контексту розпізнавання: без розмітки, один рядок, до 300 символів (обрізано з початку — кінець репліки найважливіший) */
+export function tutorContext(text) {
+  const t = String(text || '').replace(/[*_#`>~]/g, '').replace(/\s+/g, ' ').trim();
+  if (!t) return '';
+  if (t.length <= 300) return t;
+  const cut = t.slice(-300);
+  return /\s/.test(t[t.length - 301]) ? cut : cut.replace(/^\S*\s+/, '');
 }
 
 /** Чи можна записати аудіо (MediaRecorder + мікрофон) — для AI-оцінки вимови */
