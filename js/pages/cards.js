@@ -148,7 +148,9 @@ export async function runReview(view, { limit = Infinity, onExit, onDone, embedd
     flash.addEventListener('click', () => { if (!flipped) flip(); });
     attachSwipe(flash);
     stage.replaceChildren(flash);
-    actions.replaceChildren(h('button.btn.primary.lg.block', { type: 'button', onclick: flip }, 'Показати'));
+    actions.replaceChildren(h('button.btn.primary.lg.block', { type: 'button', onclick: flip }, 'Показати'),
+      // нове слово, яке учень уже знає: одразу «вивчено» (довгий контрольний повтор), без оцінки FSRS
+      !cur.reps ? h('button.btn.ghost.block.sm', { type: 'button', style: { marginTop: '6px' }, onclick: knowIt }, ic('check-circle'), 'Я вже знаю це слово') : null);
   }
 
   let flippedAt = 0;
@@ -166,6 +168,16 @@ export async function runReview(view, { limit = Infinity, onExit, onDone, embedd
     actions.replaceChildren(h('div.grades', labels.map(([g, cls, t]) =>
       // подвійний тап по «Показати» не має одразу оцінити картку: кнопки оцінки з'являються на тому самому місці
       h('button.grade.' + cls, { type: 'button', onclick: () => { if (Date.now() - flippedAt > 400) rate(g); } }, t, h('small', fmtInterval(iv[g]))))));
+  }
+
+  function knowIt() {
+    if (flipped) return;
+    timer.poke();
+    const row = cur;
+    srs.markKnown(row);
+    done++;
+    toast(`«${row.en}» — вивчено`, { action: 'Скасувати', ms: 4000, onAction: () => { srs.undoKnown(row); queue.unshift(row); } });
+    next();
   }
 
   function rate(g) {

@@ -88,6 +88,52 @@ export function rowFromStarter(deckId, c) {
   };
 }
 
+// ---------- Ручний статус: «Я знаю це слово» / «Повернути до вивчення» ----------
+const KNOWN_DAYS = 45;          // ручне «вивчено»: перший контрольний повтор через ~1,5 міс (стабільність ≥ 21 — статус «вивчено»)
+const FSRS_KEYS = ['due', 'stability', 'difficulty', 'elapsed_days', 'scheduled_days', 'learning_steps', 'reps', 'lapses', 'state', 'last_review'];
+/** Учень позначив слово вивченим: картка йде у довгий повтор (зараховується в «вивчені» й опанування рівня), попередній стан — для скасування */
+export function markKnown(row) {
+  const now = new Date();
+  const prev = Object.fromEntries(FSRS_KEYS.map(k => [k, row[k] ?? null]));
+  const stab = Math.max(row.stability || 0, KNOWN_DAYS);
+  Object.assign(row, {
+    state: State.Review, reps: Math.max(row.reps || 0, 1), lapses: row.lapses || 0,
+    stability: stab, difficulty: row.difficulty || 3, elapsed_days: 0, scheduled_days: Math.round(stab), learning_steps: 0,
+    last_review: now.toISOString(), due: new Date(now.getTime() + Math.round(stab) * 864e5).toISOString(),
+  });
+  row.extra = { ...(row.extra || {}), known: { at: now.toISOString(), prev } };
+  row.deleted = false;
+  store.put('cards', row);
+  return row;
+}
+/** Позначено вручну (і ще не повертали до вивчення) */
+export const isManualKnown = (row) => !!row?.extra?.known;
+/** Скасувати ручне «вивчено» одразу після натискання — повернути попередній стан */
+export function undoKnown(row) {
+  const prev = row?.extra?.known?.prev;
+  if (!prev) return row;
+  Object.assign(row, prev);
+  const { known, ...rest } = row.extra; row.extra = rest;
+  store.put('cards', row);
+  return row;
+}
+/**
+ * Повернути до вивчення: слово, яке вже вивчалось, отримує оцінку «Знову» (FSRS: перевивчення, повтор за кілька хвилин);
+ * нове слово — у «Мої слова» першим серед нових.
+ */
+export function relearn(row) {
+  const prev = row.extra?.known?.prev;
+  if (row.extra?.known) { const { known, ...rest } = row.extra; row.extra = rest; }
+  row.deleted = false;
+  // позначене вивченим без жодного повтору — знову нове слово, першим серед нових
+  if (prev && !prev.reps) Object.assign(row, prev);
+  if (!row.reps) { store.put('cards', row); return 'new'; }
+  grade(row, Rating.Again);
+  return 'again';
+}
+/** Слово вважається вивченим (для перемикача в словнику) */
+export const isLearned = (row) => !!row?.reps && (row.stability || 0) >= 21;
+
 /** Нові картки, введені сьогодні */
 export function newIntroducedToday() {
   const d = today();

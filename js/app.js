@@ -10,7 +10,7 @@ import { route, fallback, onRoute, start, go } from './router.js';
 import { sectionFor } from './nav.js';
 import { initAuth, onAuth, onClient } from './supa.js';
 import { initErrlog } from './errlog.js';
-import { streak } from './stats.js';
+import { streak, backfillLessonTests } from './stats.js';
 import { setTitle, applyTheme, isDark } from './ui/shell.js';
 import { keepAwake } from './ui/wakelock.js';
 import { initSelectLookup } from './ui/selectlookup.js';
@@ -41,7 +41,8 @@ function header() {
     streakBtn.setAttribute('aria-label', S.streak(n));
   };
   updateStreak();
-  store.on(t => { if (t === 'sessions') updateStreak(); });
+  store.on(t => { if (t === 'sessions') updateStreak(); if (t === 'synced') { try { backfillLessonTests(); } catch (e) { console.warn('tests backfill', e); } } });
+  try { backfillLessonTests(); } catch (e) { console.warn('tests backfill', e); }
   const el = h('header.app-header',
     h('button.icon-btn.btn-menu', { type: 'button', 'aria-label': S.menu, 'aria-controls': 'drawer', onclick: toggleDrawer }, ic('list')),
     h('div.title#page-title', S.app),

@@ -295,7 +295,16 @@ export async function runTrain(view, { limit = Infinity, onExit, onDone, practic
       c.ipa ? h('div.ipa.center', c.ipa) : null,
       h('div.wt-uk', c.uk),
       exs.map(e => h('div.wt-example', h('div.grow', h('div', { lang: 'en' }, e.en), e.uk ? h('div.xs.dim', e.uk) : null), speakBtn(e.en, 'Прослухати приклад', 20))),
-      h('button.btn.primary.lg.block', { type: 'button', 'data-autofocus': '', onclick: () => { timer.poke(); cur.answeredNow = true; it.answered++; next(); } }, 'Запам\'ятав — перевірити'));
+      h('button.btn.primary.lg.block', { type: 'button', 'data-autofocus': '', onclick: () => { timer.poke(); cur.answeredNow = true; it.answered++; next(); } }, 'Запам\'ятав — перевірити'),
+      // слово вже знайоме: одразу «вивчено» (довгий контрольний повтор), без вправ на нього в цій сесії
+      h('button.btn.ghost.block.sm', { type: 'button', onclick: () => {
+        if (cur.answeredNow) return;
+        timer.poke(); cur.answeredNow = true; it.answered++; it.graded = true; it.rating = 4;
+        srs.markKnown(c);
+        for (let i = queue.length - 1; i >= 0; i--) if (queue[i].it === it) queue.splice(i, 1);
+        toast(`«${c.en}» — вивчено`, { action: 'Скасувати', ms: 4000, onAction: () => { srs.undoKnown(c); } });
+        next();
+      } }, ic('check-circle'), 'Я вже знаю це слово'));
   }
 
   function choiceEx(it, kind) {

@@ -69,9 +69,11 @@ export default async function vocab(view, r) {
     if (!rows.length) { listBox.append(h('div.empty', emo('magnifier', 'xl'), h('p', 'Нічого не знайдено'))); return; }
     listBox.append(h('div.list', rows.slice(0, limit).map(c => {
       const [cls, label] = STATUS_TAG[statusOf(c)];
-      return h('button.list-row', { type: 'button', onclick: () => detail(c, deckName, draw) },
-        h('div.grow', h('div', h('b', c.en), c.ipa ? h('span.ipa.xs', ` ${c.ipa}`) : null), h('div.sub', c.uk)),
-        h('span.tag' + (cls ? '.' + cls : ''), label));
+      return h('div.list-row.vw-row',
+        h('button.vw-open', { type: 'button', onclick: () => detail(c, deckName, draw) },
+          h('div.grow', h('div', h('b', c.en), c.ipa ? h('span.ipa.xs', ` ${c.ipa}`) : null), h('div.sub', c.uk)),
+          h('span.tag' + (cls ? '.' + cls : ''), label)),
+        knownToggle(c, draw));
     })));
     if (rows.length > limit) listBox.append(h('button.btn.ghost.block', { type: 'button', onclick: () => { limit += 120; draw(); } }, 'Показати ще'));
   }
@@ -91,6 +93,32 @@ export default async function vocab(view, r) {
     .finally(() => { loading = false; if (view.isConnected) draw(); });
 }
 
+// ---------- Статус «вивчено» вручну ----------
+/** Позначити вивченим / повернути до вивчення (з «Скасувати» в повідомленні) */
+function setKnown(c, on, onChange) {
+  const wasStored = !!store.get('cards', c.id);
+  if (on) {
+    srs.markKnown(c);
+    toast(`«${c.en}» — вивчено. Повтор для перевірки — приблизно через півтора місяця`, {
+      action: 'Скасувати', ms: 5000,
+      onAction: () => { if (wasStored) srs.undoKnown(c); else { srs.undoKnown(c); store.remove('cards', c.id); } onChange(); },
+    });
+  } else {
+    const fresh = srs.relearn(c) === 'new';
+    toast(fresh ? `«${c.en}» — першим серед нових слів` : `«${c.en}» повернуто до вивчення — з'явиться в картках сьогодні`);
+  }
+  onChange();
+}
+function knownToggle(c, onChange) {
+  const on = srs.isLearned(c);
+  return h('button.icon-btn.vw-known' + (on ? '.on' : ''), {
+    type: 'button', 'aria-pressed': String(on),
+    'aria-label': on ? `${c.en}: вивчено. Повернути до вивчення` : `${c.en}: позначити вивченим`,
+    title: on ? 'Повернути до вивчення' : 'Я знаю це слово',
+    onclick: () => setKnown(c, !on, onChange),
+  }, ic('check-circle', { fill: on, size: 24 }));
+}
+
 function detail(c, deckName, onChange) {
   const own = c.deck_id === 'my';
   const inStore = !!store.get('cards', c.id);
@@ -106,6 +134,9 @@ function detail(c, deckName, onChange) {
     ext.synonyms?.length ? h('div.small', h('b', 'Синоніми: '), ext.synonyms.join(', ')) : null,
     c.reps ? h('div.xs.dim', `Повторень: ${c.reps} · помилок: ${c.lapses} · стабільність: ${fmtInterval(c.stability)} · наступний повтор: ${c.due ? new Date(c.due).toLocaleDateString('uk-UA') : '—'}`) : h('div.xs.dim', 'Ще не вивчалось'),
     h('div.row.wrap',
+      srs.isLearned(c)
+        ? h('button.btn.soft', { type: 'button', onclick: () => { s.close(); setKnown(c, false, onChange); } }, ic('arrow-clockwise'), 'Повернути до вивчення')
+        : h('button.btn.soft', { type: 'button', onclick: () => { s.close(); setKnown(c, true, onChange); } }, ic('check-circle'), 'Я знаю це слово'),
       !inStore ? h('button.btn.soft', { type: 'button', onclick: () => { store.put('cards', c); toast('Додано — з\'явиться першим серед нових'); s.close(); onChange(); } }, ic('plus'), 'Вчити першим') : null,
       h('a.btn.ghost', { href: `#/tutor?ask=${encodeURIComponent(c.en)}`, onclick: () => s.close() }, ic('chat-circle-dots'), 'Запитати вчителя'),
       own ? h('button.btn.soft', { type: 'button', onclick: () => { s.close(); addWord(onChange, c); } }, ic('pencil-simple'), S.edit) : null,

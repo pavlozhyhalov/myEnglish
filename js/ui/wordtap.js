@@ -266,6 +266,7 @@ async function addToMine(entry, example) {
   const r = srs.addCard({ en: entry.en, uk: entry.uk, ipa: entry.ipa || null, pos: entry.pos || null, examples: examples.slice(0, 3), tags: [], extra: { source: routeKey() } });
   return r.created ? 'created' : 'exists';
 }
+const storedCard = (entry) => knownCard(entry.en) || (entry.deckId && entry.card ? store.get('cards', srs.starterId(entry.deckId, entry.card.en)) : null) || null;
 const inCards = (entry) => !!knownCard(entry.en) || (entry.deckId && entry.card && !!store.get('cards', srs.starterId(entry.deckId, entry.card.en)));
 
 // ---------- «Не знаю — сказати вчителю»: картка + факт у пам'яті вчителя (profiles.data.memory) ----------
@@ -279,6 +280,9 @@ async function knowsUnknown(word) {
 async function markUnknown(word, entry, example, source) {
   let card = null;
   if (entry?.uk) card = await addToMine(entry, example).catch(() => 'error');
+  // слово вже «вивчене» (у т. ч. позначене вручну), але учень його не знає — повертаємо до вивчення
+  const had = entry ? storedCard(entry) : null;
+  if (had && srs.isLearned(had)) { srs.relearn(had); card = 'relearn'; }
   const { rememberFacts, memoryFacts, forgetFacts } = await import('../pages/profile.js');
   const w = word.replace(/["“”]/g, '').slice(0, 60);
   if (!(await knowsUnknown(w))) {
@@ -286,16 +290,27 @@ async function markUnknown(word, entry, example, source) {
     const old = memoryFacts().filter(f => UNKNOWN_RE.test(f.text)).sort((a, b) => String(b.at || '').localeCompare(String(a.at || ''))).slice(UNKNOWN_CAP);
     if (old.length) forgetFacts(old.map(f => f.id));
   }
-  toast(card === 'starter' || card === 'created' ? 'Вчитель знатиме, що це слово для вас нове. Його додано в «Мої слова»' : 'Вчитель знатиме, що це слово для вас нове');
+  toast(card === 'relearn' ? 'Слово повернуто до вивчення — з\'явиться в картках сьогодні. Вчитель теж знатиме'
+    : card === 'starter' || card === 'created' ? 'Вчитель знатиме, що це слово для вас нове. Його додано в «Мої слова»' : 'Вчитель знатиме, що це слово для вас нове');
 }
 
 function entryBlock(entry, example, sourceLabel, refresh) {
   const addBtn = h('button.btn.soft', { type: 'button' });
+  const relBtn = h('button.btn.soft', { type: 'button', hidden: true }, ic('arrow-clockwise'), 'Повернути до вивчення');
   const paint = () => {
     const on = inCards(entry);
+    const c = on ? storedCard(entry) : null;
+    const learned = !!c && srs.isLearned(c);
     addBtn.disabled = on;
+    addBtn.hidden = learned;
     addBtn.replaceChildren(ic(on ? 'check' : 'plus'), on ? 'Уже у ваших словах' : 'Додати в мої слова');
+    relBtn.hidden = !learned;
   };
+  relBtn.addEventListener('click', () => {
+    const c = storedCard(entry);
+    if (c) { const m = srs.relearn(c); toast(m === 'new' ? `«${c.en}» — першим серед нових слів` : `«${c.en}» повернуто до вивчення — з'явиться в картках сьогодні`); }
+    paint();
+  });
   addBtn.addEventListener('click', async () => {
     addBtn.disabled = true;
     const r = await addToMine(entry, example).catch(() => 'error');
@@ -312,7 +327,7 @@ function entryBlock(entry, example, sourceLabel, refresh) {
     h('div.wt-uk', entry.uk),
     sourceLabel ? h('div', h('span.tag', sourceLabel)) : null,
     ex ? h('div.example', h('div.grow', h('div.small', { lang: 'en' }, ex), entry.exUk ? h('div.xs.dim', entry.exUk) : null)) : null,
-    h('div.row.wrap', addBtn));
+    h('div.row.wrap', addBtn, relBtn));
 }
 
 // ---------- AI-переклад слова чи фрази в контексті (дія tutor `fill_word`; context — речення, де трапилось) ----------

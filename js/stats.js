@@ -254,6 +254,40 @@ export function recordLesson(id, score) {
   store.put('lessons_progress', p);
   return p;
 }
+/**
+ * Результат тесту за уроком — у прогрес навчання: ≥ 80% зараховує урок (як вправи уроку; впливає на урок дня й опанування рівня),
+ * < 60% — урок повертається на повторення (з'явиться серед «Повторити» й у плані). Повертає, що змінилось.
+ */
+export function applyLessonTest(id, score) {
+  const before = store.get('lessons_progress', id);
+  const wasDone = !!before?.completed_at;
+  const p = recordLesson(id, score);
+  let effect = 'none';
+  if (score >= 80) effect = wasDone ? 'confirmed' : 'passed';
+  else if (score < 60) {
+    p.next_review = new Date().toISOString();
+    store.put('lessons_progress', p);
+    effect = 'review';
+  }
+  return effect;
+}
+/** Тести за уроками, пройдені до того, як результат почав враховуватись (або на іншому пристрої до синхронізації), — застосувати один раз */
+export function backfillLessonTests() {
+  const tests = store.all('tests').filter(t => t.type === 'lesson' && t.ref && t.scores && t.created_at)
+    .sort((a, b) => String(a.created_at).localeCompare(String(b.created_at)));
+  for (const t of tests) {
+    const p = store.get('lessons_progress', t.ref);
+    if (p && String(p.updated_at || '') >= String(t.created_at)) continue;   // прогрес новіший за тест — вже враховано
+    applyLessonTest(t.ref, t.scores.score ?? 0);
+  }
+}
+/** Позначити урок «на повторення» (слабкий результат у тижневому тесті) */
+export function lessonNeedsReview(id) {
+  const p = store.get('lessons_progress', id);
+  if (!p) return;
+  p.next_review = new Date().toISOString();
+  store.put('lessons_progress', p);
+}
 export function lessonsToReview() {
   const now = new Date();
   return store.all('lessons_progress').filter(p => p.next_review && new Date(p.next_review) <= now);

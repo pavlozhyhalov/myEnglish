@@ -449,3 +449,11 @@ html.kbd .drawer .cat-head:focus-visible{outline:2px solid var(--accent-ink);out
 .drawer .cat-sub:first-child .sub-label{padding-top:6px}
 .drawer .cat-inner a.item{min-height:42px}
 @media (prefers-reduced-motion:reduce){.drawer .cat-body,.drawer .cat-head > svg:last-child{transition:none}}
+
+/* Словник: рядок з перемикачем «вивчено» */
+.list-row.vw-row{padding:0 6px 0 0;gap:0}
+.vw-row .vw-open{display:flex;align-items:center;gap:12px;flex:1;min-width:0;min-height:56px;padding:10px 8px 10px 14px;border:0;background:transparent;color:inherit;text-align:left;font:inherit;cursor:pointer}
+.vw-row .vw-open:active{background:var(--surface-2)}
+.vw-row .vw-open .grow{min-width:0}
+.vw-known{color:var(--ink-faint, var(--ink-dim));flex:none}
+.vw-known.on{color:var(--good)}
