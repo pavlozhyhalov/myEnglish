@@ -470,3 +470,5 @@ html.kbd .drawer .cat-head:focus-visible{outline:2px solid var(--accent-ink);out
 @media (max-width:360px){.grid2.form2{grid-template-columns:1fr}}
 .flash,.flash .face{min-height:min(340px,52dvh)}
 @media (max-height:600px){.flash .face{padding:40px 16px 16px;gap:10px}}
+/* низький екран (iPhone SE): обидві сторони картки не вищі за доступне місце, зайве гортається всередині — «Показати» видно */
+@media (max-height:700px){.flash .face{max-height:calc(100dvh - 250px);overflow-y:auto;justify-content:safe center}}

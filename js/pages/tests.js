@@ -540,7 +540,7 @@ async function pickLesson(view) {
       if (!items.length) return null;
       const t = items.filter(l => st.has(l.id)).length;
       return h('details.level-sec', { open: lv === mine || null },
-        h('summary.row', levelTag(lv), h('div.grow', h('b', LEVEL_NAME[lv]), lv === mine ? h('span.xs.dim', ' · ваш рівень') : diff(lv) > 0 ? h('span.xs.dim', ' · вище вашого') : null),
+        h('summary.row', levelTag(lv), h('div.grow', h('b', LEVEL_NAME[lv]), lv === mine ? h('span.xs.dim', ' ', h('span', { style: { whiteSpace: 'nowrap' } }, '· ваш рівень')) : diff(lv) > 0 ? h('span.xs.dim', ' ', h('span', { style: { whiteSpace: 'nowrap' } }, '· вище вашого')) : null),
           h('span.small.dim.num', { 'aria-label': `Протестовано ${t} з ${items.length}` }, `${t}/${items.length}`)),
         h('div.list', { style: { marginTop: '8px' } }, items.map(row)));
     })));
