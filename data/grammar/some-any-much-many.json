@@ -4,7 +4,7 @@
  "titleEn": "some, any, much, many, a lot of",
  "unit": "Іменник і артиклі",
  "level": "A2",
- "mistakeType": "articles",
+ "mistakeType": "vocabulary",
  "explanation": "**Злічувані** іменники можна порахувати (*an apple, two apples*), **незлічувані** — ні (*water, money, time, information, advice*).\n\n**some** — у ствердженнях і проханнях/пропозиціях: *I've got **some** money. Would you like **some** tea?*\n**any** — у запереченнях і питаннях: *I don't have **any** time. Have you got **any** questions?*\n\n**many** + злічувані, **much** + незлічувані (переважно в запереченнях і питаннях): *How **many** people? How **much** money?* У ствердженнях природніше **a lot of**: *There's **a lot of** traffic.*",
  "formula": [
   "**some** (+) · **any** (− / ?)",

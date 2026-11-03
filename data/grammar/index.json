@@ -6,7 +6,7 @@
   "titleEn": "The verb to be: am, is, are",
   "unit": "Основи речення",
   "level": "A1",
-  "mistakeType": "word_order",
+  "mistakeType": "tenses",
   "summary": "am / is / are: «Я вдома» → I am at home; заперечення й питання"
  },
  {
@@ -26,7 +26,7 @@
   "titleEn": "Plural nouns; this, that, these, those",
   "unit": "Іменник і артиклі",
   "level": "A1",
-  "mistakeType": "articles",
+  "mistakeType": "other",
   "summary": "-s, -es, -ies, -ves і винятки (men, children); this / that, these / those"
  },
  {
@@ -46,7 +46,7 @@
   "titleEn": "Possessive adjectives and 's",
   "unit": "Іменник і артиклі",
   "level": "A1",
-  "mistakeType": "articles",
+  "mistakeType": "other",
   "summary": "my, your, his, her, its, our, their; 's для людей; whose"
  },
  {
@@ -96,7 +96,7 @@
   "titleEn": "There is / there are",
   "unit": "Основи речення",
   "level": "A1",
-  "mistakeType": "word_order",
+  "mistakeType": "other",
   "summary": "There is + однина, there are + множина; заперечення й питання"
  },
  {
@@ -116,7 +116,7 @@
   "titleEn": "have and have got (possession)",
   "unit": "Основи речення",
   "level": "A1",
-  "mistakeType": "word_order",
+  "mistakeType": "tenses",
   "summary": "I have = I've got, she has = she's got; заперечення й питання з do чи без нього"
  },
  {
@@ -126,7 +126,7 @@
   "titleEn": "can and can't: ability, requests, permission",
   "unit": "Модальні дієслова",
   "level": "A1",
-  "mistakeType": "word_order",
+  "mistakeType": "other",
   "summary": "Уміння, прохання, дозвіл; can без -s, після нього дієслово без to"
  },
  {
@@ -216,7 +216,7 @@
   "titleEn": "Possessive pronouns and whose",
   "unit": "Іменник і артиклі",
   "level": "A2",
-  "mistakeType": "articles",
+  "mistakeType": "other",
   "summary": "my чи mine, без апострофа, whose, a friend of mine"
  },
  {
@@ -246,7 +246,7 @@
   "titleEn": "Countable and uncountable nouns",
   "unit": "Іменник і артиклі",
   "level": "A2",
-  "mistakeType": "articles",
+  "mistakeType": "vocabulary",
   "summary": "advice, furniture, news без -s; a piece of…; how much/many"
  },
  {
@@ -256,7 +256,7 @@
   "titleEn": "some, any, much, many, a lot of",
   "unit": "Іменник і артиклі",
   "level": "A2",
-  "mistakeType": "articles",
+  "mistakeType": "vocabulary",
   "summary": "some у ствердженнях, any в запереченнях і питаннях; many, much, a lot of"
  },
  {
@@ -446,7 +446,7 @@
   "titleEn": "Quantifiers: some/any, much/many, a lot of, (a) few, (a) little",
   "unit": "Іменник і артиклі",
   "level": "B1",
-  "mistakeType": "other",
+  "mistakeType": "vocabulary",
   "summary": "many / much, a lot of, (a) few / (a) little, some / any"
  },
  {

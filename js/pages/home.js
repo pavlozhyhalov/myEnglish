@@ -42,7 +42,7 @@ export default async function home(view) {
     blocks.push(h('section.card.accent.hero',
       emo('target', 'xl'),
       h('h2', 'Визначимо ваш рівень'),
-      h('p.dim', 'Тест на 10–15 хвилин: граматика, лексика, аудіювання і коротка розмова. Після нього план дня підлаштується під вас.'),
+      h('p.dim', 'Адаптивний тест ~25 хвилин: граматика, лексика, читання, аудіювання, письмо і коротка розмова. Можна зробити паузу. Після нього план дня підлаштується під вас.'),
       h('a.btn.primary.block', { href: '#/tests/placement' }, 'Визначити мій рівень'),
       h('button.btn.ghost', { type: 'button', onclick: () => { store.setProf({ placementDone: 'skipped' }); home(view); } }, 'Пропустити')));
   }
@@ -331,7 +331,7 @@ function pickLesson(idx) {
   if (rev) { const l = idx.find(x => x.id === rev.id); if (l) return { ...l, review: true }; }
   // слабке місце — урок відповідного типу
   const weak = mistakesByType()[0];
-  if (weak && weak.total >= 5) {
+  if (weak && weak.total >= 5 && weak.type !== 'other') {
     const l = byFit(idx.filter(x => x.mistakeType === weak.type && !lessonDone(x.id) && diff(x.level) <= 1))[0];
     if (l) return l;
   }

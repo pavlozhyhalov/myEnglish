@@ -4,7 +4,7 @@
  "titleEn": "have and have got (possession)",
  "unit": "Основи речення",
  "level": "A1",
- "mistakeType": "word_order",
+ "mistakeType": "tenses",
  "explanation": "Щоб сказати, що щось **маєш** (*У мене є…*), англійською кажуть **I have** або (британське, розмовне) **I have got**: *I **have** a car. = I'**ve got** a car.*\n\nУ 3-й особі: *she **has** / she'**s got***.\n\nЗаперечення і питання: з **have** — через do/does: *I **don't have** time. **Do** you **have** kids?*; з **have got** — без do: *I **haven't got** time. **Have** you **got** kids?*",
  "formula": [
   "I/you/we/they **have** = **'ve got**",

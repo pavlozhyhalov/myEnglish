@@ -92,12 +92,12 @@ export default async function progressPage(view) {
     h('section.card.stack',
       h('div.section-title', 'Граматика'),
       h('div.row', h('div.grow', bar(done / gIdx.length * 100, 'Пройдено уроків граматики')), h('span.small', `${done}/${gIdx.length}`)),
-      tests.length ? h('div.stack', { style: { gap: '4px' } }, h('div.section-title', 'Останні тести'), tests.map(t => h('div.row.small', h('span.grow', t.type === 'placement' ? 'Рівень' : t.type === 'weekly' ? 'Тижневий' : `Урок: ${t.ref}`), h('span.dim', new Date(t.created_at).toLocaleDateString('uk-UA')), h('b', t.type === 'placement' ? t.scores.overall : `${t.scores.score}%`)))) : null, ask('grammar')),
+      tests.length ? h('div.stack', { style: { gap: '4px' } }, h('div.section-title', 'Останні тести'), tests.map(t => h('div.row.small', h('span.grow', t.type === 'placement' ? 'Рівень' : t.type === 'weekly' ? 'Тижневий' : `Урок: ${gIdx.find(l => l.id === t.ref)?.title || t.ref}`), h('span.dim', new Date(t.created_at).toLocaleDateString('uk-UA')), h('b', t.type === 'placement' ? t.scores.overall : `${t.scores.score}%`)))) : null, ask('grammar')),
 
     h('section.card.stack',
       h('div.section-title', 'Типи помилок і динаміка'),
       dyn.length ? dyn.map(d => h('div.row',
-        h('div.grow', h('div', S.mistakeTypes[d.t]), h('div.xs.dim', `усього: ${d.total} · відкритих: ${d.open}`)),
+        h('div.grow', h('div', S.mistakeTypes[d.t]), h('div.xs.dim', `разом із повторами: ${d.total} · відкритих: ${d.open}`)),
         h('span.tag' + (d.w1 < d.w2 ? '.good' : d.w1 > d.w2 ? '.bad' : ''), `тиждень: ${d.w1} ${d.w1 < d.w2 ? '↓' : d.w1 > d.w2 ? '↑' : '='}`))) : h('div.small.dim', 'Даних поки немає'), dyn.length ? ask('mistakes') : null),
     h('p.xs.dim.center', `${store.count('reviews')} ${plural(store.count('reviews'), 'оцінка', 'оцінки', 'оцінок')} карток у журналі на пристрої`)));
 }

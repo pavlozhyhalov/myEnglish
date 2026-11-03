@@ -264,11 +264,12 @@ export function applyLessonTest(id, score) {
   const p = recordLesson(id, score);
   let effect = 'none';
   if (score >= 80) effect = wasDone ? 'confirmed' : 'passed';
-  else if (score < 60) {
+  else if (score < 60 && wasDone) {
+    // зарахований раніше урок «просів» — на повторення
     p.next_review = new Date().toISOString();
     store.put('lessons_progress', p);
     effect = 'review';
-  }
+  } else if (score < 60) effect = 'fail';
   return effect;
 }
 /** Тести за уроками, пройдені до того, як результат почав враховуватись (або на іншому пристрої до синхронізації), — застосувати один раз */
@@ -284,7 +285,7 @@ export function backfillLessonTests() {
 /** Позначити урок «на повторення» (слабкий результат у тижневому тесті) */
 export function lessonNeedsReview(id) {
   const p = store.get('lessons_progress', id);
-  if (!p) return;
+  if (!p?.completed_at) return;   // незарахований урок і так у черзі курсу — не «повтор»
   p.next_review = new Date().toISOString();
   store.put('lessons_progress', p);
 }

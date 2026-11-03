@@ -59,7 +59,8 @@ async function lessonPage(view, id, query = {}) {
   setTitle(l.title);
   const timer = activityTimer('grammar');
   const pos = idx.findIndex(x => x.id === id);
-  const nextL = idx[pos + 1];
+  // «Далі» — наступний незарахований урок курсу (а не просто сусідній)
+  const nextL = idx.slice(pos + 1).find(x => !store.get('lessons_progress', x.id)?.completed_at) || idx[pos + 1];
   const p = store.get('lessons_progress', id);
 
   const exBox = h('div');
@@ -70,9 +71,11 @@ async function lessonPage(view, id, query = {}) {
       title: label,
       onMistake: (ex, given) => addMistake({ wrong: given || '—', right: answerText(ex), type: l.mistakeType || 'tenses', explanation_uk: `${l.title}: ${ex.explanation || ''}`.trim(), source: 'exercise' }),
       onDone: (res) => {
+        const before = store.get('lessons_progress', id);
+        const wasDone = !!before?.completed_at, stage0 = before?.review_stage || 0;
         const pr = recordLesson(id, res.score);
         timer.poke();
-        if (res.score >= 80) toast(pr.review_stage ? 'Повтор зараховано' : 'Урок пройдено!');
+        if (res.score >= 80) toast(!wasDone ? 'Урок пройдено!' : (pr.review_stage || 0) > stage0 ? 'Повтор зараховано' : 'Чудово — знання тримаються');
         setTimeout(() => {
           exBox.firstChild.append(h('div.stack', { style: { marginTop: '12px' } },
             res.score < 80 ? h('button.btn.soft.block', { type: 'button', onclick: () => startEx(shuffle(l.exercises), 'Вправи') }, ic('arrow-clockwise'), 'Пройти ще раз') : null,
@@ -94,8 +97,8 @@ async function lessonPage(view, id, query = {}) {
 
   view.replaceChildren(h('div.stack-lg',
     h('div.row', h('a.icon-btn', { href: '#/grammar', 'aria-label': 'До курсу' }, ic('arrow-left')),
-      h('div.grow', h('div.xs.dim', `${l.unit} · урок ${pos + 1}`), h('h1', { style: { margin: 0 } }, l.title)),
-      p?.completed_at ? h('span.tag.good', `${p.best}%`) : null),
+      h('div.grow', h('div.xs.dim', `${l.unit} · урок ${idx[pos]?.n ?? pos + 1}`), h('h1', { style: { margin: 0 } }, l.title)),
+      lessonsToReview().some(x => x.id === id) ? h('span.tag.warn', 'Повторити') : p?.completed_at ? h('span.tag.good', `${p.best}%`) : null),
     h('section.card', md(l.explanation)),
     l.formula?.length ? h('section.stack', { style: { gap: '8px' } }, l.formula.map(f => h('div.formula', mdInline(f)))) : null,
     l.table ? h('section.card', { style: { overflowX: 'auto' } }, h('table.gtable',

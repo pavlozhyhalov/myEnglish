@@ -25,6 +25,7 @@ export default async function cards(view, r) {
   const c = await srs.counts();
   const decks = await srs.decks();
   const total = c.due + c.fresh;
+  const session = Math.min(c.due, 30) + Math.min(c.fresh, 20);   // одна сесія тренування (MAX_DUE/MAX_NEW у wordtrain.js)
   view.replaceChildren(h('div.stack-lg',
     h('section.card.stack.center',
       h('div.counters',
@@ -33,7 +34,7 @@ export default async function cards(view, r) {
         h('div', h('b', String(c.learned)), h('div.xs.dim', 'вивчені'))),
       total
         ? h('div.stack', { style: { gap: '8px' } },
-          h('a.btn.primary.lg.block', { href: '#/cards/train' }, ic('lightning', { fill: true }), `Тренування слів · ${total} ${plural(total, 'слово', 'слова', 'слів')}`),
+          h('a.btn.primary.lg.block', { href: '#/cards/train' }, ic('lightning', { fill: true }), `Тренування слів · ${session} ${plural(session, 'слово', 'слова', 'слів')}`),
           h('p.xs.dim', { style: { margin: 0 } }, 'Впізнати, почути, написати, скласти речення — оцінку для повторів застосунок ставить сам.'),
           h('a.btn.ghost.block', { href: '#/cards/review' }, ic('cards'), 'Швидкий повтор (картки)'))
         : h('div.stack', emo('party', 'xl'), h('p', 'На сьогодні все повторено.'), h('p.dim.small', 'Нові картки з\'являться завтра. Ліміт нових — у налаштуваннях.'))),

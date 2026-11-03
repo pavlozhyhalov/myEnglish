@@ -5,7 +5,7 @@ import * as store from '../store.js';
 import { placement as loadPlacement, grammarIndex, lesson as loadLesson, allDecks } from '../data.js';
 import { render as renderExercise, answerText } from '../ui/exercises.js';
 import { speak, stop as stopSpeech } from '../speech.js';
-import { activityTimer, addMistake, dayKey, applyLessonTest, lessonNeedsReview } from '../stats.js';
+import { activityTimer, addMistake, dayKey, applyLessonTest, lessonNeedsReview, lessonsToReview } from '../stats.js';
 import * as srs from '../srs.js';
 import { setLevel, LEVEL_NAME, LEVEL_DESC } from '../level.js';
 import * as CAT from '../placement.js';
@@ -363,7 +363,7 @@ async function placementTest(view) {
       const text = ta.value.trim();
       if (wordCount(text) < 15) return;
       if (wordCount(text) < lo * 0.6) {
-        err.replaceChildren(h('div.feedback.no', `Замало для оцінки: потрібно хоча б ${Math.round(lo * 0.6)} слів.`));
+        err.replaceChildren(h('div.feedback.no', `Замало для оцінки: потрібно хоча б ${Math.round(lo * 0.6)} ${plural(Math.round(lo * 0.6), 'слово', 'слова', 'слів')}.`));
         return;
       }
       send.disabled = true; ta.disabled = true;
@@ -516,6 +516,7 @@ async function placementTest(view) {
 async function pickLesson(view) {
   const idx = await grammarIndex();
   const st = lessonTestStats();
+  const due = new Set(lessonsToReview().map(p => p.id));
   const tested = [...st.values()];
   const avg = tested.length ? Math.round(tested.reduce((a, b) => a + b.last, 0) / tested.length) : null;
   const row = (l) => {
@@ -524,12 +525,12 @@ async function pickLesson(view) {
     return h('a.list-row', { href: `#/tests/lesson/${l.id}` },
       h('span.num.dim', { style: { width: '26px' } }, String(l.n)),
       h('div.grow', h('div', l.title),
-        t || done ? h('div.sub', [done ? 'Урок зараховано' : null, t ? `тест ${t.n}× · найкраще ${t.best}%` : null].filter(Boolean).join(' · ')) : null),
-      t ? h('span.tag.' + scoreCls(t.last), { 'aria-label': `Останній результат ${t.last}%` }, `${t.last}%`) : null,
+        t || done ? h('div.sub', [due.has(l.id) ? 'На повторенні' : done ? 'Урок зараховано' : null, t ? `тестів: ${t.n} · останній ${t.last}% · найкращий ${t.best}%` : null].filter(Boolean).join(' · ')) : null),
+      t ? h('span.tag.' + scoreCls(t.last), { 'aria-label': `Останній результат тесту ${t.last}%` }, `${t.last}%`) : null,
       ic('caret-right', { size: 18 }));
   };
   view.replaceChildren(h('div.stack', h('div.row', h('a.icon-btn', { href: '#/tests', 'aria-label': 'Назад' }, ic('arrow-left')), h('h1', { style: { margin: 0 } }, 'Оберіть урок')),
-    tested.length ? h('div.card.row.tight', h('div.grow.small', `Пройдено тестів за уроками: ${tested.length}`, h('div.xs.dim', '80% і більше — урок зараховано; менше 60% — урок повертається на повторення')),
+    tested.length ? h('div.card.row.tight', h('div.grow.small', `Уроків протестовано: ${tested.length}`, h('div.xs.dim', '80% і більше — урок зараховано; менше 60% — урок повертається на повторення')),
       h('span.tag.' + scoreCls(avg), `сер. ${avg}%`)) : h('p.xs.dim', { style: { margin: 0 } }, 'Результат тесту враховується в навчанні: 80% і більше — урок зараховано, менше 60% — урок повертається на повторення, помилки — у «Мої помилки».'),
     h('div.list', idx.map(row))));
 }
@@ -588,6 +589,7 @@ async function lessonTest(view, id) {
           effect === 'passed' ? 'Урок зараховано — враховано в опануванні рівня, урок дня переходить далі. Контрольне повторення — через тиждень.'
             : effect === 'confirmed' ? 'Урок підтверджено — знання тримаються.'
             : effect === 'review' ? 'Урок повернуто на повторення: він з\'явиться в «Граматиці» серед «Повторити» й у плані дня.'
+            : effect === 'fail' ? 'Урок ще не засвоєно: перегляньте правило й пройдіть вправи уроку — потім тест ще раз.'
             : 'Майже: для зарахування уроку потрібно 80%. Повторіть правило й пройдіть тест ще раз.',
           wrongN ? `${wrongN} ${plural(wrongN, 'помилку', 'помилки', 'помилок')} додано в «Мої помилки» — для практики за розкладом.` : null,
         ]),

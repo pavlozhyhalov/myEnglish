@@ -155,7 +155,7 @@ export function vocabPart(deckIdx = [], now = Date.now()) {
   const ivl = (c) => Number.isFinite(c.scheduled_days) ? c.scheduled_days : (c.stability || 0);
   const learning = cards.filter(c => c.state === 1 || c.state === 3).length;
   const review = cards.filter(c => c.state === 2).length;
-  const mature = cards.filter(c => ivl(c) >= 21).length;
+  const mature = cards.filter(c => (c.stability || 0) >= 21).length;   // як «вивчені» в словнику, картках і «Прогресі»
   const solid = cards.filter(c => ivl(c) >= 7);
   // до повторення — як у черзі карток (srs.dueCards): лише з увімкнених колод, інакше кнопка «Повторити N» обіцяє більше, ніж покаже
   const deckDefault = Object.fromEntries(deckIdx.map(d => [d.id, d.default !== false]));

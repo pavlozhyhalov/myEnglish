@@ -4,7 +4,7 @@
  "titleEn": "The verb to be: am, is, are",
  "unit": "Основи речення",
  "level": "A1",
- "mistakeType": "word_order",
+ "mistakeType": "tenses",
  "explanation": "В англійській реченні **завжди є дієслово**. Там, де українською ми кажемо *«Я вдома»*, *«Він інженер»*, англійською потрібне **to be**: *I **am** at home. He **is** an engineer.*\n\n**I am · he/she/it is · we/you/they are.** У розмові — скорочення: *I'm, she's, they're*.\n\nЗаперечення — **not** після дієслова: *I'm not tired. It isn't cold.* Питання — дієслово на початок: ***Are** you ready? **Is** she at work?*",
  "formula": [
   "I **am** / he, she, it **is** / we, you, they **are**",

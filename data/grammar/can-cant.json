@@ -4,7 +4,7 @@
  "titleEn": "can and can't: ability, requests, permission",
  "unit": "Модальні дієслова",
  "level": "A1",
- "mistakeType": "word_order",
+ "mistakeType": "other",
  "explanation": "**Can** — *могти, вміти*: *I **can** swim.* Також для **прохань** і **дозволу**: ***Can** I have a coffee? **Can** you help me?*\n\n**Can** однакове для всіх осіб (без -s!), а після нього — дієслово **без to**: *She **can drive**.* ~~She cans~~, ~~can to drive~~.\n\nЗаперечення — **can't (cannot)**: *I **can't** hear you.* Питання — can на початок: ***Can** you speak Polish?*",
  "formula": [
   "підмет + **can / can't** + V",

@@ -213,7 +213,7 @@ function pairs(box, data, timer) {
     const choose = (k) => {
       if (fb.firstChild) return;
       const ok = k === target;
-      if (ok) right++; else addMistake({ wrong: p[k], right: word, type: 'pronunciation', explanation_uk: `Мінімальна пара ${p.a}/${p.b}: ${p.tip || ''}`, source: 'exercise' });
+      if (ok) right++; else addMistake({ wrong: p[k], right: word, type: 'pronunciation', explanation_uk: `Мінімальна пара ${p.a}/${p.b}${p.tip ? `: ${p.tip}` : ''}`, source: 'exercise' });
       btnA.classList.add(target === 'a' ? 'right' : 'wrong'); btnB.classList.add(target === 'b' ? 'right' : 'wrong');
       if (k === target) (k === 'a' ? btnB : btnA).classList.remove('wrong');
       fb.replaceChildren(h('div.feedback.' + (ok ? 'ok' : 'no'), ok ? 'Правильно!' : `Звучало: ${word}`, p.tip ? h('div.dim', p.tip) : null));
@@ -224,7 +224,7 @@ function pairs(box, data, timer) {
     const btnA = h('button.opt', { type: 'button', onclick: () => choose('a') }, h('b.grow', p.a), h('span.ipa.small', p.ipaA || ''));
     const btnB = h('button.opt', { type: 'button', onclick: () => choose('b') }, h('b.grow', p.b), h('span.ipa.small', p.ipaB || ''));
     box.replaceChildren(h('div.stack',
-      h('div.row', h('div.grow', progress(i / all.length * 100, 'Пройдено фраз')), h('span.xs.dim', `${i + 1}/${all.length}`)),
+      h('div.row', h('div.grow', progress(i / all.length * 100, 'Пройдено пар')), h('span.xs.dim', `${i + 1}/${all.length}`)),
       h('div.center.stack', h('div.small.dim', `Звук: ${p.sound}`),
         h('button.icon-btn.soft', { type: 'button', style: { width: '88px', height: '88px', borderRadius: '50%', margin: '0 auto' }, 'aria-label': 'Прослухати', onclick: () => speak(word) }, ic('speaker-high', { size: 40 })),
         h('div.small.dim', 'Що ви почули?')),

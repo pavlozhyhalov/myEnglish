@@ -1,5 +1,6 @@
 // Плашка «Далі за планом»: після старту «Мого дня» над нижньою панеллю видно наступний крок.
 // Прихована на головній і #/today (там план і так видно), на сторінці самого кроку, у голосовій сесії й режимі фокусу (CSS).
+import { plural } from '../strings.js';
 import { h, ic } from './dom.js';
 import { onRoute, parse } from '../router.js';
 import * as store from '../store.js';
@@ -35,7 +36,7 @@ async function update() {
   if (!next || plan.allDone || onStepPage(parse(), next.href)) return hide();
   const min = next.id === 'voice' ? '5–7' : String(next.minutes);
   bar.replaceChildren(
-    h('a.dailybar-go', { href: next.href, onclick: () => markStarted(), 'aria-label': `Далі за планом дня: ${next.title}, ${min} хвилин` },
+    h('a.dailybar-go', { href: next.href, onclick: () => markStarted(), 'aria-label': `Далі за планом дня: ${next.title}, ${min} ${next.id === 'voice' ? 'хвилин' : plural(Number(min), 'хвилина', 'хвилини', 'хвилин')}` },
       h('span.dailybar-ico', ic(next.icon || 'play', { size: 18 })),
       h('span.dailybar-t', h('span.dim', 'Далі: '), next.title, h('span.dim', ` · ${min} хв`)),
       ic('arrow-right', { size: 18 })),
