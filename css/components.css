@@ -457,3 +457,5 @@ html.kbd .drawer .cat-head:focus-visible{outline:2px solid var(--accent-ink);out
 .vw-row .vw-open .grow{min-width:0}
 .vw-known{color:var(--ink-faint, var(--ink-dim));flex:none}
 .vw-known.on{color:var(--good)}
+/* Граматика: тема уроку перед коротким описом */
+.gr-unit{display:inline-block;margin-right:6px;padding:0 6px;border-radius:6px;background:var(--surface-2);color:var(--ink-dim);font-weight:600;font-size:11px;line-height:18px;vertical-align:1px}

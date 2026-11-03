@@ -25,7 +25,7 @@ export default async function grammar(view, r) {
     const status = due.has(l.id) ? h('span.tag.warn', 'Повторити') : p?.completed_at ? h('span.tag.good', `${p.best}%`) : p ? h('span.tag', `${p.best}%`) : null;
     return h('a.list-row', { href: `#/grammar/${l.id}` },
       h('span.num.dim', { style: { width: '26px' } }, String(l.n)),
-      h('div.grow', h('div', { style: { fontWeight: 600 } }, l.title), h('div.sub', l.summary)),
+      h('div.grow', h('div', { style: { fontWeight: 600 } }, l.title), h('div.sub', l.unit ? h('span.gr-unit', l.unit) : null, l.summary)),
       status, ic('caret-right', { size: 18 }));
   };
   // розділи за рівнями: свій розгорнутий, решта — згорнуті (нижчі — для прогалин, вищі — наперед)
@@ -33,10 +33,8 @@ export default async function grammar(view, r) {
     const items = idx.filter(l => l.level === lv);
     if (!items.length) return null;
     const d = items.filter(l => store.get('lessons_progress', l.id)?.completed_at).length;
-    const units = [];
-    for (const l of items) { let u = units.find(x => x.name === l.unit); if (!u) units.push(u = { name: l.unit, items: [] }); u.items.push(l); }
-    const body = h('div.stack', { style: { gap: '12px', marginTop: '8px' } }, units.map(u => h('div.stack', { style: { gap: '6px' } },
-      h('div.xs.dim', { style: { margin: '0 2px', fontWeight: 600 } }, u.name), h('div.list', u.items.map(row)))));
+    // у порядку курсу (номер = порядок проходження, як «Продовжити» й тести); тема — підписом у рядку
+    const body = h('div.list', { style: { marginTop: '8px' } }, [...items].sort((a, b) => a.n - b.n).map(row));
     return h('details.level-sec', { open: lv === mine ? true : null },
       h('summary.row', levelTag(lv), h('div.grow', h('b', LEVEL_NAME[lv]), lv === mine ? h('span.xs.dim', ' ', h('span', { style: { whiteSpace: 'nowrap' } }, '· ваш рівень')) : diff(lv) > 0 ? h('span.xs.dim', ' ', h('span', { style: { whiteSpace: 'nowrap' } }, '· вище вашого')) : null),
         h('span.small.dim.num', `${d}/${items.length}`)),
