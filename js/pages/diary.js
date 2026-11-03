@@ -172,6 +172,10 @@ function editor(view) {
     }
     const row = saveEntry({ text, question: question(), res, seconds: Math.round(timer.seconds()) });
     timer.setRef(row.id);
+    // вжиті слова (тут і в попередніх розмовах/записах) — «вивчено»
+    import('../usage.js').then(m => m.markUsedWords({ onlyChat: row.id })).then(list => {
+      if (list?.length) toast(`Вивчено (ви їх уже вживаєте): ${list.slice(0, 4).map(u => u.en).join(', ')}${list.length > 4 ? ` і ще ${list.length - 4}` : ''}`, { ms: 5000 });
+    }).catch(e => console.warn('used words', e));
     try { localStorage.removeItem(DRAFT_KEY); } catch { /* */ }
     go(`/diary/${encodeURIComponent(row.id)}`);
   }

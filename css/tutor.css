@@ -180,3 +180,7 @@ li.disputed .fix-line{opacity:.55}
 .sum-auto-t{font-weight:600;font-size:var(--fs-sm);color:var(--accent-ink)}
 .sum-word.is-auto b{color:var(--accent-ink)}
 .btn.ghost.sum-unadd{flex:none;color:var(--ink-dim);min-height:36px;padding-inline:10px}
+/* Підсумок: «Ви вже вживаєте ці слова» — довгий переклад обрізається */
+.used-chips .chip{max-width:100%;min-width:0}
+.used-chips .chip .dim{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.used-chips .chip b,.used-chips .chip .ico{flex:none}

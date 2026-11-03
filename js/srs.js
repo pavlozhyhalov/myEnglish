@@ -92,7 +92,7 @@ export function rowFromStarter(deckId, c) {
 const KNOWN_DAYS = 45;          // ручне «вивчено»: перший контрольний повтор через ~1,5 міс (стабільність ≥ 21 — статус «вивчено»)
 const FSRS_KEYS = ['due', 'stability', 'difficulty', 'elapsed_days', 'scheduled_days', 'learning_steps', 'reps', 'lapses', 'state', 'last_review'];
 /** Учень позначив слово вивченим: картка йде у довгий повтор (зараховується в «вивчені» й опанування рівня), попередній стан — для скасування */
-export function markKnown(row) {
+export function markKnown(row, meta = {}) {
   const now = new Date();
   const prev = Object.fromEntries(FSRS_KEYS.map(k => [k, row[k] ?? null]));
   const stab = Math.max(row.stability || 0, KNOWN_DAYS);
@@ -101,7 +101,8 @@ export function markKnown(row) {
     stability: stab, difficulty: row.difficulty || 3, elapsed_days: 0, scheduled_days: Math.round(stab), learning_steps: 0,
     last_review: now.toISOString(), due: new Date(now.getTime() + Math.round(stab) * 864e5).toISOString(),
   });
-  row.extra = { ...(row.extra || {}), known: { at: now.toISOString(), prev } };
+  // meta.source: 'usage' — позначив вчитель (слово вжито в розмовах), інакше — учень вручну
+  row.extra = { ...(row.extra || {}), known: { at: now.toISOString(), prev, ...meta } };
   row.deleted = false;
   store.put('cards', row);
   return row;
@@ -124,6 +125,8 @@ export function undoKnown(row) {
 export function relearn(row) {
   const prev = row.extra?.known?.prev;
   if (row.extra?.known) { const { known, ...rest } = row.extra; row.extra = rest; }
+  // автопозначка «вжито в розмовах» далі рахує лише розмови після повернення
+  row.extra = { ...(row.extra || {}), relearnAt: new Date().toISOString() };
   row.deleted = false;
   // позначене вивченим без жодного повтору — знову нове слово, першим серед нових
   if (prev && !prev.reps) Object.assign(row, prev);

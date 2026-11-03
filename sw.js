@@ -1,5 +1,5 @@
 // Service worker: офлайн-кеш оболонки й контенту. AI і Supabase — завжди мережа.
-const BUILD = '20261103171053';
+const BUILD = '20261103184220';
 const CACHE = `myenglish-${BUILD}`;
 importScripts(`precache-list.js?v=${BUILD}`);
 

@@ -18,6 +18,7 @@ import { setTitle, setFocus } from '../ui/shell.js';
 import { go } from '../router.js';
 import { about, rememberFacts, undoRemember } from './profile.js';
 import { savePhrases, guessSituation, hasPhrase, situation as phraseSit } from '../phrases.js';
+import { markUsedWords, MIN_CHATS } from '../usage.js';
 
 export const MODES = [
   { id: 'chat', emoji: 'speech', title: 'Вільна розмова', desc: 'Текстом, на будь-яку тему' },
@@ -934,7 +935,11 @@ export async function summarize(view, row, { voice = false, pronTurns = null } =
     if (Array.isArray(prev?.auto_words)) next.auto_words = prev.auto_words;
     row.summary = next;
     await autoAddWords(row).catch(e => console.warn('auto words', e));
+    if (Array.isArray(prev?.used_known)) next.used_known = prev.used_known;
     store.put('tutor_chats', row);
+    // слова, які учень правильно вжив і в цій, і в попередніх розмовах, — «вивчено» (js/usage.js)
+    const used = await markUsedWords({ onlyChat: row.id }).catch(e => { console.warn('used words', e); return []; });
+    if (used.length) { row.summary.used_known = [...(row.summary.used_known || []), ...used.map(u => ({ id: u.id, en: u.en, uk: u.uk }))]; store.put('tutor_chats', row); }
     for (const m of res.mistakes || []) if (!before.has(mkey(m))) addMistake({ ...m, source: 'tutor', ref: row.id });
     store.setProf({ lastFocus: res.next_focus || null });
     // новий сервер повертає й факти про учня з усієї розмови
@@ -945,6 +950,35 @@ export async function summarize(view, row, { voice = false, pronTurns = null } =
     return;
   } finally { clearInterval(tick); }
   return summaryView(view, row, { pronTurns });
+}
+
+/** Слова, які вчитель позначив вивченими: учень правильно вжив їх у цій і попередніх розмовах */
+function usedKnownCard(s) {
+  const list = (Array.isArray(s.used_known) ? s.used_known : []).filter(u => u?.id);
+  if (!list.length) return null;
+  const chip = (u) => {
+    const b = h('button.chip', { type: 'button' });
+    const paint = () => {
+      const c = store.get('cards', u.id);
+      const on = !!c && srs.isLearned(c);
+      b.setAttribute('aria-pressed', String(on));
+      b.setAttribute('aria-label', on ? `${u.en} — вивчено. Повернути до вивчення` : `${u.en} — повернуто до вивчення`);
+      b.replaceChildren(ic(on ? 'check-circle' : 'arrow-clockwise', { size: 14, fill: on }), h('b', u.en), u.uk ? h('span.dim', ` · ${u.uk}`) : null);
+    };
+    b.addEventListener('click', () => {
+      const c = store.get('cards', u.id);
+      if (!c) return;
+      if (srs.isLearned(c)) { srs.relearn(c); toast(`«${u.en}» повернуто до вивчення`); }
+      else { srs.markKnown(c, { source: 'usage' }); toast(`«${u.en}» — знову вивчено`); }
+      paint();
+    });
+    paint();
+    return b;
+  };
+  return h('section.card.stack',
+    h('div.row', emo('seal-check'), h('div.grow', h('div.section-title', { style: { margin: 0 } }, `Ви вже вживаєте ці слова · ${list.length}`),
+      h('div.xs.dim', `Правильно вжито щонайменше у ${MIN_CHATS} розмовах — позначено вивченими в словнику. Якщо слово ще непевне — торкніться, щоб повернути до вивчення.`))),
+    h('div.chips.used-chips', list.map(chip)));
 }
 
 export function summaryView(view, row, { pronTurns = null } = {}) {
@@ -1035,6 +1069,7 @@ export function summaryView(view, row, { pronTurns = null } = {}) {
         topType ? h('a.btn.sm.soft', { href: `#/tutor?mode=drill&type=${encodeURIComponent(topType)}` }, ic('target', { size: 16 }), `Міні-урок: ${S.mistakeTypes[topType] || topType}`) : null))
       : h('section.card.row', emo('check'), h('div', 'Помилок не помічено. Так тримати!')),
     masteredCard(s),
+    usedKnownCard(s),
     row.mode === 'voice' ? speechCard(s) : null,
     pronTurns?.length ? pronCard(pronTurns) : null,
     words.length ? h('section.card.stack.sum-words', h('div.section-title', `Нові слова · ${words.length}`), autoNote, wordsBox,

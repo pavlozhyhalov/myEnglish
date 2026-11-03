@@ -132,6 +132,7 @@ function detail(c, deckName, onChange) {
     ex.map(e => h('div.example', h('button.icon-btn', { type: 'button', 'aria-label': 'Прослухати приклад', onclick: () => speak(e.en) }, ic('speaker-high', { size: 20 })), h('div.grow', h('div', e.en), e.uk ? h('div.xs.dim', e.uk) : null))),
     ext.collocations?.length ? h('div.small', h('b', 'Колокації: '), ext.collocations.join(', ')) : null,
     ext.synonyms?.length ? h('div.small', h('b', 'Синоніми: '), ext.synonyms.join(', ')) : null,
+    ext.known?.source === 'usage' ? h('div.feedback.ok.small', `Позначено вчителем: ви правильно вжили це слово в ${ext.known.chats || 2} ${plural(ext.known.chats || 2, 'розмові', 'розмовах', 'розмовах')}`, ext.known.sample ? h('div.xs.dim', { lang: 'en' }, `«${ext.known.sample}»`) : null) : null,
     c.reps ? h('div.xs.dim', `Повторень: ${c.reps} · помилок: ${c.lapses} · стабільність: ${fmtInterval(c.stability)} · наступний повтор: ${c.due ? new Date(c.due).toLocaleDateString('uk-UA') : '—'}`) : h('div.xs.dim', 'Ще не вивчалось'),
     h('div.row.wrap',
       srs.isLearned(c)

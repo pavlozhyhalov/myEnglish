@@ -1,6 +1,6 @@
 // Старт застосунку: тема, авторизація, шапка, маршрути, синхронізація, service worker
 import { BUILD } from './config.js';
-import { S } from './strings.js';
+import { S, plural } from './strings.js';
 import * as store from './store.js';
 import { h, ic, emo } from './ui/dom.js';
 import { initDrawer, toggle as toggleDrawer, setActive as drawerActive, renderProfile } from './ui/drawer.js';
@@ -41,7 +41,14 @@ function header() {
     streakBtn.setAttribute('aria-label', S.streak(n));
   };
   updateStreak();
-  store.on(t => { if (t === 'sessions') updateStreak(); if (t === 'synced') { try { backfillLessonTests(); } catch (e) { console.warn('tests backfill', e); } } });
+  store.on(t => { if (t === 'sessions') updateStreak(); if (t === 'synced') { try { backfillLessonTests(); } catch (e) { console.warn('tests backfill', e); } usedWordsLater(); } });
+  // слова, які учень уживає в розмовах, — «вивчено» (раз на 6 год; після синхронізації розмов з інших пристроїв)
+  function usedWordsLater() {
+    const run = () => import('./usage.js').then(m => m.backgroundMarkUsed()).then(list => {
+      if (list?.length) toast(`Вчитель позначив вивченими ${list.length} ${plural(list.length, 'слово', 'слова', 'слів')}, які ви вже вживаєте в розмовах: ${list.slice(0, 3).map(u => u.en).join(', ')}${list.length > 3 ? '…' : ''}`, { ms: 6000, action: 'Переглянути', onAction: () => { location.hash = '#/vocab'; } });
+    }).catch(e => console.warn('used words', e));
+    ('requestIdleCallback' in window) ? requestIdleCallback(run, { timeout: 8000 }) : setTimeout(run, 3000);
+  }
   try { backfillLessonTests(); } catch (e) { console.warn('tests backfill', e); }
   const el = h('header.app-header',
     h('button.icon-btn.btn-menu', { type: 'button', 'aria-label': S.menu, 'aria-controls': 'drawer', onclick: toggleDrawer }, ic('list')),
