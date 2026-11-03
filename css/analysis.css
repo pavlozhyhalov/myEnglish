@@ -127,3 +127,6 @@
 .mk-others[open]>summary::after{transform:rotate(225deg);margin-bottom:-3px}
 .mk-others-body{padding:4px 12px 14px;opacity:.86}
 .mk-others-body .section-title{color:var(--ink-dim)}
+.mk-head{flex-wrap:wrap}
+.mk-head .grow{min-width:min(60%,200px)}
+@media (max-width:360px){.mk-closed{text-align:left;flex-basis:100%}.mk-closed b{font-size:var(--fs-lg)}}

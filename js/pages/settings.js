@@ -185,7 +185,7 @@ function quickbarEditor() {
       const r = h('div.dnd-row', { dataset: { id } },
         h('span.handle', { 'aria-hidden': 'true' }, ic('dots-six-vertical')),
         ic(s.icon), h('span.grow', s.label),
-        h('button.icon-btn', { type: 'button', 'aria-label': `Вгору: ${s.label}`, onclick: () => move(id, -1) }, ic('caret-left', { size: 18 })),
+        h('button.icon-btn', { type: 'button', 'aria-label': `Вгору: ${s.label}`, onclick: () => move(id, -1), style: active.indexOf(id) === 0 ? { visibility: 'hidden' } : null }, ic('caret-left', { size: 18 })),
         toggle(true, (v) => { if (!v) { if (active.length <= 2) { toast('Мінімум 2 пункти'); render(); return; } active = active.filter(x => x !== id); save(); render(); } }, `Прибрати ${s.label}`));
       r.querySelector('.icon-btn .ico').style.transform = 'rotate(90deg)';
       attachDrag(r, id);

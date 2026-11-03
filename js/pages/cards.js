@@ -83,7 +83,7 @@ export async function runReview(view, { limit = Infinity, onExit, onDone, embedd
 
   function updateCounters() {
     const n = queue.filter(c => !c.reps).length, d = queue.length - n;
-    counters.replaceChildren(h('span', h('b.good', String(n))), h('span', h('b.warn', String(d))));
+    counters.replaceChildren(h('span', { title: 'Нові', 'aria-label': `Нових: ${n}` }, h('b.good', String(n))), h('span', { title: 'До повтору', 'aria-label': `До повтору: ${d}` }, h('b.warn', String(d))));
     const pct = startCount ? Math.min(100, done / startCount * 100) : 100;
     bar.firstChild.style.width = `${pct}%`; bar.setAttribute('aria-valuenow', String(Math.round(pct)));
   }
@@ -149,9 +149,9 @@ export async function runReview(view, { limit = Infinity, onExit, onDone, embedd
     flash.addEventListener('click', () => { if (!flipped) flip(); });
     attachSwipe(flash);
     stage.replaceChildren(flash);
-    actions.replaceChildren(h('button.btn.primary.lg.block', { type: 'button', onclick: flip }, 'Показати'),
+    actions.replaceChildren(...[h('button.btn.primary.lg.block', { type: 'button', onclick: flip }, 'Показати'),
       // нове слово, яке учень уже знає: одразу «вивчено» (довгий контрольний повтор), без оцінки FSRS
-      !cur.reps ? h('button.btn.ghost.block.sm', { type: 'button', style: { marginTop: '6px' }, onclick: knowIt }, ic('check-circle'), 'Я вже знаю це слово') : null);
+      !cur.reps ? h('button.btn.ghost.block.sm', { type: 'button', style: { marginTop: '6px' }, onclick: knowIt }, ic('check-circle'), 'Я вже знаю це слово') : null].filter(Boolean));
   }
 
   let flippedAt = 0;

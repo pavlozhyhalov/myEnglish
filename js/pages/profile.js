@@ -161,7 +161,7 @@ export default function profile(view) {
   const u = user();
   const lvl = myLevel();
   view.replaceChildren(h('div.stack-lg',
-    h('section.card.row',
+    h('section.card.row.pf-head',
       h('div.level-badge', ic('user', { size: 22 })),
       h('div.grow', h('div', { style: { fontWeight: 600 } }, a.name || (u ? (u.email || '').split('@')[0] : 'Гість')),
         h('div.xs.dim', u ? u.email : 'Локальний режим — дані зберігаються на цьому пристрої')),
@@ -174,8 +174,8 @@ export default function profile(view) {
         field('name', 'Ім\'я латиницею (так вас кликатиме вчитель)', { placeholder: 'Наприклад: Pavlo' }),
         field('address', 'Як звертатися в привітанні', { placeholder: 'Наприклад: Павле', hint: 'Кличний відмінок — для «Доброго ранку, …» на головній' }),
         h('div.field', h('label', 'Як учителю говорити про вас'), pronounSeg),
-        h('div.grid2', field('age', 'Вік', { placeholder: 'Наприклад: 32' }), field('location', 'Де живете', { placeholder: 'Місто, країна' })),
-        h('div.grid2', field('nativeLang', 'Рідна мова', { placeholder: 'українська' }), field('otherLangs', 'Інші мови', { placeholder: 'польська — базово' })),
+        h('div.grid2.form2', field('age', 'Вік', { placeholder: 'Наприклад: 32' }), field('location', 'Де живете', { placeholder: 'Місто, країна' })),
+        h('div.grid2.form2', field('nativeLang', 'Рідна мова', { placeholder: 'українська' }), field('otherLangs', 'Інші мови', { placeholder: 'польська — базово' })),
         field('occupation', 'Чим займаєтесь', { placeholder: 'Професія або навчання' }),
         field('family', 'Сім\'я', { placeholder: 'Наприклад: одружений, плануємо дитину' }))),
 

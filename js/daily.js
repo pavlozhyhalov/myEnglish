@@ -204,7 +204,7 @@ export async function buildPlan() {
   const t = voiceTopic();
   steps.push({
     id: 'voice', icon: 'microphone', title: 'Розмова голосом',
-    desc: !logged ? 'Потрібен вхід: вчитель працює після входу в акаунт' : vDone ? `Поговорили ${Math.round(talk / 60)} хв` : `${t.label}${t.note ? ` · ${shortTopic(t.note)}` : ''}`,
+    desc: vDone ? `Поговорили ${Math.round(talk / 60)} хв` : !logged ? 'Потрібен вхід: вчитель працює після входу в акаунт' : `${t.label}${t.note ? ` · ${shortTopic(t.note)}` : ''}`,
     minutes: 6, href: logged ? `#/tutor?mode=voice&topic=${encodeURIComponent(t.topic.slice(0, 300))}&label=${encodeURIComponent('Мій день')}` : '#/auth',
     done: vDone, progress: vDone ? 1 : Math.min(1, talk / VOICE_SEC), skipped: !logged && !vDone, topic: t,
   });

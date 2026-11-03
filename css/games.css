@@ -53,7 +53,7 @@
 @keyframes gShake{20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}
 
 /* Слово дня */
-.wd-board{display:grid;grid-template-rows:repeat(6,1fr);gap:6px;width:min(100%,300px);margin:4px auto 0}
+.wd-board{display:grid;grid-template-rows:repeat(6,1fr);gap:6px;width:min(100%,300px,calc((100dvh - 330px) * 5 / 6));min-width:200px;margin:4px auto 0}
 .wd-row{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
 .wd-tile{aspect-ratio:1;display:grid;place-items:center;border:2px solid var(--line-strong);border-radius:10px;background:var(--surface);
   font-family:var(--font-head);font-weight:700;font-size:24px;text-transform:uppercase;color:var(--ink);user-select:none}

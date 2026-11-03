@@ -153,7 +153,7 @@ function placementBody(A) {
         h('div.row.small', h('span.grow', label), h('b', s.level), s.conf ? h('span.xs.dim', s.conf) : null),
         h('div.pl-bar', { role: 'img', 'aria-label': `${label}: ${s.level}${s.conf ? `, ${s.conf}` : ''}` }, LEVELS.map((l, i) => h('i', { class: i <= rk(s.level) ? 'on' : '' }))));
     }),
-    h('div.xs.dim', `Тест від ${fmtDate(p.at)}. Говоріння в тесті — з короткої розмови; оцінку з довших розмов дивіться в розділі «Говоріння».`));
+    h('div.xs.dim', `Тест від ${fmtDate(p.at).replace(/\.$/, '')}. Говоріння в тесті — з короткої розмови; оцінку з довших розмов дивіться в розділі «Говоріння».`));
 }
 
 /** Лінія рівня говоріння по сесіях (A1…C1 по вертикалі), з точками й підказками */

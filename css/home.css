@@ -10,7 +10,7 @@
 .hm-hero .big small{font-family:var(--font-body);font-weight:500;font-size:var(--fs-sm);letter-spacing:0}
 .hm-streak{display:inline-flex;align-items:center;gap:5px;flex-wrap:wrap}
 .hm-streak .ico{color:#FFB547}
-.hm-goal{opacity:.85}
+.hm-goal{opacity:.85;white-space:nowrap}
 .hm-pct{font-size:var(--fs-sm);color:#fff;letter-spacing:-.01em}
 .hm-hero .plan-ring .label{color:#fff}
 .hm-steps{display:flex;flex-direction:column}

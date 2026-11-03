@@ -80,7 +80,7 @@ export default async function vocab(view, r) {
 
   const topics = [['all', 'Усі теми'], ...idx.map(d => [d.id, d.name]), ['my', 'Мої слова']];
   view.replaceChildren(h('div.stack',
-    h('div.row', h('button.btn.primary.grow', { type: 'button', onclick: () => addWord(draw) }, ic('plus'), 'Додати слово'),
+    h('div.row', h('button.btn.primary.grow', { type: 'button', onclick: () => addWord(draw) }, ic('plus'), 'Додати'),
       h('button.btn.soft.grow', { type: 'button', onclick: () => bulkAdd(draw) }, ic('notebook'), 'Списком')),
     search,
     chipRow(topics, () => topic, v => { topic = v; }),

@@ -76,10 +76,10 @@ function dictation(box, data, timer) {
       inp.addEventListener('keydown', e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); checkBtn.hidden ? nextBtn.click() : checkBtn.click(); } });
       box.replaceChildren(h('div.stack',
         h('div.row', h('div.grow', progress(i / items.length * 100, 'Пройдено завдань')), h('span.xs.dim', `${i + 1}/${items.length}`)),
-        h('div.row', { style: { justifyContent: 'center', gap: '12px' } },
-          h('button.btn.soft.lg', { type: 'button', onclick: () => play(1) }, ic('speaker-high'), '1×'),
-          h('button.btn.soft.lg', { type: 'button', onclick: () => play(0.8) }, ic('speaker-high'), '0,8×'),
-          h('button.btn.soft.lg', { type: 'button', onclick: () => play(0.6) }, ic('speaker-high'), '0,6×')),
+        h('div.row.dict-speeds',
+          h('button.btn.soft', { type: 'button', onclick: () => play(1) }, ic('speaker-high'), '1×'),
+          h('button.btn.soft', { type: 'button', onclick: () => play(0.8) }, ic('speaker-high'), '0,8×'),
+          h('button.btn.soft', { type: 'button', onclick: () => play(0.6) }, ic('speaker-high'), '0,6×')),
         inp, checkBtn, result, nextBtn));
       setTimeout(() => play(1), 300);
       inp.focus({ preventScroll: true });

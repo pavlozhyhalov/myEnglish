@@ -40,7 +40,7 @@ export default function mistakes(view, r) {
     const hasFocus = !!focus && tab === 'open';
     const tabBtn = (id, label, n) => h('button.chip', { type: 'button', 'aria-pressed': String(tab === id), onclick: () => { if (tab !== id) { tab = id; draw(); } } }, `${label} · ${n}`);
     const head = h('section.card.stack',
-      h('div.row', emo('target', 'lg'),
+      h('div.row.mk-head', emo('target', 'lg'),
         h('div.grow', h('div', { style: { fontWeight: 600 } }, `${openN} ${plural(openN, 'помилка', 'помилки', 'помилок')} у роботі`),
           h('div.xs.dim', `Усього закрито: ${closedList.length}`)),
         h('div.stat.mk-closed', { 'aria-label': `Закрито за 30 днів: ${closed30}` }, h('b', String(closed30)), h('span', 'закрито за 30 днів'))),

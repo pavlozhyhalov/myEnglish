@@ -297,7 +297,11 @@ export function lessonsToReview() {
 /** Рівень за навичками: з останнього тесту на рівень + сигнали розмов */
 export function skillLevels() {
   const prof = store.prof();
-  const out = { grammar: null, vocabulary: null, reading: null, listening: null, writing: null, speaking: null, ...(prof.skills || {}) };
+  // запасний варіант — бали останнього тесту на рівень (як у «Аналізі»), якщо профіль ще не синхронізувався
+  const lastPl = store.all('tests').filter(t => t.type === 'placement' && t.scores).sort((a, b) => String(b.created_at).localeCompare(String(a.created_at)))[0];
+  const fromTest = {};
+  for (const k of ['grammar', 'vocabulary', 'reading', 'listening', 'writing', 'speaking']) { const v = lastPl?.scores?.[k]; if (typeof v === 'string' && /^[ABC][12]$/.test(v)) fromTest[k] = v; }
+  const out = { grammar: null, vocabulary: null, reading: null, listening: null, writing: null, speaking: null, ...fromTest, ...(prof.skills || {}) };
   const signals = store.all('tutor_chats').filter(c => c.summary?.level_signal && c.summary.level_assessment?.enough_data !== false).sort((a, b) => b.created_at.localeCompare(a.created_at)).slice(0, 5);
   if (signals.length) {
     const order = ['A1', 'A2', 'B1', 'B2', 'C1'];

@@ -7,7 +7,7 @@ import { render as renderExercise, answerText } from '../ui/exercises.js';
 import { speak, stop as stopSpeech } from '../speech.js';
 import { activityTimer, addMistake, dayKey, applyLessonTest, lessonNeedsReview, lessonsToReview } from '../stats.js';
 import * as srs from '../srs.js';
-import { setLevel, LEVEL_NAME, LEVEL_DESC } from '../level.js';
+import { setLevel, LEVEL_NAME, LEVEL_DESC, LEVELS, myLevel, levelTag, diff } from '../level.js';
 import * as CAT from '../placement.js';
 import { onLeave } from '../router.js';
 import { tutor, aiErrorText } from '../ai.js';
@@ -70,9 +70,10 @@ async function overview(view) {
 /** Показує питання по одному; next(prevResult) повертає наступне питання або null */
 function runner(view, { title, total, next, onFinish }) {
   setFocus(true);
+  setTitle(title);
   const head = h('div.row', h('button.icon-btn', { type: 'button', 'aria-label': 'Вийти', onclick: () => { stopSpeech(); setFocus(false); location.hash = '#/tests'; } }, ic('x')), h('div.grow', progress(0, 'Пройдено питань')), h('span.xs.dim.num'));
   const body = h('div.stack');
-  view.replaceChildren(h('div.stack', h('h2', title), head, body));
+  view.replaceChildren(h('div.stack', head, body));   // назва — у шапці застосунку
   const results = [];
   let n = 0;
   const step = (q) => {
@@ -517,6 +518,7 @@ async function pickLesson(view) {
   const idx = await grammarIndex();
   const st = lessonTestStats();
   const due = new Set(lessonsToReview().map(p => p.id));
+  const mine = myLevel();
   const tested = [...st.values()];
   const avg = tested.length ? Math.round(tested.reduce((a, b) => a + b.last, 0) / tested.length) : null;
   const row = (l) => {
@@ -532,7 +534,16 @@ async function pickLesson(view) {
   view.replaceChildren(h('div.stack', h('div.row', h('a.icon-btn', { href: '#/tests', 'aria-label': 'Назад' }, ic('arrow-left')), h('h1', { style: { margin: 0 } }, 'Оберіть урок')),
     tested.length ? h('div.card.row.tight', h('div.grow.small', `Уроків протестовано: ${tested.length}`, h('div.xs.dim', '80% і більше — урок зараховано; менше 60% — урок повертається на повторення')),
       h('span.tag.' + scoreCls(avg), `сер. ${avg}%`)) : h('p.xs.dim', { style: { margin: 0 } }, 'Результат тесту враховується в навчанні: 80% і більше — урок зараховано, менше 60% — урок повертається на повторення, помилки — у «Мої помилки».'),
-    h('div.list', idx.map(row))));
+    // за рівнями, як у «Граматиці»: свій рівень розгорнутий, решта згорнуті; номер — порядок курсу
+    ...LEVELS.map(lv => {
+      const items = idx.filter(l => l.level === lv);
+      if (!items.length) return null;
+      const t = items.filter(l => st.has(l.id)).length;
+      return h('details.level-sec', { open: lv === mine || null },
+        h('summary.row', levelTag(lv), h('div.grow', h('b', LEVEL_NAME[lv]), lv === mine ? h('span.xs.dim', ' · ваш рівень') : diff(lv) > 0 ? h('span.xs.dim', ' · вище вашого') : null),
+          h('span.small.dim.num', { 'aria-label': `Протестовано ${t} з ${items.length}` }, `${t}/${items.length}`)),
+        h('div.list', { style: { marginTop: '8px' } }, items.map(row)));
+    })));
 }
 
 async function lessonTest(view, id) {

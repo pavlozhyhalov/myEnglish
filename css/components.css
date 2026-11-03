@@ -459,3 +459,14 @@ html.kbd .drawer .cat-head:focus-visible{outline:2px solid var(--accent-ink);out
 .vw-known.on{color:var(--good)}
 /* Граматика: тема уроку перед коротким описом */
 .gr-unit{display:inline-block;margin-right:6px;padding:0 6px;border-radius:6px;background:var(--surface-2);color:var(--ink-dim);font-weight:600;font-size:11px;line-height:18px;vertical-align:1px}
+
+/* ---- Аудит 2026-11-03: вузькі екрани ---- */
+.stat b{white-space:nowrap;font-size:clamp(20px,6vw,var(--fs-xl))}
+.dict-speeds{justify-content:center;gap:8px;flex-wrap:wrap}
+.dict-speeds .btn{flex:1 1 0;min-width:84px;padding-inline:10px}
+.pf-head{flex-wrap:wrap}
+.pf-head .grow{min-width:0;flex-basis:160px}
+.pf-head .grow .xs{overflow-wrap:anywhere}
+@media (max-width:360px){.grid2.form2{grid-template-columns:1fr}}
+.flash,.flash .face{min-height:min(340px,52dvh)}
+@media (max-height:600px){.flash .face{padding:40px 16px 16px;gap:10px}}
