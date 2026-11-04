@@ -268,9 +268,9 @@ export function cleanSummary(r: any, st: { words: string[]; memory: string[]; le
     .map((w: unknown) => learning.get(tx(w, 80).toLowerCase())).filter(Boolean))] as string[];
   const new_words = (Array.isArray(o.new_words) ? o.new_words : [])
     // deno-lint-ignore no-explicit-any
-    .filter((w: any) => w && typeof w === 'object' && tx(w.en, 80) && tx(w.uk, 120)).slice(0, 8)
+    .filter((w: any) => w && typeof w === 'object' && tx(w.en, 80) && tx(w.uk, 120)).slice(0, 10)
     // deno-lint-ignore no-explicit-any
-    .map((w: any) => ({ en: tx(w.en, 80), uk: tx(w.uk, 120), example: tx(w.example, 300) }));
+    .map((w: any) => ({ en: tx(w.en, 80), uk: tx(w.uk, 120), example: tx(w.example, 300), ...(w.asked === true ? { asked: true } : {}) }));
   return {
     summary: tx(o.summary, 1500),
     mistakes,

@@ -253,6 +253,8 @@ async function push(userId) {
     if (!r) { dirty.delete(key); continue; }
     const row = { user_id: userId };
     for (const c of COLUMNS[t]) if (r[c] !== undefined) row[c] = r[c];
+    // числові поля FSRS у БД NOT NULL: null (напр., відновлений стан нової картки) → 0, інакше падає вся пачка
+    if (t === 'cards') for (const c of CARD_NUM) if (row[c] === null) row[c] = 0;
     (byTable[t] ||= []).push({ key, row });
   }
   let firstErr = null;
@@ -267,13 +269,21 @@ async function push(userId) {
     for (let i = 0; i < list.length; i += 400) {
       const chunk = list.slice(i, i + 400);
       // defaultToNull: false — відсутні в рядку колонки беруть DEFAULT, а не NULL (рядки в пакеті мають різні набори полів)
-      const { error } = await supa.from(t).upsert(chunk.map(c => c.row), { onConflict: 'user_id,id', defaultToNull: false });
-      if (error) { firstErr ||= error; break; }
-      chunk.forEach(c => {
+      const done = (c) => {
         // якщо за час запиту запис змінився ще раз — лишаємо брудним
         const cur = data[t].get(c.row.id);
         if (!cur || cur.updated_at === c.row.updated_at) dirty.delete(c.key);
-      });
+      };
+      const { error } = await supa.from(t).upsert(chunk.map(c => c.row), { onConflict: 'user_id,id', defaultToNull: false });
+      if (!error) { chunk.forEach(done); continue; }
+      firstErr ||= error;
+      reportSync(t, error);
+      // один «поганий» рядок не блокує решту: пакет не пройшов — відправляємо поштучно (мережеві збої — не дробимо)
+      if (chunk.length < 2 || /fetch|network|timeout|Failed/i.test(String(error.message || ''))) break;
+      for (const c of chunk) {
+        const { error: e1 } = await supa.from(t).upsert([c.row], { onConflict: 'user_id,id', defaultToNull: false });
+        if (!e1) done(c);
+      }
     }
   }
   for (const [t, ids] of Object.entries(deletes)) {
@@ -283,6 +293,15 @@ async function push(userId) {
   }
   scheduleSave('dirty');
   if (firstErr) throw firstErr;
+}
+
+const CARD_NUM = ['stability', 'difficulty', 'elapsed_days', 'scheduled_days', 'learning_steps', 'reps', 'lapses', 'state'];
+/** Збій синхронізації таблиці — у журнал помилок (раз на таблицю за запуск), щоб автомонітор його бачив */
+const syncReported = new Set();
+function reportSync(table, error) {
+  if (syncReported.has(table)) return;
+  syncReported.add(table);
+  import('./errlog.js').then(m => m.report(new Error(`${error.code || ''} ${error.message || error}`.trim()), `sync ${table}`)).catch(() => {});
 }
 
 async function pull() {

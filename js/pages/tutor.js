@@ -304,7 +304,8 @@ export async function addWord(w, { tags = [], out = null } = {}) {
 // не більше 10 на день (лічильник — localStorage 'me:auto-words' = { day, n }). Що саме додано — summary.auto_words (синхронізується з розмовою),
 // тож «Прибрати» на екрані підсумку видаляє лише картки, створені автододаванням.
 const AUTO_MODES = new Set(['voice', 'chat', 'scenario']);
-const AUTO_PER_CHAT = 5, AUTO_PER_DAY = 10, AUTO_KEY = 'me:auto-words';
+// слова, про які учень сам питав (asked: true — точно незнайомі), додаються першими й понад звичайний ліміт: до 10 за розмову, 20 на день
+const AUTO_PER_CHAT = 5, AUTO_PER_DAY = 10, ASKED_PER_CHAT = 10, ASKED_PER_DAY = 20, AUTO_KEY = 'me:auto-words';
 let autoMem = null;
 function autoToday() {
   try {
@@ -330,7 +331,7 @@ export function pickAutoWords(words, n = AUTO_PER_CHAT) {
       if (seen.has(k) || wordKnown(en)) return false;
       seen.add(k); return true;
     })
-    .sort((a, b) => (b.w.example ? 1 : 0) - (a.w.example ? 1 : 0) || a.i - b.i)
+    .sort((a, b) => (b.w.asked ? 1 : 0) - (a.w.asked ? 1 : 0) || (b.w.example ? 1 : 0) - (a.w.example ? 1 : 0) || a.i - b.i)
     .slice(0, n).map(x => x.w);
 }
 /** Додати слова з підсумку в картки (одна розмова — не більше 5 за всі її підсумки). Повертає список доданих або null, якщо вимкнено */
@@ -339,9 +340,12 @@ async function autoAddWords(row) {
   if (!s || !AUTO_MODES.has(row.mode) || store.settings().autoWords === false) return null;
   const prev = Array.isArray(s.auto_words) ? s.auto_words : [];
   const room = Math.min(AUTO_PER_CHAT - prev.length, AUTO_PER_DAY - autoToday());
+  const askedRoom = Math.min(ASKED_PER_CHAT - prev.length, ASKED_PER_DAY - autoToday());
+  const asked = pickAutoWords((s.new_words || []).filter(w => w?.asked), Math.max(0, askedRoom));
   const added = [];
-  if (room > 0) {
-    for (const w of pickAutoWords(s.new_words, room)) {
+  if (room > 0 || asked.length) {
+    const rest = room > asked.length ? pickAutoWords((s.new_words || []).filter(w => !w?.asked), room - asked.length) : [];
+    for (const w of [...asked, ...rest]) {
       const out = {};
       const r = await addWord(w, { tags: ['auto'], out }).catch(() => 'error');
       if ((r === 'created' || r === 'starter') && out.id) added.push({ en: String(w.en).trim(), id: out.id, at: new Date().toISOString() });

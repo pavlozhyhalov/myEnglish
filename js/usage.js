@@ -57,9 +57,19 @@ async function cardIndex() {
   return indexP;
 }
 
-/** Репліки учня в розмові (без службових і прихованих) */
+// Питання про слово — не вживання: «I don't understand the word fridge», «Cosy, what do you mean?», «how to say котел»
+const ASKING = /\b(don'?t|do not|didn'?t|did not|can'?t) understand\b|\bwhat (do|does|did) (you|it|this|that|the word)\b[^.?!]*\bmean|\bwhat (is|are|'s) (it|this|that|the word|a|an)\b|\bhow (to|do you|can i|i can|would you|will it|it will|it would|could it) (say|translate|be)\b|\btranslate\b|\bwhat (is|does) .{1,30} mean/i;
+/** Репліки учня в розмові (без службових, прихованих і питань про значення слів) */
 function learnerTexts(chat) {
-  return (chat.messages || []).filter(m => m.role === 'user' && !m.hidden && !m.cue && m.text).map(m => String(m.text));
+  return (chat.messages || []).filter(m => m.role === 'user' && !m.hidden && !m.cue && m.text && !ASKING.test(String(m.text))).map(m => String(m.text));
+}
+/** Слова, які вчитель пояснив у цій розмові (нові слова підсумку): у ній самій учень лише повторює їх — не зараховуємо */
+function taughtWords(chat) {
+  const s = chat.summary || {};
+  const list = [...(Array.isArray(s.new_words) ? s.new_words : []), ...(Array.isArray(s.auto_words) ? s.auto_words : [])];
+  const out = new Set();
+  for (const w of list) for (const t of tokens(w?.en)) if (!STOP.has(t)) for (const l of lemmas(t)) out.add(l);
+  return out;
 }
 /** Слова з виправлених фрагментів розмови: у цій розмові не зараховуються */
 function wrongWords(chat) {
@@ -75,6 +85,7 @@ function wrongWords(chat) {
 /** Ідентифікатори карток, ужитих у розмові: Map id → { ref, sample } */
 function usedIn(chat, idx) {
   const bad = wrongWords(chat);
+  for (const w of taughtWords(chat)) bad.add(w);
   const found = new Map();
   for (const text of learnerTexts(chat)) {
     const toks = tokens(text);

@@ -91,10 +91,13 @@ export function rowFromStarter(deckId, c) {
 // ---------- Ручний статус: «Я знаю це слово» / «Повернути до вивчення» ----------
 const KNOWN_DAYS = 45;          // ручне «вивчено»: перший контрольний повтор через ~1,5 міс (стабільність ≥ 21 — статус «вивчено»)
 const FSRS_KEYS = ['due', 'stability', 'difficulty', 'elapsed_days', 'scheduled_days', 'learning_steps', 'reps', 'lapses', 'state', 'last_review'];
+/** Попередній стан FSRS без null у числових полях (старі записи й рядки, позначені на сервері) */
+const fixPrev = (prev) => Object.fromEntries(Object.entries(prev).map(([k, v]) => [k, v ?? (k === 'due' || k === 'last_review' ? null : 0)]));
 /** Учень позначив слово вивченим: картка йде у довгий повтор (зараховується в «вивчені» й опанування рівня), попередній стан — для скасування */
 export function markKnown(row, meta = {}) {
   const now = new Date();
-  const prev = Object.fromEntries(FSRS_KEYS.map(k => [k, row[k] ?? null]));
+  // due/last_review можуть бути null; числові поля — ні (у БД NOT NULL)
+  const prev = Object.fromEntries(FSRS_KEYS.map(k => [k, row[k] ?? (k === 'due' || k === 'last_review' ? null : 0)]));
   const stab = Math.max(row.stability || 0, KNOWN_DAYS);
   Object.assign(row, {
     state: State.Review, reps: Math.max(row.reps || 0, 1), lapses: row.lapses || 0,
@@ -113,7 +116,7 @@ export const isManualKnown = (row) => !!row?.extra?.known;
 export function undoKnown(row) {
   const prev = row?.extra?.known?.prev;
   if (!prev) return row;
-  Object.assign(row, prev);
+  Object.assign(row, fixPrev(prev));
   const { known, ...rest } = row.extra; row.extra = rest;
   store.put('cards', row);
   return row;
@@ -129,7 +132,7 @@ export function relearn(row) {
   row.extra = { ...(row.extra || {}), relearnAt: new Date().toISOString() };
   row.deleted = false;
   // позначене вивченим без жодного повтору — знову нове слово, першим серед нових
-  if (prev && !prev.reps) Object.assign(row, prev);
+  if (prev && !prev.reps) Object.assign(row, fixPrev(prev));
   if (!row.reps) { store.put('cards', row); return 'new'; }
   grade(row, Rating.Again);
   return 'again';
