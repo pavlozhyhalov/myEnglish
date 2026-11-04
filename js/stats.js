@@ -40,12 +40,27 @@ export function logSession(type, seconds, ref = null) {
  * Коли застосунок ховають або закривають, накопичений час одразу записується (інакше незавершене заняття губилося),
  * далі таймер рахує заново; stop() повертає загальну тривалість у seconds.
  */
+// Простій: після IDLE_MS без дотиків час не йде; із самого простою зараховується лише GRACE_MS (а не всі 2 хв) —
+// крім сторінок, де довго читають чи слухають без дотиків (там простій до 2 хв — це читання).
+const IDLE_MS = 120000, GRACE_MS = 30000;
+const READING_TYPES = new Set(['reading', 'listening', 'grammar', 'writing', 'diary']);
 export function activityTimer(type) {
   let acc = 0, total = 0, last = Date.now(), lastInput = Date.now(), stopped = false, ref = null;
+  let idleAdded = 0;   // час, доданий після GRACE_MS без дотиків: якщо простій дійде до IDLE_MS — віднімаємо
+  const fullCredit = READING_TYPES.has(type);
   const saved = [];   // id проміжних записів — щоб проставити їм ref (видалення розмови прибирає весь її час)
   const tick = () => {
     const now = Date.now();
-    if (!document.hidden && now - lastInput < 120000) acc += now - last;
+    const since = now - lastInput;
+    if (!document.hidden && since < IDLE_MS) {
+      const dt = now - last;
+      acc += dt;
+      if (!fullCredit && since > GRACE_MS) idleAdded += Math.min(dt, since - GRACE_MS);
+    } else if (idleAdded && since >= IDLE_MS) {
+      // це був простій, а не заняття — лишаємо тільки GRACE_MS
+      const back = Math.min(idleAdded, acc);
+      acc -= back; idleAdded = 0;
+    }
     last = now;
   };
   const checkpoint = () => {
@@ -57,7 +72,7 @@ export function activityTimer(type) {
   };
   const onHide = () => { if (document.hidden) checkpoint(); };
   const iv = setInterval(tick, 5000);
-  const mark = () => { tick(); lastInput = Date.now(); };
+  const mark = () => { tick(); lastInput = Date.now(); idleAdded = 0; };
   const evs = ['pointerdown', 'keydown', 'touchstart'];
   evs.forEach(e => window.addEventListener(e, mark, { passive: true }));
   document.addEventListener('visibilitychange', onHide);
