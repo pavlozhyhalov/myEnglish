@@ -8,7 +8,7 @@ import { initQuickbar, setActive as qbActive } from './ui/quickbar.js';
 import { toast } from './ui/toast.js';
 import { route, fallback, onRoute, start, go } from './router.js';
 import { sectionFor } from './nav.js';
-import { initAuth, onAuth, onClient } from './supa.js';
+import { initAuth, onAuth, onClient, recoveryPending, user as authUser } from './supa.js';
 import { initErrlog } from './errlog.js';
 import { streak, backfillLessonTests } from './stats.js';
 import { setTitle, applyTheme, isDark } from './ui/shell.js';
@@ -130,6 +130,8 @@ async function boot() {
   // клієнт Supabase вантажиться ліниво (js/supa.js); синхронізація — щойно він готовий
   onClient((c) => { store.attachSupabase(c); store.sync().catch(e => console.warn('sync', e)); });
   try { await initAuth(); } catch (e) { console.warn('auth', e); }
+  // перейшли за посиланням «змінити пароль» з листа — одразу форма нового пароля
+  if (recoveryPending() && authUser() && !location.hash.startsWith('#/auth/reset')) location.hash = '#/auth/reset';
   renderProfile();
   onAuth((s) => {
     renderProfile();

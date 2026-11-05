@@ -9,6 +9,20 @@ const STORAGE_KEY = 'me-auth';
 export let supa = null;
 
 let session = readStored();
+// Перехід за посиланням «скинути пароль» з листа: позначка в адресі (?recovery=1) або type=recovery у токені.
+// Запам'ятовуємо до завантаження клієнта (він прибирає токен з адреси) — сторінка входу покаже форму нового пароля.
+const RECOVERY_KEY = 'me:recovery';
+try {
+  if (/[?&]recovery=1/.test(location.search) || /[#&]type=recovery/.test(location.hash)) sessionStorage.setItem(RECOVERY_KEY, String(Date.now()));
+} catch { /* приватний режим */ }
+/** Чи відкрито застосунок за посиланням відновлення пароля (дійсне 1 год) */
+export function recoveryPending() {
+  try { const t = Number(sessionStorage.getItem(RECOVERY_KEY) || 0); return !!t && Date.now() - t < 3600e3; } catch { return false; }
+}
+export function clearRecovery() {
+  try { sessionStorage.removeItem(RECOVERY_KEY); } catch { /* */ }
+  if (/[?&]recovery=1/.test(location.search)) history.replaceState(null, '', location.pathname + location.hash);
+}
 let clientP = null;
 const listeners = new Set();
 const clientListeners = new Set();
@@ -20,7 +34,7 @@ function readStored() {
     return s && s.user && s.user.id && s.access_token ? s : null;
   } catch { return null; }
 }
-const urlHasAuth = () => /(^|[#&?])(access_token|error_description)=/.test(location.hash) || /[?&]code=/.test(location.search);
+const urlHasAuth = () => /(^|[#&?])(access_token|error_description)=/.test(location.hash) || /[?&](code|recovery)=/.test(location.search);
 const onAuthPage = () => location.hash.startsWith('#/auth');
 
 function setSession(s) {
@@ -51,6 +65,7 @@ export function getSupa() {
     // відкликаний токен клієнт зі сховища прибирає — тоді це справжній вихід
     if (!error || !readStored()) setSession(data.session);
     c.auth.onAuthStateChange((ev, s) => {
+      if (ev === 'PASSWORD_RECOVERY') { try { sessionStorage.setItem(RECOVERY_KEY, String(Date.now())); } catch { /* */ } }
       // INITIAL_SESSION приходить з null і при мережевій помилці — не «виходимо», поки сесія є в сховищі
       if (ev === 'INITIAL_SESSION' && !s && readStored()) return;
       setSession(s);
@@ -96,6 +111,18 @@ export async function signUp(email, password) {
   });
   if (error) throw error;
   return data;
+}
+/** Лист зі посиланням для зміни пароля (Supabase Auth). Посилання веде назад у застосунок з позначкою відновлення */
+export async function resetPassword(email) {
+  const c = await getSupa();
+  const { error } = await c.auth.resetPasswordForEmail(email, { redirectTo: location.origin + location.pathname + '?recovery=1' });
+  if (error) throw error;
+}
+/** Новий пароль для поточного акаунта (після входу або переходу з листа) */
+export async function updatePassword(password) {
+  const c = await getSupa();
+  const { error } = await c.auth.updateUser({ password });
+  if (error) throw error;
 }
 export async function signOut() {
   if (!session && !readStored() && !supa) return;
