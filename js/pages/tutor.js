@@ -17,16 +17,17 @@ import { toast } from '../ui/toast.js';
 import { setTitle, setFocus } from '../ui/shell.js';
 import { go } from '../router.js';
 import { about, rememberFacts, undoRemember } from './profile.js';
+import { tx, txPrimary, txGrid, txGroup, txRows } from '../ui/tiles.js';
 import { savePhrases, guessSituation, hasPhrase, situation as phraseSit } from '../phrases.js';
 import { markUsedWords, MIN_CHATS } from '../usage.js';
 
 export const MODES = [
-  { id: 'chat', emoji: 'speech', title: 'Вільна розмова', desc: 'Текстом, на будь-яку тему' },
-  { id: 'voice', emoji: 'mic', title: 'Голосова розмова', desc: 'У реальному часі' },
-  { id: 'scenario', emoji: 'theater', title: 'Сценарій', desc: 'Рольова гра', href: '#/scenarios' },
-  { id: 'check', emoji: 'writing', title: 'Перевір мій текст', desc: 'Лист → виправлення' },
-  { id: 'explain', emoji: 'bulb', title: 'Поясни', desc: 'Правило + 5 вправ' },
-  { id: 'drill', emoji: 'target', title: 'Слабке місце', desc: 'Міні-урок на помилку' },
+  { id: 'chat', emoji: 'speech', icon: 'chat-circle-dots', title: 'Вільна розмова', desc: 'Текстом, на будь-яку тему' },
+  { id: 'voice', emoji: 'mic', icon: 'microphone', title: 'Голосова розмова', desc: 'У реальному часі' },
+  { id: 'scenario', emoji: 'theater', icon: 'users-three', title: 'Сценарій', desc: 'Рольова гра', href: '#/scenarios' },
+  { id: 'check', emoji: 'writing', icon: 'pencil-line', title: 'Перевір мій текст', desc: 'Лист → виправлення' },
+  { id: 'explain', emoji: 'bulb', icon: 'lightbulb', title: 'Поясни', desc: 'Правило + 5 вправ' },
+  { id: 'drill', emoji: 'target', icon: 'target', title: 'Слабке місце', desc: 'Міні-урок на помилку' },
 ];
 
 // Консультація про власні результати (режим 'coach'): розділи, вступ і перші питання (без запиту до AI)
@@ -91,11 +92,13 @@ function startMission(m, how) {
 function missionsBlock() {
   const list = h('div.mission-list');
   const status = h('div.mission-status', { 'aria-live': 'polite' });
-  const btn = h('button.btn.start', { type: 'button', onclick: load });
+  // плитка-кнопка (не синя: головна дія сторінки — голосова розмова)
+  const btn = tx({ icon: 'sparkle', label: 'Скласти місії', sub: ' ', wide: true, onclick: load, cls: 'mission-btn' });
   const paintBtn = (busy, has) => {
     btn.disabled = busy;
-    btn.replaceChildren(ic(busy ? 'hourglass' : has ? 'arrow-clockwise' : 'sparkle', { size: 18, fill: !busy && !has }),
-      busy ? 'Складаю місії…' : has ? 'Інші місії' : 'Скласти місії');
+    btn.querySelector('.tx-sq').replaceChildren(ic(busy ? 'hourglass' : has ? 'arrow-clockwise' : 'flag', { size: 20 }));
+    btn.querySelector('.tx-l').textContent = busy ? 'Складаю місії…' : has ? 'Інші місії' : 'Скласти місії';
+    btn.querySelector('.tx-s').textContent = has ? 'Нові 3 ситуації з вашого профілю й планів' : 'Вчитель складе 3 ситуації за вашим профілем і планами — дзвінок, візит, розмова з сусідом';
   };
   const render = (missions) => {
     list.replaceChildren(...missions.map(missionCard));
@@ -121,12 +124,7 @@ function missionsBlock() {
   const cached = ssGet(MISSIONS_KEY);
   const missions = (cached?.missions || []).map(cleanMission).filter(Boolean);
   render(missions);
-  return h('section.mission-hero',
-    h('div.row', { style: { alignItems: 'flex-start', gap: '12px' } },
-      h('span.mission-ico', { 'aria-hidden': 'true' }, ic('flag', { size: 22 })),
-      h('div.grow', h('div.label', 'Персонально для вас'), h('h2.mission-h', 'Місії з вашого життя'),
-        h('div.sub', 'Вчитель складе 3 ситуації за вашим профілем і планами — дзвінок, візит, розмова з сусідом — щоб ви підготувалися до реальних розмов.'))),
-    list, status, btn);
+  return txGroup('Місії з вашого життя', [list, status, btn]);
 }
 
 function missionCard(m) {
@@ -172,46 +170,49 @@ export function phraseSaved(r, sit) {
 
 function needLoginCard() {
   if (user()) return null;
-  return h('section.card.accent.stack',
-    h('div.row', emo('key'), h('div.grow', h('div', { style: { fontWeight: 600 } }, 'Вчитель працює після входу'), h('div.xs.dim', 'AI працює через захищений сервер, тому потрібен акаунт.'))),
-    h('a.btn.primary', { href: '#/auth' }, 'Увійти'));
+  return tx({ icon: 'key', label: 'Вчитель працює після входу', sub: 'AI працює через захищений сервер, тому потрібен акаунт.', wide: true, tone: 'warn', href: '#/auth',
+    end: h('span.btn.sm.soft', 'Увійти') });
 }
 
 function overview(view) {
   const st = store.settings();
   const chats = store.all('tutor_chats').filter(c => c.mode !== 'diary').sort((a, b) => b.created_at.localeCompare(a.created_at));
-  view.replaceChildren(h('div.stack-lg',
-    h('section.row', h('div.emoji-circle', emo('teacher')), h('div.grow', h('h1', st.tutorName), h('div.small.dim', 'Ваш AI-вчитель англійської'))),
+  const voice = MODES.find(m => m.id === 'voice');
+  view.replaceChildren(h('div.stack-lg.tt-home',
     needLoginCard(),
+    txGroup(`${st.tutorName} · ваш AI-вчитель`, [
+      txPrimary({ icon: voice.icon, label: 'Розмова голосом', sub: 'У реальному часі — вчитель слухає й відповідає', href: '#/tutor?mode=voice' }),
+      Object.assign(txGrid(MODES.filter(m => m.id !== 'voice').map(m => tx({ icon: m.icon, label: m.title, sub: m.desc, href: m.href || `#/tutor?mode=${m.id}` }))), { className: 'tx-grid tt-modes' }),
+    ]),
     missionsBlock(),
-    h('div.grid2', MODES.map(m => h('a.tile', { href: m.href || `#/tutor?mode=${m.id}` },
-      h('div.emoji-circle', emo(m.emoji)), h('div', h('div.name', m.title), h('div.status', m.desc))))),
     history(view, chats)));
 }
 
 /** Історія розмов: відкрити, видалити одну або кілька (разом із часом і помилками в статистиці) */
 function history(view, chats) {
-  const box = h('section.stack', { style: { gap: '8px' } });
+  const box = h('section.tx-group.tt-hist');
   let selecting = false;
   const picked = new Set();
+  const modeIcon = (c) => c.mode === 'voice' ? 'microphone' : c.mode === 'check' ? 'pencil-line' : c.mode === 'scenario' ? 'users-three' : c.mode === 'coach' ? 'chart-pie-slice' : 'chat-circle-dots';
   const draw = () => {
     const list = store.all('tutor_chats').filter(c => c.mode !== 'diary').sort((a, b) => b.created_at.localeCompare(a.created_at));
-    const head = h('div.row', h('div.section-title.grow', `Історія${list.length ? ` · ${list.length}` : ''}`),
-      list.length ? h('button.btn.sm.ghost', { type: 'button', onclick: () => { selecting = !selecting; picked.clear(); draw(); } }, selecting ? 'Скасувати' : 'Вибрати') : null);
-    if (!list.length) { box.replaceChildren(head, h('div.empty', emo('speech', 'xl'), h('p', 'Поки що розмов немає. Почніть з вільної або голосової розмови.'))); return; }
+    const head = h('div.tx-label-row', h('h2.tx-label', `Історія${list.length ? ` · ${list.length}` : ''}`),
+      list.length ? h('button.tx-more', { type: 'button', onclick: () => { selecting = !selecting; picked.clear(); draw(); } }, selecting ? 'Скасувати' : 'Вибрати') : null);
+    if (!list.length) { box.replaceChildren(head, h('div.tx-row.tt-empty', h('span.tx-sq', ic('chat-circle-dots', { size: 18 })), h('span.tx-body', h('span.tx-s', 'Поки що розмов немає. Почніть з вільної або голосової розмови.')))); return; }
     const rows = list.slice(0, 60).map(c => {
-      const info = [h('div', { style: { fontWeight: 600 } }, c.title || 'Розмова'),
-        h('div.sub', `${new Date(c.created_at).toLocaleDateString('uk-UA', { day: 'numeric', month: 'short' })}${c.mode === 'coach' ? ' · консультація' : ` · ${fmtMin(c.seconds || 0)}${c.summary && !c.summary.partial ? '' : ' · без підсумку'}`}`)];
-      const icon = emo(c.mode === 'voice' ? 'mic' : c.mode === 'check' ? 'writing' : c.mode === 'scenario' ? 'theater' : c.mode === 'coach' ? 'chart-pie-slice' : 'speech');
+      const title = c.title || 'Розмова';
+      const sub = `${new Date(c.created_at).toLocaleDateString('uk-UA', { day: 'numeric', month: 'short' })}${c.mode === 'coach' ? ' · консультація' : ` · ${fmtMin(c.seconds || 0)}${c.summary && !c.summary.partial ? '' : ' · без підсумку'}`}`;
+      const sq = h('span.tx-sq', ic(modeIcon(c), { size: 18 }));
+      const body = h('span.tx-body', h('span.tx-l', title), h('span.tx-s', sub));
       if (selecting) {
-        const cb = h('input.check', { type: 'checkbox', checked: picked.has(c.id), 'aria-label': `Вибрати: ${c.title || 'Розмова'}`, onchange: (e) => { e.target.checked ? picked.add(c.id) : picked.delete(c.id); draw(); } });
-        return h('label.list-row', cb, icon, h('div.grow', info));
+        const cb = h('input.check', { type: 'checkbox', checked: picked.has(c.id), 'aria-label': `Вибрати: ${title}`, onchange: (e) => { e.target.checked ? picked.add(c.id) : picked.delete(c.id); draw(); } });
+        return h('label.tx-row' + (picked.has(c.id) ? '.on' : ''), cb, sq, body);
       }
-      return h('div.list-row', { style: { paddingRight: '6px' } },
-        h('a.row.grow', { href: `#/tutor?chat=${encodeURIComponent(c.id)}`, style: { textDecoration: 'none', color: 'inherit', minWidth: 0 } }, icon, h('div.grow', info)),
-        h('button.icon-btn', { type: 'button', 'aria-label': `Видалити: ${c.title || 'Розмова'}`, onclick: () => remove([c.id]) }, ic('trash', { size: 20 })));
+      return h('div.tx-row.pp-hrow',
+        h('a.pp-hlink', { href: `#/tutor?chat=${encodeURIComponent(c.id)}` }, sq, body),
+        h('button.icon-btn', { type: 'button', 'aria-label': `Видалити: ${title}`, onclick: () => remove([c.id]) }, ic('trash', { size: 20 })));
     });
-    box.replaceChildren(head, h('div.list', rows),
+    box.replaceChildren(head, txRows(rows),
       selecting ? h('div.row',
         h('button.btn.soft.grow', { type: 'button', onclick: () => { list.forEach(c => picked.add(c.id)); draw(); } }, 'Вибрати всі'),
         h('button.btn.danger.grow', { type: 'button', disabled: !picked.size, onclick: () => remove([...picked]) }, ic('trash', { size: 18 }), `Видалити (${picked.size})`)) : '');

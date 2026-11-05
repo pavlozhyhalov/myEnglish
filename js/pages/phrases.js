@@ -11,6 +11,7 @@ import { toast } from '../ui/toast.js';
 import { activityTimer } from '../stats.js';
 import { user } from '../supa.js';
 import { onLeave } from '../router.js';
+import { tx, txPrimary, txGrid, txGroup } from '../ui/tiles.js';
 import { SITUATIONS, situation, phrasesBySituation, phraseCount, savePhrases, fillMissing, guessSituation } from '../phrases.js';
 
 const nPhrases = (n) => `${n} ${plural(n, 'фраза', 'фрази', 'фраз')}`;
@@ -39,34 +40,27 @@ function overview(view) {
   const topSit = top && situation(top[0]);
   const tile = (s) => {
     const n = groups.get(s.id)?.length || 0;
-    return h('a.tile.ph-tile' + (n ? '' : '.empty-sit'), { href: `#/phrases/${s.id}`, 'aria-label': `${s.uk}: ${n ? nPhrases(n) : 'поки порожньо'}` },
-      h('span.tile-ico', ic(s.icon, { size: 22 })),
-      h('div', h('div.name', s.uk), h('div.status', n ? nPhrases(n) : 'поки порожньо')));
+    return tx({ href: `#/phrases/${s.id}`, icon: s.icon, label: s.uk, sub: n ? nPhrases(n) : 'поки порожньо', cls: 'ph-tile' + (n ? '' : '.empty-sit'),
+      attrs: { 'aria-label': `${s.uk}: ${n ? nPhrases(n) : 'поки порожньо'}` } });
   };
   // ситуації з фразами — першими (за кількістю), далі решта в усталеному порядку
   const order = SITUATIONS.slice().sort((a, b) => (groups.get(b.id)?.length || 0) - (groups.get(a.id)?.length || 0));
   view.replaceChildren(h('div.stack-lg.phrasebook',
-    h('section.row', h('div.emoji-circle', ic('quotes')),
-      h('div.grow', h('h1', { style: { margin: 0 } }, 'Фразник'), h('div.small.dim', total ? `${nPhrases(total)} для реальних ситуацій` : 'Готові фрази для реальних ситуацій'))),
-    topSit ? h('section.ph-hero',
-      h('div.label', 'Підготуватися до…'),
-      h('div.row', { style: { gap: '12px' } }, h('span.ph-hero-ico', { 'aria-hidden': 'true' }, ic(topSit.icon, { size: 24 })),
-        h('div.grow', h('div.ph-hero-t', topSit.uk), h('div.sub', `${nPhrases(top[1].length)} · ~${Math.max(1, Math.round(top[1].length * 0.4))} хв`))),
-      h('a.btn.start', { href: `#/phrases/${topSit.id}/prepare` }, ic('play', { size: 18, fill: true }), 'Підготуватися')) : emptyCard(),
-    h('section.stack', { style: { gap: '8px' } },
-      h('div.section-title', 'Ситуації'),
-      h('div.grid2.ph-grid', order.map(tile))),
-    h('button.btn.soft.block', { type: 'button', onclick: () => addSheet(null, () => overview(view)) }, ic('plus', { size: 18 }), 'Додати фразу')));
+    topSit ? txGroup('Підготуватися до…',
+      txPrimary({ href: `#/phrases/${topSit.id}/prepare`, icon: topSit.icon, label: topSit.uk,
+        sub: `${nPhrases(top[1].length)} · ~${Math.max(1, Math.round(top[1].length * 0.4))} хв · скажіть уголос і перевірте себе`,
+        attrs: { 'aria-label': `Підготуватися: ${topSit.uk}` } })) : emptyCard(),
+    txGroup(total ? `Ситуації · ${nPhrases(total)}` : 'Ситуації', txGrid(order.map(tile), 2)),
+    tx({ icon: 'plus', label: 'Додати фразу', sub: 'Те, що треба сказати лікарю, сусіду чи в банку', wide: true, onclick: () => addSheet(null, () => overview(view)) })));
 }
 
 function emptyCard() {
-  return h('section.card.stack.ph-empty',
-    h('div.row', { style: { alignItems: 'flex-start', gap: '12px' } }, h('span.tile-ico', ic('lightbulb', { size: 22 })),
-      h('div.grow.stack', { style: { gap: '4px' } }, h('div', { style: { fontWeight: 600 } }, 'Звідки беруться фрази'),
-        h('div.small.dim', 'Збережіть корисні фрази з місій вчителя, сценаріїв і підсумків розмов — кнопкою «У фразник». Або додайте свої: те, що треба сказати лікарю, сусіду чи в банку.'))),
-    h('div.ph-empty-acts',
-      h('a.btn.primary', { href: '#/tutor' }, ic('flag', { size: 18 }), 'Місії'),
-      h('a.btn.soft', { href: '#/scenarios' }, ic('users-three', { size: 18 }), 'Сценарії')));
+  return txGroup('Звідки беруться фрази', [
+    h('p.small.dim.ph-empty-t', 'Збережіть корисні фрази з місій вчителя, сценаріїв і підсумків розмов — кнопкою «У фразник». Або додайте свої: те, що треба сказати лікарю, сусіду чи в банку.'),
+    txGrid([
+      tx({ href: '#/tutor', icon: 'flag', label: 'Місії', sub: 'рольові ігри з вчителем', on: true }),
+      tx({ href: '#/scenarios', icon: 'users-three', label: 'Сценарії', sub: 'діалоги з життя' }),
+    ], 2)]);
 }
 
 // ---------- Фрази ситуації ----------
@@ -84,13 +78,13 @@ function situationView(view, sit) {
         h('span.tile-ico', ic(sit.icon, { size: 22 })),
         h('div.grow', h('h1', { style: { margin: 0, fontSize: 'var(--fs-xl)' } }, sit.uk), h('div.xs.dim', list.length ? nPhrases(list.length) : 'Поки порожньо'))),
       list.length ? h('div.stack', { style: { gap: '8px' } },
-        h('a.btn.primary.lg.block', { href: `#/phrases/${sit.id}/prepare` }, ic('play', { size: 20, fill: true }), 'Підготуватися'),
+        txPrimary({ href: `#/phrases/${sit.id}/prepare`, icon: 'play', label: 'Підготуватися', sub: nPhrases(Math.min(15, list.length)) + ' за раз' }),
         h('div.xs.dim.ph-hint', 'Бачите фразу українською — кажете вголос англійською — перевіряєте себе.')) : null,
       list.length ? h('div.list.ph-list', list.map(c => row(c, known(c)))) : h('div.empty.ph-sit-empty', ic('chat-centered-text', { size: 40 }),
         h('p', 'Тут ще немає фраз. Додайте те, що вам знадобиться в цій ситуації, або збережіть фрази з місій і сценаріїв.'),
         h('a.btn.soft', { href: '#/tutor' }, ic('flag', { size: 18 }), 'Місії вчителя')),
       missing && !(user() && navigator.onLine) ? h('div.xs.dim', `${missing} ${plural(missing, 'фраза', 'фрази', 'фраз')} без перекладу — його буде додано після входу, коли з'явиться мережа.`) : null,
-      h('button.btn.soft.block', { type: 'button', onclick: () => addSheet(sit.id, draw) }, ic('plus', { size: 18 }), 'Додати фразу'));
+      tx({ icon: 'plus', label: 'Додати фразу', wide: true, onclick: () => addSheet(sit.id, draw) }));
   };
   const row = (c, isKnown) => h('div.list-row.ph-row',
     h('button.ph-say', { type: 'button', 'aria-label': `Прослухати: ${c.en}`, onclick: () => speak(c.en) },

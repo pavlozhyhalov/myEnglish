@@ -12,25 +12,25 @@
 .fl-hero-t{font-family:var(--font-head);font-weight:700;font-size:var(--fs-lg);line-height:1.25;overflow-wrap:anywhere}
 .fl-hero .btn.start{background:#fff;color:var(--hero);font-weight:700;min-height:52px;border-radius:var(--radius-btn);gap:8px}
 .fl-hero :focus-visible{outline-color:#fff}
-.fl-steps{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
-.fl-step{font-family:var(--font-head);font-weight:600;font-size:var(--fs-sm);padding:6px 12px;border-radius:var(--radius-pill);background:rgba(255,255,255,.14)}
-.fl-arrow{display:inline-grid;color:var(--hero-dim)}
 .fl-hero-nums{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;border-top:1px solid rgba(255,255,255,.14);padding-top:12px}
 .fl-hero-nums div{display:flex;flex-direction:column;gap:2px;min-width:0}
 .fl-hero-nums b{font-family:var(--font-head);font-weight:700;font-size:var(--fs-xl);line-height:1.1;letter-spacing:-.02em;white-space:nowrap}
 .fl-hero-nums span{font-size:var(--fs-xs);color:var(--hero-dim)}
 
-.fl-gcard .tile-ico,.fl-login .tile-ico{color:var(--accent-ink)}
+.fl-login .tile-ico{color:var(--accent-ink)}
 .tile-ico.bad{background:var(--bad-soft);color:var(--bad)}
 .fl-tips{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px;font-size:var(--fs-sm);color:var(--ink-dim);line-height:1.45}
 .fl-tips li::marker{color:var(--accent-ink)}
 
 /* «Ваш прогрес» */
 .fl-ptile .fl-ml{min-height:2.6em}
-.fl-ptile{display:flex;flex-direction:column;gap:4px;padding:12px;border-radius:14px;background:var(--surface-2);min-width:0}
+.fl-ptile{display:flex;flex-direction:column;gap:4px;padding:12px;border-radius:16px;background:var(--tile);border:1px solid var(--tile-edge);min-width:0}
 .fl-spark{width:100%;height:36px;display:block;overflow:visible}
 .fl-sline{stroke:var(--accent-ink);stroke-width:2;stroke-linejoin:round;stroke-linecap:round;vector-effect:non-scaling-stroke}
-.fl-sdot{fill:var(--accent-ink);stroke:var(--surface-2);stroke-width:2}
+.fl-sdot{fill:var(--accent-ink);stroke:var(--tile);stroke-width:2}
+/* головна тренажера: плитки (css/tiles.css), пояснення під групою */
+.fl-note{margin:0;padding:0 4px;line-height:1.45}
+.fl-why{padding:12px 14px;border-radius:16px;background:var(--tile);border:1px solid var(--tile-edge)}
 
 /* Метрики */
 .fl-metrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}

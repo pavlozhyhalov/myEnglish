@@ -16,7 +16,6 @@
 .wt-entry + .section-title{margin-top:8px}
 
 .reading-gloss summary{cursor:pointer}
-.reading-day{text-decoration:none;color:inherit}
 
 /* Пошук за виділенням (js/ui/selectlookup.js): плашка «Що це?» біля виділення / над нижньою панеллю */
 .sel-q{position:fixed;left:0;top:0;z-index:75;width:40px;height:40px;border-radius:50%;border:0;padding:0;display:grid;place-items:center;

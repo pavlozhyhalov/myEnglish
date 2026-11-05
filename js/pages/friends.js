@@ -7,6 +7,7 @@ import { user, getSupa } from '../supa.js';
 import { toast } from '../ui/toast.js';
 import { confirmSheet } from '../ui/sheet.js';
 import { streak, dayKey } from '../stats.js';
+import { txGroup } from '../ui/tiles.js';
 
 const days = (n) => `${n} ${plural(n, 'день', 'дні', 'днів')}`;
 const mins = (sec) => `${Math.round((sec || 0) / 60)}\u00a0хв`;
@@ -16,7 +17,7 @@ const cleanCode = (s) => String(s || '').toUpperCase().replace(/[^A-Z0-9]/g, '')
 // Стилі елементів сторінки (без окремого CSS-файлу)
 const ST = {
   code: { fontFamily: 'ui-monospace, SFMono-Regular, Menlo, monospace', fontSize: '1.6rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--accent-ink)' },
-  ava: { width: '36px', height: '36px', flex: '0 0 36px', borderRadius: '50%', display: 'grid', placeItems: 'center', background: 'var(--accent-soft)', color: 'var(--accent-ink)', fontWeight: 700 },
+  ava: { width: '34px', height: '34px', flex: '0 0 34px', borderRadius: '10px', display: 'grid', placeItems: 'center', background: 'var(--tile-sq)', color: 'var(--ink-dim)', fontWeight: 700 },
   streak: { display: 'inline-flex', alignItems: 'center', gap: '4px', fontWeight: 700 },
 };
 
@@ -68,7 +69,7 @@ export default function friends(view, r) {
     onkeydown: (e) => { if (e.key === 'Enter') add(); },
   });
   const addBtn = h('button.btn.primary', { type: 'button', onclick: () => add() }, ic('user-plus', { size: 18 }), 'Додати');
-  const list = h('div.list', h('div.list-row.dim.small', 'Завантаження…'));
+  const list = h('div.tx-rows', h('div.tx-row.dim.small', 'Завантаження…'));
   let myCode = '';
 
   const shareUrl = () => `${location.origin}${location.pathname}#/friends?code=${myCode}`;
@@ -143,12 +144,12 @@ export default function friends(view, r) {
 
   function friendRow(f, mine) {
     const shared = Math.min(f.streak || 0, mine.streak || 0);
-    return h('div.list-row.friend-row',
+    return h('div.tx-row.friend-row',
       h('div.friend-ava', { 'aria-hidden': 'true', style: ST.ava }, (f.name || '?').trim().charAt(0).toUpperCase()),
-      h('div.grow',
-        h('div', { style: { fontWeight: 600 } }, f.name),
-        h('div.sub', `Сьогодні ${mins(f.today_seconds)} · тиждень ${mins(f.week_seconds)}`),
-        shared > 0 ? h('div.xs.dim', `Разом без перерви: ${days(shared)}`) : null),
+      h('span.tx-body',
+        h('span.tx-l', f.name),
+        h('span.tx-s', `Сьогодні ${mins(f.today_seconds)} · тиждень ${mins(f.week_seconds)}`),
+        shared > 0 ? h('span.tx-s', `Разом без перерви: ${days(shared)}`) : null),
       h('div.friend-streak', { style: ST.streak, title: `Стрік: ${days(f.streak || 0)}`, 'aria-label': `Стрік: ${days(f.streak || 0)}` }, emo('fire'), h('span.num', String(f.streak || 0))),
       h('button.icon-btn', { type: 'button', 'aria-label': `Видалити ${f.name} з друзів`, onclick: () => remove(f) }, ic('trash', { size: 18 })));
   }
@@ -158,41 +159,36 @@ export default function friends(view, r) {
       const rows = await rpc('friends_stats', {});
       if (!alive) return;
       const mine = myStats();
-      const meRow = h('div.list-row.friend-row.me',
+      const meRow = h('div.tx-row.on.friend-row.me',
         h('div.friend-ava', { 'aria-hidden': 'true', style: ST.ava }, ic('user', { size: 18 })),
-        h('div.grow', h('div', { style: { fontWeight: 600 } }, 'Ви'), h('div.sub', `Сьогодні ${mins(mine.today_seconds)} · тиждень ${mins(mine.week_seconds)}`)),
+        h('span.tx-body', h('span.tx-l', 'Ви'), h('span.tx-s', `Сьогодні ${mins(mine.today_seconds)} · тиждень ${mins(mine.week_seconds)}`)),
         h('div.friend-streak', { style: ST.streak, 'aria-label': `Ваш стрік: ${days(mine.streak)}` }, emo('fire'), h('span.num', String(mine.streak))),
         h('span', { 'aria-hidden': 'true', style: { width: '40px', flex: '0 0 40px' } }));
       if (!rows?.length) {
-        list.replaceChildren(meRow, h('div.list-row.small.dim', 'Поки що друзів немає. Поділіться своїм кодом або введіть код друга.'));
+        list.replaceChildren(meRow, h('div.tx-row.small.dim', 'Поки що друзів немає. Поділіться своїм кодом або введіть код друга.'));
         return;
       }
       list.replaceChildren(meRow, ...rows.map(f => friendRow(f, mine)));
     } catch (e) {
       console.warn('friends_stats', e);
-      if (alive) list.replaceChildren(h('div.list-row.small.dim', navigator.onLine ? 'Не вдалося завантажити друзів. Спробуйте пізніше.' : 'Немає мережі — список друзів недоступний.'));
+      if (alive) list.replaceChildren(h('div.tx-row.small.dim', navigator.onLine ? 'Не вдалося завантажити друзів. Спробуйте пізніше.' : 'Немає мережі — список друзів недоступний.'));
     }
   }
 
   view.replaceChildren(h('div.stack-lg',
-    h('section.card.stack', { style: { gap: '10px' } },
-      h('div.section-title', { style: { margin: 0 } }, 'Мій код друга'),
+    txGroup('Мій код друга', h('section.card.stack.pp-panel', { style: { gap: '10px' } },
       h('div.row', { style: { flexWrap: 'wrap', gap: '8px' } }, codeBox,
         h('div.row', { style: { gap: '8px', marginLeft: 'auto' } },
           h('button.btn.sm.soft', { type: 'button', onclick: copy }, ic('copy', { size: 16 }), 'Копіювати'),
           h('button.btn.sm.soft', { type: 'button', onclick: share }, ic('share-network', { size: 16 }), 'Поділитися'))),
       h('div.field', h('label', 'Ім\'я, яке бачать друзі'), nameInp,
-        h('div.xs.dim', 'Якщо порожнє — ім\'я з «Профілю», а без нього — «Учень». Вашу пошту друзі не бачать.'))),
+        h('div.xs.dim', 'Якщо порожнє — ім\'я з «Профілю», а без нього — «Учень». Вашу пошту друзі не бачать.')))),
 
-    h('section.stack', { style: { gap: '8px' } },
-      h('div.section-title', 'Додати друга'),
-      h('div.row', { style: { gap: '8px' } }, h('div.grow', codeInp), addBtn)),
+    txGroup('Додати друга', h('div.row', { style: { gap: '8px' } }, h('div.grow', codeInp), addBtn)),
 
-    h('section.stack', { style: { gap: '8px' } },
-      h('div.section-title', 'Друзі'),
-      list),
+    txGroup('Друзі', list),
 
-    h('p.xs.dim', { style: { margin: '0 2px' } }, 'Друзі бачать лише ваше ім\'я для друзів, стрік і хвилини занять (сьогодні й цього тижня). Картки, помилки, розмови й профіль — лише ваші.')));
+    h('p.xs.dim.pp-note', 'Друзі бачать лише ваше ім\'я для друзів, стрік і хвилини занять (сьогодні й цього тижня). Картки, помилки, розмови й профіль — лише ваші.')));
 
   store.queueSync(0);   // свіжі хвилини — на сервер, щоб друзі бачили актуальне
   loadMe().then(loadList);

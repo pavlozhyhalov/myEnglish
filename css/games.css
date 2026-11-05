@@ -1,10 +1,9 @@
 /* ---------- Ігри (#/games) ---------- */
-.games h2{margin:0;font-size:var(--fs-lg)}
+.games h2:not(.tx-label){margin:0;font-size:var(--fs-lg)}
 .g-head{display:flex;align-items:center;gap:6px;min-width:0}
 .g-head h2{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.g-tile{text-decoration:none;color:inherit;align-items:center}
-.g-tile .name{font-weight:600}
-.g-status{color:var(--accent-ink);font-weight:600;margin-top:2px}
+.g-hub-head{gap:8px;align-items:center}
+.g-tile .tx-pill{margin-top:4px;align-self:flex-start;white-space:normal;line-height:1.2}
 .g-intro{align-items:flex-start}
 .g-big{width:56px;height:56px;border-radius:18px}
 .g-rules{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:2px}

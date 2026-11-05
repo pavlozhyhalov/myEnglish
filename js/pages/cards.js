@@ -11,6 +11,7 @@ import { modalOpen } from '../ui/modal.js';
 import { go } from '../router.js';
 import { myLevel, diff, levelTag, byFit } from '../level.js';
 import { aiErrorText } from '../ai.js';
+import { tx, txPrimary, txKpis, txGrid, txGroup, txRows, txBar } from '../ui/tiles.js';
 
 export default async function cards(view, r) {
   if (r.parts[0] === 'review') {
@@ -26,29 +27,45 @@ export default async function cards(view, r) {
   const decks = await srs.decks();
   const total = c.due + c.fresh;
   const session = Math.min(c.due, 30) + Math.min(c.fresh, 20);   // одна сесія тренування (MAX_DUE/MAX_NEW у wordtrain.js)
-  view.replaceChildren(h('div.stack-lg',
-    h('section.card.stack.center',
-      h('div.counters',
-        h('div', h('b.good', String(c.fresh)), h('div.xs.dim', 'нові')),
-        h('div', h('b.warn', String(c.due)), h('div.xs.dim', 'до повтору')),
-        h('div', h('b', String(c.learned)), h('div.xs.dim', 'вивчені'))),
-      total
-        ? h('div.stack', { style: { gap: '8px' } },
-          h('a.btn.primary.lg.block', { href: '#/cards/train' }, ic('lightning', { fill: true }), `Тренування слів · ${session} ${plural(session, 'слово', 'слова', 'слів')}`),
-          h('p.xs.dim', { style: { margin: 0 } }, 'Впізнати, почути, написати, скласти речення — оцінку для повторів застосунок ставить сам.'),
-          h('a.btn.ghost.block', { href: '#/cards/review' }, ic('cards'), 'Швидкий повтор (картки)'))
-        : h('div.stack', emo('party', 'xl'), h('p', 'На сьогодні все повторено.'), h('p.dim.small', 'Нові картки з\'являться завтра. Ліміт нових — у налаштуваннях.'))),
-    ...[['general', 'Колоди: загальна англійська'], ['work', 'Робота (за вибором)'], ['my', 'Мої слова']].map(([g, title]) => {
+  // прогрес колоди: вивчені слова (стабільність ≥ 21 дн) серед її карток
+  const learnedBy = new Map();
+  for (const row of store.all('cards')) if (srs.isLearned(row)) learnedBy.set(row.deck_id, (learnedBy.get(row.deck_id) || 0) + 1);
+  const deckRow = (d) => {
+    const n = d.count ?? 0, got = Math.min(n, learnedBy.get(d.id) || 0);
+    const sub = `${n} ${plural(n, 'картка', 'картки', 'карток')}${got ? ` · вивчено ${got}` : ''}${d.desc ? ' · ' + d.desc : ''}${d.level && diff(d.level) > 1 ? ' · поки без нових слів' : ''}`;
+    const el = h('div.tx-row.cd-deck' + (d.enabled ? '' : '.off'),
+      h('span.tx-sq', emo(d.emoji || 'cards')),
+      h('span.tx-body',
+        h('span.tx-l', d.name, ' ', levelTag(d.level)),
+        h('span.tx-s', sub),
+        n ? txBar(got / n) : null),
+      toggle(d.enabled, (v) => { srs.setDeckEnabled(d, v); d.enabled = v; el.classList.toggle('off', !v); }, `Колода ${d.name}`));
+    return el;
+  };
+  const kpis = txKpis([
+    { value: c.fresh, label: 'нові', tone: 'good' },
+    { value: c.due, label: 'до повтору', tone: c.due ? 'warn' : '' },
+    { value: c.learned, label: 'вивчені' },
+  ]);
+  view.replaceChildren(h('div.stack-lg.cd-over',
+    total
+      ? h('div.stack', { style: { gap: '8px' } }, kpis,
+        txPrimary({ icon: 'lightning', label: 'Тренування слів', sub: `${session} ${plural(session, 'слово', 'слова', 'слів')} · оцінку ставить застосунок`, href: '#/cards/train' }),
+        txGrid([
+          tx({ icon: 'cards', label: 'Швидкий повтор', sub: 'класичні картки', href: '#/cards/review' }),
+          tx({ icon: 'plus', label: 'Додати свої слова', sub: 'у «Мої слова»', href: '#/vocab' }),
+        ], 2),
+        h('p.xs.dim.cd-note', 'Впізнати, почути, написати, скласти речення — оцінку для повторів застосунок ставить сам.'))
+      : h('div.stack', { style: { gap: '8px' } }, kpis,
+        tx({ icon: 'confetti', label: 'На сьогодні все повторено', sub: 'Нові картки з\'являться завтра. Ліміт нових — у налаштуваннях.', wide: true, tone: 'good' }),
+        tx({ icon: 'plus', label: 'Додати свої слова', sub: 'у «Мої слова»', href: '#/vocab', wide: true })),
+    ...[['general', 'Колоди · загальна англійська'], ['work', 'Робота · за вибором'], ['my', 'Мої слова']].map(([g, title]) => {
       const list = g === 'general' ? byFit(decks.filter(d => d.group === g)) : decks.filter(d => (d.group || 'my') === g);
       if (!list.length) return null;
-      return h('section.stack', { style: { gap: '8px' } }, h('div.section-title', title),
-        g === 'general' ? h('p.xs.dim', { style: { margin: '0 2px' } }, `Нові слова беруться з колод рівня ${myLevel()}, далі — наступного. Колоди вищих рівнів чекають, поки ви до них дійдете.`) : null,
-        h('div.list', list.map(d => h('div.list-row',
-          emo(d.emoji || 'cards'),
-          h('div.grow', h('div', { style: { fontWeight: 600 } }, d.name, ' ', levelTag(d.level)), h('div.sub', `${d.count ?? 0} ${plural(d.count ?? 0, 'картка', 'картки', 'карток')}${d.desc ? ' · ' + d.desc : ''}${d.level && diff(d.level) > 1 ? ' · поки без нових слів' : ''}`)),
-          toggle(d.enabled, (v) => srs.setDeckEnabled(d, v), `Колода ${d.name}`)))));
+      return txGroup(title, [
+        g === 'general' ? h('p.xs.dim.cd-note', `Нові слова беруться з колод рівня ${myLevel()}, далі — наступного. Колоди вищих рівнів чекають, поки ви до них дійдете.`) : null,
+        txRows(list.map(deckRow))]);
     }),
-    h('a.btn.soft.block', { href: '#/vocab' }, ic('plus'), 'Додати свої слова'),
     h('p.xs.dim.center', 'Тренування: 1–4 — варіант, Enter — далі. Швидкий повтор: пробіл — показати, 1–4 — оцінка, свайп уліво — «Знову», управо — «Добре».')));
 }
 
