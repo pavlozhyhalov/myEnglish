@@ -49,6 +49,8 @@
   --line-strong:#C3CBDA;
   /* текст/значок на суцільному --good / --bad (у темній темі вони світлі — потрібен темний текст) */
   --on-good:#FFFFFF; --on-bad:#FFFFFF;
+  /* плитки (стиль меню, 2026-11-05): фон плитки на сторінці і квадратик іконки */
+  --tile:#FFFFFF; --tile-sq:#EDF1F8; --tile-edge:#E3E8F1;
 }
 /* Ніч: акцент світліший, щоб кнопки не зливались із тлом; текст-акцент — блакитний */
 @media (prefers-color-scheme:dark){
@@ -66,6 +68,7 @@
     --scrim:rgba(0,0,0,.6);
     --seg-on:#2B3B66; --track:#2A3652; --switch-off:#4A5A80;
     --line-strong:#34425F; --on-good:#0B1530; --on-bad:#1A0B08;
+    --tile:#18233A; --tile-sq:#111A2C; --tile-edge:transparent;
   }
 }
 :root[data-theme="dark"]{
@@ -82,5 +85,6 @@
   --scrim:rgba(0,0,0,.6);
   --seg-on:#2B3B66; --track:#2A3652; --switch-off:#4A5A80;
   --line-strong:#34425F; --on-good:#0B1530; --on-bad:#1A0B08;
+  --tile:#18233A; --tile-sq:#111A2C; --tile-edge:transparent;
 }
 @media (prefers-reduced-motion:reduce){:root{--dur:0ms}}
