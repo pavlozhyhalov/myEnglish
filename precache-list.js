@@ -1,7 +1,7 @@
 // Згенеровано scripts/bump.sh — не редагувати вручну
 // шлях → хеш вмісту (sha256, 12 символів)
 self.PRECACHE = {
-  './': 'f879e9fc36f2', './index.html': 'f879e9fc36f2', './manifest.webmanifest': 'a99fcb655734',
+  './': 'e6be3de43dbc', './index.html': 'e6be3de43dbc', './manifest.webmanifest': 'a99fcb655734',
   './assets/icons/apple-touch-icon.png': '92b8c14d44a7',
   './assets/icons/icon-192.png': '7002ccee6bcd',
   './assets/icons/icon-512.png': '4cdfc491602e',
@@ -17,12 +17,13 @@ self.PRECACHE = {
   './css/home.css': '2ed7877bab78',
   './css/p-grammar.css': '0236b3b7bfd1',
   './css/p-learn.css': 'b7a685f0de07',
+  './css/p-misc.css': 'e593abbba67c',
   './css/p-practice.css': '731711c43f46',
   './css/p-progress.css': '591cf20c49f4',
   './css/phrases.css': 'a1a9c39c106a',
   './css/reading.css': '87cc896e9e5a',
   './css/tests.css': 'c4308eb1346d',
-  './css/tiles.css': '8c524c8a7660',
+  './css/tiles.css': '3b107e666d15',
   './css/tokens.css': '21de92425f1b',
   './css/tutor.css': '600f72f9c5b2',
   './css/wordtrain.css': '5cef2794e450',
@@ -188,7 +189,7 @@ self.PRECACHE = {
   './js/ai.js': '7eb8286ecdab',
   './js/analysis.js': 'ec2f909622f7',
   './js/app.js': 'eb5dc6f2e829',
-  './js/config.js': 'b7872e7652ec',
+  './js/config.js': '8b6e55db7d5e',
   './js/daily.js': '79ba843a4d53',
   './js/data.js': 'b13181517b77',
   './js/errlog.js': 'b1996f6e588a',

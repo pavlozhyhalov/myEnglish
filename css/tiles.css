@@ -101,3 +101,41 @@ html.kbd .tx-row:focus-visible{outline:2px solid var(--accent-ink);outline-offse
   .tx-n{font-size:19px}
   .tx-grid{gap:6px}
 }
+
+/* ---------- Єдиний дизайн: базові компоненти в мові плиток (2026-11-06) ----------
+   Старі деталі (.card, .list, .list-row, .section-title, .emoji-circle, .hero-іконки, чипи, поля) тепер виглядають як плитки —
+   внутрішні екрани (уроки, тренування, чат, читання, тести, налаштування) отримують той самий дизайн, що й меню. */
+.card{background:var(--tile);border:1px solid var(--tile-edge);box-shadow:none;border-radius:16px}
+.card.soft{background:var(--tile-sq);border-color:transparent}
+.card .card.soft,.card .card{background:var(--tile-sq);border-color:transparent}
+.card.accent{background:var(--accent-soft);border:1px solid color-mix(in srgb,var(--accent) 35%,transparent)}
+/* списки — окремі рядки-плитки замість суцільної таблиці */
+.list{background:transparent;border:0;box-shadow:none;border-radius:0;overflow:visible;display:flex;flex-direction:column;gap:6px}
+.list > .list-row,.list > * > .list-row{background:var(--tile);border:1px solid var(--tile-edge);border-radius:14px}
+.list-row+.list-row{border-top:1px solid var(--tile-edge)}
+.list > .list-row + .list-row{border-top-color:var(--tile-edge)}
+a.list-row,button.list-row{-webkit-tap-highlight-color:transparent;transition:transform .18s cubic-bezier(.2,.8,.2,1),border-color .18s ease}
+button.list-row:active,a.list-row:active{background:var(--tile);transform:scale(.985)}
+@media (hover:hover){.list > a.list-row:hover,.list > button.list-row:hover{border-color:var(--line-strong)}}
+/* іконка на початку рядка — у квадратику, як у меню */
+.list-row > .emo:first-child,.list-row > .ico:first-child{flex:none;width:34px;height:34px;padding:7px;box-sizing:border-box;border-radius:10px;background:var(--tile-sq);color:var(--ink-dim)}
+/* список усередині плитки-картки — рядки без власного фону, з тонкими розділювачами */
+.card .list{gap:0}
+.card .list > .list-row,.card .list > * > .list-row{background:transparent;border:0;border-radius:0}
+.card .list > .list-row + .list-row{border-top:1px solid var(--line)}
+/* підписи груп — як у меню */
+.section-title{font-size:11px;font-weight:700;letter-spacing:.08em;margin:6px 4px 0}
+/* значки розділів і великі іконки екранів — квадратики плиток */
+.emoji-circle{width:40px;height:40px;border-radius:12px;background:var(--tile-sq);color:var(--ink-dim)}
+.hero .emo.xl{background:var(--tile-sq);color:var(--accent-ink);border-radius:18px}
+.empty .emo.xl{width:48px;height:48px;padding:12px;box-sizing:content-box;border-radius:18px;background:var(--tile-sq)}
+/* чипи й теги — м'якші, на фоні плиток */
+.chip{background:var(--tile);border-color:var(--tile-edge)}
+.chip:not([aria-pressed="true"]):not(.on){border-color:var(--line)}
+/* розкривні картки — як плитки з розкриттям */
+details.card > summary{font-weight:600}
+/* повідомлення й відгуки — радіус плиток */
+.feedback,.notice{border-radius:14px}
+/* «м'які» кнопки — радіус плиток */
+.btn{border-radius:14px}
+.btn.lg{border-radius:16px}
