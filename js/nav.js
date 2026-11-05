@@ -1,6 +1,5 @@
 // Реєстр розділів: id, адреса, іконка Phosphor (вона ж — значок у плашках), категорія бокового меню.
-// Меню (рішення власника 2026-11-02): зверху — Головна, Мій день, Вчитель; далі розкривні категорії
-// «Вивчати», «Практикувати», «Контроль і прогрес», «Я» з підкатегоріями (CATEGORIES нижче).
+// Меню — MENU нижче (рішення власника 2026-11-05): три головні плитки, три групи плиток, «Я» — у картці профілю.
 import { S } from './strings.js';
 
 export const SECTIONS = [
@@ -37,35 +36,51 @@ export const SECTIONS = [
 ].map(s => ({ ...s, emoji: s.icon, label: s.label || S.nav[s.id], long: s.long || S.navLong[s.id] || S.nav[s.id] }));
 
 /**
- * Бокове меню: категорія (розкривається) → підкатегорія (підпис) → розділи.
- * menu — коротша назва пункту в контексті підкатегорії (у шапці сторінки й нижній панелі лишається звичайна).
+ * Бокове меню (рішення 2026-11-05, замінює розкривні категорії): зверху три головні плитки (TOP),
+ * далі три групи по дві плитки в ряд — усе видно без гортання. Пункт може вести в розділ із вкладками (ids — усі його розділи):
+ * «Слова» = Картки + Словник, «Граматика» = Правила + Вправи тощо; вкладки — TABSETS нижче (js/ui/subnav.js).
+ * «Я» (профіль, друзі, налаштування) — у картці профілю внизу меню.
  */
-export const CATEGORIES = [
-  { id: 'learn', label: 'Вивчати', icon: 'graduation-cap', subs: [
-    { label: 'Слова', items: [['cards', 'Картки'], ['vocab', 'Слова й фрази'], ['phrases', 'Фразник'], ['games', 'Ігри зі словами']] },
-    { label: 'Граматика', items: [['grammar', 'Правила'], ['exgrammar', 'Вправи']] },
-    { label: 'Вимова', items: [['sounds', 'Звуки'], ['pronunciation', 'Вправи на вимову']] },
+export const TOP = ['home', 'today', 'tutor'];
+export const MENU = [
+  { id: 'learn', label: 'Вивчати', items: [
+    { id: 'words', label: 'Слова', icon: 'cards', href: '#/cards', ids: ['cards', 'vocab'] },
+    { id: 'phrases', label: 'Фразник', icon: 'quotes', href: '#/phrases', ids: ['phrases'] },
+    { id: 'grammar', label: 'Граматика', icon: 'puzzle-piece', href: '#/grammar', ids: ['grammar', 'exgrammar'] },
+    { id: 'pron', label: 'Вимова', icon: 'waveform', href: '#/pronunciation/sounds', ids: ['sounds', 'pronunciation'] },
+    { id: 'games', label: 'Ігри', icon: 'game-controller', href: '#/games', ids: ['games'] },
   ] },
-  { id: 'practice', label: 'Практикувати', icon: 'barbell', subs: [
-    { label: 'Говоріння', items: [['voice', 'Розмова голосом'], ['scenarios', 'Сценарії'], ['fluency', 'Тренажер плавності']] },
-    { label: 'Слухання й читання', items: [['listening', 'Аудіювання'], ['reading', 'Читання']] },
-    { label: 'Письмо', items: [['writing', 'Письмо'], ['diary', 'Щоденник']] },
+  { id: 'practice', label: 'Практикувати', items: [
+    { id: 'voice', label: 'Розмова голосом', icon: 'microphone', href: '#/tutor?mode=voice', ids: ['voice'] },
+    { id: 'scenarios', label: 'Сценарії', icon: 'users-three', href: '#/scenarios', ids: ['scenarios'] },
+    { id: 'fluency', label: 'Плавність', icon: 'timer', href: '#/fluency', ids: ['fluency'] },
+    { id: 'listenread', label: 'Слухання й читання', icon: 'headphones', href: '#/listening', ids: ['listening', 'reading'] },
+    { id: 'write', label: 'Письмо й щоденник', icon: 'pencil-line', href: '#/writing', ids: ['writing', 'diary'] },
   ] },
-  { id: 'check', label: 'Контроль і прогрес', icon: 'chart-line-up', subs: [
-    { label: 'Перевірка', items: [['mistakes', 'Мої помилки'], ['tests', 'Тести']] },
-    { label: 'Статистика', items: [['progress', 'Прогрес'], ['analysis', 'Аналіз'], ['report', 'Звіт за місяць']] },
-  ] },
-  { id: 'me', label: 'Я', icon: 'user', subs: [
-    { label: null, items: [['profile', 'Профіль'], ['friends', 'Друзі'], ['settings', 'Налаштування']] },
+  { id: 'progress', label: 'Прогрес', items: [
+    { id: 'mistakes', label: 'Мої помилки', icon: 'warning-circle', href: '#/mistakes', ids: ['mistakes'] },
+    { id: 'tests', label: 'Тести', icon: 'exam', href: '#/tests', ids: ['tests'] },
+    { id: 'stats', label: 'Статистика', icon: 'chart-line-up', href: '#/progress', ids: ['progress', 'analysis', 'report'] },
   ] },
 ];
+/** Пункт меню для розділу (Картки й Словник — обидва в «Слова») */
+export const menuItemOf = (sectionId) => MENU.flatMap(g => g.items).find(it => it.ids.includes(sectionId)) || null;
+
+/** Вкладки вгорі сторінки для розділів, об'єднаних в один пункт меню (показуються лише на головних сторінках цих розділів) */
+export const TABSETS = [
+  [['cards', 'Картки'], ['vocab', 'Словник']],
+  [['grammar', 'Правила'], ['exgrammar', 'Вправи']],
+  [['sounds', 'Звуки'], ['pronunciation', 'Вправи']],
+  [['listening', 'Аудіювання'], ['reading', 'Читання']],
+  [['writing', 'Письмо'], ['diary', 'Щоденник']],
+  [['progress', 'Прогрес'], ['analysis', 'Аналіз'], ['report', 'Звіт']],
+];
+export const tabsetOf = (sectionId) => TABSETS.find(t => t.some(([id]) => id === sectionId)) || null;
+
 /** Сторінка «Вправи» (#/exercises): усі розділи практики */
 export const PRACTICE_IDS = ['cards', 'exgrammar', 'voice', 'scenarios', 'fluency', 'listening', 'reading', 'pronunciation', 'writing', 'diary', 'mistakes', 'tests', 'games'];
 
 export const byId = Object.fromEntries(SECTIONS.map(s => [s.id, s]));
-export const GROUPS = CATEGORIES.map(c => c.id);
-/** Категорія меню, у якій розділ */
-export const categoryOf = (id) => CATEGORIES.find(c => c.subs.some(sb => sb.items.some(([x]) => x === id)))?.id || null;
 
 /** Розділ для поточної адреси: найдовший збіг href (#/pronunciation/sounds раніше за #/pronunciation) */
 export function sectionFor(path) {

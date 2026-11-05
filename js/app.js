@@ -7,7 +7,7 @@ import { initDrawer, toggle as toggleDrawer, setActive as drawerActive, renderPr
 import { initQuickbar, setActive as qbActive } from './ui/quickbar.js';
 import { toast } from './ui/toast.js';
 import { route, fallback, onRoute, start, go } from './router.js';
-import { sectionFor } from './nav.js';
+import { sectionFor, menuItemOf, tabsetOf } from './nav.js';
 import { initAuth, onAuth, onClient, recoveryPending, user as authUser } from './supa.js';
 import { initErrlog } from './errlog.js';
 import { streak, backfillLessonTests } from './stats.js';
@@ -15,6 +15,7 @@ import { setTitle, applyTheme, isDark } from './ui/shell.js';
 import { keepAwake } from './ui/wakelock.js';
 import { initSelectLookup } from './ui/selectlookup.js';
 import { initDailyBar } from './ui/dailybar.js';
+import { initSubnav, updateSubnav } from './ui/subnav.js';
 
 // ---------- Режим клавіатури: рамка фокусу видима лише після Tab/стрілок ----------
 addEventListener('keydown', (e) => {
@@ -112,16 +113,20 @@ async function boot() {
   initQuickbar();
   initSelectLookup();   // виділення англійських слів → «Що це?»
   initDailyBar();       // плашка «Далі за планом» (Мій день)
+  initSubnav();         // вкладки розділів, об'єднаних в один пункт меню
   applyTheme();
 
   for (const [name, loader] of Object.entries(pages)) route(name, loader);
   fallback((view) => { view.replaceChildren(h('div.empty', emo('magnifier', 'xl'), h('p', 'Сторінку не знайдено'), h('a.btn.soft', { href: '#/' }, S.nav.home))); });
   onRoute((r) => {
     const sec = sectionFor(r.path);
-    setTitle(r.name === 'home' ? S.app : sec ? sec.long : (S.nav[r.name] || S.app));
+    // розділ із вкладками (Картки · Словник…) — у шапці назва пункту меню («Слова»), вкладки під нею
+    const grouped = sec && tabsetOf(sec.id) && r.path === (sec.href.replace(/^#/, '').split('?')[0] || '/') ? menuItemOf(sec.id) : null;
+    setTitle(r.name === 'home' ? S.app : grouped ? grouped.label : sec ? sec.long : (S.nav[r.name] || S.app));
     drawerActive(sec ? sec.id : '');
     qbActive(sec ? sec.id : r.name);
     document.body.classList.remove('focus-mode');
+    updateSubnav(r);
     // екран не гасне на сторінках із завданнями (налаштування «Не вимикати екран під час завдань»)
     keepAwake(store.settings().keepAwake !== false && isPracticeRoute(r));
   });

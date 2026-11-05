@@ -9,7 +9,6 @@ import { toast } from '../ui/toast.js';
 import { md } from '../ui/md.js';
 import { tutor, aiErrorText } from '../ai.js';
 import { user } from '../supa.js';
-import { MONTH_ACC } from '../analysis.js';
 import { streak, lastNDays, totalSeconds, weekSeconds, todaySeconds, skillLevels, MISTAKE_TYPES, week as weekDays, secondsByDay, dayKey } from '../stats.js';
 
 export default async function progressPage(view) {
@@ -48,12 +47,7 @@ export default async function progressPage(view) {
       h('div.grow', h('div.num', { style: { fontSize: 'var(--fs-2xl)' } }, String(streak())), h('div.small.dim', `${plural(streak(), 'день', 'дні', 'днів')} поспіль`)),
       h('div.stat', { style: { textAlign: 'right' } }, h('b', fmtMin(totalSeconds())), h('span', 'всього практики'))),
 
-    h('a.card.row.analysis-link', { href: '#/analysis', style: { textDecoration: 'none', color: 'inherit' } }, ic('chart-pie-slice', { size: 24 }),
-      h('div.grow', h('div', { style: { fontWeight: 600 } }, 'Детальний аналіз →'), h('div.xs.dim', 'Сильні й слабкі сторони, тренди помилок, утримання слів, план від вчителя'))),
-
-    h('a.card.row.rp-link', { href: '#/report' }, ic('calendar-blank', { size: 24 }),
-      h('div.grow', h('div', { style: { fontWeight: 600 } }, `Звіт за ${MONTH_ACC[new Date().getMonth()]} →`), h('div.xs.dim', 'Хвилини, рівень у розмовах, темп мовлення, закриті помилки й ваш голос — тоді й зараз'))),
-
+    // «Аналіз» і «Звіт» — вкладки над сторінкою (js/ui/subnav.js)
     weeklyCard(),
 
     h('section.card.stack',

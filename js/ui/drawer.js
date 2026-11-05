@@ -1,6 +1,6 @@
 // Бокове меню (сендвіч)
 import { h, ic, clear } from './dom.js';
-import { SECTIONS, byId, CATEGORIES, categoryOf } from '../nav.js';
+import { byId, TOP, MENU, menuItemOf } from '../nav.js';
 import { S } from '../strings.js';
 import * as store from '../store.js';
 import { weekSeconds } from '../stats.js';
@@ -44,69 +44,59 @@ function syncA11y() {
   if (visible) drawer.removeAttribute('aria-hidden'); else drawer.setAttribute('aria-hidden', 'true');
 }
 
-// Розкриті категорії меню — пам'ятаємо між запусками; категорія поточної сторінки розкривається сама
-const OPEN_KEY = 'me:nav-open';
-let openCats = (() => { try { const v = JSON.parse(localStorage.getItem(OPEN_KEY) || 'null'); return new Set(Array.isArray(v) ? v : []); } catch { return new Set(); } })();
-const saveOpen = () => { try { localStorage.setItem(OPEN_KEY, JSON.stringify([...openCats])); } catch { /* */ } };
-
+// Меню: три головні плитки, три групи плиток по дві в ряд (MENU у js/nav.js) — усе на одному екрані, без розкривання.
+// Активна плитка — пункт, що містить поточний розділ (Картки й Словник — «Слова»).
 function renderList() {
   clear(list);
-  const item = (s, text) => h('a.item', { href: s.href, dataset: { id: s.id }, 'aria-current': s.id === current ? 'page' : null, onclick: close },
-    ic(s.icon, { fill: s.id === current }), h('span', text || s.long));
-  for (const s of SECTIONS.filter(s => !s.group)) list.append(item(s));
-  const activeCat = categoryOf(current);
-  if (activeCat) openCats.add(activeCat);
-  for (const c of CATEGORIES) {
-    const isOpen = openCats.has(c.id);
-    const bodyId = `nav-cat-${c.id}`;
-    const head = h('button.cat-head', { type: 'button', 'aria-expanded': String(isOpen), 'aria-controls': bodyId, dataset: { cat: c.id } },
-      ic(c.icon), h('span.grow', c.label), ic('caret-down', { size: 16 }));
-    const inner = h('div.cat-inner', c.subs.map(sb => h('div.cat-sub',
-      sb.label ? h('div.sub-label', sb.label) : null,
-      sb.items.map(([id, text]) => byId[id] ? item(byId[id], text) : null))));
-    const body = h('div.cat-body', { id: bodyId, inert: !isOpen }, inner);
-    const sec = h('section.cat' + (isOpen ? '.open' : ''), { dataset: { cat: c.id } }, head, body);
-    head.addEventListener('click', () => setCat(sec, !sec.classList.contains('open')));
-    list.append(sec);
+  const tile = (key, { href, icon, label }, cls = '') => h(`a.tile-nav${cls}`, { href, dataset: { key, icon }, onclick: close },
+    h('span.tn-ico', ic(icon, { size: 22 })), h('span.tn-label', label));
+  list.append(h('div.nav-top', TOP.map(id => {
+    const s = byId[id];
+    return tile(id, { href: s.href, icon: s.icon, label: id === 'tutor' ? 'Вчитель' : s.label }, '.top');
+  })));
+  for (const g of MENU) {
+    list.append(h('section.nav-group', { 'aria-labelledby': `nav-g-${g.id}` },
+      h('div.nav-group-label', { id: `nav-g-${g.id}` }, g.label),
+      // 3 у ряд; неповний останній ряд розтягується на всю ширину (без «дірок»)
+      h('div.nav-grid', g.items.map((it, i) => {
+        const rest = g.items.length % 3, wide = rest && i >= g.items.length - rest;
+        return tile(it.id, it, wide ? (rest === 1 ? '.wide.full' : '.wide') : '');
+      }))));
   }
+  paintActive();
 }
-function setCat(sec, on) {
-  const id = sec.dataset.cat;
-  sec.classList.toggle('open', on);
-  sec.querySelector('.cat-head').setAttribute('aria-expanded', String(on));
-  sec.querySelector('.cat-body').inert = !on;
-  if (on) openCats.add(id); else openCats.delete(id);
-  saveOpen();
+function paintActive() {
+  if (!list) return;
+  const key = TOP.includes(current) ? current : (menuItemOf(current)?.id || '');
+  list.querySelectorAll('a.tile-nav').forEach(a => {
+    const on = a.dataset.key === key;
+    if (on) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current');
+    a.querySelector('.tn-ico').replaceChildren(ic(a.dataset.icon, { size: 22, fill: on }));
+  });
 }
 
 export function renderProfile() {
   if (!profileBox) return;
   const u = user();
   const name = (store.prof().about?.name || '').trim();
-  clear(profileBox).append(h('div.profile-card',
-    h('a.row.grow', { href: '#/profile', onclick: close, style: { color: 'inherit', textDecoration: 'none', minWidth: 0 } },
+  const mini = (href, icon, label) => h('a.pc-btn', { href, onclick: close, 'aria-label': label, title: label }, ic(icon, { size: 20 }), h('span', label));
+  clear(profileBox).append(h('div.profile-card.pc',
+    h('a.pc-me', { href: '#/profile', onclick: close },
       h('div.level-badge', ic('user', { size: 22 })),
-      h('div.grow',
-        h('div', { style: { fontWeight: 600 } }, name || (u ? (u.email || '').split('@')[0] : S.guest)),
-        h('div.xs.dim', `${S.weekTime}: ${Math.round(weekSeconds() / 60)} хв`))),
-    u ? h('button.btn.sm', { type: 'button', onclick: async () => { await signOut(); close(); } }, S.logout)
-      : h('button.btn.sm.soft', { type: 'button', onclick: () => { close(); go('/auth'); } }, S.login)));
+      h('div.grow', { style: { minWidth: 0 } },
+        h('div.pc-name', name || (u ? (u.email || '').split('@')[0] : S.guest)),
+        h('div.xs.dim', `${S.weekTime}: ${Math.round(weekSeconds() / 60)} хв`)),
+      ic('caret-right', { size: 16 })),
+    h('div.pc-row',
+      mini('#/friends', 'users', 'Друзі'),
+      mini('#/settings', 'gear-six', 'Налаштування'),
+      u ? h('button.pc-btn', { type: 'button', onclick: async () => { await signOut(); close(); } }, ic('sign-out', { size: 20 }), h('span', S.logout))
+        : h('a.pc-btn.accent', { href: '#/auth', onclick: close }, ic('key', { size: 20 }), h('span', S.login)))));
 }
 
 export function setActive(id) {
   current = id;
-  if (!list) return;
-  // розділ з закритої категорії — розкрити її (інші розкриті лишаються як є)
-  const cat = categoryOf(id);
-  const sec = cat && list.querySelector(`section.cat[data-cat="${cat}"]`);
-  if (sec && !sec.classList.contains('open')) setCat(sec, true);
-  list.querySelectorAll('a.item').forEach(a => {
-    const on = a.dataset.id === id;
-    a.toggleAttribute('aria-current', on);
-    if (on) a.setAttribute('aria-current', 'page');
-    const s = SECTIONS.find(x => x.id === a.dataset.id);
-    a.firstChild.replaceWith(ic(s.icon, { fill: on }));
-  });
+  paintActive();
 }
 
 // iOS ігнорує overflow:hidden на body — фіксуємо сторінку і повертаємо прокрутку після закриття
@@ -188,7 +178,7 @@ export function toggle() { drawer.classList.contains('open') ? close() : open();
  * під час довгого утримання), мишею — pointer-події.
  */
 function pressFeedback(root) {
-  const SEL = 'a.item, .cat-head, .profile-card a, .profile .btn';
+  const SEL = 'a.tile-nav, .profile-card a, .pc-btn';
   let el = null, x0 = 0, y0 = 0, t = 0;
   const press = (target, x, y) => { clearTimeout(t); if (el && el !== target) el.classList.remove('pressed'); el = target; x0 = x; y0 = y; el.classList.add('pressed'); };
   const drop = () => { if (el) { el.classList.remove('pressed'); el = null; } };
