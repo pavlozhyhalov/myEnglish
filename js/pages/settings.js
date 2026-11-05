@@ -11,6 +11,7 @@ import { user } from '../supa.js';
 import { speak, englishVoices } from '../speech.js';
 import { arrange } from '../ui/quickbar.js';
 import { LEVELS, LEVEL_NAME, LEVEL_DESC, myLevel, setLevel } from '../level.js';
+import { txGroup } from '../ui/tiles.js';
 import { pushSupport, reminderPrefs, setReminderPrefs, remindersOn, enable as enablePush, disable as disablePush, syncPrefs, pushErrorText } from '../push.js';
 
 const RANGE_LABEL = { dailyGoal: 'Денна мета, хвилин', newPerDay: 'Нових карток на день', rate: 'Швидкість озвучення' };
@@ -29,15 +30,15 @@ export default function settings(view) {
     options.map(([v, t]) => h('option', { value: v, selected: String(st[k]) === String(v) ? true : null }, t)));
   const text = (k, label) => h('input.input', { type: 'text', value: st[k], 'aria-label': label, style: { maxWidth: '180px', minHeight: '40px' }, onchange: (e) => store.setSetting(k, e.target.value.trim() || DEFAULTS[k]) });
 
-  view.replaceChildren(h('div.stack-lg',
+  view.replaceChildren(h('div.stack-lg.pp-set',
     group('Рівень англійської', [levelPicker()]),
     group('Вигляд', [
       h('div', { style: { padding: '12px 14px' } }, seg([['auto', 'Авто'], ['light', 'Світла'], ['dark', 'Темна']], st.theme, (v) => { store.setSetting('theme', v); applyTheme(v); })),
       row('Закріпити меню на широкому екрані', toggle(st.pinDrawer !== false, (v) => { store.setSetting('pinDrawer', v); document.body.classList.toggle('drawer-pinned', v); }, 'Закріпити меню'), 'Від 1100 px'),
     ]),
-    h('div.section-title', 'Меню швидкого доступу'),
-    h('p.xs.dim', { style: { margin: '0 2px' } }, 'Утримуйте рядок і перетягніть, щоб змінити порядок. До 5 пунктів. «Вчитель» завжди посередині.'),
-    quickbarEditor(),
+    txGroup('Меню швидкого доступу', [
+      h('p.xs.dim.pp-note', 'Утримуйте рядок і перетягніть, щоб змінити порядок. До 5 пунктів. «Вчитель» завжди посередині.'),
+      quickbarEditor()]),
     group('Навчання', [
       h('div.list-row', h('div.grow', 'Денна мета')),
       range('dailyGoal', 5, 60, 5, v => `${v} хв на день`),
@@ -87,7 +88,7 @@ export default function settings(view) {
 // ---------- Нагадування (Web Push) ----------
 function remindersGroup() {
   const list = h('div.list');
-  const sec = h('section.stack', { style: { gap: '8px' } }, h('div.section-title', 'Нагадування'), list);
+  const sec = h('section.tx-group', h('h2.tx-label', 'Нагадування'), list);
   let on = false, busy = false;
 
   const row = (label, control, sub) => h('div.list-row', h('div.grow', h('div', label), sub ? h('div.sub', sub) : null), control);
@@ -166,7 +167,7 @@ function levelPicker() {
 }
 
 function group(title, rows) {
-  return h('section.stack', { style: { gap: '8px' } }, h('div.section-title', title), h('div.list', rows));
+  return txGroup(title, h('div.list', rows));
 }
 
 // ---------- Редактор нижньої панелі з перетягуванням ----------

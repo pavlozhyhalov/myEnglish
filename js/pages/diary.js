@@ -15,6 +15,7 @@ import { toast } from '../ui/toast.js';
 import { setTitle } from '../ui/shell.js';
 import { go } from '../router.js';
 import { myLevel, pickOfDay } from '../level.js';
+import { txGroup, txRow, txRows } from '../ui/tiles.js';
 
 const DRAFT_KEY = 'me:diary:draft';
 /** Орієнтовна довжина запису (слів) — так само в _shared/prompts.ts (DIARY_WORDS) */
@@ -182,10 +183,10 @@ function editor(view) {
 
   const today = entries().filter(c => dayKey(new Date(c.created_at)) === dayKey());
   view.replaceChildren(h('div.stack-lg',
-    h('section.row', h('div.emoji-circle', emo('notebook')), h('div.grow', h('h1', { style: { margin: 0 } }, S.nav.diary), h('div.small.dim', `2–3 хвилини про ваш день — голосом або текстом · рівень ${lvl}`))),
-    today.length ? h('a.card.row', { href: `#/diary/${encodeURIComponent(today[0].id)}`, style: { textDecoration: 'none', color: 'inherit' } },
-      emo('check'), h('div.grow', h('div', { style: { fontWeight: 600 } }, 'Сьогоднішній запис уже є'), h('div.xs.dim', 'Відкрити розбір — або напишіть ще один нижче')), ic('caret-right', { size: 18 })) : '',
-    h('section.card.accent.stack', h('div.section-title', 'Питання дня'), qText, qBtns),
+    today.length ? txRow({ icon: 'check-circle', on: true, label: 'Сьогоднішній запис уже є', sub: 'Відкрити розбір — або напишіть ще один нижче', href: `#/diary/${encodeURIComponent(today[0].id)}` }) : '',
+    txGroup(`Питання дня · рівень ${lvl}`, [
+      h('section.card.accent.stack.dy-q', qText, qBtns),
+      h('p.xs.dim.dy-note', '2–3 хвилини про ваш день — голосом або текстом.')]),
     h('section.stack', { style: { gap: '8px' } },
       ta,
       h('div.row', info, h('span.xs.dim', 'час'), clock),
@@ -213,24 +214,26 @@ function applyMistakes(row) {
 
 // ---------- Історія ----------
 function historyBox() {
-  const box = h('section.stack', { style: { gap: '8px' } });
+  const box = h('section.tx-group');
   const draw = () => {
     const list = entries();
-    if (!list.length) { box.replaceChildren(h('div.section-title', 'Мої записи'), h('div.small.dim', 'Тут з\'являтимуться ваші записи з розбором.')); return; }
+    if (!list.length) { box.replaceChildren(h('h2.tx-label', 'Мої записи'), h('div.small.dim.dy-note', 'Тут з\'являтимуться ваші записи з розбором.')); return; }
     const weekAgo = Date.now() - 7 * 864e5;
     const week = list.filter(c => Date.parse(c.created_at) >= weekAgo).length;
     box.replaceChildren(
-      h('div.row', h('div.section-title.grow', `Мої записи · ${list.length}`), h('span.xs.dim', `за 7 днів: ${week}`)),
-      h('div.list', list.slice(0, 60).map(c => {
+      h('div.tx-label-row', h('h2.tx-label', `Мої записи · ${list.length}`), h('span.xs.dim', `за 7 днів: ${week}`)),
+      txRows(list.slice(0, 60).map(c => {
         const s = c.summary || {};
         const text = s.entry || c.messages?.[0]?.text || '';
         const n = (s.mistakes || []).length;
-        return h('div.list-row', { style: { paddingRight: '6px' } },
-          h('a.row.grow', { href: `#/diary/${encodeURIComponent(c.id)}`, style: { textDecoration: 'none', color: 'inherit', minWidth: 0 } },
-            h('div.grow', { style: { minWidth: 0 } },
-              h('div', { style: { fontWeight: 600 } }, fmtDate(c.created_at, { weekday: 'short', day: 'numeric', month: 'short' })),
-              h('div.sub', { style: { overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' } }, text.slice(0, 120)),
-              h('div.sub', s.checked ? (n ? `${n} ${plural(n, 'виправлення', 'виправлення', 'виправлень')}` : 'без помилок') : 'не перевірено', ` · ${fmtMin(c.seconds || 0)}`))),
+        const state = s.checked ? (n ? `${n} ${plural(n, 'виправлення', 'виправлення', 'виправлень')}` : 'без помилок') : 'не перевірено';
+        return h('div.tx-row.pp-hrow',
+          h('a.pp-hlink', { href: `#/diary/${encodeURIComponent(c.id)}` },
+            h('span.tx-sq', ic(s.checked ? (n ? 'pencil-line' : 'check-circle') : 'notebook', { size: 18 })),
+            h('span.tx-body',
+              h('span.tx-l', fmtDate(c.created_at, { weekday: 'short', day: 'numeric', month: 'short' })),
+              h('span.tx-s.dy-peek', text.slice(0, 120)),
+              h('span.tx-s', `${state} · ${fmtMin(c.seconds || 0)}`))),
           h('button.icon-btn', { type: 'button', 'aria-label': `Видалити запис за ${fmtDate(c.created_at)}`, onclick: async () => { if (await removeEntry(c.id)) draw(); } }, ic('trash', { size: 20 })));
       })));
   };

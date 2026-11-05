@@ -7,12 +7,14 @@ import { render as renderExercise, answerText } from '../ui/exercises.js';
 import { speak, stop as stopSpeech } from '../speech.js';
 import { activityTimer, addMistake, dayKey, applyLessonTest, lessonNeedsReview, lessonsToReview } from '../stats.js';
 import * as srs from '../srs.js';
-import { setLevel, LEVEL_NAME, LEVEL_DESC, LEVELS, myLevel, levelTag, diff } from '../level.js';
+import { setLevel, LEVEL_NAME, LEVEL_DESC, LEVELS } from '../level.js';
 import * as CAT from '../placement.js';
 import { onLeave } from '../router.js';
 import { tutor, aiErrorText } from '../ai.js';
 import { user } from '../supa.js';
 import { setTitle, setFocus } from '../ui/shell.js';
+import { tx, txPrimary, txGrid, txGroup, txKpis, txRow, txRows, txPill } from '../ui/tiles.js';
+import { levelSection } from './grammar.js';
 
 // Щоб тести не повторювались: що бачили в останніх спробах (зберігається в історії тестів і синхронізується)
 const exKey = (ex) => String(ex.id || ex.prompt || ex.sentence || ex.uk || ex.answer || '').toLowerCase().replace(/\s+/g, ' ').slice(0, 120);
@@ -44,26 +46,39 @@ async function overview(view) {
   const lastPl = hist.find(t => t.type === 'placement');
   const plDue = !lastPl || Date.now() - Date.parse(lastPl.created_at) > 30 * 864e5;
   const inRun = !!loadRun();
-  const card = (emoji, title, desc, href, extra) => h('a.card.row', { href, style: { textDecoration: 'none', color: 'inherit' } },
-    h('div.emoji-circle', emo(emoji)), h('div.grow', h('div.row.wrap', { style: { fontWeight: 600, gap: '4px 8px' } }, h('span', title), extra || null), h('div.xs.dim', desc)), ic('caret-right', { size: 18 }));
-  view.replaceChildren(h('div.stack-lg',
-    card('target', 'Визначення рівня', inRun ? 'Тест не завершено — можна продовжити' : 'Адаптивний: 4 частини, письмо й розмова · ~25 хв', '#/tests/placement', inRun ? h('span.tag.accent', 'на паузі') : plDue ? h('span.tag.warn', lastPl ? 'час повторити' : 'не пройдено') : h('span.tag.good', lastPl.scores.overall)),
-    card('memo', 'Тест за уроком', 'До 15 питань з уроку і його теми', '#/tests/lesson'),
-    card('calendar', 'Тижневий тест', 'Картки й граматика за останні 7 днів', '#/tests/weekly'),
-    h('div.section-title', 'Результати'),
-    hist.length ? h('div.list', hist.slice(0, 30).map(t => {
+  // три тести — плитки; головна (синя) дія — тест рівня, якщо він на паузі чи давно не проходився, інакше тижневий
+  const plPill = inRun ? txPill('на паузі', 'accent') : plDue ? txPill(lastPl ? 'час повторити' : 'не пройдено', 'warn') : txPill(lastPl.scores.overall, 'good');
+  const T = {
+    placement: { icon: 'target', label: inRun ? 'Продовжити тест рівня' : 'Визначення рівня', sub: inRun ? 'Тест не завершено — можна продовжити' : 'Адаптивний: 4 частини, письмо й розмова · ~25 хв', href: '#/tests/placement', pill: plPill },
+    lesson: { icon: 'exam', label: 'Тест за уроком', sub: 'До 15 питань з уроку і його теми', href: '#/tests/lesson' },
+    weekly: { icon: 'calendar-blank', label: 'Тижневий тест', sub: 'Картки й граматика за останні 7 днів', href: '#/tests/weekly' },
+  };
+  const main = inRun || plDue ? 'placement' : 'weekly';
+  const others = Object.keys(T).filter(k => k !== main);
+  const lt = lessonTestStats();
+  const lastScores = [...lt.values()].map(x => x.last);
+  const avg = lastScores.length ? Math.round(lastScores.reduce((a, b) => a + b, 0) / lastScores.length) : null;
+  view.replaceChildren(h('div.stack-lg.gx',
+    txPrimary({ icon: T[main].icon, label: T[main].label, sub: T[main].sub, href: T[main].href, end: main === 'placement' && !inRun ? T[main].pill : undefined }),
+    txGrid(others.map(k => tx({ icon: T[k].icon, label: T[k].label, sub: T[k].sub, href: T[k].href, extra: T[k].pill || null })), 2),
+    txGroup('Показники', txKpis([
+      { value: lastPl ? lastPl.scores.overall : '—', label: 'рівень за тестом', tone: lastPl ? 'accent' : null },
+      { value: lt.size, label: 'уроків з тестом' },
+      { value: avg != null ? avg : '—', unit: avg != null ? '%' : '', label: 'середній бал', tone: avg != null ? scoreCls(avg) : null },
+    ])),
+    txGroup('Результати', hist.length ? txRows(hist.slice(0, 30).map(t => {
       const lessonRow = t.type === 'lesson' && t.ref;
-      const inner = [
-        h('div.grow', h('div', { style: { fontWeight: 600 } }, t.type === 'placement' ? 'Визначення рівня' : t.type === 'weekly' ? 'Тижневий тест' : `Урок: ${titles[t.ref] || t.ref}`),
-          h('div.sub', new Date(t.created_at).toLocaleDateString('uk-UA'), t.type === 'placement' ? ` · ${Object.entries(t.scores).filter(([k]) => SKILL_UK[k]).map(([k, v]) => `${SKILL_UK[k] || k}: ${v}`).join(', ')}` : '',
-            t.details?.length && t.type !== 'placement' ? ` · ${t.details.filter(d => d.ok).length} з ${t.details.length}` : '')),
-        h('span.tag.' + (t.type === 'placement' ? 'accent' : scoreCls(t.scores.score)), t.type === 'placement' ? t.scores.overall : `${t.scores.score}%`),
-        lessonRow ? ic('caret-right', { size: 18 }) : null,
-      ];
+      const sub = [new Date(t.created_at).toLocaleDateString('uk-UA'),
+        t.type === 'placement' ? Object.entries(t.scores).filter(([k]) => SKILL_UK[k]).map(([k, v]) => `${SKILL_UK[k] || k}: ${v}`).join(', ') : '',
+        t.details?.length && t.type !== 'placement' ? `${t.details.filter(d => d.ok).length} з ${t.details.length}` : ''].filter(Boolean).join(' · ');
       // тест за уроком — перехід до уроку (повторити правило або пройти тест ще раз)
-      return lessonRow ? h('a.list-row', { href: `#/grammar/${t.ref}` }, ...inner) : h('div.list-row', ...inner);
-    }))
-      : h('div.empty', emo('memo', 'xl'), h('p', 'Ще немає результатів'))));
+      return txRow({
+        icon: t.type === 'placement' ? 'target' : t.type === 'weekly' ? 'calendar-blank' : 'exam',
+        label: t.type === 'placement' ? 'Визначення рівня' : t.type === 'weekly' ? 'Тижневий тест' : `Урок: ${titles[t.ref] || t.ref}`,
+        sub, pill: t.type === 'placement' ? { text: t.scores.overall, tone: 'accent' } : { text: `${t.scores.score}%`, tone: scoreCls(t.scores.score) },
+        href: lessonRow ? `#/grammar/${t.ref}` : null, chevron: !!lessonRow,
+      });
+    })) : h('div.empty', emo('memo', 'xl'), h('p', 'Ще немає результатів')))));
 }
 
 // ---------- Загальний раннер тесту ----------
@@ -90,18 +105,18 @@ function runner(view, { title, total, next, onFinish }) {
 /** Розбір помилок. auto: помилки вже додано в «Мої помилки» (тест — контроль знань, слабкі місця йдуть у практику) */
 function resultList(results, { auto = false } = {}) {
   const wrong = results.filter(r => !r.ok);
-  return wrong.length ? h('section.stack', { style: { gap: '8px' } }, h('div.section-title', `Розбір помилок (${wrong.length})`),
-    auto ? h('p.xs.dim', { style: { margin: 0 } }, 'Ці помилки враховано в навчанні — див. «Що змінилось» вище.') : null,
+  return wrong.length ? h('section.tx-group', h('h2.tx-label', `Розбір помилок (${wrong.length})`),
+    auto ? h('p.xs.dim', { style: { margin: '0 4px' } }, 'Ці помилки враховано в навчанні — див. «Що змінилось» вище.') : null,
     wrong.map(r => {
       const btn = auto ? null : h('button.btn.sm.soft', { type: 'button', onclick: () => {
         addMistake({ wrong: r.given || '—', right: answerText(r.ex), type: r.ex.mistakeType || 'other', explanation_uk: r.ex.explanation || '', source: 'test' });
         btn.disabled = true; btn.textContent = 'Додано';
       } }, 'Додати в помилки');
-      return h('div.card.tight.stack', { style: { gap: '4px' } },
+      return h('div.gx-card.stack', { style: { gap: '4px' } },
         h('div.small', r.ex.prompt || r.ex.uk || r.ex.sentence || ''),
         h('div.small', h('span.bad', r.given || '—'), ' → ', h('b.good', answerText(r.ex))),
         r.ex.explanation ? h('div.xs.dim', r.ex.explanation) : null, btn ? h('div', btn) : null);
-    })) : h('div.feedback.ok', 'Без жодної помилки!');
+    })) : tx({ wide: true, tone: 'good', icon: 'check-circle', label: 'Без жодної помилки!' });
 }
 /** Помилки тесту — у «Мої помилки» */
 function saveTestMistakes(results, prefix = '') {
@@ -123,8 +138,14 @@ function lessonTestStats() {
 /** Що тест змінив у навчанні — картка на екрані результату */
 function effectCard(lines) {
   const items = lines.filter(Boolean);
-  return items.length ? h('div.card.stack', { style: { gap: '6px' } }, h('div.section-title', { style: { margin: 0 } }, 'Що змінилось у навчанні'),
-    h('ul.small.pl-list', items.map(t => h('li', t)))) : null;
+  return items.length ? txGroup('Що змінилось у навчанні', h('div.gx-card.gx-effect', items.map(t => h('div.gx-effect-row', ic('info', { size: 18 }), h('span', t))))) : null;
+}
+
+/** Шапка результату тесту: значок і підпис, під ними — показники плитками по три */
+function resultHead(score, caption, kpis) {
+  return h('section.tx-group',
+    h('div.gx-res', h('span.gx-res-ic.' + scoreCls(score), ic(score >= 80 ? 'trophy' : score >= 60 ? 'thumbs-up' : 'barbell', { size: 26, fill: true })), h('div.grow', h('div.tx-label', 'Результат'), h('div.gx-res-t', caption))),
+    txKpis(kpis));
 }
 
 // ---------- Визначення рівня ----------
@@ -268,7 +289,7 @@ async function placementTest(view) {
       stopSpeech();
       ask();
     };
-    const opts = run.cur.options.map((o, k) => h('button.opt', { type: 'button', 'aria-pressed': 'false', onclick: () => {
+    const opts = run.cur.options.map((o, k) => h('button.opt.ex-opt', { type: 'button', 'aria-pressed': 'false', onclick: () => {
       choice = o;
       opts.forEach((b, j) => { b.classList.toggle('sel', j === k); b.setAttribute('aria-pressed', String(j === k)); });
       nextBtn.disabled = false;
@@ -518,32 +539,32 @@ async function pickLesson(view) {
   const idx = await grammarIndex();
   const st = lessonTestStats();
   const due = new Set(lessonsToReview().map(p => p.id));
-  const mine = myLevel();
   const tested = [...st.values()];
   const avg = tested.length ? Math.round(tested.reduce((a, b) => a + b.last, 0) / tested.length) : null;
   const row = (l) => {
     const t = st.get(l.id);
     const done = !!store.get('lessons_progress', l.id)?.completed_at;
-    return h('a.list-row', { href: `#/tests/lesson/${l.id}` },
-      h('span.num.dim', { style: { width: '26px' } }, String(l.n)),
-      h('div.grow', h('div', l.title),
-        t || done ? h('div.sub', [due.has(l.id) ? 'На повторенні' : done ? 'Урок зараховано' : null, t ? `тестів: ${t.n} · останній ${t.last}% · найкращий ${t.best}%` : null].filter(Boolean).join(' · ')) : null),
-      t ? h('span.tag.' + scoreCls(t.last), { 'aria-label': `Останній результат тесту ${t.last}%` }, `${t.last}%`) : null,
-      ic('caret-right', { size: 18 }));
+    return txRow({
+      no: l.n, label: l.title, href: `#/tests/lesson/${l.id}`,
+      sub: t || done ? [due.has(l.id) ? 'На повторенні' : done ? 'Урок зараховано' : null, t ? `тестів: ${t.n} · найкращий ${t.best}%` : null].filter(Boolean).join(' · ') : null,
+      end: t ? h('span.tx-pill.' + scoreCls(t.last), { 'aria-label': `Останній результат тесту ${t.last}%` }, `${t.last}%`) : null,
+    });
   };
-  view.replaceChildren(h('div.stack', h('div.row', h('a.icon-btn', { href: '#/tests', 'aria-label': 'Назад' }, ic('arrow-left')), h('h1', { style: { margin: 0 } }, 'Оберіть урок')),
-    tested.length ? h('div.card.row.tight', h('div.grow.small', `Уроків протестовано: ${tested.length}`, h('div.xs.dim', '80% і більше — урок зараховано; менше 60% — урок повертається на повторення')),
-      h('span.tag.' + scoreCls(avg), `сер. ${avg}%`)) : h('p.xs.dim', { style: { margin: 0 } }, 'Результат тесту враховується в навчанні: 80% і більше — урок зараховано, менше 60% — урок повертається на повторення, помилки — у «Мої помилки».'),
+  const passed = tested.filter(x => x.last >= 80).length;
+  view.replaceChildren(h('div.stack-lg.gx', h('div.gx-lhead', h('a.icon-btn', { href: '#/tests', 'aria-label': 'Назад' }, ic('arrow-left')), h('h1.gx-lh1.grow', 'Оберіть урок')),
+    tested.length ? txKpis([
+      { value: tested.length, label: 'уроків з тестом' },
+      { value: avg, unit: '%', label: 'середній бал', tone: scoreCls(avg) },
+      { value: passed, label: 'зараховано', tone: passed ? 'good' : null },
+    ]) : null,
+    h('p.xs.dim', { style: { margin: '0 4px' } }, tested.length ? '80% і більше — урок зараховано; менше 60% — урок повертається на повторення.' : 'Результат тесту враховується в навчанні: 80% і більше — урок зараховано, менше 60% — урок повертається на повторення, помилки — у «Мої помилки».'),
     // за рівнями, як у «Граматиці»: свій рівень розгорнутий, решта згорнуті; номер — порядок курсу
-    ...LEVELS.map(lv => {
+    h('div.gx-levels', LEVELS.map(lv => {
       const items = idx.filter(l => l.level === lv);
       if (!items.length) return null;
       const t = items.filter(l => st.has(l.id)).length;
-      return h('details.level-sec', { open: lv === mine || null },
-        h('summary.row', levelTag(lv), h('div.grow', h('b', LEVEL_NAME[lv]), lv === mine ? h('span.xs.dim', ' ', h('span', { style: { whiteSpace: 'nowrap' } }, '· ваш рівень')) : diff(lv) > 0 ? h('span.xs.dim', ' ', h('span', { style: { whiteSpace: 'nowrap' } }, '· вище вашого')) : null),
-          h('span.small.dim.num', { 'aria-label': `Протестовано ${t} з ${items.length}` }, `${t}/${items.length}`)),
-        h('div.list', { style: { marginTop: '8px' } }, items.map(row)));
-    })));
+      return levelSection(lv, { done: t, total: items.length, countLabel: `Протестовано ${t} з ${items.length}`, rows: items.map(row) });
+    }))));
 }
 
 async function lessonTest(view, id) {
@@ -593,9 +614,11 @@ async function lessonTest(view, id) {
       const wrongN = results.filter(r => !r.ok).length;
       timer.poke(); timer.stop();
       view.replaceChildren(h('div.stack-lg',
-        h('div.hero', emo(score >= 80 ? 'trophy' : 'muscle', 'xl'), h('div.num', { style: { fontSize: 'var(--fs-2xl)' } }, `${score}%`),
-          h('p.dim', `${l.title} · ${results.length - wrongN} з ${results.length}`),
-          prevBest != null ? h('p.xs.dim', score > prevBest ? `Новий рекорд — було ${prevBest}%` : `Найкраще раніше: ${prevBest}%`) : null),
+        resultHead(score, l.title, [
+          { value: score, unit: '%', label: 'результат', tone: scoreCls(score) },
+          { value: results.length - wrongN, unit: `/${results.length}`, label: 'правильно' },
+          prevBest != null ? { value: prevBest, unit: '%', label: score > prevBest ? 'було — новий рекорд' : 'найкраще раніше' } : { value: wrongN, label: plural(wrongN, 'помилка', 'помилки', 'помилок'), tone: wrongN ? 'bad' : 'good' },
+        ]),
         effectCard([
           effect === 'passed' ? 'Урок зараховано — враховано в опануванні рівня, урок дня переходить далі. Контрольне повторення — через тиждень.'
             : effect === 'confirmed' ? 'Урок підтверджено — знання тримаються.'
@@ -605,7 +628,8 @@ async function lessonTest(view, id) {
           wrongN ? `${wrongN} ${plural(wrongN, 'помилку', 'помилки', 'помилок')} додано в «Мої помилки» — для практики за розкладом.` : null,
         ]),
         resultList(results, { auto: true }),
-        h('div.row', h('a.btn.soft.grow', { href: `#/grammar/${id}` }, 'До уроку'), h('a.btn.primary.grow', { href: '#/tests' }, 'До тестів'))));
+        tx({ wide: true, icon: 'puzzle-piece', label: 'До уроку', sub: 'Повторити правило й вправи', href: `#/grammar/${id}` }),
+        txPrimary({ icon: 'exam', label: 'До тестів', href: '#/tests' })));
     },
   });
 }
@@ -652,14 +676,18 @@ async function weeklyTest(view) {
       const gram = results.filter(r => !r.ok && !r.ex._card).length;
       timer.poke(); timer.stop();
       view.replaceChildren(h('div.stack-lg',
-        h('div.hero', emo(score >= 80 ? 'trophy' : 'thumbsup', 'xl'), h('div.num', { style: { fontSize: 'var(--fs-2xl)' } }, `${score}%`), h('p.dim', `Тижневий тест · ${results.filter(r => r.ok).length} з ${results.length}`)),
+        resultHead(score, 'Тижневий тест', [
+          { value: score, unit: '%', label: 'результат', tone: scoreCls(score) },
+          { value: results.filter(r => r.ok).length, unit: `/${results.length}`, label: 'правильно' },
+          { value: results.filter(r => !r.ok).length, label: plural(results.filter(r => !r.ok).length, 'помилка', 'помилки', 'помилок'), tone: results.some(r => !r.ok) ? 'bad' : 'good' },
+        ]),
         effectCard([
           relearned ? `${relearned} ${plural(relearned, 'слово', 'слова', 'слів')} повернуто до вивчення — з'являться в картках сьогодні.` : null,
           wrongLessons.size ? `${wrongLessons.size} ${plural(wrongLessons.size, 'урок', 'уроки', 'уроків')} граматики — на повторення.` : null,
           gram ? `${gram} ${plural(gram, 'помилку', 'помилки', 'помилок')} з граматики додано в «Мої помилки».` : null,
           !relearned && !wrongLessons.size && !gram ? 'Усе на місці — розклад повторень без змін.' : null,
         ]),
-        resultList(results, { auto: true }), h('a.btn.primary.block', { href: '#/tests' }, 'До тестів')));
+        resultList(results, { auto: true }), txPrimary({ icon: 'exam', label: 'До тестів', href: '#/tests' })));
     },
   });
 }

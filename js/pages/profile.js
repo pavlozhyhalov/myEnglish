@@ -6,6 +6,7 @@ import { user } from '../supa.js';
 import { toast } from '../ui/toast.js';
 import { confirmSheet } from '../ui/sheet.js';
 import { myLevel, LEVEL_NAME } from '../level.js';
+import { tx, txGroup, txRows } from '../ui/tiles.js';
 
 export const GOALS = [
   ['people', 'Спілкування з людьми'], ['travel', 'Подорожі'], ['work', 'Робота й кар\'єра'], ['moving', 'Життя за кордоном'],
@@ -97,24 +98,25 @@ export function forgetFacts(ids) { const s = new Set(ids); saveFacts(memoryFacts
 
 /** Розділ «Що вчитель про вас пам'ятає» */
 function memorySection() {
-  const box = h('section.stack', { style: { gap: '8px' } });
+  const box = h('section.tx-group');
   const draw = () => {
     const facts = memoryFacts();
-    const head = h('div.row', h('div.section-title.grow', `Що вчитель про вас пам'ятає${facts.length ? ` · ${facts.length}` : ''}`),
-      facts.length ? h('button.btn.sm.ghost', { type: 'button', onclick: async () => {
+    const head = h('div.tx-label-row', h('h2.tx-label', `Що вчитель про вас пам'ятає${facts.length ? ` · ${facts.length}` : ''}`),
+      facts.length ? h('button.tx-more', { type: 'button', onclick: async () => {
         if (!await confirmSheet('Очистити пам\'ять вчителя?', 'Вчитель забуде все, що дізнався про вас із розмов. Дані профілю вище залишаться.', 'Очистити', { danger: true })) return;
         saveFacts([], memoryFacts().map(f => f.id)); toast('Пам\'ять вчителя очищено'); draw();
       } }, 'Очистити все') : null);
     if (!facts.length) {
-      box.replaceChildren(head, h('div.card.small.dim', 'Поки що нічого. Під час розмов вчитель запам\'ятовує корисні факти про вас — що ви любите, чим займаєтесь, над чим працюєте, — щоб наступного разу говорити про ваше. Тут їх можна переглянути й видалити.'));
+      box.replaceChildren(head, h('div.pp-panel.small.dim', 'Поки що нічого. Під час розмов вчитель запам\'ятовує корисні факти про вас — що ви любите, чим займаєтесь, над чим працюєте, — щоб наступного разу говорити про ваше. Тут їх можна переглянути й видалити.'));
       return;
     }
     const sorted = [...facts].sort((a, b) => String(b.at || '').localeCompare(String(a.at || '')));
     box.replaceChildren(head,
-      h('div.list.mem-list', sorted.map(f => h('div.list-row',
-        h('div.grow', h('div.small', f.text), f.at ? h('div.xs.dim', new Date(f.at).toLocaleDateString('uk-UA', { day: 'numeric', month: 'short' })) : null),
+      txRows(sorted.map(f => h('div.tx-row.mem-row',
+        h('span.tx-sq', ic('lightbulb', { size: 18 })),
+        h('span.tx-body', h('span.tx-l.mem-t', f.text), f.at ? h('span.tx-s', new Date(f.at).toLocaleDateString('uk-UA', { day: 'numeric', month: 'short' })) : null),
         h('button.icon-btn', { type: 'button', 'aria-label': `Забути: ${f.text}`, onclick: () => { forgetFacts([f.id]); toast('Вчитель це забув'); draw(); } }, ic('trash', { size: 20 }))))),
-      h('div.xs.dim', { style: { margin: '0 2px' } }, `Зберігається до ${MEM_CAP} фактів; найстаріші витісняються новими.`));
+      h('div.xs.dim.pp-note', `Зберігається до ${MEM_CAP} фактів; найстаріші витісняються новими.`));
   };
   draw();
   return box;
@@ -160,16 +162,14 @@ export default function profile(view) {
 
   const u = user();
   const lvl = myLevel();
-  view.replaceChildren(h('div.stack-lg',
-    h('section.card.row.pf-head',
-      h('div.level-badge', ic('user', { size: 22 })),
-      h('div.grow', h('div', { style: { fontWeight: 600 } }, a.name || (u ? (u.email || '').split('@')[0] : 'Гість')),
-        h('div.xs.dim', u ? u.email : 'Локальний режим — дані зберігаються на цьому пристрої')),
-      h('a.tag.accent', { href: '#/settings', title: 'Змінити рівень' }, `${lvl} · ${LEVEL_NAME[lvl]}`)),
-    h('p.small.dim', { style: { margin: '0 2px' } }, 'Ці дані бачить лише AI-вчитель: за ними він обирає теми розмов, приклади й звертання. Усі поля необов\'язкові — заповніть те, що хочете.'),
+  view.replaceChildren(h('div.stack-lg.pp-form',
+    tx({ icon: 'user', wide: true, cls: 'pp-head', label: a.name || (u ? (u.email || '').split('@')[0] : 'Гість'),
+      sub: u ? u.email : 'Локальний режим — дані зберігаються на цьому пристрої',
+      end: h('a.tag.accent', { href: '#/settings', title: 'Змінити рівень' }, `${lvl} · ${LEVEL_NAME[lvl]}`) }),
+    h('p.small.dim.pp-note', 'Ці дані бачить лише AI-вчитель: за ними він обирає теми розмов, приклади й звертання. Усі поля необов\'язкові — заповніть те, що хочете.'),
     !u ? h('div.notice', 'AI-вчитель працює після входу. Дані профілю збережуться й синхронізуються, щойно ви ввійдете.', h('div', { style: { marginTop: '8px' } }, h('a.btn.sm.soft', { href: '#/auth' }, 'Увійти'))) : null,
 
-    h('section.stack', { style: { gap: '8px' } }, h('div.section-title', 'Про вас'),
+    txGroup('Про вас',
       h('div.card.stack',
         field('name', 'Ім\'я латиницею (так вас кликатиме вчитель)', { placeholder: 'Наприклад: Pavlo' }),
         field('address', 'Як звертатися в привітанні', { placeholder: 'Наприклад: Павле', hint: 'Кличний відмінок — для «Доброго ранку, …» на головній' }),
@@ -179,7 +179,7 @@ export default function profile(view) {
         field('occupation', 'Чим займаєтесь', { placeholder: 'Професія або навчання' }),
         field('family', 'Сім\'я', { placeholder: 'Наприклад: одружений, плануємо дитину' }))),
 
-    h('section.stack', { style: { gap: '8px' } }, h('div.section-title', 'Навчання'),
+    txGroup('Навчання',
       h('div.card.stack',
         h('div.field', h('label', 'Навіщо вам англійська'), goalChips),
         field('interests', 'Інтереси й хобі', { placeholder: 'Гори, кіно, готування, футбол…', textarea: true, hint: 'Вчитель використовуватиме їх як теми розмов і приклади' }),

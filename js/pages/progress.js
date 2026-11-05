@@ -1,5 +1,6 @@
 // Прогрес: стрік, час, графіки, слова, уроки, рівні, помилки
-import { h, ic, emo, fmtMin, progress as bar } from '../ui/dom.js';
+import { h, ic, fmtMin, progress as bar } from '../ui/dom.js';
+import { tx, txPrimary, txKpis, txGroup, txRow, txRows } from '../ui/tiles.js';
 import { S, plural } from '../strings.js';
 import * as store from '../store.js';
 import * as srs from '../srs.js';
@@ -37,63 +38,77 @@ export default async function progressPage(view) {
   const byType = {};
   for (const s of store.all('sessions')) byType[s.type] = (byType[s.type] || 0) + s.seconds;
 
-  const stat = (v, label) => h('div.stat', h('b', String(v)), h('span', label));
   // «Запитати вчителя про це» → консультація (режим coach) про відповідний розділ
-  const ask = (sec) => h('a.btn.sm.ghost', { href: `#/tutor?mode=coach&section=${sec}`, style: { alignSelf: 'flex-start', color: 'var(--accent-ink)' } }, ic('chat-circle-dots', { size: 16 }), 'Запитати вчителя про це');
+  const ask = (sec) => h('a.tx-row.tx-ask', { href: `#/tutor?mode=coach&section=${sec}` }, h('span.tx-sq', ic('chat-circle-dots', { size: 18 })), h('span.tx-body', h('span.tx-l', 'Запитати вчителя про це')), ic('caret-right', { size: 16 }));
   const dayLbl = (d) => d.date.toLocaleDateString('uk-UA', { day: 'numeric', month: 'short' });
+  const card = (...kids) => h('section.card.stack.tx-card', ...kids);
+  const st = streak();
+  const avg = Math.round(days.reduce((a, d) => a + d.seconds, 0) / Math.max(1, days.filter(d => d.seconds).length));
+  const SKILLS = { grammar: 'Граматика', vocabulary: 'Лексика', reading: 'Читання', listening: 'Аудіювання', writing: 'Письмо', speaking: 'Говоріння' };
+  const testLabel = (t) => t.type === 'placement' ? 'Тест рівня' : t.type === 'weekly' ? 'Тижневий тест' : `Урок: ${gIdx.find(l => l.id === t.ref)?.title || t.ref}`;
+  const testTone = (t) => { if (t.type === 'placement') return 'accent'; const v = t.scores.score; return v >= 80 ? 'good' : v < 60 ? 'bad' : 'warn'; };
 
-  view.replaceChildren(h('div.stack-lg',
-    h('section.card.row', emo('fire', 'xl'),
-      h('div.grow', h('div.num', { style: { fontSize: 'var(--fs-2xl)' } }, String(streak())), h('div.small.dim', `${plural(streak(), 'день', 'дні', 'днів')} поспіль`)),
-      h('div.stat', { style: { textAlign: 'right' } }, h('b', fmtMin(totalSeconds())), h('span', 'всього практики'))),
+  view.replaceChildren(h('div.stack-lg.pg-page',
+    txKpis([
+      { value: st, label: `${plural(st, 'день', 'дні', 'днів')} поспіль`, tone: st ? 'accent' : '', ariaLabel: `Стрік: ${st} ${plural(st, 'день', 'дні', 'днів')} поспіль` },
+      { value: fmtMin(totalSeconds()), label: 'всього практики' },
+      { value: `${lp.pct}%`, label: `опановано ${lvl}`, tone: lp.ready ? 'good' : '' },
+    ]),
 
     // «Аналіз» і «Звіт» — вкладки над сторінкою (js/ui/subnav.js)
     weeklyCard(),
 
-    h('section.card.stack',
-      h('div.row', h('div.section-title.grow', 'Хвилини за 30 днів'), h('span.xs.dim', `мета ${store.settings().dailyGoal} хв`)),
-      h('div.bars', { role: 'img', 'aria-label': 'Хвилини практики по днях' }, days.map(d => h('i' + (d.seconds ? '' : '.zero'), { style: { height: `${Math.max(2, d.seconds / maxSec * 100)}%` }, title: `${dayLbl(d)}: ${fmtMin(d.seconds)}` }))),
-      h('div.bars-labels', h('span', dayLbl(days[0])), h('span', dayLbl(days[15])), h('span', 'сьогодні')),
-      days.some(d => d.seconds) ? null : h('div.xs.dim', 'Ще немає даних — графік заповниться після перших занять.'),
-      h('div.chips', Object.entries(byType).sort((a, b) => b[1] - a[1]).map(([t, s]) => h('span.tag', `${S.sessionTypes[t] || t}: ${fmtMin(s)}`)))),
+    labelRow('Хвилини за 30 днів', h('span.xs.dim', `мета ${store.settings().dailyGoal} хв`),
+      card(
+        h('div.bars', { role: 'img', 'aria-label': 'Хвилини практики по днях' }, days.map(d => h('i' + (d.seconds ? '' : '.zero'), { style: { height: `${Math.max(2, d.seconds / maxSec * 100)}%` }, title: `${dayLbl(d)}: ${fmtMin(d.seconds)}` }))),
+        h('div.bars-labels', h('span', dayLbl(days[0])), h('span', dayLbl(days[15])), h('span', 'сьогодні')),
+        days.some(d => d.seconds) ? null : h('div.xs.dim', 'Ще немає даних — графік заповниться після перших занять.'),
+        h('div.chips', Object.entries(byType).sort((a, b) => b[1] - a[1]).map(([t, s]) => h('span.tag', `${S.sessionTypes[t] || t}: ${fmtMin(s)}`))))),
 
-    h('section.card.stack',
-      h('div.section-title', 'Час навчання'),
-      h('div.grid3', stat(fmtMin(todaySeconds()), 'сьогодні'), stat(fmtMin(weekSeconds()), 'за 7 днів'), stat(fmtMin(Math.round(days.reduce((a, d) => a + d.seconds, 0) / Math.max(1, days.filter(d => d.seconds).length))), 'у середньому за активний день')),
-      store.prof().resonance ? h('div.xs.dim', 'Час автоматично додається в Resonance (Мови → English)') : null),
+    txGroup('Час навчання', [
+      txKpis([{ value: fmtMin(todaySeconds()), label: 'сьогодні' }, { value: fmtMin(weekSeconds()), label: 'за 7 днів' }, { value: fmtMin(avg), label: 'у середньому за активний день' }]),
+      store.prof().resonance ? h('div.xs.dim.pg-note', 'Час автоматично додається в Resonance (Мови → English)') : null]),
 
-    h('section.card.stack',
-      h('div.section-title', 'Слова'),
-      h('div.grid3', stat(c.learned, 'вивчено (інтервал ≥ 21 дн.)'), stat(c.total, 'у роботі'), stat(c.due, 'до повтору зараз')),
-      h('div.section-title', 'Прогноз повторів на 7 днів'),
-      h('div.bars', { style: { height: '80px' }, role: 'img', 'aria-label': `Прогноз повторів на 7 днів: ${fc.join(', ')}` }, fc.map(n => h('i' + (n ? '' : '.zero'), { style: { height: `${Math.max(2, n / maxFc * 100)}%` }, title: String(n) }))),
-      h('div.bars-labels', fc.map((n, i) => h('span', i === 0 ? `сьог. ${n}` : String(n)))),
-      fc.some(n => n) ? null : h('div.xs.dim', 'Повторів поки не заплановано — почніть вчити картки.'), ask('vocabulary')),
+    txGroup('Слова', [
+      txKpis([{ value: c.learned, label: 'вивчено (інтервал ≥ 21 дн.)', tone: c.learned ? 'good' : '' }, { value: c.total, label: 'у роботі' }, { value: c.due, label: 'до повтору зараз', tone: c.due ? 'warn' : '' }]),
+      card(
+        h('div.pg-ch', 'Прогноз повторів на 7 днів'),
+        h('div.bars', { style: { height: '80px' }, role: 'img', 'aria-label': `Прогноз повторів на 7 днів: ${fc.join(', ')}` }, fc.map(n => h('i' + (n ? '' : '.zero'), { style: { height: `${Math.max(2, n / maxFc * 100)}%` }, title: String(n) }))),
+        h('div.bars-labels', fc.map((n, i) => h('span', i === 0 ? `сьог. ${n}` : String(n)))),
+        fc.some(n => n) ? null : h('div.xs.dim', 'Повторів поки не заплановано — почніть вчити картки.')),
+      ask('vocabulary')]),
 
-    h('section.card.stack',
-      h('div.row', h('div.level-badge', lvl), h('div.grow', h('div.section-title', `Рівень ${lvl} · ${LEVEL_NAME[lvl]}`), h('div.xs.dim', `Опановано ${lp.pct}% · перехід від ${READY_PCT}%`))),
-      bar(lp.pct, 'Опанування рівня'),
-      h('div.grid2', stat(`${lp.grammar.done}/${lp.grammar.total}`, `уроків граматики ${lvl}`), stat(`${lp.words.done}/${lp.words.total}`, `слів ${lvl} закріплено`)),
-      h('div.xs.dim', 'Слово вважається закріпленим для рівня, коли інтервал повтору сягає 7 днів. Рахуються уроки й колоди саме цього рівня.'),
-      lp.ready ? h('button.btn.primary.block', { type: 'button', onclick: () => { const n = nextLevel(); setLevel(n, 'progress'); toast(`Рівень ${n}: план і завдання оновлено`); progressPage(view); } }, `Перейти на ${nextLevel()}`) : null,
-      h('a.btn.soft.block', { href: '#/tests/placement' }, 'Перевірити рівень тестом')),
+    txGroup(`Рівень ${lvl} · ${LEVEL_NAME[lvl]}`, [
+      card(
+        h('div.row', h('div.level-badge', lvl), h('div.grow', h('div.pg-strong', `Опановано ${lp.pct}%`), h('div.xs.dim', `перехід від ${READY_PCT}%`))),
+        bar(lp.pct, 'Опанування рівня'),
+        h('div.xs.dim', 'Слово вважається закріпленим для рівня, коли інтервал повтору сягає 7 днів. Рахуються уроки й колоди саме цього рівня.')),
+      txKpis([{ value: `${lp.grammar.done}/${lp.grammar.total}`, label: `уроків граматики ${lvl}` }, { value: `${lp.words.done}/${lp.words.total}`, label: `слів ${lvl} закріплено` }], 2),
+      lp.ready ? txPrimary({ icon: 'rocket-launch', label: `Перейти на ${nextLevel()}`, sub: 'план і завдання оновляться', onclick: () => { const n = nextLevel(); setLevel(n, 'progress'); toast(`Рівень ${n}: план і завдання оновлено`); progressPage(view); } }) : null,
+      tx({ icon: 'exam', label: 'Перевірити рівень тестом', sub: 'граматика, лексика, читання, аудіювання, письмо', href: '#/tests/placement', wide: true })]),
 
-    h('section.card.stack',
-      h('div.section-title', 'Рівень за навичками'),
-      h('div.grid2', Object.entries({ grammar: 'Граматика', vocabulary: 'Лексика', reading: 'Читання', listening: 'Аудіювання', writing: 'Письмо', speaking: 'Говоріння' }).map(([k, t]) => stat(skills[k] || '—', t))),
-      h('div.xs.dim', 'За останнім тестом на рівень і розмовами із вчителем'), ask('placement')),
+    txGroup('Рівень за навичками', [
+      txKpis(Object.entries(SKILLS).map(([k, t]) => ({ value: skills[k] || '—', label: t, tone: skills[k] ? 'accent' : '' }))),
+      h('div.xs.dim.pg-note', 'За останнім тестом на рівень і розмовами із вчителем'), ask('placement')]),
 
-    h('section.card.stack',
-      h('div.section-title', 'Граматика'),
-      h('div.row', h('div.grow', bar(done / gIdx.length * 100, 'Пройдено уроків граматики')), h('span.small', `${done}/${gIdx.length}`)),
-      tests.length ? h('div.stack', { style: { gap: '4px' } }, h('div.section-title', 'Останні тести'), tests.map(t => h('div.row.small', h('span.grow', t.type === 'placement' ? 'Рівень' : t.type === 'weekly' ? 'Тижневий' : `Урок: ${gIdx.find(l => l.id === t.ref)?.title || t.ref}`), h('span.dim', new Date(t.created_at).toLocaleDateString('uk-UA')), h('b', t.type === 'placement' ? t.scores.overall : `${t.scores.score}%`)))) : null, ask('grammar')),
+    txGroup('Граматика', [
+      card(h('div.row', h('div.grow', bar(done / gIdx.length * 100, 'Пройдено уроків граматики')), h('span.small', `${done}/${gIdx.length}`))),
+      tests.length ? h('h3.tx-label.pg-sublabel', 'Останні тести') : null,
+      tests.length ? txRows(tests.map(t => txRow({ icon: t.type === 'placement' ? 'target' : t.type === 'weekly' ? 'calendar-blank' : 'exam', label: testLabel(t), sub: new Date(t.created_at).toLocaleDateString('uk-UA'),
+        pill: { text: t.type === 'placement' ? t.scores.overall : `${t.scores.score}%`, tone: testTone(t) } }))) : null,
+      ask('grammar')]),
 
-    h('section.card.stack',
-      h('div.section-title', 'Типи помилок і динаміка'),
-      dyn.length ? dyn.map(d => h('div.row',
-        h('div.grow', h('div', S.mistakeTypes[d.t]), h('div.xs.dim', `разом із повторами: ${d.total} · відкритих: ${d.open}`)),
-        h('span.tag' + (d.w1 < d.w2 ? '.good' : d.w1 > d.w2 ? '.bad' : ''), `тиждень: ${d.w1} ${d.w1 < d.w2 ? '↓' : d.w1 > d.w2 ? '↑' : '='}`))) : h('div.small.dim', 'Даних поки немає'), dyn.length ? ask('mistakes') : null),
+    txGroup('Типи помилок і динаміка', [
+      dyn.length ? txRows(dyn.map(d => txRow({ icon: 'warning-circle', label: S.mistakeTypes[d.t], sub: `разом із повторами: ${d.total} · відкритих: ${d.open}`,
+        pill: { text: `тиждень: ${d.w1} ${d.w1 < d.w2 ? '↓' : d.w1 > d.w2 ? '↑' : '='}`, tone: d.w1 < d.w2 ? 'good' : d.w1 > d.w2 ? 'bad' : '' } })))
+        : h('div.small.dim.pg-note', 'Даних поки немає'),
+      dyn.length ? ask('mistakes') : null]),
     h('p.xs.dim.center', `${store.count('reviews')} ${plural(store.count('reviews'), 'оцінка', 'оцінки', 'оцінок')} карток у журналі на пристрої`)));
+}
+
+/** Група з підписом і вузлом праворуч (діапазон дат, мета) */
+function labelRow(label, right, ...content) {
+  return h('section.tx-group', h('div.tx-label-row', h('h2.tx-label', label), right), ...content);
 }
 
 // ---------- Тиждень: локальна статистика + порада вчителя (раз на ISO-тиждень) ----------
@@ -157,30 +172,35 @@ function weeklyCard() {
   const max = Math.max(60, ...sec);
   const min = Math.round(p.seconds / 60), prevMin = Math.round(prev.seconds / 60);
   const range = `${new Date(days[0].key + 'T12:00').toLocaleDateString('uk-UA', { day: 'numeric', month: 'short' })} – ${new Date(days[6].key + 'T12:00').toLocaleDateString('uk-UA', { day: 'numeric', month: 'short' })}`;
-  const stat = (v, label) => h('div.stat', h('b', String(v)), h('span', label));
   const trend = prevMin || min ? (min > prevMin ? `↑ на ${min - prevMin} хв` : min < prevMin ? `↓ на ${prevMin - min} хв` : 'як минулого тижня') : '';
-  const advice = h('div.stack', { style: { gap: '8px' } });
+  const advice = h('div.stack.card.tx-card', { style: { gap: '8px' } });
 
-  const card = h('section.card.stack',
-    h('div.row', h('div.section-title.grow', 'Тиждень'), h('span.xs.dim', range)),
-    h('div.bars', { style: { height: '80px' }, role: 'img', 'aria-label': `Хвилини по днях цього тижня: ${days.map((d, i) => `${d.name} ${Math.round(sec[i] / 60)}`).join(', ')}` },
-      days.map((d, i) => h('i' + (sec[i] ? '' : '.zero'), { style: { height: `${Math.max(2, sec[i] / max * 100)}%`, opacity: d.future ? 0.35 : null }, title: `${d.name}: ${fmtMin(sec[i])}` }))),
-    h('div.bars-labels', days.map((d, i) => h('span', { style: d.today ? { fontWeight: 700, color: 'var(--ink)' } : null }, sec[i] ? `${d.name} ${Math.round(sec[i] / 60)}` : d.name))),
-    h('div.grid3', stat(`${min} хв`, trend ? `практики · ${trend}` : 'практики'), stat(p.reviews, 'карток повторено'), stat(p.lessonsDone, plural(p.lessonsDone, 'урок пройдено', 'уроки пройдено', 'уроків пройдено'))),
-    h('div.grid3', stat(p.mistakesAdded, 'нових помилок'), stat(p.mistakesFixed, 'помилок виправлено'), stat(streak(), `${plural(streak(), 'день', 'дні', 'днів')} поспіль`)),
-    p.diary || p.chats ? h('div.xs.dim', [p.diary ? `Записів у щоденнику: ${p.diary}` : '', p.chats ? `розмов із вчителем: ${p.chats}` : ''].filter(Boolean).join(' · ')) : null,
+  const card = labelRow('Тиждень', h('span.xs.dim', range),
+    h('div.card.stack.tx-card',
+      h('div.bars', { style: { height: '80px' }, role: 'img', 'aria-label': `Хвилини по днях цього тижня: ${days.map((d, i) => `${d.name} ${Math.round(sec[i] / 60)}`).join(', ')}` },
+        days.map((d, i) => h('i' + (sec[i] ? '' : '.zero'), { style: { height: `${Math.max(2, sec[i] / max * 100)}%`, opacity: d.future ? 0.35 : null }, title: `${d.name}: ${fmtMin(sec[i])}` }))),
+      h('div.bars-labels', days.map((d, i) => h('span', { style: d.today ? { fontWeight: 700, color: 'var(--ink)' } : null }, sec[i] ? `${d.name} ${Math.round(sec[i] / 60)}` : d.name)))),
+    txKpis([
+      { value: min, unit: 'хв', label: trend ? `практики · ${trend}` : 'практики', tone: min > prevMin && prevMin ? 'good' : '' },
+      { value: p.reviews, label: 'карток повторено' },
+      { value: p.lessonsDone, label: plural(p.lessonsDone, 'урок пройдено', 'уроки пройдено', 'уроків пройдено') }]),
+    txKpis([
+      { value: p.mistakesAdded, label: 'нових помилок', tone: p.mistakesAdded ? 'bad' : '' },
+      { value: p.mistakesFixed, label: 'помилок виправлено', tone: p.mistakesFixed ? 'good' : '' },
+      { value: streak(), label: `${plural(streak(), 'день', 'дні', 'днів')} поспіль` }]),
+    p.diary || p.chats ? h('div.xs.dim.pg-note', [p.diary ? `Записів у щоденнику: ${p.diary}` : '', p.chats ? `розмов із вчителем: ${p.chats}` : ''].filter(Boolean).join(' · ')) : null,
     advice);
 
   const cached = () => { const w = store.prof().weeklyTip; return w && w.week === isoWeek() && w.data ? w : null; };
   let busy = false;
   const drawAdvice = (state = '') => {
     const c = cached();
-    const head = h('div.row', emo('teacher'), h('div.section-title.grow', 'Порада вчителя на тиждень'));
+    const head = h('div.row.pg-adv-h', h('span.tx-sq', ic('chalkboard-teacher', { size: 18 })), h('div.pg-strong.grow', 'Порада вчителя на тиждень'));
     if (!user()) { advice.replaceChildren(head, h('div.small.dim', 'Порада з\'явиться після входу: вчитель подивиться на ваш тиждень і помилки.')); return; }
     if (busy) { advice.replaceChildren(head, h('div.small.dim', { role: 'status' }, 'Вчитель дивиться на ваш тиждень…')); return; }
     if (!c) {
       advice.replaceChildren(head, state ? h('div.small.bad', state) : h('div.small.dim', 'Коротка порада за останні 7 днів: що вийшло і на чому зосередитися.'),
-        h('button.btn.soft.block', { type: 'button', onclick: () => generate() }, ic('sparkle', { fill: true }), 'Отримати пораду'));
+        tx({ icon: 'sparkle', label: 'Отримати пораду', sub: 'що вийшло і на чому зосередитися', onclick: () => generate(), wide: true }));
       return;
     }
     const d = c.data;

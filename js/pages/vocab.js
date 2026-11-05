@@ -12,6 +12,7 @@ import { toast } from '../ui/toast.js';
 import { fmtInterval } from '../ui/dom.js';
 import { activityTimer } from '../stats.js';
 import { onLeave } from '../router.js';
+import { tx, txGrid, txPill } from '../ui/tiles.js';
 
 const STATUS = [['all', 'Усі'], ['new', 'Нові'], ['learning', 'Вчу'], ['review', 'Повторюю'], ['learned', 'Вивчені']];
 const SORTS = [['recent', 'Нещодавні'], ['az', 'A–Z'], ['due', 'До повтору']];
@@ -67,21 +68,23 @@ export default async function vocab(view, r) {
     clear(listBox);
     if (!rows.length && loading && topic !== 'my') { listBox.append(h('div.empty', h('p', 'Завантаження…'))); return; }
     if (!rows.length) { listBox.append(h('div.empty', emo('magnifier', 'xl'), h('p', 'Нічого не знайдено'))); return; }
-    listBox.append(h('div.list', rows.slice(0, limit).map(c => {
+    listBox.append(h('div.tx-rows', rows.slice(0, limit).map(c => {
       const [cls, label] = STATUS_TAG[statusOf(c)];
-      return h('div.list-row.vw-row',
+      return h('div.tx-row.vw-row',
         h('button.vw-open', { type: 'button', onclick: () => detail(c, deckName, draw) },
-          h('div.grow', h('div', h('b', c.en), c.ipa ? h('span.ipa.xs', ` ${c.ipa}`) : null), h('div.sub', c.uk)),
-          h('span.tag' + (cls ? '.' + cls : ''), label)),
+          h('span.tx-body', h('span.tx-l', h('span.vw-en', c.en), c.ipa ? h('span.ipa.xs', ` ${c.ipa}`) : null), h('span.tx-s', c.uk)),
+          txPill(label, cls)),
         knownToggle(c, draw));
     })));
     if (rows.length > limit) listBox.append(h('button.btn.ghost.block', { type: 'button', onclick: () => { limit += 120; draw(); } }, 'Показати ще'));
   }
 
   const topics = [['all', 'Усі теми'], ...idx.map(d => [d.id, d.name]), ['my', 'Мої слова']];
-  view.replaceChildren(h('div.stack',
-    h('div.row', h('button.btn.primary.grow', { type: 'button', onclick: () => addWord(draw) }, ic('plus'), 'Додати'),
-      h('button.btn.soft.grow', { type: 'button', onclick: () => bulkAdd(draw) }, ic('notebook'), 'Списком')),
+  view.replaceChildren(h('div.stack.vw-page',
+    txGrid([
+      tx({ icon: 'plus', label: 'Додати слово', sub: 'переклад — з AI', on: true, wide: true, end: null, onclick: () => addWord(draw) }),
+      tx({ icon: 'notebook', label: 'Списком', sub: 'кілька одразу', wide: true, end: null, onclick: () => bulkAdd(draw) }),
+    ], 2),
     search,
     chipRow(topics, () => topic, v => { topic = v; }),
     chipRow(STATUS, () => status, v => { status = v; }),

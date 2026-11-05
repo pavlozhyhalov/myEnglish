@@ -1,6 +1,7 @@
 // Аналіз: чесна картина навчання з локальних даних (без AI) + глибокий аналіз від вчителя (дія tutor 'analysis')
 // і вхід у «Консультацію» (режим вчителя 'coach') з кожного розділу.
-import { h, ic, emo } from '../ui/dom.js';
+import { h, ic } from '../ui/dom.js';
+import { tx, txPrimary, txKpis, txRow, txRows } from '../ui/tiles.js';
 import { S, plural } from '../strings.js';
 import * as store from '../store.js';
 import { md, mdInline } from '../ui/md.js';
@@ -14,15 +15,19 @@ const DAY = 864e5;
 const rk = (l) => LEVELS.indexOf(l);
 const num = (x) => String(x).replace('.', ',');
 const coachHref = (sec) => `#/tutor?mode=coach&section=${encodeURIComponent(sec)}`;
-const stat = (v, label) => h('div.stat', h('b', String(v)), h('span', label));
+/** Показник-плитка: значення, підпис, тон (лише для стану) */
+const stat = (value, label, tone = '') => ({ value, label, tone });
 const fmtDate = (iso) => new Date(iso).toLocaleDateString('uk-UA', { day: 'numeric', month: 'short' });
 
 export default async function analysisPage(view) {
   const A = await compute();
 
+  // одна синя дія: глибокий аналіз, поки його немає; інакше — розмова про прогрес
+  const deepPrimary = !!user() && !store.prof().analysis?.data;
+  // назва розділу — у шапці й вкладках (Прогрес · Аналіз · Звіт)
   view.replaceChildren(h('div.stack-lg.analysis',
-    h('div.row', h('div.grow', h('h1', { style: { margin: 0 } }, 'Аналіз'), h('div.small.dim', 'Чесна картина за вашими даними: що виходить, що стримує, що робити далі'))),
-    overviewCard(A),
+    h('p.small.dim.an-lead', 'Чесна картина за вашими даними: що виходить, що стримує, що робити далі'),
+    overviewCard(A, !deepPrimary),
     deepCard(A),
     section('placement', 'Рівень за навичками', 'target', A, placementBody(A)),
     section('speaking', 'Говоріння', 'chat-circle-dots', A, speakingBody(A)),
@@ -38,31 +43,38 @@ export default async function analysisPage(view) {
 // ---------- Каркас розділу: заголовок, висновок одним рядком, вміст, «Запитати про це» ----------
 function section(id, title, icon, A, body, coach = id) {
   const text = insight(id, A);
-  return h('section.card.stack.an-sec', { 'aria-labelledby': `an-${id}` },
-    h('div.row', ic(icon, { size: 22 }), h('h2.an-title.grow', { id: `an-${id}` }, title)),
-    text ? h('p.an-insight', text) : null,
-    body,
-    h('a.btn.sm.ghost.an-ask', { href: coachHref(coach), 'aria-label': `Запитати вчителя про розділ «${title}»` }, ic('chat-circle-dots', { size: 16 }), 'Запитати про це'));
+  return h('section.tx-group.an-sec', { 'aria-labelledby': `an-${id}` },
+    h('h2.tx-label', { id: `an-${id}` }, title),
+    h('div.card.stack.tx-card',
+      text ? h('p.an-insight', ic(icon, { size: 18 }), h('span', text)) : null,
+      body),
+    askRow(coachHref(coach), `Запитати вчителя про розділ «${title}»`));
 }
 
-function overviewCard(A) {
+/** «Запитати про це» — рядок-плитка до консультації */
+function askRow(href, aria, label = 'Запитати про це') {
+  return h('a.tx-row.tx-ask', { href, 'aria-label': aria }, h('span.tx-sq', ic('chat-circle-dots', { size: 18 })), h('span.tx-body', h('span.tx-l', label)), ic('caret-right', { size: 16 }));
+}
+
+function overviewCard(A, primary = true) {
   const pl = A.placement, sp = A.speaking;
   const mastery = A.lp?.pct ?? null;
-  return h('section.card.accent.stack.an-over',
-    h('div.row', h('div.level-badge', A.level), h('div.grow',
-      h('div', { style: { fontWeight: 600 } }, `Рівень у застосунку: ${A.level} · ${LEVEL_NAME[A.level]}`),
-      h('div.xs.dim', A.levelSource === 'test' ? 'визначено тестом' : A.levelSource ? 'обрано вручну або змінено' : 'рівень за замовчуванням — пройдіть тест'))),
-    h('div.grid3',
+  const talk = { icon: 'chat-circle-dots', label: 'Поговорити про мій прогрес', sub: 'консультація з вчителем українською', href: coachHref('overview') };
+  return h('section.tx-group.an-over', { 'aria-label': 'Огляд' },
+    h('div.tx-row.an-lvl', h('span.level-badge', A.level), h('span.tx-body',
+      h('span.tx-l', `Рівень у застосунку: ${A.level} · ${LEVEL_NAME[A.level]}`),
+      h('span.tx-s', A.levelSource === 'test' ? 'визначено тестом' : A.levelSource ? 'обрано вручну або змінено' : 'рівень за замовчуванням — пройдіть тест'))),
+    txKpis([
       stat(mastery != null ? `${mastery}%` : '—', `опановано ${A.level}`),
-      stat(pl?.overall || '—', pl ? (pl.days > 0 ? `тест, ${pl.days} ${plural(pl.days, 'день', 'дні', 'днів')} тому` : 'тест, сьогодні') : 'тест не пройдено'),
-      stat(sp.current || '—', sp.enough ? `говоріння, ${sp.enough} ${plural(sp.enough, 'оцінка', 'оцінки', 'оцінок')}` : 'говоріння: немає оцінок')),
-    h('a.btn.primary.block', { href: coachHref('overview') }, ic('chat-circle-dots', { size: 18 }), 'Поговорити про мій прогрес'));
+      stat(pl?.overall || '—', pl ? (pl.days > 0 ? `тест, ${pl.days} ${plural(pl.days, 'день', 'дні', 'днів')} тому` : 'тест, сьогодні') : 'тест не пройдено', pl ? 'accent' : ''),
+      stat(sp.current || '—', sp.enough ? `говоріння, ${sp.enough} ${plural(sp.enough, 'оцінка', 'оцінки', 'оцінок')}` : 'говоріння: немає оцінок', sp.current ? 'accent' : '')]),
+    primary ? txPrimary(talk) : tx({ ...talk, wide: true }));
 }
 
 // ---------- Глибокий аналіз від вчителя ----------
 const AN_TRIED = 'me:analysis-tried';
 function deepCard(A) {
-  const box = h('section.card.stack.an-deep', { 'aria-labelledby': 'an-deep' });
+  const box = h('div.card.stack.tx-card.an-deep');
   let busy = false, err = '';
   const cached = () => { const a = store.prof().analysis; return a && a.data && a.at ? a : null; };
   const ageDays = (a) => Math.floor((Date.now() - Date.parse(a.at)) / DAY);
@@ -72,15 +84,14 @@ function deepCard(A) {
   }));
   let ctx = { lessons: new Set(), scenarios: new Set(A.scenarios.map(s => s.id)), reading: new Set() };
 
-  const head = () => h('div.row', ic('sparkle', { size: 22 }), h('h2.an-title.grow', { id: 'an-deep' }, 'Глибокий аналіз від вчителя'));
   function draw() {
     const c = cached();
-    if (busy) { box.replaceChildren(head(), h('div.small.dim', { role: 'status' }, 'Вчитель вивчає ваші дані… Це займає до хвилини.')); return; }
-    const bits = [head()];
+    if (busy) { box.replaceChildren(h('div.small.dim', { role: 'status' }, 'Вчитель вивчає ваші дані… Це займає до хвилини.')); return; }
+    const bits = [];
     if (!c) bits.push(h('div.small.dim', 'Вчитель отримає стисле зведення ваших результатів (числа, тренди й до 15 прикладів помилок — без текстів розмов) і поверне чесний розбір: сильні й слабкі сторони з доказами та план на 14 днів.'));
     if (err) bits.push(h('div.small.bad', { role: 'alert' }, err));
-    if (!user()) bits.push(h('div.small.dim', 'Глибокий аналіз працює після входу.'), h('a.btn.soft.block', { href: '#/auth' }, 'Увійти'));
-    else if (!c) bits.push(h('button.btn.primary.block', { type: 'button', onclick: run }, ic('sparkle', { fill: true, size: 18 }), 'Глибокий аналіз від вчителя'));
+    if (!user()) bits.push(h('div.small.dim', 'Глибокий аналіз працює після входу.'), tx({ icon: 'user', label: 'Увійти', href: '#/auth', wide: true }));
+    else if (!c) bits.push(txPrimary({ icon: 'sparkle', label: 'Глибокий аналіз від вчителя', sub: 'сильні й слабкі сторони, план на 14 днів', onclick: run }));
     if (c) {
       bits.push(...result(c.data));
       const d = ageDays(c);
@@ -111,7 +122,7 @@ function deepCard(A) {
         h('div.an-acts', b.activities.map(a => {
           const href = activityHref(a.kind, a.id, ctx);
           const meta = ACTIVITY[a.kind];
-          return href ? h('a.an-act', { href }, ic(meta.icon, { size: 18 }), h('span.grow', h('span.xs.dim', meta.label), h('span.an-act-t', a.text_uk)), ic('caret-right', { size: 16 })) : null;
+          return href ? h('a.tx-row.an-act', { href }, h('span.tx-sq', ic(meta.icon, { size: 18 })), h('span.tx-body', h('span.tx-s', meta.label), h('span.tx-l.an-act-t', a.text_uk)), ic('caret-right', { size: 16 })) : null;
         })))))));
     if (d.next_level_gap_uk) out.push(h('div.feedback.ok', h('b', 'До наступного рівня: '), mdInline(d.next_level_gap_uk)));
     if (d.data_gaps_uk?.length) out.push(h('div.stack.an-list', h('h3.an-sub', 'Бракує даних'), h('ul.small', d.data_gaps_uk.map(g => h('li', g)))));
@@ -133,18 +144,18 @@ function deepCard(A) {
   }
   ctxP.then(x => { ctx = x; if (box.isConnected && cached()) draw(); });
   draw();
-  return box;
+  return h('section.tx-group', { 'aria-labelledby': 'an-deep' }, h('h2.tx-label#an-deep', 'Глибокий аналіз від вчителя'), box);
 }
 
 // ---------- Розділи ----------
-function emptyNote(text, href, label) {
-  return h('div.row.an-empty', h('span.small.dim.grow', text), href ? h('a.btn.sm.soft', { href }, label) : null);
+function emptyNote(text, href, label, icon = 'arrow-right') {
+  return h('div.stack.an-empty', h('span.small.dim', text), href ? txRow({ icon, label, href }) : null);
 }
 
 function placementBody(A) {
   const p = A.placement;
   const skills = Object.entries(SKILL_UK);
-  if (!p) return emptyNote('Тест покаже рівень кожної навички окремо: граматика, лексика, читання, аудіювання, письмо й говоріння.', '#/tests/placement', 'Пройти тест');
+  if (!p) return emptyNote('Тест покаже рівень кожної навички окремо: граматика, лексика, читання, аудіювання, письмо й говоріння.', '#/tests/placement', 'Пройти тест', 'exam');
   return h('div.stack', { style: { gap: '10px' } },
     skills.map(([k, label]) => {
       const s = p.skills[k];
@@ -187,7 +198,7 @@ function trendTag(delta) {
 
 function speakingBody(A) {
   const s = A.speaking;
-  if (!s.enough) return emptyNote(s.insufficient ? 'Розмови були закороткі: для оцінки потрібно 40+ ваших слів.' : 'Після кожної розмови з вчителем зʼявляється оцінка за критеріями CEFR.', '#/tutor?mode=chat', 'Поговорити');
+  if (!s.enough) return emptyNote(s.insufficient ? 'Розмови були закороткі: для оцінки потрібно 40+ ваших слів.' : 'Після кожної розмови з вчителем зʼявляється оцінка за критеріями CEFR.', '#/tutor?mode=chat', 'Поговорити', 'chat-circle-dots');
   return h('div.stack', { style: { gap: '10px' } },
     sparkline(s.sessions),
     h('div.an-table', { role: 'table', 'aria-label': 'Критерії говоріння' },
@@ -265,14 +276,14 @@ export function metricChart(points, { label = '', fmt = String, unit = '' } = {}
 
 function speechBody(A) {
   const sp = A.speech;
-  if (!sp?.n) return emptyNote('Поговоріть голосом 2–3 рази, щоб побачити динаміку: темп, довжину реплік і плавність.', '#/tutor?mode=voice', 'Поговорити');
+  if (!sp?.n) return emptyNote('Поговоріть голосом 2–3 рази, щоб побачити динаміку: темп, довжину реплік і плавність.', '#/tutor?mode=voice', 'Поговорити', 'microphone');
   const list = sp.sessions.slice(-20);
   const lines = speechLines(sp.first, sp.latest);
   return h('div.stack', { style: { gap: '12px' } },
-    h('div.grid3',
+    txKpis([
       stat(sp.latest.wpm ?? '—', 'слів/хв, остання'),
       stat(sp.latest.avgLen != null ? num(sp.latest.avgLen) : '—', 'слів у репліці'),
-      stat(sp.n, plural(sp.n, 'голосова розмова', 'голосові розмови', 'голосових розмов'))),
+      stat(sp.n, plural(sp.n, 'голосова розмова', 'голосові розмови', 'голосових розмов'))]),
     sp.first ? h('div.stack', { style: { gap: '2px' } },
       h('div.xs.dim', `${sp.firstN === 1 ? 'Перша розмова' : `Середнє перших ${sp.firstN}`} → остання`),
       h('div.an-table', { role: 'table', 'aria-label': 'Мовлення: було і зараз' }, Object.keys(SPEECH_META).map(k => speechRow(k, sp.first, sp.latest)))) : null,
@@ -286,13 +297,13 @@ function speechBody(A) {
 
 function writingBody(A) {
   const w = A.writing;
-  if (!w.checks && !w.diary) return emptyNote('Пишіть щоденник або перевіряйте листи у вчителя.', '#/diary', 'Щоденник');
+  if (!w.checks && !w.diary) return emptyNote('Пишіть щоденник або перевіряйте листи у вчителя.', '#/diary', 'Щоденник', 'notebook');
   const L = { grammar: 'Граматика', vocabulary: 'Лексика', tone: 'Тон', structure: 'Структура' };
   return h('div.stack', { style: { gap: '10px' } },
     w.scores ? h('div.stack', { style: { gap: '6px' } }, h('div.xs.dim', `Перевірені тексти (останні ${Math.min(5, w.checks)}), бали з 10`),
       Object.entries(w.scores).map(([k, v]) => hbar(L[k], v, 10, `${num(v)}/10`, w.scoresPrev?.[k] != null ? `раніше ${num(w.scoresPrev[k])}` : ''))) : null,
-    h('div.grid3', stat(w.diary, plural(w.diary, 'запис у щоденнику', 'записи в щоденнику', 'записів у щоденнику')),
-      stat(w.diaryWords ?? '—', 'слів у записі в середньому'), stat(w.errPer100 != null ? num(w.errPer100) : '—', 'помилок на 100 слів')));
+    txKpis([stat(w.diary, plural(w.diary, 'запис у щоденнику', 'записи в щоденнику', 'записів у щоденнику')),
+      stat(w.diaryWords ?? '—', 'слів у записі в середньому'), stat(w.errPer100 != null ? num(w.errPer100) : '—', 'помилок на 100 слів')]));
 }
 
 /** Горизонтальна смужка: підпис, значення, частка від max */
@@ -305,37 +316,37 @@ function hbar(label, value, max, valueText, sub = '') {
 
 function vocabBody(A) {
   const v = A.vocab;
-  if (!v.inWork) return emptyNote('Почніть з 10 нових слів на день.', '#/cards', 'До карток');
+  if (!v.inWork) return emptyNote('Почніть з 10 нових слів на день.', '#/cards', 'До карток', 'cards');
   return h('div.stack', { style: { gap: '12px' } },
-    h('div.grid2',
+    txKpis([
       stat(v.inWork, 'у роботі'), stat(v.learning, 'вивчаються зараз'),
-      stat(v.mature, 'міцно (інтервал ≥ 21 дн.)'),
-      stat(v.ret.n >= 20 ? `${v.ret.pct}%` : '—', v.ret.n >= 20 ? `утримання за 30 дн.${v.retPrev.pct != null && v.retPrev.n >= 20 ? ` (було ${v.retPrev.pct}%)` : ''}` : `утримання: ${v.ret.n}/20 повторів`)),
+      stat(v.mature, 'міцно (інтервал ≥ 21 дн.)', v.mature ? 'good' : ''),
+      stat(v.ret.n >= 20 ? `${v.ret.pct}%` : '—', v.ret.n >= 20 ? `утримання за 30 дн.${v.retPrev.pct != null && v.retPrev.n >= 20 ? ` (було ${v.retPrev.pct}%)` : ''}` : `утримання: ${v.ret.n}/20 повторів`)], 2),
     v.byLevel.length ? h('div.stack', { style: { gap: '6px' } }, h('div.xs.dim', 'Закріплені слова (інтервал ≥ 7 дн.) з колод кожного рівня'),
       v.byLevel.map(x => hbar(x.level, x.known, x.total, `${x.known} з ${x.total}`)),
       v.own || v.work ? h('div.xs.dim', [v.own ? `ще ${v.own} з «Моїх слів»` : '', v.work ? `${v.work} з робочих колод` : ''].filter(Boolean).join(' · ')) : null) : null,
     v.weak.length ? h('div.stack', { style: { gap: '4px' } }, h('div.xs.dim', 'Слова, які забуваються найчастіше'),
       h('div.chips', v.weak.map(w => h('span.tag', { title: w.uk || '' }, h('span', { lang: 'en' }, w.en), ` · ${w.lapses}×`)))) : null,
-    v.due ? h('a.btn.sm.soft', { href: '#/cards/review', style: { alignSelf: 'flex-start' } }, ic('cards', { size: 16 }), `Повторити ${v.due}`) : null);
+    v.due ? txRow({ icon: 'cards', label: `Повторити ${v.due}`, href: '#/cards/review' }) : null);
 }
 
 function grammarBody(A) {
   const g = A.grammar;
   return h('div.stack', { style: { gap: '10px' } },
     h('div.stack', { style: { gap: '6px' } }, g.byLevel.map(x => hbar(x.level === A.level ? `${x.level} · ваш рівень` : x.level, x.done, x.total, `${x.done} з ${x.total}`))),
-    g.tried ? h('div.grid3', stat(g.tried, plural(g.tried, 'урок спробувано', 'уроки спробувано', 'уроків спробувано')), stat(`${g.avgBest}%`, 'найкращий бал, сер.'), stat(g.lessonTests ? `${g.lessonTests.avg}%` : '—', 'тести за уроками')) : null,
-    g.low.length ? h('div.stack', { style: { gap: '4px' } }, h('div.xs.dim', 'Уроки нижче 80%'),
-      h('div.list', g.low.map(x => h('a.list-row', { href: `#/grammar/${encodeURIComponent(x.id)}` }, h('div.grow', h('div', x.title), h('div.sub', `${x.level} · ${x.best}% · спроб: ${x.attempts}`)), ic('caret-right', { size: 18 }))))) : null,
+    g.tried ? txKpis([stat(g.tried, plural(g.tried, 'урок спробувано', 'уроки спробувано', 'уроків спробувано')), stat(`${g.avgBest}%`, 'найкращий бал, сер.'), stat(g.lessonTests ? `${g.lessonTests.avg}%` : '—', 'тести за уроками')]) : null,
+    g.low.length ? h('div.stack', { style: { gap: '6px' } }, h('div.xs.dim', 'Уроки нижче 80%'),
+      txRows(g.low.map(x => txRow({ icon: 'puzzle-piece', label: x.title, sub: `${x.level} · спроб: ${x.attempts}`, pill: { text: `${x.best}%`, tone: x.best < 60 ? 'bad' : 'warn' }, href: `#/grammar/${encodeURIComponent(x.id)}` })))) : null,
     g.due.length ? h('div.small', h('b', 'На повторення: '), g.due.slice(0, 4).map((x, i) => [i ? ', ' : '', h('a', { href: `#/grammar/${encodeURIComponent(x.id)}` }, x.title)])) : null,
-    g.next ? h('a.btn.sm.soft', { href: `#/grammar/${encodeURIComponent(g.next.id)}`, style: { alignSelf: 'flex-start' } }, ic('puzzle-piece', { size: 16 }), `Наступний урок: ${g.next.title}`) : null);
+    g.next ? txRow({ icon: 'puzzle-piece', label: `Наступний урок: ${g.next.title}`, href: `#/grammar/${encodeURIComponent(g.next.id)}` }) : null);
 }
 
 function mistakesBody(A) {
   const m = A.mistakes;
-  if (!m.total) return emptyNote('Помилки збираються з розмов, щоденника й вправ.', '#/diary', 'Написати запис');
+  if (!m.total) return emptyNote('Помилки збираються з розмов, щоденника й вправ.', '#/diary', 'Написати запис', 'pencil-line');
   const max = Math.max(1, ...m.types.map(x => x.total));
   return h('div.stack', { style: { gap: '12px' } },
-    h('div.grid3', stat(m.open, 'відкритих'), stat(`${m.resolvedPct}%`, 'виправлено'), stat(m.new14, `нових за 14 дн.${m.newPrev14 || m.new14 ? ` (було ${m.newPrev14})` : ''}`)),
+    txKpis([stat(m.open, 'відкритих', m.open ? 'bad' : ''), stat(`${m.resolvedPct}%`, 'виправлено', m.resolvedPct ? 'good' : ''), stat(m.new14, `нових за 14 дн.${m.newPrev14 || m.new14 ? ` (було ${m.newPrev14})` : ''}`)]),
     h('div.stack', { style: { gap: '8px' } }, m.types.map(x => h('div.an-type',
       hbar(S.mistakeTypes[x.type] || x.type, x.total, max, String(x.total)),
       h('div.row.xs.dim', h('span.grow', `14 днів: ${x.last14} · попередні 14: ${x.prev14} · відкритих: ${x.open}`),
@@ -345,7 +356,7 @@ function mistakesBody(A) {
       m.recurring.map(x => h('div.an-rec',
         h('div.fix-line', h('s.bad', x.wrong), h('span.arrow', { 'aria-label': 'правильно:' }, ' → '), h('b.good', x.right), h('span.xs.dim', ` · ${x.count}×${x.resolved ? ' · виправлено' : ''}`)),
         x.explanation_uk ? h('div.xs.dim', mdInline(x.explanation_uk)) : null))) : null,
-    h('a.btn.sm.soft', { href: '#/mistakes', style: { alignSelf: 'flex-start' } }, ic('warning-circle', { size: 16 }), 'Мої помилки'));
+    txRow({ icon: 'warning-circle', label: 'Мої помилки', href: '#/mistakes' }));
 }
 
 function habitsBody(A) {
@@ -355,7 +366,7 @@ function habitsBody(A) {
   const TOD = { morning: 'Ранок', day: 'День', evening: 'Вечір', night: 'Ніч' };
   const todMax = Math.max(1, ...Object.values(hb.timeOfDay));
   return h('div.stack', { style: { gap: '12px' } },
-    h('div.grid3', stat(hb.streak, `${plural(hb.streak, 'день', 'дні', 'днів')} поспіль`), stat(num(hb.activePerWeek), 'активних днів/тижд.'), stat(`${hb.min4w} хв`, 'за 4 тижні')),
+    txKpis([stat(hb.streak, `${plural(hb.streak, 'день', 'дні', 'днів')} поспіль`, hb.streak ? 'accent' : ''), stat(num(hb.activePerWeek), 'активних днів/тижд.'), stat(`${hb.min4w} хв`, 'за 4 тижні')]),
     h('div.stack', { style: { gap: '4px' } }, h('div.xs.dim', 'Хвилини за тиждень (останні 8 тижнів)'),
       h('div.bars', { style: { height: '90px' }, role: 'img', 'aria-label': `Хвилини по тижнях: ${hb.weeks.map(w => w.min).join(', ')}` },
         hb.weeks.map(w => h('i' + (w.min ? '' : '.zero'), { style: { height: `${Math.max(2, w.min / max * 100)}%` }, title: `${lbl(w)}: ${w.min} хв, активних днів ${w.active}` }))),

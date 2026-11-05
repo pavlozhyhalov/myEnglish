@@ -5,6 +5,7 @@ import { plural } from '../strings.js';
 import { tutor, aiErrorText } from '../ai.js';
 import { speak, stop as stopSpeech, blobToBase64 } from '../speech.js';
 import { setTitle, setFocus } from '../ui/shell.js';
+import { tx, txPrimary, txGrid, txGroup } from '../ui/tiles.js';
 import { skelLines } from '../ui/skeleton.js';
 import { activityTimer } from '../stats.js';
 import { user } from '../supa.js';
@@ -130,31 +131,25 @@ function overview(view) {
   const logged = !!user();
   const hist = history();
   const last = drills().slice(-1)[0];
+  const steps = ROUNDS.map(x => nSec(x.sec)).join(' → ');
   view.replaceChildren(h('div.stack-lg.fl',
-    pageHead('Тренажер плавності', 'Говоріть довше — без «uh» і «I I I»', null),
     logged ? null : loginCard(),
+    txGroup('Техніка 4-3-2 · одна тема — три раунди', [
+      logged ? txPrimary({ icon: 'timer', label: 'Почати 4-3-2', sub: `Раунди: ${steps}`, href: '#/fluency/432', attrs: { 'aria-label': `Почати 4-3-2. Раунди: ${ROUNDS.map(x => nSec(x.sec)).join(', ')}` } }) : null,
+      h('p.xs.dim.fl-note', 'Розповідаєте те саме щоразу коротше. Фрази стають звичними, паузи й «uh» зникають — мовлення густішає.')]),
     hist.length ? progressCard(hist) : null,
-    h('section.fl-hero',
-      h('div.label', 'Техніка 4-3-2'),
-      h('div.fl-hero-t', 'Одна тема — три раунди'),
-      h('div.fl-steps', { 'aria-label': 'Раунди: 60, 45 і 30 секунд' }, ROUNDS.map((x, i) => [i ? h('span.fl-arrow', { 'aria-hidden': 'true' }, ic('arrow-right', { size: 14 })) : null, h('span.fl-step', nSec(x.sec))])),
-      h('div.sub', 'Розповідаєте те саме щоразу коротше. Фрази стають звичними, паузи й «uh» зникають — мовлення густішає.'),
-      logged ? h('a.btn.start', { href: '#/fluency/432' }, ic('play', { size: 18, fill: true }), 'Почати') : null),
-    h('section.card.stack.fl-gcard',
-      h('div.row', { style: { gap: '12px', alignItems: 'flex-start' } }, h('span.tile-ico', ic('quotes', { size: 22 })),
-        h('div.grow', h('div.fl-strong', 'Замість «uh»'),
-          h('div.small.dim', `${GAMBITS.length} фраз, що дають час подумати й зв'язують думки. Тренування: питання — і за ${DRILL_START_SEC} секунди почати з такої фрази.`))),
-      last ? h('div.xs.dim', `Останнє тренування: ${last.ok} з ${last.n} відповідей почато з фрази`) : null,
-      h('div.fl-two',
-        h('a.btn.soft', { href: '#/fluency/gambits' }, ic('book-open-text', { size: 18 }), 'Фрази'),
-        logged ? h('a.btn.primary', { href: '#/fluency/drill' }, ic('lightning', { size: 18, fill: true }), 'Тренування') : null)),
-    h('section.card.soft.stack.fl-why',
-      h('div.fl-strong', 'Як займатися'),
+    txGroup('Замість «uh»', [
+      logged ? txGrid([
+        tx({ icon: 'quotes', label: 'Фрази', sub: `${GAMBITS.length} фраз, що дають час подумати`, href: '#/fluency/gambits' }),
+        tx({ icon: 'lightning', label: 'Тренування', sub: `Питання — і за ${DRILL_START_SEC} с почати з фрази`, href: '#/fluency/drill' }),
+      ], 2) : tx({ icon: 'quotes', wide: true, label: 'Фрази', sub: `${GAMBITS.length} фраз, що дають час подумати й зв'язують думки`, href: '#/fluency/gambits' }),
+      last ? h('p.xs.dim.fl-note', `Останнє тренування: ${last.ok} з ${last.n} відповідей почато з фрази`) : null]),
+    txGroup('Як займатися', h('section.fl-why',
       h('ul.fl-tips',
         h('li', 'Не шукайте ідеальне слово — кажіть простіше й рухайтеся далі.'),
         h('li', 'Замість паузи чи «uh» — фраза: «Well…», «Let me think…», «The thing is…».'),
         h('li', 'Повтор «I I I» — знак, що ви поспішаєте з початком. Почніть із фрази, а не з «I».'),
-        h('li', '5–10 хвилин щодня дають більше, ніж година раз на тиждень.')))));
+        h('li', '5–10 хвилин щодня дають більше, ніж година раз на тиждень.'))))));
 }
 
 function progressCard(hist) {
@@ -169,12 +164,11 @@ function progressCard(hist) {
       vals.length > 1 ? sparkline(vals, `${label}: ${vals.map(v => num(v)).join(', ')}`) : null,
       vals.length > 1 ? h('div.fl-ms', `було ${num(was)} на початку`) : null);
   };
-  return h('section.card.stack.fl-progress',
-    h('div.row.between', h('div.fl-strong', 'Ваш прогрес'), h('span.xs.dim', `${hist.length} ${plural(hist.length, 'сесія', 'сесії', 'сесій')} 4-3-2`)),
-    h('div.fl-two',
+  return txGroup(`Ваш прогрес · ${hist.length} ${plural(hist.length, 'сесія', 'сесії', 'сесій')} 4-3-2`, [
+    h('div.fl-two.fl-progress',
       tile('Заминки на 100 слів', pts.map(p => p.per100), lastP.per100, first.per100, 'down', ''),
       tile('Слів за хвилину', pts.map(p => p.wpm), lastP.wpm, first.wpm, 'up', '')),
-    pts.length < 2 ? h('div.xs.dim', 'Пройдіть ще одну сесію — і тут з\'явиться динаміка.') : null);
+    pts.length < 2 ? h('p.xs.dim.fl-note', 'Пройдіть ще одну сесію — і тут з\'явиться динаміка.') : null]);
 }
 
 // ---------- Фрази «замість uh» ----------

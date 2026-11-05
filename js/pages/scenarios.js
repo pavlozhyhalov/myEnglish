@@ -7,7 +7,11 @@ import * as store from '../store.js';
 import { savePhrases, guessSituation, hasPhrase, situation as phraseSit } from '../phrases.js';
 import { toast } from '../ui/toast.js';
 import { go } from '../router.js';
-import { byFit, levelTag, myLevel, levelChips, levelCounts, levelPick, filterByLevel, fallbackNote } from '../level.js';
+import { byFit, levelTag, myLevel, levelChips, levelCounts, levelPick, filterByLevel, fallbackNote, pickOfDay } from '../level.js';
+import { txPrimary, txGroup, txRow, txRows } from '../ui/tiles.js';
+
+/** Іконка з мапи emo() у квадратику плитки (дані сценаріїв зберігають назви emo) */
+const sqEmo = (el, name) => { const e = emo(name); e.setAttribute('width', 18); e.setAttribute('height', 18); el.querySelector('.tx-sq')?.replaceChildren(e); return el; };
 
 export default async function scenarios(view, r) {
   const list = await load();
@@ -22,15 +26,15 @@ export default async function scenarios(view, r) {
     body.replaceChildren(fallbackNote(fallback), ...groups.map(([g, name]) => {
       const rows = byFit(items.filter(x => x.group === g));
       if (!rows.length) return null;
-      return h('section.stack', { style: { gap: '8px' } }, h('div.section-title', name),
-        h('div.list', rows.map(x => h('a.list-row', { href: `#/scenarios/${x.id}` },
-          emo(x.emoji || 'theater'), h('div.grow', h('div', { style: { fontWeight: 600 } }, x.title), h('div.sub', x.short)),
-          played.has(x.id) ? h('span.tag.good', 'пройдено') : null, levelTag(x.level), ic('caret-right', { size: 18 })))));
+      return txGroup(name, txRows(rows.map(x => sqEmo(txRow({ icon: 'users-three', label: x.title, sub: x.short, href: `#/scenarios/${x.id}`,
+        pill: played.has(x.id) ? { text: 'пройдено', tone: 'good' } : null, end: levelTag(x.level) }), x.emoji || 'theater'))));
     }).filter(Boolean));
   };
+  // сценарій дня — той самий, що в «Завданнях рівня» на головній
+  const day = pickOfDay(filterByLevel(list.filter(x => x.group !== 'work'), 'mine').items, 'scen');
   view.replaceChildren(h('div.stack-lg',
-    h('section.row', h('div.emoji-circle', emo('theater')), h('div.grow', h('h1', { style: { margin: 0 } }, 'Розмовні сценарії'), h('div.small.dim', `Рольові ігри із вчителем · ваш рівень ${myLevel()}`))),
-    levelChips('scenarios', levelCounts(list), draw), body));
+    day ? sqEmo(txPrimary({ icon: 'users-three', label: day.title, sub: `Сценарій дня · ${day.short || `рівень ${day.level}`}`, href: `#/scenarios/${day.id}` }), day.emoji || 'theater') : null,
+    txGroup(`Рольові ігри із вчителем · ваш рівень ${myLevel()}`, levelChips('scenarios', levelCounts(list), draw)), body));
   draw();
 }
 

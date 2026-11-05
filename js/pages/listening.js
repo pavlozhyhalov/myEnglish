@@ -9,7 +9,11 @@ import { activityTimer, addMistake } from '../stats.js';
 import { tutor, aiErrorText } from '../ai.js';
 import { user } from '../supa.js';
 import { toast } from '../ui/toast.js';
-import { LEVELS, myLevel, byFit, levelTag, rank, levelChips, levelCounts, levelPick, filterByLevel, fallbackNote } from '../level.js';
+import { LEVELS, myLevel, byFit, levelTag, rank, levelChips, levelCounts, levelPick, filterByLevel, fallbackNote, pickOfDay } from '../level.js';
+import { txPrimary, txGroup, txRow, txRows } from '../ui/tiles.js';
+
+/** Іконка з мапи emo() у квадратику плитки */
+const sqEmo = (el, name) => { const e = emo(name); e.setAttribute('width', 18); e.setAttribute('height', 18); el.querySelector('.tx-sq')?.replaceChildren(e); return el; };
 
 let openTitle = null;
 
@@ -38,10 +42,15 @@ function dictation(box, data, timer) {
     const items = pool.sort(() => Math.random() - 0.5).slice(0, 8);
     run(items);
   };
-  box.replaceChildren(h('div.stack',
-    h('section.card.stack', h('div.row', emo('headphone', 'lg'), h('div.grow', h('h2', { style: { margin: 0 } }, 'Диктант'), h('div.small.dim', '8 речень: слухайте й набирайте. За замовчуванням — ваш рівень, його можна змінити.'))),
-      h('div.chips', levels.map(l => h('button.chip', { type: 'button', 'aria-pressed': String(l === level), onclick: (e) => { level = l; e.currentTarget.parentNode.querySelectorAll('.chip').forEach(c => c.setAttribute('aria-pressed', String(c === e.currentTarget))); } }, l === myLevel() ? `Мій · ${l}` : l))),
-      h('button.btn.primary.block.lg', { type: 'button', onclick: start }, ic('play', { fill: true }), 'Почати'))));
+  const startTile = txPrimary({ icon: 'headphones', label: 'Почати диктант', sub: `8 речень · рівень ${level}`, onclick: start });
+  box.replaceChildren(h('div.stack-lg',
+    txGroup('Рівень диктанту', [
+      h('div.chips', levels.map(l => h('button.chip', { type: 'button', 'aria-pressed': String(l === level), onclick: (e) => {
+        level = l; e.currentTarget.parentNode.querySelectorAll('.chip').forEach(c => c.setAttribute('aria-pressed', String(c === e.currentTarget)));
+        startTile.querySelector('.tx-s').textContent = `8 речень · рівень ${level}`;
+      } }, l === myLevel() ? `Мій · ${l}` : l))),
+      h('p.xs.dim.ls-note', 'Слухайте й набирайте почуте. За замовчуванням — ваш рівень, його можна змінити.')]),
+    startTile));
 
   function run(items) {
     let i = 0, totalPct = 0;
@@ -147,22 +156,25 @@ function dialogues(box, data, timer) {
   const topics = ['У кафе', 'Плани на вихідні', 'В аеропорту', 'Оренда квартири', 'У лікаря', 'Знайомство на вечірці', 'Покупки й повернення', 'Подорож потягом', 'Обговорення фільму', 'Співбесіда'];
   // діалоги вибраного рівня (за замовчуванням — мого)
   const listBox = h('div.stack');
+  const open = (d) => playDialogue(box, d, timer, () => dialogues(box, data, timer));
   const drawList = () => {
     const { items, fallback } = filterByLevel(data.dialogues, levelPick('dialogues'));
-    listBox.replaceChildren(fallbackNote(fallback), h('div.list', byFit(items).map(d => h('button.list-row', { type: 'button', onclick: () => playDialogue(box, d, timer, () => dialogues(box, data, timer)) },
-      emo(d.emoji || 'headphone'), h('div.grow', h('div', { style: { fontWeight: 600 } }, d.title), h('div.sub', `${d.lines.length} ${plural(d.lines.length, 'репліка', 'репліки', 'реплік')} · ${d.questions.length} ${plural(d.questions.length, 'питання', 'питання', 'питань')}`)), levelTag(d.level), ic('caret-right', { size: 18 })))));
+    listBox.replaceChildren(fallbackNote(fallback), txRows(byFit(items).map(d => sqEmo(txRow({ icon: 'headphones', label: d.title, onclick: () => open(d),
+      sub: `${d.lines.length} ${plural(d.lines.length, 'репліка', 'репліки', 'реплік')} · ${d.questions.length} ${plural(d.questions.length, 'питання', 'питання', 'питань')}`,
+      end: levelTag(d.level) }), d.emoji || 'headphone'))));
   };
   drawList();
   if (openTitle) {
     const d = data.dialogues.find(x => x.title === openTitle);
     openTitle = null;
-    if (d) { playDialogue(box, d, timer, () => dialogues(box, data, timer)); return; }
+    if (d) { open(d); return; }
   }
-  box.replaceChildren(h('div.stack',
-    h('div.section-title', 'Готові діалоги (офлайн)'),
-    levelChips('dialogues', levelCounts(data.dialogues), drawList), listBox,
-    h('div.section-title', 'Новий діалог від AI'),
-    h('div.chips', topics.map(t => h('button.chip', { type: 'button', onclick: async (e) => {
+  // діалог дня — той самий, що в «Завданнях рівня» на головній
+  const day = pickOfDay(filterByLevel(data.dialogues, 'mine').items, 'dialogue');
+  box.replaceChildren(h('div.stack-lg',
+    day ? sqEmo(txPrimary({ icon: 'headphones', label: day.title, sub: `Діалог дня · ${day.level} · ${day.lines.length} ${plural(day.lines.length, 'репліка', 'репліки', 'реплік')}`, onclick: () => open(day) }), day.emoji || 'headphone') : null,
+    txGroup('Готові діалоги (офлайн)', [levelChips('dialogues', levelCounts(data.dialogues), drawList), listBox]),
+    txGroup('Новий діалог від AI', h('div.chips', topics.map(t => h('button.chip', { type: 'button', onclick: async (e) => {
       if (!user()) { toast(S.err.needLogin); return; }
       const chip = e.currentTarget; chip.disabled = true; chip.textContent = 'Генерую…';
       try {
@@ -171,7 +183,7 @@ function dialogues(box, data, timer) {
         if (box.__gen !== g || !box.isConnected) return;   // користувач перейшов на іншу вкладку
         playDialogue(box, { ...d, level: 'AI', speakers: d.speakers }, timer, () => dialogues(box, data, timer));
       } catch (err) { toast(aiErrorText(err), { kind: 'bad' }); chip.disabled = false; chip.textContent = t; }
-    } }, t)))));
+    } }, t))))));
 }
 
 function playDialogue(box, d, timer, onBack) {

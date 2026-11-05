@@ -1,20 +1,8 @@
 /* Фразник (#/phrases) */
 .phrasebook h1{font-size:var(--fs-xl)}
-.ph-hero{background:var(--hero);border:1px solid var(--hero-edge);color:#fff;border-radius:24px;padding:18px;display:flex;flex-direction:column;gap:12px}
-.ph-hero .label{font-size:var(--fs-xs);font-weight:600;color:var(--hero-dim)}
-.ph-hero .sub{font-size:var(--fs-xs);color:var(--hero-dim)}
-.ph-hero-ico{width:48px;height:48px;border-radius:14px;display:grid;place-items:center;flex:none;background:rgba(255,255,255,.14);color:#fff}
-.ph-hero-t{font-family:var(--font-head);font-weight:700;font-size:var(--fs-lg);line-height:1.2}
-.ph-hero .btn.start{background:#fff;color:var(--hero);font-weight:700;min-height:52px;border-radius:var(--radius-btn);gap:8px}
-.ph-hero :focus-visible{outline-color:#fff}
-
-.ph-grid .tile{min-height:112px;justify-content:space-between}
-.ph-tile .name{line-height:1.25}
-.ph-tile.empty-sit{background:transparent;box-shadow:none;border-style:dashed}
-.ph-tile.empty-sit .tile-ico{background:var(--surface-2);color:var(--ink-dim)}
-
-.ph-empty .tile-ico{color:var(--accent-ink)}
-.ph-empty-acts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.ph-tile.empty-sit{background:transparent;border-style:dashed;border-color:var(--line-strong)}
+.ph-tile.empty-sit .tx-l{color:var(--ink-dim)}
+.ph-empty-t{margin:0 4px}
 .ph-hint{text-align:center}
 .ph-err{color:var(--bad)}
 .ph-err:empty{display:none}

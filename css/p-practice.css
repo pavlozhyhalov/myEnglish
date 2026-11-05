@@ -1,1 +1,39 @@
-/* Плитковий стиль сторінок — див. css/tiles.css */
+/* Плитковий стиль сторінок — див. css/tiles.css
+   Практика і «Я»: вчитель (старт), сценарії, плавність, аудіювання, читання, письмо, щоденник, профіль, друзі, налаштування. */
+
+/* пояснення під підписом групи */
+.pp-note,.ls-note,.dy-note{margin:0;padding:0 4px;line-height:1.45}
+
+/* кнопка праворуч від підпису групи («Вибрати», «Очистити все») — як посилання .tx-more */
+button.tx-more{border:0;background:none;padding:6px 2px;margin:-6px 0;font:inherit;font-size:var(--fs-xs);font-weight:600;color:var(--accent-ink);cursor:pointer;min-height:32px;flex:none}
+html.kbd button.tx-more:focus-visible{outline:2px solid var(--accent-ink);outline-offset:2px;border-radius:6px}
+
+/* рядок-плитка з посиланням і окремою кнопкою видалення (історія вчителя, записи щоденника) */
+.pp-hrow{padding:0 4px 0 0;gap:4px}
+.pp-hlink{display:flex;align-items:center;gap:12px;flex:1;min-width:0;align-self:stretch;padding:9px 0 9px 12px;color:inherit;text-decoration:none;border-radius:14px 0 0 14px}
+.pp-hlink:active{opacity:.75}
+html.kbd .pp-hlink:focus-visible{outline:2px solid var(--accent-ink);outline-offset:-2px}
+.pp-hrow .icon-btn,.mem-row .icon-btn,.friend-row .icon-btn{flex:none;color:var(--ink-dim)}
+label.tx-row{cursor:pointer}
+label.tx-row .check{flex:none}
+.dy-peek{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+/* рівень у рядку списку — праворуч від пігулки стану */
+.tx-row > .tag{flex:none}
+
+/* панелі форм і тексту — тим самим тлом, що й плитки */
+.pp-panel,.pp-form .card,.dy-q{border-radius:16px;box-shadow:none}
+.pp-panel,.pp-form .card{background:var(--tile);border:1px solid var(--tile-edge)}
+.pp-panel{padding:14px}
+div.pp-panel.small{font-size:var(--fs-sm)}
+.pp-head .tx-end .tag{white-space:nowrap}
+.mem-row{padding-right:4px}
+.mem-t{font-weight:500}
+
+/* друзі */
+.friend-row{padding-right:4px}
+.friend-row.small{color:var(--ink-dim);font-size:var(--fs-sm)}
+
+/* налаштування: групи списків — плитками */
+.pp-set .list{background:var(--tile);border-color:var(--tile-edge);box-shadow:none;border-radius:16px}
+.pp-set .list-row+.list-row,.pp-set .dnd-row+.dnd-row{border-top-color:var(--tile-edge)}

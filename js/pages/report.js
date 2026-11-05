@@ -1,6 +1,7 @@
 // Звіт за місяць (#/report?m=YYYY-MM): час, розмови, рівень у розмовах, мовлення, помилки, слова, «Ваш голос: тоді й зараз».
 // Усе рахується локально (js/analysis.js monthPart); записи голосу — лише після входу (підписані посилання Supabase Storage).
 import { h, ic } from '../ui/dom.js';
+import { tx, txPrimary, txKpis, txRow } from '../ui/tiles.js';
 import { S, plural } from '../strings.js';
 import { toast } from '../ui/toast.js';
 import { user, getSupa } from '../supa.js';
@@ -13,7 +14,10 @@ import { masteryDots, TALK_HREF } from './mistakes.js';
 const rk = (l) => LEVELS.indexOf(l);
 const lvTxt = (x) => (x ? `${x.level}${x.sublevel === 'high' ? '+' : x.sublevel === 'low' ? '−' : ''}` : '—');
 const fmtDate = (iso) => new Date(iso).toLocaleDateString('uk-UA', { day: 'numeric', month: 'long', year: 'numeric' });
-const stat = (v, label) => h('div.stat', h('b', String(v)), h('span', label));
+const stat = (value, label, tone = '') => ({ value, label, tone });
+/** Розділ звіту: підпис великими літерами + картка */
+const block = (id, title, ...kids) => h('section.tx-group', { 'aria-labelledby': id }, h('h2.tx-label', { id }, title), ...kids);
+const tcard = (...kids) => h('div.card.stack.tx-card', ...kids);
 
 export default async function reportPage(view, r) {
   const months = reportMonths();
@@ -36,8 +40,9 @@ export default async function reportPage(view, r) {
 
   drawChips();
   draw();
+  // назва розділу — у шапці й вкладках (Прогрес · Аналіз · Звіт)
   view.replaceChildren(h('div.stack-lg.report',
-    h('div.row', h('div.grow', h('h1', { style: { margin: 0 } }, 'Звіт за місяць'), h('div.small.dim', 'Що змінилося за місяць — у цифрах і вашим голосом'))),
+    h('p.small.dim.an-lead', 'Що змінилося за місяць — у цифрах і вашим голосом'),
     months.length > 1 ? chips : null,
     body,
     h('p.xs.dim.center', 'Звіт рахується на цьому пристрої з ваших занять, розмов, помилок і карток.')));
@@ -49,15 +54,15 @@ function monthView(M) {
   const out = [hero(M)];
   const empty = !M.seconds && !M.voice && !M.text && !M.mistakes.added && !M.words.reviews;
   if (empty) {
-    out.push(h('section.card.stack.center',
-      h('p.small.dim', { style: { margin: 0 } }, M.cur ? 'У цьому місяці ще немає занять. Почніть сьогодні — звіт наповнюватиметься сам.' : `У ${MONTH_IN[M.monthIdx]} занять не було.`),
-      M.cur ? h('a.btn.primary.block', { href: '#/session' }, ic('play', { fill: true, size: 18 }), 'Почати заняття') : null));
+    out.push(h('section.stack.rp-empty',
+      h('p.small.dim.center', { style: { margin: 0 } }, M.cur ? 'У цьому місяці ще немає занять. Почніть сьогодні — звіт наповнюватиметься сам.' : `У ${MONTH_IN[M.monthIdx]} занять не було.`),
+      M.cur ? txPrimary({ icon: 'play', label: 'Почати заняття', href: '#/session' }) : null));
   } else {
     out.push(talkCard(M), levelCard(M), speechCard(M), mistakesCard(M), wordsCard(M));
   }
   const clips = voiceCard();
   if (clips) out.push(clips);
-  if (!empty) out.push(h('button.btn.soft.block', { type: 'button', onclick: () => share(M) }, ic('share-network', { size: 18 }), 'Поділитися підсумком'));
+  if (!empty) out.push(tx({ icon: 'share-network', label: 'Поділитися підсумком', sub: 'короткий текст про ваш місяць', onclick: () => share(M), wide: true }));
   return out.filter(Boolean);
 }
 
@@ -89,23 +94,21 @@ function hero(M) {
 function talkCard(M) {
   const vmin = Math.round(M.voiceSec / 60);
   const types = Object.entries(M.byType).filter(([, v]) => v > 0).slice(0, 6);
-  return h('section.card.stack',
-    h('div.row', ic('chat-circle-dots', { size: 22 }), h('h2.an-title.grow', 'Заняття')),
-    h('div.grid3',
+  return block('rp-talk', 'Заняття',
+    txKpis([
       stat(M.voice, plural(M.voice, 'голосова розмова', 'голосові розмови', 'голосових розмов')),
       stat(M.text, plural(M.text, 'текстова розмова', 'текстові розмови', 'текстових розмов')),
-      stat(M.diary, plural(M.diary, 'запис у щоденнику', 'записи в щоденнику', 'записів у щоденнику'))),
-    vmin ? h('div.xs.dim', `Голосом — ${vmin} хв розмови з вчителем.`) : null,
+      stat(M.diary, plural(M.diary, 'запис у щоденнику', 'записи в щоденнику', 'записів у щоденнику'))]),
+    vmin ? h('div.xs.dim.pg-note', `Голосом — ${vmin} хв розмови з вчителем.`) : null,
     types.length ? h('div.chips', types.map(([k, v]) => h('span.tag', `${S.sessionTypes[k] || k}: ${v} хв`))) : null);
 }
 
 // ---------- Рівень у розмовах: перша й остання оцінка місяця, критерії CEFR ----------
 function levelCard(M) {
   const L = M.level;
-  if (!L.n) return h('section.card.stack',
-    h('div.row', ic('target', { size: 22 }), h('h2.an-title.grow', 'Рівень у розмовах')),
-    h('div.row.an-empty', h('span.small.dim.grow', 'Оцінок рівня цього місяця немає: вчитель оцінює розмову, коли в ній достатньо вашого мовлення (40+ слів).'),
-      M.cur ? h('a.btn.sm.soft', { href: '#/tutor?mode=voice' }, 'Поговорити') : null));
+  if (!L.n) return block('rp-level', 'Рівень у розмовах', tcard(
+    h('div.stack.an-empty', h('span.small.dim', 'Оцінок рівня цього місяця немає: вчитель оцінює розмову, коли в ній достатньо вашого мовлення (40+ слів).'),
+      M.cur ? txRow({ icon: 'microphone', label: 'Поговорити', href: '#/tutor?mode=voice' }) : null)));
   const a = L.first, b = L.last;
   const crit = CRIT.filter(k => a.crit[k] || b?.crit[k]);
   const arrow = (x, y) => {
@@ -113,8 +116,7 @@ function levelCard(M) {
     const d = rk(y) - rk(x);
     return d > 0 ? h('span.tag.good', '↑') : d < 0 ? h('span.tag.bad', '↓') : h('span.tag', '=');
   };
-  return h('section.card.stack',
-    h('div.row', ic('target', { size: 22 }), h('h2.an-title.grow', 'Рівень у розмовах')),
+  return block('rp-level', 'Рівень у розмовах', tcard(
     h('div.rp-lv',
       h('div', h('span.xs.dim', b ? 'на початку місяця' : 'оцінка місяця'), h('div.level-badge', lvTxt(a))),
       b ? h('span.rp-lv-arrow', { 'aria-hidden': 'true' }, ic('arrow-right', { size: 22 })) : null,
@@ -125,52 +127,51 @@ function levelCard(M) {
         h('span.grow', { role: 'cell' }, CRIT_UK[k]),
         b ? h('span.xs.dim', { role: 'cell' }, `${a.crit[k] || '—'} →`) : null,
         h('b', { role: 'cell' }, (b ? b.crit[k] : a.crit[k]) || '—'),
-        b ? h('span', { role: 'cell' }, arrow(a.crit[k], b.crit[k])) : null))) : null);
+        b ? h('span', { role: 'cell' }, arrow(a.crit[k], b.crit[k])) : null))) : null));
 }
 
 // ---------- Мовлення (голосові розмови місяця) ----------
 function speechCard(M) {
   const sp = M.speech;
-  const headRow = h('div.row', ic('waveform', { size: 22 }), h('h2.an-title.grow', 'Мовлення'));
-  if (!sp.n) return h('section.card.stack', headRow,
-    h('div.row.an-empty', h('span.small.dim.grow', 'Поговоріть голосом 2–3 рази, щоб побачити динаміку: темп, довжину реплік і плавність.'),
-      M.cur ? h('a.btn.sm.soft', { href: '#/tutor?mode=voice' }, 'Поговорити') : null));
+  if (!sp.n) return block('rp-speech', 'Мовлення', tcard(
+    h('div.stack.an-empty', h('span.small.dim', 'Поговоріть голосом 2–3 рази, щоб побачити динаміку: темп, довжину реплік і плавність.'),
+      M.cur ? txRow({ icon: 'microphone', label: 'Поговорити', href: '#/tutor?mode=voice' }) : null)));
   const lines = speechLines(sp.first, sp.latest);
   const list = sp.sessions;
-  return h('section.card.stack', headRow,
+  return block('rp-speech', 'Мовлення', tcard(
     h('div.xs.dim', sp.first ? `${sp.firstN === 1 ? 'Перша розмова місяця' : `Середнє перших ${sp.firstN} розмов місяця`} → остання` : 'Одна виміряна розмова цього місяця'),
     h('div.an-table', { role: 'table', 'aria-label': 'Мовлення' }, Object.keys(SPEECH_META).map(k => speechRow(k, sp.first, sp.latest))),
     lines.length ? h('ul.small.sp-lines', lines.map(l => h('li', l))) : null,
     metricChart(list.map(s => ({ at: s.at, v: s.wpm })), { label: 'Темп', unit: 'слів/хв' }),
-    sp.n < 2 ? h('div.small.dim', 'Поговоріть голосом 2–3 рази, щоб побачити динаміку.') : null);
+    sp.n < 2 ? h('div.small.dim', 'Поговоріть голосом 2–3 рази, щоб побачити динаміку.') : null));
 }
 
 // ---------- Помилки ----------
 function mistakesCard(M) {
   const m = M.mistakes;
-  return h('section.card.stack',
-    h('div.row', ic('warning-circle', { size: 22 }), h('h2.an-title.grow', 'Помилки')),
-    h('div.grid3', stat(m.added, plural(m.added, 'нова', 'нові', 'нових')), h('div.stat.rp-good', h('b', String(m.closed)), h('span', 'закрито')), stat(m.open, 'відкритих зараз')),
-    m.top.length ? h('div.stack', { style: { gap: '6px' } }, h('div.xs.dim', 'Що лишилося опрацювати (найчастіші)'),
-      m.top.map(x => h('div.rp-mk',
+  return block('rp-mistakes', 'Помилки',
+    txKpis([stat(m.added, plural(m.added, 'нова', 'нові', 'нових'), m.added ? 'bad' : ''), stat(m.closed, 'закрито', m.closed ? 'good' : ''), stat(m.open, 'відкритих зараз')]),
+    m.top.length ? h('h3.tx-label.pg-sublabel', 'Що лишилося опрацювати (найчастіші)') : null,
+    m.top.length ? h('div.tx-rows', m.top.map(x => h('div.tx-row.rp-mk',
+      h('span.tx-no', `×${x.count}`),
+      h('div.tx-body',
         h('div.fix-line', h('s.bad', x.wrong), h('span.arrow', { 'aria-label': 'правильно:' }, ' → '), h('b.good', x.right)),
-        h('div.row.xs.dim', h('span.grow', `${S.mistakeTypes[x.type] || x.type} · ×${x.count}`), masteryDots(x.streak))))) : null,
-    m.top.length ? h('div.row.wrap.rp-acts',
-      h('a.btn.sm.soft', { href: TALK_HREF }, ic('microphone', { size: 16 }), 'Потренувати в розмові'),
-      h('a.btn.sm.ghost', { href: '#/mistakes' }, 'Усі помилки')) : null);
+        h('div.row.xs.dim', h('span.grow', S.mistakeTypes[x.type] || x.type), masteryDots(x.streak)))))) : null,
+    m.top.length ? h('div.tx-grid.c2',
+      tx({ icon: 'microphone', label: 'Потренувати в розмові', href: TALK_HREF }),
+      tx({ icon: 'warning-circle', label: 'Усі помилки', href: '#/mistakes' })) : null);
 }
 
 // ---------- Слова ----------
 function wordsCard(M) {
   const w = M.words;
   if (!w.reviews && w.solidNow == null) return null;
-  return h('section.card.stack',
-    h('div.row', ic('cards', { size: 22 }), h('h2.an-title.grow', 'Слова')),
-    h('div.grid3',
+  return block('rp-words', 'Слова',
+    txKpis([
       stat(w.started, plural(w.started, 'нове слово почато', 'нові слова почато', 'нових слів почато')),
       stat(w.reviews, plural(w.reviews, 'повтор', 'повтори', 'повторів')),
-      w.solidNow != null ? stat(w.solidNow, 'закріплено зараз (≥ 7 дн.)') : null),
-    w.oldReviews ? h('div.xs.dim', 'Повтори карток старші за 4 місяці на пристрої не зберігаються — числа можуть бути неповні.') : null);
+      w.solidNow != null ? stat(w.solidNow, 'закріплено зараз (≥ 7 дн.)', w.solidNow ? 'good' : '') : null], w.solidNow != null ? 3 : 2),
+    w.oldReviews ? h('div.xs.dim.pg-note', 'Повтори карток старші за 4 місяці на пристрої не зберігаються — числа можуть бути неповні.') : null);
 }
 
 // ---------- Ваш голос: тоді й зараз (лише після входу; файл вантажиться по тапу) ----------
@@ -179,11 +180,10 @@ function voiceCard() {
   const clips = voiceClips();
   if (!clips.length) return null;
   const first = clips[0], last = clips.length > 1 ? clips[clips.length - 1] : null;
-  return h('section.card.stack.rp-voice',
-    h('div.row', ic('microphone', { size: 22 }), h('h2.an-title.grow', last ? 'Ваш голос: тоді й зараз' : 'Ваш голос')),
+  return block('rp-voice', last ? 'Ваш голос: тоді й зараз' : 'Ваш голос', tcard(
     h('div.rp-clips', clipBox(first, last ? 'Тоді' : 'Перший запис'), last ? clipBox(last, 'Зараз') : null),
     last ? null : h('div.xs.dim', 'Після наступних голосових розмов тут буде порівняння «тоді й зараз».'),
-    h('div.xs.dim', 'Записи — ваша найдовша репліка з розмови; зберігаються приватно у вашому акаунті.'));
+    h('div.xs.dim', 'Записи — ваша найдовша репліка з розмови; зберігаються приватно у вашому акаунті.')));
 }
 
 function clipBox(c, label) {

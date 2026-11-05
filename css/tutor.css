@@ -78,14 +78,14 @@ body.kb-open .quickbar-wrap{visibility:hidden}
 
 /* підсумок */
 .sum-mistakes{gap:12px}
+/* заголовки розділів підсумку — як підписи груп плиток */
+.tutor-summary .section-title{font-size:11px;font-weight:700;letter-spacing:.08em;line-height:1.3;color:var(--ink-dim)}
+.tutor-summary > .card:not(.accent){background:var(--tile);border-color:var(--tile-edge);box-shadow:none}
 .sum-mistake{display:flex;flex-direction:column;gap:4px;align-items:flex-start;padding-bottom:12px;border-bottom:1px solid var(--line)}
 .sum-mistake:last-child{border-bottom:0;padding-bottom:0}
 .sum-word{display:flex;align-items:center;gap:6px;min-width:0}
 .sum-word .grow{min-width:0;overflow-wrap:anywhere}
 
-/* профіль: пам'ять вчителя */
-.mem-list .list-row{align-items:center}
-.mem-list .small{overflow-wrap:anywhere}
 
 /* голос: підказка */
 .voice-hint{text-align:left}
@@ -114,36 +114,41 @@ body.kb-open:has(.tutor-dock) .toasts{bottom:calc(var(--kb,0px) + 124px)}
 @keyframes vfix-wait{0%,100%{transform:none}30%{transform:translateX(-3px)}60%{transform:translateX(3px)}}
 @media (prefers-reduced-motion:reduce){.vfix.wait{animation:none;opacity:.6}}
 
-/* місії з життя: синя картка в стилі плану дня */
-.mission-hero{background:var(--hero);border:1px solid var(--hero-edge);color:#fff;border-radius:24px;padding:18px;display:flex;flex-direction:column;gap:14px}
-.mission-hero .label{font-size:var(--fs-xs);font-weight:600;color:var(--hero-dim)}
-.mission-h{margin:2px 0 4px;color:#fff;font-size:var(--fs-lg)}
-.mission-hero .sub{font-size:var(--fs-xs);color:var(--hero-dim);line-height:1.4}
-.mission-ico{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;flex:none;background:rgba(255,255,255,.14);color:#fff}
-.mission-hero .btn.start{background:#fff;color:var(--hero);font-weight:700;min-height:48px;border-radius:var(--radius-btn);gap:8px}
-.mission-hero .btn.start:disabled{opacity:.85}
-.mission-status{font-size:var(--fs-xs);color:var(--hero-dim)}
+/* старт вчителя (#/tutor): плитки — css/tiles.css; історія — рядки-плитки з кнопкою видалення */
+.tt-empty .tx-s{font-size:var(--fs-sm)}
+/* вузький екран: режими — по 2 в ряд (у трьох колонках слова переносяться посередині), останній — на всю ширину */
+@media (max-width:360px){
+  .tt-modes{grid-template-columns:repeat(2,minmax(0,1fr)) !important}
+  .tt-modes > *{grid-column:auto !important}
+  .tt-modes > :last-child:nth-child(odd){grid-column:1 / -1 !important}
+  .tt-modes > .tx.wide:not(:last-child){flex-direction:column;align-items:flex-start;gap:7px}
+}
+
+/* місії з життя: нейтральні плитки (синя — лише головна дія сторінки) */
+.mission-status{font-size:var(--fs-xs);color:var(--ink-dim);padding:0 4px}
 .mission-status:empty{display:none}
-.mission-list{display:flex;flex-direction:column;gap:10px}
+.mission-list{display:flex;flex-direction:column;gap:8px}
 .mission-list:empty{display:none}
-.mission-card{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);border-radius:18px;padding:14px;display:flex;flex-direction:column;gap:8px;font-size:var(--fs-sm)}
+.mission-card{background:var(--tile);border:1px solid var(--tile-edge);color:var(--ink);border-radius:16px;padding:14px;display:flex;flex-direction:column;gap:8px;font-size:var(--fs-sm)}
 .mission-title{font-family:var(--font-head);font-weight:700;font-size:var(--fs-md);line-height:1.2}
-.mission-why{color:var(--hero-dim);font-size:var(--fs-xs)}
-.mission-meta{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:var(--fs-xs);color:var(--hero-dim)}
-.mission-meta b{color:#fff;font-weight:600}
+.mission-why{color:var(--accent-ink);font-size:var(--fs-xs)}
+.mission-sit{line-height:1.45}
+.mission-meta{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:var(--fs-xs);color:var(--ink-dim)}
+.mission-meta b{color:var(--ink);font-weight:600}
 .mission-goal{display:flex;gap:6px;align-items:flex-start}
-.mission-goal svg{flex:none;margin-top:2px}
-.mission-phrases summary{list-style:none;display:flex;align-items:center;gap:6px;min-height:36px;cursor:pointer;font-weight:600;color:#fff}
+.mission-goal svg{flex:none;margin-top:2px;color:var(--accent-ink)}
+.mission-phrases summary{list-style:none;display:flex;align-items:center;gap:6px;min-height:36px;cursor:pointer;font-weight:600;color:var(--ink)}
 .mission-phrases summary::-webkit-details-marker{display:none}
+.mission-phrases summary>svg{color:var(--ink-dim)}
 .mission-phrases[open] summary>svg:last-child{transform:rotate(180deg)}
 .mission-phrases ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:2px}
-.mission-phrase{display:flex;align-items:flex-start;gap:6px;width:100%;min-height:36px;padding:6px 8px;border:0;border-radius:10px;background:transparent;color:#fff;font:inherit;text-align:left;cursor:pointer}
-.mission-phrase:hover{background:rgba(255,255,255,.1)}
-.mission-phrase svg{flex:none;margin-top:3px;opacity:.8}
+.mission-phrase{display:flex;align-items:flex-start;gap:6px;width:100%;min-height:36px;padding:6px 8px;border:0;border-radius:10px;background:transparent;color:var(--ink);font:inherit;text-align:left;cursor:pointer}
+.mission-phrase:hover{background:var(--tile-sq)}
+.mission-phrase svg{flex:none;margin-top:3px;color:var(--ink-dim)}
+.mission-card .mission-save{color:var(--ink-dim);border:1px dashed var(--line-strong);background:transparent}
 .mission-acts{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:2px}
-.mission-go{background:#fff;color:var(--hero);font-weight:700;gap:6px}
-.mission-go.alt{background:rgba(255,255,255,.14);color:#fff}
-.mission-hero :focus-visible{outline-color:#fff}
+.mission-go{background:var(--accent-soft);color:var(--accent-ink);font-weight:700;gap:6px}
+.mission-go.alt{background:var(--tile-sq);color:var(--ink)}
 
 /* підсумок: очікування, засвоєно, мовлення, вимова */
 .sum-wait{min-height:1.5em;transition:opacity var(--dur) var(--ease)}

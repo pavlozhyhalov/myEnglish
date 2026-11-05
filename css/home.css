@@ -1,42 +1,83 @@
 /* Головна («Сьогодні»), «Мій день» (#/today) і плашка «Далі за планом» */
 
-/* ---------- Головна ---------- */
+/* ---------- Головна (мова плиток, css/tiles.css) ---------- */
 .hm{gap:22px}
-.hm-hero{gap:16px;padding:20px 20px 18px;box-shadow:0 10px 30px -12px color-mix(in srgb,var(--hero) 70%,transparent)}
-.hm-hero .hm-top{align-items:center;gap:14px}
-.hm-label{display:inline-flex;align-items:center;gap:2px;color:var(--hero-dim);text-decoration:none;align-self:flex-start;min-height:24px}
+.hm-hero{gap:14px;padding:16px;border-radius:22px;box-shadow:0 10px 30px -12px color-mix(in srgb,var(--hero) 70%,transparent)}
+.hm-hero .hm-top{align-items:center;gap:12px}
+.hm-label{display:inline-flex;align-items:center;gap:2px;color:var(--hero-dim);text-decoration:none;align-self:flex-start;min-height:24px;
+  font-size:11px!important;font-weight:700!important;letter-spacing:.08em;text-transform:uppercase}
 .hm-label .ico{opacity:.8}
-.hm-hero .big{font-size:34px}
+.hm-hero .big{font-size:32px}
 .hm-hero .big small{font-family:var(--font-body);font-weight:500;font-size:var(--fs-sm);letter-spacing:0}
 .hm-streak{display:inline-flex;align-items:center;gap:5px;flex-wrap:wrap}
 .hm-streak .ico{color:#FFB547}
 .hm-goal{opacity:.85;white-space:nowrap}
-.hm-pct{font-size:var(--fs-sm);color:#fff;letter-spacing:-.01em}
+.hm-pct{font-size:14px;color:#fff;letter-spacing:-.01em}
 .hm-hero .plan-ring .label{color:#fff}
-.hm-steps{display:flex;flex-direction:column}
-.hm-steps .check-item{min-height:48px;gap:12px;transition:background var(--dur)}
-.hm-steps .check-item:active{background:rgba(255,255,255,.08)}
-.hm-steps .check-item.next .t{font-weight:700}
-.hm-steps .check-item.next .box{border-color:#fff;box-shadow:0 0 0 3px rgba(255,255,255,.18)}
-.hm-steps .check-item.skipped{opacity:.6}
-.hm-min{font-size:var(--fs-xs);color:var(--hero-dim);font-variant-numeric:tabular-nums;white-space:nowrap}
-.hm-start{gap:10px}
+/* кроки дня — маленькі плитки на синьому */
+.hm-steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+.hm-st{position:relative;display:flex;flex-direction:column;align-items:flex-start;gap:3px;min-width:0;min-height:64px;padding:9px 9px 10px;border-radius:13px;
+  background:rgba(255,255,255,.10);border:1px solid transparent;color:#fff;text-decoration:none;overflow:hidden;
+  -webkit-tap-highlight-color:transparent;transition:background-color .18s ease,transform .18s cubic-bezier(.2,.8,.2,1)}
+.hm-st:active{transform:scale(.96);background:rgba(255,255,255,.16)}
+.hm-st-ico{display:grid;place-items:center;width:24px;height:24px;border-radius:8px;background:rgba(255,255,255,.12);color:#fff;margin-bottom:2px}
+.hm-st-t{font-weight:600;font-size:12.5px;line-height:1.2;overflow-wrap:anywhere}
+.hm-st-m{font-size:11px;font-weight:500;color:var(--hero-dim);font-variant-numeric:tabular-nums;line-height:1.2}
+.hm-st.done .hm-st-ico{background:#7CE3AE;color:#0B3B24}
+.hm-st.done .hm-st-m{color:#7CE3AE}
+.hm-st.next{background:rgba(255,255,255,.2);border-color:rgba(255,255,255,.38)}
+.hm-st.skipped{opacity:.62}
+.hm-st-bar{position:absolute;left:9px;right:9px;bottom:5px;height:3px;border-radius:99px;background:rgba(255,255,255,.18);overflow:hidden}
+.hm-st-bar>i{display:block;height:100%;border-radius:inherit;background:#fff}
+@media (max-width:360px){.hm-st{padding:8px 7px 9px}.hm-st-t{font-size:12px}}
+.hm-start{gap:10px;min-height:48px;border-radius:14px}
 .hm-start:active{transform:scale(.98)}
 
-.hm-card-title{font-weight:600;font-size:var(--fs-md);letter-spacing:-.01em}
-.hm-level{gap:10px}
-.hm-level-head{color:inherit;text-decoration:none;gap:12px}
-.hm-level-head .hm-card-title .ico{color:var(--ink-dim)}
-.hm-level-pct{font-size:var(--fs-lg);font-weight:700;color:var(--accent-ink)}
-.hm-conv{min-height:44px;padding:8px 12px;margin-top:2px;border-radius:12px;background:var(--surface-2);color:var(--ink);text-decoration:none;font-size:var(--fs-sm);gap:10px}
-.hm-conv>.ico:first-child{color:var(--accent-ink)}
-.hm-conv>.ico:last-child{color:var(--ink-dim)}
-.hm-levelpick{border-top:1px solid var(--line);margin:4px -16px -6px;padding:0 16px}
-.hm-levelpick>summary{list-style:none;cursor:pointer;min-height:44px;display:flex;align-items:center;font-size:var(--fs-sm);font-weight:600;color:var(--accent-ink)}
+/* статичні плитки (не дії) */
+div.tx.hm-static,section.tx.td-static{cursor:default}
+div.tx.hm-static:active,section.tx.td-static:active{transform:none}
+.hm-note{margin:0;padding:0 4px;font-size:var(--fs-xs);color:var(--ink-dim);line-height:1.45}
+.hm-earlier{display:flex;align-items:center;gap:6px}
+.hm-earlier .ico{color:var(--good);flex:none}
+.hm-more-dim{font-size:var(--fs-xs);color:var(--ink-dim);white-space:nowrap}
+.hm-skip{align-self:center}
+
+/* рівень */
+.hm-level{align-items:center}
+.hm-level-badge{font-family:var(--font-head);font-weight:700;font-size:14px;background:var(--accent);color:#fff}
+.hm-level-extra{display:flex;flex-direction:column;gap:5px;margin-top:5px}
+.hm-level-pct{font-family:var(--font-head);font-size:18px;font-weight:700;color:var(--accent-ink);font-variant-numeric:tabular-nums}
+.hm-ready{font-size:var(--fs-xs);font-weight:600;color:var(--accent-ink)}
+.hm-ready[hidden]{display:none}
+.hm-levelpick{border-radius:14px;background:var(--tile);border:1px solid var(--tile-edge)}
+.hm-levelpick>summary{list-style:none;cursor:pointer;min-height:52px;display:flex;align-items:center;gap:12px;padding:8px 12px;font-size:var(--fs-sm);font-weight:600;color:var(--ink)}
 .hm-levelpick>summary::-webkit-details-marker{display:none}
-.hm-levelpick>summary::after{content:'';margin-left:auto;width:7px;height:7px;border-right:2px solid var(--ink-dim);border-bottom:2px solid var(--ink-dim);transform:rotate(45deg);margin-right:4px;margin-bottom:3px;transition:transform var(--dur)}
-.hm-levelpick[open]>summary::after{transform:rotate(225deg);margin-bottom:-3px}
-.hm-levelpick[open]{padding-bottom:14px}
+.hm-levelpick>summary .tx-sq{width:34px;height:34px;border-radius:10px}
+.hm-levelpick>summary>.ico{color:var(--ink-dim);transition:transform var(--dur)}
+.hm-levelpick[open]>summary>.ico{transform:rotate(180deg)}
+.hm-levelpick .level-pick{padding:0 12px 12px}
+html.kbd .hm-levelpick>summary:focus-visible{outline:2px solid var(--accent-ink);outline-offset:2px;border-radius:14px}
+
+/* правила тижня */
+.hm-wf-rows{list-style:none;margin:0;padding:0}
+.hm-wf-rows>li{display:block}
+.hm-dots{flex:none;display:inline-flex;align-items:center}
+.tx-row.done .tx-sq,.td-step-row.done .tx-sq{background:var(--good);color:var(--on-good)}
+.tx-row.done .tx-l{color:var(--ink-dim)}
+
+/* тиждень і слово дня */
+.hm-week{gap:12px;align-items:stretch}
+.hm-week .week{width:100%}
+.hm-wod{gap:8px;align-items:stretch}
+.hm-wod-top{display:flex;align-items:center;gap:12px}
+.hm-wod-en{font-size:var(--fs-xl);line-height:1.2;overflow-wrap:anywhere}
+.hm-sq-btn{border:0;cursor:pointer;color:var(--accent-ink)}
+.hm-sq-btn:active{transform:scale(.94)}
+.hm-wod-uk{font-weight:500}
+.hm-wod-ex{display:flex;align-items:center;gap:6px;font-size:var(--fs-sm)}
+.hm-wod-foot{display:flex;align-items:center;gap:8px;justify-content:space-between;flex-wrap:wrap;margin-top:2px}
+.hm-wod-foot .tx-pill{white-space:normal;line-height:1.2}
+.hm-chips{padding:0 4px}
 
 /* ---------- Кільце плану ---------- */
 .plan-ring .bar{transition:stroke-dashoffset 900ms cubic-bezier(.2,.8,.2,1),stroke var(--dur)}
@@ -46,46 +87,32 @@
 @media (prefers-reduced-motion:reduce){.plan-ring .bar{transition:none}}
 
 /* ---------- Мій день (#/today) ---------- */
-.td{gap:20px}
+.td{gap:18px}
 .td-head{padding:0 4px;display:flex;flex-direction:column;gap:4px}
-.td-head h1{margin:0}
+.td-date{padding:0}
 .td-head p{margin:0}
-.td-summary{display:flex;align-items:center;gap:18px;padding:18px}
+.td-summary{flex-direction:row;align-items:center;gap:16px;padding:16px}
 .td-summary .plan-ring .bar{stroke:var(--accent-ink)}
 .td-summary.is-done .plan-ring .bar{stroke:var(--good)}
 .td-ring-label{display:flex;flex-direction:column;align-items:center;gap:2px;color:var(--ink)}
-.td-ring-label b{font-size:28px;letter-spacing:-.02em}
-.td-ring-label .xs{color:var(--ink-dim)}
+.td-ring-label b{font-size:24px;letter-spacing:-.02em}
+@media (max-width:360px){.td-ring-label b{font-size:19px}.td-ring-label .xs{font-size:10px}}
+.td-ring-label .xs{color:var(--ink-dim);font-size:11px}
 .td-summary.is-done .td-ring-label{color:var(--good)}
 .td-title{margin:0;font-size:var(--fs-lg)}
 .td-summary p{margin:0}
-
-.td-steps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
-.td-step{position:relative}
-.td-link{display:flex;align-items:center;gap:14px;min-height:72px;padding:14px 14px 14px 16px;border-radius:var(--radius);
-  background:var(--surface);border:1px solid var(--line);box-shadow:var(--shadow-card);color:var(--ink);text-decoration:none;
-  transition:transform var(--dur),background var(--dur),border-color var(--dur)}
-.td-link:active{transform:scale(.98)}
-.td-link>.ico:last-child{color:var(--ink-dim)}
-.td-mark{width:32px;height:32px;border-radius:50%;flex:none;display:grid;place-items:center;font-size:var(--fs-sm);font-weight:700;
-  background:var(--surface-2);color:var(--ink-dim)}
-.td-mark .num{font-family:var(--font-head);font-size:14px}
-.td-step-title{display:flex;align-items:center;gap:8px;font-weight:600}
-.td-desc{font-size:var(--fs-xs);color:var(--ink-dim);margin-top:2px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
-.td-min{font-size:var(--fs-xs);font-weight:600;color:var(--ink-dim);white-space:nowrap;font-variant-numeric:tabular-nums}
-.td-prog{height:4px;border-radius:99px;background:var(--track);overflow:hidden;margin-top:8px}
-.td-prog>i{display:block;height:100%;background:var(--accent-ink);border-radius:99px}
-.td-step.next .td-link{border-color:color-mix(in srgb,var(--accent-ink) 55%,var(--line));box-shadow:0 0 0 3px var(--accent-soft),var(--shadow-card)}
-.td-step.next .td-mark{background:var(--accent);color:var(--on-accent)}
-.td-step.done .td-link{background:var(--surface-2);border-color:transparent;box-shadow:none}
-.td-step.done .td-mark{background:var(--good);color:var(--on-good)}
-.td-step.done .td-step-title{color:var(--ink-dim)}
-.td-step.done .td-min{color:var(--good)}
-.td-step.skipped .td-link{opacity:.72;border-style:dashed;box-shadow:none}
-.td-go{gap:10px;box-shadow:0 10px 24px -12px color-mix(in srgb,var(--accent) 80%,transparent)}
-.td-go:active{transform:scale(.98)}
+.td-summary.is-done{background:var(--good-soft);border-color:color-mix(in srgb,var(--good) 35%,transparent)}
+.td-steps{list-style:none;margin:0;padding:0}
+.td-step{display:block}
+.td-step-row{min-height:68px}
+.td-step-row .tx-s{overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.td-step-row .tx-bar{margin-top:6px}
+.td-step-row.skipped{opacity:.72;border-style:dashed}
+.td-step-row.done{background:transparent}
+.td-go{box-shadow:0 10px 24px -14px color-mix(in srgb,var(--accent) 80%,transparent)}
 .td-alt{margin:-4px 0 0}
 .td-alt a{font-weight:600;text-decoration:none}
+@media (max-width:360px){.td-summary{gap:12px;padding:12px}}
 
 /* свято: кільце м'яко «підстрибує», крапки розлітаються */
 .td-summary.cheer .plan-ring{animation:tdPop 520ms cubic-bezier(.2,1.4,.4,1)}
@@ -122,7 +149,7 @@ body.has-dailybar:not(.focus-mode):not(:has(.tutor-dock,.composer,.voice)) .toas
 .wt-daily-next{gap:10px;min-width:240px}
 .plan-ring .label svg{transform:none}
 
-/* ---------- Правила тижня (головна) ---------- */
+/* ---------- Правила тижня (картка в «Моїх помилках», js/pages/mistakes.js) ---------- */
 .wf{gap:12px}
 .wf-head{color:inherit;text-decoration:none;gap:12px;min-height:44px}
 .wf-head>.ico:last-child{color:var(--ink-dim);flex:none}

@@ -7,7 +7,11 @@ import { toast } from '../ui/toast.js';
 import { go } from '../router.js';
 import { setTitle } from '../ui/shell.js';
 import { activityTimer } from '../stats.js';
-import { byFit, levelTag, myLevel, levelChips, levelCounts, levelPick, filterByLevel, fallbackNote } from '../level.js';
+import { byFit, levelTag, myLevel, levelChips, levelCounts, levelPick, filterByLevel, fallbackNote, pickOfDay } from '../level.js';
+import { tx, txPrimary, txGroup, txRow, txRows } from '../ui/tiles.js';
+
+/** Іконка з мапи emo() у квадратику плитки (дані завдань зберігають назви emo) */
+const sqEmo = (el, name) => { const e = emo(name); e.setAttribute('width', 18); e.setAttribute('height', 18); el.querySelector('.tx-sq')?.replaceChildren(e); return el; };
 
 const DRAFT_KEY = (id) => `me:wdraft:${id}`;
 
@@ -22,13 +26,15 @@ export default async function writing(view, r) {
   const list = h('div.stack');
   const draw = () => {
     const { items, fallback } = filterByLevel(tasks, levelPick('writing'));
-    list.replaceChildren(fallbackNote(fallback), h('div.list', byFit(items).map(t => h('a.list-row', { href: `#/writing/${t.id}` },
-      emo(t.emoji || 'envelope'), h('div.grow', h('div', { style: { fontWeight: 600 } }, t.title), h('div.sub', `${t.kindLabel} · ${t.words} слів`)), levelTag(t.level), ic('caret-right', { size: 18 })))));
+    list.replaceChildren(fallbackNote(fallback), txRows(byFit(items).map(t => sqEmo(txRow({ icon: 'envelope-simple', label: t.title, sub: `${t.kindLabel} · ${t.words} слів`,
+      href: `#/writing/${t.id}`, end: levelTag(t.level) }), t.emoji || 'envelope'))));
   };
+  // завдання дня — те саме, що в «Завданнях рівня» на головній
+  const day = pickOfDay(filterByLevel(all.filter(x => x.group !== 'work'), 'mine').items, 'writing');
   view.replaceChildren(h('div.stack-lg',
-    h('section.row', h('div.emoji-circle', emo('writing')), h('div.grow', h('h1', { style: { margin: 0 } }, 'Письмо'), h('div.small.dim', `Листи, повідомлення й есе з шаблонами фраз · ваш рівень ${myLevel()}`))),
-    levelChips('writing', levelCounts(tasks), draw), list,
-    h('a.btn.soft.block', { href: '#/tutor?mode=check' }, ic('sparkle', { fill: true }), 'Перевірити довільний текст')));
+    day ? sqEmo(txPrimary({ icon: 'envelope-simple', label: day.title, sub: `Завдання дня · ${day.kindLabel} · ${day.words} слів`, href: `#/writing/${day.id}` }), day.emoji || 'envelope') : null,
+    txGroup(`Листи, повідомлення й есе · ваш рівень ${myLevel()}`, levelChips('writing', levelCounts(tasks), draw)), list,
+    txGroup('Свій текст', tx({ icon: 'sparkle', label: 'Перевірити довільний текст', sub: 'Лист чи повідомлення — вчитель виправить і пояснить', wide: true, href: '#/tutor?mode=check' }))));
   draw();
 }
 

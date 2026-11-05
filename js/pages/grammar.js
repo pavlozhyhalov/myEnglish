@@ -11,7 +11,8 @@ import { tutor, aiErrorText } from '../ai.js';
 import { user } from '../supa.js';
 import { setTitle } from '../ui/shell.js';
 import { toast } from '../ui/toast.js';
-import { LEVELS, LEVEL_NAME, myLevel, diff, levelTag, nextLessonByLevel } from '../level.js';
+import { LEVELS, LEVEL_NAME, myLevel, diff, nextLessonByLevel } from '../level.js';
+import { tx, txPrimary, txRow, txRows, txBar, txGrid, txPill } from '../ui/tiles.js';
 
 export default async function grammar(view, r) {
   if (r.parts[0]) return lessonPage(view, r.parts[0], r.query);
@@ -20,34 +21,47 @@ export default async function grammar(view, r) {
   const done = idx.filter(l => store.get('lessons_progress', l.id)?.completed_at).length;
   const next = nextLessonByLevel(idx);
   const mine = myLevel();
+  // рядок уроку: номер курсу ліворуч, тема — підписом, стан — пігулкою праворуч
   const row = (l) => {
     const p = store.get('lessons_progress', l.id);
-    const status = due.has(l.id) ? h('span.tag.warn', 'Повторити') : p?.completed_at ? h('span.tag.good', `${p.best}%`) : p ? h('span.tag', `${p.best}%`) : null;
-    return h('a.list-row', { href: `#/grammar/${l.id}` },
-      h('span.num.dim', { style: { width: '26px' } }, String(l.n)),
-      h('div.grow', h('div', { style: { fontWeight: 600 } }, l.title), h('div.sub', l.unit ? h('span.gr-unit', l.unit) : null, l.summary)),
-      status, ic('caret-right', { size: 18 }));
+    const pill = due.has(l.id) ? { text: 'Повторити', tone: 'warn' } : p?.completed_at ? { text: `${p.best}%`, tone: 'good' } : p ? { text: `${p.best}%` } : null;
+    return txRow({ no: l.n, label: l.title, sub: l.unit || l.summary || null, pill, href: `#/grammar/${l.id}`, attrs: l.summary ? { title: l.summary } : {} });
   };
   // розділи за рівнями: свій розгорнутий, решта — згорнуті (нижчі — для прогалин, вищі — наперед)
-  const levelSection = (lv) => {
+  const section = (lv) => {
     const items = idx.filter(l => l.level === lv);
     if (!items.length) return null;
     const d = items.filter(l => store.get('lessons_progress', l.id)?.completed_at).length;
-    // у порядку курсу (номер = порядок проходження, як «Продовжити» й тести); тема — підписом у рядку
-    const body = h('div.list', { style: { marginTop: '8px' } }, [...items].sort((a, b) => a.n - b.n).map(row));
-    return h('details.level-sec', { open: lv === mine ? true : null },
-      h('summary.row', levelTag(lv), h('div.grow', h('b', LEVEL_NAME[lv]), lv === mine ? h('span.xs.dim', ' ', h('span', { style: { whiteSpace: 'nowrap' } }, '· ваш рівень')) : diff(lv) > 0 ? h('span.xs.dim', ' ', h('span', { style: { whiteSpace: 'nowrap' } }, '· вище вашого')) : null),
-        h('span.small.dim.num', `${d}/${items.length}`)),
-      body);
+    // у порядку курсу (номер = порядок проходження, як «Продовжити» й тести)
+    return levelSection(lv, { done: d, total: items.length, countLabel: `Пройдено ${d} з ${items.length}`, rows: [...items].sort((a, b) => a.n - b.n).map(row) });
   };
 
-  view.replaceChildren(h('div.stack-lg',
-    h('section.card.stack',
-      h('div.row', emo('puzzle', 'lg'), h('div.grow', h('h1', { style: { margin: 0 } }, 'Граматика'), h('div.small.dim', `Пройдено ${done} з ${idx.length} · урок зараховується від 80%`))),
-      h('div.progress', { role: 'progressbar', 'aria-label': 'Пройдено уроків', 'aria-valuemin': 0, 'aria-valuemax': 100, 'aria-valuenow': Math.round(done / idx.length * 100) }, h('i', { style: { width: `${done / idx.length * 100}%` } })),
-      next ? h('a.btn.primary.block', { href: `#/grammar/${next.id}` }, ic('play', { fill: true }), `Продовжити: ${next.title}`) : h('div.feedback.ok', 'Курс пройдено! Повторюйте уроки за графіком.')),
-    h('p.xs.dim', { style: { margin: '0 2px' } }, `Уроки підібрано під рівень ${mine}. Змінити рівень — у «Налаштуваннях» або тестом.`),
-    ...LEVELS.map(levelSection)));
+  view.replaceChildren(h('div.stack-lg.gx',
+    next ? txPrimary({ icon: 'play', label: 'Продовжити', sub: `${next.n} · ${next.title}`, href: `#/grammar/${next.id}`, attrs: { 'aria-label': `Продовжити: ${next.title}` } })
+      : tx({ wide: true, tone: 'good', icon: 'check-circle', label: 'Курс пройдено!', sub: 'Повторюйте уроки за графіком.' }),
+    h('div.gx-overall',
+      h('div.gx-overall-t', h('span', `Пройдено ${done} з ${idx.length}`), h('span.dim', 'урок зараховується від 80%')),
+      h('div.progress', { role: 'progressbar', 'aria-label': 'Пройдено уроків', 'aria-valuemin': 0, 'aria-valuemax': 100, 'aria-valuenow': Math.round(done / idx.length * 100) }, h('i', { style: { width: `${done / idx.length * 100}%` } }))),
+    h('div.gx-levels', LEVELS.map(section)),
+    h('p.xs.dim', { style: { margin: '0 4px' } }, `Уроки підібрано під рівень ${mine}. Змінити рівень — у «Налаштуваннях» або тестом.`)));
+}
+
+/**
+ * Розгортний розділ рівня (Граматика, «Оберіть урок» у тестах): заголовок — плитка з рівнем у квадратику,
+ * назвою, лічильником і смужкою; усередині — рядки-плитки. Свій рівень розгорнутий.
+ */
+export function levelSection(lv, { done, total, countLabel, rows }) {
+  const mine = myLevel();
+  const rel = lv === mine ? 'ваш рівень' : diff(lv) > 0 ? 'вище вашого' : null;
+  return h('details.gx-lv' + (lv === mine ? '.mine' : ''), { open: lv === mine ? true : null },
+    h('summary.gx-lv-head',
+      h('span.gx-lv-sq', lv),
+      h('span.gx-lv-body',
+        h('span.gx-lv-name', h('b', LEVEL_NAME[lv]), rel ? h('span.gx-lv-rel', rel) : null),
+        txBar(total ? done / total : 0, lv === mine)),
+      h('span.gx-lv-n', { 'aria-label': countLabel }, `${done}/${total}`),
+      ic('caret-down', { size: 16 })),
+    txRows(rows));
 }
 
 async function lessonPage(view, id, query = {}) {
@@ -95,10 +109,11 @@ async function lessonPage(view, id, query = {}) {
     } catch (err) { toast(aiErrorText(err) || 'Не вдалося згенерувати', { kind: 'bad' }); b.disabled = false; b.textContent = 'Ще 10 вправ (AI)'; }
   } }, ic('sparkle', { fill: true }), 'Ще 10 вправ (AI)');
 
-  view.replaceChildren(h('div.stack-lg',
-    h('div.row', h('a.icon-btn', { href: '#/grammar', 'aria-label': 'До курсу' }, ic('arrow-left')),
-      h('div.grow', h('div.xs.dim', `${l.unit} · урок ${idx[pos]?.n ?? pos + 1}`), h('h1', { style: { margin: 0 } }, l.title)),
-      lessonsToReview().some(x => x.id === id) ? h('span.tag.warn', 'Повторити') : p?.completed_at ? h('span.tag.good', `${p.best}%`) : null),
+  const isDue = lessonsToReview().some(x => x.id === id);
+  view.replaceChildren(h('div.stack-lg.gx',
+    h('div.gx-lhead', h('a.icon-btn', { href: '#/grammar', 'aria-label': 'До курсу' }, ic('arrow-left')),
+      h('div.grow', h('div.tx-label.gx-eyebrow', `${l.unit} · урок ${idx[pos]?.n ?? pos + 1}`), h('h1.gx-lh1', l.title)),
+      isDue ? txPill('Повторити', 'warn') : p?.completed_at ? txPill(`${p.best}%`, 'good') : null),
     h('section.card', md(l.explanation)),
     l.formula?.length ? h('section.stack', { style: { gap: '8px' } }, l.formula.map(f => h('div.formula', mdInline(f)))) : null,
     l.table ? h('section.card', { style: { overflowX: 'auto' } }, h('table.gtable',
@@ -110,10 +125,12 @@ async function lessonPage(view, id, query = {}) {
         h('div.grow', h('div', e.en), h('div.xs.dim', e.uk))))),
     l.tip ? h('section.card.accent.row', emo('bulb'), h('div.small.grow', md(l.tip))) : null,
     exBox,
-    h('div.stack',
-      h('button.btn.primary.lg.block', { type: 'button', onclick: () => startEx(shuffle(l.exercises).slice(0, 10), 'Вправи') }, ic('lightning', { fill: true }), `Вправи (${Math.min(10, l.exercises.length)})`),
-      h('a.btn.soft.block', { href: `#/tests/lesson/${id}` }, ic('exam'), 'Тест за уроком (до 15 питань)'),
-      h('a.btn.ghost.block', { href: `#/tutor?mode=explain&topic=${encodeURIComponent(l.titleEn || l.title)}` }, ic('chat-circle-dots'), 'Запитати вчителя'))));
+    h('section.tx-group',
+      txPrimary({ icon: 'lightning', label: `Вправи (${Math.min(10, l.exercises.length)})`, sub: 'Змішані завдання з уроку', onclick: () => startEx(shuffle(l.exercises).slice(0, 10), 'Вправи') }),
+      txGrid([
+        tx({ icon: 'exam', label: 'Тест за уроком', sub: 'До 15 питань', href: `#/tests/lesson/${id}` }),
+        tx({ icon: 'chat-circle-dots', label: 'Запитати вчителя', sub: 'Пояснить по-іншому', href: `#/tutor?mode=explain&topic=${encodeURIComponent(l.titleEn || l.title)}` }),
+      ], 2))));
 
   if (query.ex) startEx(shuffle(l.exercises).slice(0, 10), 'Вправи');
   return () => timer.stop();

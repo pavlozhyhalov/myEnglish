@@ -165,8 +165,8 @@ function practiceBlock(text, timer, { uk, onResult } = {}) {
     h('button.btn.soft', { type: 'button', onclick: () => speak(text) }, ic('speaker-high'), 'Прослухати'),
     h('button.btn.soft', { type: 'button', onclick: () => speak(text, { rate: 0.7 }) }, ic('speaker-high'), 'Повільно'),
     rec);
-  return h('div.card.stack',
-    h('div.row', h('div.grow', h('div', { style: { fontSize: 'var(--fs-lg)', fontWeight: 600 } }, text), uk ? h('div.xs.dim', uk) : null)),
+  return h('div.gx-card.stack',
+    h('div.row', h('div.grow', h('div.ex-prompt', text), uk ? h('div.xs.dim', uk) : null)),
     actions, out);
 }
 
@@ -212,6 +212,7 @@ function pairs(box, data, timer) {
     const sayBox = h('div');
     const choose = (k) => {
       if (fb.firstChild) return;
+      document.removeEventListener('keydown', onKey);
       const ok = k === target;
       if (ok) right++; else addMistake({ wrong: p[k], right: word, type: 'pronunciation', explanation_uk: `Мінімальна пара ${p.a}/${p.b}${p.tip ? `: ${p.tip}` : ''}`, source: 'exercise' });
       btnA.classList.add(target === 'a' ? 'right' : 'wrong'); btnB.classList.add(target === 'b' ? 'right' : 'wrong');
@@ -221,24 +222,34 @@ function pairs(box, data, timer) {
         h('div.stack', practiceBlock(p.a, timer, { uk: p.ipaA }), practiceBlock(p.b, timer, { uk: p.ipaB })),
         h('button.btn.primary.block', { type: 'button', onclick: () => { i++; step(); } }, 'Далі'));
     };
-    const btnA = h('button.opt', { type: 'button', onclick: () => choose('a') }, h('b.grow', p.a), h('span.ipa.small', p.ipaA || ''));
-    const btnB = h('button.opt', { type: 'button', onclick: () => choose('b') }, h('b.grow', p.b), h('span.ipa.small', p.ipaB || ''));
+    const btnA = h('button.opt.ex-opt', { type: 'button', onclick: () => choose('a') }, h('span.ex-key', { 'aria-hidden': 'true' }, '1'), h('b.grow', p.a), h('span.ipa.small', p.ipaA || ''));
+    const btnB = h('button.opt.ex-opt', { type: 'button', onclick: () => choose('b') }, h('span.ex-key', { 'aria-hidden': 'true' }, '2'), h('b.grow', p.b), h('span.ipa.small', p.ipaB || ''));
     box.replaceChildren(h('div.stack',
       h('div.row', h('div.grow', progress(i / all.length * 100, 'Пройдено пар')), h('span.xs.dim', `${i + 1}/${all.length}`)),
       h('div.center.stack', h('div.small.dim', `Звук: ${p.sound}`),
         h('button.icon-btn.soft', { type: 'button', style: { width: '88px', height: '88px', borderRadius: '50%', margin: '0 auto' }, 'aria-label': 'Прослухати', onclick: () => speak(word) }, ic('speaker-high', { size: 40 })),
         h('div.small.dim', 'Що ви почули?')),
       btnA, btnB, fb, sayBox));
+    // клавіші 1 / 2 — вибір варіанта; слухач знімається, щойно пара зникла з екрана
+    const onKey = (e) => {
+      if (!btnA.isConnected) { document.removeEventListener('keydown', onKey); return; }
+      if (fb.firstChild || e.ctrlKey || e.metaKey || e.altKey || btnA.closest('[inert]') || e.target?.closest?.('input,textarea,select')) return;
+      if (e.key === '1' || e.key === '2') { e.preventDefault(); choose(e.key === '1' ? 'a' : 'b'); }
+    };
+    document.addEventListener('keydown', onKey);
     setTimeout(() => speak(word), 300);
   };
   step();
 }
 
 function sounds(box, data, timer) {
-  box.replaceChildren(h('div.stack', data.sounds.map(s => h('details.card',
-    h('summary.row', h('div.emoji-circle', { style: { minWidth: '48px', width: 'auto', padding: '0 8px', height: '48px', fontFamily: 'var(--font-ipa)', fontSize: s.symbol.length > 2 ? '16px' : '22px', fontWeight: 600, color: 'var(--accent-ink)' } }, s.symbol),
-      h('div.grow', h('div', { style: { fontWeight: 600 } }, s.title), h('div.xs.dim', s.short)), ic('caret-down', { size: 18 })),
-    h('div.stack', { style: { marginTop: '12px' } },
+  // кожен звук — плитка: символ МФА в квадратику, назва, підказка; розгортається з поясненням і тренуванням
+  box.replaceChildren(h('div.gx-sounds', data.sounds.map(s => h('details.gx-sound',
+    h('summary.gx-sound-head',
+      h('span.gx-ipa', { style: { fontSize: s.symbol.length > 2 ? '14px' : '19px' } }, s.symbol),
+      h('span.tx-body', h('span.tx-l', s.title), h('span.tx-s', s.short)),
+      ic('caret-down', { size: 16 })),
+    h('div.stack.gx-sound-body',
       h('div.small', s.tip),
       h('div.chips', s.words.map(w => h('button.chip', { type: 'button', onclick: () => speak(w) }, ic('speaker-high', { size: 16 }), w))),
       practiceBlock(s.sentence, timer))))));

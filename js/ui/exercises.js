@@ -97,15 +97,17 @@ export function answerText(ex) {
 export function render(ex, report, next) {
   // результат озвучують читачі екрана
   const fb = h('div', { role: 'status', 'aria-live': 'polite' });
-  const nextBtn = h('button.btn.primary.block', { type: 'button', hidden: true, onclick: next }, 'Далі');
+  const nextBtn = h('button.btn.primary.block', { type: 'button', hidden: true, onclick: next }, 'Далі', ic('arrow-right', { size: 18 }));
   let reported = false;
   const done = (ok, given, extraText) => {
     if (reported) return; reported = true;
     report(ok, given);
-    fb.replaceChildren(h('div.feedback.' + (ok ? 'ok' : 'no'),
-      h('div', { style: { fontWeight: 600 } }, ok ? 'Правильно!' : `Правильно: ${answerText(ex)}`),
-      extraText ? h('div', extraText) : null,
-      ex.explanation ? h('div.dim', ex.explanation) : null));
+    fb.replaceChildren(h('div.feedback.ex-fb.' + (ok ? 'ok' : 'no'),
+      h('span.ex-fb-ic', ic(ok ? 'check-circle' : 'x-circle', { size: 20, fill: true })),
+      h('div.ex-fb-t',
+        h('div', { style: { fontWeight: 600 } }, ok ? 'Правильно!' : `Правильно: ${answerText(ex)}`),
+        extraText ? h('div', extraText) : null,
+        ex.explanation ? h('div.dim', ex.explanation) : null)));
     nextBtn.hidden = false;
     nextBtn.focus({ preventScroll: true });
     // «Далі» має бути видно (не під нижньою панеллю): відступ задає scroll-padding-bottom
@@ -115,20 +117,36 @@ export function render(ex, report, next) {
   const speakIt = (t) => h('button.icon-btn.soft', { type: 'button', 'aria-label': 'Прослухати', onclick: () => speak(t) }, ic('speaker-high', { size: 20 }));
 
   if (ex.type === 'choice') {
+    // варіанти — плитки з номером клавіші ліворуч; правильний — зелений (галочка), хибний — червоний (хрестик)
+    const mark = (b, ok) => { b.classList.add(ok ? 'right' : 'wrong'); b.firstChild.replaceChildren(ic(ok ? 'check' : 'x', { size: 16 })); };
+    let onKey = null;
     const opts = ex.options.map((o, k) => {
-      const b = h('button.opt', { type: 'button', onclick: () => {
+      const b = h('button.opt.ex-opt', { type: 'button', onclick: () => {
         if (reported) return;
         const ansIdx = typeof ex.answer === 'number' ? ex.answer : ex.options.indexOf(ex.answer);
         const ok = k === ansIdx;
-        b.classList.add(ok ? 'right' : 'wrong');
-        if (!ok) wrap.children[ansIdx]?.classList.add('right');
+        mark(b, ok);
+        if (!ok && wrap.children[ansIdx]) mark(wrap.children[ansIdx], true);
+        wrap.querySelectorAll('.ex-opt').forEach(x => { x.setAttribute('aria-disabled', 'true'); });
+        if (onKey) document.removeEventListener('keydown', onKey);
         done(ok, o);
-      } }, h('span.grow', o));
+      } }, h('span.ex-key', { 'aria-hidden': 'true' }, String(k + 1)), h('span.grow', o));
       return b;
     });
-    const wrap = h('div.stack', opts);
+    const wrap = h('div.ex-opts', opts);
+    // клавіші 1–9 обирають варіант (поза полями введення); слухач знімається, щойно вправа зникла з екрана
+    if (opts.length <= 9) {
+      onKey = (e) => {
+        if (!wrap.isConnected) { document.removeEventListener('keydown', onKey); return; }
+        // поверх вправи відкрита шторка/меню або сторінка вже йде (inert) — клавіші не для вправи
+        if (reported || e.ctrlKey || e.metaKey || e.altKey || wrap.closest('[inert]') || e.target?.closest?.('input,textarea,select,[contenteditable="true"]')) return;
+        const n = Number(e.key);
+        if (Number.isInteger(n) && n >= 1 && n <= opts.length) { e.preventDefault(); opts[n - 1].click(); }
+      };
+      document.addEventListener('keydown', onKey);
+    }
     return h('div.stack', instr(ex.instruction || 'Оберіть правильний варіант'),
-      h('div.row', h('div.grow', { style: { fontSize: 'var(--fs-lg)', fontWeight: 600 } }, ex.prompt), ex.audio ? speakIt(ex.audio) : null), wrap, fb, nextBtn);
+      h('div.row', h('div.grow.ex-prompt', ex.prompt), ex.audio ? speakIt(ex.audio) : null), wrap, fb, nextBtn);
   }
 
   if (ex.type === 'input' || ex.type === 'transform') {
@@ -137,7 +155,7 @@ export function render(ex, report, next) {
     inp.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); reported ? next() : check(); } });
     const checkBtn = h('button.btn.primary.block', { type: 'button', onclick: check }, 'Перевірити');
     return h('div.stack', instr(ex.instruction || (ex.type === 'transform' ? 'Перетворіть речення' : 'Впишіть правильну форму')),
-      h('div', { style: { fontSize: 'var(--fs-lg)', fontWeight: 600 } }, ex.prompt),
+      h('div.ex-prompt', ex.prompt),
       ex.hint ? h('div.small.dim', `Підказка: ${ex.hint}`) : null, inp, checkBtn, fb, nextBtn);
   }
 
@@ -204,7 +222,7 @@ export function render(ex, report, next) {
       } catch (e) { done(false, given, aiErrorText(e)); }
       checkBtn.hidden = true;
     } }, 'Перевірити');
-    return h('div.stack', instr('Перекладіть англійською'), h('div', { style: { fontSize: 'var(--fs-lg)', fontWeight: 600 } }, ex.uk), inp, checkBtn, fb, nextBtn);
+    return h('div.stack', instr('Перекладіть англійською'), h('div.ex-prompt', ex.uk), inp, checkBtn, fb, nextBtn);
   }
 
   return h('div', 'Невідомий тип вправи');

@@ -1,1 +1,112 @@
-/* Плитковий стиль сторінок — див. css/tiles.css */
+/* Плитковий стиль сторінок — див. css/tiles.css.
+   Граматика, вправи, вимова, тести (js/pages/grammar.js, exercises.js, pronunciation.js, tests.js) і варіанти вправ (js/ui/exercises.js). */
+
+/* загальний прогрес курсу */
+.gx-overall{display:flex;flex-direction:column;gap:6px;padding:0 4px}
+.gx-overall-t{display:flex;flex-wrap:wrap;gap:2px 8px;justify-content:space-between;font-size:var(--fs-xs);font-weight:600}
+
+/* розділ рівня: заголовок-плитка, усередині — рядки */
+.gx-levels{display:flex;flex-direction:column;gap:8px}
+.gx-lv{display:flex;flex-direction:column;gap:6px}
+.gx-lv > .tx-rows{padding-bottom:6px}
+.gx-lv-head{
+  list-style:none;display:flex;align-items:center;gap:12px;min-height:58px;padding:10px 12px;border-radius:16px;cursor:pointer;
+  background:var(--tile);border:1px solid var(--tile-edge);color:var(--ink);-webkit-tap-highlight-color:transparent;
+  transition:border-color .18s ease,transform .18s cubic-bezier(.2,.8,.2,1);
+}
+.gx-lv-head::-webkit-details-marker{display:none}
+.gx-lv-head:active{transform:scale(.985)}
+@media (hover:hover){.gx-lv-head:hover{border-color:var(--line-strong)}}
+html.kbd .gx-lv-head:focus-visible{outline:2px solid var(--accent-ink);outline-offset:2px}
+.gx-lv-sq{flex:none;width:36px;height:36px;border-radius:11px;display:grid;place-items:center;background:var(--tile-sq);font-family:var(--font-head);font-weight:700;font-size:13px;color:var(--ink-dim)}
+.gx-lv.mine .gx-lv-head{background:var(--accent-soft);border-color:color-mix(in srgb,var(--accent) 40%,transparent)}
+.gx-lv.mine .gx-lv-sq{background:var(--accent);color:#fff}
+.gx-lv-body{flex:1;min-width:0;display:flex;flex-direction:column;gap:6px}
+.gx-lv-name{display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 8px;font-size:var(--fs-sm);line-height:1.25}
+.gx-lv-name b{font-weight:600}
+.gx-lv-rel{font-size:var(--fs-xs);color:var(--ink-dim);white-space:nowrap}
+.gx-lv.mine .gx-lv-name,.gx-lv.mine .gx-lv-rel{color:var(--accent-ink)}
+.gx-lv-n{flex:none;font-size:var(--fs-xs);font-weight:700;color:var(--ink-dim);font-variant-numeric:tabular-nums}
+.gx-lv-head > .ico:last-child{flex:none;color:var(--ink-dim);transition:transform .18s ease}
+.gx-lv[open] > .gx-lv-head > .ico:last-child{transform:rotate(180deg)}
+
+/* шапка уроку / сторінки з кнопкою «Назад» */
+.gx-lhead{display:flex;align-items:center;gap:10px}
+.gx-lhead > .grow{min-width:0}
+.gx-eyebrow{padding:0}
+.gx-lh1{margin:0;font-size:var(--fs-xl);line-height:1.2;overflow-wrap:anywhere}
+
+/* текстова плитка (блоки фраз, розбір помилок, «що змінилось») */
+.gx-card{padding:12px;border-radius:16px;background:var(--tile);border:1px solid var(--tile-edge);min-width:0;overflow-wrap:anywhere}
+.gx-effect{display:flex;flex-direction:column;gap:8px}
+.gx-effect-row{display:flex;gap:10px;align-items:flex-start;font-size:var(--fs-sm);line-height:1.4}
+.gx-effect-row > .ico{flex:none;color:var(--accent-ink);margin-top:1px}
+
+/* шапка результату тесту */
+.gx-res{display:flex;align-items:center;gap:12px;padding:0 4px}
+.gx-res .tx-label{padding:0}
+.gx-res-t{font-weight:600;font-size:var(--fs-md);line-height:1.3;overflow-wrap:anywhere}
+.gx-res-ic{flex:none;width:48px;height:48px;border-radius:14px;display:grid;place-items:center;background:var(--tile-sq)}
+.gx-res-ic.good{background:var(--good-soft);color:var(--good)}
+.gx-res-ic.warn{background:var(--warn-soft);color:var(--warn)}
+.gx-res-ic.bad{background:var(--bad-soft);color:var(--bad)}
+
+/* звуки вимови */
+.gx-sounds{display:flex;flex-direction:column;gap:8px}
+.gx-sound{border-radius:16px;background:var(--tile);border:1px solid var(--tile-edge);min-width:0}
+.gx-sound-head{list-style:none;display:flex;align-items:center;gap:12px;min-height:60px;padding:10px 12px;cursor:pointer;border-radius:16px;-webkit-tap-highlight-color:transparent}
+.gx-sound-head::-webkit-details-marker{display:none}
+html.kbd .gx-sound-head:focus-visible{outline:2px solid var(--accent-ink);outline-offset:2px}
+.gx-sound-head .tx-body{flex:1}
+.gx-sound-head > .ico:last-child{flex:none;color:var(--ink-dim);transition:transform .18s ease}
+.gx-sound[open] > .gx-sound-head > .ico:last-child{transform:rotate(180deg)}
+.gx-sound[open]{border-color:var(--line-strong)}
+.gx-ipa{flex:none;min-width:40px;height:40px;padding:0 6px;border-radius:12px;display:grid;place-items:center;background:var(--accent-soft);color:var(--accent-ink);font-family:var(--font-ipa);font-weight:600;line-height:1}
+.gx-sound-body{padding:0 12px 12px}
+.gx-sound-body .gx-card{background:var(--tile-sq);border-color:transparent}
+
+/* ---------- Вправи: варіанти — плитки з номером клавіші ---------- */
+.ex-prompt{font-size:var(--fs-lg);font-weight:600;line-height:1.35;overflow-wrap:anywhere}
+.ex-opts{display:flex;flex-direction:column;gap:8px}
+.opt.ex-opt{
+  gap:12px;min-height:54px;padding:11px 12px;border-radius:14px;border:1px solid var(--tile-edge);background:var(--tile);
+  color:var(--ink);font-weight:500;overflow-wrap:anywhere;-webkit-tap-highlight-color:transparent;
+  transition:background-color .18s ease,border-color .18s ease,transform .18s cubic-bezier(.2,.8,.2,1);
+}
+.opt.ex-opt:active{transform:scale(.985)}
+.opt.ex-opt[aria-disabled="true"]:active{transform:none}
+html.kbd .opt.ex-opt:focus-visible{outline:2px solid var(--accent-ink);outline-offset:2px}
+.ex-key,.ex-opt .pl-key{flex:none;width:28px;height:28px;border-radius:9px;display:grid;place-items:center;background:var(--tile-sq);color:var(--ink-dim);font-family:var(--font-head);font-size:12px;font-weight:700;font-variant-numeric:tabular-nums}
+.opt.ex-opt.right{background:var(--good-soft);border-color:color-mix(in srgb,var(--good) 45%,transparent);color:var(--good)}
+.opt.ex-opt.right .ex-key,.opt.ex-opt.right .pl-key{background:var(--good);color:var(--on-good)}
+.opt.ex-opt.wrong{background:var(--bad-soft);border-color:color-mix(in srgb,var(--bad) 45%,transparent);color:var(--bad)}
+.opt.ex-opt.wrong .ex-key,.opt.ex-opt.wrong .pl-key{background:var(--bad);color:var(--on-bad)}
+.opt.ex-opt.right .ipa,.opt.ex-opt.wrong .ipa{color:inherit;opacity:.85}
+/* тест рівня: вибраний варіант */
+.opt.ex-opt.sel{background:var(--accent-soft);border-color:color-mix(in srgb,var(--accent) 45%,transparent);color:var(--accent-ink)}
+.opt.ex-opt.sel .pl-key{background:var(--accent);color:#fff}
+
+/* відгук після відповіді */
+.feedback.ex-fb{display:flex;gap:10px;align-items:flex-start;border-radius:14px;padding:12px;border:1px solid transparent}
+.feedback.ex-fb.ok{border-color:color-mix(in srgb,var(--good) 35%,transparent)}
+.feedback.ex-fb.no{border-color:color-mix(in srgb,var(--bad) 35%,transparent)}
+.ex-fb-ic{flex:none;display:grid;place-items:center;margin-top:1px}
+.feedback.ex-fb.ok .ex-fb-ic{color:var(--good)}
+.feedback.ex-fb.no .ex-fb-ic{color:var(--bad)}
+.ex-fb-t{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px;overflow-wrap:anywhere}
+
+@media (max-width:360px){
+  .gx-lv-head,.gx-sound-head{gap:10px;padding:9px 10px}
+  .gx-lh1{font-size:var(--fs-lg)}
+}
+@media (prefers-reduced-motion:reduce){.gx-lv-head,.opt.ex-opt{transition:none}.gx-lv-head:active,.opt.ex-opt:active{transform:none}}
+
+/* пігулка стану під текстом плитки (тести) — не розтягується на всю ширину */
+.gx .tx-body > .tx-pill{align-self:flex-start;margin-top:2px}
+/* довгі переліки уроків у темах вправ — до двох рядків */
+.gx-clamp .tx-s{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+@media (max-width:360px){
+  .gx .tx-grid .tx-l{font-size:12.5px;letter-spacing:-.01em}
+  .gx .tx-grid > .tx:not(.wide):not(.tx-kpi){padding-left:8px;padding-right:8px}
+  .gx .tx-kpi .tx-s{font-size:11.5px}
+}

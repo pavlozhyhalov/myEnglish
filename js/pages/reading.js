@@ -9,6 +9,10 @@ import { activityTimer } from '../stats.js';
 import { runExercises, resultView } from '../ui/exercises.js';
 import { tappable } from '../ui/wordtap.js';
 import { byFit, levelTag, myLevel, levelChips, levelCounts, levelPick, filterByLevel, fallbackNote, pickOfDay } from '../level.js';
+import { txPrimary, txGroup, txRow, txRows } from '../ui/tiles.js';
+
+/** Іконка теми (назва з мапи emo()) у квадратику плитки */
+const sqEmo = (el, name) => { const e = emo(name); e.setAttribute('width', 18); e.setAttribute('height', 18); el.querySelector('.tx-sq')?.replaceChildren(e); return el; };
 
 export const readingTexts = () => json('data/reading.json');
 
@@ -61,32 +65,27 @@ export default async function reading(view, r) {
 
   const row = (t) => {
     const p = progressOf(t.id);
-    return h('a.list-row', { href: `#/reading/${t.id}` },
-      emo(TOPICS[t.topic]?.[1] || 'book-open'),
-      h('div.grow', h('div', { style: { fontWeight: 600 } }, t.title), h('div.sub', `${t.titleUk} · ${topicLabel(t)} · ${words(t)} ${plural(words(t), 'слово', 'слова', 'слів')}`)),
-      p ? h('span.tag.good', { title: 'Прочитано, найкращий результат' }, `${p.best}%`) : null,
-      levelTag(t.level), ic('caret-right', { size: 18 }));
+    const n = words(t);
+    return sqEmo(txRow({ icon: 'book-open', label: t.title, sub: `${t.titleUk} · ${topicLabel(t)} · ${n} ${plural(n, 'слово', 'слова', 'слів')}`, href: `#/reading/${t.id}`,
+      pill: p ? { text: `${p.best}%`, tone: 'good' } : null, end: levelTag(t.level),
+      attrs: p ? { title: `Прочитано, найкращий результат ${p.best}%` } : {} }), TOPICS[t.topic]?.[1] || 'book-open');
   };
 
   const day = textOfDay(list);
-  const dayCard = day ? h('a.card.accent.stack.reading-day', { href: `#/reading/${day.id}`, style: { gap: '6px' } },
-    h('div.row', h('div.section-title.grow', { style: { margin: 0 } }, 'Текст дня'), levelTag(day.level)),
-    h('div', { style: { fontWeight: 600, fontSize: 'var(--fs-lg)' } }, day.title),
-    h('div.small.dim', `${day.titleUk} · ${topicLabel(day)} · ~${minutes(day)} хв`),
-    progressOf(day.id) ? h('div.xs.dim', 'Уже прочитано — можна повторити') : null) : null;
+  const dayCard = day ? sqEmo(txPrimary({ icon: 'book-open', label: day.title,
+    sub: `Текст дня · ${day.level} · ${day.titleUk} · ${topicLabel(day)} · ~${minutes(day)} хв${progressOf(day.id) ? ' · уже прочитано' : ''}`,
+    href: `#/reading/${day.id}` }), TOPICS[day.topic]?.[1] || 'book-open') : null;
 
   const box = h('div.stack');
   const draw = () => {
     const { items, fallback } = filterByLevel(list, levelPick('reading'));
     const read = items.filter(t => progressOf(t.id)).length;
     box.replaceChildren(fallbackNote(fallback),
-      items.length ? h('div.xs.dim', { style: { margin: '0 2px' } }, `Прочитано ${read} з ${items.length}`) : '',
-      h('div.list', byFit(items).map(row)));
+      txGroup(items.length ? `Тексти · прочитано ${read} з ${items.length}` : 'Тексти', txRows(byFit(items).map(row))));
   };
   view.replaceChildren(h('div.stack-lg',
-    h('section.row', h('div.emoji-circle', emo('book-open')), h('div.grow', h('h1', { style: { margin: 0 } }, 'Читання'),
-      h('div.small.dim', `Тексти з перекладом слова дотиком · ваш рівень ${myLevel()}`))),
-    dayCard, levelChips('reading', levelCounts(list), draw), box));
+    dayCard,
+    txGroup(`Переклад слова дотиком · ваш рівень ${myLevel()}`, levelChips('reading', levelCounts(list), draw)), box));
   draw();
 }
 

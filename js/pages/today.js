@@ -1,5 +1,6 @@
-// «Мій день за 15 хвилин»: кільце прогресу, три кроки по черзі й одна головна кнопка
-import { h, ic, emo, ring } from '../ui/dom.js';
+// «Мій день за 15 хвилин» у мові плиток: кільце прогресу, показники, три кроки-рядки по черзі й одна головна синя дія
+import { h, ic, ring } from '../ui/dom.js';
+import { tx, txPrimary, txKpis, txGrid, txGroup, txRow, txBar } from '../ui/tiles.js';
 import { plural } from '../strings.js';
 import { streak, todaySeconds } from '../stats.js';
 import { buildPlan, markStarted } from '../daily.js';
@@ -50,18 +51,19 @@ export default async function today(view) {
 
 function header() {
   const date = new Date().toLocaleDateString('uk-UA', { weekday: 'long', day: 'numeric', month: 'long' });
+  // назва сторінки вже в шапці — тут дата й підказка (заголовок — для читачів екрана)
   return h('header.td-head',
-    h('span.eyebrow', date.charAt(0).toUpperCase() + date.slice(1)),
-    h('h1', 'Мій день'),
+    h('h1.sr-only', 'Мій день'),
+    h('span.tx-label.td-date', date.charAt(0).toUpperCase() + date.slice(1)),
     h('p.dim.small', 'Три кроки по черзі — нічого не треба обирати.'));
 }
 
 function skeletonPage() {
   return h('div.stack-lg.td', { role: 'status', 'aria-label': 'Завантаження плану' },
     header(),
-    h('section.card.td-summary', skel({ w: '150px', ht: 150, r: '50%' }), h('div.grow.stack', { style: { gap: '10px' } }, skel({ w: '70%', ht: 18 }), skelLines(2))),
-    h('div.td-steps', [0, 1, 2].map(() => h('div.td-step.skel-step', skel({ w: '32px', ht: 32, r: '50%' }), h('div.grow.stack', { style: { gap: '8px' } }, skel({ w: '45%', ht: 14 }), skel({ w: '80%', ht: 10 }))))),
-    skel({ ht: 56, r: 'var(--radius)' }));
+    h('section.tx.td-summary.td-static', skel({ w: '112px', ht: 112, r: '50%' }), h('div.grow.stack', { style: { gap: '10px' } }, skel({ w: '70%', ht: 18 }), skelLines(2))),
+    h('div.tx-rows', [0, 1, 2].map(() => h('div.tx-row', skel({ w: '34px', ht: 34, r: '10px' }), h('div.grow.stack', { style: { gap: '8px' } }, skel({ w: '45%', ht: 14 }), skel({ w: '80%', ht: 10 }))))),
+    skel({ ht: 64, r: '16px' }));
 }
 
 function render(view, plan) {
@@ -70,51 +72,60 @@ function render(view, plan) {
   const doneN = counted.filter(s => s.done).length;
   const leftMin = Math.max(0, Math.ceil(plan.totalMin - plan.doneMin));
   const label = plan.allDone
-    ? h('span.td-ring-label', ic('check', { size: 44 }), h('span.sr-only', 'Виконано'))
+    ? h('span.td-ring-label', ic('check', { size: 36 }), h('span.sr-only', 'Виконано'))
     : h('span.td-ring-label', h('b.num', `${pct}%`), h('span.xs', `${Math.round(plan.doneMin)} з ${Math.round(plan.totalMin)} хв`));
 
-  const summary = h('section.card.td-summary' + (plan.allDone ? '.is-done' : ''),
-    planRing(pct, { size: 148, stroke: 12, label, done: plan.allDone }),
+  const summary = h('section.tx.td-summary.td-static' + (plan.allDone ? '.is-done' : ''),
+    planRing(pct, { size: innerWidth < 360 ? 92 : 116, stroke: innerWidth < 360 ? 9 : 10, label, done: plan.allDone }),
     h('div.grow.stack', { style: { gap: '6px' } },
       plan.allDone
         ? [h('h2.td-title', 'День зараховано'), h('p.small.dim', `${Math.round(todaySeconds() / 60)} хв практики сьогодні · ${streakText()}`)]
         : [h('h2.td-title', counted.length ? (doneN ? `Готово ${doneN} з ${counted.length}` : `${counted.length} ${plural(counted.length, 'крок', 'кроки', 'кроків')} на сьогодні`) : 'План дня'),
           h('p.small.dim', leftMin ? `Залишилось ≈${leftMin} ${plural(leftMin, 'хвилина', 'хвилини', 'хвилин')}` : 'Майже готово')]));
 
+  const k = streak();
+  const mins = Math.round(todaySeconds() / 60);
+  const kpis = txKpis([
+    { value: mins, unit: 'хв', label: 'сьогодні' },
+    { value: k, label: plural(k, 'день поспіль', 'дні поспіль', 'днів поспіль'), tone: k ? 'good' : '' },
+    { value: `${doneN}/${counted.length}`, label: 'кроків готово', tone: plan.allDone ? 'good' : '' },
+  ]);
+
   let n = 0;
-  const steps = h('ol.td-steps', plan.steps.map(s => {
+  const steps = h('ol.tx-rows.td-steps', plan.steps.map(s => {
     const state = s.skipped ? 'skipped' : s.done ? 'done' : s === plan.next ? 'next' : 'later';
     if (!s.skipped) n++;
-    const mark = h('span.td-mark', s.done ? ic('check', { size: 18 }) : s.skipped ? ic('user', { size: 16 }) : h('span.num', String(n)));
-    const meta = h('span.td-min', s.done ? 'готово' : s.skipped ? 'після входу' : `${s.id === 'voice' ? '5–7' : s.minutes} хв`);
-    const partial = !s.done && !s.skipped && s.progress > 0
-      ? h('div.td-prog', { role: 'progressbar', 'aria-label': `${s.title}: виконано`, 'aria-valuemin': 0, 'aria-valuemax': 100, 'aria-valuenow': Math.round(s.progress * 100) }, h('i', { style: { width: `${Math.round(s.progress * 100)}%` } }))
-      : null;
-    return h('li.td-step.' + state,
-      h('a.td-link', { href: s.href, onclick: s.skipped ? null : () => markStarted(), 'aria-current': state === 'next' ? 'step' : null },
-        mark,
-        h('div.grow',
-          h('div.td-step-title', h('span', s.title), state === 'next' ? h('span.tag.accent', 'Далі') : null),
-          h('div.td-desc', s.desc),
-          partial),
-        meta,
-        s.done ? null : ic('caret-right', { size: 18 })));
+    const min = `${s.id === 'voice' ? '5–7' : s.minutes} хв`;
+    const pill = s.done ? { text: 'готово', tone: 'good' } : s.skipped ? { text: 'після входу' } : state === 'next' ? { text: `Далі · ${min}`, tone: 'accent' } : { text: min };
+    const row = txRow({
+      ...(s.done ? { icon: 'check' } : s.skipped ? { icon: 'user' } : { no: n }),
+      label: s.title, sub: s.desc, pill, href: s.href, on: state === 'next', cls: 'td-step-row.' + state, chevron: !s.done,
+      onclick: s.skipped ? null : () => markStarted(),
+      attrs: { 'aria-current': state === 'next' ? 'step' : null },
+    });
+    if (!s.done && !s.skipped && s.progress > 0) {
+      const bar = txBar(s.progress, true);
+      bar.setAttribute('role', 'progressbar');
+      bar.removeAttribute('aria-label');
+      Object.entries({ 'aria-label': `${s.title}: виконано`, 'aria-valuemin': 0, 'aria-valuemax': 100, 'aria-valuenow': Math.round(s.progress * 100) }).forEach(([a, v]) => bar.setAttribute(a, String(v)));
+      row.querySelector('.tx-body')?.append(bar);
+    }
+    return h('li.td-step.' + state, row);
   }));
 
-  const blocks = [header(), summary, steps];
+  const blocks = [header(), summary, kpis, txGroup('Кроки', steps)];
   if (plan.allDone) {
-    blocks.push(h('section.td-more.stack', { style: { gap: '8px' } },
-      h('div.section-title', 'Хочеться ще?'),
-      h('div.list',
-        more('chat-circle-dots', 'Вільна розмова з вчителем', 'Будь-яка тема, голосом або текстом', '#/tutor'),
-        more('book-open', 'Читання', 'Короткий текст вашого рівня', '#/reading'),
-        more('game-controller', 'Ігри', 'Слово дня, швидкий переклад', '#/games'))));
+    blocks.push(txGroup('Хочеться ще?', txGrid([
+      tx({ icon: 'chat-circle-dots', label: 'Вільна розмова з вчителем', sub: 'Будь-яка тема, голосом або текстом', href: '#/tutor' }),
+      tx({ icon: 'book-open', label: 'Читання', sub: 'Короткий текст вашого рівня', href: '#/reading' }),
+      tx({ icon: 'game-controller', label: 'Ігри', sub: 'Слово дня, швидкий переклад', href: '#/games' }),
+    ])));
   } else if (plan.next) {
-    blocks.push(h('button.btn.primary.lg.block.td-go', { type: 'button', onclick: () => startNext(plan) },
-      ic(plan.next.icon === 'microphone' ? 'microphone' : 'play', { fill: true, size: 20 }), startLabel(plan)));
+    blocks.push(txPrimary({ icon: plan.next.icon === 'microphone' ? 'microphone' : 'play', label: startLabel(plan),
+      sub: startLabel(plan).startsWith('Почати') ? `Перший крок: ${plan.next.title}` : (leftMin ? `≈${leftMin} хв до кінця плану` : null), onclick: () => startNext(plan), cls: 'td-go' }));
   } else {
     // усі кроки, що лишились, потребують входу
-    blocks.push(h('a.btn.primary.lg.block', { href: '#/auth' }, 'Увійти, щоб поговорити з вчителем'));
+    blocks.push(txPrimary({ icon: 'user', label: 'Увійти, щоб поговорити з вчителем', href: '#/auth' }));
   }
   blocks.push(h('p.xs.dim.center.td-alt', 'Хочете все поспіль на одному екрані? ', h('a', { href: '#/session' }, 'Кероване заняття')));
 
@@ -125,10 +136,6 @@ function render(view, plan) {
 }
 
 function streakText() { const k = streak(); return `стрік ${k} ${plural(k, 'день', 'дні', 'днів')}`; }
-
-function more(icon, title, sub, href) {
-  return h('a.list-row', { href }, h('span.tile-ico', emo(icon)), h('div.grow', h('div', { style: { fontWeight: 600 } }, title), h('div.sub', sub)), ic('caret-right', { size: 18 }));
-}
 
 /** Легке «конфеті» навколо кільця: кілька крапок розлітаються й зникають (лише раз за день) */
 function celebrate(box) {
