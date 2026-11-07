@@ -1,21 +1,19 @@
 // Головна в мові плиток: синя картка «Сьогодні» (кільце «Мого дня», кроки-плитки, одна головна кнопка),
-// показники, рівень, правила тижня, завдання рівня, швидкий старт, тиждень, слово дня, слабкі місця, остання розмова
-import { h, ic, fmtMin } from '../ui/dom.js';
+// рівень, правила тижня, чотири завдання дня — лише головне (розвантажено за проханням власника 2026-11-07)
+import { h, ic } from '../ui/dom.js';
 import { S, plural } from '../strings.js';
 import * as store from '../store.js';
 import { user } from '../supa.js';
-import * as srs from '../srs.js';
-import { withCards, grammarIndex, scenarios as loadScenarios, writingTasks, listening as loadListening, pronunciation as loadPron } from '../data.js';
-import { todaySeconds, streak, week, mistakesByType, lessonsToReview, lessonDone, today, dayKey, dueRuleCount } from '../stats.js';
+import { grammarIndex, scenarios as loadScenarios, listening as loadListening } from '../data.js';
+import { todaySeconds, streak, mistakesByType, lessonsToReview, lessonDone, today, dayKey } from '../stats.js';
 import { buildPlan, markStarted } from '../daily.js';
-import { weeklyFocus, currentFocus, focusProgress, closedEarlier, canAddRule, addFocusRule, daysLeftInWeek } from '../focus.js';
+import { weeklyFocus, focusProgress, closedEarlier, canAddRule, addFocusRule, daysLeftInWeek } from '../focus.js';
 import { planRing, startNext } from './today.js';
 import { skel, skelCard, skelRow } from '../ui/skeleton.js';
-import { speak } from '../speech.js';
 import { toast } from '../ui/toast.js';
 import { greetName } from './profile.js';
-import { tx, txKpis, txGrid, txGroup, txRow, txRows, txBar, txDots } from '../ui/tiles.js';
-import { myLevel, LEVEL_NAME, LEVELS, nextLessonByLevel, byFit, diff, levelProgress, nextLevel, setLevel, filterByLevel, pickOfDay } from '../level.js';
+import { tx, txGrid, txGroup, txBar, txDots } from '../ui/tiles.js';
+import { myLevel, LEVEL_NAME, nextLessonByLevel, byFit, diff, levelProgress, nextLevel, filterByLevel, pickOfDay } from '../level.js';
 
 const nMistakes = (n) => `${n} ${plural(n, 'помилка', 'помилки', 'помилок')}`;
 
@@ -28,9 +26,7 @@ export default async function home(view) {
   const firstRun = !prof.placementDone && !prof.levelSource && store.count('sessions') === 0;
   // перший показ — одразу каркас зі скелетами (дані плану й колод дочитуються)
   if (!view.firstChild) view.replaceChildren(h('div.stack-lg.hm', greeting(), h('section.plan-hero.hm-hero', heroSkeleton()), skelCard({ rows: 1 }), skelCard({ rows: 2 })));
-  const [gIdx, deckState] = await Promise.all([grammarIndex(), srs.decks()]);
-  // увімкнені вбудовані колоди (метадані з каталогу, без карток)
-  const decks = deckState.filter(d => d.builtin && d.enabled);
+  const gIdx = await grammarIndex();
   if (view.__tok !== tok) return;
 
   const sec = todaySeconds();
@@ -48,9 +44,6 @@ export default async function home(view) {
         sub: 'Адаптивний тест ~25 хвилин: граматика, лексика, читання, аудіювання, письмо і коротка розмова. Можна зробити паузу. Після нього план дня підлаштується під вас.' }),
       h('button.btn.ghost.sm.hm-skip', { type: 'button', onclick: () => { store.setProf({ placementDone: 'skipped' }); home(view); } }, 'Пропустити'),
     ]));
-  } else {
-    // ---- показники: вивчені слова, зараховані уроки, правила на повтор ----
-    blocks.push(kpiGroup());
   }
 
   // ---- рівень: поточний → наступний, опанування, рівень у розмовах, швидка зміна ----
@@ -94,68 +87,7 @@ export default async function home(view) {
   blocks.push(tasksBox);
   fillLevelTasks(tasksBox, lvl, lessonRow(gIdx)).catch(() => tasksBox.remove());
 
-  if (!firstRun) {
-    // ---- швидкий старт: три найчастіші дії ----
-    blocks.push(txGroup('Швидкий старт', txGrid([
-      tx({ icon: 'lightning', label: 'Слова', sub: 'тренування', href: '#/cards/train', attrs: { 'aria-label': 'Тренування слів' } }),
-      tx({ icon: 'microphone', label: 'Розмова голосом', sub: 'з вчителем', href: '#/tutor?mode=voice' }),
-      tx({ icon: 'chat-circle-dots', label: 'Чат', sub: 'текстом', href: '#/tutor?mode=chat' }),
-    ])));
-
-    // ---- тиждень ----
-    const n = streak();
-    blocks.push(txGroup('Тиждень', h('div.tx.hm-static.hm-week',
-      h('span.tx-s', n ? `${n} ${plural(n, 'день', 'дні', 'днів')} поспіль · мета ${st.dailyGoal} хв на день` : `Мета — ${st.dailyGoal} хв на день`),
-      h('div.week', week().map(d => h('div.d',
-        h('span.dot' + (d.goal ? '.on' : '') + (d.today ? '.today' : ''), { style: d.active && !d.goal ? { background: 'var(--accent-soft)' } : null, 'aria-label': `${d.name}: ${d.goal ? 'мету виконано' : d.active ? 'була практика' : 'без практики'}` },
-          d.goal ? ic('check', { size: 16 }) : null),
-        d.name)))), { label: S.nav.progress, href: '#/progress' }));
-
-    // ---- слово дня (вантажиться одна колода; блок з'являється на своєму місці) ----
-    const wodSlot = document.createComment('word-of-day');
-    blocks.push(wodSlot);
-    wordOfDay(decks.filter(d => diff(d.level) <= 1 && diff(d.level) >= -1)).then(w => {
-      if (!w || !wodSlot.parentNode) return;
-      const inCards = store.get('cards', w.id) || store.all('cards').find(c => c.en.toLowerCase() === w.en.toLowerCase());
-      const addBtn = h('button.btn.soft.sm', {
-        type: 'button', disabled: !!inCards,
-        onclick: () => {
-          store.put('cards', srs.rowFromStarter(w.deck, w.card));
-          addBtn.disabled = true; addBtn.textContent = 'Уже в картках';
-          toast('Додано — з\'явиться першим серед нових');
-        },
-      }, inCards ? 'Уже в картках' : 'Додати в картки');
-      wodSlot.replaceWith(txGroup('Слово дня', h('div.tx.hm-static.hm-wod',
-        h('div.hm-wod-top',
-          h('div.grow', h('div.en.hm-wod-en', w.card.en), w.card.ipa ? h('div.ipa.small', w.card.ipa) : null),
-          h('button.tx-sq.hm-sq-btn', { type: 'button', 'aria-label': 'Прослухати', onclick: () => speak(w.card.en) }, ic('speaker-high', { size: 20 }))),
-        h('div.hm-wod-uk', w.card.uk),
-        w.card.ex ? h('div.hm-wod-ex', h('button.icon-btn', { type: 'button', 'aria-label': 'Прослухати приклад', onclick: () => speak(w.card.ex) }, ic('speaker-high', { size: 18 })), h('i.dim.grow', w.card.ex)) : null,
-        h('div.hm-wod-foot', h('span.tx-pill', w.deckName), addBtn))));
-    }).catch(e => console.warn('word of day', e));
-
-    // ---- слабкі місця ----
-    // поки є «Правила тижня» — ця група дублювала б їх
-    const weak = currentFocus() ? [] : mistakesByType().slice(0, 3);
-    if (weak.length) {
-      blocks.push(txGroup('Слабкі місця', txGrid(weak.map(g => tx({
-        icon: 'target', label: S.mistakeTypes[g.type] || g.type, sub: `${nMistakes(g.total)} · потренувати`,
-        href: `#/tutor?mode=drill&type=${g.type}`,
-      })))));
-    }
-
-    // ---- остання розмова ----
-    const last = store.all('tutor_chats').filter(c => c.mode !== 'diary' && c.mode !== 'coach' && (c.summary || c.messages?.length)).sort((a, b) => b.created_at.localeCompare(a.created_at))[0];
-    if (last) {
-      const words = (last.summary?.new_words || []).slice(0, 3);
-      blocks.push(txGroup('Остання розмова із вчителем', [
-        txRow({ icon: last.mode === 'voice' ? 'microphone' : 'chalkboard-teacher', href: `#/tutor?chat=${encodeURIComponent(last.id)}`,
-          label: last.title || 'Розмова', sub: `Продовжити · ${new Date(last.created_at).toLocaleDateString('uk-UA')} · ${fmtMin(last.seconds || 0)}`,
-          attrs: { 'aria-label': `Продовжити розмову: ${last.title || 'Розмова'}` } }),
-        words.length ? h('div.chips.hm-chips', { 'aria-label': 'Нові слова з розмови' }, words.map(w => h('span.tag.accent', w.en))) : null,
-      ]));
-    }
-  }
+  // решта (тиждень, слово дня, останні розмови, швидкий старт) — у «Прогресі», меню й нижній панелі: головна лише про сьогодні
 
   if (view.__tok !== tok) return;
   view.replaceChildren(h('div.stack-lg.hm', blocks));
@@ -217,17 +149,6 @@ function heroFallback(sec, st) {
     h('a.btn.start.block.hm-start', { href: '#/today' }, ic('play', { fill: true, size: 18 }), 'Мій день')];
 }
 
-/** Показники: вивчені слова, зараховані уроки, правила, що чекають на повтор */
-function kpiGroup() {
-  const learned = store.all('cards').filter(srs.isLearned).length;
-  const lessons = store.all('lessons_progress').filter(p => p.completed_at).length;
-  let due = 0; try { due = dueRuleCount(); } catch (e) { console.warn('rules', e); }
-  return txGroup('Показники', txKpis([
-    { value: learned, label: plural(learned, 'слово вивчено', 'слова вивчено', 'слів вивчено'), href: '#/vocab' },
-    { value: lessons, label: plural(lessons, 'урок зараховано', 'уроки зараховано', 'уроків зараховано'), href: '#/grammar' },
-    { value: due, label: 'правил на повтор', tone: due ? 'warn' : '', href: due ? '#/mistakes?practice=due' : '#/mistakes' },
-  ]));
-}
 
 /** Рівень: плитка «B1 → B2» з опануванням, рівень у розмовах, швидка зміна рівня (згорнута) */
 function levelGroup(view, gIdx, lvl) {
@@ -239,7 +160,7 @@ function levelGroup(view, gIdx, lvl) {
   lpBar.removeAttribute('aria-label');
   Object.entries({ 'aria-label': 'Опанування рівня', 'aria-valuemin': 0, 'aria-valuemax': 100, 'aria-valuenow': 0 }).forEach(([k, v]) => lpBar.setAttribute(k, String(v)));
   const ready = h('span.hm-ready', { hidden: true });
-  const rows = h('div.tx-rows');
+  const convInfo = h('span');
   levelProgress(gIdx, lvl).then(lp => {
     lpInfo.textContent = `Уроки ${lp.grammar.done}/${lp.grammar.total} · слова ${lp.words.done}/${lp.words.total}`;
     lpPct.textContent = `${lp.pct}%`;
@@ -252,25 +173,14 @@ function levelGroup(view, gIdx, lvl) {
     const cl = conversationLevel();
     if (!cl || cl.sessions < 2) return;
     const sub = cl.sublevel === 'high' ? '+' : cl.sublevel === 'low' ? '−' : '';
-    rows.append(txRow({ icon: 'microphone', href: '#/analysis', cls: 'hm-conv',
-      label: `У розмовах: ${cl.level}${sub}`, sub: `за ${cl.sessions} ${plural(cl.sessions, 'розмовою', 'розмовами', 'розмовами')}` }));
+    convInfo.textContent = ` · у розмовах ${cl.level}${sub}`;
   }).catch(() => {});
   const levelTile = tx({ wide: true, href: '#/progress', cls: 'hm-level',
     icon: null, label: lvl !== nxt ? `Рівень ${lvl} → ${nxt}` : `Рівень ${lvl}`, sub: LEVEL_NAME[lvl],
-    extra: h('span.hm-level-extra', lpBar, lpInfo, ready), end: lpPct });
+    extra: h('span.hm-level-extra', lpBar, h('span.tx-s', lpInfo, convInfo), ready), end: lpPct });
   levelTile.prepend(h('span.tx-sq.hm-level-badge', { 'aria-hidden': 'true' }, lvl));
-  return txGroup('Рівень', [levelTile, rows,
-    // швидка зміна рівня: план, урок дня і завдання нижче одразу перебудовуються
-    h('details.hm-levelpick',
-      h('summary', h('span.tx-sq', ic('swap', { size: 18 })), h('span.grow', 'Змінити рівень'), ic('caret-down', { size: 16 })),
-      h('div.level-pick', LEVELS.map(l => h('button.chip', { type: 'button', 'aria-pressed': String(l === lvl), 'aria-label': `Рівень ${l}`, onclick: () => {
-        if (l === lvl) return;
-        setLevel(l, 'manual'); toast(`Рівень ${l}: план і завдання оновлено`);
-        home(view).then(() => {
-          const d = view.querySelector('.hm-levelpick'); if (d) d.open = true;
-          view.querySelector(`.level-pick [aria-label="Рівень ${l}"]`)?.focus({ preventScroll: true });
-        });
-      } }, l))))]);
+  // зміна рівня — у «Налаштуваннях» і тестом; тут лише поточний стан
+  return levelTile;
 }
 
 /** Перенос довгих назв правил після «/» (am/is/are/was/were), а не посеред слова */
@@ -299,10 +209,9 @@ function weekFocusGroup(view) {
       : h('p.hm-note', `${left === 1 ? 'Останній день тижня' : `Ще ${left} ${plural(left, 'день', 'дні', 'днів')}`} · закрито ${doneN} з ${pr.length}`),
     rows,
     earlier.length ? h('p.hm-note.hm-earlier', ic('check-circle', { size: 14 }), `Також закрито: ${earlier.map(x => x.label).join(', ')}`) : null,
-    won ? null : h('p.hm-note', 'Вчитель створюватиме нагоди вжити ці правила в кожній розмові. Решта помилок чекає своєї черги.'),
     won
       ? (more ? tx({ wide: true, icon: 'plus', label: 'Взяти ще правило', onclick: () => { if (addFocusRule()) { toast('Нове правило тижня — вчитель уже знає'); home(view); } } }) : null)
-      : tx({ wide: true, icon: 'barbell', label: 'Потренувати', sub: 'правила тижня · кілька хвилин', href: '#/mistakes?practice=due&focus=1' }),
+      : null,
   ];
   const g = txGroup(won ? 'Правила тижня · закрито' : 'Правила тижня', content, { label: 'Усі помилки', href: '#/mistakes' });
   g.setAttribute('aria-label', 'Правила тижня');
@@ -324,28 +233,18 @@ function lessonRow(gIdx) {
 const tasksHead = (lvl) => h('div.tx-label-row', h('h2.tx-label', `Завдання рівня ${lvl} на сьогодні`), h('span.hm-more-dim', 'нові щодня'));
 
 async function fillLevelTasks(box, lvl, lesson) {
-  const [scen, wtasks, lis, pron, rdMod] = await Promise.all([loadScenarios(), writingTasks(), loadListening(), loadPron(), import('./reading.js')]);
+  const [scen, lis, rdMod] = await Promise.all([loadScenarios(), loadListening(), import('./reading.js')]);
   const rd = rdMod.textOfDay(await rdMod.readingTexts());
   const sc = pickOfDay(filterByLevel(scen.filter(x => x.group !== 'work'), 'mine').items, 'scen');
-  const wt = pickOfDay(filterByLevel(wtasks.filter(x => x.group !== 'work'), 'mine').items, 'writing');
   const dl = pickOfDay(filterByLevel(lis.dialogues, 'mine').items, 'dialogue');
-  // тема вимови — за рівнем самої теми (як на сторінці вимови)
-  const topicLevel = new Map();
-  for (const s of pron.shadowing) if (!topicLevel.has(s.topic)) topicLevel.set(s.topic, s.level);
-  const tp = pickOfDay(filterByLevel([...topicLevel.keys()], 'mine', t => topicLevel.get(t)).items, 'shadow');
   // плитки як у меню: по дві в ряд, тип завдання — підписом, виконане — зелене
   const task = (icon, kind, title, href, done = false) => tx({ icon: done ? 'check' : icon, label: title, sub: done ? `${kind} · готово` : kind, href, tone: done ? 'good' : null, cls: 'hm-task' });
   const rows = [
     lesson && task(lesson.icon, lesson.kind, lesson.title, lesson.href, lesson.done),
     sc && task('users-three', 'Розмова із вчителем', sc.title, `#/scenarios/${sc.id}`),
     dl && task('headphones', 'Аудіювання', dl.title, `#/listening?tab=dialogues&d=${encodeURIComponent(dl.title)}`),
-    wt && task('pencil-line', 'Письмо', wt.title, `#/writing/${wt.id}`),
-    tp && task('waveform', 'Вимова', tp, `#/pronunciation?topic=${encodeURIComponent(tp)}`),
     rd && task('book-open', 'Читання', rd.title, `#/reading/${rd.id}`),
-    // щоденник — поки сьогодні ще немає запису
-    !store.all('tutor_chats').some(c => c.mode === 'diary' && !c.deleted && dayKey(new Date(c.created_at)) === today())
-      && task('notebook', 'Щоденник · 2–3 хвилини', 'Розкажіть про свій день — вчитель виправить', '#/diary'),
-  ].filter(Boolean);
+  ].filter(Boolean).slice(0, 4);   // головна — лише чотири завдання; решта — у розділах
   if (!rows.length) { box.remove(); return; }
   const grid = txGrid(rows, 2);
   if (rows.length % 2) rows[rows.length - 1].classList.add('full', 'wide');
@@ -364,27 +263,4 @@ function pickLesson(idx) {
   return nextLessonByLevel(idx);
 }
 
-/**
- * Слово дня: детермінований вибір з усіх карток із прикладом у переданих колодах (у порядку каталогу).
- * Каталог знає, скільки в колоді карток із прикладом (withEx) — вантажиться лише колода з обраним словом.
- */
-async function wordOfDay(metas) {
-  const k = today();
-  let hsh = 0; for (const ch of k) hsh = (hsh * 31 + ch.charCodeAt(0)) >>> 0;
-  const item = (d, c) => ({ deck: d.id, deckName: d.name, card: c, id: srs.starterId(d.id, c.en), en: c.en });
-  if (metas.every(d => Number.isInteger(d.withEx))) {
-    const total = metas.reduce((a, d) => a + d.withEx, 0);
-    if (!total) return null;
-    let n = hsh % total, d = null;
-    for (const m of metas) { if (n < m.withEx) { d = m; break; } n -= m.withEx; }
-    const [full] = await withCards([d]);
-    const withEx = full.cards.filter(c => c.ex);
-    // каталог збігається з колодою — готово; інакше (застарілий index.json) рахуємо по всіх колодах
-    if (withEx.length === d.withEx) return item(d, withEx[n]);
-  }
-  const pool = [];
-  for (const d of await withCards(metas)) for (const c of d.cards) if (c.ex) pool.push(item(d, c));
-  if (!pool.length) return null;
-  return pool[hsh % pool.length];
-}
 
