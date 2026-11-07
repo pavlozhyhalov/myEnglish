@@ -69,7 +69,7 @@ export default function friends(view, r) {
     onkeydown: (e) => { if (e.key === 'Enter') add(); },
   });
   const addBtn = h('button.btn.primary', { type: 'button', onclick: () => add() }, ic('user-plus', { size: 18 }), 'Додати');
-  const list = h('div.tx-rows.fr-list', h('div.tx-row.dim.small', 'Завантаження…'));
+  const list = h('div.tx-rows.fr-list', h('div.tx-row', h('span.tx-s.fr-msg', 'Завантаження…')));
   let myCode = '';
 
   const shareUrl = () => `${location.origin}${location.pathname}#/friends?code=${myCode}`;
@@ -165,13 +165,13 @@ export default function friends(view, r) {
         h('div.friend-streak', { style: ST.streak, 'aria-label': `Ваш стрік: ${days(mine.streak)}` }, emo('fire'), h('span.num', String(mine.streak))),
         h('span', { 'aria-hidden': 'true', style: { width: '40px', flex: '0 0 40px' } }));
       if (!rows?.length) {
-        list.replaceChildren(meRow, h('div.tx-row.small.dim', 'Поки що друзів немає. Поділіться своїм кодом або введіть код друга.'));
+        list.replaceChildren(meRow, h('div.tx-row', h('span.tx-s.fr-msg', 'Поки що друзів немає. Поділіться своїм кодом або введіть код друга.')));
         return;
       }
       list.replaceChildren(meRow, ...rows.map(f => friendRow(f, mine)));
     } catch (e) {
       console.warn('friends_stats', e);
-      if (alive) list.replaceChildren(h('div.tx-row.small.dim', navigator.onLine ? 'Не вдалося завантажити друзів. Спробуйте пізніше.' : 'Немає мережі — список друзів недоступний.'));
+      if (alive) list.replaceChildren(h('div.tx-row', h('span.tx-s.fr-msg', navigator.onLine ? 'Не вдалося завантажити друзів. Спробуйте пізніше.' : 'Немає мережі — список друзів недоступний.')));
     }
   }
 

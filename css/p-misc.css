@@ -51,7 +51,7 @@
 .fr-head .tx-sq,.fr-code .tx-sq{color:var(--accent-ink)}
 .fr-code .friend-code{font-size:1.45rem!important;line-height:1.2}
 .auth-row:has(.auth-forgot[hidden]){display:none}
-.fr-list > .tx-row.small{font-size:var(--fs-sm);color:var(--ink-dim);line-height:1.4}
+.fr-msg{font-size:var(--fs-sm);line-height:1.4}
 
 /* ---------- Адміністрування й лабораторія (js/pages/admin.js, lab.js) ---------- */
 .adm-head,.lab-head{cursor:default}
