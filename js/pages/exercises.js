@@ -1,5 +1,5 @@
 // Вправи: #/exercises — усі категорії практики; #/exercises/grammar — граматичні вправи за темами
-import { h, ic } from '../ui/dom.js';
+import { h } from '../ui/dom.js';
 import { S, plural } from '../strings.js';
 import { byId, PRACTICE_IDS } from '../nav.js';
 import { grammarIndex, lesson as loadLesson } from '../data.js';
@@ -60,15 +60,15 @@ async function grammarPractice(view, unitSlug, lv) {
   const pool = lessons.flatMap(l => l.exercises.map(e => ({ ...e, _lesson: l })));
   const list = pool.sort(() => Math.random() - 0.5).slice(0, 10);
   const timer = activityTimer('grammar');
-  const box = h('div.card');
-  view.replaceChildren(h('div.stack', box,
-    h('a.btn.ghost.block', { href: '#/exercises/grammar' }, ic('arrow-left'), 'Інша тема')));
+  const box = h('div.gx-exbox');
+  view.replaceChildren(h('div.stack-lg.gx', box,
+    tx({ wide: true, icon: 'arrow-left', label: 'Інша тема', sub: 'Усі теми граматичних вправ', href: '#/exercises/grammar' })));
   runExercises(box, list, {
+    title: 'Вправи',
     onMistake: (ex, given) => addMistake({ wrong: given || '—', right: answerText(ex), type: ex._lesson.mistakeType || 'tenses', explanation_uk: `${ex._lesson.title}: ${ex.explanation || ''}`, source: 'exercise' }),
     onDone: (res) => {
       timer.poke();
-      setTimeout(() => box.append(h('div.stack', { style: { marginTop: '12px' } },
-        h('a.btn.primary.block', { href: `#/exercises/grammar/${unitSlug}${lvl ? `?lv=${lvl}` : ''}`, onclick: (e) => { e.preventDefault(); go(`/exercises/grammar/${unitSlug}${lvl ? `?lv=${lvl}` : ''}`); } }, ic('arrow-clockwise'), 'Ще 10 вправ'))));
+      setTimeout(() => box.append(txPrimary({ icon: 'arrow-clockwise', label: 'Ще 10 вправ', sub: 'Нові завдання з цієї теми', href: `#/exercises/grammar/${unitSlug}${lvl ? `?lv=${lvl}` : ''}`, onclick: (e) => { e.preventDefault(); go(`/exercises/grammar/${unitSlug}${lvl ? `?lv=${lvl}` : ''}`); } })));
     },
   });
   return () => timer.stop();
