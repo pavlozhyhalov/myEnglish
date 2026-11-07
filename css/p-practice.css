@@ -106,3 +106,16 @@ button.tx-sq.dy-spk{border:0;cursor:pointer;color:var(--accent-ink);padding:0;-w
 button.tx-sq.dy-spk:active{transform:scale(.94)}
 html.kbd button.tx-sq.dy-spk:focus-visible{outline:2px solid var(--accent-ink);outline-offset:2px}
 .dy-word .btn.sm{flex:none}
+
+/* Сценарій (#/scenarios/<id>) у мові плиток — агент «вчитель»; спільні .tu-panel/.tu-fact — у css/tutor.css */
+.tu-scd-head{display:flex;align-items:center;gap:12px;flex:1;min-width:0}
+.tu-scd-head .tx-body{flex:1;min-width:0}
+.tu-scd-head .tx-label{padding:0}
+.tu-scd-head .tx-s{font-size:var(--fs-sm);color:var(--ink)}
+.tu-scd .gx-lhead > .tag{flex:none}
+.tu-scd-sit{gap:14px}
+.tu-scd-sit-t{line-height:1.5}
+.tu-scd-phrase .tx-l{font-weight:500}
+.tu-scd-phrase .tx-sq{background:var(--accent-soft);color:var(--accent-ink)}
+button.tu-scd-save{margin-top:2px}
+button.tu-scd-save:disabled{opacity:.7;cursor:default}
