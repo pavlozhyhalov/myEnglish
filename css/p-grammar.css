@@ -217,7 +217,8 @@ html.kbd .pr-big:focus-visible{outline:2px solid var(--accent-ink);outline-offse
 @media (max-width:360px){
   .gx-expl{padding:12px}
   .gx-intro-h{font-size:var(--fs-lg)}
-  .ses-step{padding:6px;gap:4px;font-size:11.5px}
+  .ses-step{padding:6px;gap:4px;font-size:11.5px;justify-content:center}
+  .ses-step:not(.done) > .ico{display:none}
   .pr-act{padding:8px 6px;gap:6px}
   .gx-sound-body{padding:0 10px 10px}
   .gx-sound-body .gx-card{padding:10px}
