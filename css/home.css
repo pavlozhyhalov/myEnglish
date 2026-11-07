@@ -177,3 +177,7 @@ body.has-dailybar:not(.focus-mode):not(:has(.tutor-dock,.composer,.voice)) .toas
 .wf-won .wf-ico{background:var(--good);color:var(--on-good);animation:wfPop 600ms cubic-bezier(.2,1.4,.4,1)}
 @keyframes wfPop{0%{transform:scale(.6) rotate(-12deg)}60%{transform:scale(1.12)}100%{transform:none}}
 @media (prefers-reduced-motion:reduce){.wf-won .wf-ico{animation:none}}
+/* головна: плитки правил тижня і завдань — як у меню */
+.hm-wf-tile .tx-l{font-size:13.5px}
+.hm-wf-tile .hm-dots{margin-top:2px}
+.hm-task .tx-l{font-size:14px}

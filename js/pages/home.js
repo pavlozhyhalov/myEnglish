@@ -83,7 +83,7 @@ export default async function home(view) {
       blocks.push(slot);
       import('../analysis.js').then(({ MONTH_ACC }) => {
         if (!slot.parentNode) return;
-        slot.replaceWith(txRow({ icon: 'calendar-blank', href: `#/report?m=${pym}`, cls: 'rp-link',
+        slot.replaceWith(tx({ wide: true, icon: 'calendar-blank', href: `#/report?m=${pym}`, cls: 'rp-link',
           label: `Ваш звіт за ${MONTH_ACC[pm.getMonth()]} готовий`, sub: 'Хвилини, рівень у розмовах, закриті помилки й ваш голос — тоді й зараз' }));
       }).catch(() => slot.remove());
     }
@@ -138,9 +138,9 @@ export default async function home(view) {
     // поки є «Правила тижня» — ця група дублювала б їх
     const weak = currentFocus() ? [] : mistakesByType().slice(0, 3);
     if (weak.length) {
-      blocks.push(txGroup('Слабкі місця', txRows(weak.map(g => txRow({
-        icon: 'target', label: S.mistakeTypes[g.type] || g.type, sub: nMistakes(g.total),
-        pill: { text: 'Потренувати', tone: 'accent' }, href: `#/tutor?mode=drill&type=${g.type}`,
+      blocks.push(txGroup('Слабкі місця', txGrid(weak.map(g => tx({
+        icon: 'target', label: S.mistakeTypes[g.type] || g.type, sub: `${nMistakes(g.total)} · потренувати`,
+        href: `#/tutor?mode=drill&type=${g.type}`,
       })))));
     }
 
@@ -273,6 +273,9 @@ function levelGroup(view, gIdx, lvl) {
       } }, l))))]);
 }
 
+/** Перенос довгих назв правил після «/» (am/is/are/was/were), а не посеред слова */
+const soft = (t) => String(t).replace(/\//g, '/\u200b');
+
 /** «Правила тижня»: до 3 правил з найбільшою вагою помилок — рядки з крапками засвоєння; усе закрито — свято й «Взяти ще правило» */
 function weekFocusGroup(view) {
   let f = null, pr = [];
@@ -282,10 +285,13 @@ function weekFocusGroup(view) {
   const won = doneN === pr.length;
   const earlier = closedEarlier(f);
   const left = daysLeftInWeek();
-  const rows = h('ol.tx-rows.hm-wf-rows', pr.map((p, i) => h('li', txRow(p.done
-    ? { icon: 'check', cls: 'done', label: p.label, sub: p.closedThisWeek ? `закрито · ${nMistakes(p.closedThisWeek)}` : 'закрито', pill: { text: 'закрито', tone: 'good' } }
-    : { no: i + 1, label: p.label, sub: `${nMistakes(p.openNow)}${p.closedThisWeek ? ` · закрито ${p.closedThisWeek}` : ''}`,
-      end: h('span.hm-dots', h('span.sr-only', 'засвоєння '), txDots(p.streakMin, 3)) }))));
+  // плитки як у меню: по 3 в ряд — правило, кількість помилок, крапки засвоєння
+  const rows = txGrid(pr.map((p, i) => tx(p.done
+    ? { icon: 'check', tone: 'good', cls: 'hm-wf-tile', label: soft(p.label), sub: p.closedThisWeek ? `закрито · ${nMistakes(p.closedThisWeek)}` : 'закрито',
+      href: '#/mistakes', attrs: { 'aria-label': `Правило ${i + 1}: ${p.label}, закрито` } }
+    : { icon: 'target', cls: 'hm-wf-tile', label: soft(p.label), sub: `${nMistakes(p.openNow)}${p.closedThisWeek ? ` · закрито ${p.closedThisWeek}` : ''}`,
+      extra: h('span.hm-dots', h('span.sr-only', 'засвоєння '), txDots(p.streakMin, 3)),
+      href: '#/mistakes?practice=due&focus=1', attrs: { 'aria-label': `Правило ${i + 1}: ${p.label}, ${nMistakes(p.openNow)}, засвоєння ${p.streakMin} з 3` } })));
   const more = canAddRule(f);
   const content = [
     won
@@ -327,7 +333,8 @@ async function fillLevelTasks(box, lvl, lesson) {
   const topicLevel = new Map();
   for (const s of pron.shadowing) if (!topicLevel.has(s.topic)) topicLevel.set(s.topic, s.level);
   const tp = pickOfDay(filterByLevel([...topicLevel.keys()], 'mine', t => topicLevel.get(t)).items, 'shadow');
-  const task = (icon, kind, title, href, done = false) => txRow({ icon, label: title, sub: kind, href, pill: done ? { text: 'готово', tone: 'good' } : null, chevron: !done });
+  // плитки як у меню: по дві в ряд, тип завдання — підписом, виконане — зелене
+  const task = (icon, kind, title, href, done = false) => tx({ icon: done ? 'check' : icon, label: title, sub: done ? `${kind} · готово` : kind, href, tone: done ? 'good' : null, cls: 'hm-task' });
   const rows = [
     lesson && task(lesson.icon, lesson.kind, lesson.title, lesson.href, lesson.done),
     sc && task('users-three', 'Розмова із вчителем', sc.title, `#/scenarios/${sc.id}`),
@@ -340,7 +347,9 @@ async function fillLevelTasks(box, lvl, lesson) {
       && task('notebook', 'Щоденник · 2–3 хвилини', 'Розкажіть про свій день — вчитель виправить', '#/diary'),
   ].filter(Boolean);
   if (!rows.length) { box.remove(); return; }
-  box.replaceChildren(tasksHead(lvl), txRows(rows));
+  const grid = txGrid(rows, 2);
+  if (rows.length % 2) rows[rows.length - 1].classList.add('full', 'wide');
+  box.replaceChildren(tasksHead(lvl), grid);
 }
 
 function pickLesson(idx) {
