@@ -35,10 +35,11 @@ export default async function cards(view, r) {
   // прогрес колоди: вивчені слова (стабільність ≥ 21 дн) серед її карток
   const learnedBy = new Map();
   for (const row of store.all('cards')) if (srs.isLearned(row)) learnedBy.set(row.deck_id, (learnedBy.get(row.deck_id) || 0) + 1);
+  const lv = myLevel();
   const deckRow = (d) => {
     const n = d.count ?? 0, got = Math.min(n, learnedBy.get(d.id) || 0);
-    const sub = `${n} ${plural(n, 'картка', 'картки', 'карток')}${got ? ` · вивчено ${got}` : ''}${d.desc ? ' · ' + d.desc : ''}${d.level && diff(d.level) > 1 ? ' · поки без нових слів' : ''}`;
-    const el = h('div.tx-row.cd-deck' + (d.enabled ? '' : '.off'),
+    const sub = `${n} ${plural(n, 'картка', 'картки', 'карток')}${got ? ` · вивчено ${got}` : ''}${d.level && diff(d.level) > 1 ? ' · поки без нових слів' : ''}`;
+    const el = h('div.tx-row.cd-deck' + (d.enabled ? '' : '.off'), { title: d.desc || null },
       h('span.tx-sq', emo(d.emoji || 'cards')),
       h('span.tx-body',
         h('span.tx-l', d.name, ' ', levelTag(d.level)),
@@ -52,26 +53,33 @@ export default async function cards(view, r) {
     { value: c.due, label: 'до повтору', tone: c.due ? 'warn' : '' },
     { value: c.learned, label: 'вивчені' },
   ]);
+  // колоди: на виду — мого рівня (до 6) і «Мої слова»; решта — під «Усі колоди»
+  const general = byFit(decks.filter(d => d.group === 'general'));
+  const mine = general.filter(d => d.level === lv).slice(0, 6);
+  const shown = new Set(mine.map(d => d.id));
+  const myDeck = decks.find(d => (d.group || 'my') === 'my');
+  const rest = [
+    ['Інші рівні', general.filter(d => !shown.has(d.id))],
+    ['Робота · за вибором', decks.filter(d => d.group === 'work')],
+  ].filter(([, l]) => l.length);
+  const restN = rest.reduce((n, [, l]) => n + l.length, 0);
+  const restBox = h('div.stack-lg.cd-rest', { id: 'cd-rest', hidden: true }, rest.map(([t, l]) => txGroup(t, txRows(l.map(deckRow)))));
+  const moreBtn = restN ? tx({ icon: 'books', label: 'Усі колоди', sub: `ще ${restN} · інші рівні й «Робота»`, wide: true, end: ic('caret-down', { size: 18 }), cls: 'cd-more',
+    attrs: { 'aria-expanded': 'false', 'aria-controls': 'cd-rest' },
+    onclick: (e) => { const open = restBox.hidden; restBox.hidden = !open; e.currentTarget.setAttribute('aria-expanded', String(open)); e.currentTarget.classList.toggle('open', open); } }) : null;
   view.replaceChildren(h('div.stack-lg.cd-over',
     total
-      ? h('div.stack', { style: { gap: '8px' } }, kpis,
+      ? h('div.stack.cd-top', kpis,
         txPrimary({ icon: 'lightning', label: 'Тренування слів', sub: `${session} ${plural(session, 'слово', 'слова', 'слів')} · оцінку ставить застосунок`, href: '#/cards/train' }),
         txGrid([
-          tx({ icon: 'cards', label: 'Швидкий повтор', sub: 'класичні картки', href: '#/cards/review' }),
+          tx({ icon: 'cards', label: 'Швидкий повтор', sub: 'класичні картки', href: '#/cards/review', attrs: { title: 'Пробіл — показати, 1–4 — оцінка, свайп уліво — «Знову», управо — «Добре»' } }),
           tx({ icon: 'plus', label: 'Додати свої слова', sub: 'у «Мої слова»', href: '#/vocab' }),
-        ], 2),
-        h('p.xs.dim.cd-note', 'Впізнати, почути, написати, скласти речення — оцінку для повторів застосунок ставить сам.'))
-      : h('div.stack', { style: { gap: '8px' } }, kpis,
-        tx({ icon: 'confetti', label: 'На сьогодні все повторено', sub: 'Нові картки з\'являться завтра. Ліміт нових — у налаштуваннях.', wide: true, tone: 'good' }),
+        ], 2))
+      : h('div.stack.cd-top', kpis,
+        tx({ icon: 'confetti', label: 'На сьогодні все повторено', sub: 'Нові картки — завтра', wide: true, tone: 'good' }),
         tx({ icon: 'plus', label: 'Додати свої слова', sub: 'у «Мої слова»', href: '#/vocab', wide: true })),
-    ...[['general', 'Колоди · загальна англійська'], ['work', 'Робота · за вибором'], ['my', 'Мої слова']].map(([g, title]) => {
-      const list = g === 'general' ? byFit(decks.filter(d => d.group === g)) : decks.filter(d => (d.group || 'my') === g);
-      if (!list.length) return null;
-      return txGroup(title, [
-        g === 'general' ? h('p.xs.dim.cd-note', `Нові слова беруться з колод рівня ${myLevel()}, далі — наступного. Колоди вищих рівнів чекають, поки ви до них дійдете.`) : null,
-        txRows(list.map(deckRow))]);
-    }),
-    h('p.xs.dim.center', 'Тренування: 1–4 — варіант, Enter — далі. Швидкий повтор: пробіл — показати, 1–4 — оцінка, свайп уліво — «Знову», управо — «Добре».')));
+    txGroup(`Колоди рівня ${lv}`, [txRows([...mine.map(deckRow), myDeck ? deckRow(myDeck) : null]), moreBtn]),
+    restBox));
 }
 
 /**

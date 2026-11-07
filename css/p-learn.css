@@ -1,7 +1,11 @@
 /* Плитковий стиль сторінок — див. css/tiles.css */
 
 /* ---------- Слова (#/cards): огляд колод ---------- */
-.cd-note{margin:0 4px}
+.cd-top{gap:8px}
+.cd-more{margin-top:8px}
+.cd-more .tx-end svg{transition:transform .2s}
+.cd-more.open .tx-end svg{transform:rotate(180deg)}
+.cd-rest[hidden]{display:none}
 .cd-deck .tx-sq .emo{width:18px;height:18px;color:inherit}
 .cd-deck{cursor:default}
 .cd-deck .tx-body{gap:3px}
