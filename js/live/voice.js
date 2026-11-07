@@ -10,7 +10,7 @@ import { logSession } from '../stats.js';
 import { scenarios as loadScenarios } from '../data.js';
 import { setFocus } from '../ui/shell.js';
 import { summarize, parseHint, topicIdeas, MISTAKES_TOPIC, focusTopic, topicIcon } from '../pages/tutor.js';
-import { tx, txPrimary, txGrid, txGroup, txRow, txRows } from '../ui/tiles.js';
+import { tx, txPrimary, txGrid, txGroup, txRow, txRows, txResult, txLogin } from '../ui/tiles.js';
 import { go, onLeave } from '../router.js';
 
 const ERR = {
@@ -375,10 +375,21 @@ export async function voiceSession(view, opts = {}) {
 
   function fail(e) {
     setState('');
-    notice.replaceChildren(h(e.code === 'need_login' ? 'div.notice' : 'div.feedback.no', ERR[e.code] || aiErrorText(e) || S.err.generic),
-      e.code === 'need_login' ? h('a.btn.primary', { href: '#/auth', style: { marginTop: '12px' } }, 'Увійти') : null);
     // у тесті рівня — повертаємось у тест (він зарахує «розмову не вдалося оцінити»), інакше — до вчителя
-    controls.replaceChildren(h('button.btn.soft', { type: 'button', onclick: () => { if (opts.onFinish) { ended = true; cleanup(); opts.onFinish(row); } else go('/tutor', { replace: true }); } }, 'Назад'));
+    const back = () => { if (opts.onFinish) { ended = true; cleanup(); opts.onFinish(row); } else go('/tutor', { replace: true }); };
+    // «Спробувати ще раз» — нове вікно з тими самими налаштуваннями (знову старт по тапу — вимога iOS)
+    const retry = () => { ended = true; cleanup(); voiceSession(view, opts); };
+    const backRow = txRows([txRow({ icon: 'arrow-left', label: 'Назад', sub: opts.onFinish ? 'до тесту' : 'до вчителя', onclick: back })]);
+    controls.classList.add('vc-go');
+    if (e.code === 'need_login') {
+      notice.replaceChildren(h('div.vc-fail', txLogin('Голосова розмова — після входу', 'AI-вчитель працює через захищений сервер, тому потрібен акаунт.')));
+      controls.replaceChildren(backRow);
+      return;
+    }
+    const micErr = e.code === 'mic' || e.code === 'mic_missing';
+    notice.replaceChildren(h('div.vc-fail', txResult({ icon: micErr ? 'microphone-slash' : 'warning', tone: 'bad', role: 'alert', label: 'Голосова розмова',
+      title: micErr ? 'Немає доступу до мікрофона' : 'Не вдалося почати розмову', sub: ERR[e.code] || aiErrorText(e) || S.err.generic })));
+    controls.replaceChildren(txPrimary({ icon: 'arrow-clockwise', label: 'Спробувати ще раз', onclick: retry }), backRow);
   }
 
   // ---------- запасний режим «рація» ----------

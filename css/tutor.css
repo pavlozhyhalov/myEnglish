@@ -377,3 +377,13 @@ html.kbd .tu-wrow:focus-visible{outline:2px solid var(--accent-ink);outline-offs
   .voice .controls.vc-go .tx-s,.vc-start .tu-note{display:none}
   .voice .controls.vc-go .tx.primary{padding:10px 12px}
 }
+
+/* екрани стану й перевірки тексту (аудит 2026-11-07) */
+.tu-state .sum-wait{display:block;min-height:1.5em}
+.tu-state .sum-wait-bar{margin:0 4px}
+.tu-improved{white-space:pre-wrap;overflow-wrap:anywhere}
+.tx-row.tu-del .tx-sq{background:var(--bad-soft);color:var(--bad)}
+.tx-row.tu-del .tx-l{color:var(--bad)}
+/* помилка старту голосу: шапка стану й вхід — як скрізь, ліворуч */
+.vc-fail{width:100%;max-width:520px;margin:0 auto;text-align:left}
+.voice .controls.vc-go .tx-rows{width:100%}
