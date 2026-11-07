@@ -1,6 +1,6 @@
 // «Мій день за 15 хвилин» у мові плиток: кільце прогресу, показники, три кроки-рядки по черзі й одна головна синя дія
 import { h, ic, ring } from '../ui/dom.js';
-import { tx, txPrimary, txKpis, txGrid, txGroup, txRow, txBar } from '../ui/tiles.js';
+import { tx, txPrimary, txKpis, txGrid, txGroup, txRow, txBar, txLogin } from '../ui/tiles.js';
 import { plural } from '../strings.js';
 import { streak, todaySeconds } from '../stats.js';
 import { buildPlan, markStarted } from '../daily.js';
@@ -125,9 +125,9 @@ function render(view, plan) {
       sub: startLabel(plan).startsWith('Почати') ? `Перший крок: ${plan.next.title}` : (leftMin ? `≈${leftMin} хв до кінця плану` : null), onclick: () => startNext(plan), cls: 'td-go' }));
   } else {
     // усі кроки, що лишились, потребують входу
-    blocks.push(txPrimary({ icon: 'user', label: 'Увійти, щоб поговорити з вчителем', href: '#/auth' }));
+    blocks.push(txLogin('Увійдіть, щоб поговорити з вчителем', 'Розмова голосом і AI-вчитель працюють після входу в акаунт'));
   }
-  blocks.push(h('p.xs.dim.center.td-alt', 'Хочете все поспіль на одному екрані? ', h('a', { href: '#/session' }, 'Кероване заняття')));
+  blocks.push(txRow({ icon: 'list', label: 'Кероване заняття', sub: 'Усі кроки поспіль на одному екрані', href: '#/session', cls: 'td-alt' }));
 
   const wasDone = view.querySelector('.td-summary.is-done');
   view.replaceChildren(h('div.stack-lg.td', blocks));
