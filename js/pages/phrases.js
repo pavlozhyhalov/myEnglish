@@ -11,7 +11,8 @@ import { toast } from '../ui/toast.js';
 import { activityTimer } from '../stats.js';
 import { user } from '../supa.js';
 import { onLeave } from '../router.js';
-import { tx, txPrimary, txGrid, txGroup } from '../ui/tiles.js';
+import { tx, txPrimary, txGrid, txGroup, txKpis, txRows } from '../ui/tiles.js';
+import { resHead } from './cards.js';
 import { SITUATIONS, situation, phrasesBySituation, phraseCount, savePhrases, fillMissing, guessSituation } from '../phrases.js';
 
 const nPhrases = (n) => `${n} ${plural(n, 'фраза', 'фрази', 'фраз')}`;
@@ -74,23 +75,23 @@ function situationView(view, sit) {
     const last = lastRatings();
     const known = (c) => (last.get(c.id)?.rating || 0) >= srs.Rating.Good;
     fill(body, 
-      h('div.row', h('a.icon-btn', { href: '#/phrases', 'aria-label': 'До фразника' }, ic('arrow-left')),
-        h('span.tile-ico', ic(sit.icon, { size: 22 })),
-        h('div.grow', h('h1', { style: { margin: 0, fontSize: 'var(--fs-xl)' } }, sit.uk), h('div.xs.dim', list.length ? nPhrases(list.length) : 'Поки порожньо'))),
+      h('div.row.ph-head', h('a.icon-btn', { href: '#/phrases', 'aria-label': 'До фразника' }, ic('arrow-left')),
+        h('span.tx-sq', ic(sit.icon, { size: 20 })),
+        h('span.ph-eyebrow.grow', `Фразник · ${list.length ? nPhrases(list.length) : 'поки порожньо'}`)),
       list.length ? h('div.stack', { style: { gap: '8px' } },
         txPrimary({ href: `#/phrases/${sit.id}/prepare`, icon: 'play', label: 'Підготуватися', sub: nPhrases(Math.min(15, list.length)) + ' за раз' }),
         h('div.xs.dim.ph-hint', 'Бачите фразу українською — кажете вголос англійською — перевіряєте себе.')) : null,
-      list.length ? h('div.list.ph-list', list.map(c => row(c, known(c)))) : h('div.empty.ph-sit-empty', ic('chat-centered-text', { size: 40 }),
-        h('p', 'Тут ще немає фраз. Додайте те, що вам знадобиться в цій ситуації, або збережіть фрази з місій і сценаріїв.'),
-        h('a.btn.soft', { href: '#/tutor' }, ic('flag', { size: 18 }), 'Місії вчителя')),
+      list.length ? txGroup('Фрази · дотик — прослухати', h('div.tx-rows.ph-list', list.map(c => row(c, known(c)))))
+        : txGroup('Поки порожньо', [h('p.small.dim.ph-empty-t', 'Тут ще немає фраз. Додайте те, що вам знадобиться в цій ситуації, або збережіть фрази з місій і сценаріїв.'),
+          tx({ icon: 'flag', label: 'Місії вчителя', sub: 'рольові ігри з фразами для цієї ситуації', href: '#/tutor', wide: true })]),
       missing && !(user() && navigator.onLine) ? h('div.xs.dim', `${missing} ${plural(missing, 'фраза', 'фрази', 'фраз')} без перекладу — його буде додано після входу, коли з'явиться мережа.`) : null,
       tx({ icon: 'plus', label: 'Додати фразу', wide: true, onclick: () => addSheet(sit.id, draw) }));
   };
-  const row = (c, isKnown) => h('div.list-row.ph-row',
+  const row = (c, isKnown) => h('div.tx-row.ph-row',
     h('button.ph-say', { type: 'button', 'aria-label': `Прослухати: ${c.en}`, onclick: () => speak(c.en) },
-      h('span.ph-spk', ic('speaker-high', { size: 18 })),
+      h('span.tx-sq.ph-spk', ic('speaker-high', { size: 18 })),
       h('span.grow.ph-text', h('span.ph-en', { lang: 'en' }, c.en), c.uk ? h('span.ph-uk', c.uk) : h('span.ph-uk.ph-noua', 'переклад з\'явиться згодом'))),
-    isKnown ? h('span.tag.good', { title: 'Ви знали цю фразу під час підготовки' }, 'знаю') : null,
+    isKnown ? h('span.tx-pill.good', { title: 'Ви знали цю фразу під час підготовки' }, 'знаю') : null,
     h('button.icon-btn', { type: 'button', 'aria-label': `Видалити: ${c.en}`, onclick: () => del(c) }, ic('trash', { size: 18 })));
   const del = (c) => {
     store.remove('cards', c.id);
@@ -158,9 +159,9 @@ function prepare(view, sit, only = null) {
   const box = h('div.stack-lg.phrasebook.ph-prep');
   view.replaceChildren(box);
 
-  const head = () => h('div.row', h('a.icon-btn', { href: `#/phrases/${sit.id}`, 'aria-label': 'Завершити підготовку' }, ic('x')),
+  const head = () => h('div.row.ph-prep-top', h('a.icon-btn', { href: `#/phrases/${sit.id}`, 'aria-label': 'Завершити підготовку' }, ic('x')),
     h('div.grow.stack', { style: { gap: '6px' } },
-      h('div.row.xs.dim', h('span.grow', `Підготовка · ${sit.uk}`), h('span', `${Math.min(i + 1, list.length)}/${list.length}`)),
+      h('div.row.ph-prep-meta', h('span.grow.ph-eyebrow', 'Підготовка'), h('span.tx-pill', `${Math.min(i + 1, list.length)}/${list.length}`)),
       h('div.progress', { role: 'progressbar', 'aria-valuemin': '0', 'aria-valuemax': String(list.length), 'aria-valuenow': String(i), 'aria-label': 'Прогрес підготовки' },
         h('i', { style: { width: `${Math.round(i / list.length * 100)}%` } }))));
 
@@ -220,17 +221,19 @@ function prepare(view, sit, only = null) {
     stopSpeech();
     const ok = list.length - missed.length;
     const topic = `Role-play a real-life situation (${sit.id === 'other' ? 'everyday life' : sit.uk}): you play the other person, the student practises these phrases naturally: ${list.map(c => c.en).join(' | ')}`.slice(0, 900);
-    fill(box, 
-      h('div.hero', ic(ok === list.length ? 'trophy' : 'barbell', { size: 44 }),
-        h('h2', `${ok} з ${list.length}`),
-        h('p.dim', ok === list.length ? 'Усі фрази знали. Ви готові до цієї ситуації!' : `Ще ${missed.length} ${plural(missed.length, 'фразу', 'фрази', 'фраз')} варто повторити — ${missed.length === 1 ? 'вона повернеться' : 'вони повернуться'} в картки найближчим часом.`)),
-      missed.length ? h('section.stack', { style: { gap: '8px' } }, h('div.section-title', 'Повторити'),
-        h('div.list', missed.map(c => h('button.list-row', { type: 'button', onclick: () => speak(c.en) },
-          ic('speaker-high', { size: 18 }), h('span.grow.ph-text', h('span.ph-en', { lang: 'en' }, c.en), c.uk ? h('span.ph-uk', c.uk) : null))))) : null,
-      h('div.stack', { style: { gap: '8px' } },
-        missed.length ? h('button.btn.primary.lg.block', { type: 'button', onclick: () => { ac?.abort(); timer.stop(); prepare(view, sit, new Set(missed.map(c => c.id))); } }, ic('arrow-clockwise', { size: 18 }), 'Ще раз — лише невідомі') : null,
-        h('a.btn.' + (missed.length ? 'soft' : 'primary') + '.block', { href: `#/tutor?mode=voice&topic=${encodeURIComponent(topic)}` }, ic('microphone', { size: 18 }), 'Відіграти з вчителем'),
-        h('a.btn.soft.block', { href: '#/phrases' }, 'До фразника')));
+    const all = ok === list.length;
+    const retry = missed.length ? txPrimary({ icon: 'arrow-clockwise', label: 'Ще раз — лише невідомі', sub: nPhrases(missed.length), onclick: () => { ac?.abort(); timer.stop(); prepare(view, sit, new Set(missed.map(c => c.id))); } }) : null;
+    const voice = { icon: 'microphone', label: 'Відіграти з вчителем', sub: 'рольова гра голосом з цими фразами', href: `#/tutor?mode=voice&topic=${encodeURIComponent(topic)}` };
+    fill(box,
+      resHead({ icon: all ? 'trophy' : 'barbell', tone: all ? 'good' : '', eyebrow: 'Підсумок підготовки', title: all ? 'Ви готові до цієї ситуації!' : `${ok} з ${list.length} — майже готово`,
+        sub: all ? 'Усі фрази знали.' : `Ще ${missed.length} ${plural(missed.length, 'фразу', 'фрази', 'фраз')} варто повторити — ${missed.length === 1 ? 'вона повернеться' : 'вони повернуться'} в картки найближчим часом.` }),
+      txKpis([{ value: ok, label: 'знав', tone: 'good' }, { value: missed.length, label: 'ще ні', tone: missed.length ? 'warn' : '' }, { value: list.length, label: plural(list.length, 'фраза', 'фрази', 'фраз') }]),
+      missed.length ? txGroup('Повторити · дотик — прослухати', txRows(missed.map(c => h('button.tx-row.ph-miss', { type: 'button', 'aria-label': `Прослухати: ${c.en}`, onclick: () => speak(c.en) },
+        h('span.tx-sq.ph-spk', ic('speaker-high', { size: 18 })), h('span.tx-body', h('span.tx-l', { lang: 'en' }, c.en), c.uk ? h('span.tx-s', c.uk) : null))))) : null,
+      h('div.stack.lr-next',
+        retry,
+        retry ? tx({ ...voice, wide: true }) : txPrimary(voice),
+        tx({ icon: 'chat-centered-text', label: 'До фразника', href: '#/phrases', wide: true })));
   };
   // прибирання — через onLeave: «Ще раз — лише невідомі» запускає підготовку заново в тому ж контейнері
   onLeave(view, () => { ac?.abort(); stopSpeech(); timer.stop(); });
