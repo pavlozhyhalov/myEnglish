@@ -109,7 +109,7 @@ html.kbd .hm-levelpick>summary:focus-visible{outline:2px solid var(--accent-ink)
 .td-step-row .tx-bar{margin-top:6px}
 .td-step-row.skipped{opacity:.72;border-style:dashed}
 .td-step-row.done{background:transparent}
-.td-go{box-shadow:0 10px 24px -14px color-mix(in srgb,var(--accent) 80%,transparent)}
+.td-go{box-shadow:none}
 .td-alt{margin:-4px 0 0}
 .td-alt a{font-weight:600;text-decoration:none}
 @media (max-width:360px){.td-summary{gap:12px;padding:12px}}

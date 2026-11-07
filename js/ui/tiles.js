@@ -88,3 +88,18 @@ export const txBar = (frac, accent = false) => h('span.tx-bar' + (accent ? '.acc
 
 /** «Крапки» серії 0..max (засвоєння помилки) */
 export const txDots = (n, max = 3) => h('span.tx-dots', { role: 'img', 'aria-label': `${n} з ${max}` }, Array.from({ length: max }, (_, i) => h('i' + (i < n ? '.on' : ''))));
+
+/**
+ * Шапка екрана результату / стану (одна для всього сайту): квадратик-значок 48 px, підпис великими літерами, заголовок, рядок пояснення.
+ * o: { icon, tone: 'good'|'warn'|'bad'|'accent', label, title, sub }
+ */
+export function txResult(o) {
+  return h('div.gx-res', { role: o.role || null },
+    h('span.gx-res-ic' + (o.tone ? '.' + o.tone : ''), { 'aria-hidden': 'true' }, ic(o.icon || 'check-circle', { size: 24, fill: o.tone === 'good' })),
+    h('div.gx-res-b', o.label ? h('div.tx-label', o.label) : null, h('div.gx-res-t', o.title), o.sub ? h('div.tx-s', o.sub) : null));
+}
+
+/** «Увійдіть, щоб…» — один вигляд для всього сайту: широка плитка з ключем і пігулкою «Увійти» */
+export function txLogin(label = 'Потрібен вхід', sub = 'AI-вчитель і синхронізація працюють після входу в акаунт') {
+  return tx({ wide: true, icon: 'key', label, sub, href: '#/auth', cls: 'tx-login', end: txPill('Увійти', 'accent') });
+}

@@ -21,7 +21,7 @@ const exKey = (ex) => String(ex.id || ex.prompt || ex.sentence || ex.uk || ex.an
 function seenRecently(type, ref = null, attempts = 3) {
   const hist = store.all('tests').filter(t => t.type === type && (ref == null || t.ref === ref))
     .sort((a, b) => String(b.created_at).localeCompare(String(a.created_at))).slice(0, attempts);
-  return new Set(hist.flatMap(t => (t.details || []).map(d => d.id || d.key).filter(Boolean)));
+  return new Set(hist.flatMap(t => (Array.isArray(t.details) ? t.details : []).map(d => d?.id || d?.key).filter(Boolean)));
 }
 /** Спершу те, чого не бачили в останніх спробах (випадково), потім решта */
 const freshFirst = (list, seen) => {
