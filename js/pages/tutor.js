@@ -17,7 +17,7 @@ import { toast } from '../ui/toast.js';
 import { setTitle, setFocus } from '../ui/shell.js';
 import { go } from '../router.js';
 import { about, rememberFacts, undoRemember } from './profile.js';
-import { tx, txPrimary, txGrid, txGroup, txRows, txRow, txKpis, txPill, txDots } from '../ui/tiles.js';
+import { tx, txPrimary, txGrid, txGroup, txRows, txRow, txKpis, txPill, txDots, txResult, txLogin } from '../ui/tiles.js';
 import { savePhrases, guessSituation, hasPhrase, situation as phraseSit } from '../phrases.js';
 import { markUsedWords, MIN_CHATS } from '../usage.js';
 
@@ -58,7 +58,8 @@ export default async function tutorPage(view, r) {
   // місія з життя: сценарій без id, лежить у sessionStorage (див. missionsBlock)
   const mission = q.mission ? readMission() : null;
   if (q.mission && !mission) {
-    view.replaceChildren(h('div.empty', emo('flag', 'xl'), h('p', 'Місію не знайдено — складіть нові на сторінці вчителя.'), h('a.btn.soft', { href: '#/tutor' }, 'До вчителя')));
+    view.replaceChildren(stateScreen({ icon: 'flag', label: 'Місія', title: 'Місію не знайдено', sub: 'Складіть нові місії на сторінці вчителя.' },
+      txPrimary({ icon: 'chalkboard-teacher', label: 'До вчителя', href: '#/tutor' })));
     return;
   }
   if (q.mode === 'voice') {
@@ -175,9 +176,14 @@ export function phraseSaved(r, sit) {
 
 function needLoginCard() {
   if (user()) return null;
-  return tx({ icon: 'key', label: 'Вчитель працює після входу', sub: 'AI працює через захищений сервер, тому потрібен акаунт.', wide: true, tone: 'warn', href: '#/auth',
-    end: h('span.btn.sm.soft', 'Увійти') });
+  return txLogin('Вчитель працює після входу', 'AI працює через захищений сервер, тому потрібен акаунт.');
 }
+
+/** Екран стану (не знайдено, помилка, очікування): спільна шапка txResult + дії */
+function stateScreen(head, ...acts) {
+  return h('div.stack-lg.tu-state', txResult(head), ...acts.filter(Boolean));
+}
+const backToTutor = () => tx({ icon: 'chalkboard-teacher', label: 'До вчителя', href: '#/tutor', wide: true });
 
 function overview(view) {
   const st = store.settings();
@@ -459,12 +465,20 @@ async function chat(view, opts) {
 
 async function openChat(view, id) {
   const row = store.get('tutor_chats', id);
-  if (!row) { view.replaceChildren(h('div.empty', h('p', 'Розмову не знайдено'), h('a.btn.soft', { href: '#/tutor' }, 'До вчителя'))); return; }
+  if (!row) {
+    view.replaceChildren(stateScreen({ icon: 'magnifying-glass', label: 'Вчитель', title: 'Розмову не знайдено', sub: 'Можливо, її видалено на іншому пристрої.' },
+      txPrimary({ icon: 'chalkboard-teacher', label: 'До вчителя', href: '#/tutor' })));
+    return;
+  }
   // записи щоденника живуть у tutor_chats (mode 'diary'), але відкриваються на своїй сторінці
   if (row.mode === 'diary') { go('/diary/' + encodeURIComponent(id), { replace: true }); return; }
   if (row.mode === 'check') return checkResultView(view, row);
   // консультація без тексту (повний текст розмов зберігається 30 днів) — підсумку в неї немає
-  if (row.mode === 'coach' && !row.messages?.length) { view.replaceChildren(h('div.empty', emo('chart-pie-slice', 'xl'), h('p', 'Текст цієї консультації вже не зберігається.'), h('a.btn.soft', { href: `#/tutor?mode=coach&section=${encodeURIComponent(row.meta?.section || 'overview')}` }, 'Нова консультація'))); return; }
+  if (row.mode === 'coach' && !row.messages?.length) {
+    view.replaceChildren(stateScreen({ icon: 'chart-pie-slice', label: 'Консультація', title: 'Текст консультації вже не зберігається', sub: 'Повний текст розмов зберігається 30 днів.' },
+      txPrimary({ icon: 'chat-circle-dots', label: 'Нова консультація', href: `#/tutor?mode=coach&section=${encodeURIComponent(row.meta?.section || 'overview')}` }), backToTutor()));
+    return;
+  }
   if (!row.messages?.length) return summaryView(view, row);
   let scenario = null;
   if (row.scenario) scenario = (await loadScenarios()).find(s => s.id === row.scenario);
@@ -896,8 +910,8 @@ const SPEECH_KEYS = ['words', 'speech_sec', 'wpm', 'avg_len', 'repeats', 'filler
 /** opts.voice — голосова сесія; opts.pronTurns — репліки з аудіо для оцінки вимови (лише одразу після голосу, у пам'яті) */
 export async function summarize(view, row, { voice = false, pronTurns = null } = {}) {
   setFocus(false);
-  const stepEl = h('p.dim.small.sum-wait', { 'aria-live': 'polite' }, SUMMARY_STEPS[0]);
-  view.replaceChildren(h('div.hero', emo('hourglass', 'xl'), h('h2', 'Вчитель готує підсумок…'), stepEl,
+  const stepEl = h('span.sum-wait', { 'aria-live': 'polite' }, SUMMARY_STEPS[0]);
+  view.replaceChildren(stateScreen({ icon: 'hourglass', tone: 'accent', label: 'Підсумок розмови', title: 'Вчитель готує підсумок…', sub: stepEl },
     h('div.sum-wait-bar', { 'aria-hidden': 'true' }, h('i'))));
   let step = 0;
   const tick = setInterval(() => {
@@ -955,8 +969,8 @@ export async function summarize(view, row, { voice = false, pronTurns = null } =
     // новий сервер повертає й факти про учня з усієї розмови
     if (Array.isArray(res.memory) && res.memory.length) rememberFacts(res.memory);
   } catch (e) {
-    view.replaceChildren(h('div.hero', emo('warning', 'xl'), h('p', aiErrorText(e) || S.err.generic),
-      h('div.row', h('a.btn.soft', { href: '#/tutor' }, 'До вчителя'), h('button.btn.primary', { type: 'button', onclick: () => summarize(view, row, { voice, pronTurns }) }, 'Спробувати ще раз'))));
+    view.replaceChildren(stateScreen({ icon: 'warning', tone: 'bad', label: 'Підсумок розмови', title: 'Не вдалося зробити підсумок', sub: aiErrorText(e) || S.err.generic, role: 'alert' },
+      txPrimary({ icon: 'arrow-clockwise', label: 'Спробувати ще раз', sub: 'розмова збережена', onclick: () => summarize(view, row, { voice, pronTurns }) }), backToTutor()));
     return;
   } finally { clearInterval(tick); }
   return summaryView(view, row, { pronTurns });
@@ -1005,7 +1019,8 @@ function usedKnownCard(s) {
 export function summaryView(view, row, { pronTurns = null } = {}) {
   const s = row.summary;
   if (!s || s.partial) {
-    view.replaceChildren(h('div.hero', h('p', 'Підсумку ще немає.'), h('button.btn.primary', { type: 'button', onclick: () => summarize(view, row, { voice: row.mode === 'voice' }) }, 'Зробити підсумок')));
+    view.replaceChildren(stateScreen({ icon: 'notebook', label: 'Підсумок розмови', title: 'Підсумку ще немає', sub: 'Вчитель розбере розмову: помилки, нові слова, рівень.' },
+      txPrimary({ icon: 'sparkle', label: 'Зробити підсумок', onclick: () => summarize(view, row, { voice: row.mode === 'voice' }) }), backToTutor()));
     return;
   }
   const words = (s.new_words || []).filter(w => w?.en);
@@ -1070,8 +1085,9 @@ export function summaryView(view, row, { pronTurns = null } = {}) {
   const topType = Object.keys(byType).sort((a, b) => byType[b] - byType[a])[0];
 
   const min = Math.round((row.seconds || 0) / 60);
+  const lvl = levelLabel(s);
   const kpis = txKpis([
-    s.level_signal ? { value: levelLabel(s), label: 'рівень у розмові', tone: 'accent' } : { value: turns, label: plural(turns, 'репліка', 'репліки', 'реплік') },
+    lvl ? { value: lvl, label: 'рівень у розмові', tone: 'accent' } : { value: turns, label: plural(turns, 'репліка', 'репліки', 'реплік') },
     { value: min || '<1', unit: 'хв', label: 'тривалість', ariaLabel: `Тривалість: ${fmtMin(row.seconds || 0)}` },
     { value: mistakes.length, label: plural(mistakes.length, 'помилка', 'помилки', 'помилок'), tone: mistakes.length ? 'warn' : 'good' },
   ]);
@@ -1085,7 +1101,7 @@ export function summaryView(view, row, { pronTurns = null } = {}) {
   view.replaceChildren(h('div.stack-lg.tutor-summary',
     h('div.tu-sumhead', h('span.tx-sq', ic('sparkle', { size: 26, fill: true })),
       h('div.tx-body', h('h1.tu-sumh1', 'Підсумок розмови'),
-        h('span.tx-s', [row.title || '', s.level_signal && turns ? `${turns} ${plural(turns, 'репліка', 'репліки', 'реплік')}` : ''].filter(Boolean).join(' · ')))),
+        h('span.tx-s', [row.title || '', lvl && turns ? `${turns} ${plural(turns, 'репліка', 'репліки', 'реплік')}` : ''].filter(Boolean).join(' · ')))),
     kpis,
     assessmentCard(s),
     s.summary || s.practised_words?.length ? txGroup('Що ви практикували', h('div.tu-panel.stack', s.summary ? h('div.tu-md', md(s.summary)) : null,
@@ -1174,18 +1190,22 @@ function masteredCard(s) {
 
 /** Метрики мовлення голосової сесії + порада з плавності */
 function speechCard(s) {
-  const sp = s.speech;
+  const sp = s.speech && typeof s.speech === 'object' ? s.speech : null;
+  // метрики можуть бути неповними (стара версія, «рація») — показуємо лише виміряні числа
+  const num = (v) => { const n = Number(v); return v != null && v !== '' && Number.isFinite(n) && n >= 0 ? n : null; };
+  const words = num(sp?.words), wpm = num(sp?.wpm), avg = num(sp?.avg_len), rep = num(sp?.repeats), uniq = num(sp?.unique_ratio), turns = num(sp?.turns), fillers = num(sp?.fillers);
   const tip = String(s.fluency_tip_uk || '').trim();
-  if (!sp?.words && !tip) return null;
-  const stats = sp?.words ? [
-    sp.wpm > 0 ? { value: String(sp.wpm), label: 'темп, слів/хв' } : null,
-    { value: String(sp.avg_len), label: 'середня репліка, слів' },
-    { value: String(sp.repeats || 0), label: 'повтори («I I»)', tone: sp.repeats > 5 ? 'warn' : '' },
-    { value: `${Math.round((sp.unique_ratio || 0) * 100)}%`, label: 'різноманітність словника' },
+  if (!words && !tip) return null;
+  const stats = words ? [
+    wpm > 0 ? { value: String(Math.round(wpm)), label: 'темп, слів/хв' } : null,
+    avg != null ? { value: String(Math.round(avg * 10) / 10), label: 'середня репліка, слів' } : null,
+    rep != null ? { value: String(rep), label: 'повтори («I I»)', tone: rep > 5 ? 'warn' : '' } : null,
+    uniq != null ? { value: `${Math.round(Math.min(1, uniq) * 100)}%`, label: 'різноманітність словника' } : null,
   ].filter(Boolean) : [];
+  const told = words ? `${words} ${plural(words, 'слово', 'слова', 'слів')}${turns ? ` за ${turns} ${plural(turns, 'репліку', 'репліки', 'реплік')}` : ''}${fillers ? ` · «е-е»: ${fillers}` : ''}. ` : '';
   return txGroup('Як ви говорили', [
     stats.length ? txKpis(stats, 2) : null,
-    sp?.words ? note(`${sp.words} ${plural(sp.words, 'слово', 'слова', 'слів')} за ${sp.turns} ${plural(sp.turns, 'репліку', 'репліки', 'реплік')}${sp.fillers ? ` · «е-е»: ${sp.fillers}` : ''}. Для тих, хто вчить мову, типово 60–110 слів/хв, вільне мовлення — 120–160.`) : null,
+    words ? note(`${told}Для тих, хто вчить мову, типово 60–110 слів/хв, вільне мовлення — 120–160.`) : null,
     tip ? h('div.tx-row.sum-tip', h('span.tx-sq.tu-accent', ic('lightbulb', { size: 18 })), h('div.tx-body', h('span.tx-l', 'Порада з плавності'), h('span.tx-s', mdInline(tip)))) : null]);
 }
 
@@ -1256,14 +1276,24 @@ function disagreeBtn(f, row, onDone) {
 const CRIT_UK = { range: 'Словник і граматика', accuracy: 'Точність', fluency: 'Плавність', interaction: 'Взаємодія', coherence: 'Зв\'язність' };
 const SUB_UK = { low: 'нижня межа', mid: 'середина рівня', high: 'верхня межа' };
 const CONF_UK = { low: 'приблизна оцінка', medium: 'досить упевнено', high: 'упевнено' };
+const CEFR = ['A1', 'A2', 'B1', 'B2', 'C1'];
+/** Рівень розмови лише з A1–C1 (зіпсований level_signal — true, «b1+», порожньо — не показується) */
+function levelOf(v) {
+  const l = typeof v === 'string' ? v.trim().toUpperCase().replace(/\+$/, '') : '';
+  return CEFR.includes(l) ? l : null;
+}
 function levelLabel(s) {
+  const lvl = levelOf(s.level_signal);
+  if (!lvl) return null;
   const a = s.level_assessment;
-  return a && a.sublevel === 'high' ? `${s.level_signal}+` : s.level_signal;
+  return a && a.sublevel === 'high' ? `${lvl}+` : lvl;
 }
 /** Чому саме такий рівень: критерії CEFR з прикладами з розмови */
 function assessmentCard(s) {
   const a = s.level_assessment;
-  if (!s.level_signal || !a) return null;
+  if (!levelLabel(s) || !a || typeof a !== 'object') return null;
+  const criteria = (Array.isArray(a.criteria) ? a.criteria : []).filter(c => c && (CRIT_UK[c.name] || c.name));
+  const reasons = (Array.isArray(a.reasons_uk) ? a.reasons_uk : []).filter(r => typeof r === 'string' && r.trim());
   // загальний рівень за останніми розмовами (зважено за обсягом мовлення й упевненістю) — стабільніший за одну розмову
   const rolling = h('div.tx-row.rolling-level', { hidden: true });
   import('../analysis.js').then(({ conversationLevel }) => {
@@ -1278,23 +1308,23 @@ function assessmentCard(s) {
       h('div.tu-mhead', h('span.tx-no.tu-lvl', levelLabel(s)),
         h('div.tx-body', h('span.tx-l', 'Ця розмова'), h('span.tx-s', `${SUB_UK[a.sublevel] || ''}${a.enough_data ? '' : ' · замало мовлення для точної оцінки — поговоріть довше'}`)),
         CONF_UK[a.confidence] ? txPill(CONF_UK[a.confidence], a.confidence === 'low' ? 'warn' : '') : null),
-      a.criteria.length ? h('div.tu-crit', a.criteria.map(c => h('div.tu-crit-row',
-        h('span.tx-no', c.level),
+      criteria.length ? h('div.tu-crit', criteria.map(c => h('div.tu-crit-row',
+        h('span.tx-no', levelOf(c.level) || '—'),
         h('div.tx-body', h('span.tx-l', CRIT_UK[c.name] || c.name), c.note_uk ? h('span.tx-s', mdInline(c.note_uk)) : null)))) : null,
-      a.reasons_uk.length ? h('div.stack', { style: { gap: '4px' } }, h('div.tx-label', 'Чому так'), h('ul.small.tu-ul', a.reasons_uk.map(r => h('li', mdInline(r))))) : null,
-      a.to_next_uk ? h('div.small', h('b', 'До наступного рівня: '), mdInline(a.to_next_uk)) : null),
+      reasons.length ? h('div.stack', { style: { gap: '4px' } }, h('div.tx-label', 'Чому так'), h('ul.small.tu-ul', reasons.map(r => h('li', mdInline(r))))) : null,
+      typeof a.to_next_uk === 'string' && a.to_next_uk ? h('div.small', h('b', 'До наступного рівня: '), mdInline(a.to_next_uk)) : null),
     rolling]);
 }
 
 /** «Видалити розмову» — на екранах підсумку й перевірки тексту */
 function deleteButton(row) {
-  return h('button.btn.ghost.block', { type: 'button', style: { color: 'var(--bad)' }, onclick: async () => {
+  return txRow({ icon: 'trash', label: 'Видалити розмову', sub: 'разом з її часом і помилками', cls: 'tu-del', chevron: false, onclick: async () => {
     if (!row.id) { go('/tutor', { replace: true }); return; }
     if (!await confirmSheet('Видалити розмову?', 'Разом із нею зі статистики приберуться її час і помилки з підсумку.', 'Видалити', { danger: true })) return;
     deleteChat(row.id);
     toast('Розмову видалено');
     go('/tutor', { replace: true });
-  } }, ic('trash', { size: 18 }), 'Видалити розмову');
+  } });
 }
 
 // ---------- Перевір мій текст ----------
@@ -1306,17 +1336,18 @@ function checkMode(view, q) {
   try { draft = sessionStorage.getItem('me:draft') || ''; sessionStorage.removeItem('me:draft'); } catch { /* приватний режим */ }
   let kind = q.kind || 'email';
   const ta = h('textarea.input', { rows: 10, placeholder: 'Вставте лист або текст англійською…', 'aria-label': 'Текст', value: draft });
-  const btn = h('button.btn.primary.block.lg', { type: 'button', onclick: run }, ic('sparkle', { fill: true }), 'Перевірити');
+  const btn = txPrimary({ icon: 'sparkle', label: 'Перевірити', sub: 'граматика, лексика, тон і структура', onclick: run });
   const chips = h('div.chips', KINDS.filter(([v]) => v !== 'report' || store.settings().workFocus).map(([v, t]) => h('button.chip', { type: 'button', 'aria-pressed': String(v === kind), onclick: (e) => { kind = v; chips.querySelectorAll('.chip').forEach(c => c.setAttribute('aria-pressed', 'false')); e.currentTarget.setAttribute('aria-pressed', 'true'); } }, t)));
   view.replaceChildren(h('div.stack',
-    h('div.row', h('a.icon-btn', { href: '#/tutor', 'aria-label': 'Назад' }, ic('arrow-left')), h('h1.grow', { style: { margin: 0 } }, 'Перевір мій текст')),
+    h('div.gx-lhead', h('a.icon-btn', { href: '#/tutor', 'aria-label': 'До вчителя' }, ic('arrow-left')),
+      h('div.grow', h('div.tx-label.gx-eyebrow', 'Вчитель'), h('h1.gx-lh1', 'Перевір мій текст'))),
     needLoginCard(), chips, ta, btn,
     q.task ? h('p.xs.dim', `Завдання: ${q.task}`) : null));
   const timer = activityTimer('writing');
   async function run() {
     const text = ta.value.trim();
     if (text.length < 10) { toast('Додайте текст — хоча б одне речення'); return; }
-    btn.disabled = true; btn.textContent = 'Вчитель читає…';
+    btn.disabled = true; repaintTx(btn, 'hourglass', 'Вчитель читає…', 'до пів хвилини');
     try {
       const res = await tutor('check_text', { text, kind, task: q.task || null });
       const row = store.put('tutor_chats', { mode: 'check', title: `Перевірка: ${text.slice(0, 40)}…`, messages: [{ role: 'user', text }], summary: res, seconds: Math.round(timer.seconds()) });
@@ -1325,7 +1356,7 @@ function checkMode(view, q) {
       timer.setRef(row.id);
       timer.stop();
       checkResultView(view, row);
-    } catch (e) { toast(aiErrorText(e), { kind: 'bad' }); btn.disabled = false; btn.textContent = 'Перевірити'; }
+    } catch (e) { toast(aiErrorText(e), { kind: 'bad' }); btn.disabled = false; repaintTx(btn, 'sparkle', 'Перевірити', 'граматика, лексика, тон і структура'); }
   }
   return () => timer.stop();
 }
@@ -1334,17 +1365,26 @@ function checkResultView(view, row) {
   const r = row.summary || {};
   const sc = r.scores || {};
   const label = { grammar: 'Граматика', vocabulary: 'Лексика', tone: 'Тон', structure: 'Структура' };
-  view.replaceChildren(h('div.stack-lg',
-    h('div.row', h('a.icon-btn', { href: '#/tutor', 'aria-label': 'Назад' }, ic('arrow-left')), h('h1.grow', { style: { margin: 0 } }, 'Результат перевірки')),
-    txKpis(Object.keys(label).map(k => ({ value: sc[k] ?? '—', unit: '/10', label: label[k], tone: sc[k] >= 8 ? 'good' : sc[k] != null && sc[k] < 5 ? 'warn' : '' })), 2),
-    r.comment_uk ? h('section.card', md(r.comment_uk)) : null,
-    (r.corrections || []).length ? h('section.card.stack', h('div.section-title', 'Виправлення'),
-      r.corrections.map(c => h('div.stack', { style: { gap: '2px' } }, h('div', h('s.bad', c.wrong), ' → ', h('b.good', c.right)), c.explanation_uk ? h('div.xs.dim', c.explanation_uk) : null))) : null,
-    r.improved ? h('section.card.stack', h('div.row', h('div.section-title.grow', 'Покращена версія'),
-      h('button.btn.sm.soft', { type: 'button', onclick: () => { navigator.clipboard?.writeText(r.improved); toast('Скопійовано'); } }, ic('copy', { size: 16 }), 'Копіювати')),
-    h('div', { style: { whiteSpace: 'pre-wrap' } }, r.improved)) : null,
-    row.messages?.[0] ? h('details.card', h('summary.small.dim', 'Оригінал'), h('div.small', { style: { whiteSpace: 'pre-wrap', marginTop: '8px' } }, row.messages[0].text)) : null,
-    h('a.btn.primary.block', { href: '#/tutor?mode=check', onclick: (e) => { e.preventDefault(); go('/tutor?mode=check'); } }, 'Перевірити інший текст'),
-    deleteButton(row)));
+  const fixes = (Array.isArray(r.corrections) ? r.corrections : []).filter(c => c?.wrong || c?.right);
+  const nums = Object.keys(label).map(k => Number(sc[k])).filter(Number.isFinite);
+  const avg = nums.length ? nums.reduce((x, y) => x + y, 0) / nums.length : null;
+  const tone = !fixes.length && (avg == null || avg >= 8) ? 'good' : avg != null && avg < 5 ? 'warn' : 'accent';
+  view.replaceChildren(h('div.stack-lg.tu-check',
+    txResult({ icon: tone === 'good' ? 'check-circle' : 'pencil-line', tone, label: 'Перевір мій текст', title: 'Результат перевірки',
+      sub: fixes.length ? `${fixes.length} ${plural(fixes.length, 'виправлення', 'виправлення', 'виправлень')} — уже в «Моїх помилках»` : 'Виправлень немає — текст написано добре' }),
+    txKpis(Object.keys(label).map(k => {
+      const v = Number(sc[k]), ok = sc[k] != null && Number.isFinite(v);
+      return { value: ok ? v : '—', unit: '/10', label: label[k], tone: ok && v >= 8 ? 'good' : ok && v < 5 ? 'warn' : '' };
+    }), 2),
+    r.comment_uk ? txGroup('Коментар вчителя', h('div.tu-panel.tu-md', md(r.comment_uk))) : null,
+    fixes.length ? txGroup(`Виправлення · ${fixes.length}`, txRows(fixes.map((c, i) => h('div.tx-row.sum-mistake',
+      h('span.tx-no', String(i + 1)),
+      h('div.tx-body', fixLine(c), c.explanation_uk ? h('span.tx-s', mdInline(c.explanation_uk)) : null))))) : null,
+    r.improved ? txGroup('Покращена версія', [
+      h('div.tu-panel.tu-improved', { lang: 'en' }, r.improved),
+      txRows([txRow({ icon: 'copy', label: 'Копіювати', sub: 'покращений текст — у буфер обміну', chevron: false, onclick: () => { navigator.clipboard?.writeText(r.improved); toast('Скопійовано'); } })])]) : null,
+    row.messages?.[0] ? h('details.card.tu-orig', h('summary.small.dim', 'Оригінал'), h('div.small', { style: { whiteSpace: 'pre-wrap', marginTop: '8px' } }, row.messages[0].text)) : null,
+    txPrimary({ icon: 'pencil-line', label: 'Перевірити інший текст', href: '#/tutor?mode=check', onclick: (e) => { e.preventDefault(); go('/tutor?mode=check'); } }),
+    txRows([txRow({ icon: 'chalkboard-teacher', label: 'До вчителя', href: '#/tutor' }), deleteButton(row)])));
 }
 
