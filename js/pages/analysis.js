@@ -1,7 +1,7 @@
 // Аналіз: чесна картина навчання з локальних даних (без AI) + глибокий аналіз від вчителя (дія tutor 'analysis')
 // і вхід у «Консультацію» (режим вчителя 'coach') з кожного розділу.
 import { h, ic } from '../ui/dom.js';
-import { tx, txPrimary, txKpis, txRow, txRows } from '../ui/tiles.js';
+import { tx, txPrimary, txKpis, txRow, txRows, txLogin } from '../ui/tiles.js';
 import { S, plural } from '../strings.js';
 import * as store from '../store.js';
 import { md, mdInline } from '../ui/md.js';
@@ -90,7 +90,7 @@ function deepCard(A) {
     const bits = [];
     if (!c) bits.push(h('div.small.dim', 'Вчитель отримає стисле зведення ваших результатів (числа, тренди й до 15 прикладів помилок — без текстів розмов) і поверне чесний розбір: сильні й слабкі сторони з доказами та план на 14 днів.'));
     if (err) bits.push(h('div.small.bad', { role: 'alert' }, err));
-    if (!user()) bits.push(h('div.small.dim', 'Глибокий аналіз працює після входу.'), tx({ icon: 'user', label: 'Увійти', href: '#/auth', wide: true }));
+    if (!user()) bits.push(txLogin('Глибокий аналіз — після входу', 'Вчитель поверне розбір і план на 14 днів'));
     else if (!c) bits.push(txPrimary({ icon: 'sparkle', label: 'Глибокий аналіз від вчителя', sub: 'сильні й слабкі сторони, план на 14 днів', onclick: run }));
     if (c) {
       bits.push(...result(c.data));

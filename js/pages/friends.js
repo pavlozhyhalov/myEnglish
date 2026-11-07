@@ -7,7 +7,7 @@ import { user, getSupa } from '../supa.js';
 import { toast } from '../ui/toast.js';
 import { confirmSheet } from '../ui/sheet.js';
 import { streak, dayKey } from '../stats.js';
-import { tx, txGrid, txGroup, txPrimary } from '../ui/tiles.js';
+import { tx, txGrid, txGroup, txRow, txLogin } from '../ui/tiles.js';
 
 const days = (n) => `${n} ${plural(n, 'день', 'дні', 'днів')}`;
 const mins = (sec) => `${Math.round((sec || 0) / 60)}\u00a0хв`;
@@ -54,9 +54,9 @@ export default function friends(view, r) {
   const u = user();
   if (!u) {
     view.replaceChildren(h('div.stack-lg',
-      tx({ icon: 'users', wide: true, cls: 'fr-head', label: 'Друзі й спільний стрік працюють після входу',
-        sub: 'Ви отримаєте код запрошення, поділитеся ним — і бачитимете стрік та хвилини одне одного. Більше друзі нічого не бачать.' }),
-      txPrimary({ icon: 'key', label: 'Увійти', sub: 'Або створити акаунт', href: '#/auth' })));
+      txLogin('Друзі й спільний стрік — після входу', 'Або створіть акаунт — вхід і реєстрація на одній сторінці'),
+      tx({ icon: 'users', wide: true, cls: 'fr-head', label: 'Як це працює',
+        sub: 'Ви отримаєте код запрошення, поділитеся ним — і бачитимете стрік та хвилини одне одного. Більше друзі нічого не бачать.' })));
     return;
   }
 
@@ -171,7 +171,8 @@ export default function friends(view, r) {
       list.replaceChildren(meRow, ...rows.map(f => friendRow(f, mine)));
     } catch (e) {
       console.warn('friends_stats', e);
-      if (alive) list.replaceChildren(h('div.tx-row', h('span.tx-s.fr-msg', navigator.onLine ? 'Не вдалося завантажити друзів. Спробуйте пізніше.' : 'Немає мережі — список друзів недоступний.')));
+      if (alive) list.replaceChildren(txRow({ icon: 'warning-circle', label: navigator.onLine ? 'Не вдалося завантажити друзів' : 'Немає мережі',
+        sub: navigator.onLine ? 'Спробуйте пізніше' : 'Список друзів недоступний офлайн', pill: { text: navigator.onLine ? 'Помилка' : 'Офлайн', tone: 'warn' }, attrs: { role: 'alert' } }));
     }
   }
 

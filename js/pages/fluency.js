@@ -5,7 +5,7 @@ import { plural } from '../strings.js';
 import { tutor, aiErrorText } from '../ai.js';
 import { speak, stop as stopSpeech, blobToBase64 } from '../speech.js';
 import { setTitle, setFocus } from '../ui/shell.js';
-import { tx, txPrimary, txGrid, txGroup, txKpis, txRow, txRows } from '../ui/tiles.js';
+import { tx, txPrimary, txGrid, txGroup, txKpis, txRow, txRows, txLogin } from '../ui/tiles.js';
 import { skelLines } from '../ui/skeleton.js';
 import { activityTimer } from '../stats.js';
 import { user } from '../supa.js';
@@ -56,8 +56,7 @@ function stateCard({ icon, tone = '', title, lines = [], extra = [], cls = '', a
 
 function loginCard() {
   return txGroup('Потрібен вхід в акаунт', [
-    h('p.xs.dim.fl-note', 'Ваше мовлення дослівно розпізнає AI — з усіма «uh» і повторами, щоб їх порахувати. Це працює після входу.'),
-    txPrimary({ icon: 'user', label: 'Увійти', sub: 'Запис і розбір мовлення', href: '#/auth' }),
+    txLogin('Запис і розбір мовлення — після входу', 'Мовлення дослівно розпізнає AI — з усіма «uh» і повторами, щоб їх порахувати'),
     tx({ icon: 'quotes', wide: true, label: 'Фрази «замість uh»', sub: 'Можна вчити й без входу', href: '#/fluency/gambits' })]);
 }
 
