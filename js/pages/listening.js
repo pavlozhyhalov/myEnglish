@@ -3,6 +3,7 @@ import { h, ic, emo, seg, progress } from '../ui/dom.js';
 import { S, plural } from '../strings.js';
 import * as store from '../store.js';
 import { listening as loadListening } from '../data.js';
+import { go } from '../router.js';
 import { speak, stop as stopSpeech } from '../speech.js';
 import { normalize } from '../ui/exercises.js';
 import { activityTimer, addMistake } from '../stats.js';
@@ -10,38 +11,66 @@ import { tutor, aiErrorText } from '../ai.js';
 import { user } from '../supa.js';
 import { toast } from '../ui/toast.js';
 import { LEVELS, myLevel, byFit, levelTag, rank, levelChips, levelCounts, levelPick, filterByLevel, fallbackNote, pickOfDay } from '../level.js';
-import { tx, txPrimary, txGroup, txRow, txRows, txGrid, txKpis, txPill } from '../ui/tiles.js';
+import { tx, txPrimary, txGroup, txRow, txRows, txGrid, txKpis, txPill, txResult } from '../ui/tiles.js';
 
 /** Іконка з мапи emo() у квадратику плитки */
 const sqEmo = (el, name) => { const e = emo(name); e.setAttribute('width', 18); e.setAttribute('height', 18); el.querySelector('.tx-sq')?.replaceChildren(e); return el; };
 
-let openTitle = null;
+// Діалог і диктант — власні адреси (#/listening/dialogue/<номер>, #/listening/dictation?level=B1): вкладки розділу
+// й перемикачі «Диктант · Діалоги», «US · UK» показуються лише на головній сторінці аудіювання.
+let aiDialogue = null;      // діалог від AI (адреси не має — #/listening/dialogue/ai)
+let fromList = false;       // відкрито зі списку — «Назад» повертає туди ж історією
+
+/** Повернутися до списку розділу: історією, якщо прийшли з нього, інакше — заміною адреси */
+function backTo(path) {
+  if (fromList) { fromList = false; history.back(); } else go(path, { replace: true });
+}
+/** Адреса готового діалогу: номер у data/listening.json */
+const dialogueHref = (data, d) => `/listening/dialogue/${data.dialogues.indexOf(d) + 1}`;
+/** Відкрити підсторінку розділу з головної сторінки аудіювання */
+function openSub(path) { fromList = true; go(path); }
 
 export default async function listening(view, r) {
   const data = await loadListening();
   const timer = activityTimer('listening');
-  let tab = r.query.tab || 'dictation';
-  openTitle = tab === 'dialogues' ? r.query.d || null : null;   // посилання з головної «Завдання рівня» відкриває конкретний діалог
-  if (openTitle) history.replaceState(null, '', '#/listening?tab=dialogues');   // «Назад» і перезавантаження — до списку
+  const cleanup = () => { stopSpeech(); timer.stop(); };
+  const [sub, id] = r.parts;
+  if (sub === 'dialogue') {
+    const d = id === 'ai' ? aiDialogue : data.dialogues[Number(id) - 1];
+    if (!d) { go('/listening?tab=dialogues', { replace: true }); return cleanup; }
+    playDialogue(view, d, timer, () => backTo('/listening?tab=dialogues'));
+    return cleanup;
+  }
+  if (sub === 'dictation') {
+    runDictation(view, data, timer, r.query.level);
+    return cleanup;
+  }
+  fromList = false;
+  let tab = r.query.tab === 'dialogues' ? 'dialogues' : 'dictation';
+  // посилання з головної «Завдання рівня» відкриває конкретний діалог
+  if (tab === 'dialogues' && r.query.d) {
+    const d = data.dialogues.find(x => x.title === r.query.d);
+    if (d) { go(dialogueHref(data, d), { replace: true }); return cleanup; }
+  }
   const body = h('div');
   const accent = seg([['US', 'US'], ['UK', 'UK']], store.settings().accent, v => store.setSetting('accent', v));
-  const tabs = seg([['dictation', 'Диктант'], ['dialogues', 'Діалоги']], tab, v => { tab = v; draw(); });
+  // вкладка — в адресі (без нового запису історії): «Назад» з діалогу повертає на ту саму вкладку
+  const tabs = seg([['dictation', 'Диктант'], ['dialogues', 'Діалоги']], tab, v => { tab = v; history.replaceState(history.state, '', v === 'dialogues' ? '#/listening?tab=dialogues' : '#/listening'); draw(); });
   view.replaceChildren(h('div.stack-lg', h('div.row', h('div.grow', tabs), h('div', { style: { width: '120px' } }, accent)), body));
-  function draw() { body.__gen = (body.__gen || 0) + 1; stopSpeech(); tab === 'dictation' ? dictation(body, data, timer) : dialogues(body, data, timer); }
+  function draw() { body.__gen = (body.__gen || 0) + 1; stopSpeech(); tab === 'dictation' ? dictation(body, data) : dialogues(body, data); }
   draw();
-  return () => { stopSpeech(); timer.stop(); };
+  return cleanup;
 }
 
 // ---------- Диктант ----------
-function dictation(box, data, timer) {
-  const levels = LEVELS.filter(l => data.dictation.some(d => d.level === l));
-  // за замовчуванням — найближчий до мого рівня
-  let level = levels.slice().sort((a, b) => Math.abs(rank(a) - rank(myLevel())) - Math.abs(rank(b) - rank(myLevel())))[0];
-  const start = () => {
-    const pool = data.dictation.filter(d => d.level === level);
-    const items = pool.sort(() => Math.random() - 0.5).slice(0, 8);
-    run(items);
-  };
+const dictLevels = (data) => LEVELS.filter(l => data.dictation.some(d => d.level === l));
+/** Рівень диктанту за замовчуванням — найближчий до мого */
+const defaultDictLevel = (levels) => levels.slice().sort((a, b) => Math.abs(rank(a) - rank(myLevel())) - Math.abs(rank(b) - rank(myLevel())))[0];
+
+function dictation(box, data) {
+  const levels = dictLevels(data);
+  let level = defaultDictLevel(levels);
+  const start = () => openSub(`/listening/dictation?level=${level}`);
   const startTile = txPrimary({ icon: 'headphones', label: 'Почати диктант', sub: `8 речень · рівень ${level}`, onclick: start });
   box.replaceChildren(h('div.stack-lg',
     txGroup('Рівень диктанту', [
@@ -51,6 +80,14 @@ function dictation(box, data, timer) {
       } }, l === myLevel() ? `Мій · ${l}` : l))),
       h('p.xs.dim.ls-note', 'Слухайте й набирайте почуте. За замовчуванням — ваш рівень, його можна змінити.')]),
     startTile));
+}
+
+/** Диктант (#/listening/dictation?level=B1): 8 речень, далі — підсумок на тій самій адресі */
+function runDictation(box, data, timer, wanted) {
+  const levels = dictLevels(data);
+  const level = levels.includes(wanted) ? wanted : defaultDictLevel(levels);
+  const fresh = () => data.dictation.filter(d => d.level === level).sort(() => Math.random() - 0.5).slice(0, 8);
+  run(fresh());
 
   function run(items) {
     let i = 0, totalPct = 0;
@@ -63,8 +100,8 @@ function dictation(box, data, timer) {
         timer.poke();
         box.replaceChildren(h('div.stack-lg',
           h('section.tx-group',
-            h('div.gx-res', h('span.gx-res-ic.' + tone(avg), ic(avg >= 80 ? 'trophy' : avg >= 60 ? 'thumbs-up' : 'barbell', { size: 26, fill: true })),
-              h('div.grow', h('div.tx-label', `Диктант · рівень ${level}`), h('div.gx-res-t', avg >= 90 ? 'Чуєте майже все — чудово' : avg >= 70 ? 'Добре чуєте — ще трохи практики' : 'Слухайте повільніше й частіше'))),
+            txResult({ icon: avg >= 80 ? 'trophy' : avg >= 60 ? 'thumbs-up' : 'barbell', tone: tone(avg), label: `Диктант · рівень ${level}`,
+              title: avg >= 90 ? 'Чуєте майже все — чудово' : avg >= 70 ? 'Добре чуєте — ще трохи практики' : 'Слухайте повільніше й частіше' }),
             txKpis([
               { value: avg, unit: '%', label: 'середня точність', tone: tone(avg) },
               { value: perfect, label: `з ${items.length} без помилок`, tone: perfect === items.length ? 'good' : null },
@@ -74,8 +111,8 @@ function dictation(box, data, timer) {
             pill: { text: `${scores[k]}%`, tone: tone(scores[k]) }, chevron: false, onclick: () => speak(it.text),
             attrs: { 'aria-label': `Прослухати: ${it.text}. Точність ${scores[k]}%` } })))),
           h('section.tx-group',
-            txPrimary({ icon: 'arrow-clockwise', label: 'Ще один диктант', sub: `8 нових речень · рівень ${level}`, onclick: () => { const pool = data.dictation.filter(d => d.level === level); run(pool.sort(() => Math.random() - 0.5).slice(0, 8)); } }),
-            tx({ icon: 'target', wide: true, label: 'Змінити рівень', sub: 'Рівні диктанту A1–C1', onclick: () => dictation(box, data, timer) }))));
+            txPrimary({ icon: 'arrow-clockwise', label: 'Ще один диктант', sub: `8 нових речень · рівень ${level}`, onclick: () => { window.scrollTo(0, 0); run(fresh()); } }),
+            tx({ icon: 'target', wide: true, label: 'Змінити рівень', sub: 'Рівні диктанту A1–C1', onclick: () => backTo('/listening') }))));
         return;
       }
       const it = items[i];
@@ -167,11 +204,11 @@ function wordMismatch(target, given) {
 }
 
 // ---------- Діалоги ----------
-function dialogues(box, data, timer) {
+function dialogues(box, data) {
   const topics = ['У кафе', 'Плани на вихідні', 'В аеропорту', 'Оренда квартири', 'У лікаря', 'Знайомство на вечірці', 'Покупки й повернення', 'Подорож потягом', 'Обговорення фільму', 'Співбесіда'];
   // діалоги вибраного рівня (за замовчуванням — мого)
   const listBox = h('div.stack');
-  const open = (d) => playDialogue(box, d, timer, () => dialogues(box, data, timer));
+  const open = (d) => openSub(dialogueHref(data, d));
   const drawList = () => {
     const { items, fallback } = filterByLevel(data.dialogues, levelPick('dialogues'));
     listBox.replaceChildren(fallbackNote(fallback), txRows(byFit(items).map(d => sqEmo(txRow({ icon: 'headphones', label: d.title, onclick: () => open(d),
@@ -179,11 +216,6 @@ function dialogues(box, data, timer) {
       end: levelTag(d.level) }), d.emoji || 'headphone'))));
   };
   drawList();
-  if (openTitle) {
-    const d = data.dialogues.find(x => x.title === openTitle);
-    openTitle = null;
-    if (d) { open(d); return; }
-  }
   // діалог дня — той самий, що в «Завданнях рівня» на головній
   const day = pickOfDay(filterByLevel(data.dialogues, 'mine').items, 'dialogue');
   box.replaceChildren(h('div.stack-lg',
@@ -196,7 +228,8 @@ function dialogues(box, data, timer) {
         const g = box.__gen;
         const d = await tutor('dialogue', { topic: t });
         if (box.__gen !== g || !box.isConnected) return;   // користувач перейшов на іншу вкладку
-        playDialogue(box, { ...d, level: 'AI', speakers: d.speakers }, timer, () => dialogues(box, data, timer));
+        aiDialogue = { ...d, level: 'AI', speakers: d.speakers };
+        openSub('/listening/dialogue/ai');
       } catch (err) { toast(aiErrorText(err), { kind: 'bad' }); chip.disabled = false; chip.textContent = t; }
     } }, t))))));
 }
