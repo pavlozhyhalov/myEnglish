@@ -1336,7 +1336,7 @@ function checkResultView(view, row) {
   const label = { grammar: 'Граматика', vocabulary: 'Лексика', tone: 'Тон', structure: 'Структура' };
   view.replaceChildren(h('div.stack-lg',
     h('div.row', h('a.icon-btn', { href: '#/tutor', 'aria-label': 'Назад' }, ic('arrow-left')), h('h1.grow', { style: { margin: 0 } }, 'Результат перевірки')),
-    h('section.card.grid2', Object.keys(label).map(k => h('div.stat', h('b', `${sc[k] ?? '—'}/10`), h('span', label[k])))),
+    txKpis(Object.keys(label).map(k => ({ value: sc[k] ?? '—', unit: '/10', label: label[k], tone: sc[k] >= 8 ? 'good' : sc[k] != null && sc[k] < 5 ? 'warn' : '' })), 2),
     r.comment_uk ? h('section.card', md(r.comment_uk)) : null,
     (r.corrections || []).length ? h('section.card.stack', h('div.section-title', 'Виправлення'),
       r.corrections.map(c => h('div.stack', { style: { gap: '2px' } }, h('div', h('s.bad', c.wrong), ' → ', h('b.good', c.right)), c.explanation_uk ? h('div.xs.dim', c.explanation_uk) : null))) : null,
