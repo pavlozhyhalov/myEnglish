@@ -101,7 +101,7 @@ export async function assessPhrase(text, { onRecording, onRecorded, signal, canc
 function practiceBlock(text, timer, { uk, onResult } = {}) {
   const out = h('div.small.pr-out', { 'aria-live': 'polite' });
   let ctrl = null;
-  // дії — міні-плитки: «Прослухати», «Повільно» і «Записати себе» на всю ширину (м'який акцент, без синьої кнопки в кожному блоці)
+  // дії — міні-плитки: «Прослухати», «Повільно» і «Записати себе» на всю ширину (нейтральні, як квадратики плиток; без синьої кнопки в кожному блоці)
   const act = (icon, label, onclick, cls = '', aria = null) => h('button.pr-act' + cls, { type: 'button', onclick, 'aria-label': aria }, ic(icon, { size: 18 }), h('span', label));
   const actions = h('div.pr-acts');
   const setIdle = () => {

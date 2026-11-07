@@ -313,7 +313,15 @@ async function placementTest(view) {
       choice = o;
       opts.forEach((b, j) => { b.classList.toggle('sel', j === k); b.setAttribute('aria-pressed', String(j === k)); });
       nextBtn.disabled = false;
-    } }, h('span.pl-key', String.fromCharCode(65 + k)), h('span.grow', { lang: 'en' }, o)));
+    } }, h('span.ex-key', { 'aria-hidden': 'true' }, String(k + 1)), h('span.grow', { lang: 'en' }, o)));
+    // клавіші 1–9 обирають варіант, як в інших вправах (поза полями введення, не під шторкою/меню); слухач знімається з питанням
+    const onKey = (e) => {
+      if (!opts[0].isConnected) { document.removeEventListener('keydown', onKey); return; }
+      if (done || e.ctrlKey || e.metaKey || e.altKey || opts[0].closest('[inert]') || e.target?.closest?.('input,textarea,select,[contenteditable="true"]')) return;
+      const n = Number(e.key);
+      if (Number.isInteger(n) && n >= 1 && n <= opts.length) { e.preventDefault(); opts[n - 1].click(); }
+    };
+    if (opts.length <= 9) document.addEventListener('keydown', onKey);
     const nextBtn = h('button.btn.primary.grow', { type: 'button', disabled: true, onclick: () => choice != null && record(choice === answerText({ ...q, type: 'choice' }), choice) }, 'Далі');
     const listen = q.audio ? h('button.btn.soft.sm', { type: 'button', onclick: () => {
       if (plays >= 3) return;
@@ -500,7 +508,7 @@ async function placementTest(view) {
     if (wr?.level) thetas.writing = CAT.productiveTheta(wr.level, wr.sublevel);
     if (run.speaking?.level) thetas.speaking = CAT.productiveTheta(run.speaking.level, 'mid');
     const o = CAT.overall(thetas);
-    if (!o) { clearRun(); view.replaceChildren(h('div.empty', h('p', 'Немає відповідей для оцінки.'), h('a.btn.soft', { href: '#/tests' }, 'До тестів'))); return; }
+    if (!o) { clearRun(); view.replaceChildren(h('div.empty', emo('memo', 'xl'), h('p', 'Немає відповідей для оцінки.'), h('a.btn.soft', { href: '#/tests' }, 'До тестів'))); return; }
     const skillsLv = {};
     for (const [k, v] of Object.entries(est)) skillsLv[k] = CAT.levelOf(v.theta);
     if (wr?.level) skillsLv.writing = wr.level;
@@ -617,7 +625,7 @@ async function lessonTest(view, id) {
   // свіжі вправи від вчителя (після входу й онлайн): 5 нових щоразу; не вийшло — лише вправи уроку
   let ai = [];
   if (user() && navigator.onLine) {
-    view.replaceChildren(h('div.empty', h('p', 'Готуємо свіжі питання…')));
+    view.replaceChildren(h('div.empty', { role: 'status' }, emo('sparkles', 'xl'), h('p', 'Готуємо свіжі питання…')));
     try {
       const res = await Promise.race([
         tutor('exercises', { topic: `${l.titleEn || l.title} (${l.title})`, count: 5 }),

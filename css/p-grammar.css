@@ -76,15 +76,15 @@ html.kbd .gx-sound-head:focus-visible{outline:2px solid var(--accent-ink);outlin
 .opt.ex-opt:active{transform:scale(.985)}
 .opt.ex-opt[aria-disabled="true"]:active{transform:none}
 html.kbd .opt.ex-opt:focus-visible{outline:2px solid var(--accent-ink);outline-offset:2px}
-.ex-key,.ex-opt .pl-key{flex:none;width:28px;height:28px;border-radius:9px;display:grid;place-items:center;background:var(--tile-sq);color:var(--ink-dim);font-family:var(--font-head);font-size:12px;font-weight:700;font-variant-numeric:tabular-nums}
+.ex-key{flex:none;width:28px;height:28px;border-radius:9px;display:grid;place-items:center;background:var(--tile-sq);color:var(--ink-dim);font-family:var(--font-head);font-size:12px;font-weight:700;font-variant-numeric:tabular-nums}
 .opt.ex-opt.right{background:var(--good-soft);border-color:color-mix(in srgb,var(--good) 45%,transparent);color:var(--good)}
-.opt.ex-opt.right .ex-key,.opt.ex-opt.right .pl-key{background:var(--good);color:var(--on-good)}
+.opt.ex-opt.right .ex-key{background:var(--good);color:var(--on-good)}
 .opt.ex-opt.wrong{background:var(--bad-soft);border-color:color-mix(in srgb,var(--bad) 45%,transparent);color:var(--bad)}
-.opt.ex-opt.wrong .ex-key,.opt.ex-opt.wrong .pl-key{background:var(--bad);color:var(--on-bad)}
+.opt.ex-opt.wrong .ex-key{background:var(--bad);color:var(--on-bad)}
 .opt.ex-opt.right .ipa,.opt.ex-opt.wrong .ipa{color:inherit;opacity:.85}
 /* тест рівня: вибраний варіант */
 .opt.ex-opt.sel{background:var(--accent-soft);border-color:color-mix(in srgb,var(--accent) 45%,transparent);color:var(--accent-ink)}
-.opt.ex-opt.sel .pl-key{background:var(--accent);color:#fff}
+.opt.ex-opt.sel .ex-key{background:var(--accent);color:#fff}
 
 /* відгук після відповіді */
 .feedback.ex-fb{display:flex;gap:10px;align-items:flex-start;border-radius:14px;padding:12px;border:1px solid transparent}
@@ -202,12 +202,12 @@ html.kbd button.gx-say:focus-visible{outline:2px solid var(--accent-ink);outline
 .pr-act[disabled]{opacity:.55;cursor:default}
 .pr-act[disabled]:active{transform:none}
 html.kbd .pr-act:focus-visible{outline:2px solid var(--accent-ink);outline-offset:2px}
-.pr-act.rec{grid-column:1 / -1;background:var(--accent-soft);border-color:color-mix(in srgb,var(--accent) 40%,transparent);color:var(--accent-ink)}
-.pr-act.rec > .ico{color:var(--accent-ink)}
+.pr-act.rec{grid-column:1 / -1}
+.pr-act.rec > .ico{color:var(--ink)}
 .pr-act.rec.live{background:var(--bad-soft);border-color:color-mix(in srgb,var(--bad) 45%,transparent);color:var(--bad)}
 .pr-act.rec.live > .ico{color:var(--bad)}
 .gx-card .ex-prompt{font-size:var(--fs-md)}
-.gx-sound-body .pr-act:not(.rec){background:var(--tile);border-color:var(--tile-edge)}
+.gx-sound-body .pr-act:not(.live){background:var(--tile);border-color:var(--tile-edge)}
 .pr-out:empty{display:none}
 /* пари слів: велика кнопка «прослухати» — квадратик плитки */
 .pr-big{width:88px;height:88px;margin:0 auto;border-radius:24px;border:1px solid var(--tile-edge);background:var(--tile);color:var(--accent-ink);display:grid;place-items:center;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:transform .18s cubic-bezier(.2,.8,.2,1)}

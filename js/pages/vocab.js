@@ -66,7 +66,7 @@ export default async function vocab(view, r) {
     else rows.sort((a, b) => (b.last_review || b.created_at || '').localeCompare(a.last_review || a.created_at || ''));
     countEl.textContent = loading && topic !== 'my' ? 'Завантаження слів…' : `${rows.length} ${plural(rows.length, 'запис', 'записи', 'записів')}`;
     clear(listBox);
-    if (!rows.length && loading && topic !== 'my') { listBox.append(h('div.empty', h('p', 'Завантаження…'))); return; }
+    if (!rows.length && loading && topic !== 'my') { listBox.append(h('div.empty', { role: 'status' }, emo('hourglass', 'xl'), h('p', 'Завантаження…'))); return; }
     if (!rows.length) { listBox.append(h('div.empty', emo('magnifier', 'xl'), h('p', 'Нічого не знайдено'))); return; }
     listBox.append(h('div.tx-rows', rows.slice(0, limit).map(c => {
       const [cls, label] = STATUS_TAG[statusOf(c)];
