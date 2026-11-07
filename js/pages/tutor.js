@@ -17,7 +17,7 @@ import { toast } from '../ui/toast.js';
 import { setTitle, setFocus } from '../ui/shell.js';
 import { go } from '../router.js';
 import { about, rememberFacts, undoRemember } from './profile.js';
-import { tx, txPrimary, txGrid, txGroup, txRows } from '../ui/tiles.js';
+import { tx, txPrimary, txGrid, txGroup, txRows, txRow, txKpis, txPill, txDots } from '../ui/tiles.js';
 import { savePhrases, guessSituation, hasPhrase, situation as phraseSit } from '../phrases.js';
 import { markUsedWords, MIN_CHATS } from '../usage.js';
 
@@ -128,28 +128,33 @@ function missionsBlock() {
 }
 
 function missionCard(m) {
-  return h('article.mission-card',
-    h('div.mission-title', m.title),
-    m.why_uk ? h('div.mission-why', m.why_uk) : null,
+  return h('article.mission-card.tu-mission',
+    h('div.tu-mhead', h('span.tx-sq', ic('flag', { size: 20 })),
+      h('div.tx-body', h('span.mission-title', m.title), m.why_uk ? h('span.mission-why', m.why_uk) : null)),
     h('div.mission-sit', m.situation),
-    h('div.mission-meta', h('span', h('b', 'Ви: '), m.myRole), h('span', h('b', 'Співрозмовник: '), m.tutorRole)),
-    h('div.mission-goal', ic('target', { size: 16 }), h('span', h('b', 'Мета: '), m.goal)),
+    h('div.tu-facts',
+      tuFact('user', 'Ви', m.myRole),
+      tuFact('chalkboard-teacher', 'Співрозмовник', m.tutorRole),
+      tuFact('target', 'Мета', m.goal)),
     m.phrases.length ? h('details.mission-phrases',
-      h('summary', ic('chat-centered-text', { size: 16 }), h('span.grow', `Корисні фрази · ${m.phrases.length}`), ic('caret-down', { size: 16 })),
+      h('summary', h('span.tx-sq', ic('chat-centered-text', { size: 16 })), h('span.grow', `Корисні фрази · ${m.phrases.length}`), ic('caret-down', { size: 16 })),
       h('ul', { lang: 'en' }, m.phrases.map(p => h('li', h('button.mission-phrase', { type: 'button', 'aria-label': `Прослухати: ${p}`, onclick: () => speak(p) }, ic('speaker-high', { size: 14 }), h('span', p)))))) : null,
     m.phrases.length ? missionSaveBtn(m) : null,
-    h('div.mission-acts',
-      h('button.btn.mission-go', { type: 'button', onclick: () => startMission(m, 'voice') }, ic('microphone', { size: 18, fill: true }), 'Голосом'),
-      h('button.btn.mission-go.alt', { type: 'button', onclick: () => startMission(m, 'text') }, ic('chat-circle-dots', { size: 18 }), 'Текстом')));
+    h('div.tx-grid.c2.mission-acts',
+      tx({ icon: 'microphone', label: 'Голосом', sub: 'у реальному часі', onclick: () => startMission(m, 'voice') }),
+      tx({ icon: 'chat-circle-dots', label: 'Текстом', sub: 'у чаті', onclick: () => startMission(m, 'text') })));
 }
+/** Рядок факту в плитці (роль, мета): іконка в квадратику + підпис великими літерами + текст */
+export const tuFact = (icon, label, text) => h('div.tu-fact', h('span.tx-sq', ic(icon, { size: 16 })),
+  h('div.tx-body', h('span.tu-fact-k', label), h('span.tu-fact-v', text)));
 
 /** «У фразник»: фрази місії — у фразник (ситуація — за назвою й описом місії) */
 function missionSaveBtn(m) {
-  const b = h('button.btn.mission-save', { type: 'button' });
+  const b = h('button.tx-row.mission-save', { type: 'button' });
   const paint = (busy = false) => {
     const all = m.phrases.every(hasPhrase);
     b.disabled = busy || all;
-    b.replaceChildren(ic(busy ? 'hourglass' : all ? 'check' : 'plus', { size: 16 }), busy ? 'Зберігаю…' : all ? 'Фрази у фразнику' : `У фразник · ${m.phrases.length}`);
+    b.replaceChildren(h('span.tx-sq', ic(busy ? 'hourglass' : all ? 'check' : 'plus', { size: 18 })), h('span.tx-l', busy ? 'Зберігаю…' : all ? 'Фрази у фразнику' : `У фразник · ${m.phrases.length}`));
   };
   paint();
   b.addEventListener('click', async () => {
@@ -358,11 +363,11 @@ async function autoAddWords(row) {
   s.auto_limit = s.auto_words.length < AUTO_PER_CHAT && autoToday() >= AUTO_PER_DAY && pickAutoWords(s.new_words, 1).length > 0;
   return s.auto_words;
 }
-const wordsBlock = (words) => h('div.msg-words', h('div.xs.dim', 'Корисні слова — у картки одним дотиком'), h('div.chips', words.map(wordChip)));
+const wordsBlock = (words) => h('div.msg-words', h('div.tx-label', 'Корисні слова — у картки дотиком'), h('div.tu-wrows', words.map(wordChip)));
 /** Кнопка «+ слово»: стан «уже в картках» перевіряється при показі */
 function wordChip(w) {
-  const b = h('button.chip.word-chip', { type: 'button' });
-  const paint = (on) => { b.disabled = on; b.setAttribute('aria-label', on ? `${w.en} — уже в картках` : `Додати в картки: ${w.en} — ${w.uk}`); b.replaceChildren(ic(on ? 'check' : 'plus', { size: 14 }), h('b', w.en), h('span.dim', ` · ${w.uk}`)); };
+  const b = h('button.word-chip.tu-wrow', { type: 'button' });
+  const paint = (on) => { b.disabled = on; b.classList.toggle('is-on', on); b.setAttribute('aria-label', on ? `${w.en} — уже в картках` : `Додати в картки: ${w.en} — ${w.uk}`); b.replaceChildren(h('span.tu-wsq', ic(on ? 'check' : 'plus', { size: 14 })), h('span.tu-wt', h('b', { lang: 'en' }, w.en), h('span.dim', w.uk))); };
   paint(wordKnown(w.en));
   b.addEventListener('click', async () => {
     b.disabled = true;
@@ -427,6 +432,10 @@ export function topicIdeas() {
   const seen = new Set();
   return [...mine, ...base].filter(t => { const k = t.label.toLowerCase(); if (seen.has(k)) return false; seen.add(k); return true; }).slice(0, 8);
 }
+
+/** Іконка теми розмови (плитки «Про що поговоримо?» у чаті й голосі) */
+const TOPIC_ICON = { 'Мої помилки': 'warning-circle', 'Порада вчителя': 'target', 'Мій день': 'sun', 'Вихідні': 'calendar-blank', 'Подорожі': 'airplane-tilt', 'Їжа й готування': 'fork-knife', 'Фільми й серіали': 'play', 'Робота': 'briefcase' };
+export const topicIcon = (t) => TOPIC_ICON[t?.label] || 'heart';
 
 // ---------- Текстовий чат ----------
 async function chat(view, opts) {
@@ -552,9 +561,9 @@ function chatUI(view, row, { scenario, ask, topic, resumed } = {}) {
   vv?.addEventListener('resize', onVV); vv?.addEventListener('scroll', onVV);
   if (vv) { ta.addEventListener('focus', onVV); ta.addEventListener('blur', onVV); }
 
-  const intro = scenario ? h('section.card.soft.stack',
-    h('div.row', emo(scenario.emoji || 'theater'), h('div.grow', h('b', scenario.title), h('div.xs.dim', `Ваша роль: ${scenario.myRole}`))),
-    h('div.small', scenario.situation), h('div.small', h('b', 'Мета: '), scenario.goal)) : null;
+  const intro = scenario ? h('section.tu-intro',
+    h('div.tu-mhead', h('span.tx-sq', scenario.emoji ? emo(scenario.emoji) : ic('flag', { size: 20 })), h('div.tx-body', h('span.tx-l', scenario.title), h('span.tx-s', `Ваша роль: ${scenario.myRole}`))),
+    h('div.small', scenario.situation), tuFact('target', 'Мета', scenario.goal)) : null;
 
   view.replaceChildren(h('div.stack.tutor-chat',
     h('div.row.tutor-head', h('a.icon-btn', { href: coach ? '#/analysis' : '#/tutor', 'aria-label': 'Назад' }, ic('arrow-left')),
@@ -574,7 +583,7 @@ function chatUI(view, row, { scenario, ask, topic, resumed } = {}) {
     };
     const first = m.fixes[0];
     return h('details.fixcard', { open: !!open },
-      h('summary', ic('pencil-simple', { size: 16 }), h('span.fix-title', `Виправлення${m.fixes.length > 1 ? ` · ${m.fixes.length}` : ''}`),
+      h('summary', h('span.tu-fsq', ic('pencil-simple', { size: 16 })), h('span.fix-title', `Виправлення${m.fixes.length > 1 ? ` · ${m.fixes.length}` : ''}`),
         h('span.fix-peek', first.wrong ? [h('s', first.wrong), ' → ', h('b', first.right)] : h('b', first.right)), ic('caret-down', { size: 16 })),
       h('ul', m.fixes.map(f => h('li',
         h('div.fix-line', f.wrong ? [h('s.bad', f.wrong), h('span.arrow', { 'aria-label': 'правильно:' }, ' → '), h('b.good', f.right)] : h('b.good', f.right)),
@@ -647,8 +656,8 @@ function chatUI(view, row, { scenario, ask, topic, resumed } = {}) {
   function showPlan() {
     const plan = row.meta.plan;
     if (!plan?.length) { planBox.replaceChildren(); return; }
-    planBox.replaceChildren(h('details.card.soft.plan', { open: !resumed },
-      h('summary', ic('target', { size: 18 }), h('span.grow', 'План заняття'), ic('caret-down', { size: 16 })),
+    planBox.replaceChildren(h('details.plan.tu-plan', { open: !resumed },
+      h('summary', h('span.tx-sq', ic('target', { size: 18 })), h('span.tx-body', h('span.tx-l', 'План заняття'), h('span.tx-s', `${plan.length} ${plural(plan.length, 'крок', 'кроки', 'кроків')}`)), ic('caret-down', { size: 16 })),
       h('ol', plan.map(p => h('li', mdInline(p))))));
   }
 
@@ -792,7 +801,7 @@ function chatUI(view, row, { scenario, ask, topic, resumed } = {}) {
   function afterReply() {
     // кнопка вправ у режимах «Поясни» і «Слабке місце»
     if ((row.mode === 'explain' || row.mode === 'drill') && !extra.firstChild && row.messages.filter(m => m.role === 'model').length >= 1) {
-      extra.append(h('button.btn.soft.block', { type: 'button', onclick: practice }, ic('lightning', { fill: true }), row.mode === 'drill' ? '10 вправ на цю тему' : '5 вправ на це правило'));
+      extra.append(tx({ icon: 'lightning', wide: true, onclick: practice, label: row.mode === 'drill' ? '10 вправ на цю тему' : '5 вправ на це правило', sub: 'Вчитель складе вправи за цією розмовою' }));
     }
   }
 
@@ -861,15 +870,11 @@ function chatUI(view, row, { scenario, ask, topic, resumed } = {}) {
       .sort((a, b) => String(b.updated_at || b.created_at).localeCompare(String(a.updated_at || a.created_at)))[0];
     const focus = store.prof().lastFocus;
     const ideas = topicIdeas();
-    return h('section.card.stack.tutor-start',
-      h('div.section-title', 'Про що поговоримо?'),
-      h('div.chips', [MISTAKES_TOPIC, ...ideas].map(t => h('button.chip', { type: 'button', onclick: () => begin(t) }, t.label))),
-      focus ? h('button.btn.soft.block.start-focus', { type: 'button', onclick: () => begin(focusTopic(focus)) },
-        ic('target', { size: 18 }), h('span.grow', h('span.xs.dim', 'Порада з минулого разу'), h('span.start-focus-t', focus))) : null,
-      h('button.btn.primary.block', { type: 'button', onclick: () => begin(null) }, ic('sparkle', { fill: true }), 'Нехай вчитель почне'),
-      prev ? h('a.list-row.start-prev', { href: `#/tutor?chat=${encodeURIComponent(prev.id)}` }, ic('arrow-clockwise', { size: 20 }),
-        h('div.grow', h('div', { style: { fontWeight: 600 } }, 'Продовжити минулу розмову'), h('div.xs.dim', `${prev.title || 'Розмова'} · ${fmtDay(prev.updated_at || prev.created_at)}`)), ic('caret-right', { size: 18 })) : null,
-      h('div.xs.dim', 'Або просто напишіть перше повідомлення внизу.'));
+    return h('div.stack-lg.tutor-start.tu-start',
+      txGroup('Про що поговоримо?', txGrid([MISTAKES_TOPIC, ...ideas].map(t => tx({ icon: topicIcon(t), label: t.label, cls: 'tu-topic', onclick: () => begin(t) })))),
+      focus ? txGroup('Порада з минулого разу', tx({ icon: 'target', label: focus, wide: true, cls: 'start-focus', onclick: () => begin(focusTopic(focus)) })) : null,
+      txPrimary({ icon: 'sparkle', label: 'Нехай вчитель почне', sub: 'Або просто напишіть перше повідомлення внизу', onclick: () => begin(null) }),
+      prev ? txRows([txRow({ icon: 'arrow-clockwise', label: 'Продовжити минулу розмову', sub: `${prev.title || 'Розмова'} · ${fmtDay(prev.updated_at || prev.created_at)}`, href: `#/tutor?chat=${encodeURIComponent(prev.id)}`, cls: 'start-prev' })]) : null);
   }
   if (coach && !resumed) {
     list.append(...renderModel({ role: 'model', text: COACH_INTRO[section] }, { actions: false }));
@@ -957,6 +962,17 @@ export async function summarize(view, row, { voice = false, pronTurns = null } =
   return summaryView(view, row, { pronTurns });
 }
 
+/** Плитка-дія, яку можна перемалювати (іконка, назва, підпис) — кнопки підсумку змінюють стан після дотику */
+function repaintTx(el, icon, label, sub = '') {
+  el.querySelector('.tx-sq')?.replaceChildren(ic(icon, { size: 20 }));
+  const l = el.querySelector('.tx-l'); if (l) l.textContent = label;
+  const s = el.querySelector('.tx-s'); if (s) { s.textContent = sub; s.hidden = !sub; }
+}
+/** Кнопка «прослухати» у квадратику рядка-плитки */
+const sayBtn = (en) => h('button.tx-sq.tu-say', { type: 'button', 'aria-label': `Прослухати: ${en}`, onclick: () => speak(en) }, ic('speaker-high', { size: 18 }));
+const fixLine = (m) => h('div.fix-line', h('s.bad', m.wrong), h('span.arrow', { 'aria-label': 'правильно:' }, ' → '), h('b.good', m.right));
+const note = (...kids) => h('p.tu-note', ...kids);
+
 /** Слова, які вчитель позначив вивченими: учень правильно вжив їх у цій і попередніх розмовах */
 function usedKnownCard(s) {
   const list = (Array.isArray(s.used_known) ? s.used_known : []).filter(u => u?.id);
@@ -980,10 +996,10 @@ function usedKnownCard(s) {
     paint();
     return b;
   };
-  return h('section.card.stack',
-    h('div.row', emo('seal-check'), h('div.grow', h('div.section-title', { style: { margin: 0 } }, `Ви вже вживаєте ці слова · ${list.length}`),
-      h('div.xs.dim', `Правильно вжито щонайменше у ${MIN_CHATS} розмовах — позначено вивченими в словнику. Якщо слово ще непевне — торкніться, щоб повернути до вивчення.`))),
-    h('div.chips.used-chips', list.map(chip)));
+  return txGroup(`Ви вже вживаєте ці слова · ${list.length}`, h('div.tu-panel.stack',
+    h('div.tu-mhead', h('span.tx-sq.tu-good', ic('seal-check', { size: 20 })),
+      h('span.tx-s', `Правильно вжито щонайменше у ${MIN_CHATS} розмовах — позначено вивченими в словнику. Якщо слово ще непевне — торкніться, щоб повернути до вивчення.`)),
+    h('div.chips.used-chips', list.map(chip))));
 }
 
 export function summaryView(view, row, { pronTurns = null } = {}) {
@@ -999,30 +1015,28 @@ export function summaryView(view, row, { pronTurns = null } = {}) {
   const autoList = Array.isArray(s.auto_words) ? s.auto_words : [];
   const autoOf = (w) => autoList.find(a => wnorm(a.en) === wnorm(w.en));
   const autoLive = (a) => !!(a && !a.removed && store.get('cards', a.id));
-  const addAll = h('button.btn.soft.block', { type: 'button' });
-  const autoNote = h('div.sum-auto');
-  const paintAll = () => {
-    const left = words.filter(w => !wordKnown(w.en)).length;
-    const nAuto = autoList.filter(autoLive).length;
-    addAll.hidden = !!nAuto && !left;
-    addAll.className = `btn block ${nAuto ? 'soft' : 'primary'}`;
-    addAll.disabled = !left;
-    addAll.replaceChildren(ic(left ? 'plus' : 'check'), left ? (left === words.length ? `Додати всі в картки (${left})` : `Додати решту в картки (${left})`) : 'Усі слова вже в картках');
-    autoNote.hidden = !nAuto;
-    autoNote.replaceChildren(h('span.sum-auto-ico', ic('sparkle', { size: 18, fill: true })),
-      h('div.grow', h('div.sum-auto-t', `Додано в картки автоматично: ${nAuto}`),
-        h('div.xs.dim', 'З\'являться серед нових у тренуванні слів. Зайве — «Прибрати».')));
-    trainBtn.hidden = !nAuto;
-  };
-  const trainBtn = h('a.btn.primary.block', { href: '#/cards/train' }, ic('play', { size: 18, fill: true }), 'Повторити зараз');
-  addAll.addEventListener('click', async () => {
+  const addAll = tx({ icon: 'plus', label: ' ', sub: ' ', wide: true, cls: 'sum-addall', onclick: async () => {
     addAll.disabled = true;
     let n = 0;
     for (const w of words) if (!wordKnown(w.en)) { const r = await addWord(w).catch(() => 'error'); if (r === 'created' || r === 'starter') n++; }
     toast(n ? `Додано в картки: ${n}` : 'Ці слова вже є в картках');
     wordsBox.replaceChildren(...words.map(wordRow));
     paintAll();
-  });
+  } });
+  const autoNote = h('div.tx-row.sum-auto');
+  const trainBtn = tx({ icon: 'play', label: 'Повторити зараз', sub: 'нові слова — у тренуванні слів', wide: true, href: '#/cards/train', cls: 'sum-train' });
+  const paintAll = () => {
+    const left = words.filter(w => !wordKnown(w.en)).length;
+    const nAuto = autoList.filter(autoLive).length;
+    addAll.hidden = !!nAuto && !left;
+    addAll.disabled = !left;
+    repaintTx(addAll, left ? 'plus' : 'check', left ? (left === words.length ? `Додати всі в картки (${left})` : `Додати решту в картки (${left})`) : 'Усі слова вже в картках');
+    autoNote.hidden = !nAuto;
+    autoNote.replaceChildren(h('span.tx-sq.tu-accent', ic('sparkle', { size: 18, fill: true })),
+      h('div.tx-body', h('span.tx-l.sum-auto-t', `Додано в картки автоматично: ${nAuto}`),
+        h('span.tx-s', 'З\'являться серед нових у тренуванні слів. Зайве — «Прибрати».')));
+    trainBtn.hidden = !nAuto;
+  };
   /** Прибрати автододане слово: м'яке видалення лише картки, створеної автододаванням */
   const removeAuto = (a, w) => {
     const card = store.get('cards', a.id);
@@ -1036,9 +1050,9 @@ export function summaryView(view, row, { pronTurns = null } = {}) {
   const wordRow = (w) => {
     const a = autoOf(w);
     const auto = autoLive(a);
-    return h('div.sum-word' + (auto ? '.is-auto' : ''),
-      h('div.grow', h('div', h('b', { lang: 'en' }, w.en), ' — ', w.uk), w.example ? h('div.xs.dim', { lang: 'en' }, w.example) : null),
-      h('button.icon-btn', { type: 'button', 'aria-label': `Прослухати: ${w.en}`, onclick: () => speak(w.en) }, ic('speaker-high', { size: 18 })),
+    return h('div.tx-row.sum-word' + (auto ? '.is-auto' : ''),
+      sayBtn(w.en),
+      h('div.tx-body', h('span.tx-l', h('b', { lang: 'en' }, w.en), ' — ', w.uk), w.example ? h('span.tx-s', { lang: 'en' }, w.example) : null),
       auto
         ? h('button.btn.sm.ghost.sum-unadd', { type: 'button', 'aria-label': `Прибрати з карток: ${w.en}`, onclick: () => removeAuto(a, w) }, 'Прибрати')
         : (() => {
@@ -1048,42 +1062,57 @@ export function summaryView(view, row, { pronTurns = null } = {}) {
           return b;
         })());
   };
-  const wordsBox = h('div.stack', { style: { gap: '10px' } }, words.map(wordRow));
+  const wordsBox = h('div.tx-rows', words.map(wordRow));
   paintAll();
   // найчастіший тип помилок розмови → міні-урок на нього
   const byType = {};
   for (const m of mistakes) if (m.type && m.type !== 'other' && S.mistakeTypes[m.type]) byType[m.type] = (byType[m.type] || 0) + 1;
   const topType = Object.keys(byType).sort((a, b) => byType[b] - byType[a])[0];
 
+  const min = Math.round((row.seconds || 0) / 60);
+  const kpis = txKpis([
+    s.level_signal ? { value: levelLabel(s), label: 'рівень у розмові', tone: 'accent' } : { value: turns, label: plural(turns, 'репліка', 'репліки', 'реплік') },
+    { value: min || '<1', unit: 'хв', label: 'тривалість', ariaLabel: `Тривалість: ${fmtMin(row.seconds || 0)}` },
+    { value: mistakes.length, label: plural(mistakes.length, 'помилка', 'помилки', 'помилок'), tone: mistakes.length ? 'warn' : 'good' },
+  ]);
+  const mistakeActs = [
+    tx({ icon: 'warning-circle', label: 'Мої помилки', sub: 'усі помилки й правила', href: '#/mistakes' }),
+    topType ? tx({ icon: 'target', label: 'Міні-урок', sub: S.mistakeTypes[topType] || topType, href: `#/tutor?mode=drill&type=${encodeURIComponent(topType)}` }) : null,
+  ].filter(Boolean);
+  if (mistakeActs.length === 1) mistakeActs[0].classList.add('wide', 'full');
+  const nextHref = s.next_focus ? `#/tutor?mode=chat&topic=${encodeURIComponent(`Focus recommended after the last session (practise it naturally in conversation): ${s.next_focus}`)}` : null;
+
   view.replaceChildren(h('div.stack-lg.tutor-summary',
-    h('div.hero', emo('sparkles', 'xl'), h('h1', 'Підсумок розмови'),
-      h('p.dim', [row.title || '', fmtMin(row.seconds || 0), turns ? `${turns} ${plural(turns, 'репліка', 'репліки', 'реплік')}` : ''].filter(Boolean).join(' · ')),
-      s.level_signal ? h('span.tag.accent', `Рівень у розмові: ${levelLabel(s)}`) : null),
+    h('div.tu-sumhead', h('span.tx-sq', ic('sparkle', { size: 26, fill: true })),
+      h('div.tx-body', h('h1.tu-sumh1', 'Підсумок розмови'),
+        h('span.tx-s', [row.title || '', s.level_signal && turns ? `${turns} ${plural(turns, 'репліка', 'репліки', 'реплік')}` : ''].filter(Boolean).join(' · ')))),
+    kpis,
     assessmentCard(s),
-    s.summary || s.practised_words?.length ? h('section.card.stack', h('div.section-title', 'Що ви практикували'), s.summary ? md(s.summary) : null,
+    s.summary || s.practised_words?.length ? txGroup('Що ви практикували', h('div.tu-panel.stack', s.summary ? h('div.tu-md', md(s.summary)) : null,
       s.practised_words?.length ? h('div.stack', { style: { gap: '6px' } }, h('div.xs.dim', 'Слова, які ви вчите й ужили в розмові'), h('div.chips', s.practised_words.map(w => h('span.tag.good', { lang: 'en' }, w)))) : null,
-      s.focus_review ? h('div.small', h('b', 'Фокус заняття: '), mdInline(s.focus_review)) : null) : null,
-    mistakes.length ? h('section.card.stack', h('div.section-title', `Помилки · ${mistakes.length}`),
-      h('div.stack.sum-mistakes', mistakes.map(m => h('div.sum-mistake',
-        h('div.fix-line', h('s.bad', m.wrong), h('span.arrow', { 'aria-label': 'правильно:' }, ' → '), h('b.good', m.right)),
-        m.explanation_uk ? h('div.xs.dim', mdInline(m.explanation_uk)) : null,
-        h('div.row.wrap.sum-mistake-foot',
-          ruleLabel(m.rule) && m.rule !== 'other' ? h('span.tag', ruleLabel(m.rule)) : m.type && S.mistakeTypes[m.type] ? h('span.tag', S.mistakeTypes[m.type]) : null,
-          disagreeBtn(m, row, () => summaryView(view, row, { pronTurns })))))),
-      h('div.row.wrap', h('a.btn.sm.soft', { href: '#/mistakes' }, ic('warning-circle', { size: 16 }), 'Мої помилки'),
-        topType ? h('a.btn.sm.soft', { href: `#/tutor?mode=drill&type=${encodeURIComponent(topType)}` }, ic('target', { size: 16 }), `Міні-урок: ${S.mistakeTypes[topType] || topType}`) : null))
-      : h('section.card.row', emo('check'), h('div', 'Помилок не помічено. Так тримати!')),
+      s.focus_review ? h('div.small', h('b', 'Фокус заняття: '), mdInline(s.focus_review)) : null)) : null,
+    mistakes.length ? txGroup(`Помилки · ${mistakes.length}`, [
+      txRows(mistakes.map((m, i) => h('div.tx-row.sum-mistake',
+        h('span.tx-no', String(i + 1)),
+        h('div.tx-body', fixLine(m),
+          m.explanation_uk ? h('span.tx-s', mdInline(m.explanation_uk)) : null,
+          h('div.row.wrap.sum-mistake-foot',
+            ruleLabel(m.rule) && m.rule !== 'other' ? txPill(ruleLabel(m.rule)) : m.type && S.mistakeTypes[m.type] ? txPill(S.mistakeTypes[m.type]) : null,
+            disagreeBtn(m, row, () => summaryView(view, row, { pronTurns }))))))),
+      txGrid(mistakeActs, 2)])
+      : tx({ icon: 'check-circle', tone: 'good', wide: true, label: 'Помилок не помічено', sub: 'Так тримати!' }),
     masteredCard(s),
     usedKnownCard(s),
     row.mode === 'voice' ? speechCard(s) : null,
     pronTurns?.length ? pronCard(pronTurns) : null,
-    words.length ? h('section.card.stack.sum-words', h('div.section-title', `Нові слова · ${words.length}`), autoNote, wordsBox,
-      s.auto_limit && words.some(w => !wordKnown(w.en)) ? h('div.xs.dim', `Сьогодні вже додано ${AUTO_PER_DAY} слів автоматично — решту можна додати вручну.`) : null,
-      h('div.stack', { style: { gap: '8px' } }, trainBtn, addAll)) : null,
+    words.length ? txGroup(`Нові слова · ${words.length}`, [autoNote, wordsBox,
+      s.auto_limit && words.some(w => !wordKnown(w.en)) ? note(`Сьогодні вже додано ${AUTO_PER_DAY} слів автоматично — решту можна додати вручну.`) : null,
+      trainBtn, addAll]) : null,
     phrasesCard(row, s),
-    s.next_focus ? h('section.card.accent.stack', h('div.section-title', 'Наступного разу'), h('div', s.next_focus),
-      h('a.btn.sm.primary', { href: `#/tutor?mode=chat&topic=${encodeURIComponent(`Focus recommended after the last session (practise it naturally in conversation): ${s.next_focus}`)}`, style: { alignSelf: 'flex-start' } }, ic('arrow-right', { size: 16 }), 'Почати з цього')) : null,
-    h('div.row', h('a.btn.soft.grow', { href: '#/' }, 'На головну'), h('a.btn.primary.grow', { href: '#/tutor' }, 'Нова розмова')),
+    nextHref ? txGroup('Наступного разу', txPrimary({ icon: 'arrow-right', label: 'Почати з цього', sub: s.next_focus, href: nextHref })) : null,
+    // головна дія — «Почати з цього»; без поради на наступний раз — «Нова розмова»
+    ...(nextHref ? [txGrid([tx({ icon: 'house', label: 'На головну', href: '#/' }), tx({ icon: 'chat-circle-dots', label: 'Нова розмова', href: '#/tutor' })], 2)]
+      : [txPrimary({ icon: 'chat-circle-dots', label: 'Нова розмова', href: '#/tutor' }), tx({ icon: 'house', label: 'На головну', href: '#/', wide: true })]),
     deleteButton(row)));
 }
 
@@ -1098,11 +1127,17 @@ function phrasesCard(row, s) {
   if (!items.length) return null;
   const scen = row.scenario ? row.title : '';
   const sit = guessSituation([row.meta?.mission?.title, row.meta?.mission?.situation, scen, row.meta?.topicLabel, row.meta?.topic, row.title].filter(Boolean).join(' '));
-  const all = h('button.btn.primary.block', { type: 'button' });
+  const all = tx({ icon: 'plus', label: ' ', wide: true, cls: 'sum-phall', onclick: async () => {
+    paintAll(true);
+    const r = await savePhrases(items.filter(x => !hasPhrase(x.en)), { situation: sit, source: 'summary' }).catch(() => null);
+    phraseSaved(r, sit);
+    list.replaceChildren(...items.map(pick));
+    paintAll();
+  } });
   const paintAll = (busy = false) => {
     const left = items.filter(x => !hasPhrase(x.en)).length;
     all.disabled = busy || !left;
-    all.replaceChildren(ic(busy ? 'hourglass' : left ? 'plus' : 'check', { size: 18 }), busy ? 'Зберігаю…' : left ? `Зберегти всі${left < items.length ? ' решту' : ''} (${left})` : 'Усі фрази у фразнику');
+    repaintTx(all, busy ? 'hourglass' : left ? 'plus' : 'check', busy ? 'Зберігаю…' : left ? `Зберегти всі${left < items.length ? ' решту' : ''} (${left})` : 'Усі фрази у фразнику');
   };
   const pick = (x) => {
     const on = hasPhrase(x.en);
@@ -1114,38 +1149,27 @@ function phrasesCard(row, s) {
       el.replaceWith(pick(x));
       paintAll();
     });
-    const el = h('div.ph-pick',
-      h('div.grow', h('div', { lang: 'en', style: { fontWeight: 600 } }, x.en), x.uk ? h('div.xs.dim', x.uk) : h('div.xs.dim', x.from === 'fix' ? 'виправлений варіант' : '')),
-      h('button.icon-btn', { type: 'button', 'aria-label': `Прослухати: ${x.en}`, onclick: () => speak(x.en) }, ic('speaker-high', { size: 18 })), b);
+    const el = h('div.tx-row.ph-pick', sayBtn(x.en),
+      h('div.tx-body', h('span.tx-l', { lang: 'en' }, x.en), x.uk ? h('span.tx-s', x.uk) : x.from === 'fix' ? h('span.tx-s', 'виправлений варіант') : null), b);
     return el;
   };
-  const list = h('div', items.map(pick));
-  all.addEventListener('click', async () => {
-    paintAll(true);
-    const r = await savePhrases(items.filter(x => !hasPhrase(x.en)), { situation: sit, source: 'summary' }).catch(() => null);
-    phraseSaved(r, sit);
-    list.replaceChildren(...items.map(pick));
-    paintAll();
-  });
+  const list = h('div.tx-rows', items.map(pick));
   paintAll();
-  return h('section.card.stack.sum-phrases', h('div.row', ic('chat-centered-text', { size: 22 }), h('div.section-title.grow', { style: { margin: 0 } }, `Фрази з розмови · ${items.length}`)),
-    h('div.xs.dim.ph-sit', 'Збережіть у фразник, щоб сказати правильно наступного разу. Ситуація: ', h('b', phraseSit(sit).uk)),
-    list, all);
+  return txGroup(`Фрази з розмови · ${items.length}`, [
+    note('Збережіть у фразник, щоб сказати правильно наступного разу. Ситуація: ', h('b', phraseSit(sit).uk)), list, all]);
 }
 
 /** «Засвоєно»: помилки, які учень цього разу вжив правильно (3 рази поспіль — закрито) */
 function masteredCard(s) {
   const items = (Array.isArray(s.mastered) ? s.mastered : []).map(id => store.get('mistakes', String(id))).filter(m => m && !m.deleted);
   if (!items.length) return null;
-  return h('section.card.stack.sum-mastered', h('div.row', ic('check-circle', { size: 22 }), h('div.section-title.grow', `Засвоєно · ${items.length}`)),
-    h('div.xs.dim', 'Цього разу ви сказали правильно те, що раніше було помилкою.'),
-    h('div.stack', { style: { gap: '10px' } }, items.map(m => {
+  return txGroup(`Засвоєно · ${items.length}`, [note('Цього разу ви сказали правильно те, що раніше було помилкою.'),
+    txRows(items.map(m => {
       const n = Math.min(3, m.streak || 0);
-      return h('div.sum-mastered-row',
-        h('div.grow', h('div.fix-line', h('s.bad', m.wrong), h('span.arrow', { 'aria-label': 'правильно:' }, ' → '), h('b.good', m.right))),
-        m.resolved ? h('span.tag.good', ic('check', { size: 12 }), ' закрито')
-          : h('span.mastered-dots', { role: 'img', 'aria-label': `Правильно поспіль: ${n} з 3` }, [0, 1, 2].map(i => h('i', { class: i < n ? 'on' : '' }))));
-    })));
+      return h('div.tx-row.sum-mastered-row', h('span.tx-sq.tu-good', ic('check-circle', { size: 18 })),
+        h('div.tx-body', fixLine(m)),
+        m.resolved ? txPill('закрито', 'good') : h('span.tu-dots', { role: 'img', 'aria-label': `Правильно поспіль: ${n} з 3` }, txDots(n)));
+    }))]);
 }
 
 /** Метрики мовлення голосової сесії + порада з плавності */
@@ -1153,22 +1177,20 @@ function speechCard(s) {
   const sp = s.speech;
   const tip = String(s.fluency_tip_uk || '').trim();
   if (!sp?.words && !tip) return null;
-  const stat = (v, label) => h('div.stat', h('b', v), h('span', label));
   const stats = sp?.words ? [
-    sp.wpm > 0 ? stat(String(sp.wpm), 'Темп, слів/хв') : null,
-    stat(String(sp.avg_len), 'Середня репліка, слів'),
-    stat(String(sp.repeats || 0), 'Повтори («I I»)'),
-    stat(`${Math.round((sp.unique_ratio || 0) * 100)}%`, 'Різноманітність словника'),
+    sp.wpm > 0 ? { value: String(sp.wpm), label: 'темп, слів/хв' } : null,
+    { value: String(sp.avg_len), label: 'середня репліка, слів' },
+    { value: String(sp.repeats || 0), label: 'повтори («I I»)', tone: sp.repeats > 5 ? 'warn' : '' },
+    { value: `${Math.round((sp.unique_ratio || 0) * 100)}%`, label: 'різноманітність словника' },
   ].filter(Boolean) : [];
-  return h('section.card.stack.sum-speech', h('div.row', ic('waveform', { size: 22 }), h('div.section-title.grow', 'Як ви говорили')),
-    stats.length ? h('div.grid2.sum-stats', stats) : null,
-    sp?.words ? h('div.xs.dim', `${sp.words} ${plural(sp.words, 'слово', 'слова', 'слів')} за ${sp.turns} ${plural(sp.turns, 'репліку', 'репліки', 'реплік')}${sp.fillers ? ` · «е-е»: ${sp.fillers}` : ''}. Для тих, хто вчить мову, типово 60–110 слів/хв, вільне мовлення — 120–160.`) : null,
-    tip ? h('div.sum-tip', ic('lightbulb', { size: 18 }), h('div', mdInline(tip))) : null);
+  return txGroup('Як ви говорили', [
+    stats.length ? txKpis(stats, 2) : null,
+    sp?.words ? note(`${sp.words} ${plural(sp.words, 'слово', 'слова', 'слів')} за ${sp.turns} ${plural(sp.turns, 'репліку', 'репліки', 'реплік')}${sp.fillers ? ` · «е-е»: ${sp.fillers}` : ''}. Для тих, хто вчить мову, типово 60–110 слів/хв, вільне мовлення — 120–160.`) : null,
+    tip ? h('div.tx-row.sum-tip', h('span.tx-sq.tu-accent', ic('lightbulb', { size: 18 })), h('div.tx-body', h('span.tx-l', 'Порада з плавності'), h('span.tx-s', mdInline(tip)))) : null]);
 }
 
 /** Вимова у вашій розмові: AI-оцінка кількох реплік (кожна — 1 запит AI, тому за кнопкою) */
 function pronCard(turns) {
-  const box = h('div.stack', { style: { gap: '14px' } });
   let player = null;
   const play = (t) => {
     // власний запис репліки: WAV у пам'яті → тимчасове посилання (звільняється після відтворення)
@@ -1187,19 +1209,16 @@ function pronCard(turns) {
   };
   const rows = turns.map(t => {
     const out = h('div', { 'aria-live': 'polite' });
-    const el = h('div.pron-turn',
-      h('div.row', { style: { alignItems: 'flex-start', gap: '8px' } },
-        h('div.grow.small', { lang: 'en' }, `«${t.text}»`),
-        h('button.icon-btn', { type: 'button', 'aria-label': 'Прослухати свій запис', onclick: () => play(t) }, ic('play', { size: 18 }))),
+    const el = h('div.tu-panel.pron-turn',
+      h('div.tu-mhead', h('button.tx-sq.tu-say', { type: 'button', 'aria-label': 'Прослухати свій запис', onclick: () => play(t) }, ic('play', { size: 18 })),
+        h('div.grow.small', { lang: 'en' }, `«${t.text}»`)),
       out);
     return { t, out, el };
   });
-  box.append(...rows.map(r => r.el));
-  const btn = h('button.btn.primary.block', { type: 'button' }, ic('waveform', { size: 18 }), `Перевірити вимову (${turns.length} ${plural(turns.length, 'репліка', 'репліки', 'реплік')})`);
-  btn.addEventListener('click', async () => {
+  const btn = tx({ icon: 'waveform', wide: true, label: `Перевірити вимову (${turns.length} ${plural(turns.length, 'репліка', 'репліки', 'реплік')})`, sub: 'по одному запиту AI на репліку', onclick: async () => {
     if (!user()) { toast(S.err.needLogin); return; }
     btn.disabled = true;
-    btn.replaceChildren(ic('hourglass', { size: 18 }), 'Оцінюю вимову…');
+    repaintTx(btn, 'hourglass', 'Оцінюю вимову…');
     let renderAssessment = null;
     try { ({ renderAssessment } = await import('./pronunciation.js')); } catch { /* компактний запасний вигляд нижче */ }
     let failed = 0;
@@ -1217,13 +1236,12 @@ function pronCard(turns) {
         if (e?.code === 'quota' || e?.code === 'need_login' || e?.code === 'offline') break;
       }
     }
-    if (failed) { btn.disabled = false; btn.replaceChildren(ic('arrow-clockwise', { size: 18 }), 'Спробувати ще раз'); }
-    else btn.replaceWith(h('a.btn.soft.block', { href: '#/pronunciation' }, ic('waveform', { size: 18 }), 'Тренувати вимову'));
-  });
-  const card = h('section.card.stack.sum-pron', h('div.row', ic('microphone', { size: 22 }), h('div.section-title.grow', 'Вимова у вашій розмові')),
-    h('div.xs.dim', 'Кілька ваших найдовших реплік з цієї розмови. AI оцінить вимову кожного слова — по одному запиту AI на репліку.'),
-    box, btn);
-  return card;
+    if (failed) { btn.disabled = false; repaintTx(btn, 'arrow-clockwise', 'Спробувати ще раз'); }
+    else btn.replaceWith(tx({ icon: 'waveform', wide: true, label: 'Тренувати вимову', sub: 'звуки й фрази', href: '#/pronunciation' }));
+  } });
+  return txGroup('Вимова у вашій розмові', [
+    note('Кілька ваших найдовших реплік з цієї розмови. AI оцінить вимову кожного слова.'),
+    h('div.tx-rows.sum-pron', rows.map(r => r.el)), btn]);
 }
 
 /** «Не згоден»: вчитель більше так не виправлятиме, помилка зникає зі статистики */
@@ -1247,22 +1265,25 @@ function assessmentCard(s) {
   const a = s.level_assessment;
   if (!s.level_signal || !a) return null;
   // загальний рівень за останніми розмовами (зважено за обсягом мовлення й упевненістю) — стабільніший за одну розмову
-  const rolling = h('div.rolling-level', { hidden: true });
+  const rolling = h('div.tx-row.rolling-level', { hidden: true });
   import('../analysis.js').then(({ conversationLevel }) => {
     const r = conversationLevel();
     if (!r || r.sessions < 2 || !rolling.isConnected) return;
     rolling.hidden = false;
-    rolling.replaceChildren(h('span.tag.accent', `${r.level}${r.sublevel === 'high' ? '+' : ''}`),
-      h('span.small', `Ваш рівень за останніми ${r.sessions} ${plural(r.sessions, 'розмовою', 'розмовами', 'розмовами')} · ${SUB_UK[r.sublevel]}, ${CONF_UK[r.confidence]}`));
+    rolling.replaceChildren(h('span.tx-no.tu-lvl', `${r.level}${r.sublevel === 'high' ? '+' : ''}`),
+      h('div.tx-body', h('span.tx-l', 'Ваш рівень у розмовах'), h('span.tx-s', `за останніми ${r.sessions} ${plural(r.sessions, 'розмовою', 'розмовами', 'розмовами')} · ${SUB_UK[r.sublevel]}, ${CONF_UK[r.confidence]}`)));
   }).catch(() => {});
-  return h('section.card.stack', h('div.row', h('div.section-title.grow', `Оцінка цієї розмови: ${levelLabel(s)}`), h('span.tag', CONF_UK[a.confidence] || '')),
-    h('div.xs.dim', `${SUB_UK[a.sublevel] || ''}${a.enough_data ? '' : ' · замало мовлення для точної оцінки — поговоріть довше'}`),
-    rolling,
-    a.criteria.length ? h('div.stack', { style: { gap: '8px' } }, a.criteria.map(c => h('div.row', { style: { alignItems: 'flex-start', gap: '10px' } },
-      h('span.tag.accent', { style: { minWidth: '34px', textAlign: 'center' } }, c.level),
-      h('div.grow', h('div.small', { style: { fontWeight: 600 } }, CRIT_UK[c.name] || c.name), c.note_uk ? h('div.xs.dim', mdInline(c.note_uk)) : null)))) : null,
-    a.reasons_uk.length ? h('div.stack', { style: { gap: '4px' } }, h('div.small', { style: { fontWeight: 600 } }, 'Чому так'), h('ul.small', { style: { margin: 0, paddingLeft: '20px' } }, a.reasons_uk.map(r => h('li', mdInline(r))))) : null,
-    a.to_next_uk ? h('div.small', h('b', 'До наступного рівня: '), mdInline(a.to_next_uk)) : null);
+  return txGroup(`Оцінка рівня · ${levelLabel(s)}`, [
+    h('div.tu-panel.stack.tu-assess',
+      h('div.tu-mhead', h('span.tx-no.tu-lvl', levelLabel(s)),
+        h('div.tx-body', h('span.tx-l', 'Ця розмова'), h('span.tx-s', `${SUB_UK[a.sublevel] || ''}${a.enough_data ? '' : ' · замало мовлення для точної оцінки — поговоріть довше'}`)),
+        CONF_UK[a.confidence] ? txPill(CONF_UK[a.confidence], a.confidence === 'low' ? 'warn' : '') : null),
+      a.criteria.length ? h('div.tu-crit', a.criteria.map(c => h('div.tu-crit-row',
+        h('span.tx-no', c.level),
+        h('div.tx-body', h('span.tx-l', CRIT_UK[c.name] || c.name), c.note_uk ? h('span.tx-s', mdInline(c.note_uk)) : null)))) : null,
+      a.reasons_uk.length ? h('div.stack', { style: { gap: '4px' } }, h('div.tx-label', 'Чому так'), h('ul.small.tu-ul', a.reasons_uk.map(r => h('li', mdInline(r))))) : null,
+      a.to_next_uk ? h('div.small', h('b', 'До наступного рівня: '), mdInline(a.to_next_uk)) : null),
+    rolling]);
 }
 
 /** «Видалити розмову» — на екранах підсумку й перевірки тексту */

@@ -189,3 +189,191 @@ li.disputed .fix-line{opacity:.55}
 .used-chips .chip{max-width:100%;min-width:0}
 .used-chips .chip .dim{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .used-chips .chip b,.used-chips .chip .ico{flex:none}
+
+/* ---------- Єдиний дизайн (2026-11-07): внутрішні екрани вчителя в мові плиток ----------
+   Чат: шапка, план, дії під повідомленням, слова, виправлення, підказки, поле вводу; старт «Про що поговоримо?»;
+   місії; підсумок (іконка + заголовок + показники + групи); голосове вікно. Основа — css/tiles.css. */
+.tu-note{margin:0;padding:0 4px;font-size:var(--fs-xs);color:var(--ink-dim);line-height:1.45}
+.tu-panel{background:var(--tile);border:1px solid var(--tile-edge);border-radius:16px;padding:12px 14px;min-width:0}
+.tu-mhead{display:flex;align-items:center;gap:12px;min-width:0}
+.tu-mhead > .tx-body,.tu-mhead > .grow{flex:1;min-width:0}
+.tu-mhead > .tx-pill{align-self:flex-start}
+.tx-sq.tu-good{background:var(--good-soft);color:var(--good)}
+.tx-sq.tu-accent{background:var(--accent-soft);color:var(--accent-ink)}
+.tx-sq.tu-warn{background:var(--warn-soft);color:var(--warn)}
+.tx-sq .emo{width:20px;height:20px}
+/* квадратик-кнопка «прослухати» на початку рядка-плитки */
+button.tu-say{border:0;font:inherit;cursor:pointer;color:var(--ink);-webkit-tap-highlight-color:transparent;transition:transform .18s ease}
+button.tu-say:active{transform:scale(.92)}
+html.kbd button.tu-say:focus-visible{outline:2px solid var(--accent-ink);outline-offset:2px}
+/* факт (роль, мета): квадратик + підпис групи + текст */
+.tu-facts{display:flex;flex-direction:column;gap:8px}
+.tu-fact{display:flex;align-items:flex-start;gap:10px;min-width:0}
+.tu-fact .tx-sq{width:30px;height:30px;border-radius:9px}
+.tu-fact-k{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-dim);line-height:1.3}
+.tu-fact-v{font-size:var(--fs-sm);line-height:1.4;overflow-wrap:anywhere}
+
+/* шапка чату: аватар — квадратик плитки */
+.tutor-chat .tutor-head .avatar{border-radius:12px}
+.tutor-chat .tutor-head .grow{min-width:0}
+.tutor-chat .tutor-head .xs.dim{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+/* план заняття — плитка, що розкривається */
+.tu-plan{background:var(--tile);border:1px solid var(--tile-edge);border-radius:16px;padding:10px 12px}
+.tu-plan > summary{gap:12px;min-height:40px;font-weight:600}
+.tu-plan > summary > svg:last-child{flex:none;color:var(--ink-dim);transition:transform var(--dur) var(--ease)}
+.tu-plan > summary .tx-sq{background:var(--accent-soft);color:var(--accent-ink)}
+.tu-plan > summary .tx-body{flex:1}
+.plan.tu-plan summary svg:first-child{color:inherit}
+.tu-plan ol{margin:10px 0 2px;padding-left:22px}
+
+/* сценарій / місія над чатом */
+.tu-intro{display:flex;flex-direction:column;gap:10px;background:var(--tile);border:1px solid var(--tile-edge);border-radius:16px;padding:12px 14px}
+.tu-intro .small{line-height:1.45}
+
+/* бульбашки: радіус плиток */
+.tutor-chat .msg{border-radius:18px}
+.tutor-chat .msg.ai{background:var(--tile);border-color:var(--tile-edge);border-bottom-left-radius:6px}
+.tutor-chat .msg.me{border-bottom-right-radius:6px}
+/* дії під повідомленням — маленькі плитки */
+.msg-acts{gap:6px;margin:10px 0 0}
+.mact{background:var(--tile-sq);border-radius:10px;min-height:34px;padding:4px 10px;color:var(--ink-dim)}
+.mact:hover{background:var(--tile-sq);color:var(--ink)}
+.msg-tr{background:var(--tile-sq);border-radius:12px}
+/* корисні слова — рядки з квадратиком «+» */
+.msg-words{gap:6px}
+.msg-words > .tx-label{padding:0}
+.tu-wrows{display:flex;flex-direction:column;gap:6px}
+.tu-wrow{display:flex;align-items:center;gap:10px;width:100%;min-height:44px;padding:5px 10px 5px 5px;border-radius:12px;border:1px solid var(--tile-edge);
+  background:var(--tile-sq);color:var(--ink);font:inherit;text-align:left;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:transform .18s ease}
+.tu-wrow:active:not(:disabled){transform:scale(.985)}
+html.kbd .tu-wrow:focus-visible{outline:2px solid var(--accent-ink);outline-offset:2px}
+.tu-wsq{flex:none;display:grid;place-items:center;width:32px;height:32px;border-radius:9px;background:var(--accent-soft);color:var(--accent-ink)}
+.tu-wrow.is-on{cursor:default;opacity:1}
+.tu-wrow.is-on .tu-wsq{background:var(--good-soft);color:var(--good)}
+.tu-wt{display:flex;flex-direction:column;min-width:0;line-height:1.25;font-size:13.5px}
+.tu-wt b{font-weight:700;overflow-wrap:anywhere}
+.tu-wt .dim{font-size:12.5px;overflow-wrap:anywhere}
+
+/* виправлення — плитка з жовтим квадратиком */
+.fixcard{background:var(--tile);border:1px solid var(--tile-edge);border-radius:16px;border-top-right-radius:6px;padding:0 12px}
+.fixcard summary{min-height:48px;gap:10px}
+.tu-fsq{flex:none;display:grid;place-items:center;width:30px;height:30px;border-radius:9px;background:var(--warn-soft);color:var(--warn)}
+.fix-title{font-size:11px;letter-spacing:.08em}
+.fixcard ul{gap:0;padding:0 0 4px}
+.fixcard li{padding:10px 0;border-top:1px solid var(--line);gap:4px}
+.fix-acts{gap:6px;margin-top:2px}
+.fixcard .fix-add,.fixcard .disagree{margin:0;min-height:32px;padding:4px 10px;border-radius:10px;background:var(--tile-sq);color:var(--ink-dim)}
+.fixcard .fix-add:not(:disabled){color:var(--accent-ink)}
+
+/* нижня панель: підказки — плитки, поле вводу — плитка */
+.sugg .chip{background:var(--tile);border:1px solid var(--tile-edge);border-radius:12px;min-height:40px;padding-inline:12px;font-weight:600;color:var(--ink)}
+.sugg-ic{width:30px;height:30px;border-radius:9px;background:var(--warn-soft)}
+.hint-chip svg{color:var(--warn)}
+.tutor-dock .composer{border-radius:16px;background:var(--tile);border-color:var(--tile-edge)}
+.tutor-dock .composer:focus-within{border-color:var(--accent-ink)}
+.tutor-dock .composer .icon-btn{border-radius:12px}
+.jump{border-radius:14px;background:var(--tile);border-color:var(--tile-edge)}
+
+/* старт чату «Про що поговоримо?» */
+.tu-start .tu-topic .tx-l{font-size:13.5px}
+.tu-start .start-focus{background:var(--tile)}
+.tu-start .start-focus .tx-sq{background:var(--accent-soft);color:var(--accent-ink)}
+.tu-start .start-focus .tx-l{font-weight:500}
+@media (max-width:360px){.tu-start .tu-topic{padding:10px 8px}.tu-start .tu-topic .tx-l{font-size:12.5px}}
+
+/* місії з життя — плитка з квадратиком, фактами й двома діями */
+.tu-mission{gap:12px}
+.tu-mission .tu-mhead{align-items:flex-start}
+.tu-mission .tu-mhead .tx-body{gap:3px}
+.tu-mission .mission-sit{color:var(--ink)}
+.tu-mission .mission-phrases summary{gap:10px;min-height:40px}
+.tu-mission .mission-phrases summary .tx-sq{width:30px;height:30px;border-radius:9px}
+.tu-mission .mission-phrases summary>svg:last-child{color:var(--ink-dim)}
+.tu-mission .mission-save{min-height:48px;background:var(--tile-sq);border-color:transparent}
+.tu-mission .mission-save .tx-sq{background:var(--tile)}
+.tu-mission .mission-save:disabled{opacity:.7;cursor:default}
+.tu-mission .mission-acts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));margin:0}
+.tu-mission .mission-acts .tx{background:var(--tile-sq);border-color:transparent}
+.tu-mission .mission-acts .tx .tx-sq{background:var(--tile)}
+
+/* ---------- підсумок ---------- */
+.tu-sumhead{display:flex;align-items:center;gap:14px;padding:4px 2px 0}
+.tu-sumhead > .tx-sq{width:52px;height:52px;border-radius:16px;background:var(--accent-soft);color:var(--accent-ink)}
+.tu-sumhead .tx-body{flex:1}
+.tu-sumh1{margin:0;font-size:var(--fs-xl);line-height:1.2}
+.tu-sumhead .tx-s{font-size:var(--fs-sm)}
+.tutor-summary .tx-row{align-items:flex-start}
+.tutor-summary .tx-row > .tx-sq,.tutor-summary .tx-row > .tx-no,.tutor-summary .tx-row > .icon-btn{margin-top:1px}
+.tutor-summary .tx-row > .tx-pill{margin-top:8px}
+.tutor-summary .tx-row .tx-l{font-weight:500}
+.tutor-summary .tx-row .tx-l b{font-weight:700}
+.sum-mistake .tx-body{gap:4px}
+.sum-mistake .fix-line{font-size:var(--fs-sm);line-height:1.4}
+.sum-mistake-foot{margin-top:2px;gap:6px}
+.sum-mistake-foot .tx-pill{white-space:normal;line-height:1.2}
+.tutor-summary .disagree{min-height:30px;padding:3px 8px;border-radius:10px;background:var(--tile-sq);font-size:12.5px}
+.sum-mastered-row .fix-line{font-size:var(--fs-sm)}
+.tu-dots{flex:none;display:inline-flex;margin-top:12px}
+.tutor-summary .sum-word,.tutor-summary .ph-pick{min-height:56px}
+.tutor-summary .sum-word > .icon-btn,.tutor-summary .ph-pick > .icon-btn{flex:none}
+.tutor-summary .sum-unadd{flex:none;margin-top:2px}
+.sum-auto{background:var(--accent-soft);border-color:color-mix(in srgb,var(--accent) 35%,transparent)}
+.sum-auto .sum-auto-t{color:var(--accent-ink);font-weight:600}
+.sum-tip .tx-l{font-weight:600}
+.tu-md p:last-child{margin-bottom:0}
+.tu-assess{gap:12px}
+.tx-no.tu-lvl{width:auto;min-width:34px;padding:0 6px;background:var(--accent-soft);color:var(--accent-ink);font-size:13px}
+.rolling-level{background:var(--accent-soft);border-color:color-mix(in srgb,var(--accent) 35%,transparent)}
+.rolling-level .tx-no{background:var(--accent);color:#fff}
+.tu-crit{display:flex;flex-direction:column}
+.tu-crit-row{display:flex;align-items:flex-start;gap:12px;padding:9px 0;border-top:1px solid var(--line)}
+.tu-crit-row .tx-no{width:auto;min-width:34px;padding:0 6px;font-size:12.5px}
+.tu-crit-row .tx-body{flex:1;min-width:0}
+.tu-crit-row .tx-l{font-weight:600}
+.tu-ul{margin:0;padding-left:20px}
+.tu-ul li+li{margin-top:2px}
+.sum-pron.tx-rows{gap:6px}
+.pron-turn{border-bottom:0;padding:10px 12px;gap:8px}
+.pron-turn:last-child{padding-bottom:10px}
+.tutor-summary > .btn.ghost.block{margin-top:-6px}
+.tutor-summary .used-chips .chip{background:var(--tile-sq);border-color:transparent}
+
+/* ---------- голосове вікно: старт, розмова, кінець ---------- */
+.voice .stage{gap:16px}
+.voice .ctrl .c{border-radius:18px;background:var(--tile);border-color:var(--tile-edge)}
+.voice .ctrl.on .c{background:var(--accent-soft);border-color:transparent}
+.voice .ctrl.stop .c{background:var(--bad);border-color:transparent}
+.voice .ctrl{font-weight:600}
+.voice .ptt{border-radius:28px}
+.voice .subs .line{background:var(--tile);border:1px solid var(--tile-edge);border-radius:14px;border-bottom-left-radius:6px;align-self:flex-start;max-width:92%}
+.voice .subs .line.me{background:var(--accent-soft);border-color:transparent;border-radius:14px;border-bottom-right-radius:6px;align-self:flex-end}
+.vfix-count{border-radius:10px}
+.vfix{background:var(--tile);border:1px solid color-mix(in srgb,var(--warn) 45%,transparent);border-radius:12px;border-top-right-radius:4px}
+.voice .notice{border-radius:14px}
+.voice-hint{border-radius:14px;background:var(--tile);border:1px solid var(--tile-edge)}
+/* старт: теми — плитки по 3, головна дія — синя плитка */
+.vc-start{width:100%;max-width:520px;display:flex;flex-direction:column;gap:12px;text-align:left}
+.vc-start .tx-label{text-align:left}
+.vc-start .tx{padding:10px}
+.vc-start .tx .tx-sq{width:32px;height:32px;border-radius:10px}
+.vc-start .tx-l{font-size:13px}
+.vc-tip{display:flex;align-items:center;gap:10px;padding:0 4px;font-size:var(--fs-xs);color:var(--ink-dim);line-height:1.35}
+.vc-tip .tx-sq{width:28px;height:28px;border-radius:9px}
+.vc-scen{width:100%;max-width:520px}
+.voice .controls.vc-go{flex-direction:column;align-items:stretch;gap:8px;width:100%;max-width:520px;margin:0 auto}
+.voice .controls.vc-go .btn{width:100%}
+.voice .controls .tx.primary{width:100%}
+@media (max-height:640px){.vc-start .tx .tx-sq{display:none}.vc-start .tx{min-height:44px;justify-content:center}}
+/* кінець без відповіді / помилка */
+.vc-end{display:flex;flex-direction:column;gap:14px;padding-top:8px}
+.tx-row.sum-mistake{flex-direction:row;align-items:flex-start;gap:12px;padding-bottom:9px;border-bottom:1px solid var(--tile-edge)}
+.tx-row.sum-mistake:last-child{padding-bottom:9px;border-bottom:1px solid var(--tile-edge)}
+.tu-md{font-size:var(--fs-sm);line-height:1.5}
+.msg-acts{gap:4px}
+.mact{padding:4px 8px}
+@media (max-height:640px){
+  .voice.vc-starting .aura{--aura:84px}
+  .voice .controls.vc-go .tx-s,.vc-start .tu-note{display:none}
+  .voice .controls.vc-go .tx.primary{padding:10px 12px}
+}

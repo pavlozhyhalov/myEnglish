@@ -9,7 +9,8 @@ import { speak, stop as stopSpeech, recognize, canRecognize, recordAndTranscribe
 import { logSession } from '../stats.js';
 import { scenarios as loadScenarios } from '../data.js';
 import { setFocus } from '../ui/shell.js';
-import { summarize, parseHint, topicIdeas, MISTAKES_TOPIC, focusTopic } from '../pages/tutor.js';
+import { summarize, parseHint, topicIdeas, MISTAKES_TOPIC, focusTopic, topicIcon } from '../pages/tutor.js';
+import { tx, txPrimary, txGrid, txGroup, txRow, txRows } from '../ui/tiles.js';
 import { go, onLeave } from '../router.js';
 
 const ERR = {
@@ -50,7 +51,7 @@ export async function voiceSession(view, opts = {}) {
   const aura = h('div.aura', halo1, halo2, h('div.core', emo('teacher')));
   const subs = h('div.subs', { 'aria-live': 'polite', hidden: !subsOn });
   const logBox = opts.debug ? h('pre.xs', { style: { maxHeight: '20dvh', overflow: 'auto', background: 'var(--surface)', padding: '8px', borderRadius: '12px', whiteSpace: 'pre-wrap' } }) : null;
-  const notice = h('div.small.center', { style: { maxWidth: '520px' } });
+  const notice = h('div.small.center', { style: { maxWidth: '520px', width: '100%' } });
   const ctrl = (icon, label, onclick, cls = '') => h('button.ctrl' + cls, { type: 'button', onclick, 'aria-label': label }, h('span.c', ic(icon, { size: 26, fill: cls.includes('stop') })), h('span', label));
   const micBtn = ctrl('microphone', 'Мікрофон', toggleMic);
   const controls = h('div.controls',
@@ -71,7 +72,7 @@ export async function voiceSession(view, opts = {}) {
   };
   const ui = h('div.voice', { role: 'dialog', 'aria-label': 'Голосова розмова' },
     h('div.top', h('button.icon-btn', { type: 'button', 'aria-label': 'Завершити', onclick: () => finish() }, ic('x')), timerEl, subsBtn),
-    h('div.stage', aura, stateEl, fixBadge, notice, scenario ? h('div.xs.dim.center', `${scenario.title} · ваша роль: ${scenario.myRole}`) : null, subs, logBox),
+    h('div.stage', aura, stateEl, fixBadge, notice, scenario ? h('div.tx-row.vc-scen', h('span.tx-sq', ic(isMission ? 'flag' : 'users-three', { size: 18 })), h('span.tx-body', h('span.tx-l', scenario.title), h('span.tx-s', `Ваша роль: ${scenario.myRole}`))) : null, subs, logBox),
     pttBtn, controls);
   // вікно — у корені документа, а не в контейнері сторінки: стилі й анімації сторінки (transform, opacity) на iOS
   // роблять контейнер «базою» для position:fixed, і повноекранне вікно опинялося під шапкою, стиснуте
@@ -303,25 +304,27 @@ export async function voiceSession(view, opts = {}) {
       tapped = true;
       audio = new AudioIO().prepare();     // синхронно, в жесті
       if (t) { topic = chipTopic = t.topic; row.title = `Голос: ${t.label}`; }
+      controls.classList.remove('vc-go'); ui.classList.remove('vc-starting');
       controls.replaceChildren(...savedControls);
       notice.replaceChildren();
       resolve();
     };
-    const startBtn = h('button.btn.primary.lg', { type: 'button', style: { minWidth: '240px' }, onclick: () => begin(null) }, ic('microphone', { fill: true }), 'Почати розмову');
+    const startBtn = txPrimary({ icon: 'microphone', label: 'Почати розмову', sub: scenario ? 'вчитель почне сцену першим' : 'вчитель привітається першим', onclick: () => begin(null) });
+    controls.classList.add('vc-go'); ui.classList.add('vc-starting');
     controls.replaceChildren(startBtn, h('button.btn.ghost', { type: 'button', onclick: () => {
       ended = true; cleanup(); resolve();
       if (opts.onFinish) opts.onFinish(row); else go('/tutor', { replace: true });
     } }, 'Назад'));
-    const tip = 'Порада: у навушниках вчитель чує вас краще.';
+    const tip = h('div.vc-tip', h('span.tx-sq', ic('headphones', { size: 16 })), h('span', 'У навушниках вчитель чує вас краще.'));
     // вільна розмова: можна одразу обрати, про що говорити (тап по темі теж стартує сесію)
     if (!scenario && !topic && !opts.onFinish) {
       const focus = store.prof()?.lastFocus;
       const picks = [MISTAKES_TOPIC, ...(focus ? [focusTopic(focus)] : []), ...topicIdeas().slice(0, 5)];
-      notice.replaceChildren(h('div.stack.voice-topics', { style: { gap: '8px' } },
-        h('div.xs.dim', 'Тема (необов\'язково) — або просто почніть, і вчитель запропонує сам:'),
-        h('div.chips', { style: { justifyContent: 'center' } }, picks.map(t => h('button.chip', { type: 'button', onclick: () => begin(t) }, t.label))),
-        h('div.xs.dim', tip)));
-    } else notice.textContent = tip;
+      notice.replaceChildren(h('div.vc-start.voice-topics',
+        txGroup('Тема — за бажанням', [h('p.tu-note', 'Торкніться теми — або просто почніть, і вчитель запропонує сам.'),
+          txGrid(picks.map(t => tx({ icon: topicIcon(t), label: t.label, cls: 'vc-topic', onclick: () => begin(t) })))]),
+        tip));
+    } else notice.replaceChildren(h('div.vc-start', tip));
   });
   if (ended) return cleanup;
   setState('Підключення…'); notice.textContent = '';
@@ -556,10 +559,12 @@ export async function voiceSession(view, opts = {}) {
     if (!row.messages.some(m => m.role === 'user')) {
       // голос учня не розпізнано — пояснюємо, а не мовчки виходимо
       setFocus(false);
-      view.replaceChildren(h('div.hero', emo('mic', 'xl'), h('h2', 'Розмову завершено'),
-        h('p.dim', row.messages.length ? 'Вашої відповіді не було чути. Перевірте, що браузеру дозволено мікрофон (на iPhone: Налаштування → Safari → Мікрофон), і спробуйте ще раз — краще в навушниках.' : 'Розмова не почалася: не вдалося з\'єднатися із вчителем.'),
-        h('div.row', h('a.btn.soft', { href: '#/tutor' }, 'До вчителя'), h('a.btn.primary', { href: '#/tutor?mode=voice', onclick: (e) => { e.preventDefault(); const nv = h('div'); view.replaceChildren(nv); voiceSession(nv, opts); } }, 'Спробувати ще раз')),
-        h('a.small', { href: '#/lab/live' }, 'Діагностика голосу')));
+      view.replaceChildren(h('div.stack-lg.vc-end',
+        h('div.tu-sumhead', h('span.tx-sq', ic('microphone-slash', { size: 26 })), h('div.tx-body', h('h1.tu-sumh1', 'Розмову завершено'),
+          h('span.tx-s', row.messages.length ? 'Вашої відповіді не було чути.' : 'Розмова не почалася: не вдалося з\'єднатися із вчителем.'))),
+        row.messages.length ? h('p.tu-note', 'Перевірте, що браузеру дозволено мікрофон (на iPhone: Налаштування → Safari → Мікрофон), і спробуйте ще раз — краще в навушниках.') : null,
+        txPrimary({ icon: 'arrow-clockwise', label: 'Спробувати ще раз', sub: 'нова голосова розмова', href: '#/tutor?mode=voice', onclick: (e) => { e.preventDefault(); const nv = h('div'); view.replaceChildren(nv); voiceSession(nv, opts); } }),
+        txRows([txRow({ icon: 'chat-circle-dots', label: 'До вчителя', href: '#/tutor' }), txRow({ icon: 'wrench', label: 'Діагностика голосу', sub: 'лог останньої сесії', href: '#/lab/live' })])));
       return;
     }
     // репліки для оцінки вимови на екрані підсумку: лише в пам'яті, текст — уточнений, до 200 символів

@@ -8,7 +8,7 @@ import { savePhrases, guessSituation, hasPhrase, situation as phraseSit } from '
 import { toast } from '../ui/toast.js';
 import { go } from '../router.js';
 import { byFit, levelTag, myLevel, levelChips, levelCounts, levelPick, filterByLevel, fallbackNote, pickOfDay } from '../level.js';
-import { txPrimary, txGroup, txRow, txRows } from '../ui/tiles.js';
+import { tx, txPrimary, txGroup, txRow, txRows } from '../ui/tiles.js';
 
 /** Іконка з мапи emo() у квадратику плитки (дані сценаріїв зберігають назви emo) */
 const sqEmo = (el, name) => { const e = emo(name); e.setAttribute('width', 18); e.setAttribute('height', 18); el.querySelector('.tx-sq')?.replaceChildren(e); return el; };
@@ -40,28 +40,31 @@ export default async function scenarios(view, r) {
 
 function detail(view, s) {
   setTitle(s.title);
-  view.replaceChildren(h('div.stack-lg',
-    h('div.row', h('a.icon-btn', { href: '#/scenarios', 'aria-label': 'Назад' }, ic('arrow-left')), h('div.emoji-circle', emo(s.emoji || 'theater')), h('h1.grow', { style: { margin: 0 } }, s.title)),
-    h('section.card.stack',
-      h('div', h('div.section-title', 'Ситуація'), h('div', s.situation)),
-      h('div', h('div.section-title', 'Ваша роль'), h('div', s.myRole)),
-      h('div', h('div.section-title', 'Вчитель грає'), h('div', s.tutorRole)),
-      h('div', h('div.section-title', 'Мета'), h('div', s.goal))),
-    h('section.card', h('div.section-title', 'Ключові фрази — прослухайте перед початком'),
-      s.phrases.map(p => h('div.example', h('button.icon-btn.soft', { type: 'button', 'aria-label': 'Прослухати', onclick: () => speak(p) }, ic('speaker-high', { size: 20 })), h('div.grow', { lang: 'en' }, p))),
-      s.phrases.length ? saveBtn(s) : null),
-    h('div.stack',
-      h('a.btn.primary.lg.block', { href: `#/tutor?mode=voice&scenario=${s.id}` }, ic('microphone', { fill: true }), 'Почати голосом'),
-      h('a.btn.soft.lg.block', { href: `#/tutor?scenario=${s.id}` }, ic('chat-circle-dots'), 'Почати текстом'))));
+  // назва — у шапці застосунку; тут — повернення, група й рівень
+  const grp = { life: 'Повсякдення', travel: 'Подорожі', work: 'Робота' }[s.group] || 'Сценарій';
+  const fact = (icon, label, text) => h('div.tu-fact', h('span.tx-sq', ic(icon, { size: 16 })),
+    h('div.tx-body', h('span.tu-fact-k', label), h('span.tu-fact-v', text)));
+  view.replaceChildren(h('div.stack-lg.tu-scd',
+    h('div.gx-lhead', h('a.icon-btn', { href: '#/scenarios', 'aria-label': 'До сценаріїв' }, ic('arrow-left')),
+      sqEmo(h('div.tu-scd-head', h('span.tx-sq'), h('div.tx-body', h('span.tx-label', `Рольова гра · ${grp}`), h('span.tx-s', s.short || s.title))), s.emoji || 'theater'),
+      s.level ? levelTag(s.level) : null),
+    txGroup('Ситуація', h('div.tu-panel.stack.tu-scd-sit', h('div.tu-scd-sit-t', s.situation),
+      h('div.tu-facts', fact('user', 'Ваша роль', s.myRole), fact('chalkboard-teacher', 'Вчитель грає', s.tutorRole), fact('target', 'Мета', s.goal)))),
+    txPrimary({ icon: 'microphone', label: 'Почати голосом', sub: 'у реальному часі, вчитель почне сцену', href: `#/tutor?mode=voice&scenario=${s.id}` }),
+    tx({ icon: 'chat-circle-dots', label: 'Почати текстом', sub: 'у чаті, з виправленнями', wide: true, href: `#/tutor?scenario=${s.id}` }),
+    s.phrases.length ? txGroup(`Ключові фрази · прослухайте перед початком`, [
+      txRows(s.phrases.map(p => txRow({ icon: 'speaker-high', label: p, chevron: false, onclick: () => speak(p), cls: 'tu-scd-phrase', attrs: { lang: 'en', 'aria-label': `Прослухати: ${p}` } }))),
+      saveBtn(s)]) : null));
 }
 
 /** «Фрази сцени у фразник»: ситуація — за назвою й описом сценарію */
 function saveBtn(s) {
-  const b = h('button.btn.sm.soft', { type: 'button', style: { marginTop: '10px' } });
+  const b = h('button.tx-row.tu-scd-save', { type: 'button' });
   const paint = (busy = false) => {
     const all = s.phrases.every(hasPhrase);
     b.disabled = busy || all;
-    b.replaceChildren(ic(busy ? 'hourglass' : all ? 'check' : 'plus', { size: 16 }), busy ? 'Зберігаю…' : all ? 'Фрази сцени у фразнику' : 'Фрази сцени у фразник');
+    b.replaceChildren(h('span.tx-sq', ic(busy ? 'hourglass' : all ? 'check' : 'plus', { size: 18 })),
+      h('span.tx-body', h('span.tx-l', busy ? 'Зберігаю…' : all ? 'Фрази сцени у фразнику' : 'Фрази сцени у фразник'), h('span.tx-s', `${s.phrases.length} ${s.phrases.length === 1 ? 'фраза' : s.phrases.length < 5 ? 'фрази' : 'фраз'} — повторюватимете в «Фразнику»`)));
   };
   paint();
   b.addEventListener('click', async () => {
