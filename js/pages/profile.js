@@ -6,7 +6,7 @@ import { user } from '../supa.js';
 import { toast } from '../ui/toast.js';
 import { confirmSheet } from '../ui/sheet.js';
 import { myLevel, LEVEL_NAME } from '../level.js';
-import { tx, txGroup, txRows } from '../ui/tiles.js';
+import { tx, txGroup, txRow, txRows } from '../ui/tiles.js';
 
 export const GOALS = [
   ['people', 'Спілкування з людьми'], ['travel', 'Подорожі'], ['work', 'Робота й кар\'єра'], ['moving', 'Життя за кордоном'],
@@ -167,13 +167,16 @@ export default function profile(view) {
       sub: u ? u.email : 'Локальний режим — дані зберігаються на цьому пристрої',
       end: h('a.tag.accent', { href: '#/settings', title: 'Змінити рівень' }, `${lvl} · ${LEVEL_NAME[lvl]}`) }),
     h('p.small.dim.pp-note', 'Ці дані бачить лише AI-вчитель: за ними він обирає теми розмов, приклади й звертання. Усі поля необов\'язкові — заповніть те, що хочете.'),
-    !u ? h('div.notice', 'AI-вчитель працює після входу. Дані профілю збережуться й синхронізуються, щойно ви ввійдете.', h('div', { style: { marginTop: '8px' } }, h('a.btn.sm.soft', { href: '#/auth' }, 'Увійти'))) : null,
+    !u ? txRows([txRow({ icon: 'key', label: 'Увійти', sub: 'AI-вчитель працює після входу. Дані профілю збережуться й синхронізуються, щойно ви ввійдете.', href: '#/auth' })]) : null,
 
-    txGroup('Про вас',
+    txGroup('Як до вас звертатися',
       h('div.card.stack',
         field('name', 'Ім\'я латиницею (так вас кликатиме вчитель)', { placeholder: 'Наприклад: Pavlo' }),
         field('address', 'Як звертатися в привітанні', { placeholder: 'Наприклад: Павле', hint: 'Кличний відмінок — для «Доброго ранку, …» на головній' }),
-        h('div.field', h('label', 'Як учителю говорити про вас'), pronounSeg),
+        h('div.field', h('label', 'Як учителю говорити про вас'), pronounSeg))),
+
+    txGroup('Про вас',
+      h('div.card.stack',
         h('div.grid2.form2', field('age', 'Вік', { placeholder: 'Наприклад: 32' }), field('location', 'Де живете', { placeholder: 'Місто, країна' })),
         h('div.grid2.form2', field('nativeLang', 'Рідна мова', { placeholder: 'українська' }), field('otherLangs', 'Інші мови', { placeholder: 'польська — базово' })),
         field('occupation', 'Чим займаєтесь', { placeholder: 'Професія або навчання' }),
@@ -182,7 +185,10 @@ export default function profile(view) {
     txGroup('Навчання',
       h('div.card.stack',
         h('div.field', h('label', 'Навіщо вам англійська'), goalChips),
-        field('interests', 'Інтереси й хобі', { placeholder: 'Гори, кіно, готування, футбол…', textarea: true, hint: 'Вчитель використовуватиме їх як теми розмов і приклади' }),
+        field('interests', 'Інтереси й хобі', { placeholder: 'Гори, кіно, готування, футбол…', textarea: true, hint: 'Вчитель використовуватиме їх як теми розмов і приклади' }))),
+
+    txGroup('Побажання вчителю',
+      h('div.card.stack',
         field('avoid', 'Теми, яких краще уникати', { placeholder: 'Наприклад: політика' }),
         field('notes', 'Що ще має знати вчитель', { placeholder: 'Наприклад: хочу більше розмовних фраз, менше граматики', textarea: true }))),
 

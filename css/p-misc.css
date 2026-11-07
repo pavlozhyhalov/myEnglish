@@ -44,3 +44,11 @@
 .pp-set .dnd-row .handle{display:grid;place-items:center;width:20px}
 .pp-set .dnd-list > .list-row{background:transparent;border:0;padding:4px 4px 0;min-height:0}
 .pp-set .dnd-row > .grow{font-weight:600;font-size:var(--fs-sm)}
+
+/* ---------- Друзі (js/pages/friends.js) ---------- */
+.fr-head,.fr-code{cursor:default}
+.fr-head:active,.fr-code:active{transform:none}
+.fr-head .tx-sq,.fr-code .tx-sq{color:var(--accent-ink)}
+.fr-code .friend-code{font-size:1.45rem!important;line-height:1.2}
+.auth-row:has(.auth-forgot[hidden]){display:none}
+.fr-list > .tx-row.small{font-size:var(--fs-sm);color:var(--ink-dim);line-height:1.4}
