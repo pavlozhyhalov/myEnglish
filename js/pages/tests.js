@@ -29,6 +29,7 @@ const freshFirst = (list, seen) => {
   return [...mix(list.filter(x => !seen.has(exKey(x)))), ...mix(list.filter(x => seen.has(exKey(x))))];
 };
 
+const SKILL_IC = { grammar: 'puzzle-piece', vocabulary: 'cards', reading: 'book-open', listening: 'headphones', writing: 'pencil-line', speaking: 'microphone' };
 const SKILL_UK = { grammar: 'Граматика', vocabulary: 'Лексика', reading: 'Читання', listening: 'Аудіювання', writing: 'Письмо', speaking: 'Говоріння' };
 
 export default async function tests(view, r) {
@@ -86,16 +87,19 @@ async function overview(view) {
 function runner(view, { title, total, next, onFinish }) {
   setFocus(true);
   setTitle(title);
-  const head = h('div.row', h('button.icon-btn', { type: 'button', 'aria-label': 'Вийти', onclick: () => { stopSpeech(); setFocus(false); location.hash = '#/tests'; } }, ic('x')), h('div.grow', progress(0, 'Пройдено питань')), h('span.xs.dim.num'));
+  // шапка: «Вийти», підпис великими літерами з лічильником-пігулкою, під ними смужка прогресу; назва — у шапці застосунку
+  const count = txPill('', 'accent'); count.classList.add('num');
+  const bar = h('div', progress(0, 'Пройдено питань'));
+  const head = runHead(h('button.icon-btn', { type: 'button', 'aria-label': 'Вийти', onclick: () => { stopSpeech(); setFocus(false); location.hash = '#/tests'; } }, ic('x')), 'Питання', count, bar);
   const body = h('div.stack');
-  view.replaceChildren(h('div.stack', head, body));   // назва — у шапці застосунку
+  view.replaceChildren(h('div.stack-lg', head, body));
   const results = [];
   let n = 0;
   const step = (q) => {
     if (!q) { stopSpeech(); setFocus(false); onFinish(results); return; }
     n++;
-    head.children[1].replaceChildren(progress((n - 1) / total * 100, 'Пройдено питань'));
-    head.lastChild.textContent = `${n}/${total}`;
+    bar.replaceChildren(progress((n - 1) / total * 100, 'Пройдено питань'));
+    count.textContent = `${n}/${total}`;
     body.replaceChildren(renderExercise(q, (ok, given) => { results.push({ ex: q, ok, given }); }, () => step(next(results[results.length - 1]))));
     if (q.audio) setTimeout(() => speak(q.audio), 300);
   };
@@ -147,6 +151,18 @@ function resultHead(score, caption, kpis) {
     h('div.gx-res', h('span.gx-res-ic.' + scoreCls(score), ic(score >= 80 ? 'trophy' : score >= 60 ? 'thumbs-up' : 'barbell', { size: 26, fill: true })), h('div.grow', h('div.tx-label', 'Результат'), h('div.gx-res-t', caption))),
     txKpis(kpis));
 }
+
+/** Шапка раннера: кнопка ліворуч, підпис і лічильник, смужка прогресу */
+function runHead(btn, label, pill, bar) {
+  return h('div.gx-run', btn, h('div.grow', h('div.gx-run-t', h('span.tx-label', label), pill), bar));
+}
+/** Вступ / проміжний екран: значок у квадратику, підпис великими літерами, заголовок, текст */
+function introHead({ icon, tone = '', eyebrow, title, text }) {
+  return h('div.gx-intro', h('span.gx-res-ic' + (tone ? '.' + tone : ''), ic(icon, { size: 28, fill: true })),
+    eyebrow ? h('div.tx-label', eyebrow) : null, title ? h('h2.gx-intro-h', title) : null, text ? h('p.gx-intro-p', text) : null);
+}
+/** Плитка-примітка (порада, попередження) без дії */
+const noteTile = (icon, text, tone = '') => h('div.tx.wide.gx-note' + (tone ? '.' + tone : ''), h('span.tx-sq', ic(icon, { size: 20 })), h('span.tx-body', h('span.tx-l', text)));
 
 // ---------- Визначення рівня ----------
 // Адаптивний тест (computer-adaptive) за частинами: граматика → лексика → читання → аудіювання, потім письмо й розмова.
@@ -226,23 +242,27 @@ async function placementTest(view) {
     setFocus(false);
     const parts = skills.map(s => PART_UK[s]);
     const done = run ? answered() : 0;
-    view.replaceChildren(h('div.stack-lg.pl-intro',
-      h('div.hero', emo('target', 'xl'), h('h1', 'Визначимо ваш рівень'),
-        h('p.dim', 'Адаптивний тест, як у міжнародних іспитах: кожне наступне питання підбирається за вашими відповідями, тому рівень визначається точно, а не «приблизно».')),
-      h('section.card.stack', { style: { gap: '10px' } },
-        h('div.section-title', 'Як влаштовано'),
-        h('ol.pl-steps',
-          h('li', h('b', `${skills.length} ${plural(skills.length, 'частина', 'частини', 'частин')}`), ` — ${parts.join(', ')}. У кожній 8–20 питань: коли рівень зрозумілий, частина завершується сама.`),
-          h('li', h('b', 'Письмо'), ' — короткий текст на 8–12 хвилин (після входу).'),
-          h('li', h('b', 'Розмова'), ' — 3 хвилини голосом із вчителем (після входу, якщо є мікрофон).')),
-        h('p.small.dim', 'Разом ~25 хвилин. Можна зупинитися будь-коли й продовжити пізніше з того самого місця.')),
-      h('div.feedback.ok', 'Не вгадуйте навмання: якщо не знаєте відповіді, натисніть «Не знаю». Випадкові вгадування лише збивають оцінку.'),
-      run ? h('div.stack', { style: { gap: '8px' } },
-        h('button.btn.primary.lg.block', { type: 'button', onclick: resume }, ic('play', { fill: true }), 'Продовжити тест'),
-        h('p.xs.dim.center', `Пройдено ${done} ${plural(done, 'питання', 'питання', 'питань')}`),
-        h('button.btn.ghost.block', { type: 'button', onclick: () => { clearRun(); run = null; start(); } }, 'Почати заново'))
-        : h('button.btn.primary.lg.block', { type: 'button', onclick: start }, 'Почати'),
-      h('a.btn.ghost.block', { href: '#/tests' }, 'Назад')));
+    view.replaceChildren(h('div.stack-lg.gx.pl-intro',
+      introHead({ icon: 'target', eyebrow: 'Адаптивний тест', title: 'Визначимо ваш рівень',
+        text: 'Як у міжнародних іспитах: кожне наступне питання підбирається за вашими відповідями, тому рівень визначається точно, а не «приблизно».' }),
+      txKpis([
+        { value: skills.length, label: `${plural(skills.length, 'частина', 'частини', 'частин')} з вибором` },
+        { value: '~25', unit: 'хв', label: 'разом', ariaLabel: 'Разом приблизно 25 хвилин' },
+        { value: '8–20', label: 'питань у частині' },
+      ]),
+      txGroup('Як влаштовано', txRows([
+        h('div.tx-row.gx-static', h('span.tx-no', '1'), h('span.tx-body', h('span.tx-l', `${skills.length} ${plural(skills.length, 'частина', 'частини', 'частин')} з вибором відповіді`),
+          h('span.tx-s', `${parts.join(', ')}. Коли рівень зрозумілий, частина завершується сама.`))),
+        h('div.tx-row.gx-static', h('span.tx-no', '2'), h('span.tx-body', h('span.tx-l', 'Письмо'), h('span.tx-s', 'Короткий текст на 8–12 хвилин (після входу).'))),
+        h('div.tx-row.gx-static', h('span.tx-no', '3'), h('span.tx-body', h('span.tx-l', 'Розмова'), h('span.tx-s', '3 хвилини голосом із вчителем (після входу, якщо є мікрофон).'))),
+      ])),
+      noteTile('lightbulb', 'Не вгадуйте навмання: якщо не знаєте відповіді, натисніть «Не знаю». Випадкові вгадування лише збивають оцінку.'),
+      run ? txPrimary({ icon: 'play', label: 'Продовжити тест', sub: `Пройдено ${done} ${plural(done, 'питання', 'питання', 'питань')}`, onclick: resume })
+        : txPrimary({ icon: 'play', label: 'Почати', sub: 'Можна зупинитися й продовжити пізніше з того самого місця', onclick: start }),
+      run ? txGrid([
+        tx({ icon: 'arrow-clockwise', label: 'Почати заново', onclick: () => { clearRun(); run = null; start(); } }),
+        tx({ icon: 'arrow-left', label: 'До тестів', href: '#/tests' }),
+      ], 2) : tx({ wide: true, icon: 'arrow-left', label: 'До тестів', href: '#/tests' })));
   }
 
   function start() {
@@ -306,16 +326,14 @@ async function placementTest(view) {
       if (!confirm('Пропустити аудіювання? Ця частина не врахується в рівні.')) return;
       stopSpeech(); run.resp[s] = []; run.noSound = true; run.skill++; run.cur = null; saveRun(run); ask();
     } }, 'Немає звуку — пропустити частину') : null;
-    const pairNote = q.group != null && resp.length && resp[resp.length - 1].group === q.group ? h('span.tag', 'Той самий текст, друге питання') : null;
+    const pairNote = q.group != null && resp.length && resp[resp.length - 1].group === q.group ? txPill('Той самий текст, друге питання') : null;
     view.replaceChildren(h('div.stack.pl-run',
-      h('div.row', h('button.icon-btn', { type: 'button', 'aria-label': 'Пауза — продовжити можна пізніше', title: 'Пауза', onclick: pause }, ic('pause')),
-        h('div.grow.stack', { style: { gap: '4px' } },
-          h('div.row.xs', h('b.grow', `Частина ${run.skill + 1} з ${run.skills.length} · ${SKILL_UK[s]}`), h('span.dim.num', `${n}/≤${max}`)),
-          progress(overall * 100, 'Пройдено тесту'))),
+      runHead(h('button.icon-btn', { type: 'button', 'aria-label': 'Пауза — продовжити можна пізніше', title: 'Пауза', onclick: pause }, ic('pause')),
+        `Частина ${run.skill + 1} з ${run.skills.length} · ${SKILL_UK[s]}`, h('span.tx-pill.accent.num', `${n}/≤${max}`), progress(overall * 100, 'Пройдено тесту')),
       h('div.xs.dim', instr, pairNote ? ' ' : '', pairNote),
       q.passage ? h('div.card.pl-passage', { lang: 'en' }, q.passage) : null,
       h('div.row', h('div.grow.pl-prompt', { lang: 'en' }, q.prompt), listen),
-      h('div.stack', { role: 'group', 'aria-label': 'Варіанти відповіді' }, opts),
+      h('div.ex-opts', { role: 'group', 'aria-label': 'Варіанти відповіді' }, opts),
       h('div.row', h('button.btn.ghost', { type: 'button', onclick: () => record(false, '—', true) }, 'Не знаю'), nextBtn),
       noSound));
     if (listen) setTimeout(() => listen.isConnected && plays === 0 && listen.click(), 300);
@@ -373,9 +391,10 @@ async function placementTest(view) {
       if (left % 30 === 0) timer.poke();
     }, 1000);
     view.replaceChildren(h('div.stack.pl-write',
-      h('div.row', h('button.icon-btn', { type: 'button', 'aria-label': 'Пауза — продовжити можна пізніше', onclick: pause }, ic('pause')), h('h2.grow', { style: { margin: 0 } }, 'Письмо'), h('span.tag.accent', `≈ ${est}`)),
-      h('p.small.dim', `Напишіть ${lo}–${hi} слів англійською, як зможете. Без перекладача й словника: оцінюється ваш власний текст. Орієнтовно ${cfg.min} хв.`),
-      h('div.card.pl-task', { lang: 'en' }, taskText),
+      h('div.gx-run', h('button.icon-btn', { type: 'button', 'aria-label': 'Пауза — продовжити можна пізніше', onclick: pause }, ic('pause')),
+        h('div.grow', h('div.gx-run-t', h('h2.tx-label', 'Частина · письмо'), txPill(`≈ ${est}`, 'accent')))),
+      h('p.small.dim', { style: { margin: '0 4px' } }, `Напишіть ${lo}–${hi} слів англійською, як зможете. Без перекладача й словника: оцінюється ваш власний текст. Орієнтовно ${cfg.min} хв.`),
+      h('div.tx.wide.gx-note.pl-task', h('span.tx-sq', ic('pencil-line', { size: 20 })), h('span.tx-body', h('span.tx-l', { lang: 'en' }, taskText))),
       ta,
       h('div.row.xs', count, h('span.grow'), ic('clock', { size: 16 }), clock),
       err,
@@ -416,15 +435,15 @@ async function placementTest(view) {
   /** Немає мережі: письмо й розмову оцінює вчитель онлайн — спробувати ще раз або завершити без них */
   function offlineStep(retry) {
     setFocus(false);
-    view.replaceChildren(h('div.hero', emo('warning', 'xl'), h('h2', 'Немає з\'єднання з інтернетом'),
-      h('p.dim', 'Письмо й розмову оцінює вчитель онлайн. Під\'єднайтеся до мережі й спробуйте ще раз — або завершіть тест без цих частин.'),
-      h('div.stack', { style: { gap: '8px', width: '100%' } },
-        h('button.btn.primary.block', { type: 'button', onclick: retry }, 'Спробувати ще раз'),
-        h('button.btn.soft.block', { type: 'button', onclick: () => {
-          if (!run.writing?.result) run.writing = { ...(run.writing || {}), skipped: 'offline' };
-          if (!run.speaking) run.speaking = { skipped: 'offline' };
-          run.phase = 'done'; saveRun(run); finish();
-        } }, 'Завершити без них'))));
+    view.replaceChildren(h('div.stack-lg.gx',
+      introHead({ icon: 'warning', tone: 'warn', eyebrow: 'Немає мережі', title: 'Немає з\'єднання з інтернетом',
+        text: 'Письмо й розмову оцінює вчитель онлайн. Під\'єднайтеся до мережі й спробуйте ще раз — або завершіть тест без цих частин.' }),
+      txPrimary({ icon: 'arrow-clockwise', label: 'Спробувати ще раз', onclick: retry }),
+      tx({ wide: true, icon: 'flag', label: 'Завершити без них', sub: 'Рівень — за частинами з вибором відповіді', onclick: () => {
+        if (!run.writing?.result) run.writing = { ...(run.writing || {}), skipped: 'offline' };
+        if (!run.speaking) run.speaking = { skipped: 'offline' };
+        run.phase = 'done'; saveRun(run); finish();
+      } })));
   }
 
   // ---------- розмова ----------
@@ -435,39 +454,41 @@ async function placementTest(view) {
     const est = receptiveOverall()?.level || 'B1';
     const skip = (why) => { run.speaking = { skipped: why || true }; run.phase = 'done'; saveRun(run); finish(); };
     if (!canVoice()) {
-      view.replaceChildren(h('div.hero', emo('mic', 'xl'), h('h2', 'Розмова недоступна'),
-        h('p.dim', 'На цьому пристрої чи в браузері немає доступу до мікрофона. Говоріння можна буде оцінити пізніше в розмові з вчителем.'),
-        h('button.btn.primary', { type: 'button', onclick: () => skip('no_mic') }, 'Завершити тест')));
+      view.replaceChildren(h('div.stack-lg.gx',
+        introHead({ icon: 'microphone-slash', eyebrow: 'Частина · розмова', title: 'Розмова недоступна',
+          text: 'На цьому пристрої чи в браузері немає доступу до мікрофона. Говоріння можна буде оцінити пізніше в розмові з вчителем.' }),
+        txPrimary({ icon: 'flag', label: 'Завершити тест', sub: 'Показати рівень', onclick: () => skip('no_mic') })));
       return;
     }
-    view.replaceChildren(h('div.hero', emo('mic', 'xl'), h('h2', 'Останній етап: 3 хвилини розмови'),
-      h('p.dim', 'Вчитель почне з простих питань про вас, а далі поступово ускладнюватиме: розповідь про подію, думка з аргументами, гіпотетичні питання. Говоріть як вийде — це оцінка говоріння.'),
-      h('p.small.dim', 'Рекомендуємо не пропускати: без розмови рівень визначиться лише за письмовими частинами.'),
-      h('div.row', h('button.btn.soft', { type: 'button', onclick: () => skip('user') }, 'Пропустити'),
-        h('button.btn.primary', { type: 'button', onclick: async (e) => {
-          e.currentTarget.disabled = true;
-          const { voiceSession } = await import('../live/voice.js');
-          voiceSession(view, {
-            // ≤ 300 символів (сервер обрізає тему)
-            topic: `LEVEL CHECK, 3 min. One question at a time, escalate: A2 self/routine → B1 past event, plans → B2 opinion with reasons → C1 hypothetical/abstract. If they struggle, stay at that level. Don't teach or correct. Short turns. Written test estimate: ${est}.`,
-            maxSeconds: 180,
-            onFinish: async (row) => {
-              view.replaceChildren(h('div.hero', emo('hourglass', 'xl'), h('p', 'Оцінюємо говоріння…')));
-              let level = null;
-              try {
-                if (!row.messages.some(m => m.role === 'user')) throw new Error('empty');
-                const s = await tutor('summary', { mode: 'voice', messages: row.messages.map(m => ({ role: m.role, text: m.text })) });
-                // метрики мовлення (summary.speech від voice.js) лишаються — їх рахує «Аналіз» і звіт за місяць
-                row.summary = row.summary?.speech ? { ...s, speech: row.summary.speech } : s; row.title = 'Тест на рівень: розмова'; store.put('tutor_chats', row);
-                // замало мовлення — говоріння не враховуємо (краще без оцінки, ніж хибне A1)
-                level = CAT.LEVELS.includes(s?.level_signal) && s.level_assessment?.enough_data !== false ? s.level_signal : null;
-              } catch { level = null; }
-              run.speaking = level ? { level } : { skipped: 'failed' };
-              run.phase = 'done'; saveRun(run);
-              finish();
-            },
-          });
-        } }, ic('microphone', { fill: true }), 'Почати розмову'))));
+    view.replaceChildren(h('div.stack-lg.gx',
+      introHead({ icon: 'microphone', eyebrow: 'Останній етап', title: '3 хвилини розмови',
+        text: 'Вчитель почне з простих питань про вас, а далі поступово ускладнюватиме: розповідь про подію, думка з аргументами, гіпотетичні питання. Говоріть як вийде — це оцінка говоріння.' }),
+      noteTile('info', 'Рекомендуємо не пропускати: без розмови рівень визначиться лише за письмовими частинами.'),
+      txPrimary({ icon: 'microphone', label: 'Почати розмову', sub: '3 хвилини голосом', onclick: async (e) => {
+        e.currentTarget.disabled = true;
+        const { voiceSession } = await import('../live/voice.js');
+        voiceSession(view, {
+          // ≤ 300 символів (сервер обрізає тему)
+          topic: `LEVEL CHECK, 3 min. One question at a time, escalate: A2 self/routine → B1 past event, plans → B2 opinion with reasons → C1 hypothetical/abstract. If they struggle, stay at that level. Don't teach or correct. Short turns. Written test estimate: ${est}.`,
+          maxSeconds: 180,
+          onFinish: async (row) => {
+            view.replaceChildren(h('div.stack-lg.gx', introHead({ icon: 'hourglass', eyebrow: 'Розмова', title: 'Оцінюємо говоріння…' })));
+            let level = null;
+            try {
+              if (!row.messages.some(m => m.role === 'user')) throw new Error('empty');
+              const s = await tutor('summary', { mode: 'voice', messages: row.messages.map(m => ({ role: m.role, text: m.text })) });
+              // метрики мовлення (summary.speech від voice.js) лишаються — їх рахує «Аналіз» і звіт за місяць
+              row.summary = row.summary?.speech ? { ...s, speech: row.summary.speech } : s; row.title = 'Тест на рівень: розмова'; store.put('tutor_chats', row);
+              // замало мовлення — говоріння не враховуємо (краще без оцінки, ніж хибне A1)
+              level = CAT.LEVELS.includes(s?.level_signal) && s.level_assessment?.enough_data !== false ? s.level_signal : null;
+            } catch { level = null; }
+            run.speaking = level ? { level } : { skipped: 'failed' };
+            run.phase = 'done'; saveRun(run);
+            finish();
+          },
+        });
+      } }),
+      tx({ wide: true, icon: 'flag', label: 'Пропустити', sub: 'Завершити тест без розмови', onclick: () => skip('user') })));
   }
 
   // ---------- результат ----------
@@ -502,9 +523,11 @@ async function placementTest(view) {
     timer.poke(); timer.stop();
     const results = items.map(r => ({ ex: { ...(byId.get(r.id) || { prompt: r.id, answer: '' }), type: 'choice' }, ok: r.ok, given: r.given }));
     const conf = CAT.confidence(o.theta, CAT.overallSE(Object.fromEntries(Object.entries(est).map(([k, v]) => [k, v.se]))));
-    const bar = (k, lv, sub) => h('div.pl-skill',
-      h('div.row.small', h('span.grow', SKILL_UK[k]), h('b', lv), sub ? h('span.xs.dim', sub) : null),
-      h('div.pl-bar', { role: 'img', 'aria-label': `${SKILL_UK[k]}: ${lv}` }, CAT.LEVELS.map((l, i) => h('i', { class: i <= CAT.LEVELS.indexOf(lv) ? 'on' : '' }))));
+    // навичка — рядок-плитка: іконка, назва, п'ять сегментів рівня, рівень пігулкою
+    const bar = (k, lv, sub) => h('div.tx-row.gx-skill', h('span.tx-sq', ic(SKILL_IC[k] || 'target', { size: 18 })),
+      h('span.tx-body', h('span.gx-skill-l', h('span.tx-l', SKILL_UK[k]), sub ? h('span.tx-s', sub) : null),
+        h('span.pl-bar', { role: 'img', 'aria-label': `${SKILL_UK[k]}: ${lv}` }, CAT.LEVELS.map((l, i) => h('i', { class: i <= CAT.LEVELS.indexOf(lv) ? 'on' : '' })))),
+      txPill(lv, 'accent'));
     const skillRows = [
       ...Object.entries(est).map(([k, v]) => { const c = CAT.confidence(v.theta, v.se); return bar(k, CAT.levelOf(v.theta), c.label); }),
       wr?.level ? bar('writing', wr.level, { low: 'нижня межа', mid: '', high: 'верхня межа' }[wr.sublevel] || '') : null,
@@ -516,21 +539,27 @@ async function placementTest(view) {
       !wr?.level ? (run.writing?.skipped === 'offline' ? 'письмо — немає з\'єднання' : run.writing?.skipped ? 'письмо пропущено' : wr ? 'письмо не оцінено' : user() ? null : 'письмо й розмова — після входу') : null,
       run.speaking?.skipped ? (run.speaking.skipped === 'offline' ? 'розмова — немає з\'єднання' : run.speaking.skipped === 'no_mic' ? 'розмова недоступна' : run.speaking.skipped === 'failed' ? 'розмову не вдалося оцінити' : 'розмову пропущено') : null,
     ].filter(Boolean);
-    view.replaceChildren(h('div.stack-lg.pl-result',
-      h('div.hero', emo('trophy', 'xl'), h('div.xs.dim', 'Ваш рівень'), h('div.num.pl-big', o.display),
-        h('p', h('b', LEVEL_NAME[o.level] || ''), conf.sure ? '' : h('span.dim', ` · ${conf.label}`)),
-        h('p.dim', LEVEL_DESC[o.level] || '')),
-      h('section.card.stack', { style: { gap: '12px' } }, h('div.section-title', 'За навичками'), skillRows,
-        skipped.length ? h('p.xs.dim', `Не враховано: ${skipped.join(', ')}.`) : null),
-      wr?.level || wr?.comment_uk ? h('section.card.stack', { style: { gap: '8px' } },
-        h('div.section-title', 'Письмо: відгук'),
-        wr.comment_uk ? h('p.small', wr.comment_uk) : null,
+    const okN = items.filter(r => r.ok).length;
+    view.replaceChildren(h('div.stack-lg.gx.pl-result',
+      h('section.tx-group',
+        h('div.gx-res', h('span.gx-res-ic.good', ic('trophy', { size: 26, fill: true })),
+          h('div.grow', h('div.tx-label', 'Ваш рівень'), h('div.gx-res-t', LEVEL_NAME[o.level] || o.display, conf.sure ? '' : h('span.dim', ` · ${conf.label}`)))),
+        txKpis([
+          { value: o.display, label: 'загальний рівень', tone: 'accent' },
+          { value: okN, unit: `/${items.length}`, label: 'правильних відповідей', ariaLabel: `${okN} з ${items.length} правильних відповідей` },
+          { value: skillRows.filter(Boolean).length, label: plural(skillRows.filter(Boolean).length, 'навичка', 'навички', 'навичок') + ' оцінено' },
+        ]),
+        LEVEL_DESC[o.level] ? h('p.small.dim', { style: { margin: '0 4px' } }, LEVEL_DESC[o.level]) : null),
+      txGroup('За навичками', [txRows(skillRows),
+        skipped.length ? h('p.xs.dim', { style: { margin: '0 4px' } }, `Не враховано: ${skipped.join(', ')}.`) : null]),
+      wr?.level || wr?.comment_uk ? txGroup('Письмо: відгук', h('div.gx-card.stack', { style: { gap: '8px' } },
+        wr.comment_uk ? h('p.small', { style: { margin: 0 } }, wr.comment_uk) : null,
         wr.strengths_uk?.length ? h('div.stack', { style: { gap: '4px' } }, h('div.xs.dim', 'Що вдалося'), h('ul.small.pl-list', wr.strengths_uk.map(t => h('li', t)))) : null,
-        wr.improve_uk?.length ? h('div.stack', { style: { gap: '4px' } }, h('div.xs.dim', 'Що покращити'), h('ul.small.pl-list', wr.improve_uk.map(t => h('li', t)))) : null) : null,
-      h('p.small.dim.center', `Під рівень ${o.level} підлаштовано урок дня, нові слова, диктанти, сценарії й вчителя. Змінити можна в «Налаштуваннях».`),
+        wr.improve_uk?.length ? h('div.stack', { style: { gap: '4px' } }, h('div.xs.dim', 'Що покращити'), h('ul.small.pl-list', wr.improve_uk.map(t => h('li', t)))) : null)) : null,
+      noteTile('info', `Під рівень ${o.level} підлаштовано урок дня, нові слова, диктанти, сценарії й вчителя. Змінити можна в «Налаштуваннях».`),
       resultList(results),
-      h('p.xs.dim.center', 'Пройти тест ще раз варто не раніше ніж через 2 тижні — тоді буде видно реальний прогрес. Питання щоразу нові.'),
-      h('a.btn.primary.block.lg', { href: '#/' }, 'На головну')));
+      h('p.xs.dim', { style: { margin: '0 4px' } }, 'Пройти тест ще раз варто не раніше ніж через 2 тижні — тоді буде видно реальний прогрес. Питання щоразу нові.'),
+      txPrimary({ icon: 'house', label: 'На головну', sub: 'План дня вже під новий рівень', href: '#/' })));
   }
 }
 
@@ -641,7 +670,10 @@ async function weeklyTest(view) {
   const cards = store.all('cards').filter(c => cardIds.has(c.id) && c.uk);
   const lessons = store.all('lessons_progress').filter(p => Date.parse(p.updated_at) >= since);
   if (cards.length < 4 && !lessons.length) {
-    view.replaceChildren(h('div.hero', emo('calendar', 'xl'), h('h2', 'Поки замало матеріалу'), h('p.dim', 'Тижневий тест складається з карток і уроків, які ви проходили за останні 7 днів. Позаймайтесь кілька днів — і повертайтесь.'), h('a.btn.soft', { href: '#/tests' }, 'Назад')));
+    view.replaceChildren(h('div.stack-lg.gx',
+      introHead({ icon: 'calendar-blank', eyebrow: 'Тижневий тест', title: 'Поки замало матеріалу',
+        text: 'Тижневий тест складається з карток і уроків, які ви проходили за останні 7 днів. Позаймайтесь кілька днів — і повертайтесь.' }),
+      txPrimary({ icon: 'arrow-left', label: 'До тестів', href: '#/tests' })));
     return;
   }
   const allCards = (await allDecks()).flatMap(d => d.cards);

@@ -170,7 +170,7 @@ html.kbd button.gx-say:focus-visible{outline:2px solid var(--accent-ink);outline
 .tx-row.gx-static .tx-s{line-height:1.4}
 .tx.gx-note{cursor:default;align-items:flex-start}
 .tx.gx-note:active{transform:none}
-.gx-note .tx-l{font-weight:500;line-height:1.45}
+.gx-note .tx-l{font-weight:400;line-height:1.45}
 .gx-note.good .tx-l{color:var(--ink)}
 .gx-note.warn .tx-sq{background:var(--warn-soft);color:var(--warn)}
 /* результат тесту рівня: навички — рядки з п'ятьма сегментами рівня */
