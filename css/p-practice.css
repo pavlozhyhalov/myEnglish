@@ -22,7 +22,7 @@ label.tx-row .check{flex:none}
 .tx-row > .tag{flex:none}
 
 /* панелі форм і тексту — тим самим тлом, що й плитки */
-.pp-panel,.pp-form .card,.dy-q{border-radius:16px;box-shadow:none}
+.pp-panel,.pp-form .card{border-radius:16px;box-shadow:none}
 .pp-panel,.pp-form .card{background:var(--tile);border:1px solid var(--tile-edge)}
 .pp-panel{padding:14px}
 div.pp-panel.small{font-size:var(--fs-sm)}

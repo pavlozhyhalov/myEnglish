@@ -148,7 +148,8 @@ function editor(view) {
 
   // ---- перевірка / збереження ----
   let abort = null;
-  const checkBtn = h('button.btn.primary.lg.block', { type: 'button', onclick: () => submit(true) }, ic('sparkle', { fill: true }), 'Перевірити у вчителя');
+  const checkBtn = txPrimary({ icon: 'sparkle', label: 'Перевірити у вчителя', sub: 'Виправлення, природніша версія і корисні слова', onclick: () => submit(true) });
+  const setCheck = (busy) => { checkBtn.querySelector('.tx-sq').replaceChildren(ic(busy ? 'hourglass' : 'sparkle', { size: 20, fill: true })); checkBtn.querySelector('.tx-l').textContent = busy ? 'Вчитель перевіряє…' : 'Перевірити у вчителя'; };
   const saveBtn = h('button.btn.ghost.block', { type: 'button', onclick: () => submit(false) }, 'Зберегти без перевірки');
   async function submit(check) {
     // остання фраза диктування ще розпізнається — дочекатися її, щоб не загубити і не лишити в чернетці вже збережений текст
@@ -159,7 +160,7 @@ function editor(view) {
     let res = null;
     if (check) {
       checkBtn.disabled = saveBtn.disabled = true;
-      checkBtn.replaceChildren(ic('hourglass'), 'Вчитель перевіряє…');
+      setCheck(true);
       abort = new AbortController();
       try { res = await tutor('diary', { text, question: question() }, { signal: abort.signal }); }
       catch (e) {
@@ -167,7 +168,7 @@ function editor(view) {
         if (msg) toast(msg, { kind: 'bad' });
         if (!view.isConnected) return;
         checkBtn.disabled = saveBtn.disabled = false;
-        checkBtn.replaceChildren(ic('sparkle', { fill: true }), 'Перевірити у вчителя');
+        setCheck(false);
         return;
       }
     }
@@ -185,7 +186,7 @@ function editor(view) {
   view.replaceChildren(h('div.stack-lg',
     today.length ? txRow({ icon: 'check-circle', on: true, label: 'Сьогоднішній запис уже є', sub: 'Відкрити розбір — або напишіть ще один нижче', href: `#/diary/${encodeURIComponent(today[0].id)}` }) : '',
     txGroup(`Питання дня · рівень ${lvl}`, [
-      h('section.card.accent.stack.dy-q', qText, qBtns),
+      h('section.gx-card.stack.dy-q', qText, qBtns),
       h('p.xs.dim.dy-note', '2–3 хвилини про ваш день — голосом або текстом.')]),
     h('section.stack', { style: { gap: '8px' } },
       ta,
@@ -267,7 +268,7 @@ function entryView(view, id) {
       h('div.gx-lhead', h('a.icon-btn', { href: '#/diary', 'aria-label': 'До щоденника' }, ic('arrow-left')),
         h('div.grow', h('div.tx-label.gx-eyebrow', s.checked ? 'Запис із розбором' : 'Запис щоденника'), h('h2.gx-lh1', fmtDate(row.created_at, { weekday: 'long', day: 'numeric', month: 'long' }))),
         h('button.icon-btn', { type: 'button', 'aria-label': 'Видалити запис', onclick: async () => { if (await removeEntry(row.id)) go('/diary', { replace: true }); } }, ic('trash'))),
-      s.question ? txGroup('Питання дня', h('section.card.accent.dy-q', h('div', { lang: 'en', style: { fontWeight: 600 } }, s.question))) : '',
+      s.question ? txGroup('Питання дня', h('section.gx-card.dy-q', h('div', { lang: 'en', style: { fontWeight: 600 } }, s.question))) : '',
     ];
     if (!s.checked) {
       const btn = txPrimary({ icon: 'sparkle', label: 'Перевірити у вчителя', sub: 'Виправлення, природніша версія і корисні слова', onclick: check });
