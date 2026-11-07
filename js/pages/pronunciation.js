@@ -1,5 +1,7 @@
 // Вимова: shadowing, мінімальні пари, проблемні звуки
-import { h, ic, emo, seg, progress } from '../ui/dom.js';
+import { h, ic, seg, progress } from '../ui/dom.js';
+import { plural } from '../strings.js';
+import { txKpis, txPrimary } from '../ui/tiles.js';
 import { pronunciation as loadData } from '../data.js';
 import { speak, stop as stopSpeech, recognize, canRecognize, recordAndTranscribe, compareWords, canRecord, recordAudio } from '../speech.js';
 import { pron, aiErrorText } from '../ai.js';
@@ -97,18 +99,20 @@ export async function assessPhrase(text, { onRecording, onRecorded, signal, canc
 
 /** Блок: еталон → запис → оцінка (AI після входу; без входу/офлайн — розпізнавання браузера) */
 function practiceBlock(text, timer, { uk, onResult } = {}) {
-  const out = h('div.small', { 'aria-live': 'polite' });
+  const out = h('div.small.pr-out', { 'aria-live': 'polite' });
   let ctrl = null;
-  const actions = h('div.row.wrap');
+  // дії — міні-плитки: «Прослухати», «Повільно» і «Записати себе» на всю ширину (м'який акцент, без синьої кнопки в кожному блоці)
+  const act = (icon, label, onclick, cls = '', aria = null) => h('button.pr-act' + cls, { type: 'button', onclick, 'aria-label': aria }, ic(icon, { size: 18 }), h('span', label));
+  const actions = h('div.pr-acts');
   const setIdle = () => {
     ctrl = null;
-    rec.disabled = false; rec.classList.remove('danger');
-    rec.replaceChildren(ic('microphone', { fill: true }), 'Записати себе');
+    rec.disabled = false; rec.classList.remove('live');
+    rec.replaceChildren(ic('microphone', { size: 18, fill: true }), h('span', 'Записати себе'));
     rec.removeAttribute('aria-pressed');
   };
-  const again = () => h('div.row.wrap',
-    h('button.btn.soft', { type: 'button', onclick: () => speak(text) }, ic('speaker-high'), 'Прослухати еталон'),
-    h('button.btn.soft', { type: 'button', onclick: () => start() }, ic('arrow-clockwise'), 'Ще раз'));
+  const again = () => h('div.pr-acts', { style: { marginTop: '10px' } },
+    act('speaker-high', 'Еталон', () => speak(text), '', 'Прослухати еталон'),
+    act('arrow-clockwise', 'Ще раз', () => start()));
 
   // Безкоштовна перевірка: розпізнавання браузера (або транскрипція) + порівняння слів
   const free = async () => {
@@ -136,8 +140,8 @@ function practiceBlock(text, timer, { uk, onResult } = {}) {
         cancelled: () => c.cancelled,
         onRecorded: () => { rec.disabled = true; out.textContent = 'Оцінюю вимову…'; },
         onRecording: () => {
-          rec.disabled = false; rec.classList.add('danger'); rec.setAttribute('aria-pressed', 'true');
-          rec.replaceChildren(ic('stop', { fill: true }), 'Готово');
+          rec.disabled = false; rec.classList.add('live'); rec.setAttribute('aria-pressed', 'true');
+          rec.replaceChildren(ic('stop', { size: 18, fill: true }), h('span', 'Готово'));
           out.textContent = 'Запис… прочитайте фразу й натисніть «Готово»';
         },
       });
@@ -157,16 +161,17 @@ function practiceBlock(text, timer, { uk, onResult } = {}) {
   };
   const start = () => { stopSpeech(); return aiReady() ? ai() : free(); };
 
-  const rec = h('button.btn.primary', { type: 'button', onclick: () => {
+  const rec = act('microphone', 'Записати себе', () => {
     if (ctrl) { rec.disabled = true; ctrl.abort(); return; }   // «Готово»: запис зупиняється й іде на оцінку
     start();
-  } }, ic('microphone', { fill: true }), 'Записати себе');
+  }, '.rec');
+  rec.firstChild.replaceWith(ic('microphone', { size: 18, fill: true }));
   actions.append(
-    h('button.btn.soft', { type: 'button', onclick: () => speak(text) }, ic('speaker-high'), 'Прослухати'),
-    h('button.btn.soft', { type: 'button', onclick: () => speak(text, { rate: 0.7 }) }, ic('speaker-high'), 'Повільно'),
+    act('speaker-high', 'Слухати', () => speak(text), '', 'Прослухати'),
+    act('timer', 'Повільно', () => speak(text, { rate: 0.7 })),
     rec);
-  return h('div.gx-card.stack',
-    h('div.row', h('div.grow', h('div.ex-prompt', text), uk ? h('div.xs.dim', uk) : null)),
+  return h('div.gx-card.stack.pr-block',
+    h('div', h('div.ex-prompt', { lang: 'en' }, text), uk ? h('div.xs.dim', uk) : null),
     actions, out);
 }
 
@@ -201,8 +206,17 @@ function pairs(box, data, timer) {
     cancelRecordings();
     if (i >= all.length) {
       timer.poke();
-      box.replaceChildren(h('div.hero', emo(right >= 8 ? 'trophy' : 'ear', 'xl'), h('div.num', { style: { fontSize: 'var(--fs-2xl)' } }, `${right}/${all.length}`), h('p.dim', 'Правильно розпізнано на слух'),
-        h('button.btn.primary', { type: 'button', onclick: () => pairs(box, data, timer) }, 'Ще раунд')));
+      const tone = right >= 8 ? 'good' : right >= 5 ? 'warn' : 'bad';
+      box.replaceChildren(h('div.stack-lg.gx',
+        h('section.tx-group',
+          h('div.gx-res', h('span.gx-res-ic.' + tone, ic(right >= 8 ? 'trophy' : 'ear', { size: 26, fill: true })),
+            h('div.grow', h('div.tx-label', 'Результат'), h('div.gx-res-t', right >= 8 ? 'Чудовий слух!' : right >= 5 ? 'Непогано — ще трохи практики' : 'Варто потренуватися ще'))),
+          txKpis([
+            { value: right, unit: `/${all.length}`, label: 'розпізнано на слух', tone, ariaLabel: `Правильно розпізнано на слух: ${right} з ${all.length}` },
+            { value: Math.round(right / all.length * 100), unit: '%', label: 'точність' },
+            { value: all.length - right, label: plural(all.length - right, 'помилка', 'помилки', 'помилок'), tone: all.length - right ? 'bad' : 'good' },
+          ])),
+        txPrimary({ icon: 'arrow-clockwise', label: 'Ще раунд', sub: '10 нових пар слів', onclick: () => pairs(box, data, timer) })));
       return;
     }
     const p = all[i];
@@ -217,19 +231,22 @@ function pairs(box, data, timer) {
       if (ok) right++; else addMistake({ wrong: p[k], right: word, type: 'pronunciation', explanation_uk: `Мінімальна пара ${p.a}/${p.b}${p.tip ? `: ${p.tip}` : ''}`, source: 'exercise' });
       btnA.classList.add(target === 'a' ? 'right' : 'wrong'); btnB.classList.add(target === 'b' ? 'right' : 'wrong');
       if (k === target) (k === 'a' ? btnB : btnA).classList.remove('wrong');
-      fb.replaceChildren(h('div.feedback.' + (ok ? 'ok' : 'no'), ok ? 'Правильно!' : `Звучало: ${word}`, p.tip ? h('div.dim', p.tip) : null));
-      sayBox.replaceChildren(h('div.section-title', 'Тепер скажіть самі'),
+      fb.replaceChildren(h('div.feedback.ex-fb.' + (ok ? 'ok' : 'no'),
+        h('span.ex-fb-ic', ic(ok ? 'check-circle' : 'x-circle', { size: 20, fill: true })),
+        h('div.ex-fb-t', h('div', { style: { fontWeight: 600 } }, ok ? 'Правильно!' : `Звучало: ${word}`), p.tip ? h('div.dim', p.tip) : null)));
+      sayBox.replaceChildren(h('h2.tx-label', { style: { marginTop: '8px' } }, 'Тепер скажіть самі'),
         h('div.stack', practiceBlock(p.a, timer, { uk: p.ipaA }), practiceBlock(p.b, timer, { uk: p.ipaB })),
         h('button.btn.primary.block', { type: 'button', onclick: () => { i++; step(); } }, 'Далі'));
     };
     const btnA = h('button.opt.ex-opt', { type: 'button', onclick: () => choose('a') }, h('span.ex-key', { 'aria-hidden': 'true' }, '1'), h('b.grow', p.a), h('span.ipa.small', p.ipaA || ''));
     const btnB = h('button.opt.ex-opt', { type: 'button', onclick: () => choose('b') }, h('span.ex-key', { 'aria-hidden': 'true' }, '2'), h('b.grow', p.b), h('span.ipa.small', p.ipaB || ''));
     box.replaceChildren(h('div.stack',
-      h('div.row', h('div.grow', progress(i / all.length * 100, 'Пройдено пар')), h('span.xs.dim', `${i + 1}/${all.length}`)),
-      h('div.center.stack', h('div.small.dim', `Звук: ${p.sound}`),
-        h('button.icon-btn.soft', { type: 'button', style: { width: '88px', height: '88px', borderRadius: '50%', margin: '0 auto' }, 'aria-label': 'Прослухати', onclick: () => speak(word) }, ic('speaker-high', { size: 40 })),
+      h('div.ex-head', h('div.ex-head-t', h('h2.tx-label', 'Пари слів'), h('span.tx-pill.accent.num', `${i + 1}/${all.length}`)), progress(i / all.length * 100, 'Пройдено пар')),
+      h('div.center.stack', { style: { gap: '10px', padding: '4px 0 8px' } },
+        h('div.small.dim', `Звук: ${p.sound}`),
+        h('button.pr-big', { type: 'button', 'aria-label': 'Прослухати', onclick: () => speak(word) }, ic('speaker-high', { size: 40 })),
         h('div.small.dim', 'Що ви почули?')),
-      btnA, btnB, fb, sayBox));
+      h('div.ex-opts', btnA, btnB), fb, sayBox));
     // клавіші 1 / 2 — вибір варіанта; слухач знімається, щойно пара зникла з екрана
     const onKey = (e) => {
       if (!btnA.isConnected) { document.removeEventListener('keydown', onKey); return; }

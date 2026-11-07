@@ -196,6 +196,7 @@ html.kbd button.gx-say:focus-visible{outline:2px solid var(--accent-ink);outline
   -webkit-tap-highlight-color:transparent;transition:transform .18s cubic-bezier(.2,.8,.2,1),background-color .18s ease;
 }
 .pr-act > .ico{flex:none;color:var(--ink-dim)}
+.pr-act > span{min-width:0;overflow-wrap:normal;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .pr-act:active{transform:scale(.97)}
 .pr-act[disabled]{opacity:.55;cursor:default}
 .pr-act[disabled]:active{transform:none}
@@ -205,6 +206,7 @@ html.kbd .pr-act:focus-visible{outline:2px solid var(--accent-ink);outline-offse
 .pr-act.rec.live{background:var(--bad-soft);border-color:color-mix(in srgb,var(--bad) 45%,transparent);color:var(--bad)}
 .pr-act.rec.live > .ico{color:var(--bad)}
 .gx-card .ex-prompt{font-size:var(--fs-md)}
+.gx-sound-body .pr-act:not(.rec){background:var(--tile);border-color:var(--tile-edge)}
 .pr-out:empty{display:none}
 /* пари слів: велика кнопка «прослухати» — квадратик плитки */
 .pr-big{width:88px;height:88px;margin:0 auto;border-radius:24px;border:1px solid var(--tile-edge);background:var(--tile);color:var(--accent-ink);display:grid;place-items:center;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:transform .18s cubic-bezier(.2,.8,.2,1)}
@@ -215,4 +217,7 @@ html.kbd .pr-big:focus-visible{outline:2px solid var(--accent-ink);outline-offse
   .gx-expl{padding:12px}
   .gx-intro-h{font-size:var(--fs-lg)}
   .ses-step{padding:6px;gap:4px;font-size:11.5px}
+  .pr-act{padding:8px 6px;gap:6px}
+  .gx-sound-body{padding:0 10px 10px}
+  .gx-sound-body .gx-card{padding:10px}
 }
