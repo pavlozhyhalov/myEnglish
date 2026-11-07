@@ -12,7 +12,7 @@ import { user } from '../supa.js';
 import { setTitle } from '../ui/shell.js';
 import { toast } from '../ui/toast.js';
 import { LEVELS, LEVEL_NAME, myLevel, diff, nextLessonByLevel } from '../level.js';
-import { tx, txPrimary, txRow, txRows, txBar, txGrid, txPill } from '../ui/tiles.js';
+import { tx, txPrimary, txRow, txRows, txBar, txGrid, txGroup, txPill } from '../ui/tiles.js';
 
 export default async function grammar(view, r) {
   if (r.parts[0]) return lessonPage(view, r.parts[0], r.query);
@@ -78,8 +78,18 @@ async function lessonPage(view, id, query = {}) {
   const p = store.get('lessons_progress', id);
 
   const exBox = h('div');
+  // дія «Вправи»: до початку — головна (синя) плитка; коли вправи вже йдуть — звичайна «почати заново»,
+  // щоб синьою лишалась дія всередині вправи («Перевірити»/«Далі») або «Далі: наступний урок»
+  const exTile = (running) => (running ? tx : txPrimary)({
+    wide: true, icon: running ? 'arrow-clockwise' : 'lightning',
+    label: running ? 'Вправи заново' : `Вправи (${Math.min(10, l.exercises.length)})`,
+    sub: running ? '10 нових змішаних завдань з уроку' : 'Змішані завдання з уроку',
+    onclick: () => startEx(shuffle(l.exercises).slice(0, 10), 'Вправи'),
+  });
+  const exSlot = h('div', exTile(false));
   const startEx = (list, label) => {
-    exBox.replaceChildren(h('div.card', { id: 'ex' }));
+    exSlot.replaceChildren(exTile(true));
+    exBox.replaceChildren(h('div.gx-exbox', { id: 'ex' }));
     exBox.firstChild.scrollIntoView({ behavior: 'smooth', block: 'start' });
     runExercises(exBox.firstChild, list, {
       title: label,
@@ -91,46 +101,49 @@ async function lessonPage(view, id, query = {}) {
         timer.poke();
         if (res.score >= 80) toast(!wasDone ? 'Урок пройдено!' : (pr.review_stage || 0) > stage0 ? 'Повтор зараховано' : 'Чудово — знання тримаються');
         setTimeout(() => {
-          exBox.firstChild.append(h('div.stack', { style: { marginTop: '12px' } },
-            res.score < 80 ? h('button.btn.soft.block', { type: 'button', onclick: () => startEx(shuffle(l.exercises), 'Вправи') }, ic('arrow-clockwise'), 'Пройти ще раз') : null,
-            moreBtn(),
-            nextL ? h('a.btn.primary.block', { href: `#/grammar/${nextL.id}` }, `Далі: ${nextL.title}`, ic('arrow-right')) : null));
+          const again = res.score < 80 ? tx({ icon: 'arrow-clockwise', label: 'Пройти ще раз', sub: 'Усі вправи уроку', onclick: () => startEx(shuffle(l.exercises), 'Вправи') }) : null;
+          exBox.firstChild.append(h('section.tx-group.gx-exnext', { style: { marginTop: '16px' } },
+            h('h2.tx-label', 'Що далі'),
+            nextL ? txPrimary({ icon: 'arrow-right', label: `Далі: ${nextL.title}`, sub: 'Наступний урок курсу', href: `#/grammar/${nextL.id}` }) : null,
+            txGrid([again, moreTile(!nextL && !again)], again ? 2 : 3)));
         });
       },
     });
   };
-  const moreBtn = () => h('button.btn.soft.block', { type: 'button', onclick: async (e) => {
+  // «Ще 10 вправ (AI)»: плитка; під час генерації — вимкнена з підписом «Генерую вправи…»
+  const moreTile = (primary = false) => (primary ? txPrimary : tx)({ icon: 'sparkle', label: 'Ще 10 вправ (AI)', sub: 'Нові завдання від вчителя', onclick: async (e) => {
     if (!user()) { toast(S.err.needLogin); return; }
-    const b = e.currentTarget; b.disabled = true; b.textContent = 'Генерую вправи…';
+    const b = e.currentTarget, lab = b.querySelector('.tx-l');
+    b.disabled = true; lab.textContent = 'Генерую вправи…';
     try {
       const res = await tutor('exercises', { topic: `${l.titleEn || l.title} (${l.title})`, count: 10 });
       if (!res.exercises?.length) throw new Error('empty');
       startEx(res.exercises, 'Ще 10 вправ (AI)');
-    } catch (err) { toast(aiErrorText(err) || 'Не вдалося згенерувати', { kind: 'bad' }); b.disabled = false; b.textContent = 'Ще 10 вправ (AI)'; }
-  } }, ic('sparkle', { fill: true }), 'Ще 10 вправ (AI)');
+    } catch (err) { toast(aiErrorText(err) || 'Не вдалося згенерувати', { kind: 'bad' }); b.disabled = false; lab.textContent = 'Ще 10 вправ (AI)'; }
+  } });
 
   const isDue = lessonsToReview().some(x => x.id === id);
-  view.replaceChildren(h('div.stack-lg.gx',
+  // назва уроку — у шапці застосунку; тут — лише підпис розділу й номер уроку
+  view.replaceChildren(h('div.stack-lg.gx.gx-lesson',
     h('div.gx-lhead', h('a.icon-btn', { href: '#/grammar', 'aria-label': 'До курсу' }, ic('arrow-left')),
-      h('div.grow', h('div.tx-label.gx-eyebrow', `${l.unit} · урок ${idx[pos]?.n ?? pos + 1}`), h('h1.gx-lh1', l.title)),
+      h('div.grow', h('h1.tx-label.gx-eyebrow', { 'aria-label': `${l.title}. ${l.unit}, урок ${idx[pos]?.n ?? pos + 1}` }, `${l.unit} · урок ${idx[pos]?.n ?? pos + 1}`)),
       isDue ? txPill('Повторити', 'warn') : p?.completed_at ? txPill(`${p.best}%`, 'good') : null),
-    h('section.card', md(l.explanation)),
-    l.formula?.length ? h('section.stack', { style: { gap: '8px' } }, l.formula.map(f => h('div.formula', mdInline(f)))) : null,
-    l.table ? h('section.card', { style: { overflowX: 'auto' } }, h('table.gtable',
+    txGroup('Правило', h('section.card.gx-expl', md(l.explanation))),
+    l.formula?.length ? txGroup(l.formula.length > 1 ? 'Формули' : 'Формула', txRows(l.formula.map((f, k) =>
+      h('div.tx-row.gx-formula', l.formula.length > 1 ? h('span.tx-no', String(k + 1)) : h('span.tx-sq', ic('lightning', { size: 18 })), h('span.tx-body', h('span.tx-l', mdInline(f))))))) : null,
+    l.table ? txGroup('Таблиця', h('section.card.gx-table', h('table.gtable',
       h('thead', h('tr', l.table.head.map(c => h('th', c)))),
-      h('tbody', l.table.rows.map(rw => h('tr', rw.map(c => h('td', c))))))) : null,
-    h('section.card', h('div.section-title', 'Приклади'),
-      l.examples.map(e => h('div.example',
-        h('button.icon-btn.soft', { type: 'button', 'aria-label': 'Прослухати', onclick: () => speak(e.en) }, ic('speaker-high', { size: 20 })),
-        h('div.grow', h('div', e.en), h('div.xs.dim', e.uk))))),
-    l.tip ? h('section.card.accent.row', emo('bulb'), h('div.small.grow', md(l.tip))) : null,
+      h('tbody', l.table.rows.map(rw => h('tr', rw.map(c => h('td', c)))))))) : null,
+    txGroup('Приклади', txRows(l.examples.map(e => h('div.tx-row.gx-ex',
+      h('button.tx-sq.gx-say', { type: 'button', 'aria-label': `Прослухати: ${e.en}`, onclick: () => speak(e.en) }, ic('speaker-high', { size: 18 })),
+      h('span.tx-body', h('span.tx-l', { lang: 'en' }, e.en), h('span.tx-s', e.uk)))))),
+    l.tip ? txGroup('Порада', h('div.tx.wide.gx-tip', h('span.tx-sq', ic('lightbulb', { size: 20 })), h('div.tx-body.small', md(l.tip)))) : null,
     exBox,
-    h('section.tx-group',
-      txPrimary({ icon: 'lightning', label: `Вправи (${Math.min(10, l.exercises.length)})`, sub: 'Змішані завдання з уроку', onclick: () => startEx(shuffle(l.exercises).slice(0, 10), 'Вправи') }),
+    txGroup('Практика', [exSlot,
       txGrid([
         tx({ icon: 'exam', label: 'Тест за уроком', sub: 'До 15 питань', href: `#/tests/lesson/${id}` }),
         tx({ icon: 'chat-circle-dots', label: 'Запитати вчителя', sub: 'Пояснить по-іншому', href: `#/tutor?mode=explain&topic=${encodeURIComponent(l.titleEn || l.title)}` }),
-      ], 2))));
+      ], 2)])));
 
   if (query.ex) startEx(shuffle(l.exercises).slice(0, 10), 'Вправи');
   return () => timer.stop();

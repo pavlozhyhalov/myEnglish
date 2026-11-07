@@ -110,3 +110,109 @@ html.kbd .opt.ex-opt:focus-visible{outline:2px solid var(--accent-ink);outline-o
   .gx .tx-grid > .tx:not(.wide):not(.tx-kpi){padding-left:8px;padding-right:8px}
   .gx .tx-kpi .tx-s{font-size:11.5px}
 }
+
+/* ---------- Урок граматики: блоки уроку — плитки (рішення 2026-11-05) ---------- */
+.gx-lesson .gx-lhead{min-height:40px}
+.gx-lesson h1.gx-eyebrow{font-size:11px}
+.gx-expl{padding:14px 16px;line-height:1.55}
+.gx-expl > :first-child{margin-top:0}
+.gx-expl > :last-child{margin-bottom:0}
+.gx-expl ul,.gx-expl ol{margin:0;padding-left:20px}
+/* формули — рядки-плитки з номером/іконкою, текст акцентом */
+.tx-row.gx-formula{min-height:48px;cursor:default}
+.gx-formula .tx-l{font-weight:600;color:var(--accent-ink);line-height:1.4}
+.gx-formula .tx-sq{color:var(--accent-ink)}
+/* таблиця — у плитці, гортається вбік, якщо не вміщається */
+.card.gx-table{padding:4px 6px;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.gx-table .gtable th,.gx-table .gtable td{padding:9px 8px;border-bottom-color:var(--tile-edge)}
+.gx-table .gtable tr:last-child td{border-bottom:0}
+.gx-table .gtable th{text-transform:uppercase;letter-spacing:.06em;font-size:10.5px;font-weight:700}
+/* приклади — рядки з кнопкою «прослухати» в квадратику */
+.tx-row.gx-ex{cursor:default;align-items:center}
+.gx-ex .tx-l{font-weight:500}
+button.gx-say{border:0;cursor:pointer;font:inherit;color:var(--accent-ink);-webkit-tap-highlight-color:transparent;transition:transform .18s cubic-bezier(.2,.8,.2,1),background-color .18s ease}
+button.gx-say:active{transform:scale(.92)}
+@media (hover:hover){button.gx-say:hover{background:var(--accent-soft)}}
+html.kbd button.gx-say:focus-visible{outline:2px solid var(--accent-ink);outline-offset:2px}
+/* порада — широка плитка з лампочкою */
+.tx.gx-tip{cursor:default;align-items:flex-start}
+.tx.gx-tip:active{transform:none}
+.gx-tip .tx-sq{color:var(--accent-ink);background:var(--accent-soft)}
+.gx-tip .tx-body{line-height:1.5;padding-top:2px}
+.gx-tip .tx-body > p{margin:0}
+.gx-tip .tx-body > p + p{margin-top:6px}
+
+/* ---------- Набір вправ (js/ui/exercises.js): шапка й результат ---------- */
+.ex-head{display:flex;flex-direction:column;gap:8px}
+.ex-head-t{display:flex;align-items:center;gap:8px;min-height:24px}
+.ex-head-t .tx-label{flex:1;padding:0;min-width:0}
+.ex-head .progress,.gx-run .progress{height:6px;background:var(--tile-sq)}
+.ex-head .progress > i,.gx-run .progress > i{background:var(--accent)}
+.tx-pill:empty{display:none}
+.ex-instr{padding:0 2px}
+.gx-exbox{display:flex;flex-direction:column;gap:12px}
+.ex-result .gx-res{padding:0 2px}
+
+/* ---------- Раннер тестів і тест рівня (js/pages/tests.js) ---------- */
+.gx-run{display:flex;align-items:center;gap:10px}
+.gx-run > .grow{min-width:0;display:flex;flex-direction:column;gap:7px}
+.gx-run-t{display:flex;align-items:center;gap:8px;min-width:0}
+.gx-run-t .tx-label{flex:1;padding:0;min-width:0;overflow-wrap:anywhere}
+/* вступ / проміжний екран: значок у квадратику, підпис, заголовок і текст */
+.gx-intro{display:flex;flex-direction:column;align-items:flex-start;gap:10px;padding:4px 4px 0}
+.gx-intro .gx-res-ic{width:56px;height:56px;border-radius:16px;background:var(--accent-soft);color:var(--accent-ink)}
+.gx-intro .gx-res-ic.good{background:var(--good-soft);color:var(--good)}
+.gx-intro .gx-res-ic.warn{background:var(--warn-soft);color:var(--warn)}
+.gx-intro .tx-label{padding:0}
+.gx-intro-h{margin:0;font-size:var(--fs-xl);line-height:1.2;overflow-wrap:anywhere}
+.gx-intro-p{margin:0;font-size:var(--fs-sm);line-height:1.5;color:var(--ink-dim)}
+.tx-row.gx-static{cursor:default;align-items:flex-start;padding-top:11px;padding-bottom:11px}
+.tx-row.gx-static .tx-s{line-height:1.4}
+.tx.gx-note{cursor:default;align-items:flex-start}
+.tx.gx-note:active{transform:none}
+.gx-note .tx-l{font-weight:500;line-height:1.45}
+.gx-note.good .tx-l{color:var(--ink)}
+.gx-note.warn .tx-sq{background:var(--warn-soft);color:var(--warn)}
+/* результат тесту рівня: навички — рядки з п'ятьма сегментами рівня */
+.tx-row.gx-skill{cursor:default}
+.gx-skill .tx-body{gap:6px}
+.gx-skill .pl-bar{max-width:180px}
+.gx-skill-l{display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 8px}
+.gx-skill-l .tx-s{white-space:nowrap}
+
+/* ---------- Кероване заняття (#/session) ---------- */
+.ses-steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+.ses-step{display:flex;align-items:center;gap:6px;min-width:0;padding:6px 8px;border-radius:12px;background:var(--tile);border:1px solid var(--tile-edge);font-size:12px;font-weight:600;color:var(--ink-dim)}
+.ses-step > .ico{flex:none}
+.ses-step > span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ses-step.on{background:var(--accent-soft);border-color:color-mix(in srgb,var(--accent) 40%,transparent);color:var(--accent-ink)}
+.ses-step.done{color:var(--good)}
+
+/* ---------- Вимова: дії в блоці фрази — міні-плитки (без синьої кнопки в кожному блоці) ---------- */
+.pr-acts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.pr-act{
+  display:flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:8px 10px;border-radius:12px;border:1px solid transparent;
+  background:var(--tile-sq);color:var(--ink);font:inherit;font-size:var(--fs-sm);font-weight:600;cursor:pointer;min-width:0;
+  -webkit-tap-highlight-color:transparent;transition:transform .18s cubic-bezier(.2,.8,.2,1),background-color .18s ease;
+}
+.pr-act > .ico{flex:none;color:var(--ink-dim)}
+.pr-act:active{transform:scale(.97)}
+.pr-act[disabled]{opacity:.55;cursor:default}
+.pr-act[disabled]:active{transform:none}
+html.kbd .pr-act:focus-visible{outline:2px solid var(--accent-ink);outline-offset:2px}
+.pr-act.rec{grid-column:1 / -1;background:var(--accent-soft);border-color:color-mix(in srgb,var(--accent) 40%,transparent);color:var(--accent-ink)}
+.pr-act.rec > .ico{color:var(--accent-ink)}
+.pr-act.rec.live{background:var(--bad-soft);border-color:color-mix(in srgb,var(--bad) 45%,transparent);color:var(--bad)}
+.pr-act.rec.live > .ico{color:var(--bad)}
+.gx-card .ex-prompt{font-size:var(--fs-md)}
+.pr-out:empty{display:none}
+/* пари слів: велика кнопка «прослухати» — квадратик плитки */
+.pr-big{width:88px;height:88px;margin:0 auto;border-radius:24px;border:1px solid var(--tile-edge);background:var(--tile);color:var(--accent-ink);display:grid;place-items:center;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:transform .18s cubic-bezier(.2,.8,.2,1)}
+.pr-big:active{transform:scale(.95)}
+html.kbd .pr-big:focus-visible{outline:2px solid var(--accent-ink);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){.pr-act,.pr-big,button.gx-say{transition:none}.pr-act:active,.pr-big:active,button.gx-say:active{transform:none}}
+@media (max-width:360px){
+  .gx-expl{padding:12px}
+  .gx-intro-h{font-size:var(--fs-lg)}
+  .ses-step{padding:6px;gap:4px;font-size:11.5px}
+}

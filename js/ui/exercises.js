@@ -1,6 +1,8 @@
 // Движок вправ: choice | input | order | error | transform | translate
-import { h, ic, emo, progress } from './dom.js';
+import { h, ic, progress } from './dom.js';
 import { speak } from '../speech.js';
+import { plural } from '../strings.js';
+import { txKpis, txGroup, txPill } from './tiles.js';
 import { tutor, aiErrorText } from '../ai.js';
 import { user } from '../supa.js';
 
@@ -37,17 +39,21 @@ const shuffle = (arr) => { const a = arr.slice(); for (let i = a.length - 1; i >
 export function runExercises(container, exercises, { onDone, onMistake, title } = {}) {
   let i = 0, correct = 0;
   const results = [];
-  const head = h('div.row', h('div.grow', progress(0, 'Пройдено вправ')), h('span.xs.dim.num'));
+  // шапка набору: підпис великими літерами, лічильник пігулкою, під ними — смужка прогресу
+  const count = txPill('', 'accent');
+  count.classList.add('num');
+  const bar = h('div.ex-bar', progress(0, 'Пройдено вправ'));
+  const head = h('div.ex-head', h('div.ex-head-t', title ? h('h2.tx-label', title) : h('span.tx-label', 'Вправа'), count), bar);
   const body = h('div.stack');
   // подвійний тап по «Далі» не має одразу відповісти на наступну вправу
   let shownAt = 0;
   body.addEventListener('click', (e) => { if (Date.now() - shownAt < 350) { e.preventDefault(); e.stopPropagation(); } }, true);
-  container.replaceChildren(h('div.stack', title ? h('h2', title) : null, head, body));
+  container.replaceChildren(h('div.stack.ex-run', head, body));
 
   function show() {
     shownAt = Date.now();
-    head.firstChild.replaceChildren(progress(i / exercises.length * 100, 'Пройдено вправ'));
-    head.lastChild.textContent = `${i + 1}/${exercises.length}`;
+    bar.replaceChildren(progress(i / exercises.length * 100, 'Пройдено вправ'));
+    count.textContent = `${i + 1}/${exercises.length}`;
     const ex = exercises[i];
     body.replaceChildren(render(ex, (ok, given, extra) => {
       results.push({ ex, ok, given });
@@ -58,7 +64,8 @@ export function runExercises(container, exercises, { onDone, onMistake, title } 
 
   function finish() {
     const score = Math.round(correct / exercises.length * 100);
-    head.firstChild.replaceChildren(progress(100, 'Пройдено вправ'));
+    bar.replaceChildren(progress(100, 'Пройдено вправ'));
+    count.textContent = `${exercises.length}/${exercises.length}`;
     const res = { score, correct, total: exercises.length, results };
     if (onDone?.(res) === false) return;
     body.replaceChildren(resultView(res));
@@ -66,18 +73,25 @@ export function runExercises(container, exercises, { onDone, onMistake, title } 
   if (exercises.length) show(); else body.replaceChildren(h('div.empty', h('p', 'Вправ не знайдено.')));
 }
 
+/** Екран результату: значок у квадратику й підсумок, показники плитками, розбір помилок — плитками */
 export function resultView({ score, correct, total, results }) {
   const wrong = results.filter(r => !r.ok);
-  return h('div.stack',
-    h('div.hero', emo(score >= 80 ? 'trophy' : score >= 50 ? 'thumbsup' : 'muscle', 'xl'),
-      h('div.num', { style: { fontSize: 'var(--fs-2xl)' } }, `${score}%`),
-      h('p.dim', `${correct} з ${total} правильно`)),
-    wrong.length ? h('div.section-title', 'Розбір помилок') : null,
-    wrong.map(r => h('div.card.tight.stack',
+  const tone = score >= 80 ? 'good' : score >= 50 ? 'warn' : 'bad';
+  const caption = score >= 80 ? 'Чудово — правило засвоєно' : score >= 50 ? 'Непогано — є що підтягнути' : 'Варто повторити правило';
+  return h('div.stack-lg.ex-result',
+    h('section.tx-group',
+      h('div.gx-res', h('span.gx-res-ic.' + tone, ic(score >= 80 ? 'trophy' : score >= 50 ? 'thumbs-up' : 'barbell', { size: 26, fill: true })),
+        h('div.grow', h('div.tx-label', 'Результат'), h('div.gx-res-t', caption))),
+      txKpis([
+        { value: score, unit: '%', label: 'результат', tone },
+        { value: correct, unit: `/${total}`, label: 'правильно', ariaLabel: `${correct} з ${total} правильно` },
+        { value: wrong.length, label: plural(wrong.length, 'помилка', 'помилки', 'помилок'), tone: wrong.length ? 'bad' : 'good' },
+      ])),
+    wrong.length ? txGroup(`Розбір помилок (${wrong.length})`, wrong.map(r => h('div.gx-card.stack', { style: { gap: '4px' } },
       h('div.small', promptText(r.ex)),
       h('div.small', h('span.bad', `Ваша відповідь: ${r.given || '—'}`)),
       h('div.small', h('span.good', `Правильно: ${answerText(r.ex)}`)),
-      r.ex.explanation ? h('div.xs.dim', r.ex.explanation) : null)));
+      r.ex.explanation ? h('div.xs.dim', r.ex.explanation) : null))) : null);
 }
 
 function promptText(ex) {
@@ -113,7 +127,7 @@ export function render(ex, report, next) {
     // «Далі» має бути видно (не під нижньою панеллю): відступ задає scroll-padding-bottom
     requestAnimationFrame(() => nextBtn.scrollIntoView({ block: 'nearest', behavior: 'smooth' }));
   };
-  const instr = (t) => h('div.xs.dim', t);
+  const instr = (t) => h('div.xs.dim.ex-instr', t);
   const speakIt = (t) => h('button.icon-btn.soft', { type: 'button', 'aria-label': 'Прослухати', onclick: () => speak(t) }, ic('speaker-high', { size: 20 }));
 
   if (ex.type === 'choice') {
