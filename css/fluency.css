@@ -5,23 +5,6 @@
 .fl-two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
 .fl-two .btn{min-width:0}
 
-/* Синя картка (стиль плану дня) */
-.fl-hero{background:var(--hero);border:1px solid var(--hero-edge);color:#fff;border-radius:24px;padding:18px;display:flex;flex-direction:column;gap:12px}
-.fl-hero .label{font-size:var(--fs-xs);font-weight:600;color:var(--hero-dim)}
-.fl-hero .sub{font-size:var(--fs-sm);color:var(--hero-dim);line-height:1.45}
-.fl-hero-t{font-family:var(--font-head);font-weight:700;font-size:var(--fs-lg);line-height:1.25;overflow-wrap:anywhere}
-.fl-hero .btn.start{background:#fff;color:var(--hero);font-weight:700;min-height:52px;border-radius:var(--radius-btn);gap:8px}
-.fl-hero :focus-visible{outline-color:#fff}
-.fl-hero-nums{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;border-top:1px solid rgba(255,255,255,.14);padding-top:12px}
-.fl-hero-nums div{display:flex;flex-direction:column;gap:2px;min-width:0}
-.fl-hero-nums b{font-family:var(--font-head);font-weight:700;font-size:var(--fs-xl);line-height:1.1;letter-spacing:-.02em;white-space:nowrap}
-.fl-hero-nums span{font-size:var(--fs-xs);color:var(--hero-dim)}
-
-.fl-login .tile-ico{color:var(--accent-ink)}
-.tile-ico.bad{background:var(--bad-soft);color:var(--bad)}
-.fl-tips{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px;font-size:var(--fs-sm);color:var(--ink-dim);line-height:1.45}
-.fl-tips li::marker{color:var(--accent-ink)}
-
 /* «Ваш прогрес» */
 .fl-ptile .fl-ml{min-height:2.6em}
 .fl-ptile{display:flex;flex-direction:column;gap:4px;padding:12px;border-radius:16px;background:var(--tile);border:1px solid var(--tile-edge);min-width:0}
@@ -34,9 +17,9 @@
 
 /* Метрики */
 .fl-metrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
-.fl-metric{display:flex;flex-direction:column;gap:2px;padding:10px;border-radius:14px;background:var(--surface-2);min-width:0}
+.fl-metric{display:flex;flex-direction:column;gap:2px;padding:11px 12px 12px;border-radius:16px;background:var(--tile);border:1px solid var(--tile-edge);min-width:0}
 .fl-mv{display:flex;align-items:baseline;gap:6px;flex-wrap:wrap}
-.fl-mv b{font-family:var(--font-head);font-weight:700;font-size:var(--fs-xl);line-height:1.1;letter-spacing:-.02em}
+.fl-mv b{font-family:var(--font-head);font-weight:700;font-size:22px;line-height:1.15;letter-spacing:-.01em;font-variant-numeric:tabular-nums}
 .fl-ml{font-size:var(--fs-xs);color:var(--ink-dim);font-weight:500;line-height:1.3}
 .fl-ms{font-size:12px;color:var(--ink-dim);line-height:1.3}
 .fl-delta{font-size:12px;font-weight:700;padding:1px 6px;border-radius:var(--radius-pill);white-space:nowrap}
@@ -103,16 +86,15 @@ details.fl-tx .fl-legend{margin-bottom:6px}
 .fl-nudge{min-height:44px;font-size:var(--fs-sm);color:var(--ink-dim);opacity:0;transition:opacity var(--dur);display:flex;align-items:center;justify-content:center;gap:4px;flex-wrap:wrap;padding:0 8px}
 .fl-nudge.on{opacity:1;background:var(--accent-soft);color:var(--accent-ink);border-radius:var(--radius-pill)}
 .fl-rec-acts{width:100%}
-.fl-wait .row svg{color:var(--accent-ink)}
-.fl-short{align-items:center}
-.fl-short > svg{color:var(--ink-dim)}
-.fl-err .fl-strong{color:var(--ink)}
-.fl-next .btn.start{margin-top:2px}
+.fl-state-h{display:flex;gap:12px;align-items:flex-start}
+.fl-state .tx-sq.warn{background:var(--warn-soft);color:var(--warn)}
+.fl-state .tx-sq.bad{background:var(--bad-soft);color:var(--bad)}
+.fl-wait .tx-sq{color:var(--accent-ink)}
 
 /* Відгук */
-.fl-fb .row > svg{color:var(--accent-ink)}
+.fl-sublbl{padding:0;margin-top:2px}
 .fl-sumtext{margin:0;line-height:1.55}
-.fl-better{display:flex;flex-direction:column;gap:6px;padding:10px 12px;border-radius:14px;background:var(--surface-2)}
+.fl-better{display:flex;flex-direction:column;gap:6px;padding:10px 12px;border-radius:14px;background:var(--tile-sq)}
 .fl-from{font-size:var(--fs-sm);color:var(--ink-dim);text-decoration:line-through;text-decoration-color:color-mix(in srgb,var(--bad) 70%,transparent);overflow-wrap:anywhere}
 .fl-to{display:flex;align-items:flex-start;gap:8px;border:0;background:transparent;padding:4px 0;color:var(--ink);font:inherit;font-weight:600;text-align:left;cursor:pointer;min-height:36px;overflow-wrap:anywhere}
 .fl-to svg{color:var(--accent-ink);flex:none;margin-top:2px}
@@ -120,16 +102,9 @@ details.fl-tx .fl-legend{margin-bottom:6px}
 .chip.fl-gchip{white-space:normal;text-align:left;max-width:100%}
 .chip.fl-gchip svg{flex:none;color:var(--accent-ink)}
 
-/* Список фраз */
-.fl-say{align-items:flex-start;cursor:pointer}
-.fl-spk{color:var(--accent-ink);flex:none;margin-top:2px}
-.fl-say-t{display:flex;flex-direction:column;gap:2px;min-width:0}
-.fl-en{font-weight:600;font-size:var(--fs-md);line-height:1.3}
-.fl-uk{font-size:var(--fs-sm);color:var(--ink-dim);line-height:1.35}
-
 /* Тренування */
 .fl-ask{gap:12px}
-.fl-q{width:100%;padding:20px 16px}
+.fl-q{width:100%;padding:20px 16px;align-items:center;text-align:center}
 .fl-q-en{font-family:var(--font-head);font-weight:600;font-size:var(--fs-lg);line-height:1.3;overflow-wrap:anywhere}
 .fl-startlbl{font-size:var(--fs-sm);font-weight:600;color:var(--accent-ink);min-height:1.4em}
 .fl-startbar{width:100%;height:8px;border-radius:4px;background:var(--track);overflow:hidden}
@@ -141,21 +116,24 @@ details.fl-tx .fl-legend{margin-bottom:6px}
 .fl-ask-mid{justify-content:center;gap:16px;width:100%}
 .fl-ask-mid .fl-sec{font-size:40px}
 .fl-ask-mid .fl-meter{width:120px}
-.fl-verdict{display:flex;gap:12px;align-items:flex-start;padding:16px;border-radius:var(--radius)}
-.fl-verdict.good{background:var(--good-soft)}
-.fl-verdict.warn{background:var(--warn-soft)}
+.fl-verdict{display:flex;gap:12px;align-items:flex-start;padding:12px;border-radius:16px;background:var(--tile);border:1px solid var(--tile-edge)}
+.fl-verdict.good{background:var(--good-soft);border-color:color-mix(in srgb,var(--good) 40%,transparent)}
 .fl-verdict .fl-vico{flex:none}
-.fl-verdict.good .fl-vico{color:var(--good)}
-.fl-verdict.warn .fl-vico{color:var(--warn)}
+.fl-verdict.good .fl-vico{background:var(--good);color:var(--on-good)}
+.fl-verdict.warn .fl-vico{background:var(--warn-soft);color:var(--warn)}
 .fl-vt{font-weight:700;font-size:var(--fs-md);line-height:1.3;margin-bottom:2px;overflow-wrap:anywhere}
 
 @media (max-width:370px){
-  .fl-metric{padding:8px}
-  .fl-mv b{font-size:var(--fs-lg)}
+  .fl-metric{padding:10px}
+  .fl-mv b{font-size:19px}
   .fl-sec{font-size:56px}
 }
 @media (prefers-reduced-motion:reduce){
   .fl-meter i,.fl-nudge{transition:none}
 }
 .fl-txhead{display:flex;flex-direction:column;gap:6px}
+details.fl-tx.gx-card{padding:4px 12px}
+details.fl-tx.gx-card[open]{padding-bottom:12px}
+.fl-howto ol{color:var(--ink-dim)}
+.fl-compare .fl-fig{padding:12px;border-radius:16px;background:var(--tile);border:1px solid var(--tile-edge)}
 .fl-more{color:var(--accent-ink);border-style:dashed}
