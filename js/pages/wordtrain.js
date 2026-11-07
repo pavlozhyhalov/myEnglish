@@ -17,6 +17,8 @@ import { user } from '../supa.js';
 import { tutor, aiErrorText } from '../ai.js';
 import * as L from '../wordlogic.js';
 import { onLeave, parse } from '../router.js';
+import { tx, txPrimary, txKpis, txGroup, txRows, txPill } from '../ui/tiles.js';
+import { resHead } from './cards.js';
 
 const MAX_DUE = 30;            // повторів за сесію (решта — наступного разу)
 const MAX_NEW = 20;            // нових слів за сесію (у межах денного ліміту з налаштувань; довшу сесію обмежує TIME_CAP)
@@ -116,11 +118,13 @@ export async function runTrain(view, { limit = Infinity, onExit, onDone, practic
     const sess = timer.stop();
     if (onDone) { onDone({ done: 0, again: 0, seconds: sess?.seconds || 0, early: false }); return () => setFocus(false); }
     setFocus(false);
-    view.replaceChildren(h('div.hero',
-      emo('party', 'xl'), h('h1', 'На сьогодні все'),
-      h('p.dim', 'Слів до повтору немає, денний ліміт нових вичерпано. Нові слова з\'являться завтра.'),
-      daily ? h('a.btn.primary.lg.wt-daily-next', { href: '#/today' }, 'Далі за планом', ic('arrow-right')) : null,
-      h('div.row.wrap', { style: { justifyContent: 'center' } }, h('a.btn.soft', { href: '#/' }, 'На головну'), h('a.btn' + (daily ? '.soft' : '.primary'), { href: '#/vocab' }, ic('plus'), 'Додати свої слова'))));
+    view.replaceChildren(h('div.stack-lg.wt-end',
+      resHead({ icon: 'confetti', tone: 'good', eyebrow: 'Підсумок', title: 'На сьогодні все', sub: 'Слів до повтору немає, денний ліміт нових вичерпано. Нові слова з\'являться завтра.' }),
+      h('div.stack.lr-next',
+        daily ? txPrimary({ icon: 'arrow-right', label: 'Далі за планом', sub: 'наступний крок «Мого дня»', href: '#/today', cls: 'wt-daily-next' }) : null,
+        daily ? tx({ icon: 'plus', label: 'Додати свої слова', sub: 'у «Мої слова»', href: '#/vocab', wide: true })
+          : txPrimary({ icon: 'plus', label: 'Додати свої слова', sub: 'у «Мої слова»', href: '#/vocab' }),
+        tx({ icon: 'house', label: 'На головну', href: '#/', wide: true }))));
     return () => {};
   }
 
@@ -536,31 +540,34 @@ function endScreen(view, { results, seconds, maxCombo, practice, early, onExit, 
   const min = Math.round(seconds / 60);
   const time = seconds < 60 ? `${Math.max(1, seconds)} с` : `${min} хв`;
   if (sum.graded || practised) beep('done');
-  const stat = (value, label, cls = '') => h('div.wt-stat', h('b.num' + cls, String(value)), h('span', label));
   const hardest = sum.hardest.length ? sum.hardest : [];
   const storyBox = h('div');
   const words = storyWords(results);
-  view.replaceChildren(h('div.stack-lg',
-    h('div.hero', emo(sum.accuracy >= 80 && sum.graded ? 'trophy' : 'party', 'xl'),
-      h('h1', practice ? 'Повторення завершено' : early && !sum.graded ? 'Тренування перервано' : 'Тренування завершено'),
-      h('p.dim', practice ? `${practised} ${plural(practised, 'слово', 'слова', 'слів')} без оцінок — розклад FSRS не змінено` : sum.graded ? `${sum.graded} ${plural(sum.graded, 'слово', 'слова', 'слів')} · ${time} навчання` : 'Жодне слово ще не оцінено'),
-      // «Мій день»: наступний крок плану — головна дія екрана
-      daily && !practice ? h('a.btn.primary.lg.wt-daily-next', { href: '#/today' }, 'Далі за планом', ic('arrow-right')) : null),
-    practice ? null : h('section.card.wt-stats',
-      stat(sum.learned, plural(sum.learned, 'нове слово', 'нові слова', 'нових слів'), '.good'),
-      stat(sum.strengthened, 'закріплено'),
-      stat(`${sum.accuracy}%`, 'з першої спроби'),
-      stat(time, 'час'),
-      stat(maxCombo ? `×${maxCombo}` : '—', 'найдовше комбо')),
-    hardest.length ? h('section.stack', { style: { gap: '8px' } },
-      h('div.section-title', 'Найважчі слова'),
-      h('div.list', hardest.map(r => h('div.list-row',
-        h('div.grow', h('div', { lang: 'en', style: { fontWeight: 600 } }, r.en), h('div.sub', r.uk)),
-        r.wrong ? h('span.tag.bad', `${r.wrong} ${plural(r.wrong, 'помилка', 'помилки', 'помилок')}`) : h('span.tag.warn', 'важко'),
-        h('button.icon-btn', { type: 'button', 'aria-label': `Прослухати ${r.en}`, onclick: () => speak(r.en) }, ic('speaker-high', { size: 20 }))))),
-      h('button.btn.soft.block', { type: 'button', onclick: () => runTrain(view, { practice: hardest.map(r => r.card), onExit }).then(fn => onLeave(view, fn)) }, ic('arrow-clockwise'), 'Потренувати їх ще раз')) : null,
+  const toDecks = { icon: 'cards', label: 'До колод', sub: 'тренування, колоди, свої слова', onclick: () => onExit?.() };
+  view.replaceChildren(h('div.stack-lg.wt-end',
+    resHead({
+      icon: sum.accuracy >= 80 && sum.graded ? 'trophy' : 'confetti', tone: sum.graded || practised ? 'good' : '', eyebrow: 'Підсумок',
+      title: practice ? 'Повторення завершено' : early && !sum.graded ? 'Тренування перервано' : 'Тренування завершено',
+      sub: practice ? `${practised} ${plural(practised, 'слово', 'слова', 'слів')} без оцінок — розклад FSRS не змінено` : sum.graded ? `${sum.graded} ${plural(sum.graded, 'слово', 'слова', 'слів')} · ${time} навчання` : 'Жодне слово ще не оцінено',
+    }),
+    practice ? null : h('div.stack.wt-kpis',
+      txKpis([
+        { value: sum.learned, label: plural(sum.learned, 'нове слово', 'нові слова', 'нових слів'), tone: 'good' },
+        { value: sum.strengthened, label: 'закріплено' },
+        { value: `${sum.accuracy}%`, label: 'з першої спроби', tone: sum.graded && sum.accuracy >= 80 ? 'good' : '' },
+      ]),
+      txKpis([{ value: time, label: 'час' }, { value: maxCombo ? `×${maxCombo}` : '—', label: 'найдовше комбо', ariaLabel: `Найдовше комбо: ${maxCombo || 'немає'}` }], 2)),
+    hardest.length ? txGroup('Найважчі слова', [
+      txRows(hardest.map(r => h('div.tx-row.lr-word',
+        h('button.tx-sq.lr-spk', { type: 'button', 'aria-label': `Прослухати ${r.en}`, onclick: () => speak(r.en) }, ic('speaker-high', { size: 18 })),
+        h('span.tx-body', h('span.tx-l', { lang: 'en' }, r.en), h('span.tx-s', r.uk)),
+        r.wrong ? txPill(`${r.wrong} ${plural(r.wrong, 'помилка', 'помилки', 'помилок')}`, 'bad') : txPill('важко', 'warn')))),
+      tx({ icon: 'arrow-clockwise', label: 'Потренувати їх ще раз', sub: 'без оцінок — розклад не зміниться', wide: true, onclick: () => runTrain(view, { practice: hardest.map(r => r.card), onExit }).then(fn => onLeave(view, fn)) })]) : null,
     !practice && words.length >= 4 ? storyBox : null,
-    h('div.row', { style: { justifyContent: 'center' } }, h('a.btn.soft', { href: '#/' }, 'На головну'), h('button.btn' + (daily ? '.soft' : '.primary'), { type: 'button', onclick: () => onExit?.() }, 'До колод'))));
+    h('div.stack.lr-next',
+      daily && !practice ? txPrimary({ icon: 'arrow-right', label: 'Далі за планом', sub: 'наступний крок «Мого дня»', href: '#/today', cls: 'wt-daily-next' }) : null,
+      daily && !practice ? tx({ ...toDecks, wide: true }) : txPrimary(toDecks),
+      tx({ icon: 'house', label: 'На головну', href: '#/', wide: true }))));
   if (!practice && words.length >= 4) storyOffer(storyBox, words);
 }
 
@@ -581,12 +588,11 @@ function storyWords(results) {
 
 function storyOffer(box, words) {
   if (!user()) {
-    box.replaceChildren(h('section.card.soft.row', emo('sparkles'), h('div.grow.small', 'Увійдіть, і вчитель складе коротку історію з сьогоднішніх слів.'), h('a.btn.ghost.sm', { href: '#/auth' }, 'Увійти')));
+    box.replaceChildren(txGroup('Історія з моїх слів', tx({ icon: 'sparkle', label: 'Увійти', sub: 'Увійдіть, і вчитель складе коротку історію з сьогоднішніх слів.', href: '#/auth', wide: true })));
     return;
   }
-  box.replaceChildren(h('section.card.accent.stack',
-    h('div.row', h('span.tile-ico', emo('sparkles')), h('div.grow', h('div', { style: { fontWeight: 600 } }, 'Історія з моїх слів'), h('div.xs.dim', `Коротка історія рівня ${myLevel()} з ${words.length} ${plural(words.length, 'сьогоднішнім словом', 'сьогоднішніми словами', 'сьогоднішніх слів')} і 3 запитання`))),
-    h('button.btn.primary.block', { type: 'button', onclick: () => storyView(box, words) }, 'Створити історію')));
+  box.replaceChildren(txGroup('Історія з моїх слів', tx({ icon: 'sparkle', label: 'Створити історію', wide: true, onclick: () => storyView(box, words),
+    sub: `Коротка історія рівня ${myLevel()} з ${words.length} ${plural(words.length, 'сьогоднішнім словом', 'сьогоднішніми словами', 'сьогоднішніх слів')} і 3 запитання` })));
 }
 
 /** Історія з AI: слова підсвічені й перекладаються дотиком, 3 запитання на розуміння */
@@ -624,7 +630,7 @@ export async function storyView(box, words) {
   let answered = 0, right = 0;
   const score = h('div.small', { 'aria-live': 'polite' });
   const qEls = qs.map((q, qi) => {
-    const btns = q.options.map((o, k) => h('button.opt', { type: 'button', lang: 'en', onclick: () => {
+    const btns = q.options.map((o, k) => h('button.opt.ex-opt', { type: 'button', lang: 'en', onclick: () => {
       if (btns.some(b => b.disabled)) return;
       btns.forEach(b => { b.disabled = true; });
       const ok = k === q.answer;
@@ -632,7 +638,7 @@ export async function storyView(box, words) {
       answered++; if (ok) right++;
       beep(ok ? 'good' : 'bad');
       if (answered === qs.length) score.textContent = `Правильних відповідей: ${right} з ${qs.length}`;
-    } }, h('span.grow', o)));
+    } }, h('span.ex-key', { 'aria-hidden': 'true' }, String(k + 1)), h('span.grow', o)));
     return h('div.stack', { style: { gap: '8px' } }, h('div', { lang: 'en', style: { fontWeight: 600 } }, `${qi + 1}. ${q.q}`), btns);
   });
   box.replaceChildren(h('section.card.stack.wt-story',

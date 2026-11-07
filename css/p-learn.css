@@ -20,3 +20,35 @@
   .vw-page .tx.wide{gap:8px}
   .vw-page .tx.wide .tx-sq{width:32px;height:32px}
 }
+
+/* ---------- Підсумок сесії (картки, тренування слів, фразник): квадратик + заголовок ---------- */
+.lr-head{display:flex;align-items:center;gap:14px;padding:4px 4px 0}
+.lr-head > .tx-sq{width:56px;height:56px;border-radius:16px;background:var(--accent-soft);color:var(--accent-ink)}
+.lr-head > .tx-sq.good{background:var(--good-soft);color:var(--good)}
+.lr-head > .tx-sq.warn{background:var(--warn-soft);color:var(--warn)}
+.lr-body{display:flex;flex-direction:column;align-items:flex-start;gap:3px;min-width:0;flex:1}
+.lr-eyebrow{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-dim);line-height:1.3}
+.lr-title{margin:0;font-family:var(--font-head);font-weight:700;font-size:var(--fs-xl);line-height:1.15;letter-spacing:-.01em;overflow-wrap:anywhere}
+.lr-sub{margin:0;font-size:var(--fs-sm);color:var(--ink-dim);line-height:1.4;overflow-wrap:anywhere}
+.cd-next,.lr-next{gap:8px}
+/* рядок-слово з квадратиком «прослухати» */
+button.tx-sq.lr-spk{border:0;cursor:pointer;color:var(--accent-ink);-webkit-tap-highlight-color:transparent}
+button.tx-sq.lr-spk:active{transform:scale(.94)}
+.tx-row.lr-word{cursor:default;gap:10px}
+.tx-row.lr-word .tx-l{overflow-wrap:anywhere}
+
+/* ---------- Швидкий повтор (#/cards/review): картка — плитка ---------- */
+.cd-rev-top{gap:10px}
+.cd-rev .counters{gap:6px}
+.cd-rev .counters .tx-pill{font-family:var(--font-head);font-variant-numeric:tabular-nums;min-width:30px;text-align:center}
+.cd-rev .progress{height:6px;background:var(--tile-sq)}
+.cd-rev .flash .face{background:var(--tile);border:1px solid var(--tile-edge);box-shadow:none;border-radius:20px}
+.cd-rev .flash .kind{top:14px;left:14px;padding:5px 10px;border-radius:999px;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+.cd-rev .flash .answer{border-top-color:var(--tile-edge)}
+.cd-rev .flash .card.soft{border-radius:14px}
+.cd-rev .flash .icon-btn.soft{border-radius:12px;background:var(--tile-sq)}
+.cd-rev .grades{gap:6px}
+.cd-rev .grade{border-radius:16px;border:1px solid transparent}
+.cd-rev .grade.again{border-color:color-mix(in srgb,var(--bad) 30%,transparent)}
+.cd-rev .grade.hard{border-color:color-mix(in srgb,var(--warn) 30%,transparent)}
+.cd-rev .grade.easy{border-color:color-mix(in srgb,var(--good) 30%,transparent)}

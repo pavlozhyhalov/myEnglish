@@ -13,6 +13,13 @@ import { myLevel, diff, levelTag, byFit } from '../level.js';
 import { aiErrorText } from '../ai.js';
 import { tx, txPrimary, txKpis, txGrid, txGroup, txRows, txBar } from '../ui/tiles.js';
 
+/** Шапка підсумку сесії: квадратик з іконкою + підпис, заголовок, рядок пояснення (css/p-learn.css) */
+export function resHead({ icon, eyebrow, title, sub = null, tone = '' }) {
+  return h('div.lr-head',
+    h('span.tx-sq' + (tone ? '.' + tone : ''), ic(icon, { size: 26, fill: tone === 'good' })),
+    h('div.lr-body', eyebrow ? h('span.lr-eyebrow', eyebrow) : null, h('h1.lr-title', title), sub ? h('p.lr-sub', sub) : null));
+}
+
 export default async function cards(view, r) {
   if (r.parts[0] === 'review') {
     setTitle('Повторення');
@@ -93,14 +100,14 @@ export async function runReview(view, { limit = Infinity, onExit, onDone, embedd
   const bar = h('div.progress', { role: 'progressbar', 'aria-label': 'Пройдено карток', 'aria-valuemin': 0, 'aria-valuemax': 100 }, h('i', { style: { width: '0%' } }));
   const stage = h('div.flash-wrap');
   const actions = h('div');
-  const root = h('div.stack',
-    h('div.row', h('button.icon-btn', { type: 'button', 'aria-label': 'Завершити', onclick: () => finish(true) }, ic('x')), h('div.grow', bar), counters),
+  const root = h('div.stack.cd-rev',
+    h('div.row.cd-rev-top', h('button.icon-btn', { type: 'button', 'aria-label': 'Завершити', onclick: () => finish(true) }, ic('x')), h('div.grow', bar), counters),
     stage, actions);
   view.replaceChildren(root);
 
   function updateCounters() {
     const n = queue.filter(c => !c.reps).length, d = queue.length - n;
-    counters.replaceChildren(h('span', { title: 'Нові', 'aria-label': `Нових: ${n}` }, h('b.good', String(n))), h('span', { title: 'До повтору', 'aria-label': `До повтору: ${d}` }, h('b.warn', String(d))));
+    counters.replaceChildren(h('span.tx-pill.good', { title: 'Нові', 'aria-label': `Нових: ${n}` }, String(n)), h('span.tx-pill.warn', { title: 'До повтору', 'aria-label': `До повтору: ${d}` }, String(d)));
     const pct = startCount ? Math.min(100, done / startCount * 100) : 100;
     bar.firstChild.style.width = `${pct}%`; bar.setAttribute('aria-valuenow', String(Math.round(pct)));
   }
@@ -242,11 +249,18 @@ export async function runReview(view, { limit = Infinity, onExit, onDone, embedd
     const stats = { done, again, seconds: sess?.seconds || 0, early };
     if (onDone) return onDone(stats);
     setFocus(false);
-    view.replaceChildren(h('div.hero',
-      emo(done ? 'party' : 'cards', 'xl'),
-      h('h1', done ? 'Повторення завершено' : 'Немає карток для повторення'),
-      done ? h('p.dim', `${done} ${plural(done, 'картка', 'картки', 'карток')} · «Знову»: ${again} · ${(sess?.seconds || 0) < 60 ? 'менше хвилини' : `${Math.round(sess.seconds / 60)} хв`}`) : null,
-      h('div.row', h('a.btn.soft', { href: '#/' }, 'На головну'), h('button.btn.primary', { type: 'button', onclick: () => onExit?.() }, 'До колод'))));
+    const secs = sess?.seconds || 0;
+    view.replaceChildren(h('div.stack-lg.cd-done',
+      resHead({ icon: done ? 'confetti' : 'cards', tone: done ? 'good' : '', eyebrow: 'Підсумок', title: done ? 'Повторення завершено' : 'Немає карток для повторення',
+        sub: done ? 'Оцінки збережено — картки повернуться за розкладом FSRS.' : 'Нові картки з\'являться завтра.' }),
+      done ? txKpis([
+        { value: done, label: plural(done, 'картка', 'картки', 'карток'), tone: 'good' },
+        { value: again, label: '«Знову»', tone: again ? 'warn' : '' },
+        secs < 60 ? { value: '<1', unit: 'хв', label: 'час', ariaLabel: 'Час: менше хвилини' } : { value: Math.round(secs / 60), unit: 'хв', label: 'час' },
+      ]) : null,
+      h('div.stack.cd-next',
+        txPrimary({ icon: 'cards', label: 'До колод', sub: 'тренування, колоди, свої слова', onclick: () => onExit?.() }),
+        tx({ icon: 'house', label: 'На головну', href: '#/', wide: true }))));
   }
 
   next();
