@@ -1,5 +1,5 @@
 // Bottom sheet замість модалок на мобільному
-import { h } from './dom.js';
+import { h, ic } from './dom.js';
 import { pushModal } from './modal.js';
 
 // Поки відкрита шторка, сторінка під нею не прокручується (iOS ігнорує overflow:hidden — фіксуємо body)
@@ -55,9 +55,11 @@ export function confirmSheet(title, text, okLabel = 'Так', { danger = false }
   return new Promise(resolve => {
     let s;
     const done = (v) => { resolve(v); s.close(); };
-    s = sheet(title, h('div.stack', h('p.dim', text), h('div.row',
-      h('button.btn.grow', { type: 'button', onclick: () => done(false) }, 'Скасувати'),
-      h('button.btn.grow' + (danger ? '.danger' : '.primary'), { type: 'button', onclick: () => done(true) }, okLabel))),
+    s = sheet(title, h('div.stack.cf-body',
+      h('div.cf-head' + (danger ? '.bad' : ''), h('span.tx-sq', { 'aria-hidden': 'true' }, ic(danger ? 'warning' : 'question', { size: 20 })), h('p.cf-text', text)),
+      h('div.row.cf-actions',
+        h('button.btn.grow.cf-cancel', { type: 'button', onclick: () => done(false) }, 'Скасувати'),
+        h('button.btn.grow' + (danger ? '.danger' : '.primary'), { type: 'button', onclick: () => done(true) }, okLabel))),
     { onClose: () => resolve(false) });
   });
 }

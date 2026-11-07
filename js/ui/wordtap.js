@@ -321,11 +321,11 @@ function entryBlock(entry, example, sourceLabel, refresh) {
   paint();
   refresh?.add(paint);
   const ex = entry.ex && norm(entry.ex) !== norm(example) ? entry.ex : null;
+  // шапка — плитка: слово, транскрипція, переклад і озвучення (один дизайн з меню)
   return h('div.stack.wt-entry', { style: { gap: '8px' } },
-    h('div.row', h('div.grow', h('div.wt-head', { lang: 'en' }, entry.en), entry.ipa ? h('div.ipa', entry.ipa) : null),
+    h('div.wtp-card', h('div.grow', h('div.wt-head', { lang: 'en' }, entry.en), entry.ipa ? h('div.ipa', entry.ipa) : null,
+      h('div.wt-uk', entry.uk), sourceLabel ? h('div.wt-src', h('span.tx-pill', sourceLabel)) : null),
       h('button.icon-btn.soft', { type: 'button', 'aria-label': `Прослухати: ${entry.en}`, onclick: () => speak(entry.en) }, ic('speaker-high'))),
-    h('div.wt-uk', entry.uk),
-    sourceLabel ? h('div', h('span.tag', sourceLabel)) : null,
     ex ? h('div.example', h('div.grow', h('div.small', { lang: 'en' }, ex), entry.exUk ? h('div.xs.dim', entry.exUk) : null)) : null,
     h('div.row.wrap', addBtn, relBtn));
 }
@@ -446,7 +446,7 @@ export async function lookupText({ text, sentence = '', next = [], gl = null, on
   }
 
   // 2) колоди
-  show(h('div.row', h('div.grow.wt-head', { lang: 'en' }, surface), speakBtn(surface)), h('p.dim', { role: 'status' }, 'Шукаю…'));
+  show(h('div.wtp-card', h('div.grow.wt-head', { lang: 'en' }, surface), speakBtn(surface)), h('p.dim.wt-status', { role: 'status' }, 'Шукаю…'));
   let hit = null, phrase = null;
   try {
     if (words.length === 1) ({ hit, phrase } = await lookupDeck(words[0], next));
@@ -463,7 +463,7 @@ export async function lookupText({ text, sentence = '', next = [], gl = null, on
   }
 
   // 3) AI-переклад у контексті
-  const head = h('div.row', h('div.grow.wt-head', { lang: 'en' }, surface), speakBtn(surface));
+  const head = h('div.wtp-card', h('div.grow.wt-head', { lang: 'en' }, surface), speakBtn(surface));
   const runAi = async () => {
     show(head, h('p.dim', { role: 'status' }, 'Перекладаю з урахуванням речення…'), ctx);
     try {
@@ -488,7 +488,7 @@ export async function translateFragment({ text, onAsk = null } = {}) {
   if (!frag) return null;
   const out = h('div.wt-uk', { role: 'status' });
   const body = h('div.stack',
-    h('div.row', h('p.grow.wt-frag', { lang: 'en' }, frag), speakBtn(frag)), out);
+    h('div.wtp-card', h('p.grow.wt-frag', { lang: 'en' }, frag), speakBtn(frag)), out);
   const s = sheet('Переклад', body);
   const ask = h('button.btn.ghost', { type: 'button', onclick: () => {
     s.close();

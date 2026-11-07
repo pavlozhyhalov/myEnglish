@@ -62,3 +62,65 @@
 .adm-seg{min-width:128px;background:var(--tile-sq);padding:3px}
 .adm-seg button{min-height:32px}
 .lab-log{white-space:pre-wrap;max-height:40dvh;overflow:auto;margin:0;overflow-wrap:anywhere}
+
+/* ---------- Шторки (js/ui/sheet.js) — панель як бокове меню: плитки на поверхні ---------- */
+.sheet{border-radius:22px 22px 0 0;border-color:var(--tile-edge);padding-left:14px;padding-right:14px}
+.sheet .grab{background:var(--line-strong);opacity:.6;margin:4px auto 12px}
+.sheet > h2{font-size:var(--fs-md);font-weight:700;line-height:1.3;margin:0 4px 12px}
+.sheet .card{background:var(--tile)}
+/* підтвердження: плитка з іконкою в квадратику + дві дії */
+.cf-body{gap:12px}
+.cf-head{display:flex;align-items:flex-start;gap:12px;padding:12px;border-radius:16px;background:var(--tile);border:1px solid var(--tile-edge)}
+.cf-head .tx-sq{color:var(--accent-ink)}
+.cf-head.bad .tx-sq{background:var(--bad-soft);color:var(--bad)}
+.cf-text{margin:0;align-self:center;font-size:var(--fs-sm);line-height:1.45;color:var(--ink-dim)}
+.cf-actions{gap:8px}
+.cf-actions .btn{min-height:50px;border-radius:14px}
+.cf-cancel{background:var(--tile);border:1px solid var(--tile-edge);color:var(--ink)}
+
+/* ---------- Повідомлення (js/ui/toast.js) — плитка з іконкою ---------- */
+.toast{background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:16px;padding:8px 14px 8px 8px;gap:10px;box-shadow:var(--shadow-float);font-weight:600}
+.toast-sq{flex:none;display:grid;place-items:center;width:34px;height:34px;border-radius:10px;background:var(--good-soft);color:var(--good)}
+.toast-t{min-width:0;line-height:1.35;overflow-wrap:anywhere}
+.toast .btn{color:var(--accent-ink);text-decoration:none;font-weight:700;margin:-8px -8px -8px auto}
+.toast.bad{background:var(--surface);color:var(--ink);border-color:color-mix(in srgb,var(--bad) 45%,transparent)}
+.toast.bad .toast-sq{background:var(--bad-soft);color:var(--bad)}
+
+/* ---------- «Далі за планом» (js/ui/dailybar.js) — плаваюча плитка з іконкою в квадратику ---------- */
+body .dailybar{background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:16px;padding:5px;gap:4px;box-shadow:var(--shadow-float)}
+body .dailybar-go{border-radius:12px;padding:0 8px 0 0;gap:10px;min-height:40px}
+body .dailybar-ico{width:36px;height:36px;border-radius:11px;background:var(--accent);color:#fff}
+body .dailybar-t .dim{color:var(--ink-dim)}
+body .dailybar-go > .ico:last-child{color:var(--accent-ink)}
+body .dailybar-x{border-radius:10px;color:var(--ink-dim)}
+@media (hover:hover){body .dailybar-x:hover{background:var(--tile-sq)}}
+
+/* ---------- Переклад за виділенням і дотиком (selectlookup.js, wordtap.js) ---------- */
+body .sel-q{border-radius:12px;box-shadow:0 6px 18px rgba(0,0,0,.22),0 0 0 3px var(--bg)}
+body .sel-q::after{border-radius:14px}
+body .sel-pop{background:var(--surface);border-color:var(--line);border-radius:16px;padding:10px 12px;gap:6px;box-shadow:var(--shadow-float)}
+body .sel-pop::after{border-color:var(--line)}
+body .sel-pop-head .icon-btn{border-radius:10px;width:34px;height:34px}
+body .sel-pop-more{align-self:stretch;justify-content:space-between;margin-top:2px;padding:9px 10px;border-radius:12px;background:var(--tile-sq);color:var(--accent-ink);line-height:1.2}
+body .sel-pop-more::after{inset:-2px}
+/* шторка слова: шапка-плитка, кнопки озвучення — квадратики */
+.sheet .icon-btn.soft{border-radius:12px}
+.wtp-card{display:flex;align-items:center;gap:12px;padding:12px;border-radius:16px;background:var(--tile);border:1px solid var(--tile-edge)}
+.wtp-card .wt-head{font-family:var(--font-head);font-size:var(--fs-lg);font-weight:700;line-height:1.25}
+.wtp-card .ipa{font-size:var(--fs-sm);color:var(--ink-dim)}
+.wtp-card .wt-uk{font-size:var(--fs-md);margin-top:6px;line-height:1.35}
+.wtp-card > .grow{min-width:0}
+.wtp-card > .icon-btn{align-self:flex-start;flex:none}
+.wt-src{margin-top:8px}
+.wt-src .tx-pill{white-space:normal;line-height:1.25}
+.wt-status{margin:0 4px}
+.sheet .wt-entry .example{padding:10px 12px;border-radius:14px;background:var(--tile);border:1px solid var(--tile-edge)}
+/* дії шторки слова — рядки-плитки з іконкою */
+.sheet .wt-entry > .row.wrap,.sheet .wt-actions{display:flex;flex-direction:column;align-items:stretch;gap:6px;margin-top:0}
+.sheet .wt-entry > .row.wrap > .btn,.sheet .wt-actions > .btn,.sheet .stack > .row.wrap > .btn{justify-content:flex-start;min-height:50px;padding:8px 12px 8px 8px;gap:12px;border-radius:14px;
+  background:var(--tile);border:1px solid var(--tile-edge);color:var(--ink);font-weight:600;font-size:var(--fs-sm);text-align:left;white-space:normal}
+.sheet .wt-entry > .row.wrap > .btn > .ico,.sheet .wt-actions > .btn > .ico,.sheet .stack > .row.wrap > .btn > .ico{flex:none;width:34px;height:34px;padding:8px;box-sizing:border-box;border-radius:10px;background:var(--tile-sq);color:var(--accent-ink)}
+.sheet .wt-entry > .row.wrap > .btn:disabled{opacity:.7}
+.wtp-card .wt-uk{text-align:left;color:var(--ink);font-weight:600;font-size:var(--fs-md)}
+.wtp-card{text-align:left}
+.sheet:focus{outline:none}
