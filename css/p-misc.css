@@ -1,1 +1,46 @@
 /* Плитковий стиль: вхід, акаунт, шторки, службові сторінки — див. css/tiles.css */
+
+/* ---------- Вхід, відновлення пароля, акаунт (js/pages/auth.js) ---------- */
+.auth-head{cursor:default;padding:14px}
+.auth-head:active{transform:none}
+.auth-head h1.tx-l{margin:0;font-family:var(--font-head);font-size:var(--fs-md);font-weight:700;line-height:1.25}
+.auth-head p.tx-s{margin:0;font-size:var(--fs-sm);line-height:1.4}
+.auth-head .tx-sq{width:44px;height:44px;border-radius:13px;align-self:flex-start}
+.auth-head:not(.good):not(.warn) .tx-sq{color:var(--accent-ink)}
+.auth-card{padding:14px;gap:12px}
+.auth-card .seg{background:var(--tile-sq)}
+.auth-card .input{border-radius:12px}
+.auth-card h2.tx-label{padding:0}
+.auth-note .tx-s{line-height:1.4}
+.auth-out .tx-sq{background:var(--bad-soft);color:var(--bad)}
+.auth-out .tx-l{color:var(--bad)}
+.auth-strength{margin-top:-6px}
+
+/* ---------- Налаштування (js/pages/settings.js): кожен параметр — рядок-плитка з іконкою в квадратику ---------- */
+.pp-set .list.set-list{background:transparent;border:0;border-radius:0;box-shadow:none;gap:6px}
+.set-list > .set-row{background:var(--tile);border:1px solid var(--tile-edge);border-radius:14px}
+.set-list > .set-row + .set-row{border-top:1px solid var(--tile-edge)}
+.set-row{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;min-height:56px;padding:9px 12px}
+.set-row > .tx-sq,.set-top > .tx-sq{width:34px;height:34px;border-radius:10px}
+.set-body{flex:1 1 110px;min-width:0;display:flex;flex-direction:column;gap:2px}
+.set-l{font-weight:600;font-size:var(--fs-sm);line-height:1.25;overflow-wrap:anywhere}
+.set-body .sub{font-size:var(--fs-xs);color:var(--ink-dim);line-height:1.35}
+.set-ctl{flex:none;margin-left:auto;display:flex;align-items:center;max-width:100%}
+.set-ctl select.input{max-width:100%}
+.set-row.bad .tx-sq{background:var(--bad-soft);color:var(--bad)}
+/* плитка з елементом на всю ширину: сегменти, повзунки, рівні */
+.set-block{flex-direction:column;align-items:stretch;gap:10px;padding:10px 12px 12px}
+.set-top{display:flex;align-items:center;gap:12px;min-width:0}
+.set-top .set-body{flex:1}
+.set-block .seg{background:var(--tile-sq)}
+.set-block .range{margin:0 2px}
+.set-level{gap:10px;padding:12px}
+.set-build{margin:4px 0 0}
+/* меню швидкого доступу — кожен пункт окремою плиткою */
+.pp-set .list.dnd-list{background:transparent;border:0;border-radius:0;box-shadow:none;gap:6px}
+.pp-set .dnd-list > .dnd-row{background:var(--tile);border:1px solid var(--tile-edge);border-radius:14px;padding:6px 10px 6px 8px;gap:10px}
+.pp-set .dnd-list > .dnd-row + .dnd-row{border-top:1px solid var(--tile-edge)}
+.pp-set .dnd-row > .ico:nth-child(2){flex:none;width:34px;height:34px;padding:8px;box-sizing:border-box;border-radius:10px;background:var(--tile-sq);color:var(--ink-dim)}
+.pp-set .dnd-row .handle{display:grid;place-items:center;width:20px}
+.pp-set .dnd-list > .list-row{background:transparent;border:0;padding:4px 4px 0;min-height:0}
+.pp-set .dnd-row > .grow{font-weight:600;font-size:var(--fs-sm)}

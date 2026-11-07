@@ -3,6 +3,7 @@
 import { h, ic, emo } from '../ui/dom.js';
 import { user } from '../supa.js';
 import { ai, aiErrorText } from '../ai.js';
+import { txRow } from '../ui/tiles.js';
 
 const CACHE = 'me:admin';
 const RECHECK_MS = 12 * 3600e3;
@@ -31,7 +32,7 @@ export async function checkAdmin({ force = false } = {}) {
 
 /** Посилання «Адмін» — лише для адміністратора (вставляється в слот на сторінці налаштувань) */
 export function adminLink(slot) {
-  const show = (ok) => slot.replaceChildren(...(ok ? [h('br'), h('a', { href: '#/admin' }, 'Адмін')] : []));
+  const show = (ok) => slot.replaceChildren(...(ok ? [txRow({ icon: 'key', label: 'Адміністрування', sub: 'Користувачі, AI, помилки', href: '#/admin' })] : []));
   show(!!cached()?.ok);
   checkAdmin().then(show).catch(() => {});
 }
