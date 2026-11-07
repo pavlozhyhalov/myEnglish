@@ -1,5 +1,5 @@
 // Кероване заняття ~15 хв: картки → міні-урок граматики → розмова із вчителем
-import { h, ic, emo } from '../ui/dom.js';
+import { h, ic } from '../ui/dom.js';
 import { plural } from '../strings.js';
 import * as store from '../store.js';
 import * as srs from '../srs.js';
@@ -12,6 +12,11 @@ import { user } from '../supa.js';
 import { setFocus } from '../ui/shell.js';
 import { go } from '../router.js';
 import { nextLessonByLevel } from '../level.js';
+import { tx, txPrimary, txKpis, txGroup, txRow, txRows } from '../ui/tiles.js';
+
+const STEP_IC = ['cards', 'puzzle-piece', 'microphone'];
+const EMO_IC = { cards: 'cards', puzzle: 'puzzle-piece', mic: 'microphone' };
+const scoreTone = (v) => v >= 80 ? 'good' : v >= 60 ? 'warn' : 'bad';
 
 export default async function session(view) {
   const steps = ['Картки', 'Граматика', 'Розмова'];
@@ -25,17 +30,26 @@ export default async function session(view) {
   const lesson = await loadLesson(lessonMeta.id);
   const counts = await srs.counts();
 
-  const stepsBar = (cur) => h('div.steps', steps.map((_, i) => h('i', { class: i < cur ? 'done' : i === cur ? 'on' : '' })));
+  // шапка етапу: «Вийти», номер етапу, під ним — три міні-плитки етапів (пройдено — галочка, поточний — акцент)
+  const sesHead = (cur) => h('div.stack', { style: { gap: '10px' } },
+    h('div.gx-run', h('button.icon-btn', { type: 'button', 'aria-label': 'Вийти', onclick: exit }, ic('x')),
+      h('div.grow', h('span.tx-label', `Заняття · етап ${cur + 1} з ${steps.length}`))),
+    h('ol.ses-steps', { 'aria-label': 'Етапи заняття', style: { listStyle: 'none', margin: 0, padding: 0 } }, steps.map((name, i) =>
+      h('li.ses-step' + (i < cur ? '.done' : i === cur ? '.on' : ''), { 'aria-current': i === cur ? 'step' : null },
+        ic(i < cur ? 'check-circle' : STEP_IC[i], { size: 16, fill: i <= cur }), h('span', name),
+        i < cur ? h('span.sr-only', ' — пройдено') : null))));
 
   const lockBtns = (e) => e.currentTarget.parentNode.querySelectorAll('button').forEach(b => { b.disabled = true; });
   function interstitial(cur, emoji, title, text, onGo, goLabel = 'Далі') {
     setFocus(true);
-    view.replaceChildren(h('div.stack-lg',
-      h('div.row', h('button.icon-btn', { type: 'button', 'aria-label': 'Вийти', onclick: exit }, ic('x')), h('div.grow', stepsBar(cur))),
-      h('div.hero', emo(emoji, 'xl'), h('div.xs.dim', `Етап ${cur + 1} з ${steps.length}`), h('h1', title), h('p.dim', text),
-        // після першого тапу обидві кнопки вимикаються: інакше «Пропустити» під час асинхронного старту накладав етапи
-        h('button.btn.primary.lg', { type: 'button', onclick: (e) => { lockBtns(e); onGo(); } }, goLabel),
-        h('button.btn.ghost', { type: 'button', onclick: (e) => { lockBtns(e); next(cur + 1); } }, 'Пропустити етап'))));
+    view.replaceChildren(h('div.stack-lg.gx',
+      sesHead(cur),
+      h('div.gx-intro', h('span.gx-res-ic', ic(EMO_IC[emoji] || 'play', { size: 28, fill: true })),
+        h('div.tx-label', steps[cur]), h('h1.gx-intro-h', title), h('p.gx-intro-p', text)),
+      // після першого тапу обидві кнопки вимикаються: інакше «Пропустити» під час асинхронного старту накладав етапи
+      h('div.stack', { style: { gap: '8px' } },
+        txPrimary({ icon: 'play', label: goLabel, onclick: (e) => { lockBtns(e); onGo(); } }),
+        tx({ wide: true, icon: 'arrow-right', label: 'Пропустити етап', onclick: (e) => { lockBtns(e); next(cur + 1); } }))));
   }
 
   function next(stage) {
@@ -65,15 +79,18 @@ export default async function session(view) {
   function grammarStep() {
     setFocus(true);
     const timer = activityTimer('grammar');
-    const box = h('div.card');
+    const box = h('div.gx-exbox');
     const short = lesson.explanation.split('\n\n').slice(0, 2).join('\n\n');
-    view.replaceChildren(h('div.stack-lg',
-      h('div.row', h('button.icon-btn', { type: 'button', 'aria-label': 'Вийти', onclick: exit }, ic('x')), h('div.grow', stepsBar(1))),
-      h('section.card.stack', h('h2', lesson.title), md(short), ...(lesson.formula || []).slice(0, 2).map(f => h('div.formula', mdInline(f))),
-        h('a.small', { href: `#/grammar/${lesson.id}` }, 'Повне пояснення')),
+    const fs = (lesson.formula || []).slice(0, 2);
+    view.replaceChildren(h('div.stack-lg.gx',
+      sesHead(1),
+      txGroup('Коротке правило', [h('section.card.gx-expl', h('h2.ses-h2', lesson.title), md(short)),
+        fs.length ? txRows(fs.map((f, k) => h('div.tx-row.gx-formula', fs.length > 1 ? h('span.tx-no', String(k + 1)) : h('span.tx-sq', ic('lightning', { size: 18 })), h('span.tx-body', h('span.tx-l', mdInline(f)))))) : null,
+        txRow({ icon: 'book-open-text', label: 'Повне пояснення', sub: 'Урок з прикладами й таблицею', href: `#/grammar/${lesson.id}` })]),
       box));
     const list = lesson.exercises.slice().sort(() => Math.random() - 0.5).slice(0, 5);
     runExercises(box, list, {
+      title: 'Вправи',
       onMistake: (ex, given) => addMistake({ wrong: given || '—', right: answerText(ex), type: lesson.mistakeType || 'tenses', explanation_uk: `${lesson.title}: ${ex.explanation || ''}`, source: 'exercise' }),
       onDone: (res) => {
         summary.score = res.score;
@@ -81,7 +98,7 @@ export default async function session(view) {
         recordLesson(lesson.id, res.score);
         timer.poke();
         timer.stop();
-        box.append(h('button.btn.primary.block', { type: 'button', style: { marginTop: '12px' }, onclick: () => next(2) }, 'Далі', ic('arrow-right')));
+        box.append(txPrimary({ icon: 'arrow-right', label: 'Далі', sub: user() ? 'Етап 3 — розмова із вчителем' : 'Підсумок заняття', onclick: () => next(2) }));
         return true;
       },
     });
@@ -96,14 +113,23 @@ export default async function session(view) {
     // показуємо саме зарахований час (той, що піде в статистику й Resonance)
     const logged = store.all('sessions').filter(s => Date.parse(s.ts) >= started).reduce((a, s) => a + (s.seconds || 0), 0);
     const min = Math.round(logged / 60);
-    view.replaceChildren(h('div.stack-lg',
-      h('div.hero', emo('party', 'xl'), h('h1', 'Заняття завершено!'), h('p.dim', min ? `${min} хв практики` : 'Менше хвилини практики')),
-      h('section.card.stack',
-        h('div.row', emo('cards'), h('div.grow', 'Слова'), h('b', String(summary.cards))),
-        h('div.row', emo('puzzle'), h('div.grow', lesson.title), h('b', summary.score == null ? '—' : `${summary.score}%`)),
-        h('div.row', emo('mic'), h('div.grow', 'Розмова'), h('b', summary.talk ? `${Math.round(summary.talk / 60)} хв` : '—'))),
-      summary.chatId ? h('a.btn.soft.block', { href: `#/tutor?chat=${summary.chatId}` }, 'Підсумок розмови із вчителем') : null,
-      h('a.btn.primary.block.lg', { href: '#/' }, 'На головну')));
+    const talkMin = summary.talk ? Math.max(1, Math.round(summary.talk / 60)) : 0;
+    view.replaceChildren(h('div.stack-lg.gx',
+      h('section.tx-group',
+        h('div.gx-res', h('span.gx-res-ic.good', ic('confetti', { size: 26, fill: true })),
+          h('div.grow', h('div.tx-label', 'Заняття завершено!'), h('div.gx-res-t', min ? `${min} хв практики` : 'Менше хвилини практики'))),
+        txKpis([
+          { value: summary.cards, label: plural(summary.cards, 'слово', 'слова', 'слів') },
+          { value: summary.score == null ? '—' : summary.score, unit: summary.score == null ? '' : '%', label: 'граматика', tone: summary.score == null ? null : scoreTone(summary.score) },
+          { value: talkMin || '—', unit: talkMin ? 'хв' : '', label: 'розмова' },
+        ])),
+      txGroup('Що пройдено', txRows([
+        txRow({ icon: 'cards', label: 'Слова', sub: summary.cards ? 'Тренування карток' : 'Етап пропущено', pill: summary.cards ? { text: String(summary.cards), tone: 'good' } : null }),
+        txRow({ icon: 'puzzle-piece', label: lesson.title, sub: 'Урок граматики', pill: summary.score == null ? null : { text: `${summary.score}%`, tone: scoreTone(summary.score) }, href: `#/grammar/${lesson.id}` }),
+        summary.chatId ? txRow({ icon: 'microphone', label: 'Підсумок розмови із вчителем', sub: `${talkMin} хв голосом`, href: `#/tutor?chat=${summary.chatId}` })
+          : txRow({ icon: 'microphone', label: 'Розмова', sub: talkMin ? `${talkMin} хв голосом` : 'Етап пропущено' }),
+      ])),
+      txPrimary({ icon: 'house', label: 'На головну', href: '#/' })));
   }
 
   function exit() {
