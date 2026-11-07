@@ -10,7 +10,7 @@ import { tutor, aiErrorText } from '../ai.js';
 import { user } from '../supa.js';
 import { toast } from '../ui/toast.js';
 import { LEVELS, myLevel, byFit, levelTag, rank, levelChips, levelCounts, levelPick, filterByLevel, fallbackNote, pickOfDay } from '../level.js';
-import { txPrimary, txGroup, txRow, txRows } from '../ui/tiles.js';
+import { tx, txPrimary, txGroup, txRow, txRows, txGrid, txKpis, txPill } from '../ui/tiles.js';
 
 /** Іконка з мапи emo() у квадратику плитки */
 const sqEmo = (el, name) => { const e = emo(name); e.setAttribute('width', 18); e.setAttribute('height', 18); el.querySelector('.tx-sq')?.replaceChildren(e); return el; };
@@ -54,42 +54,57 @@ function dictation(box, data, timer) {
 
   function run(items) {
     let i = 0, totalPct = 0;
+    const scores = [];
+    const tone = (pct) => pct >= 90 ? 'good' : pct >= 70 ? 'warn' : 'bad';
     const step = () => {
       if (i >= items.length) {
         const avg = Math.round(totalPct / items.length);
+        const perfect = scores.filter(x => x >= 100).length;
         timer.poke();
-        box.replaceChildren(h('div.hero', emo(avg >= 80 ? 'trophy' : 'thumbsup', 'xl'), h('div.num', { style: { fontSize: 'var(--fs-2xl)' } }, `${avg}%`), h('p.dim', 'Середня точність'),
-          h('button.btn.primary', { type: 'button', onclick: () => dictation(box, data, timer) }, 'Ще раз')));
+        box.replaceChildren(h('div.stack-lg',
+          h('section.tx-group',
+            h('div.gx-res', h('span.gx-res-ic.' + tone(avg), ic(avg >= 80 ? 'trophy' : avg >= 60 ? 'thumbs-up' : 'barbell', { size: 26, fill: true })),
+              h('div.grow', h('div.tx-label', `Диктант · рівень ${level}`), h('div.gx-res-t', avg >= 90 ? 'Чуєте майже все — чудово' : avg >= 70 ? 'Добре чуєте — ще трохи практики' : 'Слухайте повільніше й частіше'))),
+            txKpis([
+              { value: avg, unit: '%', label: 'середня точність', tone: tone(avg) },
+              { value: perfect, label: `з ${items.length} без помилок`, tone: perfect === items.length ? 'good' : null },
+              { value: items.length, label: plural(items.length, 'речення', 'речення', 'речень') },
+            ])),
+          txGroup('Речення', txRows(items.map((it, k) => txRow({ no: k + 1, label: h('span', { lang: 'en' }, it.text), sub: it.uk || null,
+            pill: { text: `${scores[k]}%`, tone: tone(scores[k]) }, chevron: false, onclick: () => speak(it.text),
+            attrs: { 'aria-label': `Прослухати: ${it.text}. Точність ${scores[k]}%` } })))),
+          h('section.tx-group',
+            txPrimary({ icon: 'arrow-clockwise', label: 'Ще один диктант', sub: `8 нових речень · рівень ${level}`, onclick: () => { const pool = data.dictation.filter(d => d.level === level); run(pool.sort(() => Math.random() - 0.5).slice(0, 8)); } }),
+            tx({ icon: 'target', wide: true, label: 'Змінити рівень', sub: 'Рівні диктанту A1–C1', onclick: () => dictation(box, data, timer) }))));
         return;
       }
       const it = items[i];
-      const inp = h('textarea.input', { rows: 2, placeholder: 'Напишіть почуте…', autocapitalize: 'sentences', spellcheck: 'false', 'aria-label': 'Почуте речення', style: { minHeight: '80px' } });
+      const inp = h('textarea.input.ls-inp', { rows: 2, placeholder: 'Напишіть почуте…', autocapitalize: 'sentences', spellcheck: 'false', 'aria-label': 'Почуте речення' });
       const result = h('div');
       const play = (rate) => speak(it.text, { rate });
       const checkBtn = h('button.btn.primary.block', { type: 'button', onclick: () => {
         if (!inp.value.trim()) return;
         const d = charDiff(it.text, inp.value.trim());
-        totalPct += d.pct;
+        totalPct += d.pct; scores[i] = d.pct;
         if (d.pct < 100) {
           const wrongWords = wordMismatch(it.text, inp.value);
           if (wrongWords) addMistake({ wrong: wrongWords.given, right: wrongWords.right, type: 'vocabulary', explanation_uk: 'Диктант: слово почуто або написано неправильно', source: 'exercise' });
         }
-        result.replaceChildren(h('div.card.soft.stack',
+        result.replaceChildren(h('div.gx-card.stack.ls-check',
+          h('div.row', h('div.tx-label.grow.ls-lbl', 'Ваш варіант'), txPill(`${d.pct}%`, tone(d.pct))),
           h('div.diff', d.nodes),
-          h('div.small', h('b', 'Оригінал: '), it.text),
-          it.uk ? h('div.xs.dim', it.uk) : null,
-          h('div', h('b', { class: d.pct >= 90 ? 'good' : d.pct >= 70 ? 'warn' : 'bad' }, `${d.pct}%`))));
+          h('div.tx-label.ls-lbl', 'Оригінал'),
+          h('div', { lang: 'en' }, it.text),
+          it.uk ? h('div.xs.dim', it.uk) : null));
         checkBtn.hidden = true; nextBtn.hidden = false; nextBtn.focus();
       } }, 'Перевірити');
-      const nextBtn = h('button.btn.primary.block', { type: 'button', hidden: true, onclick: () => { i++; step(); } }, 'Далі');
+      const nextBtn = h('button.btn.primary.block', { type: 'button', hidden: true, onclick: () => { i++; step(); } }, i + 1 < items.length ? 'Далі' : 'Результат', ic('arrow-right', { size: 18 }));
       inp.addEventListener('keydown', e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); checkBtn.hidden ? nextBtn.click() : checkBtn.click(); } });
-      box.replaceChildren(h('div.stack',
-        h('div.row', h('div.grow', progress(i / items.length * 100, 'Пройдено завдань')), h('span.xs.dim', `${i + 1}/${items.length}`)),
-        h('div.row.dict-speeds',
-          h('button.btn.soft', { type: 'button', onclick: () => play(1) }, ic('speaker-high'), '1×'),
-          h('button.btn.soft', { type: 'button', onclick: () => play(0.8) }, ic('speaker-high'), '0,8×'),
-          h('button.btn.soft', { type: 'button', onclick: () => play(0.6) }, ic('speaker-high'), '0,6×')),
-        inp, checkBtn, result, nextBtn));
+      const speed = (rate, label, sub) => tx({ icon: 'speaker-high', label, sub, onclick: () => play(rate), attrs: { 'aria-label': `Прослухати, швидкість ${label}` } });
+      box.replaceChildren(h('div.stack-lg',
+        h('div.row', h('div.grow', progress(i / items.length * 100, 'Пройдено завдань')), h('span.xs.dim.num', `${i + 1}/${items.length}`)),
+        txGroup(`Речення ${i + 1} · рівень ${level}`, txGrid([speed(1, '1×', 'звичайно'), speed(0.8, '0,8×', 'повільніше'), speed(0.6, '0,6×', 'повільно')])),
+        txGroup('Що ви почули', [inp, checkBtn, result, nextBtn])));
       setTimeout(() => play(1), 300);
       inp.focus({ preventScroll: true });
     };
@@ -189,42 +204,58 @@ function dialogues(box, data, timer) {
 function playDialogue(box, d, timer, onBack) {
   let showText = false, stopFlag = false;
   const myGen = (box.__gen = (box.__gen || 0) + 1);   // зміна вкладки збільшує лічильник — програвання зупиняється
-  const transcript = h('div.stack', { hidden: true });
-  const lines = d.lines.map((l, k) => h('div.example', h('b.small', { style: { minWidth: '70px', color: l.speaker ? 'var(--accent-ink)' : 'var(--good)' } }, d.speakers?.[l.speaker] || (l.speaker ? 'B' : 'A')), h('div.grow', l.text)));
+  const transcript = h('div.gx-card.stack.ls-tr', { hidden: true });
+  const lines = d.lines.map((l) => h('div.ls-line', h('b.ls-who' + (l.speaker ? '.b' : ''), d.speakers?.[l.speaker] || (l.speaker ? 'B' : 'A')), h('div.grow', { lang: 'en' }, l.text)));
   transcript.append(...lines);
-  const playBtn = h('button.btn.primary.lg.block', { type: 'button', onclick: playAll }, ic('play', { fill: true }), 'Слухати діалог');
+  const playBtn = txPrimary({ icon: 'play', label: 'Слухати діалог', sub: `${d.lines.length} ${plural(d.lines.length, 'репліка', 'репліки', 'реплік')} · два голоси`, onclick: playAll });
+  const setPlay = (icon, label) => { playBtn.querySelector('.tx-sq').replaceChildren(ic(icon, { size: 20, fill: true })); playBtn.querySelector('.tx-l').textContent = label; };
   async function playAll() {
     stopFlag = false;
     playBtn.disabled = true;
+    setPlay('waveform', 'Звучить діалог…');
     // box.isConnected: користувач пішов зі сторінки або на іншу вкладку — не дочитуємо діалог
     for (let k = 0; k < d.lines.length && !stopFlag && box.isConnected && box.__gen === myGen; k++) {
-      lines.forEach((el, j) => el.style.background = j === k && showText ? 'var(--accent-soft)' : '');
+      lines.forEach((el, j) => el.classList.toggle('on', j === k && showText));
       await speak(d.lines[k].text, { voiceIndex: d.lines[k].speaker ? 1 : 0, engine: 'browser' });
       if (!box.isConnected || stopFlag || box.__gen !== myGen) break;
       timer.poke();
     }
-    lines.forEach(el => el.style.background = '');
+    lines.forEach(el => el.classList.remove('on'));
     playBtn.disabled = false;
-    playBtn.replaceChildren(ic('arrow-clockwise'), 'Слухати ще раз');
+    setPlay('arrow-clockwise', 'Слухати ще раз');
   }
+  const textBtn = tx({ icon: 'eye', wide: true, label: 'Показати текст', sub: 'Спершу спробуйте зрозуміти на слух', end: null, cls: 'ls-tbtn', attrs: { 'aria-expanded': 'false' },
+    onclick: () => {
+      showText = !showText; transcript.hidden = !showText;
+      textBtn.setAttribute('aria-expanded', String(showText));
+      textBtn.querySelector('.tx-l').textContent = showText ? 'Сховати текст' : 'Показати текст';
+      textBtn.querySelector('.tx-sq').replaceChildren(ic(showText ? 'eye-slash' : 'eye', { size: 20 }));
+    } });
   const qBox = h('div.stack');
+  const total = h('div', { role: 'status', 'aria-live': 'polite' });
   let answered = 0, right = 0;
   d.questions.forEach((q, qi) => {
-    const opts = q.options.map((o, k) => h('button.opt', { type: 'button', onclick: () => {
+    const mark = (b, ok) => { b.classList.add(ok ? 'right' : 'wrong'); b.firstChild.replaceChildren(ic(ok ? 'check' : 'x', { size: 16 })); };
+    const opts = q.options.map((o, k) => h('button.opt.ex-opt', { type: 'button', onclick: () => {
       if (opts.some(b => b.classList.contains('right') || b.classList.contains('wrong'))) return;
       const ok = k === q.answer;
-      opts[k].classList.add(ok ? 'right' : 'wrong');
-      opts[q.answer].classList.add('right');
+      mark(opts[k], ok);
+      if (!ok) mark(opts[q.answer], true);
+      opts.forEach(b => b.setAttribute('aria-disabled', 'true'));
       answered++; if (ok) right++;
-      if (q.explanation_uk) opts[q.answer].after(h('div.xs.dim', q.explanation_uk));
-      if (answered === d.questions.length) { timer.poke(); qBox.append(h('div.feedback.' + (right >= 4 ? 'ok' : 'no'), `Розуміння: ${right} з ${d.questions.length}`)); }
-    } }, o));
-    qBox.append(h('div.card.stack', h('b', `${qi + 1}. ${q.q}`), ...opts));
+      if (q.explanation_uk) opts[q.answer].after(h('div.xs.dim.ls-why', q.explanation_uk));
+      if (answered === d.questions.length) {
+        timer.poke();
+        const good = right >= Math.ceil(d.questions.length * 0.8);
+        total.replaceChildren(tx({ wide: true, tone: good ? 'good' : 'warn', icon: good ? 'check-circle' : 'lightbulb',
+          label: `Розуміння: ${right} з ${d.questions.length}`, sub: good ? 'Діалог зрозуміло добре' : 'Прослухайте ще раз — з текстом або без' }));
+      }
+    } }, h('span.ex-key', { 'aria-hidden': 'true' }, String(k + 1)), h('span.grow', { lang: 'en' }, o)));
+    qBox.append(h('div.gx-card.stack.ls-q', h('div.ls-qt', { lang: 'en' }, h('span.tx-no', String(qi + 1)), h('b', q.q)), h('div.ex-opts', opts)));
   });
-  box.replaceChildren(h('div.stack',
-    h('div.row', h('button.icon-btn', { type: 'button', 'aria-label': 'Назад', onclick: () => { stopFlag = true; stopSpeech(); onBack(); } }, ic('arrow-left')), h('h2.grow', { style: { margin: 0 } }, d.title)),
-    playBtn,
-    h('button.btn.ghost', { type: 'button', onclick: (e) => { showText = !showText; transcript.hidden = !showText; e.currentTarget.textContent = showText ? 'Сховати текст' : 'Показати текст'; } }, 'Показати текст'),
-    h('section.card', transcript),
-    h('div.section-title', 'Питання на розуміння'), qBox));
+  box.replaceChildren(h('div.stack-lg',
+    h('div.gx-lhead', h('button.icon-btn', { type: 'button', 'aria-label': 'До діалогів', onclick: () => { stopFlag = true; stopSpeech(); onBack(); } }, ic('arrow-left')),
+      h('div.grow', h('div.tx-label.gx-eyebrow', `${d.level === 'AI' ? 'Новий від AI' : d.level} · Діалог`), h('h2.gx-lh1', d.title))),
+    h('section.tx-group', playBtn, textBtn, transcript),
+    txGroup(`Питання на розуміння · ${d.questions.length}`, [qBox, total])));
 }

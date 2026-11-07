@@ -59,3 +59,18 @@ html.kbd .rd-gloss-head:focus-visible{outline:2px solid var(--accent-ink);outlin
 .rd-gloss-rows .tx-row{min-height:52px}
 .rd-gloss-rows .tx-row .tx-sq{color:var(--accent-ink)}
 @media (prefers-reduced-motion:reduce){.rd-gloss-head{transition:none}.rd-gloss-head:active{transform:none}}
+/* аудіювання: диктант і діалог */
+.ls-inp{min-height:84px;border-radius:14px}
+.ls-lbl{padding:0}
+.ls-check .diff{line-height:1.6;overflow-wrap:anywhere}
+.ls-tbtn .tx-end:empty{display:none}
+.ls-tr{gap:4px}
+.ls-line{display:flex;gap:10px;align-items:flex-start;padding:6px 8px;margin:0 -8px;border-radius:10px;line-height:1.45;overflow-wrap:anywhere;transition:background-color .18s ease}
+.ls-line.on{background:var(--accent-soft)}
+.ls-who{flex:none;min-width:64px;font-size:var(--fs-sm);color:var(--good);overflow-wrap:anywhere}
+.ls-who.b{color:var(--accent-ink)}
+.ls-q{gap:10px}
+.ls-qt{display:flex;gap:10px;align-items:flex-start;line-height:1.35;overflow-wrap:anywhere}
+.ls-qt .tx-no{width:28px;height:28px;border-radius:9px}
+.ls-qt b{padding-top:4px;min-width:0}
+.ls-why{padding:0 4px}
