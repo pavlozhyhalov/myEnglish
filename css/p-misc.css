@@ -52,3 +52,13 @@
 .fr-code .friend-code{font-size:1.45rem!important;line-height:1.2}
 .auth-row:has(.auth-forgot[hidden]){display:none}
 .fr-list > .tx-row.small{font-size:var(--fs-sm);color:var(--ink-dim);line-height:1.4}
+
+/* ---------- Адміністрування й лабораторія (js/pages/admin.js, lab.js) ---------- */
+.adm-head,.lab-head{cursor:default}
+.adm-head:active,.lab-head:active{transform:none}
+.adm-head .tx-sq,.lab-head .tx-sq{color:var(--accent-ink)}
+.adm-note{margin:0;padding:0 4px;line-height:1.45}
+.adm-card{padding:14px;gap:8px}
+.adm-seg{min-width:128px;background:var(--tile-sq);padding:3px}
+.adm-seg button{min-height:32px}
+.lab-log{white-space:pre-wrap;max-height:40dvh;overflow:auto;margin:0;overflow-wrap:anywhere}

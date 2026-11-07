@@ -1,5 +1,6 @@
 // #/lab/live — спайк голосу: діагностика і тестова розмова з логом подій
-import { h, ic, emo } from '../ui/dom.js';
+import { h, ic } from '../ui/dom.js';
+import { tx, txGroup, txPrimary, txRow, txRows } from '../ui/tiles.js';
 import { MODELS, BUILD } from '../config.js';
 import * as store from '../store.js';
 import { user } from '../supa.js';
@@ -16,21 +17,21 @@ export default async function lab(view) {
     ['Озвучення браузером', 'speechSynthesis' in window],
     ['HTTPS', location.protocol === 'https:' || location.hostname === 'localhost'],
   ];
-  const usageBox = h('div.small.dim', '…');
+  const usageBox = h('span.tx-s', '…');
   const decision = store.prof().voiceDecision;
   view.replaceChildren(h('div.stack-lg',
-    h('section.row', h('div.emoji-circle', emo('mic')), h('div.grow', h('h1', { style: { margin: 0 } }, 'Лабораторія Live'), h('div.small.dim', `Модель: ${MODELS.live} → ${MODELS.liveFallbacks.join(', ')} · збірка ${BUILD}`))),
-    h('div.list', checks.map(([t, ok]) => h('div.list-row', h('span.grow', t), h('span.tag.' + (ok ? 'good' : 'bad'), ok ? 'так' : 'ні')))),
-    h('section.card.stack', h('div.section-title', 'Ліміти AI сьогодні'), usageBox),
-    h('button.btn.primary.lg.block', { type: 'button', onclick: async () => {
+    tx({ icon: 'microphone', wide: true, cls: 'lab-head', label: 'Діагностика голосу', sub: `Модель: ${MODELS.live} → ${MODELS.liveFallbacks.join(', ')} · збірка ${BUILD}` }),
+    txPrimary({ icon: 'microphone', label: 'Тестова розмова', sub: 'З логом подій', onclick: async () => {
       const { voiceSession } = await import('../live/voice.js');
       voiceSession(view, { debug: true });
-    } }, ic('microphone', { fill: true }), 'Тестова розмова (з логом)'),
+    } }),
+    txGroup('Перевірка пристрою', txRows(checks.map(([t, ok]) => txRow({ icon: ok ? 'check-circle' : 'x-circle', label: t, pill: { text: ok ? 'так' : 'ні', tone: ok ? 'good' : 'bad' } })))),
+    txGroup('Ліміти AI сьогодні', txRows([h('div.tx-row', h('span.tx-sq', ic('chart-pie-slice', { size: 18 })), h('span.tx-body', usageBox))])),
     lastLog(),
-    h('section.card.stack', h('div.section-title', 'Рішення після тесту (§11, Фаза 0)'),
+    txGroup('Рішення після тесту (§11, Фаза 0)', h('section.card.stack',
       h('div.chips', [['live', 'Gemini Live'], ['ptt', 'Режим «рація»'], ['other', 'Інший провайдер']].map(([v, t]) =>
         h('button.chip', { type: 'button', 'aria-pressed': String(decision === v), onclick: (e) => { store.setProf({ voiceDecision: v }); e.currentTarget.parentNode.querySelectorAll('.chip').forEach(c => c.setAttribute('aria-pressed', String(c === e.currentTarget))); } }, t))),
-      h('div.xs.dim', 'Зберігається в профілі; розробник фіксує його в CLAUDE.md.'))));
+      h('div.xs.dim', 'Зберігається в профілі; розробник фіксує його в CLAUDE.md.')))));
   if (user()) {
     try {
       const u = await tutor('usage', {});
@@ -43,7 +44,7 @@ export default async function lab(view) {
 function lastLog() {
   let text = '';
   try { text = localStorage.getItem('me:voice-log') || ''; } catch { /* */ }
-  return h('section.card.stack', h('div.row', h('div.section-title.grow', 'Лог останньої голосової сесії'),
-    text ? h('button.btn.sm.soft', { type: 'button', onclick: () => { navigator.clipboard?.writeText(text); } }, ic('copy', { size: 16 }), 'Копіювати') : null),
-    text ? h('pre.xs', { style: { whiteSpace: 'pre-wrap', maxHeight: '40dvh', overflow: 'auto', margin: 0 } }, text) : h('div.small.dim', 'Ще не було голосових сесій на цьому пристрої'));
+  return h('section.tx-group', h('div.tx-label-row', h('h2.tx-label', 'Лог останньої голосової сесії'),
+    text ? h('button.tx-more', { type: 'button', onclick: () => { navigator.clipboard?.writeText(text); } }, 'Копіювати') : null),
+    text ? h('section.card', h('pre.xs.lab-log', text)) : txRows([txRow({ icon: 'notebook', label: 'Лог порожній', sub: 'Ще не було голосових сесій на цьому пристрої' })]));
 }
