@@ -9,7 +9,8 @@ import { setTitle, setFocus } from '../ui/shell.js';
 import { toast } from '../ui/toast.js';
 import { go } from '../router.js';
 import { scoreGuess, keyStates, isWon, shareText, validSet, answersFor, pickBy, bareWord, updateWordleStats } from './logic.js';
-import { words5, gameState, saveGameState, beep, buzz, reducedMotion, addWordButton, gameHead, learningCards } from './common.js';
+import { tx, txPrimary, txKpis, txGrid, txGroup } from '../ui/tiles.js';
+import { words5, gameState, saveGameState, beep, buzz, reducedMotion, addWordTile, gameHead, learningCards, wordRow } from './common.js';
 
 const MAX = 6, LEN = 5;
 const ROWS = ['qwertyuiop', 'asdfghjkl', '+zxcvbnm-'];
@@ -181,22 +182,21 @@ export default async function wordle(view, r) {
       } catch (e) { if (e?.name !== 'AbortError') toast('Не вдалося поширити'); }
     };
     const stats = !practice ? gameState().wordle : null;
-    result.replaceChildren(h('div.card.stack.wd-card',
-      h('div.row', h('div.grow',
-        h('div.xs.dim', won ? (rows.length <= 2 ? 'Блискуче!' : rows.length <= 4 ? 'Чудово!' : 'Вдалося!') : 'Цього разу не вийшло. Слово:'),
-        h('div.wd-word.en', { lang: 'en' }, answer.toUpperCase()),
-        info.ipa ? h('div.ipa.dim', info.ipa) : null),
-        h('button.icon-btn', { type: 'button', 'aria-label': `Прослухати слово ${answer}`, onclick: () => speak(info.en || answer) }, ic('speaker-high'))),
-      info.uk ? h('div', { style: { fontWeight: 600 } }, info.uk) : null,
-      info.ex ? h('div.example.row', h('div.grow', h('div.en', { lang: 'en' }, info.ex), info.exUk ? h('div.xs.dim', info.exUk) : null),
-        h('button.icon-btn', { type: 'button', 'aria-label': 'Прослухати приклад', onclick: () => speak(info.ex) }, ic('speaker-high', { size: 20 }))) : null,
-      h('div.row.wrap', addWordButton(w), h('button.btn.sm.outline', { type: 'button', onclick: share }, ic('share-network', { size: 16 }), 'Поширити')),
+    result.replaceChildren(h('div.stack-lg.g-end.wd-card',
+      h('div.g-res',
+        h('button.tx-sq.g-res-sq.g-spk' + (won ? '.good' : ''), { type: 'button', 'aria-label': `Прослухати слово ${answer}`, onclick: () => speak(info.en || answer) }, ic('speaker-high', { size: 26 })),
+        h('div.g-res-body',
+          h('span.g-res-eyebrow', won ? (rows.length <= 2 ? 'Блискуче!' : rows.length <= 4 ? 'Чудово!' : 'Вдалося!') : 'Цього разу не вийшло. Слово:'),
+          h('div.wd-word.en', { lang: 'en' }, answer.toUpperCase()),
+          info.ipa || info.uk ? h('div.small.dim.g-res-sub', info.ipa ? h('span.ipa', info.ipa) : null, info.ipa && info.uk ? ' · ' : null, info.uk || null) : null)),
+      info.ex ? txGroup('Приклад', wordRow({ en: info.ex, uk: info.exUk, cls: 'g-sent' })) : null,
+      txGrid([addWordTile(w), tx({ icon: 'share-network', label: 'Поширити', sub: 'результат без відповіді', onclick: share })], 2),
       stats ? statsView(stats) : null,
-      h('div.row.wrap',
-        practice ? h('button.btn.primary.grow', { type: 'button', onclick: () => go('/games/wordle?mode=practice', { replace: true }) }, 'Ще слово')
-          : h('a.btn.primary.grow', { href: '#/games/wordle?mode=practice' }, 'Тренування без обмежень'),
-        h('a.btn.ghost', { href: '#/games' }, 'Інші ігри'))));
-    result.querySelector('.btn.primary')?.focus({ preventScroll: true });
+      h('div.stack.g-next',
+        practice ? txPrimary({ icon: 'shuffle', label: 'Ще слово', sub: 'тренування без обмежень', onclick: () => go('/games/wordle?mode=practice', { replace: true }), cls: 'g-again' })
+          : txPrimary({ icon: 'arrow-clockwise', label: 'Тренування без обмежень', sub: 'скільки завгодно слів', href: '#/games/wordle?mode=practice', cls: 'g-again' }),
+        tx({ icon: 'game-controller', label: 'Інші ігри', href: '#/games', wide: true }))));
+    result.querySelector('.g-again')?.focus({ preventScroll: true });
     result.scrollIntoView({ block: 'nearest', behavior: reducedMotion() ? 'auto' : 'smooth' });
   }
 
@@ -224,12 +224,9 @@ export default async function wordle(view, r) {
 function statsView(s) {
   const pct = s.played ? Math.round(s.won / s.played * 100) : 0;
   const max = Math.max(1, ...s.dist);
-  return h('div.stack.wd-stats',
-    h('div.grid3',
-      h('div.stat', h('span.big-num', String(s.played)), h('span.xs.dim', 'Зіграно')),
-      h('div.stat', h('span.big-num', `${pct}%`), h('span.xs.dim', 'Перемог')),
-      h('div.stat', h('span.big-num', String(s.streak)), h('span.xs.dim', `Серія (макс. ${s.maxStreak})`))),
+  return txGroup('Статистика', [
+    txKpis([{ value: s.played, label: 'зіграно' }, { value: `${pct}%`, label: 'перемог', tone: 'good' }, { value: s.streak, label: `серія · макс. ${s.maxStreak}` }]),
     h('div.wd-dist', { role: 'list', 'aria-label': 'Перемоги за кількістю спроб' }, s.dist.map((n, i) =>
       h('div.wd-dist-row', { role: 'listitem', 'aria-label': `${i + 1} ${i ? 'спроби' : 'спроба'}: ${n}` }, h('span.num', String(i + 1)),
-        h('span.wd-bar', { style: { width: `${Math.max(8, n / max * 100)}%` } }, String(n))))));
+        h('span.wd-bar', { style: { width: `${Math.max(8, n / max * 100)}%` } }, String(n)))))]);
 }

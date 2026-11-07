@@ -7,7 +7,9 @@ import { speak, stop as stopSpeech } from '../speech.js';
 import { setTitle, setFocus } from '../ui/shell.js';
 import { pickDistractors, shuffle } from '../wordlogic.js';
 import { RUSH_SECONDS, RUSH_LIVES, comboMult, rushTimeFor, rushPoints, buildQueue, truthPair, bestUpdate } from './logic.js';
-import { wordPool, gameState, saveGameState, beep, buzz, reducedMotion, addWordButton, gameHead, statPill } from './common.js';
+import { plural } from '../strings.js';
+import { tx, txGroup } from '../ui/tiles.js';
+import { wordPool, gameState, saveGameState, beep, buzz, reducedMotion, addWordButton, gameHead, statPill, gameIntro, startTile, gameResult, wordRow } from './common.js';
 
 const MODE_KEY = { choice: 'rush4', truth: 'rushtf' };
 
@@ -25,17 +27,17 @@ export default async function rush(view) {
   function intro() {
     setFocus(false);
     const best = gameState().best?.[MODE_KEY[mode]]?.[lv] || 0;
-    const start = h('button.btn.primary.lg.block', { type: 'button', onclick: play }, ic('play', { size: 20 }), 'Почати');
-    body.replaceChildren(
-      h('div.card.stack.g-intro',
-        h('div.tile-ico.g-big', ic('lightning', { size: 32 })),
-        h('p', { style: { margin: 0 } }, mode === 'choice'
-          ? 'З\'являється англійське слово — оберіть правильний переклад. Що швидше відповідаєте, то більше очок.'
-          : 'Слово і переклад: правильно чи ні? Свайп праворуч — «так», ліворуч — «ні» (або стрілки на клавіатурі).'),
-        h('ul.xs.dim.g-rules', h('li', `${RUSH_SECONDS} секунд і ${RUSH_LIVES} життя`), h('li', 'Кожні 5 правильних поспіль — множник очок до ×4'), h('li', 'Темп поступово зростає')),
-        seg([['choice', 'Чотири варіанти'], ['truth', 'Так чи ні']], mode, (v) => { mode = v; saveGameState({ rushMode: v }); intro(); }),
-        best ? h('div.row', ic('trophy', { size: 18 }), h('span', `Рекорд рівня ${lv}: `, h('b.num', String(best)))) : null,
-        start));
+    const start = startTile({ label: 'Почати', sub: `${mode === 'choice' ? 'Чотири варіанти' : 'Так чи ні'} · ${RUSH_SECONDS} секунд`, onclick: play });
+    body.replaceChildren(gameIntro({
+      icon: 'lightning',
+      text: mode === 'choice'
+        ? 'З\'являється англійське слово — оберіть правильний переклад. Що швидше відповідаєте, то більше очок.'
+        : 'Слово і переклад: правильно чи ні? Свайп праворуч — «так», ліворуч — «ні» (або стрілки на клавіатурі).',
+      rules: [`${RUSH_SECONDS} секунд і ${RUSH_LIVES} життя`, 'Кожні 5 правильних поспіль — множник очок до ×4', 'Темп поступово зростає'],
+      extra: [txGroup('Варіант гри', seg([['choice', 'Чотири варіанти'], ['truth', 'Так чи ні']], mode, (v) => { mode = v; saveGameState({ rushMode: v }); intro(); }))],
+      best: best ? { label: `Рекорд рівня ${lv}`, value: best } : null,
+      start,
+    }));
     start.focus({ preventScroll: true });
   }
 
@@ -167,21 +169,18 @@ export default async function rush(view) {
       saveGameState({ best: { ...(st.best || {}), [k]: upd.best } });
       upd.record ? (beep('win'), buzz([30, 40, 30])) : beep('lose');
       const acc = answered ? Math.round(correct / answered * 100) : 0;
-      body.replaceChildren(h('div.card.stack.g-end',
-        h('div.center.stack', { style: { gap: '4px' } },
-          upd.record ? h('span.tag.good.g-record', ic('trophy', { size: 16 }), 'Новий рекорд!') : null,
-          h('div.g-score.num', String(score)), h('div.xs.dim', lives <= 0 ? 'Життя скінчились' : 'Час вийшов'),
-        ),
-        h('div.grid3',
-          h('div.stat', h('span.big-num', String(correct)), h('span.xs.dim', 'Правильно')),
-          h('div.stat', h('span.big-num', `${acc}%`), h('span.xs.dim', 'Точність')),
-          h('div.stat', h('span.big-num', String(maxCombo)), h('span.xs.dim', 'Найдовше комбо'))),
-        upd.prev && !upd.record ? h('p.xs.dim', { style: { margin: 0 } }, `Рекорд рівня ${lv}: ${upd.prev}`) : null,
-        missed.length ? missedList(missed) : h('p.feedback.ok', { style: { margin: 0 } }, 'Жодної помилки!'),
-        h('div.row.wrap', h('button.btn.primary.grow', { type: 'button', onclick: play }, ic('arrow-clockwise', { size: 18 }), 'Ще раз'),
-          h('button.btn.ghost', { type: 'button', onclick: intro }, 'Змінити варіант'))));
+      body.replaceChildren(gameResult({
+        icon: lives <= 0 ? 'heart-break' : 'timer',
+        record: upd.record, score: String(score), unit: plural(score, 'очко', 'очки', 'очок'),
+        sub: lives <= 0 ? 'Життя скінчились' : 'Час вийшов',
+        kpis: [{ value: correct, label: 'правильно', tone: 'good' }, { value: `${acc}%`, label: 'точність' }, { value: maxCombo, label: 'найдовше комбо' }],
+        note: upd.prev && !upd.record ? `Рекорд рівня ${lv}: ${upd.prev}` : null,
+        sections: [missed.length ? missedList(missed) : tx({ icon: 'check-circle', label: 'Жодної помилки!', wide: true, tone: 'good' })],
+        primary: { icon: 'arrow-clockwise', label: 'Ще раз', sub: mode === 'choice' ? 'Чотири варіанти' : 'Так чи ні', onclick: play },
+        more: [{ icon: 'shuffle', label: 'Змінити варіант', onclick: intro }, { icon: 'game-controller', label: 'Усі ігри', href: '#/games' }],
+      }));
       live.textContent = `Гру завершено. Очки: ${score}.` + (upd.record ? ' Новий рекорд!' : '') + (missed.length ? ` Помилок: ${missed.length}.` : '');
-      body.querySelector('.btn.primary')?.focus({ preventScroll: true });
+      body.querySelector('.g-again')?.focus({ preventScroll: true });
     }
 
     const onVis = () => { paused = document.hidden; last = performance.now(); };
@@ -203,12 +202,9 @@ export default async function rush(view) {
 
 /** Слова з помилками: прослухати й додати в мої слова */
 export function missedList(list) {
-  const addAll = h('button.btn.sm.ghost', { type: 'button', onclick: () => { listEl.querySelectorAll('button.soft:not([disabled])').forEach(b => b.click()); addAll.disabled = true; } }, ic('plus', { size: 16 }), 'Додати всі');
-  const listEl = h('div.list', list.map(w => h('div.list-row.g-missed',
-    h('button.icon-btn', { type: 'button', 'aria-label': `Прослухати ${w.en}`, onclick: () => speak(w.en) }, ic('speaker-high', { size: 20 })),
-    h('div.grow', h('div.en', { lang: 'en', style: { fontWeight: 600 } }, w.en), h('div.xs.dim', w.uk)),
-    addWordButton(w))));
-  return h('div.stack', { style: { gap: '8px' } }, h('div.row', h('div.section-title.grow', { style: { margin: 0 } }, 'Варто повторити'), addAll), listEl);
+  const addAll = h('button.tx-more.g-addall', { type: 'button', onclick: () => { listEl.querySelectorAll('button.soft:not([disabled])').forEach(b => b.click()); addAll.disabled = true; } }, 'Додати всі');
+  const listEl = h('div.tx-rows', list.map(w => wordRow({ en: w.en, uk: w.uk, end: addWordButton(w, { compact: true }) })));
+  return h('section.tx-group', h('div.tx-label-row', h('h2.tx-label', 'Варто повторити'), addAll), listEl);
 }
 
 /** Свайп картки: праворуч — «так», ліворуч — «ні» (лише горизонтальний жест) */

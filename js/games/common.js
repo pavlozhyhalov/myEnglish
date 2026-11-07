@@ -4,6 +4,7 @@ import * as srs from '../srs.js';
 import { deckIndex, withCards, json } from '../data.js';
 import { myLevel, LEVELS } from '../level.js';
 import { h, ic } from '../ui/dom.js';
+import { tx, txPrimary, txKpis, txGroup, txRows, txRow, txGrid, txPill } from '../ui/tiles.js';
 import { mergeBest } from './logic.js';
 import { speak, stop as stopSpeech } from '../speech.js';
 
@@ -125,16 +126,86 @@ export function inMyWords(en) {
   return store.all('cards').some(c => String(c.en).trim().toLowerCase() === k);
 }
 
-/** Кнопка «Додати в мої слова» для слова гри */
-export function addWordButton(w, { small = true } = {}) {
-  const b = h('button.btn' + (small ? '.sm' : '') + '.soft', { type: 'button' });
-  const draw = (on) => { b.replaceChildren(ic(on ? 'check' : 'plus', { size: 16 }), on ? 'У ваших словах' : 'Додати в мої слова'); b.disabled = on; b.setAttribute('aria-label', on ? `${w.en}: уже у ваших словах` : `Додати «${w.en}» в мої слова`); };
+/** Кнопка «Додати в мої слова» для слова гри; compact — квадратна кнопка-іконка для рядка-плитки */
+export function addWordButton(w, { small = true, compact = false } = {}) {
+  const b = h('button.btn' + (small ? '.sm' : '') + '.soft' + (compact ? '.g-add' : ''), { type: 'button' });
+  const draw = (on) => {
+    b.replaceChildren(ic(on ? 'check' : 'plus', { size: compact ? 18 : 16 }), compact ? '' : (on ? 'У ваших словах' : 'Додати в мої слова'));
+    b.disabled = on;
+    b.setAttribute('aria-label', on ? `${w.en}: уже у ваших словах` : `Додати «${w.en}» в мої слова`);
+    if (compact) b.title = on ? 'У ваших словах' : 'Додати в мої слова';
+  };
   b.onclick = () => {
     srs.addCard({ en: w.en, uk: w.uk, ipa: w.ipa || null, examples: w.ex ? [{ en: w.ex, uk: w.exUk || '' }] : [], tags: ['game'], extra: { source: 'games' } });
     draw(true);
   };
   draw(inMyWords(w.en));
   return b;
+}
+
+/** Плитка «Додати в мої слова» (для сітки дій) */
+export function addWordTile(w) {
+  let el;
+  const draw = (on) => {
+    const next = tx({ icon: on ? 'check' : 'plus', label: on ? 'У ваших словах' : 'Додати в мої слова', sub: on ? 'картка вже є' : 'картка для повторів', onclick: add, disabled: on, tone: on ? 'good' : '',
+      attrs: { 'aria-label': on ? `${w.en}: уже у ваших словах` : `Додати «${w.en}» в мої слова` } });
+    if (el) { next.style.cssText = el.style.cssText; next.className = next.className + (el.classList.contains('wide') ? ' wide' : ''); el.replaceWith(next); }
+    el = next;
+  };
+  function add() {
+    srs.addCard({ en: w.en, uk: w.uk, ipa: w.ipa || null, examples: w.ex ? [{ en: w.ex, uk: w.exUk || '' }] : [], tags: ['game'], extra: { source: 'games' } });
+    draw(true);
+    el.focus({ preventScroll: true });
+  }
+  draw(inMyWords(w.en));
+  return el;
+}
+
+// ---------- Екрани гри в мові плиток: вступ, підсумок, рядки слів ----------
+/**
+ * Вступ гри: опис з іконкою в квадратику, правила — рядки з номерами, рекорд, одна синя дія «Почати».
+ * o: { icon, text, rules: [], extra: [вузли між правилами й стартом], best: { label, value } | null, start (вузол) }
+ */
+export function gameIntro({ icon, text, rules = [], extra = [], best = null, start = null }) {
+  return h('div.stack-lg.g-intro',
+    h('div.g-lead', h('span.tx-sq.g-lead-sq', ic(icon, { size: 24 })), h('p.g-lead-t', text)),
+    rules.length ? txGroup('Правила', txRows(rules.map((r, i) => txRow({ no: i + 1, label: r })))) : null,
+    ...[].concat(extra).filter(Boolean),
+    best ? tx({ icon: 'trophy', label: best.label, wide: true, cls: 'g-best', end: h('b.num.g-best-n', String(best.value)) }) : null,
+    start);
+}
+
+/** Головна дія вступу: синя плитка «Почати» (кнопка) */
+export const startTile = ({ label = 'Почати', sub = null, icon = 'play', onclick, disabled = false }) =>
+  txPrimary({ icon, label, sub, onclick, disabled, cls: 'g-start' });
+
+/**
+ * Підсумок гри: квадратик з іконкою + очки, цифри плитками, далі секції, одна синя дія і плитки «що далі».
+ * o: { icon, record, score (рядок або вузол), unit, sub, kpis: [{value,label,tone}], note, sections: [], primary: {icon,label,onclick|href}, more: [{icon,label,sub,onclick|href}] }
+ */
+export function gameResult({ icon = 'flag', record = false, score, unit = null, sub = '', kpis = [], note = null, sections = [], primary, more = [] }) {
+  const list = more.filter(Boolean);
+  return h('div.stack-lg.g-end',
+    h('div.g-res',
+      h('span.tx-sq.g-res-sq' + (record ? '.good' : ''), ic(record ? 'trophy' : icon, { size: 26, fill: record })),
+      h('div.g-res-body',
+        record ? txPill('Новий рекорд!', 'good') : h('span.g-res-eyebrow', 'Результат'),
+        h('div.g-score.num', score, unit ? h('small', unit) : null),
+        sub ? h('div.small.dim.g-res-sub', sub) : null)),
+    kpis.length ? txKpis(kpis) : null,
+    note ? h('p.xs.dim.g-note', note) : null,
+    ...sections.filter(Boolean),
+    h('div.stack.g-next',
+      primary ? txPrimary({ ...primary, cls: 'g-again' }) : null,
+      list.length === 1 ? tx({ ...list[0], wide: true }) : list.length ? txGrid(list.map(tx), 2) : null));
+}
+
+/** Рядок-плитка зі словом: квадратик «прослухати», слово й переклад, праворуч — довільний вузол */
+export function wordRow({ en, uk, end = null, cls = '' }) {
+  return h('div.tx-row.g-wrow' + (cls ? '.' + cls : ''),
+    h('button.tx-sq.g-spk', { type: 'button', 'aria-label': `Прослухати ${en}`, onclick: () => speak(en) }, ic('speaker-high', { size: 18 })),
+    h('span.tx-body', h('span.tx-l', { lang: 'en' }, en), uk ? h('span.tx-s', uk) : null),
+    end);
 }
 
 /** Лічильник очок/таймер у шапці гри */
@@ -155,13 +226,12 @@ export function gameHead(extra) {
 const SVG_NS = 'http://www.w3.org/2000/svg';
 const svgEl = (tag, attrs = {}) => { const el = document.createElementNS(SVG_NS, tag); for (const [k, v] of Object.entries(attrs)) el.setAttribute(k, v); return el; };
 
-/** Картка «потрібен вхід» для ігор, де мовлення розпізнає AI */
+/** «Потрібен вхід» для ігор, де мовлення розпізнає AI */
 export function gameLoginCard(text) {
-  return h('section.card.stack.g-login',
-    h('div.row', { style: { alignItems: 'flex-start', gap: '12px' } }, h('span.tile-ico', ic('microphone', { size: 22 })),
-      h('div.grow.stack', { style: { gap: '4px' } }, h('div.g-strong', 'Потрібен вхід в акаунт'), h('div.small.dim', text))),
-    h('a.btn.primary.block', { href: '#/auth' }, 'Увійти'),
-    h('a.btn.ghost.block', { href: '#/games' }, 'Інші ігри'));
+  return h('div.stack.g-login',
+    tx({ icon: 'microphone', label: 'Потрібен вхід в акаунт', sub: text, wide: true, tone: 'warn' }),
+    txPrimary({ icon: 'user', label: 'Увійти', sub: 'AI розпізнає мовлення після входу', href: '#/auth' }),
+    tx({ icon: 'game-controller', label: 'Інші ігри', href: '#/games', wide: true }));
 }
 
 const MIC_ERR = {
@@ -177,10 +247,11 @@ const MIC_ERR = {
 /** Картка помилки мікрофона; kind — з micErrorKind() (js/fluency.js) */
 export function micErrorCard(kind, onRetry) {
   const [title, lines] = MIC_ERR[kind] || MIC_ERR.other;
-  return h('section.card.stack.g-err', { role: 'alert' },
-    h('div.row', { style: { alignItems: 'flex-start', gap: '12px' } }, h('span.tile-ico.g-err-ico', ic('microphone-slash', { size: 22 })),
-      h('div.grow.stack', { style: { gap: '6px' } }, h('div.g-strong', title), lines.map(l => h('div.small.dim', l)))),
-    onRetry && kind !== 'unsupported' ? h('button.btn.primary.block', { type: 'button', onclick: onRetry }, ic('arrow-clockwise', { size: 18 }), 'Спробувати ще раз') : null);
+  return h('section.stack.g-err', { role: 'alert' },
+    h('div.tx.wide.bad.g-err-tile',
+      h('span.tx-sq', ic('microphone-slash', { size: 20 })),
+      h('span.tx-body', h('span.tx-l', title), lines.map(l => h('span.tx-s', l)))),
+    onRetry && kind !== 'unsupported' ? txPrimary({ icon: 'arrow-clockwise', label: 'Спробувати ще раз', onclick: onRetry }) : null);
 }
 
 /** Кільце відліку: { el, set(leftMs, totalMs) } — секунди в центрі, останні 5 с — попереджувальний колір */

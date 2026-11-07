@@ -11,7 +11,9 @@ import { ruleLabel } from '../rules.js';
 import { focusRules } from '../focus.js';
 import { setTitle, setFocus } from '../ui/shell.js';
 import { bestUpdate, shuffleArr } from './logic.js';
-import { gameState, saveGameState, beep, buzz, reducedMotion, gameHead, statPill } from './common.js';
+import { plural } from '../strings.js';
+import { tx, txGroup, txRows, txPill } from '../ui/tiles.js';
+import { gameState, saveGameState, beep, buzz, reducedMotion, gameHead, statPill, gameIntro, startTile, gameResult } from './common.js';
 
 export const ROUNDS = 15;
 export const OWN_SHARE = 0.6;
@@ -217,18 +219,17 @@ export default async function detective(view) {
     const own = ownPool(focus);
     const best = gameState().best?.detective?.[lv] || 0;
     const ownN = Math.min(own.length, Math.round(ROUNDS * OWN_SHARE));
-    const start = h('button.btn.primary.lg.block', { type: 'button', onclick: play, disabled: !bank.length && !own.length }, ic('play', { size: 20 }), 'Почати розслідування');
-    body.replaceChildren(h('div.card.stack.g-intro',
-      h('div.tile-ico.g-big', ic('magnifying-glass', { size: 32 })),
-      h('p', { style: { margin: 0 } }, 'У кожному реченні може ховатися одна помилка. Торкніться слова, яке написано неправильно, — або «Без помилок», якщо речення бездоганне.'),
-      h('ul.xs.dim.g-rules',
-        h('li', `${ROUNDS} речень, на кожне — 5 секунд`),
-        h('li', 'Три влучні поспіль — очки ×2, шість — ×3'),
-        h('li', 'Якщо бракує слова — торкніться слова перед пропуском')),
-      ownN ? h('div.row.dt-note', ic('target', { size: 18 }), h('span.xs', `Серед речень — ${ownN} з ваших власних помилок${focus.length ? ', правила тижня першими' : ''}.`)) : null,
-      !bank.length && !own.length ? h('p.feedback.no', { style: { margin: 0 } }, 'Не вдалося завантажити речення. Перевірте з\'єднання.') : null,
-      best ? h('div.row', ic('trophy', { size: 18 }), h('span', `Рекорд рівня ${lv}: `, h('b.num', String(best)))) : null,
-      start));
+    const start = startTile({ label: 'Почати розслідування', sub: `${ROUNDS} речень · по 5 секунд`, onclick: play, disabled: !bank.length && !own.length });
+    body.replaceChildren(gameIntro({
+      icon: 'magnifying-glass',
+      text: 'У кожному реченні може ховатися одна помилка. Торкніться слова, яке написано неправильно, — або «Без помилок», якщо речення бездоганне.',
+      rules: [`${ROUNDS} речень, на кожне — 5 секунд`, 'Три влучні поспіль — очки ×2, шість — ×3', 'Якщо бракує слова — торкніться слова перед пропуском'],
+      extra: [
+        ownN ? tx({ icon: 'target', label: `${ownN} ${plural(ownN, 'речення', 'речення', 'речень')} — з ваших помилок`, sub: focus.length ? 'Правила тижня — першими' : 'Решта — з банку речень вашого рівня', wide: true, cls: 'dt-note' }) : null,
+        !bank.length && !own.length ? h('p.feedback.no', { style: { margin: 0 } }, 'Не вдалося завантажити речення. Перевірте з\'єднання.') : null],
+      best: best ? { label: `Рекорд рівня ${lv}`, value: best } : null,
+      start,
+    }));
     start.focus({ preventScroll: true });
   }
 
@@ -402,31 +403,26 @@ export default async function detective(view) {
       }
       const list = [...byRule.values()].sort((a, b) => b.n - a.n || (focusOf(b.rule) - focusOf(a.rule)));
       const anyFocus = list.some(e => focusOf(e.rule));
-      const ruleRows = list.map(e => h('div.list-row.dt-miss',
-        h('div.grow',
-          h('div.row.dt-miss-head', h('b', ruleLabel(e.rule) || 'Інше'), focusOf(e.rule) ? h('span.tag.accent', ic('target', { size: 14 }), 'Правило тижня') : null),
-          h('div.xs.dim.dt-ex', { lang: 'en' }, e.ex.fix),
-          e.ex.tip && !e.ex.correct ? h('div.xs.dt-ex-tip', e.ex.tip) : null),
-        h('span.tag.bad.num', { 'aria-label': `Промахів: ${e.n}` }, `×${e.n}`)));
-      body.replaceChildren(h('div.card.stack.g-end',
-        h('div.center.stack', { style: { gap: '4px' } },
-          upd.record ? h('span.tag.good.g-record', ic('trophy', { size: 16 }), 'Новий рекорд!') : null,
-          h('div.g-score.num', String(score)),
-          h('div.xs.dim', verdict(hits, rounds.length))),
-        h('div.grid3',
-          h('div.stat', h('span.big-num', `${hits}/${rounds.length}`), h('span.xs.dim', 'Знайдено')),
-          h('div.stat', h('span.big-num', String(maxCombo)), h('span.xs.dim', 'Найдовше комбо')),
-          h('div.stat', h('span.big-num', String(Math.max(upd.prev, score))), h('span.xs.dim', `Рекорд ${lv}`))),
-        list.length
-          ? h('div.stack', { style: { gap: '8px' } },
-            h('div.section-title', { style: { margin: 0 } }, 'Правила, на яких ви спіткнулися'),
-            h('div.list', ruleRows),
-            anyFocus ? h('a.btn.soft.block', { href: '#/mistakes?practice=due&focus=1' }, ic('target', { size: 18 }), 'Потренувати правила тижня') : null)
-          : h('p.feedback.ok', { style: { margin: 0 } }, 'Жодного промаху — справжній детектив!'),
-        h('div.row.wrap', h('button.btn.primary.grow', { type: 'button', onclick: play }, ic('arrow-clockwise', { size: 18 }), 'Ще раз'),
-          h('a.btn.ghost', { href: '#/games' }, 'Усі ігри'))));
+      const ruleRows = list.map(e => h('div.tx-row.dt-miss',
+        h('span.tx-sq', ic(focusOf(e.rule) ? 'target' : 'warning-circle', { size: 18 })),
+        h('span.tx-body',
+          h('span.tx-l', ruleLabel(e.rule) || 'Інше'),
+          focusOf(e.rule) ? h('span.tx-s.dt-focus', 'Правило тижня') : null,
+          h('span.tx-s.dt-ex', { lang: 'en' }, e.ex.fix),
+          e.ex.tip && !e.ex.correct ? h('span.tx-s.dt-ex-tip', e.ex.tip) : null),
+        h('span.tx-pill.bad.num', { 'aria-label': `Промахів: ${e.n}` }, `×${e.n}`)));
+      body.replaceChildren(gameResult({
+        icon: 'magnifying-glass', record: upd.record, score: String(score), unit: plural(score, 'очко', 'очки', 'очок'), sub: verdict(hits, rounds.length),
+        kpis: [{ value: `${hits}/${rounds.length}`, label: 'знайдено', tone: 'good' }, { value: maxCombo, label: 'найдовше комбо' }, { value: Math.max(upd.prev, score), label: `рекорд ${lv}` }],
+        sections: [list.length
+          ? txGroup('Правила, на яких ви спіткнулися', [txRows(ruleRows),
+            anyFocus ? tx({ icon: 'target', label: 'Потренувати правила тижня', sub: 'Мої помилки · за розкладом', href: '#/mistakes?practice=due&focus=1', wide: true }) : null])
+          : tx({ icon: 'seal-check', label: 'Жодного промаху — справжній детектив!', wide: true, tone: 'good' })],
+        primary: { icon: 'arrow-clockwise', label: 'Ще раз', sub: `${ROUNDS} нових речень`, onclick: play },
+        more: [{ icon: 'game-controller', label: 'Усі ігри', href: '#/games' }],
+      }));
       live.textContent = `Гру завершено. Очки: ${score}. Знайдено ${hits} з ${rounds.length}.` + (upd.record ? ' Новий рекорд!' : '');
-      body.querySelector('.btn.primary')?.focus({ preventScroll: true });
+      body.querySelector('.g-again')?.focus({ preventScroll: true });
     }
 
     game = { ended: false, stop };

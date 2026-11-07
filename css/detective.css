@@ -1,44 +1,44 @@
 /* «Детектив помилок» (#/games/detective) — фішки-слова, таймер раунду, розбір помилки */
-.dt-note{gap:8px;align-items:flex-start;color:var(--accent-ink)}
-.dt-note .xs{color:var(--ink)}
+.tx.dt-note{cursor:default}
+.tx.dt-note .tx-sq{background:var(--accent-soft);color:var(--accent-ink)}
 
-.dt-bar{height:6px;border-radius:3px;background:var(--track);overflow:hidden}
+.dt-bar{height:5px;border-radius:999px;background:var(--tile-sq);overflow:hidden}
 .dt-bar span{display:block;height:100%;background:var(--accent);transform-origin:left center;will-change:transform}
 .dt-bar.hurry span{background:var(--bad)}
 .g-pill.dt-hot{border-color:var(--warn);color:var(--warn)}
-.g-pill.dt-hot .ico{color:var(--warn)}
+.g-pill.dt-hot .ico{color:var(--warn);background:var(--warn-soft)}
 
-.dt-stage{position:relative;display:flex;flex-direction:column;gap:12px;border-radius:var(--radius);min-width:0}
+.dt-stage{position:relative;display:flex;flex-direction:column;gap:8px;border-radius:16px;min-width:0}
 .dt-stage.dt-in .dt-card{animation:dtIn 220ms var(--ease) both}
 .dt-card{display:flex;flex-direction:column;align-items:flex-start;gap:10px;padding:16px 14px 18px;min-width:0}
 .dt-ask{align-self:stretch;gap:8px;min-height:24px}
 .dt-src{display:inline-flex;align-items:center;gap:4px;flex:none}
 .dt-sent{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;align-self:stretch;min-width:0}
 
-.dt-chip{min-height:44px;min-width:44px;max-width:100%;padding:8px 14px;border-radius:var(--radius-btn);border:1.5px solid var(--line-strong);
-  background:var(--surface);color:var(--ink);font:inherit;font-size:var(--fs-md);font-weight:600;line-height:1.2;overflow-wrap:anywhere;
-  cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent;box-shadow:var(--shadow-sm);
+.dt-chip{min-height:44px;min-width:44px;max-width:100%;padding:8px 14px;border-radius:12px;border:1.5px solid var(--line);
+  background:var(--tile-sq);color:var(--ink);font:inherit;font-size:var(--fs-md);font-weight:600;line-height:1.2;overflow-wrap:anywhere;
+  cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent;
   transition:transform 90ms ease,background var(--dur),border-color var(--dur),color var(--dur)}
 .dt-chip:active:not(:disabled){transform:scale(.94)}
 .dt-chip:disabled{cursor:default;opacity:1}
-.dt-chip:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.dt-chip:focus-visible{outline:2px solid var(--accent-ink);outline-offset:2px}
 .dt-chip.ok{background:var(--good);border-color:var(--good);color:var(--on-good);animation:dtPop 260ms var(--ease)}
 .dt-chip.clean{border-color:var(--good);background:var(--good-soft)}
 .dt-chip.no{background:var(--bad-soft);border-color:var(--bad);color:var(--bad)}
 .dt-chip.was{border-color:var(--good);border-style:dashed;background:var(--good-soft)}
 
-.dt-none{min-height:52px;width:100%;background:var(--surface);border:1.5px solid var(--line-strong);font-weight:600;color:var(--ink)}
-.dt-none .ico{color:var(--good)}
+.dt-none{min-height:56px;width:100%;border-radius:14px;background:var(--tile);border:1px solid var(--tile-edge);font-weight:600;color:var(--ink)}
+.dt-none .ico{color:var(--good);width:30px;height:30px;padding:5px;box-sizing:border-box;border-radius:9px;background:var(--good-soft)}
 .dt-none:disabled{opacity:1}
 .dt-none.ok{background:var(--good);border-color:var(--good);color:var(--on-good)}
-.dt-none.ok .ico{color:var(--on-good)}
+.dt-none.ok .ico{color:var(--on-good);background:transparent}
 .dt-none.no{background:var(--bad-soft);border-color:var(--bad);color:var(--bad)}
 .dt-none.was{border-color:var(--good);border-style:dashed;background:var(--good-soft)}
-.dt-next{min-height:52px;width:100%}
+.dt-next{min-height:56px;width:100%;border-radius:16px}
 
 .dt-reveal{display:flex;flex-direction:column;gap:10px;padding:14px;min-width:0;animation:dtIn 200ms var(--ease) both}
-.dt-reveal.miss{border-color:var(--bad);cursor:pointer}
-.dt-reveal.hit{border-color:var(--good)}
+.dt-reveal.miss{border-color:color-mix(in srgb,var(--bad) 45%,transparent);cursor:pointer}
+.dt-reveal.hit{border-color:color-mix(in srgb,var(--good) 45%,transparent)}
 .dt-verdict{gap:6px}
 .dt-verdict.no{color:var(--bad)}
 .dt-verdict.ok{color:var(--good)}
@@ -58,14 +58,10 @@
 .dt-stage.flash-no .dt-card,.dt-stage.flash-no .dt-reveal{box-shadow:0 0 0 3px color-mix(in srgb,var(--bad) 55%,transparent)}
 .dt-stage.shake .dt-card,.dt-stage.shake .dt-reveal{animation:dtShake 340ms}
 
-.dt-miss{align-items:flex-start;gap:10px}
-.dt-miss .grow{min-width:0}
-.dt-miss-head{gap:6px;flex-wrap:wrap}
-.dt-miss-head .tag{display:inline-flex;align-items:center;gap:4px}
-.dt-ex{margin-top:2px;overflow-wrap:anywhere}
-.dt-ex-tip{margin-top:2px;color:var(--ink-dim)}
-.dt-miss > .tag{flex:none}
-.dt .btn.soft.block{display:flex;justify-content:center}
+.tx-row.dt-miss{cursor:default;align-items:flex-start;padding-top:11px;padding-bottom:11px}
+.dt-miss .tx-sq{background:var(--bad-soft);color:var(--bad)}
+.dt-miss .tx-s.dt-focus{color:var(--accent-ink);font-weight:600}
+.dt-miss .tx-s.dt-ex{color:var(--ink);margin-top:2px}
 
 @keyframes dtIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 @keyframes dtPop{50%{transform:scale(1.12)}}

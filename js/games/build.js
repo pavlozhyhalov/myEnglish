@@ -8,7 +8,9 @@ import { speak, stop as stopSpeech } from '../speech.js';
 import { setTitle, setFocus } from '../ui/shell.js';
 import { norm, sameSentence, tilesOf } from '../wordlogic.js';
 import { BUILD_SECONDS, BUILD_BONUS, goodSentence, shuffledTiles, firstMismatch, buildPoints, bestUpdate, shuffleArr } from './logic.js';
-import { wordPool, gameState, saveGameState, beep, buzz, reducedMotion, gameHead, statPill, autoSpeak } from './common.js';
+import { plural } from '../strings.js';
+import { tx, txGroup, txRows } from '../ui/tiles.js';
+import { wordPool, gameState, saveGameState, beep, buzz, reducedMotion, gameHead, statPill, autoSpeak, gameIntro, startTile, gameResult, wordRow } from './common.js';
 
 /** Речення рівня: приклади з карток, які зараз вчаться, першими; далі колоди й уроки граматики мого рівня */
 async function sentences(lv) {
@@ -49,14 +51,15 @@ export default async function build(view) {
   function intro() {
     setFocus(false);
     const best = gameState().best?.build?.[lv] || 0;
-    const start = h('button.btn.primary.lg.block', { type: 'button', onclick: play, disabled: !all.length }, ic('play', { size: 20 }), 'Почати');
-    body.replaceChildren(h('div.card.stack.g-intro',
-      h('div.tile-ico.g-big', ic('puzzle-piece', { size: 32 })),
-      h('p', { style: { margin: 0 } }, 'Перед вами переклад і перемішані англійські слова. Торкайтеся слів у правильному порядку — щойно речення складено, воно перевіряється саме.'),
-      h('ul.xs.dim.g-rules', h('li', `${BUILD_SECONDS} секунд, за кожне речення +${BUILD_BONUS} с`), h('li', 'Серія без помилок дає бонусні очки'), h('li', 'Слово з речення можна повернути дотиком')),
-      all.length ? null : h('p.feedback.no', 'Не вдалося завантажити речення. Перевірте з\'єднання.'),
-      best ? h('div.row', ic('trophy', { size: 18 }), h('span', `Рекорд рівня ${lv}: `, h('b.num', String(best)))) : null,
-      start));
+    const start = startTile({ label: 'Почати', sub: `${BUILD_SECONDS} секунд · речення рівня ${lv}`, onclick: play, disabled: !all.length });
+    body.replaceChildren(gameIntro({
+      icon: 'puzzle-piece',
+      text: 'Перед вами переклад і перемішані англійські слова. Торкайтеся слів у правильному порядку — щойно речення складено, воно перевіряється саме.',
+      rules: [`${BUILD_SECONDS} секунд, за кожне речення +${BUILD_BONUS} с`, 'Серія без помилок дає бонусні очки', 'Слово з речення можна повернути дотиком'],
+      extra: [all.length ? null : h('p.feedback.no', { style: { margin: 0 } }, 'Не вдалося завантажити речення. Перевірте з\'єднання.')],
+      best: best ? { label: `Рекорд рівня ${lv}`, value: best } : null,
+      start,
+    }));
     start.focus({ preventScroll: true });
   }
 
@@ -158,23 +161,18 @@ export default async function build(view) {
       const upd = bestUpdate(st.best?.build, lv, score);
       saveGameState({ best: { ...(st.best || {}), build: upd.best } });
       upd.record ? (beep('win'), buzz([30, 40, 30])) : beep('lose');
-      body.replaceChildren(h('div.card.stack.g-end',
-        h('div.center.stack', { style: { gap: '4px' } },
-          upd.record ? h('span.tag.good.g-record', ic('trophy', { size: 16 }), 'Новий рекорд!') : null,
-          h('div.g-score.num', String(score)), h('div.xs.dim', 'Час вийшов')),
-        h('div.grid3',
-          h('div.stat', h('span.big-num', String(done)), h('span.xs.dim', 'Речень складено')),
-          h('div.stat', h('span.big-num', String(bestStreak)), h('span.xs.dim', 'Найдовша серія')),
-          h('div.stat', h('span.big-num', String(missed.length)), h('span.xs.dim', 'З помилками'))),
-        upd.prev && !upd.record ? h('p.xs.dim', { style: { margin: 0 } }, `Рекорд рівня ${lv}: ${upd.prev}`) : null,
-        missed.length ? h('div.stack', { style: { gap: '8px' } }, h('div.section-title', { style: { margin: 0 } }, 'Варто повторити'),
-          h('div.list', missed.map(m => h('div.list-row',
-            h('button.icon-btn', { type: 'button', 'aria-label': 'Прослухати речення', onclick: () => speak(m.en) }, ic('speaker-high', { size: 20 })),
-            h('div.grow', h('div.en', { lang: 'en' }, m.en), h('div.xs.dim', m.uk)))))) : null,
-        h('div.row.wrap', h('button.btn.primary.grow', { type: 'button', onclick: play }, ic('arrow-clockwise', { size: 18 }), 'Ще раз'),
-          h('a.btn.ghost', { href: '#/games' }, 'Інші ігри'))));
+      body.replaceChildren(gameResult({
+        icon: 'timer', record: upd.record, score: String(score), unit: plural(score, 'очко', 'очки', 'очок'), sub: 'Час вийшов',
+        kpis: [{ value: done, label: plural(done, 'речення', 'речення', 'речень') + ' складено', tone: 'good' }, { value: bestStreak, label: 'найдовша серія' }, { value: missed.length, label: 'з помилками', tone: missed.length ? 'warn' : '' }],
+        note: upd.prev && !upd.record ? `Рекорд рівня ${lv}: ${upd.prev}` : null,
+        sections: [missed.length
+          ? txGroup('Варто повторити', txRows(missed.map(m => wordRow({ en: m.en, uk: m.uk, cls: 'g-sent' }))))
+          : (done ? tx({ icon: 'check-circle', label: 'Жодної помилки!', wide: true, tone: 'good' }) : null)],
+        primary: { icon: 'arrow-clockwise', label: 'Ще раз', sub: `${BUILD_SECONDS} секунд`, onclick: play },
+        more: [{ icon: 'game-controller', label: 'Інші ігри', href: '#/games' }],
+      }));
       live.textContent = `Час вийшов. Речень: ${done}, очки: ${score}.` + (upd.record ? ' Новий рекорд!' : '');
-      body.querySelector('.btn.primary')?.focus({ preventScroll: true });
+      body.querySelector('.g-again')?.focus({ preventScroll: true });
     }
     round = { stop() { ended = true; cancelAnimationFrame(raf); document.removeEventListener('keydown', onKey); } };
     hud(); next();

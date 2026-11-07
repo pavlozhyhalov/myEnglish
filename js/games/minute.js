@@ -12,7 +12,8 @@ import { onLeave } from '../router.js';
 import { plural } from '../strings.js';
 import { canRecord, createMic, recordRound, micErrorKind, markup, analyze, isFiller, normWord, TOPICS, GAMBITS, interestTopics } from '../fluency.js';
 import { bestUpdate } from './logic.js';
-import { gameState, saveGameState, beep, buzz, reducedMotion, gameHead, gameLoginCard, micErrorCard, countdownRing, levelMeter } from './common.js';
+import { gameState, saveGameState, beep, buzz, reducedMotion, gameHead, gameLoginCard, micErrorCard, countdownRing, levelMeter, gameIntro, startTile, gameResult } from './common.js';
+import { tx, txGroup, txPrimary } from '../ui/tiles.js';
 
 /** Налаштування гри (об'єкт, щоб тести могли скоротити тривалість) */
 export const MINUTE = { sec: 60, lives: 3, minMs: 3000, minWords: 5, stepMs: 70, hitPauseMs: 520, maxReplayMs: 7000 };
@@ -124,9 +125,9 @@ export default function minute(view) {
     const t = topic();
     return h('div.card.gm-topic' + (compact ? '.compact' : ''),
       h('div.row', { style: { gap: '12px', alignItems: 'flex-start' } },
-        h('span.tile-ico', ic(t.icon || 'chat-circle-dots', { size: 22 })),
+        h('span.tx-sq', ic(t.icon || 'chat-circle-dots', { size: 20 })),
         h('div.grow', { style: { minWidth: 0 } },
-          h('div.xs.dim', 'Тема'),
+          h('div.gm-eyebrow', 'Тема'),
           h('div.gm-ten', { lang: 'en' }, t.en),
           t.uk && t.uk !== t.en ? h('div.small.dim', t.uk) : null)),
       h('ul.gm-hints', { lang: 'en' }, (t.hints || []).map(x => h('li', x))));
@@ -137,20 +138,18 @@ export default function minute(view) {
     setFocus(false);
     clearLater();
     const best = gameState().best?.minute?.[lv] || 0;
-    const start = h('button.btn.primary.lg.block', { type: 'button', onclick: startRec }, ic('microphone', { size: 20 }), 'Старт');
-    const other = h('button.btn.soft.block', { type: 'button', onclick: () => { ti = (ti + 1 + Math.floor(Math.random() * (topics.length - 1))) % topics.length; intro(); body.querySelector('.btn.soft')?.focus({ preventScroll: true }); } },
-      ic('shuffle', { size: 18 }), 'Інша тема');
+    const start = startTile({ icon: 'microphone', label: 'Старт', sub: `до ${MINUTE.sec} секунд · ${MINUTE.lives} життя`, onclick: startRec });
+    const other = tx({ icon: 'shuffle', label: 'Інша тема', wide: true, cls: 'gm-other', onclick: () => { ti = (ti + 1 + Math.floor(Math.random() * (topics.length - 1))) % topics.length; intro(); body.querySelector('.gm-other')?.focus({ preventScroll: true }); } });
     fill(
-      topicCard(),
-      h('div.card.stack.g-intro',
-        h('div.row', { style: { gap: '12px' } }, hearts(MINUTE.lives), h('div.grow.small', `Говоріть до ${MINUTE.sec} секунд. Кожне «uh», «um» чи повтор слова — мінус життя.`)),
-        h('ul.xs.dim.g-rules',
-          h('li', 'Три життя: третя заминка — і хвилина для вас скінчилась'),
-          h('li', 'Очки — скільки секунд ви протрималися'),
-          h('li', 'Перевірка — після запису: AI розпізнає мовлення дослівно')),
-        canRecord() ? null : micErrorCard('unsupported'),
-        best ? h('div.row', ic('trophy', { size: 18 }), h('span', `Рекорд рівня ${lv}: `, h('b.num', nSec(best)))) : null),
-      canRecord() ? start : null, other);
+      h('div.stack.gm-pick', topicCard(), other),
+      gameIntro({
+        icon: 'timer',
+        text: `Говоріть до ${MINUTE.sec} секунд. Кожне «uh», «um» чи повтор слова — мінус життя.`,
+        rules: ['Три життя: третя заминка — і хвилина для вас скінчилась', 'Очки — скільки секунд ви протрималися', 'Перевірка — після запису: AI розпізнає мовлення дослівно'],
+        extra: [canRecord() ? null : micErrorCard('unsupported')],
+        best: best ? { label: `Рекорд рівня ${lv}`, value: nSec(best) } : null,
+        start: canRecord() ? start : null,
+      }));
     if (canRecord()) start.focus({ preventScroll: true });
   }
 
@@ -166,7 +165,7 @@ export default function minute(view) {
       if (disposed) return;
       setFocus(false);
       fill(topicCard({ compact: true }), micErrorCard(micErrorKind(e), startRec),
-        h('button.btn.ghost.block', { type: 'button', onclick: intro }, 'Назад до теми'));
+        tx({ icon: 'arrow-left', label: 'Назад до теми', wide: true, onclick: intro, cls: 'g-quiet' }));
     });
   }
 
@@ -176,16 +175,16 @@ export default function minute(view) {
     const meter = levelMeter();
     ring.set(total, total);
     setFocus(true);
-    const stopBtn = h('button.btn.primary.lg.block', { type: 'button', onclick: () => ctrl?.stop() }, ic('stop', { size: 20, fill: true }), 'Стоп');
+    const stopBtn = txPrimary({ icon: 'stop', label: 'Стоп', sub: 'перевірити запис', onclick: () => ctrl?.stop() });
     const cheat = GAMBITS.filter(g => ['think', 'start'].includes(g.group)).slice(0, 6);
     fill(
       topicCard({ compact: true }),
       h('div.gm-stage', ring.el, h('div.row.gm-mid', hearts(MINUTE.lives), h('div.gx-live', h('span.gx-dot'), 'Запис')), meter.el),
       note || null,
-      h('div.stack.gm-cheat', { style: { gap: '6px' } }, h('div.xs.dim', 'Замість «uh» скажіть'),
-        h('div.chips', cheat.slice(0, 4).map(g => h('span.chip.static', { lang: 'en' }, g.en)))),
+      h('div.gm-cheat', txGroup('Замість «uh» скажіть',
+        h('div.chips', cheat.slice(0, 4).map(g => h('span.chip.static', { lang: 'en' }, g.en))))),
       stopBtn,
-      h('button.btn.ghost.block', { type: 'button', onclick: () => { ctrl?.cancel(); ctrl = null; mic.close(); intro(); } }, 'Скасувати'));
+      tx({ icon: 'x', label: 'Скасувати', wide: true, cls: 'g-quiet', onclick: () => { ctrl?.cancel(); ctrl = null; mic.close(); intro(); } }));
     live.textContent = 'Запис почався. Говоріть на тему.';
     stopBtn.focus({ preventScroll: true });
     try {
@@ -207,9 +206,9 @@ export default function minute(view) {
   function tooShort(msg) {
     mic.close();
     fill(topicCard({ compact: true }),
-      h('p.feedback.no', { role: 'alert', style: { margin: 0 } }, msg),
-      h('button.btn.primary.lg.block', { type: 'button', onclick: startRec }, ic('microphone', { size: 20 }), 'Спробувати ще раз'),
-      h('button.btn.ghost.block', { type: 'button', onclick: intro }, 'Назад до теми'));
+      tx({ icon: 'warning', label: msg, wide: true, tone: 'bad', attrs: { role: 'alert' } }),
+      txPrimary({ icon: 'microphone', label: 'Спробувати ще раз', onclick: startRec }),
+      tx({ icon: 'arrow-left', label: 'Назад до теми', wide: true, onclick: intro, cls: 'g-quiet' }));
   }
 
   // ---------- Перевірка ----------
@@ -231,9 +230,9 @@ export default function minute(view) {
       if (disposed || e?.name === 'AbortError') return;
       setFocus(false);
       fill(topicCard({ compact: true }),
-        h('div.card.stack.g-err', { role: 'alert' }, h('div.g-strong', 'Не вдалося розпізнати запис'), h('div.small.dim', aiErrorText(e) || 'Спробуйте ще раз.')),
-        h('button.btn.primary.block', { type: 'button', onclick: () => check(rec) }, ic('arrow-clockwise', { size: 18 }), 'Надіслати ще раз'),
-        h('button.btn.ghost.block', { type: 'button', onclick: intro }, 'Назад до теми'));
+        tx({ icon: 'warning', label: 'Не вдалося розпізнати запис', sub: aiErrorText(e) || 'Спробуйте ще раз.', wide: true, tone: 'bad', attrs: { role: 'alert' } }),
+        txPrimary({ icon: 'arrow-clockwise', label: 'Надіслати ще раз', onclick: () => check(rec) }),
+        tx({ icon: 'arrow-left', label: 'Назад до теми', wide: true, onclick: intro, cls: 'g-quiet' }));
       return;
     } finally { if (ac === my) ac = null; }
     if (disposed) return;
@@ -251,7 +250,7 @@ export default function minute(view) {
     const heartRow = hearts(lives);
     const clock = h('b.num.gm-clock', '0');
     const words = m.filter(x => x.kind !== 'space' && x.kind !== 'punct').length;
-    const skipBtn = h('button.btn.ghost.block', { type: 'button', onclick: () => skipReplay?.() }, ic('arrow-right', { size: 18 }), 'Показати одразу');
+    const skipBtn = tx({ icon: 'arrow-right', label: 'Показати одразу', wide: true, cls: 'g-quiet', onclick: () => skipReplay?.() });
     const stage = h('div.card.stack.gm-replay-card', { onclick: () => skipReplay?.() },
       h('div.row', heartRow, h('div.grow'), h('div.gm-clockwrap', h('span.dim.xs', s.approx ? '≈ ' : ''), clock, h('span.dim.xs', ' с'))),
       box);
@@ -330,30 +329,25 @@ export default function minute(view) {
     stage.querySelector('.gm-replay')?.removeAttribute('aria-hidden');
     const head = s.full ? 'Хвилину пережито!' : s.cut >= 0 ? `Третя заминка — на ≈ ${s.sec} с` : `Без трьох заминок — ${nSec(s.sec)}`;
     const tips = tipGambits();
-    const out = h('div.stack.gm-result',
-      h('div.card.stack.g-end',
-        h('div.center.stack', { style: { gap: '4px' } },
-          upd.record ? h('span.tag.good.g-record', ic('trophy', { size: 16 }), 'Новий рекорд!') : null,
-          h('div.g-score.num', s.approx ? h('span.gm-approx', '≈') : null, String(s.sec), h('span.gx-max', ' с')),
-          h('div.small', head)),
-        h('div.grid3',
-          h('div.stat', h('span.big-num', String(s.words)), h('span.xs.dim', plural(s.words, 'слово', 'слова', 'слів'))),
-          h('div.stat', h('span.big-num', String(s.per100).replace('.', ',')), h('span.xs.dim', 'заминок на 100 слів')),
-          h('div.stat', h('span.big-num', String(s.repeats)), h('span.xs.dim', plural(s.repeats, 'повтор', 'повтори', 'повторів')))),
-        upd.prev && !upd.record ? h('p.xs.dim', { style: { margin: 0 } }, `Рекорд рівня ${lv}: ${nSec(upd.prev)}`) : null,
-        h('div.fl-legend.gm-legend', h('span', h('i.gm-f'), 'заминка'), h('span', h('i.gm-r'), 'повтор'), s.cut >= 0 ? h('span', h('i.gm-g'), 'після третьої') : null)),
-      h('div.card.stack.gm-tip',
-        h('div.row', { style: { gap: '10px' } }, h('span.tile-ico', ic('lightbulb', { size: 20 })), h('div.grow.g-strong', 'Замість «uh» — фраза, що дає час подумати')),
-        h('div.chips', tips.map(g => h('button.chip', { type: 'button', lang: 'en', 'aria-label': `Прослухати: ${g.en.replace(/…/g, '')} — ${g.uk}`, onclick: () => speak(g.en.replace(/…/g, '')) },
-          ic('speaker-high', { size: 16 }), g.en))),
-        h('a.small', { href: '#/fluency' }, 'Більше — у тренажері плавності')),
-      h('div.row.wrap',
-        h('button.btn.primary.grow', { type: 'button', onclick: startRec }, ic('arrow-clockwise', { size: 18 }), 'Ще раз'),
-        h('button.btn.soft', { type: 'button', onclick: () => { ti = (ti + 1 + Math.floor(Math.random() * (topics.length - 1))) % topics.length; intro(); } }, ic('shuffle', { size: 18 }), 'Нова тема')),
-      h('a.btn.ghost.block', { href: '#/games' }, 'Усі ігри'));
+    const out = gameResult({
+      icon: s.full ? 'trophy' : 'timer', record: upd.record,
+      score: [s.approx ? h('span.gm-approx', '≈') : null, String(s.sec)], unit: ' с', sub: head,
+      kpis: [{ value: s.words, label: plural(s.words, 'слово', 'слова', 'слів') }, { value: String(s.per100).replace('.', ','), label: 'заминок на 100 слів', tone: s.per100 > 6 ? 'warn' : '' }, { value: s.repeats, label: plural(s.repeats, 'повтор', 'повтори', 'повторів') }],
+      note: upd.prev && !upd.record ? `Рекорд рівня ${lv}: ${nSec(upd.prev)}` : null,
+      sections: [
+        h('div.fl-legend.gm-legend', h('span', h('i.gm-f'), 'заминка'), h('span', h('i.gm-r'), 'повтор'), s.cut >= 0 ? h('span', h('i.gm-g'), 'після третьої') : null),
+        txGroup('Замість «uh» — фраза, що дає час подумати', [
+          h('div.chips.gm-tip', tips.map(g => h('button.chip', { type: 'button', lang: 'en', 'aria-label': `Прослухати: ${g.en.replace(/…/g, '')} — ${g.uk}`, onclick: () => speak(g.en.replace(/…/g, '')) },
+            ic('speaker-high', { size: 16 }), g.en))),
+          tx({ icon: 'waveform', label: 'Тренажер плавності', sub: 'більше фраз і вправа 4-3-2', href: '#/fluency', wide: true })])],
+      primary: { icon: 'arrow-clockwise', label: 'Ще раз', sub: 'та сама тема', onclick: startRec },
+      more: [{ icon: 'shuffle', label: 'Нова тема', onclick: () => { ti = (ti + 1 + Math.floor(Math.random() * (topics.length - 1))) % topics.length; intro(); } },
+        { icon: 'game-controller', label: 'Усі ігри', href: '#/games' }],
+    });
+    out.classList.add('gm-result');
     stage.after(out);
     live.textContent = `${head}. Слів: ${s.words}. Заминок на 100 слів: ${s.per100}.` + (upd.record ? ' Новий рекорд!' : '');
-    out.querySelector('.btn.primary')?.focus({ preventScroll: true });
+    out.querySelector('.g-again')?.focus({ preventScroll: true });
   }
 
   intro();

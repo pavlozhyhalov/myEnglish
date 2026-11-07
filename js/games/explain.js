@@ -15,8 +15,9 @@ import { canRecord, createMic, recordRound, micErrorKind } from '../fluency.js';
 import { bestUpdate } from './logic.js';
 import {
   wordPool, gameState, saveGameState, beep, buzz, reducedMotion, gameHead, statPill, addWordButton, inMyWords,
-  gameLoginCard, micErrorCard, countdownRing, levelMeter,
+  gameLoginCard, micErrorCard, countdownRing, levelMeter, gameIntro, startTile, gameResult, wordRow,
 } from './common.js';
+import { tx, txGroup, txRows, txPrimary, txGrid } from '../ui/tiles.js';
 
 /** Налаштування гри (об'єкт, щоб тести могли скоротити тривалість) */
 export const EXPLAIN = { words: 5, maxSec: 30, minMs: 1500, revealMs: 420 };
@@ -106,7 +107,7 @@ export default function explain(view) {
   const live = h('div.sr-only', { 'aria-live': 'polite', role: 'status' });
   const body = h('div.stack');
   const fill = (...kids) => body.replaceChildren(...kids.flat().filter(k => k != null && k !== false));
-  view.replaceChildren(h('div.stack.games.gx', gameHead(h('span.tag', lv)), body, live));
+  view.replaceChildren(h('div.stack.games.gx-game', gameHead(h('span.tag', lv)), body, live));
   if (!user()) { fill(gameLoginCard('Ваше пояснення слухає й розпізнає AI — і пробує вгадати слово. Це працює після входу.')); return; }
 
   const timer = activityTimer('game');
@@ -134,17 +135,15 @@ export default function explain(view) {
     setFocus(false);
     clearLater();
     const best = gameState().best?.explain?.[lv] || 0;
-    const start = h('button.btn.primary.lg.block', { type: 'button', onclick: newGame }, ic('play', { size: 20 }), `Почати · ${EXPLAIN.words} слів`);
-    fill(h('div.card.stack.g-intro',
-      h('div.tile-ico.g-big', ic('chat-circle-dots', { size: 32 })),
-      h('p', { style: { margin: 0 } }, 'Поясніть англійською слово зі своїх карток — але не називайте його. AI слухає і має три спроби вгадати.'),
-      h('ul.xs.dim.g-rules',
-        h('li', `До ${EXPLAIN.maxSec} секунд на пояснення`),
-        h('li', 'AI вгадав з першої спроби — 3 очки, з другої — 2, з третьої — 1'),
-        h('li', 'Назвали саме слово — фол, 0 очок')),
-      canRecord() ? null : micErrorCard('unsupported'),
-      best ? h('div.row', ic('trophy', { size: 18 }), h('span', `Рекорд рівня ${lv}: `, h('b.num', `${best}`), ` з ${EXPLAIN.words * POINTS[0]}`)) : null,
-      canRecord() ? start : null));
+    const start = startTile({ label: 'Почати', sub: `${EXPLAIN.words} слів · до ${EXPLAIN.maxSec} с на кожне`, onclick: newGame });
+    fill(gameIntro({
+      icon: 'chat-circle-dots',
+      text: 'Поясніть англійською слово зі своїх карток — але не називайте його. AI слухає і має три спроби вгадати.',
+      rules: [`До ${EXPLAIN.maxSec} секунд на пояснення`, 'AI вгадав з першої спроби — 3 очки, з другої — 2, з третьої — 1', 'Назвали саме слово — фол, 0 очок'],
+      extra: [canRecord() ? null : micErrorCard('unsupported')],
+      best: best ? { label: `Рекорд рівня ${lv}`, value: `${best} з ${EXPLAIN.words * POINTS[0]}` } : null,
+      start: canRecord() ? start : null,
+    }));
     if (canRecord()) start.focus({ preventScroll: true });
   }
 
@@ -155,8 +154,8 @@ export default function explain(view) {
     busy = false;
     if (disposed) return;
     if (!words.length) {
-      fill(h('div.card.stack', h('p', { style: { margin: 0 } }, 'Не вдалося підібрати слова. Перевірте з\'єднання і спробуйте ще раз.'),
-        h('button.btn.primary.block', { type: 'button', onclick: newGame }, ic('arrow-clockwise', { size: 18 }), 'Спробувати ще раз')));
+      fill(tx({ icon: 'warning', label: 'Не вдалося підібрати слова', sub: 'Перевірте з\'єднання і спробуйте ще раз.', wide: true, tone: 'warn' }),
+        txPrimary({ icon: 'arrow-clockwise', label: 'Спробувати ще раз', onclick: newGame }));
       return;
     }
     const recent = gameState().explainRecent || [];
@@ -181,9 +180,8 @@ export default function explain(view) {
       w.uk ? h('div.gx-uk', w.uk) : null,
       compact ? null : h('div.gx-rule', ic('warning', { size: 16 }), 'Не називайте саме слово — це фол'));
   }
-  const framesEl = (tap) => h('div.stack.gx-frames', { style: { gap: '6px' } },
-    h('div.xs.dim', tap ? 'Як почати (торкніться, щоб почути)' : 'Як почати'),
-    h('div.chips', FRAMES.slice(0, 4).map(f => tap
+  const framesEl = (tap) => txGroup(tap ? 'Як почати · торкніться, щоб почути' : 'Як почати',
+    h('div.chips.gx-frames', FRAMES.slice(0, 4).map(f => tap
       ? h('button.chip', { type: 'button', lang: 'en', onclick: () => speak(f.replace(/…/g, '')) }, f)
       : h('span.chip.static', { lang: 'en' }, f))));
 
@@ -191,9 +189,9 @@ export default function explain(view) {
     setFocus(true);
     clearLater();
     const w = words[i];
-    const go = h('button.btn.primary.lg.block', { type: 'button', onclick: startRec }, ic('microphone', { size: 20 }), 'Пояснити');
+    const go = txPrimary({ icon: 'microphone', label: 'Пояснити', sub: `до ${EXPLAIN.maxSec} с, англійською`, onclick: startRec });
     fill(hud(), wordCard(w), note || null, framesEl(true), go,
-      h('button.btn.ghost.block', { type: 'button', onclick: skip }, 'Пропустити слово'));
+      tx({ icon: 'arrow-right', label: 'Пропустити слово', wide: true, onclick: skip, cls: 'g-quiet' }));
     live.textContent = `Слово ${i + 1} з ${words.length}: ${w.en}${w.uk ? ' — ' + w.uk : ''}. Поясніть його, не називаючи.`;
     go.focus({ preventScroll: true });
   }
@@ -219,7 +217,7 @@ export default function explain(view) {
       if (disposed) return;
       setFocus(false);
       fill(hud(), wordCard(words[i], { compact: true }), micErrorCard(micErrorKind(e), startRec),
-        h('button.btn.ghost.block', { type: 'button', onclick: intro }, 'До правил гри'));
+        tx({ icon: 'arrow-left', label: 'До правил гри', wide: true, onclick: intro, cls: 'g-quiet' }));
     });
   }
 
@@ -228,8 +226,8 @@ export default function explain(view) {
     const ring = countdownRing(148, 10);
     const meter = levelMeter();
     ring.set(total, total);
-    const done = h('button.btn.primary.lg.block', { type: 'button', onclick: () => ctrl?.stop() }, ic('check', { size: 20 }), 'Готово');
-    const cancel = h('button.btn.ghost.block', { type: 'button', onclick: () => { ctrl?.cancel(); ctrl = null; showWord(); } }, 'Скасувати');
+    const done = txPrimary({ icon: 'check', label: 'Готово', sub: 'надіслати пояснення AI', onclick: () => ctrl?.stop() });
+    const cancel = tx({ icon: 'x', label: 'Скасувати', wide: true, onclick: () => { ctrl?.cancel(); ctrl = null; showWord(); }, cls: 'g-quiet' });
     fill(hud(), wordCard(words[i], { compact: true }),
       h('div.gx-rec', ring.el, h('div.stack.gx-rec-side', h('div.gx-live', h('span.gx-dot'), 'Запис'), meter.el)),
       framesEl(false), done, cancel);
@@ -268,10 +266,9 @@ export default function explain(view) {
       if (disposed || e?.name === 'AbortError') return;
       setFocus(false);
       fill(hud(), wordCard(w, { compact: true }),
-        h('div.card.stack.g-err', { role: 'alert' }, h('div.g-strong', 'Не вдалося отримати відповідь'), h('div.small.dim', aiErrorText(e) || 'Спробуйте ще раз.')),
-        h('button.btn.primary.block', { type: 'button', onclick: () => judge(rec) }, ic('arrow-clockwise', { size: 18 }), 'Надіслати ще раз'),
-        h('button.btn.ghost.block', { type: 'button', onclick: () => showWord() }, ic('microphone', { size: 18 }), 'Записати знову'),
-        h('button.btn.ghost.block', { type: 'button', onclick: skip }, 'Пропустити слово'));
+        tx({ icon: 'warning', label: 'Не вдалося отримати відповідь', sub: aiErrorText(e) || 'Спробуйте ще раз.', wide: true, tone: 'bad', attrs: { role: 'alert' } }),
+        txPrimary({ icon: 'arrow-clockwise', label: 'Надіслати ще раз', onclick: () => judge(rec) }),
+        txGrid([tx({ icon: 'microphone', label: 'Записати знову', onclick: () => showWord() }), tx({ icon: 'arrow-right', label: 'Пропустити слово', onclick: skip })], 2));
       return;
     } finally { if (ac === my) ac = null; }
     if (disposed) return;
@@ -298,14 +295,12 @@ export default function explain(view) {
     const list = h('ol.gx-guesses', { 'aria-label': 'Здогадки AI' }, guessEls);
     const verdict = h('div.gx-verdict.' + v.cls, { role: 'status' }, ic(v.icon, { size: 28, fill: true }),
       h('div.grow', h('div.gx-vt', v.title), h('div.xs', v.sub)));
-    const heard = h('div.stack.gx-heard', { style: { gap: '6px' } }, h('div.xs.dim', 'AI почув'), transcriptEl(r.transcript, r.kind === 'foul' ? w.en : null));
-    const answer = h('div.row.gx-answer',
-      h('button.icon-btn', { type: 'button', 'aria-label': `Прослухати ${w.en}`, onclick: () => speak(w.en) }, ic('speaker-high', { size: 20 })),
-      h('div.grow', h('b', { lang: 'en' }, w.en), w.uk ? h('span.dim', ' — ', w.uk) : null));
+    const heard = txGroup('AI почув', transcriptEl(r.transcript, r.kind === 'foul' ? w.en : null));
+    const answer = wordRow({ en: w.en, uk: w.uk, cls: 'gx-answer' });
     const last = i >= words.length - 1;
-    const nextBtn = h('button.btn.primary.lg.block', { type: 'button', onclick: next }, last ? 'Підсумок' : 'Наступне слово', ic(last ? 'flag' : 'arrow-right', { size: 20 }));
+    const nextBtn = txPrimary({ icon: last ? 'flag' : 'arrow-right', label: last ? 'Підсумок' : 'Наступне слово', sub: last ? 'очки й слова гри' : `слово ${i + 2} з ${words.length}`, onclick: next });
     const after = h('div.stack.gx-after', heard, answer, nextBtn);
-    const sec = h('div.stack', h('div.xs.dim', 'Здогадки AI'), list);
+    const sec = txGroup('Здогадки AI', list);
     fill(hud(), sec, verdict, after);
     setFocus(false);
     const finish = () => {
@@ -349,26 +344,21 @@ export default function explain(view) {
     const max = words.length * POINTS[0];
     const ICON = { hit: 'check-circle', miss: 'x-circle', foul: 'warning', skip: 'arrow-right' };
     const LABEL = { hit: 'вгадано', miss: 'не вгадано', foul: 'фол', skip: 'пропущено' };
-    fill(h('div.card.stack.g-end',
-      h('div.center.stack', { style: { gap: '4px' } },
-        upd.record ? h('span.tag.good.g-record', ic('trophy', { size: 16 }), 'Новий рекорд!') : null,
-        h('div.g-score.num', String(score), h('span.gx-max', ` / ${max}`)),
-        h('div.xs.dim', score >= max * 0.8 ? 'Блискуче пояснення!' : score >= max / 2 ? 'Добра гра!' : 'Пояснювати — найкраще тренування говоріння')),
-      h('div.grid3',
-        h('div.stat', h('span.big-num', `${hits.length}/${words.length}`), h('span.xs.dim', 'Вгадано')),
-        h('div.stat', h('span.big-num', String(first)), h('span.xs.dim', 'З першої спроби')),
-        h('div.stat', h('span.big-num', String(fouls)), h('span.xs.dim', plural(fouls, 'Фол', 'Фоли', 'Фолів')))),
-      upd.prev && !upd.record ? h('p.xs.dim', { style: { margin: 0 } }, `Рекорд рівня ${lv}: ${upd.prev}`) : null,
-      h('div.section-title', { style: { margin: 0 } }, 'Слова гри'),
-      h('div.list', results.map((r) => h('div.list-row.g-missed.gx-res.' + r.kind,
-        h('button.icon-btn', { type: 'button', 'aria-label': `Прослухати ${r.w.en}`, onclick: () => speak(r.w.en) }, ic('speaker-high', { size: 20 })),
-        h('div.grow', h('div.en', { lang: 'en', style: { fontWeight: 600 } }, r.w.en), r.w.uk ? h('div.xs.dim', r.w.uk) : null),
-        r.w.own || inMyWords(r.w.en) ? null : addWordButton(r.w),
-        h('span.gx-pts', { 'aria-label': `${LABEL[r.kind]}, ${r.pts} ${plural(r.pts, 'очко', 'очки', 'очок')}` }, ic(ICON[r.kind], { size: 18 }), r.kind === 'hit' ? `+${r.pts}` : '0')))),
-      h('div.row.wrap', h('button.btn.primary.grow', { type: 'button', onclick: newGame }, ic('arrow-clockwise', { size: 18 }), 'Ще гра'),
-        h('a.btn.ghost', { href: '#/games' }, 'Усі ігри'))));
+    fill(gameResult({
+      icon: 'chat-circle-dots', record: upd.record, score: String(score), unit: ` / ${max}`,
+      sub: score >= max * 0.8 ? 'Блискуче пояснення!' : score >= max / 2 ? 'Добра гра!' : 'Пояснювати — найкраще тренування говоріння',
+      kpis: [{ value: `${hits.length}/${words.length}`, label: 'вгадано', tone: 'good' }, { value: first, label: 'з першої спроби' }, { value: fouls, label: plural(fouls, 'фол', 'фоли', 'фолів'), tone: fouls ? 'warn' : '' }],
+      note: upd.prev && !upd.record ? `Рекорд рівня ${lv}: ${upd.prev}` : null,
+      sections: [txGroup('Слова гри', txRows(results.map((r) => wordRow({
+        en: r.w.en, uk: r.w.uk, cls: 'gx-res.' + r.kind,
+        end: [r.w.own || inMyWords(r.w.en) ? null : addWordButton(r.w, { compact: true }),
+          h('span.tx-pill.gx-pts' + (r.kind === 'hit' ? '.good' : r.kind === 'foul' ? '.warn' : ''), { 'aria-label': `${LABEL[r.kind]}, ${r.pts} ${plural(r.pts, 'очко', 'очки', 'очок')}` }, ic(ICON[r.kind], { size: 14 }), r.kind === 'hit' ? `+${r.pts}` : '0')],
+      }))))],
+      primary: { icon: 'arrow-clockwise', label: 'Ще гра', sub: `${EXPLAIN.words} нових слів`, onclick: newGame },
+      more: [{ icon: 'game-controller', label: 'Усі ігри', href: '#/games' }],
+    }));
     live.textContent = `Гру завершено. Очки: ${score} з ${max}.` + (upd.record ? ' Новий рекорд!' : '');
-    body.querySelector('.btn.primary')?.focus({ preventScroll: true });
+    body.querySelector('.g-again')?.focus({ preventScroll: true });
   }
 
   intro();
