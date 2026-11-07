@@ -8,7 +8,7 @@ import * as store from '../store.js';
 import { toast } from '../ui/toast.js';
 import { go } from '../router.js';
 import { setTitle } from '../ui/shell.js';
-import { txGroup, txRow, txRows, txPrimary } from '../ui/tiles.js';
+import { txGroup, txRow, txRows, txPrimary, txResult } from '../ui/tiles.js';
 
 const MIN_LEN = 8;
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
@@ -111,11 +111,11 @@ function busyBtn(label, cls = 'btn.primary.block.lg') {
 }
 const feedback = (box, kind, text) => box.replaceChildren(text ? h(`div.feedback.${kind}`, { role: kind === 'no' ? 'alert' : 'status' }, text) : '');
 
-/** Шапка екрана — широка плитка з іконкою в квадратику (як у меню). title/sub — рядок або готовий вузол */
-function headTile(icon, title, sub, tone = '') {
-  const t = typeof title === 'string' ? h('h1.tx-l', title) : title;
-  const s = sub == null ? null : typeof sub === 'string' ? h('p.tx-s', sub) : sub;
-  return h('div.tx.wide.auth-head' + (tone ? '.' + tone : ''), h('span.tx-sq', ic(icon, { size: 22 })), h('div.tx-body', t, s));
+/** Шапка екрана — спільна txResult: підпис, заголовок (h1 сторінки, не повторює назву в шапці застосунку), пояснення.
+ * title — рядок або готовий вузол h1.auth-h1, sub — рядок або вузол */
+function headTile(icon, label, title, sub, tone = '') {
+  const t = typeof title === 'string' ? h('h1.auth-h1', title) : title;
+  return h('div.auth-head', txResult({ icon, tone: tone || 'accent', label, title: t, sub }));
 }
 
 async function afterLogin(text) {
@@ -162,16 +162,16 @@ function loginView(view, initial) {
 
   const tabBtn = (id, label) => h('button', { type: 'button', role: 'tab', id: `tab-${id}`, 'aria-controls': 'auth-form', onclick: () => setTab(id) }, label);
   const tabs = h('div.seg.auth-tabs', { role: 'tablist', 'aria-label': 'Вхід або реєстрація' }, tabBtn('in', 'Увійти'), tabBtn('up', 'Зареєструватися'));
-  const heading = h('h1.tx-l');
-  const lead = h('p.tx-s');
+  const heading = h('h1.auth-h1');
+  const lead = h('span');
 
   function setTab(t) {
     tab = t;
     tabs.querySelectorAll('[role=tab]').forEach(b => { const on = b.id === `tab-${t}`; b.setAttribute('aria-selected', String(on)); b.setAttribute('aria-pressed', String(on)); b.tabIndex = on ? 0 : -1; });
     form.setAttribute('aria-labelledby', `tab-${t}`);
     const up = t === 'up';
-    heading.textContent = up ? 'Створити акаунт' : 'Вхід у myEnglish';
-    lead.textContent = up ? 'Безкоштовно. Акаунт потрібен для AI-вчителя й синхронізації між пристроями.' : 'Раді бачити знову! Ваші слова, помилки й розмови — на всіх пристроях.';
+    heading.textContent = up ? 'Новий акаунт — безкоштовно' : 'Раді бачити знову';
+    lead.textContent = up ? 'Акаунт потрібен для AI-вчителя й синхронізації між пристроями.' : 'Ваші слова, помилки й розмови — на всіх пристроях.';
     pass.input.autocomplete = up ? 'new-password' : 'current-password';
     pass.input.minLength = up ? MIN_LEN : 1;
     pass2.field.hidden = !up; pass2.input.required = up;
@@ -227,7 +227,7 @@ function loginView(view, initial) {
   terms, btn.el, msg);
 
   view.replaceChildren(h('div.stack-lg.auth',
-    headTile('key', heading, lead),
+    headTile('key', 'myEnglish', heading, lead),
     h('section.card.stack.auth-card', tabs, form),
     txRow({ icon: 'cards', cls: 'auth-note', label: 'Можна й без акаунта', sub: 'Картки, уроки й ігри працюють і без нього — дані зберігаються на цьому пристрої. Після входу вони об\'єднаються з хмарою.' })));
   setTab(tab);
@@ -260,7 +260,7 @@ function forgotView(view, presetEmail) {
     }, 'Надсилаємо…').then(() => { if (left > 0 && !timer) { tickBtn(); timer = setInterval(tickBtn, 1000); } });
   } }, em.field, btn.el, msg);
   view.replaceChildren(h('div.stack-lg.auth',
-    headTile('envelope-simple', 'Забули пароль?', 'Вкажіть email акаунта — надішлемо посилання. Перейдіть за ним на цьому пристрої й задайте новий пароль.'),
+    headTile('envelope-simple', 'Забули пароль?', 'Надішлемо лист із посиланням', 'Вкажіть email акаунта. Перейдіть за посиланням на цьому пристрої й задайте новий пароль.'),
     h('section.card.stack.auth-card', form),
     txRows([txRow({ icon: 'key', label: 'Згадали пароль? Увійти', href: '#/auth' })])));
   em.input.focus({ preventScroll: true });
@@ -305,7 +305,7 @@ function resetView(view) {
   if (!u) {
     // посилання ще обробляється або застаріло
     view.replaceChildren(h('div.stack-lg.auth',
-      headTile('warning', 'Посилання недійсне',
+      headTile('warning', 'Відновлення пароля', 'Посилання недійсне',
         recoveryPending() ? 'Не вдалося підтвердити посилання. Можливо, воно застаріло або вже використане.' : 'Відкрийте посилання з листа на цьому пристрої або надішліть новий лист.', 'warn'),
       txPrimary({ icon: 'envelope-simple', label: 'Надіслати лист ще раз', sub: 'Посилання діє 1 годину', href: '#/auth/forgot' }),
       txRows([txRow({ icon: 'key', label: 'До входу', href: '#/auth' })])));
@@ -313,7 +313,7 @@ function resetView(view) {
   }
   const f = newPasswordForm({ onDone: () => afterLogin('Пароль змінено. Ви увійшли.') });
   view.replaceChildren(h('div.stack-lg.auth',
-    headTile('key', 'Задайте новий пароль', u.email),
+    headTile('key', 'Акаунт', u.email, `Щонайменше ${MIN_LEN} символів — двічі однаково`),
     h('section.card.stack.auth-card', f.form)));
   f.focus();
 }
@@ -333,7 +333,7 @@ function accountView(view, u) {
     f.focus();
   } });
   view.replaceChildren(h('div.stack-lg.auth',
-    headTile('check-circle', 'Ви увійшли', u.email, 'good'),
+    headTile('check-circle', 'Ви увійшли', u.email, null, 'good'),
     txGroup('Синхронізація', txRows([txRow({ icon: 'arrow-clockwise', label: pending ? 'Є несинхронізовані зміни' : 'Усі зміни синхронізовано',
       sub: pending ? 'Надішлемо, щойно буде зв\'язок із сервером' : 'Дані однакові на всіх ваших пристроях',
       pill: pending ? { text: `${pending}`, tone: 'warn' } : { text: 'OK', tone: 'good' } })])),

@@ -1,12 +1,7 @@
 /* Плитковий стиль: вхід, акаунт, шторки, службові сторінки — див. css/tiles.css */
 
 /* ---------- Вхід, відновлення пароля, акаунт (js/pages/auth.js) ---------- */
-.auth-head{cursor:default;padding:14px}
-.auth-head:active{transform:none}
-.auth-head h1.tx-l{margin:0;font-family:var(--font-head);font-size:var(--fs-md);font-weight:700;line-height:1.25}
-.auth-head p.tx-s{margin:0;font-size:var(--fs-sm);line-height:1.4}
-.auth-head .tx-sq{width:44px;height:44px;border-radius:13px;align-self:flex-start}
-.auth-head:not(.good):not(.warn) .tx-sq{color:var(--accent-ink)}
+.auth-h1{margin:0;font:inherit;overflow-wrap:anywhere}
 .auth-card{padding:14px;gap:12px}
 .auth-card .seg{background:var(--tile-sq)}
 .auth-card .input{border-radius:12px}
@@ -51,6 +46,7 @@
 .fr-head .tx-sq,.fr-code .tx-sq{color:var(--accent-ink)}
 .fr-code .friend-code{font-size:1.45rem!important;line-height:1.2}
 .auth-row:has(.auth-forgot[hidden]){display:none}
+.auth-forgot{color:var(--accent-ink);text-decoration:none;font-weight:600}
 .fr-msg{font-size:var(--fs-sm);line-height:1.4}
 
 /* ---------- Адміністрування й лабораторія (js/pages/admin.js, lab.js) ---------- */
