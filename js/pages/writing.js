@@ -39,7 +39,7 @@ export default async function writing(view, r) {
 }
 
 function taskView(view, t) {
-  setTitle(t.title);
+  setTitle('Письмо');   // назва завдання — один раз, у шапці сторінки нижче
   const timer = activityTimer('writing');
   let saved = '';
   try { saved = localStorage.getItem(DRAFT_KEY(t.id)) || ''; } catch { /* */ }
@@ -60,20 +60,23 @@ function taskView(view, t) {
     ta.focus(); ta.setSelectionRange(pos, pos);
     upd(); toast('Вставлено');
   };
-  view.replaceChildren(h('div.stack-lg',
-    h('div.row', h('a.icon-btn', { href: '#/writing', 'aria-label': 'Назад' }, ic('arrow-left')), h('div.grow', h('div.xs.dim', t.kindLabel), h('h1', { style: { margin: 0 } }, t.title))),
-    h('section.card.accent.stack', h('div.section-title', 'Завдання'), h('div', t.task), t.context ? h('div.small.dim', t.context) : null),
-    h('section.stack', { style: { gap: '8px' } }, h('div.section-title', 'Шаблони фраз — торкніться, щоб вставити'),
-      t.phrases.map(g => h('details.card', { open: g === t.phrases[0] ? true : null },
-        h('summary.small', g.group),
-        h('div.chips', { style: { marginTop: '10px' } }, g.items.map(p => h('button.chip', { type: 'button', style: { whiteSpace: 'normal', textAlign: 'left', background: 'var(--surface-2)' }, onclick: () => insert(p) }, p)))))),
-    h('section.stack', { style: { gap: '6px' } }, ta, wc),
-    h('button.btn.primary.lg.block', { type: 'button', onclick: () => {
+  view.replaceChildren(h('div.stack-lg.wr',
+    h('div.gx-lhead', h('a.icon-btn', { href: '#/writing', 'aria-label': 'До завдань' }, ic('arrow-left')),
+      h('div.grow', h('div.tx-label.gx-eyebrow', `${t.level ? t.level + ' · ' : ''}${t.kindLabel}`), h('h2.gx-lh1', t.title))),
+    txGroup('Завдання', h('section.card.accent.stack.wr-task', h('div', t.task), t.context ? h('div.small.dim', t.context) : null)),
+    txGroup('Шаблони фраз · торкніться, щоб вставити', h('div.stack.wr-phr',
+      t.phrases.map(g => h('details.wr-gl', { open: g === t.phrases[0] ? true : null },
+        h('summary.wr-gl-head', h('span.tx-sq', ic('quotes', { size: 18 })), h('span.tx-body', h('span.tx-l', g.group), h('span.tx-s', `${g.items.length} ${plural(g.items.length, 'фраза', 'фрази', 'фраз')}`)), ic('caret-down', { size: 18 })),
+        h('div.chips.wr-chips', g.items.map(p => h('button.chip.wr-chip', { type: 'button', lang: 'en', onclick: () => insert(p) }, p))))))),
+    txGroup('Ваш текст', [ta, h('div.wr-wc', wc)]),
+    txPrimary({ icon: 'sparkle', label: 'Перевірити у вчителя', sub: 'Виправлення, пояснення і природніша версія', onclick: () => {
       if (ta.value.trim().length < 20) { toast('Напишіть хоча б кілька речень'); return; }
       try { sessionStorage.setItem('me:draft', ta.value); } catch { /* */ }
       timer.stop();
       go(`/tutor?mode=check&kind=${t.kind}&task=${encodeURIComponent(t.task)}`);
-    } }, ic('sparkle', { fill: true }), 'Перевірити у вчителя'),
-    t.sample ? h('details.card', h('summary.small.dim', 'Зразок відповіді'), h('div.small', { style: { whiteSpace: 'pre-wrap', marginTop: '8px' } }, t.sample)) : null));
+    } }),
+    t.sample ? h('details.wr-gl.wr-sample',
+      h('summary.wr-gl-head', h('span.tx-sq', ic('eye', { size: 18 })), h('span.tx-body', h('span.tx-l', 'Зразок відповіді'), h('span.tx-s', 'Подивіться після власної спроби')), ic('caret-down', { size: 18 })),
+      h('div.gx-card.small.wr-sample-t', { lang: 'en' }, t.sample)) : null));
   return () => timer.stop();
 }

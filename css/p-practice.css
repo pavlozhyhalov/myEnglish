@@ -76,3 +76,19 @@ html.kbd .rd-gloss-head:focus-visible{outline:2px solid var(--accent-ink);outlin
 .ls-why{padding:0 4px}
 .ls-q .opt.ex-opt:not(.right):not(.wrong){background:var(--tile-sq);border-color:transparent}
 .ls-q .opt.ex-opt:not(.right):not(.wrong) .ex-key{background:var(--tile)}
+/* письмо: сторінка завдання — групи фраз і зразок як розкривні плитки (та сама будова, що й .rd-gloss) */
+.wr-phr{gap:8px}
+.wr-gl{border-radius:16px;background:var(--tile);border:1px solid var(--tile-edge);min-width:0}
+.wr-gl-head{list-style:none;display:flex;align-items:center;gap:12px;min-height:58px;padding:10px 12px;border-radius:16px;cursor:pointer;color:var(--ink);-webkit-tap-highlight-color:transparent}
+.wr-gl-head::-webkit-details-marker{display:none}
+html.kbd .wr-gl-head:focus-visible{outline:2px solid var(--accent-ink);outline-offset:2px}
+.wr-gl-head .tx-body{flex:1}
+.wr-gl-head > .ico:last-child{flex:none;color:var(--ink-dim);transition:transform .18s ease}
+.wr-gl[open] > .wr-gl-head > .ico:last-child{transform:rotate(180deg)}
+.wr-chips{padding:0 12px 12px}
+.chip.wr-chip{white-space:normal;text-align:left;max-width:100%;background:var(--tile-sq);border-color:transparent;overflow-wrap:anywhere}
+.wr-task{line-height:1.5}
+.wr .input{border-radius:14px}
+.wr-wc{padding:0 4px}
+.wr-sample-t{margin:0 12px 12px;background:var(--tile-sq);border-color:transparent;white-space:pre-wrap;line-height:1.55}
+@media (prefers-reduced-motion:reduce){.wr-gl-head > .ico:last-child{transition:none}}
