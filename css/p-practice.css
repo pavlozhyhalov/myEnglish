@@ -74,3 +74,5 @@ html.kbd .rd-gloss-head:focus-visible{outline:2px solid var(--accent-ink);outlin
 .ls-qt .tx-no{width:28px;height:28px;border-radius:9px}
 .ls-qt b{padding-top:4px;min-width:0}
 .ls-why{padding:0 4px}
+.ls-q .opt.ex-opt:not(.right):not(.wrong){background:var(--tile-sq);border-color:transparent}
+.ls-q .opt.ex-opt:not(.right):not(.wrong) .ex-key{background:var(--tile)}
