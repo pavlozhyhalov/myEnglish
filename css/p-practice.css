@@ -119,3 +119,7 @@ html.kbd button.tx-sq.dy-spk:focus-visible{outline:2px solid var(--accent-ink);o
 .tu-scd-phrase .tx-sq{background:var(--accent-soft);color:var(--accent-ink)}
 button.tu-scd-save{margin-top:2px}
 button.tu-scd-save:disabled{opacity:.7;cursor:default}
+/* «Показати всі · N» під обрізаним списком (≤ 6 рядків) — тихий рядок-плитка */
+.tx-row.tx-showall{min-height:48px;padding-top:6px;padding-bottom:6px}
+.tx-row.tx-showall .tx-sq{background:none}
+.tx-row.tx-showall .tx-l{color:var(--accent-ink);font-size:var(--fs-sm);font-weight:600}

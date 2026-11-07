@@ -19,24 +19,37 @@ export default async function scenarios(view, r) {
   if (s) return detail(view, s);
   const played = new Set(store.all('tutor_chats').map(c => c.scenario).filter(Boolean));
   const groups = [['life', 'Повсякдення'], ['travel', 'Подорожі'], ['work', 'Робота']];
-  const body = h('div.stack-lg');
-  // сценарії вибраного рівня (за замовчуванням — мого): зміна рівня змінює набір завдань
-  const draw = () => {
-    const { items, fallback } = filterByLevel(list, levelPick('scenarios'));
-    body.replaceChildren(fallbackNote(fallback), ...groups.map(([g, name]) => {
-      const rows = byFit(items.filter(x => x.group === g));
-      if (!rows.length) return null;
-      return txGroup(name, txRows(rows.map(x => sqEmo(txRow({ icon: 'users-three', label: x.title, sub: x.short, href: `#/scenarios/${x.id}`,
-        pill: played.has(x.id) ? { text: 'пройдено', tone: 'good' } : null, end: levelTag(x.level) }), x.emoji || 'theater'))));
-    }).filter(Boolean));
-  };
   // сценарій дня — той самий, що в «Завданнях рівня» на головній
   const day = pickOfDay(filterByLevel(list.filter(x => x.group !== 'work'), 'mine').items, 'scen');
+  const body = h('div.stack-lg');
+  let open = false;
+  const row = (x, tag) => sqEmo(txRow({ icon: 'users-three', label: x.title, sub: x.short, href: `#/scenarios/${x.id}`,
+    pill: played.has(x.id) ? { text: 'пройдено', tone: 'good' } : null, end: tag ? levelTag(x.level) : null }), x.emoji || 'theater');
+  // сценарії вибраного рівня (за замовчуванням — мого): спершу 6 побутових, решта й «Робота» — за «Показати всі»
+  const draw = () => {
+    const sel = levelPick('scenarios');
+    const { items, fallback } = filterByLevel(list, sel);
+    const tag = sel === 'all' || !!fallback;
+    const sorted = groups.flatMap(([g]) => byFit(items.filter(x => x.group === g)));
+    const first = sorted.filter(x => x.group !== 'work' && x !== day).slice(0, SHOW);
+    if (!open && sorted.length > first.length) {
+      body.replaceChildren(fallbackNote(fallback), txRows([...first.map(x => row(x, tag)),
+        txRow({ icon: 'caret-down', label: `Показати всі · ${sorted.length}`, chevron: false, cls: 'tx-showall', onclick: () => { open = true; draw(); } })]));
+      return;
+    }
+    body.replaceChildren(fallbackNote(fallback), ...groups.map(([g, name]) => {
+      const rows = sorted.filter(x => x.group === g);
+      return rows.length ? txGroup(name, txRows(rows.map(x => row(x, tag)))) : null;
+    }).filter(Boolean));
+  };
   view.replaceChildren(h('div.stack-lg',
     day ? sqEmo(txPrimary({ icon: 'users-three', label: day.title, sub: `Сценарій дня · ${day.short || `рівень ${day.level}`}`, href: `#/scenarios/${day.id}` }), day.emoji || 'theater') : null,
-    txGroup(`Рольові ігри із вчителем · ваш рівень ${myLevel()}`, levelChips('scenarios', levelCounts(list), draw)), body));
+    txGroup('Рольові ігри', [levelChips('scenarios', levelCounts(list), () => { open = false; draw(); }), body])));
   draw();
 }
+
+/** Скільки рядків видно до «Показати всі» */
+const SHOW = 6;
 
 function detail(view, s) {
   setTitle(s.title);
