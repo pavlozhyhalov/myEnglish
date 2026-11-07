@@ -15,7 +15,7 @@ import { toast } from '../ui/toast.js';
 import { setTitle } from '../ui/shell.js';
 import { go } from '../router.js';
 import { myLevel, pickOfDay } from '../level.js';
-import { txGroup, txRow, txRows } from '../ui/tiles.js';
+import { tx, txPrimary, txGroup, txRow, txRows, txKpis, txPill } from '../ui/tiles.js';
 
 const DRAFT_KEY = 'me:diary:draft';
 /** Орієнтовна довжина запису (слів) — так само в _shared/prompts.ts (DIARY_WORDS) */
@@ -255,24 +255,26 @@ function entryView(view, id) {
     view.replaceChildren(h('div.empty', emo('magnifier', 'xl'), h('p', 'Запис не знайдено'), h('a.btn.soft', { href: '#/diary' }, 'До щоденника')));
     return;
   }
-  setTitle(row.title || S.nav.diary);
+  setTitle(S.nav.diary);   // дата запису — один раз, у шапці сторінки нижче
   const timer = activityTimer('diary');
   timer.setRef(row.id);
   let abort = null;
   const draw = () => {
     const s = row.summary || {};
     const text = s.entry || row.messages?.[0]?.text || '';
+    const nMis = (s.mistakes || []).length;
     const blocks = [
-      h('div.row', h('a.icon-btn', { href: '#/diary', 'aria-label': 'Назад' }, ic('arrow-left')),
-        h('div.grow', h('div.xs.dim', fmtDate(row.created_at, { weekday: 'long', day: 'numeric', month: 'long' })), h('h1', { style: { margin: 0 } }, S.nav.diary)),
+      h('div.gx-lhead', h('a.icon-btn', { href: '#/diary', 'aria-label': 'До щоденника' }, ic('arrow-left')),
+        h('div.grow', h('div.tx-label.gx-eyebrow', s.checked ? 'Запис із розбором' : 'Запис щоденника'), h('h2.gx-lh1', fmtDate(row.created_at, { weekday: 'long', day: 'numeric', month: 'long' }))),
         h('button.icon-btn', { type: 'button', 'aria-label': 'Видалити запис', onclick: async () => { if (await removeEntry(row.id)) go('/diary', { replace: true }); } }, ic('trash'))),
-      s.question ? h('section.card.accent.stack', { style: { gap: '4px' } }, h('div.xs.dim', 'Питання дня'), h('div', { lang: 'en', style: { fontWeight: 600 } }, s.question)) : '',
+      s.question ? txGroup('Питання дня', h('section.card.accent.dy-q', h('div', { lang: 'en', style: { fontWeight: 600 } }, s.question))) : '',
     ];
     if (!s.checked) {
-      const btn = h('button.btn.primary.block', { type: 'button', onclick: check }, ic('sparkle', { fill: true }), 'Перевірити у вчителя');
+      const btn = txPrimary({ icon: 'sparkle', label: 'Перевірити у вчителя', sub: 'Виправлення, природніша версія і корисні слова', onclick: check });
+      const setBtn = (busy) => { btn.disabled = busy; btn.querySelector('.tx-sq').replaceChildren(ic(busy ? 'hourglass' : 'sparkle', { size: 20, fill: true })); btn.querySelector('.tx-l').textContent = busy ? 'Вчитель перевіряє…' : 'Перевірити у вчителя'; };
       async function check() {
         if (!user()) { toast(S.err.needLogin); return; }
-        btn.disabled = true; btn.replaceChildren(ic('hourglass'), 'Вчитель перевіряє…');
+        setBtn(true);
         abort = new AbortController();
         try {
           const res = await tutor('diary', { text, question: s.question || '' }, { signal: abort.signal });
@@ -282,28 +284,37 @@ function entryView(view, id) {
           if (view.isConnected) draw();
         } catch (e) {
           const msg = aiErrorText(e); if (msg) toast(msg, { kind: 'bad' });
-          btn.disabled = false; btn.replaceChildren(ic('sparkle', { fill: true }), 'Перевірити у вчителя');
+          setBtn(false);
         }
       }
-      blocks.push(h('section.card.stack', h('div.section-title', 'Ваш запис'), h('div', { lang: 'en', style: { whiteSpace: 'pre-wrap' } }, text)), btn);
+      blocks.push(txGroup(`Ваш запис · ${wordCount(text)} ${plural(wordCount(text), 'слово', 'слова', 'слів')}`, h('section.gx-card.dy-text', { lang: 'en' }, text)), btn);
       view.replaceChildren(h('div.stack-lg', blocks));
       return;
     }
-    if (s.feedback_uk) blocks.push(h('section.card.stack', h('div.row', emo('teacher'), h('div.section-title.grow', 'Відгук вчителя')), md(s.feedback_uk)));
-    blocks.push(correctionCard(text, s.corrected || text, (s.mistakes || []).length));
-    if (s.natural) blocks.push(h('section.card.stack',
-      h('div.row', h('div.section-title.grow', 'Як написав би носій мови'), h('button.icon-btn.soft', { type: 'button', 'aria-label': 'Прослухати', onclick: () => speak(s.natural) }, ic('speaker-high', { size: 20 }))),
-      h('div', { lang: 'en', style: { whiteSpace: 'pre-wrap' } }, s.natural)));
-    if ((s.mistakes || []).length) blocks.push(h('section.stack', { style: { gap: '8px' } },
-      h('div.row', h('div.section-title.grow', `Помилки · ${s.mistakes.length}`), h('a.btn.sm.ghost', { href: '#/mistakes' }, 'Мої помилки')),
-      h('div.list', s.mistakes.map(m => h('div.list-row', { style: { alignItems: 'flex-start' } },
-        h('div.grow.stack', { style: { gap: '2px' } },
-          h('div', { lang: 'en' }, h('s.bad', m.wrong), ' → ', h('b.good', m.right)),
-          m.explanation_uk ? h('div.xs.dim', m.explanation_uk) : null,
-          h('div.xs.dim', S.mistakeTypes[m.type] || m.type))))),
-      h('div.xs.dim', 'Помилки додано в «Мої помилки» — їх можна потренувати там.')));
-    if ((s.words || []).length) blocks.push(wordsCard(s.words));
-    blocks.push(h('a.btn.soft.block', { href: '#/diary' }, ic('notebook'), 'До щоденника'));
+    const nW = (s.words || []).length;
+    blocks.push(h('section.tx-group',
+      h('div.gx-res', h('span.gx-res-ic.' + (nMis ? 'warn' : 'good'), ic(nMis ? 'pencil-line' : 'check-circle', { size: 26, fill: true })),
+        h('div.grow', h('div.tx-label', 'Розбір'), h('div.gx-res-t', nMis ? `${nMis} ${plural(nMis, 'виправлення', 'виправлення', 'виправлень')} — розбір нижче` : 'Без помилок — чудово!'))),
+      txKpis([
+        { value: wordCount(text), label: plural(wordCount(text), 'слово', 'слова', 'слів') },
+        { value: nMis, label: plural(nMis, 'помилка', 'помилки', 'помилок'), tone: nMis ? 'warn' : 'good' },
+        { value: fmtMin(row.seconds || 0), label: 'на запис' },
+      ])));
+    if (s.feedback_uk) blocks.push(txGroup('Відгук вчителя', h('section.gx-card.dy-fb', md(s.feedback_uk))));
+    blocks.push(correctionCard(text, s.corrected || text, nMis));
+    if (s.natural) blocks.push(txGroup('Як написав би носій мови', h('section.gx-card.dy-nat',
+      h('div.grow', { lang: 'en', style: { whiteSpace: 'pre-wrap' } }, s.natural),
+      h('button.icon-btn.soft', { type: 'button', 'aria-label': 'Прослухати', onclick: () => speak(s.natural) }, ic('speaker-high', { size: 20 })))));
+    if (nMis) blocks.push(txGroup(`Помилки · ${nMis}`, [
+      txRows(s.mistakes.map(m => h('div.tx-row.dy-mis',
+        h('span.tx-sq', ic('warning-circle', { size: 18 })),
+        h('span.tx-body',
+          h('span.tx-l', { lang: 'en' }, h('s.bad', m.wrong), ' → ', h('b.good', m.right)),
+          m.explanation_uk ? h('span.tx-s', m.explanation_uk) : null,
+          h('span.tx-s', S.mistakeTypes[m.type] || m.type))))),
+      tx({ icon: 'target', wide: true, label: 'Мої помилки', sub: 'Помилки вже там — їх можна потренувати', href: '#/mistakes' })], null));
+    if (nW) blocks.push(wordsCard(s.words));
+    blocks.push(txPrimary({ icon: 'notebook', label: 'До щоденника', sub: 'Новий запис і всі попередні', href: '#/diary' }));
     view.replaceChildren(h('div.stack-lg', blocks));
   };
   draw();
@@ -323,10 +334,9 @@ function correctionCard(orig, fixed, n) {
     box.replaceChildren(...diffNodes(orig, fixed));
   };
   drawSeg(); drawBox();
-  return h('section.card.stack',
-    h('div.row', h('div.section-title.grow', n ? 'Виправлений текст' : 'Ваш текст'), n ? null : h('span.tag.good', 'без помилок')),
-    seg, box,
-    h('div.xs.dim', 'Закреслено — як було, виділено — як правильно.'));
+  return txGroup(n ? 'Виправлений текст' : 'Ваш текст', [
+    seg,
+    h('section.gx-card.stack', box, h('div.xs.dim', n ? 'Закреслено — як було, виділено — як правильно.' : 'Помилок не знайдено.'))]);
 }
 
 /** Різниця по словах (LCS). Повертає [{t, op: '=', '-', '+'}]. Для дуже довгих текстів — лише заміна цілком. */
@@ -370,17 +380,17 @@ function diffNodes(a, b) {
 /** Корисні слова → «Мої слова» (srs.addCard, як у розборі розмови) */
 function wordsCard(words) {
   const has = (en) => store.all('cards').some(c => c.en.trim().toLowerCase() === en.trim().toLowerCase());
-  const box = h('section.stack', { style: { gap: '8px' } });
+  const box = h('section.tx-group');
   const draw = () => {
     const left = words.filter(w => !has(w.en));
     box.replaceChildren(
-      h('div.row', h('div.section-title.grow', 'Корисні слова'),
-        left.length > 1 ? h('button.btn.sm.soft', { type: 'button', onclick: () => { let n = 0; for (const w of left) if (srs.addCard({ en: w.en, uk: w.uk, tags: ['diary'] }).created) n++; toast(`Додано в картки: ${n}`); draw(); } }, ic('plus', { size: 16 }), 'Додати всі') : null),
-      h('div.list', words.map(w => h('div.list-row',
-        h('button.icon-btn', { type: 'button', 'aria-label': `Прослухати: ${w.en}`, onclick: () => speak(w.en) }, ic('speaker-high', { size: 18 })),
-        h('div.grow', h('div', { lang: 'en', style: { fontWeight: 600 } }, w.en), h('div.sub', w.uk)),
-        has(w.en) ? h('span.tag.good', 'у картках')
-          : h('button.btn.sm.soft', { type: 'button', 'aria-label': `Додати в картки: ${w.en}`, onclick: () => { srs.addCard({ en: w.en, uk: w.uk, tags: ['diary'] }); toast('Додано в «Мої слова»'); draw(); } }, ic('plus', { size: 16 }), 'Додати в картки')))));
+      h('div.tx-label-row', h('h2.tx-label', `Корисні слова · ${words.length}`),
+        left.length > 1 ? h('button.tx-more', { type: 'button', onclick: () => { let n = 0; for (const w of left) if (srs.addCard({ en: w.en, uk: w.uk, tags: ['diary'] }).created) n++; toast(`Додано в картки: ${n}`); draw(); } }, 'Додати всі') : null),
+      txRows(words.map(w => h('div.tx-row.dy-word',
+        h('button.tx-sq.dy-spk', { type: 'button', 'aria-label': `Прослухати: ${w.en}`, onclick: () => speak(w.en) }, ic('speaker-high', { size: 18 })),
+        h('span.tx-body', h('span.tx-l', { lang: 'en' }, w.en), h('span.tx-s', w.uk)),
+        has(w.en) ? txPill('у картках', 'good')
+          : h('button.btn.sm.soft', { type: 'button', 'aria-label': `Додати в картки: ${w.en}`, onclick: () => { srs.addCard({ en: w.en, uk: w.uk, tags: ['diary'] }); toast('Додано в «Мої слова»'); draw(); } }, ic('plus', { size: 16 }), 'У картки')))));
   };
   draw();
   return box;
