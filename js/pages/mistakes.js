@@ -1,5 +1,5 @@
 // Помилки: мій список, групування за правилом граматики (без правила — за типом), самоперевірка, тренування групи
-import { h, ic, emo } from '../ui/dom.js';
+import { h, ic } from '../ui/dom.js';
 import { S, plural } from '../strings.js';
 import * as store from '../store.js';
 import { mistakesByRule, activityTimer, classifyPending, disputeFix, dueRuleMistakes, dueRuleCount, rulePracticeToday, logRulePractice, nextRulePracticeAt, focusPracticeMistakes } from '../stats.js';
@@ -10,7 +10,7 @@ import { confirmSheet } from '../ui/sheet.js';
 import { toast } from '../ui/toast.js';
 import { tutor, aiErrorText } from '../ai.js';
 import { user } from '../supa.js';
-import { tx, txPrimary, txKpis, txGrid, txGroup, txRows, txDots } from '../ui/tiles.js';
+import { tx, txPrimary, txKpis, txGrid, txGroup, txRows, txRow, txDots, txPill, txResult } from '../ui/tiles.js';
 
 const SRC = { tutor: 'вчитель', test: 'тест', exercise: 'вправа', diary: 'щоденник', voice: 'голос', pronunciation: 'вимова' };
 
@@ -82,7 +82,7 @@ export default function mistakes(view, r) {
             h('div.mk-fix', h('s.dim', m.wrong), ' → ', h('b.good', m.right)),
             h('div.tx-s', `${S.mistakeTypes[m.type] || m.type} · ×${m.count || 1} · закрито ${m.updated_at ? fmtDay(m.updated_at) : ''}`)),
           delBtn(m)))))
-        : h('div.empty', emo('sparkles', 'xl'), h('p', 'Закритих помилок поки немає. Коли ви 3 рази поспіль скажете правильно, помилка з\'явиться тут.')));
+        : txResult({ icon: 'seal-check', label: 'Закриті', title: 'Закритих помилок поки немає', sub: 'Коли ви 3 рази поспіль скажете правильно, помилка з\'явиться тут.' }));
       return;
     }
     // групи — за правилом граматики (помилки без правила — за типом); засвоєння правила = найменша серія серед його помилок
@@ -98,7 +98,9 @@ export default function mistakes(view, r) {
         h('div.stack-lg.mk-others-body', otherGroups.map(g => groupView(g))))
       : null;
     body.replaceChildren(...head, focus ? focusView(focus, fp, won) : '',
-      groups.length ? '' : h('div.empty', emo('sparkles', 'xl'), h('p', openN || !closedList.length ? 'Список порожній. Помилки з розмов, вправ і тестів з\'являтимуться тут.' : 'Відкритих помилок немає — усе закрито!')),
+      groups.length ? '' : (openN || !closedList.length
+        ? txResult({ icon: 'warning-circle', label: 'Мої помилки', title: 'Список порожній', sub: 'Помилки з розмов, вправ і тестів з\'являтимуться тут.' })
+        : txResult({ icon: 'seal-check', tone: 'good', label: 'Мої помилки', title: 'Відкритих помилок немає — усе закрито!' })),
       ...(others ? [...focusGroups.map(g => groupView(g, true)), others] : groups.map(g => groupView(g))));
   };
   let othersOpen = false;
@@ -193,14 +195,15 @@ async function drill(box, onExit, timer, opts = {}) {
   const list = opts.list || topMistakes(10);
   if (!list.length) return;
   timer?.poke();
-  const head = h('div.row', h('button.icon-btn', { type: 'button', 'aria-label': 'Назад', onclick: () => { drillAbort?.abort(); onExit(); } }, ic('arrow-left')),
-    h('div.grow', h('div', { style: { fontWeight: 600 } }, opts.title || 'Вправи на мої помилки'),
-      h('div.xs.dim', opts.sub || `${list.length} ${plural(list.length, 'помилка', 'помилки', 'помилок')}, що повторюються найчастіше`)));
+  const title = opts.title === 'Повтор правил' ? 'Правила за розкладом' : (opts.title || 'Вправи на мої помилки');
+  const head = h('div.gx-lhead.mk-dhead', h('button.icon-btn', { type: 'button', 'aria-label': 'Назад', onclick: () => { drillAbort?.abort(); onExit(); } }, ic('arrow-left')),
+    h('div.grow', h('div.tx-label.gx-eyebrow', 'Повтор правил'), h('h2.gx-lh1', title),
+      h('div.tx-s', opts.sub || `${list.length} ${plural(list.length, 'помилка', 'помилки', 'помилок')}, що повторюються найчастіше`)));
   const area = h('div.stack');
   box.replaceChildren(h('div.stack', head, area));
   let exercises = null, note = '';
   if (user() && navigator.onLine) {
-    area.replaceChildren(h('div.hero', emo('hourglass', 'xl'), h('p.dim', 'Вчитель готує вправи на ваші помилки…')));
+    area.replaceChildren(txResult({ icon: 'hourglass', tone: 'accent', role: 'status', label: 'Вчитель', title: 'Готую вправи на ваші помилки…', sub: 'Нові речення на ці правила — до пів хвилини.' }));
     drillAbort = new AbortController();
     try {
       const res = await tutor('mistake_drill', { count: 10, mistakes: list.map(m => ({ wrong: m.wrong, right: m.right, type: m.type, explanation_uk: m.explanation_uk || '' })) }, { signal: drillAbort.signal });
@@ -230,18 +233,22 @@ async function drill(box, onExit, timer, opts = {}) {
         if (ok) better++;
         if (m.resolved && !was) fixed++;
       }
-      exBox.replaceChildren(h('div.stack', resultView(res),
-        h('div.card.stack', { style: { gap: '4px' } },
-          h('div', { style: { fontWeight: 600 } }, `Зараховано: ${better} з ${byTarget.size} ${plural(byTarget.size, 'помилки', 'помилок', 'помилок')}`),
-          h('div.xs.dim', fixed ? `Виправлено остаточно: ${fixed} (3 правильні підходи поспіль).` : 'Помилка вважається виправленою після 3 правильних підходів поспіль.'),
-          opts.due ? h('div.xs.dim', nextNote(byTarget.size, better)) : null),
+      const size = byTarget.size;
+      const again = () => (opts.again ? opts.again() : drill(box, onExit, timer));
+      exBox.replaceChildren(h('div.stack-lg', resultView(res),
+        txGroup('Мої помилки', [
+          txKpis([
+            { value: better, unit: `/${size}`, label: 'зараховано', tone: better === size ? 'good' : better ? '' : 'warn', ariaLabel: `Зараховано: ${better} з ${size} ${plural(size, 'помилки', 'помилок', 'помилок')}` },
+            { value: fixed, label: 'виправлено остаточно', tone: fixed ? 'good' : '' },
+          ], 2),
+          h('p.mk-note.tx-s', fixed ? `Виправлено остаточно: ${fixed} (3 правильні підходи поспіль).` : 'Помилка вважається виправленою після 3 правильних підходів поспіль.',
+            opts.due ? ' ' + nextNote(size, better) : '')]),
         opts.focus ? focusResult() : null,
         opts.due
-          ? h('div.stack', { style: { gap: '8px' } },
-            h('a.btn.primary.lg.block', { href: '#/today' }, 'Далі за планом', ic('arrow-right', { size: 18 })),
-            h('button.btn.soft.block', { type: 'button', onclick: onExit }, 'До списку помилок'))
-          : h('div.row', h('button.btn.soft.grow', { type: 'button', onclick: () => (opts.again ? opts.again() : drill(box, onExit, timer)) }, ic('arrow-clockwise', { size: 18 }), 'Ще раз'),
-            h('button.btn.primary.grow', { type: 'button', onclick: onExit }, 'До списку'))));
+          ? h('div.stack', txPrimary({ icon: 'arrow-right', label: 'Далі за планом', sub: 'наступний крок «Мого дня»', href: '#/today' }),
+            txRows([txRow({ icon: 'list', label: 'До списку помилок', onclick: onExit })]))
+          : h('div.stack', txPrimary({ icon: 'list', label: 'До списку помилок', onclick: onExit }),
+            txRows([txRow({ icon: 'arrow-clockwise', label: 'Ще раз', sub: 'нові вправи на ці помилки', onclick: again })]))));
       return false;
     },
   });
@@ -251,10 +258,20 @@ async function drill(box, onExit, timer, opts = {}) {
 function selfCheck(box, items, onExit) {
   const list = items.slice().sort(() => Math.random() - 0.5).slice(0, 10);
   if (!list.length) return;
-  let i = 0, ok = 0;
+  let i = 0, ok = 0, fixed = 0;
   const step = () => {
     if (i >= list.length) {
-      box.replaceChildren(h('div.hero', emo(ok === list.length ? 'trophy' : 'muscle', 'xl'), h('h2', `${ok} з ${list.length}`), h('button.btn.primary', { type: 'button', onclick: onExit }, 'До списку')));
+      const n = list.length, all = ok === n, tone = all ? 'good' : ok * 2 >= n ? 'warn' : 'bad';
+      box.replaceChildren(h('div.stack-lg.mk-selfres',
+        txResult({ icon: all ? 'trophy' : ok * 2 >= n ? 'thumbs-up' : 'barbell', tone, label: 'Перевірити себе', title: `${ok} з ${n}`,
+          sub: all ? 'Усе правильно — серії цих помилок зросли.' : 'Помилки з неправильною відповіддю повернуться на повтор завтра.' }),
+        txKpis([
+          { value: ok, unit: `/${n}`, label: 'правильно', tone: all ? 'good' : '', ariaLabel: `${ok} з ${n} правильно` },
+          { value: n - ok, label: plural(n - ok, 'помилка', 'помилки', 'помилок'), tone: n - ok ? 'bad' : 'good' },
+          { value: fixed, label: 'виправлено остаточно', tone: fixed ? 'good' : '' },
+        ]),
+        txPrimary({ icon: 'list', label: 'До списку помилок', onclick: onExit }),
+        txRows([txRow({ icon: 'arrow-clockwise', label: 'Ще раз', sub: 'інші помилки в іншому порядку', onclick: () => selfCheck(box, items, onExit) })])));
       return;
     }
     const m = list[i];
@@ -265,7 +282,9 @@ function selfCheck(box, items, onExit) {
       if (!inp.value.trim()) return;
       const good = matches(inp.value, m.right);
       if (good) ok++;
+      const was = m.resolved;
       logRulePractice(m, good);
+      if (m.resolved && !was) fixed++;
       fb.replaceChildren(h('div.feedback.' + (good ? 'ok' : 'no'), good ? `Правильно! Прогрес ${m.streak}/3${m.resolved ? ' — виправлено!' : ''}` : `Правильно: ${m.right}`, m.explanation_uk ? h('div.dim', m.explanation_uk) : null));
       check.hidden = true; next.hidden = false; next.focus();
     } }, 'Перевірити');
@@ -301,12 +320,17 @@ function dueDrill(box, onExit, timer) {
   if (!list.length) {
     const next = nextRulePracticeAt();
     const done = rulePracticeToday();
-    box.replaceChildren(h('div.hero.mk-due-empty', emo('check', 'xl'), h('h2', 'На сьогодні правила повторено'),
-      h('p.dim', done ? `Сьогодні ви повторили ${done} ${plural(done, 'помилку', 'помилки', 'помилок')}. ${next ? `Наступний повтор — ${fmtWhen(next)}.` : ''}`
-        : next ? `Наступний повтор — ${fmtWhen(next)}. Нові помилки з розмов і вправ потраплять сюди самі.` : 'Відкритих помилок немає. Нові помилки з розмов і вправ потраплять сюди самі.'),
-      h('div.stack', { style: { gap: '8px', width: '100%', maxWidth: '360px' } },
-        h('a.btn.primary.block', { href: '#/today' }, 'Далі за планом', ic('arrow-right', { size: 18 })),
-        h('button.btn.soft.block', { type: 'button', onclick: onExit }, 'До списку помилок'))));
+    const open = store.all('mistakes').filter(m => !m.deleted && !m.resolved).length;
+    box.replaceChildren(h('div.stack-lg.mk-due-empty',
+      txResult({ icon: 'check-circle', tone: 'good', label: 'Повтор правил', title: 'На сьогодні правила повторено',
+        sub: done ? `Сьогодні ви повторили ${done} ${plural(done, 'помилку', 'помилки', 'помилок')}.${next ? ` Наступний повтор — ${fmtWhen(next)}.` : ''}`
+          : next ? `Наступний повтор — ${fmtWhen(next)}. Нові помилки з розмов і вправ потраплять сюди самі.` : 'Відкритих помилок немає. Нові помилки з розмов і вправ потраплять сюди самі.' }),
+      txKpis([
+        { value: done, label: 'повторено сьогодні', tone: done ? 'good' : '' },
+        { value: open, label: plural(open, 'відкрита помилка', 'відкриті помилки', 'відкритих помилок') },
+      ], 2),
+      txPrimary({ icon: 'arrow-right', label: 'Далі за планом', sub: 'наступний крок «Мого дня»', href: '#/today' }),
+      txRows([txRow({ icon: 'list', label: 'До списку помилок', onclick: onExit })])));
     return;
   }
   const rules = new Set(list.map(m => m.rule && m.rule !== 'other' ? m.rule : `type:${m.type}`)).size;
@@ -324,13 +348,14 @@ function focusDrill(box, onExit, timer) {
   if (!list.length) {
     const pr = focusProgress(f);
     const won = pr.length && pr.every(p => p.done);
-    box.replaceChildren(h('div.hero.mk-due-empty', emo(won ? 'trophy' : 'check', 'xl'),
-      h('h2', won ? 'Правила тижня закрито' : 'На сьогодні правила тижня відпрацьовано'),
-      h('p.dim', won ? 'Усі помилки цих правил закрито. Можна взяти ще одне правило на сторінці «Мої помилки».'
-        : 'Решту закріпите в розмові: вчитель створюватиме нагоди вжити ці правила. Повернімося до вправ завтра.'),
-      h('div.stack', { style: { gap: '8px', width: '100%', maxWidth: '360px' } },
-        h('a.btn.primary.block', { href: TALK_HREF }, ic('microphone', { size: 18 }), 'Потренувати в розмові'),
-        h('button.btn.soft.block', { type: 'button', onclick: onExit }, 'До списку помилок'))));
+    box.replaceChildren(h('div.stack-lg.mk-due-empty',
+      txResult({ icon: won ? 'trophy' : 'check-circle', tone: 'good', label: 'Правила тижня',
+        title: won ? 'Правила тижня закрито' : 'На сьогодні правила тижня відпрацьовано',
+        sub: won ? 'Усі помилки цих правил закрито. Можна взяти ще одне правило на сторінці «Мої помилки».'
+          : 'Решту закріпите в розмові: вчитель створюватиме нагоди вжити ці правила. Повернімося до вправ завтра.' }),
+      focusResult(),
+      txPrimary({ icon: 'microphone', label: 'Потренувати в розмові', sub: 'вчитель створить нагоди вжити ці правила', href: TALK_HREF }),
+      txRows([txRow({ icon: 'list', label: 'До списку помилок', onclick: onExit })])));
     return;
   }
   const n = new Set(list.map(m => m.rule)).size;
@@ -343,12 +368,9 @@ function focusResult() {
   let pr = [];
   try { pr = focusProgress(weeklyFocus()); } catch { return null; }
   if (!pr.length) return null;
-  return h('div.card.stack.wf', { style: { gap: '4px' } },
-    h('div', { style: { fontWeight: 600 } }, 'Правила тижня зараз'),
-    h('ol.wf-rows', pr.map((p, i) => h('li.wf-row' + (p.done ? '.done' : ''),
-      h('span.wf-mark', p.done ? ic('check', { size: 14 }) : h('b.num', String(i + 1))),
-      h('div.grow.wf-body', h('div.wf-label', p.label),
-        h('div.wf-meta', p.done ? h('span.wf-closed', 'закрито')
-          : [h('span.wf-dots', { 'aria-hidden': 'true' }, [0, 1, 2].map(k => h('i' + (k < p.streakMin ? '.on' : '')))),
-            h('span', `${p.openNow} ${plural(p.openNow, 'помилка', 'помилки', 'помилок')} · засвоєння ${p.streakMin}/3`)]))))));
+  return txGroup('Правила тижня зараз', txRows(pr.map((p, i) => txRow({
+    no: p.done ? null : i + 1, icon: p.done ? 'check' : null, on: p.done, label: p.label, cls: 'mk-wf',
+    sub: p.done ? null : `${p.openNow} ${plural(p.openNow, 'помилка', 'помилки', 'помилок')} · засвоєння ${p.streakMin}/3`,
+    end: p.done ? txPill('закрито', 'good') : txDots(p.streakMin),
+  }))));
 }

@@ -78,3 +78,8 @@ html.kbd .mk-others>summary:focus-visible{outline:2px solid var(--accent-ink);ou
   .tx-row.mk-gact{padding:6px 8px;gap:8px}
   .mk-gact .tx-sq{width:26px;height:26px}
 }
+
+/* повтор правил: шапка, результат, правила тижня (аудит 2026-11-07) */
+.mk-dhead .tx-s{margin-top:2px}
+.mk-wf .tx-dots,.mk-wf .tx-pill{flex:none}
+.mk-note{margin:0}
