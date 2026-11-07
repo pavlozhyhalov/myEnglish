@@ -11,13 +11,11 @@ import { modalOpen } from '../ui/modal.js';
 import { go } from '../router.js';
 import { myLevel, diff, levelTag, byFit } from '../level.js';
 import { aiErrorText } from '../ai.js';
-import { tx, txPrimary, txKpis, txGrid, txGroup, txRows, txBar } from '../ui/tiles.js';
+import { tx, txPrimary, txKpis, txGrid, txGroup, txRows, txBar, txResult } from '../ui/tiles.js';
 
-/** Шапка підсумку сесії: квадратик з іконкою + підпис, заголовок, рядок пояснення (css/p-learn.css) */
+/** Шапка підсумку сесії — спільна txResult (js/ui/tiles.js); лишено для phrases.js і wordtrain.js */
 export function resHead({ icon, eyebrow, title, sub = null, tone = '' }) {
-  return h('div.lr-head',
-    h('span.tx-sq' + (tone ? '.' + tone : ''), ic(icon, { size: 26, fill: tone === 'good' })),
-    h('div.lr-body', eyebrow ? h('span.lr-eyebrow', eyebrow) : null, h('h1.lr-title', title), sub ? h('p.lr-sub', sub) : null));
+  return txResult({ icon, tone, label: eyebrow, title, sub });
 }
 
 export default async function cards(view, r) {
@@ -166,7 +164,7 @@ export async function runReview(view, { limit = Infinity, onExit, onDone, embedd
       ex ? h('div.card.soft.tight', { style: { width: '100%', textAlign: 'left' } },
         h('div.row', h('div.grow', h('div', ex.en), ex.uk ? h('div.xs.dim', ex.uk) : null), speakBtn(ex.en, 20))) : null,
       sayBlock(cur.en),
-      h('a.small', { href: `#/tutor?ask=${encodeURIComponent(cur.en)}`, onclick: (e) => e.stopPropagation() }, 'Запитати вчителя про це слово'));
+      h('a.small.cd-ask', { href: `#/tutor?ask=${encodeURIComponent(cur.en)}`, onclick: (e) => e.stopPropagation() }, ic('chalkboard-teacher', { size: 16 }), 'Запитати вчителя про це слово'));
 
     back.inert = true;
     const flash = h('div.flash', { role: 'group', 'aria-label': 'Картка' }, front, back);

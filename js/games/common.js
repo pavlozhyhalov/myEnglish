@@ -4,7 +4,7 @@ import * as srs from '../srs.js';
 import { deckIndex, withCards, json } from '../data.js';
 import { myLevel, LEVELS } from '../level.js';
 import { h, ic } from '../ui/dom.js';
-import { tx, txPrimary, txKpis, txGroup, txRows, txRow, txGrid, txPill } from '../ui/tiles.js';
+import { tx, txPrimary, txKpis, txGroup, txRows, txRow, txGrid, txResult, txLogin } from '../ui/tiles.js';
 import { mergeBest } from './logic.js';
 import { speak, stop as stopSpeech } from '../speech.js';
 
@@ -180,18 +180,15 @@ export const startTile = ({ label = 'Почати', sub = null, icon = 'play', o
   txPrimary({ icon, label, sub, onclick, disabled, cls: 'g-start' });
 
 /**
- * Підсумок гри: квадратик з іконкою + очки, цифри плитками, далі секції, одна синя дія і плитки «що далі».
+ * Підсумок гри: спільна шапка txResult (очки — у заголовку), цифри плитками, далі секції, одна синя дія і плитки «що далі».
  * o: { icon, record, score (рядок або вузол), unit, sub, kpis: [{value,label,tone}], note, sections: [], primary: {icon,label,onclick|href}, more: [{icon,label,sub,onclick|href}] }
  */
 export function gameResult({ icon = 'flag', record = false, score, unit = null, sub = '', kpis = [], note = null, sections = [], primary, more = [] }) {
   const list = more.filter(Boolean);
   return h('div.stack-lg.g-end',
-    h('div.g-res',
-      h('span.tx-sq.g-res-sq' + (record ? '.good' : ''), ic(record ? 'trophy' : icon, { size: 26, fill: record })),
-      h('div.g-res-body',
-        record ? txPill('Новий рекорд!', 'good') : h('span.g-res-eyebrow', 'Результат'),
-        h('div.g-score.num', score, unit ? h('small', unit) : null),
-        sub ? h('div.small.dim.g-res-sub', sub) : null)),
+    txResult({
+      icon: record ? 'trophy' : icon, tone: record ? 'good' : 'accent', label: record ? 'Новий рекорд!' : 'Результат',
+      title: h('span', h('span.num', score), unit ? (/^\s/.test(unit) ? unit : ' ' + unit) : null), sub }),
     kpis.length ? txKpis(kpis) : null,
     note ? h('p.xs.dim.g-note', note) : null,
     ...sections.filter(Boolean),
@@ -229,8 +226,7 @@ const svgEl = (tag, attrs = {}) => { const el = document.createElementNS(SVG_NS,
 /** «Потрібен вхід» для ігор, де мовлення розпізнає AI */
 export function gameLoginCard(text) {
   return h('div.stack.g-login',
-    tx({ icon: 'microphone', label: 'Потрібен вхід в акаунт', sub: text, wide: true, tone: 'warn' }),
-    txPrimary({ icon: 'user', label: 'Увійти', sub: 'AI розпізнає мовлення після входу', href: '#/auth' }),
+    txLogin('Потрібен вхід в акаунт', text),
     tx({ icon: 'game-controller', label: 'Інші ігри', href: '#/games', wide: true }));
 }
 

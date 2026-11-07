@@ -18,7 +18,7 @@
 .tx.g-quiet{background:transparent}
 .tx.g-quiet .tx-sq{background:var(--tile-sq)}
 
-/* підсумок гри: квадратик + очки, цифри плитками, рядки, «Ще раз» */
+/* підсумок «Слова дня» (wordle.js): квадратик-«прослухати» + слово; інші ігри — txResult */
 .g-res{display:flex;align-items:center;gap:14px;padding:4px 4px 0}
 .g-res .tx-sq.g-res-sq{width:56px;height:56px;border-radius:16px;background:var(--accent-soft);color:var(--accent-ink)}
 .g-res .tx-sq.g-res-sq.good{background:var(--good-soft);color:var(--good)}
@@ -38,7 +38,7 @@ button.tx-sq.g-spk:active{transform:scale(.94)}
 .btn.g-add:disabled{opacity:1;background:var(--good-soft);color:var(--good)}
 .g-addall{background:none;border:0;padding:4px 0;cursor:pointer;font:inherit}
 .g-addall:disabled{color:var(--ink-dim);cursor:default}
-.g-login .tx.warn .tx-s,.g-err .tx-s{white-space:normal}
+.g-err .tx-s{white-space:normal}
 .g-err-tile{cursor:default;align-items:flex-start}
 .g-err-tile .tx-body{gap:4px}
 
@@ -80,8 +80,6 @@ button.tx-sq.g-spk:active{transform:scale(.94)}
 .g-tf-btns .btn{border-radius:16px;min-height:58px}
 .g-no{background:var(--bad-soft);color:var(--bad)}
 .g-yes{background:var(--good-soft);color:var(--good)}
-.g-score{font-family:var(--font-head);font-weight:700;font-size:40px;line-height:1;color:var(--ink);letter-spacing:-.02em;white-space:nowrap}
-.g-score small{font-family:var(--font-body);font-size:var(--fs-sm);font-weight:600;color:var(--ink-dim);margin-left:6px;letter-spacing:0}
 .shake{animation:gShake 360ms}
 @keyframes gShake{20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}
 
