@@ -133,9 +133,8 @@ function reader(view, t, list) {
   function startQuiz() {
     timer.poke();
     const box = h('div');
-    quiz.replaceChildren(h('h2.tx-label', 'Питання до тексту'), box);
+    quiz.replaceChildren(h('h2.tx-label', 'Розуміння'), box);
     runExercises(box, toExercises(t), {
-      title: 'Питання до тексту',
       onDone: (res) => {
         const prev = progressOf(t.id);
         saveProgress(t.id, res.score);
