@@ -37,3 +37,25 @@ div.pp-panel.small{font-size:var(--fs-sm)}
 /* налаштування: групи списків — плитками */
 .pp-set .list{background:var(--tile);border-color:var(--tile-edge);box-shadow:none;border-radius:16px}
 .pp-set .list-row+.list-row,.pp-set .dnd-row+.dnd-row{border-top-color:var(--tile-edge)}
+
+/* ---------- Внутрішні екрани практики (читання, аудіювання, письмо, щоденник, плавність) — мова плиток ----------
+   Шапка: .gx-lhead / .gx-eyebrow / .gx-lh1 (p-grammar.css); результат: .gx-res + txKpis; текстові плитки — .gx-card. */
+.rd-sub{margin-top:2px;overflow-wrap:anywhere}
+.rd-note,.ls-note2,.wr-note{margin:0;padding:0 4px;line-height:1.45}
+.rd-text{padding:16px}
+.rd-play .tx-end:empty{display:none}
+/* словничок — розкривна плитка, всередині рядки-плитки */
+.rd-gloss{display:flex;flex-direction:column;gap:6px}
+.rd-gloss-head{list-style:none;display:flex;align-items:center;gap:12px;min-height:58px;padding:10px 12px;border-radius:16px;cursor:pointer;
+  background:var(--tile);border:1px solid var(--tile-edge);color:var(--ink);-webkit-tap-highlight-color:transparent;transition:border-color .18s ease,transform .18s cubic-bezier(.2,.8,.2,1)}
+.rd-gloss-head::-webkit-details-marker{display:none}
+.rd-gloss-head:active{transform:scale(.985)}
+@media (hover:hover){.rd-gloss-head:hover{border-color:var(--line-strong)}}
+html.kbd .rd-gloss-head:focus-visible{outline:2px solid var(--accent-ink);outline-offset:2px}
+.rd-gloss-head .tx-body{flex:1}
+.rd-gloss-head > .ico:last-child{flex:none;color:var(--ink-dim);transition:transform .18s ease}
+.rd-gloss[open] > .rd-gloss-head > .ico:last-child{transform:rotate(180deg)}
+.rd-gloss-rows{margin-top:6px}
+.rd-gloss-rows .tx-row{min-height:52px}
+.rd-gloss-rows .tx-row .tx-sq{color:var(--accent-ink)}
+@media (prefers-reduced-motion:reduce){.rd-gloss-head{transition:none}.rd-gloss-head:active{transform:none}}
