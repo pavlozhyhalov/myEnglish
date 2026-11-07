@@ -1,6 +1,6 @@
 // Прогрес: стрік, час, графіки, слова, уроки, рівні, помилки
 import { h, ic, fmtMin, progress as bar } from '../ui/dom.js';
-import { tx, txPrimary, txKpis, txGroup, txRow, txRows } from '../ui/tiles.js';
+import { tx, txPrimary, txKpis, txGroup, txRow, txRows, txLogin } from '../ui/tiles.js';
 import { S, plural } from '../strings.js';
 import * as store from '../store.js';
 import * as srs from '../srs.js';
@@ -59,11 +59,11 @@ export default async function progressPage(view) {
     weeklyCard(),
 
     labelRow('Хвилини за 30 днів', h('span.xs.dim', `мета ${store.settings().dailyGoal} хв`),
-      card(
+      days.some(d => d.seconds) ? card(
         h('div.bars', { role: 'img', 'aria-label': 'Хвилини практики по днях' }, days.map(d => h('i' + (d.seconds ? '' : '.zero'), { style: { height: `${Math.max(2, d.seconds / maxSec * 100)}%` }, title: `${dayLbl(d)}: ${fmtMin(d.seconds)}` }))),
         h('div.bars-labels', h('span', dayLbl(days[0])), h('span', dayLbl(days[15])), h('span', 'сьогодні')),
-        days.some(d => d.seconds) ? null : h('div.xs.dim', 'Ще немає даних — графік заповниться після перших занять.'),
-        h('div.chips', Object.entries(byType).sort((a, b) => b[1] - a[1]).map(([t, s]) => h('span.tag', `${S.sessionTypes[t] || t}: ${fmtMin(s)}`))))),
+        h('div.chips', Object.entries(byType).sort((a, b) => b[1] - a[1]).map(([t, s]) => h('span.tag', `${S.sessionTypes[t] || t}: ${fmtMin(s)}`))))
+        : tx({ wide: true, icon: 'chart-line-up', label: 'Ще немає даних', sub: 'Графік заповниться після перших занять', cls: 'pg-empty' })),
 
     txGroup('Час навчання', [
       txKpis([{ value: fmtMin(todaySeconds()), label: 'сьогодні' }, { value: fmtMin(weekSeconds()), label: 'за 7 днів' }, { value: fmtMin(avg), label: 'у середньому за активний день' }]),
@@ -173,10 +173,11 @@ function weeklyCard() {
   const min = Math.round(p.seconds / 60), prevMin = Math.round(prev.seconds / 60);
   const range = `${new Date(days[0].key + 'T12:00').toLocaleDateString('uk-UA', { day: 'numeric', month: 'short' })} – ${new Date(days[6].key + 'T12:00').toLocaleDateString('uk-UA', { day: 'numeric', month: 'short' })}`;
   const trend = prevMin || min ? (min > prevMin ? `↑ на ${min - prevMin} хв` : min < prevMin ? `↓ на ${prevMin - min} хв` : 'як минулого тижня') : '';
-  const advice = h('div.stack.card.tx-card', { style: { gap: '8px' } });
+  const advice = h('div.stack.pg-adv');
+  const empty = !sec.some(Boolean);
 
   const card = labelRow('Тиждень', h('span.xs.dim', range),
-    h('div.card.stack.tx-card',
+    empty ? tx({ wide: true, icon: 'chart-line-up', label: 'Цього тижня ще немає занять', sub: 'Хвилини по днях з\'являться тут після першого заняття', cls: 'pg-empty' }) : h('div.card.stack.tx-card',
       h('div.bars', { style: { height: '80px' }, role: 'img', 'aria-label': `Хвилини по днях цього тижня: ${days.map((d, i) => `${d.name} ${Math.round(sec[i] / 60)}`).join(', ')}` },
         days.map((d, i) => h('i' + (sec[i] ? '' : '.zero'), { style: { height: `${Math.max(2, sec[i] / max * 100)}%`, opacity: d.future ? 0.35 : null }, title: `${d.name}: ${fmtMin(sec[i])}` }))),
       h('div.bars-labels', days.map((d, i) => h('span', { style: d.today ? { fontWeight: 700, color: 'var(--ink)' } : null }, sec[i] ? `${d.name} ${Math.round(sec[i] / 60)}` : d.name)))),
@@ -188,30 +189,28 @@ function weeklyCard() {
       { value: p.mistakesAdded, label: 'нових помилок', tone: p.mistakesAdded ? 'bad' : '' },
       { value: p.mistakesFixed, label: 'помилок виправлено', tone: p.mistakesFixed ? 'good' : '' },
       { value: streak(), label: `${plural(streak(), 'день', 'дні', 'днів')} поспіль` }]),
-    p.diary || p.chats ? h('div.xs.dim.pg-note', [p.diary ? `Записів у щоденнику: ${p.diary}` : '', p.chats ? `розмов із вчителем: ${p.chats}` : ''].filter(Boolean).join(' · ')) : null,
-    advice);
+    p.diary || p.chats ? h('div.xs.dim.pg-note', [p.diary ? `Записів у щоденнику: ${p.diary}` : '', p.chats ? `розмов із вчителем: ${p.chats}` : ''].filter(Boolean).join(' · ')) : null);
 
   const cached = () => { const w = store.prof().weeklyTip; return w && w.week === isoWeek() && w.data ? w : null; };
   let busy = false;
   const drawAdvice = (state = '') => {
     const c = cached();
-    const head = h('div.row.pg-adv-h', h('span.tx-sq', ic('chalkboard-teacher', { size: 18 })), h('div.pg-strong.grow', 'Порада вчителя на тиждень'));
-    if (!user()) { advice.replaceChildren(head, h('div.small.dim', 'Порада з\'явиться після входу: вчитель подивиться на ваш тиждень і помилки.')); return; }
-    if (busy) { advice.replaceChildren(head, h('div.small.dim', { role: 'status' }, 'Вчитель дивиться на ваш тиждень…')); return; }
+    if (!user()) { advice.replaceChildren(txLogin('Порада на тиждень — після входу', 'Вчитель подивиться на ваш тиждень і помилки')); return; }
+    if (busy) { advice.replaceChildren(tx({ wide: true, icon: 'hourglass', label: 'Вчитель дивиться на ваш тиждень…', attrs: { role: 'status' } })); return; }
     if (!c) {
-      advice.replaceChildren(head, state ? h('div.small.bad', state) : h('div.small.dim', 'Коротка порада за останні 7 днів: що вийшло і на чому зосередитися.'),
-        tx({ icon: 'sparkle', label: 'Отримати пораду', sub: 'що вийшло і на чому зосередитися', onclick: () => generate(), wide: true }));
+      advice.replaceChildren(tx({ icon: 'sparkle', label: 'Отримати пораду', sub: 'Що вийшло за 7 днів і на чому зосередитися', onclick: () => generate(), wide: true }),
+        state ? txRow({ icon: 'warning-circle', label: 'Не вдалося отримати пораду', sub: state, pill: { text: 'Помилка', tone: 'warn' } }) : null);
       return;
     }
     const d = c.data;
-    advice.replaceChildren(head,
+    advice.replaceChildren(h('div.gx-card.stack.pg-adv-c',
       d.summary_uk ? md(d.summary_uk) : null,
       d.tips?.length ? h('ol.small', { style: { margin: 0, paddingLeft: '20px' } }, d.tips.map(t => h('li', { style: { marginBottom: '4px' } }, t))) : null,
       d.goal_uk ? h('div.feedback.ok', h('b', 'Мета: '), d.goal_uk) : null,
       d.focus_en ? h('div.small', h('span.dim', 'Приклад: '), h('i', { lang: 'en' }, d.focus_en)) : null,
       state ? h('div.xs.bad', state) : null,
       h('div.row', h('span.xs.dim.grow', `Згенеровано ${new Date(c.at).toLocaleDateString('uk-UA', { weekday: 'short', day: 'numeric', month: 'short' })}`),
-        h('button.btn.sm.ghost', { type: 'button', onclick: () => generate() }, ic('arrow-clockwise', { size: 16 }), 'Оновити')));
+        h('button.btn.sm.ghost', { type: 'button', onclick: () => generate() }, ic('arrow-clockwise', { size: 16 }), 'Оновити'))));
   };
   async function generate() {
     if (busy) return;
@@ -234,5 +233,5 @@ function weeklyCard() {
     try { localStorage.setItem(TRIED, todayKey); } catch { /* недоступно */ }
     setTimeout(() => { if (card.isConnected) generate(); }, 0);
   }
-  return card;
+  return h('div.stack-lg', card, txGroup('Порада вчителя', advice));
 }

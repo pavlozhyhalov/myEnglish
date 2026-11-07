@@ -13,8 +13,8 @@
 .pg-strong{font-weight:600;font-size:var(--fs-sm);line-height:1.3}
 .pg-ch{font-size:var(--fs-xs);font-weight:600;color:var(--ink-dim)}
 .tx-label.pg-sublabel{margin-top:4px}
-.pg-adv-h{gap:10px}
-.pg-adv-h .tx-sq{width:32px;height:32px;border-radius:10px}
+.pg-adv{gap:8px}
+.pg-adv-c{gap:8px}
 .an-lead{margin:0;padding:0 4px;line-height:1.45}
 
 /* «Запитати вчителя про це» — тихий рядок-плитка з акцентним текстом */
