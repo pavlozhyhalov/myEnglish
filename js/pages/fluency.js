@@ -444,9 +444,9 @@ function fourThreeTwo(view) {
       resultHead({ icon: good ? 'trophy' : multi && (dW >= 5 || dF <= -0.5) ? 'thumbs-up' : 'timer', tone: good ? 'good' : multi && (dW >= 5 || dF <= -0.5) ? 'warn' : '',
         label: `4-3-2 · ${rounds.length} ${plural(rounds.length, 'раунд', 'раунди', 'раундів')}`, caption: verdict(rounds),
         kpis: multi ? [
-          { value: `${dW >= 0 ? '+' : '−'}${Math.abs(dW)}`, label: 'зміна темпу, слів/хв', tone: dW >= 5 ? 'good' : dW < 0 ? 'bad' : null },
+          { value: `${dW >= 0 ? '+' : '−'}${Math.abs(dW)}`, label: 'зміна темпу', ariaLabel: `Зміна темпу: ${dW >= 0 ? '+' : '−'}${Math.abs(dW)} слів за хвилину`, tone: dW >= 5 ? 'good' : dW < 0 ? 'bad' : null },
           { value: num(z.per100), label: `заминок на 100 слів`, tone: dF <= -0.5 ? 'good' : dF > 0.5 ? 'bad' : null, ariaLabel: `Заминок на 100 слів: ${num(z.per100)}, було ${num(a.per100)}` },
-          { value: z.wpm, label: 'слів/хв в останньому' },
+          { value: z.wpm, label: 'слів/хв зараз' },
         ] : [
           { value: a.wpm, label: 'слів за хвилину' },
           { value: num(a.per100), label: 'заминок на 100 слів' },
