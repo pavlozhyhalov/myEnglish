@@ -142,24 +142,26 @@ function overview(view) {
   const hist = history();
   const last = drills().slice(-1)[0];
   const steps = ROUNDS.map(x => nSec(x.sec)).join(' → ');
+  // одна головна дія (4-3-2) → прогрес → «Замість uh» → поради згорнуті
+  const tips = h('ul.fl-tips', { id: 'fl-tips', hidden: true },
+    h('li', 'Не шукайте ідеальне слово — кажіть простіше й рухайтеся далі.'),
+    h('li', 'Замість паузи чи «uh» — фраза: «Well…», «Let me think…», «The thing is…».'),
+    h('li', 'Повтор «I I I» — знак, що ви поспішаєте з початком. Почніть із фрази, а не з «I».'),
+    h('li', '5–10 хвилин щодня дають більше, ніж година раз на тиждень.'));
+  const tipsRow = txRow({ icon: 'lightbulb', label: 'Як займатися', sub: '4 поради', chevron: false, cls: 'fl-tips-row',
+    end: ic('caret-down', { size: 16 }), attrs: { 'aria-expanded': 'false', 'aria-controls': 'fl-tips' },
+    onclick: () => { tips.hidden = !tips.hidden; tipsRow.setAttribute('aria-expanded', String(!tips.hidden)); } });
   view.replaceChildren(h('div.stack-lg.fl',
-    logged ? null : loginCard(),
-    txGroup('Техніка 4-3-2 · одна тема — три раунди', [
-      logged ? txPrimary({ icon: 'timer', label: 'Почати 4-3-2', sub: `Раунди: ${steps}`, href: '#/fluency/432', attrs: { 'aria-label': `Почати 4-3-2. Раунди: ${ROUNDS.map(x => nSec(x.sec)).join(', ')}` } }) : null,
-      h('p.xs.dim.fl-note', 'Розповідаєте те саме щоразу коротше. Фрази стають звичними, паузи й «uh» зникають — мовлення густішає.')]),
+    logged
+      ? txPrimary({ icon: 'timer', label: 'Почати 4-3-2', sub: `Одна тема · ${steps}`, href: '#/fluency/432', attrs: { 'aria-label': `Почати 4-3-2. Одна тема — три раунди: ${ROUNDS.map(x => nSec(x.sec)).join(', ')}` } })
+      : txLogin('Запис мовлення — після входу', 'AI порахує «uh» і повтори'),
     hist.length ? progressCard(hist) : null,
     txGroup('Замість «uh»', [
       logged ? txGrid([
-        tx({ icon: 'quotes', label: 'Фрази', sub: `${GAMBITS.length} фраз, що дають час подумати`, href: '#/fluency/gambits' }),
-        tx({ icon: 'lightning', label: 'Тренування', sub: `Питання — і за ${DRILL_START_SEC} с почати з фрази`, href: '#/fluency/drill' }),
-      ], 2) : tx({ icon: 'quotes', wide: true, label: 'Фрази', sub: `${GAMBITS.length} фраз, що дають час подумати й зв'язують думки`, href: '#/fluency/gambits' }),
-      last ? h('p.xs.dim.fl-note', `Останнє тренування: ${last.ok} з ${last.n} відповідей почато з фрази`) : null]),
-    txGroup('Як займатися', h('section.fl-why',
-      h('ul.fl-tips',
-        h('li', 'Не шукайте ідеальне слово — кажіть простіше й рухайтеся далі.'),
-        h('li', 'Замість паузи чи «uh» — фраза: «Well…», «Let me think…», «The thing is…».'),
-        h('li', 'Повтор «I I I» — знак, що ви поспішаєте з початком. Почніть із фрази, а не з «I».'),
-        h('li', '5–10 хвилин щодня дають більше, ніж година раз на тиждень.'))))));
+        tx({ icon: 'quotes', label: 'Фрази', sub: `${GAMBITS.length} фраз`, href: '#/fluency/gambits' }),
+        tx({ icon: 'lightning', label: 'Тренування', sub: last ? `Минулого разу ${last.ok} з ${last.n}` : `${DRILL_LEN} питань`, href: '#/fluency/drill' }),
+      ], 2) : tx({ icon: 'quotes', wide: true, label: 'Фрази', sub: `${GAMBITS.length} фраз · можна вчити й без входу`, href: '#/fluency/gambits' })]),
+    h('div.stack', tipsRow, tips)));
 }
 
 function progressCard(hist) {
@@ -174,7 +176,7 @@ function progressCard(hist) {
       vals.length > 1 ? sparkline(vals, `${label}: ${vals.map(v => num(v)).join(', ')}`) : null,
       vals.length > 1 ? h('div.fl-ms', `було ${num(was)} на початку`) : null);
   };
-  return txGroup(`Ваш прогрес · ${hist.length} ${plural(hist.length, 'сесія', 'сесії', 'сесій')} 4-3-2`, [
+  return txGroup(`Ваш прогрес · ${hist.length} ${plural(hist.length, 'сесія', 'сесії', 'сесій')}`, [
     h('div.fl-two.fl-progress',
       tile('Заминки на 100 слів', pts.map(p => p.per100), lastP.per100, first.per100, 'down', ''),
       tile('Слів за хвилину', pts.map(p => p.wpm), lastP.wpm, first.wpm, 'up', '')),

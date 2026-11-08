@@ -137,3 +137,7 @@ details.fl-tx.gx-card[open]{padding-bottom:12px}
 .fl-howto ol{color:var(--ink-dim)}
 .fl-compare .fl-fig{padding:12px;border-radius:16px;background:var(--tile);border:1px solid var(--tile-edge)}
 .fl-more{color:var(--accent-ink);border-style:dashed}
+/* «Як займатися» — згорнутий рядок під групами головної тренажера */
+.fl-tips-row[aria-expanded="true"] > svg:last-child{transform:rotate(180deg)}
+.fl-tips{margin:0;padding:12px 14px 12px 32px;border-radius:16px;background:var(--tile);border:1px solid var(--tile-edge);font-size:var(--fs-sm);line-height:1.5;color:var(--ink-dim);display:flex;flex-direction:column;gap:6px}
+.fl-tips[hidden]{display:none}
