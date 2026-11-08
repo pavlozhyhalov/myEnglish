@@ -33,7 +33,7 @@ export default async function session(view) {
   // шапка етапу: «Вийти», номер етапу, під ним — три міні-плитки етапів (пройдено — галочка, поточний — акцент)
   const sesHead = (cur) => h('div.stack', { style: { gap: '10px' } },
     h('div.gx-run', h('button.icon-btn', { type: 'button', 'aria-label': 'Вийти', onclick: exit }, ic('x')),
-      h('div.grow', h('span.tx-label', `Заняття · етап ${cur + 1} з ${steps.length}`))),
+      h('div.grow', h('span.tx-label', `Етап ${cur + 1} з ${steps.length}`))),
     h('ol.ses-steps', { 'aria-label': 'Етапи заняття', style: { listStyle: 'none', margin: 0, padding: 0 } }, steps.map((name, i) =>
       h('li.ses-step' + (i < cur ? '.done' : i === cur ? '.on' : ''), { 'aria-current': i === cur ? 'step' : null },
         ic(i < cur ? 'check-circle' : STEP_IC[i], { size: 16, fill: i <= cur }), h('span', name),

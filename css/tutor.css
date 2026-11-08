@@ -396,3 +396,87 @@ html.kbd .tu-wrow:focus-visible{outline:2px solid var(--accent-ink);outline-offs
 .tx-more.tt-all{align-self:center;background:none;border:0;padding:8px 12px;min-height:40px;cursor:pointer;font:inherit;font-size:var(--fs-sm);font-weight:600;color:var(--accent-ink)}
 /* підсумок: згорнуті розділи — панелі всередині на тон глибші */
 .tutor-summary .pg-fold-b .tu-panel{background:var(--tile-sq);border-color:transparent}
+
+/* ---------- Преміальний вигляд (2026-11-08): вчитель, чат, голос, підсумок, сценарії, заняття ----------
+   Глибина замість рамок, радіуси --r-tile/--r-row, одна синя дія на екран; репліка учня — акцентний градієнт. */
+/* шапка чату: аватар — тихий квадратик (не другий «синій» елемент) */
+.tutor-chat .tutor-head .avatar{border-radius:12px;background:var(--accent-soft);color:var(--accent-ink);font-family:var(--font-head);font-weight:600;font-size:17px}
+.tutor-chat .tutor-head .name{font-family:var(--font-head);font-weight:600;letter-spacing:-.01em}
+.tutor-chat .tutor-head .btn.sm.soft{border-radius:12px;font-weight:600}
+/* бульбашки: вчитель — плитка з тінню, учень — градієнт акценту */
+.tutor-chat .chat{gap:12px}
+.tutor-chat .msg{border-radius:var(--r-tile);line-height:1.5;padding:12px 15px}
+.tutor-chat .msg.ai{background:var(--tile);border:1px solid var(--tile-edge);box-shadow:var(--tile-shadow);border-bottom-left-radius:6px}
+.tutor-chat .msg.me{background:var(--accent-grad);color:#fff;border:0;border-bottom-right-radius:6px;box-shadow:0 6px 16px -10px rgba(30,58,138,.55)}
+.tutor-chat .msg.sys{padding:4px 12px;border-radius:99px;background:var(--tile-sq);font-size:12.5px}
+.tutor-chat .msg.ai.pending{padding:12px 16px}
+/* дії під реплікою — тихий рядок без плашок; натиснута — м'який акцент */
+.msg-acts{gap:2px;margin:8px -8px -6px;padding-top:4px}
+.mact{background:transparent;border-radius:10px;min-height:34px;padding:4px 8px;font-weight:600;color:var(--ink-dim)}
+.mact:hover{background:var(--tile-sq);color:var(--ink)}
+.mact[aria-pressed="true"],.mact[aria-expanded="true"]{background:var(--accent-soft);color:var(--accent-ink)}
+.msg-tr{border-radius:12px;background:var(--tile-sq);padding:9px 12px}
+/* корисні слова — рядки без рамок */
+.tu-wrow{border:0;border-radius:var(--r-row);background:var(--tile-sq)}
+.tu-wt b{font-weight:600}
+/* виправлення й план — плитки з тінню, без рамок */
+.fixcard,.tu-plan,.tu-intro,.tu-panel,.voice-hint{border-color:var(--tile-edge);box-shadow:var(--tile-shadow);border-radius:var(--r-tile)}
+.fixcard{border-top-right-radius:6px}
+.tutor-summary .pg-fold-b .tu-panel,.tu-mfold .tu-panel{box-shadow:none}
+.fix-title{font-weight:600}
+.fixcard li{border-top-color:var(--tile-edge)}
+.fixcard .fix-add,.fixcard .disagree,.tutor-summary .disagree{font-weight:600}
+.mem-note{font-size:12px}
+/* нижня панель: підказки — тихі плитки; поле вводу — плитка з глибиною */
+.sugg .chip{border:0;box-shadow:var(--tile-shadow);border-radius:var(--r-row);font-weight:500}
+.sugg .hint-chip{font-weight:600}
+.tutor-dock .composer{border-radius:var(--r-tile);border:1px solid var(--tile-edge);box-shadow:0 1px 2px rgba(11,21,48,.05),0 10px 28px -12px rgba(11,21,48,.22)}
+.tutor-dock .composer .icon-btn.soft{background:var(--accent-grad);color:#fff;box-shadow:var(--accent-glow)}
+.tutor-dock .composer .icon-btn.soft:disabled{background:var(--tile-sq);color:var(--ink-dim);box-shadow:none}
+.jump{border:0;box-shadow:var(--shadow-float);border-radius:14px}
+
+/* місії: «У фразник» — тихий рядок замість пунктирної рамки */
+.tu-mfold .mission-save,.mission-card .mission-save{border:0;background:var(--tile-sq);color:var(--ink);border-radius:var(--r-row);font-weight:600}
+.tu-mfold .mission-acts .tx{box-shadow:none}
+
+/* підсумок: рівень у розмовах — тихо, без кромки; цифри Onest 600 */
+.rolling-level,.sum-auto{border:0;box-shadow:none}
+.rolling-level .tx-no,.tx-no.tu-lvl{background:var(--accent-soft);color:var(--accent-ink);font-family:var(--font-head);font-weight:600}
+.tu-crit-row{border-top-color:var(--tile-edge)}
+.tu-crit-row .tx-no{font-family:var(--font-head);font-weight:600}
+.tu-sumh1{font-family:var(--font-head);font-weight:600;letter-spacing:-.025em}
+.tu-sumhead > .tx-sq{background:var(--accent-grad);color:#fff;box-shadow:var(--accent-glow)}
+.tx-row.sum-mistake,.tx-row.sum-mistake:last-child{border-bottom:0;padding-bottom:10px}
+.sum-wait-bar{height:4px;background:var(--track);border-radius:99px}
+.sum-wait-bar i{background:var(--accent-grad);border-radius:99px}
+.tu-check .tu-orig{border:0}
+
+/* перевірка тексту: вид тексту — сегменти */
+.seg.tu-kind button{padding-inline:6px;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+/* сценарії: іконки-емодзі в квадратиках успадковують колір (на синій плитці — білі) */
+.tx-sq .emo{color:inherit}
+
+/* голос: ядро — градієнт акценту зі світінням; субтитри — плитки з тінню; кнопки керування — плитки */
+.aura .core{background:var(--accent-grad);box-shadow:var(--accent-glow),inset 0 1px 0 rgba(255,255,255,.16)}
+.aura.me .core{background:var(--good)}
+.voice .state{font-family:var(--font-head);font-weight:600;color:var(--ink);letter-spacing:-.01em}
+.voice .top .num{font-family:var(--font-head);font-weight:600;font-variant-numeric:tabular-nums}
+.voice .subs{gap:10px}
+.voice .subs .line{border:1px solid var(--tile-edge);box-shadow:var(--tile-shadow);border-radius:var(--r-row);border-bottom-left-radius:6px;padding:10px 13px;line-height:1.45}
+.voice .subs .line.me{background:var(--accent-soft);border-color:transparent;box-shadow:none;border-radius:var(--r-row);border-bottom-right-radius:6px}
+.voice .ctrl{color:var(--ink-dim);font-weight:600}
+.voice .ctrl .c{border:0;box-shadow:var(--tile-shadow);border-radius:20px;width:62px;height:62px}
+.voice .ctrl.on .c{box-shadow:none}
+.voice .ctrl.stop .c{box-shadow:0 10px 22px -12px color-mix(in srgb,var(--bad) 80%,transparent)}
+.vfix{border:0;background:var(--tile);box-shadow:var(--tile-shadow),inset 3px 0 0 var(--warn);border-radius:12px;border-top-right-radius:4px;padding:6px 11px}
+.vfix.playing{box-shadow:0 0 0 2px var(--warn)}
+.vfix-count{font-weight:600}
+.vc-scen{box-shadow:var(--tile-shadow)}
+/* «Надіслати» синіє лише з текстом у полі — до того не змагається з головною дією екрана */
+.tutor-dock .composer:has(textarea:placeholder-shown) .icon-btn.soft:not([aria-label="Зупинити відповідь"]){background:var(--accent-soft);color:var(--accent-ink);box-shadow:none}
+/* оцінка рівня: на вузькому екрані пігулка впевненості переходить під заголовок, а не стискає його */
+.tu-assess > .tu-mhead{flex-wrap:wrap;row-gap:6px}
+.tu-assess > .tu-mhead > .tx-body{flex:1 1 150px}
+.tu-assess > .tu-mhead > .tx-pill{align-self:center;margin-left:auto}
+.tu-checkta{min-height:min(240px,34dvh);border-radius:var(--r-tile)}

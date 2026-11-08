@@ -65,7 +65,7 @@ function detail(view, s) {
       h('div.tu-facts', fact('user', 'Ваша роль', s.myRole), fact('chalkboard-teacher', 'Вчитель грає', s.tutorRole), fact('target', 'Мета', s.goal)))),
     txPrimary({ icon: 'microphone', label: 'Почати голосом', sub: 'у реальному часі, вчитель почне сцену', href: `#/tutor?mode=voice&scenario=${s.id}` }),
     tx({ icon: 'chat-circle-dots', label: 'Почати текстом', sub: 'у чаті, з виправленнями', wide: true, href: `#/tutor?scenario=${s.id}` }),
-    s.phrases.length ? txGroup(`Ключові фрази · прослухайте перед початком`, [
+    s.phrases.length ? txGroup(`Ключові фрази · ${s.phrases.length}`, [
       txRows(s.phrases.map(p => txRow({ icon: 'speaker-high', label: p, chevron: false, onclick: () => speak(p), cls: 'tu-scd-phrase', attrs: { lang: 'en', 'aria-label': `Прослухати: ${p}` } }))),
       saveBtn(s)]) : null));
 }

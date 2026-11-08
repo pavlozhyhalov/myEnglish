@@ -232,10 +232,11 @@ function history(view, chats) {
     const more = !selecting && list.length > SHOW
       ? h('button.tx-more.tt-all', { type: 'button', 'aria-expanded': String(all), onclick: () => { all = !all; draw(); } }, all ? 'Згорнути' : `Показати всі · ${Math.min(60, list.length)}`)
       : null;
-    box.replaceChildren(head, txRows(rows), more,
+    // replaceChildren(null) вставив би текст «null» — лише наявні вузли
+    box.replaceChildren(...[head, txRows(rows), more,
       selecting ? h('div.row',
         h('button.btn.soft.grow', { type: 'button', onclick: () => { list.forEach(c => picked.add(c.id)); draw(); } }, 'Вибрати всі'),
-        h('button.btn.danger.grow', { type: 'button', disabled: !picked.size, onclick: () => remove([...picked]) }, ic('trash', { size: 18 }), `Видалити (${picked.size})`)) : '');
+        h('button.btn.danger.grow', { type: 'button', disabled: !picked.size, onclick: () => remove([...picked]) }, ic('trash', { size: 18 }), `Видалити (${picked.size})`)) : null].filter(Boolean));
   };
   async function remove(ids) {
     const n = ids.length;
@@ -995,6 +996,8 @@ function repaintTx(el, icon, label, sub = '') {
 const sayBtn = (en) => h('button.tx-sq.tu-say', { type: 'button', 'aria-label': `Прослухати: ${en}`, onclick: () => speak(en) }, ic('speaker-high', { size: 18 }));
 const fixLine = (m) => h('div.fix-line', h('s.bad', m.wrong), h('span.arrow', { 'aria-label': 'правильно:' }, ' → '), h('b.good', m.right));
 const note = (...kids) => h('p.tu-note', ...kids);
+/** Markdown-розмітка в підписі плитки (там лише текст): **жирний**, *курсив*, `код` — без зірочок */
+const plainMd = (t) => String(t || '').replace(/\*\*|__|[*`~]/g, '').replace(/\s+/g, ' ').trim();
 
 /** Слова, які вчитель позначив вивченими: учень правильно вжив їх у цій і попередніх розмовах */
 function usedKnownCard(s) {
@@ -1128,7 +1131,7 @@ export function summaryView(view, row, { pronTurns = null } = {}) {
       h('div.tx-body', h('h1.tu-sumh1', 'Підсумок розмови'),
         h('span.tx-s', [row.title || '', lvl && turns ? `${turns} ${plural(turns, 'репліка', 'репліки', 'реплік')}` : ''].filter(Boolean).join(' · ')))),
     kpis,
-    nextHref ? txGroup('Наступного разу', txPrimary({ icon: 'arrow-right', label: 'Почати з цього', sub: s.next_focus, href: nextHref })) : null,
+    nextHref ? txGroup('Наступного разу', txPrimary({ icon: 'arrow-right', label: 'Почати з цього', sub: plainMd(s.next_focus), href: nextHref })) : null,
     mistakes.length ? txGroup(`Помилки · ${mistakes.length}`, [
       txRows(mistakes.slice(0, M_SHOW).map(mRow)),
       mistakes.length > M_SHOW ? fold({ icon: 'warning-circle', label: `Ще ${mistakes.length - M_SHOW} ${plural(mistakes.length - M_SHOW, 'помилка', 'помилки', 'помилок')}` }, txRows(mistakes.slice(M_SHOW).map((m, i) => mRow(m, i + M_SHOW)))) : null,
@@ -1348,15 +1351,16 @@ function deleteButton(row) {
 
 // ---------- Перевір мій текст ----------
 const KINDS = [
-  ['email', 'Лист'], ['teams', 'Повідомлення в месенджері'], ['report', 'Звіт (робочий)'], ['other', 'Інше'],
+  ['email', 'Лист'], ['teams', 'Месенджер'], ['report', 'Звіт'], ['other', 'Інше'],
 ];
 function checkMode(view, q) {
   let draft = '';
   try { draft = sessionStorage.getItem('me:draft') || ''; sessionStorage.removeItem('me:draft'); } catch { /* приватний режим */ }
   let kind = q.kind || 'email';
-  const ta = h('textarea.input', { rows: 10, placeholder: 'Вставте лист або текст англійською…', 'aria-label': 'Текст', value: draft });
+  const ta = h('textarea.input.tu-checkta', { rows: 8, placeholder: 'Вставте лист або текст англійською…', 'aria-label': 'Текст', value: draft });
   const btn = txPrimary({ icon: 'sparkle', label: 'Перевірити', sub: 'граматика, лексика, тон і структура', onclick: run });
-  const chips = h('div.chips', KINDS.filter(([v]) => v !== 'report' || store.settings().workFocus).map(([v, t]) => h('button.chip', { type: 'button', 'aria-pressed': String(v === kind), onclick: (e) => { kind = v; chips.querySelectorAll('.chip').forEach(c => c.setAttribute('aria-pressed', 'false')); e.currentTarget.setAttribute('aria-pressed', 'true'); } }, t)));
+  // 3–4 варіанти — сегменти (без чипів, що переносяться в два рядки)
+  const chips = h('div.seg.tu-kind', { role: 'group', 'aria-label': 'Що перевіряємо' }, KINDS.filter(([v]) => v !== 'report' || store.settings().workFocus).map(([v, t]) => h('button', { type: 'button', 'aria-pressed': String(v === kind), onclick: (e) => { kind = v; chips.querySelectorAll('button').forEach(c => c.setAttribute('aria-pressed', 'false')); e.currentTarget.setAttribute('aria-pressed', 'true'); } }, t)));
   view.replaceChildren(h('div.stack',
     h('div.gx-lhead', h('a.icon-btn', { href: '#/tutor', 'aria-label': 'До вчителя' }, ic('arrow-left')),
       h('div.grow', h('div.tx-label.gx-eyebrow', 'Вчитель'), h('h1.gx-lh1', 'Перевір мій текст'))),
