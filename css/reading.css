@@ -1,13 +1,34 @@
 /* Читання і слова, що перекладаються дотиком (js/ui/wordtap.js, js/pages/reading.js) */
-.reading-text{font-size:var(--fs-lg);line-height:1.7}
-.reading-text p{margin:0 0 .9em}
+.reading-text{font-size:19px;line-height:1.62;letter-spacing:-.004em;text-wrap:pretty;font-kerning:normal;hyphens:manual}
+.reading-text p{margin:0 0 .85em;transition:background-color .25s ease,box-shadow .25s ease;border-radius:10px}
 .reading-text p:last-child{margin-bottom:0}
-.reading-text p.speaking{background:var(--accent-soft);border-radius:8px;box-shadow:0 0 0 6px var(--accent-soft)}
+.reading-text p.speaking{background:color-mix(in srgb,var(--accent) 7%,transparent);box-shadow:0 0 0 8px color-mix(in srgb,var(--accent) 7%,transparent)}
 
-.wordtap .w{cursor:pointer;border-radius:4px;-webkit-tap-highlight-color:transparent;transition:background-color var(--dur, .2s)}
+/* «аркуш» тексту: плитка з глибиною, шапка — пігулка «Слухати» і підказка; ширина рядка ≤ 66 знаків */
+.rd-paper{background:var(--tile);border:1px solid var(--tile-edge);border-radius:var(--r-tile);box-shadow:var(--tile-shadow);padding:12px 18px 22px;min-width:0}
+.rd-paper .reading-text{max-width:66ch;margin:0 auto}
+.rd-paper-head{display:flex;align-items:center;gap:10px;justify-content:space-between;margin:0 -6px 14px;padding-bottom:12px;border-bottom:1px solid var(--tile-edge)}
+.rd-listen{display:inline-flex;align-items:center;gap:6px;min-height:36px;padding:0 14px 0 11px;border:0;border-radius:var(--radius-pill);cursor:pointer;flex:none;
+  background:color-mix(in srgb,var(--accent) 9%,var(--tile));color:var(--accent-ink);font:inherit;font-size:var(--fs-sm);font-weight:600;-webkit-tap-highlight-color:transparent;transition:transform .15s ease,background-color .2s ease}
+.rd-listen:active{transform:scale(.96)}
+.rd-listen[aria-pressed="true"]{background:var(--accent-soft)}
+html.kbd .rd-listen:focus-visible{outline:2px solid var(--accent-ink);outline-offset:2px}
+.rd-hint{display:inline-flex;align-items:center;gap:5px;min-width:0;font-size:var(--fs-xs);color:var(--ink-dim);text-align:right;line-height:1.3}
+.rd-hint .ico{flex:none}
+@media (max-width:360px){.rd-paper{padding:10px 14px 18px}.reading-text{font-size:18px}.rd-hint{font-size:12px}.rd-hint .ico{display:none}}
+@media (min-width:700px){.rd-paper{padding:14px 28px 28px}.reading-text{font-size:20px;line-height:1.65}}
+/* розбір помилок питань */
+.rd-miss{display:flex;flex-direction:column;gap:6px}
+.rd-miss-q{font-weight:600;line-height:1.4}
+.rd-miss-a{display:flex;align-items:center;flex-wrap:wrap;gap:6px;font-size:var(--fs-sm)}
+.rd-miss-a .ico{color:var(--ink-dim);flex:none}
+@media (prefers-reduced-motion:reduce){.reading-text p,.rd-listen{transition:none}}
+
+.wordtap .w{cursor:pointer;border-radius:5px;-webkit-tap-highlight-color:transparent;transition:background-color var(--dur, .2s)}
 @media (hover:hover){.wordtap .w:hover{background:var(--surface-2)}}
 .wordtap .w:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
 .wordtap .w:active{background:var(--accent-soft)}
+.wordtap .w:focus:not(:focus-visible){outline:none}
 .wordtap .w.gl{text-decoration:underline dotted color-mix(in srgb,var(--accent) 70%,transparent);text-decoration-thickness:2px;text-underline-offset:4px}
 
 .wt-head{font-size:var(--fs-xl);font-weight:600;overflow-wrap:anywhere}

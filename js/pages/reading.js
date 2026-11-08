@@ -9,7 +9,7 @@ import { activityTimer } from '../stats.js';
 import { runExercises, answerText } from '../ui/exercises.js';
 import { tappable } from '../ui/wordtap.js';
 import { byFit, levelTag, myLevel, levelChips, levelCounts, levelPick, filterByLevel, fallbackNote, pickOfDay } from '../level.js';
-import { tx, txPrimary, txGroup, txRow, txRows, txGrid, txKpis, txPill } from '../ui/tiles.js';
+import { tx, txPrimary, txGroup, txRow, txRows, txGrid, txKpis, txPill, txResult } from '../ui/tiles.js';
 
 /** Іконка теми (назва з мапи emo()) у квадратику плитки */
 const sqEmo = (el, name) => { const e = emo(name); e.setAttribute('width', 18); e.setAttribute('height', 18); el.querySelector('.tx-sq')?.replaceChildren(e); return el; };
@@ -111,11 +111,12 @@ function reader(view, t, list) {
   const article = h('article.reading-text', { lang: 'en', 'aria-label': `Текст: ${t.title}. Торкніться слова, щоб побачити переклад; стрілки — перехід між словами.` }, paras);
   tappable(article, { glossary: t.glossary, mark: true });
 
-  const playBtn = tx({ icon: 'speaker-high', wide: true, label: 'Прослухати текст', sub: 'Абзац, що звучить, підсвічується', onclick: togglePlay, end: null, cls: 'rd-play' });
+  // «Слухати» — тиха пігулка в шапці тексту (головна дія екрана — «Перевірити розуміння»)
+  const playBtn = h('button.rd-listen', { type: 'button', 'aria-pressed': 'false', onclick: togglePlay });
   const paintPlay = () => {
-    playBtn.querySelector('.tx-sq').replaceChildren(ic(playing ? 'stop' : 'speaker-high', { size: 20, fill: playing }));
-    playBtn.querySelector('.tx-l').textContent = playing ? 'Зупинити' : 'Прослухати текст';
-    playBtn.classList.toggle('on', playing);
+    playBtn.replaceChildren(ic(playing ? 'stop' : 'play', { size: 16, fill: true }), h('span', playing ? 'Зупинити' : 'Слухати'));
+    playBtn.setAttribute('aria-pressed', String(playing));
+    playBtn.setAttribute('aria-label', playing ? 'Зупинити читання' : 'Прослухати текст: абзац, що звучить, підсвічується');
   };
   paintPlay();
   async function togglePlay() {
@@ -171,16 +172,15 @@ function reader(view, t, list) {
     const wrong = res.results.filter(r => !r.ok);
     return h('div.stack-lg',
       h('section.tx-group',
-        h('div.gx-res', h('span.gx-res-ic.' + tone, ic(res.score >= 80 ? 'trophy' : res.score >= 50 ? 'thumbs-up' : 'barbell', { size: 26, fill: true })),
-          h('div.grow', h('div.tx-label', 'Результат'), h('div.gx-res-t', caption))),
+        txResult({ icon: res.score >= 80 ? 'trophy' : res.score >= 50 ? 'thumbs-up' : 'barbell', tone, label: 'Розуміння тексту', title: caption }),
         txKpis([
           { value: res.score, unit: '%', label: 'розуміння', tone },
           { value: `${res.correct}/${res.total}`, label: 'правильно' },
           { value: Math.max(prev?.best || 0, res.score), unit: '%', label: prev ? 'найкраще' : 'перша спроба', tone: prev && res.score > (prev.best || 0) ? 'good' : null },
         ])),
-      wrong.length ? txGroup(`Розбір помилок · ${wrong.length}`, wrong.map(r => h('div.gx-card.stack', { style: { gap: '4px' } },
-        h('div.small', { lang: 'en', style: { fontWeight: 600 } }, r.ex.prompt),
-        h('div.small', h('span.bad', r.given || '—'), ' → ', h('b.good', answerText(r.ex))),
+      wrong.length ? txGroup(`Розбір помилок · ${wrong.length}`, wrong.map(r => h('div.gx-card.rd-miss',
+        h('div.rd-miss-q', { lang: 'en' }, r.ex.prompt),
+        h('div.rd-miss-a', { lang: 'en' }, h('s.bad', r.given || '—'), ic('arrow-right', { size: 14 }), h('b.good', answerText(r.ex))),
         r.ex.explanation ? h('div.xs.dim', r.ex.explanation) : null)))
         : tx({ wide: true, tone: 'good', icon: 'check-circle', label: 'Без жодної помилки' }));
   }
@@ -200,9 +200,9 @@ function reader(view, t, list) {
       h('div.grow', h('div.tx-label.gx-eyebrow', `${t.level} · ${topicLabel(t)}`), h('h2.gx-lh1', { lang: 'en' }, t.title),
         h('div.small.dim.rd-sub', `${t.titleUk} · ${n} ${plural(n, 'слово', 'слова', 'слів')} · ~${minutes(t)} хв`)),
       p ? txPill(`${p.best}%`, 'good') : null),
-    h('section.tx-group', playBtn,
-      h('section.card.rd-text', article),
-      h('p.xs.dim.rd-note', 'Торкніться слова або виділіть фразу — побачите переклад')),
+    h('section.rd-paper',
+      h('div.rd-paper-head', playBtn, h('span.rd-hint', ic('translate', { size: 15 }), 'Торкніться слова — переклад')),
+      article),
     glossary,
     quiz));
   return () => { playing = false; stopSpeech(); timer.stop(); };
