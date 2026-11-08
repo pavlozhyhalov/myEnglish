@@ -322,7 +322,7 @@ function accountView(view, u) {
   setTitle('Акаунт');
   const pending = store.pendingCount();
   const changeBox = h('div');
-  const changeBtn = txRow({ icon: 'key', label: 'Змінити пароль', sub: 'Новий пароль діятиме на всіх пристроях', onclick: () => {
+  const changeBtn = txRow({ icon: 'key', label: 'Змінити пароль', sub: 'Для всіх пристроїв', onclick: () => {
     changeBtn.hidden = true;
     const f = newPasswordForm({ submitLabel: 'Змінити пароль', onDone: async () => {
       toast('Пароль змінено');
@@ -332,18 +332,18 @@ function accountView(view, u) {
       h('button.btn.ghost.block', { type: 'button', onclick: () => { changeBox.replaceChildren(); changeBtn.hidden = false; } }, S.cancel || 'Скасувати')));
     f.focus();
   } });
+  // одна група: стан синхронізації, пароль, вихід («На головну» — у нижній панелі й меню)
   view.replaceChildren(h('div.stack-lg.auth',
     headTile('check-circle', 'Ви увійшли', u.email, null, 'good'),
-    txGroup('Синхронізація', txRows([txRow({ icon: 'arrow-clockwise', label: pending ? 'Є несинхронізовані зміни' : 'Усі зміни синхронізовано',
-      sub: pending ? 'Надішлемо, щойно буде зв\'язок із сервером' : 'Дані однакові на всіх ваших пристроях',
-      pill: pending ? { text: `${pending}`, tone: 'warn' } : { text: 'OK', tone: 'good' } })])),
-    txGroup('Безпека', [txRows([changeBtn]), changeBox]),
-    txGroup('Акаунт', [
-      txPrimary({ icon: 'house', label: 'На головну', sub: 'Продовжити навчання', href: '#/' }),
-      txRows([txRow({ icon: 'sign-out', cls: 'auth-out', label: 'Вийти', sub: 'Ваші дані залишаться в хмарі', chevron: false, onclick: async (e) => {
+    txGroup('Акаунт', [txRows([
+      txRow({ icon: 'arrow-clockwise', label: pending ? 'Є несинхронізовані зміни' : 'Усе синхронізовано',
+        sub: pending ? 'Надішлемо, щойно буде зв\'язок' : 'Дані однакові на всіх пристроях',
+        pill: pending ? { text: `${pending}`, tone: 'warn' } : { text: 'OK', tone: 'good' } }),
+      changeBtn,
+      txRow({ icon: 'sign-out', cls: 'auth-out', label: 'Вийти', sub: 'Дані залишаться в хмарі', chevron: false, onclick: async (e) => {
         e.currentTarget.disabled = true;
         await signOut();
         toast('Ви вийшли з акаунта');
         loginView(view, 'in');
-      } })])])));
+      } })]), changeBox])));
 }
