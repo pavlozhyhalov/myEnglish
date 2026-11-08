@@ -109,7 +109,6 @@ body .sel-pop-more::after{inset:-2px}
 .wtp-card > .icon-btn{align-self:flex-start;flex:none}
 .wt-src{margin-top:8px}
 .wt-src .tx-pill{white-space:normal;line-height:1.25}
-.wt-status{margin:0 4px}
 .sheet .wt-entry .example{padding:10px 12px;border-radius:14px;background:var(--tile);border:1px solid var(--tile-edge)}
 /* дії шторки слова — рядки-плитки з іконкою */
 .sheet .wt-entry > .row.wrap,.sheet .wt-actions{display:flex;flex-direction:column;align-items:stretch;gap:6px;margin-top:0}

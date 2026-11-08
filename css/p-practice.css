@@ -42,8 +42,6 @@ div.pp-panel.small{font-size:var(--fs-sm)}
    Шапка: .gx-lhead / .gx-eyebrow / .gx-lh1 (p-grammar.css); результат: .gx-res + txKpis; текстові плитки — .gx-card. */
 .rd-sub{margin-top:2px;overflow-wrap:anywhere}
 .rd-note,.ls-note2,.wr-note{margin:0;padding:0 4px;line-height:1.45}
-.rd-text{padding:16px}
-.rd-play .tx-end:empty{display:none}
 /* словничок — розкривна плитка, всередині рядки-плитки */
 .rd-gloss{display:flex;flex-direction:column;gap:6px}
 .rd-gloss-head{list-style:none;display:flex;align-items:center;gap:12px;min-height:58px;padding:10px 12px;border-radius:16px;cursor:pointer;
@@ -100,7 +98,6 @@ html.kbd .wr-gl-head:focus-visible{outline:2px solid var(--accent-ink);outline-o
 .chip.wr-chip{white-space:normal;text-align:left;max-width:100%;background:var(--tile-sq);border-color:transparent;overflow-wrap:anywhere}
 .wr-task{line-height:1.5}
 .wr .input{border-radius:14px}
-.wr-wc{padding:0 4px}
 .wr-sample-t{margin:0 12px 12px;background:var(--tile-sq);border-color:transparent;white-space:pre-wrap;line-height:1.55}
 @media (prefers-reduced-motion:reduce){.wr-gl-head > .ico:last-child{transition:none}}
 /* «Аркуш» для письма (письмо, щоденник): поле без рамки всередині плитки, внизу — лічильник і смужка довжини */

@@ -11,7 +11,7 @@
 .rd-listen{display:inline-flex;align-items:center;gap:6px;min-height:36px;padding:0 14px 0 11px;border:0;border-radius:var(--radius-pill);cursor:pointer;flex:none;
   background:color-mix(in srgb,var(--accent) 9%,var(--tile));color:var(--accent-ink);font:inherit;font-size:var(--fs-sm);font-weight:600;-webkit-tap-highlight-color:transparent;transition:transform .15s ease,background-color .2s ease}
 .rd-listen:active{transform:scale(.96)}
-.rd-listen[aria-pressed="true"]{background:var(--accent-soft)}
+.rd-listen.on{background:var(--accent-soft)}
 html.kbd .rd-listen:focus-visible{outline:2px solid var(--accent-ink);outline-offset:2px}
 .rd-hint{display:inline-flex;align-items:center;gap:5px;min-width:0;font-size:var(--fs-xs);color:var(--ink-dim);text-align:right;line-height:1.3}
 .rd-hint .ico{flex:none}

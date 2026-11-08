@@ -112,10 +112,10 @@ function reader(view, t, list) {
   tappable(article, { glossary: t.glossary, mark: true });
 
   // «Слухати» — тиха пігулка в шапці тексту (головна дія екрана — «Перевірити розуміння»)
-  const playBtn = h('button.rd-listen', { type: 'button', 'aria-pressed': 'false', onclick: togglePlay });
+  const playBtn = h('button.rd-listen', { type: 'button', onclick: togglePlay });
   const paintPlay = () => {
     playBtn.replaceChildren(ic(playing ? 'stop' : 'play', { size: 16, fill: true }), h('span', playing ? 'Зупинити' : 'Слухати'));
-    playBtn.setAttribute('aria-pressed', String(playing));
+    playBtn.classList.toggle('on', playing);
     playBtn.setAttribute('aria-label', playing ? 'Зупинити читання' : 'Прослухати текст: абзац, що звучить, підсвічується');
   };
   paintPlay();
