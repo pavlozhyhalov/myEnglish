@@ -13,7 +13,7 @@ import { setTitle, setFocus } from '../ui/shell.js';
 import { bestUpdate, shuffleArr } from './logic.js';
 import { plural } from '../strings.js';
 import { tx, txGroup, txRows, txPill } from '../ui/tiles.js';
-import { gameState, saveGameState, beep, buzz, reducedMotion, gameHead, statPill, gameIntro, startTile, gameResult } from './common.js';
+import { gameState, saveGameState, beep, buzz, reducedMotion, gameHead, statPill, gameIntro, startTile, gameResult, moreRows } from './common.js';
 
 export const ROUNDS = 15;
 export const OWN_SHARE = 0.6;
@@ -415,7 +415,7 @@ export default async function detective(view) {
         icon: 'magnifying-glass', record: upd.record, score: String(score), unit: plural(score, 'очко', 'очки', 'очок'), sub: verdict(hits, rounds.length),
         kpis: [{ value: `${hits}/${rounds.length}`, label: 'знайдено', tone: 'good' }, { value: maxCombo, label: 'найдовше комбо' }, { value: Math.max(upd.prev, score), label: `рекорд ${lv}` }],
         sections: [list.length
-          ? txGroup('Правила, на яких ви спіткнулися', [txRows(ruleRows),
+          ? txGroup('Правила, на яких ви спіткнулися', [moreRows(ruleRows),
             anyFocus ? tx({ icon: 'target', label: 'Потренувати правила тижня', sub: 'Мої помилки · за розкладом', href: '#/mistakes?practice=due&focus=1', wide: true }) : null])
           : tx({ icon: 'seal-check', label: 'Жодного промаху — справжній детектив!', wide: true, tone: 'good' })],
         primary: { icon: 'arrow-clockwise', label: 'Ще раз', sub: `${ROUNDS} нових речень`, onclick: play },

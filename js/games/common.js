@@ -188,16 +188,29 @@ export const startTile = ({ label = 'Почати', sub = null, icon = 'play', o
  */
 export function gameResult({ icon = 'flag', record = false, score, unit = null, sub = '', kpis = [], note = null, sections = [], primary, more = [] }) {
   const list = more.filter(Boolean);
+  // по полочках: квадратик + рахунок → цифри → одна синя дія «Ще раз» → розбір → інші дії внизу
   return h('div.stack-lg.g-end',
     txResult({
       icon: record ? 'trophy' : icon, tone: record ? 'good' : 'accent', label: record ? 'Новий рекорд!' : 'Результат',
       title: h('span', h('span.num', score), unit ? (/^\s/.test(unit) ? unit : ' ' + unit) : null), sub }),
-    kpis.length ? txKpis(kpis) : null,
+    // нуль — без зеленого «успіху»
+    kpis.length ? txKpis(kpis.map(k => (k.tone === 'good' && /^0(\/|%|$)/.test(String(k.value)) ? { ...k, tone: '' } : k))) : null,
     note ? h('p.xs.dim.g-note', note) : null,
+    primary ? txPrimary({ ...primary, cls: 'g-again' }) : null,
     ...sections.filter(Boolean),
-    h('div.stack.g-next',
-      primary ? txPrimary({ ...primary, cls: 'g-again' }) : null,
-      list.length === 1 ? tx({ ...list[0], wide: true }) : list.length ? txGrid(list.map(tx), 2) : null));
+    list.length ? h('div.stack.g-next', list.length === 1 ? tx({ ...list[0], wide: true }) : txGrid(list.map(tx), 2)) : null);
+}
+
+/** Довгий список рядків: перші 6, решта — за рядком «Показати всі · N» */
+export function moreRows(rows, n = 6) {
+  const list = rows.filter(Boolean);
+  if (list.length <= n) return txRows(list);
+  list.forEach((r, i) => { if (i >= n) r.hidden = true; });
+  const box = txRows(list);
+  const more = txRow({ icon: 'caret-down', label: `Показати всі · ${list.length}`, cls: 'gx-more', chevron: false,
+    attrs: { 'aria-expanded': 'false' }, onclick: () => { list.forEach(r => { r.hidden = false; }); more.remove(); } });
+  box.append(more);
+  return box;
 }
 
 /** Рядок-плитка зі словом: квадратик «прослухати», слово й переклад, праворуч — довільний вузол */

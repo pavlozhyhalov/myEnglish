@@ -10,7 +10,7 @@ import { norm, sameSentence, tilesOf } from '../wordlogic.js';
 import { BUILD_SECONDS, BUILD_BONUS, goodSentence, shuffledTiles, firstMismatch, buildPoints, bestUpdate, shuffleArr } from './logic.js';
 import { plural } from '../strings.js';
 import { tx, txGroup, txRows } from '../ui/tiles.js';
-import { wordPool, gameState, saveGameState, beep, buzz, reducedMotion, gameHead, statPill, autoSpeak, gameIntro, startTile, gameResult, wordRow } from './common.js';
+import { wordPool, gameState, saveGameState, beep, buzz, reducedMotion, gameHead, statPill, autoSpeak, gameIntro, startTile, gameResult, wordRow, moreRows } from './common.js';
 
 /** Речення рівня: приклади з карток, які зараз вчаться, першими; далі колоди й уроки граматики мого рівня */
 async function sentences(lv) {
@@ -166,7 +166,7 @@ export default async function build(view) {
         kpis: [{ value: done, label: plural(done, 'речення', 'речення', 'речень') + ' складено', tone: 'good' }, { value: bestStreak, label: 'найдовша серія' }, { value: missed.length, label: 'з помилками', tone: missed.length ? 'warn' : '' }],
         note: upd.prev && !upd.record ? `Рекорд рівня ${lv}: ${upd.prev}` : null,
         sections: [missed.length
-          ? txGroup('Варто повторити', txRows(missed.map(m => wordRow({ en: m.en, uk: m.uk, cls: 'g-sent' }))))
+          ? txGroup('Варто повторити', moreRows(missed.map(m => wordRow({ en: m.en, uk: m.uk, cls: 'g-sent' }))))
           : (done ? tx({ icon: 'check-circle', label: 'Жодної помилки!', wide: true, tone: 'good' }) : null)],
         primary: { icon: 'arrow-clockwise', label: 'Ще раз', sub: `${BUILD_SECONDS} секунд`, onclick: play },
         more: [{ icon: 'game-controller', label: 'Інші ігри', href: '#/games' }],

@@ -9,7 +9,7 @@ import { pickDistractors, shuffle } from '../wordlogic.js';
 import { RUSH_SECONDS, RUSH_LIVES, comboMult, rushTimeFor, rushPoints, buildQueue, truthPair, bestUpdate } from './logic.js';
 import { plural } from '../strings.js';
 import { tx, txGroup } from '../ui/tiles.js';
-import { wordPool, gameState, saveGameState, beep, buzz, reducedMotion, addWordButton, gameHead, statPill, gameIntro, startTile, gameResult, wordRow } from './common.js';
+import { wordPool, gameState, saveGameState, beep, buzz, reducedMotion, addWordButton, gameHead, statPill, gameIntro, startTile, gameResult, wordRow, moreRows } from './common.js';
 
 const MODE_KEY = { choice: 'rush4', truth: 'rushtf' };
 
@@ -203,7 +203,7 @@ export default async function rush(view) {
 /** Слова з помилками: прослухати й додати в мої слова */
 export function missedList(list) {
   const addAll = h('button.tx-more.g-addall', { type: 'button', onclick: () => { listEl.querySelectorAll('button.soft:not([disabled])').forEach(b => b.click()); addAll.disabled = true; } }, 'Додати всі');
-  const listEl = h('div.tx-rows', list.map(w => wordRow({ en: w.en, uk: w.uk, end: addWordButton(w, { compact: true }) })));
+  const listEl = moreRows(list.map(w => wordRow({ en: w.en, uk: w.uk, end: addWordButton(w, { compact: true }) })));
   return h('section.tx-group', h('div.tx-label-row', h('h2.tx-label', 'Варто повторити'), addAll), listEl);
 }
 
