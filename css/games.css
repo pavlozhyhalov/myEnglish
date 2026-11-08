@@ -2,7 +2,8 @@
 .games h2:not(.tx-label){margin:0;font-size:var(--fs-lg)}
 .g-head{display:flex;align-items:center;gap:6px;min-width:0}
 .g-head h2{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.g-hub-head{gap:8px;align-items:center}
+.g-hub-foot{gap:8px;align-items:center}
+.g-foot-link{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 4px;font-weight:600;font-size:var(--fs-sm);color:var(--accent-ink);text-decoration:none}
 .g-tile .tx-pill{margin-top:4px;align-self:flex-start;white-space:normal;line-height:1.2}
 .g-intro .seg{align-self:stretch;width:100%}
 .g-intro .seg button{flex:1}
