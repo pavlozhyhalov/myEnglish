@@ -156,20 +156,23 @@ export function addMistake({ wrong, right, type, rule, explanation_uk, source, r
   if (rule && rule !== 'other') type = RULES[rule].type;
   // оскаржене учнем («Не згоден») — не додаємо
   if (isDisputed(wrong, right)) return null;
-  // помилка на це правило знову — засвоєння правила починається спочатку
-  if (rule && rule !== 'other') ruleMiss(rule);
+  // помилка на граматичне правило — серії інших помилок цього правила відступають на крок (не до нуля);
+  // у «словникових» правилах кожна помилка окрема — нова помилка інших не чіпає (2026-11-08: 191 з 193 помилок мали серію 0)
+  if (rule && !LEXICAL.has(rule)) ruleMiss(rule);
   const ex = store.all('mistakes').find(m => norm(m.wrong) === norm(wrong) && norm(m.right) === norm(right));
   if (ex) { ex.count = (ex.count || 1) + 1; ex.streak = 0; ex.resolved = false; if (rule && !ex.rule) ex.rule = rule; return store.put('mistakes', ex); }
   return store.put('mistakes', { wrong, right, type, rule, explanation_uk: explanation_uk || '', source: source || 'tutor', count: 1, streak: 0, resolved: false, ref: ref || null });
 }
 const openOfRule = (rule) => store.all('mistakes').filter(m => !m.deleted && !m.resolved && m.rule === rule);
-/** Помилка на правило: серія правильних використань відкритих помилок цього правила обнуляється */
+/** «Словникові» правила: кожна помилка — окреме слово чи вислів, тож правило не можна «засвоїти» разом (make/do ≠ borrow/lend) */
+export const LEXICAL = new Set(['word-choice', 'collocations', 'prep-dependent', 'irregular-verbs', 'other']);
+/** Нова помилка на граматичне правило: серії інших відкритих помилок цього правила — на крок назад */
 function ruleMiss(rule) {
-  for (const m of openOfRule(rule)) if (m.streak) { m.streak = 0; store.put('mistakes', m); }
+  for (const m of openOfRule(rule)) if (m.streak) { m.streak = Math.max(0, m.streak - 1); store.put('mistakes', m); }
 }
-/** Правильне використання правила в розмові: +1 до серії кожної відкритої помилки цього правила (3 поспіль — закрито) */
+/** Правильне використання граматичного правила в розмові: +1 до серії кожної відкритої помилки цього правила (3 — закрито) */
 export function ruleHit(rule, done = new Set()) {
-  if (!rule || rule === 'other') return 0;
+  if (!rule || LEXICAL.has(rule)) return 0;
   let n = 0;
   for (const m of openOfRule(rule)) if (!done.has(m.id)) { done.add(m.id); mistakeHit(m, true); n++; }
   return n;
@@ -185,6 +188,42 @@ export function mistakesByRule() {
     g.set(key, e);
   }
   return [...g.values()].sort((a, b) => b.total - a.total);
+}
+
+// ---------- Прибирання списку помилок (2026-11-08) ----------
+/**
+ * Раз на добу (після синхронізації): 1) зливає дублікати — та сама правильна форма або та сама помилкова фраза;
+ * 2) закриває разові помилки, що не повторювались: з правильним уживанням (серія ≥ 1) — через 14 днів, без нього — через 30.
+ * Повертає { merged, closed }. Видалення м'яке (store.remove).
+ */
+export function tidyMistakes({ force = false } = {}) {
+  const KEY = 'me:mk-tidy';
+  try { if (!force && localStorage.getItem(KEY) === today()) return { merged: 0, closed: 0 }; } catch {}
+  const open = store.all('mistakes').filter(m => !m.deleted && !m.resolved && m.wrong && m.right && m.wrong !== '—')
+    .sort((a, b) => String(a.created_at || '').localeCompare(String(b.created_at || '')));
+  const byKey = new Map();
+  let merged = 0, closed = 0;
+  for (const m of open) {
+    const kr = 'r:' + norm(m.right), kw = 'w:' + norm(m.wrong);
+    const keep = byKey.get(kr) || byKey.get(kw);
+    if (keep && keep.id !== m.id && (keep.rule || null) === (m.rule || keep.rule || null)) {
+      keep.count = (keep.count || 1) + (m.count || 1);
+      keep.streak = Math.max(keep.streak || 0, m.streak || 0);
+      if (!keep.rule && m.rule) keep.rule = m.rule;
+      if (!keep.explanation_uk && m.explanation_uk) keep.explanation_uk = m.explanation_uk;
+      store.put('mistakes', keep); store.remove('mistakes', m.id); merged++;
+      continue;
+    }
+    byKey.set(kr, m); byKey.set(kw, m);
+  }
+  const now = Date.now(), DAY = 864e5;
+  for (const m of store.all('mistakes')) {
+    if (m.deleted || m.resolved || (m.count || 1) > 1) continue;
+    const quiet = now - Date.parse(m.updated_at || m.created_at || 0);
+    if ((m.streak >= 1 && quiet > 14 * DAY) || quiet > 30 * DAY) { m.resolved = true; store.put('mistakes', m); closed++; }
+  }
+  try { localStorage.setItem(KEY, today()); } catch {}
+  return { merged, closed };
 }
 
 // ---------- «Не згоден» з виправленням ----------

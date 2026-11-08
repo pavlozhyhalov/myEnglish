@@ -10,7 +10,7 @@ import { route, fallback, onRoute, start, go } from './router.js';
 import { sectionFor, menuItemOf, tabsetOf } from './nav.js';
 import { initAuth, onAuth, onClient, recoveryPending, user as authUser } from './supa.js';
 import { initErrlog } from './errlog.js';
-import { streak, backfillLessonTests } from './stats.js';
+import { streak, backfillLessonTests, tidyMistakes } from './stats.js';
 import { setTitle, applyTheme } from './ui/shell.js';
 import { keepAwake } from './ui/wakelock.js';
 import { initSelectLookup } from './ui/selectlookup.js';
@@ -39,7 +39,7 @@ function header() {
     streakBtn.hidden = n < 1;
   };
   updateStreak();
-  store.on(t => { if (t === 'sessions') updateStreak(); if (t === 'synced') { try { backfillLessonTests(); } catch (e) { console.warn('tests backfill', e); } usedWordsLater(); } });
+  store.on(t => { if (t === 'sessions') updateStreak(); if (t === 'synced') { try { backfillLessonTests(); } catch (e) { console.warn('tests backfill', e); } try { tidyMistakes(); } catch (e) { console.warn('tidy mistakes', e); } usedWordsLater(); } });
   // слова, які учень уживає в розмовах, — «вивчено» (раз на 6 год; після синхронізації розмов з інших пристроїв)
   function usedWordsLater() {
     const run = () => import('./usage.js').then(m => m.backgroundMarkUsed()).then(list => {
