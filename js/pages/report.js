@@ -49,19 +49,26 @@ export default async function reportPage(view, r) {
   chips.querySelector('[aria-pressed="true"]')?.scrollIntoView?.({ block: 'nearest', inline: 'nearest' });
 }
 
+/** Ряд цифр без нулів і прочерків: лише те, що допомагає (1–3 плитки на всю ширину) */
+function kpiRow(items) {
+  const list = items.filter(x => x && x.value !== 0 && x.value !== '—');
+  if (!list.length) return null;
+  const row = txKpis(list, 3);
+  if (list.length < 3) row.style.gridTemplateColumns = `repeat(${list.length},minmax(0,1fr))`;
+  return row;
+}
+
 function monthView(M) {
-  const out = [hero(M)];
   const empty = !M.seconds && !M.voice && !M.text && !M.mistakes.added && !M.words.reviews;
+  const out = [hero(M, empty)];
   if (empty) {
-    out.push(h('section.stack.rp-empty',
-      h('p.small.dim.center', { style: { margin: 0 } }, M.cur ? 'У цьому місяці ще немає занять. Почніть сьогодні — звіт наповнюватиметься сам.' : `У ${MONTH_IN[M.monthIdx]} занять не було.`),
-      M.cur ? txPrimary({ icon: 'play', label: 'Почати заняття', href: '#/session' }) : null));
+    if (M.cur) out.push(txPrimary({ icon: 'play', label: 'Почати заняття', sub: 'звіт наповнюватиметься сам', href: '#/session' }));
   } else {
-    const lv = M.level.n ? lvTxt(M.level.last || M.level.first) : '—';
-    out.push(txGroup('Підсумок місяця', txKpis([
+    const kp = kpiRow([
       stat(M.voice + M.text, plural(M.voice + M.text, 'розмова з вчителем', 'розмови з вчителем', 'розмов з вчителем')),
-      stat(lv, 'рівень у розмовах', M.level.n ? 'accent' : ''),
-      stat(M.mistakes.closed, plural(M.mistakes.closed, 'помилку закрито', 'помилки закрито', 'помилок закрито'), M.mistakes.closed ? 'good' : '')])));
+      M.level.n ? stat(lvTxt(M.level.last || M.level.first), 'рівень у розмовах', 'accent') : null,
+      stat(M.mistakes.closed, plural(M.mistakes.closed, 'помилку закрито', 'помилки закрито', 'помилок закрито'), 'good')]);
+    if (kp) out.push(txGroup('Підсумок місяця', kp));
   }
   const folds = empty ? [] : [talkCard(M), levelCard(M), speechCard(M), mistakesCard(M), wordsCard(M)];
   folds.push(voiceCard());
@@ -71,7 +78,7 @@ function monthView(M) {
 }
 
 // ---------- Обкладинка: місяць, великі числа, хвилини по днях ----------
-function hero(M) {
+function hero(M, empty = false) {
   const min = Math.round(M.seconds / 60), prev = Math.round(M.prevSec / 60);
   const [, pm] = M.prevYm.split('-').map(Number);
   let cmp = '';
@@ -81,9 +88,13 @@ function hero(M) {
     cmp = d >= 5 ? `На ${d}% більше, ніж ${than}` : d <= -5 ? `На ${-d}% менше, ніж ${than}` : `Приблизно як ${than}`;
   } else if (min && !prev) cmp = 'Перший місяць занять — добрий старт';
   const max = Math.max(60, ...M.days.map(d => d.sec));
+  const head = [h('div.row', h('span.label.grow', M.cur ? 'Мій місяць англійської · триває' : 'Мій місяць англійської'), ic('calendar-blank', { size: 20 })),
+    h('h2.rp-month#rp-month', M.title)];
+  // порожній місяць — без нулів: лише назва й один рядок
+  if (empty) return h('section.plan-hero.rp-hero.rp-hero-empty', { 'aria-labelledby': 'rp-month' }, ...head,
+    h('span.sub', M.cur ? 'Тут з\'явиться ваш місяць: хвилини, розмови, рівень і помилки' : `У ${MONTH_IN[M.monthIdx]} занять не було`));
   return h('section.plan-hero.rp-hero', { 'aria-labelledby': 'rp-month' },
-    h('div.row', h('span.label.grow', M.cur ? 'Мій місяць англійської · триває' : 'Мій місяць англійської'), ic('calendar-blank', { size: 20 })),
-    h('h2.rp-month#rp-month', M.title),
+    ...head,
     h('div.rp-big',
       h('div', h('b', String(min)), h('span', plural(min, 'хвилина', 'хвилини', 'хвилин'))),
       h('div', h('b', String(M.activeDays)), h('span', plural(M.activeDays, 'активний день', 'активні дні', 'активних днів'))),
@@ -98,8 +109,9 @@ function hero(M) {
 function talkCard(M) {
   const vmin = Math.round(M.voiceSec / 60);
   const types = Object.entries(M.byType).filter(([, v]) => v > 0).slice(0, 6);
-  return block('chat-circle-dots', 'Заняття', `${M.voice} ${plural(M.voice, 'голосова', 'голосові', 'голосових')} · ${M.text} ${plural(M.text, 'текстова', 'текстові', 'текстових')} · ${M.diary} у щоденнику`,
-    txKpis([
+  const sub = [M.voice ? `${M.voice} ${plural(M.voice, 'голосова', 'голосові', 'голосових')}` : '', M.text ? `${M.text} ${plural(M.text, 'текстова', 'текстові', 'текстових')}` : '', M.diary ? `${M.diary} у щоденнику` : ''].filter(Boolean).join(' · ');
+  return block('chat-circle-dots', 'Заняття', sub || 'розмов з вчителем не було',
+    kpiRow([
       stat(M.voice, plural(M.voice, 'голосова розмова', 'голосові розмови', 'голосових розмов')),
       stat(M.text, plural(M.text, 'текстова розмова', 'текстові розмови', 'текстових розмов')),
       stat(M.diary, plural(M.diary, 'запис у щоденнику', 'записи в щоденнику', 'записів у щоденнику'))]),
@@ -110,6 +122,7 @@ function talkCard(M) {
 // ---------- Рівень у розмовах: перша й остання оцінка місяця, критерії CEFR ----------
 function levelCard(M) {
   const L = M.level;
+  if (!L.n && !M.cur) return null;
   if (!L.n) return block('target', 'Рівень у розмовах', 'оцінок цього місяця немає',
     h('div.stack.an-empty', h('span.small.dim', 'Вчитель оцінює розмову, коли в ній 40+ ваших слів.'),
       M.cur ? txRow({ icon: 'microphone', label: 'Поговорити', href: '#/tutor?mode=voice' }) : null));
@@ -137,6 +150,7 @@ function levelCard(M) {
 // ---------- Мовлення (голосові розмови місяця) ----------
 function speechCard(M) {
   const sp = M.speech;
+  if (!sp.n && !M.cur) return null;
   if (!sp.n) return block('waveform', 'Мовлення', 'голосових розмов не було',
     h('div.stack.an-empty', h('span.small.dim', 'Поговоріть голосом 2–3 рази, щоб побачити темп, довжину реплік і плавність.'),
       M.cur ? txRow({ icon: 'microphone', label: 'Поговорити', href: '#/tutor?mode=voice' }) : null));
@@ -153,8 +167,9 @@ function speechCard(M) {
 // ---------- Помилки ----------
 function mistakesCard(M) {
   const m = M.mistakes;
-  return block('warning-circle', 'Помилки', `нових ${m.added} · закрито ${m.closed} · відкритих ${m.open}`,
-    txKpis([stat(m.added, plural(m.added, 'нова', 'нові', 'нових'), m.added ? 'bad' : ''), stat(m.closed, 'закрито', m.closed ? 'good' : ''), stat(m.open, 'відкритих зараз')]),
+  const sub = [m.added ? `нових ${m.added}` : '', m.closed ? `закрито ${m.closed}` : '', m.open ? `відкритих ${m.open}` : ''].filter(Boolean).join(' · ');
+  return block('warning-circle', 'Помилки', sub || 'помилок не було',
+    kpiRow([stat(m.added, plural(m.added, 'нова', 'нові', 'нових'), 'bad'), stat(m.closed, 'закрито', 'good'), stat(m.open, 'відкритих зараз')]),
     m.top.length ? h('h3.tx-label.pg-sublabel', 'Що лишилося опрацювати (найчастіші)') : null,
     m.top.length ? h('div.tx-rows', m.top.map(x => h('div.tx-row.rp-mk',
       h('span.tx-no', `×${x.count}`),
@@ -170,11 +185,12 @@ function mistakesCard(M) {
 function wordsCard(M) {
   const w = M.words;
   if (!w.reviews && w.solidNow == null) return null;
-  return block('cards', 'Слова', `почато ${w.started} · повторів ${w.reviews}`,
-    txKpis([
+  const sub = [w.started ? `почато ${w.started}` : '', w.reviews ? `повторів ${w.reviews}` : '', w.solidNow ? `закріплено ${w.solidNow}` : ''].filter(Boolean).join(' · ');
+  return block('cards', 'Слова', sub || 'нових слів і повторів не було',
+    kpiRow([
       stat(w.started, plural(w.started, 'нове слово почато', 'нові слова почато', 'нових слів почато')),
       stat(w.reviews, plural(w.reviews, 'повтор', 'повтори', 'повторів')),
-      w.solidNow != null ? stat(w.solidNow, 'закріплено зараз (≥ 7 дн.)', w.solidNow ? 'good' : '') : null], w.solidNow != null ? 3 : 2),
+      w.solidNow != null ? stat(w.solidNow, 'закріплено зараз (≥ 7 дн.)', 'good') : null]),
     w.oldReviews ? h('div.xs.dim.pg-note', 'Повтори карток старші за 4 місяці на пристрої не зберігаються — числа можуть бути неповні.') : null);
 }
 

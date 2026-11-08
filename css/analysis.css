@@ -56,15 +56,17 @@
 .rp-hero{gap:12px;position:relative;overflow:hidden}
 .rp-hero::after{content:"";position:absolute;right:-60px;top:-60px;width:180px;height:180px;border-radius:50%;background:rgba(255,255,255,.06);pointer-events:none}
 .rp-hero .row{gap:8px;color:var(--hero-dim)}
-.rp-month{font-family:var(--font-head);font-weight:700;font-size:30px;line-height:1.1;letter-spacing:-.02em;margin:0;color:#fff}
+.rp-month{font-family:var(--font-head);font-weight:600;font-size:30px;line-height:1.1;letter-spacing:-.03em;margin:0;color:#fff}
 .rp-big{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
 .rp-big > div{display:flex;flex-direction:column;gap:2px;min-width:0}
-.rp-big b{font-family:var(--font-head);font-weight:700;font-size:28px;line-height:1.1;letter-spacing:-.02em}
+.rp-big b{font-family:var(--font-head);font-weight:600;font-size:28px;line-height:1.1;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
 .rp-big span{font-size:var(--fs-xs);color:var(--hero-dim);line-height:1.3}
 .rp-days{display:flex;align-items:flex-end;gap:2px;height:56px;margin-top:4px}
 .rp-days i{flex:1;background:#fff;border-radius:3px 3px 1px 1px;opacity:.9;min-width:0}
 .rp-days i.zero{background:rgba(255,255,255,.22);opacity:1}
 .rp-days i.future{background:rgba(255,255,255,.1)}
+.rp-hero-empty{gap:8px}
+.rp-hero-empty .sub{max-width:30ch}
 .rp-days-lbl{display:flex;justify-content:space-between;font-size:11px;color:var(--hero-dim);margin-top:-6px}
 .rp-lv{display:flex;align-items:flex-end;gap:12px}
 .rp-lv > div:not(.grow){display:flex;flex-direction:column;gap:4px;align-items:flex-start}
@@ -74,7 +76,7 @@
 .report .wrap{flex-wrap:wrap}
 .rp-clips{display:grid;grid-template-columns:1fr;gap:12px}
 @media (min-width:560px){.rp-clips{grid-template-columns:1fr 1fr}}
-.rp-clip{display:flex;flex-direction:column;gap:8px;padding:12px;border-radius:14px;background:var(--tile-sq)}
+.rp-clip{display:flex;flex-direction:column;gap:8px;padding:12px;border-radius:var(--r-row);background:var(--tile-sq)}
 .rp-clip .row{gap:8px}
 .rp-clip audio{width:100%;height:44px}
 .rp-clip-text{margin:0;font-size:var(--fs-sm);line-height:1.45;font-style:italic;overflow-wrap:anywhere}
