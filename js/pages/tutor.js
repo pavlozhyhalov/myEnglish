@@ -99,7 +99,7 @@ function missionsBlock() {
     btn.disabled = busy;
     btn.querySelector('.tx-sq').replaceChildren(ic(busy ? 'hourglass' : has ? 'arrow-clockwise' : 'flag', { size: 20 }));
     btn.querySelector('.tx-l').textContent = busy ? 'Складаю місії…' : has ? 'Інші місії' : 'Скласти місії';
-    btn.querySelector('.tx-s').textContent = has ? 'Нові 3 ситуації з вашого профілю й планів' : 'Вчитель складе 3 ситуації за вашим профілем і планами — дзвінок, візит, розмова з сусідом';
+    btn.querySelector('.tx-s').textContent = has ? 'нові 3 ситуації' : '3 рольові ігри з вашого профілю й планів';
   };
   const render = (missions) => {
     list.replaceChildren(...missions.map(missionCard));
@@ -129,9 +129,7 @@ function missionsBlock() {
 }
 
 function missionCard(m) {
-  return h('article.mission-card.tu-mission',
-    h('div.tu-mhead', h('span.tx-sq', ic('flag', { size: 20 })),
-      h('div.tx-body', h('span.mission-title', m.title), m.why_uk ? h('span.mission-why', m.why_uk) : null)),
+  return fold({ icon: 'flag', label: m.title, sub: m.why_uk, cls: 'tu-mfold' },
     h('div.mission-sit', m.situation),
     h('div.tu-facts',
       tuFact('user', 'Ви', m.myRole),
@@ -183,6 +181,12 @@ function needLoginCard() {
 function stateScreen(head, ...acts) {
   return h('div.stack-lg.tu-state', txResult(head), ...acts.filter(Boolean));
 }
+/** Згорнута плитка-розділ (стиль .pg-fold): рядок з іконкою, назвою, підписом і стрілкою; вміст — під ним */
+function fold(o, ...content) {
+  return h('details.pg-fold' + (o.cls ? '.' + o.cls : ''), o.open ? { open: true } : null,
+    h('summary', h('span.tx-sq', ic(o.icon, { size: 18 })), h('span.tx-body', h('span.tx-l', o.label), o.sub ? h('span.tx-s', o.sub) : null), o.pill || null),
+    h('div.pg-fold-b', ...content.flat().filter(Boolean)));
+}
 const backToTutor = () => tx({ icon: 'chalkboard-teacher', label: 'До вчителя', href: '#/tutor', wide: true });
 
 function overview(view) {
@@ -202,15 +206,17 @@ function overview(view) {
 /** Історія розмов: відкрити, видалити одну або кілька (разом із часом і помилками в статистиці) */
 function history(view, chats) {
   const box = h('section.tx-group.tt-hist');
-  let selecting = false;
+  let selecting = false, all = false;
   const picked = new Set();
+  const SHOW = 5;
   const modeIcon = (c) => c.mode === 'voice' ? 'microphone' : c.mode === 'check' ? 'pencil-line' : c.mode === 'scenario' ? 'users-three' : c.mode === 'coach' ? 'chart-pie-slice' : 'chat-circle-dots';
   const draw = () => {
     const list = store.all('tutor_chats').filter(c => c.mode !== 'diary').sort((a, b) => b.created_at.localeCompare(a.created_at));
     const head = h('div.tx-label-row', h('h2.tx-label', `Історія${list.length ? ` · ${list.length}` : ''}`),
       list.length ? h('button.tx-more', { type: 'button', onclick: () => { selecting = !selecting; picked.clear(); draw(); } }, selecting ? 'Скасувати' : 'Вибрати') : null);
     if (!list.length) { box.replaceChildren(head, h('div.tx-row.tt-empty', h('span.tx-sq', ic('chat-circle-dots', { size: 18 })), h('span.tx-body', h('span.tx-s', 'Поки що розмов немає. Почніть з вільної або голосової розмови.')))); return; }
-    const rows = list.slice(0, 60).map(c => {
+    const shown = selecting || all ? list.slice(0, 60) : list.slice(0, SHOW);
+    const rows = shown.map(c => {
       const title = c.title || 'Розмова';
       const sub = `${new Date(c.created_at).toLocaleDateString('uk-UA', { day: 'numeric', month: 'short' })}${c.mode === 'coach' ? ' · консультація' : ` · ${fmtMin(c.seconds || 0)}${c.summary && !c.summary.partial ? '' : ' · без підсумку'}`}`;
       const sq = h('span.tx-sq', ic(modeIcon(c), { size: 18 }));
@@ -223,7 +229,10 @@ function history(view, chats) {
         h('a.pp-hlink', { href: `#/tutor?chat=${encodeURIComponent(c.id)}` }, sq, body),
         h('button.icon-btn', { type: 'button', 'aria-label': `Видалити: ${title}`, onclick: () => remove([c.id]) }, ic('trash', { size: 20 })));
     });
-    box.replaceChildren(head, txRows(rows),
+    const more = !selecting && list.length > SHOW
+      ? h('button.tx-more.tt-all', { type: 'button', 'aria-expanded': String(all), onclick: () => { all = !all; draw(); } }, all ? 'Згорнути' : `Показати всі · ${Math.min(60, list.length)}`)
+      : null;
+    box.replaceChildren(head, txRows(rows), more,
       selecting ? h('div.row',
         h('button.btn.soft.grow', { type: 'button', onclick: () => { list.forEach(c => picked.add(c.id)); draw(); } }, 'Вибрати всі'),
         h('button.btn.danger.grow', { type: 'button', disabled: !picked.size, onclick: () => remove([...picked]) }, ic('trash', { size: 18 }), `Видалити (${picked.size})`)) : '');
@@ -1010,10 +1019,8 @@ function usedKnownCard(s) {
     paint();
     return b;
   };
-  return txGroup(`Ви вже вживаєте ці слова · ${list.length}`, h('div.tu-panel.stack',
-    h('div.tu-mhead', h('span.tx-sq.tu-good', ic('seal-check', { size: 20 })),
-      h('span.tx-s', `Правильно вжито щонайменше у ${MIN_CHATS} розмовах — позначено вивченими в словнику. Якщо слово ще непевне — торкніться, щоб повернути до вивчення.`)),
-    h('div.chips.used-chips', list.map(chip))));
+  return fold({ icon: 'check-circle', label: `Ви вже вживаєте ці слова · ${list.length}`, sub: `позначено вивченими · дотик — повернути до вивчення` },
+    h('div.chips.used-chips', list.map(chip)));
 }
 
 export function summaryView(view, row, { pronTurns = null } = {}) {
@@ -1035,7 +1042,7 @@ export function summaryView(view, row, { pronTurns = null } = {}) {
     let n = 0;
     for (const w of words) if (!wordKnown(w.en)) { const r = await addWord(w).catch(() => 'error'); if (r === 'created' || r === 'starter') n++; }
     toast(n ? `Додано в картки: ${n}` : 'Ці слова вже є в картках');
-    wordsBox.replaceChildren(...words.map(wordRow));
+    drawWords();
     paintAll();
   } });
   const autoNote = h('div.tx-row.sum-auto');
@@ -1059,7 +1066,7 @@ export function summaryView(view, row, { pronTurns = null } = {}) {
     a.removed = true;
     store.put('tutor_chats', row);
     toast(`Прибрано з карток: ${w.en}`);
-    wordsBox.replaceChildren(...words.map(wordRow));
+    drawWords();
     paintAll();
   };
   const wordRow = (w) => {
@@ -1073,11 +1080,18 @@ export function summaryView(view, row, { pronTurns = null } = {}) {
         : (() => {
           const on = wordKnown(w.en);
           const b = h('button.icon-btn' + (on ? '' : '.soft'), { type: 'button', disabled: on, 'aria-label': on ? `${w.en} — уже в картках` : `Додати в картки: ${w.en}` }, ic(on ? 'check' : 'plus', { size: 18 }));
-          b.addEventListener('click', async () => { b.disabled = true; const r = await addWord(w).catch(() => 'error'); toast(r === 'error' ? 'Не вдалося додати слово' : r === 'exists' ? 'Таке слово вже є в картках' : `Додано в картки: ${w.en}`); wordsBox.replaceChildren(...words.map(wordRow)); paintAll(); });
+          b.addEventListener('click', async () => { b.disabled = true; const r = await addWord(w).catch(() => 'error'); toast(r === 'error' ? 'Не вдалося додати слово' : r === 'exists' ? 'Таке слово вже є в картках' : `Додано в картки: ${w.en}`); drawWords(); paintAll(); });
           return b;
         })());
   };
-  const wordsBox = h('div.tx-rows', words.map(wordRow));
+  const SHOW = 6;
+  const wordsBox = h('div.tx-rows');
+  const wordsMore = words.length > SHOW ? fold({ icon: 'cards', label: `Ще ${words.length - SHOW} ${plural(words.length - SHOW, 'слово', 'слова', 'слів')}` }, h('div.tx-rows.sum-more-w')) : null;
+  const drawWords = () => {
+    wordsBox.replaceChildren(...words.slice(0, SHOW).map(wordRow));
+    wordsMore?.querySelector('.sum-more-w').replaceChildren(...words.slice(SHOW).map(wordRow));
+  };
+  drawWords();
   paintAll();
   // найчастіший тип помилок розмови → міні-урок на нього
   const byType = {};
@@ -1096,40 +1110,47 @@ export function summaryView(view, row, { pronTurns = null } = {}) {
     topType ? tx({ icon: 'target', label: 'Міні-урок', sub: S.mistakeTypes[topType] || topType, href: `#/tutor?mode=drill&type=${encodeURIComponent(topType)}` }) : null,
   ].filter(Boolean);
   if (mistakeActs.length === 1) mistakeActs[0].classList.add('wide', 'full');
+  const mRow = (m, i) => h('div.tx-row.sum-mistake',
+    h('span.tx-no', String(i + 1)),
+    h('div.tx-body', fixLine(m),
+      m.explanation_uk ? h('span.tx-s', mdInline(m.explanation_uk)) : null,
+      h('div.row.wrap.sum-mistake-foot',
+        ruleLabel(m.rule) && m.rule !== 'other' ? txPill(ruleLabel(m.rule)) : m.type && S.mistakeTypes[m.type] ? txPill(S.mistakeTypes[m.type]) : null,
+        disagreeBtn(m, row, () => summaryView(view, row, { pronTurns })))));
+  const M_SHOW = 5;
   const nextHref = s.next_focus ? `#/tutor?mode=chat&topic=${encodeURIComponent(`Focus recommended after the last session (practise it naturally in conversation): ${s.next_focus}`)}` : null;
+
+  // другорядне — у згорнутих плитках «Детальніше»
+  const more = [assessmentCard(s), practisedCard(s), masteredCard(s), usedKnownCard(s), row.mode === 'voice' ? speechCard(s) : null, pronTurns?.length ? pronCard(pronTurns) : null, phrasesCard(row, s)].filter(Boolean);
 
   view.replaceChildren(h('div.stack-lg.tutor-summary',
     h('div.tu-sumhead', h('span.tx-sq', ic('sparkle', { size: 26, fill: true })),
       h('div.tx-body', h('h1.tu-sumh1', 'Підсумок розмови'),
         h('span.tx-s', [row.title || '', lvl && turns ? `${turns} ${plural(turns, 'репліка', 'репліки', 'реплік')}` : ''].filter(Boolean).join(' · ')))),
     kpis,
-    assessmentCard(s),
-    s.summary || s.practised_words?.length ? txGroup('Що ви практикували', h('div.tu-panel.stack', s.summary ? h('div.tu-md', md(s.summary)) : null,
-      s.practised_words?.length ? h('div.stack', { style: { gap: '6px' } }, h('div.xs.dim', 'Слова, які ви вчите й ужили в розмові'), h('div.chips', s.practised_words.map(w => h('span.tag.good', { lang: 'en' }, w)))) : null,
-      s.focus_review ? h('div.small', h('b', 'Фокус заняття: '), mdInline(s.focus_review)) : null)) : null,
+    nextHref ? txGroup('Наступного разу', txPrimary({ icon: 'arrow-right', label: 'Почати з цього', sub: s.next_focus, href: nextHref })) : null,
     mistakes.length ? txGroup(`Помилки · ${mistakes.length}`, [
-      txRows(mistakes.map((m, i) => h('div.tx-row.sum-mistake',
-        h('span.tx-no', String(i + 1)),
-        h('div.tx-body', fixLine(m),
-          m.explanation_uk ? h('span.tx-s', mdInline(m.explanation_uk)) : null,
-          h('div.row.wrap.sum-mistake-foot',
-            ruleLabel(m.rule) && m.rule !== 'other' ? txPill(ruleLabel(m.rule)) : m.type && S.mistakeTypes[m.type] ? txPill(S.mistakeTypes[m.type]) : null,
-            disagreeBtn(m, row, () => summaryView(view, row, { pronTurns }))))))),
+      txRows(mistakes.slice(0, M_SHOW).map(mRow)),
+      mistakes.length > M_SHOW ? fold({ icon: 'warning-circle', label: `Ще ${mistakes.length - M_SHOW} ${plural(mistakes.length - M_SHOW, 'помилка', 'помилки', 'помилок')}` }, txRows(mistakes.slice(M_SHOW).map((m, i) => mRow(m, i + M_SHOW)))) : null,
       txGrid(mistakeActs, 2)])
       : tx({ icon: 'check-circle', tone: 'good', wide: true, label: 'Помилок не помічено', sub: 'Так тримати!' }),
-    masteredCard(s),
-    usedKnownCard(s),
-    row.mode === 'voice' ? speechCard(s) : null,
-    pronTurns?.length ? pronCard(pronTurns) : null,
-    words.length ? txGroup(`Нові слова · ${words.length}`, [autoNote, wordsBox,
+    words.length ? txGroup(`Нові слова · ${words.length}`, [autoNote, wordsBox, wordsMore,
       s.auto_limit && words.some(w => !wordKnown(w.en)) ? note(`Сьогодні вже додано ${AUTO_PER_DAY} слів автоматично — решту можна додати вручну.`) : null,
       trainBtn, addAll]) : null,
-    phrasesCard(row, s),
-    nextHref ? txGroup('Наступного разу', txPrimary({ icon: 'arrow-right', label: 'Почати з цього', sub: s.next_focus, href: nextHref })) : null,
-    // головна дія — «Почати з цього»; без поради на наступний раз — «Нова розмова»
+    more.length ? txGroup('Детальніше', h('div.pg-folds', more)) : null,
+    // головна дія — «Почати з цього» (угорі); без поради на наступний раз — «Нова розмова»
     ...(nextHref ? [txGrid([tx({ icon: 'house', label: 'На головну', href: '#/' }), tx({ icon: 'chat-circle-dots', label: 'Нова розмова', href: '#/tutor' })], 2)]
       : [txPrimary({ icon: 'chat-circle-dots', label: 'Нова розмова', href: '#/tutor' }), tx({ icon: 'house', label: 'На головну', href: '#/', wide: true })]),
     deleteButton(row)));
+}
+
+/** «Що ви практикували»: короткий підсумок, вжиті слова з карток, фокус заняття */
+function practisedCard(s) {
+  if (!s.summary && !s.practised_words?.length) return null;
+  return fold({ icon: 'notebook', label: 'Що ви практикували', sub: s.practised_words?.length ? `${s.practised_words.length} ${plural(s.practised_words.length, 'слово', 'слова', 'слів')} з карток у розмові` : 'короткий підсумок' },
+    s.summary ? h('div.tu-md', md(s.summary)) : null,
+    s.practised_words?.length ? h('div.chips', s.practised_words.map(w => h('span.tag.good', { lang: 'en' }, w))) : null,
+    s.focus_review ? h('div.small', h('b', 'Фокус заняття: '), mdInline(s.focus_review)) : null);
 }
 
 /** «Фрази з розмови»: виправлені фрагменти (≥ 2 слів) і нові вирази — у фразник */
@@ -1171,15 +1192,14 @@ function phrasesCard(row, s) {
   };
   const list = h('div.tx-rows', items.map(pick));
   paintAll();
-  return txGroup(`Фрази з розмови · ${items.length}`, [
-    note('Збережіть у фразник, щоб сказати правильно наступного разу. Ситуація: ', h('b', phraseSit(sit).uk)), list, all]);
+  return fold({ icon: 'chat-centered-text', label: `Фрази з розмови · ${items.length}`, sub: `у фразник · ${phraseSit(sit).uk}` }, list, all);
 }
 
 /** «Засвоєно»: помилки, які учень цього разу вжив правильно (3 рази поспіль — закрито) */
 function masteredCard(s) {
   const items = (Array.isArray(s.mastered) ? s.mastered : []).map(id => store.get('mistakes', String(id))).filter(m => m && !m.deleted);
   if (!items.length) return null;
-  return txGroup(`Засвоєно · ${items.length}`, [note('Цього разу ви сказали правильно те, що раніше було помилкою.'),
+  return fold({ icon: 'seal-check', label: `Засвоєно · ${items.length}`, sub: 'раніше помилка — цього разу правильно' }, [
     txRows(items.map(m => {
       const n = Math.min(3, m.streak || 0);
       return h('div.tx-row.sum-mastered-row', h('span.tx-sq.tu-good', ic('check-circle', { size: 18 })),
@@ -1203,9 +1223,9 @@ function speechCard(s) {
     uniq != null ? { value: `${Math.round(Math.min(1, uniq) * 100)}%`, label: 'різноманітність словника' } : null,
   ].filter(Boolean) : [];
   const told = words ? `${words} ${plural(words, 'слово', 'слова', 'слів')}${turns ? ` за ${turns} ${plural(turns, 'репліку', 'репліки', 'реплік')}` : ''}${fillers ? ` · «е-е»: ${fillers}` : ''}. ` : '';
-  return txGroup('Як ви говорили', [
+  return fold({ icon: 'waveform', label: 'Як ви говорили', sub: words ? `${wpm > 0 ? `${Math.round(wpm)} слів/хв · ` : ''}${words} ${plural(words, 'слово', 'слова', 'слів')}` : 'порада з плавності' }, [
     stats.length ? txKpis(stats, 2) : null,
-    words ? note(`${told}Для тих, хто вчить мову, типово 60–110 слів/хв, вільне мовлення — 120–160.`) : null,
+    words ? note(`${told}Типово для тих, хто вчить мову, — 60–110 слів/хв.`) : null,
     tip ? h('div.tx-row.sum-tip', h('span.tx-sq.tu-accent', ic('lightbulb', { size: 18 })), h('div.tx-body', h('span.tx-l', 'Порада з плавності'), h('span.tx-s', mdInline(tip)))) : null]);
 }
 
@@ -1259,8 +1279,7 @@ function pronCard(turns) {
     if (failed) { btn.disabled = false; repaintTx(btn, 'arrow-clockwise', 'Спробувати ще раз'); }
     else btn.replaceWith(tx({ icon: 'waveform', wide: true, label: 'Тренувати вимову', sub: 'звуки й фрази', href: '#/pronunciation' }));
   } });
-  return txGroup('Вимова у вашій розмові', [
-    note('Кілька ваших найдовших реплік з цієї розмови. AI оцінить вимову кожного слова.'),
+  return fold({ icon: 'microphone', label: 'Вимова у вашій розмові', sub: `${turns.length} ${plural(turns.length, 'репліка', 'репліки', 'реплік')} · AI оцінить кожне слово` }, [
     h('div.tx-rows.sum-pron', rows.map(r => r.el)), btn]);
 }
 
@@ -1303,7 +1322,7 @@ function assessmentCard(s) {
     rolling.replaceChildren(h('span.tx-no.tu-lvl', `${r.level}${r.sublevel === 'high' ? '+' : ''}`),
       h('div.tx-body', h('span.tx-l', 'Ваш рівень у розмовах'), h('span.tx-s', `за останніми ${r.sessions} ${plural(r.sessions, 'розмовою', 'розмовами', 'розмовами')} · ${SUB_UK[r.sublevel]}, ${CONF_UK[r.confidence]}`)));
   }).catch(() => {});
-  return txGroup(`Оцінка рівня · ${levelLabel(s)}`, [
+  return fold({ icon: 'target', label: `Оцінка рівня · ${levelLabel(s)}`, sub: [SUB_UK[a.sublevel], CONF_UK[a.confidence]].filter(Boolean).join(' · ') }, [
     h('div.tu-panel.stack.tu-assess',
       h('div.tu-mhead', h('span.tx-no.tu-lvl', levelLabel(s)),
         h('div.tx-body', h('span.tx-l', 'Ця розмова'), h('span.tx-s', `${SUB_UK[a.sublevel] || ''}${a.enough_data ? '' : ' · замало мовлення для точної оцінки — поговоріть довше'}`)),

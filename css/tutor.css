@@ -387,3 +387,12 @@ html.kbd .tu-wrow:focus-visible{outline:2px solid var(--accent-ink);outline-offs
 /* помилка старту голосу: шапка стану й вхід — як скрізь, ліворуч */
 .vc-fail{width:100%;max-width:520px;margin:0 auto;text-align:left}
 .voice .controls.vc-go .tx-rows{width:100%}
+
+/* Місія — згорнута плитка (.pg-fold); всередині — ситуація, ролі, фрази, дії */
+.tu-mfold .pg-fold-b{font-size:var(--fs-sm);gap:8px}
+.tu-mfold>summary .tx-s{color:var(--accent-ink)}
+.tu-mfold .mission-save{color:var(--ink-dim);border:1px dashed var(--line-strong);background:transparent}
+/* «Показати всі» під історією */
+.tx-more.tt-all{align-self:center;background:none;border:0;padding:8px 12px;min-height:40px;cursor:pointer;font:inherit;font-size:var(--fs-sm);font-weight:600;color:var(--accent-ink)}
+/* підсумок: згорнуті розділи — панелі всередині на тон глибші */
+.tutor-summary .pg-fold-b .tu-panel{background:var(--tile-sq);border-color:transparent}
