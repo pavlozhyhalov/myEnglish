@@ -63,29 +63,36 @@ export default async function reading(view, r) {
     return;
   }
 
-  const row = (t) => {
+  const row = (t, tag) => {
     const p = progressOf(t.id);
-    const n = words(t);
-    return sqEmo(txRow({ icon: 'book-open', label: t.title, sub: `${t.titleUk} · ${topicLabel(t)} · ${n} ${plural(n, 'слово', 'слова', 'слів')}`, href: `#/reading/${t.id}`,
-      pill: p ? { text: `${p.best}%`, tone: 'good' } : null, end: levelTag(t.level),
-      attrs: p ? { title: `Прочитано, найкращий результат ${p.best}%` } : {} }), TOPICS[t.topic]?.[1] || 'book-open');
+    return sqEmo(txRow({ icon: 'book-open', label: t.title, sub: `${t.titleUk} · ~${minutes(t)} хв`, href: `#/reading/${t.id}`,
+      pill: p ? { text: `${p.best}%`, tone: 'good' } : null, end: tag ? levelTag(t.level) : null,
+      attrs: { title: `${topicLabel(t)} · ${words(t)} ${plural(words(t), 'слово', 'слова', 'слів')}${p ? ` · прочитано, найкращий результат ${p.best}%` : ''}` } }), TOPICS[t.topic]?.[1] || 'book-open');
   };
 
   const day = textOfDay(list);
   const dayCard = day ? sqEmo(txPrimary({ icon: 'book-open', label: day.title,
-    sub: `Текст дня · ${day.level} · ${day.titleUk} · ${topicLabel(day)} · ~${minutes(day)} хв${progressOf(day.id) ? ' · уже прочитано' : ''}`,
+    sub: `Текст дня · ${day.titleUk} · ~${minutes(day)} хв${progressOf(day.id) ? ' · прочитано' : ''}`,
     href: `#/reading/${day.id}` }), TOPICS[day.topic]?.[1] || 'book-open') : null;
 
+  // тексти вибраного рівня: до 6 (спершу непрочитані), решта — «Показати всі»
   const box = h('div.stack');
+  const label = h('h2.tx-label', 'Тексти');
+  let open = false;
   const draw = () => {
-    const { items, fallback } = filterByLevel(list, levelPick('reading'));
+    const sel = levelPick('reading');
+    const { items, fallback } = filterByLevel(list, sel);
     const read = items.filter(t => progressOf(t.id)).length;
-    box.replaceChildren(fallbackNote(fallback),
-      txGroup(items.length ? `Тексти · прочитано ${read} з ${items.length}` : 'Тексти', txRows(byFit(items).map(row))));
+    label.textContent = items.length ? `Тексти · прочитано ${read} з ${items.length}` : 'Тексти';
+    const tag = sel === 'all' || !!fallback;
+    const sorted = byFit(items);
+    const shown = open ? sorted : [...sorted.filter(t => t !== day && !progressOf(t.id)), ...sorted.filter(t => t !== day && progressOf(t.id))].slice(0, 6);
+    box.replaceChildren(fallbackNote(fallback), txRows([...shown.map(t => row(t, tag)),
+      shown.length < sorted.length ? txRow({ icon: 'caret-down', label: `Показати всі · ${sorted.length}`, chevron: false, cls: 'tx-showall', onclick: () => { open = true; draw(); } }) : null]));
   };
   view.replaceChildren(h('div.stack-lg',
     dayCard,
-    txGroup(`Переклад слова дотиком · ваш рівень ${myLevel()}`, levelChips('reading', levelCounts(list), draw)), box));
+    h('section.tx-group', label, levelChips('reading', levelCounts(list), () => { open = false; draw(); }), box)));
   draw();
 }
 
