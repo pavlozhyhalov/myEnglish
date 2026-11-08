@@ -123,3 +123,6 @@ body .sel-pop-more::after{inset:-2px}
 /* «Ще» в налаштуваннях — згорнутий рідкісний блок */
 .set-more-row[aria-expanded="true"] > svg:last-child{transform:rotate(180deg)}
 .set-more[hidden]{display:none}
+/* Профіль: «Ще про вас» — згорнуті необов'язкові поля */
+.pp-extra-row[aria-expanded="true"] > svg:last-child{transform:rotate(180deg)}
+.pp-extra[hidden]{display:none}
