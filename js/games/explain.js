@@ -138,9 +138,9 @@ export default function explain(view) {
     const start = startTile({ label: 'Почати', sub: `${EXPLAIN.words} слів · до ${EXPLAIN.maxSec} с на кожне`, onclick: newGame });
     fill(gameIntro({
       icon: 'chat-circle-dots',
-      text: 'Поясніть англійською слово зі своїх карток — але не називайте його. AI слухає і має три спроби вгадати.',
+      text: 'Поясніть слово англійською, не називаючи його, — AI вгадує.',
       rules: [`До ${EXPLAIN.maxSec} секунд на пояснення`, 'AI вгадав з першої спроби — 3 очки, з другої — 2, з третьої — 1', 'Назвали саме слово — фол, 0 очок'],
-      extra: [canRecord() ? null : micErrorCard('unsupported')],
+      top: [canRecord() ? null : micErrorCard('unsupported')],
       best: best ? { label: `Рекорд рівня ${lv}`, value: `${best} з ${EXPLAIN.words * POINTS[0]}` } : null,
       start: canRecord() ? start : null,
     }));

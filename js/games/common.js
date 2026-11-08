@@ -163,16 +163,19 @@ export function addWordTile(w) {
 
 // ---------- Екрани гри в мові плиток: вступ, підсумок, рядки слів ----------
 /**
- * Вступ гри: опис з іконкою в квадратику, правила — рядки з номерами, рекорд, одна синя дія «Почати».
- * o: { icon, text, rules: [], extra: [вузли між правилами й стартом], best: { label, value } | null, start (вузол) }
+ * Вступ гри (по полочках): коротка суть з іконкою й рекордом праворуч → одна синя дія «Почати» вгорі → правила рядками з номерами.
+ * o: { icon, text (один рядок; можна null), rules: [], top: [вузли над стартом], extra: [вузли під стартом], best: { label, value } | null, start (вузол) }
  */
-export function gameIntro({ icon, text, rules = [], extra = [], best = null, start = null }) {
+export function gameIntro({ icon, text, rules = [], top = [], extra = [], best = null, start = null }) {
+  const bestEl = best ? h('span.g-lead-best', { 'aria-label': `${best.label}: ${best.value}` },
+    h('span.g-lead-best-n.num', String(best.value)), h('span.g-lead-best-l', 'рекорд')) : null;
   return h('div.stack-lg.g-intro',
-    h('div.g-lead', h('span.tx-sq.g-lead-sq', ic(icon, { size: 24 })), h('p.g-lead-t', text)),
-    rules.length ? txGroup('Правила', txRows(rules.map((r, i) => txRow({ no: i + 1, label: r })))) : null,
+    text ? h('div.g-lead', h('span.tx-sq.g-lead-sq', ic(icon, { size: 22 })), h('p.g-lead-t', text), bestEl) : null,
+    ...[].concat(top).filter(Boolean),
+    start,
     ...[].concat(extra).filter(Boolean),
-    best ? tx({ icon: 'trophy', label: best.label, wide: true, cls: 'g-best', end: h('b.num.g-best-n', String(best.value)) }) : null,
-    start);
+    !text && best ? tx({ icon: 'trophy', label: best.label, wide: true, cls: 'g-best', end: h('b.num.g-best-n', String(best.value)) }) : null,
+    rules.length ? txGroup('Правила', txRows(rules.map((r, i) => txRow({ no: i + 1, label: r })))) : null);
 }
 
 /** Головна дія вступу: синя плитка «Почати» (кнопка) */

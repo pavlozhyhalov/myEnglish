@@ -141,12 +141,12 @@ export default function minute(view) {
     const start = startTile({ icon: 'microphone', label: 'Старт', sub: `до ${MINUTE.sec} секунд · ${MINUTE.lives} життя`, onclick: startRec });
     const other = tx({ icon: 'shuffle', label: 'Інша тема', wide: true, cls: 'gm-other', onclick: () => { ti = (ti + 1 + Math.floor(Math.random() * (topics.length - 1))) % topics.length; intro(); body.querySelector('.gm-other')?.focus({ preventScroll: true }); } });
     fill(
-      h('div.stack.gm-pick', topicCard(), other),
       gameIntro({
         icon: 'timer',
-        text: `Говоріть до ${MINUTE.sec} секунд. Кожне «uh», «um» чи повтор слова — мінус життя.`,
-        rules: ['Три життя: третя заминка — і хвилина для вас скінчилась', 'Очки — скільки секунд ви протрималися', 'Перевірка — після запису: AI розпізнає мовлення дослівно'],
-        extra: [canRecord() ? null : micErrorCard('unsupported')],
+        text: null,
+        top: [topicCard(), canRecord() ? null : micErrorCard('unsupported')],
+        extra: [other],
+        rules: [`До ${MINUTE.sec} секунд мовлення про тему`, '«uh», «um» чи повтор — мінус життя, третя заминка — кінець', 'AI перевіряє після запису, очки — секунди до третьої заминки'],
         best: best ? { label: `Рекорд рівня ${lv}`, value: nSec(best) } : null,
         start: canRecord() ? start : null,
       }));

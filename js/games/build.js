@@ -54,9 +54,9 @@ export default async function build(view) {
     const start = startTile({ label: 'Почати', sub: `${BUILD_SECONDS} секунд · речення рівня ${lv}`, onclick: play, disabled: !all.length });
     body.replaceChildren(gameIntro({
       icon: 'puzzle-piece',
-      text: 'Перед вами переклад і перемішані англійські слова. Торкайтеся слів у правильному порядку — щойно речення складено, воно перевіряється саме.',
+      text: 'Складіть англійське речення за перекладом — дотиками по словах.',
       rules: [`${BUILD_SECONDS} секунд, за кожне речення +${BUILD_BONUS} с`, 'Серія без помилок дає бонусні очки', 'Слово з речення можна повернути дотиком'],
-      extra: [all.length ? null : h('p.feedback.no', { style: { margin: 0 } }, 'Не вдалося завантажити речення. Перевірте з\'єднання.')],
+      top: [all.length ? null : h('p.feedback.no', { style: { margin: 0 } }, 'Не вдалося завантажити речення. Перевірте з\'єднання.')],
       best: best ? { label: `Рекорд рівня ${lv}`, value: best } : null,
       start,
     }));

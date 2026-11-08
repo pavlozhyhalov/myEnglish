@@ -31,10 +31,10 @@ export default async function rush(view) {
     body.replaceChildren(gameIntro({
       icon: 'lightning',
       text: mode === 'choice'
-        ? 'З\'являється англійське слово — оберіть правильний переклад. Що швидше відповідаєте, то більше очок.'
-        : 'Слово і переклад: правильно чи ні? Свайп праворуч — «так», ліворуч — «ні» (або стрілки на клавіатурі).',
+        ? 'Оберіть переклад слова — що швидше, то більше очок.'
+        : 'Переклад правильний? Свайп праворуч — так, ліворуч — ні.',
       rules: [`${RUSH_SECONDS} секунд і ${RUSH_LIVES} життя`, 'Кожні 5 правильних поспіль — множник очок до ×4', 'Темп поступово зростає'],
-      extra: [txGroup('Варіант гри', seg([['choice', 'Чотири варіанти'], ['truth', 'Так чи ні']], mode, (v) => { mode = v; saveGameState({ rushMode: v }); intro(); }))],
+      top: [txGroup('Варіант гри', seg([['choice', 'Чотири варіанти'], ['truth', 'Так чи ні']], mode, (v) => { mode = v; saveGameState({ rushMode: v }); intro(); }))],
       best: best ? { label: `Рекорд рівня ${lv}`, value: best } : null,
       start,
     }));

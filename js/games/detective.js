@@ -219,10 +219,10 @@ export default async function detective(view) {
     const own = ownPool(focus);
     const best = gameState().best?.detective?.[lv] || 0;
     const ownN = Math.min(own.length, Math.round(ROUNDS * OWN_SHARE));
-    const start = startTile({ label: 'Почати розслідування', sub: `${ROUNDS} речень · по 5 секунд`, onclick: play, disabled: !bank.length && !own.length });
+    const start = startTile({ label: 'Почати', sub: `${ROUNDS} речень · по 5 секунд`, onclick: play, disabled: !bank.length && !own.length });
     body.replaceChildren(gameIntro({
       icon: 'magnifying-glass',
-      text: 'У кожному реченні може ховатися одна помилка. Торкніться слова, яке написано неправильно, — або «Без помилок», якщо речення бездоганне.',
+      text: 'Торкніться слова з помилкою — або «Без помилок».',
       rules: [`${ROUNDS} речень, на кожне — 5 секунд`, 'Три влучні поспіль — очки ×2, шість — ×3', 'Якщо бракує слова — торкніться слова перед пропуском'],
       extra: [
         ownN ? tx({ icon: 'target', label: `${ownN} ${plural(ownN, 'речення', 'речення', 'речень')} — з ваших помилок`, sub: focus.length ? 'Правила тижня — першими' : 'Решта — з банку речень вашого рівня', wide: true, cls: 'dt-note' }) : null,

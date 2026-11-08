@@ -191,7 +191,7 @@ export default async function wordle(view, r) {
           info.ipa || info.uk ? h('div.small.dim.g-res-sub', info.ipa ? h('span.ipa', info.ipa) : null, info.ipa && info.uk ? ' · ' : null, info.uk || null) : null)),
       info.ex ? txGroup('Приклад', wordRow({ en: info.ex, uk: info.exUk, cls: 'g-sent' })) : null,
       txGrid([addWordTile(w), tx({ icon: 'share-network', label: 'Поширити', sub: 'результат без відповіді', onclick: share })], 2),
-      stats ? statsView(stats) : null,
+      stats ? statsView(stats, won ? rows.length : 0) : null,
       h('div.stack.g-next',
         practice ? txPrimary({ icon: 'shuffle', label: 'Ще слово', sub: 'тренування без обмежень', onclick: () => go('/games/wordle?mode=practice', { replace: true }), cls: 'g-again' })
           : txPrimary({ icon: 'arrow-clockwise', label: 'Тренування без обмежень', sub: 'скільки завгодно слів', href: '#/games/wordle?mode=practice', cls: 'g-again' }),
@@ -221,12 +221,12 @@ export default async function wordle(view, r) {
   return cleanup;
 }
 
-function statsView(s) {
+function statsView(s, tries = 0) {
   const pct = s.played ? Math.round(s.won / s.played * 100) : 0;
   const max = Math.max(1, ...s.dist);
   return txGroup('Статистика', [
     txKpis([{ value: s.played, label: 'зіграно' }, { value: `${pct}%`, label: 'перемог', tone: 'good' }, { value: s.streak, label: `серія · макс. ${s.maxStreak}` }]),
     h('div.wd-dist', { role: 'list', 'aria-label': 'Перемоги за кількістю спроб' }, s.dist.map((n, i) =>
-      h('div.wd-dist-row', { role: 'listitem', 'aria-label': `${i + 1} ${i ? 'спроби' : 'спроба'}: ${n}` }, h('span.num', String(i + 1)),
-        h('span.wd-bar', { style: { width: `${Math.max(8, n / max * 100)}%` } }, String(n)))))]);
+      h('div.wd-dist-row' + (tries === i + 1 ? '.cur' : ''), { role: 'listitem', 'aria-label': `${i + 1} ${i ? 'спроби' : 'спроба'}: ${n}` }, h('span.num', String(i + 1)),
+        h('span.wd-track', h('span.wd-bar', { style: { width: `${Math.max(8, n / max * 100)}%` } }, String(n))))))]);
 }
