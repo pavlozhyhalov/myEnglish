@@ -1,6 +1,6 @@
 /* Сторінка «Аналіз» (#/analysis) */
-.an-insight{display:flex;gap:10px;align-items:flex-start;margin:0;padding:10px 12px;border-radius:12px;background:var(--tile-sq);font-size:var(--fs-sm);line-height:1.45}
-.an-insight > .ico{flex:none;margin-top:1px;color:var(--ink-dim)}
+.an-insight{display:flex;gap:10px;align-items:flex-start;margin:0;padding:12px 14px;border-radius:var(--r-row);background:color-mix(in srgb,var(--accent) 6%,var(--tile));font-size:var(--fs-sm);line-height:1.45}
+.an-insight > .ico{flex:none;margin-top:1px;color:var(--accent-ink)}
 .an-empty{gap:10px}
 .an-skill{display:flex;flex-direction:column;gap:4px}
 .an-skill .row{gap:8px}
@@ -10,7 +10,7 @@
 .an-table{display:flex;flex-direction:column}
 .an-tr{display:flex;align-items:center;gap:10px;padding:8px 0;font-size:var(--fs-sm)}
 .an-tr + .an-tr{border-top:1px solid var(--line)}
-.an-tr b{min-width:28px;text-align:center}
+.an-tr b{min-width:28px;text-align:center;font-weight:600;font-variant-numeric:tabular-nums}
 .an-spark{width:100%;height:auto;display:block;overflow:visible}
 .an-spark .grid{stroke:var(--line);stroke-width:1}
 .an-spark .lbl{fill:var(--ink-dim);font-size:11px;font-family:var(--font-body)}
@@ -24,7 +24,7 @@
 .an-more ul,.an-list ul{margin:6px 0 0;padding-left:20px}
 .an-list{gap:6px}
 .an-sub{font-size:var(--fs-sm);margin:6px 0 0;color:var(--ink-dim);font-weight:600}
-.an-weak{border:1px solid var(--line);border-radius:12px;padding:10px 12px;display:flex;flex-direction:column;gap:6px}
+.an-weak{border:1px solid var(--tile-edge);border-radius:var(--r-row);background:var(--tile);padding:10px 12px;display:flex;flex-direction:column;gap:6px}
 .an-weak[open]{background:var(--tile-sq)}
 .an-weak > div{margin-top:6px}
 .an-plan{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:10px}
@@ -46,7 +46,7 @@
 .an-spark .dot.last{fill:var(--surface);stroke:var(--accent-ink);stroke-width:2.5}
 
 /* Мої помилки: як закривається помилка, засвоєння 0–3 */
-.mk-how{display:flex;gap:8px;align-items:flex-start;margin:0;padding:10px 12px;border-radius:14px;background:var(--tile);border:1px solid var(--tile-edge);font-size:var(--fs-xs);line-height:1.45;color:var(--ink-dim)}
+.mk-how{display:flex;gap:8px;align-items:flex-start;margin:0;padding:12px 14px;border-radius:var(--r-row);background:var(--tile);border:1px solid var(--tile-edge);font-size:var(--fs-xs);line-height:1.45;color:var(--ink-dim)}
 .mk-how .ico{flex:none;margin-top:1px;color:var(--accent-ink)}
 .mk-meta{gap:8px;align-items:center;flex-wrap:wrap}
 .mk-dots{display:inline-flex;align-items:center;gap:6px;white-space:nowrap}

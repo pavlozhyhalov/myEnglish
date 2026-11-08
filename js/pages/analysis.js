@@ -40,7 +40,7 @@ export default async function analysisPage(view) {
       section('vocabulary', 'Слова', 'cards', A, vocabBody(A), v.inWork ? `${v.inWork} у роботі · ${v.mature} міцно` : 'карток ще немає'),
       section('grammar', 'Граматика', 'puzzle-piece', A, grammarBody(A), own ? `${own.done} з ${own.total} уроків ${A.level}` : ''),
       section('mistakes', 'Помилки', 'warning-circle', A, mistakesBody(A), m.total ? `${m.open} відкритих · ${m.resolvedPct}% виправлено` : 'помилок ще немає'),
-      section('habits', 'Звички й час', 'clock', A, habitsBody(A), `${hb.streak} ${plural(hb.streak, 'день', 'дні', 'днів')} поспіль · ${hb.min4w} хв за 4 тижні`)))));
+      section('habits', 'Звички й час', 'clock', A, habitsBody(A), hb.min4w ? [hb.streak ? `${hb.streak} ${plural(hb.streak, 'день', 'дні', 'днів')} поспіль` : '', `${hb.min4w} хв за 4 тижні`].filter(Boolean).join(' · ') : 'занять ще не було')))));
 }
 
 // ---------- Розділ: згорнута плитка (назва + коротка цифра); всередині — висновок, вміст, «Запитати про це» ----------
@@ -57,6 +57,15 @@ function askRow(href, aria, label = 'Запитати про це') {
   return h('a.tx-row.tx-ask', { href, 'aria-label': aria }, h('span.tx-sq', ic('chat-circle-dots', { size: 18 })), h('span.tx-body', h('span.tx-l', label)), ic('caret-right', { size: 16 }));
 }
 
+/** Ряд показників на всю ширину з 1–3 плиток (порожні не показуються) */
+function kpiRow(items) {
+  const list = items.filter(Boolean);
+  if (!list.length) return null;
+  const row = txKpis(list, 3);
+  if (list.length < 3) row.style.gridTemplateColumns = `repeat(${list.length},minmax(0,1fr))`;
+  return row;
+}
+
 function overviewCard(A, primary = true) {
   const pl = A.placement, sp = A.speaking;
   const mastery = A.lp?.pct ?? null;
@@ -65,10 +74,11 @@ function overviewCard(A, primary = true) {
     h('div.tx-row.an-lvl', h('span.level-badge', A.level), h('span.tx-body',
       h('span.tx-l', `Рівень у застосунку: ${A.level} · ${LEVEL_NAME[A.level]}`),
       h('span.tx-s', A.levelSource === 'test' ? 'визначено тестом' : A.levelSource ? 'обрано вручну або змінено' : 'рівень за замовчуванням — пройдіть тест'))),
-    txKpis([
-      stat(mastery != null ? `${mastery}%` : '—', `опановано ${A.level}`),
-      stat(pl?.overall || '—', pl ? (pl.days > 0 ? `тест, ${pl.days} ${plural(pl.days, 'день', 'дні', 'днів')} тому` : 'тест, сьогодні') : 'тест не пройдено', pl ? 'accent' : ''),
-      stat(sp.current || '—', sp.enough ? `говоріння, ${sp.enough} ${plural(sp.enough, 'оцінка', 'оцінки', 'оцінок')}` : 'говоріння: немає оцінок', sp.current ? 'accent' : '')]),
+    // лише цифри, що є: без «—» і «0%» (порожні стани без нулів)
+    kpiRow([
+      mastery ? stat(`${mastery}%`, `опановано ${A.level}`) : null,
+      pl?.overall ? stat(pl.overall, pl.days > 0 ? `тест, ${pl.days} ${plural(pl.days, 'день', 'дні', 'днів')} тому` : 'тест, сьогодні', 'accent') : null,
+      sp.current ? stat(sp.current, `говоріння, ${sp.enough} ${plural(sp.enough, 'оцінка', 'оцінки', 'оцінок')}`, 'accent') : null]),
     primary ? txPrimary(talk) : tx({ ...talk, wide: true }));
 }
 
