@@ -79,7 +79,7 @@ function taskView(view, t) {
     h('div.gx-lhead', h('a.icon-btn', { href: '#/writing', 'aria-label': 'До завдань' }, ic('arrow-left')),
       h('div.grow', h('div.tx-label.gx-eyebrow', `${t.level ? t.level + ' · ' : ''}${t.kindLabel}`), h('h2.gx-lh1', t.title))),
     txGroup('Завдання', h('section.gx-card.stack.wr-task', h('div', t.task), t.context ? h('div.small.dim', t.context) : null)),
-    txGroup('Шаблони фраз · торкніться, щоб вставити', h('div.stack.wr-phr',
+    txGroup('Фрази · торкніться, щоб вставити', h('div.stack.wr-phr',
       t.phrases.map(g => h('details.wr-gl', { open: g === t.phrases[0] ? true : null },
         h('summary.wr-gl-head', h('span.tx-sq', ic('quotes', { size: 18 })), h('span.tx-body', h('span.tx-l', g.group), h('span.tx-s', `${g.items.length} ${plural(g.items.length, 'фраза', 'фрази', 'фраз')}`)), ic('caret-down', { size: 18 })),
         h('div.chips.wr-chips', g.items.map(p => h('button.chip.wr-chip', { type: 'button', lang: 'en', onclick: () => insert(p) }, p))))))),

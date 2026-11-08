@@ -110,7 +110,7 @@ html.kbd .wr-gl-head:focus-visible{outline:2px solid var(--accent-ink);outline-o
   font:inherit;font-size:var(--fs-md);line-height:1.6;padding:14px 16px;border-radius:var(--r-tile)}
 .pp-ta::placeholder{color:color-mix(in srgb,var(--ink-dim) 75%,transparent)}
 .pp-compose-foot{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:10px 12px 12px 16px;border-top:1px solid var(--tile-edge)}
-.pp-wc{font-size:var(--fs-xs);color:var(--ink-dim);font-variant-numeric:tabular-nums}
+.pp-wc{font-size:var(--fs-xs);color:var(--ink-dim);font-variant-numeric:tabular-nums;white-space:nowrap}
 .pp-wbar{flex:1;min-width:60px;max-width:140px;height:4px;border-radius:99px;background:var(--track);overflow:hidden;margin-left:auto}
 .pp-wbar > i{display:block;height:100%;width:0;border-radius:inherit;background:var(--accent);transition:width .3s ease}
 .pp-wbar.ok > i{background:var(--good)}
@@ -197,3 +197,5 @@ button.tu-scd-save:disabled{opacity:.7;cursor:default}
 /* головна дія з іконкою теми (emo) — значок білий, як і решта синьої плитки */
 .tx.primary .tx-sq .emo{color:inherit}
 .wr-gl .gx-card,.gx-sound-body .gx-card,.pron-result .gx-card{box-shadow:none}
+@media (max-width:360px){.dy-compose .pp-wc.num{display:none}.pp-compose-foot{padding-left:12px}}
+.pp-compose-foot .pp-wc.grow{min-width:0;overflow:hidden;text-overflow:ellipsis}

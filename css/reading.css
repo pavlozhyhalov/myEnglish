@@ -33,7 +33,10 @@ html.kbd .rd-listen:focus-visible{outline:2px solid var(--accent-ink);outline-of
 
 .wt-head{font-size:var(--fs-xl);font-weight:600;overflow-wrap:anywhere}
 .wt-uk{font-size:var(--fs-lg)}
-.wt-ctx{font-style:italic;border-left:3px solid var(--line-strong);padding-left:10px;margin:0}
+.wt-ctx{margin:0;padding:10px 12px 10px 14px;border-radius:14px;background:var(--tile-sq);color:var(--ink-dim);line-height:1.5;position:relative;overflow-wrap:anywhere}
+.wt-ctx::before{content:"";position:absolute;left:0;top:10px;bottom:10px;width:3px;border-radius:0 3px 3px 0;background:color-mix(in srgb,var(--accent) 45%,transparent)}
+.wt-note{margin-top:4px;font-size:var(--fs-sm);color:var(--ink-dim);line-height:1.35}
+.wtp-card{box-shadow:var(--tile-shadow)}
 .wt-entry + .section-title{margin-top:8px}
 
 

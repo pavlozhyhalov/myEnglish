@@ -430,6 +430,9 @@ export async function lookupText({ text, sentence = '', next = [], gl = null, on
   };
   const actions = (word, entry) => h('div.row.wrap.wt-actions', unknownBtn(word, entry), askBtn(word));
   const show = (...parts) => { if (body.isConnected) body.replaceChildren(...parts.filter(Boolean)); };
+  /** Картка слова без перекладу: стан («Шукаю…», «Немає в словнику») — тихим рядком у самій картці */
+  const headCard = (note, status = false) => h('div.wtp-card', h('div.grow', h('div.wt-head', { lang: 'en' }, surface),
+    h('div.wt-note', { role: status ? 'status' : null }, note)), speakBtn(surface));
 
   // 1) словничок тексту
   const g = gl?.get?.(norm(surface));
@@ -446,7 +449,7 @@ export async function lookupText({ text, sentence = '', next = [], gl = null, on
   }
 
   // 2) колоди
-  show(h('div.wtp-card', h('div.grow.wt-head', { lang: 'en' }, surface), speakBtn(surface)), h('p.dim.wt-status', { role: 'status' }, 'Шукаю…'));
+  show(headCard('Шукаю…', true));
   let hit = null, phrase = null;
   try {
     if (words.length === 1) ({ hit, phrase } = await lookupDeck(words[0], next));
@@ -463,21 +466,20 @@ export async function lookupText({ text, sentence = '', next = [], gl = null, on
   }
 
   // 3) AI-переклад у контексті
-  const head = h('div.wtp-card', h('div.grow.wt-head', { lang: 'en' }, surface), speakBtn(surface));
   const runAi = async () => {
-    show(head, h('p.dim', { role: 'status' }, 'Перекладаю з урахуванням речення…'), ctx);
+    show(headCard('Перекладаю з урахуванням речення…', true), ctx);
     try {
       const entry = await aiLookup(surface, sentence);
       if (!entry) throw new Error('empty');
       show(entryBlock(entry, sentence, 'Переклад AI', refresh), ctx, actions(surface, entry));
     } catch (e) {
       const { aiErrorText } = await import('../ai.js');
-      show(head, h('p.dim', 'Немає в словнику'), h('p.small.dim', aiErrorText(e) || 'Не вдалося перекласти'), ctx, actions(surface, null));
+      show(headCard(`Немає в словнику · ${aiErrorText(e) || 'не вдалося перекласти'}`), ctx, actions(surface, null));
     }
   };
   if (canAi() && auto) { runAi(); return s; }
-  show(head, h('p.dim', 'Немає в словнику'), ctx,
-    canAi() ? h('div.row.wrap', h('button.btn.soft', { type: 'button', onclick: runAi }, ic('translate'), 'Перекласти з AI')) : h('p.small.dim', 'Переклад від AI — після входу і з інтернетом.'),
+  show(headCard(canAi() ? 'Немає в словнику' : 'Немає в словнику · AI-переклад — після входу і з інтернетом'), ctx,
+    canAi() ? h('button.btn.soft.block', { type: 'button', onclick: runAi }, ic('translate'), 'Перекласти з AI') : null,
     actions(surface, null));
   return s;
 }
