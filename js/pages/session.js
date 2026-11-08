@@ -12,7 +12,7 @@ import { user } from '../supa.js';
 import { setFocus } from '../ui/shell.js';
 import { go } from '../router.js';
 import { nextLessonByLevel } from '../level.js';
-import { tx, txPrimary, txKpis, txGroup, txRow, txRows } from '../ui/tiles.js';
+import { tx, txPrimary, txGroup, txRow, txRows, txResult } from '../ui/tiles.js';
 
 const STEP_IC = ['cards', 'puzzle-piece', 'microphone'];
 const EMO_IC = { cards: 'cards', puzzle: 'puzzle-piece', mic: 'microphone' };
@@ -58,7 +58,7 @@ export default async function session(view) {
     if (stage === 0) {
       const n = Math.min(20, counts.due + counts.fresh);
       if (!n) return next(1);
-      interstitial(0, 'cards', `Тренування: ${n} ${plural(n, 'слово', 'слова', 'слів')}`, 'Близько 5 хвилин: впізнати, почути, написати. Оцінку для повторів застосунок ставить сам.', async () => {
+      interstitial(0, 'cards', `Тренування: ${n} ${plural(n, 'слово', 'слова', 'слів')}`, 'Близько 5 хвилин: впізнати, почути, написати.', async () => {
         cleanup = await runTrain(view, { limit: 20, onDone: (st) => { summary.cards = st.done; next(1); } });
       });
     } else if (stage === 1) {
@@ -115,21 +115,15 @@ export default async function session(view) {
     const min = Math.round(logged / 60);
     const talkMin = summary.talk ? Math.max(1, Math.round(summary.talk / 60)) : 0;
     view.replaceChildren(h('div.stack-lg.gx',
-      h('section.tx-group',
-        h('div.gx-res', h('span.gx-res-ic.good', ic('confetti', { size: 26, fill: true })),
-          h('div.grow', h('div.tx-label', 'Заняття завершено!'), h('div.gx-res-t', min ? `${min} хв практики` : 'Менше хвилини практики'))),
-        txKpis([
-          { value: summary.cards, label: plural(summary.cards, 'слово', 'слова', 'слів') },
-          { value: summary.score == null ? '—' : summary.score, unit: summary.score == null ? '' : '%', label: 'граматика', tone: summary.score == null ? null : scoreTone(summary.score) },
-          { value: talkMin || '—', unit: talkMin ? 'хв' : '', label: 'розмова' },
-        ])),
+      // цифри етапів — пігулками в рядках «Що пройдено» (без окремого ряду показників)
+      txResult({ icon: 'confetti', tone: 'good', label: 'Заняття завершено!', title: min ? `${min} хв практики` : 'Менше хвилини практики' }),
+      txPrimary({ icon: 'house', label: 'На головну', href: '#/' }),
       txGroup('Що пройдено', txRows([
         txRow({ icon: 'cards', label: 'Слова', sub: summary.cards ? 'Тренування карток' : 'Етап пропущено', pill: summary.cards ? { text: String(summary.cards), tone: 'good' } : null }),
         txRow({ icon: 'puzzle-piece', label: lesson.title, sub: 'Урок граматики', pill: summary.score == null ? null : { text: `${summary.score}%`, tone: scoreTone(summary.score) }, href: `#/grammar/${lesson.id}` }),
         summary.chatId ? txRow({ icon: 'microphone', label: 'Підсумок розмови із вчителем', sub: `${talkMin} хв голосом`, href: `#/tutor?chat=${summary.chatId}` })
           : txRow({ icon: 'microphone', label: 'Розмова', sub: talkMin ? `${talkMin} хв голосом` : 'Етап пропущено' }),
-      ])),
-      txPrimary({ icon: 'house', label: 'На головну', href: '#/' })));
+      ]))));
   }
 
   function exit() {
