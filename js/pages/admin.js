@@ -68,7 +68,7 @@ export default async function adminPage(view) {
         remember(false);
         body.replaceChildren(txRows([txRow({ icon: 'x-circle', label: 'Доступ лише для адміністраторів', sub: 'На головну', href: '#/' })]));
       } else {
-        body.replaceChildren(txRows([txRow({ icon: 'warning', label: 'Спробувати ще', sub: aiErrorText(e), onclick: load })]));
+        body.replaceChildren(txRows([txRow({ icon: 'warning', label: 'Не вдалося завантажити', sub: aiErrorText(e) || 'Торкніться, щоб повторити', onclick: load })]));
       }
     }
   };

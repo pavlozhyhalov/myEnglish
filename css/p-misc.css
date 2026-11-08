@@ -138,3 +138,14 @@ body .sel-pop-more::after{inset:-2px}
 .set-pick-opt{min-height:52px}
 .set-pick-opt > .ico{color:var(--accent-ink);flex:none}
 .set-row .set-body .sub{margin-top:1px}
+
+/* ---------- Преміальний вигляд 2026-11-08: профіль, друзі, вхід, адмін ---------- */
+.fr-code .friend-code{font-family:var(--font-head);font-size:26px!important;font-weight:600;letter-spacing:.06em;font-variant-numeric:tabular-nums;color:var(--ink);line-height:1.15;overflow-wrap:anywhere}
+.fr-code .friend-code.off{font-size:var(--fs-sm)!important;letter-spacing:0;font-weight:500;color:var(--ink-dim)}
+.friend-ava{width:36px;height:36px;flex:0 0 36px;border-radius:11px;display:grid;place-items:center;background:var(--accent-soft);color:var(--accent-ink);font-family:var(--font-head);font-weight:600}
+.friend-streak{display:inline-flex;align-items:center;gap:4px;font-weight:600;font-variant-numeric:tabular-nums}
+.pf-seg{width:100%}
+.pf-seg button{flex:1 1 auto;min-width:0;padding-inline:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.auth-card{border-radius:var(--r-tile)}
+.auth-card .input,.adm-card .input{border-radius:var(--r-row)}
+.adm-card{border-radius:var(--r-tile)}

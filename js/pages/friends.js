@@ -14,12 +14,8 @@ const mins = (sec) => `${Math.round((sec || 0) / 60)}\u00a0хв`;
 const fmtCode = (c) => c ? `${c.slice(0, 4)}-${c.slice(4)}` : '';
 const cleanCode = (s) => String(s || '').toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 8);
 
-// Стилі елементів сторінки (без окремого CSS-файлу)
-const ST = {
-  code: { fontFamily: 'ui-monospace, SFMono-Regular, Menlo, monospace', fontSize: '1.6rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--accent-ink)' },
-  ava: { width: '34px', height: '34px', flex: '0 0 34px', borderRadius: '10px', display: 'grid', placeItems: 'center', background: 'var(--tile-sq)', color: 'var(--ink-dim)', fontWeight: 700 },
-  streak: { display: 'inline-flex', alignItems: 'center', gap: '4px', fontWeight: 700 },
-};
+// стилі — css/p-misc.css (.friend-code, .friend-ava, .friend-streak)
+const ST = { code: null, ava: null, streak: null };
 
 const ADD_ERR = {
   not_found: 'Такого коду немає. Перевірте літери й цифри.',
@@ -67,7 +63,7 @@ export default function friends(view, r) {
     value: r?.query?.code ? fmtCode(cleanCode(r.query.code)) : '',
     onkeydown: (e) => { if (e.key === 'Enter') add(); },
   });
-  const addBtn = h('button.btn.primary', { type: 'button', onclick: () => add() }, ic('user-plus', { size: 18 }), 'Додати');
+  const addBtn = h('button.btn.soft', { type: 'button', onclick: () => add() }, ic('user-plus', { size: 18 }), 'Додати');
   const list = h('div.tx-rows.fr-list', h('div.tx-row', h('span.tx-s.fr-msg', 'Завантаження…')));
   let myCode = '';
   let allFriends = false;
@@ -98,12 +94,12 @@ export default function friends(view, r) {
       const me = Array.isArray(rows) ? rows[0] : rows;
       if (!alive || !me) return;
       myCode = me.code;
-      codeBox.textContent = fmtCode(me.code);
+      codeBox.textContent = fmtCode(me.code); codeBox.classList.remove('off');
       nameInp.value = me.display_name || '';
       nameInp.placeholder = me.default_name || 'Ваше ім\'я';
     } catch (e) {
       console.warn('friends', e);
-      if (alive) codeBox.textContent = 'Немає зв\'язку';
+      if (alive) { codeBox.textContent = 'Код недоступний — немає зв\'язку'; codeBox.classList.add('off'); }
     }
   }
 

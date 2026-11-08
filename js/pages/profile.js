@@ -12,7 +12,7 @@ export const GOALS = [
   ['people', 'Спілкування з людьми'], ['travel', 'Подорожі'], ['work', 'Робота й кар\'єра'], ['moving', 'Життя за кордоном'],
   ['media', 'Фільми, книжки, інтернет'], ['kids', 'Допомога дітям'], ['exam', 'Іспит'], ['self', 'Саморозвиток'],
 ];
-const PRONOUNS = [['he', 'він (he)'], ['she', 'вона (she)'], ['they', 'не вказувати (they)']];
+const PRONOUNS = [['he', 'він (he)'], ['she', 'вона (she)'], ['they', 'нейтрально']];
 const LIMITS = { name: 40, address: 40, nativeLang: 40, otherLangs: 120, location: 80, age: 20, occupation: 120, family: 200, interests: 300, avoid: 200, notes: 500 };
 
 export function about() { return store.prof().about || {}; }
@@ -149,9 +149,10 @@ export default function profile(view) {
     return h('div.field', h('label', label), el, hint ? h('div.xs.dim', hint) : null);
   };
 
-  const pronounSeg = h('div.chips', PRONOUNS.map(([v, t]) => h('button.chip', { type: 'button', 'aria-pressed': String(a.pronoun === v), onclick: (e) => {
+  // три варіанти — сегмент (як у «Налаштуваннях»), «нейтрально» = they
+  const pronounSeg = h('div.seg.pf-seg', { role: 'group', 'aria-label': 'Як учителю говорити про вас' }, PRONOUNS.map(([v, t]) => h('button', { type: 'button', 'aria-pressed': String(a.pronoun === v), title: v === 'they' ? 'не вказувати (they)' : null, onclick: (e) => {
     save({ pronoun: v });
-    e.currentTarget.parentNode.querySelectorAll('.chip').forEach(c => c.setAttribute('aria-pressed', String(c === e.currentTarget)));
+    e.currentTarget.parentNode.querySelectorAll('button').forEach(c => c.setAttribute('aria-pressed', String(c === e.currentTarget)));
   } }, t)));
 
   const goals = new Set(a.goals || []);
