@@ -32,7 +32,7 @@ async function grammarPractice(view, unitSlug, lv) {
       const sel = levelPick('exgrammar');
       const lvSel = sel === 'mine' ? myLevel() : sel;
       const rows = units.map(u => ({ u, items: sel === 'all' ? u.items : u.items.filter(l => l.level === lvSel) })).filter(x => x.items.length);
-      primBox.replaceChildren(txPrimary({ icon: 'lightning', label: sel === 'all' ? 'Усі теми вперемішку' : `Вперемішку · рівень ${lvSel}`, sub: sel === 'all' ? '10 вправ з усіх тем' : '10 вправ з тем цього рівня', href: sel === 'all' ? '#/exercises/grammar/all' : `#/exercises/grammar/lvl?lv=${lvSel}` }));
+      primBox.replaceChildren(txPrimary({ icon: 'lightning', label: sel === 'all' ? 'Усі теми вперемішку' : `Вперемішку · ${lvSel}`, sub: sel === 'all' ? '10 вправ з усіх тем' : '10 вправ з тем цього рівня', href: sel === 'all' ? '#/exercises/grammar/all' : `#/exercises/grammar/lvl?lv=${lvSel}` }));
       listBox.replaceChildren(
         rows.length ? txGroup('Теми', moreRows(rows.map(({ u, items }, k) => txRow({
           // кількість уроків — на початку підпису, а не пігулкою: на 320 px назва теми не ламається на два рядки
