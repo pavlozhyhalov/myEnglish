@@ -95,7 +95,7 @@ function runDictation(box, data, timer, wanted) {
         const avg = Math.round(totalPct / items.length);
         const perfect = scores.filter(x => x >= 100).length;
         timer.poke();
-        box.replaceChildren(h('div.stack-lg',
+        box.replaceChildren(h('div.stack-lg.ls',
           h('section.tx-group',
             txResult({ icon: avg >= 80 ? 'trophy' : avg >= 60 ? 'thumbs-up' : 'barbell', tone: tone(avg), label: `Диктант · рівень ${level}`,
               title: avg >= 90 ? 'Чуєте майже все — чудово' : avg >= 70 ? 'Добре чуєте — ще трохи практики' : 'Слухайте повільніше й частіше' }),
@@ -113,7 +113,7 @@ function runDictation(box, data, timer, wanted) {
         return;
       }
       const it = items[i];
-      const inp = h('textarea.input.ls-inp', { rows: 2, placeholder: 'Напишіть почуте…', autocapitalize: 'sentences', spellcheck: 'false', 'aria-label': 'Почуте речення' });
+      const inp = h('textarea.pp-ta.ls-inp', { rows: 3, placeholder: 'Напишіть почуте…', autocapitalize: 'sentences', spellcheck: 'false', 'aria-label': 'Почуте речення' });
       const result = h('div');
       const play = (rate) => speak(it.text, { rate });
       const checkBtn = h('button.btn.primary.block', { type: 'button', onclick: () => {
@@ -134,11 +134,17 @@ function runDictation(box, data, timer, wanted) {
       } }, 'Перевірити');
       const nextBtn = h('button.btn.primary.block', { type: 'button', hidden: true, onclick: () => { i++; step(); } }, i + 1 < items.length ? 'Далі' : 'Результат', ic('arrow-right', { size: 18 }));
       inp.addEventListener('keydown', e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); checkBtn.hidden ? nextBtn.click() : checkBtn.click(); } });
-      const speed = (rate, label, sub) => tx({ icon: 'speaker-high', label, sub, onclick: () => play(rate), attrs: { 'aria-label': `Прослухати, швидкість ${label}` } });
-      box.replaceChildren(h('div.stack-lg',
-        h('div.row', h('div.grow', progress(i / items.length * 100, 'Пройдено завдань')), h('span.xs.dim.num', `${i + 1}/${items.length}`)),
-        txGroup(`Речення ${i + 1} · рівень ${level}`, txGrid([speed(1, '1×', 'звичайно'), speed(0.8, '0,8×', 'повільніше'), speed(0.6, '0,6×', 'повільно')])),
-        txGroup('Що ви почули', [inp, checkBtn, result, nextBtn])));
+      // плеєр: кругла кнопка «ще раз» + швидкість сегментами (головна синя дія — «Перевірити»)
+      let rate = 1;
+      const playBig = h('button.ls-play', { type: 'button', 'aria-label': 'Прослухати речення ще раз', onclick: () => play(rate) }, ic('speaker-high', { size: 28 }));
+      const rates = seg([['1', '1×'], ['0.8', '0,8×'], ['0.6', '0,6×']], '1', v => { rate = Number(v); play(rate); });
+      rates.classList.add('ls-rates'); rates.setAttribute('aria-label', 'Швидкість');
+      box.replaceChildren(h('div.stack-lg.ls',
+        h('div.gx-lhead', h('button.icon-btn', { type: 'button', 'aria-label': 'До аудіювання', onclick: () => { stopSpeech(); backTo('/listening'); } }, ic('arrow-left')),
+          h('div.grow', h('div.tx-label.gx-eyebrow', `Диктант · рівень ${level}`), h('h2.gx-lh1', `Речення ${i + 1} з ${items.length}`))),
+        progress(i / items.length * 100, 'Пройдено речень'),
+        h('section.ls-player', playBig, h('div.ls-player-b', h('div.ls-player-t', 'Прослухати ще раз'), rates)),
+        txGroup('Що ви почули', [h('section.pp-compose', inp), checkBtn, result, nextBtn])));
       setTimeout(() => play(1), 300);
       inp.focus({ preventScroll: true });
     };
@@ -242,7 +248,7 @@ function playDialogue(box, d, timer, onBack) {
   const transcript = h('div.gx-card.stack.ls-tr', { hidden: true });
   const lines = d.lines.map((l) => h('div.ls-line', h('b.ls-who' + (l.speaker ? '.b' : ''), d.speakers?.[l.speaker] || (l.speaker ? 'B' : 'A')), h('div.grow', { lang: 'en' }, l.text)));
   transcript.append(...lines);
-  const playBtn = txPrimary({ icon: 'play', label: 'Слухати діалог', sub: `${d.lines.length} ${plural(d.lines.length, 'репліка', 'репліки', 'реплік')} · два голоси`, onclick: playAll });
+  const playBtn = txPrimary({ icon: 'play', label: 'Слухати діалог', sub: `${d.lines.length} ${plural(d.lines.length, 'репліка', 'репліки', 'реплік')} · два голоси`, onclick: playAll, end: null });
   const setPlay = (icon, label) => { playBtn.querySelector('.tx-sq').replaceChildren(ic(icon, { size: 20, fill: true })); playBtn.querySelector('.tx-l').textContent = label; };
   async function playAll() {
     stopFlag = false;
@@ -288,7 +294,7 @@ function playDialogue(box, d, timer, onBack) {
     } }, h('span.ex-key', { 'aria-hidden': 'true' }, String(k + 1)), h('span.grow', { lang: 'en' }, o)));
     qBox.append(h('div.gx-card.stack.ls-q', h('div.ls-qt', { lang: 'en' }, h('span.tx-no', String(qi + 1)), h('b', q.q)), h('div.ex-opts', opts)));
   });
-  box.replaceChildren(h('div.stack-lg',
+  box.replaceChildren(h('div.stack-lg.ls',
     h('div.gx-lhead', h('button.icon-btn', { type: 'button', 'aria-label': 'До діалогів', onclick: () => { stopFlag = true; stopSpeech(); onBack(); } }, ic('arrow-left')),
       h('div.grow', h('div.tx-label.gx-eyebrow', `${d.level === 'AI' ? 'Новий від AI' : d.level} · Діалог`), h('h2.gx-lh1', d.title))),
     h('section.tx-group', playBtn, textBtn, transcript),

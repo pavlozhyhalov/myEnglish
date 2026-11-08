@@ -15,7 +15,7 @@ import { toast } from '../ui/toast.js';
 import { setTitle } from '../ui/shell.js';
 import { go } from '../router.js';
 import { myLevel, pickOfDay } from '../level.js';
-import { tx, txPrimary, txGroup, txRow, txRows, txKpis, txPill, txLogin } from '../ui/tiles.js';
+import { tx, txPrimary, txGroup, txRow, txRows, txKpis, txPill, txLogin, txResult } from '../ui/tiles.js';
 
 const DRAFT_KEY = 'me:diary:draft';
 /** Орієнтовна довжина запису (слів) — так само в _shared/prompts.ts (DIARY_WORDS) */
@@ -82,14 +82,14 @@ function editor(view) {
   let saved = '';
   try { saved = localStorage.getItem(DRAFT_KEY) || ''; } catch { /* */ }
 
-  const qText = h('div', { style: { fontSize: 'var(--fs-lg)', fontWeight: 600 }, lang: 'en' }, question());
-  const qBtns = h('div.row', { style: { gap: '8px', flexWrap: 'wrap' } },
-    h('button.btn.sm.ghost', { type: 'button', onclick: () => speak(question()) }, ic('speaker-high', { size: 16 }), 'Прослухати'),
-    h('button.btn.sm.ghost', { type: 'button', onclick: () => { shift = (shift + 1) % list.length; qText.textContent = question(); } }, ic('arrow-clockwise', { size: 16 }), 'Інше питання'));
-  const ta = h('textarea.input', { rows: 7, placeholder: 'Today I…', 'aria-label': 'Ваш запис англійською', value: saved, spellcheck: 'true', lang: 'en', maxlength: 6000 });
-  const info = h('span.xs.dim.grow');
-  const clock = h('span.xs.dim.num', { 'aria-hidden': 'true' });
-  const status = h('div.small.dim', { role: 'status', 'aria-live': 'polite' });
+  const qText = h('div.dy-qt', { lang: 'en' }, question());
+  const qBtns = h('div.dy-qacts',
+    h('button.icon-btn.soft', { type: 'button', 'aria-label': 'Прослухати питання', onclick: () => speak(question()) }, ic('speaker-high', { size: 18 })),
+    h('button.icon-btn.soft', { type: 'button', 'aria-label': 'Інше питання', onclick: () => { shift = (shift + 1) % list.length; qText.textContent = question(); } }, ic('arrow-clockwise', { size: 18 })));
+  const ta = h('textarea.pp-ta', { rows: 7, placeholder: 'Today I…', 'aria-label': 'Ваш запис англійською', value: saved, spellcheck: 'true', lang: 'en', maxlength: 6000 });
+  const info = h('span.pp-wc.grow');
+  const clock = h('span.pp-wc.num', { 'aria-hidden': 'true' });
+  const status = h('div.small.dim.dy-status', { role: 'status', 'aria-live': 'polite' });
   const upd = () => {
     const n = wordCount(ta.value);
     info.textContent = `${n} з ${lo}–${hi} слів`;
@@ -184,13 +184,13 @@ function editor(view) {
   }
 
   const today = entries().filter(c => dayKey(new Date(c.created_at)) === dayKey());
-  view.replaceChildren(h('div.stack-lg',
+  view.replaceChildren(h('div.stack-lg.dy',
     today.length ? txRow({ icon: 'check-circle', on: true, label: 'Сьогоднішній запис уже є', sub: 'Відкрити розбір — або напишіть ще один нижче', href: `#/diary/${encodeURIComponent(today[0].id)}` }) : '',
-    txGroup(`Питання дня · рівень ${lvl}`, h('section.gx-card.stack.dy-q', qText, qBtns)),
-    h('section.stack', { style: { gap: '8px' } },
+    txGroup(`Питання дня · рівень ${lvl}`, h('section.pp-compose.dy-compose',
+      h('div.dy-q', qText, qBtns),
       ta,
-      h('div.row', { style: { gap: '8px', flexWrap: 'wrap' } }, micBtn, info, h('span.sr-only', 'Час запису'), clock),
-      status),
+      h('div.pp-compose-foot', micBtn, info, h('span.sr-only', 'Час запису'), clock),
+      status)),
     // без входу — одна плитка «Увійти» замість перевірки; зберегти можна й так
     user() ? checkBtn : txLogin('Перевірка вчителем — після входу', 'Запис можна зберегти й перевірити пізніше'),
     saveBtn,
@@ -269,7 +269,7 @@ function entryView(view, id) {
       h('div.gx-lhead', h('a.icon-btn', { href: '#/diary', 'aria-label': 'До щоденника' }, ic('arrow-left')),
         h('div.grow', h('div.tx-label.gx-eyebrow', s.checked ? 'Запис із розбором' : 'Запис щоденника'), h('h2.gx-lh1', fmtDate(row.created_at, { weekday: 'long', day: 'numeric', month: 'long' }))),
         h('button.icon-btn', { type: 'button', 'aria-label': 'Видалити запис', onclick: async () => { if (await removeEntry(row.id)) go('/diary', { replace: true }); } }, ic('trash'))),
-      s.question ? txGroup('Питання дня', h('section.gx-card.dy-q', h('div', { lang: 'en', style: { fontWeight: 600 } }, s.question))) : '',
+      s.question ? txGroup('Питання дня', h('section.gx-card.dy-qcard', { lang: 'en' }, s.question)) : '',
     ];
     if (!s.checked) {
       const btn = txPrimary({ icon: 'sparkle', label: 'Перевірити у вчителя', sub: 'Виправлення, природніша версія і корисні слова', onclick: check });
@@ -290,13 +290,13 @@ function entryView(view, id) {
         }
       }
       blocks.push(txGroup(`Ваш запис · ${wordCount(text)} ${plural(wordCount(text), 'слово', 'слова', 'слів')}`, h('section.gx-card.dy-text', { lang: 'en' }, text)), btn);
-      view.replaceChildren(h('div.stack-lg', blocks));
+      view.replaceChildren(h('div.stack-lg.dy', blocks));
       return;
     }
     const nW = (s.words || []).length;
     blocks.push(h('section.tx-group',
-      h('div.gx-res', h('span.gx-res-ic.' + (nMis ? 'warn' : 'good'), ic(nMis ? 'pencil-line' : 'check-circle', { size: 26, fill: true })),
-        h('div.grow', h('div.tx-label', 'Розбір'), h('div.gx-res-t', nMis ? `${nMis} ${plural(nMis, 'виправлення', 'виправлення', 'виправлень')} — розбір нижче` : 'Без помилок — чудово!'))),
+      txResult({ icon: nMis ? 'pencil-line' : 'check-circle', tone: nMis ? 'warn' : 'good', label: 'Розбір запису',
+        title: nMis ? `${nMis} ${plural(nMis, 'виправлення', 'виправлення', 'виправлень')} — розбір нижче` : 'Без помилок — чудово!' }),
       txKpis([
         { value: wordCount(text), label: plural(wordCount(text), 'слово', 'слова', 'слів') },
         { value: nMis, label: plural(nMis, 'помилка', 'помилки', 'помилок'), tone: nMis ? 'warn' : 'good' },
@@ -305,7 +305,7 @@ function entryView(view, id) {
     if (s.feedback_uk) blocks.push(txGroup('Відгук вчителя', h('section.gx-card.dy-fb', md(s.feedback_uk))));
     blocks.push(correctionCard(text, s.corrected || text, nMis));
     if (s.natural) blocks.push(txGroup('Як написав би носій мови', h('section.gx-card.dy-nat',
-      h('div.grow', { lang: 'en', style: { whiteSpace: 'pre-wrap' } }, s.natural),
+      h('div.grow.dy-pre', { lang: 'en' }, s.natural),
       h('button.icon-btn.soft', { type: 'button', 'aria-label': 'Прослухати', onclick: () => speak(s.natural) }, ic('speaker-high', { size: 20 })))));
     if (nMis) blocks.push(txGroup(`Помилки · ${nMis}`, [
       txRows(s.mistakes.map(m => h('div.tx-row.dy-mis',
@@ -317,7 +317,7 @@ function entryView(view, id) {
       tx({ icon: 'target', wide: true, label: 'Мої помилки', sub: 'Помилки вже там — їх можна потренувати', href: '#/mistakes' })], null));
     if (nW) blocks.push(wordsCard(s.words));
     blocks.push(txPrimary({ icon: 'notebook', label: 'До щоденника', sub: 'Новий запис і всі попередні', href: '#/diary' }));
-    view.replaceChildren(h('div.stack-lg', blocks));
+    view.replaceChildren(h('div.stack-lg.dy', blocks));
   };
   draw();
   return () => { abort?.abort(); timer.stop(); };
@@ -325,20 +325,20 @@ function entryView(view, id) {
 
 /** Виправлення у вигляді різниці по словах: закреслене — ваше, виділене — виправлене */
 function correctionCard(orig, fixed, n) {
-  const box = h('div', { lang: 'en', style: { lineHeight: 1.7, overflowWrap: 'anywhere' } });
+  const box = h('div.dy-diff', { lang: 'en' });
   let mode = 'diff';
   const seg = h('div.seg', { role: 'group', 'aria-label': 'Показ тексту' });
   const drawSeg = () => seg.replaceChildren(...[['diff', 'Виправлення'], ['orig', 'Ваш текст'], ['fixed', 'Чистовик']].map(([v, t]) =>
     h('button', { type: 'button', 'aria-pressed': String(mode === v), onclick: () => { mode = v; drawSeg(); drawBox(); } }, t)));
   const drawBox = () => {
-    if (mode === 'orig') return box.replaceChildren(h('span', { style: { whiteSpace: 'pre-wrap' } }, orig));
-    if (mode === 'fixed') return box.replaceChildren(h('span', { style: { whiteSpace: 'pre-wrap' } }, fixed));
+    if (mode === 'orig') return box.replaceChildren(h('span.dy-pre', orig));
+    if (mode === 'fixed') return box.replaceChildren(h('span.dy-pre', fixed));
     box.replaceChildren(...diffNodes(orig, fixed));
   };
   drawSeg(); drawBox();
   return txGroup(n ? 'Виправлений текст' : 'Ваш текст', [
     seg,
-    h('section.gx-card.stack', box, h('div.xs.dim', n ? 'Закреслено — як було, виділено — як правильно.' : 'Помилок не знайдено.'))]);
+    h('section.gx-card.stack', box, n ? h('div.dy-legend', h('span', h('del', 'було')), h('span', h('ins', 'стало'))) : null)]);
 }
 
 /** Різниця по словах (LCS). Повертає [{t, op: '=', '-', '+'}]. Для дуже довгих текстів — лише заміна цілком. */
@@ -373,8 +373,8 @@ function diffNodes(a, b) {
   for (const d of wordDiff(a, b)) {
     if (nodes.length) nodes.push(' ');
     if (d.op === '=') nodes.push(d.t);
-    else if (d.op === '-') nodes.push(h('del', { style: { color: 'var(--bad)', background: 'var(--bad-soft)', borderRadius: '4px', padding: '0 3px' }, 'aria-label': `було: ${d.t}` }, d.t));
-    else nodes.push(h('ins', { style: { color: 'var(--good)', background: 'var(--good-soft)', borderRadius: '4px', padding: '0 3px', textDecoration: 'none', fontWeight: 600 }, 'aria-label': `стало: ${d.t}` }, d.t));
+    else if (d.op === '-') nodes.push(h('del', { 'aria-label': `було: ${d.t}` }, d.t));
+    else nodes.push(h('ins', { 'aria-label': `стало: ${d.t}` }, d.t));
   }
   return nodes;
 }

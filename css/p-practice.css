@@ -60,7 +60,18 @@ html.kbd .rd-gloss-head:focus-visible{outline:2px solid var(--accent-ink);outlin
 .rd-gloss-rows .tx-row .tx-sq{color:var(--accent-ink)}
 @media (prefers-reduced-motion:reduce){.rd-gloss-head{transition:none}.rd-gloss-head:active{transform:none}}
 /* аудіювання: диктант і діалог */
-.ls-inp{min-height:84px;border-radius:14px}
+.ls .tx-end:empty{display:none}
+.ls-player{display:flex;align-items:center;gap:14px;padding:14px;border-radius:var(--r-tile);background:var(--tile);border:1px solid var(--tile-edge);box-shadow:var(--tile-shadow)}
+.ls-play{flex:none;width:64px;height:64px;border-radius:50%;border:0;display:grid;place-items:center;cursor:pointer;
+  background:var(--accent-soft);color:var(--accent-ink);-webkit-tap-highlight-color:transparent;transition:transform .15s ease}
+.ls-play:active{transform:scale(.94)}
+html.kbd .ls-play:focus-visible{outline:2px solid var(--accent-ink);outline-offset:3px}
+.ls-player-b{flex:1;min-width:0;display:flex;flex-direction:column;gap:8px}
+.ls-player-t{font-weight:600;font-size:var(--fs-sm);line-height:1.2}
+.ls-rates{width:100%}
+.ls-rates button{flex:1;min-width:0;font-variant-numeric:tabular-nums}
+@media (max-width:360px){.ls-player{gap:10px;padding:12px}.ls-play{width:52px;height:52px}}
+.pp-ta.ls-inp{min-height:96px}
 .ls-lbl{padding:0}
 .ls-check .diff{line-height:1.6;overflow-wrap:anywhere}
 .ls-tbtn .tx-end:empty{display:none}
@@ -92,7 +103,36 @@ html.kbd .wr-gl-head:focus-visible{outline:2px solid var(--accent-ink);outline-o
 .wr-wc{padding:0 4px}
 .wr-sample-t{margin:0 12px 12px;background:var(--tile-sq);border-color:transparent;white-space:pre-wrap;line-height:1.55}
 @media (prefers-reduced-motion:reduce){.wr-gl-head > .ico:last-child{transition:none}}
+/* «Аркуш» для письма (письмо, щоденник): поле без рамки всередині плитки, внизу — лічильник і смужка довжини */
+.pp-compose{display:flex;flex-direction:column;background:var(--tile);border:1px solid var(--tile-edge);border-radius:var(--r-tile);box-shadow:var(--tile-shadow);min-width:0;transition:border-color .18s ease,box-shadow .18s ease}
+.pp-compose:focus-within{border-color:color-mix(in srgb,var(--accent) 35%,transparent);box-shadow:var(--tile-shadow),0 0 0 4px color-mix(in srgb,var(--accent) 9%,transparent)}
+.pp-ta{display:block;width:100%;min-height:180px;border:0;outline:0;resize:vertical;background:transparent;color:var(--ink);
+  font:inherit;font-size:var(--fs-md);line-height:1.6;padding:14px 16px;border-radius:var(--r-tile)}
+.pp-ta::placeholder{color:color-mix(in srgb,var(--ink-dim) 75%,transparent)}
+.pp-compose-foot{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:10px 12px 12px 16px;border-top:1px solid var(--tile-edge)}
+.pp-wc{font-size:var(--fs-xs);color:var(--ink-dim);font-variant-numeric:tabular-nums}
+.pp-wbar{flex:1;min-width:60px;max-width:140px;height:4px;border-radius:99px;background:var(--track);overflow:hidden;margin-left:auto}
+.pp-wbar > i{display:block;height:100%;width:0;border-radius:inherit;background:var(--accent);transition:width .3s ease}
+.pp-wbar.ok > i{background:var(--good)}
+.pp-wbar.over > i{background:var(--warn)}
+@media (prefers-reduced-motion:reduce){.pp-compose,.pp-wbar > i{transition:none}}
+/* щоденник: питання дня — шапка аркуша */
+.dy-q{display:flex;align-items:flex-start;gap:10px;padding:14px 12px 12px 16px;border-bottom:1px solid var(--tile-edge)}
+.dy-qt{flex:1;min-width:0;font-weight:600;font-size:var(--fs-md);line-height:1.4;overflow-wrap:anywhere}
+.dy-qacts{display:flex;gap:6px;flex:none;margin-top:-4px}
+.dy-qacts .icon-btn{width:38px;height:38px;min-height:38px}
+.dy-compose .pp-ta{min-height:170px}
+.dy-compose .pp-compose-foot .btn{flex:none}
+.dy-status:empty{display:none}
+.subnav + * .dy > .tx-group:first-child,.dy > .tx-group:first-child{margin-top:2px}
+.dy-status{padding:0 16px 12px}
+.dy-qcard{font-weight:600;line-height:1.45}
 /* щоденник: розбір запису */
+.dy-pre{white-space:pre-wrap}
+.dy-diff{line-height:1.75;overflow-wrap:anywhere}
+.dy-diff del,.dy-legend del{color:var(--bad);background:var(--bad-soft);border-radius:5px;padding:1px 4px;text-decoration-color:color-mix(in srgb,var(--bad) 70%,transparent)}
+.dy-diff ins,.dy-legend ins{color:var(--good);background:var(--good-soft);border-radius:5px;padding:1px 4px;text-decoration:none;font-weight:600}
+.dy-legend{display:flex;gap:12px;font-size:var(--fs-xs)}
 .dy-text{white-space:pre-wrap;line-height:1.55}
 .dy-fb > :first-child{margin-top:0}
 .dy-fb > :last-child{margin-bottom:0}

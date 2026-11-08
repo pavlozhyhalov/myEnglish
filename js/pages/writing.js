@@ -50,14 +50,22 @@ function taskView(view, t) {
   const timer = activityTimer('writing');
   let saved = '';
   try { saved = localStorage.getItem(DRAFT_KEY(t.id)) || ''; } catch { /* */ }
-  const ta = h('textarea.input', { rows: 12, placeholder: t.placeholder || 'Write your text here…', 'aria-label': 'Ваш текст', value: saved, spellcheck: 'true', lang: 'en' });
-  const wc = h('span.xs.dim');
+  const ta = h('textarea.pp-ta', { rows: 11, placeholder: t.placeholder || 'Write your text here…', 'aria-label': 'Ваш текст', value: saved, spellcheck: 'true', lang: 'en' });
+  const wc = h('span.pp-wc');
+  // смужка до рекомендованої довжини («80–120» → 80 і 120)
+  const [lo, hi] = String(t.words || '').split(/[^0-9]+/).filter(Boolean).map(Number);
+  const bar = h('i');
   const upd = () => {
     const n = ta.value.trim() ? ta.value.trim().split(/\s+/).length : 0;
-    wc.textContent = `${n} ${plural(n, 'слово', 'слова', 'слів')}${t.words ? ` · рекомендовано ${t.words}` : ''}`;
+    wc.textContent = `${n} ${plural(n, 'слово', 'слова', 'слів')}${t.words ? ` · треба ${t.words}` : ''}`;
+    if (lo) {
+      bar.style.width = `${Math.min(100, Math.round(n / (hi || lo) * 100))}%`;
+      bar.parentNode?.classList.toggle('ok', n >= lo && (!hi || n <= hi));
+      bar.parentNode?.classList.toggle('over', !!hi && n > hi);
+    }
     try { localStorage.setItem(DRAFT_KEY(t.id), ta.value); } catch { /* */ }
   };
-  ta.addEventListener('input', upd); upd();
+  ta.addEventListener('input', upd);
   const insert = (text) => {
     const s = ta.selectionStart ?? ta.value.length, e = ta.selectionEnd ?? s;
     const before = ta.value.slice(0, s), after = ta.value.slice(e);
@@ -75,7 +83,7 @@ function taskView(view, t) {
       t.phrases.map(g => h('details.wr-gl', { open: g === t.phrases[0] ? true : null },
         h('summary.wr-gl-head', h('span.tx-sq', ic('quotes', { size: 18 })), h('span.tx-body', h('span.tx-l', g.group), h('span.tx-s', `${g.items.length} ${plural(g.items.length, 'фраза', 'фрази', 'фраз')}`)), ic('caret-down', { size: 18 })),
         h('div.chips.wr-chips', g.items.map(p => h('button.chip.wr-chip', { type: 'button', lang: 'en', onclick: () => insert(p) }, p))))))),
-    txGroup('Ваш текст', [ta, h('div.wr-wc', wc)]),
+    txGroup('Ваш текст', h('section.pp-compose', ta, h('div.pp-compose-foot', wc, lo ? h('span.pp-wbar', { 'aria-hidden': 'true' }, bar) : null))),
     txPrimary({ icon: 'sparkle', label: 'Перевірити у вчителя', sub: 'Виправлення, пояснення і природніша версія', onclick: () => {
       if (ta.value.trim().length < 20) { toast('Напишіть хоча б кілька речень'); return; }
       try { sessionStorage.setItem('me:draft', ta.value); } catch { /* */ }
@@ -85,5 +93,6 @@ function taskView(view, t) {
     t.sample ? h('details.wr-gl.wr-sample',
       h('summary.wr-gl-head', h('span.tx-sq', ic('eye', { size: 18 })), h('span.tx-body', h('span.tx-l', 'Зразок відповіді'), h('span.tx-s', 'Подивіться після власної спроби')), ic('caret-down', { size: 18 })),
       h('div.gx-card.small.wr-sample-t', { lang: 'en' }, t.sample)) : null));
+  upd();
   return () => timer.stop();
 }
