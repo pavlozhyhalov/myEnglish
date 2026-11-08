@@ -303,3 +303,5 @@ html.kbd .pr-big:focus-visible{outline:2px solid var(--accent-ink);outline-offse
 .ex-head-t .tx-label{padding:0 0 0 2px}
 .gx-run{gap:12px}
 .gx-exnext{margin-top:12px}
+.ex-mis-a.bad > span.ex-mis-dk{text-decoration:none;font-style:italic}
+.gx-lv.mine .gx-lv-sq{background:var(--accent-soft);color:var(--accent-ink)}

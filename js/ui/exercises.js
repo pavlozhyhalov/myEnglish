@@ -98,7 +98,7 @@ export function mistakeCard(r, { action = null, given = null } = {}) {
   const g = given ?? (r.given || '—');
   return h('div.gx-card.ex-mis',
     h('div.ex-mis-q', h('span.grow', promptText(r.ex)), action),
-    h('div.ex-mis-a.bad', ic('x', { size: 14 }), h('span', g)),
+    h('div.ex-mis-a.bad', ic('x', { size: 14 }), h('span' + (given != null ? '.ex-mis-dk' : ''), g)),
     h('div.ex-mis-a.good', ic('check', { size: 14 }), h('span', answerText(r.ex))),
     r.ex.explanation ? h('div.ex-mis-why', r.ex.explanation) : null);
 }
