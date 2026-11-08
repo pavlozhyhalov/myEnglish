@@ -83,3 +83,23 @@ html.kbd .mk-others>summary:focus-visible{outline:2px solid var(--accent-ink);ou
 .mk-dhead .tx-s{margin-top:2px}
 .mk-wf .tx-dots,.mk-wf .tx-pill{flex:none}
 .mk-note{margin:0}
+
+/* Згорнута плитка-розділ (Прогрес, Аналіз, Звіт, Вчитель): рядок-плитка зі стрілкою, вміст — під нею */
+.pg-fold{border:1px solid var(--tile-edge);border-radius:16px;background:var(--tile)}
+.pg-fold>summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:12px;min-height:56px;padding:9px 12px;-webkit-tap-highlight-color:transparent}
+.pg-fold>summary::-webkit-details-marker{display:none}
+.pg-fold>summary .tx-sq{width:34px;height:34px;border-radius:10px;flex:none}
+.pg-fold>summary>.tx-body{display:flex;flex-direction:column;gap:2px;min-width:0;flex:1}
+.pg-fold>summary .tx-l{font-weight:600;font-size:var(--fs-sm);color:var(--ink);line-height:1.3}
+.pg-fold>summary .tx-s{font-size:var(--fs-xs);color:var(--ink-dim);line-height:1.35}
+.pg-fold>summary .tx-pill{flex:none}
+.pg-fold>summary::after{content:'';flex:none;width:7px;height:7px;border-right:2px solid var(--ink-dim);border-bottom:2px solid var(--ink-dim);transform:rotate(45deg);margin:0 6px 3px 0;transition:transform var(--dur)}
+.pg-fold[open]>summary::after{transform:rotate(225deg);margin-bottom:-3px}
+html.kbd .pg-fold>summary:focus-visible{outline:2px solid var(--accent-ink);outline-offset:2px;border-radius:16px}
+.pg-fold-b{display:flex;flex-direction:column;gap:10px;padding:2px 12px 14px}
+.pg-fold-b .tx,.pg-fold-b .tx-row,.pg-fold-b .card.tx-card{background:var(--tile-sq)}
+.pg-fold-b .tx .tx-sq,.pg-fold-b .tx-row .tx-sq,.pg-fold-b .tx-row .tx-no{background:var(--tile)}
+.pg-fold-b .card.tx-card{border-color:transparent}
+.pg-fold-b .tx-card .tx,.pg-fold-b .tx-card .tx-row{background:var(--tile)}
+.pg-folds{display:flex;flex-direction:column;gap:8px}
+.tx.pg-gram .tx-bar{margin-top:6px}

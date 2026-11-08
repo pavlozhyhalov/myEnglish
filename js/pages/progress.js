@@ -1,6 +1,6 @@
 // Прогрес: стрік, час, графіки, слова, уроки, рівні, помилки
 import { h, ic, fmtMin, progress as bar } from '../ui/dom.js';
-import { tx, txPrimary, txKpis, txGroup, txRow, txRows, txLogin } from '../ui/tiles.js';
+import { tx, txPrimary, txKpis, txGroup, txRow, txRows, txLogin, txBar } from '../ui/tiles.js';
 import { S, plural } from '../strings.js';
 import * as store from '../store.js';
 import * as srs from '../srs.js';
@@ -47,63 +47,66 @@ export default async function progressPage(view) {
   const SKILLS = { grammar: 'Граматика', vocabulary: 'Лексика', reading: 'Читання', listening: 'Аудіювання', writing: 'Письмо', speaking: 'Говоріння' };
   const testLabel = (t) => t.type === 'placement' ? 'Тест рівня' : t.type === 'weekly' ? 'Тижневий тест' : `Урок: ${gIdx.find(l => l.id === t.ref)?.title || t.ref}`;
   const testTone = (t) => { if (t.type === 'placement') return 'accent'; const v = t.scores.score; return v >= 80 ? 'good' : v < 60 ? 'bad' : 'warn'; };
+  const openMk = dyn.reduce((a, d) => a + d.open, 0);
+  const nReviews = store.count('reviews');
+  const LV = ['A1', 'A2', 'B1', 'B2', 'C1'];
+  const weakest = Object.keys(SKILLS).filter(k => LV.includes(skills[k])).sort((a, b) => LV.indexOf(skills[a]) - LV.indexOf(skills[b]))[0];
 
   view.replaceChildren(h('div.stack-lg.pg-page',
     txKpis([
       { value: st, label: `${plural(st, 'день', 'дні', 'днів')} поспіль`, tone: st ? 'accent' : '', ariaLabel: `Стрік: ${st} ${plural(st, 'день', 'дні', 'днів')} поспіль` },
+      { value: fmtMin(weekSeconds()), label: 'за 7 днів' },
       { value: fmtMin(totalSeconds()), label: 'всього практики' },
-      { value: `${lp.pct}%`, label: `опановано ${lvl}`, tone: lp.ready ? 'good' : '' },
     ]),
 
     // «Аналіз» і «Звіт» — вкладки над сторінкою (js/ui/subnav.js)
     weeklyCard(),
 
-    labelRow('Хвилини за 30 днів', h('span.xs.dim', `мета ${store.settings().dailyGoal} хв`),
-      days.some(d => d.seconds) ? card(
-        h('div.bars', { role: 'img', 'aria-label': 'Хвилини практики по днях' }, days.map(d => h('i' + (d.seconds ? '' : '.zero'), { style: { height: `${Math.max(2, d.seconds / maxSec * 100)}%` }, title: `${dayLbl(d)}: ${fmtMin(d.seconds)}` }))),
-        h('div.bars-labels', h('span', dayLbl(days[0])), h('span', dayLbl(days[15])), h('span', 'сьогодні')),
-        h('div.chips', Object.entries(byType).sort((a, b) => b[1] - a[1]).map(([t, s]) => h('span.tag', `${S.sessionTypes[t] || t}: ${fmtMin(s)}`))))
-        : tx({ wide: true, icon: 'chart-line-up', label: 'Ще немає даних', sub: 'Графік заповниться після перших занять', cls: 'pg-empty' })),
-
-    txGroup('Час навчання', [
-      txKpis([{ value: fmtMin(todaySeconds()), label: 'сьогодні' }, { value: fmtMin(weekSeconds()), label: 'за 7 днів' }, { value: fmtMin(avg), label: 'у середньому за активний день' }]),
-      store.prof().resonance ? h('div.xs.dim.pg-note', 'Час автоматично додається в Resonance (Мови → English)') : null]),
-
-    txGroup('Слова', [
-      txKpis([{ value: c.learned, label: 'вивчено (інтервал ≥ 21 дн.)', tone: c.learned ? 'good' : '' }, { value: c.total, label: 'у роботі' }, { value: c.due, label: 'до повтору зараз', tone: c.due ? 'warn' : '' }]),
-      card(
-        h('div.pg-ch', 'Прогноз повторів на 7 днів'),
-        h('div.bars', { style: { height: '80px' }, role: 'img', 'aria-label': `Прогноз повторів на 7 днів: ${fc.join(', ')}` }, fc.map(n => h('i' + (n ? '' : '.zero'), { style: { height: `${Math.max(2, n / maxFc * 100)}%` }, title: String(n) }))),
-        h('div.bars-labels', fc.map((n, i) => h('span', i === 0 ? `сьог. ${n}` : String(n)))),
-        fc.some(n => n) ? null : h('div.xs.dim', 'Повторів поки не заплановано — почніть вчити картки.')),
-      ask('vocabulary')]),
-
     txGroup(`Рівень ${lvl} · ${LEVEL_NAME[lvl]}`, [
       card(
-        h('div.row', h('div.level-badge', lvl), h('div.grow', h('div.pg-strong', `Опановано ${lp.pct}%`), h('div.xs.dim', `перехід від ${READY_PCT}%`))),
-        bar(lp.pct, 'Опанування рівня'),
-        h('div.xs.dim', 'Слово вважається закріпленим для рівня, коли інтервал повтору сягає 7 днів. Рахуються уроки й колоди саме цього рівня.')),
+        h('div.row', h('div.level-badge', lvl), h('div.grow', h('div.pg-strong', `Опановано ${lp.pct}%`), h('div.xs.dim', `перехід від ${READY_PCT}% · уроки й слова рівня ${lvl}`))),
+        bar(lp.pct, 'Опанування рівня')),
       txKpis([{ value: `${lp.grammar.done}/${lp.grammar.total}`, label: `уроків граматики ${lvl}` }, { value: `${lp.words.done}/${lp.words.total}`, label: `слів ${lvl} закріплено` }], 2),
-      lp.ready ? txPrimary({ icon: 'rocket-launch', label: `Перейти на ${nextLevel()}`, sub: 'план і завдання оновляться', onclick: () => { const n = nextLevel(); setLevel(n, 'progress'); toast(`Рівень ${n}: план і завдання оновлено`); progressPage(view); } }) : null,
-      tx({ icon: 'exam', label: 'Перевірити рівень тестом', sub: 'граматика, лексика, читання, аудіювання, письмо', href: '#/tests/placement', wide: true })]),
+      lp.ready ? txPrimary({ icon: 'rocket-launch', label: `Перейти на ${nextLevel()}`, sub: 'план і завдання оновляться', onclick: () => { const n = nextLevel(); setLevel(n, 'progress'); toast(`Рівень ${n}: план і завдання оновлено`); progressPage(view); } }) : null]),
 
-    txGroup('Рівень за навичками', [
-      txKpis(Object.entries(SKILLS).map(([k, t]) => ({ value: skills[k] || '—', label: t, tone: skills[k] ? 'accent' : '' }))),
-      h('div.xs.dim.pg-note', 'За останнім тестом на рівень і розмовами із вчителем'), ask('placement')]),
+    txGroup('Слова й граматика', [
+      txKpis([{ value: c.learned, label: 'слів вивчено', tone: c.learned ? 'good' : '' }, { value: c.total, label: 'у роботі' }, { value: c.due, label: 'до повтору зараз', tone: c.due ? 'warn' : '', href: c.due ? '#/cards/review' : null }]),
+      tx({ wide: true, icon: 'puzzle-piece', label: 'Уроки граматики', sub: `пройдено ${done} з ${gIdx.length}`, href: '#/grammar', cls: 'pg-gram', extra: txBar(gIdx.length ? done / gIdx.length : 0) })]),
 
-    txGroup('Граматика', [
-      card(h('div.row', h('div.grow', bar(done / gIdx.length * 100, 'Пройдено уроків граматики')), h('span.small', `${done}/${gIdx.length}`))),
-      tests.length ? h('h3.tx-label.pg-sublabel', 'Останні тести') : null,
-      tests.length ? txRows(tests.map(t => txRow({ icon: t.type === 'placement' ? 'target' : t.type === 'weekly' ? 'calendar-blank' : 'exam', label: testLabel(t), sub: new Date(t.created_at).toLocaleDateString('uk-UA'),
-        pill: { text: t.type === 'placement' ? t.scores.overall : `${t.scores.score}%`, tone: testTone(t) } }))) : null,
-      ask('grammar')]),
+    txGroup('Детальніше', h('div.pg-folds',
+      fold({ icon: 'clock', label: 'Хвилини за 30 днів', sub: `у середньому ${fmtMin(avg)} за активний день · мета ${store.settings().dailyGoal} хв` },
+        days.some(d => d.seconds) ? card(
+          h('div.bars', { role: 'img', 'aria-label': 'Хвилини практики по днях' }, days.map(d => h('i' + (d.seconds ? '' : '.zero'), { style: { height: `${Math.max(2, d.seconds / maxSec * 100)}%` }, title: `${dayLbl(d)}: ${fmtMin(d.seconds)}` }))),
+          h('div.bars-labels', h('span', dayLbl(days[0])), h('span', dayLbl(days[15])), h('span', 'сьогодні')))
+          : h('div.small.dim', 'Графік заповниться після перших занять'),
+        txKpis([{ value: fmtMin(todaySeconds()), label: 'сьогодні' }, { value: fmtMin(avg), label: 'за активний день' }, { value: days.filter(d => d.seconds).length, label: 'активних днів з 30' }]),
+        Object.keys(byType).length ? h('div.chips', Object.entries(byType).sort((a, b) => b[1] - a[1]).map(([t, s]) => h('span.tag', `${S.sessionTypes[t] || t}: ${fmtMin(s)}`))) : null,
+        store.prof().resonance ? h('div.xs.dim', 'Час автоматично додається в Resonance (Мови → English)') : null),
+      fold({ icon: 'calendar-blank', label: 'Прогноз повторів', sub: `на 7 днів: ${fc.reduce((a, n) => a + n, 0)} ${plural(fc.reduce((a, n) => a + n, 0), 'картка', 'картки', 'карток')}` },
+        card(
+          h('div.bars', { style: { height: '80px' }, role: 'img', 'aria-label': `Прогноз повторів на 7 днів: ${fc.join(', ')}` }, fc.map(n => h('i' + (n ? '' : '.zero'), { style: { height: `${Math.max(2, n / maxFc * 100)}%` }, title: String(n) }))),
+          h('div.bars-labels', fc.map((n, i) => h('span', i === 0 ? `сьог. ${n}` : String(n))))),
+        h('div.xs.dim', `Вивчене слово — інтервал повтору ≥ 21 дн. · ${nReviews} ${plural(nReviews, 'оцінка', 'оцінки', 'оцінок')} карток на пристрої`),
+        ask('vocabulary')),
+      fold({ icon: 'target', label: 'Рівень за навичками', sub: weakest ? `найслабша — ${SKILLS[weakest].toLowerCase()} ${skills[weakest]}` : 'за тестом рівня й розмовами' },
+        txKpis(Object.entries(SKILLS).map(([k, t]) => ({ value: skills[k] || '—', label: t, tone: skills[k] ? 'accent' : '' }))),
+        tx({ icon: 'exam', label: 'Перевірити рівень тестом', sub: 'граматика, лексика, читання, аудіювання, письмо', href: '#/tests/placement', wide: true }),
+        ask('placement')),
+      tests.length ? fold({ icon: 'exam', label: 'Останні тести', sub: `${testLabel(tests[0])} · ${tests[0].type === 'placement' ? tests[0].scores.overall : `${tests[0].scores.score}%`}` },
+        txRows(tests.map(t => txRow({ icon: t.type === 'placement' ? 'target' : t.type === 'weekly' ? 'calendar-blank' : 'exam', label: testLabel(t), sub: new Date(t.created_at).toLocaleDateString('uk-UA'),
+          pill: { text: t.type === 'placement' ? t.scores.overall : `${t.scores.score}%`, tone: testTone(t) } }))),
+        ask('grammar')) : null,
+      dyn.length ? fold({ icon: 'warning-circle', label: 'Помилки за типами', sub: `відкритих: ${openMk} · динаміка за тиждень` },
+        txRows(dyn.map(d => txRow({ icon: 'warning-circle', label: S.mistakeTypes[d.t], sub: `разом із повторами: ${d.total} · відкритих: ${d.open}`,
+          pill: { text: `тиждень: ${d.w1} ${d.w1 < d.w2 ? '↓' : d.w1 > d.w2 ? '↑' : '='}`, tone: d.w1 < d.w2 ? 'good' : d.w1 > d.w2 ? 'bad' : '' } }))),
+        ask('mistakes')) : null))));
+}
 
-    txGroup('Типи помилок і динаміка', [
-      dyn.length ? txRows(dyn.map(d => txRow({ icon: 'warning-circle', label: S.mistakeTypes[d.t], sub: `разом із повторами: ${d.total} · відкритих: ${d.open}`,
-        pill: { text: `тиждень: ${d.w1} ${d.w1 < d.w2 ? '↓' : d.w1 > d.w2 ? '↑' : '='}`, tone: d.w1 < d.w2 ? 'good' : d.w1 > d.w2 ? 'bad' : '' } })))
-        : h('div.small.dim.pg-note', 'Даних поки немає'),
-      dyn.length ? ask('mistakes') : null]),
-    h('p.xs.dim.center', `${store.count('reviews')} ${plural(store.count('reviews'), 'оцінка', 'оцінки', 'оцінок')} карток у журналі на пристрої`)));
+/** Згорнута плитка-розділ: рядок з іконкою, підписом і стрілкою; вміст — під ним */
+export function fold(o, ...content) {
+  return h('details.pg-fold', o.open ? { open: true } : null,
+    h('summary', h('span.tx-sq', ic(o.icon, { size: 18 })), h('span.tx-body', h('span.tx-l', o.label), o.sub ? h('span.tx-s', o.sub) : null), o.pill || null),
+    h('div.pg-fold-b', ...content.flat().filter(Boolean)));
 }
 
 /** Група з підписом і вузлом праворуч (діапазон дат, мета) */
@@ -176,20 +179,16 @@ function weeklyCard() {
   const advice = h('div.stack.pg-adv');
   const empty = !sec.some(Boolean);
 
-  const card = labelRow('Тиждень', h('span.xs.dim', range),
+  const card = labelRow('Тиждень', h('span.xs.dim', trend ? `${min} хв · ${trend}` : range),
     empty ? tx({ wide: true, icon: 'chart-line-up', label: 'Цього тижня ще немає занять', sub: 'Хвилини по днях з\'являться тут після першого заняття', cls: 'pg-empty' }) : h('div.card.stack.tx-card',
       h('div.bars', { style: { height: '80px' }, role: 'img', 'aria-label': `Хвилини по днях цього тижня: ${days.map((d, i) => `${d.name} ${Math.round(sec[i] / 60)}`).join(', ')}` },
         days.map((d, i) => h('i' + (sec[i] ? '' : '.zero'), { style: { height: `${Math.max(2, sec[i] / max * 100)}%`, opacity: d.future ? 0.35 : null }, title: `${d.name}: ${fmtMin(sec[i])}` }))),
       h('div.bars-labels', days.map((d, i) => h('span', { style: d.today ? { fontWeight: 700, color: 'var(--ink)' } : null }, sec[i] ? `${d.name} ${Math.round(sec[i] / 60)}` : d.name)))),
     txKpis([
-      { value: min, unit: 'хв', label: trend ? `практики · ${trend}` : 'практики', tone: min > prevMin && prevMin ? 'good' : '' },
       { value: p.reviews, label: 'карток повторено' },
-      { value: p.lessonsDone, label: plural(p.lessonsDone, 'урок пройдено', 'уроки пройдено', 'уроків пройдено') }]),
-    txKpis([
-      { value: p.mistakesAdded, label: 'нових помилок', tone: p.mistakesAdded ? 'bad' : '' },
-      { value: p.mistakesFixed, label: 'помилок виправлено', tone: p.mistakesFixed ? 'good' : '' },
-      { value: streak(), label: `${plural(streak(), 'день', 'дні', 'днів')} поспіль` }]),
-    p.diary || p.chats ? h('div.xs.dim.pg-note', [p.diary ? `Записів у щоденнику: ${p.diary}` : '', p.chats ? `розмов із вчителем: ${p.chats}` : ''].filter(Boolean).join(' · ')) : null);
+      { value: p.lessonsDone, label: plural(p.lessonsDone, 'урок пройдено', 'уроки пройдено', 'уроків пройдено') },
+      { value: p.mistakesFixed, label: 'помилок виправлено', tone: p.mistakesFixed ? 'good' : '' }]),
+    advice);
 
   const cached = () => { const w = store.prof().weeklyTip; return w && w.week === isoWeek() && w.data ? w : null; };
   let busy = false;
@@ -233,5 +232,5 @@ function weeklyCard() {
     try { localStorage.setItem(TRIED, todayKey); } catch { /* недоступно */ }
     setTimeout(() => { if (card.isConnected) generate(); }, 0);
   }
-  return h('div.stack-lg', card, txGroup('Порада вчителя', advice));
+  return card;
 }
