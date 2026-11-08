@@ -227,8 +227,8 @@
   },
   {
    "level": "A1",
-   "text": "My name is Pavlo.",
-   "uk": "Мене звати Павло."
+   "text": "My name is Oliver.",
+   "uk": "Мене звати Олівер."
   },
   {
    "level": "A1",
@@ -397,8 +397,8 @@
   },
   {
    "level": "A1",
-   "text": "My wife's name is Vita.",
-   "uk": "Мою дружину звати Віта."
+   "text": "My wife's name is Emma.",
+   "uk": "Мою дружину звати Емма."
   },
   {
    "level": "A1",
@@ -607,8 +607,8 @@
   },
   {
    "level": "A1",
-   "text": "Vita likes green tea.",
-   "uk": "Віта любить зелений чай."
+   "text": "Emma likes green tea.",
+   "uk": "Емма любить зелений чай."
   },
   {
    "level": "A1",
@@ -652,8 +652,8 @@
   },
   {
    "level": "A2",
-   "text": "Vita is going to start a new course in March.",
-   "uk": "Віта збирається почати новий курс у березні."
+   "text": "Emma is going to start a new course in March.",
+   "uk": "Емма збирається почати новий курс у березні."
   },
   {
    "level": "A2",
@@ -883,7 +883,7 @@
    "emoji": "coffee",
    "speakers": [
     "Barista",
-    "Pavlo"
+    "Oliver"
    ],
    "lines": [
     {
@@ -933,7 +933,7 @@
    ],
    "questions": [
     {
-     "q": "What does Pavlo order to drink?",
+     "q": "What does Oliver order to drink?",
      "options": [
       "A large cappuccino",
       "A small latte",
@@ -987,7 +987,7 @@
    "emoji": "calendar",
    "speakers": [
     "Anna",
-    "Pavlo"
+    "Oliver"
    ],
    "lines": [
     {
@@ -996,7 +996,7 @@
     },
     {
      "speaker": 1,
-     "text": "Not really. Vita wants to go to the mountains, but the forecast says it's going to rain."
+     "text": "Not really. Emma wants to go to the mountains, but the forecast says it's going to rain."
     },
     {
      "speaker": 0,
@@ -1028,14 +1028,14 @@
     },
     {
      "speaker": 1,
-     "text": "Thanks for the tip! I might actually take Vita there for dinner."
+     "text": "Thanks for the tip! I might actually take Emma there for dinner."
     }
    ],
    "questions": [
     {
-     "q": "Why might Pavlo not go to the mountains?",
+     "q": "Why might Oliver not go to the mountains?",
      "options": [
-      "Vita doesn't want to",
+      "Emma doesn't want to",
       "Rain is expected",
       "The car is broken"
      ],
@@ -1085,7 +1085,7 @@
    "emoji": "plane",
    "speakers": [
     "Agent",
-    "Pavlo"
+    "Oliver"
    ],
    "lines": [
     {
@@ -1183,7 +1183,7 @@
    "emoji": "house",
    "speakers": [
     "Landlord",
-    "Pavlo"
+    "Oliver"
    ],
    "lines": [
     {
@@ -1247,7 +1247,7 @@
      "answer": 2
     },
     {
-     "q": "Why does Pavlo want a long contract?",
+     "q": "Why does Oliver want a long contract?",
      "options": [
       "He's changing jobs",
       "They're expecting a baby",
@@ -1281,7 +1281,7 @@
    "emoji": "wave",
    "speakers": [
     "Tom",
-    "Pavlo"
+    "Oliver"
    ],
    "lines": [
     {
@@ -1290,11 +1290,11 @@
     },
     {
      "speaker": 1,
-     "text": "Yes, hi! I'm Pavlo. I live in flat 12."
+     "text": "Yes, hi! I'm Oliver. I live in flat 12."
     },
     {
      "speaker": 0,
-     "text": "Nice to meet you, Pavlo. I'm Tom. I live next door."
+     "text": "Nice to meet you, Oliver. I'm Tom. I live next door."
     },
     {
      "speaker": 1,
@@ -1306,7 +1306,7 @@
     },
     {
      "speaker": 1,
-     "text": "I live here with my wife, Vita."
+     "text": "I live here with my wife, Emma."
     },
     {
      "speaker": 0,
@@ -1335,7 +1335,7 @@
    ],
    "questions": [
     {
-     "q": "Which flat does Pavlo live in?",
+     "q": "Which flat does Oliver live in?",
      "options": [
       "Flat 2",
       "Flat 12",
@@ -1355,7 +1355,7 @@
      "explanation_uk": "with my wife and my two kids"
     },
     {
-     "q": "Where are Pavlo and Vita from?",
+     "q": "Where are Oliver and Emma from?",
      "options": [
       "Poland",
       "Ukraine",
@@ -1392,7 +1392,7 @@
    "emoji": "plane",
    "speakers": [
     "Clerk",
-    "Pavlo"
+    "Oliver"
    ],
    "lines": [
     {
@@ -1446,7 +1446,7 @@
    ],
    "questions": [
     {
-     "q": "Where is Pavlo going?",
+     "q": "Where is Oliver going?",
      "options": [
       "Warsaw",
       "Kraków",
@@ -1503,7 +1503,7 @@
    "emoji": "food",
    "speakers": [
     "Waiter",
-    "Pavlo"
+    "Oliver"
    ],
    "lines": [
     {
@@ -1614,7 +1614,7 @@
    "emoji": "speaking",
    "speakers": [
     "Anna",
-    "Pavlo"
+    "Oliver"
    ],
    "lines": [
     {
@@ -1668,7 +1668,7 @@
    ],
    "questions": [
     {
-     "q": "How does Pavlo feel about remote work at first?",
+     "q": "How does Oliver feel about remote work at first?",
      "options": [
       "Completely in favour",
       "Undecided",
@@ -1698,7 +1698,7 @@
      "explanation_uk": "new hires"
     },
     {
-     "q": "What does Pavlo propose?",
+     "q": "What does Oliver propose?",
      "options": [
       "Full office return",
       "A hybrid model with anchor days",
@@ -1708,7 +1708,7 @@
      "explanation_uk": "a hybrid model — two anchor days"
     },
     {
-     "q": "What will Pavlo do by Friday?",
+     "q": "What will Oliver do by Friday?",
      "options": [
       "Send round a draft proposal",
       "Talk to the CEO",
@@ -1725,7 +1725,7 @@
    "emoji": "pill",
    "speakers": [
     "Pharmacist",
-    "Pavlo"
+    "Oliver"
    ],
    "lines": [
     {
@@ -1779,7 +1779,7 @@
    ],
    "questions": [
     {
-     "q": "What is Pavlo's problem?",
+     "q": "What is Oliver's problem?",
      "options": [
       "He has a cold",
       "He has a headache",
@@ -1801,9 +1801,9 @@
     {
      "q": "Who has a cold?",
      "options": [
-      "Pavlo",
+      "Oliver",
       "The pharmacist",
-      "Pavlo's wife"
+      "Oliver's wife"
      ],
      "answer": 2,
      "explanation_uk": "My wife is ill."
@@ -1819,7 +1819,7 @@
      "explanation_uk": "She can drink it in the evening."
     },
     {
-     "q": "How much does Pavlo pay?",
+     "q": "How much does Oliver pay?",
      "options": [
       "Twelve złoty",
       "Eight złoty",
@@ -1836,7 +1836,7 @@
    "emoji": "key",
    "speakers": [
     "Receptionist",
-    "Vita"
+    "Emma"
    ],
    "lines": [
     {
@@ -1845,7 +1845,7 @@
     },
     {
      "speaker": 1,
-     "text": "Good evening. I have a reservation. My name is Vita, and the booking is for two nights."
+     "text": "Good evening. I have a reservation. My name is Emma, and the booking is for two nights."
     },
     {
      "speaker": 0,
@@ -1947,7 +1947,7 @@
    "emoji": "phone",
    "speakers": [
     "Receptionist",
-    "Pavlo"
+    "Oliver"
    ],
    "lines": [
     {
@@ -1964,7 +1964,7 @@
     },
     {
      "speaker": 1,
-     "text": "Yes, I am. My name is Pavlo."
+     "text": "Yes, I am. My name is Oliver."
     },
     {
      "speaker": 0,
@@ -2001,7 +2001,7 @@
    ],
    "questions": [
     {
-     "q": "What's wrong with Pavlo?",
+     "q": "What's wrong with Oliver?",
      "options": [
       "He has a bad cough",
       "He has a broken arm",
@@ -2058,12 +2058,12 @@
    "emoji": "house",
    "speakers": [
     "Mrs Nowak",
-    "Pavlo"
+    "Oliver"
    ],
    "lines": [
     {
      "speaker": 0,
-     "text": "Oh, Pavlo, hello! Sorry to bother you. Have you got a minute?"
+     "text": "Oh, Oliver, hello! Sorry to bother you. Have you got a minute?"
     },
     {
      "speaker": 1,
@@ -2083,7 +2083,7 @@
     },
     {
      "speaker": 1,
-     "text": "That's no problem at all. Vita loves cats, so she'll be happy to help too."
+     "text": "That's no problem at all. Emma loves cats, so she'll be happy to help too."
     },
     {
      "speaker": 0,
@@ -2177,7 +2177,7 @@
    "emoji": "package",
    "speakers": [
     "Agent",
-    "Vita"
+    "Emma"
    ],
    "lines": [
     {
@@ -2262,7 +2262,7 @@
      "q": "What is in the parcel?",
      "options": [
       "A birthday present",
-      "Clothes for Vita",
+      "Clothes for Emma",
       "Books for work"
      ],
      "answer": 0,
@@ -2283,7 +2283,7 @@
      "options": [
       "Send an email",
       "Leave it at number 14",
-      "Call Vita"
+      "Call Emma"
      ],
      "answer": 2,
      "explanation_uk": "asking the driver to call you before he arrives"
@@ -2296,12 +2296,12 @@
    "emoji": "key",
    "speakers": [
     "Seller",
-    "Pavlo"
+    "Oliver"
    ],
    "lines": [
     {
      "speaker": 0,
-     "text": "Hi, you must be Pavlo. You called about the Skoda?"
+     "text": "Hi, you must be Oliver. You called about the Skoda?"
     },
     {
      "speaker": 1,
@@ -2396,7 +2396,7 @@
      "explanation_uk": "I'll throw in a set of winter tyres — додам безкоштовно комплект зимових шин"
     },
     {
-     "q": "Why does Pavlo ask for a lower price?",
+     "q": "Why does Oliver ask for a lower price?",
      "options": [
       "The car is too old",
       "The brakes squeak slightly",
@@ -2423,12 +2423,12 @@
    "emoji": "party",
    "speakers": [
     "Kate",
-    "Vita"
+    "Emma"
    ],
    "lines": [
     {
      "speaker": 0,
-     "text": "Vita! It's so good to see you. Sorry I'm a bit late. I had my twenty-week scan this morning."
+     "text": "Emma! It's so good to see you. Sorry I'm a bit late. I had my twenty-week scan this morning."
     },
     {
      "speaker": 1,
@@ -2480,7 +2480,7 @@
     },
     {
      "speaker": 1,
-     "text": "Noted. And just between us, Pavlo and I are starting to think about having a baby too, so I'll be taking notes!"
+     "text": "Noted. And just between us, Oliver and I are starting to think about having a baby too, so I'll be taking notes!"
     },
     {
      "speaker": 0,
@@ -2533,14 +2533,14 @@
      "explanation_uk": "Could you ask people not to buy clothes?"
     },
     {
-     "q": "What does Vita tell Kate in confidence?",
+     "q": "What does Emma tell Kate in confidence?",
      "options": [
       "She is pregnant",
-      "She and Pavlo are thinking about having a baby",
+      "She and Oliver are thinking about having a baby",
       "She is moving house"
      ],
      "answer": 1,
-     "explanation_uk": "Pavlo and I are starting to think about having a baby too"
+     "explanation_uk": "Oliver and I are starting to think about having a baby too"
     }
    ]
   },
@@ -2550,12 +2550,12 @@
    "emoji": "city",
    "speakers": [
     "Host",
-    "Pavlo"
+    "Oliver"
    ],
    "lines": [
     {
      "speaker": 0,
-     "text": "Good evening and welcome back to City Talk. Tonight we're discussing the council's plan to close the Old Town to private cars. With me is Pavlo, who has been cycling to work in Kraków for three years. Pavlo, are you in favour?"
+     "text": "Good evening and welcome back to City Talk. Tonight we're discussing the council's plan to close the Old Town to private cars. With me is Oliver, who has been cycling to work in Kraków for three years. Oliver, are you in favour?"
     },
     {
      "speaker": 1,
@@ -2611,12 +2611,12 @@
     },
     {
      "speaker": 0,
-     "text": "Pavlo, thank you. After the news, we'll be taking your calls on this."
+     "text": "Oliver, thank you. After the news, we'll be taking your calls on this."
     }
    ],
    "questions": [
     {
-     "q": "What is Pavlo's overall position on the plan?",
+     "q": "What is Oliver's overall position on the plan?",
      "options": [
       "He is completely against it",
       "He supports it in principle but criticises the timing",
@@ -2646,7 +2646,7 @@
      "explanation_uk": "a door-to-door minibus service — мікроавтобус «від дверей до дверей»"
     },
     {
-     "q": "According to Pavlo, what happens when streets become pedestrian-friendly?",
+     "q": "According to Oliver, what happens when streets become pedestrian-friendly?",
      "options": [
       "People spend less money",
       "People tend to stay longer and spend more",
@@ -2673,7 +2673,7 @@
    "emoji": "coffee",
    "speakers": [
     "Barista",
-    "Pavlo"
+    "Oliver"
    ],
    "lines": [
     {
@@ -2719,7 +2719,7 @@
    ],
    "questions": [
     {
-     "q": "What does Pavlo want to drink?",
+     "q": "What does Oliver want to drink?",
      "options": [
       "A big latte",
       "Green tea",
@@ -2775,7 +2775,7 @@
    "level": "A1",
    "emoji": "city",
    "speakers": [
-    "Pavlo",
+    "Oliver",
     "Woman"
    ],
    "lines": [
@@ -2822,7 +2822,7 @@
    ],
    "questions": [
     {
-     "q": "What is Pavlo looking for?",
+     "q": "What is Oliver looking for?",
      "options": [
       "The train station",
       "The bus station",
@@ -2862,7 +2862,7 @@
      "explanation_uk": "Bus number two — автобус номер два."
     },
     {
-     "q": "What does Pavlo decide to do?",
+     "q": "What does Oliver decide to do?",
      "options": [
       "Walk",
       "Take a taxi",
@@ -2879,7 +2879,7 @@
    "emoji": "shop",
    "speakers": [
     "Baker",
-    "Vita"
+    "Emma"
    ],
    "lines": [
     {
@@ -2925,7 +2925,7 @@
    ],
    "questions": [
     {
-     "q": "What kind of bread does Vita buy?",
+     "q": "What kind of bread does Emma buy?",
      "options": [
       "White bread",
       "No bread",
@@ -2982,16 +2982,16 @@
    "emoji": "wave",
    "speakers": [
     "Kasia",
-    "Pavlo"
+    "Oliver"
    ],
    "lines": [
     {
      "speaker": 0,
-     "text": "Pavlo, is this a photo of your family?"
+     "text": "Oliver, is this a photo of your family?"
     },
     {
      "speaker": 1,
-     "text": "Yes, it is. This is my wife, Vita."
+     "text": "Yes, it is. This is my wife, Emma."
     },
     {
      "speaker": 0,
@@ -3028,17 +3028,17 @@
    ],
    "questions": [
     {
-     "q": "Who is Vita?",
+     "q": "Who is Emma?",
      "options": [
-      "Pavlo's sister",
-      "Pavlo's friend",
-      "Pavlo's wife"
+      "Oliver's sister",
+      "Oliver's friend",
+      "Oliver's wife"
      ],
      "answer": 2,
-     "explanation_uk": "This is my wife, Vita — дружина Павла."
+     "explanation_uk": "This is my wife, Emma — дружина Олівера."
     },
     {
-     "q": "Where does Vita work?",
+     "q": "Where does Emma work?",
      "options": [
       "At a school",
       "At a bank",
@@ -3048,7 +3048,7 @@
      "explanation_uk": "She works at a bank — у банку."
     },
     {
-     "q": "Where do Pavlo's parents live?",
+     "q": "Where do Oliver's parents live?",
      "options": [
       "In Ukraine",
       "In Poland",
@@ -3085,7 +3085,7 @@
    "emoji": "key",
    "speakers": [
     "Assistant",
-    "Pavlo"
+    "Oliver"
    ],
    "lines": [
     {
@@ -3139,7 +3139,7 @@
    ],
    "questions": [
     {
-     "q": "How many bikes does Pavlo rent?",
+     "q": "How many bikes does Oliver rent?",
      "options": [
       "Two",
       "One",
@@ -3196,7 +3196,7 @@
    "emoji": "envelope",
    "speakers": [
     "Clerk",
-    "Vita"
+    "Emma"
    ],
    "lines": [
     {
@@ -3250,7 +3250,7 @@
    ],
    "questions": [
     {
-     "q": "Where is Vita sending the parcel?",
+     "q": "Where is Emma sending the parcel?",
      "options": [
       "To Poland",
       "To Germany",
@@ -3307,7 +3307,7 @@
    "emoji": "phone",
    "speakers": [
     "Assistant",
-    "Pavlo"
+    "Oliver"
    ],
    "lines": [
     {
@@ -3375,7 +3375,7 @@
      "explanation_uk": "It keeps switching itself off — він постійно вимикається."
     },
     {
-     "q": "What has Pavlo already tried?",
+     "q": "What has Oliver already tried?",
      "options": [
       "Charging it overnight",
       "Restarting and updating it",
@@ -3385,7 +3385,7 @@
      "explanation_uk": "Restarting… updating the software — Yes, I've done both."
     },
     {
-     "q": "What does Pavlo ask for at first?",
+     "q": "What does Oliver ask for at first?",
      "options": [
       "A refund",
       "A replacement",
@@ -3421,13 +3421,13 @@
    "level": "B1",
    "emoji": "sun",
    "speakers": [
-    "Vita",
-    "Pavlo"
+    "Emma",
+    "Oliver"
    ],
    "lines": [
     {
      "speaker": 0,
-     "text": "Pavlo, have you thought about what we could do this weekend?"
+     "text": "Oliver, have you thought about what we could do this weekend?"
     },
     {
      "speaker": 1,
@@ -3480,7 +3480,7 @@
    ],
    "questions": [
     {
-     "q": "Where does Pavlo suggest going?",
+     "q": "Where does Oliver suggest going?",
      "options": [
       "To the seaside",
       "To Zakopane",
@@ -3490,7 +3490,7 @@
      "explanation_uk": "How about going to Zakopane — до Закопаного."
     },
     {
-     "q": "Why does Pavlo want to leave early on Saturday?",
+     "q": "Why does Oliver want to leave early on Saturday?",
      "options": [
       "To avoid traffic",
       "To catch a cheap flight",
@@ -3520,14 +3520,14 @@
      "explanation_uk": "If it rains, we can visit the thermal pools — термальні басейни."
     },
     {
-     "q": "What will Vita do?",
+     "q": "What will Emma do?",
      "options": [
       "Book the room",
       "Check the forecast and pack the boots",
       "Pay for breakfast"
      ],
      "answer": 1,
-     "explanation_uk": "Кімнату бронює Павло; Віта перевірить прогноз і спакує черевики."
+     "explanation_uk": "Кімнату бронює Олівер; Емма перевірить прогноз і спакує черевики."
     }
    ]
   },
@@ -3536,8 +3536,8 @@
    "level": "B2",
    "emoji": "house",
    "speakers": [
-    "Vita",
-    "Pavlo"
+    "Emma",
+    "Oliver"
    ],
    "lines": [
     {
@@ -3613,7 +3613,7 @@
      "explanation_uk": "That's the third one this month — уже третя."
     },
     {
-     "q": "What does Vita think they did wrong?",
+     "q": "What does Emma think they did wrong?",
      "options": [
       "They offered too little money",
       "They viewed the flat too late",
@@ -3647,7 +3647,7 @@
      "options": [
       "They are still angry",
       "They make up",
-      "Vita walks out"
+      "Emma walks out"
      ],
      "answer": 1,
      "explanation_uk": "Sorry I snapped earlier… We're on the same side — вони миряться."
@@ -3660,7 +3660,7 @@
    "emoji": "briefcase",
    "speakers": [
     "Marek",
-    "Pavlo"
+    "Oliver"
    ],
    "lines": [
     {
@@ -3756,7 +3756,7 @@
      "explanation_uk": "Sticking point — головна перешкода: a pay cut of almost forty percent."
     },
     {
-     "q": "What does Pavlo advise?",
+     "q": "What does Oliver advise?",
      "options": [
       "To study part-time while keeping his job",
       "To quit immediately",
@@ -3783,7 +3783,7 @@
    "emoji": "plane",
    "speakers": [
     "Ewa",
-    "Pavlo"
+    "Oliver"
    ],
    "lines": [
     {
@@ -3859,7 +3859,7 @@
      "explanation_uk": "And it's October! — навіть не в сезон черга величезна."
     },
     {
-     "q": "According to Pavlo, what is the core problem?",
+     "q": "According to Oliver, what is the core problem?",
      "options": [
       "Noisy tourists",
       "Dirty streets",
@@ -3869,7 +3869,7 @@
      "explanation_uk": "It's not the tourists per se — it's what the influx does to housing."
     },
     {
-     "q": "What does \"let's not throw the baby out with the bathwater\" reveal about Pavlo's view?",
+     "q": "What does \"let's not throw the baby out with the bathwater\" reveal about Oliver's view?",
      "options": [
       "He wants tourism banned",
       "He thinks tourism has benefits worth keeping",
@@ -4032,8 +4032,8 @@
    "level": "C1",
    "emoji": "seedling",
    "speakers": [
-    "Vita",
-    "Pavlo"
+    "Emma",
+    "Oliver"
    ],
    "lines": [
     {
@@ -4107,7 +4107,7 @@
    ],
    "questions": [
     {
-     "q": "What prompted Vita to raise the topic?",
+     "q": "What prompted Emma to raise the topic?",
      "options": [
       "A problem at work",
       "A conversation with a friend",
@@ -4117,7 +4117,7 @@
      "explanation_uk": "I just read an article about slow living, and it struck a nerve."
     },
     {
-     "q": "What is Pavlo's initial reservation about slow living?",
+     "q": "What is Oliver's initial reservation about slow living?",
      "options": [
       "It's boring",
       "It can be a privilege of people who are already successful",
@@ -4127,17 +4127,17 @@
      "explanation_uk": "A bit of a luxury for people who've already made it — розкіш для тих, хто вже досяг успіху."
     },
     {
-     "q": "What does Pavlo find \"a little damning\"?",
+     "q": "What does Oliver find \"a little damning\"?",
      "options": [
       "His salary",
-      "Vita's article",
+      "Emma's article",
       "That he can't remember their last weekend without plans"
      ],
      "answer": 2,
      "explanation_uk": "I genuinely can't remember… That's a little damning — це красномовно свідчить проти них."
     },
     {
-     "q": "What \"trap\" does Vita describe?",
+     "q": "What \"trap\" does Emma describe?",
      "options": [
       "Working too few hours",
       "Spending too much money",
@@ -4149,12 +4149,12 @@
     {
      "q": "Which best describes the outcome of the conversation?",
      "options": [
-      "Pavlo gives up his career goals",
+      "Oliver gives up his career goals",
       "They agree on a small but firm compromise",
       "They fail to reach any agreement"
      ],
      "answer": 1,
-     "explanation_uk": "Small, but non-negotiable — That I can live with; від підвищення Павло не відмовляється."
+     "explanation_uk": "Small, but non-negotiable — That I can live with; від підвищення Олівер не відмовляється."
     }
    ]
   },
@@ -4164,7 +4164,7 @@
    "emoji": "books",
    "speakers": [
     "Guide",
-    "Pavlo"
+    "Oliver"
    ],
    "lines": [
     {
@@ -4260,7 +4260,7 @@
      "explanation_uk": "Artistically, that's a far murkier question… exquisite, whoever was responsible."
     },
     {
-     "q": "How does learning about the sitter affect Pavlo's view of her?",
+     "q": "How does learning about the sitter affect Oliver's view of her?",
      "options": [
       "He sees her as less demure and more watchful",
       "He loses interest in the portrait",

@@ -110,7 +110,7 @@
   "tutorRole": "Інший гість, балакучий і доброзичливий",
   "goal": "Познайомитися, підтримати розмову 5 хвилин (звідки, чим займаєтесь, хобі) і обмінятися контактами.",
   "phrases": [
-   "Hi, I'm Pavlo. How do you know Mark?",
+   "Hi, I'm Oliver. How do you know Mark?",
    "So, what do you do?",
    "How long have you lived here?",
    "What do you do for fun?",
@@ -250,7 +250,7 @@
   "tutorRole": "Дружній студент з Іспанії на ім'я Carlos, говорить повільно і просто",
   "goal": "Назвати себе, сказати, звідки ви, де живете, ким працюєте, і запитати те саме у співрозмовника.",
   "phrases": [
-   "Hi, I'm Pavlo.",
+   "Hi, I'm Oliver.",
    "Nice to meet you.",
    "I'm from Ukraine.",
    "I live in Kraków.",
@@ -585,13 +585,13 @@
   "emoji": "key",
   "title": "У хостелі",
   "short": "Заселення, сніданок, Wi-Fi",
-  "situation": "Ви з Вітою приїхали до Праги на вихідні й заселяєтеся в хостел. Бронювання на ваше ім'я.",
+  "situation": "Ви з Еммою приїхали до Праги на вихідні й заселяєтеся в хостел. Бронювання на ваше ім'я.",
   "myRole": "Гість хостелу",
   "tutorRole": "Адміністратор хостелу (receptionist)",
   "goal": "Назвати ім'я, підтвердити бронювання на дві ночі, дізнатися про сніданок, Wi-Fi і час виїзду.",
   "phrases": [
    "Hi! I have a booking.",
-   "My name is Pavlo.",
+   "My name is Oliver.",
    "It's for two nights.",
    "Is breakfast included?",
    "What's the Wi-Fi password?",
@@ -630,7 +630,7 @@
   "tutorRole": "Новий одногрупник (classmate) на курсі англійської",
   "goal": "Розповісти про дружину, батьків, братів чи сестер, сказати, де вони живуть, і поставити такі самі питання.",
   "phrases": [
-   "I'm married. My wife's name is Vita.",
+   "I'm married. My wife's name is Emma.",
    "We live in Kraków.",
    "My parents live in Ukraine.",
    "I have one brother.",
@@ -665,7 +665,7 @@
   "emoji": "phone",
   "title": "Бронювання столика",
   "short": "Дзвінок у ресторан",
-  "situation": "У Віти скоро день народження. Ви телефонуєте в ресторан, щоб забронювати столик на двох у п'ятницю ввечері.",
+  "situation": "У Емми скоро день народження. Ви телефонуєте в ресторан, щоб забронювати столик на двох у п'ятницю ввечері.",
   "myRole": "Клієнт, який телефонує",
   "tutorRole": "Адміністратор ресторану на телефоні",
   "goal": "Забронювати столик на дату й час, назвати ім'я і телефон, попросити місце біля вікна, запитати про торт.",
@@ -675,7 +675,7 @@
    "Could we have a table by the window?",
    "It's my wife's birthday.",
    "Can we bring our own cake?",
-   "The booking is under the name Pavlo."
+   "The booking is under the name Oliver."
   ],
   "level": "A2"
  },
@@ -705,12 +705,12 @@
   "emoji": "food",
   "title": "Запросити сусіда на вечерю",
   "short": "Знайомство, запрошення, деталі",
-  "situation": "У квартиру навпроти нещодавно переїхав новий сусід. Ви зустрілися на сходах і хочете запросити його на вечерю з вами і Вітою.",
+  "situation": "У квартиру навпроти нещодавно переїхав новий сусід. Ви зустрілися на сходах і хочете запросити його на вечерю з вами і Еммою.",
   "myRole": "Сусід, який запрошує",
   "tutorRole": "Новий сусід, привітний, але трохи сором'язливий",
   "goal": "Познайомитися, запросити на вечерю, домовитися про день і час, дізнатися, чого він не їсть.",
   "phrases": [
-   "We haven't met properly — I'm Pavlo from flat 12.",
+   "We haven't met properly — I'm Oliver from flat 12.",
    "Would you like to come over for dinner?",
    "How about Saturday evening?",
    "Is there anything you don't eat?",

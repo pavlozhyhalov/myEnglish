@@ -5,7 +5,7 @@
  "unit": "Будова речення",
  "level": "B2",
  "mistakeType": "other",
- "explanation": "**Неозначальні (non-defining) речення** додають додаткову інформацію про вже зрозумілу людину чи річ. Вони стоять **у комах**, у них **не буває that**, і займенник **не можна пропустити**: *My brother, **who** lives in Lviv, is a doctor.* Без цієї частини речення все одно має сенс.\n\n**whose** — «чий / чия / чиє», і про людей, і про речі: *the neighbours **whose** dog barks all night*, *a town **whose** streets are full of cafés*. Після whose одразу йде іменник. Не плутайте з *who's* = *who is / who has*.\n\n**whom** — офіційна форма додатка, особливо **після прийменника**: *the woman **to whom** I spoke*, *the friend **with whom** I travelled*. У розмові частіше *who* і прийменник у кінці: *the woman (who) I spoke **to***. Після кількості — лише **of whom / of which**: *I have two cousins, **both of whom** live in Canada*; *We tried three cafés, **none of which** was open.*\n\n**which про все речення:** після коми *which* може коментувати не одне слово, а всю попередню думку: *He forgot our anniversary, **which** upset Vita a lot.* Тут не можна *what* чи *that*.\n\nПрийменник: офіційно — перед *which/whom* (*the flat **in which** we live*), розмовно — у кінці (*the flat we live **in***). Варіант ~~in that~~ неможливий.",
+ "explanation": "**Неозначальні (non-defining) речення** додають додаткову інформацію про вже зрозумілу людину чи річ. Вони стоять **у комах**, у них **не буває that**, і займенник **не можна пропустити**: *My brother, **who** lives in Lviv, is a doctor.* Без цієї частини речення все одно має сенс.\n\n**whose** — «чий / чия / чиє», і про людей, і про речі: *the neighbours **whose** dog barks all night*, *a town **whose** streets are full of cafés*. Після whose одразу йде іменник. Не плутайте з *who's* = *who is / who has*.\n\n**whom** — офіційна форма додатка, особливо **після прийменника**: *the woman **to whom** I spoke*, *the friend **with whom** I travelled*. У розмові частіше *who* і прийменник у кінці: *the woman (who) I spoke **to***. Після кількості — лише **of whom / of which**: *I have two cousins, **both of whom** live in Canada*; *We tried three cafés, **none of which** was open.*\n\n**which про все речення:** після коми *which* може коментувати не одне слово, а всю попередню думку: *He forgot our anniversary, **which** upset Emma a lot.* Тут не можна *what* чи *that*.\n\nПрийменник: офіційно — перед *which/whom* (*the flat **in which** we live*), розмовно — у кінці (*the flat we live **in***). Варіант ~~in that~~ неможливий.",
  "formula": [
   "речення, **which** + … — коментар до всього речення",
   "**whose** + іменник · прийменник + **whom / which**",
@@ -51,8 +51,8 @@
    "uk": "Улітку в Кракові, моєму улюбленому місті, дуже людно."
   },
   {
-   "en": "Vita found a doctor whose clinic is just around the corner.",
-   "uk": "Віта знайшла лікарку, у якої клініка зовсім поруч."
+   "en": "Emma found a doctor whose clinic is just around the corner.",
+   "uk": "Емма знайшла лікарку, у якої клініка зовсім поруч."
   },
   {
    "en": "He didn't reply to my message, which was a bit rude.",
@@ -200,14 +200,14 @@
   },
   {
    "type": "translate",
-   "uk": "Віта, яка не любить холод, хоче поїхати в Іспанію.",
+   "uk": "Емма, яка не любить холод, хоче поїхати в Іспанію.",
    "answer": [
-    "Vita, who doesn't like the cold, wants to go to Spain.",
-    "Vita, who doesn't like cold, wants to go to Spain.",
-    "Vita, who doesn't like cold weather, wants to go to Spain.",
-    "Vita, who hates the cold, wants to go to Spain.",
-    "Vita, who doesn't like the cold, wants to travel to Spain.",
-    "Vita, who dislikes the cold, wants to go to Spain."
+    "Emma, who doesn't like the cold, wants to go to Spain.",
+    "Emma, who doesn't like cold, wants to go to Spain.",
+    "Emma, who doesn't like cold weather, wants to go to Spain.",
+    "Emma, who hates the cold, wants to go to Spain.",
+    "Emma, who doesn't like the cold, wants to travel to Spain.",
+    "Emma, who dislikes the cold, wants to go to Spain."
    ],
    "explanation": "Додаткова інформація про людину — у комах з who."
   }

@@ -182,8 +182,8 @@ export default function profile(view) {
 
     txGroup('Як до вас звертатися',
       h('div.card.stack',
-        field('name', 'Ім\'я латиницею', { placeholder: 'Наприклад: Pavlo' }),
-        field('address', 'Звертання в привітанні', { placeholder: 'Наприклад: Павле' }),
+        field('name', 'Ім\'я латиницею', { placeholder: 'Наприклад: Oleh' }),
+        field('address', 'Звертання в привітанні', { placeholder: 'Наприклад: Олеже' }),
         h('div.field', h('label', 'Як учителю говорити про вас'), pronounSeg))),
 
     txGroup('Про вас',

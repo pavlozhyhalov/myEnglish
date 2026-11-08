@@ -45,7 +45,7 @@
     ]
    }
   ],
-  "sample": "Dear Mr Kowalski,\n\nI hope you are well. I'm writing to let you know that the heating in our flat hasn't been working since Monday. We have checked the thermostat and restarted the boiler, but it didn't help, and it is getting quite cold, especially at night.\n\nCould you please send someone to fix it as soon as possible? We are at home every day after 5 pm and all day on Saturday. Please let me know when would suit you.\n\nThank you in advance.\n\nBest regards,\nPavlo",
+  "sample": "Dear Mr Kowalski,\n\nI hope you are well. I'm writing to let you know that the heating in our flat hasn't been working since Monday. We have checked the thermostat and restarted the boiler, but it didn't help, and it is getting quite cold, especially at night.\n\nCould you please send someone to fix it as soon as possible? We are at home every day after 5 pm and all day on Saturday. Please let me know when would suit you.\n\nThank you in advance.\n\nBest regards,\nOliver",
   "level": "B1"
  },
  {
@@ -93,7 +93,7 @@
     ]
    }
   ],
-  "sample": "Hey Tom!\n\nLong time no see! Are you free on Saturday? We're having a barbecue at our place from around 4 pm. A few friends from work are coming too, and it would be great to catch up. Just bring something to drink — we'll take care of the food. We can pick you up if you like.\n\nLet me know if you can make it!\nCheers,\nPavlo",
+  "sample": "Hey Tom!\n\nLong time no see! Are you free on Saturday? We're having a barbecue at our place from around 4 pm. A few friends from work are coming too, and it would be great to catch up. Just bring something to drink — we'll take care of the food. We can pick you up if you like.\n\nLet me know if you can make it!\nCheers,\nOliver",
   "level": "A2"
  },
  {
@@ -218,7 +218,7 @@
     ]
    }
   ],
-  "sample": "Hi Kate and Ben,\n\nThank you so much for having us last weekend! We had a wonderful time — the dinner was amazing and we loved the walk by the lake. Vita is still talking about your apple pie, so please send us the recipe.\n\nNext time you must come to us. You're always welcome in Kraków!\n\nLove,\nPavlo & Vita",
+  "sample": "Hi Kate and Ben,\n\nThank you so much for having us last weekend! We had a wonderful time — the dinner was amazing and we loved the walk by the lake. Emma is still talking about your apple pie, so please send us the recipe.\n\nNext time you must come to us. You're always welcome in Kraków!\n\nLove,\nOliver & Emma",
   "level": "A2"
  },
  {
@@ -411,7 +411,7 @@
     ]
    }
   ],
-  "sample": "Hi Tom! How are you? Are you free on Saturday? Would you like to go for a pizza? How about the new place near the river at 7 pm? Vita is coming too. Let me know!\n\nSee you soon,\nPavlo",
+  "sample": "Hi Tom! How are you? Are you free on Saturday? Would you like to go for a pizza? How about the new place near the river at 7 pm? Emma is coming too. Let me know!\n\nSee you soon,\nOliver",
   "level": "A2"
  },
  {
@@ -534,7 +534,7 @@
     ]
    }
   ],
-  "sample": "Hi Tom!\n\nGreetings from Gdańsk! Vita and I are here for a week. The weather is sunny and warm. Our hotel is near the beach. We swim every day. In the evening we eat fish in the old town. We love it here!\n\nSee you soon,\nPavlo",
+  "sample": "Hi Tom!\n\nGreetings from Gdańsk! Emma and I are here for a week. The weather is sunny and warm. Our hotel is near the beach. We swim every day. In the evening we eat fish in the old town. We love it here!\n\nSee you soon,\nOliver",
   "level": "A1"
  },
  {
@@ -581,7 +581,7 @@
     ]
    }
   ],
-  "sample": "Dear neighbours,\n\nI hope you don't mind me writing to you. We live in flat 12, just below you. Over the last few weeks, we've often heard loud music late at night, sometimes until 1 am. I'm sure you don't realise how much noise travels in this building, but it's been quite hard for us to get to sleep, and we both start work early.\n\nWould you mind keeping the volume down after 10 pm on weekdays? Please let us know if we ever disturb you, too. My number is 600 123 456.\n\nThank you for understanding.\n\nBest wishes,\nPavlo and Vita",
+  "sample": "Dear neighbours,\n\nI hope you don't mind me writing to you. We live in flat 12, just below you. Over the last few weeks, we've often heard loud music late at night, sometimes until 1 am. I'm sure you don't realise how much noise travels in this building, but it's been quite hard for us to get to sleep, and we both start work early.\n\nWould you mind keeping the volume down after 10 pm on weekdays? Please let us know if we ever disturb you, too. My number is 600 123 456.\n\nThank you for understanding.\n\nBest wishes,\nOliver and Emma",
   "level": "B1"
  },
  {
@@ -628,7 +628,7 @@
     ]
    }
   ],
-  "sample": "Dear Ms Nowak,\n\nI am writing to apply for the role of volunteer assistant at the Welcome Centre, which I saw advertised on your website.\n\nHaving moved to Kraków from Ukraine myself, I know how confusing the first few weeks in a new country can be, from registering an address to finding a doctor. I would love to help other newcomers through that process.\n\nLast year I helped several friends fill in official forms and translated at meetings with landlords and schools. I speak Ukrainian and Polish, and my English is improving fast. I would describe myself as patient, reliable and well organised, and I enjoy working with people.\n\nI am available on weekday evenings and at weekends, and I could commit to around six hours a week. I would also be happy to attend any training you provide.\n\nThank you for considering my application. I would welcome the opportunity to discuss it with you.\n\nYours sincerely,\nPavlo",
+  "sample": "Dear Ms Nowak,\n\nI am writing to apply for the role of volunteer assistant at the Welcome Centre, which I saw advertised on your website.\n\nHaving moved to Kraków from Ukraine myself, I know how confusing the first few weeks in a new country can be, from registering an address to finding a doctor. I would love to help other newcomers through that process.\n\nLast year I helped several friends fill in official forms and translated at meetings with landlords and schools. I speak Ukrainian and Polish, and my English is improving fast. I would describe myself as patient, reliable and well organised, and I enjoy working with people.\n\nI am available on weekday evenings and at weekends, and I could commit to around six hours a week. I would also be happy to attend any training you provide.\n\nThank you for considering my application. I would welcome the opportunity to discuss it with you.\n\nYours sincerely,\nOliver",
   "level": "B2"
  },
  {
@@ -700,7 +700,7 @@
     "items": [
      "I'm very busy this week.",
      "I have English lessons on Monday and Wednesday.",
-     "Vita is well too."
+     "Emma is well too."
     ]
    },
    {
@@ -719,7 +719,7 @@
     ]
    }
   ],
-  "sample": "Hi Mark!\n\nHow are you? I'm fine, thanks. I'm very busy this week. I have English lessons on Monday and Wednesday. Vita is well too. Are you free on Friday? Let's have a coffee in the city centre. What about 5 o'clock?\n\nSee you soon!\nPavlo",
+  "sample": "Hi Mark!\n\nHow are you? I'm fine, thanks. I'm very busy this week. I have English lessons on Monday and Wednesday. Emma is well too. Are you free on Friday? Let's have a coffee in the city centre. What about 5 o'clock?\n\nSee you soon!\nOliver",
   "level": "A1"
  },
  {
@@ -773,7 +773,7 @@
    {
     "group": "Початок",
     "items": [
-     "Hi Vita,",
+     "Hi Emma,",
      "I'm at work until 7 today.",
      "Can you go to the shop, please?"
     ]
@@ -798,7 +798,7 @@
     ]
    }
   ],
-  "sample": "Hi Vita,\n\nI'm at work until 7 today. Can you go to the shop, please? We need:\nbread\nmilk\nsix eggs\ntomatoes\nsome cheese\n\nThe money is on the table. I'll be home at 8. Thank you!\n\nLove,\nPavlo",
+  "sample": "Hi Emma,\n\nI'm at work until 7 today. Can you go to the shop, please? We need:\nbread\nmilk\nsix eggs\ntomatoes\nsome cheese\n\nThe money is on the table. I'll be home at 8. Thank you!\n\nLove,\nOliver",
   "level": "A1"
  },
  {
@@ -836,7 +836,7 @@
     ]
    }
   ],
-  "sample": "At the weekend I get up late, at about nine. On Saturday morning Vita and I go to the market and buy fruit and vegetables. In the afternoon we walk in the park or visit friends. On Sunday I cook lunch and we watch a film. I love weekends!",
+  "sample": "At the weekend I get up late, at about nine. On Saturday morning Emma and I go to the market and buy fruit and vegetables. In the afternoon we walk in the park or visit friends. On Sunday I cook lunch and we watch a film. I love weekends!",
   "level": "A1"
  },
  {
@@ -876,7 +876,7 @@
     ]
    }
   ],
-  "sample": "Dear Sir or Madam,\n\nMy wife and I have a booking at your hotel from 14 to 17 July. I'm writing to ask a few questions. Is breakfast included in the price, and what time is it served? We are coming by car, so could you tell me if you have a car park and how much it costs per night? Also, we will arrive quite late, at about 11 pm. Is it possible to check in then?\n\nThank you for your help.\n\nBest regards,\nPavlo",
+  "sample": "Dear Sir or Madam,\n\nMy wife and I have a booking at your hotel from 14 to 17 July. I'm writing to ask a few questions. Is breakfast included in the price, and what time is it served? We are coming by car, so could you tell me if you have a car park and how much it costs per night? Also, we will arrive quite late, at about 11 pm. Is it possible to check in then?\n\nThank you for your help.\n\nBest regards,\nOliver",
   "level": "A2"
  },
  {
@@ -909,7 +909,7 @@
     "group": "Що буде",
     "items": [
      "There will be food, music and games.",
-     "Vita is making her famous Ukrainian dishes.",
+     "Emma is making her famous Ukrainian dishes.",
      "You don't need to bring anything."
     ]
    },
@@ -922,7 +922,7 @@
     ]
    }
   ],
-  "sample": "Hi everyone!\n\nMy birthday is next month, and I'd love to celebrate with you! The party is on Saturday, 12 June, at 7 pm at our flat (15 Długa Street, flat 12). Vita is making her famous Ukrainian dishes, and there will be music and games. You don't need to bring anything — just come and have fun! Please let me know by Wednesday if you can come.\n\nSee you there!\nPavlo",
+  "sample": "Hi everyone!\n\nMy birthday is next month, and I'd love to celebrate with you! The party is on Saturday, 12 June, at 7 pm at our flat (15 Długa Street, flat 12). Emma is making her famous Ukrainian dishes, and there will be music and games. You don't need to bring anything — just come and have fun! Please let me know by Wednesday if you can come.\n\nSee you there!\nOliver",
   "level": "A2"
  },
  {
@@ -1014,7 +1014,7 @@
     ]
    }
   ],
-  "sample": "Three years ago, Vita and I went to the mountains in Georgia. It was our first big trip together, and we had planned everything carefully. On the third day, we decided to walk to a small village. While we were walking, it started to rain heavily, and suddenly we realised that we were lost. Our phones had no signal. At first we were really worried, but then an old shepherd appeared and invited us to his house. His wife gave us hot tea and fresh bread, and we spent the evening laughing and talking with our hands. Looking back, that trip taught me that the best moments are often the ones you don't plan. We still laugh about it.",
+  "sample": "Three years ago, Emma and I went to the mountains in Georgia. It was our first big trip together, and we had planned everything carefully. On the third day, we decided to walk to a small village. While we were walking, it started to rain heavily, and suddenly we realised that we were lost. Our phones had no signal. At first we were really worried, but then an old shepherd appeared and invited us to his house. His wife gave us hot tea and fresh bread, and we spent the evening laughing and talking with our hands. Looking back, that trip taught me that the best moments are often the ones you don't plan. We still laugh about it.",
   "level": "B1"
  },
  {
@@ -1059,7 +1059,7 @@
     ]
    }
   ],
-  "sample": "Dear Sir or Madam,\n\nI am writing to complain about the delivery of my parcel (tracking number PL4829105). The parcel was due to arrive on 3 March, but it was not delivered until 7 March, despite several messages from your company confirming the original date.\n\nWhat is more, the courier did not ring the bell or call me, even though I was at home all day. Instead, he left the parcel outside the building in the rain. By the time I found it, the box was soaked and torn, and the lamp inside was broken beyond repair. I have attached photos of the damage and a copy of the receipt.\n\nI would therefore like a full refund of the lamp (249 zł) and the delivery fee (19 zł). I would also appreciate an explanation of why your courier ignored the delivery instructions.\n\nI expect to receive a reply within 14 days. If the matter is not resolved, I will have no choice but to take it further with the consumer protection office.\n\nYours faithfully,\nPavlo",
+  "sample": "Dear Sir or Madam,\n\nI am writing to complain about the delivery of my parcel (tracking number PL4829105). The parcel was due to arrive on 3 March, but it was not delivered until 7 March, despite several messages from your company confirming the original date.\n\nWhat is more, the courier did not ring the bell or call me, even though I was at home all day. Instead, he left the parcel outside the building in the rain. By the time I found it, the box was soaked and torn, and the lamp inside was broken beyond repair. I have attached photos of the damage and a copy of the receipt.\n\nI would therefore like a full refund of the lamp (249 zł) and the delivery fee (19 zł). I would also appreciate an explanation of why your courier ignored the delivery instructions.\n\nI expect to receive a reply within 14 days. If the matter is not resolved, I will have no choice but to take it further with the consumer protection office.\n\nYours faithfully,\nOliver",
   "level": "B2"
  },
  {
@@ -1152,7 +1152,7 @@
     ]
    }
   ],
-  "sample": "Dear Ms Nowak,\n\nI am writing to recommend Taras Melnyk as a tenant for your flat. I have known Taras for over eight years. We first met at university in Lviv, and since moving to Kraków we have remained close friends.\n\nTaras is one of the most reliable and responsible people I know. He always pays his bills on time and keeps his promises, however small. For instance, when my wife and I were away for a month last summer, Taras looked after our flat. He watered the plants, checked the post and even fixed a dripping tap without being asked.\n\nHe is also quiet, tidy and considerate. He gets on well with everyone in his current building, and his neighbours often ask him for help. In addition, he has a stable job as an accountant, so I have no doubt that he can afford the rent.\n\nI have no hesitation in recommending him, and I am confident that he would be an excellent tenant. Please do not hesitate to contact me if you need any further information.\n\nKind regards,\nPavlo",
+  "sample": "Dear Ms Nowak,\n\nI am writing to recommend Taras Melnyk as a tenant for your flat. I have known Taras for over eight years. We first met at university in Lviv, and since moving to Kraków we have remained close friends.\n\nTaras is one of the most reliable and responsible people I know. He always pays his bills on time and keeps his promises, however small. For instance, when my wife and I were away for a month last summer, Taras looked after our flat. He watered the plants, checked the post and even fixed a dripping tap without being asked.\n\nHe is also quiet, tidy and considerate. He gets on well with everyone in his current building, and his neighbours often ask him for help. In addition, he has a stable job as an accountant, so I have no doubt that he can afford the rent.\n\nI have no hesitation in recommending him, and I am confident that he would be an excellent tenant. Please do not hesitate to contact me if you need any further information.\n\nKind regards,\nOliver",
   "level": "B2"
  },
  {

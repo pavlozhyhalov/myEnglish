@@ -5,7 +5,7 @@
  "unit": "Просунуті конструкції",
  "level": "C1",
  "mistakeType": "tenses",
- "explanation": "**Subjunctive** — після слів вимоги, поради чи важливості дієслово стоїть у **базовій формі**: без -s, без часу, однаково для всіх осіб. *The doctor insisted that Vita **rest** for a week.* (не *rests*)\n\nТакі дієслова: **suggest, recommend, insist, demand, request, propose, ask, advise, urge**: *I suggest that he **call** them tomorrow.* Минулий час головного речення нічого не змінює: *He insisted that I **stay*** (не *stayed*).\n\nПрикметники: **It is essential / vital / important / crucial / necessary / imperative / advisable that…**: *It's essential that everyone **be** on time.* Так само після іменників: *my suggestion that…, the recommendation that…*\n\n**Заперечення** — просто **not** перед дієсловом, без *do*: *She insisted that he **not tell** anyone.* **Пасив** — **be + V3**: *They requested that the room **be cleaned**.*\n\nУ британській мові часто кажуть **should + V**: *I suggest that he **should call**.* У розмові можна й звичайний час (*I suggest he calls*). Subjunctive звучить офіційніше, але природний у листах і правилах, а також у сталих виразах: *If need be* («якщо буде потреба»), *Be that as it may* («хай там як»), *God save the King*.",
+ "explanation": "**Subjunctive** — після слів вимоги, поради чи важливості дієслово стоїть у **базовій формі**: без -s, без часу, однаково для всіх осіб. *The doctor insisted that Emma **rest** for a week.* (не *rests*)\n\nТакі дієслова: **suggest, recommend, insist, demand, request, propose, ask, advise, urge**: *I suggest that he **call** them tomorrow.* Минулий час головного речення нічого не змінює: *He insisted that I **stay*** (не *stayed*).\n\nПрикметники: **It is essential / vital / important / crucial / necessary / imperative / advisable that…**: *It's essential that everyone **be** on time.* Так само після іменників: *my suggestion that…, the recommendation that…*\n\n**Заперечення** — просто **not** перед дієсловом, без *do*: *She insisted that he **not tell** anyone.* **Пасив** — **be + V3**: *They requested that the room **be cleaned**.*\n\nУ британській мові часто кажуть **should + V**: *I suggest that he **should call**.* У розмові можна й звичайний час (*I suggest he calls*). Subjunctive звучить офіційніше, але природний у листах і правилах, а також у сталих виразах: *If need be* («якщо буде потреба»), *Be that as it may* («хай там як»), *God save the King*.",
  "formula": [
   "suggest / insist / recommend / demand **that** + підмет + **V** (базова форма)",
   "It is **essential / vital / important that** + підмет + **V / be**",
@@ -51,8 +51,8 @@
    "uk": "Орендодавець наполіг, щоб ми заплатили заставу готівкою."
   },
   {
-   "en": "The doctor recommended that Vita take folic acid.",
-   "uk": "Лікар порадив Віті приймати фолієву кислоту."
+   "en": "The doctor recommended that Emma take folic acid.",
+   "uk": "Лікар порадив Еммі приймати фолієву кислоту."
   },
   {
    "en": "It's vital that the car seat be fitted correctly.",
@@ -123,7 +123,7 @@
   },
   {
    "type": "input",
-   "prompt": "Vita's mum insisted that we ___ (stay) for dinner.",
+   "prompt": "Emma's mum insisted that we ___ (stay) for dinner.",
    "answer": [
     "stay",
     "should stay"
@@ -201,17 +201,17 @@
   },
   {
    "type": "translate",
-   "uk": "Лікар порадив, щоб Віта більше відпочивала.",
+   "uk": "Лікар порадив, щоб Емма більше відпочивала.",
    "answer": [
-    "The doctor recommended that Vita rest more.",
-    "The doctor suggested that Vita rest more.",
-    "The doctor advised that Vita rest more.",
-    "The doctor recommended that Vita should rest more.",
-    "The doctor suggested that Vita should rest more.",
-    "The doctor recommended Vita rest more.",
-    "The doctor advised Vita to rest more.",
-    "The doctor recommended that Vita get more rest.",
-    "The doctor advised Vita to get more rest."
+    "The doctor recommended that Emma rest more.",
+    "The doctor suggested that Emma rest more.",
+    "The doctor advised that Emma rest more.",
+    "The doctor recommended that Emma should rest more.",
+    "The doctor suggested that Emma should rest more.",
+    "The doctor recommended Emma rest more.",
+    "The doctor advised Emma to rest more.",
+    "The doctor recommended that Emma get more rest.",
+    "The doctor advised Emma to get more rest."
    ],
    "explanation": "recommend that + базова форма."
   }

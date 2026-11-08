@@ -157,11 +157,11 @@
   },
   {
    "type": "transform",
-   "prompt": "Vita booked the tickets, not me.",
+   "prompt": "Emma booked the tickets, not me.",
    "instruction": "It was…",
    "answer": [
-    "It was Vita who booked the tickets, not me.",
-    "It was Vita that booked the tickets, not me."
+    "It was Emma who booked the tickets, not me.",
+    "It was Emma that booked the tickets, not me."
    ],
    "explanation": ""
   },

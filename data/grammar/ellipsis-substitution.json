@@ -5,7 +5,7 @@
  "unit": "Просунуті конструкції",
  "level": "C1",
  "mistakeType": "other",
- "explanation": "Носії не повторюють те, що вже зрозуміло: замінюють коротким словом (**substitution**) або просто пропускають (**ellipsis**). Без цього мова звучить як підручник.\n\n**so / not** замінюють ціле речення після *think, hope, expect, suppose, guess, be afraid, seem, appear*: *\"Will it rain?\" — \"I **think so**.\" / \"I **hope not**.\"* У запереченні з *think* частіше ***I don't think so***, але завжди ***I hope not***, ***I'm afraid not***, ***I guess not***.\n\n**one / ones** замінюють злічуваний іменник: *I don't like the red **one**; I prefer the blue **ones**.* Також *this one, the one on the left, a cheaper one*. З незлічуваними не вживається: *I prefer red wine to white* (не ~~white one~~).\n\n**so do I / neither have I / do so.** «Я теж» — ***so** + допоміжне + підмет*: *Vita loves sushi, and **so do I**.* «Я теж ні» — ***neither / nor***: *I haven't been there, and **neither has** she.* **do so** замінює дію (трохи офіційно): *You can pay online. — I've already **done so**.*\n\n**Пропуск після допоміжного і після to:** *\"Are you coming?\" — \"Yes, I **am**.\"* *I'd love to go, but I **can't**.* Після **to** дієслово випадає: *\"Do you want to come?\" — \"I'd love **to**.\"* *Sorry, I didn't mean **to**.* У розмові пропускають і початок: *(Do you) Want a coffee? (That) Sounds good.*",
+ "explanation": "Носії не повторюють те, що вже зрозуміло: замінюють коротким словом (**substitution**) або просто пропускають (**ellipsis**). Без цього мова звучить як підручник.\n\n**so / not** замінюють ціле речення після *think, hope, expect, suppose, guess, be afraid, seem, appear*: *\"Will it rain?\" — \"I **think so**.\" / \"I **hope not**.\"* У запереченні з *think* частіше ***I don't think so***, але завжди ***I hope not***, ***I'm afraid not***, ***I guess not***.\n\n**one / ones** замінюють злічуваний іменник: *I don't like the red **one**; I prefer the blue **ones**.* Також *this one, the one on the left, a cheaper one*. З незлічуваними не вживається: *I prefer red wine to white* (не ~~white one~~).\n\n**so do I / neither have I / do so.** «Я теж» — ***so** + допоміжне + підмет*: *Emma loves sushi, and **so do I**.* «Я теж ні» — ***neither / nor***: *I haven't been there, and **neither has** she.* **do so** замінює дію (трохи офіційно): *You can pay online. — I've already **done so**.*\n\n**Пропуск після допоміжного і після to:** *\"Are you coming?\" — \"Yes, I **am**.\"* *I'd love to go, but I **can't**.* Після **to** дієслово випадає: *\"Do you want to come?\" — \"I'd love **to**.\"* *Sorry, I didn't mean **to**.* У розмові пропускають і початок: *(Do you) Want a coffee? (That) Sounds good.*",
  "formula": [
   "I think **so** · I hope **not** · I'm afraid **not**",
   "a / the / this + (прикметник) + **one(s)**",
@@ -34,8 +34,8 @@
     "one замість іменника"
    ],
    [
-    "I like jazz and Vita likes jazz too.",
-    "I like jazz, and so does Vita.",
+    "I like jazz and Emma likes jazz too.",
+    "I like jazz, and so does Emma.",
     "so + допоміжне + підмет"
    ],
    [
@@ -64,8 +64,8 @@
    "uk": "Ці окуляри затемні. У вас є світліші?"
   },
   {
-   "en": "Vita hasn't seen the film, and neither have I.",
-   "uk": "Віта не бачила цього фільму, і я теж."
+   "en": "Emma hasn't seen the film, and neither have I.",
+   "uk": "Емма не бачила цього фільму, і я теж."
   },
   {
    "en": "\"Can you come to the barbecue?\" — \"I'd love to, but I can't.\"",
@@ -152,7 +152,7 @@
   },
   {
    "type": "input",
-   "prompt": "\"Is Vita coming tonight?\" — \"I hope ___. I haven't seen her for ages.\"",
+   "prompt": "\"Is Emma coming tonight?\" — \"I hope ___. I haven't seen her for ages.\"",
    "answer": [
     "so"
    ],
@@ -192,9 +192,9 @@
   },
   {
    "type": "order",
-   "prompt": "Віта не була в Римі, і я теж.",
+   "prompt": "Емма не була в Римі, і я теж.",
    "answer": [
-    "Vita hasn't been to Rome, and neither have I."
+    "Emma hasn't been to Rome, and neither have I."
    ],
    "explanation": "«І я теж ні» — neither + допоміжне + підмет."
   },

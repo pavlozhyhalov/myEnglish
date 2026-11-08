@@ -30,7 +30,7 @@
    ],
    [
     "\"Let's take a taxi.\"",
-    "Vita suggested taking a taxi.",
+    "Emma suggested taking a taxi.",
     "suggest + -ing"
    ],
    [
@@ -52,8 +52,8 @@
  },
  "examples": [
   {
-   "en": "The doctor advised Vita to take more vitamins.",
-   "uk": "Лікар порадив Віті приймати більше вітамінів."
+   "en": "The doctor advised Emma to take more vitamins.",
+   "uk": "Лікар порадив Еммі приймати більше вітамінів."
   },
   {
    "en": "My friend offered to help us move.",
@@ -91,7 +91,7 @@
   },
   {
    "type": "choice",
-   "prompt": "Vita suggested ___ a picnic by the river.",
+   "prompt": "Emma suggested ___ a picnic by the river.",
    "options": [
     "having",
     "to have",
@@ -154,7 +154,7 @@
   },
   {
    "type": "input",
-   "prompt": "Vita reminded me ___ (not / forget) the keys. (3 слова)",
+   "prompt": "Emma reminded me ___ (not / forget) the keys. (3 слова)",
    "answer": [
     "not to forget"
    ],
@@ -199,14 +199,14 @@
   },
   {
    "type": "transform",
-   "prompt": "\"Let's go to the cinema,\" said Vita.",
-   "instruction": "Почніть з Vita suggested…",
+   "prompt": "\"Let's go to the cinema,\" said Emma.",
+   "instruction": "Почніть з Emma suggested…",
    "answer": [
-    "Vita suggested going to the cinema.",
-    "Vita suggested that we go to the cinema.",
-    "Vita suggested that we should go to the cinema.",
-    "Vita suggested we go to the cinema.",
-    "Vita suggested we should go to the cinema."
+    "Emma suggested going to the cinema.",
+    "Emma suggested that we go to the cinema.",
+    "Emma suggested that we should go to the cinema.",
+    "Emma suggested we go to the cinema.",
+    "Emma suggested we should go to the cinema."
    ],
    "explanation": "suggest + -ing або that + речення."
   },

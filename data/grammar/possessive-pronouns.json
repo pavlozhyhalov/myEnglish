@@ -5,7 +5,7 @@
  "unit": "Іменник і артиклі",
  "level": "A2",
  "mistakeType": "other",
- "explanation": "**my, your, his, her, our, their** стоять **перед іменником**: *my bag, our flat*.\n\n**mine, yours, his, hers, ours, theirs** вживаємо **замість** іменника: *This bag is **mine**. Is this coat **yours**?* Після них іменника немає: ~~mine bag~~ → *my bag*.\n\nУ цих словах **немає апострофа**: *yours, hers, ours, theirs* (не ~~your's~~, ~~her's~~).\n\n**Whose** — чий: ***Whose** phone is this? — It's Vita's. / It's hers.* Не плутайте з *who's* = who is.\n\nЦікава модель: *a friend of mine* — один з моїх друзів.",
+ "explanation": "**my, your, his, her, our, their** стоять **перед іменником**: *my bag, our flat*.\n\n**mine, yours, his, hers, ours, theirs** вживаємо **замість** іменника: *This bag is **mine**. Is this coat **yours**?* Після них іменника немає: ~~mine bag~~ → *my bag*.\n\nУ цих словах **немає апострофа**: *yours, hers, ours, theirs* (не ~~your's~~, ~~her's~~).\n\n**Whose** — чий: ***Whose** phone is this? — It's Emma's. / It's hers.* Не плутайте з *who's* = who is.\n\nЦікава модель: *a friend of mine* — один з моїх друзів.",
  "formula": [
   "my / your / his / her / our / their + іменник: my car",
   "mine / yours / his / hers / ours / theirs — без іменника: The car is mine.",
@@ -56,8 +56,8 @@
    "uk": "Це твоя парасолька? — Ні, не моя."
   },
   {
-   "en": "Whose keys are these? — They're Vita's.",
-   "uk": "Чиї це ключі? — Віти."
+   "en": "Whose keys are these? — They're Emma's.",
+   "uk": "Чиї це ключі? — Емми."
   },
   {
    "en": "Our flat is smaller than theirs.",
@@ -124,7 +124,7 @@
   },
   {
    "type": "choice",
-   "prompt": "That's not Vita's phone. ___ is white.",
+   "prompt": "That's not Emma's phone. ___ is white.",
    "options": [
     "Her",
     "Hers",

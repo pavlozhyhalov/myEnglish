@@ -34,8 +34,8 @@
   {
    "en": "a dress",
    "uk": "сукня",
-   "ex": "Vita bought a new dress.",
-   "exUk": "Віта купила нову сукню."
+   "ex": "Emma bought a new dress.",
+   "exUk": "Емма купила нову сукню."
   },
   {
    "en": "a skirt",
@@ -112,8 +112,8 @@
   {
    "en": "a handbag",
    "uk": "сумочка, жіноча сумка",
-   "ex": "Vita's handbag is on the chair.",
-   "exUk": "Сумочка Віти на стільці."
+   "ex": "Emma's handbag is on the chair.",
+   "exUk": "Сумочка Емми на стільці."
   },
   {
    "en": "a suit",
@@ -238,8 +238,8 @@
   {
    "en": "brown",
    "uk": "коричневий, карий",
-   "ex": "Vita has brown eyes.",
-   "exUk": "У Віти карі очі."
+   "ex": "Emma has brown eyes.",
+   "exUk": "У Емми карі очі."
   },
   {
    "en": "pink",

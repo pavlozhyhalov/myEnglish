@@ -72,8 +72,8 @@
    "uk": "Певною мірою це наша власна провина."
   },
   {
-   "en": "I'd have thought Vita would prefer the window seat.",
-   "uk": "Я гадав, що Віта захоче сісти біля вікна."
+   "en": "I'd have thought Emma would prefer the window seat.",
+   "uk": "Я гадав, що Емма захоче сісти біля вікна."
   }
  ],
  "tip": "**I'd have thought** = *I **would** have thought*, а не *I had thought*: це м'яке «мені здавалося б, що…», часто з легким подивом. **Seem** і **appear** у значенні «здаватися» не вживаються в Continuous: ~~It's seeming~~.",
@@ -152,7 +152,7 @@
   },
   {
    "type": "input",
-   "prompt": "Vita ___ (tend / get) cold easily, so bring an extra blanket. (3 слова)",
+   "prompt": "Emma ___ (tend / get) cold easily, so bring an extra blanket. (3 слова)",
    "answer": [
     "tends to get"
    ],

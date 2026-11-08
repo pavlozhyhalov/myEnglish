@@ -64,7 +64,7 @@
  "exercises": [
   {
    "type": "choice",
-   "prompt": "My name ___ Pavlo.",
+   "prompt": "My name ___ Oliver.",
    "options": [
     "am",
     "is",

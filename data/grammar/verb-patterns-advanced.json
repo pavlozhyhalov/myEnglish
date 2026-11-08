@@ -5,7 +5,7 @@
  "unit": "Будова речення",
  "level": "B2",
  "mistakeType": "other",
- "explanation": "Деякі дієслова вживаються і з **-ing**, і з **to + V**, але значення різне. Загальне правило: **-ing** — дія, що **вже відбулася** або сама дія як процес; **to + V** — дія, яку **ще треба зробити**, або мета.\n\n**remember / forget:** + -ing — пам'ятати чи забути, що щось **було**: *I'll never forget **meeting** Vita.* + to — не забути **зробити**: *Remember **to buy** milk. I forgot **to call** Mum.*\n\n**stop:** + -ing — припинити: *I've stopped **drinking** coffee.* + to — зупинитися, **щоб** щось зробити: *We stopped **to buy** coffee.* **go on:** + -ing — продовжувати те саме; + to — перейти до чогось нового: *After the castle, the guide went on **to show** us the cathedral.*\n\n**try:** + to — намагатися (важко, може не вийти): *I tried **to open** the jar.* + -ing — спробувати як експеримент: *Try **adding** some salt.* **regret:** + -ing — шкодувати про минуле: *I regret **not learning** Polish earlier.* + to — офіційне «з жалем повідомляємо»: *We regret **to inform** you…*\n\n**mean:** + to — мати намір: *I meant **to call** you.* + -ing — означати: *Moving abroad means **leaving** your friends.* **need + -ing** має пасивне значення: *The car needs **washing*** = needs to be washed.",
+ "explanation": "Деякі дієслова вживаються і з **-ing**, і з **to + V**, але значення різне. Загальне правило: **-ing** — дія, що **вже відбулася** або сама дія як процес; **to + V** — дія, яку **ще треба зробити**, або мета.\n\n**remember / forget:** + -ing — пам'ятати чи забути, що щось **було**: *I'll never forget **meeting** Emma.* + to — не забути **зробити**: *Remember **to buy** milk. I forgot **to call** Mum.*\n\n**stop:** + -ing — припинити: *I've stopped **drinking** coffee.* + to — зупинитися, **щоб** щось зробити: *We stopped **to buy** coffee.* **go on:** + -ing — продовжувати те саме; + to — перейти до чогось нового: *After the castle, the guide went on **to show** us the cathedral.*\n\n**try:** + to — намагатися (важко, може не вийти): *I tried **to open** the jar.* + -ing — спробувати як експеримент: *Try **adding** some salt.* **regret:** + -ing — шкодувати про минуле: *I regret **not learning** Polish earlier.* + to — офіційне «з жалем повідомляємо»: *We regret **to inform** you…*\n\n**mean:** + to — мати намір: *I meant **to call** you.* + -ing — означати: *Moving abroad means **leaving** your friends.* **need + -ing** має пасивне значення: *The car needs **washing*** = needs to be washed.",
  "formula": [
   "**-ing** — те, що вже сталося, або сама дія",
   "**to + V** — те, що треба зробити, або мета",
@@ -52,8 +52,8 @@
  },
  "examples": [
   {
-   "en": "Do you remember meeting Vita's parents for the first time?",
-   "uk": "Пам'ятаєш, як ти вперше познайомився з батьками Віти?"
+   "en": "Do you remember meeting Emma's parents for the first time?",
+   "uk": "Пам'ятаєш, як ти вперше познайомився з батьками Емми?"
   },
   {
    "en": "Please remember to water the plants while we're away.",
@@ -124,7 +124,7 @@
   },
   {
    "type": "choice",
-   "prompt": "Vita has stopped ___ meat — she's vegetarian now.",
+   "prompt": "Emma has stopped ___ meat — she's vegetarian now.",
    "options": [
     "eating",
     "to eat",

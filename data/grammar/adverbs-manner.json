@@ -36,7 +36,7 @@
    [
     "good",
     "well",
-    "Vita sings well."
+    "Emma sings well."
    ],
    [
     "fast",
@@ -56,8 +56,8 @@
    "uk": "Говоріть, будь ласка, повільно — моя англійська не дуже добра."
   },
   {
-   "en": "Vita drives very carefully.",
-   "uk": "Віта водить дуже обережно."
+   "en": "Emma drives very carefully.",
+   "uk": "Емма водить дуже обережно."
   },
   {
    "en": "You speak Polish really well!",
@@ -200,11 +200,11 @@
   },
   {
    "type": "translate",
-   "uk": "Віта добре говорить англійською.",
+   "uk": "Емма добре говорить англійською.",
    "answer": [
-    "Vita speaks English well.",
-    "Vita speaks good English.",
-    "Vita can speak English well."
+    "Emma speaks English well.",
+    "Emma speaks good English.",
+    "Emma can speak English well."
    ],
    "explanation": "Прислівник well — після додатка."
   }

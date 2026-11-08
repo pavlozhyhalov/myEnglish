@@ -45,8 +45,8 @@
    "uk": "Я зараз готую вечерю."
   },
   {
-   "en": "Vita is talking to her mum on the phone.",
-   "uk": "Віта говорить по телефону з мамою."
+   "en": "Emma is talking to her mum on the phone.",
+   "uk": "Емма говорить по телефону з мамою."
   },
   {
    "en": "Look! It's snowing!",
@@ -124,7 +124,7 @@
   },
   {
    "type": "input",
-   "prompt": "Pavlo ___ (cook) dinner right now.",
+   "prompt": "Oliver ___ (cook) dinner right now.",
    "answer": [
     "is cooking"
    ],

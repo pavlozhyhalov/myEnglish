@@ -52,8 +52,8 @@
  },
  "examples": [
   {
-   "en": "Vita was really excited about our trip to Portugal.",
-   "uk": "Віта з нетерпінням чекала нашої поїздки до Португалії."
+   "en": "Emma was really excited about our trip to Portugal.",
+   "uk": "Емма з нетерпінням чекала нашої поїздки до Португалії."
   },
   {
    "en": "Moving to a new country can be exhausting.",
@@ -143,11 +143,11 @@
   },
   {
    "type": "input",
-   "prompt": "Vita is ___ (excite) about her new job.",
+   "prompt": "Emma is ___ (excite) about her new job.",
    "answer": [
     "excited"
    ],
-   "explanation": "Віта відчуває радість — -ed."
+   "explanation": "Емма відчуває радість — -ed."
   },
   {
    "type": "input",

@@ -5,7 +5,7 @@
  "unit": "Майбутнє",
  "level": "B2",
  "mistakeType": "tenses",
- "explanation": "**Майбутнє в минулому** — коли з погляду минулого щось ще мало статися: «я збирався», «він сказав, що прийде», «ми якраз мали виходити».\n\n**was / were going to + V** — план або намір у минулому, який часто **не здійснився**: *I was going to call you, but I forgot.* Також прогноз, зроблений у минулому: *I knew it was going to rain.*\n\n**would + V** — майбутнє з погляду минулого, особливо в непрямій мові й після *said, knew, thought, hoped*: *She said she **would** be late* (пряма мова: *I will be late*). *I never thought we **would** live in Poland.*\n\n**was / were about to + V** — дія мала статися **ось-ось**: *We were about to leave when Vita's mum called.* **was / were supposed to + V** — так **мало бути** за планом, домовленістю чи правилом, але не вийшло: *The train was supposed to arrive at 8, but it was an hour late.*",
+ "explanation": "**Майбутнє в минулому** — коли з погляду минулого щось ще мало статися: «я збирався», «він сказав, що прийде», «ми якраз мали виходити».\n\n**was / were going to + V** — план або намір у минулому, який часто **не здійснився**: *I was going to call you, but I forgot.* Також прогноз, зроблений у минулому: *I knew it was going to rain.*\n\n**would + V** — майбутнє з погляду минулого, особливо в непрямій мові й після *said, knew, thought, hoped*: *She said she **would** be late* (пряма мова: *I will be late*). *I never thought we **would** live in Poland.*\n\n**was / were about to + V** — дія мала статися **ось-ось**: *We were about to leave when Emma's mum called.* **was / were supposed to + V** — так **мало бути** за планом, домовленістю чи правилом, але не вийшло: *The train was supposed to arrive at 8, but it was an hour late.*",
  "formula": [
   "was/were **going to** + V — збирався (але…)",
   "**would** + V — після said / knew / thought",
@@ -51,8 +51,8 @@
    "uk": "Я збирався приготувати вечерю, але врешті ми замовили суші."
   },
   {
-   "en": "Vita said she would meet me at the station.",
-   "uk": "Віта сказала, що зустріне мене на вокзалі."
+   "en": "Emma said she would meet me at the station.",
+   "uk": "Емма сказала, що зустріне мене на вокзалі."
   },
   {
    "en": "I never imagined I would learn Polish.",
@@ -122,7 +122,7 @@
   },
   {
    "type": "input",
-   "prompt": "We ___ (go) to Gdańsk last weekend, but Vita got sick. (намір, 4 слова)",
+   "prompt": "We ___ (go) to Gdańsk last weekend, but Emma got sick. (намір, 4 слова)",
    "answer": [
     "were going to go"
    ],

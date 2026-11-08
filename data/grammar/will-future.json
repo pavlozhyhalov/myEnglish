@@ -5,7 +5,7 @@
  "unit": "Майбутнє",
  "level": "A2",
  "mistakeType": "tenses",
- "explanation": "**will + V** (без to) — майбутнє, коли рішення ухвалюємо **просто зараз**, у момент мовлення: *The phone's ringing — I'll get it.*\n\nТакож **will** вживаємо для **обіцянок** (*I'll call you tonight*), **пропозицій допомоги** (*I'll carry that bag for you*; у питанні — ***Shall** I open the window?*) і **прогнозів** — того, що ми думаємо чи відчуваємо: *I think it will rain tomorrow.*\n\nЗаперечення — **won't** (= will not): *I won't tell anyone.* Питання: ***Will** you help me?* Скорочено: *I'll, you'll, she'll, we'll, they'll*.\n\n**will чи going to?** Вирішили щойно → **will**. План, вирішений заздалегідь → **going to**: *We're going to visit Vita's parents on Sunday.* Прогноз за явними ознаками (бачимо хмари) → теж **going to**: *Look at the sky — it's going to rain.*",
+ "explanation": "**will + V** (без to) — майбутнє, коли рішення ухвалюємо **просто зараз**, у момент мовлення: *The phone's ringing — I'll get it.*\n\nТакож **will** вживаємо для **обіцянок** (*I'll call you tonight*), **пропозицій допомоги** (*I'll carry that bag for you*; у питанні — ***Shall** I open the window?*) і **прогнозів** — того, що ми думаємо чи відчуваємо: *I think it will rain tomorrow.*\n\nЗаперечення — **won't** (= will not): *I won't tell anyone.* Питання: ***Will** you help me?* Скорочено: *I'll, you'll, she'll, we'll, they'll*.\n\n**will чи going to?** Вирішили щойно → **will**. План, вирішений заздалегідь → **going to**: *We're going to visit Emma's parents on Sunday.* Прогноз за явними ознаками (бачимо хмари) → теж **going to**: *Look at the sky — it's going to rain.*",
  "formula": [
   "підмет + **will** + V — *I'll help you.*",
   "підмет + **won't** + V · **Will** + підмет + V?",
@@ -35,7 +35,7 @@
    ],
    [
     "Прогноз-думка",
-    "I think Vita will love this café.",
+    "I think Emma will love this café.",
     "I think, probably, I'm sure"
    ],
    [
@@ -97,7 +97,7 @@
   },
   {
    "type": "choice",
-   "prompt": "We ___ visit Vita's parents next weekend — we bought the train tickets yesterday.",
+   "prompt": "We ___ visit Emma's parents next weekend — we bought the train tickets yesterday.",
    "options": [
     "are visiting to",
     "are going to",

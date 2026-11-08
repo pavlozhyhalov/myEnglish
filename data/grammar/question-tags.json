@@ -5,7 +5,7 @@
  "unit": "Будова речення",
  "level": "B1",
  "mistakeType": "word_order",
- "explanation": "**Question tag** — коротке питання в кінці речення, як наше «так?», «правда ж?»: *It's cold today, isn't it?*\n\nПравило дзеркала: **стверджувальне речення → заперечний хвостик**, **заперечне → стверджувальний**: *You live in Kraków, **don't you**?* / *You don't eat meat, **do you**?* У хвостику — **той самий допоміжний** (be, have, can, will…), а якщо його немає — **do / does / did**. Підмет — завжди займенник: *Vita likes jazz, doesn't **she**?*\n\nОсобливі випадки: *I'm right, **aren't I**?* · *Let's go, **shall we**?* · *Open the door, **will you**?* · *Nobody called, **did they**?* · *There's a bus at six, **isn't there**?*\n\nІнтонація змінює зміст: голос **вниз ↘** — ви впевнені й чекаєте згоди (*Nice day, isn't it?*); голос **вгору ↗** — ви справді не знаєте й питаєте (*You've locked the door, haven't you?*).",
+ "explanation": "**Question tag** — коротке питання в кінці речення, як наше «так?», «правда ж?»: *It's cold today, isn't it?*\n\nПравило дзеркала: **стверджувальне речення → заперечний хвостик**, **заперечне → стверджувальний**: *You live in Kraków, **don't you**?* / *You don't eat meat, **do you**?* У хвостику — **той самий допоміжний** (be, have, can, will…), а якщо його немає — **do / does / did**. Підмет — завжди займенник: *Emma likes jazz, doesn't **she**?*\n\nОсобливі випадки: *I'm right, **aren't I**?* · *Let's go, **shall we**?* · *Open the door, **will you**?* · *Nobody called, **did they**?* · *There's a bus at six, **isn't there**?*\n\nІнтонація змінює зміст: голос **вниз ↘** — ви впевнені й чекаєте згоди (*Nice day, isn't it?*); голос **вгору ↗** — ви справді не знаєте й питаєте (*You've locked the door, haven't you?*).",
  "formula": [
   "ствердження, **заперечний** хвостик? — *It's late, isn't it?*",
   "заперечення, **стверджувальний** хвостик? — *You can't swim, can you?*",
@@ -34,7 +34,7 @@
     "модальне → те саме"
    ],
    [
-    "Vita works on Saturdays,",
+    "Emma works on Saturdays,",
     "doesn't she?",
     "без допоміжного → do / does"
    ],
@@ -97,7 +97,7 @@
   },
   {
    "type": "choice",
-   "prompt": "Vita can't come tonight, ___?",
+   "prompt": "Emma can't come tonight, ___?",
    "options": [
     "can she",
     "can't she",

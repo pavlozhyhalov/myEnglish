@@ -55,8 +55,8 @@
    "uk": "Ти колись куштував журек?"
   },
   {
-   "en": "Vita has never been to Zakopane.",
-   "uk": "Віта ніколи не була в Закопаному."
+   "en": "Emma has never been to Zakopane.",
+   "uk": "Емма ніколи не була в Закопаному."
   },
   {
    "en": "We've just bought a new washing machine.",
@@ -119,7 +119,7 @@
   },
   {
    "type": "choice",
-   "prompt": "I ___ Vita's parents yesterday.",
+   "prompt": "I ___ Emma's parents yesterday.",
    "options": [
     "met",
     "have met",
@@ -147,7 +147,7 @@
   },
   {
    "type": "input",
-   "prompt": "Pavlo ___ (just / call) his mum.",
+   "prompt": "Oliver ___ (just / call) his mum.",
    "answer": [
     "has just called",
     "'s just called"
