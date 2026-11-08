@@ -23,18 +23,25 @@ export default async function writing(view, r) {
     const t = all.find(x => x.id === r.parts[0]);
     if (t) return taskView(view, t);
   }
-  const list = h('div.stack');
-  const draw = () => {
-    const { items, fallback } = filterByLevel(tasks, levelPick('writing'));
-    list.replaceChildren(fallbackNote(fallback), txRows(byFit(items).map(t => sqEmo(txRow({ icon: 'envelope-simple', label: t.title, sub: `${t.kindLabel} · ${t.words} слів`,
-      href: `#/writing/${t.id}`, end: levelTag(t.level) }), t.emoji || 'envelope'))));
-  };
   // завдання дня — те саме, що в «Завданнях рівня» на головній
   const day = pickOfDay(filterByLevel(all.filter(x => x.group !== 'work'), 'mine').items, 'writing');
+  // завдання вибраного рівня: до 6, решта — «Показати всі»
+  const list = h('div.stack');
+  let open = false;
+  const draw = () => {
+    const sel = levelPick('writing');
+    const { items, fallback } = filterByLevel(tasks, sel);
+    const sorted = byFit(items);
+    const rest = sorted.filter(t => t !== day);   // завдання дня — головна дія вгорі
+    const shown = open ? sorted : rest.slice(0, 6);
+    list.replaceChildren(fallbackNote(fallback), txRows([...shown.map(t => sqEmo(txRow({ icon: 'envelope-simple', label: t.title, sub: `${t.kindLabel} · ${t.words} слів`,
+      href: `#/writing/${t.id}`, end: sel === 'all' || fallback ? levelTag(t.level) : null }), t.emoji || 'envelope')),
+      !open && rest.length > 6 ? txRow({ icon: 'caret-down', label: `Показати всі · ${sorted.length}`, chevron: false, cls: 'tx-showall', onclick: () => { open = true; draw(); } }) : null]));
+  };
   view.replaceChildren(h('div.stack-lg',
     day ? sqEmo(txPrimary({ icon: 'envelope-simple', label: day.title, sub: `Завдання дня · ${day.kindLabel} · ${day.words} слів`, href: `#/writing/${day.id}` }), day.emoji || 'envelope') : null,
-    txGroup(`Листи, повідомлення й есе · ваш рівень ${myLevel()}`, levelChips('writing', levelCounts(tasks), draw)), list,
-    txGroup('Свій текст', tx({ icon: 'sparkle', label: 'Перевірити довільний текст', sub: 'Лист чи повідомлення — вчитель виправить і пояснить', wide: true, href: '#/tutor?mode=check' }))));
+    txGroup('Листи, повідомлення й есе', [levelChips('writing', levelCounts(tasks), () => { open = false; draw(); }), list]),
+    txGroup('Свій текст', tx({ icon: 'sparkle', label: 'Перевірити довільний текст', sub: 'Вчитель виправить і пояснить', wide: true, href: '#/tutor?mode=check' }))));
   draw();
 }
 
