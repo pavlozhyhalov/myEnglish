@@ -588,3 +588,23 @@ body.has-subnav main#view{padding-top:calc(var(--header-h) + var(--safe-t) + 60p
   .drawer .profile{padding-top:4px}
   .drawer .pc-sub{display:none}
 }
+
+/* ---------- Меню: один вид плиток, без переносів, рівномірна висота (2026-11-08, скріншот власника з iPhone) ---------- */
+/* слова не ламаються дефісом — переносимо лише між словами, рядки врівноважені */
+.drawer .tn-label{hyphens:manual;-webkit-hyphens:manual;overflow-wrap:normal;word-break:normal;text-wrap:balance}
+/* ряди по 2 — той самий вигляд, що й по 3: іконка над назвою, по центру */
+.drawer .nav-grid .tile-nav.wide{flex-direction:column;justify-content:center;text-align:center;gap:6px;padding:9px 4px 8px}
+/* квадратик іконки — світліший за плитку (у темній темі не «дірка») */
+.drawer .tn-ico{background:var(--surface)}
+:root[data-theme="dark"] .drawer .tn-ico{background:rgba(255,255,255,.07);box-shadow:none}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .drawer .tn-ico{background:rgba(255,255,255,.07);box-shadow:none}}
+/* висота плиток росте з екраном — меню заповнює висоту без порожнечі над профілем */
+@media (min-height:701px){
+  .drawer .tile-nav{min-height:clamp(76px,9.6dvh,96px)}
+  .drawer nav{gap:clamp(12px,1.8dvh,18px)}
+}
+/* низькі екрани (iPhone SE): ряди по 2 — компактно, іконка ліворуч, щоб усе вмістилось без гортання */
+@media (max-height:620px){
+  .drawer .nav-grid .tile-nav.wide{flex-direction:row;justify-content:flex-start;text-align:left;gap:7px;padding:5px 8px}
+  .drawer .nav-grid .tile-nav.wide .tn-label{text-wrap:wrap}
+}
