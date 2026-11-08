@@ -280,3 +280,18 @@ input.range::-moz-range-thumb{width:24px;height:24px;border-radius:50%;backgroun
   .tx-grid{gap:8px}
   .tx-row{padding:9px 12px 9px 10px}
 }
+
+/* ---------- Ледь помітний об'єм плиток (2026-11-08, власник: «трішки об'ємності») ----------
+   Світло зверху (градієнт у межах 1–2% яскравості), м'яка тінь знизу; при натисканні плитка «втискається».
+   Варіанти з власним тлом (.on, .good, .primary, .soft) задають background скороченим записом — градієнт їх не зачіпає. */
+.tx,.tx-row,.card,.list > .list-row,.list > * > .list-row,details.pg-fold,.gx-lv-head{background-image:var(--tile-grad)}
+.card .card,.card .list > .list-row,.card .list > * > .list-row{background-image:none}
+.tx:active,.tx-row:active,a.list-row:active,button.list-row:active,.gx-lv-head:active{box-shadow:var(--tile-shadow-press)}
+.tx.primary:active{box-shadow:0 4px 12px -8px rgba(30,58,138,.6),inset 0 1px 2px rgba(0,0,0,.18)}
+.tx.primary{box-shadow:var(--accent-glow),inset 0 1px 0 rgba(255,255,255,.16)}
+.tx-kpi:active,div.tx:active,div.tx-row:active{box-shadow:var(--tile-shadow)}
+/* бокове меню */
+.drawer .tile-nav{background-image:var(--nav-grad);box-shadow:var(--nav-shadow)}
+.drawer .nav-top .tile-nav{box-shadow:var(--nav-shadow)}
+.drawer .tile-nav.pressed{box-shadow:var(--tile-shadow-press)}
+.drawer .tile-nav[aria-current="page"]{background-image:none}
