@@ -50,3 +50,17 @@ button.tx-sq.lr-spk:active{transform:scale(.94)}
 .cd-rev .grade.again{border-color:color-mix(in srgb,var(--bad) 30%,transparent)}
 .cd-rev .grade.hard{border-color:color-mix(in srgb,var(--warn) 30%,transparent)}
 .cd-rev .grade.easy{border-color:color-mix(in srgb,var(--good) 30%,transparent)}
+
+/* ---------- Словник: пошук + «Фільтри» ---------- */
+.vw-search{gap:8px;align-items:stretch}
+.vw-search .input{flex:1;min-width:0}
+.vw-fbtn{flex:none;gap:6px;border-radius:14px;padding:0 14px;min-height:48px}
+.vw-fbtn.on{color:var(--accent-ink)}
+.vw-fbadge:empty{display:none}
+.vw-fbadge{min-width:20px;height:20px;padding:0 6px;border-radius:999px;background:var(--accent);color:#fff;font-size:12px;font-weight:700;line-height:20px;text-align:center}
+.vw-filters[hidden]{display:none}
+.vw-filters{gap:8px;padding:10px;border-radius:16px;background:var(--tile);border:1px solid var(--tile-edge)}
+.vw-sortrow{gap:10px;justify-content:space-between}
+.vw-sort{width:auto;min-height:36px;padding:4px 10px}
+.vw-page>.xs.dim{margin:0 4px}
+@media (max-width:360px){ .vw-fbtn span:not(.vw-fbadge){display:none} .vw-fbtn{padding:0 12px} }

@@ -37,15 +37,24 @@ export default async function vocab(view, r) {
 
   const listBox = h('div');
   const countEl = h('div.xs.dim');
-  const search = h('input.input', { type: 'search', placeholder: 'Пошук англійською або українською', 'aria-label': 'Пошук', oninput: (e) => { q = e.target.value.trim().toLowerCase(); limit = 80; draw(); } });
+  const search = h('input.input', { type: 'search', placeholder: 'Пошук слова', 'aria-label': 'Пошук англійською або українською', oninput: (e) => { q = e.target.value.trim().toLowerCase(); limit = 80; draw(); } });
 
-  const chipRow = (opts, get, setv) => {
-    const row = h('div.chips.scroll');
+  const chipRow = (opts, get, setv, label) => {
+    const row = h('div.chips.scroll', { role: 'group', 'aria-label': label });
     const paint = () => row.querySelectorAll('.chip').forEach(c => c.setAttribute('aria-pressed', String(c.dataset.v === get())));
-    for (const [v, t] of opts) row.append(h('button.chip', { type: 'button', dataset: { v }, onclick: () => { setv(v); limit = 80; paint(); draw(); } }, t));
+    for (const [v, t] of opts) row.append(h('button.chip', { type: 'button', dataset: { v }, onclick: () => { setv(v); limit = 80; paint(); paintFilters(); draw(); } }, t));
     paint();
     return row;
   };
+  // рідкісні фільтри (тема, вид, сортування) — під однією кнопкою «Фільтри» з лічильником активних
+  const filtBadge = h('span.vw-fbadge', { 'aria-hidden': 'true' });
+  const filtBtn = h('button.btn.soft.vw-fbtn', { type: 'button', 'aria-expanded': 'false', 'aria-controls': 'vw-filters' }, ic('list', { size: 18 }), h('span', 'Фільтри'), filtBadge);
+  function paintFilters() {
+    const n = (topic !== 'all') + (tag !== 'all') + (sort !== 'recent');
+    filtBadge.textContent = n ? String(n) : '';
+    filtBtn.classList.toggle('on', !!n);
+    filtBtn.setAttribute('aria-label', n ? `Фільтри: активних ${n}` : 'Фільтри');
+  }
 
   function allRows() {
     const map = new Map();
@@ -80,16 +89,22 @@ export default async function vocab(view, r) {
   }
 
   const topics = [['all', 'Усі теми'], ...idx.map(d => [d.id, d.name]), ['my', 'Мої слова']];
+  const sortSel = h('select.input.vw-sort', { 'aria-label': 'Сортування', style: { width: 'auto', minHeight: '36px', padding: '4px 10px' }, onchange: (e) => { sort = e.target.value; paintFilters(); draw(); } }, SORTS.map(([v, t]) => h('option', { value: v }, t)));
+  const filters = h('div.stack.vw-filters', { id: 'vw-filters', hidden: true },
+    chipRow(topics, () => topic, v => { topic = v; }, 'Тема'),
+    chipRow([['all', 'Усе'], ['phrasal', 'Фразові дієслова'], ['colloc', 'Колокації']], () => tag, v => { tag = v; }, 'Вид'),
+    h('label.row.vw-sortrow', h('span.xs.dim', 'Сортування'), sortSel));
+  filtBtn.addEventListener('click', () => { const open = filters.hidden; filters.hidden = !open; filtBtn.setAttribute('aria-expanded', String(open)); });
+  paintFilters();
   view.replaceChildren(h('div.stack.vw-page',
     txGrid([
       tx({ icon: 'plus', label: 'Додати слово', sub: 'переклад — з AI', on: true, wide: true, end: null, onclick: () => addWord(draw) }),
       tx({ icon: 'notebook', label: 'Списком', sub: 'кілька одразу', wide: true, end: null, onclick: () => bulkAdd(draw) }),
     ], 2),
-    search,
-    chipRow(topics, () => topic, v => { topic = v; }),
-    chipRow(STATUS, () => status, v => { status = v; }),
-    h('div.row.between', chipRow([['all', 'Усе'], ['phrasal', 'Фразові дієслова'], ['colloc', 'Колокації']], () => tag, v => { tag = v; })),
-    h('div.row.between', countEl, h('select.input', { 'aria-label': 'Сортування', style: { width: 'auto', minHeight: '36px', padding: '4px 10px' }, onchange: (e) => { sort = e.target.value; draw(); } }, SORTS.map(([v, t]) => h('option', { value: v }, t)))),
+    h('div.row.vw-search', search, filtBtn),
+    filters,
+    chipRow(STATUS, () => status, v => { status = v; }, 'Статус'),
+    countEl,
     listBox));
   draw();
   allDecks().then(d => { decks = d; }, e => { console.warn('decks', e); toast('Не вдалося завантажити слова колод', { kind: 'bad' }); })
