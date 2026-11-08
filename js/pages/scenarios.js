@@ -32,7 +32,7 @@ export default async function scenarios(view, r) {
     const tag = sel === 'all' || !!fallback;
     const sorted = groups.flatMap(([g]) => byFit(items.filter(x => x.group === g)));
     const first = sorted.filter(x => x.group !== 'work' && x !== day).slice(0, SHOW);
-    if (!open && sorted.length > first.length) {
+    if (!open && sorted.filter(x => x !== day).length > first.length) {
       body.replaceChildren(fallbackNote(fallback), txRows([...first.map(x => row(x, tag)),
         txRow({ icon: 'caret-down', label: `Показати всі · ${sorted.length}`, chevron: false, cls: 'tx-showall', onclick: () => { open = true; draw(); } })]));
       return;

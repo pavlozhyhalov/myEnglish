@@ -212,7 +212,7 @@ function dialogues(box, data) {
   const drawList = () => {
     const sel = levelPick('dialogues');
     const { items, fallback } = filterByLevel(data.dialogues, sel);
-    const rows = byFit(items).filter(d => all || d !== day);
+    const rows = byFit(items).filter(d => all || d !== day);   // діалог дня — головна дія вгорі
     const shown = all ? rows : rows.slice(0, 6);
     listBox.replaceChildren(fallbackNote(fallback), txRows([...shown.map(d => sqEmo(txRow({ icon: 'headphones', label: d.title, onclick: () => open(d),
       sub: `${d.lines.length} ${plural(d.lines.length, 'репліка', 'репліки', 'реплік')} · ${d.questions.length} ${plural(d.questions.length, 'питання', 'питання', 'питань')}`,

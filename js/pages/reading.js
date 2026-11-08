@@ -86,9 +86,10 @@ export default async function reading(view, r) {
     label.textContent = items.length ? `Тексти · прочитано ${read} з ${items.length}` : 'Тексти';
     const tag = sel === 'all' || !!fallback;
     const sorted = byFit(items);
-    const shown = open ? sorted : [...sorted.filter(t => t !== day && !progressOf(t.id)), ...sorted.filter(t => t !== day && progressOf(t.id))].slice(0, 6);
+    const rest = sorted.filter(t => t !== day);   // текст дня — головна дія вгорі
+    const shown = open ? sorted : [...rest.filter(t => !progressOf(t.id)), ...rest.filter(t => progressOf(t.id))].slice(0, 6);
     box.replaceChildren(fallbackNote(fallback), txRows([...shown.map(t => row(t, tag)),
-      shown.length < sorted.length ? txRow({ icon: 'caret-down', label: `Показати всі · ${sorted.length}`, chevron: false, cls: 'tx-showall', onclick: () => { open = true; draw(); } }) : null]));
+      !open && rest.length > 6 ? txRow({ icon: 'caret-down', label: `Показати всі · ${sorted.length}`, chevron: false, cls: 'tx-showall', onclick: () => { open = true; draw(); } }) : null]));
   };
   view.replaceChildren(h('div.stack-lg',
     dayCard,
