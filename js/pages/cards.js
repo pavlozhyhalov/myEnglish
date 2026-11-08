@@ -258,15 +258,14 @@ export async function runReview(view, { limit = Infinity, onExit, onDone, embedd
     const secs = sess?.seconds || 0;
     view.replaceChildren(h('div.stack-lg.cd-done',
       resHead({ icon: done ? 'confetti' : 'cards', tone: done ? 'good' : '', eyebrow: 'Підсумок', title: done ? 'Повторення завершено' : 'Немає карток для повторення',
-        sub: done ? 'Оцінки збережено — картки повернуться за розкладом FSRS.' : 'Нові картки з\'являться завтра.' }),
+        sub: done ? 'картки повернуться за розкладом' : 'нові картки — завтра' }),
       done ? txKpis([
         { value: done, label: plural(done, 'картка', 'картки', 'карток'), tone: 'good' },
         { value: again, label: '«Знову»', tone: again ? 'warn' : '' },
         secs < 60 ? { value: '<1', unit: 'хв', label: 'час', ariaLabel: 'Час: менше хвилини' } : { value: Math.round(secs / 60), unit: 'хв', label: 'час' },
       ]) : null,
       h('div.stack.cd-next',
-        txPrimary({ icon: 'cards', label: 'До колод', sub: 'тренування, колоди, свої слова', onclick: () => onExit?.() }),
-        tx({ icon: 'house', label: 'На головну', href: '#/', wide: true }))));
+        txPrimary({ icon: 'cards', label: 'До колод', sub: 'тренування, колоди, свої слова', onclick: () => onExit?.() }))));
   }
 
   next();

@@ -119,12 +119,11 @@ export async function runTrain(view, { limit = Infinity, onExit, onDone, practic
     if (onDone) { onDone({ done: 0, again: 0, seconds: sess?.seconds || 0, early: false }); return () => setFocus(false); }
     setFocus(false);
     view.replaceChildren(h('div.stack-lg.wt-end',
-      resHead({ icon: 'confetti', tone: 'good', eyebrow: 'Підсумок', title: 'На сьогодні все', sub: 'Слів до повтору немає, денний ліміт нових вичерпано. Нові слова з\'являться завтра.' }),
+      resHead({ icon: 'confetti', tone: 'good', eyebrow: 'Підсумок', title: 'На сьогодні все', sub: 'Нові слова — завтра' }),
       h('div.stack.lr-next',
         daily ? txPrimary({ icon: 'arrow-right', label: 'Далі за планом', sub: 'наступний крок «Мого дня»', href: '#/today', cls: 'wt-daily-next' }) : null,
         daily ? tx({ icon: 'plus', label: 'Додати свої слова', sub: 'у «Мої слова»', href: '#/vocab', wide: true })
-          : txPrimary({ icon: 'plus', label: 'Додати свої слова', sub: 'у «Мої слова»', href: '#/vocab' }),
-        tx({ icon: 'house', label: 'На головну', href: '#/', wide: true }))));
+          : txPrimary({ icon: 'plus', label: 'Додати свої слова', sub: 'у «Мої слова»', href: '#/vocab' }))));
     return () => {};
   }
 
@@ -548,15 +547,13 @@ function endScreen(view, { results, seconds, maxCombo, practice, early, onExit, 
     resHead({
       icon: sum.accuracy >= 80 && sum.graded ? 'trophy' : 'confetti', tone: sum.graded || practised ? 'good' : '', eyebrow: 'Підсумок',
       title: practice ? 'Повторення завершено' : early && !sum.graded ? 'Тренування перервано' : 'Тренування завершено',
-      sub: practice ? `${practised} ${plural(practised, 'слово', 'слова', 'слів')} без оцінок — розклад FSRS не змінено` : sum.graded ? `${sum.graded} ${plural(sum.graded, 'слово', 'слова', 'слів')} · ${time} навчання` : 'Жодне слово ще не оцінено',
+      sub: practice ? `${practised} ${plural(practised, 'слово', 'слова', 'слів')} без оцінок — розклад не змінено` : sum.graded ? `${sum.graded} ${plural(sum.graded, 'слово', 'слова', 'слів')} · ${time}${maxCombo >= 3 ? ` · комбо ×${maxCombo}` : ''}` : 'Жодне слово ще не оцінено',
     }),
-    practice ? null : h('div.stack.wt-kpis',
-      txKpis([
-        { value: sum.learned, label: plural(sum.learned, 'нове слово', 'нові слова', 'нових слів'), tone: 'good' },
-        { value: sum.strengthened, label: 'закріплено' },
-        { value: `${sum.accuracy}%`, label: 'з першої спроби', tone: sum.graded && sum.accuracy >= 80 ? 'good' : '' },
-      ]),
-      txKpis([{ value: time, label: 'час' }, { value: maxCombo ? `×${maxCombo}` : '—', label: 'найдовше комбо', ariaLabel: `Найдовше комбо: ${maxCombo || 'немає'}` }], 2)),
+    practice || !sum.graded ? null : txKpis([
+      { value: sum.learned, label: plural(sum.learned, 'нове слово', 'нові слова', 'нових слів'), tone: 'good' },
+      { value: sum.strengthened, label: 'закріплено' },
+      { value: `${sum.accuracy}%`, label: 'з першої спроби', tone: sum.accuracy >= 80 ? 'good' : '' },
+    ]),
     hardest.length ? txGroup('Найважчі слова', [
       txRows(hardest.map(r => h('div.tx-row.lr-word',
         h('button.tx-sq.lr-spk', { type: 'button', 'aria-label': `Прослухати ${r.en}`, onclick: () => speak(r.en) }, ic('speaker-high', { size: 18 })),
@@ -566,8 +563,7 @@ function endScreen(view, { results, seconds, maxCombo, practice, early, onExit, 
     !practice && words.length >= 4 ? storyBox : null,
     h('div.stack.lr-next',
       daily && !practice ? txPrimary({ icon: 'arrow-right', label: 'Далі за планом', sub: 'наступний крок «Мого дня»', href: '#/today', cls: 'wt-daily-next' }) : null,
-      daily && !practice ? tx({ ...toDecks, wide: true }) : txPrimary(toDecks),
-      tx({ icon: 'house', label: 'На головну', href: '#/', wide: true }))));
+      daily && !practice ? tx({ ...toDecks, wide: true }) : txPrimary(toDecks))));
   if (!practice && words.length >= 4) storyOffer(storyBox, words);
 }
 
@@ -588,11 +584,11 @@ function storyWords(results) {
 
 function storyOffer(box, words) {
   if (!user()) {
-    box.replaceChildren(txGroup('Історія з моїх слів', tx({ icon: 'sparkle', label: 'Увійти', sub: 'Увійдіть, і вчитель складе коротку історію з сьогоднішніх слів.', href: '#/auth', wide: true })));
+    box.replaceChildren(txGroup('Історія з моїх слів', tx({ icon: 'sparkle', label: 'Увійти', sub: 'вчитель складе історію з цих слів', href: '#/auth', wide: true })));
     return;
   }
   box.replaceChildren(txGroup('Історія з моїх слів', tx({ icon: 'sparkle', label: 'Створити історію', wide: true, onclick: () => storyView(box, words),
-    sub: `Коротка історія рівня ${myLevel()} з ${words.length} ${plural(words.length, 'сьогоднішнім словом', 'сьогоднішніми словами', 'сьогоднішніх слів')} і 3 запитання` })));
+    sub: `рівень ${myLevel()} · ${words.length} ${plural(words.length, 'слово', 'слова', 'слів')} · 3 запитання` })));
 }
 
 /** Історія з AI: слова підсвічені й перекладаються дотиком, 3 запитання на розуміння */
