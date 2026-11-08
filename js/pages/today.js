@@ -1,6 +1,6 @@
 // «Мій день за 15 хвилин» у мові плиток: кільце прогресу, показники, три кроки-рядки по черзі й одна головна синя дія
 import { h, ic, ring } from '../ui/dom.js';
-import { tx, txPrimary, txKpis, txGrid, txGroup, txRow, txBar, txLogin } from '../ui/tiles.js';
+import { tx, txPrimary, txGrid, txGroup, txRow, txBar, txLogin } from '../ui/tiles.js';
 import { plural } from '../strings.js';
 import { streak, todaySeconds } from '../stats.js';
 import { buildPlan, markStarted } from '../daily.js';
@@ -51,19 +51,18 @@ export default async function today(view) {
 
 function header() {
   const date = new Date().toLocaleDateString('uk-UA', { weekday: 'long', day: 'numeric', month: 'long' });
-  // назва сторінки вже в шапці — тут дата й підказка (заголовок — для читачів екрана)
+  // назва сторінки вже в шапці — тут лише дата (заголовок — для читачів екрана)
   return h('header.td-head',
     h('h1.sr-only', 'Мій день'),
-    h('span.tx-label.td-date', date.charAt(0).toUpperCase() + date.slice(1)),
-    h('p.dim.small', 'Три кроки по черзі — нічого не треба обирати.'));
+    h('span.tx-label.td-date', date.charAt(0).toUpperCase() + date.slice(1)));
 }
 
 function skeletonPage() {
   return h('div.stack-lg.td', { role: 'status', 'aria-label': 'Завантаження плану' },
     header(),
     h('section.tx.td-summary.td-static', skel({ w: '112px', ht: 112, r: '50%' }), h('div.grow.stack', { style: { gap: '10px' } }, skel({ w: '70%', ht: 18 }), skelLines(2))),
-    h('div.tx-rows', [0, 1, 2].map(() => h('div.tx-row', skel({ w: '34px', ht: 34, r: '10px' }), h('div.grow.stack', { style: { gap: '8px' } }, skel({ w: '45%', ht: 14 }), skel({ w: '80%', ht: 10 }))))),
-    skel({ ht: 64, r: '16px' }));
+    skel({ ht: 64, r: '16px' }),
+    h('div.tx-rows', [0, 1, 2].map(() => h('div.tx-row', skel({ w: '34px', ht: 34, r: '10px' }), h('div.grow.stack', { style: { gap: '8px' } }, skel({ w: '45%', ht: 14 }), skel({ w: '80%', ht: 10 }))))));
 }
 
 function render(view, plan) {
@@ -82,14 +81,6 @@ function render(view, plan) {
         ? [h('h2.td-title', 'День зараховано'), h('p.small.dim', `${Math.round(todaySeconds() / 60)} хв практики сьогодні · ${streakText()}`)]
         : [h('h2.td-title', counted.length ? (doneN ? `Готово ${doneN} з ${counted.length}` : `${counted.length} ${plural(counted.length, 'крок', 'кроки', 'кроків')} на сьогодні`) : 'План дня'),
           h('p.small.dim', leftMin ? `Залишилось ≈${leftMin} ${plural(leftMin, 'хвилина', 'хвилини', 'хвилин')}` : 'Майже готово')]));
-
-  const k = streak();
-  const mins = Math.round(todaySeconds() / 60);
-  const kpis = txKpis([
-    { value: mins, unit: 'хв', label: 'сьогодні' },
-    { value: k, label: plural(k, 'день поспіль', 'дні поспіль', 'днів поспіль'), tone: k ? 'good' : '' },
-    { value: `${doneN}/${counted.length}`, label: 'кроків готово', tone: plan.allDone ? 'good' : '' },
-  ]);
 
   let n = 0;
   const steps = h('ol.tx-rows.td-steps', plan.steps.map(s => {
@@ -113,21 +104,25 @@ function render(view, plan) {
     return h('li.td-step.' + state, row);
   }));
 
-  const blocks = [header(), summary, kpis, txGroup('Кроки', steps)];
-  if (plan.allDone) {
-    blocks.push(txGroup('Хочеться ще?', txGrid([
-      tx({ icon: 'chat-circle-dots', label: 'Вільна розмова з вчителем', sub: 'Будь-яка тема, голосом або текстом', href: '#/tutor' }),
-      tx({ icon: 'book-open', label: 'Читання', sub: 'Короткий текст вашого рівня', href: '#/reading' }),
-      tx({ icon: 'game-controller', label: 'Ігри', sub: 'Слово дня, швидкий переклад', href: '#/games' }),
-    ])));
-  } else if (plan.next) {
-    blocks.push(txPrimary({ icon: plan.next.icon === 'microphone' ? 'microphone' : 'play', label: startLabel(plan),
-      sub: startLabel(plan).startsWith('Почати') ? `Перший крок: ${plan.next.title}` : (leftMin ? `≈${leftMin} хв до кінця плану` : null), onclick: () => startNext(plan), cls: 'td-go' }));
-  } else {
+  // одна головна дія — одразу під підсумком; далі кроки; рідкісне — компактним рядком унизу
+  const blocks = [header(), summary];
+  if (!plan.allDone && plan.next) {
+    const lbl = startLabel(plan);
+    blocks.push(txPrimary({ icon: plan.next.icon === 'microphone' ? 'microphone' : 'play', label: lbl,
+      sub: lbl.startsWith('Почати') ? `Перший крок: ${plan.next.title}` : null, onclick: () => startNext(plan), cls: 'td-go' }));
+  } else if (!plan.allDone) {
     // усі кроки, що лишились, потребують входу
     blocks.push(txLogin('Увійдіть, щоб поговорити з вчителем', 'Розмова голосом і AI-вчитель працюють після входу в акаунт'));
   }
-  blocks.push(txRow({ icon: 'list', label: 'Кероване заняття', sub: 'Усі кроки поспіль на одному екрані', href: '#/session', cls: 'td-alt' }));
+  blocks.push(txGroup('Кроки', steps));
+  if (plan.allDone) {
+    blocks.push(txGroup('Хочеться ще?', txGrid([
+      tx({ icon: 'chat-circle-dots', label: 'Розмова з вчителем', sub: 'будь-яка тема', href: '#/tutor' }),
+      tx({ icon: 'book-open', label: 'Читання', sub: 'текст вашого рівня', href: '#/reading' }),
+      tx({ icon: 'game-controller', label: 'Ігри', sub: 'слово дня й інші', href: '#/games' }),
+    ])));
+  }
+  blocks.push(txRow({ icon: 'list', label: 'Кероване заняття', sub: 'усі кроки на одному екрані', href: '#/session', cls: 'td-alt' }));
 
   const wasDone = view.querySelector('.td-summary.is-done');
   view.replaceChildren(h('div.stack-lg.td', blocks));
