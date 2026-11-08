@@ -120,3 +120,6 @@ body .sel-pop-more::after{inset:-2px}
 .wtp-card .wt-uk{text-align:left;color:var(--ink);font-weight:600;font-size:var(--fs-md)}
 .wtp-card{text-align:left}
 .sheet:focus{outline:none}
+/* «Ще» в налаштуваннях — згорнутий рідкісний блок */
+.set-more-row[aria-expanded="true"] > svg:last-child{transform:rotate(180deg)}
+.set-more[hidden]{display:none}

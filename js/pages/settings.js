@@ -30,56 +30,63 @@ export default function settings(view) {
     options.map(([v, t]) => h('option', { value: v, selected: String(st[k]) === String(v) ? true : null }, t)));
   const text = (k, label) => h('input.input', { type: 'text', value: st[k], 'aria-label': label, style: { maxWidth: '180px', minHeight: '40px' }, onchange: (e) => store.setSetting(k, e.target.value.trim() || DEFAULTS[k]) });
 
-  view.replaceChildren(h('div.stack-lg.pp-set',
-    group('Рівень англійської', [levelPicker()]),
-    group('Вигляд', [
-      block('circle-half', 'Тема', seg([['auto', 'Авто'], ['light', 'Світла'], ['dark', 'Темна']], st.theme, (v) => { store.setSetting('theme', v); applyTheme(v); })),
-      row('list', 'Закріпити меню на широкому екрані', toggle(st.pinDrawer !== false, (v) => { store.setSetting('pinDrawer', v); document.body.classList.toggle('drawer-pinned', v); }, 'Закріпити меню'), 'Від 1100 px'),
+  // Основне — 4 групи (навчання, вчитель, вигляд і звук, нагадування); рідкісне — у згорнутому «Ще»
+  const more = h('div.stack-lg.set-more', { id: 'set-more', hidden: true },
+    group('Автоматика', [
+      row('seal-check', 'Вжиті слова — вивчені', toggle(st.autoKnown !== false, set('autoKnown'), 'Вжиті слова — вивчені'), 'Правильно вжите у 2 розмовах — вивчене'),
+      row('plus', 'Слова з розмов у картки', toggle(st.autoWords !== false, set('autoWords'), 'Автоматично додавати слова з розмов'), 'До 5 після підсумку, ≤ 10 на день'),
+      row('brain', 'Утримуваність FSRS', select('retention', [[0.85, '85%'], [0.9, '90%'], [0.95, '95%']].map(([v, t]) => [String(v), t]), 'Утримуваність'), 'Вища — частіші повтори'),
+      row('sun', 'Не вимикати екран', toggle(st.keepAwake !== false, (v) => { store.setSetting('keepAwake', v); }, 'Не вимикати екран'), 'Під час завдань'),
     ]),
-    txGroup('Меню швидкого доступу', [
-      h('p.xs.dim.pp-note', 'Утримуйте рядок і перетягніть, щоб змінити порядок. До 5 пунктів. «Вчитель» завжди посередині.'),
-      quickbarEditor()]),
-    group('Навчання', [
-      range('dailyGoal', 5, 60, 5, v => `${v} хв на день`, 'target', 'Денна мета'),
-      range('newPerDay', 0, 50, 1, v => `${v} ${plural(v, 'картка', 'картки', 'карток')}`, 'cards', 'Нових карток на день'),
-      row('sun', 'Не вимикати екран під час завдань', toggle(st.keepAwake !== false, (v) => { store.setSetting('keepAwake', v); }, 'Не вимикати екран'), 'Працює в сучасних браузерах; на iPhone — iOS 16.4+'),
-      row('brain', 'Цільова утримуваність FSRS', select('retention', [[0.85, '85%'], [0.9, '90%'], [0.95, '95%']].map(([v, t]) => [String(v), t]), 'Утримуваність'), 'Вища — частіші повтори'),
-    ]),
-    remindersGroup(),
-    group('Озвучення', [
-      block('flag', 'Акцент', seg([['US', 'Акцент US'], ['UK', 'Акцент UK']], st.accent, set('accent'))),
-      range('rate', 0.6, 1.3, 0.05, v => `${Number(v).toFixed(2)}×`, 'timer', 'Швидкість'),
+    group('Озвучення й вчитель', [
       row('waveform', 'Рушій озвучення', select('ttsEngine', [['browser', 'Браузер (офлайн)'], ['gemini', 'Gemini TTS (онлайн)']], 'Рушій'), 'Gemini звучить природніше'),
-      row('speaker-high', 'Автоозвучення карток', toggle(st.autoSpeak !== false, set('autoSpeak'), 'Автоозвучення')),
       row('play', 'Перевірити голос',
         h('button.btn.sm.soft', { type: 'button', onclick: () => speak('Hi! This is how I sound. Shall we practise some English today?') }, ic('play', { size: 16, fill: true }), 'Тест'), `Голосів браузера: ${englishVoices().length}`),
-    ]),
-    group('Вчитель', [
       row('chalkboard-teacher', "Ім'я вчителя", text('tutorName', "Ім'я")),
-      row('chat-circle-dots', 'Тон', select('tutorTone', [
-        ['friendly but demanding', 'Доброзичливий, вимогливий'], ['warm and patient', 'Теплий, терплячий'],
-        ['strict and concise', 'Строгий, лаконічний'], ['humorous and relaxed', 'З гумором'],
-      ], 'Тон')),
-      row('microphone', 'Голос (Gemini Live)', select('voice', LIVE_VOICES.map(v => [v, v]), 'Голос')),
-      row('hourglass', 'Пауза в голосовій розмові', select('voicePause', [['short', 'Коротка'], ['normal', 'Звичайна'], ['long', 'Довга']], 'Пауза'), 'Скільки вчитель чекає тиші, перш ніж відповісти. Якщо він перебиває вас, поки ви підбираєте слова, — оберіть «Довга»'),
-      row('translate', 'Мова пояснень', select('explainLang', [['uk', 'Українська'], ['en', 'English'], ['mix', 'Змішано']], 'Мова пояснень')),
-      row('check-circle', 'Строгість виправлень', select('strictness', [['important', 'Лише важливе'], ['all', 'Усе']], 'Строгість')),
-      row('seal-check', 'Вжиті слова — вивчені', toggle(st.autoKnown !== false, set('autoKnown'), 'Вжиті слова — вивчені'), 'Слово з ваших карток, яке ви правильно вжили щонайменше у 2 розмовах з вчителем (або в щоденнику), позначається вивченим. Повернути до вивчення можна в «Словах і фразах»'),
-      row('plus', 'Автоматично додавати слова з розмов', toggle(st.autoWords !== false, set('autoWords'), 'Автоматично додавати слова з розмов'), 'Після підсумку до 5 нових слів одразу потрапляють у картки (не більше 10 на день). Зайве можна прибрати на екрані підсумку'),
-      row('briefcase', 'Професійний контекст', toggle(!!st.workFocus, set('workFocus'), 'Професійний контекст'), 'Вчитель частіше говоритиме про вашу роботу (рід занять — у «Профілі»). За замовчуванням — загальні теми'),
+      row('list', 'Закріпити меню', toggle(st.pinDrawer !== false, (v) => { store.setSetting('pinDrawer', v); document.body.classList.toggle('drawer-pinned', v); }, 'Закріпити меню'), 'На екрані від 1100 px'),
     ]),
+    txGroup('Нижня панель', quickbarEditor()),
     group('Дані', [
-      row('download-simple', 'Експорт даних',
-        h('button.btn.sm.soft', { type: 'button', onclick: exportData }, ic('download-simple', { size: 16 }), 'Експорт'), 'JSON з картками, прогресом, розмовами'),
+      row('user', 'Акаунт', h('a.btn.sm.soft', { href: '#/auth' }, user() ? 'Керувати' : 'Увійти'), user() ? user().email : 'Локальний режим'),
+      row('download-simple', 'Експорт',
+        h('button.btn.sm.soft', { type: 'button', onclick: exportData }, ic('download-simple', { size: 16 }), 'Експорт'), 'JSON: картки, прогрес, розмови'),
       row('upload-simple', 'Імпорт',
-        h('label.btn.sm.soft', ic('upload-simple', { size: 16 }), 'Імпорт', h('input', { type: 'file', accept: 'application/json,.json', hidden: true, onchange: importData })), 'Об\'єднання: зберігається новіша версія'),
-      row('user', 'Акаунт', h('a.btn.sm.soft', { href: '#/auth' }, user() ? 'Керувати' : 'Увійти'), user() ? user().email : 'Не виконано вхід (локальний режим)'),
+        h('label.btn.sm.soft', ic('upload-simple', { size: 16 }), 'Імпорт', h('input', { type: 'file', accept: 'application/json,.json', hidden: true, onchange: importData })), 'Зберігається новіша версія'),
       row('trash', 'Очистити дані на пристрої', h('button.btn.sm.danger', { type: 'button', onclick: wipe }, 'Очистити'), 'Хмарна копія не зачіпається', 'bad'),
     ]),
     txGroup('Службове', [
       txRows([txRow({ icon: 'flask', label: 'Лабораторія Live', sub: 'Діагностика голосу', href: '#/lab/live' })]),
       ((slot) => { if (user()) import('./admin.js').then(m => m.adminLink(slot)).catch(() => {}); return slot; })(h('div.tx-rows')),
-      h('p.xs.dim.center.set-build', `myEnglish · збірка ${BUILD}`)])));
+      h('p.xs.dim.center.set-build', `myEnglish · збірка ${BUILD}`)]));
+  const moreRow = txRow({ icon: 'gear-six', label: 'Ще', sub: 'Автоматика, панель, озвучення, дані', chevron: false, cls: 'set-more-row',
+    end: ic('caret-down', { size: 16 }), attrs: { 'aria-expanded': 'false', 'aria-controls': 'set-more' },
+    onclick: () => { more.hidden = !more.hidden; moreRow.setAttribute('aria-expanded', String(!more.hidden)); } });
+
+  view.replaceChildren(h('div.stack-lg.pp-set',
+    group('Навчання', [
+      levelPicker(),
+      range('dailyGoal', 5, 60, 5, v => `${v} хв на день`, 'target', 'Денна мета'),
+      range('newPerDay', 0, 50, 1, v => `${v} ${plural(v, 'картка', 'картки', 'карток')}`, 'cards', 'Нових карток на день'),
+    ]),
+    group('Вчитель', [
+      row('chat-circle-dots', 'Тон', select('tutorTone', [
+        ['friendly but demanding', 'Доброзичливий, вимогливий'], ['warm and patient', 'Теплий, терплячий'],
+        ['strict and concise', 'Строгий, лаконічний'], ['humorous and relaxed', 'З гумором'],
+      ], 'Тон')),
+      row('translate', 'Мова пояснень', select('explainLang', [['uk', 'Українська'], ['en', 'English'], ['mix', 'Змішано']], 'Мова пояснень')),
+      row('check-circle', 'Виправлення', select('strictness', [['important', 'Лише важливе'], ['all', 'Усе']], 'Строгість')),
+      row('microphone', 'Голос (Gemini Live)', select('voice', LIVE_VOICES.map(v => [v, v]), 'Голос')),
+      row('hourglass', 'Пауза в голосі', select('voicePause', [['short', 'Коротка'], ['normal', 'Звичайна'], ['long', 'Довга']], 'Пауза'), 'Перебиває — оберіть «Довга»'),
+      row('briefcase', 'Професійний контекст', toggle(!!st.workFocus, set('workFocus'), 'Професійний контекст'), 'Розмови про вашу роботу'),
+    ]),
+    group('Вигляд і звук', [
+      block('circle-half', 'Тема', seg([['auto', 'Авто'], ['light', 'Світла'], ['dark', 'Темна']], st.theme, (v) => { store.setSetting('theme', v); applyTheme(v); })),
+      block('flag', 'Акцент', seg([['US', 'Акцент US'], ['UK', 'Акцент UK']], st.accent, set('accent'))),
+      range('rate', 0.6, 1.3, 0.05, v => `${Number(v).toFixed(2)}×`, 'timer', 'Швидкість озвучення'),
+      row('speaker-high', 'Автоозвучення карток', toggle(st.autoSpeak !== false, set('autoSpeak'), 'Автоозвучення')),
+    ]),
+    remindersGroup(),
+    h('div.stack', moreRow, more)));
 }
 
 // ---------- Нагадування (Web Push) ----------
@@ -118,13 +125,14 @@ function remindersGroup() {
     const canToggle = st === 'ok' && !!user();
     if (!canToggle && !on) master.querySelector('input').disabled = true;
     const status = on ? `Щодня о ${p.time}, якщо є про що нагадати`
-      : st === 'ok' ? (user() ? 'Вимкнено' : 'Працює після входу в акаунт') : pushErrorText({ code: st });
+      : st === 'ok' ? (user() ? 'Вимкнено' : 'Після входу в акаунт') : pushErrorText({ code: st });
+    // час і види — лише коли нагадування ввімкнені
     const rows = [
       row('bell', 'Нагадування на цьому пристрої', master, status),
-      row('clock', 'Час', time, 'За місцевим часом пристрою'),
-      kindToggle('cards', 'cards', 'Повторити картки', 'Якщо є картки, які пора повторити'),
-      kindToggle('fire', 'streak', 'Стрік під загрозою', 'Якщо сьогодні ще менше 5 хв практики'),
-    ];
+      on ? row('clock', 'Час', time, 'Місцевий час') : null,
+      on ? kindToggle('cards', 'cards', 'Повторити картки', 'Якщо пора повторити') : null,
+      on ? kindToggle('fire', 'streak', 'Стрік під загрозою', 'Якщо сьогодні < 5 хв') : null,
+    ].filter(Boolean);
     const notes = [];
     if (st === 'ios-install') {
       notes.push(h('div.notice', h('b', 'Як увімкнути нагадування на iPhone чи iPad'),
@@ -134,8 +142,6 @@ function remindersGroup() {
           h('li', 'Оберіть «На початковий екран» і натисніть «Додати».'),
           h('li', 'Запустіть myEnglish з іконки на екрані «Додому» й увімкніть нагадування тут.')),
         h('div.xs.dim', { style: { marginTop: '6px' } }, 'Потрібна iOS 16.4 або новіша. У звичайній вкладці Safari push-сповіщення недоступні.')));
-    } else if (st === 'ok' && !user()) {
-      notes.push(h('div.notice', 'Нагадування надсилає сервер, тому потрібен акаунт.', h('div', { style: { marginTop: '8px' } }, h('a.btn.sm.soft', { href: '#/auth' }, 'Увійти'))));
     }
     list.replaceChildren(...rows);
     sec.replaceChildren(sec.firstChild, list, ...notes);
@@ -159,7 +165,6 @@ function levelPicker() {
   };
   render();
   return h('div.list-row.set-row.set-block.set-level', chips, desc,
-    h('div.xs.dim', 'Від рівня залежить: урок дня й порядок граматики, з яких колод беруться нові слова, складність диктантів, рекомендовані сценарії й завдання з письма, мова вчителя. Коли опануєте рівень на 80% — застосунок запропонує наступний.'),
     h('div.row', h('div.grow', src), h('a.btn.sm.soft', { href: '#/tests/placement' }, 'Пройти тест')));
 }
 
@@ -190,6 +195,8 @@ function quickbarEditor() {
   function render() {
     clear(wrap);
     const preview = arrange(active).map(id => byId[id].label).join(' · ');
+    // підказка зверху: що зараз у панелі й як змінити порядок («Вчитель» — завжди посередині)
+    wrap.append(h('div.list-row.xs.dim', `${preview} · до 5, утримуйте рядок, щоб перетягнути`));
     for (const id of active) {
       const s = byId[id];
       const r = h('div.dnd-row', { dataset: { id } },
@@ -205,7 +212,6 @@ function quickbarEditor() {
       wrap.append(h('div.dnd-row', h('span.handle', { style: { visibility: 'hidden' } }, ic('dots-six-vertical')), ic(s.icon), h('span.grow.dim', s.label),
         toggle(false, (v) => { if (v) { if (active.length >= 5) { toast('Максимум 5 пунктів'); render(); return; } active.push(s.id); save(); render(); } }, `Додати ${s.label}`)));
     }
-    wrap.append(h('div.list-row.xs.dim', `Панель: ${preview}`));
   }
 
   function move(id, d) {
