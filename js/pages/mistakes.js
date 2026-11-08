@@ -62,7 +62,7 @@ export default function mistakes(view, r) {
     // без показників і пояснень: кількості — у вкладках, «на повтор» — у плитці дії
     const head = [primary,
       secondary.length ? txGrid(secondary, 3) : null,
-      h('div.chips', { role: 'group', 'aria-label': 'Показати' }, tabBtn('open', 'Відкриті', openN), tabBtn('closed', 'Закриті', closedList.length))].filter(Boolean);
+      all.length ? h('div.chips', { role: 'group', 'aria-label': 'Показати' }, tabBtn('open', 'Відкриті', openN), tabBtn('closed', 'Закриті', closedList.length)) : null].filter(Boolean);
 
     if (tab === 'closed') {
       body.replaceChildren(...head, closedList.length
@@ -92,7 +92,8 @@ export default function mistakes(view, r) {
       : null;
     body.replaceChildren(...head, focus ? focusView(focus, fp, won) : '',
       groups.length ? '' : (openN || !closedList.length
-        ? txResult({ icon: 'warning-circle', label: 'Мої помилки', title: 'Список порожній', sub: 'Помилки з розмов, вправ і тестів з\'являтимуться тут.' })
+        ? h('div.stack-lg.mk-empty', txResult({ icon: 'check-circle', tone: 'accent', title: 'Помилок поки немає', sub: 'Тут з\'являтимуться помилки з розмов, вправ і тестів.' }),
+          txPrimary({ icon: 'chat-circle-dots', label: 'Поговорити з вчителем', sub: 'вчитель помітить, що варто підтягнути', href: '#/tutor' }))
         : txResult({ icon: 'seal-check', tone: 'good', label: 'Мої помилки', title: 'Відкритих помилок немає — усе закрито!' })),
       ...shownGroups.map(g => groupView(g, !!focusGroups.length)), others || '');
   };
@@ -127,13 +128,16 @@ export default function mistakes(view, r) {
     return g;
   };
   /** Група помилок одного правила: дії, рядки помилок (6 на виду); пояснення й «Не згоден» — під дотиком на виправлення */
-  const groupView = (g, inFocus = false) => { const sec = txGroup(`${g.label || S.mistakeTypes[g.type] || g.type} · ${g.total}`, [
-    h('div.mk-gacts',
-      h('button.tx-row.mk-gact', { type: 'button', onclick: () => selfCheck(body, g.items.filter(m => !m.resolved), draw) }, h('span.tx-sq', ic('check-circle', { size: 18 })), h('span.tx-l', 'Перевірити себе')),
-      h('a.tx-row.mk-gact', { href: `#/tutor?mode=drill&type=${g.type}` }, h('span.tx-sq', ic('barbell', { size: 18 })), h('span.tx-l', 'Тренувати'))),
-    moreRows(g.items.sort((a, b) => (b.count || 1) - (a.count || 1)).map(itemView))]);
-    sec.classList.add('mk-group'); if (inFocus) sec.classList.add('mk-fgroup');
-    return sec; };
+  // дії групи — компактні пігулки в рядку підпису (не дві великі плитки на кожне правило)
+  const groupView = (g, inFocus = false) => {
+    const label = g.label || S.mistakeTypes[g.type] || g.type;
+    return h('section.tx-group.mk-group' + (inFocus ? '.mk-fgroup' : ''),
+      h('div.tx-label-row.mk-ghead', h('h2.tx-label', `${label} · ${g.total}`),
+        h('div.mk-gacts',
+          h('button.mk-gact', { type: 'button', 'aria-label': `Перевірити себе: ${label}`, onclick: () => selfCheck(body, g.items.filter(m => !m.resolved), draw) }, 'Перевірити'),
+          h('a.mk-gact', { href: `#/tutor?mode=drill&type=${g.type}`, 'aria-label': `Тренувати з вчителем: ${label}` }, 'Тренувати'))),
+      moreRows(g.items.sort((a, b) => (b.count || 1) - (a.count || 1)).map(itemView)));
+  };
   const itemView = (m) => {
     const canDispute = ['tutor', 'diary'].includes(m.source || 'tutor');
     const more = m.explanation_uk || canDispute ? h('div.stack', { hidden: true, style: { gap: '4px' } },
@@ -323,13 +327,13 @@ function dueDrill(box, onExit, timer) {
     const done = rulePracticeToday();
     const open = store.all('mistakes').filter(m => !m.deleted && !m.resolved).length;
     box.replaceChildren(h('div.stack-lg.mk-due-empty',
-      txResult({ icon: 'check-circle', tone: 'good', label: 'Повтор правил', title: 'На сьогодні правила повторено',
-        sub: done ? `Сьогодні ви повторили ${done} ${plural(done, 'помилку', 'помилки', 'помилок')}.${next ? ` Наступний повтор — ${fmtWhen(next)}.` : ''}`
-          : next ? `Наступний повтор — ${fmtWhen(next)}. Нові помилки з розмов і вправ потраплять сюди самі.` : 'Відкритих помилок немає. Нові помилки з розмов і вправ потраплять сюди самі.' }),
-      txKpis([
-        { value: done, label: 'повторено сьогодні', tone: done ? 'good' : '' },
+      txResult({ icon: 'check-circle', tone: 'good', label: 'Повтор правил', title: done ? 'На сьогодні правила повторено' : 'Сьогодні повторювати нічого',
+        sub: next ? `Наступний повтор — ${fmtWhen(next)}.` : open ? 'Нові помилки потраплять сюди самі.' : 'Відкритих помилок немає.' }),
+      // цифри — лише коли є що показати (без «0 повторено»)
+      done && open ? txKpis([
+        { value: done, label: 'повторено сьогодні', tone: 'good' },
         { value: open, label: plural(open, 'відкрита помилка', 'відкриті помилки', 'відкритих помилок') },
-      ], 2),
+      ], 2) : null,
       txPrimary({ icon: 'arrow-right', label: 'Далі за планом', sub: 'наступний крок «Мого дня»', href: '#/today' }),
       txRows([txRow({ icon: 'list', label: 'До списку помилок', onclick: onExit })])));
     return;
