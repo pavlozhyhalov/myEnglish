@@ -551,9 +551,9 @@ function endScreen(view, { results, seconds, maxCombo, practice, early, onExit, 
       sub: practice ? `${practised} ${plural(practised, 'слово', 'слова', 'слів')} без оцінок — розклад не змінено` : sum.graded ? `${sum.graded} ${plural(sum.graded, 'слово', 'слова', 'слів')} · ${time}${maxCombo >= 3 ? ` · комбо ×${maxCombo}` : ''}` : 'Жодне слово ще не оцінено',
     }),
     practice || !sum.graded ? null : txKpis([
-      { value: sum.learned, label: plural(sum.learned, 'нове слово', 'нові слова', 'нових слів'), tone: 'good' },
+      { value: sum.learned, label: plural(sum.learned, 'нове слово', 'нові слова', 'нових слів'), tone: sum.learned ? 'good' : '' },
       { value: sum.strengthened, label: 'закріплено' },
-      { value: `${sum.accuracy}%`, label: 'з першої спроби', tone: sum.accuracy >= 80 ? 'good' : '' },
+      { value: sum.accuracy, unit: '%', label: 'з першої спроби', tone: sum.accuracy >= 80 ? 'good' : sum.accuracy < 50 ? 'warn' : '' },
     ]),
     hardest.length ? txGroup('Найважчі слова', [
       txRows(hardest.map(r => h('div.tx-row.lr-word',
