@@ -223,3 +223,9 @@ html.kbd .pr-big:focus-visible{outline:2px solid var(--accent-ink);outline-offse
   .gx-sound-body{padding:0 10px 10px}
   .gx-sound-body .gx-card{padding:10px}
 }
+/* по полочках (2026-11-07): таблиця уроку — згорнута плитка; «Показати всі» під списком */
+.gx-tbl .gx-sound-body{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.gx-tbl .gx-sound-head .tx-sq{width:34px;height:34px;border-radius:10px}
+.tx-row.gx-more{min-height:44px;justify-content:center}
+.tx-row.gx-more .tx-sq{width:28px;height:28px;border-radius:9px;background:transparent}
+.tx-row.gx-more .tx-l{color:var(--accent-ink);font-weight:600}

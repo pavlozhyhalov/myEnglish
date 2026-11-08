@@ -1,6 +1,6 @@
 // Граматика (теорія): правила за темами; у кожному уроці — пояснення, приклади і вправи
 import { h, ic, emo } from '../ui/dom.js';
-import { S } from '../strings.js';
+import { S, plural } from '../strings.js';
 import * as store from '../store.js';
 import { grammarIndex, lesson as loadLesson } from '../data.js';
 import { md, mdInline } from '../ui/md.js';
@@ -18,9 +18,7 @@ export default async function grammar(view, r) {
   if (r.parts[0]) return lessonPage(view, r.parts[0], r.query);
   const idx = await grammarIndex();
   const due = new Set(lessonsToReview().map(p => p.id));
-  const done = idx.filter(l => store.get('lessons_progress', l.id)?.completed_at).length;
   const next = nextLessonByLevel(idx);
-  const mine = myLevel();
   // рядок уроку: номер курсу ліворуч, тема — підписом, стан — пігулкою праворуч
   const row = (l) => {
     const p = store.get('lessons_progress', l.id);
@@ -29,28 +27,56 @@ export default async function grammar(view, r) {
   };
   // розділи за рівнями: свій розгорнутий, решта — згорнуті (нижчі — для прогалин, вищі — наперед)
   const section = (lv) => {
-    const items = idx.filter(l => l.level === lv);
+    const items = idx.filter(l => l.level === lv).sort((a, b) => a.n - b.n);
     if (!items.length) return null;
     const d = items.filter(l => store.get('lessons_progress', l.id)?.completed_at).length;
-    // у порядку курсу (номер = порядок проходження, як «Продовжити» й тести)
-    return levelSection(lv, { done: d, total: items.length, countLabel: `Пройдено ${d} з ${items.length}`, rows: [...items].sort((a, b) => a.n - b.n).map(row) });
+    // у порядку курсу (номер = порядок проходження, як «Продовжити» й тести); на виду — 6 найближчих, решта — «Показати всі»
+    const shown = nearRows(items, l => due.has(l.id), l => !!store.get('lessons_progress', l.id)?.completed_at);
+    return levelSection(lv, { done: d, total: items.length, countLabel: `Пройдено ${d} з ${items.length}`, rows: items.map(row), shown });
   };
 
   view.replaceChildren(h('div.stack-lg.gx',
     next ? txPrimary({ icon: 'play', label: 'Продовжити', sub: `${next.n} · ${next.title}`, href: `#/grammar/${next.id}`, attrs: { 'aria-label': `Продовжити: ${next.title}` } })
-      : tx({ wide: true, tone: 'good', icon: 'check-circle', label: 'Курс пройдено!', sub: 'Повторюйте уроки за графіком.' }),
-    h('div.gx-overall',
-      h('div.gx-overall-t', h('span', `Пройдено ${done} з ${idx.length}`), h('span.dim', 'урок зараховується від 80%')),
-      h('div.progress', { role: 'progressbar', 'aria-label': 'Пройдено уроків', 'aria-valuemin': 0, 'aria-valuemax': 100, 'aria-valuenow': Math.round(done / idx.length * 100) }, h('i', { style: { width: `${done / idx.length * 100}%` } }))),
-    h('div.gx-levels', LEVELS.map(section)),
-    h('p.xs.dim', { style: { margin: '0 4px' } }, `Уроки підібрано під рівень ${mine}. Змінити рівень — у «Налаштуваннях» або тестом.`)));
+      : tx({ wide: true, tone: 'good', icon: 'check-circle', label: 'Курс пройдено!', sub: 'Повторюйте уроки за графіком' }),
+    h('div.gx-levels', LEVELS.map(section))));
+}
+
+/**
+ * Які рядки списку показати одразу (до max): спершу «на повторення», далі — від першого незавершеного за порядком курсу.
+ * Повертає Set індексів.
+ */
+export function nearRows(items, isDue, isDone, max = 6) {
+  const out = new Set();
+  items.forEach((x, i) => { if (out.size < Math.min(2, max) && isDue(x)) out.add(i); });
+  let start = items.findIndex(x => !isDone(x));
+  if (start < 0) start = 0;
+  start = Math.max(0, Math.min(start, items.length - (max - out.size)));
+  for (let i = start; i < items.length && out.size < max; i++) out.add(i);
+  for (let i = start - 1; i >= 0 && out.size < max; i--) out.add(i);
+  return out;
+}
+
+/**
+ * Список рядків-плиток: на виду — shown (Set індексів, за замовчуванням перші 6), решта прихована за рядком «Показати всі · N».
+ */
+export function moreRows(rows, shown = null, label = 'Показати всі') {
+  const list = rows.filter(Boolean);
+  const vis = shown || new Set(list.map((_, i) => i).slice(0, 6));
+  if (list.length <= Math.max(vis.size, 6)) return txRows(list);
+  list.forEach((r, i) => { if (!vis.has(i)) r.hidden = true; });
+  const box = txRows(list);
+  const more = txRow({ icon: 'caret-down', label: `${label} · ${list.length}`, cls: 'gx-more', chevron: false,
+    attrs: { 'aria-expanded': 'false' },
+    onclick: () => { list.forEach(r => { r.hidden = false; }); more.remove(); } });
+  box.append(more);
+  return box;
 }
 
 /**
  * Розгортний розділ рівня (Граматика, «Оберіть урок» у тестах): заголовок — плитка з рівнем у квадратику,
  * назвою, лічильником і смужкою; усередині — рядки-плитки. Свій рівень розгорнутий.
  */
-export function levelSection(lv, { done, total, countLabel, rows }) {
+export function levelSection(lv, { done, total, countLabel, rows, shown = null }) {
   const mine = myLevel();
   const rel = lv === mine ? 'ваш рівень' : diff(lv) > 0 ? 'вище вашого' : null;
   return h('details.gx-lv' + (lv === mine ? '.mine' : ''), { open: lv === mine ? true : null },
@@ -61,7 +87,7 @@ export function levelSection(lv, { done, total, countLabel, rows }) {
         txBar(total ? done / total : 0, lv === mine)),
       h('span.gx-lv-n', { 'aria-label': countLabel }, `${done}/${total}`),
       ic('caret-down', { size: 16 })),
-    txRows(rows));
+    moreRows(rows, shown));
 }
 
 async function lessonPage(view, id, query = {}) {
@@ -128,16 +154,21 @@ async function lessonPage(view, id, query = {}) {
     h('div.gx-lhead', h('a.icon-btn', { href: '#/grammar', 'aria-label': 'До курсу' }, ic('arrow-left')),
       h('div.grow', h('h1.tx-label.gx-eyebrow', { 'aria-label': `${l.title}. ${l.unit}, урок ${idx[pos]?.n ?? pos + 1}` }, `${l.unit} · урок ${idx[pos]?.n ?? pos + 1}`)),
       isDue ? txPill('Повторити', 'warn') : p?.completed_at ? txPill(`${p.best}%`, 'good') : null),
-    txGroup('Правило', h('section.card.gx-expl', md(l.explanation))),
-    l.formula?.length ? txGroup(l.formula.length > 1 ? 'Формули' : 'Формула', txRows(l.formula.map((f, k) =>
-      h('div.tx-row.gx-formula', l.formula.length > 1 ? h('span.tx-no', String(k + 1)) : h('span.tx-sq', ic('lightning', { size: 18 })), h('span.tx-body', h('span.tx-l', mdInline(f))))))) : null,
-    l.table ? txGroup('Таблиця', h('section.card.gx-table', h('table.gtable',
-      h('thead', h('tr', l.table.head.map(c => h('th', c)))),
-      h('tbody', l.table.rows.map(rw => h('tr', rw.map(c => h('td', c)))))))) : null,
-    txGroup('Приклади', txRows(l.examples.map(e => h('div.tx-row.gx-ex',
+    // правило, формули й порада — одна група; таблиця — згорнута плитка; приклади — 6 на виду, решта — «Показати всі»
+    txGroup('Правило', [h('section.card.gx-expl', md(l.explanation)),
+      l.formula?.length ? txRows(l.formula.map((f, k) =>
+        h('div.tx-row.gx-formula', { 'aria-label': `Формула${l.formula.length > 1 ? ' ' + (k + 1) : ''}` }, l.formula.length > 1 ? h('span.tx-no', String(k + 1)) : h('span.tx-sq', ic('lightning', { size: 18 })), h('span.tx-body', h('span.tx-l', mdInline(f)))))) : null,
+      l.tip ? h('div.tx.wide.gx-tip', h('span.tx-sq', ic('lightbulb', { size: 20 })), h('div.tx-body.small', md(l.tip))) : null,
+      l.table ? h('details.gx-sound.gx-tbl',
+        h('summary.gx-sound-head', h('span.tx-sq', ic('list', { size: 18 })),
+          h('span.tx-body', h('span.tx-l', 'Таблиця'), h('span.tx-s', `${l.table.rows.length} ${plural(l.table.rows.length, 'рядок', 'рядки', 'рядків')}`)),
+          ic('caret-down', { size: 16 })),
+        h('div.gx-sound-body.gx-table', h('table.gtable',
+          h('thead', h('tr', l.table.head.map(c => h('th', c)))),
+          h('tbody', l.table.rows.map(rw => h('tr', rw.map(c => h('td', c)))))))) : null]),
+    txGroup('Приклади', moreRows(l.examples.map(e => h('div.tx-row.gx-ex',
       h('button.tx-sq.gx-say', { type: 'button', 'aria-label': `Прослухати: ${e.en}`, onclick: () => speak(e.en) }, ic('speaker-high', { size: 18 })),
       h('span.tx-body', h('span.tx-l', { lang: 'en' }, e.en), h('span.tx-s', e.uk)))))),
-    l.tip ? txGroup('Порада', h('div.tx.wide.gx-tip', h('span.tx-sq', ic('lightbulb', { size: 20 })), h('div.tx-body.small', md(l.tip)))) : null,
     exBox,
     txGroup('Практика', [exSlot,
       txGrid([
