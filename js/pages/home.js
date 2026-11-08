@@ -125,7 +125,7 @@ function heroContent(plan, sec, st) {
         ? h('span.big', String(Math.round(plan.totalMin) || st.dailyGoal), h('small', ' хв — план на сьогодні'))
         : h('span.big', String(mins), h('small', ` з ${st.dailyGoal} хв`)),
       h('span.sub.hm-streak', ic('fire', { size: 14, fill: n > 0 }), n ? `${n} ${plural(n, 'день', 'дні', 'днів')} поспіль` : 'Перший день серії — сьогодні')),
-    planRing(pct, { size: 72, stroke: 6, label: plan.allDone ? ic('check', { size: 26 }) : fresh0 ? ic('sun-horizon', { size: 26 }) : h('b.num.hm-pct', `${pct}%`), done: plan.allDone }));
+    planRing(pct, { size: 72, stroke: 6, label: plan.allDone ? ic('check', { size: 26 }) : pct === 0 ? ic('sun-horizon', { size: 26 }) : h('b.num.hm-pct', `${pct}%`), done: plan.allDone }));
   // кроки — маленькі плитки в ряд; кроки, недоступні без входу, не показуємо (вхід — одна кнопка нижче)
   const shown = plan.steps.filter(s => !s.skipped);
   const steps = shown.length < 2 ? null : h('div.hm-steps', { style: { gridTemplateColumns: `repeat(${shown.length},minmax(0,1fr))` } }, shown.map(s => {

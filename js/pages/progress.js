@@ -75,7 +75,7 @@ export default async function progressPage(view) {
       lp.ready ? txPrimary({ icon: 'rocket-launch', label: `Перейти на ${nextLevel()}`, sub: 'план і завдання оновляться', onclick: () => { const n = nextLevel(); setLevel(n, 'progress'); toast(`Рівень ${n}: план і завдання оновлено`); progressPage(view); } }) : null]),
 
     txGroup('Слова й граматика', [
-      fresh ? null : txKpis([{ value: c.learned, label: 'слів вивчено', tone: c.learned ? 'good' : '' }, { value: c.total, label: 'у роботі' }, { value: c.due, label: 'до повтору зараз', tone: c.due ? 'warn' : '', href: c.due ? '#/cards/review' : null }]),
+      fresh || !c.total ? null : txKpis([{ value: c.learned, label: 'слів вивчено', tone: c.learned ? 'good' : '' }, { value: c.total, label: 'у роботі' }, { value: c.due, label: 'до повтору зараз', tone: c.due ? 'warn' : '', href: c.due ? '#/cards/review' : null }]),
       tx({ wide: true, icon: 'puzzle-piece', label: 'Уроки граматики', sub: `пройдено ${done} з ${gIdx.length}`, href: '#/grammar', cls: 'pg-gram', extra: txBar(gIdx.length ? done / gIdx.length : 0) })]),
 
     txGroup('Детальніше', h('div.pg-folds',
@@ -191,7 +191,7 @@ function weeklyCard() {
       h('div.bars', { style: { height: '80px' }, role: 'img', 'aria-label': `Хвилини по днях цього тижня: ${days.map((d, i) => `${d.name} ${Math.round(sec[i] / 60)}`).join(', ')}` },
         days.map((d, i) => h('i' + (sec[i] ? '' : '.zero'), { style: { height: `${Math.max(2, sec[i] / max * 100)}%`, opacity: d.future ? 0.35 : null }, title: `${d.name}: ${fmtMin(sec[i])}` }))),
       h('div.bars-labels', days.map((d, i) => h('span', { style: d.today ? { fontWeight: 700, color: 'var(--ink)' } : null }, sec[i] ? `${d.name} ${Math.round(sec[i] / 60)}` : d.name)))),
-    empty ? null : txKpis([
+    empty || !(p.reviews || p.lessonsDone || p.mistakesFixed) ? null : txKpis([
       { value: p.reviews, label: 'карток повторено' },
       { value: p.lessonsDone, label: plural(p.lessonsDone, 'урок пройдено', 'уроки пройдено', 'уроків пройдено') },
       { value: p.mistakesFixed, label: 'помилок виправлено', tone: p.mistakesFixed ? 'good' : '' }]),
