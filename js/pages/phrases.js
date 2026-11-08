@@ -11,7 +11,7 @@ import { toast } from '../ui/toast.js';
 import { activityTimer } from '../stats.js';
 import { user } from '../supa.js';
 import { onLeave } from '../router.js';
-import { tx, txPrimary, txGrid, txGroup, txKpis, txRows } from '../ui/tiles.js';
+import { tx, txPrimary, txGrid, txGroup, txRows } from '../ui/tiles.js';
 import { resHead } from './cards.js';
 import { SITUATIONS, situation, phrasesBySituation, phraseCount, savePhrases, fillMissing, guessSituation } from '../phrases.js';
 
@@ -44,24 +44,33 @@ function overview(view) {
     return tx({ href: `#/phrases/${s.id}`, icon: s.icon, label: s.uk, sub: n ? nPhrases(n) : 'поки порожньо', cls: 'ph-tile' + (n ? '' : '.empty-sit'),
       attrs: { 'aria-label': `${s.uk}: ${n ? nPhrases(n) : 'поки порожньо'}` } });
   };
-  // ситуації з фразами — першими (за кількістю), далі решта в усталеному порядку
+  // ситуації з фразами — першими (за кількістю, до 6); решта — під «Усі ситуації»
   const order = SITUATIONS.slice().sort((a, b) => (groups.get(b.id)?.length || 0) - (groups.get(a.id)?.length || 0));
+  const shown = order.filter(s => groups.get(s.id)?.length).slice(0, 6);
+  const rest = order.filter(s => !shown.includes(s));
+  const restGrid = h('div.ph-rest', { id: 'ph-rest', hidden: true }, txGrid(rest.map(tile), 2));
   view.replaceChildren(h('div.stack-lg.phrasebook',
-    topSit ? txGroup('Підготуватися до…',
-      txPrimary({ href: `#/phrases/${topSit.id}/prepare`, icon: topSit.icon, label: topSit.uk,
-        sub: `${nPhrases(top[1].length)} · ~${Math.max(1, Math.round(top[1].length * 0.4))} хв · скажіть уголос і перевірте себе`,
-        attrs: { 'aria-label': `Підготуватися: ${topSit.uk}` } })) : emptyCard(),
-    txGroup(total ? `Ситуації · ${nPhrases(total)}` : 'Ситуації', txGrid(order.map(tile), 2)),
-    tx({ icon: 'plus', label: 'Додати фразу', sub: 'Те, що треба сказати лікарю, сусіду чи в банку', wide: true, onclick: () => addSheet(null, () => overview(view)) })));
+    topSit ? txPrimary({ href: `#/phrases/${topSit.id}/prepare`, icon: topSit.icon, label: `Підготуватися: ${topSit.uk}`,
+      sub: `${nPhrases(top[1].length)} · ~${Math.max(1, Math.round(top[1].length * 0.4))} хв` }) : emptyCard(),
+    txGroup(total ? `Мої ситуації · ${nPhrases(total)}` : 'Ситуації', [
+      shown.length ? txGrid(shown.map(tile), 2) : null,
+      rest.length ? moreTile(shown.length ? 'Усі ситуації' : 'Обрати ситуацію', `ще ${rest.length}`, restGrid) : null,
+      restGrid]),
+    tx({ icon: 'plus', label: 'Додати фразу', sub: 'своя фраза для будь-якої ситуації', wide: true, onclick: () => addSheet(null, () => overview(view)) })));
+}
+
+/** Згорнута плитка «Ще…»: розкриває box (aria-expanded) */
+function moreTile(label, sub, box) {
+  return tx({ icon: 'list', label, sub, wide: true, cls: 'ph-more', end: ic('caret-down', { size: 18 }),
+    attrs: { 'aria-expanded': 'false', 'aria-controls': box.id },
+    onclick: (e) => { const open = box.hidden; box.hidden = !open; e.currentTarget.setAttribute('aria-expanded', String(open)); e.currentTarget.classList.toggle('open', open); } });
 }
 
 function emptyCard() {
-  return txGroup('Звідки беруться фрази', [
-    h('p.small.dim.ph-empty-t', 'Збережіть корисні фрази з місій вчителя, сценаріїв і підсумків розмов — кнопкою «У фразник». Або додайте свої: те, що треба сказати лікарю, сусіду чи в банку.'),
-    txGrid([
-      tx({ href: '#/tutor', icon: 'flag', label: 'Місії', sub: 'рольові ігри з вчителем', on: true }),
-      tx({ href: '#/scenarios', icon: 'users-three', label: 'Сценарії', sub: 'діалоги з життя' }),
-    ], 2)]);
+  return txGroup('Звідки беруться фрази', txGrid([
+    tx({ href: '#/tutor', icon: 'flag', label: 'Місії', sub: 'рольові ігри · «У фразник»', on: true }),
+    tx({ href: '#/scenarios', icon: 'users-three', label: 'Сценарії', sub: 'діалоги з життя' }),
+  ], 2));
 }
 
 // ---------- Фрази ситуації ----------
@@ -78,13 +87,10 @@ function situationView(view, sit) {
       h('div.row.ph-head', h('a.icon-btn', { href: '#/phrases', 'aria-label': 'До фразника' }, ic('arrow-left')),
         h('span.tx-sq', ic(sit.icon, { size: 20 })),
         h('span.ph-eyebrow.grow', `Фразник · ${list.length ? nPhrases(list.length) : 'поки порожньо'}`)),
-      list.length ? h('div.stack', { style: { gap: '8px' } },
-        txPrimary({ href: `#/phrases/${sit.id}/prepare`, icon: 'play', label: 'Підготуватися', sub: nPhrases(Math.min(15, list.length)) + ' за раз' }),
-        h('div.xs.dim.ph-hint', 'Бачите фразу українською — кажете вголос англійською — перевіряєте себе.')) : null,
+      list.length ? txPrimary({ href: `#/phrases/${sit.id}/prepare`, icon: 'play', label: 'Підготуватися', sub: `${nPhrases(Math.min(15, list.length))} · скажіть уголос і перевірте себе` }) : null,
       list.length ? txGroup('Фрази · дотик — прослухати', h('div.tx-rows.ph-list', list.map(c => row(c, known(c)))))
-        : txGroup('Поки порожньо', [h('p.small.dim.ph-empty-t', 'Тут ще немає фраз. Додайте те, що вам знадобиться в цій ситуації, або збережіть фрази з місій і сценаріїв.'),
-          tx({ icon: 'flag', label: 'Місії вчителя', sub: 'рольові ігри з фразами для цієї ситуації', href: '#/tutor', wide: true })]),
-      missing && !(user() && navigator.onLine) ? h('div.xs.dim', `${missing} ${plural(missing, 'фраза', 'фрази', 'фраз')} без перекладу — його буде додано після входу, коли з'явиться мережа.`) : null,
+        : txGroup('Поки порожньо', tx({ icon: 'flag', label: 'Місії вчителя', sub: 'рольові ігри з фразами для цієї ситуації', href: '#/tutor', wide: true })),
+      missing && !(user() && navigator.onLine) ? h('div.xs.dim.ph-note', `${missing} без перекладу — додасться після входу`) : null,
       tx({ icon: 'plus', label: 'Додати фразу', wide: true, onclick: () => addSheet(sit.id, draw) }));
   };
   const row = (c, isKnown) => h('div.tx-row.ph-row',
@@ -226,8 +232,7 @@ function prepare(view, sit, only = null) {
     const voice = { icon: 'microphone', label: 'Відіграти з вчителем', sub: 'рольова гра голосом з цими фразами', href: `#/tutor?mode=voice&topic=${encodeURIComponent(topic)}` };
     fill(box,
       resHead({ icon: all ? 'trophy' : 'barbell', tone: all ? 'good' : '', eyebrow: 'Підсумок підготовки', title: all ? 'Ви готові до цієї ситуації!' : `${ok} з ${list.length} — майже готово`,
-        sub: all ? 'Усі фрази знали.' : `Ще ${missed.length} ${plural(missed.length, 'фразу', 'фрази', 'фраз')} варто повторити — ${missed.length === 1 ? 'вона повернеться' : 'вони повернуться'} в картки найближчим часом.` }),
-      txKpis([{ value: ok, label: 'знав', tone: 'good' }, { value: missed.length, label: 'ще ні', tone: missed.length ? 'warn' : '' }, { value: list.length, label: plural(list.length, 'фраза', 'фрази', 'фраз') }]),
+        sub: all ? `${nPhrases(list.length)} без помилок` : 'невідомі повернуться в картки найближчим часом' }),
       missed.length ? txGroup('Повторити · дотик — прослухати', txRows(missed.map(c => h('button.tx-row.ph-miss', { type: 'button', 'aria-label': `Прослухати: ${c.en}`, onclick: () => speak(c.en) },
         h('span.tx-sq.ph-spk', ic('speaker-high', { size: 18 })), h('span.tx-body', h('span.tx-l', { lang: 'en' }, c.en), c.uk ? h('span.tx-s', c.uk) : null))))) : null,
       h('div.stack.lr-next',

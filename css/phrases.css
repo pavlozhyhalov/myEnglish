@@ -2,8 +2,12 @@
 .phrasebook h1{font-size:var(--fs-xl)}
 .ph-tile.empty-sit{background:transparent;border-style:dashed;border-color:var(--line-strong)}
 .ph-tile.empty-sit .tx-l{color:var(--ink-dim)}
-.ph-empty-t{margin:0 4px}
-.ph-hint{text-align:center}
+.ph-note{margin:0 4px}
+.ph-rest[hidden]{display:none}
+.ph-rest{margin-top:8px}
+.ph-more{margin-top:8px}
+.ph-more .tx-end svg{transition:transform .2s}
+.ph-more.open .tx-end svg{transform:rotate(180deg)}
 .ph-err{color:var(--bad)}
 .ph-err:empty{display:none}
 
