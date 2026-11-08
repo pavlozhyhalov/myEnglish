@@ -19,10 +19,10 @@
 .fl-metrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
 .fl-metric{display:flex;flex-direction:column;gap:2px;padding:11px 12px 12px;border-radius:16px;background:var(--tile);border:1px solid var(--tile-edge);min-width:0}
 .fl-mv{display:flex;align-items:baseline;gap:6px;flex-wrap:wrap}
-.fl-mv b{font-family:var(--font-head);font-weight:700;font-size:22px;line-height:1.15;letter-spacing:-.01em;font-variant-numeric:tabular-nums}
+.fl-mv b{font-family:var(--font-head);font-weight:600;font-size:22px;line-height:1.15;letter-spacing:-.025em;font-variant-numeric:tabular-nums}
 .fl-ml{font-size:var(--fs-xs);color:var(--ink-dim);font-weight:500;line-height:1.3}
 .fl-ms{font-size:12px;color:var(--ink-dim);line-height:1.3}
-.fl-delta{font-size:12px;font-weight:700;padding:1px 6px;border-radius:var(--radius-pill);white-space:nowrap}
+.fl-delta{font-size:12px;font-weight:600;padding:1px 6px;border-radius:var(--radius-pill);white-space:nowrap}
 .fl-delta.good{background:var(--good-soft);color:var(--good)}
 .fl-delta.bad{background:var(--bad-soft);color:var(--bad)}
 
@@ -77,7 +77,7 @@ details.fl-tx .fl-legend{margin-bottom:6px}
 .fl-ring-bar{stroke:var(--accent)}
 .fl-ring.low .fl-ring-bar{stroke:var(--warn)}
 .fl-ring-in{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
-.fl-sec{font-family:var(--font-head);font-weight:700;font-size:64px;line-height:1;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.fl-sec{font-family:var(--font-head);font-weight:600;font-size:64px;line-height:1;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
 .fl-ring-sub{font-size:var(--fs-xs);color:var(--ink-dim);margin-top:4px}
 .fl-meter{display:flex;align-items:center;justify-content:center;gap:4px;height:40px;width:min(100%,240px)}
 .fl-meter i{flex:1;max-width:8px;height:100%;border-radius:4px;background:var(--track);transform:scaleY(.15);transform-origin:center;transition:transform 90ms linear,background var(--dur)}
@@ -121,7 +121,7 @@ details.fl-tx .fl-legend{margin-bottom:6px}
 .fl-verdict .fl-vico{flex:none}
 .fl-verdict.good .fl-vico{background:var(--good);color:var(--on-good)}
 .fl-verdict.warn .fl-vico{background:var(--warn-soft);color:var(--warn)}
-.fl-vt{font-weight:700;font-size:var(--fs-md);line-height:1.3;margin-bottom:2px;overflow-wrap:anywhere}
+.fl-vt{font-weight:600;font-size:var(--fs-md);line-height:1.3;margin-bottom:2px;overflow-wrap:anywhere}
 
 @media (max-width:370px){
   .fl-metric{padding:10px}
@@ -141,3 +141,24 @@ details.fl-tx.gx-card[open]{padding-bottom:12px}
 .fl-tips-row[aria-expanded="true"] > svg:last-child{transform:rotate(180deg)}
 .fl-tips{margin:0;padding:12px 14px 12px 32px;border-radius:16px;background:var(--tile);border:1px solid var(--tile-edge);font-size:var(--fs-sm);line-height:1.5;color:var(--ink-dim);display:flex;flex-direction:column;gap:6px}
 .fl-tips[hidden]{display:none}
+
+/* ---------- Преміальний шар тренажера (2026-11-08): радіуси плиток, глибина замість рамок, тихіше кільце ---------- */
+.fl-ptile,.fl-metric,.fl-why,.fl-tips,.fl-verdict,.fl-compare .fl-fig,.fl .gx-card{border-radius:var(--r-tile);box-shadow:var(--tile-shadow);border-color:var(--tile-edge)}
+.fl-verdict.good{box-shadow:none}
+.fl-ptile{padding:14px;gap:6px}
+.fl-metric{padding:12px 12px 13px}
+.fl-ptile .fl-ml{min-height:0}
+.fl-ring-track{stroke:color-mix(in srgb,var(--accent) 10%,var(--track))}
+.fl-ring svg{filter:drop-shadow(0 6px 14px color-mix(in srgb,var(--accent) 18%,transparent))}
+.fl-ring.low svg{filter:none}
+.fl-sec{letter-spacing:-.04em}
+.fl-ring-sub{letter-spacing:.02em}
+.fl-rec-topic{font-weight:600;letter-spacing:-.015em}
+.fl-dots i{width:24px;height:5px;border-radius:99px}
+.fl-better{border-radius:14px}
+.fl-cheat span{border-style:solid;border-color:var(--tile-edge);background:var(--tile)}
+details.fl-tx summary{list-style:none}
+details.fl-tx summary::-webkit-details-marker{display:none}
+details.fl-tx summary::after{content:"";width:8px;height:8px;margin-left:auto;border-right:2px solid var(--ink-dim);border-bottom:2px solid var(--ink-dim);transform:rotate(45deg) translateY(-2px);transition:transform .18s ease}
+details.fl-tx[open] summary::after{transform:rotate(225deg)}
+@media (prefers-reduced-motion:reduce){details.fl-tx summary::after{transition:none}}

@@ -5,7 +5,7 @@ import { plural } from '../strings.js';
 import { tutor, aiErrorText } from '../ai.js';
 import { speak, stop as stopSpeech, blobToBase64 } from '../speech.js';
 import { setTitle, setFocus } from '../ui/shell.js';
-import { tx, txPrimary, txGrid, txGroup, txKpis, txRow, txRows, txLogin } from '../ui/tiles.js';
+import { tx, txPrimary, txGrid, txGroup, txKpis, txRow, txRows, txLogin, txResult } from '../ui/tiles.js';
 import { skelLines } from '../ui/skeleton.js';
 import { activityTimer } from '../stats.js';
 import { user } from '../supa.js';
@@ -42,9 +42,7 @@ function pageHead(title, eyebrow, back = '#/fluency') {
 }
 /** Шапка результату: значок у квадратику, підпис і висновок; під ними — показники плитками */
 function resultHead({ icon, tone, label, caption, kpis }) {
-  return h('section.tx-group',
-    h('div.gx-res', h('span.gx-res-ic.' + tone, ic(icon, { size: 26, fill: true })), h('div.grow', h('div.tx-label', label), h('div.gx-res-t', caption))),
-    txKpis(kpis));
+  return h('section.tx-group', txResult({ icon, tone: tone || 'accent', label, title: caption }), txKpis(kpis));
 }
 /** Текстова плитка стану: значок у квадратику + заголовок + пояснення (очікування, помилки, «надто коротко») */
 function stateCard({ icon, tone = '', title, lines = [], extra = [], cls = '', attrs = {} }) {
@@ -446,9 +444,9 @@ function fourThreeTwo(view) {
       resultHead({ icon: good ? 'trophy' : multi && (dW >= 5 || dF <= -0.5) ? 'thumbs-up' : 'timer', tone: good ? 'good' : multi && (dW >= 5 || dF <= -0.5) ? 'warn' : '',
         label: `4-3-2 · ${rounds.length} ${plural(rounds.length, 'раунд', 'раунди', 'раундів')}`, caption: verdict(rounds),
         kpis: multi ? [
-          { value: `${dW >= 0 ? '+' : '−'}${Math.abs(dW)}`, label: 'слів за хвилину', tone: dW >= 5 ? 'good' : dW < 0 ? 'bad' : null },
-          { value: num(z.per100), label: `заминок на 100 слів (було ${num(a.per100)})`, tone: dF <= -0.5 ? 'good' : dF > 0.5 ? 'bad' : null },
-          { value: z.wpm, label: 'темп в останньому раунді' },
+          { value: `${dW >= 0 ? '+' : '−'}${Math.abs(dW)}`, label: 'зміна темпу, слів/хв', tone: dW >= 5 ? 'good' : dW < 0 ? 'bad' : null },
+          { value: num(z.per100), label: `заминок на 100 слів`, tone: dF <= -0.5 ? 'good' : dF > 0.5 ? 'bad' : null, ariaLabel: `Заминок на 100 слів: ${num(z.per100)}, було ${num(a.per100)}` },
+          { value: z.wpm, label: 'слів/хв в останньому' },
         ] : [
           { value: a.wpm, label: 'слів за хвилину' },
           { value: num(a.per100), label: 'заминок на 100 слів' },
@@ -538,9 +536,9 @@ function drill(view) {
   const intro = () => {
     fill(body,
       pageHead('Почни з фрази', `Тренування · ${DRILL_LEN} питань · ~3 хв`),
-      txGroup('Питання — і одразу фраза', [
-        h('p.xs.dim.fl-note', `Питання з'явиться на екрані. За ${DRILL_START_SEC} секунди почніть відповідь фразою — «Well…», «Let me think…» — і говоріть близько 10 секунд.`),
-        txPrimary({ icon: 'play', label: 'Почати', sub: `${DRILL_LEN} питань · мікрофон увімкнеться одразу`, onclick: () => { qs = pickQuestions(); idx = 0; results = []; ask(); } })]),
+      txPrimary({ icon: 'play', label: 'Почати', sub: `За ${DRILL_START_SEC} с почніть із фрази й говоріть ~10 с`, end: null,
+        attrs: { 'aria-label': `Почати: ${DRILL_LEN} питань. Питання з'явиться на екрані — за ${DRILL_START_SEC} секунди почніть відповідь фразою і говоріть близько 10 секунд. Мікрофон увімкнеться одразу.` },
+        onclick: () => { qs = pickQuestions(); idx = 0; results = []; ask(); } }),
       txGroup('Фрази для початку · торкніться, щоб почути',
         h('div.chips', cheat.map(g => h('button.chip.fl-gchip', { type: 'button', lang: 'en', onclick: () => speak(g.en.replace(/…/g, '')) }, ic('speaker-high', { size: 16 }), g.en)))),
       tx({ icon: 'quotes', wide: true, label: 'Усі фрази з перекладом', sub: `${GAMBITS.length} фраз за групами`, href: '#/fluency/gambits' }));
