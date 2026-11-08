@@ -15,7 +15,7 @@ import { toast } from '../ui/toast.js';
 import { setTitle } from '../ui/shell.js';
 import { go } from '../router.js';
 import { myLevel, pickOfDay } from '../level.js';
-import { tx, txPrimary, txGroup, txRow, txRows, txKpis, txPill } from '../ui/tiles.js';
+import { tx, txPrimary, txGroup, txRow, txRows, txKpis, txPill, txLogin } from '../ui/tiles.js';
 
 const DRAFT_KEY = 'me:diary:draft';
 /** Орієнтовна довжина запису (слів) — так само в _shared/prompts.ts (DIARY_WORDS) */
@@ -86,13 +86,14 @@ function editor(view) {
   const qBtns = h('div.row', { style: { gap: '8px', flexWrap: 'wrap' } },
     h('button.btn.sm.ghost', { type: 'button', onclick: () => speak(question()) }, ic('speaker-high', { size: 16 }), 'Прослухати'),
     h('button.btn.sm.ghost', { type: 'button', onclick: () => { shift = (shift + 1) % list.length; qText.textContent = question(); } }, ic('arrow-clockwise', { size: 16 }), 'Інше питання'));
-  const ta = h('textarea.input', { rows: 9, placeholder: 'Today I…', 'aria-label': 'Ваш запис англійською', value: saved, spellcheck: 'true', lang: 'en', maxlength: 6000 });
+  const ta = h('textarea.input', { rows: 7, placeholder: 'Today I…', 'aria-label': 'Ваш запис англійською', value: saved, spellcheck: 'true', lang: 'en', maxlength: 6000 });
   const info = h('span.xs.dim.grow');
   const clock = h('span.xs.dim.num', { 'aria-hidden': 'true' });
   const status = h('div.small.dim', { role: 'status', 'aria-live': 'polite' });
   const upd = () => {
     const n = wordCount(ta.value);
-    info.textContent = `${n} ${plural(n, 'слово', 'слова', 'слів')} · для ${lvl} — приблизно ${lo}–${hi}`;
+    info.textContent = `${n} з ${lo}–${hi} слів`;
+    info.title = `Для ${lvl} — приблизно ${lo}–${hi} слів`;
     try { localStorage.setItem(DRAFT_KEY, ta.value); } catch { /* */ }
   };
   ta.addEventListener('input', upd); upd();
@@ -101,7 +102,7 @@ function editor(view) {
 
   // ---- диктування: Web Speech API фразами, поки не зупините; інакше — запис і транскрипція на сервері ----
   let rec = null;   // { stop(), done }
-  const micBtn = h('button.btn.soft', { type: 'button', 'aria-pressed': 'false', onclick: () => (rec ? rec.stop() : dictate()) }, ic('microphone'), 'Надиктувати');
+  const micBtn = h('button.btn.sm.soft', { type: 'button', 'aria-pressed': 'false', onclick: () => (rec ? rec.stop() : dictate()) }, ic('microphone'), 'Надиктувати');
   const setMic = (on) => {
     micBtn.setAttribute('aria-pressed', String(on));
     micBtn.replaceChildren(ic(on ? 'stop-circle' : 'microphone'), on ? 'Зупинити' : 'Надиктувати');
@@ -185,16 +186,14 @@ function editor(view) {
   const today = entries().filter(c => dayKey(new Date(c.created_at)) === dayKey());
   view.replaceChildren(h('div.stack-lg',
     today.length ? txRow({ icon: 'check-circle', on: true, label: 'Сьогоднішній запис уже є', sub: 'Відкрити розбір — або напишіть ще один нижче', href: `#/diary/${encodeURIComponent(today[0].id)}` }) : '',
-    txGroup(`Питання дня · рівень ${lvl}`, [
-      h('section.gx-card.stack.dy-q', qText, qBtns),
-      h('p.xs.dim.dy-note', '2–3 хвилини про ваш день — голосом або текстом.')]),
+    txGroup(`Питання дня · рівень ${lvl}`, h('section.gx-card.stack.dy-q', qText, qBtns)),
     h('section.stack', { style: { gap: '8px' } },
       ta,
-      h('div.row', info, h('span.xs.dim', 'час'), clock),
-      h('div.row', { style: { gap: '8px', flexWrap: 'wrap' } }, micBtn),
+      h('div.row', { style: { gap: '8px', flexWrap: 'wrap' } }, micBtn, info, h('span.sr-only', 'Час запису'), clock),
       status),
-    checkBtn,
-    user() ? saveBtn : h('div.stack', { style: { gap: '8px' } }, h('div.xs.dim.center', 'Перевірка вчителем працює після входу. Запис можна зберегти й перевірити пізніше.'), saveBtn),
+    // без входу — одна плитка «Увійти» замість перевірки; зберегти можна й так
+    user() ? checkBtn : txLogin('Перевірка вчителем — після входу', 'Запис можна зберегти й перевірити пізніше'),
+    saveBtn,
     historyBox()));
   return () => { clearInterval(tick); rec?.stop(); abort?.abort(); timer.stop(); };
 }
@@ -216,14 +215,16 @@ function applyMistakes(row) {
 // ---------- Історія ----------
 function historyBox() {
   const box = h('section.tx-group');
+  let open = false;
   const draw = () => {
     const list = entries();
-    if (!list.length) { box.replaceChildren(h('h2.tx-label', 'Мої записи'), h('div.small.dim.dy-note', 'Тут з\'являтимуться ваші записи з розбором.')); return; }
+    box.hidden = !list.length;   // порожня історія — без групи й пояснення
+    if (!list.length) { box.replaceChildren(); return; }
     const weekAgo = Date.now() - 7 * 864e5;
     const week = list.filter(c => Date.parse(c.created_at) >= weekAgo).length;
     box.replaceChildren(
       h('div.tx-label-row', h('h2.tx-label', `Мої записи · ${list.length}`), h('span.xs.dim', `за 7 днів: ${week}`)),
-      txRows(list.slice(0, 60).map(c => {
+      txRows([...list.slice(0, open ? 60 : 6).map(c => {
         const s = c.summary || {};
         const text = s.entry || c.messages?.[0]?.text || '';
         const n = (s.mistakes || []).length;
@@ -236,7 +237,7 @@ function historyBox() {
               h('span.tx-s.dy-peek', text.slice(0, 120)),
               h('span.tx-s', `${state} · ${fmtMin(c.seconds || 0)}`))),
           h('button.icon-btn', { type: 'button', 'aria-label': `Видалити запис за ${fmtDate(c.created_at)}`, onclick: async () => { if (await removeEntry(c.id)) draw(); } }, ic('trash', { size: 20 })));
-      })));
+      }), !open && list.length > 6 ? txRow({ icon: 'caret-down', label: `Показати всі · ${list.length}`, chevron: false, cls: 'tx-showall', onclick: () => { open = true; draw(); } }) : null]));
   };
   draw();
   return box;
