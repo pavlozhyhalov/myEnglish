@@ -7,7 +7,7 @@ import { user, getSupa } from '../supa.js';
 import { toast } from '../ui/toast.js';
 import { confirmSheet } from '../ui/sheet.js';
 import { streak, dayKey } from '../stats.js';
-import { tx, txGrid, txGroup, txRow, txLogin } from '../ui/tiles.js';
+import { tx, txPrimary, txGroup, txRow, txLogin } from '../ui/tiles.js';
 
 const days = (n) => `${n} ${plural(n, 'день', 'дні', 'днів')}`;
 const mins = (sec) => `${Math.round((sec || 0) / 60)}\u00a0хв`;
@@ -54,9 +54,8 @@ export default function friends(view, r) {
   const u = user();
   if (!u) {
     view.replaceChildren(h('div.stack-lg',
-      txLogin('Друзі й спільний стрік — після входу', 'Або створіть акаунт — вхід і реєстрація на одній сторінці'),
-      tx({ icon: 'users', wide: true, cls: 'fr-head', label: 'Як це працює',
-        sub: 'Ви отримаєте код запрошення, поділитеся ним — і бачитимете стрік та хвилини одне одного. Більше друзі нічого не бачать.' })));
+      txLogin('Друзі й спільний стрік — після входу', 'Вхід і реєстрація — на одній сторінці'),
+      tx({ icon: 'users', wide: true, cls: 'fr-head', label: 'Як це працює', sub: 'Обміняйтеся кодами — і бачитимете стрік і хвилини одне одного' })));
     return;
   }
 
@@ -71,6 +70,7 @@ export default function friends(view, r) {
   const addBtn = h('button.btn.primary', { type: 'button', onclick: () => add() }, ic('user-plus', { size: 18 }), 'Додати');
   const list = h('div.tx-rows.fr-list', h('div.tx-row', h('span.tx-s.fr-msg', 'Завантаження…')));
   let myCode = '';
+  let allFriends = false;
 
   const shareUrl = () => `${location.origin}${location.pathname}#/friends?code=${myCode}`;
   const shareText = () => `Займаймося англійською разом у myEnglish! Мій код друга: ${fmtCode(myCode)}`;
@@ -165,10 +165,13 @@ export default function friends(view, r) {
         h('div.friend-streak', { style: ST.streak, 'aria-label': `Ваш стрік: ${days(mine.streak)}` }, emo('fire'), h('span.num', String(mine.streak))),
         h('span', { 'aria-hidden': 'true', style: { width: '40px', flex: '0 0 40px' } }));
       if (!rows?.length) {
-        list.replaceChildren(meRow, h('div.tx-row', h('span.tx-s.fr-msg', 'Поки що друзів немає. Поділіться своїм кодом або введіть код друга.')));
+        list.replaceChildren(meRow, h('div.tx-row', h('span.tx-s.fr-msg', 'Поки що друзів немає')));
         return;
       }
-      list.replaceChildren(meRow, ...rows.map(f => friendRow(f, mine)));
+      // до 6 друзів, решта — «Показати всі» (найактивніші першими — порядок з сервера)
+      const shown = allFriends ? rows : rows.slice(0, 6);
+      list.replaceChildren(meRow, ...shown.map(f => friendRow(f, mine)),
+        shown.length < rows.length ? txRow({ icon: 'caret-down', label: `Показати всі · ${rows.length}`, chevron: false, cls: 'tx-showall', onclick: () => { allFriends = true; loadList(); } }) : '');
     } catch (e) {
       console.warn('friends_stats', e);
       if (alive) list.replaceChildren(txRow({ icon: 'warning-circle', label: navigator.onLine ? 'Не вдалося завантажити друзів' : 'Немає мережі',
@@ -176,23 +179,26 @@ export default function friends(view, r) {
     }
   }
 
+  // головне — запросити (код + «Поділитися»); далі друзі й додавання за кодом; ім'я для друзів — згорнуте
+  const nameBox = h('section.card.stack.pp-panel.fr-name', { id: 'fr-name', hidden: true, style: { gap: '8px' } },
+    h('div.field', h('label', 'Ім\'я, яке бачать друзі'), nameInp,
+      h('div.xs.dim', 'Порожнє — ім\'я з «Профілю» або «Учень». Друзі бачать лише ім\'я, стрік і хвилини.')));
+  const nameRow = txRow({ icon: 'user', label: 'Ім\'я для друзів', sub: 'Пошту й навчання друзі не бачать', chevron: false, cls: 'fr-name-row',
+    end: ic('caret-down', { size: 16 }), attrs: { 'aria-expanded': 'false', 'aria-controls': 'fr-name' },
+    onclick: () => { nameBox.hidden = !nameBox.hidden; nameRow.setAttribute('aria-expanded', String(!nameBox.hidden)); if (!nameBox.hidden) nameInp.focus(); } });
+
   view.replaceChildren(h('div.stack-lg',
     txGroup('Мій код друга', [
       h('div.tx.wide.fr-code', h('span.tx-sq', ic('user-plus', { size: 20 })),
-        h('span.tx-body', codeBox, h('span.tx-s', 'Поділіться кодом — друг введе його у себе'))),
-      txGrid([
-        tx({ icon: 'copy', label: 'Копіювати', sub: 'Код у буфер обміну', onclick: copy }),
-        tx({ icon: 'share-network', label: 'Поділитися', sub: 'Запрошення з посиланням', onclick: share })], 2)]),
-
-    txGroup('Ім\'я для друзів', h('section.card.stack.pp-panel', { style: { gap: '8px' } },
-      h('div.field', h('label', 'Ім\'я, яке бачать друзі'), nameInp,
-        h('div.xs.dim', 'Якщо порожнє — ім\'я з «Профілю», а без нього — «Учень». Вашу пошту друзі не бачать.')))),
-
-    txGroup('Додати друга', h('div.row', { style: { gap: '8px' } }, h('div.grow', codeInp), addBtn)),
+        h('span.tx-body', codeBox, h('span.tx-s', 'Друг введе його у себе')),
+        h('button.icon-btn', { type: 'button', 'aria-label': 'Копіювати код', onclick: copy }, ic('copy', { size: 20 }))),
+      txPrimary({ icon: 'share-network', label: 'Запросити друга', sub: 'Посилання з вашим кодом', onclick: share })]),
 
     txGroup('Друзі', list),
 
-    h('p.xs.dim.pp-note', 'Друзі бачать лише ваше ім\'я для друзів, стрік і хвилини занять (сьогодні й цього тижня). Картки, помилки, розмови й профіль — лише ваші.')));
+    txGroup('Додати друга', h('div.row', { style: { gap: '8px' } }, h('div.grow', codeInp), addBtn)),
+
+    h('div.stack', nameRow, nameBox)));
 
   store.queueSync(0);   // свіжі хвилини — на сервер, щоб друзі бачили актуальне
   loadMe().then(loadList);

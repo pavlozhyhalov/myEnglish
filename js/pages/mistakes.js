@@ -215,7 +215,7 @@ async function drill(box, onExit, timer, opts = {}) {
       if (e?.name === 'AbortError' || !box.isConnected) return;
       note = `${aiErrorText(e) || 'AI недоступний.'} Ось вправи з самих помилок.`;
     } finally { drillAbort = null; }
-  } else note = user() ? 'Немає мережі — вправи з самих помилок.' : 'Без входу — вправи з самих помилок. Після входу вчитель складе нові речення на ці правила.';
+  } else note = user() ? 'Немає мережі — вправи з самих помилок.' : 'Без входу — вправи з самих помилок.';
   if (!box.isConnected) return;
   if (!exercises) exercises = localDrill(list);
   const exBox = h('div');
@@ -243,8 +243,7 @@ async function drill(box, onExit, timer, opts = {}) {
             { value: better, unit: `/${size}`, label: 'зараховано', tone: better === size ? 'good' : better ? '' : 'warn', ariaLabel: `Зараховано: ${better} з ${size} ${plural(size, 'помилки', 'помилок', 'помилок')}` },
             { value: fixed, label: 'виправлено остаточно', tone: fixed ? 'good' : '' },
           ], 2),
-          h('p.mk-note.tx-s', fixed ? `Виправлено остаточно: ${fixed} (3 правильні підходи поспіль).` : 'Помилка вважається виправленою після 3 правильних підходів поспіль.',
-            opts.due ? ' ' + nextNote(size, better) : '')]),
+          opts.due ? h('p.mk-note.tx-s', nextNote(size, better)) : null]),
         opts.focus ? focusResult() : null,
         opts.due
           ? h('div.stack', txPrimary({ icon: 'arrow-right', label: 'Далі за планом', sub: 'наступний крок «Мого дня»', href: '#/today' }),
@@ -303,8 +302,8 @@ function selfCheck(box, items, onExit) {
 // ---------- Правила за розкладом ----------
 /** Коли правило повернеться: помилка з правильною відповіддю — за 3–7 днів, з неправильною — завтра */
 function nextNote(total, ok) {
-  if (ok === total) return 'Ці правила повернуться на повтор через кілька днів — так вони закріпляться надовго.';
-  if (!ok) return 'Ці правила повернуться вже завтра — повторення через день найкраще закріплює.';
+  if (ok === total) return 'Ці правила повернуться на повтор через кілька днів.';
+  if (!ok) return 'Ці правила повернуться вже завтра.';
   return 'Правила з помилками повернуться завтра, решта — через кілька днів.';
 }
 const fmtWhen = (t) => {
