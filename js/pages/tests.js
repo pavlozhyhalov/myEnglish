@@ -7,14 +7,14 @@ import { render as renderExercise, answerText } from '../ui/exercises.js';
 import { speak, stop as stopSpeech } from '../speech.js';
 import { activityTimer, addMistake, dayKey, applyLessonTest, lessonNeedsReview, lessonsToReview } from '../stats.js';
 import * as srs from '../srs.js';
-import { setLevel, LEVEL_NAME, LEVEL_DESC, LEVELS } from '../level.js';
+import { setLevel, LEVEL_NAME, LEVEL_DESC, LEVELS, nextLessonByLevel } from '../level.js';
 import * as CAT from '../placement.js';
 import { onLeave } from '../router.js';
 import { tutor, aiErrorText } from '../ai.js';
 import { user } from '../supa.js';
 import { setTitle, setFocus } from '../ui/shell.js';
 import { tx, txPrimary, txGrid, txGroup, txKpis, txRow, txRows, txPill } from '../ui/tiles.js';
-import { levelSection } from './grammar.js';
+import { levelSection, moreRows, nearRows } from './grammar.js';
 
 // Щоб тести не повторювались: що бачили в останніх спробах (зберігається в історії тестів і синхронізується)
 const exKey = (ex) => String(ex.id || ex.prompt || ex.sentence || ex.uk || ex.answer || '').toLowerCase().replace(/\s+/g, ' ').slice(0, 120);
@@ -50,24 +50,17 @@ async function overview(view) {
   // три тести — плитки; головна (синя) дія — тест рівня, якщо він на паузі чи давно не проходився, інакше тижневий
   const plPill = inRun ? txPill('на паузі', 'accent') : plDue ? txPill(lastPl ? 'час повторити' : 'не пройдено', 'warn') : txPill(lastPl.scores.overall, 'good');
   const T = {
-    placement: { icon: 'target', label: inRun ? 'Продовжити тест рівня' : 'Визначення рівня', sub: inRun ? 'Тест не завершено — можна продовжити' : 'Адаптивний: 4 частини, письмо й розмова · ~25 хв', href: '#/tests/placement', pill: plPill },
-    lesson: { icon: 'exam', label: 'Тест за уроком', sub: 'До 15 питань з уроку і його теми', href: '#/tests/lesson' },
-    weekly: { icon: 'calendar-blank', label: 'Тижневий тест', sub: 'Картки й граматика за останні 7 днів', href: '#/tests/weekly' },
+    placement: { icon: 'target', label: inRun ? 'Продовжити тест рівня' : 'Визначення рівня', sub: inRun ? 'Тест не завершено' : 'Адаптивний · ~25 хв', href: '#/tests/placement', pill: plPill },
+    lesson: { icon: 'exam', label: 'Тест за уроком', sub: 'До 15 питань', href: '#/tests/lesson' },
+    weekly: { icon: 'calendar-blank', label: 'Тижневий тест', sub: 'Слова й граматика за 7 днів', href: '#/tests/weekly' },
   };
   const main = inRun || plDue ? 'placement' : 'weekly';
   const others = Object.keys(T).filter(k => k !== main);
-  const lt = lessonTestStats();
-  const lastScores = [...lt.values()].map(x => x.last);
-  const avg = lastScores.length ? Math.round(lastScores.reduce((a, b) => a + b, 0) / lastScores.length) : null;
   view.replaceChildren(h('div.stack-lg.gx',
     txPrimary({ icon: T[main].icon, label: T[main].label, sub: T[main].sub, href: T[main].href, end: main === 'placement' && !inRun ? T[main].pill : undefined }),
     txGrid(others.map(k => tx({ icon: T[k].icon, label: T[k].label, sub: T[k].sub, href: T[k].href, extra: T[k].pill || null })), 2),
-    txGroup('Показники', txKpis([
-      { value: lastPl ? lastPl.scores.overall : '—', label: 'рівень за тестом', tone: lastPl ? 'accent' : null },
-      { value: lt.size, label: 'уроків з тестом' },
-      { value: avg != null ? avg : '—', unit: avg != null ? '%' : '', label: 'середній бал', tone: avg != null ? scoreCls(avg) : null },
-    ])),
-    txGroup('Результати', hist.length ? txRows(hist.slice(0, 30).map(t => {
+    // останні 6 результатів на виду, решта (до 30) — «Показати всі»
+    txGroup('Результати', hist.length ? moreRows(hist.slice(0, 30).map(t => {
       const lessonRow = t.type === 'lesson' && t.ref;
       const sub = [new Date(t.created_at).toLocaleDateString('uk-UA'),
         t.type === 'placement' ? Object.entries(t.scores).filter(([k]) => SKILL_UK[k]).map(([k, v]) => `${SKILL_UK[k] || k}: ${v}`).join(', ') : '',
@@ -110,8 +103,7 @@ function runner(view, { title, total, next, onFinish }) {
 function resultList(results, { auto = false } = {}) {
   const wrong = results.filter(r => !r.ok);
   return wrong.length ? h('section.tx-group', h('h2.tx-label', `Розбір помилок (${wrong.length})`),
-    auto ? h('p.xs.dim', { style: { margin: '0 4px' } }, 'Ці помилки враховано в навчанні — див. «Що змінилось» вище.') : null,
-    wrong.map(r => {
+    moreRows(wrong.map(r => {
       const btn = auto ? null : h('button.btn.sm.soft', { type: 'button', onclick: () => {
         addMistake({ wrong: r.given || '—', right: answerText(r.ex), type: r.ex.mistakeType || 'other', explanation_uk: r.ex.explanation || '', source: 'test' });
         btn.disabled = true; btn.textContent = 'Додано';
@@ -120,7 +112,7 @@ function resultList(results, { auto = false } = {}) {
         h('div.small', r.ex.prompt || r.ex.uk || r.ex.sentence || ''),
         h('div.small', h('span.bad', r.given || '—'), ' → ', h('b.good', answerText(r.ex))),
         r.ex.explanation ? h('div.xs.dim', r.ex.explanation) : null, btn ? h('div', btn) : null);
-    })) : tx({ wide: true, tone: 'good', icon: 'check-circle', label: 'Без жодної помилки!' });
+    }))) : tx({ wide: true, tone: 'good', icon: 'check-circle', label: 'Без жодної помилки!' });
 }
 /** Помилки тесту — у «Мої помилки» */
 function saveTestMistakes(results, prefix = '') {
@@ -244,25 +236,20 @@ async function placementTest(view) {
     const done = run ? answered() : 0;
     view.replaceChildren(h('div.stack-lg.gx.pl-intro',
       introHead({ icon: 'target', eyebrow: 'Адаптивний тест', title: 'Визначимо ваш рівень',
-        text: 'Як у міжнародних іспитах: кожне наступне питання підбирається за вашими відповідями, тому рівень визначається точно, а не «приблизно».' }),
-      txKpis([
-        { value: skills.length, label: `${plural(skills.length, 'частина', 'частини', 'частин')} з вибором` },
-        { value: '~25', unit: 'хв', label: 'разом', ariaLabel: 'Разом приблизно 25 хвилин' },
-        { value: '8–20', label: 'питань у частині' },
-      ]),
+        text: 'Близько 25 хвилин. Можна зупинитися й продовжити пізніше.' }),
+      run ? txPrimary({ icon: 'play', label: 'Продовжити тест', sub: `Пройдено ${done} ${plural(done, 'питання', 'питання', 'питань')}`, onclick: resume })
+        : txPrimary({ icon: 'play', label: 'Почати', sub: `${parts.length} ${plural(parts.length, 'частина', 'частини', 'частин')}, письмо й розмова`, onclick: start }),
       txGroup('Як влаштовано', txRows([
         h('div.tx-row.gx-static', h('span.tx-no', '1'), h('span.tx-body', h('span.tx-l', `${skills.length} ${plural(skills.length, 'частина', 'частини', 'частин')} з вибором відповіді`),
-          h('span.tx-s', `${parts.join(', ')}. Коли рівень зрозумілий, частина завершується сама.`))),
-        h('div.tx-row.gx-static', h('span.tx-no', '2'), h('span.tx-body', h('span.tx-l', 'Письмо'), h('span.tx-s', 'Короткий текст на 8–12 хвилин (після входу).'))),
-        h('div.tx-row.gx-static', h('span.tx-no', '3'), h('span.tx-body', h('span.tx-l', 'Розмова'), h('span.tx-s', '3 хвилини голосом із вчителем (після входу, якщо є мікрофон).'))),
+          h('span.tx-s', `${parts.join(', ')} · 8–20 питань`))),
+        h('div.tx-row.gx-static', h('span.tx-no', '2'), h('span.tx-body', h('span.tx-l', 'Письмо'), h('span.tx-s', '8–12 хвилин, після входу'))),
+        h('div.tx-row.gx-static', h('span.tx-no', '3'), h('span.tx-body', h('span.tx-l', 'Розмова'), h('span.tx-s', '3 хвилини голосом, після входу'))),
       ])),
-      noteTile('lightbulb', 'Не вгадуйте навмання: якщо не знаєте відповіді, натисніть «Не знаю». Випадкові вгадування лише збивають оцінку.'),
-      run ? txPrimary({ icon: 'play', label: 'Продовжити тест', sub: `Пройдено ${done} ${plural(done, 'питання', 'питання', 'питань')}`, onclick: resume })
-        : txPrimary({ icon: 'play', label: 'Почати', sub: 'Можна зупинитися й продовжити пізніше з того самого місця', onclick: start }),
-      run ? txGrid([
-        tx({ icon: 'arrow-clockwise', label: 'Почати заново', onclick: () => { clearRun(); run = null; start(); } }),
-        tx({ icon: 'arrow-left', label: 'До тестів', href: '#/tests' }),
-      ], 2) : tx({ wide: true, icon: 'arrow-left', label: 'До тестів', href: '#/tests' })));
+      noteTile('lightbulb', 'Не знаєте — натисніть «Не знаю», не вгадуйте'),
+      txRows([
+        run ? txRow({ icon: 'arrow-clockwise', label: 'Почати заново', onclick: () => { clearRun(); run = null; start(); } }) : null,
+        txRow({ icon: 'arrow-left', label: 'До тестів', href: '#/tests' }),
+      ])));
   }
 
   function start() {
@@ -555,19 +542,17 @@ async function placementTest(view) {
         txKpis([
           { value: o.display, label: 'загальний рівень', tone: 'accent' },
           { value: okN, unit: `/${items.length}`, label: 'правильних відповідей', ariaLabel: `${okN} з ${items.length} правильних відповідей` },
-          { value: skillRows.filter(Boolean).length, label: plural(skillRows.filter(Boolean).length, 'навичка', 'навички', 'навичок') + ' оцінено' },
-        ]),
+        ], 2),
         LEVEL_DESC[o.level] ? h('p.small.dim', { style: { margin: '0 4px' } }, LEVEL_DESC[o.level]) : null),
+      txPrimary({ icon: 'house', label: 'На головну', sub: `План дня вже під рівень ${o.level}`, href: '#/' }),
       txGroup('За навичками', [txRows(skillRows),
         skipped.length ? h('p.xs.dim', { style: { margin: '0 4px' } }, `Не враховано: ${skipped.join(', ')}.`) : null]),
       wr?.level || wr?.comment_uk ? txGroup('Письмо: відгук', h('div.gx-card.stack', { style: { gap: '8px' } },
         wr.comment_uk ? h('p.small', { style: { margin: 0 } }, wr.comment_uk) : null,
         wr.strengths_uk?.length ? h('div.stack', { style: { gap: '4px' } }, h('div.xs.dim', 'Що вдалося'), h('ul.small.pl-list', wr.strengths_uk.map(t => h('li', t)))) : null,
         wr.improve_uk?.length ? h('div.stack', { style: { gap: '4px' } }, h('div.xs.dim', 'Що покращити'), h('ul.small.pl-list', wr.improve_uk.map(t => h('li', t)))) : null)) : null,
-      noteTile('info', `Під рівень ${o.level} підлаштовано урок дня, нові слова, диктанти, сценарії й вчителя. Змінити можна в «Налаштуваннях».`),
       resultList(results),
-      h('p.xs.dim', { style: { margin: '0 4px' } }, 'Пройти тест ще раз варто не раніше ніж через 2 тижні — тоді буде видно реальний прогрес. Питання щоразу нові.'),
-      txPrimary({ icon: 'house', label: 'На головну', sub: 'План дня вже під новий рівень', href: '#/' })));
+      h('p.xs.dim', { style: { margin: '0 4px' } }, 'Наступний тест — не раніше ніж за 2 тижні. Рівень змінюється в «Налаштуваннях».')));
   }
 }
 
@@ -576,8 +561,6 @@ async function pickLesson(view) {
   const idx = await grammarIndex();
   const st = lessonTestStats();
   const due = new Set(lessonsToReview().map(p => p.id));
-  const tested = [...st.values()];
-  const avg = tested.length ? Math.round(tested.reduce((a, b) => a + b.last, 0) / tested.length) : null;
   const row = (l) => {
     const t = st.get(l.id);
     const done = !!store.get('lessons_progress', l.id)?.completed_at;
@@ -587,20 +570,17 @@ async function pickLesson(view) {
       end: t ? h('span.tx-pill.' + scoreCls(t.last), { 'aria-label': `Останній результат тесту ${t.last}%` }, `${t.last}%`) : null,
     });
   };
-  const passed = tested.filter(x => x.last >= 80).length;
+  // головна дія — тест уроку, що на повторенні, інакше — уроку дня
+  const target = idx.find(l => due.has(l.id)) || nextLessonByLevel(idx);
   view.replaceChildren(h('div.stack-lg.gx', h('div.gx-lhead', h('a.icon-btn', { href: '#/tests', 'aria-label': 'Назад' }, ic('arrow-left')), h('h1.gx-lh1.grow', 'Оберіть урок')),
-    tested.length ? txKpis([
-      { value: tested.length, label: 'уроків з тестом' },
-      { value: avg, unit: '%', label: 'середній бал', tone: scoreCls(avg) },
-      { value: passed, label: 'зараховано', tone: passed ? 'good' : null },
-    ]) : null,
-    h('p.xs.dim', { style: { margin: '0 4px' } }, tested.length ? '80% і більше — урок зараховано; менше 60% — урок повертається на повторення.' : 'Результат тесту враховується в навчанні: 80% і більше — урок зараховано, менше 60% — урок повертається на повторення, помилки — у «Мої помилки».'),
-    // за рівнями, як у «Граматиці»: свій рівень розгорнутий, решта згорнуті; номер — порядок курсу
+    target ? txPrimary({ icon: 'exam', label: `Тест: ${target.title}`, sub: due.has(target.id) ? 'Урок на повторенні' : 'Урок дня · від 80% — зараховано', href: `#/tests/lesson/${target.id}` }) : null,
+    // за рівнями, як у «Граматиці»: свій рівень розгорнутий, решта згорнуті; номер — порядок курсу; на виду — 6 найближчих
     h('div.gx-levels', LEVELS.map(lv => {
-      const items = idx.filter(l => l.level === lv);
+      const items = idx.filter(l => l.level === lv).sort((a, b) => a.n - b.n);
       if (!items.length) return null;
       const t = items.filter(l => st.has(l.id)).length;
-      return levelSection(lv, { done: t, total: items.length, countLabel: `Протестовано ${t} з ${items.length}`, rows: items.map(row) });
+      const shown = nearRows(items, l => due.has(l.id), l => !!store.get('lessons_progress', l.id)?.completed_at || st.has(l.id));
+      return levelSection(lv, { done: t, total: items.length, countLabel: `Протестовано ${t} з ${items.length}`, rows: items.map(row), shown });
     }))));
 }
 
@@ -664,9 +644,10 @@ async function lessonTest(view, id) {
             : 'Майже: для зарахування уроку потрібно 80%. Повторіть правило й пройдіть тест ще раз.',
           wrongN ? `${wrongN} ${plural(wrongN, 'помилку', 'помилки', 'помилок')} додано в «Мої помилки» — для практики за розкладом.` : null,
         ]),
+        score >= 80 ? txPrimary({ icon: 'exam', label: 'До тестів', href: '#/tests' })
+          : txPrimary({ icon: 'puzzle-piece', label: 'До уроку', sub: 'Повторити правило й вправи', href: `#/grammar/${id}` }),
         resultList(results, { auto: true }),
-        tx({ wide: true, icon: 'puzzle-piece', label: 'До уроку', sub: 'Повторити правило й вправи', href: `#/grammar/${id}` }),
-        txPrimary({ icon: 'exam', label: 'До тестів', href: '#/tests' })));
+        txRows([score >= 80 ? txRow({ icon: 'puzzle-piece', label: 'До уроку', href: `#/grammar/${id}` }) : txRow({ icon: 'exam', label: 'До тестів', href: '#/tests' })])));
     },
   });
 }
@@ -727,7 +708,8 @@ async function weeklyTest(view) {
           gram ? `${gram} ${plural(gram, 'помилку', 'помилки', 'помилок')} з граматики додано в «Мої помилки».` : null,
           !relearned && !wrongLessons.size && !gram ? 'Усе на місці — розклад повторень без змін.' : null,
         ]),
-        resultList(results, { auto: true }), txPrimary({ icon: 'exam', label: 'До тестів', href: '#/tests' })));
+        txPrimary({ icon: 'exam', label: 'До тестів', href: '#/tests' }),
+        resultList(results, { auto: true })));
     },
   });
 }
