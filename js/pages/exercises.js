@@ -1,27 +1,23 @@
 // Вправи: #/exercises — усі категорії практики; #/exercises/grammar — граматичні вправи за темами
 import { h } from '../ui/dom.js';
 import { S, plural } from '../strings.js';
-import { byId, PRACTICE_IDS } from '../nav.js';
+import { MENU } from '../nav.js';
 import { grammarIndex, lesson as loadLesson } from '../data.js';
 import { runExercises, answerText } from '../ui/exercises.js';
 import { activityTimer, addMistake } from '../stats.js';
 import { setTitle } from '../ui/shell.js';
 import { go } from '../router.js';
 import { myLevel, LEVELS, levelChips, levelCounts, levelPick } from '../level.js';
-import { tx, txPrimary, txGrid, txGroup, txRow, txRows } from '../ui/tiles.js';
+import { tx, txPrimary, txGrid, txGroup, txRow } from '../ui/tiles.js';
+import { moreRows } from './grammar.js';
 
-const GROUP_UK = { learn: 'Вивчати', practice: 'Практикувати', check: 'Прогрес' };
-// короткі назви для плиток (як у боковому меню); повна назва — в aria-label
-const TILE_LABEL = { voice: 'Розмова голосом', scenarios: 'Сценарії', mistakes: 'Мої помилки' };
 
 export default async function exercises(view, r) {
   if (r.parts[0] === 'grammar') return grammarPractice(view, r.parts[1], r.query.lv);
   setTitle(S.nav.exercises);
-  // групи, як у боковому меню: плитки по 3 в ряд з іконкою в квадратику
-  const items = PRACTICE_IDS.map(id => byId[id]).filter(Boolean);
-  const groups = Object.keys(GROUP_UK).map(g => [g, items.filter(s => s.group === g)]).filter(([, list]) => list.length);
-  view.replaceChildren(h('div.stack-lg.gx', groups.map(([g, list]) =>
-    txGroup(GROUP_UK[g], txGrid(list.map(s => tx({ icon: s.icon, label: TILE_LABEL[s.id] || s.label, href: s.href, attrs: { 'aria-label': s.long } })))))));
+  // ті самі групи й плитки, що в боковому меню (розділи, об'єднані в одну плитку, — одна плитка); без «Статистики»
+  view.replaceChildren(h('div.stack-lg.gx', MENU.map(g => txGroup(g.label,
+    txGrid(g.items.filter(it => it.id !== 'stats').map(it => tx({ icon: it.icon, label: it.label, href: it.href })))))));
 }
 
 async function grammarPractice(view, unitSlug, lv) {
@@ -31,22 +27,20 @@ async function grammarPractice(view, unitSlug, lv) {
 
   if (!unitSlug) {
     // теми з уроками вибраного рівня (за замовчуванням — мого); вправи беруться лише з цих уроків
-    const listBox = h('div.stack-lg');
+    const primBox = h('div'), listBox = h('div.stack-lg');
     const draw = () => {
       const sel = levelPick('exgrammar');
       const lvSel = sel === 'mine' ? myLevel() : sel;
       const rows = units.map(u => ({ u, items: sel === 'all' ? u.items : u.items.filter(l => l.level === lvSel) })).filter(x => x.items.length);
+      primBox.replaceChildren(txPrimary({ icon: 'lightning', label: sel === 'all' ? 'Усі теми вперемішку' : `Вперемішку · рівень ${lvSel}`, sub: sel === 'all' ? '10 вправ з усіх тем' : '10 вправ з тем цього рівня', href: sel === 'all' ? '#/exercises/grammar/all' : `#/exercises/grammar/lvl?lv=${lvSel}` }));
       listBox.replaceChildren(
-        txPrimary({ icon: 'lightning', label: sel === 'all' ? 'Усі теми вперемішку' : `Вперемішку · рівень ${lvSel}`, sub: sel === 'all' ? '10 вправ з усіх тем' : '10 вправ з тем цього рівня', href: sel === 'all' ? '#/exercises/grammar/all' : `#/exercises/grammar/lvl?lv=${lvSel}` }),
-        rows.length ? txGroup('Теми', txRows(rows.map(({ u, items }, k) => txRow({
+        rows.length ? txGroup('Теми', moreRows(rows.map(({ u, items }, k) => txRow({
           no: k + 1, label: u.name, sub: items.map(l => l.title).join(', '), cls: 'gx-clamp',
           pill: { text: `${items.length} ${plural(items.length, 'урок', 'уроки', 'уроків')}` },
           href: `#/exercises/grammar/${u.slug}${sel === 'all' ? '' : `?lv=${lvSel}`}`,
         })))) : null);
     };
-    view.replaceChildren(h('div.stack-lg.gx',
-      h('p.small.dim', { style: { margin: '0 4px' } }, 'Оберіть тему — 10 змішаних вправ з її уроків. Правила — у меню «Вивчати → Граматика → Правила».'),
-      levelChips('exgrammar', levelCounts(idx), draw), listBox));
+    view.replaceChildren(h('div.stack-lg.gx', primBox, levelChips('exgrammar', levelCounts(idx), draw), listBox));
     draw();
     return;
   }
