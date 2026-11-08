@@ -1,6 +1,6 @@
 // Прогрес: стрік, час, графіки, слова, уроки, рівні, помилки
 import { h, ic, fmtMin, progress as bar } from '../ui/dom.js';
-import { tx, txPrimary, txKpis, txGroup, txRow, txRows, txLogin, txBar } from '../ui/tiles.js';
+import { tx, txPrimary, txKpis, txGroup, txRow, txRows, txLogin, txBar, txResult } from '../ui/tiles.js';
 import { S, plural } from '../strings.js';
 import * as store from '../store.js';
 import * as srs from '../srs.js';
@@ -52,15 +52,20 @@ export default async function progressPage(view) {
   const LV = ['A1', 'A2', 'B1', 'B2', 'C1'];
   const weakest = Object.keys(SKILLS).filter(k => LV.includes(skills[k])).sort((a, b) => LV.indexOf(skills[a]) - LV.indexOf(skills[b]))[0];
 
+  // ще не було жодного заняття — замість рядів нулів один спокійний порожній стан (2026-11-08)
+  const fresh = totalSeconds() === 0 && !store.count('reviews');
   view.replaceChildren(h('div.stack-lg.pg-page',
-    txKpis([
+    fresh ? h('div.stack.pg-fresh',
+      txResultFresh(),
+      txPrimary({ icon: 'play', label: 'Почати мій день', sub: 'слова → правила → розмова', href: '#/today' })) : null,
+    fresh ? null : txKpis([
       { value: st, label: `${plural(st, 'день', 'дні', 'днів')} поспіль`, tone: st ? 'accent' : '', ariaLabel: `Стрік: ${st} ${plural(st, 'день', 'дні', 'днів')} поспіль` },
       { value: fmtMin(weekSeconds()), label: 'за 7 днів' },
       { value: fmtMin(totalSeconds()), label: 'всього практики' },
     ]),
 
     // «Аналіз» і «Звіт» — вкладки над сторінкою (js/ui/subnav.js)
-    weeklyCard(),
+    fresh ? null : weeklyCard(),
 
     txGroup(`Рівень ${lvl} · ${LEVEL_NAME[lvl]}`, [
       card(
@@ -70,7 +75,7 @@ export default async function progressPage(view) {
       lp.ready ? txPrimary({ icon: 'rocket-launch', label: `Перейти на ${nextLevel()}`, sub: 'план і завдання оновляться', onclick: () => { const n = nextLevel(); setLevel(n, 'progress'); toast(`Рівень ${n}: план і завдання оновлено`); progressPage(view); } }) : null]),
 
     txGroup('Слова й граматика', [
-      txKpis([{ value: c.learned, label: 'слів вивчено', tone: c.learned ? 'good' : '' }, { value: c.total, label: 'у роботі' }, { value: c.due, label: 'до повтору зараз', tone: c.due ? 'warn' : '', href: c.due ? '#/cards/review' : null }]),
+      fresh ? null : txKpis([{ value: c.learned, label: 'слів вивчено', tone: c.learned ? 'good' : '' }, { value: c.total, label: 'у роботі' }, { value: c.due, label: 'до повтору зараз', tone: c.due ? 'warn' : '', href: c.due ? '#/cards/review' : null }]),
       tx({ wide: true, icon: 'puzzle-piece', label: 'Уроки граматики', sub: `пройдено ${done} з ${gIdx.length}`, href: '#/grammar', cls: 'pg-gram', extra: txBar(gIdx.length ? done / gIdx.length : 0) })]),
 
     txGroup('Детальніше', h('div.pg-folds',
@@ -101,6 +106,8 @@ export default async function progressPage(view) {
           pill: { text: `тиждень: ${d.w1} ${d.w1 < d.w2 ? '↓' : d.w1 > d.w2 ? '↑' : '='}`, tone: d.w1 < d.w2 ? 'good' : d.w1 > d.w2 ? 'bad' : '' } }))),
         ask('mistakes')) : null))));
 }
+
+const txResultFresh = () => txResult({ icon: 'chart-line-up', tone: 'accent', label: 'Прогрес', title: 'Тут з\'явиться ваш прогрес', sub: 'Хвилини, стрік, слова й рівень — після першого заняття' });
 
 /** Згорнута плитка-розділ: рядок з іконкою, підписом і стрілкою; вміст — під ним */
 export function fold(o, ...content) {
@@ -184,7 +191,7 @@ function weeklyCard() {
       h('div.bars', { style: { height: '80px' }, role: 'img', 'aria-label': `Хвилини по днях цього тижня: ${days.map((d, i) => `${d.name} ${Math.round(sec[i] / 60)}`).join(', ')}` },
         days.map((d, i) => h('i' + (sec[i] ? '' : '.zero'), { style: { height: `${Math.max(2, sec[i] / max * 100)}%`, opacity: d.future ? 0.35 : null }, title: `${d.name}: ${fmtMin(sec[i])}` }))),
       h('div.bars-labels', days.map((d, i) => h('span', { style: d.today ? { fontWeight: 700, color: 'var(--ink)' } : null }, sec[i] ? `${d.name} ${Math.round(sec[i] / 60)}` : d.name)))),
-    txKpis([
+    empty ? null : txKpis([
       { value: p.reviews, label: 'карток повторено' },
       { value: p.lessonsDone, label: plural(p.lessonsDone, 'урок пройдено', 'уроки пройдено', 'уроків пройдено') },
       { value: p.mistakesFixed, label: 'помилок виправлено', tone: p.mistakesFixed ? 'good' : '' }]),
@@ -194,7 +201,7 @@ function weeklyCard() {
   let busy = false;
   const drawAdvice = (state = '') => {
     const c = cached();
-    if (!user()) { advice.replaceChildren(txLogin('Порада на тиждень — після входу', 'Вчитель подивиться на ваш тиждень і помилки')); return; }
+    if (!user()) { advice.replaceChildren(empty ? '' : txLogin('Порада на тиждень — після входу', 'Вчитель подивиться на ваш тиждень і помилки')); return; }
     if (busy) { advice.replaceChildren(tx({ wide: true, icon: 'hourglass', label: 'Вчитель дивиться на ваш тиждень…', attrs: { role: 'status' } })); return; }
     if (!c) {
       advice.replaceChildren(tx({ icon: 'sparkle', label: 'Отримати пораду', sub: 'Що вийшло за 7 днів і на чому зосередитися', onclick: () => generate(), wide: true }),

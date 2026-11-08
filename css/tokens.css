@@ -19,13 +19,15 @@
 @font-face{font-family:"IPA";font-weight:400;font-display:swap;src:url(../fonts/noto-sans-latin-ext-400-normal.woff2) format("woff2");unicode-range:U+0250-02AF,U+02B0-02FF,U+1D00-1DBF}
 
 :root{
-  --font-head:"Unbounded",system-ui,sans-serif;
+  /* 2026-11-08 «преміальний вигляд»: Unbounded — лише логотип (--font-brand); цифри й заголовки — Onest 600 з табличними цифрами */
+  --font-brand:"Unbounded",system-ui,sans-serif;
+  --font-head:"Onest",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
   --font-body:"Onest",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
   --font-ipa:"Onest","IPA","Noto Sans","Segoe UI",sans-serif;
 
   --fs-xs:13px; --fs-sm:15px; --fs-md:17px; --fs-lg:20px; --fs-xl:24px; --fs-2xl:32px;
 
-  --radius:20px; --radius-btn:14px; --radius-pill:999px;
+  --radius:20px; --radius-btn:14px; --r-tile:18px; --r-row:16px; --radius-pill:999px;
   --dur:200ms; --ease:cubic-bezier(.2,.7,.2,1);
   --header-h:56px; --quickbar-h:68px;
   --safe-b:env(safe-area-inset-bottom,0px);
@@ -33,10 +35,14 @@
 
   /* День: темно-синій акцент на світлих нейтральних поверхнях */
   color-scheme:light;
-  --bg:#F4F6FB; --surface:#FFFFFF; --surface-2:#EDF1F8; --line:#E0E5EF;
-  --ink:#0B1530; --ink-dim:#586480;
+  --bg:#F3F5F9; --surface:#FFFFFF; --surface-2:#EDF0F6; --line:#E3E7EF;
+  --ink:#0B1530; --ink-dim:#5B6680;
   --accent:#1E3A8A; --accent-hover:#172E6E; --accent-ink:#1E3A8A; --accent-soft:#E5EBFA; --on-accent:#FFFFFF;
   --hero:#1E3A8A; --hero-edge:#1E3A8A; --hero-dim:#C7D3F5;
+  /* глибина: головна дія і синя картка — м'який градієнт того ж акценту */
+  --accent-grad:linear-gradient(135deg,#2A4DAE 0%,#1E3A8A 55%,#19317A 100%);
+  --hero-grad:radial-gradient(120% 90% at 100% 0%,rgba(120,150,255,.28) 0%,transparent 55%),linear-gradient(160deg,#24449E 0%,#1E3A8A 48%,#172D6E 100%);
+  --accent-glow:0 10px 24px -10px rgba(30,58,138,.55);
   --good:#137538; --warn:#A15C07; --bad:#B42318;
   --good-soft:#DCF3E4; --warn-soft:#FBF0D9; --bad-soft:#FBE3E0;
   --shadow-card:0 1px 2px rgba(11,21,48,.05),0 8px 24px rgba(11,21,48,.05);
@@ -50,13 +56,15 @@
   /* текст/значок на суцільному --good / --bad (у темній темі вони світлі — потрібен темний текст) */
   --on-good:#FFFFFF; --on-bad:#FFFFFF;
   /* плитки (стиль меню, 2026-11-05): фон плитки на сторінці і квадратик іконки */
-  --tile:#FFFFFF; --tile-sq:#EDF1F8; --tile-edge:#E3E8F1;
+  --tile:#FFFFFF; --tile-sq:#EEF1F7; --tile-edge:rgba(11,21,48,.055);
+  --tile-shadow:0 1px 2px rgba(11,21,48,.04),0 4px 14px -6px rgba(11,21,48,.08);
+  --tile-hi:none;
 }
 /* Ніч: акцент світліший, щоб кнопки не зливались із тлом; текст-акцент — блакитний */
 @media (prefers-color-scheme:dark){
   :root:not([data-theme="light"]){
     color-scheme:dark;
-    --bg:#080D1A; --surface:#111A2C; --surface-2:#18233A; --line:#243049;
+    --bg:#070B15; --surface:#111A2C; --surface-2:#18233A; --line:#243049;
     --ink:#E9EEF8; --ink-dim:#97A3BF;
     --accent:#3556C9; --accent-hover:#3F62DA; --accent-ink:#A3B8FF; --accent-soft:#1B2A55; --on-accent:#FFFFFF;
     --hero:#16275F; --hero-edge:#24397F; --hero-dim:#BCC8EE;
@@ -68,12 +76,16 @@
     --scrim:rgba(0,0,0,.6);
     --seg-on:#2B3B66; --track:#2A3652; --switch-off:#4A5A80;
     --line-strong:#34425F; --on-good:#0B1530; --on-bad:#1A0B08;
-    --tile:#18233A; --tile-sq:#111A2C; --tile-edge:transparent;
+    --tile:#131C2E; --tile-sq:#1C2740; --tile-edge:rgba(255,255,255,.06);
+    --tile-shadow:inset 0 1px 0 rgba(255,255,255,.035);
+    --accent-grad:linear-gradient(135deg,#3E62D6 0%,#3556C9 55%,#2B47AA 100%);
+    --hero-grad:radial-gradient(120% 90% at 100% 0%,rgba(110,140,255,.22) 0%,transparent 55%),linear-gradient(160deg,#1C3175 0%,#16275F 50%,#101D4A 100%);
+    --accent-glow:0 10px 26px -12px rgba(53,86,201,.7);
   }
 }
 :root[data-theme="dark"]{
   color-scheme:dark;
-  --bg:#080D1A; --surface:#111A2C; --surface-2:#18233A; --line:#243049;
+  --bg:#070B15; --surface:#111A2C; --surface-2:#18233A; --line:#243049;
   --ink:#E9EEF8; --ink-dim:#97A3BF;
   --accent:#3556C9; --accent-hover:#3F62DA; --accent-ink:#A3B8FF; --accent-soft:#1B2A55; --on-accent:#FFFFFF;
   --hero:#16275F; --hero-edge:#24397F; --hero-dim:#BCC8EE;
@@ -85,6 +97,10 @@
   --scrim:rgba(0,0,0,.6);
   --seg-on:#2B3B66; --track:#2A3652; --switch-off:#4A5A80;
   --line-strong:#34425F; --on-good:#0B1530; --on-bad:#1A0B08;
-  --tile:#18233A; --tile-sq:#111A2C; --tile-edge:transparent;
+  --tile:#131C2E; --tile-sq:#1C2740; --tile-edge:rgba(255,255,255,.06);
+  --tile-shadow:inset 0 1px 0 rgba(255,255,255,.035);
+  --accent-grad:linear-gradient(135deg,#3E62D6 0%,#3556C9 55%,#2B47AA 100%);
+  --hero-grad:radial-gradient(120% 90% at 100% 0%,rgba(110,140,255,.22) 0%,transparent 55%),linear-gradient(160deg,#1C3175 0%,#16275F 50%,#101D4A 100%);
+  --accent-glow:0 10px 26px -12px rgba(53,86,201,.7);
 }
 @media (prefers-reduced-motion:reduce){:root{--dur:0ms}}

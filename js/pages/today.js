@@ -83,7 +83,8 @@ function render(view, plan) {
           h('p.small.dim', leftMin ? `Залишилось ≈${leftMin} ${plural(leftMin, 'хвилина', 'хвилини', 'хвилин')}` : 'Майже готово')]));
 
   let n = 0;
-  const steps = h('ol.tx-rows.td-steps', plan.steps.map(s => {
+  // кроки, що потребують входу, не показуємо заблокованими — внизу один тихий рядок «Увійти» (2026-11-08)
+  const steps = h('ol.tx-rows.td-steps', plan.steps.filter(s => !s.skipped).map(s => {
     const state = s.skipped ? 'skipped' : s.done ? 'done' : s === plan.next ? 'next' : 'later';
     if (!s.skipped) n++;
     const min = `${s.id === 'voice' ? '5–7' : s.minutes} хв`;
@@ -112,7 +113,7 @@ function render(view, plan) {
       sub: lbl.startsWith('Почати') ? `Перший крок: ${plan.next.title}` : null, onclick: () => startNext(plan), cls: 'td-go' }));
   } else if (!plan.allDone) {
     // усі кроки, що лишились, потребують входу
-    blocks.push(txLogin('Увійдіть, щоб поговорити з вчителем', 'Розмова голосом і AI-вчитель працюють після входу в акаунт'));
+    blocks.push(txLogin('Увійдіть, щоб поговорити з вчителем', 'Розмова голосом — після входу'));
   }
   blocks.push(txGroup('Кроки', steps));
   if (plan.allDone) {
@@ -123,6 +124,7 @@ function render(view, plan) {
     ])));
   }
   blocks.push(txRow({ icon: 'list', label: 'Кероване заняття', sub: 'усі кроки на одному екрані', href: '#/session', cls: 'td-alt' }));
+  if (plan.next && plan.steps.some(s => s.skipped)) blocks.push(txRow({ icon: 'key', label: 'Розмова голосом — після входу', sub: 'Увійдіть, і вчитель додасть її в план', href: '#/auth', cls: 'td-alt' }));
 
   const wasDone = view.querySelector('.td-summary.is-done');
   view.replaceChildren(h('div.stack-lg.td', blocks));

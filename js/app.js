@@ -11,7 +11,7 @@ import { sectionFor, menuItemOf, tabsetOf } from './nav.js';
 import { initAuth, onAuth, onClient, recoveryPending, user as authUser } from './supa.js';
 import { initErrlog } from './errlog.js';
 import { streak, backfillLessonTests } from './stats.js';
-import { setTitle, applyTheme, isDark } from './ui/shell.js';
+import { setTitle, applyTheme } from './ui/shell.js';
 import { keepAwake } from './ui/wakelock.js';
 import { initSelectLookup } from './ui/selectlookup.js';
 import { initDailyBar } from './ui/dailybar.js';
@@ -26,20 +26,17 @@ addEventListener('keydown', (e) => {
 }, true);
 addEventListener('pointerdown', () => document.documentElement.classList.remove('kbd'), true);
 
-// ---------- Тема ----------
-function cycleTheme() {
-  // перемикач у шапці: світла ↔ темна (Авто — у налаштуваннях)
-  store.setSetting('theme', isDark() ? 'light' : 'dark');
-  applyTheme();
-}
+// Тема — лише в «Налаштуваннях» (2026-11-08: шапка без дублів)
 
 // ---------- Шапка ----------
 function header() {
   const streakBtn = h('a.streak-chip', { href: '#/progress' });
   const updateStreak = () => {
     const n = streak();
-    streakBtn.replaceChildren(emo('fire'), h('span.num', String(n)));
+    streakBtn.replaceChildren(ic('fire', { size: 20, fill: true }), h('span.num', String(n)));
     streakBtn.setAttribute('aria-label', S.streak(n));
+    // нульовий стрік не показуємо — шапка без «0»
+    streakBtn.hidden = n < 1;
   };
   updateStreak();
   store.on(t => { if (t === 'sessions') updateStreak(); if (t === 'synced') { try { backfillLessonTests(); } catch (e) { console.warn('tests backfill', e); } usedWordsLater(); } });
@@ -54,8 +51,7 @@ function header() {
   const el = h('header.app-header',
     h('button.icon-btn.btn-menu', { type: 'button', 'aria-label': S.menu, 'aria-controls': 'drawer', onclick: toggleDrawer }, ic('list')),
     h('div.title#page-title', S.app),
-    h('div.right', streakBtn,
-      h('button.icon-btn.btn-theme', { type: 'button', 'aria-label': S.themeToggle, onclick: cycleTheme }, ic('sun'))));
+    h('div.right', streakBtn));
   // посилання «Перейти до змісту» лишається першим у Tab-порядку
   const skip = document.querySelector('body > .sr-only');
   if (skip) skip.after(el); else document.body.prepend(el);

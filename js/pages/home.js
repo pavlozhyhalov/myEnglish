@@ -39,11 +39,11 @@ export default async function home(view) {
   buildPlan().then(fillHero).catch(e => { console.warn('plan', e); hero.replaceChildren(...heroFallback(sec, st)); });
 
   if (firstRun) {
-    blocks.push(txGroup('Почніть тут', [
+    blocks.push(h('section.tx-group',
+      h('div.tx-label-row', h('h2.tx-label', 'Почніть тут'),
+        h('button.tx-more.hm-skip', { type: 'button', onclick: () => { store.setProf({ placementDone: 'skipped' }); home(view); } }, 'Пропустити')),
       tx({ wide: true, icon: 'target', href: '#/tests/placement', label: 'Визначити мій рівень',
-        sub: 'Адаптивний тест ~25 хвилин: граматика, лексика, читання, аудіювання, письмо і коротка розмова. Можна зробити паузу. Після нього план дня підлаштується під вас.' }),
-      h('button.btn.ghost.sm.hm-skip', { type: 'button', onclick: () => { store.setProf({ placementDone: 'skipped' }); home(view); } }, 'Пропустити'),
-    ]));
+        sub: '≈ 25 хв · можна з паузою · план підлаштується під вас' })));
   }
 
   // ---- рівень: поточний → наступний, опанування, рівень у розмовах, швидка зміна ----
@@ -116,14 +116,19 @@ function heroContent(plan, sec, st) {
   const pct = Math.round(plan.progress * 100);
   const mins = Math.round(sec / 60);
   const n = streak();
+  // ще нічого не зроблено — показуємо мету дня, а не «0 хв» і «0%» (преміальний порожній стан, 2026-11-08)
+  const fresh0 = mins === 0 && pct === 0 && !plan.allDone;
   const top = h('div.row.hm-top',
     h('div.grow.stack', { style: { gap: '4px' } },
       h('a.label.hm-label', { href: '#/today' }, 'Мій день', ic('caret-right', { size: 14 })),
-      h('span.big', String(mins), h('small', ` хв сьогодні`)),
-      h('span.sub.hm-streak', ic('fire', { size: 14, fill: n > 0 }), n ? `${n} ${plural(n, 'день', 'дні', 'днів')} поспіль` : 'Стрік почнеться сьогодні', h('span.hm-goal', ` · мета ${st.dailyGoal} хв`))),
-    planRing(pct, { size: 72, stroke: 8, label: plan.allDone ? ic('check', { size: 26 }) : h('b.num.hm-pct', `${pct}%`), done: plan.allDone }));
-  // кроки — маленькі плитки в ряд (як у прототипі)
-  const steps = h('div.hm-steps', { style: { gridTemplateColumns: `repeat(${Math.max(1, plan.steps.length)},minmax(0,1fr))` } }, plan.steps.map(s => {
+      fresh0
+        ? h('span.big', String(Math.round(plan.totalMin) || st.dailyGoal), h('small', ' хв — план на сьогодні'))
+        : h('span.big', String(mins), h('small', ` з ${st.dailyGoal} хв`)),
+      h('span.sub.hm-streak', ic('fire', { size: 14, fill: n > 0 }), n ? `${n} ${plural(n, 'день', 'дні', 'днів')} поспіль` : 'Перший день серії — сьогодні')),
+    planRing(pct, { size: 72, stroke: 6, label: plan.allDone ? ic('check', { size: 26 }) : fresh0 ? ic('sun-horizon', { size: 26 }) : h('b.num.hm-pct', `${pct}%`), done: plan.allDone }));
+  // кроки — маленькі плитки в ряд; кроки, недоступні без входу, не показуємо (вхід — одна кнопка нижче)
+  const shown = plan.steps.filter(s => !s.skipped);
+  const steps = shown.length < 2 ? null : h('div.hm-steps', { style: { gridTemplateColumns: `repeat(${shown.length},minmax(0,1fr))` } }, shown.map(s => {
     const state = s.done ? 'done' : s.skipped ? 'skipped' : s === plan.next ? 'next' : 'later';
     const meta = s.done ? 'готово' : s.skipped ? 'після входу' : `${s.id === 'voice' ? '5–7' : s.minutes} хв`;
     const part = !s.done && !s.skipped && s.progress > 0 ? Math.round(s.progress * 100) : 0;
@@ -140,7 +145,9 @@ function heroContent(plan, sec, st) {
     btn = h('button.btn.start.block.hm-start', { type: 'button', onclick: () => startNext(plan) },
       ic(plan.next.icon === 'microphone' ? 'microphone' : 'play', { fill: true, size: 18 }), fresh ? `Почати день · ${Math.round(plan.totalMin)} хв` : `Продовжити: ${plan.next.title}`);
   } else btn = h('a.btn.start.block.hm-start', { href: '#/auth' }, 'Увійти, щоб поговорити з вчителем');
-  return [top, steps, btn];
+  const login = !user() && plan.steps.some(s => s.skipped) && !plan.allDone && plan.next
+    ? h('a.hm-login', { href: '#/auth' }, ic('key', { size: 14 }), 'Увійдіть — і вчитель додасть розмову голосом') : null;
+  return [top, steps, btn, login].filter(Boolean);
 }
 
 /** Запасний вміст (план не вдалося обчислити): хвилини й посилання на «Мій день» */

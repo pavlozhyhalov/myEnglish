@@ -229,3 +229,8 @@ html.kbd .pr-big:focus-visible{outline:2px solid var(--accent-ink);outline-offse
 .tx-row.gx-more{min-height:44px;justify-content:center}
 .tx-row.gx-more .tx-sq{width:28px;height:28px;border-radius:9px;background:transparent}
 .tx-row.gx-more .tx-l{color:var(--accent-ink);font-weight:600}
+/* 2026-11-08: рівень учня — тихе виділення, як активна плитка (одна суцільна синя — лише головна дія) */
+.gx-lv-head{border-radius:var(--r-row);box-shadow:var(--tile-shadow)}
+.gx-lv.mine .gx-lv-head{background:color-mix(in srgb,var(--accent) 6%,var(--tile));border-color:color-mix(in srgb,var(--accent) 22%,transparent)}
+.gx-lv.mine .gx-lv-sq{background:var(--accent-grad)}
+.gx-lv-sq{font-weight:600}

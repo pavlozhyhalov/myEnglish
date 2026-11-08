@@ -91,7 +91,7 @@ function deepCard(A) {
     const bits = [];
     if (err) bits.push(h('div.small.bad', { role: 'alert' }, err));
     if (!user()) bits.push(txLogin('Глибокий аналіз — після входу', 'Вчитель поверне розбір і план на 14 днів'));
-    else if (!c) bits.push(txPrimary({ icon: 'sparkle', label: 'Глибокий аналіз від вчителя', sub: 'сильні й слабкі сторони, план на 14 днів', onclick: run }));
+    else if (!c) bits.push(tx({ wide: true, icon: 'sparkle', label: 'Глибокий аналіз від вчителя', sub: 'сильні й слабкі сторони, план на 14 днів', onclick: run }));
     if (c) {
       bits.push(...result(c.data));
       const d = ageDays(c);

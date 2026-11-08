@@ -151,7 +151,7 @@ textarea.input{resize:vertical;min-height:120px;line-height:1.45}
 .drawer nav{flex:1;min-height:0;-webkit-mask-image:linear-gradient(#000 calc(100% - 20px),transparent);mask-image:linear-gradient(#000 calc(100% - 20px),transparent);padding-bottom:16px;overflow-x:hidden;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;touch-action:pan-y}
 /* сторінка під відкритим меню зафіксована (позицію прокрутки зберігає drawer.js) */
 body.drawer-open{position:fixed;left:0;right:0;overflow:hidden}
-.drawer .brand{display:flex;align-items:center;gap:10px;padding:8px 10px 16px;font-family:var(--font-head);font-weight:700;font-size:var(--fs-lg);letter-spacing:-.01em}
+.drawer .brand{display:flex;align-items:center;gap:10px;padding:8px 10px 16px;font-family:var(--font-brand);font-weight:700;font-size:var(--fs-lg);letter-spacing:-.01em}
 .drawer .brand .logo{width:36px;height:36px;border-radius:10px;background:var(--accent);color:#fff;display:grid;place-items:center;font-size:15px}
 .drawer .group{font-size:var(--fs-xs);color:var(--ink-dim);font-weight:600;padding:14px 12px 6px;text-transform:uppercase;letter-spacing:.06em}
 .drawer a.item{
@@ -554,3 +554,37 @@ body.has-subnav main#view{padding-top:calc(var(--header-h) + var(--safe-t) + 60p
 .subnav-seg a{flex:1;display:grid;place-items:center;min-height:38px;border-radius:10px;color:var(--ink-dim);font-weight:600;font-size:var(--fs-sm);text-decoration:none;-webkit-tap-highlight-color:transparent}
 .subnav-seg a[aria-selected="true"]{background:var(--seg-on);color:var(--ink);box-shadow:var(--shadow-sm)}
 @media (min-width:1100px){body.drawer-pinned .subnav{margin-left:320px}}
+
+/* ---------- Бокове меню: преміальний вигляд і малі екрани (2026-11-08) ---------- */
+.drawer .tile-nav{border-radius:16px;font-weight:600;letter-spacing:-.01em}
+.drawer .tn-ico{border-radius:11px;box-shadow:0 1px 2px rgba(11,21,48,.06)}
+.drawer .nav-top .tile-nav{background:color-mix(in srgb,var(--accent) 7%,var(--surface-2))}
+.drawer .tile-nav[aria-current="page"]{background:color-mix(in srgb,var(--accent) 9%,var(--surface));border-color:color-mix(in srgb,var(--accent) 28%,transparent)}
+.drawer .tile-nav[aria-current="page"] .tn-ico{background:var(--accent-grad);box-shadow:var(--accent-glow)}
+.drawer .brand .logo{background:var(--accent-grad);box-shadow:var(--accent-glow);border-radius:11px}
+.drawer .pc-sub{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.drawer .profile-card{border-radius:18px}
+@media (max-width:360px){
+  .drawer{padding-left:10px;padding-right:10px}
+  .drawer .pc{gap:4px;padding:7px}
+  .drawer .pc-me{gap:8px}
+  .drawer .pc-me .level-badge{width:34px;height:34px}
+  .drawer .pc-row{gap:2px}
+  .drawer .pc-btn{width:34px;height:36px}
+  .drawer .nav-grid .tile-nav.wide{gap:7px;padding:7px 8px;font-size:12px}
+}
+@media (max-height:620px){
+  .drawer{padding-top:calc(var(--safe-t) + 8px);padding-bottom:calc(var(--safe-b) + 8px)}
+  .drawer .brand{padding:2px 8px 6px;font-size:var(--fs-md)}
+  .drawer .brand .logo{width:30px;height:30px;font-size:13px}
+  .drawer nav{gap:7px;padding-bottom:6px}
+  .drawer .nav-group{gap:5px}
+  .drawer .nav-top,.drawer .nav-grid{gap:6px}
+  .drawer .tile-nav{min-height:50px;gap:3px;padding:5px 3px;font-size:11.5px;border-radius:13px}
+  .drawer .nav-grid .tile-nav.wide{padding:5px 8px}
+  .drawer .tn-ico{width:24px;height:24px;border-radius:8px}
+  .drawer .tn-ico svg{width:16px;height:16px}
+  .drawer .nav-group-label{font-size:10px}
+  .drawer .profile{padding-top:4px}
+  .drawer .pc-sub{display:none}
+}

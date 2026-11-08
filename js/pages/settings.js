@@ -6,7 +6,7 @@ import { BUILD, DEFAULTS, LIVE_VOICES } from '../config.js';
 import { SECTIONS, byId } from '../nav.js';
 import { applyTheme } from '../ui/shell.js';
 import { toast } from '../ui/toast.js';
-import { confirmSheet } from '../ui/sheet.js';
+import { confirmSheet, sheet } from '../ui/sheet.js';
 import { user } from '../supa.js';
 import { speak, englishVoices } from '../speech.js';
 import { arrange } from '../ui/quickbar.js';
@@ -23,11 +23,15 @@ export default function settings(view) {
   const row = setRow;
   const range = (k, min, max, step, fmt, icon, label) => {
     const out = h('span.tx-pill.accent.num', fmt(st[k]));
-    const inp = h('input.range', { type: 'range', min, max, step, value: st[k], 'aria-label': RANGE_LABEL[k] || k, oninput: (e) => { out.textContent = fmt(Number(e.target.value)); }, onchange: (e) => store.setSetting(k, Number(e.target.value)) });
+    // --fill — заповнена частина доріжки (css/tiles.css, преміальний повзунок)
+    const fill = (v) => inp.style.setProperty('--fill', `${((v - min) / (max - min)) * 100}%`);
+    const inp = h('input.range', { type: 'range', min, max, step, value: st[k], 'aria-label': RANGE_LABEL[k] || k, oninput: (e) => { out.textContent = fmt(Number(e.target.value)); fill(Number(e.target.value)); }, onchange: (e) => store.setSetting(k, Number(e.target.value)) });
+    fill(Number(st[k]));
     return block(icon, label, inp, null, out);
   };
-  const select = (k, options, label) => h('select.input', { 'aria-label': label, style: { width: 'auto', minHeight: '40px' }, onchange: (e) => store.setSetting(k, typeof DEFAULTS[k] === 'number' ? Number(e.target.value) : e.target.value) },
-    options.map(([v, t]) => h('option', { value: v, selected: String(st[k]) === String(v) ? true : null }, t)));
+  // замість системних списків: сегменти (2–3 варіанти) або шторка з вибором (більше варіантів)
+  const segOf = (k, options) => seg(options, String(st[k]), (v) => store.setSetting(k, typeof DEFAULTS[k] === 'number' ? Number(v) : v));
+  const pick = (k, options, label) => pickerBtn(label, options, String(st[k]), (v) => store.setSetting(k, typeof DEFAULTS[k] === 'number' ? Number(v) : v));
   const text = (k, label) => h('input.input', { type: 'text', value: st[k], 'aria-label': label, style: { maxWidth: '180px', minHeight: '40px' }, onchange: (e) => store.setSetting(k, e.target.value.trim() || DEFAULTS[k]) });
 
   // Основне — 4 групи (навчання, вчитель, вигляд і звук, нагадування); рідкісне — у згорнутому «Ще»
@@ -35,11 +39,11 @@ export default function settings(view) {
     group('Автоматика', [
       row('seal-check', 'Вжиті слова — вивчені', toggle(st.autoKnown !== false, set('autoKnown'), 'Вжиті слова — вивчені'), 'Правильно вжите у 2 розмовах — вивчене'),
       row('plus', 'Слова з розмов у картки', toggle(st.autoWords !== false, set('autoWords'), 'Автоматично додавати слова з розмов'), 'До 5 після підсумку, ≤ 10 на день'),
-      row('brain', 'Утримуваність FSRS', select('retention', [[0.85, '85%'], [0.9, '90%'], [0.95, '95%']].map(([v, t]) => [String(v), t]), 'Утримуваність'), 'Вища — частіші повтори'),
+      block('brain', 'Утримуваність FSRS', segOf('retention', [['0.85', '85%'], ['0.9', '90%'], ['0.95', '95%']]), 'Вища — частіші повтори'),
       row('sun', 'Не вимикати екран', toggle(st.keepAwake !== false, (v) => { store.setSetting('keepAwake', v); }, 'Не вимикати екран'), 'Під час завдань'),
     ]),
     group('Озвучення й вчитель', [
-      row('waveform', 'Рушій озвучення', select('ttsEngine', [['browser', 'Браузер (офлайн)'], ['gemini', 'Gemini TTS (онлайн)']], 'Рушій'), 'Gemini звучить природніше'),
+      block('waveform', 'Рушій озвучення', segOf('ttsEngine', [['browser', 'Браузер · офлайн'], ['gemini', 'Gemini · онлайн']]), 'Gemini звучить природніше'),
       row('play', 'Перевірити голос',
         h('button.btn.sm.soft', { type: 'button', onclick: () => speak('Hi! This is how I sound. Shall we practise some English today?') }, ic('play', { size: 16, fill: true }), 'Тест'), `Голосів браузера: ${englishVoices().length}`),
       row('chalkboard-teacher', "Ім'я вчителя", text('tutorName', "Ім'я")),
@@ -69,14 +73,14 @@ export default function settings(view) {
       range('newPerDay', 0, 50, 1, v => `${v} ${plural(v, 'картка', 'картки', 'карток')}`, 'cards', 'Нових карток на день'),
     ]),
     group('Вчитель', [
-      row('chat-circle-dots', 'Тон', select('tutorTone', [
-        ['friendly but demanding', 'Доброзичливий, вимогливий'], ['warm and patient', 'Теплий, терплячий'],
-        ['strict and concise', 'Строгий, лаконічний'], ['humorous and relaxed', 'З гумором'],
-      ], 'Тон')),
-      row('translate', 'Мова пояснень', select('explainLang', [['uk', 'Українська'], ['en', 'English'], ['mix', 'Змішано']], 'Мова пояснень')),
-      row('check-circle', 'Виправлення', select('strictness', [['important', 'Лише важливе'], ['all', 'Усе']], 'Строгість')),
-      row('microphone', 'Голос (Gemini Live)', select('voice', LIVE_VOICES.map(v => [v, v]), 'Голос')),
-      row('hourglass', 'Пауза в голосі', select('voicePause', [['short', 'Коротка'], ['normal', 'Звичайна'], ['long', 'Довга']], 'Пауза'), 'Перебиває — оберіть «Довга»'),
+      row('chat-circle-dots', 'Тон', pick('tutorTone', [
+        ['friendly but demanding', 'Доброзичливий, вимогливий', 'Вимогливий'], ['warm and patient', 'Теплий, терплячий', 'Терплячий'],
+        ['strict and concise', 'Строгий, лаконічний', 'Строгий'], ['humorous and relaxed', 'З гумором', 'З гумором'],
+      ], 'Тон вчителя')),
+      block('translate', 'Мова пояснень', segOf('explainLang', [['uk', 'Українська'], ['en', 'English'], ['mix', 'Змішано']])),
+      block('check-circle', 'Виправлення', segOf('strictness', [['important', 'Лише важливе'], ['all', 'Усе']])),
+      row('microphone', 'Голос вчителя', pick('voice', LIVE_VOICES.map(v => [v, v]), 'Голос вчителя'), 'Gemini Live'),
+      block('hourglass', 'Пауза в голосі', segOf('voicePause', [['short', 'Коротка'], ['normal', 'Звичайна'], ['long', 'Довга']]), 'Перебиває — оберіть «Довга»'),
       row('briefcase', 'Професійний контекст', toggle(!!st.workFocus, set('workFocus'), 'Професійний контекст'), 'Розмови про вашу роботу'),
     ]),
     group('Вигляд і звук', [
@@ -161,7 +165,7 @@ function levelPicker() {
     const p = store.prof();
     chips.replaceChildren(...LEVELS.map(l => h('button.chip', { type: 'button', 'aria-pressed': String(l === cur), onclick: () => { setLevel(l, 'manual'); toast(`Рівень ${l}: план і завдання оновлено`); render(); } }, l)));
     desc.replaceChildren(h('b', `${cur} · ${LEVEL_NAME[cur]}. `), LEVEL_DESC[cur]);
-    src.textContent = p.levelSource === 'progress' ? 'Підвищено за прогресом' : p.levelSource === 'test' || (p.placementDone === true && p.levelSource !== 'manual') ? 'Визначено тестом' : p.levelSource === 'manual' ? 'Обрано вручну' : 'За замовчуванням — пройдіть тест, щоб уточнити';
+    src.textContent = p.levelSource === 'progress' ? 'Підвищено за прогресом' : p.levelSource === 'test' || (p.placementDone === true && p.levelSource !== 'manual') ? 'Визначено тестом' : p.levelSource === 'manual' ? 'Обрано вручну' : 'Тест уточнить рівень';
   };
   render();
   return h('div.list-row.set-row.set-block.set-level', chips, desc,
@@ -186,7 +190,7 @@ function block(icon, label, content, sub = null, end = null) {
 // ---------- Редактор нижньої панелі з перетягуванням ----------
 function quickbarEditor() {
   const wrap = h('div.list.dnd-list');
-  let active = store.settings().quickbar.filter(id => byId[id]);
+  let active = (store.settings().quickbar.join() === 'home,cards,tutor,grammar,progress' ? DEFAULTS.quickbar : store.settings().quickbar).filter(id => byId[id]);
 
   function save() {
     store.setSetting('quickbar', active.slice());
@@ -291,3 +295,21 @@ async function wipe() {
   location.reload();
 }
 
+
+/** Кнопка-вибір: поточне значення таблеткою зі стрілкою → шторка зі списком варіантів (замість системного select) */
+function pickerBtn(title, options, value, onChange) {
+  let cur = value;
+  // третій елемент варіанта — коротка назва для кнопки (повна — у шторці)
+  const lbl = () => { const o = options.find(([v]) => String(v) === String(cur)) || options[0]; return o[2] || o[1]; };
+  const txt = h('span.set-pick-v', lbl());
+  const btn = h('button.set-pick', { type: 'button', 'aria-haspopup': 'dialog', 'aria-label': `${title}: ${lbl()}` }, txt, ic('caret-down', { size: 14 }));
+  btn.onclick = () => {
+    const s = sheet(title, h('div.tx-rows.set-pick-list', { role: 'radiogroup', 'aria-label': title }, options.map(([v, t, short]) => {
+      const on = String(v) === String(cur);
+      return h('button.tx-row.set-pick-opt' + (on ? '.on' : ''), { type: 'button', role: 'radio', 'aria-checked': String(on),
+        onclick: () => { cur = String(v); txt.textContent = short || t; btn.setAttribute('aria-label', `${title}: ${t}`); onChange(String(v)); s.close(); } },
+        h('span.tx-body', h('span.tx-l', t)), on ? ic('check', { size: 18 }) : null);
+    })));
+  };
+  return btn;
+}

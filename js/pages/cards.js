@@ -44,7 +44,7 @@ export default async function cards(view, r) {
       h('span.tx-body',
         h('span.tx-l', d.name, ' ', levelTag(d.level)),
         h('span.tx-s', sub),
-        n ? txBar(got / n) : null),
+        n && got ? txBar(got / n) : null),   // порожня смужка — зайвий шум, показуємо від першого вивченого слова
       toggle(d.enabled, (v) => { srs.setDeckEnabled(d, v); d.enabled = v; el.classList.toggle('off', !v); }, `Колода ${d.name}`));
     return el;
   };

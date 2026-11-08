@@ -87,3 +87,4 @@
 /* Повтор правил за розкладом */
 .mk-due-empty p{max-width:36ch}
 
+.an-deep:has(> .tx:only-child){background:none;border:0;box-shadow:none;padding:0}

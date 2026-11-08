@@ -3,6 +3,11 @@ import { h, ic, clear } from './dom.js';
 import { byId } from '../nav.js';
 import * as store from '../store.js';
 import { go } from '../router.js';
+import { DEFAULTS } from '../config.js';
+
+// старий типовий набір (до 2026-11-08) — переходить на новий; власний набір користувача не чіпаємо
+const OLD_DEFAULT = 'home,cards,tutor,grammar,progress';
+const ids = () => { const q = store.settings().quickbar || []; return q.join() === OLD_DEFAULT ? DEFAULTS.quickbar : q; };
 
 let bar, current = 'home';
 
@@ -22,7 +27,7 @@ export function arrange(ids) {
 
 function render() {
   clear(bar);
-  for (const id of arrange(store.settings().quickbar)) {
+  for (const id of arrange(ids())) {
     const s = byId[id];
     const on = id === current;
     if (id === 'tutor') {

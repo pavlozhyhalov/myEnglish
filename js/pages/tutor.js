@@ -174,7 +174,7 @@ export function phraseSaved(r, sit) {
 
 function needLoginCard() {
   if (user()) return null;
-  return txLogin('Вчитель працює після входу', 'AI працює через захищений сервер, тому потрібен акаунт.');
+  return txLogin('Увійдіть, щоб говорити з вчителем', 'Текст і голос — після входу');
 }
 
 /** Екран стану (не знайдено, помилка, очікування): спільна шапка txResult + дії */

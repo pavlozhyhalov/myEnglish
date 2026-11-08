@@ -229,7 +229,7 @@ function loginView(view, initial) {
   view.replaceChildren(h('div.stack-lg.auth',
     headTile('key', 'myEnglish', heading, lead),
     h('section.card.stack.auth-card', tabs, form),
-    txRow({ icon: 'cards', cls: 'auth-note', label: 'Можна й без акаунта', sub: 'Картки, уроки й ігри працюють і без нього — дані зберігаються на цьому пристрої. Після входу вони об\'єднаються з хмарою.' })));
+    txRow({ icon: 'cards', cls: 'auth-note', label: 'Можна й без акаунта', sub: 'Картки, уроки й ігри — на цьому пристрої' })));
   setTab(tab);
   (em.input.value ? pass.input : em.input).focus({ preventScroll: true });
 }

@@ -64,3 +64,8 @@ button.tx-sq.lr-spk:active{transform:scale(.94)}
 .vw-sort{width:auto;min-height:36px;padding:4px 10px}
 .vw-page>.xs.dim{margin:0 4px}
 @media (max-width:360px){ .vw-fbtn span:not(.vw-fbadge){display:none} .vw-fbtn{padding:0 12px} }
+/* 2026-11-08: перемикачі колод — компактні, не перетягують увагу */
+.cd-deck .switch{width:42px;height:26px}
+.cd-deck .switch::after{width:20px;height:20px}
+.cd-deck .switch:has(input:checked)::after{transform:translateX(16px)}
+.cd-deck .switch input:checked{background:color-mix(in srgb,var(--accent) 85%,var(--tile))}

@@ -178,3 +178,19 @@ body.has-dailybar:not(.focus-mode):not(:has(.tutor-dock,.composer,.voice)) .toas
 .hm-wf-tile .tx-l{font-size:13.5px}
 .hm-wf-tile .hm-dots{margin-top:2px}
 .hm-task .tx-l{font-size:14px}
+
+/* 2026-11-08 преміальний вигляд: картка «Сьогодні» */
+.hm-hero{padding:18px;gap:16px;border-radius:24px}
+.hm-hero .big{font-size:36px}
+.hm-hero .big small{color:var(--hero-dim);margin-left:2px}
+.hm-st{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.06)}
+.hm-st.next{background:rgba(255,255,255,.16);border-color:rgba(255,255,255,.28)}
+.hm-start{min-height:52px;font-size:16px;letter-spacing:-.01em}
+.hm-login{display:flex;align-items:center;justify-content:center;gap:6px;margin-top:-4px;font-size:var(--fs-xs);font-weight:500;color:var(--hero-dim);text-decoration:none;min-height:28px}
+.hm-login .ico{opacity:.85}
+.hm-pct{font-weight:600}
+.hm-level-pct{font-weight:600;letter-spacing:-.02em}
+button.tx-more{border:0;background:none;padding:6px 0;margin:-6px 0;cursor:pointer;font:inherit;font-size:var(--fs-xs);font-weight:600;color:var(--accent-ink)}
+.greet h1{font-size:28px;letter-spacing:-.03em;margin-bottom:0}
+.greet .date{font-size:var(--fs-xs);font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-dim)}
+.greet{display:flex;flex-direction:column;gap:4px;padding:2px 4px 0}
