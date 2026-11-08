@@ -9,6 +9,7 @@ import { tutor, aiErrorText } from '../ai.js';
 import { user } from '../supa.js';
 import { grammarIndex, json, scenarios as loadScenarios } from '../data.js';
 import { LEVELS, LEVEL_NAME } from '../level.js';
+import { fold } from './progress.js';
 import { compute, insight, digest, digestHash, activityHref, ACTIVITY, CRIT, CRIT_UK, SKILL_UK, speechLines } from '../analysis.js';
 
 const DAY = 864e5;
@@ -25,29 +26,29 @@ export default async function analysisPage(view) {
   // одна синя дія: глибокий аналіз, поки його немає; інакше — розмова про прогрес
   const deepPrimary = !!user() && !store.prof().analysis?.data;
   // назва розділу — у шапці й вкладках (Прогрес · Аналіз · Звіт)
+  const p = A.placement, sp = A.speaking, sh = A.speech, w = A.writing, v = A.vocab, g = A.grammar, m = A.mistakes, hb = A.habits;
+  const own = g.byLevel.find(x => x.level === A.level);
   view.replaceChildren(h('div.stack-lg.analysis',
-    h('p.small.dim.an-lead', 'Чесна картина за вашими даними: що виходить, що стримує, що робити далі'),
     overviewCard(A, !deepPrimary),
     deepCard(A),
-    section('placement', 'Рівень за навичками', 'target', A, placementBody(A)),
-    section('speaking', 'Говоріння', 'chat-circle-dots', A, speakingBody(A)),
-    section('speech', 'Мовлення', 'waveform', A, speechBody(A), 'speaking'),
-    section('writing', 'Письмо', 'pencil-line', A, writingBody(A)),
-    section('vocabulary', 'Слова', 'cards', A, vocabBody(A)),
-    section('grammar', 'Граматика', 'puzzle-piece', A, grammarBody(A)),
-    section('mistakes', 'Помилки', 'warning-circle', A, mistakesBody(A)),
-    section('habits', 'Звички й час', 'clock', A, habitsBody(A)),
-    h('p.xs.dim.center', 'Аналіз рахується на цьому пристрої з ваших карток, уроків, помилок, розмов і часу занять. Після входу дані синхронізуються між пристроями.')));
+    h('section.tx-group', { 'aria-labelledby': 'an-skills' }, h('h2.tx-label#an-skills', 'Навички'), h('div.pg-folds',
+      section('placement', 'Рівень за навичками', 'target', A, placementBody(A), p ? `тест: ${p.overall || '—'} · ${p.days > 0 ? `${p.days} ${plural(p.days, 'день', 'дні', 'днів')} тому` : 'сьогодні'}` : 'тест ще не пройдено'),
+      section('speaking', 'Говоріння', 'chat-circle-dots', A, speakingBody(A), sp.enough ? `близько ${sp.current} · ${sp.enough} ${plural(sp.enough, 'оцінка', 'оцінки', 'оцінок')}` : 'оцінок ще немає'),
+      section('speech', 'Мовлення', 'waveform', A, speechBody(A), sh?.n ? `${sh.latest.wpm ?? '—'} слів/хв · ${sh.n} ${plural(sh.n, 'голосова розмова', 'голосові розмови', 'голосових розмов')}` : 'голосових розмов ще немає', 'speaking'),
+      section('writing', 'Письмо', 'pencil-line', A, writingBody(A), w.checks || w.diary ? `${w.diary} ${plural(w.diary, 'запис', 'записи', 'записів')} у щоденнику${w.errPer100 != null ? ` · ${num(w.errPer100)} помилок на 100 слів` : ''}` : 'даних ще немає'))),
+    h('section.tx-group', { 'aria-labelledby': 'an-study' }, h('h2.tx-label#an-study', 'Навчання'), h('div.pg-folds',
+      section('vocabulary', 'Слова', 'cards', A, vocabBody(A), v.inWork ? `${v.inWork} у роботі · ${v.mature} міцно` : 'карток ще немає'),
+      section('grammar', 'Граматика', 'puzzle-piece', A, grammarBody(A), own ? `${own.done} з ${own.total} уроків ${A.level}` : ''),
+      section('mistakes', 'Помилки', 'warning-circle', A, mistakesBody(A), m.total ? `${m.open} відкритих · ${m.resolvedPct}% виправлено` : 'помилок ще немає'),
+      section('habits', 'Звички й час', 'clock', A, habitsBody(A), `${hb.streak} ${plural(hb.streak, 'день', 'дні', 'днів')} поспіль · ${hb.min4w} хв за 4 тижні`)))));
 }
 
-// ---------- Каркас розділу: заголовок, висновок одним рядком, вміст, «Запитати про це» ----------
-function section(id, title, icon, A, body, coach = id) {
+// ---------- Розділ: згорнута плитка (назва + коротка цифра); всередині — висновок, вміст, «Запитати про це» ----------
+function section(id, title, icon, A, body, sub = '', coach = id) {
   const text = insight(id, A);
-  return h('section.tx-group.an-sec', { 'aria-labelledby': `an-${id}` },
-    h('h2.tx-label', { id: `an-${id}` }, title),
-    h('div.card.stack.tx-card',
-      text ? h('p.an-insight', ic(icon, { size: 18 }), h('span', text)) : null,
-      body),
+  return fold({ icon, label: title, sub },
+    text ? h('p.an-insight', ic('lightbulb', { size: 18 }), h('span', text)) : null,
+    body,
     askRow(coachHref(coach), `Запитати вчителя про розділ «${title}»`));
 }
 
@@ -88,7 +89,6 @@ function deepCard(A) {
     const c = cached();
     if (busy) { box.replaceChildren(h('div.small.dim', { role: 'status' }, 'Вчитель вивчає ваші дані… Це займає до хвилини.')); return; }
     const bits = [];
-    if (!c) bits.push(h('div.small.dim', 'Вчитель отримає стисле зведення ваших результатів (числа, тренди й до 15 прикладів помилок — без текстів розмов) і поверне чесний розбір: сильні й слабкі сторони з доказами та план на 14 днів.'));
     if (err) bits.push(h('div.small.bad', { role: 'alert' }, err));
     if (!user()) bits.push(txLogin('Глибокий аналіз — після входу', 'Вчитель поверне розбір і план на 14 днів'));
     else if (!c) bits.push(txPrimary({ icon: 'sparkle', label: 'Глибокий аналіз від вчителя', sub: 'сильні й слабкі сторони, план на 14 днів', onclick: run }));
@@ -110,22 +110,25 @@ function deepCard(A) {
     if (ov.level || ov.summary_uk) out.push(h('div.stack', { style: { gap: '6px' } },
       ov.level ? h('div.row', h('span.tag.accent', `Оцінка вчителя: ${ov.level}${ov.sublevel === 'high' ? '+' : ov.sublevel === 'low' ? '−' : ''}`), h('span.xs.dim', { low: 'нижня межа рівня', mid: 'середина рівня', high: 'верхня межа рівня' }[ov.sublevel] || '')) : null,
       ov.summary_uk ? md(ov.summary_uk) : null));
-    if (d.strengths?.length) out.push(h('div.stack.an-list', h('h3.an-sub', 'Сильні сторони'),
-      h('ul', d.strengths.map(s => h('li', h('b', s.point_uk), s.evidence_uk ? h('div.xs.dim', mdInline(s.evidence_uk)) : null)))));
-    if (d.weaknesses?.length) out.push(h('div.stack.an-list', h('h3.an-sub', 'Що стримує'),
-      d.weaknesses.map(w => h('details.an-weak', h('summary', h('b', w.area), w.evidence_uk ? h('span.xs.dim', ' · ', mdInline(w.evidence_uk)) : null),
-        w.why_it_matters_uk ? h('div.small', h('span.dim', 'Чому це важливо: '), mdInline(w.why_it_matters_uk)) : null,
-        w.how_to_fix_uk ? h('div.small', h('span.dim', 'Як виправити: '), mdInline(w.how_to_fix_uk)) : null))));
-    if (d.plan_14_days?.length) out.push(h('div.stack.an-list', h('h3.an-sub', 'План на 14 днів'),
+    if (d.next_level_gap_uk) out.push(h('div.feedback.ok', h('b', 'До наступного рівня: '), mdInline(d.next_level_gap_uk)));
+    const folds = [];
+    if (d.plan_14_days?.length) folds.push(fold({ icon: 'calendar-blank', label: 'План на 14 днів', sub: d.plan_14_days.map(b => b.focus).filter(Boolean).slice(0, 2).join(' · ') },
       h('ol.an-plan', d.plan_14_days.map(b => h('li',
         h('div', h('b', b.day_range), b.day_range && b.focus ? ' — ' : '', b.focus),
-        h('div.an-acts', b.activities.map(a => {
+        h('div.an-acts', (b.activities || []).map(a => {
           const href = activityHref(a.kind, a.id, ctx);
           const meta = ACTIVITY[a.kind];
-          return href ? h('a.tx-row.an-act', { href }, h('span.tx-sq', ic(meta.icon, { size: 18 })), h('span.tx-body', h('span.tx-s', meta.label), h('span.tx-l.an-act-t', a.text_uk)), ic('caret-right', { size: 16 })) : null;
+          return href && meta ? h('a.tx-row.an-act', { href }, h('span.tx-sq', ic(meta.icon, { size: 18 })), h('span.tx-body', h('span.tx-s', meta.label), h('span.tx-l.an-act-t', a.text_uk)), ic('caret-right', { size: 16 })) : null;
         })))))));
-    if (d.next_level_gap_uk) out.push(h('div.feedback.ok', h('b', 'До наступного рівня: '), mdInline(d.next_level_gap_uk)));
-    if (d.data_gaps_uk?.length) out.push(h('div.stack.an-list', h('h3.an-sub', 'Бракує даних'), h('ul.small', d.data_gaps_uk.map(g => h('li', g)))));
+    if (d.strengths?.length || d.weaknesses?.length || d.data_gaps_uk?.length) folds.push(fold({ icon: 'brain', label: 'Сильні й слабкі сторони', sub: [d.strengths?.length ? `сильних: ${d.strengths.length}` : '', d.weaknesses?.length ? `що стримує: ${d.weaknesses.length}` : ''].filter(Boolean).join(' · ') },
+      d.strengths?.length ? h('div.stack.an-list', h('h3.an-sub', 'Сильні сторони'),
+        h('ul', d.strengths.map(s => h('li', h('b', s.point_uk), s.evidence_uk ? h('div.xs.dim', mdInline(s.evidence_uk)) : null)))) : null,
+      d.weaknesses?.length ? h('div.stack.an-list', h('h3.an-sub', 'Що стримує'),
+        d.weaknesses.map(w => h('details.an-weak', h('summary', h('b', w.area), w.evidence_uk ? h('span.xs.dim', ' · ', mdInline(w.evidence_uk)) : null),
+          w.why_it_matters_uk ? h('div.small', h('span.dim', 'Чому це важливо: '), mdInline(w.why_it_matters_uk)) : null,
+          w.how_to_fix_uk ? h('div.small', h('span.dim', 'Як виправити: '), mdInline(w.how_to_fix_uk)) : null))) : null,
+      d.data_gaps_uk?.length ? h('div.stack.an-list', h('h3.an-sub', 'Бракує даних'), h('ul.small', d.data_gaps_uk.map(g => h('li', g)))) : null));
+    if (folds.length) out.push(h('div.pg-folds', folds));
     return out;
   }
   async function run() {
