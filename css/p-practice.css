@@ -124,7 +124,7 @@ html.kbd .wr-gl-head:focus-visible{outline:2px solid var(--accent-ink);outline-o
 .dy-compose .pp-ta{min-height:170px}
 .dy-compose .pp-compose-foot .btn{flex:none}
 .dy-status:empty{display:none}
-.subnav + * .dy > .tx-group:first-child,.dy > .tx-group:first-child{margin-top:2px}
+.dy > .tx-group:first-child{margin-top:2px}
 .dy-status{padding:0 16px 12px}
 .dy-qcard{font-weight:600;line-height:1.45}
 /* щоденник: розбір запису */
@@ -163,3 +163,37 @@ button.tu-scd-save:disabled{opacity:.7;cursor:default}
 .tx-row.tx-showall{min-height:48px;padding-top:6px;padding-bottom:6px}
 .tx-row.tx-showall .tx-sq{background:none}
 .tx-row.tx-showall .tx-l{color:var(--accent-ink);font-size:var(--fs-sm);font-weight:600}
+
+/* ---------- Вимова: оцінка AI (renderAssessment — також у картках і вчителі) ---------- */
+.pron-result{gap:12px}
+.pron-score{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.pron-n{font-family:var(--font-head);font-weight:600;font-size:40px;line-height:1;letter-spacing:-.035em;font-variant-numeric:tabular-nums}
+.pron-n small{font-size:15px;font-weight:500;letter-spacing:0;color:var(--ink-dim);margin-left:2px}
+.pron-n.good{color:var(--good)} .pron-n.warn{color:var(--warn)} .pron-n.bad{color:var(--bad)}
+.pron-result.compact .pron-n{font-size:28px}
+.pron-words{display:flex;flex-wrap:wrap;gap:6px;font-size:var(--fs-md);line-height:1.3}
+.pron-result.compact .pron-words{font-size:var(--fs-sm)}
+.pron-word{display:inline-flex;align-items:center;gap:4px;padding:4px 9px 4px 7px;border-radius:10px;font-weight:600;overflow-wrap:anywhere}
+.pron-word .ico{flex:none}
+.pron-word.ok{background:var(--good-soft);color:var(--good)}
+.pron-word.minor{background:var(--warn-soft);color:var(--warn)}
+.pron-word.wrong,.pron-word.missed{background:var(--bad-soft);color:var(--bad)}
+.pron-word.missed{text-decoration:line-through}
+.pron-issues{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.pron-issue{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;border-radius:14px;background:var(--tile-sq);font-size:var(--fs-sm);line-height:1.4}
+.pron-iw{flex:none;max-width:40%;overflow-wrap:anywhere}
+.pron-iw.minor{color:var(--warn)} .pron-iw.wrong,.pron-iw.missed{color:var(--bad)}
+.pron-it{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.pron-tips{display:flex;flex-direction:column;gap:6px}
+.pron-tip{display:flex;gap:8px;align-items:flex-start;font-size:var(--fs-sm);line-height:1.45}
+.pron-tip .ico{flex:none;color:var(--accent-ink);margin-top:1px}
+.pron-free{font-size:var(--fs-lg);line-height:1.5;overflow-wrap:anywhere}
+.pr-again{margin-top:4px}
+.pr-listen{gap:10px;padding:4px 0 8px}
+.pr-say{margin-top:8px}
+.pr .gx-card,.ls .gx-card,.wr .gx-card,.dy .gx-card,.rd .gx-card{border-radius:var(--r-tile);box-shadow:var(--tile-shadow)}
+.wr-gl,.rd-gloss-head{border-radius:var(--r-tile);box-shadow:var(--tile-shadow)}
+.wr-gl-head{border-radius:var(--r-tile)}
+/* головна дія з іконкою теми (emo) — значок білий, як і решта синьої плитки */
+.tx.primary .tx-sq .emo{color:inherit}
+.wr-gl .gx-card,.gx-sound-body .gx-card,.pron-result .gx-card{box-shadow:none}

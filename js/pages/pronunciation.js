@@ -1,7 +1,7 @@
 // Вимова: shadowing, мінімальні пари, проблемні звуки
 import { h, ic, seg, progress } from '../ui/dom.js';
 import { plural } from '../strings.js';
-import { txKpis, txPrimary, txRow } from '../ui/tiles.js';
+import { txKpis, txPrimary, txRow, txResult } from '../ui/tiles.js';
 import { moreRows } from './grammar.js';
 import { pronunciation as loadData } from '../data.js';
 import { speak, stop as stopSpeech, recognize, canRecognize, recordAndTranscribe, compareWords, canRecord, recordAudio } from '../speech.js';
@@ -33,13 +33,13 @@ export default async function pronunciation(view, r) {
   const body = h('div');
   // Теорія: звуки з підказками артикуляції — окрема сторінка #/pronunciation/sounds
   if (r.parts[0] === 'sounds') {
-    view.replaceChildren(h('div.stack-lg', body));
+    view.replaceChildren(h('div.stack-lg.pr', body));
     sounds(body, data, timer);
     return () => { cancelRecordings(); stopSpeech(); timer.stop(); };
   }
   let tab = r.query.tab === 'pairs' ? 'pairs' : 'shadowing';
   wantTopic = r.query.topic || null;   // посилання з головної відкриває конкретну тему
-  view.replaceChildren(h('div.stack-lg', seg([['shadowing', 'Повтор фраз'], ['pairs', 'Пари слів']], tab, v => { tab = v; draw(); }), body));
+  view.replaceChildren(h('div.stack-lg.pr', seg([['shadowing', 'Повтор фраз'], ['pairs', 'Пари слів']], tab, v => { tab = v; draw(); }), body));
   const draw = () => { cancelRecordings(); stopSpeech(); ({ shadowing, pairs })[tab](body, data, timer); };
   draw();
   return () => { cancelRecordings(); stopSpeech(); timer.stop(); };
@@ -52,21 +52,19 @@ export const aiReady = () => !!user() && navigator.onLine && canRecord();
 const maxMsFor = (text) => Math.min(15000, Math.max(5000, 3000 + text.split(/\s+/).length * 900));
 
 const WSTYLE = {
-  ok: { icon: 'check-circle', color: 'var(--good)', bg: 'var(--good-soft)', label: 'правильно' },
-  minor: { icon: 'warning-circle', color: 'var(--warn)', bg: 'var(--warn-soft)', label: 'майже' },
-  wrong: { icon: 'x-circle', color: 'var(--bad)', bg: 'var(--bad-soft)', label: 'помилка' },
-  missed: { icon: 'x-circle', color: 'var(--bad)', bg: 'var(--bad-soft)', label: 'пропущено' },
+  ok: { icon: 'check-circle', label: 'правильно' },
+  minor: { icon: 'warning-circle', label: 'майже' },
+  wrong: { icon: 'x-circle', label: 'помилка' },
+  missed: { icon: 'x-circle', label: 'пропущено' },
 };
 const scoreClass = (n) => (n >= 80 ? 'good' : n >= 55 ? 'warn' : 'bad');
 const scoreLabel = (n) => (n >= 90 ? 'Відмінно' : n >= 80 ? 'Дуже добре' : n >= 65 ? 'Добре' : n >= 45 ? 'Є над чим попрацювати' : 'Спробуйте ще раз');
 
-/** Слово з кольором і значком (колір — не єдина ознака: значок + підпис для читачів екрана) */
+/** Слово з кольором і значком (колір — не єдина ознака: значок + підпис для читачів екрана). Стилі — css/p-practice.css */
 function wordChip(w) {
-  const st = WSTYLE[w.status] || WSTYLE.ok;
-  return h('span.pron-word', {
-    style: { display: 'inline-flex', alignItems: 'center', gap: '3px', padding: '1px 6px', margin: '2px', borderRadius: '8px', background: st.bg, color: st.color, fontWeight: 600, textDecoration: w.status === 'missed' ? 'line-through' : 'none' },
-    dataset: { status: w.status },
-  }, ic(st.icon, { size: 16 }), w.word, h('span.sr-only', `, ${st.label}`));
+  const key = WSTYLE[w.status] ? w.status : 'ok';
+  const st = WSTYLE[key];
+  return h('span.pron-word.' + key, { dataset: { status: w.status } }, ic(st.icon, { size: 15, fill: key === 'ok' }), w.word, h('span.sr-only', `, ${st.label}`));
 }
 
 /**
@@ -75,16 +73,21 @@ function wordChip(w) {
  */
 export function renderAssessment(res, { compact = false } = {}) {
   const bad = res.words.filter(w => w.status !== 'ok' && (w.issue_uk || w.tip_uk));
-  return h('div.stack.pron-result', { style: { gap: '10px' } },
-    h('div.row', { style: { alignItems: 'baseline', gap: '8px', flexWrap: 'wrap' } },
-      h('b.num', { class: scoreClass(res.score), style: { fontSize: compact ? 'var(--fs-lg)' : 'var(--fs-2xl)' }, 'aria-label': `Оцінка ${res.score} зі 100` }, String(res.score)),
-      h('span.dim', '/100'), h('span', { class: scoreClass(res.score), style: { fontWeight: 600 } }, res.no_speech ? 'Мовлення не почуто' : scoreLabel(res.score))),
-    h('div', { style: { fontSize: compact ? '' : 'var(--fs-lg)', lineHeight: 1.7 } }, res.words.map(wordChip)),
-    res.heard ? h('div.xs.dim', `Почуто: «${res.heard}»`) : null,
-    !compact && bad.length ? h('ul.stack', { style: { margin: 0, paddingLeft: 0, listStyle: 'none', gap: '6px' } },
-      bad.map(w => h('li.small', h('b', { style: { color: WSTYLE[w.status].color } }, w.word), w.issue_uk ? ` — ${w.issue_uk}` : '', w.tip_uk ? h('div.dim', w.tip_uk) : null))) : null,
-    h('div.stack', { style: { gap: '6px' } }, (compact ? res.tips.slice(0, 1) : res.tips).map(t =>
-      h('div.row.small', { style: { alignItems: 'flex-start', gap: '6px' } }, h('span', { style: { color: 'var(--accent-ink)', flex: 'none' } }, ic('lightbulb', { size: 18 })), h('span', t)))));
+  const tone = scoreClass(res.score);
+  return h('div.stack.pron-result' + (compact ? '.compact' : ''),
+    h('div.pron-score',
+      h('b.pron-n.' + tone, { 'aria-label': `Оцінка ${res.score} зі 100` }, String(res.score), h('small', { 'aria-hidden': 'true' }, '/100')),
+      h('span.tx-pill.' + tone, res.no_speech ? 'Мовлення не почуто' : scoreLabel(res.score))),
+    h('div.pron-words', { lang: 'en' }, res.words.map(wordChip)),
+    res.heard ? h('div.xs.dim', 'Почуто: ', h('span', { lang: 'en' }, `«${res.heard}»`)) : null,
+    !compact && bad.length ? h('ul.pron-issues', bad.map(w => {
+      const key = WSTYLE[w.status] ? w.status : 'wrong';
+      return h('li.pron-issue',
+        h('b.pron-iw.' + key, { lang: 'en' }, w.word),
+        h('div.pron-it', w.issue_uk ? h('div', w.issue_uk) : null, w.tip_uk ? h('div.dim', w.tip_uk) : null));
+    })) : null,
+    (compact ? res.tips.slice(0, 1) : res.tips).length ? h('div.pron-tips', (compact ? res.tips.slice(0, 1) : res.tips).map(t =>
+      h('div.pron-tip', ic('lightbulb', { size: 18 }), h('span', t)))) : null);
 }
 
 /**
@@ -111,7 +114,7 @@ function practiceBlock(text, timer, { uk, onResult } = {}) {
     rec.replaceChildren(ic('microphone', { size: 18, fill: true }), h('span', 'Записати себе'));
     rec.removeAttribute('aria-pressed');
   };
-  const again = () => h('div.pr-acts', { style: { marginTop: '10px' } },
+  const again = () => h('div.pr-acts.pr-again',
     act('speaker-high', 'Еталон', () => speak(text), '', 'Прослухати еталон'),
     act('arrow-clockwise', 'Ще раз', () => start()));
 
@@ -122,9 +125,9 @@ function practiceBlock(text, timer, { uk, onResult } = {}) {
       const res = await listen(t => { out.textContent = t; });
       const cmp = compareWords(text, res.text);
       timer.poke();
-      out.replaceChildren(
-        h('div', { style: { fontSize: 'var(--fs-lg)' } }, cmp.words.map(w => [h('span', { class: w.ok ? 'word-ok' : 'word-no' }, w.raw), ' '])),
-        h('div', h('b', { class: cmp.pct >= 80 ? 'good' : cmp.pct >= 50 ? 'warn' : 'bad' }, `${cmp.pct}%`), h('span.dim', ` · почуто: «${res.text || '—'}»`)));
+      out.replaceChildren(h('div.stack.pron-result',
+        h('div.pron-score', h('b.pron-n.' + scoreClass(cmp.pct), `${cmp.pct}`, h('small', '%')), h('span.xs.dim', `почуто: «${res.text || '—'}»`)),
+        h('div.pron-free', { lang: 'en' }, cmp.words.map(w => [h('span', { class: w.ok ? 'word-ok' : 'word-no' }, w.raw), ' ']))));
       onResult?.(cmp, res);
     } catch (e) { out.textContent = errText(e); }
     finally { setIdle(); }
@@ -216,10 +219,9 @@ function pairs(box, data, timer) {
     if (i >= all.length) {
       timer.poke();
       const tone = right >= 8 ? 'good' : right >= 5 ? 'warn' : 'bad';
-      box.replaceChildren(h('div.stack-lg.gx',
+      box.replaceChildren(h('div.stack-lg.gx.pr',
         h('section.tx-group',
-          h('div.gx-res', h('span.gx-res-ic.' + tone, ic(right >= 8 ? 'trophy' : 'ear', { size: 26, fill: true })),
-            h('div.grow', h('div.tx-label', 'Результат'), h('div.gx-res-t', right >= 8 ? 'Чудовий слух!' : right >= 5 ? 'Непогано — ще трохи практики' : 'Варто потренуватися ще'))),
+          txResult({ icon: right >= 8 ? 'trophy' : 'ear', tone, label: 'Пари слів · результат', title: right >= 8 ? 'Чудовий слух!' : right >= 5 ? 'Непогано — ще трохи практики' : 'Варто потренуватися ще' }),
           txKpis([
             { value: right, unit: `/${all.length}`, label: 'розпізнано на слух', tone, ariaLabel: `Правильно розпізнано на слух: ${right} з ${all.length}` },
             { value: all.length - right, label: plural(all.length - right, 'помилка', 'помилки', 'помилок'), tone: all.length - right ? 'bad' : 'good' },
@@ -241,8 +243,8 @@ function pairs(box, data, timer) {
       if (k === target) (k === 'a' ? btnB : btnA).classList.remove('wrong');
       fb.replaceChildren(h('div.feedback.ex-fb.' + (ok ? 'ok' : 'no'),
         h('span.ex-fb-ic', ic(ok ? 'check-circle' : 'x-circle', { size: 20, fill: true })),
-        h('div.ex-fb-t', h('div', { style: { fontWeight: 600 } }, ok ? 'Правильно!' : `Звучало: ${word}`), p.tip ? h('div.dim', p.tip) : null)));
-      sayBox.replaceChildren(h('h2.tx-label', { style: { marginTop: '8px' } }, 'Тепер скажіть самі'),
+        h('div.ex-fb-t', h('b', ok ? 'Правильно!' : `Звучало: ${word}`), p.tip ? h('div.dim', p.tip) : null)));
+      sayBox.replaceChildren(h('h2.tx-label.pr-say', 'Тепер скажіть самі'),
         h('div.stack', practiceBlock(p.a, timer, { uk: p.ipaA }), practiceBlock(p.b, timer, { uk: p.ipaB })),
         h('button.btn.primary.block', { type: 'button', onclick: () => { i++; step(); } }, 'Далі'));
     };
@@ -250,7 +252,7 @@ function pairs(box, data, timer) {
     const btnB = h('button.opt.ex-opt', { type: 'button', onclick: () => choose('b') }, h('span.ex-key', { 'aria-hidden': 'true' }, '2'), h('b.grow', p.b), h('span.ipa.small', p.ipaB || ''));
     box.replaceChildren(h('div.stack',
       h('div.ex-head', h('div.ex-head-t', h('h2.tx-label', 'Пари слів'), h('span.tx-pill.accent.num', `${i + 1}/${all.length}`)), progress(i / all.length * 100, 'Пройдено пар')),
-      h('div.center.stack', { style: { gap: '10px', padding: '4px 0 8px' } },
+      h('div.center.stack.pr-listen',
         h('div.small.dim', `Звук: ${p.sound}`),
         h('button.pr-big', { type: 'button', 'aria-label': 'Прослухати', onclick: () => speak(word) }, ic('speaker-high', { size: 40 })),
         h('div.small.dim', 'Що ви почули?')),
