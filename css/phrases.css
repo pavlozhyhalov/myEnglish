@@ -58,3 +58,17 @@
 .sum-phrases .ph-pick .grow{min-width:0;overflow-wrap:anywhere}
 .sum-phrases .ph-sit{display:block}
 .ph-uk-q{font-size:var(--fs-sm);color:var(--ink-dim);line-height:1.4;overflow-wrap:anywhere}
+
+/* 2026-11-08 · преміальний вигляд */
+.ph-card{border-radius:22px;box-shadow:var(--tile-shadow),0 18px 40px -28px rgba(11,21,48,.35);min-height:230px}
+.ph-q,.ph-a{letter-spacing:-.02em}
+.ph-prep .progress{height:5px;background:var(--track)}
+.ph-prep .progress > i{background:var(--accent-grad)}
+.ph-acts .btn.soft{box-shadow:var(--tile-shadow);border-color:var(--tile-edge);color:var(--accent-ink)}
+.ph-grades .grade{font-weight:600;border-radius:var(--r-row)}
+.ph-grades .grade.good{background:var(--accent-grad);color:#fff;box-shadow:var(--accent-glow)}
+.ph-en{font-size:var(--fs-sm);font-weight:600;letter-spacing:-.005em}
+.ph-uk{font-size:var(--fs-xs)}
+.tx-row.ph-row{border-radius:var(--r-row)}
+.ph-row > .icon-btn{color:var(--ink-dim);width:40px;height:40px}
+@media (max-width:360px){.ph-acts .btn,.ph-grades .grade{font-size:var(--fs-sm);min-height:52px}}

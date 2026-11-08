@@ -111,3 +111,4 @@ button.tx-sq.vw-sh-say:active{transform:scale(.94)}
 .cd-rev .grade.again,.cd-rev .grade.hard,.cd-rev .grade.easy{border-color:transparent}
 .cd-rev .grade.good{background:var(--accent-grad);box-shadow:var(--accent-glow)}
 @media (max-width:360px){.cd-rev .grade{min-height:58px;font-size:13.5px}}
+@media (max-height:600px){.cd-rev .flash .face{padding-top:52px}}

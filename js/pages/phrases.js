@@ -11,7 +11,7 @@ import { toast } from '../ui/toast.js';
 import { activityTimer } from '../stats.js';
 import { user } from '../supa.js';
 import { onLeave } from '../router.js';
-import { tx, txPrimary, txGrid, txGroup, txRows } from '../ui/tiles.js';
+import { tx, txPrimary, txGrid, txGroup, txRows, txKpis } from '../ui/tiles.js';
 import { resHead } from './cards.js';
 import { SITUATIONS, situation, phrasesBySituation, phraseCount, savePhrases, fillMissing, guessSituation } from '../phrases.js';
 
@@ -67,10 +67,10 @@ function moreTile(label, sub, box) {
 }
 
 function emptyCard() {
-  return txGroup('Звідки беруться фрази', txGrid([
-    tx({ href: '#/tutor', icon: 'flag', label: 'Місії', sub: 'рольові ігри · «У фразник»', on: true }),
-    tx({ href: '#/scenarios', icon: 'users-three', label: 'Сценарії', sub: 'діалоги з життя' }),
-  ], 2));
+  // порожній фразник: головна дія — місії вчителя (звідти фрази потрапляють сюди кнопкою «У фразник»)
+  return h('div.stack', { style: { gap: '10px' } },
+    txPrimary({ href: '#/tutor', icon: 'flag', label: 'Місії вчителя', sub: 'рольові ігри — фрази звідти' }),
+    tx({ href: '#/scenarios', icon: 'users-three', label: 'Сценарії', sub: 'діалоги з життя', wide: true }));
 }
 
 // ---------- Фрази ситуації ----------
@@ -87,7 +87,7 @@ function situationView(view, sit) {
       h('div.row.ph-head', h('a.icon-btn', { href: '#/phrases', 'aria-label': 'До фразника' }, ic('arrow-left')),
         h('span.tx-sq', ic(sit.icon, { size: 20 })),
         h('span.ph-eyebrow.grow', `Фразник · ${list.length ? nPhrases(list.length) : 'поки порожньо'}`)),
-      list.length ? txPrimary({ href: `#/phrases/${sit.id}/prepare`, icon: 'play', label: 'Підготуватися', sub: `${nPhrases(Math.min(15, list.length))} · скажіть уголос і перевірте себе` }) : null,
+      list.length ? txPrimary({ href: `#/phrases/${sit.id}/prepare`, icon: 'play', label: 'Підготуватися', sub: `${nPhrases(Math.min(15, list.length))} · скажіть і перевірте себе` }) : null,
       list.length ? txGroup('Фрази · дотик — прослухати', h('div.tx-rows.ph-list', list.map(c => row(c, known(c)))))
         : txGroup('Поки порожньо', tx({ icon: 'flag', label: 'Місії вчителя', sub: 'рольові ігри з фразами для цієї ситуації', href: '#/tutor', wide: true })),
       missing && !(user() && navigator.onLine) ? h('div.xs.dim.ph-note', `${missing} без перекладу — додасться після входу`) : null,
@@ -231,8 +231,13 @@ function prepare(view, sit, only = null) {
     const retry = missed.length ? txPrimary({ icon: 'arrow-clockwise', label: 'Ще раз — лише невідомі', sub: nPhrases(missed.length), onclick: () => { ac?.abort(); timer.stop(); prepare(view, sit, new Set(missed.map(c => c.id))); } }) : null;
     const voice = { icon: 'microphone', label: 'Відіграти з вчителем', sub: 'рольова гра голосом з цими фразами', href: `#/tutor?mode=voice&topic=${encodeURIComponent(topic)}` };
     fill(box,
-      resHead({ icon: all ? 'trophy' : 'barbell', tone: all ? 'good' : '', eyebrow: 'Підсумок підготовки', title: all ? 'Ви готові до цієї ситуації!' : `${ok} з ${list.length} — майже готово`,
+      resHead({ icon: all ? 'trophy' : 'barbell', tone: all ? 'good' : 'warn', eyebrow: 'Підсумок підготовки', title: all ? 'Ви готові до цієї ситуації!' : 'Майже готово',
         sub: all ? `${nPhrases(list.length)} без помилок` : 'невідомі повернуться в картки найближчим часом' }),
+      txKpis([
+        { value: ok, unit: `/${list.length}`, label: 'знали', tone: all ? 'good' : '', ariaLabel: `Знали ${ok} з ${list.length}` },
+        { value: missed.length, label: 'ще ні', tone: missed.length ? 'warn' : 'good' },
+        { value: Math.round(ok / list.length * 100), unit: '%', label: 'готовність', tone: all ? 'good' : 'accent' },
+      ]),
       missed.length ? txGroup('Повторити · дотик — прослухати', txRows(missed.map(c => h('button.tx-row.ph-miss', { type: 'button', 'aria-label': `Прослухати: ${c.en}`, onclick: () => speak(c.en) },
         h('span.tx-sq.ph-spk', ic('speaker-high', { size: 18 })), h('span.tx-body', h('span.tx-l', { lang: 'en' }, c.en), c.uk ? h('span.tx-s', c.uk) : null))))) : null,
       h('div.stack.lr-next',
