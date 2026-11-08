@@ -1,7 +1,8 @@
 // Вимова: shadowing, мінімальні пари, проблемні звуки
 import { h, ic, seg, progress } from '../ui/dom.js';
 import { plural } from '../strings.js';
-import { txKpis, txPrimary } from '../ui/tiles.js';
+import { txKpis, txPrimary, txRow } from '../ui/tiles.js';
+import { moreRows } from './grammar.js';
 import { pronunciation as loadData } from '../data.js';
 import { speak, stop as stopSpeech, recognize, canRecognize, recordAndTranscribe, compareWords, canRecord, recordAudio } from '../speech.js';
 import { pron, aiErrorText } from '../ai.js';
@@ -32,7 +33,7 @@ export default async function pronunciation(view, r) {
   const body = h('div');
   // Теорія: звуки з підказками артикуляції — окрема сторінка #/pronunciation/sounds
   if (r.parts[0] === 'sounds') {
-    view.replaceChildren(h('div.stack-lg', h('p.small.dim', { style: { margin: '0 2px' } }, 'Звуки, які найважче даються україномовним: як їх вимовляти, приклади і тренування.'), body));
+    view.replaceChildren(h('div.stack-lg', body));
     sounds(body, data, timer);
     return () => { cancelRecordings(); stopSpeech(); timer.stop(); };
   }
@@ -182,19 +183,27 @@ function shadowing(box, data, timer) {
   const list = h('div.stack');
   const topicsBox = h('div.stack');
   let topic = null;
-  const drawList = () => cancelRecordings() || list.replaceChildren(...data.shadowing.filter(s => s.topic === topic).map(s => practiceBlock(s.en, timer, { uk: s.uk })));
+  // одна фраза розгорнута (еталон, повільно, запис), решта — компактні рядки: дотик розгортає
+  let active = 0;
+  const drawList = () => {
+    cancelRecordings(); stopSpeech();
+    const items = data.shadowing.filter(s => s.topic === topic);
+    if (active >= items.length) active = 0;
+    list.replaceChildren(...items.map((s, i) => i === active ? practiceBlock(s.en, timer, { uk: s.uk })
+      : txRow({ no: i + 1, label: h('span', { lang: 'en' }, s.en), sub: s.uk, cls: 'pr-row', chevron: false, attrs: { 'aria-expanded': 'false' },
+        onclick: () => { active = i; drawList(); list.children[i]?.querySelector('button')?.focus({ preventScroll: true }); } })));
+  };
   const drawTopics = () => {
     const { items, fallback } = filterByLevel(allTopics, levelPick('shadowing'), lvOf);
     const groups = byFit(items, lvOf);
     if (wantTopic && allTopics.includes(wantTopic)) { topic = wantTopic; wantTopic = null; if (!groups.includes(topic)) groups.unshift(topic); }
     if (!groups.includes(topic)) topic = groups[0] || null;
     topicsBox.replaceChildren(fallbackNote(fallback),
-      h('div.chips.scroll', groups.map(g => h('button.chip', { type: 'button', 'aria-pressed': String(g === topic), onclick: (e) => { topic = g; e.currentTarget.parentNode.querySelectorAll('.chip').forEach(c => c.setAttribute('aria-pressed', String(c === e.currentTarget))); drawList(); } }, lvOf(g) ? `${g} · ${lvOf(g)}` : g))));
+      h('div.chips.scroll', groups.map(g => h('button.chip', { type: 'button', 'aria-pressed': String(g === topic), onclick: (e) => { topic = g; active = 0; e.currentTarget.parentNode.querySelectorAll('.chip').forEach(c => c.setAttribute('aria-pressed', String(c === e.currentTarget))); drawList(); } }, lvOf(g) ? `${g} · ${lvOf(g)}` : g))));
     drawList();
   };
   const counts = levelCounts(allTopics, lvOf);
   box.replaceChildren(h('div.stack',
-    h('p.small.dim', aiReady() ? 'Прослухайте фразу й повторіть з тією самою інтонацією і в тому самому темпі. AI оцінить вимову кожного слова й підкаже, що виправити.' : 'Прослухайте фразу й повторіть з тією самою інтонацією і в тому самому темпі. Зелене — збіг, червоне — розпізнано інакше. Після входу — детальна AI-оцінка вимови.'),
     levelChips('shadowing', counts, drawTopics), topicsBox, list));
   drawTopics();
 }
@@ -213,9 +222,8 @@ function pairs(box, data, timer) {
             h('div.grow', h('div.tx-label', 'Результат'), h('div.gx-res-t', right >= 8 ? 'Чудовий слух!' : right >= 5 ? 'Непогано — ще трохи практики' : 'Варто потренуватися ще'))),
           txKpis([
             { value: right, unit: `/${all.length}`, label: 'розпізнано на слух', tone, ariaLabel: `Правильно розпізнано на слух: ${right} з ${all.length}` },
-            { value: Math.round(right / all.length * 100), unit: '%', label: 'точність' },
             { value: all.length - right, label: plural(all.length - right, 'помилка', 'помилки', 'помилок'), tone: all.length - right ? 'bad' : 'good' },
-          ])),
+          ], 2)),
         txPrimary({ icon: 'arrow-clockwise', label: 'Ще раунд', sub: '10 нових пар слів', onclick: () => pairs(box, data, timer) })));
       return;
     }
@@ -261,7 +269,8 @@ function pairs(box, data, timer) {
 
 function sounds(box, data, timer) {
   // кожен звук — плитка: символ МФА в квадратику, назва, підказка; розгортається з поясненням і тренуванням
-  box.replaceChildren(h('div.gx-sounds', data.sounds.map(s => h('details.gx-sound',
+  // 6 звуків на виду, решта — «Показати всі»
+  box.replaceChildren(moreRows(data.sounds.map(s => h('details.gx-sound',
     h('summary.gx-sound-head',
       h('span.gx-ipa', { style: { fontSize: s.symbol.length > 2 ? '14px' : '19px' } }, s.symbol),
       h('span.tx-body', h('span.tx-l', s.title), h('span.tx-s', s.short)),
