@@ -12,7 +12,7 @@ import { toast } from '../ui/toast.js';
 import { fmtInterval } from '../ui/dom.js';
 import { activityTimer } from '../stats.js';
 import { onLeave } from '../router.js';
-import { tx, txGrid, txPill } from '../ui/tiles.js';
+import { tx, txGrid, txPill, txRow, txRows } from '../ui/tiles.js';
 
 const STATUS = [['all', 'Усі'], ['new', 'Нові'], ['learning', 'Вчу'], ['review', 'Повторюю'], ['learned', 'Вивчені']];
 const SORTS = [['recent', 'Нещодавні'], ['az', 'A–Z'], ['due', 'До повтору']];
@@ -98,8 +98,8 @@ export default async function vocab(view, r) {
   paintFilters();
   view.replaceChildren(h('div.stack.vw-page',
     txGrid([
-      tx({ icon: 'plus', label: 'Додати слово', sub: 'переклад — з AI', on: true, wide: true, end: null, onclick: () => addWord(draw) }),
-      tx({ icon: 'notebook', label: 'Списком', sub: 'кілька одразу', wide: true, end: null, onclick: () => bulkAdd(draw) }),
+      tx({ icon: 'plus', label: 'Додати', sub: 'слово з перекладом AI', wide: true, attrs: { 'aria-label': 'Додати слово' }, end: null, onclick: () => addWord(draw) }),
+      tx({ icon: 'notebook', label: 'Списком', sub: 'кілька слів одразу', wide: true, end: null, onclick: () => bulkAdd(draw) }),
     ], 2),
     h('div.row.vw-search', search, filtBtn),
     filters,
@@ -142,24 +142,37 @@ function detail(c, deckName, onChange) {
   const inStore = !!store.get('cards', c.id);
   const ex = c.examples || [];
   const ext = c.extra || {};
-  const s = sheet(null, h('div.stack',
-    h('div.row', h('div.grow', h('div', { style: { fontSize: 'var(--fs-xl)', fontWeight: 600 } }, c.en), c.ipa ? h('div.ipa', c.ipa) : null),
-      h('button.icon-btn.soft', { type: 'button', 'aria-label': 'Прослухати', onclick: () => speak(c.en) }, ic('speaker-high'))),
-    h('div', { style: { fontSize: 'var(--fs-lg)' } }, c.uk),
-    h('div.chips', h('span.tag', deckName[c.deck_id] || c.deck_id), c.pos ? h('span.tag', c.pos) : null, ext.cefr ? h('span.tag.accent', ext.cefr) : null, ...(c.tags || []).map(t => h('span.tag', t))),
-    ex.map(e => h('div.example', h('button.icon-btn', { type: 'button', 'aria-label': 'Прослухати приклад', onclick: () => speak(e.en) }, ic('speaker-high', { size: 20 })), h('div.grow', h('div', e.en), e.uk ? h('div.xs.dim', e.uk) : null))),
-    ext.collocations?.length ? h('div.small', h('b', 'Колокації: '), ext.collocations.join(', ')) : null,
-    ext.synonyms?.length ? h('div.small', h('b', 'Синоніми: '), ext.synonyms.join(', ')) : null,
-    ext.known?.source === 'usage' ? h('div.feedback.ok.small', `Позначено вчителем: ви правильно вжили це слово в ${ext.known.chats || 2} ${plural(ext.known.chats || 2, 'розмові', 'розмовах', 'розмовах')}`, ext.known.sample ? h('div.xs.dim', { lang: 'en' }, `«${ext.known.sample}»`) : null) : null,
-    c.reps ? h('div.xs.dim', `Повторень: ${c.reps} · помилок: ${c.lapses} · стабільність: ${fmtInterval(c.stability)} · наступний повтор: ${c.due ? new Date(c.due).toLocaleDateString('uk-UA') : '—'}`) : h('div.xs.dim', 'Ще не вивчалось'),
-    h('div.row.wrap',
-      srs.isLearned(c)
-        ? h('button.btn.soft', { type: 'button', onclick: () => { s.close(); setKnown(c, false, onChange); } }, ic('arrow-clockwise'), 'Повернути до вивчення')
-        : h('button.btn.soft', { type: 'button', onclick: () => { s.close(); setKnown(c, true, onChange); } }, ic('check-circle'), 'Я знаю це слово'),
-      !inStore ? h('button.btn.soft', { type: 'button', onclick: () => { store.put('cards', c); toast('Додано — з\'явиться першим серед нових'); s.close(); onChange(); } }, ic('plus'), 'Вчити першим') : null,
-      h('a.btn.ghost', { href: `#/tutor?ask=${encodeURIComponent(c.en)}`, onclick: () => s.close() }, ic('chat-circle-dots'), 'Запитати вчителя'),
-      own ? h('button.btn.soft', { type: 'button', onclick: () => { s.close(); addWord(onChange, c); } }, ic('pencil-simple'), S.edit) : null,
-      own ? h('button.btn.danger', { type: 'button', onclick: async () => { if (await confirmSheet('Видалити картку?', c.en, 'Видалити', { danger: true })) { store.remove('cards', c.id); s.close(); onChange(); } } }, ic('trash'), S.delete) : null)));
+  // шторка слова — у мові плиток: слово й переклад, приклади рядками з «прослухати», дії — рядки-плитки (без кнопок різного розміру)
+  const learned = srs.isLearned(c);
+  const act = (o) => txRow({ ...o, chevron: false });
+  const s = sheet(null, h('div.stack.vw-sheet',
+    h('div.vw-sh-head',
+      h('div.grow', h('div.vw-sh-en', { lang: 'en' }, c.en), c.ipa ? h('div.ipa.vw-sh-ipa', c.ipa) : null),
+      h('button.tx-sq.vw-sh-say', { type: 'button', 'aria-label': 'Прослухати', onclick: () => speak(c.en) }, ic('speaker-high', { size: 22 }))),
+    h('div.vw-sh-uk', c.uk),
+    h('div.chips.vw-sh-tags', h('span.tag', deckName[c.deck_id] || c.deck_id), c.pos ? h('span.tag', c.pos) : null, ext.cefr ? h('span.tag.accent', ext.cefr) : null, ...(c.tags || []).map(t => h('span.tag', t))),
+    ex.length ? txRows(ex.map(e => h('div.tx-row.gx-ex',
+      h('button.tx-sq.gx-say', { type: 'button', 'aria-label': `Прослухати: ${e.en}`, onclick: () => speak(e.en) }, ic('speaker-high', { size: 18 })),
+      h('span.tx-body', h('span.tx-l', { lang: 'en' }, e.en), e.uk ? h('span.tx-s', e.uk) : null)))) : null,
+    ext.collocations?.length || ext.synonyms?.length ? h('div.gx-card.vw-sh-more',
+      ext.collocations?.length ? h('div', h('span.vw-sh-k', 'Колокації'), h('span', { lang: 'en' }, ext.collocations.join(', '))) : null,
+      ext.synonyms?.length ? h('div', h('span.vw-sh-k', 'Синоніми'), h('span', { lang: 'en' }, ext.synonyms.join(', '))) : null) : null,
+    ext.known?.source === 'usage' ? h('div.tx.wide.gx-note.good', h('span.tx-sq', ic('chat-circle-dots', { size: 20 })),
+      h('span.tx-body', h('span.tx-l', `Позначено вчителем: вжито в ${ext.known.chats || 2} ${plural(ext.known.chats || 2, 'розмові', 'розмовах', 'розмовах')}`),
+        ext.known.sample ? h('span.tx-s', { lang: 'en' }, `«${ext.known.sample}»`) : null)) : null,
+    c.reps ? h('div.tx-grid.vw-sh-kpis',
+      h('div.tx.tx-kpi', h('span.tx-n', String(c.reps)), h('span.tx-s', plural(c.reps, 'повтор', 'повтори', 'повторів'))),
+      h('div.tx.tx-kpi', h('span.tx-n' + (c.lapses ? '.warn' : ''), String(c.lapses || 0)), h('span.tx-s', 'помилок')),
+      h('div.tx.tx-kpi', h('span.tx-n.vw-sh-due', c.due ? new Date(c.due).toLocaleDateString('uk-UA', { day: 'numeric', month: 'short' }) : '—'), h('span.tx-s', `повтор · стаб. ${fmtInterval(c.stability)}`))) : null,
+    txRows([
+      learned
+        ? act({ icon: 'arrow-clockwise', label: 'Повернути до вивчення', sub: 'з\'явиться в картках сьогодні', onclick: () => { s.close(); setKnown(c, false, onChange); } })
+        : act({ icon: 'check-circle', label: 'Я знаю це слово', sub: c.reps ? null : 'ще не вивчалось', onclick: () => { s.close(); setKnown(c, true, onChange); } }),
+      !inStore ? act({ icon: 'plus', label: 'Вчити першим', sub: 'першим серед нових слів', onclick: () => { store.put('cards', c); toast('Додано — з\'явиться першим серед нових'); s.close(); onChange(); } }) : null,
+      txRow({ icon: 'chat-circle-dots', label: 'Запитати вчителя', href: `#/tutor?ask=${encodeURIComponent(c.en)}`, onclick: () => s.close() }),
+      own ? act({ icon: 'pencil-simple', label: S.edit, onclick: () => { s.close(); addWord(onChange, c); } }) : null,
+      own ? act({ icon: 'trash', label: S.delete, cls: 'vw-sh-del', onclick: async () => { if (await confirmSheet('Видалити картку?', c.en, 'Видалити', { danger: true })) { store.remove('cards', c.id); s.close(); onChange(); } } }) : null,
+    ])));
 }
 
 // ---------- Додати / редагувати слово ----------

@@ -15,3 +15,14 @@
 .pl-bar i{height:6px;border-radius:99px;background:var(--tile-sq)}
 .pl-bar i.on{background:var(--accent)}
 .pl-list{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:4px}
+/* 2026-11-08 · преміальний вигляд */
+.pl-hint{margin:0 6px}
+.pl-passage.card{padding:16px 18px;border-radius:var(--r-tile);font-size:var(--fs-md);line-height:1.65}
+.pl-prompt{letter-spacing:-.01em}
+.pl-run > .xs.dim{padding:0 4px}
+.pl-run > .row:last-of-type .btn{min-height:52px}
+.pl-write textarea.input{border-radius:var(--r-row);box-shadow:var(--tile-shadow);border-color:var(--tile-edge);background:var(--tile);line-height:1.55;padding:14px}
+.pl-bar{gap:3px}
+.pl-bar i{height:5px;background:var(--track)}
+.pl-bar i.on{background:var(--accent-grad)}
+.pl-result .gx-res .tx-s{margin-top:2px;line-height:1.4}

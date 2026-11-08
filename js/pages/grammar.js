@@ -114,6 +114,7 @@ async function lessonPage(view, id, query = {}) {
   });
   const exSlot = h('div', exTile(false));
   const startEx = (list, label) => {
+    exSlot.hidden = false;
     exSlot.replaceChildren(exTile(true));
     exBox.replaceChildren(h('div.gx-exbox', { id: 'ex' }));
     exBox.firstChild.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -126,18 +127,21 @@ async function lessonPage(view, id, query = {}) {
         const pr = recordLesson(id, res.score);
         timer.poke();
         if (res.score >= 80) toast(!wasDone ? 'Урок пройдено!' : (pr.review_stage || 0) > stage0 ? 'Повтор зараховано' : 'Чудово — знання тримаються');
+        // після результату «Вправи заново» внизу дублювала б «Пройти ще раз» — ховаємо до нового запуску
+        exSlot.hidden = true;
         setTimeout(() => {
-          const again = res.score < 80 ? tx({ icon: 'arrow-clockwise', label: 'Пройти ще раз', sub: 'Усі вправи уроку', onclick: () => startEx(shuffle(l.exercises), 'Вправи') }) : null;
-          exBox.firstChild.append(h('section.tx-group.gx-exnext', { style: { marginTop: '16px' } },
+          const again = tx({ icon: 'arrow-clockwise', label: 'Пройти ще раз', sub: res.score < 80 ? 'Усі вправи уроку' : '10 нових змішаних завдань',
+            onclick: () => startEx(res.score < 80 ? shuffle(l.exercises) : shuffle(l.exercises).slice(0, 10), 'Вправи') });
+          exBox.firstChild.append(h('section.tx-group.gx-exnext',
             h('h2.tx-label', 'Що далі'),
             nextL ? txPrimary({ icon: 'arrow-right', label: `Далі: ${nextL.title}`, sub: 'Наступний урок курсу', href: `#/grammar/${nextL.id}` }) : null,
-            txGrid([again, moreTile(!nextL && !again)], again ? 2 : 3)));
+            txGrid([again, moreTile()], 2)));
         });
       },
     });
   };
   // «Ще 10 вправ (AI)»: плитка; під час генерації — вимкнена з підписом «Генерую вправи…»
-  const moreTile = (primary = false) => (primary ? txPrimary : tx)({ icon: 'sparkle', label: 'Ще 10 вправ (AI)', sub: 'Нові завдання від вчителя', onclick: async (e) => {
+  const moreTile = () => tx({ icon: 'sparkle', label: 'Ще 10 вправ (AI)', sub: 'Нові завдання від вчителя', onclick: async (e) => {
     if (!user()) { toast(S.err.needLogin); return; }
     const b = e.currentTarget, lab = b.querySelector('.tx-l');
     b.disabled = true; lab.textContent = 'Генерую вправи…';

@@ -35,8 +35,8 @@ async function grammarPractice(view, unitSlug, lv) {
       primBox.replaceChildren(txPrimary({ icon: 'lightning', label: sel === 'all' ? 'Усі теми вперемішку' : `Вперемішку · рівень ${lvSel}`, sub: sel === 'all' ? '10 вправ з усіх тем' : '10 вправ з тем цього рівня', href: sel === 'all' ? '#/exercises/grammar/all' : `#/exercises/grammar/lvl?lv=${lvSel}` }));
       listBox.replaceChildren(
         rows.length ? txGroup('Теми', moreRows(rows.map(({ u, items }, k) => txRow({
-          no: k + 1, label: u.name, sub: items.map(l => l.title).join(', '), cls: 'gx-clamp',
-          pill: { text: `${items.length} ${plural(items.length, 'урок', 'уроки', 'уроків')}` },
+          // кількість уроків — на початку підпису, а не пігулкою: на 320 px назва теми не ламається на два рядки
+          no: k + 1, label: u.name, sub: `${items.length} ${plural(items.length, 'урок', 'уроки', 'уроків')} · ${items.map(l => l.title).join(', ')}`, cls: 'gx-clamp',
           href: `#/exercises/grammar/${u.slug}${sel === 'all' ? '' : `?lv=${lvSel}`}`,
         })))) : null);
     };

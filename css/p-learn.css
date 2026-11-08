@@ -69,3 +69,45 @@ button.tx-sq.lr-spk:active{transform:scale(.94)}
 .cd-deck .switch::after{width:20px;height:20px}
 .cd-deck .switch:has(input:checked)::after{transform:translateX(16px)}
 .cd-deck .switch input:checked{background:color-mix(in srgb,var(--accent) 85%,var(--tile))}
+
+/* ---------- 2026-11-08 · Преміальний вигляд: слова, словник, повтор ---------- */
+/* шторка слова в словнику */
+.vw-sheet{gap:14px}
+.vw-sh-head{display:flex;align-items:flex-start;gap:12px}
+.vw-sh-head .grow{min-width:0}
+.vw-sh-en{font-family:var(--font-head);font-size:var(--fs-2xl);font-weight:600;line-height:1.1;letter-spacing:-.03em;overflow-wrap:anywhere}
+.vw-sh-ipa{margin-top:4px}
+button.tx-sq.vw-sh-say{width:48px;height:48px;border:0;border-radius:14px;background:var(--accent-soft);color:var(--accent-ink);cursor:pointer;-webkit-tap-highlight-color:transparent}
+button.tx-sq.vw-sh-say:active{transform:scale(.94)}
+.vw-sh-uk{font-size:var(--fs-lg);font-weight:500;line-height:1.35;color:var(--accent-ink);overflow-wrap:anywhere}
+.vw-sh-tags{gap:6px}
+.vw-sh-more{display:flex;flex-direction:column;gap:6px;font-size:var(--fs-sm);line-height:1.45}
+.vw-sh-k{display:block;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-dim);margin-bottom:1px}
+.vw-sh-kpis .tx-n.vw-sh-due{font-size:19px}
+.vw-sheet .tx-row{box-shadow:none;background:var(--tile-sq);border-color:transparent}
+.vw-sheet .tx-row .tx-sq,.vw-sheet .tx-row .gx-say{background:var(--tile)}
+.vw-sheet .tx-kpi{box-shadow:none;background:var(--tile-sq);border-color:transparent}
+.vw-sheet .gx-card{box-shadow:none;background:var(--tile-sq);border-color:transparent}
+.vw-sheet .tx-row.vw-sh-del .tx-l,.vw-sheet .tx-row.vw-sh-del .tx-sq{color:var(--bad)}
+/* рядок словника: англійське — 600, статус «вивчено» — зелена галочка */
+.vw-row .vw-en{font-weight:600}
+.vw-row .vw-known{color:var(--ink-dim)}
+.vw-row .vw-known.on{color:var(--good)}
+.vw-page .tx.wide{padding:12px 14px}
+
+/* колоди */
+.cd-deck{min-height:64px}
+
+/* класичний повтор: картка — плитка з глибиною; «Добре» — єдина суцільна синя оцінка */
+.cd-rev .flash .face{border-radius:22px;box-shadow:var(--tile-shadow),0 18px 40px -28px rgba(11,21,48,.35);border-color:var(--tile-edge)}
+.cd-rev .flash .big{font-family:var(--font-head);font-weight:600}
+.cd-rev .flash .answer{border-top-style:solid;border-top-color:var(--line)}
+.cd-rev .flash .card.soft{background:var(--tile-sq);box-shadow:none}
+.cd-rev .progress{height:5px;background:var(--track)}
+.cd-rev .progress > i{background:var(--accent-grad)}
+.cd-rev .grades{gap:8px}
+.cd-rev .grade{min-height:64px;border-radius:var(--r-row);font-weight:600}
+.cd-rev .grade small{font-family:var(--font-head);font-variant-numeric:tabular-nums;font-weight:500}
+.cd-rev .grade.again,.cd-rev .grade.hard,.cd-rev .grade.easy{border-color:transparent}
+.cd-rev .grade.good{background:var(--accent-grad);box-shadow:var(--accent-glow)}
+@media (max-width:360px){.cd-rev .grade{min-height:58px;font-size:13.5px}}

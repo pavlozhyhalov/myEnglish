@@ -67,3 +67,35 @@
   .wt-bar>i{transition:none}
   .wt-spinner{animation-duration:3s}
 }
+/* 2026-11-08 · преміальний вигляд: картка з глибиною, тонка смужка, варіанти й пари — м'які плитки, відгук — шторка */
+.wt-bar{height:5px;background:var(--track)}
+.wt-bar>i{background:var(--accent-grad);box-shadow:none}
+.wt-card{border-radius:22px;box-shadow:var(--tile-shadow),0 18px 40px -28px rgba(11,21,48,.35);padding:52px 16px 18px}
+.wt-kind{font-weight:600;letter-spacing:.08em;padding:5px 11px}
+.wt-big{font-family:var(--font-head);letter-spacing:-.03em}
+.wt-uk{font-weight:500;letter-spacing:-.01em;line-height:1.3}
+.wt-example{border-radius:var(--r-row);padding:12px 14px;line-height:1.45}
+.wt-opt{border-radius:var(--r-row);border-color:transparent;font-size:var(--fs-md);font-weight:500}
+@media (hover:hover){.wt-opt:not(:disabled):hover{border-color:var(--line-strong)}}
+.wt-key{width:30px;height:30px;border-radius:10px;font-weight:600;font-size:13px;box-shadow:0 1px 2px rgba(11,21,48,.06)}
+.opt.wt-opt.right{border-color:color-mix(in srgb,var(--good) 28%,transparent)}
+.opt.wt-opt.wrong{border-color:color-mix(in srgb,var(--bad) 28%,transparent)}
+.wt-tile{border-width:1px;border-color:transparent;border-radius:var(--r-row);font-weight:500;min-height:54px}
+.wt-tile.sel{background:color-mix(in srgb,var(--accent) 9%,var(--tile));border-color:color-mix(in srgb,var(--accent) 40%,transparent);color:var(--accent-ink);font-weight:600}
+.wt-tile.done{border-color:transparent;opacity:.55}
+.wt-tile.miss{border-color:color-mix(in srgb,var(--bad) 45%,transparent)}
+.wt-fb{border-radius:20px;padding:14px 16px;gap:6px;line-height:1.45}
+.wt-fb.ok{border-color:color-mix(in srgb,var(--good) 22%,transparent)}
+.wt-fb.almost{border-color:color-mix(in srgb,var(--warn) 22%,transparent)}
+.wt-fb.no{border-color:color-mix(in srgb,var(--bad) 22%,transparent)}
+.wt-fb-word .en{font-weight:600}
+.wt-combo{font-weight:600;font-variant-numeric:tabular-nums}
+.wt-listen{border-radius:28px;box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--accent) 14%,transparent)}
+.wt-listen.mic{background:var(--accent-grad);box-shadow:var(--accent-glow)}
+@media (max-width:360px){
+  .wt-card{padding:48px 12px 14px;gap:12px}
+  .wt-opt{min-height:52px;padding:10px}
+}
+.wt-listen-box{display:flex;flex-direction:column;align-items:center;gap:10px}
+.wt-listen-acts{display:flex;flex-wrap:wrap;justify-content:center;gap:6px}
+.wt-listen-acts .btn{gap:6px}

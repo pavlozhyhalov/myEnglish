@@ -342,10 +342,11 @@ export async function runTrain(view, { limit = Infinity, onExit, onDone, practic
 
   function listenPrompt(text) {
     setTimeout(() => { if (stage.isConnected) speak(text); }, 250);
-    return h('div.row', { style: { justifyContent: 'center', gap: '14px' } },
+    // велика кнопка по центру, під нею — «Повільніше» і «Не можу слухати» в один рядок
+    return h('div.wt-listen-box',
       h('button.wt-listen', { type: 'button', 'aria-label': 'Прослухати ще раз', onclick: () => speak(text) }, ic('speaker-high', { size: 44 })),
-      h('div.stack', { style: { gap: '6px' } },
-        h('button.btn.soft.sm', { type: 'button', onclick: () => speak(text, { rate: 0.7 }) }, 'Повільніше'),
+      h('div.wt-listen-acts',
+        h('button.btn.soft.sm', { type: 'button', onclick: () => speak(text, { rate: 0.7 }) }, ic('timer', { size: 16 }), 'Повільніше'),
         // без звуку (транспорт, тиша): вправи на слух вимикаються до кінця сесії, слово — в іншій вправі
         h('button.btn.ghost.sm', { type: 'button', onclick: () => { if (cur.answeredNow) return; audioOff = true; stopSpeech(); shownAt = Date.now(); render(); } }, 'Не можу слухати')));
   }
@@ -401,8 +402,8 @@ export async function runTrain(view, { limit = Infinity, onExit, onDone, practic
     let order = L.shuffle(tiles);
     for (let k = 0; k < 5 && order.every((t, i) => t.i === i); k++) order = L.shuffle(tiles);
     const placed = [];
-    const line = h('div.answer-line', { 'aria-label': 'Ваше речення' });
-    const bank = h('div.word-bank', { 'aria-label': 'Слова' });
+    const line = h('div.answer-line.ex-line', { 'aria-label': 'Ваше речення', 'data-ph': 'Торкайтесь слів унизу по черзі' });
+    const bank = h('div.word-bank.ex-bank', { 'aria-label': 'Слова' });
     const checkBtn = h('button.btn.primary.grow', { type: 'button', disabled: true, onclick: () => check() }, 'Перевірити');
     const draw = () => {
       line.replaceChildren(...placed.map((t, k) => h('button.chip', { type: 'button', lang: 'en', onclick: () => { if (cur.answeredNow) return; placed.splice(k, 1); draw(); } }, t.w)));

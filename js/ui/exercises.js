@@ -2,7 +2,7 @@
 import { h, ic, progress } from './dom.js';
 import { speak } from '../speech.js';
 import { plural } from '../strings.js';
-import { txKpis, txGroup, txPill } from './tiles.js';
+import { txKpis, txGroup, txPill, txRow, txRows } from './tiles.js';
 import { tutor, aiErrorText } from '../ai.js';
 import { user } from '../supa.js';
 
@@ -87,14 +87,35 @@ export function resultView({ score, correct, total, results }) {
         { value: correct, unit: `/${total}`, label: 'правильно', ariaLabel: `${correct} з ${total} правильно` },
         { value: wrong.length, label: plural(wrong.length, 'помилка', 'помилки', 'помилок'), tone: wrong.length ? 'bad' : 'good' },
       ])),
-    wrong.length ? txGroup(`Розбір помилок (${wrong.length})`, wrong.map(r => h('div.gx-card.stack', { style: { gap: '4px' } },
-      h('div.small', promptText(r.ex)),
-      h('div.small', h('span.bad', `Ваша відповідь: ${r.given || '—'}`)),
-      h('div.small', h('span.good', `Правильно: ${answerText(r.ex)}`)),
-      r.ex.explanation ? h('div.xs.dim', r.ex.explanation) : null))) : null);
+    wrong.length ? txGroup(`Розбір помилок · ${wrong.length}`, cappedRows(wrong.map(r => mistakeCard(r)))) : null);
 }
 
-function promptText(ex) {
+/**
+ * Розбір однієї помилки — плитка: завдання, ваша відповідь (хрестик), правильна (галочка), коротке пояснення.
+ * Спільна для вправ і тестів. action — необов'язковий вузол (кнопка) праворуч від завдання.
+ */
+export function mistakeCard(r, { action = null, given = null } = {}) {
+  const g = given ?? (r.given || '—');
+  return h('div.gx-card.ex-mis',
+    h('div.ex-mis-q', h('span.grow', promptText(r.ex)), action),
+    h('div.ex-mis-a.bad', ic('x', { size: 14 }), h('span', g)),
+    h('div.ex-mis-a.good', ic('check', { size: 14 }), h('span', answerText(r.ex))),
+    r.ex.explanation ? h('div.ex-mis-why', r.ex.explanation) : null);
+}
+
+/** Список плиток: на виду — max, решта за рядком «Показати всі · N» (правило «по полочках») */
+export function cappedRows(items, max = 6) {
+  const list = items.filter(Boolean);
+  if (list.length <= max) return txRows(list);
+  list.slice(max).forEach(el => { el.hidden = true; });
+  const box = txRows(list);
+  const more = txRow({ icon: 'caret-down', label: `Показати всі · ${list.length}`, cls: 'gx-more', chevron: false,
+    attrs: { 'aria-expanded': 'false' }, onclick: () => { list.forEach(el => { el.hidden = false; }); more.remove(); } });
+  box.append(more);
+  return box;
+}
+
+export function promptText(ex) {
   if (ex.type === 'translate') return ex.uk;
   if (ex.type === 'order') return ex.prompt || 'Складіть речення';
   if (ex.type === 'error') return ex.sentence;
@@ -176,8 +197,8 @@ export function render(ex, report, next) {
   if (ex.type === 'order') {
     const target = Array.isArray(ex.answer) ? ex.answer[0] : ex.answer;
     const words = ex.words || target.replace(/[.?!]$/, '').split(/\s+/);
-    const line = h('div.answer-line');
-    const bank = h('div.word-bank');
+    const line = h('div.answer-line.ex-line', { 'data-ph': 'Торкайтесь слів унизу по черзі' });
+    const bank = h('div.word-bank.ex-bank');
     const used = [];
     const draw = () => {
       line.replaceChildren(...used.map((w, k) => h('button.chip', { type: 'button', onclick: () => { if (reported) return; used.splice(k, 1); pool.push(w); draw(); } }, w.t)));
@@ -191,14 +212,14 @@ export function render(ex, report, next) {
       done(matches(given, ex.answer), given); checkBtn.hidden = true;
       bank.classList.add('done'); line.classList.add('done');
     } }, 'Перевірити');
-    return h('div.stack', instr('Складіть речення зі слів'), ex.prompt ? h('div.dim', ex.prompt) : null, line, bank, checkBtn, fb, nextBtn);
+    return h('div.stack', instr('Складіть речення зі слів'), ex.prompt ? h('div.ex-prompt.uk', ex.prompt) : null, line, bank, checkBtn, fb, nextBtn);
   }
 
   if (ex.type === 'error') {
     const words = ex.sentence.split(/\s+/);
     let picked = null;
     const fix = h('input.input', { type: 'text', placeholder: 'Як правильно?', 'aria-label': 'Виправлення', hidden: true, autocomplete: 'off', autocapitalize: 'off' });
-    const wrap = h('div.chips', words.map((w, k) => h('button.chip', { type: 'button', onclick: (e) => {
+    const wrap = h('div.chips.ex-words', words.map((w, k) => h('button.chip', { type: 'button', onclick: (e) => {
       if (reported) return;
       wrap.querySelectorAll('.chip').forEach(c => c.classList.remove('on'));
       e.currentTarget.classList.add('on'); picked = k; fix.hidden = false; fix.focus();
@@ -218,7 +239,7 @@ export function render(ex, report, next) {
       checkBtn.hidden = true;
     } }, 'Перевірити');
     fix.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); reported ? next() : checkBtn.click(); } });
-    return h('div.stack', instr('Знайдіть помилку: торкніться неправильного слова і напишіть, як правильно'), wrap, fix, checkBtn, fb, nextBtn);
+    return h('div.stack', instr('Торкніться слова з помилкою й напишіть, як правильно'), wrap, fix, checkBtn, fb, nextBtn);
   }
 
   if (ex.type === 'translate') {

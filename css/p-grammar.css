@@ -234,3 +234,72 @@ html.kbd .pr-big:focus-visible{outline:2px solid var(--accent-ink);outline-offse
 .gx-lv.mine .gx-lv-head{background:color-mix(in srgb,var(--accent) 6%,var(--tile));border-color:color-mix(in srgb,var(--accent) 22%,transparent)}
 .gx-lv.mine .gx-lv-sq{background:var(--accent-grad)}
 .gx-lv-sq{font-weight:600}
+
+/* ---------- 2026-11-08 · Преміальний вигляд: вправи, розбір помилок, тести ---------- */
+/* текстові плитки — радіус і глибина преміального шару */
+.gx-card{border-radius:var(--r-row);padding:14px;box-shadow:var(--tile-shadow)}
+.gx-sound{border-radius:var(--r-row);box-shadow:var(--tile-shadow)}
+.gx-sound-head{border-radius:var(--r-row)}
+.gx-sound[open]{border-color:var(--tile-edge)}
+.gx-sound-body .gx-card{box-shadow:none}
+.card.gx-expl{padding:16px 18px;line-height:1.6}
+.tx-row.gx-formula{background:color-mix(in srgb,var(--accent) 5%,var(--tile))}
+.gx-formula .tx-no,.gx-formula .tx-sq{background:var(--accent-soft);color:var(--accent-ink)}
+.gx-res-ic{border-radius:15px}
+.gx-res-t{letter-spacing:-.01em}
+
+/* варіанти відповіді — плитки з глибиною; стан відповіді — м'які тони без різкої рамки */
+.opt.ex-opt{border-radius:var(--r-row);min-height:56px;padding:12px 14px 12px 12px;box-shadow:var(--tile-shadow);font-size:var(--fs-md)}
+.ex-key{width:30px;height:30px;border-radius:10px;font-weight:600;font-size:13px}
+@media (hover:hover){.opt.ex-opt:not([aria-disabled="true"]):hover{box-shadow:var(--tile-shadow),0 0 0 1px var(--line-strong)}}
+.opt.ex-opt.right,.opt.ex-opt.wrong{box-shadow:none}
+.opt.ex-opt.right{border-color:color-mix(in srgb,var(--good) 28%,transparent)}
+.opt.ex-opt.wrong{border-color:color-mix(in srgb,var(--bad) 28%,transparent)}
+.opt.ex-opt[aria-disabled="true"]:not(.right):not(.wrong){opacity:.6;box-shadow:none}
+.opt.ex-opt.sel{background:color-mix(in srgb,var(--accent) 7%,var(--tile));border-color:color-mix(in srgb,var(--accent) 30%,transparent);color:var(--ink)}
+.opt.ex-opt.sel .ex-key{background:var(--accent-grad)}
+.ex-prompt{letter-spacing:-.01em}
+.ex-prompt.uk{font-size:var(--fs-md);font-weight:500;color:var(--ink-dim)}
+.ex-instr{font-size:var(--fs-xs);color:var(--ink-dim);padding:0 4px}
+
+/* відгук — м'яка плитка з тоном */
+.feedback.ex-fb{border-radius:var(--r-row);padding:13px 14px;gap:11px;line-height:1.45}
+.feedback.ex-fb.ok{background:var(--good-soft);border-color:color-mix(in srgb,var(--good) 22%,transparent)}
+.feedback.ex-fb.no{background:var(--bad-soft);border-color:color-mix(in srgb,var(--bad) 22%,transparent)}
+.feedback.ex-fb .ex-fb-t > div:first-child{color:var(--ink)}
+.feedback.ex-fb .ex-fb-t .dim{font-size:var(--fs-sm)}
+
+/* «Складіть речення»: рядок відповіді — пунктирна плитка-слот з підказкою; слова — плитки з тінню */
+.answer-line.ex-line{min-height:58px;padding:10px;border:1.5px dashed var(--line-strong);border-radius:var(--r-row);background:color-mix(in srgb,var(--tile) 55%,transparent);align-items:center}
+.answer-line.ex-line:empty::before{content:attr(data-ph);font-size:var(--fs-sm);color:var(--ink-dim);padding:0 4px}
+.answer-line.ex-line .chip{background:color-mix(in srgb,var(--accent) 9%,var(--tile));border-color:color-mix(in srgb,var(--accent) 22%,transparent);color:var(--accent-ink);font-weight:600}
+.word-bank.ex-bank{gap:8px;padding:2px 0}
+.word-bank.ex-bank .chip,.chips.ex-words .chip{background:var(--tile);border:1px solid var(--tile-edge);box-shadow:var(--tile-shadow);min-height:40px;padding:0 14px;font-size:var(--fs-md);font-weight:500;color:var(--ink);border-radius:12px}
+.word-bank.ex-bank .chip:active,.chips.ex-words .chip:active{transform:scale(.96)}
+.chips.ex-words .chip.on{background:color-mix(in srgb,var(--accent) 9%,var(--tile));border-color:color-mix(in srgb,var(--accent) 35%,transparent);color:var(--accent-ink);font-weight:600}
+.chips.ex-words .chip.right{background:var(--good-soft);border-color:color-mix(in srgb,var(--good) 35%,transparent);color:var(--good);box-shadow:none}
+.chips.ex-words .chip.wrong{background:var(--bad-soft);border-color:color-mix(in srgb,var(--bad) 35%,transparent);color:var(--bad);box-shadow:none;text-decoration:line-through;text-decoration-thickness:1.5px}
+.word-bank.done,.answer-line.done{opacity:.75}
+
+/* розбір помилки: завдання, ваша відповідь, правильна, пояснення */
+.gx-card.ex-mis{display:flex;flex-direction:column;gap:6px;font-size:var(--fs-sm);line-height:1.45}
+.ex-mis-q{display:flex;align-items:flex-start;gap:10px;font-weight:500}
+.ex-mis-q .grow{min-width:0}
+.ex-mis-a{display:flex;align-items:flex-start;gap:8px;overflow-wrap:anywhere}
+.ex-mis-a > .ico{flex:none;width:20px;height:20px;padding:3px;box-sizing:border-box;border-radius:6px;margin-top:1px}
+.ex-mis-a.bad{color:var(--ink-dim)}
+.ex-mis-a.bad > span{text-decoration:line-through;text-decoration-color:color-mix(in srgb,var(--bad) 60%,transparent)}
+.ex-mis-a.bad > .ico{background:var(--bad-soft);color:var(--bad)}
+.ex-mis-a.good{font-weight:600;color:var(--ink)}
+.ex-mis-a.good > .ico{background:var(--good-soft);color:var(--good)}
+.ex-mis-why{font-size:var(--fs-xs);color:var(--ink-dim);padding-top:6px;border-top:1px solid var(--line)}
+.ex-mis-add{flex:none;display:inline-flex;align-items:center;gap:4px;min-height:30px;padding:0 10px;border:0;border-radius:999px;background:var(--tile-sq);color:var(--accent-ink);font:inherit;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap}
+.ex-mis-add:disabled{color:var(--good);background:var(--good-soft);cursor:default}
+.ex-result .gx-res{padding:0 4px}
+
+/* шапка набору вправ / раннера */
+.ex-head .progress,.gx-run .progress{height:5px;background:var(--track)}
+.ex-head .progress > i,.gx-run .progress > i{background:var(--accent-grad);border-radius:inherit}
+.ex-head-t .tx-label{padding:0 0 0 2px}
+.gx-run{gap:12px}
+.gx-exnext{margin-top:12px}
