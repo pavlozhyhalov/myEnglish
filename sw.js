@@ -107,14 +107,16 @@ self.addEventListener('fetch', (e) => {
     // її index.html, активація → controllerchange → app.js перезавантажує сторінку один раз (як і раніше).
     // index.html з мережі в цей кеш не пишемо: інакше новий HTML поєднувався б зі старими js/css цієї збірки.
     if (req.mode === 'navigate') {
-      const cached = await shell();
+      // інші адреси (файл, відкритий напряму) — мережа, офлайн — оболонка
+      const app = ['./', './index.html'].includes(keyOf(req.url));
+      const cached = app ? await shell() : null;
       if (cached) return cached;
       try {
         const res = await fetch(req, { cache: 'no-store' });
         // кешу ще немає (перше відкриття до кінця встановлення) — зберігаємо, щоб наступний старт був офлайн-готовим
-        if (res.ok && res.type === 'basic') e.waitUntil(stamped(res.clone()).then(async r => (await current()).put('./index.html', r)).catch(() => {}));
+        if (app && res.ok && res.type === 'basic') e.waitUntil(stamped(res.clone()).then(async r => (await current()).put('./index.html', r)).catch(() => {}));
         return res;
-      } catch { return Response.error(); }
+      } catch { return (await shell()) || Response.error(); }
     }
     // решта — з кешу (поточна збірка, інакше попередні), інакше з мережі
     const hit = (await fromCurrent(req)) || await matchOurs(req, { ignoreSearch: true });
