@@ -1,6 +1,9 @@
 /* «Слухати в дорозі» (#/listen-go): вибір добірки, програвач без рук, підсумок */
 .lg .tx.lg-off{opacity:.55}
 .lg .tx.lg-off .tx-s{color:var(--ink-dim)}
+.lg .tx-row.lg-off{opacity:.55}
+.lg-tick{display:grid;place-items:center;flex:none;color:var(--line-strong)}
+.lg-tick.on{color:var(--accent-ink)}
 .lg-set .tx-l{font-size:var(--fs-sm)}
 
 /* Програвач: керування внизу — під великий палець */

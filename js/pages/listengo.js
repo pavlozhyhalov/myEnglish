@@ -16,9 +16,9 @@ import { tx, txPrimary, txGroup, txGrid, txKpis, txRow, txRows, txBar, txPill, t
 
 const PREFS_KEY = 'me:listengo';
 const SOURCES = [
-  { id: 'words', label: 'Мої слова', icon: 'cards', kind: 'Слово' },
-  { id: 'phrases', label: 'Фрази', icon: 'quotes', kind: 'Фраза' },
-  { id: 'fixes', label: 'Виправлення', icon: 'warning-circle', kind: 'Виправлення' },
+  { id: 'words', label: 'Мої слова', icon: 'cards', kind: 'Слово', hint: 'до повтору й ті, що вчите' },
+  { id: 'phrases', label: 'Фрази', icon: 'quotes', kind: 'Фраза', hint: 'з фразника' },
+  { id: 'fixes', label: 'Мої виправлення', icon: 'warning-circle', kind: 'Виправлення', hint: 'правильні варіанти' },
 ];
 const DURATIONS = [5, 10, 15];
 const PAUSE_MS = 1500, AFTER_MS = 900, SLOW = 0.85;
@@ -124,7 +124,7 @@ function speakUk(text, rate) {
   const p = new Promise((resolve) => {
     const u = new SpeechSynthesisUtterance(text);
     u.lang = ukVoice.lang || 'uk-UA';
-    u.voice = ukVoice;
+    try { u.voice = ukVoice; } catch { /* */ }
     u.rate = rate;
     u.onend = u.onerror = () => resolve();
     synth.speak(u);
@@ -178,19 +178,22 @@ export default async function listenGo(view) {
         onclick: n ? () => start() : null, disabled: !n, cls: n ? null : 'lg-off',
       }));
     };
-    const srcTile = (s) => {
+    const tick = (on) => h('span.lg-tick' + (on ? '.on' : ''), { 'aria-hidden': 'true' }, ic(on ? 'check-circle' : 'circle', { size: 22, fill: on }));
+    const srcRow = (s) => {
       const n = counts[s.id];
-      const el = tx({
-        icon: s.icon, label: s.label, sub: n ? String(n) : 'Поки немає', on: !!(prefs.src[s.id] && n),
+      const on = () => !!(prefs.src[s.id] && n);
+      const el = txRow({
+        icon: s.icon, label: s.label, sub: n ? `${n} · ${s.hint}` : 'Поки немає', on: on(), chevron: false, end: n ? tick(on()) : null,
         onclick: n ? () => {
           prefs.src[s.id] = !prefs.src[s.id]; savePrefs(prefs);
-          el.classList.toggle('on', prefs.src[s.id]);
-          el.querySelector('.tx-sq')?.replaceChildren(ic(s.icon, { size: 20, fill: prefs.src[s.id] }));
-          el.setAttribute('aria-pressed', String(prefs.src[s.id]));
+          el.classList.toggle('on', on());
+          el.querySelector('.tx-sq')?.replaceChildren(ic(s.icon, { size: 18, fill: on() }));
+          el.querySelector('.lg-tick')?.replaceWith(tick(on()));
+          el.setAttribute('aria-pressed', String(on()));
           drawPrimary();
         } : null,
-        attrs: n ? { 'aria-pressed': String(!!prefs.src[s.id]) } : { 'aria-disabled': 'true' },
-        cls: n ? null : 'lg-off',
+        attrs: n ? { 'aria-pressed': String(on()) } : { 'aria-disabled': 'true' },
+        cls: n ? 'lg-src' : 'lg-src.lg-off',
       });
       return el;
     };
@@ -203,10 +206,10 @@ export default async function listenGo(view) {
         drawPrimary();
       },
     }, `${m} хв`)));
-    const voiceInfo = `Швидкість ${String(st.rate ?? 1).replace('.', ',')}× · ${st.accent === 'UK' ? 'британська' : 'американська'} вимова`;
+    const voiceInfo = `Швидкість ${String(st.rate ?? 1).replace('.', ',')}× · вимова ${st.accent === 'UK' ? 'UK' : 'US'}`;
     view.replaceChildren(h('div.stack-lg.lg',
       primary,
-      txGroup('Що слухати', txGrid(SOURCES.map(srcTile))),
+      txGroup('Що слухати', txRows(SOURCES.map(srcRow))),
       txGroup('Тривалість', durSeg),
       txRows([txRow({ icon: 'gear-six', label: voiceInfo, sub: ukVoice ? 'Переклад звучить українською' : 'Переклад — на екрані (немає українського голосу)', href: '#/settings', cls: 'lg-set' })])));
   }
@@ -430,7 +433,7 @@ export default async function listenGo(view) {
     view.replaceChildren(h('div.stack-lg.lg',
       h('section.tx-group',
         txResult({ icon: good ? 'headphones' : 'clock', tone: good ? 'good' : 'accent', label: 'Слухати в дорозі',
-          title: done ? `Прослухано ${done} ${plural(done, 'пункт', 'пункти', 'пунктів')}` : 'Сесію завершено',
+          title: good ? 'Добре послухали — так слова й фрази закріплюються' : 'Сесію завершено',
           sub: distinct && distinct < done ? `${distinct} різних — повтори по колу закріплюють` : null }),
         txKpis([
           { value: done, label: 'прослухано', tone: done ? 'accent' : null },
