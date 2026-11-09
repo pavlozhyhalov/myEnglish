@@ -20,6 +20,7 @@ import { about, rememberFacts, undoRemember } from './profile.js';
 import { tx, txPrimary, txGrid, txGroup, txRows, txRow, txKpis, txPill, txDots, txResult, txLogin } from '../ui/tiles.js';
 import { savePhrases, guessSituation, hasPhrase, situation as phraseSit } from '../phrases.js';
 import { markUsedWords, MIN_CHATS } from '../usage.js';
+import { redoItems, redoSub, redoPage } from '../redo.js';
 
 export const MODES = [
   { id: 'chat', emoji: 'speech', icon: 'chat-circle-dots', title: 'Вільна розмова', desc: 'Текстом, на будь-яку тему' },
@@ -61,6 +62,13 @@ export default async function tutorPage(view, r) {
     view.replaceChildren(stateScreen({ icon: 'flag', label: 'Місія', title: 'Місію не знайдено', sub: 'Складіть нові місії на сторінці вчителя.' },
       txPrimary({ icon: 'chalkboard-teacher', label: 'До вчителя', href: '#/tutor' })));
     return;
+  }
+  // «Скажи ще раз»: речення з помилками розмови — вимовити правильно (js/redo.js)
+  if (r.parts?.[0] === 'redo') return redoPage(view, q.chat);
+  // підсумок розмови за посиланням (сюди повертає «Скажи ще раз» і перезавантаження сторінки підсумку)
+  if (q.chat && q.view === 'summary') {
+    const row = store.get('tutor_chats', q.chat);
+    if (row?.summary && !row.summary.partial && row.mode !== 'check' && row.mode !== 'diary') return summaryView(view, row);
   }
   if (q.mode === 'voice') {
     const { voiceSession } = await import('../live/voice.js');
@@ -1124,6 +1132,9 @@ export function summaryView(view, row, { pronTurns = null } = {}) {
   const nextHref = s.next_focus ? `#/tutor?mode=chat&topic=${encodeURIComponent(`Focus recommended after the last session (practise it naturally in conversation): ${s.next_focus}`)}` : null;
 
   // другорядне — у згорнутих плитках «Детальніше»
+  // «Скажи ще раз» — одразу після головного результату: вимовити власні речення з помилками правильно
+  const redo = redoItems(row);
+  const redoTile = redo.length && row.id ? tx({ icon: 'microphone', label: 'Скажи ще раз', sub: redoSub(redo.length), wide: true, cls: 'tu-redo', href: `#/tutor/redo?chat=${encodeURIComponent(row.id)}` }) : null;
   const more = [assessmentCard(s), practisedCard(s), masteredCard(s), usedKnownCard(s), row.mode === 'voice' ? speechCard(s) : null, pronTurns?.length ? pronCard(pronTurns) : null, phrasesCard(row, s)].filter(Boolean);
 
   view.replaceChildren(h('div.stack-lg.tutor-summary',
@@ -1131,6 +1142,7 @@ export function summaryView(view, row, { pronTurns = null } = {}) {
       h('div.tx-body', h('h1.tu-sumh1', 'Підсумок розмови'),
         h('span.tx-s', [row.title || '', lvl && turns ? `${turns} ${plural(turns, 'репліка', 'репліки', 'реплік')}` : ''].filter(Boolean).join(' · ')))),
     kpis,
+    redoTile,
     nextHref ? txGroup('Наступного разу', txPrimary({ icon: 'arrow-right', label: 'Почати з цього', sub: plainMd(s.next_focus), href: nextHref })) : null,
     mistakes.length ? txGroup(`Помилки · ${mistakes.length}`, [
       txRows(mistakes.slice(0, M_SHOW).map(mRow)),
@@ -1145,6 +1157,11 @@ export function summaryView(view, row, { pronTurns = null } = {}) {
     ...(nextHref ? [txGrid([tx({ icon: 'house', label: 'На головну', href: '#/' }), tx({ icon: 'chat-circle-dots', label: 'Нова розмова', href: '#/tutor' })], 2)]
       : [txPrimary({ icon: 'chat-circle-dots', label: 'Нова розмова', href: '#/tutor' }), tx({ icon: 'house', label: 'На головну', href: '#/', wide: true })]),
     deleteButton(row)));
+  // адреса підсумку: «назад» зі «Скажи ще раз» і перезавантаження повертають сюди, а не в нову розмову
+  if (row.id && store.get('tutor_chats', row.id) && location.hash.startsWith('#/tutor')) {
+    const want = `#/tutor?chat=${encodeURIComponent(row.id)}&view=summary`;
+    if (location.hash !== want) { try { history.replaceState(history.state, '', want); } catch { /* */ } }
+  }
 }
 
 /** «Що ви практикували»: короткий підсумок, вжиті слова з карток, фокус заняття */

@@ -480,3 +480,62 @@ html.kbd .tu-wrow:focus-visible{outline:2px solid var(--accent-ink);outline-offs
 .tu-assess > .tu-mhead > .tx-body{flex:1 1 150px}
 .tu-assess > .tu-mhead > .tx-pill{align-self:center;margin-left:auto}
 .tu-checkta{min-height:min(240px,34dvh);border-radius:var(--r-tile)}
+
+/* ---------- «Скажи ще раз» (js/redo.js): власні речення з помилками розмови — вимовити правильно ---------- */
+.tx.tu-redo .tx-sq{background:var(--accent-soft);color:var(--accent-ink)}
+.redo{padding-bottom:8px}
+.redo-head{display:flex;flex-direction:column;gap:8px}
+.redo-head-row{display:flex;align-items:baseline;justify-content:space-between;gap:8px}
+.redo-head-row .tx-label{padding:0 2px}
+.redo-count{font-family:var(--font-head);font-weight:600;font-size:var(--fs-sm);font-variant-numeric:tabular-nums;color:var(--ink-dim);padding-right:2px}
+.tx.redo-card{flex-direction:column;align-items:stretch;gap:10px;padding:16px;cursor:default}
+.tx.redo-card:active{transform:none}
+.redo-tags{display:flex;flex-wrap:wrap;gap:6px}
+.redo-tags:empty{display:none}
+.redo-tags .tx-pill{white-space:normal;line-height:1.2}
+.redo-tags .tx-pill.accent{background:var(--accent-soft);color:var(--accent-ink)}
+.redo-ex{margin:0;font-size:var(--fs-md);line-height:1.45;overflow-wrap:anywhere}
+.redo-wrong{margin:0;color:var(--ink-dim);font-size:var(--fs-sm);line-height:1.4;overflow-wrap:anywhere}
+.redo-wrong s{text-decoration-thickness:1.5px;text-decoration-color:color-mix(in srgb,var(--bad) 70%,transparent)}
+.redo-ask{margin:2px 0 0;display:flex;align-items:center;gap:6px;font-size:11.5px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--accent-ink)}
+.redo-ask svg{flex:none}
+.redo-fb:empty{display:none}
+.tx.redo-res,.tx.redo-msg{flex-direction:row;align-items:flex-start;cursor:default}
+.tx.redo-res:active,.tx.redo-msg:active{transform:none}
+.redo-res .tx-body{display:flex;flex-direction:column;gap:6px;min-width:0;flex:1}
+.redo-res .tx-l{font-weight:600}
+.tx.redo-res.good .tx-l{color:var(--good)}
+.tx.redo-res.bad .tx-l{color:var(--bad)}
+.redo-target{display:flex;align-items:center;gap:10px;font-weight:600;line-height:1.35;overflow-wrap:anywhere}
+.redo-target > span{min-width:0}
+.redo-target .tu-say{flex:none;width:34px;height:34px}
+.tx.redo-res.good .redo-target .tu-say{background:color-mix(in srgb,var(--good) 16%,transparent);color:var(--good)}
+.redo-said{margin:0;display:flex;flex-direction:column;gap:1px;font-size:var(--fs-sm);color:var(--ink-dim);overflow-wrap:anywhere}
+.redo-k{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase}
+.redo-act{display:flex;flex-direction:column;align-items:center;gap:10px}
+.redo-act > .tx,.redo-act > .redo-input{align-self:stretch}
+.redo-input{min-height:76px;font-size:var(--fs-md)}
+/* велика кнопка мікрофона — єдина синя дія екрана */
+.redo-mic{width:88px;height:88px;margin-top:6px;border-radius:50%;border:0;display:grid;place-items:center;cursor:pointer;color:#fff;
+  background:var(--accent-grad);box-shadow:var(--accent-glow);-webkit-tap-highlight-color:transparent;transition:transform .18s cubic-bezier(.2,.8,.2,1),box-shadow .2s ease}
+.redo-mic:active{transform:scale(.94)}
+.redo-mic.rec{background:var(--bad);box-shadow:0 0 0 0 color-mix(in srgb,var(--bad) 45%,transparent);animation:redoPulse 1.4s ease-out infinite}
+.redo-mic.wait{opacity:.7;cursor:default;box-shadow:none}
+html.kbd .redo-mic:focus-visible{outline:3px solid var(--accent-ink);outline-offset:3px}
+@keyframes redoPulse{from{box-shadow:0 0 0 0 color-mix(in srgb,var(--bad) 45%,transparent)}to{box-shadow:0 0 0 18px transparent}}
+@media (prefers-reduced-motion:reduce){.redo-mic.rec{animation:none}}
+.redo-cap{margin:0;font-size:var(--fs-sm);color:var(--ink-dim);text-align:center;min-height:1.4em}
+.redo-foot{display:flex;justify-content:center;flex-wrap:wrap;gap:4px 14px}
+.redo-foot:empty{display:none}
+.redo-link{display:inline-flex;align-items:center;gap:6px;min-height:40px;padding:6px 10px;border:0;border-radius:12px;background:transparent;
+  color:var(--ink-dim);font:inherit;font-size:var(--fs-sm);font-weight:600;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.redo-link:hover{background:var(--tile-sq);color:var(--ink)}
+html.kbd .redo-link:focus-visible{outline:2px solid var(--accent-ink);outline-offset:1px}
+.redo-miss{align-items:flex-start}
+.redo-miss .fix-line{font-size:var(--fs-sm);line-height:1.4}
+.redo-miss .tu-say{flex:none}
+@media (max-width:360px){
+  .tx.redo-card{padding:14px}
+  .redo-ex{font-size:var(--fs-sm)}
+  .redo-mic{width:76px;height:76px}
+}
