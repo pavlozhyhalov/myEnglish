@@ -217,8 +217,15 @@ export async function buildPlan() {
   const totalMin = counted.reduce((a, s) => a + s.minutes, 0);
   const doneMin = counted.reduce((a, s) => a + s.minutes * s.progress, 0);
   const allDone = counted.length > 0 && counted.every(s => s.done);
+  // денна мета за часом (2026-11-09, власник: «по часу я закрив, а кружок не заповнений»): кільце дня — більше з двох,
+  // виконані кроки плану або хвилини від мети; мету виконано — кільце повне, кроки, що лишились, — за бажанням
+  const goal = Math.max(1, Number(store.settings().dailyGoal) || 20);
+  const todayMin = stats.todaySeconds() / 60;
+  const progress = totalMin ? doneMin / totalMin : 0;
+  const goalMet = todayMin >= goal;
   return {
-    day: st.day, steps, totalMin, doneMin, progress: totalMin ? doneMin / totalMin : 0,
+    day: st.day, steps, totalMin, doneMin, progress,
+    dayProgress: goalMet || allDone ? 1 : Math.max(progress, Math.min(1, todayMin / goal)), goalMet,
     allDone, started: !!latest.started, next: counted.find(s => !s.done) || null,
   };
 }

@@ -540,3 +540,7 @@ html.kbd .redo-link:focus-visible{outline:2px solid var(--accent-ink);outline-of
   .redo-ex{font-size:var(--fs-sm)}
   .redo-mic{width:76px;height:76px}
 }
+/* екран «Вчитель готує підсумок» (2026-11-09): смужка на всю ширину під шапкою, контури підсумку нижче */
+.tu-state .sum-wait-bar{width:auto;margin:0 4px}
+.sum-wait-skel{opacity:.7}
+.vc-start,.vc-scen{margin-inline:auto}

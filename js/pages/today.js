@@ -66,18 +66,21 @@ function skeletonPage() {
 }
 
 function render(view, plan) {
-  const pct = Math.round(plan.progress * 100);
+  const pct = Math.round((plan.dayProgress ?? plan.progress) * 100);
+  const goalOnly = plan.goalMet && !plan.allDone;   // мету дня за часом виконано, кроки плану — за бажанням
   const counted = plan.steps.filter(s => !s.skipped);
   const doneN = counted.filter(s => s.done).length;
   const leftMin = Math.max(0, Math.ceil(plan.totalMin - plan.doneMin));
-  const label = plan.allDone
+  const label = plan.allDone || goalOnly
     ? h('span.td-ring-label', ic('check', { size: 36 }), h('span.sr-only', 'Виконано'))
     : h('span.td-ring-label', h('b.num', `${pct}%`), h('span.xs', `${Math.round(plan.doneMin)} з ${Math.round(plan.totalMin)} хв`));
 
-  const summary = h('section.tx.td-summary.td-static' + (plan.allDone ? '.is-done' : ''),
-    planRing(pct, { size: innerWidth < 360 ? 92 : 116, stroke: innerWidth < 360 ? 9 : 10, label, done: plan.allDone }),
+  const summary = h('section.tx.td-summary.td-static' + (plan.allDone || goalOnly ? '.is-done' : ''),
+    planRing(pct, { size: innerWidth < 360 ? 92 : 116, stroke: innerWidth < 360 ? 9 : 10, label, done: plan.allDone || goalOnly }),
     h('div.grow.stack', { style: { gap: '6px' } },
-      plan.allDone
+      goalOnly
+        ? [h('h2.td-title', 'Мету дня виконано'), h('p.small.dim', `${Math.round(todaySeconds() / 60)} хв практики · кроки нижче — за бажанням`)]
+        : plan.allDone
         ? [h('h2.td-title', 'День зараховано'), h('p.small.dim', `${Math.round(todaySeconds() / 60)} хв практики сьогодні · ${streakText()}`)]
         : [h('h2.td-title', counted.length ? (doneN ? `Готово ${doneN} з ${counted.length}` : `${counted.length} ${plural(counted.length, 'крок', 'кроки', 'кроків')} на сьогодні`) : 'План дня'),
           h('p.small.dim', leftMin ? `Залишилось ≈${leftMin} ${plural(leftMin, 'хвилина', 'хвилини', 'хвилин')}` : 'Майже готово')]));

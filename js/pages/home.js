@@ -113,8 +113,9 @@ function heroSkeleton() {
 
 /** Вміст синьої картки «Сьогодні» */
 function heroContent(plan, sec, st) {
-  const pct = Math.round(plan.progress * 100);
+  const pct = Math.round((plan.dayProgress ?? plan.progress) * 100);
   const mins = Math.round(sec / 60);
+  const dayDone = plan.allDone || plan.goalMet;
   const n = streak();
   // ще нічого не зроблено — показуємо мету дня, а не «0 хв» і «0%» (преміальний порожній стан, 2026-11-08)
   const fresh0 = mins === 0 && pct === 0 && !plan.allDone;
@@ -124,8 +125,8 @@ function heroContent(plan, sec, st) {
       fresh0
         ? h('span.big', String(Math.round(plan.totalMin) || st.dailyGoal), h('small', ' хв — план на сьогодні'))
         : h('span.big', String(mins), h('small', ` з ${st.dailyGoal} хв`)),
-      h('span.sub.hm-streak', ic('fire', { size: 14, fill: n > 0 }), n ? `${n} ${plural(n, 'день', 'дні', 'днів')} поспіль` : 'Перший день серії — сьогодні')),
-    planRing(pct, { size: 72, stroke: 6, label: plan.allDone ? ic('check', { size: 26 }) : pct === 0 ? ic('sun-horizon', { size: 26 }) : h('b.num.hm-pct', `${pct}%`), done: plan.allDone }));
+      h('span.sub.hm-streak', ic('fire', { size: 14, fill: n > 0 }), n ? `${n} ${plural(n, 'день', 'дні', 'днів')} поспіль` : 'Перший день серії — сьогодні', plan.goalMet && !plan.allDone ? ' · мету виконано' : '')),
+    planRing(pct, { size: 72, stroke: 6, label: dayDone ? ic('check', { size: 26 }) : pct === 0 ? ic('sun-horizon', { size: 26 }) : h('b.num.hm-pct', `${pct}%`), done: dayDone }));
   // кроки — маленькі плитки в ряд; кроки, недоступні без входу, не показуємо (вхід — одна кнопка нижче)
   const shown = plan.steps.filter(s => !s.skipped);
   const steps = shown.length < 2 ? null : h('div.hm-steps', { style: { gridTemplateColumns: `repeat(${shown.length},minmax(0,1fr))` } }, shown.map(s => {
@@ -167,13 +168,14 @@ function levelGroup(view, gIdx, lvl) {
   lpBar.removeAttribute('aria-label');
   Object.entries({ 'aria-label': 'Опанування рівня', 'aria-valuemin': 0, 'aria-valuemax': 100, 'aria-valuenow': 0 }).forEach(([k, v]) => lpBar.setAttribute(k, String(v)));
   const ready = h('span.hm-ready', { hidden: true });
+  let readyOff = false;
   const convInfo = h('span');
   levelProgress(gIdx, lvl).then(lp => {
     lpInfo.textContent = `Уроки ${lp.grammar.done}/${lp.grammar.total} · слова ${lp.words.done}/${lp.words.total}`;
     lpPct.textContent = `${lp.pct}%`;
     lpBar.firstChild.style.width = `${lp.pct}%`;
     lpBar.setAttribute('aria-valuenow', String(lp.pct));
-    if (lp.ready) { ready.textContent = `Ви майже опанували ${lvl} — час переходити на ${nxt}`; ready.hidden = false; }
+    if (lp.ready && !readyOff) { ready.textContent = `Ви майже опанували ${lvl} — час переходити на ${nxt}`; ready.hidden = false; }
   }).catch(e => console.warn('level', e));
   // рівень у розмовах — лише коли є ≥2 оцінені розмови (модуль аналізу вантажиться окремо)
   const suggest = h('div.hm-lvsug', { hidden: true });
@@ -187,6 +189,7 @@ function levelGroup(view, gIdx, lvl) {
     const dis = store.prof().levelSuggestOff;
     const off = dis && dis.level === cl.level && Date.now() - Date.parse(dis.at) < 14 * 864e5;
     if (!hi || off) return;
+    ready.hidden = true; readyOff = true;   // одна пропозиція замість двох («майже опанували» + картка)
     suggest.replaceChildren(tx({ wide: true, icon: 'rocket-launch', cls: 'hm-lvsug-t', label: `Розмови показують ${cl.level} — підняти рівень?`,
       sub: `Уроки дня й нові слова стануть під ${cl.level}`, onclick: () => { setLevel(cl.level, 'conversation'); toast(`Рівень ${cl.level}: план і завдання оновлено`); home(view); },
       end: h('span.tx-pill.accent', 'Підняти') }),

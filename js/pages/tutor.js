@@ -1,4 +1,5 @@
 // AI-вчитель: режими, текстовий чат зі стрімінгом, підсумок сесії, історія
+import { skelCard } from '../ui/skeleton.js';
 import { h, ic, emo, fmtMin } from '../ui/dom.js';
 import { S, plural } from '../strings.js';
 import * as store from '../store.js';
@@ -930,7 +931,9 @@ export async function summarize(view, row, { voice = false, pronTurns = null } =
   setFocus(false);
   const stepEl = h('span.sum-wait', { 'aria-live': 'polite' }, SUMMARY_STEPS[0]);
   view.replaceChildren(stateScreen({ icon: 'hourglass', tone: 'accent', label: 'Підсумок розмови', title: 'Вчитель готує підсумок…', sub: stepEl },
-    h('div.sum-wait-bar', { 'aria-hidden': 'true' }, h('i'))));
+    h('div.sum-wait-bar', { 'aria-hidden': 'true' }, h('i')),
+    // контури майбутнього підсумку — екран очікування не порожній
+    h('div.stack.sum-wait-skel', { 'aria-hidden': 'true' }, skelCard({ rows: 2 }), skelCard({ rows: 3 }), skelCard({ rows: 1 }))));
   let step = 0;
   const tick = setInterval(() => {
     if (!stepEl.isConnected) { clearInterval(tick); return; }
