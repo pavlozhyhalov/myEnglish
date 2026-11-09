@@ -73,7 +73,11 @@ function monthView(M) {
   const folds = empty ? [] : [talkCard(M), levelCard(M), speechCard(M), mistakesCard(M), wordsCard(M)];
   folds.push(voiceCard());
   if (folds.some(Boolean)) out.push(txGroup('Детальніше', h('div.pg-folds', folds.filter(Boolean))));
-  if (!empty) out.push(txRow({ icon: 'share-network', label: 'Поділитися підсумком', sub: 'короткий текст про ваш місяць', onclick: () => share(M) }));
+  if (!empty) {
+    out.push(txGroup('Вивантажити', [
+      pdfRow(M.ym),
+      txRow({ icon: 'share-network', label: 'Поділитися підсумком', sub: 'короткий текст про ваш місяць', onclick: () => share(M) })]));
+  }
   return out.filter(Boolean);
 }
 
@@ -254,3 +258,21 @@ async function share(M) {
   }
 }
 
+
+/** «Завантажити PDF»: справжній PDF-звіт за місяць (js/pdfreport.js — вантажиться лише при натисканні) */
+export function pdfRow(ym, label = 'Завантажити PDF') {
+  let busy = false;
+  const row = txRow({ icon: 'download-simple', label, sub: 'звіт за місяць — зберегти у Файли чи надіслати', onclick: async () => {
+    if (busy) return;
+    busy = true;
+    const sub = row.querySelector('.tx-s'); const was = sub?.textContent;
+    if (sub) sub.textContent = 'Готую PDF…';
+    try {
+      const r = await (await import('../pdfreport.js')).exportMonthPdf(ym);
+      if (r === 'downloaded') toast('PDF збережено');
+    } catch (e) { console.warn('pdf', e); toast('Не вдалося сформувати PDF', { kind: 'bad' }); }
+    if (sub) sub.textContent = was;
+    busy = false;
+  } });
+  return row;
+}

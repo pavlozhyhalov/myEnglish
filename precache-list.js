@@ -1,7 +1,7 @@
 // Згенеровано scripts/bump.sh — не редагувати вручну
 // шлях → хеш вмісту (sha256, 12 символів)
 self.PRECACHE = {
-  './': '5e851a8b23bf', './index.html': '5e851a8b23bf', './manifest.webmanifest': 'b87f180a6d8d',
+  './': '02f7a35cae66', './index.html': '02f7a35cae66', './manifest.webmanifest': 'b87f180a6d8d',
   './assets/icons/apple-touch-icon.png': '49e9cb2a0d59',
   './assets/icons/icon-192.png': '8f448517285d',
   './assets/icons/icon-512.png': 'b2f707bcc4de',
@@ -194,7 +194,7 @@ self.PRECACHE = {
   './js/ai.js': '7eb8286ecdab',
   './js/analysis.js': 'ec2f909622f7',
   './js/app.js': '83a48fa6f030',
-  './js/config.js': 'b5fac36039a2',
+  './js/config.js': '3eb12d4f33bb',
   './js/daily.js': '9f556d7fe6dc',
   './js/data.js': 'b13181517b77',
   './js/errlog.js': 'b1996f6e588a',
@@ -234,10 +234,10 @@ self.PRECACHE = {
   './js/pages/mistakes.js': '4ea1a354b823',
   './js/pages/phrases.js': 'c8f27b2b7d54',
   './js/pages/profile.js': '94bca1803bb9',
-  './js/pages/progress.js': '8bd77490fd43',
+  './js/pages/progress.js': '757b775c590f',
   './js/pages/pronunciation.js': '8ce0a13c9e1a',
   './js/pages/reading.js': '406a39fef4a2',
-  './js/pages/report.js': '54bc81fd91ff',
+  './js/pages/report.js': '05a0b9350c60',
   './js/pages/scenarios.js': '7dfa2f80d147',
   './js/pages/session.js': 'd2233d28a1ef',
   './js/pages/settings.js': '477f9ce6463a',
@@ -247,6 +247,7 @@ self.PRECACHE = {
   './js/pages/vocab.js': '6cc266a67f6a',
   './js/pages/wordtrain.js': 'd6f6098e0382',
   './js/pages/writing.js': '613c05544524',
+  './js/pdfreport.js': '20bc722a180e',
   './js/phrases.js': '4350ec633fed',
   './js/placement.js': '877fbc790dde',
   './js/push.js': 'bc0c1273f43a',

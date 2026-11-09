@@ -82,6 +82,7 @@ export default async function progressPage(view) {
       tx({ wide: true, icon: 'puzzle-piece', label: 'Уроки граматики', sub: `пройдено ${done} з ${gIdx.length}`, href: '#/grammar', cls: 'pg-gram', extra: txBar(gIdx.length ? done / gIdx.length : 0) })]),
 
     txGroup('Детальніше', h('div.pg-folds',
+      fresh ? null : pdfRowLater(),
       fold({ icon: 'clock', label: 'Хвилини за 30 днів', sub: `у середньому ${fmtMin(avg)} за активний день · мета ${store.settings().dailyGoal} хв` },
         days.some(d => d.seconds) ? card(
           h('div.bars', { role: 'img', 'aria-label': 'Хвилини практики по днях' }, days.map(d => h('i' + (d.seconds ? '' : '.zero'), { style: { height: `${Math.max(2, d.seconds / maxSec * 100)}%` }, title: `${dayLbl(d)}: ${fmtMin(d.seconds)}` }))),
@@ -111,6 +112,13 @@ export default async function progressPage(view) {
 }
 
 const txResultFresh = () => txResult({ icon: 'chart-line-up', tone: 'accent', label: 'Прогрес', title: 'Тут з\'явиться ваш прогрес', sub: 'Хвилини, стрік, слова й рівень — після першого заняття' });
+
+/** «Звіт PDF за цей місяць» — рядок з report.js (модуль вантажиться після першого показу сторінки) */
+function pdfRowLater() {
+  const slot = h('div');
+  import('./report.js').then(m => slot.replaceWith(m.pdfRow(new Date().toISOString().slice(0, 7), 'Звіт PDF за цей місяць'))).catch(() => slot.remove());
+  return slot;
+}
 
 /** Згорнута плитка-розділ: рядок з іконкою, підписом і стрілкою; вміст — під ним */
 export function fold(o, ...content) {
