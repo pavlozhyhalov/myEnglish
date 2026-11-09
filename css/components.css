@@ -263,7 +263,7 @@ body.focus-mode .toasts{bottom:calc(var(--safe-b) + 24px)}
 .grades{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
 .grade{min-height:66px;border:0;border-radius:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-weight:700;font-size:var(--fs-sm);transition:transform var(--dur)}
 .grade:active{transform:scale(.96)}
-.grade small{font-weight:500;font-size:12px;opacity:.85}
+.grade small{font-weight:500;font-size:12px}
 .grade.again{background:var(--bad-soft);color:var(--bad)}
 .grade.hard{background:var(--warn-soft);color:var(--warn)}
 .grade.good{background:var(--accent);color:var(--on-accent)}
