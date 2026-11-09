@@ -6,7 +6,6 @@ importScripts(`precache-list.js?v=${BUILD}`);
 // self.PRECACHE: { './шлях': 'хеш вмісту' } (scripts/bump.sh). Старий формат — масив шляхів без хешів.
 const LIST = Array.isArray(self.PRECACHE) ? Object.fromEntries(self.PRECACHE.map(u => [u, ''])) : (self.PRECACHE || {});
 const HASH = 'x-me-hash';          // заголовок кешованої відповіді: хеш вмісту, з яким її збережено
-const NAV_TIMEOUT = 3000;          // повільна мережа «онлайн» не тримає холодний старт: далі — index.html з кешу
 // оболонка: без цих файлів застосунок не запуститься — встановлення без них не завершується (лишається стара версія)
 const critical = (u) => u === './' || u === './index.html' || /^\.\/(js|css|vendor)\//.test(u);
 // не потрібні для оболонки: шрифти для рідкісних символів (unicode-range) — кешуються під час першого використання
@@ -30,6 +29,8 @@ async function download(u, mode) {
   return stamped(res);
 }
 /** Наші кеші: поточний першим, далі старіші версії (новіші першими) */
+let cacheP = null;                  // відкритий поточний кеш (один раз на життя SW)
+const current = () => (cacheP ||= caches.open(CACHE));
 async function ourCaches() {
   const keys = (await caches.keys()).filter(k => k.startsWith('myenglish-'));
   return [CACHE, ...keys.filter(k => k !== CACHE).reverse()];
@@ -88,6 +89,12 @@ self.addEventListener('activate', (e) => {
 });
 
 const shell = async () => (await matchOurs('./index.html')) || (await matchOurs('./'));
+/** Швидкий шлях: файл зі списку — точний ключ у поточному кеші (без ignoreSearch, що перебирає весь кеш) */
+async function fromCurrent(req) {
+  const k = keyOf(req.url);
+  if (!(k in LIST)) return undefined;
+  return (await current()).match(k);
+}
 
 self.addEventListener('fetch', (e) => {
   const req = e.request;
@@ -95,28 +102,28 @@ self.addEventListener('fetch', (e) => {
   const url = new URL(req.url);
   if (url.origin !== location.origin) return;           // Supabase, Gemini — мимо кешу
   e.respondWith((async () => {
-    // сторінка (index.html) — спершу мережа, щоб одразу бачити нову збірку; офлайн або мережа повільніша за 3 с — з кешу
+    // сторінка (index.html) — одразу з кешу цієї збірки: старт без очікування мережі (iPhone у метро, слабкий LTE).
+    // Нова збірка приходить через оновлення SW (sw.js перевіряється при кожному відкритті): встановлення кладе в новий кеш
+    // її index.html, активація → controllerchange → app.js перезавантажує сторінку один раз (як і раніше).
+    // index.html з мережі в цей кеш не пишемо: інакше новий HTML поєднувався б зі старими js/css цієї збірки.
     if (req.mode === 'navigate') {
-      const net = fetch(req, { cache: 'no-store' }).then(async (res) => {
-        // з хешем фактичного вмісту: встановлення SW не качатиме index.html вдруге, якщо він той самий
-        if (res.ok && res.type === 'basic') e.waitUntil(stamped(res.clone()).then(async r => (await caches.open(CACHE)).put('./index.html', r)).catch(() => {}));
+      const cached = await shell();
+      if (cached) return cached;
+      try {
+        const res = await fetch(req, { cache: 'no-store' });
+        // кешу ще немає (перше відкриття до кінця встановлення) — зберігаємо, щоб наступний старт був офлайн-готовим
+        if (res.ok && res.type === 'basic') e.waitUntil(stamped(res.clone()).then(async r => (await current()).put('./index.html', r)).catch(() => {}));
         return res;
-      });
-      net.catch(() => {});
-      let timer;
-      const slow = new Promise(r => { timer = setTimeout(r, NAV_TIMEOUT); }).then(async () => (await shell()) || net);
-      try { return await Promise.race([net, slow]); }
-      catch { return (await shell()) || Response.error(); }
-      finally { clearTimeout(timer); }
+      } catch { return Response.error(); }
     }
     // решта — з кешу (поточна збірка, інакше попередні), інакше з мережі
-    const hit = await matchOurs(req, { ignoreSearch: true });
+    const hit = (await fromCurrent(req)) || await matchOurs(req, { ignoreSearch: true });
     if (hit) return hit;
     const res = await fetch(req);
     const k = keyOf(req.url);
     if (res.ok && res.type === 'basic') {
       // файли зі списку (зокрема «ліниві» шрифти) — з хешем, щоб наступна збірка взяла їх зі старого кешу
-      const put = (k in LIST ? stamped(res.clone()) : Promise.resolve(res.clone())).then(async r => (await caches.open(CACHE)).put(k in LIST ? k : req, r));
+      const put = (k in LIST ? stamped(res.clone()) : Promise.resolve(res.clone())).then(async r => (await current()).put(k in LIST ? k : req, r));
       e.waitUntil(put.catch(() => {}));
     }
     return res;

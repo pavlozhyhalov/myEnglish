@@ -6,7 +6,7 @@ import { h, ic, emo } from './ui/dom.js';
 import { initDrawer, toggle as toggleDrawer, setActive as drawerActive, renderProfile } from './ui/drawer.js';
 import { initQuickbar, setActive as qbActive } from './ui/quickbar.js';
 import { toast } from './ui/toast.js';
-import { route, fallback, onRoute, start, go } from './router.js';
+import { route, fallback, onRoute, start, go, parse } from './router.js';
 import { sectionFor, menuItemOf, tabsetOf } from './nav.js';
 import { initAuth, onAuth, onClient, recoveryPending, user as authUser } from './supa.js';
 import { initErrlog } from './errlog.js';
@@ -16,6 +16,8 @@ import { keepAwake } from './ui/wakelock.js';
 import { initSelectLookup } from './ui/selectlookup.js';
 import { initDailyBar } from './ui/dailybar.js';
 import { initSubnav, updateSubnav } from './ui/subnav.js';
+import { deckIndex, grammarIndex, scenarios, listening, json } from './data.js';
+import * as srs from './srs.js';
 
 // ---------- Режим клавіатури: рамка фокусу видима лише після Tab/стрілок ----------
 addEventListener('keydown', (e) => {
@@ -42,7 +44,8 @@ function header() {
   store.on(t => { if (t === 'sessions') updateStreak(); if (t === 'synced') { try { backfillLessonTests(); } catch (e) { console.warn('tests backfill', e); } try { tidyMistakes(); } catch (e) { console.warn('tidy mistakes', e); } reviewLater(); usedWordsLater(); } });
   // повторення пройденого й слабких місць — раз на добу (js/review.js)
   function reviewLater() { import('./review.js').then(m => m.reviewUpkeep()).catch(e => console.warn('review upkeep', e)); }
-  reviewLater();
+  // на старті — коли перша сторінка вже показана (не забирає мережу й процесор у першого екрана)
+  idle(reviewLater, 3000);
   // слова, які учень уживає в розмовах, — «вивчено» (раз на 6 год; після синхронізації розмов з інших пристроїв)
   function usedWordsLater() {
     const run = () => import('./usage.js').then(m => m.backgroundMarkUsed()).then(list => {
@@ -61,37 +64,40 @@ function header() {
 }
 
 // ---------- Маршрути ----------
-const pages = {
-  home: () => import('./pages/home.js'),
-  today: () => import('./pages/today.js'),
-  phrases: () => import('./pages/phrases.js'),
-  tutor: () => import('./pages/tutor.js'),
-  cards: () => import('./pages/cards.js'),
-  vocab: () => import('./pages/vocab.js'),
-  grammar: () => import('./pages/grammar.js'),
-  listening: () => import('./pages/listening.js'),
-  reading: () => import('./pages/reading.js'),
-  pronunciation: () => import('./pages/pronunciation.js'),
-  writing: () => import('./pages/writing.js'),
-  scenarios: () => import('./pages/scenarios.js'),
-  diary: () => import('./pages/diary.js'),
-  tests: () => import('./pages/tests.js'),
-  exercises: () => import('./pages/exercises.js'),
-  mistakes: () => import('./pages/mistakes.js'),
-  progress: () => import('./pages/progress.js'),
-  analysis: () => import('./pages/analysis.js'),
-  report: () => import('./pages/report.js'),
-  settings: () => import('./pages/settings.js'),
-  profile: () => import('./pages/profile.js'),
-  friends: () => import('./pages/friends.js'),
-  session: () => import('./pages/session.js'),
-  auth: () => import('./pages/auth.js'),
-  lab: () => import('./pages/lab.js'),
-  admin: () => import('./pages/admin.js'),
-  games: () => import('./pages/games.js'),
-  fluency: () => import('./pages/fluency.js'),
-  'listen-go': () => import('./pages/listengo.js'),
+// назва маршруту → файл js/pages/<файл>.js
+const PAGE_FILES = {
+  home: 'home',
+  today: 'today',
+  phrases: 'phrases',
+  tutor: 'tutor',
+  cards: 'cards',
+  vocab: 'vocab',
+  grammar: 'grammar',
+  listening: 'listening',
+  reading: 'reading',
+  pronunciation: 'pronunciation',
+  writing: 'writing',
+  scenarios: 'scenarios',
+  diary: 'diary',
+  tests: 'tests',
+  exercises: 'exercises',
+  mistakes: 'mistakes',
+  progress: 'progress',
+  analysis: 'analysis',
+  report: 'report',
+  settings: 'settings',
+  profile: 'profile',
+  friends: 'friends',
+  session: 'session',
+  auth: 'auth',
+  lab: 'lab',
+  admin: 'admin',
+  games: 'games',
+  fluency: 'fluency',
+  'listen-go': 'listengo',
 };
+const pageUrl = (name) => `./pages/${PAGE_FILES[name]}.js`;
+const pages = Object.fromEntries(Object.keys(PAGE_FILES).map(n => [n, () => import(pageUrl(n))]));
 
 // Сторінки з завданнями: картки, уроки, вправи, тести, заняття, вчитель, аудіювання, вимова, письмо, сценарії, помилки
 const PRACTICE = new Set(['today', 'cards', 'exercises', 'tests', 'session', 'tutor', 'listening', 'pronunciation', 'mistakes', 'lab', 'diary', 'games', 'fluency', 'listen-go']);
@@ -101,10 +107,39 @@ function isPracticeRoute(r) {
   return ['grammar', 'writing', 'scenarios', 'reading'].includes(r.name) && r.parts.length > 0;
 }
 
+const idle = (fn, timeout = 2000) => ('requestIdleCallback' in window ? requestIdleCallback(fn, { timeout }) : setTimeout(fn, Math.min(timeout, 1200)));
+
+/**
+ * Перша сторінка — без зайвих хвиль запитів: модуль сторінки (і його залежності) качається паралельно з читанням IndexedDB
+ * (modulepreload: лише завантаження, без виконання), а дані, які їй потрібні, — до того, як сторінка про них попросить.
+ * data.js кешує проміси — сторінка отримає ті самі запити, без повторного завантаження.
+ */
+function warmRoute(name) {
+  if (PAGE_FILES[name]) {
+    const href = new URL(pageUrl(name), import.meta.url).href;
+    if (![...document.querySelectorAll('link[rel="modulepreload"]')].some(l => l.href === href)) {
+      document.head.append(Object.assign(document.createElement('link'), { rel: 'modulepreload', href }));
+    }
+  }
+  const quiet = (p) => { p?.catch?.(() => {}); };
+  quiet(grammarIndex()); quiet(deckIndex());
+}
+/** Після читання сховища: колоди рівня для плану дня (картка «Сьогодні»), для головної — дані «Завдань дня» */
+function warmData(name) {
+  if (!['home', 'today', 'cards'].includes(name)) return;
+  const quiet = (p) => { p?.catch?.(() => {}); };
+  const words = srs.newCards();
+  quiet(words);
+  if (name === 'home') words.catch(() => {}).finally(() => { quiet(scenarios()); quiet(listening()); quiet(json('data/reading.json')); });
+}
+
 initErrlog();
 
 async function boot() {
+  const first = parse().name;
+  warmRoute(first);
   await store.load();
+  try { warmData(first); } catch (e) { console.warn('warm', e); }
   applyTheme();
   matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => applyTheme());
 
@@ -153,16 +188,21 @@ async function boot() {
   if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) {
     // коли активується нова версія — перезавантажуємо сторінку один раз, щоб показати її
     const hadController = !!navigator.serviceWorker.controller;
+    // реєстрація (і встановлення: ~280 файлів у кеш) — після першого екрана, щоб не забирати в нього канал
+    const afterFirstScreen = (fn) => {
+      const run = () => idle(fn, 4000);
+      if (document.readyState === 'complete') setTimeout(run, 1500); else addEventListener('load', () => setTimeout(run, 1500), { once: true });
+    };
     let reloaded = false;
     navigator.serviceWorker.addEventListener('controllerchange', () => {
       if (!hadController || reloaded) return;
       reloaded = true;
       location.reload();
     });
-    navigator.serviceWorker.register(`sw.js?v=${BUILD}`, { updateViaCache: 'none' }).then(reg => {
+    afterFirstScreen(() => navigator.serviceWorker.register(`sw.js?v=${BUILD}`, { updateViaCache: 'none' }).then(reg => {
       // перевіряємо оновлення при кожному поверненні в застосунок
       document.addEventListener('visibilitychange', () => { if (!document.hidden) reg.update().catch(() => {}); });
-    }).catch(e => console.warn('sw', e));
+    }).catch(e => console.warn('sw', e)));
   }
 }
 
