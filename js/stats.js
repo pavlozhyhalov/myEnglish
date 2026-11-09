@@ -203,9 +203,13 @@ export function tidyMistakes({ force = false } = {}) {
     .sort((a, b) => String(a.created_at || '').localeCompare(String(b.created_at || '')));
   const byKey = new Map();
   let merged = 0, closed = 0;
+  // ключі — лише фрази (3+ слова): відповіді вправ і тестів («the», «on», «went») з різних речень — не дублікати
+  const phrase = (s) => norm(s).split(/\s+/).filter(Boolean).length >= 3;
   for (const m of open) {
-    const kr = 'r:' + norm(m.right), kw = 'w:' + norm(m.wrong);
-    const keep = byKey.get(kr) || byKey.get(kw);
+    const kr = phrase(m.right) ? 'r:' + (m.type || '') + ':' + norm(m.right) : null;
+    const kw = phrase(m.wrong) ? 'w:' + (m.type || '') + ':' + norm(m.wrong) : null;
+    if (!kr && !kw) continue;
+    const keep = (kr && byKey.get(kr)) || (kw && byKey.get(kw));
     if (keep && keep.id !== m.id && (keep.rule || null) === (m.rule || keep.rule || null)) {
       keep.count = (keep.count || 1) + (m.count || 1);
       keep.streak = Math.max(keep.streak || 0, m.streak || 0);
@@ -214,12 +218,14 @@ export function tidyMistakes({ force = false } = {}) {
       store.put('mistakes', keep); store.remove('mistakes', m.id); merged++;
       continue;
     }
-    byKey.set(kr, m); byKey.set(kw, m);
+    if (kr) byKey.set(kr, m); if (kw) byKey.set(kw, m);
   }
   const now = Date.now(), DAY = 864e5;
   for (const m of store.all('mistakes')) {
     if (m.deleted || m.resolved || (m.count || 1) > 1) continue;
-    const quiet = now - Date.parse(m.updated_at || m.created_at || 0);
+    const at = Date.parse(m.updated_at || m.created_at || '');
+    if (!at) continue;   // без дати — не закриваємо навмання
+    const quiet = now - at;
     if ((m.streak >= 1 && quiet > 14 * DAY) || quiet > 30 * DAY) { m.resolved = true; store.put('mistakes', m); closed++; }
   }
   try { localStorage.setItem(KEY, today()); } catch {}

@@ -1158,7 +1158,8 @@ export function summaryView(view, row, { pronTurns = null } = {}) {
       : [txPrimary({ icon: 'chat-circle-dots', label: 'Нова розмова', href: '#/tutor' }), tx({ icon: 'house', label: 'На головну', href: '#/', wide: true })]),
     deleteButton(row)));
   // адреса підсумку: «назад» зі «Скажи ще раз» і перезавантаження повертають сюди, а не в нову розмову
-  if (row.id && store.get('tutor_chats', row.id) && location.hash.startsWith('#/tutor')) {
+  // лише якщо підсумок ще на екрані: запізнілий підсумок (учень уже почав нову розмову) не підміняє адресу нової сторінки
+  if (view.isConnected && row.id && store.get('tutor_chats', row.id) && location.hash.startsWith('#/tutor')) {
     const want = `#/tutor?chat=${encodeURIComponent(row.id)}&view=summary`;
     if (location.hash !== want) { try { history.replaceState(history.state, '', want); } catch { /* */ } }
   }

@@ -64,7 +64,7 @@ async function collect() {
     .slice(0, PER_SOURCE)
     .map(c => ({ src: 'phrases', id: c.id, en: c.en, uk: c.uk }));
   // відкриті помилки: правильний варіант англійською, коротке пояснення українською
-  const fixes = store.all('mistakes').filter(m => !m.resolved && m.right && m.wrong)
+  const fixes = store.all('mistakes').filter(m => !m.resolved && m.right && m.wrong && m.wrong !== '—' && m.type !== 'pronunciation')
     .sort((a, b) => (b.count || 1) - (a.count || 1))
     .slice(0, PER_SOURCE)
     .map(m => ({ src: 'fixes', id: m.id, en: m.right, uk: shortUk(m.explanation_uk), wrong: m.wrong }));
