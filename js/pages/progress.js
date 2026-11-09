@@ -45,8 +45,8 @@ export default async function progressPage(view) {
   const st = streak();
   const avg = Math.round(days.reduce((a, d) => a + d.seconds, 0) / Math.max(1, days.filter(d => d.seconds).length));
   const SKILLS = { grammar: 'Граматика', vocabulary: 'Лексика', reading: 'Читання', listening: 'Аудіювання', writing: 'Письмо', speaking: 'Говоріння' };
-  const testLabel = (t) => t.type === 'placement' ? 'Тест рівня' : t.type === 'weekly' ? 'Тижневий тест' : `Урок: ${gIdx.find(l => l.id === t.ref)?.title || t.ref}`;
-  const testTone = (t) => { if (t.type === 'placement') return 'accent'; const v = t.scores.score; return v >= 80 ? 'good' : v < 60 ? 'bad' : 'warn'; };
+  const testLabel = (t) => t.type === 'placement' ? 'Тест рівня' : t.type === 'weekly' ? 'Тижневий тест' : t.type === 'level' ? `Іспит рівня ${t.ref}` : `Урок: ${gIdx.find(l => l.id === t.ref)?.title || t.ref}`;
+  const testTone = (t) => { if (t.type === 'placement') return 'accent'; if (t.type === 'level') return t.scores?.passed ? 'good' : 'warn'; const v = t.scores.score; return v >= 80 ? 'good' : v < 60 ? 'bad' : 'warn'; };
   const openMk = dyn.reduce((a, d) => a + d.open, 0);
   const nReviews = store.count('reviews');
   const LV = ['A1', 'A2', 'B1', 'B2', 'C1'];
@@ -72,7 +72,7 @@ export default async function progressPage(view) {
         h('div.row', h('div.level-badge', lvl), h('div.grow', h('div.pg-strong', `Опановано ${lp.pct}%`), h('div.xs.dim', `перехід від ${READY_PCT}% · уроки й слова рівня ${lvl}`))),
         bar(lp.pct, 'Опанування рівня')),
       txKpis([{ value: `${lp.grammar.done}/${lp.grammar.total}`, label: `уроків граматики ${lvl}` }, { value: `${lp.words.done}/${lp.words.total}`, label: `слів ${lvl} закріплено` }], 2),
-      lp.ready ? txPrimary({ icon: 'rocket-launch', label: `Перейти на ${nextLevel()}`, sub: 'план і завдання оновляться', onclick: () => { const n = nextLevel(); setLevel(n, 'progress'); toast(`Рівень ${n}: план і завдання оновлено`); progressPage(view); } }) : null]),
+      lp.ready ? txPrimary({ icon: 'seal-check', label: `Іспит рівня ${lvl}`, sub: `склали — переходите на ${nextLevel()}`, href: '#/tests/level' }) : null]),
 
     txGroup('Слова й граматика', [
       fresh || !c.total ? null : txKpis([{ value: c.learned, label: 'слів вивчено', tone: c.learned ? 'good' : '' }, { value: c.total, label: 'у роботі' }, { value: c.due, label: 'до повтору зараз', tone: c.due ? 'warn' : '', href: c.due ? '#/cards/review' : null }]),

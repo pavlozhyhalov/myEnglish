@@ -167,38 +167,44 @@ function levelGroup(view, gIdx, lvl) {
   lpBar.setAttribute('role', 'progressbar');
   lpBar.removeAttribute('aria-label');
   Object.entries({ 'aria-label': 'Опанування рівня', 'aria-valuemin': 0, 'aria-valuemax': 100, 'aria-valuenow': 0 }).forEach(([k, v]) => lpBar.setAttribute(k, String(v)));
-  const ready = h('span.hm-ready', { hidden: true });
-  let readyOff = false;
   const convInfo = h('span');
+  // одна пропозиція «Іспит рівня» (2026-11-09, власник: «здав тест — готовий перейти»): з'являється, коли рівень майже опановано
+  // або розмови впевнено показують вищий; іспит уже складено — одразу «Перейти на …». «Не зараз» — на 14 днів
+  const suggest = h('div.hm-lvsug', { hidden: true });
+  const why = { ready: false, conv: null };
+  const drawSuggest = () => {
+    if (lvl === nxt || (!why.ready && !why.conv)) return;
+    const dis = store.prof().levelSuggestOff;
+    if (dis && dis.level === lvl && Date.now() - Date.parse(dis.at) < 14 * 864e5) return;
+    const passed = !!store.prof().levelExam?.[lvl];
+    const tile = passed
+      ? tx({ wide: true, icon: 'rocket-launch', cls: 'hm-lvsug-t', label: `Іспит ${lvl} складено — перейти на ${nxt}?`, sub: 'уроки дня й нові слова стануть під новий рівень',
+        onclick: () => { setLevel(nxt, 'exam'); toast(`Рівень ${nxt}: план і завдання оновлено`); home(view); }, end: h('span.tx-pill.accent', 'Перейти') })
+      : tx({ wide: true, icon: 'seal-check', cls: 'hm-lvsug-t', href: '#/tests/level',
+        label: why.conv ? `Розмови показують ${why.conv} — закрийте ${lvl} іспитом` : `Ви майже опанували ${lvl} — скласти іспит?`,
+        sub: `≈ 10 хв · склали — переходите на ${nxt}`, end: h('span.tx-pill.accent', 'Іспит') });
+    suggest.replaceChildren(tile,
+      h('button.tx-more.hm-lvsug-x', { type: 'button', onclick: () => { store.setProf({ levelSuggestOff: { level: lvl, at: new Date().toISOString() } }); suggest.hidden = true; } }, 'Не зараз'));
+    suggest.hidden = false;
+  };
   levelProgress(gIdx, lvl).then(lp => {
     lpInfo.textContent = `Уроки ${lp.grammar.done}/${lp.grammar.total} · слова ${lp.words.done}/${lp.words.total}`;
     lpPct.textContent = `${lp.pct}%`;
     lpBar.firstChild.style.width = `${lp.pct}%`;
     lpBar.setAttribute('aria-valuenow', String(lp.pct));
-    if (lp.ready && !readyOff) { ready.textContent = `Ви майже опанували ${lvl} — час переходити на ${nxt}`; ready.hidden = false; }
+    if (lp.ready) { why.ready = true; drawSuggest(); }
   }).catch(e => console.warn('level', e));
   // рівень у розмовах — лише коли є ≥2 оцінені розмови (модуль аналізу вантажиться окремо)
-  const suggest = h('div.hm-lvsug', { hidden: true });
   import('../analysis.js').then(({ conversationLevel }) => {
     const cl = conversationLevel();
     if (!cl || cl.sessions < 2) return;
     const sub = cl.sublevel === 'high' ? '+' : cl.sublevel === 'low' ? '−' : '';
     convInfo.textContent = ` · у розмовах ${cl.level}${sub}`;
-    // розмови впевнено показують вищий рівень, ніж обраний, — запропонувати підняти (рішення за учнем; «Не зараз» — на 14 днів)
-    const hi = LEVEL_ORDER.indexOf(cl.level) > LEVEL_ORDER.indexOf(lvl) && cl.sessions >= 3 && cl.confidence !== 'low' && cl.sublevel !== 'low';
-    const dis = store.prof().levelSuggestOff;
-    const off = dis && dis.level === cl.level && Date.now() - Date.parse(dis.at) < 14 * 864e5;
-    if (!hi || off) return;
-    ready.hidden = true; readyOff = true;   // одна пропозиція замість двох («майже опанували» + картка)
-    suggest.replaceChildren(tx({ wide: true, icon: 'rocket-launch', cls: 'hm-lvsug-t', label: `Розмови показують ${cl.level} — підняти рівень?`,
-      sub: `Уроки дня й нові слова стануть під ${cl.level}`, onclick: () => { setLevel(cl.level, 'conversation'); toast(`Рівень ${cl.level}: план і завдання оновлено`); home(view); },
-      end: h('span.tx-pill.accent', 'Підняти') }),
-      h('button.tx-more.hm-lvsug-x', { type: 'button', onclick: () => { store.setProf({ levelSuggestOff: { level: cl.level, at: new Date().toISOString() } }); suggest.hidden = true; } }, 'Не зараз'));
-    suggest.hidden = false;
+    if (LEVEL_ORDER.indexOf(cl.level) > LEVEL_ORDER.indexOf(lvl) && cl.sessions >= 3 && cl.confidence !== 'low' && cl.sublevel !== 'low') { why.conv = cl.level; drawSuggest(); }
   }).catch(() => {});
   const levelTile = tx({ wide: true, href: '#/progress', cls: 'hm-level',
     icon: null, label: lvl !== nxt ? `Рівень ${lvl} → ${nxt}` : `Рівень ${lvl}`, sub: LEVEL_NAME[lvl],
-    extra: h('span.hm-level-extra', lpBar, h('span.tx-s', lpInfo, convInfo), ready), end: lpPct });
+    extra: h('span.hm-level-extra', lpBar, h('span.tx-s', lpInfo, convInfo)), end: lpPct });
   levelTile.prepend(h('span.tx-sq.hm-level-badge', { 'aria-hidden': 'true' }, lvl));
   // зміна рівня — у «Налаштуваннях», тестом або пропозицією за розмовами
   return h('div.stack.hm-lvwrap', levelTile, suggest);

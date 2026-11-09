@@ -7,7 +7,7 @@ import { render as renderExercise, answerText, mistakeCard, cappedRows } from '.
 import { speak, stop as stopSpeech } from '../speech.js';
 import { activityTimer, addMistake, dayKey, applyLessonTest, lessonNeedsReview, lessonsToReview } from '../stats.js';
 import * as srs from '../srs.js';
-import { setLevel, LEVEL_NAME, LEVEL_DESC, LEVELS, nextLessonByLevel } from '../level.js';
+import { setLevel, LEVEL_NAME, LEVEL_DESC, LEVELS, nextLessonByLevel, myLevel as myLevelNow } from '../level.js';
 import * as CAT from '../placement.js';
 import { onLeave } from '../router.js';
 import { tutor, aiErrorText } from '../ai.js';
@@ -38,6 +38,7 @@ export default async function tests(view, r) {
   if (kind === 'lesson' && ref) return lessonTest(view, ref);
   if (kind === 'lesson') return pickLesson(view);
   if (kind === 'weekly') return weeklyTest(view);
+  if (kind === 'level') return import('./levelexam.js').then(m => m.default(view));
   return overview(view);
 }
 
@@ -53,12 +54,15 @@ async function overview(view) {
     placement: { icon: 'target', label: inRun ? 'Продовжити тест рівня' : 'Визначення рівня', sub: inRun ? 'Тест не завершено' : 'Адаптивний · ~25 хв', href: '#/tests/placement', pill: plPill },
     lesson: { icon: 'exam', label: 'Тест за уроком', sub: 'До 15 питань', href: '#/tests/lesson' },
     weekly: { icon: 'calendar-blank', label: 'Тижневий тест', sub: 'Слова й граматика за 7 днів', href: '#/tests/weekly' },
+    level: { icon: 'seal-check', label: `Іспит рівня ${myLevelNow()}`, sub: 'Закрити рівень і перейти вище', href: '#/tests/level' },
   };
   const main = inRun || plDue ? 'placement' : 'weekly';
-  const others = Object.keys(T).filter(k => k !== main);
+  const others = Object.keys(T).filter(k => k !== main && k !== 'level');
   view.replaceChildren(h('div.stack-lg.gx',
     txPrimary({ icon: T[main].icon, label: T[main].label, sub: T[main].sub, href: T[main].href, end: main === 'placement' && !inRun ? T[main].pill : undefined }),
     txGrid(others.map(k => tx({ icon: T[k].icon, label: T[k].label, sub: T[k].sub, href: T[k].href, extra: T[k].pill || null })), 2),
+    // іспит рівня — широка плитка: закрити свій рівень і перейти вище (#/tests/level)
+    tx({ wide: true, icon: T.level.icon, label: T.level.label, sub: T.level.sub, href: T.level.href }),
     // останні 6 результатів на виду, решта (до 30) — «Показати всі»
     txGroup('Результати', hist.length ? moreRows(hist.slice(0, 30).map(t => {
       const lessonRow = t.type === 'lesson' && t.ref;
@@ -67,9 +71,9 @@ async function overview(view) {
         t.details?.length && t.type !== 'placement' ? `${t.details.filter(d => d.ok).length} з ${t.details.length}` : ''].filter(Boolean).join(' · ');
       // тест за уроком — перехід до уроку (повторити правило або пройти тест ще раз)
       return txRow({
-        icon: t.type === 'placement' ? 'target' : t.type === 'weekly' ? 'calendar-blank' : 'exam',
-        label: t.type === 'placement' ? 'Визначення рівня' : t.type === 'weekly' ? 'Тижневий тест' : `Урок: ${titles[t.ref] || t.ref}`,
-        sub, pill: t.type === 'placement' ? { text: t.scores.overall, tone: 'accent' } : { text: `${t.scores.score}%`, tone: scoreCls(t.scores.score) },
+        icon: t.type === 'placement' ? 'target' : t.type === 'weekly' ? 'calendar-blank' : t.type === 'level' ? 'seal-check' : 'exam',
+        label: t.type === 'placement' ? 'Визначення рівня' : t.type === 'weekly' ? 'Тижневий тест' : t.type === 'level' ? `Іспит рівня ${t.ref}${t.scores?.passed ? ' · склали' : ''}` : `Урок: ${titles[t.ref] || t.ref}`,
+        sub, pill: t.type === 'placement' ? { text: t.scores.overall, tone: 'accent' } : { text: `${t.scores.score}%`, tone: t.type === 'level' ? (t.scores.passed ? 'good' : 'warn') : scoreCls(t.scores.score) },
         href: lessonRow ? `#/grammar/${t.ref}` : null, chevron: !!lessonRow,
       });
     })) : noteTile('exam', 'Тут з\'являться результати ваших тестів'))));

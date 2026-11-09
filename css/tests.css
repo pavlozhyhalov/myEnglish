@@ -26,3 +26,20 @@
 .pl-bar i{height:5px;background:var(--track)}
 .pl-bar i.on{background:var(--accent-grad)}
 .pl-result .gx-res .tx-s{margin-top:2px;line-height:1.4}
+
+/* ---------- Іспит рівня (#/tests/level, 2026-11-09) ---------- */
+.lx-bar{height:4px}
+.lx-word{display:flex;flex-direction:column;align-items:center;gap:6px;padding:26px 16px 18px;text-align:center;position:relative}
+.lx-en{font-family:var(--font-head);font-weight:600;font-size:30px;line-height:1.15;letter-spacing:-.02em;overflow-wrap:anywhere}
+.lx-say{color:var(--accent-ink)}
+.lx-opts{gap:8px}
+.lx-opt{min-height:56px}
+.lx-opt .tx-l{font-size:var(--fs-md);font-weight:500}
+.lx-opt:disabled{cursor:default;opacity:1}
+.lx-opt.ok{background:var(--good-soft);border-color:color-mix(in srgb,var(--good) 45%,transparent)}
+.lx-opt.ok .tx-no{background:var(--good);color:var(--on-good)}
+.lx-opt.no{background:var(--bad-soft);border-color:color-mix(in srgb,var(--bad) 45%,transparent)}
+.lx-opt.no .tx-no{background:var(--bad);color:var(--on-bad)}
+.lx-opts:has(.ok) .lx-opt:not(.ok):not(.no){opacity:.5}
+.lx-idk{align-self:center;color:var(--ink-dim)}
+@media (max-width:360px){.lx-en{font-size:26px}}
