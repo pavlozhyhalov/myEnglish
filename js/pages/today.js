@@ -68,7 +68,7 @@ function skeletonPage() {
 function render(view, plan) {
   const pct = Math.round((plan.dayProgress ?? plan.progress) * 100);
   const goalOnly = plan.goalMet && !plan.allDone;   // мету дня за часом виконано, кроки плану — за бажанням
-  const counted = plan.steps.filter(s => !s.skipped);
+  const counted = plan.steps.filter(s => !s.skipped && !s.bonus);
   const doneN = counted.filter(s => s.done).length;
   const leftMin = Math.max(0, Math.ceil(plan.totalMin - plan.doneMin));
   const label = plan.allDone || goalOnly
@@ -89,11 +89,11 @@ function render(view, plan) {
   // кроки, що потребують входу, не показуємо заблокованими — внизу один тихий рядок «Увійти» (2026-11-08)
   const steps = h('ol.tx-rows.td-steps', plan.steps.filter(s => !s.skipped).map(s => {
     const state = s.skipped ? 'skipped' : s.done ? 'done' : s === plan.next ? 'next' : 'later';
-    if (!s.skipped) n++;
+    if (!s.skipped && !s.bonus) n++;
     const min = `${s.id === 'voice' ? '5–7' : s.minutes} хв`;
-    const pill = s.done ? { text: 'готово', tone: 'good' } : s.skipped ? { text: 'після входу' } : state === 'next' ? { text: `Далі · ${min}`, tone: 'accent' } : { text: min };
+    const pill = s.done ? { text: 'готово', tone: 'good' } : s.skipped ? { text: 'після входу' } : s.bonus ? { text: `бонус · ${min}` } : state === 'next' ? { text: `Далі · ${min}`, tone: 'accent' } : { text: min };
     const row = txRow({
-      ...(s.done ? { icon: 'check' } : s.skipped ? { icon: 'user' } : { no: n }),
+      ...(s.done ? { icon: 'check' } : s.skipped ? { icon: 'user' } : s.bonus ? { icon: s.icon } : { no: n }),
       label: s.title, sub: s.desc, pill, href: s.href, on: state === 'next', cls: 'td-step-row.' + state, chevron: !s.done,
       onclick: s.skipped ? null : () => markStarted(),
       attrs: { 'aria-current': state === 'next' ? 'step' : null },

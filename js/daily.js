@@ -209,11 +209,24 @@ export async function buildPlan() {
     done: vDone, progress: vDone ? 1 : Math.min(1, talk / VOICE_SEC), skipped: !logged && !vDone, topic: t,
   });
 
+  // ---- г) Слух — бонус на 2 хв (2026-11-09: аудіювання й вимова були на нулі); чергується щодня: диктант → діалог → вимова.
+  //      Не входить у мету дня й «Готово на сьогодні» (bonus: true); виконано — ≥ 2 хв аудіювання чи вимови сьогодні ----
+  const dayNo = Math.floor(Date.parse(`${stats.today()}T12:00:00Z`) / 864e5);
+  const EAR = [
+    { title: 'Слух · диктант', desc: '2 хв: почути речення й записати', href: '#/listening', icon: 'headphones' },
+    { title: 'Слух · діалог', desc: '2 хв: діалог вашого рівня', href: '#/listening?tab=dialogues', icon: 'headphones' },
+    { title: 'Вимова', desc: '2 хв: звуки, які важкі для українців', href: '#/pronunciation/sounds', icon: 'waveform' },
+  ][dayNo % 3];
+  const earSec = store.all('sessions').filter(x => x.day === stats.today() && ['listening', 'pronunciation'].includes(x.type)).reduce((a, x) => a + (x.seconds || 0), 0);
+  const earDone = earSec >= 120;
+  steps.push({ id: 'ear', bonus: true, icon: EAR.icon, title: EAR.title, desc: earDone ? `Готово · ${Math.round(earSec / 60)} хв` : EAR.desc,
+    minutes: 2, href: EAR.href, done: earDone, progress: earDone ? 1 : Math.min(1, earSec / 120), skipped: false });
+
   // цілі дописуються до свіжого стану: «Почати», натиснуте під час побудови плану, не губиться
   const latest = readState();
   for (const [k, v] of Object.entries(st.targets)) freeze(latest, k, v);
   writeState(latest);
-  const counted = steps.filter(s => !s.skipped);
+  const counted = steps.filter(s => !s.skipped && !s.bonus);
   const totalMin = counted.reduce((a, s) => a + s.minutes, 0);
   const doneMin = counted.reduce((a, s) => a + s.minutes * s.progress, 0);
   const allDone = counted.length > 0 && counted.every(s => s.done);

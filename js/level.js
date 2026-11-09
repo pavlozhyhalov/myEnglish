@@ -135,3 +135,23 @@ export async function levelProgress(idx, level = myLevel()) {
   return { level, pct, ready: pct >= READY_PCT && level !== LEVELS[LEVELS.length - 1], grammar: { done: gDone, total: lessons.length }, words: { done: wDone, total: wTotal } };
 }
 
+
+/**
+ * План рівня (2026-11-09): скільки лишилось і за скільки тижнів рівень буде готовий до іспиту у фактичному темпі учня.
+ * Уроки: непройдені уроки рівня ÷ темп (пройдені уроки за 14 днів, щонайменше 2 на тиждень).
+ * Слова: незакріплені слова рівня ÷ (нових карток на день × 7) + 1 тиждень на закріплення (інтервал ≥ 7 днів).
+ * Іспит рівня закриває рівень раніше: план — орієнтир, а не умова.
+ */
+export function levelPlan(lp) {
+  const now = Date.now();
+  const recent = store.all('lessons_progress').filter(p => p.completed_at && now - Date.parse(p.completed_at) < 14 * 864e5).length;
+  const lessonsPerWeek = Math.max(2, Math.round(recent / 2));
+  const perDay = Math.max(1, Number(store.settings().newPerDay) || 15);
+  const lessonsLeft = Math.max(0, lp.grammar.total - lp.grammar.done);
+  const wordsLeft = Math.max(0, lp.words.total - lp.words.done);
+  const wGrammar = lessonsLeft / lessonsPerWeek;
+  const wWords = wordsLeft ? wordsLeft / (perDay * 7) + 1 : 0;
+  const weeks = Math.max(1, Math.ceil(Math.max(wGrammar, wWords)));
+  const date = new Date(now + weeks * 7 * 864e5);
+  return { weeks, lessonsLeft, wordsLeft, lessonsPerWeek, perDay, date, dateText: date.toLocaleDateString('uk-UA', { day: 'numeric', month: 'long' }) };
+}

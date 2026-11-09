@@ -13,7 +13,7 @@ import { skel, skelCard, skelRow } from '../ui/skeleton.js';
 import { toast } from '../ui/toast.js';
 import { greetName } from './profile.js';
 import { tx, txGrid, txGroup, txBar, txDots } from '../ui/tiles.js';
-import { myLevel, LEVEL_NAME, nextLessonByLevel, byFit, diff, levelProgress, nextLevel, filterByLevel, pickOfDay, setLevel, LEVELS as LEVEL_ORDER } from '../level.js';
+import { myLevel, LEVEL_NAME, nextLessonByLevel, byFit, diff, levelProgress, nextLevel, filterByLevel, pickOfDay, setLevel, LEVELS as LEVEL_ORDER, levelPlan } from '../level.js';
 
 const nMistakes = (n) => `${n} ${plural(n, 'помилка', 'помилки', 'помилок')}`;
 
@@ -37,6 +37,9 @@ export default async function home(view) {
   blocks.push(hero);
   const fillHero = (plan) => { if (view.__tok === tok) hero.replaceChildren(...heroContent(plan, sec, st)); };
   buildPlan().then(fillHero).catch(e => { console.warn('plan', e); hero.replaceChildren(...heroFallback(sec, st)); });
+
+  // ---- нагадування (2026-11-09, власник: «щоб PWA робило сповіщення»): картка, доки на цьому пристрої їх не ввімкнено ----
+  if (user()) blocks.push(notifyCard());
 
   if (firstRun) {
     blocks.push(h('section.tx-group',
@@ -128,7 +131,7 @@ function heroContent(plan, sec, st) {
       h('span.sub.hm-streak', ic('fire', { size: 14, fill: n > 0 }), n ? `${n} ${plural(n, 'день', 'дні', 'днів')} поспіль` : 'Перший день серії — сьогодні', plan.goalMet && !plan.allDone ? ' · мету виконано' : '')),
     planRing(pct, { size: 72, stroke: 6, label: dayDone ? ic('check', { size: 26 }) : pct === 0 ? ic('sun-horizon', { size: 26 }) : h('b.num.hm-pct', `${pct}%`), done: dayDone }));
   // кроки — маленькі плитки в ряд; кроки, недоступні без входу, не показуємо (вхід — одна кнопка нижче)
-  const shown = plan.steps.filter(s => !s.skipped);
+  const shown = plan.steps.filter(s => !s.skipped && !s.bonus);   // бонусний «Слух» — лише на сторінці «Мій день»
   const steps = shown.length < 2 ? null : h('div.hm-steps', { style: { gridTemplateColumns: `repeat(${shown.length},minmax(0,1fr))` } }, shown.map(s => {
     const state = s.done ? 'done' : s.skipped ? 'skipped' : s === plan.next ? 'next' : 'later';
     const meta = s.done ? 'готово' : s.skipped ? 'після входу' : `${s.id === 'voice' ? '5–7' : s.minutes} хв`;
@@ -188,7 +191,7 @@ function levelGroup(view, gIdx, lvl) {
     suggest.hidden = false;
   };
   levelProgress(gIdx, lvl).then(lp => {
-    lpInfo.textContent = `Уроки ${lp.grammar.done}/${lp.grammar.total} · слова ${lp.words.done}/${lp.words.total}`;
+    lpInfo.textContent = `Уроки ${lp.grammar.done}/${lp.grammar.total} · слова ${lp.words.done}/${lp.words.total}${!lp.ready && lvl !== nxt ? ` · ≈ ${levelPlan(lp).weeks} тиж.` : ''}`;
     lpPct.textContent = `${lp.pct}%`;
     lpBar.firstChild.style.width = `${lp.pct}%`;
     lpBar.setAttribute('aria-valuenow', String(lp.pct));
@@ -291,3 +294,33 @@ function pickLesson(idx) {
 }
 
 
+
+/** Картка «Увімкнути нагадування»: один дотик (дозвіл і підписка Web Push); на iPhone поза іконкою «Додому» — підказка; «Не зараз» — на 14 днів */
+function notifyCard() {
+  const slot = h('div.hm-notify', { hidden: true });
+  const OFF = 'me:notify-off';
+  try { const t = Date.parse(localStorage.getItem(OFF) || ''); if (t && Date.now() - t < 14 * 864e5) return slot; } catch {}
+  import('../push.js').then(async (P) => {
+    const st = P.pushSupport();
+    if (st === 'unsupported' || st === 'ios-old') return;
+    if (await P.remindersOn()) return;
+    const deniedTile = () => tx({ wide: true, icon: 'bell', label: 'Сповіщення заборонено', sub: 'Налаштування iPhone → Сповіщення → myEnglish → Дозволити', cls: 'hm-static' });
+    const later = h('button.tx-more.hm-lvsug-x', { type: 'button', onclick: () => { try { localStorage.setItem(OFF, new Date().toISOString()); } catch {} slot.hidden = true; } }, 'Не зараз');
+    const time = P.reminderPrefs().time;
+    let tile;
+    if (st === 'ok') {
+      tile = tx({ wide: true, icon: 'bell', label: 'Увімкнути нагадування', sub: `щодня о ${time} — якщо є що повторити або стрік під загрозою`, end: h('span.tx-pill.accent', 'Увімкнути'),
+        onclick: async () => {
+          try { await P.enable(); toast(`Нагадування ввімкнено · ${time}. Час можна змінити в Налаштуваннях`); slot.hidden = true; }
+          catch (e) { toast(P.pushErrorText(e), { kind: 'bad', ms: 6000 }); if (P.pushSupport() === 'denied') slot.replaceChildren(deniedTile(), later); }
+        } });
+    } else if (st === 'ios-install') {
+      tile = tx({ wide: true, icon: 'bell', label: 'Нагадування на iPhone', sub: 'Працюють, коли myEnglish відкрито з іконки на екрані «Додому»', href: '#/settings' });
+    } else if (st === 'denied') {
+      tile = deniedTile();
+    } else return;
+    slot.replaceChildren(tile, later);
+    slot.hidden = false;
+  }).catch(() => {});
+  return slot;
+}

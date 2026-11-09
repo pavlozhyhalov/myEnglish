@@ -199,3 +199,5 @@ button.tx-more{border:0;background:none;padding:6px 0;margin:-6px 0;cursor:point
 .hm-lvsug{display:flex;flex-direction:column;align-items:stretch;gap:2px}
 .hm-lvsug[hidden]{display:none}
 .hm-lvsug-x{align-self:flex-end;padding:6px 8px;margin:0;color:var(--ink-dim)}
+.hm-notify{display:flex;flex-direction:column;align-items:stretch;gap:2px}
+.hm-notify[hidden]{display:none}

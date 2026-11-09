@@ -5,7 +5,7 @@ import { S, plural } from '../strings.js';
 import * as store from '../store.js';
 import * as srs from '../srs.js';
 import { grammarIndex } from '../data.js';
-import { LEVEL_NAME, myLevel, nextLevel, levelProgress, setLevel, READY_PCT } from '../level.js';
+import { LEVEL_NAME, myLevel, nextLevel, levelProgress, setLevel, READY_PCT, levelPlan } from '../level.js';
 import { toast } from '../ui/toast.js';
 import { md } from '../ui/md.js';
 import { tutor, aiErrorText } from '../ai.js';
@@ -72,7 +72,10 @@ export default async function progressPage(view) {
         h('div.row', h('div.level-badge', lvl), h('div.grow', h('div.pg-strong', `Опановано ${lp.pct}%`), h('div.xs.dim', `перехід від ${READY_PCT}% · уроки й слова рівня ${lvl}`))),
         bar(lp.pct, 'Опанування рівня')),
       txKpis([{ value: `${lp.grammar.done}/${lp.grammar.total}`, label: `уроків граматики ${lvl}` }, { value: `${lp.words.done}/${lp.words.total}`, label: `слів ${lvl} закріплено` }], 2),
-      lp.ready ? txPrimary({ icon: 'seal-check', label: `Іспит рівня ${lvl}`, sub: `склали — переходите на ${nextLevel()}`, href: '#/tests/level' }) : null]),
+      lp.ready ? txPrimary({ icon: 'seal-check', label: `Іспит рівня ${lvl}`, sub: `склали — переходите на ${nextLevel()}`, href: '#/tests/level' })
+        : ((pl) => tx({ wide: true, icon: 'calendar-blank', label: `План ${lvl}: ≈ ${pl.weeks} ${plural(pl.weeks, 'тиждень', 'тижні', 'тижнів')} · іспит ~${pl.dateText}`,
+          sub: `лишилось ${pl.lessonsLeft} ${plural(pl.lessonsLeft, 'урок', 'уроки', 'уроків')} і ${pl.wordsLeft} ${plural(pl.wordsLeft, 'слово', 'слова', 'слів')} · темп: ${pl.lessonsPerWeek} ${plural(pl.lessonsPerWeek, 'урок', 'уроки', 'уроків')} на тиждень, ${pl.perDay} нових слів на день`,
+          href: '#/tests/level', end: h('span.tx-pill.accent', 'Іспит') }))(levelPlan(lp))]),
 
     txGroup('Слова й граматика', [
       fresh || !c.total ? null : txKpis([{ value: c.learned, label: 'слів вивчено', tone: c.learned ? 'good' : '' }, { value: c.total, label: 'у роботі' }, { value: c.due, label: 'до повтору зараз', tone: c.due ? 'warn' : '', href: c.due ? '#/cards/review' : null }]),
