@@ -171,7 +171,7 @@ function practiceBlock(text, timer, { uk, onResult } = {}) {
   }, '.rec');
   rec.firstChild.replaceWith(ic('microphone', { size: 18, fill: true }));
   actions.append(
-    act('speaker-high', 'Слухати', () => speak(text), '', 'Прослухати'),
+    act('speaker-high', 'Слухати', () => speak(text)),
     act('timer', 'Повільно', () => speak(text, { rate: 0.7 })),
     rec);
   return h('div.gx-card.stack.pr-block',

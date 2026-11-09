@@ -167,7 +167,7 @@ function loginView(view, initial) {
 
   function setTab(t) {
     tab = t;
-    tabs.querySelectorAll('[role=tab]').forEach(b => { const on = b.id === `tab-${t}`; b.setAttribute('aria-selected', String(on)); b.setAttribute('aria-pressed', String(on)); b.tabIndex = on ? 0 : -1; });
+    tabs.querySelectorAll('[role=tab]').forEach(b => { const on = b.id === `tab-${t}`; b.setAttribute('aria-selected', String(on)); b.tabIndex = on ? 0 : -1; });
     form.setAttribute('aria-labelledby', `tab-${t}`);
     const up = t === 'up';
     heading.textContent = up ? 'Новий акаунт — безкоштовно' : 'Раді бачити знову';

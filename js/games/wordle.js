@@ -68,7 +68,7 @@ export default async function wordle(view, r) {
       (tiles[i] = Array.from({ length: LEN }, () => h('div.wd-tile', { role: 'gridcell' }))))));
   const keys = {};
   const kb = h('div.wd-kb', { role: 'group', 'aria-label': 'Клавіатура' }, ROWS.map(row => h('div.wd-kb-row', [...row].map(ch => {
-    if (ch === '+') return h('button.wd-key.wide', { type: 'button', 'aria-label': 'Перевірити слово', onclick: submit }, 'Ввід');
+    if (ch === '+') return h('button.wd-key.wide', { type: 'button', 'aria-label': 'Ввід — перевірити слово', onclick: submit }, 'Ввід');
     if (ch === '-') return h('button.wd-key.wide', { type: 'button', 'aria-label': 'Стерти літеру', onclick: back }, ic('backspace', { size: 22 }));
     return (keys[ch] = h('button.wd-key', { type: 'button', 'aria-label': ch.toUpperCase(), onclick: () => type(ch) }, ch));
   }))));

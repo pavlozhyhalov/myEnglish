@@ -177,7 +177,7 @@ body{font-synthesis-weight:none;letter-spacing:-.006em}
 .tx-n{font-weight:600;font-size:24px;letter-spacing:-.03em}
 .tx-n small{font-weight:500;letter-spacing:0;color:var(--ink-dim);margin-left:3px}
 .tx-kpi{padding:12px 14px 13px}
-.tx-label{font-size:11.5px;font-weight:600;letter-spacing:.09em;color:color-mix(in srgb,var(--ink-dim) 88%,transparent);padding:0 6px}
+.tx-label{font-size:11.5px;font-weight:600;letter-spacing:.09em;color:var(--ink-dim);padding:0 6px}
 .tx-label-row{padding:0 6px}
 .tx-no{font-weight:600;font-size:13px;border-radius:11px}
 @media (hover:hover){a.tx:hover,button.tx:hover,a.tx-row:hover,button.tx-row:hover{border-color:var(--tile-edge);box-shadow:var(--tile-shadow),0 0 0 1px var(--line-strong)}}
@@ -217,7 +217,7 @@ details.pg-fold{box-shadow:var(--tile-shadow)}
 /* сегменти — як у iOS: тихе тло, біла «таблетка» з тінню */
 .seg{background:var(--tile-sq);border-radius:13px;padding:3px;gap:2px}
 .seg button{min-height:36px;border-radius:10px;font-size:14px}
-.seg button[aria-pressed="true"],.seg button.on{background:var(--seg-on);color:var(--ink);box-shadow:0 1px 2px rgba(11,21,48,.08),0 2px 6px -2px rgba(11,21,48,.12)}
+.seg button[aria-pressed="true"],.seg button.on,.auth-tabs button[aria-selected="true"]{background:var(--seg-on);color:var(--ink);box-shadow:0 1px 2px rgba(11,21,48,.08),0 2px 6px -2px rgba(11,21,48,.12)}
 
 /* вибір (select) — без системного вигляду: таблетка зі стрілкою */
 select.input{appearance:none;-webkit-appearance:none;background-color:var(--tile-sq);border:1px solid transparent;border-radius:12px;

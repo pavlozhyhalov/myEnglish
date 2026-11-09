@@ -52,12 +52,12 @@ export default function mistakes(view, r) {
     const fp = focus && tab === 'open' ? focusProgress(focus) : [];
     const won = fp.length > 0 && fp.every(p => p.done);
 
-    // дії: одна головна (синя) — правила тижня → повтор за розкладом → вправи; решта — компактний ряд малих плиток (повна назва — в aria-label)
+    // дії: одна головна (синя) — правила тижня → повтор за розкладом → вправи; решта — компактний ряд малих плиток (назва для читача екрана — видимий текст плитки)
     const acts = {
-      drill: openN ? { icon: 'barbell', label: 'Вправи', sub: `${Math.min(10, openN)} частих`, onclick: () => drill(body, draw, timer), attrs: { 'aria-label': `Вправи на мої помилки: ${Math.min(10, openN)} найчастіших` } } : null,
-      talk: openN ? { icon: 'microphone', label: 'Розмова', sub: 'голосом', href: TALK_HREF, attrs: { 'aria-label': 'Потренувати помилки в розмові з вчителем голосом' } } : null,
-      due: due ? { icon: 'clock', label: 'Повтор', sub: `${due} сьогодні`, href: '#/mistakes?practice=due', attrs: { 'aria-label': `Повтор правил за розкладом: ${due} сьогодні` } }
-        : doneToday ? { icon: 'check-circle', tone: 'good', label: 'Повторено', sub: `далі — ${fmtWhen(nextRulePracticeAt() || Date.now() + DAY)}`, attrs: { 'aria-label': `Правила на сьогодні повторено: ${doneToday}` } } : null,
+      drill: openN ? { icon: 'barbell', label: 'Вправи', sub: `${Math.min(10, openN)} частих`, onclick: () => drill(body, draw, timer) } : null,
+      talk: openN ? { icon: 'microphone', label: 'Розмова', sub: 'голосом', href: TALK_HREF } : null,
+      due: due ? { icon: 'clock', label: 'Повтор', sub: `${due} сьогодні`, href: '#/mistakes?practice=due' }
+        : doneToday ? { icon: 'check-circle', tone: 'good', label: 'Повторено', sub: `далі — ${fmtWhen(nextRulePracticeAt() || Date.now() + DAY)}` } : null,
     };
     let primary = null;
     if (fp.length && !won) primary = txPrimary({ icon: 'target', label: 'Потренувати правила тижня', sub: `${fp.filter(p => !p.done).length} ${plural(fp.filter(p => !p.done).length, 'правило', 'правила', 'правил')} · вправи на ваші помилки`, href: '#/mistakes?practice=due&focus=1' });

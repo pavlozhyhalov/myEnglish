@@ -98,7 +98,7 @@ export default async function vocab(view, r) {
   paintFilters();
   view.replaceChildren(h('div.stack.vw-page',
     txGrid([
-      tx({ icon: 'plus', label: 'Додати', sub: 'слово з перекладом AI', wide: true, attrs: { 'aria-label': 'Додати слово' }, end: null, onclick: () => addWord(draw) }),
+      tx({ icon: 'plus', label: 'Додати', sub: 'слово з перекладом AI', wide: true, end: null, onclick: () => addWord(draw) }),
       tx({ icon: 'notebook', label: 'Списком', sub: 'кілька слів одразу', wide: true, end: null, onclick: () => bulkAdd(draw) }),
     ], 2),
     h('div.row.vw-search', search, filtBtn),

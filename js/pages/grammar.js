@@ -36,7 +36,7 @@ export default async function grammar(view, r) {
   };
 
   view.replaceChildren(h('div.stack-lg.gx',
-    next ? txPrimary({ icon: 'play', label: 'Продовжити', sub: `${next.n} · ${next.title}`, href: `#/grammar/${next.id}`, attrs: { 'aria-label': `Продовжити: ${next.title}` } })
+    next ? txPrimary({ icon: 'play', label: 'Продовжити', sub: `${next.n} · ${next.title}`, href: `#/grammar/${next.id}`, })
       : tx({ wide: true, tone: 'good', icon: 'check-circle', label: 'Курс пройдено!', sub: 'Повторюйте уроки за графіком' }),
     h('div.gx-levels', LEVELS.map(section))));
 }
