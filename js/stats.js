@@ -178,9 +178,9 @@ export function ruleHit(rule, done = new Set()) {
   return n;
 }
 /** Відкриті помилки, згруповані за правилом (без правила — за типом): прогрес правила = найменша серія серед його помилок */
-export function mistakesByRule() {
+export function mistakesByRule(list = null) {
   const g = new Map();
-  for (const m of store.all('mistakes')) {
+  for (const m of list || store.all('mistakes')) {
     if (m.deleted || m.resolved) continue;
     const key = m.rule && m.rule !== 'other' ? m.rule : `type:${m.type || 'other'}`;
     const e = g.get(key) || { key, rule: key.startsWith('type:') ? null : key, label: RULES[key]?.uk || null, type: m.type, total: 0, items: [], streak: 3 };
@@ -222,6 +222,8 @@ export function tidyMistakes({ force = false } = {}) {
   }
   const now = Date.now(), DAY = 864e5;
   for (const m of store.all('mistakes')) {
+    // словникові з 2+ правильними поспіль (до 2026-11-09 мета була 3) — вже засвоєні
+    if (!m.deleted && !m.resolved && isLexicalMistake(m) && (m.streak || 0) >= mistakeGoal(m)) { m.resolved = true; store.put('mistakes', m); closed++; continue; }
     if (m.deleted || m.resolved || (m.count || 1) > 1) continue;
     const at = Date.parse(m.updated_at || m.created_at || '');
     if (!at) continue;   // без дати — не закриваємо навмання
@@ -276,12 +278,96 @@ export function classifyPending() {
     .catch(() => 0);
   return classifying;
 }
-/** Правильне застосування: 3 поспіль — виправлено */
+// ---------- Засвоєння помилки (2026-11-09) ----------
+/** «Словникова» помилка (слово, колокація, прийменник, форма дієслова) — окреме слово, закривається швидше */
+export const isLexicalMistake = (m) => !!m && LEXICAL.has(m.rule);
+/** Скільки правильних відповідей поспіль закривають помилку: словникові — 2 (у різні дні), граматичні — 3 */
+export const mistakeGoal = (m) => (isLexicalMistake(m) ? 2 : 3);
+// день останньої зарахованої правильної відповіді словникової помилки: { [id]: 'YYYY-MM-DD' } (без нового стовпця в БД)
+const HIT_KEY = 'me:mk-hit';
+let hitMem = {};
+function hitRead() {
+  try { const v = JSON.parse(localStorage.getItem(HIT_KEY) || 'null'); if (v && typeof v === 'object') return v; } catch { /* */ }
+  return hitMem;
+}
+function hitWrite(v) {
+  // лише відкриті помилки (закриті й видалені — геть), щоб мапа не росла
+  const open = new Set(store.all('mistakes').filter(m => !m.resolved).map(m => m.id));
+  hitMem = Object.fromEntries(Object.entries(v).filter(([id]) => open.has(id)));
+  try { localStorage.setItem(HIT_KEY, JSON.stringify(hitMem)); } catch { /* */ }
+}
+/** День останнього зарахованого «правильно»; з іншого пристрою (мапи немає) — день останньої зміни рядка */
+function lastHitDay(m) {
+  const d = hitRead()[m.id];
+  if (d) return d;
+  return m.streak >= 1 && m.updated_at ? dayKey(m.updated_at) : null;
+}
+/** Чи зарахується правильна відповідь сьогодні (словникова з серією вже зарахована сьогодні — ні, лише завтра) */
+export function mistakeHitCounts(m) {
+  return !isLexicalMistake(m) || !(m.streak >= 1) || lastHitDay(m) !== today();
+}
+/**
+ * Відповідь на помилку: правильно → +1 до серії (граматична — 3 поспіль закриває; словникова — 2, у різні дні:
+ * друге «правильно» того самого дня не зараховується); неправильно → серія з нуля, лічильник +1.
+ * Повертає true, якщо правильна відповідь зарахована.
+ */
 export function mistakeHit(m, correct) {
-  m.streak = correct ? (m.streak || 0) + 1 : 0;
-  if (!correct) m.count = (m.count || 1) + 1;
-  m.resolved = m.streak >= 3;
+  let counted = false;
+  if (!correct) { m.streak = 0; m.count = (m.count || 1) + 1; }
+  else if (mistakeHitCounts(m)) { m.streak = (m.streak || 0) + 1; counted = true; }
+  m.resolved = (m.streak || 0) >= mistakeGoal(m);
+  if (isLexicalMistake(m)) {
+    const v = { ...hitRead() };
+    if (counted) v[m.id] = today(); else if (!correct) delete v[m.id];
+    hitWrite(v);
+  }
   store.put('mistakes', m);
+  return counted;
+}
+
+// ---------- Активні помилки й архів (2026-11-09) ----------
+// У роботі — до 20 помилок: правила тижня → ті, що повторювались (count ≥ 2, свіжіші першими) → найновіші.
+// Решта відкритих — тихий архів: не видаляються; помилка, що повторилась (addMistake: count +1), повертається в роботу.
+export const ACTIVE_LIMIT = 20;
+const FOCUS_SHARE = 15;   // правила тижня — першими, але не всі 20 місць: повторені помилки теж мають повернутися в роботу
+const openMistakes = () => store.all('mistakes').filter(m => !m.deleted && !m.resolved);
+const tsOf = (m, f = 'updated_at') => Date.parse(m[f] || m.created_at || m.updated_at || '') || 0;
+/** Активні (у роботі) відкриті помилки, у порядку пріоритету */
+export function activeMistakes(limit = ACTIVE_LIMIT) {
+  const open = openMistakes();
+  if (open.length <= limit) return open.sort((a, b) => tsOf(b) - tsOf(a));
+  const focus = safeFocus();
+  const byFresh = (a, b) => tsOf(b) - tsOf(a) || (b.count || 1) - (a.count || 1);
+  // правила тижня по черзі (кожне правило отримує місця), у правилі — повторені й свіжіші першими
+  const queues = focus.map(r => open.filter(m => m.rule === r).sort((a, b) => ((b.count || 1) > 1) - ((a.count || 1) > 1) || byFresh(a, b)));
+  const inFocus = [];
+  while (queues.some(q => q.length)) for (const q of queues) if (q.length) inFocus.push(q.shift());
+  const rest = open.filter(m => !focus.includes(m.rule));
+  const repeated = rest.filter(m => (m.count || 1) >= 2).sort(byFresh);
+  const fresh = rest.filter(m => (m.count || 1) < 2).sort((a, b) => tsOf(b, 'created_at') - tsOf(a, 'created_at'));
+  const out = inFocus.slice(0, Math.min(FOCUS_SHARE, limit));
+  for (const m of [...repeated, ...fresh, ...inFocus.slice(out.length)]) { if (out.length >= limit) break; out.push(m); }
+  return out;
+}
+/** id активних помилок */
+export const activeMistakeIds = (limit = ACTIVE_LIMIT) => new Set(activeMistakes(limit).map(m => m.id));
+/** Чи помилка в роботі (не в архіві й не закрита) */
+export function isActiveMistake(m, ids = null) {
+  if (!m || m.deleted || m.resolved) return false;
+  return (ids || activeMistakeIds()).has(m.id);
+}
+/** Відкриті помилки в архіві (не в роботі), свіжіші першими */
+export function archivedMistakes(ids = activeMistakeIds()) {
+  return openMistakes().filter(m => !ids.has(m.id)).sort((a, b) => tsOf(b) - tsOf(a));
+}
+/** Прогрес: { active, closedWeek, closedTotal } — закрито за 7 днів (за updated_at) і всього */
+export function mistakeCounts(now = Date.now()) {
+  const closed = store.all('mistakes').filter(m => !m.deleted && m.resolved);
+  return {
+    active: activeMistakes().length,
+    closedWeek: closed.filter(m => now - (Date.parse(m.updated_at || '') || 0) <= 7 * 864e5).length,
+    closedTotal: closed.length,
+  };
 }
 export function mistakesByType({ includeResolved = false } = {}) {
   const g = new Map();
@@ -424,7 +510,8 @@ function rpWrite(v) {
   rpMem = v;
   try { localStorage.setItem(RP_KEY, JSON.stringify(v)); } catch { /* недоступне — лишається в пам'яті */ }
 }
-const rpOpen = () => store.all('mistakes').filter(m => !m.deleted && !m.resolved && m.wrong && m.right && m.wrong !== '—'
+// лише активні помилки (до 20, див. activeMistakes) — денне навантаження обмежене, архів чекає
+const rpOpen = () => activeMistakes().filter(m => m.wrong && m.right && m.wrong !== '—'
   && m.type !== 'pronunciation' && RP_SOURCES.has(m.source || 'tutor'));
 const rpKey = (m) => (m.rule && m.rule !== 'other' ? m.rule : `type:${m.type || 'other'}`);
 /** Час, коли помилку знову варто повторити (мс) */
@@ -492,10 +579,10 @@ export function nextRulePracticeAt() {
 }
 /** Скільки помилок повторено сьогодні */
 export function rulePracticeToday() { return Number(rpRead().days[today()]) || 0; }
-/** Відповідь у повторі правил: серія помилки (3 поспіль — закрито), позначка часу, лічильник дня */
+/** Відповідь у повторі правил: серія помилки (mistakeHit: 3 поспіль або 2 у різні дні — закрито), позначка часу, лічильник дня; true — зараховано */
 export function logRulePractice(m, correct) {
-  if (!m) return;
-  mistakeHit(m, correct);
+  if (!m) return false;
+  const counted = mistakeHit(m, correct);
   const v = rpRead();
   const ids = new Set(store.all('mistakes').map(x => x.id));
   v.at = Object.fromEntries(Object.entries(v.at).filter(([id]) => ids.has(id)));
@@ -504,4 +591,5 @@ export function logRulePractice(m, correct) {
   v.at[m.id] = new Date().toISOString();
   if (!again) v.days[today()] = (Number(v.days[today()]) || 0) + 1;
   rpWrite(v);
+  return counted;
 }
