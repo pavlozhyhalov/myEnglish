@@ -1,4 +1,5 @@
 // Ігри: «Слово дня» (Wordle), «Швидкий переклад», «Збери речення» — слова й речення мого рівня;
+// «Артиклі на швидкість», «Те саме слово?» — граматика й слова, які плутають (з ваших помилок першими);
 // мовні: «Поясни слово», «Хвилина без "uh"» (AI слухає), «Детектив помилок» (з ваших реальних помилок).
 import { h, ic } from '../ui/dom.js';
 import { myLevel } from '../level.js';
@@ -13,6 +14,8 @@ const GAMES = {
   explain: () => import('../games/explain.js'),
   minute: () => import('../games/minute.js'),
   detective: () => import('../games/detective.js'),
+  articles: () => import('../games/articles.js'),
+  same: () => import('../games/samewords.js'),
 };
 
 export default async function games(view, r) {
@@ -34,6 +37,8 @@ function hub(view) {
     txGroup('Слова й речення', txGrid([
       game('#/games/rush', 'lightning', 'Швидкий переклад', 'на швидкість · 60 с', best('rush4') || best('rushtf') ? `Рекорд: ${Math.max(best('rush4'), best('rushtf'))}` : null),
       game('#/games/build', 'puzzle-piece', 'Збери речення', 'з перемішаних слів', best('build') ? `Рекорд: ${best('build')}` : null),
+      game('#/games/articles', 'hourglass', 'Артиклі на швидкість', 'a, an, the чи — · 60 с', best('articles') ? `Рекорд: ${best('articles')}` : null),
+      game('#/games/same', 'swap', 'Те саме слово?', 'make чи do, say чи tell', best('same') ? `Рекорд: ${best('same')}` : null),
     ], 2)),
     txGroup('Говоріння й помилки', txGrid([
       game('#/games/explain', 'chat-circle-dots', 'Поясни слово', 'голосом — AI вгадує', best('explain') ? `Рекорд: ${best('explain')} з 15` : null),

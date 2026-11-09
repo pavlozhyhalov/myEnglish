@@ -305,3 +305,69 @@ export function levelMeter(n = 14) {
     },
   };
 }
+
+// ---------- Банки речень: рівні, «вже бачені», найкращий час ----------
+/** Рівні банку речень A2–B2 для мого рівня: перший — основний, решта — сусідні */
+const BANK_BAND = { A1: ['A2'], A2: ['A2', 'B1'], B1: ['B1', 'A2', 'B2'], B2: ['B2', 'B1'], C1: ['B2', 'B1'] };
+export const bankLevels = (level = myLevel()) => BANK_BAND[level] || BANK_BAND.B1;
+
+/** Недавно бачені id завдань гри (localStorage): read() → Set, add(ids) — додати й обрізати до max */
+export function seenStore(key, max = 80) {
+  const read = () => { try { const v = JSON.parse(localStorage.getItem(key)); return Array.isArray(v) ? v : []; } catch { return []; } };
+  return {
+    read: () => new Set(read()),
+    add(ids) {
+      const fresh = new Set(ids);
+      try { localStorage.setItem(key, JSON.stringify([...read().filter(id => !fresh.has(id)), ...fresh].slice(-max))); } catch { /* приватний режим */ }
+    },
+  };
+}
+
+/** Рекорди часу (менше — краще): локально + profiles.data.games.fast, об'єднання за мінімумом */
+const minMerge = (a = {}, b = {}) => {
+  const out = { ...a };
+  for (const [k, v] of Object.entries(b || {})) {
+    if (v && typeof v === 'object') out[k] = minMerge(out[k] || {}, v);
+    else if (typeof v === 'number' && v > 0) out[k] = out[k] > 0 ? Math.min(out[k], v) : v;
+  }
+  return out;
+};
+export function fastBest(game, level) {
+  return minMerge(readLocal().fast || {}, store.prof().games?.fast || {})[game]?.[level] || 0;
+}
+/** Зберегти час гри; повертає { record, prev } */
+export function saveFast(game, level, ms) {
+  const prev = fastBest(game, level);
+  const record = ms > 0 && (!prev || ms < prev);
+  if (!record) return { record, prev };
+  const patch = { [game]: { [level]: Math.round(ms) } };
+  const s = readLocal(); s.fast = minMerge(s.fast || {}, patch); writeLocal(s);
+  const g = store.prof().games || {};
+  store.setProf({ games: { ...g, fast: minMerge(g.fast || {}, patch) } });
+  return { record, prev };
+}
+/** 75 300 мс → «1:15» */
+export const clock = (ms) => { const s = Math.max(0, Math.round(ms / 1000)); return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`; };
+
+/**
+ * Речення з пропуском «___»: { el, fill(answer, { tone, yours, label }) }.
+ * fill показує правильне слово в пропуску (tone 'ok' | 'no'), а якщо учень помилився — його варіант закресленим поруч.
+ */
+export function gapSentence(text, { empty = '—', tag = 'p' } = {}) {
+  const [before, after] = String(text).split('___');
+  const gap = h('span.g-gap', { 'aria-label': 'пропуск' }, ' ');
+  const el = h(tag + '.g-gapline', { lang: 'en' }, before, gap, after ?? '');
+  const atStart = !before.trim();
+  const show = (w) => (w ? (atStart ? w[0].toUpperCase() + w.slice(1) : w) : empty);
+  return {
+    el,
+    fill(answer, { tone = 'ok', yours = null } = {}) {
+      const kids = [];
+      if (yours != null && yours !== answer) kids.push(h('s.g-gap-yours', { 'aria-label': `ваш варіант: ${yours || 'без артикля'}` }, show(yours)));
+      kids.push(h('span.g-gap-w' + (answer ? '' : '.none'), show(answer)));
+      gap.replaceChildren(...kids);
+      gap.className = 'g-gap filled ' + tone;
+      gap.setAttribute('aria-label', answer ? answer : 'без слова');
+    },
+  };
+}
