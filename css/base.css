@@ -21,7 +21,7 @@ img,svg{display:block}
 /* рамка фокусу — лише для клавіатури: після дотику програмний фокус (закрите меню, «Далі» у вправах) не обводиться */
 html:not(.kbd) :focus-visible{outline:none}
 ::selection{background:var(--accent-soft)}
-::placeholder{color:var(--ink-dim);opacity:.8}
+::placeholder{color:var(--ink-dim);opacity:1}
 [hidden]{display:none!important}
 .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 .ipa{font-family:var(--font-ipa);color:var(--ink-dim)}

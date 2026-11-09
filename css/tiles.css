@@ -185,10 +185,11 @@ body{font-synthesis-weight:none;letter-spacing:-.006em}
 /* головна дія — суцільна синя (одна на екран) */
 .tx.primary,.tx.on.primary{background:var(--accent-grad);border-color:transparent;color:#fff;box-shadow:var(--accent-glow)}
 .tx.primary .tx-sq{background:rgba(255,255,255,.16);color:#fff}
-.tx.primary .tx-s{color:rgba(255,255,255,.78);opacity:1}
-.tx.primary .tx-end{color:rgba(255,255,255,.85)}
+.tx.primary .tx-s{color:rgba(255,255,255,.9);opacity:1}
+.tx.primary .tx-end{color:rgba(255,255,255,.9)}
 .tx.primary .tx-l{font-size:var(--fs-md);font-weight:600}
-.tx.primary .tx-pill{background:rgba(255,255,255,.18);color:#fff}
+/* пігулка на синій плитці — тихе затемнення: біле на світлому краю градієнта темної теми лишається ≥ 4.5:1 */
+.tx.primary .tx-pill{background:rgba(8,16,48,.2);color:#fff}
 /* активний стан — тихий: світлий фон з тонкою синьою кромкою */
 .tx.on:not(.primary){background:color-mix(in srgb,var(--accent) 6%,var(--tile));border-color:color-mix(in srgb,var(--accent) 22%,transparent);color:var(--ink)}
 .tx.on:not(.primary) .tx-l{color:var(--accent-ink)}

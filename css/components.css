@@ -27,6 +27,11 @@
 /* зона дотику ≥44px для компактних елементів (36–40px): невидиме розширення по вертикалі */
 .chip,.btn.sm,.seg button{position:relative}
 .chip::after,.btn.sm::after,.seg button::after{content:"";position:absolute;inset:-4px 0}
+/* невидима зона дотику ≥ 44 px без зміни вигляду: вкладки під шапкою, кнопка-вибір у налаштуваннях, кнопки картки профілю в меню, «Забули пароль?» */
+.subnav-seg a,.set-pick,.drawer .pc-btn{position:relative}
+.subnav-seg a::after,.set-pick::after{content:"";position:absolute;inset:-4px 0}
+.drawer .pc-btn::after{content:"";position:absolute;inset:-3px}
+.auth-forgot{display:inline-block;padding:10px 0;margin:-10px 0}
 .icon-btn{
   width:44px;height:44px;display:inline-grid;place-items:center;border:0;border-radius:12px;
   background:transparent;color:var(--ink);transition:background var(--dur);
@@ -121,7 +126,7 @@ a.tag{text-decoration:none}
 .field label,.label{font-size:var(--fs-xs);color:var(--ink-dim);font-weight:500}
 .input,textarea.input,select.input{
   width:100%;min-height:48px;padding:12px 14px;border-radius:var(--radius-btn);
-  border:1px solid var(--line-strong);background:var(--surface);color:var(--ink);outline:none;
+  border:1px solid var(--field-edge);background:var(--surface);color:var(--ink);outline:none;
 }
 /* поле після перевірки: «застигле», але текст читабельний (без сірого браузерного стилю) */
 .input:disabled{background:var(--surface-2);border-color:transparent;color:var(--ink);-webkit-text-fill-color:var(--ink);opacity:1}
