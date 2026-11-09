@@ -114,13 +114,14 @@ const idle = (fn, timeout = 2000) => ('requestIdleCallback' in window ? requestI
  * (modulepreload: лише завантаження, без виконання), а дані, які їй потрібні, — до того, як сторінка про них попросить.
  * data.js кешує проміси — сторінка отримає ті самі запити, без повторного завантаження.
  */
-function warmRoute(name) {
-  if (PAGE_FILES[name]) {
-    const href = new URL(pageUrl(name), import.meta.url).href;
-    if (![...document.querySelectorAll('link[rel="modulepreload"]')].some(l => l.href === href)) {
-      document.head.append(Object.assign(document.createElement('link'), { rel: 'modulepreload', href }));
-    }
+function preloadModule(path) {
+  const href = new URL(path, import.meta.url).href;
+  if (![...document.querySelectorAll('link[rel="modulepreload"]')].some(l => l.href === href)) {
+    document.head.append(Object.assign(document.createElement('link'), { rel: 'modulepreload', href }));
   }
+}
+function warmRoute(name) {
+  if (PAGE_FILES[name]) preloadModule(pageUrl(name));
   const quiet = (p) => { p?.catch?.(() => {}); };
   quiet(grammarIndex()); quiet(deckIndex());
 }
@@ -130,7 +131,11 @@ function warmData(name) {
   const quiet = (p) => { p?.catch?.(() => {}); };
   const words = srs.newCards();
   quiet(words);
-  if (name === 'home') words.catch(() => {}).finally(() => { quiet(scenarios()); quiet(listening()); quiet(json('data/reading.json')); });
+  if (name !== 'home') return;
+  // головна вантажить «Завдання дня» (js/pages/reading.js + дані) і рівень у розмовах (js/analysis.js) — ті самі модулі, лише раніше;
+  // дані — після запитів колод (вони потрібні картці «Сьогодні» першими)
+  quiet(import('./pages/reading.js')); quiet(import('./analysis.js'));
+  deckIndex().catch(() => {}).finally(() => setTimeout(() => { quiet(scenarios()); quiet(listening()); quiet(json('data/reading.json')); }, 0));
 }
 
 initErrlog();
