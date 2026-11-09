@@ -39,7 +39,10 @@ function header() {
     streakBtn.hidden = n < 1;
   };
   updateStreak();
-  store.on(t => { if (t === 'sessions') updateStreak(); if (t === 'synced') { try { backfillLessonTests(); } catch (e) { console.warn('tests backfill', e); } try { tidyMistakes(); } catch (e) { console.warn('tidy mistakes', e); } usedWordsLater(); } });
+  store.on(t => { if (t === 'sessions') updateStreak(); if (t === 'synced') { try { backfillLessonTests(); } catch (e) { console.warn('tests backfill', e); } try { tidyMistakes(); } catch (e) { console.warn('tidy mistakes', e); } reviewLater(); usedWordsLater(); } });
+  // повторення пройденого й слабких місць — раз на добу (js/review.js)
+  function reviewLater() { import('./review.js').then(m => m.reviewUpkeep()).catch(e => console.warn('review upkeep', e)); }
+  reviewLater();
   // слова, які учень уживає в розмовах, — «вивчено» (раз на 6 год; після синхронізації розмов з інших пристроїв)
   function usedWordsLater() {
     const run = () => import('./usage.js').then(m => m.backgroundMarkUsed()).then(list => {

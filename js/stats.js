@@ -295,6 +295,8 @@ export function mistakesByType({ includeResolved = false } = {}) {
 }
 
 // ---------- Уроки ----------
+/** Інтервали повторення пройденого уроку за етапом: 0 — після зарахування, 1, 2, 3+ */
+export const REVIEW_DAYS = [7, 30, 90, 180];
 export function lessonDone(id) { const p = store.get('lessons_progress', id); return !!p?.completed_at; }
 export function recordLesson(id, score) {
   const p = store.get('lessons_progress', id) || { id, best: 0, attempts: 0, review_stage: 0 };
@@ -307,8 +309,9 @@ export function recordLesson(id, score) {
       p.completed_at = now.toISOString(); p.review_stage = 0;
       p.next_review = new Date(now.getTime() + 7 * 864e5).toISOString();
     } else if (p.next_review && new Date(p.next_review) <= now) {
+      // повтори не закінчуються (2026-11-09): 7 → 30 → 90 → 180 днів і далі раз на пів року — пройдене не забувається
       p.review_stage = (p.review_stage || 0) + 1;
-      p.next_review = p.review_stage === 1 ? new Date(now.getTime() + 30 * 864e5).toISOString() : null;
+      p.next_review = new Date(now.getTime() + REVIEW_DAYS[Math.min(p.review_stage, REVIEW_DAYS.length - 1)] * 864e5).toISOString();
     }
   }
   store.put('lessons_progress', p);
