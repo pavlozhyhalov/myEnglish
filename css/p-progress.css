@@ -82,6 +82,13 @@ html.kbd .mk-others>summary:focus-visible{outline:2px solid var(--accent-ink);ou
 .mk-others-body{padding:4px 10px 14px;opacity:.9}
 .mk-others-body .tx-row,.mk-others-body .tx{background:var(--tile-sq)}
 .mk-others-body .tx-row .tx-sq,.mk-others-body .tx-row .tx-no{background:var(--tile)}
+.mk-archive-body{padding:4px 10px 14px;opacity:.9}
+.mk-archive-body .tx-row{background:var(--tile-sq)}
+.mk-archive-body .tx-row .tx-no{background:var(--tile)}
+/* прогрес помилок — компактний ряд показників угорі (2026-11-09) */
+.mk-kpis .tx-kpi{padding:9px 10px 10px}
+.mk-kpis .tx-n{font-size:22px;line-height:1.1}
+.mk-kpis .tx-s{font-size:11.5px;line-height:1.25}
 
 /* повтор правил: шапка, результат, правила тижня (аудит 2026-11-07) */
 .mk-dhead .tx-s{margin-top:2px}
