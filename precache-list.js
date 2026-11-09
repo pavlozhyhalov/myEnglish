@@ -1,7 +1,7 @@
 // Згенеровано scripts/bump.sh — не редагувати вручну
 // шлях → хеш вмісту (sha256, 12 символів)
 self.PRECACHE = {
-  './': '99a3d391a55b', './index.html': '99a3d391a55b', './manifest.webmanifest': 'b87f180a6d8d',
+  './': 'aae00a4f4ce4', './index.html': 'aae00a4f4ce4', './manifest.webmanifest': 'b87f180a6d8d',
   './assets/icons/apple-touch-icon.png': '49e9cb2a0d59',
   './assets/icons/icon-192.png': '8f448517285d',
   './assets/icons/icon-512.png': 'b2f707bcc4de',
@@ -24,8 +24,8 @@ self.PRECACHE = {
   './css/phrases.css': '0bad87bff98a',
   './css/reading.css': '847ea3362b8b',
   './css/tests.css': '01ac28115ed5',
-  './css/tiles.css': 'ec06c753b1e4',
-  './css/tokens.css': '8fa8638809ee',
+  './css/tiles.css': 'ae5ecf62dd9f',
+  './css/tokens.css': '9fac23379dc0',
   './css/tutor.css': 'f9722b0fd47d',
   './css/wordtrain.css': '9ffdf4fb954a',
   './data/articles.json': '093369ea99da',
@@ -172,6 +172,8 @@ self.PRECACHE = {
   './data/scenarios.json': 'c828a25232de',
   './data/words5.json': 'fed2c8d4d9b2',
   './data/writing.json': '58e5aeedcec4',
+  './fonts/days-one-cyrillic-400-normal.woff2': 'dc5db7b294bf',
+  './fonts/days-one-latin-400-normal.woff2': '185dc6bea2e5',
   './fonts/noto-sans-greek-400-normal.woff2': 'c7c42b4b60ab',
   './fonts/noto-sans-latin-ext-400-normal.woff2': 'c8e6bf928ae8',
   './fonts/onest-cyrillic-400-normal.woff2': '51adb4c8c5dc',
@@ -192,7 +194,7 @@ self.PRECACHE = {
   './js/ai.js': '7eb8286ecdab',
   './js/analysis.js': 'ec2f909622f7',
   './js/app.js': '099c3859d7ac',
-  './js/config.js': 'ce6e3889ab22',
+  './js/config.js': 'f7b970eecf4e',
   './js/daily.js': '80ed65061d1b',
   './js/data.js': 'b13181517b77',
   './js/errlog.js': 'b1996f6e588a',

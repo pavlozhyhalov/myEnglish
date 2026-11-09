@@ -295,3 +295,19 @@ input.range::-moz-range-thumb{width:24px;height:24px;border-radius:50%;backgroun
 .drawer .nav-top .tile-nav{box-shadow:var(--nav-shadow)}
 .drawer .tile-nav.pressed{box-shadow:var(--tile-shadow-press)}
 .drawer .tile-nav[aria-current="page"]{background-image:none}
+
+/* ---------- Шрифт заголовків Days One (власник 2026-11-09: «Останній шрифт») ----------
+   Широкий, «плитковий»: заголовки, назви плиток і рядків, кнопки, підписи груп, нижня панель і всі цифри (--font-head).
+   Дрібний і довгий текст (підписи, уроки, чат, читання) — Onest. Одне накреслення: font-weight більше не робить його жирнішим. */
+h1,h2,h3,.app-header .title,.tx-l,.gx-res-t,.td-title,.hm-start,.hm-st-t,.tx-label,.section-title,.qb-item span,
+.btn,.seg button,.subnav-seg a,.set-l,.drawer .tn-label,.drawer .pc-name,.pg-fold summary .tx-l,.chip,.tx-pill,.wf-label,.mission-title{font-family:var(--font-head)}
+h1,h2,h3,.tx-l,.gx-res-t,.td-title,.app-header .title,.set-l,.drawer .tn-label{letter-spacing:-.01em}
+.tx-label,.section-title{letter-spacing:.06em}
+/* ширший шрифт — трохи менші кеглі, щоб назви плиток не ламались */
+.tx-l{font-size:14.5px;line-height:1.25}
+.tx.primary .tx-l{font-size:16px}
+.tx-row .tx-l{font-size:14.5px}
+.greet h1{font-size:26px;line-height:1.15}
+.drawer .tn-label{font-size:12px}
+.qb-item span{font-size:10px;letter-spacing:0}
+@media (max-width:360px){.tx-l,.tx-row .tx-l{font-size:13.5px}.greet h1{font-size:23px}.drawer .tn-label{font-size:11px}}
