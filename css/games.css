@@ -318,6 +318,7 @@ mark.gm-r{background:var(--bad-soft);box-shadow:inset 0 -2px 0 var(--bad)}
 .ar-miss .g-gap,.sw-miss .g-gap{padding:0 5px;margin:0 2px;border-radius:6px}
 .ar-miss .tx-pill{flex:none;font-family:var(--font-head);font-weight:600}
 .sw-miss .tx-s.sw-miss-en{color:var(--ink);margin:2px 0}
+.ar-miss .tx-s,.sw-miss .tx-s{display:block;-webkit-line-clamp:none;overflow:visible}
 
 /* ---------- Те саме слово? ---------- */
 .sw-dots{display:flex;gap:4px}

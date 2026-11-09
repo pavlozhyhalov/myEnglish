@@ -144,13 +144,13 @@ export default async function samewords(view) {
     let ri = -1, score = 0, combo = 0, maxCombo = 0, hits = 0, cur = null, gap = null, locked = true;
     let elapsed = 0, roundMs = 0, last = performance.now(), raf = 0, paused = false;
     const misses = [];
-    const rPill = statPill('swap', 'Речення'), tPill = statPill('timer', 'Час'), sPill = statPill('star', 'Очки'), cPill = statPill('fire', 'Комбо');
-    const dots = h('div.sw-dots', { 'aria-hidden': 'true' }, rounds.map(() => h('i')));
+    const tPill = statPill('timer', 'Час'), sPill = statPill('star', 'Очки'), cPill = statPill('fire', 'Комбо');
+    const dots = h('div.sw-dots', { role: 'img' }, rounds.map(() => h('i')));
     const stage = h('div.sw-stage');
-    body.replaceChildren(h('div.row.g-hud', rPill.el, tPill.el, sPill.el, h('div.grow'), cPill.el), dots, stage);
+    body.replaceChildren(h('div.row.g-hud', tPill.el, sPill.el, h('div.grow'), cPill.el), dots, stage);
     const drawHud = () => {
       const k = Math.min(ri + 1, rounds.length);
-      rPill.set(`${k}/${rounds.length}`, `${k} з ${rounds.length}`);
+      dots.setAttribute('aria-label', `Речення ${k} з ${rounds.length}`);
       tPill.set(clock(elapsed));
       sPill.set(String(score));
       const mult = comboMult(combo);

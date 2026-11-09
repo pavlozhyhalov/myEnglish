@@ -35,9 +35,9 @@ function hub(view) {
   view.replaceChildren(h('div.stack-lg.games',
     txPrimary({ href: '#/games/wordle', icon: 'text-aa', label: 'Слово дня', sub: `${wordleStatus} · рівень ${lv}` }),
     txGroup('Слова й речення', txGrid([
-      game('#/games/rush', 'lightning', 'Швидкий переклад', 'на швидкість · 60 с', best('rush4') || best('rushtf') ? `Рекорд: ${Math.max(best('rush4'), best('rushtf'))}` : null),
+      game('#/games/rush', 'lightning', 'Швидкий переклад', 'на швидкість · 60\u00a0с', best('rush4') || best('rushtf') ? `Рекорд: ${Math.max(best('rush4'), best('rushtf'))}` : null),
       game('#/games/build', 'puzzle-piece', 'Збери речення', 'з перемішаних слів', best('build') ? `Рекорд: ${best('build')}` : null),
-      game('#/games/articles', 'hourglass', 'Артиклі на швидкість', 'a, an, the чи — · 60 с', best('articles') ? `Рекорд: ${best('articles')}` : null),
+      game('#/games/articles', 'hourglass', 'Артиклі на швидкість', 'a, an, the чи «—»', best('articles') ? `Рекорд: ${best('articles')}` : null),
       game('#/games/same', 'swap', 'Те саме слово?', 'make чи do, say чи tell', best('same') ? `Рекорд: ${best('same')}` : null),
     ], 2)),
     txGroup('Говоріння й помилки', txGrid([
