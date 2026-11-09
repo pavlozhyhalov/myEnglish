@@ -87,10 +87,11 @@ const pages = {
   admin: () => import('./pages/admin.js'),
   games: () => import('./pages/games.js'),
   fluency: () => import('./pages/fluency.js'),
+  'listen-go': () => import('./pages/listengo.js'),
 };
 
 // Сторінки з завданнями: картки, уроки, вправи, тести, заняття, вчитель, аудіювання, вимова, письмо, сценарії, помилки
-const PRACTICE = new Set(['today', 'cards', 'exercises', 'tests', 'session', 'tutor', 'listening', 'pronunciation', 'mistakes', 'lab', 'diary', 'games', 'fluency']);
+const PRACTICE = new Set(['today', 'cards', 'exercises', 'tests', 'session', 'tutor', 'listening', 'pronunciation', 'mistakes', 'lab', 'diary', 'games', 'fluency', 'listen-go']);
 function isPracticeRoute(r) {
   if (PRACTICE.has(r.name)) return true;
   // урок граматики, конкретне завдання з письма чи сценарій (але не списки)

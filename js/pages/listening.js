@@ -55,7 +55,9 @@ export default async function listening(view, r) {
   // вкладка — в адресі (без нового запису історії): «Назад» з діалогу повертає на ту саму вкладку
   const tabs = seg([['dictation', 'Диктант'], ['dialogues', 'Діалоги']], tab, v => { tab = v; history.replaceState(history.state, '', v === 'dialogues' ? '#/listening?tab=dialogues' : '#/listening'); draw(); });
   // акцент US/UK — у «Налаштуваннях» (не дублюємо тут)
-  view.replaceChildren(h('div.stack-lg', tabs, body));
+  // аудіосесія без рук (#/listen-go) — окрема плитка, не друга синя головна дія
+  const goTile = tx({ wide: true, icon: 'speaker-high', label: 'Слухати в дорозі', sub: 'Слова, фрази й ваші виправлення', href: '#/listen-go' });
+  view.replaceChildren(h('div.stack-lg', goTile, tabs, body));
   function draw() { body.__gen = (body.__gen || 0) + 1; stopSpeech(); tab === 'dictation' ? dictation(body, data) : dialogues(body, data); }
   draw();
   return cleanup;

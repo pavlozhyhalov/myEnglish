@@ -20,6 +20,7 @@ export const SECTIONS = [
   { id: 'scenarios', icon: 'users-three', href: '#/scenarios', group: 'practice' },
   { id: 'fluency', icon: 'timer', href: '#/fluency', group: 'practice' },
   { id: 'listening', icon: 'headphones', href: '#/listening', group: 'practice' },
+  { id: 'listengo', icon: 'speaker-high', href: '#/listen-go', group: 'practice' },
   { id: 'reading', icon: 'book-open', href: '#/reading', group: 'practice' },
   { id: 'writing', icon: 'pencil-line', href: '#/writing', group: 'practice' },
   { id: 'diary', icon: 'notebook', href: '#/diary', group: 'practice' },
@@ -54,7 +55,7 @@ export const MENU = [
     { id: 'voice', label: 'Розмова голосом', icon: 'microphone', href: '#/tutor?mode=voice', ids: ['voice'] },
     { id: 'scenarios', label: 'Сценарії', icon: 'users-three', href: '#/scenarios', ids: ['scenarios'] },
     { id: 'fluency', label: 'Плавність', icon: 'timer', href: '#/fluency', ids: ['fluency'] },
-    { id: 'listenread', label: 'Слухання й читання', icon: 'headphones', href: '#/listening', ids: ['listening', 'reading'] },
+    { id: 'listenread', label: 'Слухання й читання', icon: 'headphones', href: '#/listening', ids: ['listening', 'reading', 'listengo'] },
     { id: 'write', label: 'Письмо й щоденник', icon: 'pencil-line', href: '#/writing', ids: ['writing', 'diary'] },
   ] },
   { id: 'progress', label: 'Прогрес', items: [
