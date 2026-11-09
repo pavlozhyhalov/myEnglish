@@ -514,7 +514,7 @@ html.kbd .tu-wrow:focus-visible{outline:2px solid var(--accent-ink);outline-offs
 .redo-k{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase}
 .redo-act{display:flex;flex-direction:column;align-items:center;gap:10px}
 .redo-act > .tx,.redo-act > .redo-input{align-self:stretch}
-.redo-input{min-height:76px;font-size:var(--fs-md)}
+textarea.input.redo-input{min-height:76px;font-size:var(--fs-md)}
 /* велика кнопка мікрофона — єдина синя дія екрана */
 .redo-mic{width:88px;height:88px;margin-top:6px;border-radius:50%;border:0;display:grid;place-items:center;cursor:pointer;color:#fff;
   background:var(--accent-grad);box-shadow:var(--accent-glow);-webkit-tap-highlight-color:transparent;transition:transform .18s cubic-bezier(.2,.8,.2,1),box-shadow .2s ease}
@@ -529,6 +529,7 @@ html.kbd .redo-mic:focus-visible{outline:3px solid var(--accent-ink);outline-off
 .redo-foot:empty{display:none}
 .redo-link{display:inline-flex;align-items:center;gap:6px;min-height:40px;padding:6px 10px;border:0;border-radius:12px;background:transparent;
   color:var(--ink-dim);font:inherit;font-size:var(--fs-sm);font-weight:600;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.redo-link{text-decoration:none}
 .redo-link:hover{background:var(--tile-sq);color:var(--ink)}
 html.kbd .redo-link:focus-visible{outline:2px solid var(--accent-ink);outline-offset:1px}
 .redo-miss{align-items:flex-start}
