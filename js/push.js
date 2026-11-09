@@ -1,7 +1,7 @@
 // Нагадування Web Push: підписка PushManager цього пристрою + рядок у push_subscriptions (Supabase, лише свої рядки).
 // Час і види нагадувань — у налаштуваннях (settings.reminders, синхронізуються); чи ввімкнено на пристрої — наявність підписки.
 // Дозвіл на сповіщення запитується лише після натискання користувача (enable()).
-import { FUNCTIONS_URL } from './config.js';
+import { FUNCTIONS_URL, BUILD } from './config.js';
 import { getSupa, user } from './supa.js';
 import * as store from './store.js';
 
@@ -61,9 +61,14 @@ const sameKey = (buf, bytes) => {
 };
 
 async function registration() {
+  // app.js реєструє SW із затримкою після першого екрана: якщо його ще немає — реєструємо зараз (ті самі адреса й параметри, повторна реєстрація нешкідлива)
+  if (!(await navigator.serviceWorker.getRegistration().catch(() => null))) {
+    navigator.serviceWorker.register(`sw.js?v=${BUILD}`, { updateViaCache: 'none' }).catch(e => console.warn('sw', e));
+  }
+  // перше встановлення кладе в кеш оболонку (~280 файлів) — на повільній мережі це довше за кілька секунд
   const reg = await Promise.race([
     navigator.serviceWorker.ready,
-    new Promise((_, rej) => setTimeout(() => rej(Object.assign(new Error('Service worker не готовий'), { code: 'no_sw' })), 8000)),
+    new Promise((_, rej) => setTimeout(() => rej(Object.assign(new Error('Service worker не готовий'), { code: 'no_sw' })), 20000)),
   ]);
   return reg;
 }
