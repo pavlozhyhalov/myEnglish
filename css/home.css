@@ -194,3 +194,8 @@ button.tx-more{border:0;background:none;padding:6px 0;margin:-6px 0;cursor:point
 .greet h1{font-size:28px;letter-spacing:-.03em;margin-bottom:0}
 .greet .date{font-size:var(--fs-xs);font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-dim)}
 .greet{display:flex;flex-direction:column;gap:4px;padding:2px 4px 0}
+/* пропозиція підняти рівень за розмовами (2026-11-09) */
+.hm-lvwrap{gap:8px}
+.hm-lvsug{display:flex;flex-direction:column;align-items:stretch;gap:2px}
+.hm-lvsug[hidden]{display:none}
+.hm-lvsug-x{align-self:flex-end;padding:6px 8px;margin:0;color:var(--ink-dim)}

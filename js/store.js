@@ -300,6 +300,9 @@ const CARD_NUM = ['stability', 'difficulty', 'elapsed_days', 'scheduled_days', '
 const syncReported = new Set();
 function reportSync(table, error) {
   if (syncReported.has(table)) return;
+  // обрив мережі (iOS «Load failed», «Failed to fetch») — не збій застосунку: синхронізація повториться сама
+  const msg = String(error?.message || error || '');
+  if (!navigator.onLine || /load failed|failed to fetch|networkerror|network request failed/i.test(msg)) return;
   syncReported.add(table);
   import('./errlog.js').then(m => m.report(new Error(`${error.code || ''} ${error.message || error}`.trim()), `sync ${table}`)).catch(() => {});
 }

@@ -13,7 +13,7 @@ import { skel, skelCard, skelRow } from '../ui/skeleton.js';
 import { toast } from '../ui/toast.js';
 import { greetName } from './profile.js';
 import { tx, txGrid, txGroup, txBar, txDots } from '../ui/tiles.js';
-import { myLevel, LEVEL_NAME, nextLessonByLevel, byFit, diff, levelProgress, nextLevel, filterByLevel, pickOfDay } from '../level.js';
+import { myLevel, LEVEL_NAME, nextLessonByLevel, byFit, diff, levelProgress, nextLevel, filterByLevel, pickOfDay, setLevel, LEVELS as LEVEL_ORDER } from '../level.js';
 
 const nMistakes = (n) => `${n} ${plural(n, 'помилка', 'помилки', 'помилок')}`;
 
@@ -176,18 +176,29 @@ function levelGroup(view, gIdx, lvl) {
     if (lp.ready) { ready.textContent = `Ви майже опанували ${lvl} — час переходити на ${nxt}`; ready.hidden = false; }
   }).catch(e => console.warn('level', e));
   // рівень у розмовах — лише коли є ≥2 оцінені розмови (модуль аналізу вантажиться окремо)
+  const suggest = h('div.hm-lvsug', { hidden: true });
   import('../analysis.js').then(({ conversationLevel }) => {
     const cl = conversationLevel();
     if (!cl || cl.sessions < 2) return;
     const sub = cl.sublevel === 'high' ? '+' : cl.sublevel === 'low' ? '−' : '';
     convInfo.textContent = ` · у розмовах ${cl.level}${sub}`;
+    // розмови впевнено показують вищий рівень, ніж обраний, — запропонувати підняти (рішення за учнем; «Не зараз» — на 14 днів)
+    const hi = LEVEL_ORDER.indexOf(cl.level) > LEVEL_ORDER.indexOf(lvl) && cl.sessions >= 3 && cl.confidence !== 'low' && cl.sublevel !== 'low';
+    const dis = store.prof().levelSuggestOff;
+    const off = dis && dis.level === cl.level && Date.now() - Date.parse(dis.at) < 14 * 864e5;
+    if (!hi || off) return;
+    suggest.replaceChildren(tx({ wide: true, icon: 'rocket-launch', cls: 'hm-lvsug-t', label: `Розмови показують ${cl.level} — підняти рівень?`,
+      sub: `Уроки дня й нові слова стануть під ${cl.level}`, onclick: () => { setLevel(cl.level, 'conversation'); toast(`Рівень ${cl.level}: план і завдання оновлено`); home(view); },
+      end: h('span.tx-pill.accent', 'Підняти') }),
+      h('button.tx-more.hm-lvsug-x', { type: 'button', onclick: () => { store.setProf({ levelSuggestOff: { level: cl.level, at: new Date().toISOString() } }); suggest.hidden = true; } }, 'Не зараз'));
+    suggest.hidden = false;
   }).catch(() => {});
   const levelTile = tx({ wide: true, href: '#/progress', cls: 'hm-level',
     icon: null, label: lvl !== nxt ? `Рівень ${lvl} → ${nxt}` : `Рівень ${lvl}`, sub: LEVEL_NAME[lvl],
     extra: h('span.hm-level-extra', lpBar, h('span.tx-s', lpInfo, convInfo), ready), end: lpPct });
   levelTile.prepend(h('span.tx-sq.hm-level-badge', { 'aria-hidden': 'true' }, lvl));
-  // зміна рівня — у «Налаштуваннях» і тестом; тут лише поточний стан
-  return levelTile;
+  // зміна рівня — у «Налаштуваннях», тестом або пропозицією за розмовами
+  return h('div.stack.hm-lvwrap', levelTile, suggest);
 }
 
 /** Перенос довгих назв правил після «/» (am/is/are/was/were), а не посеред слова */
