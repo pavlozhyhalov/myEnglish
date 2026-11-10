@@ -432,7 +432,6 @@ export async function buildMonthPdf(ym) {
 
   // ================= 1. Підсумок =================
   doc.setFillColor(...C.accent); doc.rect(0, 0, A4.w, 50, 'F');
-  doc.setFillColor(42, 77, 174); doc.circle(A4.w - 10, -6, 46, 'F');
   L.font('head', 11, [199, 211, 245]); doc.text('myEnglish · звіт вчителя', M, 14);
   L.font('head', 24, C.white); doc.text(`Прогрес за ${R.title.toLowerCase()}`, M, 29);
   L.font('body', 10, [199, 211, 245]);
