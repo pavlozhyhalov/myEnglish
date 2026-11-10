@@ -232,9 +232,13 @@ export function render(ex, report, next) {
       // приймаємо й виправлення разом із сусіднім словом: «we'll stay», «I'll tell»
       const prev = words[ex.wrongIndex - 1] || '';
       const okFix = matches(fix.value, fixes) || (!!prev && matches(fix.value, fixes.map(f => `${prev} ${f}`)));
-      done(okIdx && okFix, `${words[picked]} → ${fix.value.trim()}`);
+      // інше слово, але виправлене речення те саме (2026-11-10: «I → I'm» = «going → am going»): порівнюємо цілі речення, скорочення = повні форми
+      const mine = words.map((w, k) => (k === picked ? fix.value.trim() : w)).join(' ');
+      const sameSentence = fixes.some(f => sentKey(words.map((w, k) => (k === ex.wrongIndex ? f : w)).join(' ')) === sentKey(mine));
+      const ok = (okIdx && okFix) || sameSentence;
+      done(ok, `${words[picked]} → ${fix.value.trim()}`);
       wrap.querySelectorAll('.chip').forEach(c => c.classList.remove('on'));
-      if (!okIdx) wrap.children[picked]?.classList.add('wrong');
+      if (!ok) wrap.children[picked]?.classList.add('wrong');
       wrap.children[ex.wrongIndex]?.classList.add('right');
       checkBtn.hidden = true;
     } }, 'Перевірити');
@@ -261,4 +265,14 @@ export function render(ex, report, next) {
   }
 
   return h('div', 'Невідомий тип вправи');
+}
+
+/** Ключ речення для порівняння: нижній регістр, без розділових знаків, скорочення розгорнуто (I'm = I am, don't = do not…) */
+const CONTRACT = [[/\bcan't\b/g, 'can not'], [/\bcannot\b/g, 'can not'], [/\bwon't\b/g, 'will not'], [/\bshan't\b/g, 'shall not'], [/n't\b/g, ' not'],
+  [/\bi'm\b/g, 'i am'], [/'re\b/g, ' are'], [/'ve\b/g, ' have'], [/'ll\b/g, ' will'], [/'d\b/g, ' would'],
+  [/\b(he|she|it|that|there|what|where|who|here|how)'s\b/g, '$1 is']];
+export function sentKey(s) {
+  let t = String(s || '').toLowerCase().replace(/[\u2018\u2019\u02bc`]/g, "'");
+  for (const [re, to] of CONTRACT) t = t.replace(re, to);
+  return t.replace(/[^a-z0-9' ]+/g, ' ').replace(/\s+/g, ' ').trim();
 }
