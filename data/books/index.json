@@ -1,0 +1,1285 @@
+[
+ {
+  "id": "book-aesop",
+  "level": "A2",
+  "author": "Aesop",
+  "authorUk": "Езоп",
+  "title": "Aesop’s Fables",
+  "titleUk": "Байки Езопа",
+  "year": 1912,
+  "words": 36606,
+  "chapters": [
+   {
+    "t": "Fables 1–20",
+    "w": 2534
+   },
+   {
+    "t": "Fables 21–40",
+    "w": 3036
+   },
+   {
+    "t": "Fables 41–60",
+    "w": 2696
+   },
+   {
+    "t": "Fables 61–80",
+    "w": 2106
+   },
+   {
+    "t": "Fables 81–100",
+    "w": 2341
+   },
+   {
+    "t": "Fables 101–120",
+    "w": 2223
+   },
+   {
+    "t": "Fables 121–140",
+    "w": 2429
+   },
+   {
+    "t": "Fables 141–160",
+    "w": 2505
+   },
+   {
+    "t": "Fables 161–180",
+    "w": 2867
+   },
+   {
+    "t": "Fables 181–200",
+    "w": 2705
+   },
+   {
+    "t": "Fables 201–220",
+    "w": 2738
+   },
+   {
+    "t": "Fables 221–240",
+    "w": 2381
+   },
+   {
+    "t": "Fables 241–260",
+    "w": 2845
+   },
+   {
+    "t": "Fables 261–284",
+    "w": 3200
+   }
+  ],
+  "note": "переклад V. S. Vernon Jones"
+ },
+ {
+  "id": "book-oz",
+  "level": "A2",
+  "author": "L. Frank Baum",
+  "authorUk": "Л. Френк Баум",
+  "title": "The Wonderful Wizard of Oz",
+  "titleUk": "Чарівник країни Оз",
+  "year": 1900,
+  "words": 39108,
+  "chapters": [
+   {
+    "t": "I. The Cyclone",
+    "w": 1141
+   },
+   {
+    "t": "II. The Council with the Munchkins",
+    "w": 1997
+   },
+   {
+    "t": "III. How Dorothy Saved the Scarecrow",
+    "w": 1955
+   },
+   {
+    "t": "IV. The Road Through the Forest",
+    "w": 1434
+   },
+   {
+    "t": "V. The Rescue of the Tin Woodman",
+    "w": 2053
+   },
+   {
+    "t": "VI. The Cowardly Lion",
+    "w": 1495
+   },
+   {
+    "t": "VII. The Journey to the Great Oz",
+    "w": 1798
+   },
+   {
+    "t": "VIII. The Deadly Poppy Field",
+    "w": 1924
+   },
+   {
+    "t": "IX. The Queen of the Field Mice",
+    "w": 1382
+   },
+   {
+    "t": "X. The Guardian of the Gate",
+    "w": 1950
+   },
+   {
+    "t": "XI. The Wonderful City of Oz",
+    "w": 3602
+   },
+   {
+    "t": "XII. The Search for the Wicked Witch",
+    "w": 3666
+   },
+   {
+    "t": "XIII. The Rescue",
+    "w": 1188
+   },
+   {
+    "t": "XIV. The Winged Monkeys",
+    "w": 1882
+   },
+   {
+    "t": "XV. The Discovery of Oz, the Terrible",
+    "w": 2753
+   },
+   {
+    "t": "XVI. The Magic Art of the Great Humbug",
+    "w": 921
+   },
+   {
+    "t": "XVII. How the Balloon Was Launched",
+    "w": 1151
+   },
+   {
+    "t": "XVIII. Away to the South",
+    "w": 1162
+   },
+   {
+    "t": "XIX. Attacked by the Fighting Trees",
+    "w": 1011
+   },
+   {
+    "t": "XX. The Dainty China Country",
+    "w": 1500
+   },
+   {
+    "t": "XXI. The Lion Becomes the King of Beasts",
+    "w": 891
+   },
+   {
+    "t": "XXII. The Country of the Quadlings",
+    "w": 931
+   },
+   {
+    "t": "XXIII. Glinda the Good Witch Grants Dorothy’s Wish",
+    "w": 1247
+   },
+   {
+    "t": "XXIV. Home Again",
+    "w": 74
+   }
+  ]
+ },
+ {
+  "id": "book-black-beauty",
+  "level": "B1",
+  "author": "Anna Sewell",
+  "authorUk": "Анна Сьюелл",
+  "title": "Black Beauty",
+  "titleUk": "Чорний Красень",
+  "year": 1877,
+  "words": 59441,
+  "chapters": [
+   {
+    "t": "I. My Early Home",
+    "w": 777
+   },
+   {
+    "t": "II. The Hunt",
+    "w": 1018
+   },
+   {
+    "t": "III. My Breaking In",
+    "w": 1446
+   },
+   {
+    "t": "IV. Birtwick Park",
+    "w": 979
+   },
+   {
+    "t": "V. A Fair Start",
+    "w": 1238
+   },
+   {
+    "t": "VI. Liberty",
+    "w": 559
+   },
+   {
+    "t": "VII. Ginger",
+    "w": 1577
+   },
+   {
+    "t": "VIII. Ginger’s Story Continued",
+    "w": 1296
+   },
+   {
+    "t": "IX. Merrylegs",
+    "w": 988
+   },
+   {
+    "t": "X. A Talk in the Orchard",
+    "w": 1937
+   },
+   {
+    "t": "XI. Plain Speaking",
+    "w": 1052
+   },
+   {
+    "t": "XII. A Stormy Day",
+    "w": 1151
+   },
+   {
+    "t": "XIII. The Devil’s Trade Mark",
+    "w": 999
+   },
+   {
+    "t": "XIV. James Howard",
+    "w": 958
+   },
+   {
+    "t": "XV. The Old Hostler",
+    "w": 991
+   },
+   {
+    "t": "XVI. The Fire",
+    "w": 1331
+   },
+   {
+    "t": "XVII. John Manly’s Talk",
+    "w": 1277
+   },
+   {
+    "t": "XVIII. Going for the Doctor",
+    "w": 1313
+   },
+   {
+    "t": "XIX. Only Ignorance",
+    "w": 755
+   },
+   {
+    "t": "XX. Joe Green",
+    "w": 909
+   },
+   {
+    "t": "XXI. The Parting",
+    "w": 915
+   },
+   {
+    "t": "XXII. Earlshall",
+    "w": 1342
+   },
+   {
+    "t": "XXIII. A Strike for Liberty",
+    "w": 1101
+   },
+   {
+    "t": "XXIV. The Lady Anne, or a Runaway Horse",
+    "w": 2028
+   },
+   {
+    "t": "XXV. Reuben Smith",
+    "w": 1211
+   },
+   {
+    "t": "XXVI. How It Ended",
+    "w": 925
+   },
+   {
+    "t": "XXVII. Ruined and Going Downhill",
+    "w": 921
+   },
+   {
+    "t": "XXVIII. A Job Horse and His Drivers",
+    "w": 1205
+   },
+   {
+    "t": "XXIX. Cockneys",
+    "w": 2182
+   },
+   {
+    "t": "XXX. A Thief",
+    "w": 840
+   },
+   {
+    "t": "XXXI. A Humbug",
+    "w": 949
+   },
+   {
+    "t": "XXXII. A Horse Fair",
+    "w": 1158
+   },
+   {
+    "t": "XXXIII. A London Cab Horse",
+    "w": 1338
+   },
+   {
+    "t": "XXXIV. An Old War Horse",
+    "w": 1671
+   },
+   {
+    "t": "XXXV. Jerry Barker",
+    "w": 1864
+   },
+   {
+    "t": "XXXVI. The Sunday Cab",
+    "w": 1559
+   },
+   {
+    "t": "XXXVII. The Golden Rule",
+    "w": 1143
+   },
+   {
+    "t": "XXXVIII. Dolly and a Real Gentleman",
+    "w": 1322
+   },
+   {
+    "t": "XXXIX. Seedy Sam",
+    "w": 1213
+   },
+   {
+    "t": "XL. Poor Ginger",
+    "w": 717
+   },
+   {
+    "t": "XLI. The Butcher",
+    "w": 1005
+   },
+   {
+    "t": "XLII. The Election",
+    "w": 548
+   },
+   {
+    "t": "XLIII. A Friend in Need",
+    "w": 1379
+   },
+   {
+    "t": "XLIV. Old Captain and His Successor",
+    "w": 1472
+   },
+   {
+    "t": "XLV. Jerry’s New Year",
+    "w": 1942
+   },
+   {
+    "t": "XLVI. Jakes and the Lady",
+    "w": 1207
+   },
+   {
+    "t": "XLVII. Hard Times",
+    "w": 1451
+   },
+   {
+    "t": "XLVIII. Farmer Thoroughgood and His Grandson Willie",
+    "w": 1230
+   },
+   {
+    "t": "XLIX. My Last Home",
+    "w": 1052
+   }
+  ]
+ },
+ {
+  "id": "book-just-so",
+  "level": "B1",
+  "author": "Rudyard Kipling",
+  "authorUk": "Редьярд Кіплінг",
+  "title": "Just So Stories",
+  "titleUk": "Казки просто так",
+  "year": 1902,
+  "words": 28597,
+  "chapters": [
+   {
+    "t": "How the Whale Got His Throat",
+    "w": 1036
+   },
+   {
+    "t": "How the Camel Got His Hump",
+    "w": 1069
+   },
+   {
+    "t": "How the Rhinoceros Got His Skin",
+    "w": 861
+   },
+   {
+    "t": "How the Leopard Got His Spots",
+    "w": 2100
+   },
+   {
+    "t": "The Elephant’s Child",
+    "w": 2535
+   },
+   {
+    "t": "The Singsong of Old Man Kangaroo",
+    "w": 1098
+   },
+   {
+    "t": "The Beginning of the Armadillos",
+    "w": 2590
+   },
+   {
+    "t": "How the First Letter Was Written",
+    "w": 3304
+   },
+   {
+    "t": "How the Alphabet Was Made",
+    "w": 3124
+   },
+   {
+    "t": "The Crab That Played with the Sea",
+    "w": 3537
+   },
+   {
+    "t": "The Cat That Walked by Himself",
+    "w": 4021
+   },
+   {
+    "t": "The Butterfly That Stamped",
+    "w": 3322
+   }
+  ],
+  "note": "одне образливе застаріле слово замінено нейтральним"
+ },
+ {
+  "id": "book-wilde-tales",
+  "level": "B1",
+  "author": "Oscar Wilde",
+  "authorUk": "Оскар Вайлд",
+  "title": "Fairy Tales",
+  "titleUk": "Казки",
+  "year": 1891,
+  "words": 49175,
+  "chapters": [
+   {
+    "t": "The Happy Prince",
+    "w": 3468
+   },
+   {
+    "t": "The Nightingale and the Rose",
+    "w": 2323
+   },
+   {
+    "t": "The Selfish Giant",
+    "w": 1650
+   },
+   {
+    "t": "The Devoted Friend",
+    "w": 4332
+   },
+   {
+    "t": "The Remarkable Rocket",
+    "w": 4362
+   },
+   {
+    "t": "The Young King",
+    "w": 5339
+   },
+   {
+    "t": "The Birthday of the Infanta",
+    "w": 7358
+   },
+   {
+    "t": "The Fisherman and His Soul",
+    "w": 13971
+   },
+   {
+    "t": "The Star-Child",
+    "w": 6372
+   }
+  ]
+ },
+ {
+  "id": "book-secret-garden",
+  "level": "B1",
+  "author": "Frances Hodgson Burnett",
+  "authorUk": "Френсіс Годжсон Бернетт",
+  "title": "The Secret Garden",
+  "titleUk": "Таємний сад",
+  "year": 1911,
+  "words": 80341,
+  "chapters": [
+   {
+    "t": "I. There Is No One Left",
+    "w": 1902
+   },
+   {
+    "t": "II. Mistress Mary Quite Contrary",
+    "w": 2692
+   },
+   {
+    "t": "III. Across the Moor",
+    "w": 1459
+   },
+   {
+    "t": "IV. Martha",
+    "w": 5283
+   },
+   {
+    "t": "V. The Cry in the Corridor",
+    "w": 2229
+   },
+   {
+    "t": "VI. “There Was Some One Crying—There Was!”",
+    "w": 2264
+   },
+   {
+    "t": "VII. The Key of the Garden",
+    "w": 1985
+   },
+   {
+    "t": "VIII. The Robin Who Showed the Way",
+    "w": 2722
+   },
+   {
+    "t": "IX. The Strangest House Anyone Ever Lived In",
+    "w": 3104
+   },
+   {
+    "t": "X. Dickon",
+    "w": 3733
+   },
+   {
+    "t": "XI. The Nest of the Missel Thrush",
+    "w": 2446
+   },
+   {
+    "t": "XII. “Might I Have a Bit of Earth?”",
+    "w": 2568
+   },
+   {
+    "t": "XIII. “I Am Colin”",
+    "w": 4185
+   },
+   {
+    "t": "XIV. A Young Rajah",
+    "w": 3677
+   },
+   {
+    "t": "XV. Nest Building",
+    "w": 3907
+   },
+   {
+    "t": "XVI. “I Won’t!” Said Mary",
+    "w": 2359
+   },
+   {
+    "t": "XVII. A Tantrum",
+    "w": 2279
+   },
+   {
+    "t": "XVIII. “Tha’ Munnot Waste No Time”",
+    "w": 2190
+   },
+   {
+    "t": "XIX. “It Has Come!”",
+    "w": 3510
+   },
+   {
+    "t": "XX. “I Shall Live Forever—and Ever—and Ever!”",
+    "w": 2532
+   },
+   {
+    "t": "XXI. Ben Weatherstaff",
+    "w": 3253
+   },
+   {
+    "t": "XXII. When the Sun Went Down",
+    "w": 1609
+   },
+   {
+    "t": "XXIII. Magic",
+    "w": 4003
+   },
+   {
+    "t": "XXIV. “Let Them Laugh”",
+    "w": 3915
+   },
+   {
+    "t": "XXV. The Curtain",
+    "w": 2392
+   },
+   {
+    "t": "XXVI. “It’s Mother!”",
+    "w": 3042
+   },
+   {
+    "t": "XXVII. In the Garden",
+    "w": 5101
+   }
+  ]
+ },
+ {
+  "id": "book-alice",
+  "level": "B2",
+  "author": "Lewis Carroll",
+  "authorUk": "Льюїс Керрол",
+  "title": "Alice’s Adventures in Wonderland",
+  "titleUk": "Аліса в Країні Див",
+  "year": 1865,
+  "words": 26298,
+  "chapters": [
+   {
+    "t": "I. Down the Rabbit-Hole",
+    "w": 2140
+   },
+   {
+    "t": "II. The Pool of Tears",
+    "w": 2092
+   },
+   {
+    "t": "III. A Caucus-Race and a Long Tale",
+    "w": 1695
+   },
+   {
+    "t": "IV. The Rabbit Sends in a Little Bill",
+    "w": 2607
+   },
+   {
+    "t": "V. Advice from a Caterpillar",
+    "w": 2160
+   },
+   {
+    "t": "VI. Pig and Pepper",
+    "w": 2590
+   },
+   {
+    "t": "VII. A Mad Tea-Party",
+    "w": 2282
+   },
+   {
+    "t": "VIII. The Queen’s Croquet-Ground",
+    "w": 2481
+   },
+   {
+    "t": "IX. The Mock Turtle’s Story",
+    "w": 2266
+   },
+   {
+    "t": "X. The Lobster Quadrille",
+    "w": 2014
+   },
+   {
+    "t": "XI. Who Stole the Tarts?",
+    "w": 1872
+   },
+   {
+    "t": "XII. Alice’s Evidence",
+    "w": 2099
+   }
+  ]
+ },
+ {
+  "id": "book-peter-pan",
+  "level": "B2",
+  "author": "J. M. Barrie",
+  "authorUk": "Джеймс Баррі",
+  "title": "Peter and Wendy",
+  "titleUk": "Пітер Пен",
+  "year": 1911,
+  "words": 47007,
+  "chapters": [
+   {
+    "t": "I. Peter Breaks Through",
+    "w": 3029
+   },
+   {
+    "t": "II. The Shadow",
+    "w": 2949
+   },
+   {
+    "t": "III. Come Away, Come Away!",
+    "w": 4120
+   },
+   {
+    "t": "IV. The Flight",
+    "w": 2875
+   },
+   {
+    "t": "V. The Island Come True",
+    "w": 3564
+   },
+   {
+    "t": "VI. The Little House",
+    "w": 2479
+   },
+   {
+    "t": "VII. The Home Under the Ground",
+    "w": 2393
+   },
+   {
+    "t": "VIII. The Mermaids’ Lagoon",
+    "w": 3907
+   },
+   {
+    "t": "IX. The Never Bird",
+    "w": 1049
+   },
+   {
+    "t": "X. The Happy Home",
+    "w": 1943
+   },
+   {
+    "t": "XI. Wendy’s Story",
+    "w": 2308
+   },
+   {
+    "t": "XII. The Children Are Carried Off",
+    "w": 1633
+   },
+   {
+    "t": "XIII. Do You Believe in Fairies?",
+    "w": 2856
+   },
+   {
+    "t": "XIV. The Pirate Ship",
+    "w": 2299
+   },
+   {
+    "t": "XV. “Hook or Me This Time”",
+    "w": 3147
+   },
+   {
+    "t": "XVI. The Return Home",
+    "w": 2960
+   },
+   {
+    "t": "XVII. When Wendy Grew Up",
+    "w": 3496
+   }
+  ]
+ },
+ {
+  "id": "book-jungle-book",
+  "level": "B2",
+  "author": "Rudyard Kipling",
+  "authorUk": "Редьярд Кіплінг",
+  "title": "The Jungle Book",
+  "titleUk": "Книга джунглів",
+  "year": 1894,
+  "words": 50131,
+  "chapters": [
+   {
+    "t": "Mowgli’s Brothers",
+    "w": 7485
+   },
+   {
+    "t": "Kaa’s Hunting",
+    "w": 9072
+   },
+   {
+    "t": "“Tiger! Tiger!”",
+    "w": 6903
+   },
+   {
+    "t": "The White Seal",
+    "w": 7269
+   },
+   {
+    "t": "“Rikki-Tikki-Tavi”",
+    "w": 5831
+   },
+   {
+    "t": "Toomai of the Elephants",
+    "w": 7413
+   },
+   {
+    "t": "Her Majesty’s Servants",
+    "w": 6158
+   }
+  ]
+ },
+ {
+  "id": "book-call-of-the-wild",
+  "level": "B2",
+  "author": "Jack London",
+  "authorUk": "Джек Лондон",
+  "title": "The Call of the Wild",
+  "titleUk": "Поклик предків",
+  "year": 1903,
+  "words": 31692,
+  "chapters": [
+   {
+    "t": "I. Into the Primitive",
+    "w": 3713
+   },
+   {
+    "t": "II. The Law of Club and Fang",
+    "w": 3312
+   },
+   {
+    "t": "III. The Dominant Primordial Beast",
+    "w": 5149
+   },
+   {
+    "t": "IV. Who Has Won to Mastership",
+    "w": 3216
+   },
+   {
+    "t": "V. The Toil of Trace and Trail",
+    "w": 5335
+   },
+   {
+    "t": "VI. For the Love of a Man",
+    "w": 4737
+   },
+   {
+    "t": "VII. The Sounding of the Call",
+    "w": 6230
+   }
+  ]
+ },
+ {
+  "id": "book-wind-willows",
+  "level": "B2",
+  "author": "Kenneth Grahame",
+  "authorUk": "Кеннет Грем",
+  "title": "The Wind in the Willows",
+  "titleUk": "Вітер у вербах",
+  "year": 1908,
+  "words": 58263,
+  "chapters": [
+   {
+    "t": "I. The River Bank",
+    "w": 4300
+   },
+   {
+    "t": "II. The Open Road",
+    "w": 4242
+   },
+   {
+    "t": "III. The Wild Wood",
+    "w": 4408
+   },
+   {
+    "t": "IV. Mr. Badger",
+    "w": 4661
+   },
+   {
+    "t": "V. Dulce Domum",
+    "w": 5213
+   },
+   {
+    "t": "VI. Mr. Toad",
+    "w": 4430
+   },
+   {
+    "t": "VII. The Piper at the Gates of Dawn",
+    "w": 3724
+   },
+   {
+    "t": "VIII. Toad’s Adventures",
+    "w": 4781
+   },
+   {
+    "t": "IX. Wayfarers All",
+    "w": 5854
+   },
+   {
+    "t": "X. The Further Adventures of Toad",
+    "w": 5918
+   },
+   {
+    "t": "XI. “Like Summer Tempests Came His Tears”",
+    "w": 6006
+   },
+   {
+    "t": "XII. The Return of Ulysses",
+    "w": 4726
+   }
+  ]
+ },
+ {
+  "id": "book-sherlock",
+  "level": "C1",
+  "author": "Arthur Conan Doyle",
+  "authorUk": "Артур Конан Дойл",
+  "title": "The Adventures of Sherlock Holmes",
+  "titleUk": "Пригоди Шерлока Голмса",
+  "year": 1892,
+  "words": 104308,
+  "chapters": [
+   {
+    "t": "A Scandal in Bohemia",
+    "w": 8522
+   },
+   {
+    "t": "The Redheaded League",
+    "w": 9101
+   },
+   {
+    "t": "A Case of Identity",
+    "w": 6971
+   },
+   {
+    "t": "The Boscombe Valley Mystery",
+    "w": 9613
+   },
+   {
+    "t": "The Five Orange Pips",
+    "w": 7301
+   },
+   {
+    "t": "The Man with the Twisted Lip",
+    "w": 9192
+   },
+   {
+    "t": "The Adventure of the Blue Carbuncle",
+    "w": 7807
+   },
+   {
+    "t": "The Adventure of the Speckled Band",
+    "w": 9803
+   },
+   {
+    "t": "The Adventure of the Engineer’s Thumb",
+    "w": 8282
+   },
+   {
+    "t": "The Adventure of the Noble Bachelor",
+    "w": 8105
+   },
+   {
+    "t": "The Adventure of the Beryl Coronet",
+    "w": 9672
+   },
+   {
+    "t": "The Adventure of the Copper Beeches",
+    "w": 9939
+   }
+  ]
+ },
+ {
+  "id": "book-three-men",
+  "level": "C1",
+  "author": "Jerome K. Jerome",
+  "authorUk": "Джером К. Джером",
+  "title": "Three Men in a Boat",
+  "titleUk": "Троє в човні, не рахуючи собаки",
+  "year": 1889,
+  "words": 65472,
+  "chapters": [
+   {
+    "t": "Chapter I",
+    "w": 3533
+   },
+   {
+    "t": "Chapter II",
+    "w": 2172
+   },
+   {
+    "t": "Chapter III",
+    "w": 2786
+   },
+   {
+    "t": "Chapter IV",
+    "w": 3762
+   },
+   {
+    "t": "Chapter V",
+    "w": 2991
+   },
+   {
+    "t": "Chapter VI",
+    "w": 3908
+   },
+   {
+    "t": "Chapter VII",
+    "w": 3229
+   },
+   {
+    "t": "Chapter VIII",
+    "w": 4112
+   },
+   {
+    "t": "Chapter IX",
+    "w": 3795
+   },
+   {
+    "t": "Chapter X",
+    "w": 3439
+   },
+   {
+    "t": "Chapter XI",
+    "w": 3861
+   },
+   {
+    "t": "Chapter XII",
+    "w": 4451
+   },
+   {
+    "t": "Chapter XIII",
+    "w": 4462
+   },
+   {
+    "t": "Chapter XIV",
+    "w": 4095
+   },
+   {
+    "t": "Chapter XV",
+    "w": 5066
+   },
+   {
+    "t": "Chapter XVI",
+    "w": 1354
+   },
+   {
+    "t": "Chapter XVII",
+    "w": 2771
+   },
+   {
+    "t": "Chapter XVIII",
+    "w": 2423
+   },
+   {
+    "t": "Chapter XIX",
+    "w": 3262
+   }
+  ],
+  "note": "одне образливе застаріле слово замінено нейтральним"
+ },
+ {
+  "id": "book-treasure-island",
+  "level": "C1",
+  "author": "Robert Louis Stevenson",
+  "authorUk": "Роберт Луїс Стівенсон",
+  "title": "Treasure Island",
+  "titleUk": "Острів скарбів",
+  "year": 1883,
+  "words": 67598,
+  "chapters": [
+   {
+    "t": "I. At the Admiral Benbow",
+    "w": 2198
+   },
+   {
+    "t": "II. Black Dog Appears and Disappears",
+    "w": 2247
+   },
+   {
+    "t": "III. The Black Spot",
+    "w": 2148
+   },
+   {
+    "t": "IV. The Sea-Chest",
+    "w": 2127
+   },
+   {
+    "t": "V. The Last of the Blind Man",
+    "w": 1850
+   },
+   {
+    "t": "VI. The Captain’s Papers",
+    "w": 1952
+   },
+   {
+    "t": "VII. I Go to Bristol",
+    "w": 1816
+   },
+   {
+    "t": "VIII. At the Sign of the Spy-Glass",
+    "w": 1766
+   },
+   {
+    "t": "IX. Powder and Arms",
+    "w": 1707
+   },
+   {
+    "t": "X. The Voyage",
+    "w": 1934
+   },
+   {
+    "t": "XI. What I Heard in the Apple Barrel",
+    "w": 2060
+   },
+   {
+    "t": "XII. Council of War",
+    "w": 1835
+   },
+   {
+    "t": "XIII. How My Shore Adventure Began",
+    "w": 1789
+   },
+   {
+    "t": "XIV. The First Blow",
+    "w": 1911
+   },
+   {
+    "t": "XV. The Man of the Island",
+    "w": 2219
+   },
+   {
+    "t": "XVI. Narrative Continued by the Doctor—How the Ship Was Abandoned",
+    "w": 1635
+   },
+   {
+    "t": "XVII. Narrative Continued by the Doctor—The Jolly-Boat’s Last Trip",
+    "w": 1474
+   },
+   {
+    "t": "XVIII. Narrative Continued by the Doctor—End of the First Day’s Fighting",
+    "w": 1470
+   },
+   {
+    "t": "XIX. Narrative Resumed by Jim Hawkins—The Garrison in the Stockade",
+    "w": 2000
+   },
+   {
+    "t": "XX. Silver’s Embassy",
+    "w": 1885
+   },
+   {
+    "t": "XXI. The Attack",
+    "w": 1963
+   },
+   {
+    "t": "XXII. How My Sea Adventure Began",
+    "w": 2065
+   },
+   {
+    "t": "XXIII. The Ebb-Tide Runs",
+    "w": 1584
+   },
+   {
+    "t": "XXIV. The Cruise of the Coracle",
+    "w": 1973
+   },
+   {
+    "t": "XXV. I Strike the Jolly Roger",
+    "w": 1698
+   },
+   {
+    "t": "XXVI. Israel Hands",
+    "w": 2930
+   },
+   {
+    "t": "XXVII. “Pieces of Eight”",
+    "w": 2152
+   },
+   {
+    "t": "XXVIII. In the Enemy’s Camp",
+    "w": 2718
+   },
+   {
+    "t": "XXIX. The Black Spot Again",
+    "w": 2109
+   },
+   {
+    "t": "XXX. On Parole",
+    "w": 2301
+   },
+   {
+    "t": "XXXI. The Treasure-Hunt—Flint’s Pointer",
+    "w": 2259
+   },
+   {
+    "t": "XXXII. The Treasure-Hunt—The Voice Among the Trees",
+    "w": 1947
+   },
+   {
+    "t": "XXXIII. The Fall of a Chieftain",
+    "w": 1987
+   },
+   {
+    "t": "XXXIV. And Last",
+    "w": 1889
+   }
+  ]
+ },
+ {
+  "id": "book-dorian-gray",
+  "level": "C1",
+  "author": "Oscar Wilde",
+  "authorUk": "Оскар Вайлд",
+  "title": "The Picture of Dorian Gray",
+  "titleUk": "Портрет Доріана Ґрея",
+  "year": 1891,
+  "words": 78436,
+  "chapters": [
+   {
+    "t": "Chapter I",
+    "w": 4912
+   },
+   {
+    "t": "Chapter II",
+    "w": 5593
+   },
+   {
+    "t": "Chapter III",
+    "w": 4415
+   },
+   {
+    "t": "Chapter IV",
+    "w": 5554
+   },
+   {
+    "t": "Chapter V",
+    "w": 4370
+   },
+   {
+    "t": "Chapter VI",
+    "w": 2814
+   },
+   {
+    "t": "Chapter VII",
+    "w": 4414
+   },
+   {
+    "t": "Chapter VIII",
+    "w": 5277
+   },
+   {
+    "t": "Chapter IX",
+    "w": 3886
+   },
+   {
+    "t": "Chapter X",
+    "w": 3222
+   },
+   {
+    "t": "Chapter XI",
+    "w": 7348
+   },
+   {
+    "t": "Chapter XII",
+    "w": 2758
+   },
+   {
+    "t": "Chapter XIII",
+    "w": 2497
+   },
+   {
+    "t": "Chapter XIV",
+    "w": 4528
+   },
+   {
+    "t": "Chapter XV",
+    "w": 3135
+   },
+   {
+    "t": "Chapter XVI",
+    "w": 3104
+   },
+   {
+    "t": "Chapter XVII",
+    "w": 1792
+   },
+   {
+    "t": "Chapter XVIII",
+    "w": 3320
+   },
+   {
+    "t": "Chapter XIX",
+    "w": 3579
+   },
+   {
+    "t": "Chapter XX",
+    "w": 1918
+   }
+  ]
+ }
+]

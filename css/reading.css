@@ -76,3 +76,15 @@ html.kbd .rd-listen:focus-visible{outline:2px solid var(--accent-ink);outline-of
 .rd-resume:active{transform:scale(.96)}
 .rd-src{margin:22px auto 0;max-width:66ch;padding-top:12px;border-top:1px solid var(--tile-edge);font-size:12px;line-height:1.45;color:var(--ink-dim)}
 .rd-classic-note{margin:-4px 2px 2px}
+/* Бібліотека (2026-11-11): полиця з фільтром, зміст книги */
+.lib-controls{display:flex;flex-direction:column;gap:10px;min-width:0}
+.lib-kind{width:100%}
+.lib-kind button{flex:1}
+.lib-row{display:flex;gap:8px;flex-wrap:wrap}
+.lib-pick{max-width:none;flex:1 1 0;min-width:0;justify-content:space-between;min-height:44px}
+.lib-pick .lib-pick-t{color:var(--ink-dim);font-weight:400;font-size:13px;margin-right:2px}
+.lib-pick .set-pick-v{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:left;font-family:var(--font-head);font-weight:400}
+.lib-prog{display:flex;align-items:center;gap:12px;color:var(--ink-dim)}
+.lib-prog .tx-bar{flex:1}
+.lib-empty{margin:4px 2px}
+@media (max-width:360px){.lib-row{flex-direction:column}.lib-pick{flex:none;width:100%}}

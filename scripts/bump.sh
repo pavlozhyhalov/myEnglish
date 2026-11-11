@@ -49,7 +49,7 @@ h12() { sha256sum "$1" | cut -c1-12; }
   echo "// шлях → хеш вмісту (sha256, 12 символів)"
   echo "self.PRECACHE = {"
   echo "  './': '$(h12 index.html)', './index.html': '$(h12 index.html)', './manifest.webmanifest': '$(h12 manifest.webmanifest)',"
-  find css js data assets fonts vendor -type f -not -path 'vendor/pdf/*' \( -name '*.css' -o -name '*.js' -o -name '*.json' -o -name '*.svg' -o -name '*.png' -o -name '*.woff2' \) -print0 \
+  find css js data assets fonts vendor -type f -not -path 'vendor/pdf/*' -not -path 'data/books/*/*' \( -name '*.css' -o -name '*.js' -o -name '*.json' -o -name '*.svg' -o -name '*.png' -o -name '*.woff2' \) -print0 \
     | sort -z | xargs -0 sha256sum | awk '{ printf "  '"'"'./%s'"'"': '"'"'%s'"'"',\n", $2, substr($1, 1, 12) }'
   echo "};"
 } > precache-list.js
