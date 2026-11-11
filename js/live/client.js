@@ -22,9 +22,10 @@ const b64 = {
 
 /** Події: ready, audio(Float32Array), interrupted, input(text), output(text), turn, reconnecting, error(AiError|Error), closed, log(text) */
 export class LiveClient extends EventTarget {
-  constructor({ scenario = null, topic = null, voice } = {}) {
+  constructor({ scenario = null, topic = null, voice, history = null } = {}) {
     super();
-    this.opts = { scenario, topic, voice };
+    this.opts = { scenario, topic, voice, history };
+    this.everReady = false;      // сесія вже була — нова без handle означає втрату контексту, його треба відновити
     this.ws = null;
     this.token = null;
     this.handle = null;
@@ -58,6 +59,7 @@ export class LiveClient extends EventTarget {
     if (!this.token || stale || Date.parse(this.token.expireTime) - Date.now() < 60000) await this.getToken();
     return new Promise((resolve, reject) => {
       let settled = false;
+      const restoring = !this.handle && this.everReady;
       const ws = new WebSocket(`${LIVE_WS_URL}?access_token=${encodeURIComponent(this.token.token)}`);
       this.ws = ws;
       this.ready = false;
@@ -73,7 +75,9 @@ export class LiveClient extends EventTarget {
         let msg; try { msg = JSON.parse(text); } catch { return; }
         if (msg.setupComplete) {
           this.ready = true; this.retries = 0;
-          this.log('setup complete');
+          this.log('setup complete' + (restoring ? ' · new session, restoring context' : ''));
+          if (restoring) this.restoreContext();
+          this.everReady = true;
           this.flushPending();
           this.scheduleResume();
           if (!settled) { settled = true; resolve(); }
@@ -153,6 +157,22 @@ export class LiveClient extends EventTarget {
     old.onclose = null; old.close();
     this.emit('reconnecting');
     this.connect().catch(() => { if (!this.closedByUser) this.reconnect(); });
+  }
+  /**
+   * Нова сесія замість втраченої (відновлення за handle не вдалося): передаємо вчителю стенограму розмови,
+   * щоб він продовжив з того самого місця, а не вітався й не починав тему заново.
+   */
+  restoreContext() {
+    const msgs = (this.opts.history?.() || []).filter(m => m.text?.trim() && !m.hidden);
+    if (!msgs.length) return;
+    let lines = msgs.map(m => `${m.role === 'user' ? 'Student' : 'Tutor'}: ${m.text.replace(/\s+/g, ' ').trim()}`);
+    // найсвіжіше важливіше: обрізаємо з початку до ~8000 символів
+    while (lines.length > 2 && lines.join('\n').length > 8000) lines = lines.slice(1);
+    const text = '(The connection dropped and was restored. This is the SAME lesson continuing — do NOT greet the student, do NOT restart, '
+      + 'do NOT go back to the opening topic. Keep the topic, role-play and agreements below. Transcript so far:\n'
+      + lines.join('\n')
+      + '\nContinue naturally from the last point in one or two short sentences: answer the student\'s last line or invite them to go on.)';
+    this.ws.send(JSON.stringify({ clientContent: { turns: [{ role: 'user', parts: [{ text }] }], turnComplete: true } }));
   }
   flushPending() {
     const q = this.pending; this.pending = [];

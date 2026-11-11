@@ -270,7 +270,9 @@ export async function createLiveToken(setup: Record<string, unknown>, { uses = 1
     body: JSON.stringify({
       uses,
       expireTime: new Date(now + minutes * 60_000).toISOString(),
-      newSessionExpireTime: new Date(now + 60_000).toISOString(),
+      // протягом усього життя токена: планове відновлення сесії (~кожні 9 хв) відкриває нове з'єднання тим самим токеном —
+      // з 60 с воно відхилялось, клієнт відкривав нову сесію без контексту, і вчитель «забував» розмову (2026-11-11)
+      newSessionExpireTime: new Date(now + minutes * 60_000).toISOString(),
       bidiGenerateContentSetup: setup,
     }),
   });

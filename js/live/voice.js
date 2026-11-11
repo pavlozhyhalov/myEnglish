@@ -258,7 +258,7 @@ export async function voiceSession(view, opts = {}) {
   let tapped = false, warm = null, warmClient = null, warmTries = 0;
   const makeLive = () => {
     // до тапу topic = opts.topic; після тапу — і тема з чипа (тоді вона в системному промпті нового токена)
-    const lc = new LiveClient({ scenario: scenData, topic: topic || null, voice: st.voice });
+    const lc = new LiveClient({ scenario: scenData, topic: topic || null, voice: st.voice, history: () => row.messages });
     lc.addEventListener('log', e => log((tapped ? '' : 'prewarm · ') + e.detail));
     return lc;
   };
