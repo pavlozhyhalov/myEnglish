@@ -68,3 +68,11 @@ html.kbd .rd-listen:focus-visible{outline:2px solid var(--accent-ink);outline-of
 @media (prefers-reduced-motion:reduce){.sel-q,.sel-pop{animation:none}}
 .wt-frag{margin:0;font-style:italic;overflow-wrap:anywhere}
 .wt-actions{margin-top:4px}
+/* Класика (2026-11-11): заголовки розділів, вірші з рядками, закладка, джерело */
+.reading-text p{white-space:pre-line}
+.reading-text .rd-ch{font-family:var(--font-head);font-weight:400;font-size:15px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-dim);margin:1.6em 0 .8em;text-align:center}
+.reading-text .rd-ch:first-child{margin-top:.4em}
+.rd-resume{display:inline-flex;align-items:center;gap:6px;min-height:36px;padding:0 14px 0 11px;border:0;border-radius:var(--radius-pill);cursor:pointer;flex:none;background:var(--accent-soft);color:var(--accent-ink);font:inherit;font-family:var(--font-head);font-size:14px}
+.rd-resume:active{transform:scale(.96)}
+.rd-src{margin:22px auto 0;max-width:66ch;padding-top:12px;border-top:1px solid var(--tile-edge);font-size:12px;line-height:1.45;color:var(--ink-dim)}
+.rd-classic-note{margin:-4px 2px 2px}

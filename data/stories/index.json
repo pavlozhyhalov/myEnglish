@@ -1,0 +1,62 @@
+[
+ {
+  "id": "classic-ohenry-hearts-hands",
+  "level": "B1",
+  "group": "classic",
+  "topic": "classic",
+  "author": "O. Henry",
+  "authorUk": "О. Генрі",
+  "title": "Hearts and Hands",
+  "titleUk": "Серця й руки",
+  "year": 1902,
+  "words": 865
+ },
+ {
+  "id": "classic-ohenry-twenty-years",
+  "level": "B1",
+  "group": "classic",
+  "topic": "classic",
+  "author": "O. Henry",
+  "authorUk": "О. Генрі",
+  "title": "After Twenty Years",
+  "titleUk": "Через двадцять років",
+  "year": 1906,
+  "words": 1261
+ },
+ {
+  "id": "classic-ohenry-witches-loaves",
+  "level": "B1",
+  "group": "classic",
+  "topic": "classic",
+  "author": "O. Henry",
+  "authorUk": "О. Генрі",
+  "title": "Witches’ Loaves",
+  "titleUk": "Чаклунські хлібці",
+  "year": 1904,
+  "words": 1249
+ },
+ {
+  "id": "classic-ohenry-gift-magi",
+  "level": "B2",
+  "group": "classic",
+  "topic": "classic",
+  "author": "O. Henry",
+  "authorUk": "О. Генрі",
+  "title": "The Gift of the Magi",
+  "titleUk": "Дари волхвів",
+  "year": 1905,
+  "words": 2061
+ },
+ {
+  "id": "classic-wilde-canterville",
+  "level": "B2",
+  "group": "classic",
+  "topic": "classic",
+  "author": "Oscar Wilde",
+  "authorUk": "Оскар Вайлд",
+  "title": "The Canterville Ghost",
+  "titleUk": "Кентервільський привид",
+  "year": 1887,
+  "words": 11288
+ }
+]

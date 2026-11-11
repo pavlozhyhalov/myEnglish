@@ -15,6 +15,11 @@ import { tx, txPrimary, txGroup, txRow, txRows, txGrid, txKpis, txPill, txResult
 const sqEmo = (el, name) => { const e = emo(name); e.setAttribute('width', 18); e.setAttribute('height', 18); el.querySelector('.tx-sq')?.replaceChildren(e); return el; };
 
 export const readingTexts = () => json('data/reading.json');
+// «Класика» (2026-11-11): оригінальні оповідання — суспільне надбання (видання Standard Ebooks), текст без змін.
+// Каталог — data/stories/index.json (без текстів), кожна історія — data/stories/<id>.json.
+export const classicIndex = () => json('data/stories/index.json');
+const classicText = (id) => json(`data/stories/${id}.json`);
+const isClassic = (id) => String(id).startsWith('classic-');
 
 const TOPICS = {
   life: ['Повсякдення', 'house'], travel: ['Подорожі', 'plane'], food: ['Їжа', 'food'], family: ['Родина', 'users-three'],
@@ -24,8 +29,21 @@ const TOPICS = {
 };
 const topicLabel = (t) => TOPICS[t.topic]?.[0] || t.topic;
 
-const words = (t) => t.text.join(' ').split(/\s+/).filter(Boolean).length;
+const words = (t) => t.words || t.text.filter(p => !p.startsWith('## ')).join(' ').split(/\s+/).filter(Boolean).length;
 const minutes = (t) => Math.max(1, Math.round(words(t) / 130));
+const minText = (m) => (m >= 60 ? `${Math.floor(m / 60)} год ${m % 60 ? `${m % 60} хв` : ''}`.trim() : `${m} хв`);
+
+// Де зупинився в довгому тексті: profiles.data.readingPos { id: { i, n, at } } — синхронізується з профілем
+const posOf = (id) => store.prof().readingPos?.[id] || null;
+function savePos(id, i, n) {
+  const all = { ...(store.prof().readingPos || {}) };
+  if (all[id]?.i === i) return;
+  all[id] = { i, n, at: new Date().toISOString() };
+  // не більше 40 записів — найсвіжіші
+  const keep = Object.entries(all).sort((a, b) => String(b[1].at).localeCompare(String(a[1].at))).slice(0, 40);
+  store.setProf({ readingPos: Object.fromEntries(keep) });
+}
+const posPct = (p) => (p && p.n ? Math.min(100, Math.round((p.i + 1) / p.n * 100)) : 0);
 
 // Прогрес — у профілі (profiles.data.reading: { id: { best, last, n, at } }): синхронізується разом із профілем,
 // не потребує нової таблиці й не змішується з тестами та уроками граматики (історія тестів, тижневий тест).
@@ -55,7 +73,13 @@ export function textOfDay(texts) {
 }
 
 export default async function reading(view, r) {
-  const { all, list } = await visibleTexts();
+  if (r.parts[0] && isClassic(r.parts[0])) {
+    const [idx, t] = await Promise.all([classicIndex().catch(() => []), classicText(r.parts[0]).catch(() => null)]);
+    if (t) return reader(view, t, idx);
+    view.replaceChildren(h('div.empty', emo('magnifier', 'xl'), h('p', 'Текст не знайдено'), h('a.btn.soft', { href: '#/reading' }, 'До текстів')));
+    return;
+  }
+  const [{ all, list }, classics] = await Promise.all([visibleTexts(), classicIndex().catch(() => [])]);
   if (r.parts[0]) {
     const t = all.find(x => x.id === r.parts[0]);
     if (t) return reader(view, t, list);
@@ -91,10 +115,34 @@ export default async function reading(view, r) {
     box.replaceChildren(fallbackNote(fallback), txRows([...shown.map(t => row(t, tag)),
       !open && rest.length > 6 ? txRow({ icon: 'caret-down', label: `Показати всі · ${sorted.length}`, chevron: false, cls: 'tx-showall', onclick: () => { open = true; draw(); } }) : null]));
   };
+  // Класика: оригінальні оповідання; спершу ті, що читаєте зараз, далі — за рівнем (свій → сусідні)
+  const cBox = h('div.stack');
+  const cLabel = h('h2.tx-label', 'Класика · оригінали');
+  let cOpen = false;
+  const cRow = (t) => {
+    const p = progressOf(t.id), pos = posOf(t.id);
+    const reading = !p && pos && pos.i > 0;
+    return sqEmo(txRow({ icon: 'book-open', label: h('span', { lang: 'en' }, t.title), sub: `${t.authorUk} · ${t.titleUk} · ~${minText(minutes(t))}`, href: `#/reading/${t.id}`,
+      pill: p ? { text: `${p.best}%`, tone: 'good' } : reading ? { text: `${posPct(pos)}%` } : null, end: levelTag(t.level),
+      attrs: { title: `${t.author}, ${t.year} · ${words(t)} ${plural(words(t), 'слово', 'слова', 'слів')}${p ? ` · прочитано, розуміння ${p.best}%` : reading ? ` · прочитано ${posPct(pos)}%` : ''}` } }), 'books');
+  };
+  const cDraw = () => {
+    const now = classics.filter(t => !progressOf(t.id) && posOf(t.id)?.i > 0)
+      .sort((a, b) => String(posOf(b.id).at).localeCompare(String(posOf(a.id).at)));
+    const rest = byFit(classics.filter(t => !now.includes(t)));
+    const sorted = [...now, ...rest.filter(t => !progressOf(t.id)), ...rest.filter(t => progressOf(t.id))];
+    const read = classics.filter(t => progressOf(t.id)).length;
+    cLabel.textContent = read ? `Класика · прочитано ${read} з ${classics.length}` : 'Класика · оригінали';
+    const shown = cOpen ? sorted : sorted.slice(0, 6);
+    cBox.replaceChildren(txRows([...shown.map(cRow),
+      !cOpen && sorted.length > 6 ? txRow({ icon: 'caret-down', label: `Показати всі · ${sorted.length}`, chevron: false, cls: 'tx-showall', onclick: () => { cOpen = true; cDraw(); } }) : null]));
+  };
   view.replaceChildren(h('div.stack-lg',
     dayCard,
-    h('section.tx-group', label, levelChips('reading', levelCounts(list), () => { open = false; draw(); }), box)));
+    h('section.tx-group', label, levelChips('reading', levelCounts(list), () => { open = false; draw(); }), box),
+    classics.length ? h('section.tx-group', cLabel, h('p.small.dim.rd-classic-note', 'Вайлд, О. Генрі, Сакі, Дойл та інші — авторський текст без змін'), cBox) : null));
   draw();
+  if (classics.length) cDraw();
 }
 
 /** Питання на розуміння → вправи типу choice (правильний варіант у даних перший, тут перемішуємо) */
@@ -107,8 +155,10 @@ function reader(view, t, list) {
   setTitle('Читання');   // назва тексту — один раз, у шапці сторінки нижче
   const timer = activityTimer('reading');
   let playing = false;
-  const paras = t.text.map(p => h('p', p));
-  const article = h('article.reading-text', { lang: 'en', 'aria-label': `Текст: ${t.title}. Торкніться слова, щоб побачити переклад; стрілки — перехід між словами.` }, paras);
+  const classic = isClassic(t.id);
+  const blocks = t.text.map(p => (p.startsWith('## ') ? h('h3.rd-ch', p.slice(3)) : h('p', p)));
+  const paras = blocks.filter(b => b.tagName === 'P');
+  const article = h('article.reading-text', { lang: 'en', 'aria-label': `Текст: ${t.title}. Торкніться слова, щоб побачити переклад; стрілки — перехід між словами.` }, blocks);
   tappable(article, { glossary: t.glossary, mark: true });
 
   // «Слухати» — тиха пігулка в шапці тексту (головна дія екрана — «Перевірити розуміння»)
@@ -123,7 +173,8 @@ function reader(view, t, list) {
     if (playing) { playing = false; stopSpeech(); paras.forEach(p => p.classList.remove('speaking')); paintPlay(); return; }
     playing = true; paintPlay();
     // абзацами: браузерний TTS обриває довгі фрагменти, і видно, що саме звучить
-    for (const p of paras) {
+    const from = Math.max(0, topPara());   // довгий текст — з місця, яке зараз на екрані
+    for (const p of paras.slice(from)) {
       if (!playing) break;
       paras.forEach(x => x.classList.toggle('speaking', x === p));
       try { await speak(p.textContent); } catch { break; }
@@ -150,9 +201,10 @@ function reader(view, t, list) {
         const idx = list.findIndex(x => x.id === t.id);
         // наступний текст — непрочитаний того самого рівня, інакше наступний у списку
         const next = list.slice(idx + 1).concat(list.slice(0, idx)).find(x => x.level === t.level && !progressOf(x.id)) || list[idx + 1];
+        if (classic) savePos(t.id, paras.length - 1, paras.length);
         quiz.replaceChildren(resultBlock(res, prev),
           h('section.tx-group',
-            next ? sqEmo(txPrimary({ icon: 'book-open', label: 'Наступний текст', sub: `${next.title} · ${next.level} · ${topicLabel(next)}`, href: `#/reading/${next.id}` }), TOPICS[next.topic]?.[1] || 'book-open')
+            next ? sqEmo(txPrimary({ icon: 'book-open', label: classic ? 'Наступне оповідання' : 'Наступний текст', sub: `${next.title} · ${next.level} · ${classic ? next.authorUk : topicLabel(next)}`, href: `#/reading/${next.id}` }), classic ? 'books' : TOPICS[next.topic]?.[1] || 'book-open')
               : txPrimary({ icon: 'book-open', label: 'До текстів', sub: 'Усі тексти вашого рівня', href: '#/reading' }),
             txGrid([
               tx({ icon: 'arrow-clockwise', label: 'Ще раз', sub: 'Ті самі питання', onclick: () => { window.scrollTo({ top: 0, behavior: 'smooth' }); startQuiz(); } }),
@@ -194,16 +246,44 @@ function reader(view, t, list) {
       attrs: { 'aria-label': `Прослухати: ${g.en || g.w} — ${g.uk}` },
       label: h('span', { lang: 'en' }, g.en || g.w, g.ipa ? h('span.ipa.xs', ` ${g.ipa}`) : null), sub: g.uk }))));
 
+  // ---- закладка: перший абзац, видимий під шапкою; «Продовжити» — якщо зупинились не на початку ----
+  const HEAD = 80;
+  function topPara() {
+    let lo = 0, hi = paras.length - 1, ans = 0;
+    while (lo <= hi) { const mid = (lo + hi) >> 1; if (paras[mid].getBoundingClientRect().bottom > HEAD) { ans = mid; hi = mid - 1; } else lo = mid + 1; }
+    return ans;
+  }
+  const goTo = (i) => { const el = paras[Math.min(i, paras.length - 1)]; if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - HEAD - 8, behavior: 'smooth' }); };
+  const long = paras.length > 12;
+  const saved = long ? posOf(t.id) : null;
+  const resume = saved && saved.i > 1 && saved.i < paras.length - 1
+    ? h('button.rd-resume', { type: 'button', onclick: () => { goTo(saved.i); resume.remove(); } }, ic('book-open', { size: 16 }), h('span', `Продовжити · ${posPct(saved)}%`))
+    : null;
+  let posTimer = 0, lastI = -1;
+  const onScroll = () => {
+    if (!long || posTimer) return;
+    posTimer = setTimeout(() => {
+      posTimer = 0;
+      if (!article.isConnected) return;
+      const i = topPara();
+      if (i !== lastI && (i > 0 || lastI > 0)) { lastI = i; timer.poke?.(); }
+    }, 400);
+  };
+  const flushPos = () => { if (long && lastI > 0) savePos(t.id, lastI, paras.length); };
+  const posSaver = long ? setInterval(flushPos, 20000) : 0;
+  if (long) window.addEventListener('scroll', onScroll, { passive: true });
+
   const n = words(t);
   view.replaceChildren(h('div.stack-lg.rd',
     h('div.gx-lhead', h('a.icon-btn', { href: '#/reading', 'aria-label': 'До текстів' }, ic('arrow-left')),
-      h('div.grow', h('div.tx-label.gx-eyebrow', `${t.level} · ${topicLabel(t)}`), h('h2.gx-lh1', { lang: 'en' }, t.title),
-        h('div.small.dim.rd-sub', `${t.titleUk} · ${n} ${plural(n, 'слово', 'слова', 'слів')} · ~${minutes(t)} хв`)),
+      h('div.grow', h('div.tx-label.gx-eyebrow', classic ? `${t.level} · ${t.authorUk}` : `${t.level} · ${topicLabel(t)}`), h('h2.gx-lh1', { lang: 'en' }, t.title),
+        h('div.small.dim.rd-sub', `${t.titleUk} · ${classic ? `${t.year} · ` : ''}${n} ${plural(n, 'слово', 'слова', 'слів')} · ~${minText(minutes(t))}`)),
       p ? txPill(`${p.best}%`, 'good') : null),
     h('section.rd-paper',
-      h('div.rd-paper-head', playBtn, h('span.rd-hint', ic('translate', { size: 15 }), 'Торкніться слова — переклад')),
-      article),
+      h('div.rd-paper-head', playBtn, resume || h('span.rd-hint', ic('translate', { size: 15 }), 'Торкніться слова — переклад')),
+      article,
+      classic ? h('p.rd-src', `${t.author}, ${t.year}${t.note ? ` · ${t.note}` : ''}. Текст — суспільне надбання; видання Standard Ebooks.`) : null),
     glossary,
     quiz));
-  return () => { playing = false; stopSpeech(); timer.stop(); };
+  return () => { playing = false; stopSpeech(); timer.stop(); window.removeEventListener('scroll', onScroll); clearTimeout(posTimer); clearInterval(posSaver); flushPos(); };
 }
