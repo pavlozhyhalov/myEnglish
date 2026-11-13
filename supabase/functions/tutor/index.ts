@@ -2,11 +2,11 @@
 // генерація вправ, автозаповнення слів, перевірка перекладу, діалоги, транскрипція,
 // щоденник, вправи на власні помилки, тижнева порада.
 import { handler, json, HttpError, cors } from '../_shared/http.ts';
-import { authenticate, charge, usage, isAdmin } from '../_shared/auth.ts';
+import { authenticate, charge, chargeStrong, usage, isAdmin } from '../_shared/auth.ts';
 import { generate, generateJson, streamText, tts, createLiveToken, useCooldownStore, coolDown, isCooled, type Content, type GenOpts } from '../_shared/gemini.ts';
 import { createClient, type SupabaseClient } from 'npm:@supabase/supabase-js@2.118.0';
 import { RULE_IDS, RULES_PROMPT } from '../_shared/rules.ts';
-import { TEXT_MODELS, CHAT_MODELS, SMART_MODELS, PRO_MODELS, LIGHT_MODELS, FAST_MODELS, META_ENABLED, TTS_MODELS, LIVE_MODELS, LIMITS } from '../_shared/config.ts';
+import { TEXT_MODELS, CHAT_MODELS, SMART_MODELS, PRO_MODELS, LIGHT_MODELS, FAST_MODELS, META_ENABLED, TTS_MODELS, LIVE_MODELS, LIMITS, liteOnly } from '../_shared/config.ts';
 import { latinName, memoryRule, loadStudent, todayLabel, UK_STYLE, modePrompt, taskPrompt, diaryPrompt, mistakeDrillPrompt, weeklyPrompt, metaPrompt, sessionFocus, type Scenario, type Student } from '../_shared/prompts.ts';
 import { precheck as levelWritingCheck, levelWritingPrompt, LEVEL_WRITING_SCHEMA, cleanLevelWriting, countWords } from './level_writing.ts';
 import { precheck as analysisCheck, analysisPrompt, ANALYSIS_SCHEMA, cleanAnalysis, cleanDigest, section as coachSection, coachPrompt, coachMetaPrompt, COACH_META_SCHEMA, cleanCoachMeta } from './analysis.ts';
@@ -491,6 +491,9 @@ Deno.serve(handler(async (req) => {
   const ws = action === 'word_story' ? wordStoryCheck(p) : null;
   if (ws && 'error' in ws) throw new HttpError(400, 'bad_request', ws.error);
   await charge(ctx, 'text');
+  // сильні моделі — лише для оцінок (PRO/SMART) і в межах денної частки користувача; понад неї — lite (2026-11-13)
+  const strongOk = ['summary', 'check_text', 'diary', 'level_writing', 'analysis'].includes(action) ? await chargeStrong(ctx) : true;
+  const fair = (models: string[]) => (strongOk ? models : liteOnly(models));
   const st = await loadStudent(ctx);
 
   switch (action) {
@@ -554,7 +557,7 @@ TASK: Analyse the finished ${voiceS ? 'VOICE session (transcribed speech: ignore
 - practised_words: which of these words the student is learning were used correctly BY THE STUDENT in the session (copy them exactly from this list): ${st.words.join(', ') || '(none)'}. Usually only a few or none.
 - memory: ${memoryRule(st, 5)}
 ${summaryExtra(st, speech)}`;
-      const res = await generateJson<Record<string, unknown>>(PRO_MODELS, { system, contents: [{ role: 'user', parts: [{ text: transcript(p.messages || []) || '(empty session)' }] }], schema: SUMMARY_SCHEMA, temperature: 0.2, thinking: 'high', timeoutMs: 75_000 });
+      const res = await generateJson<Record<string, unknown>>(fair(PRO_MODELS), { system, contents: [{ role: 'user', parts: [{ text: transcript(p.messages || []) || '(empty session)' }] }], schema: SUMMARY_SCHEMA, temperature: 0.2, thinking: 'high', timeoutMs: 75_000 });
       const cleaned = calibrateLevel(cleanSummary(res, st), speech, st.level);
       return json({ ...cleaned, mistakes: mergeTurnFixes(cleaned.mistakes, turnFixes, st.disputes), mastered: cleanMastered(res?.mastered, st), fluency_tip_uk: speech ? str(res?.fluency_tip_uk, 400).trim() : '' });
     }
@@ -569,7 +572,7 @@ TASK: The student (level ${st.level}) wrote ${kind}${p.task ? ` for this writing
 - improved: the full improved version keeping the student's meaning, ideas and approximate length, with the right register; use language at about ${NEXT_LEVEL[st.level] || 'C2'} level so the student can learn from it${st.level === 'C1' ? ' (native-like)' : ', not a native-level rewrite'}.
 - comment_uk: 2–4 sentences in Ukrainian («ви»): concrete strengths and the 1–2 most important things to improve.
 If the text is not in English or is empty, give scores 0, no corrections, improved = an English version of what they meant, and say so in comment_uk.`;
-      const res = await generateJson(SMART_MODELS, { system, contents: [{ role: 'user', parts: [{ text: String(p.text || '').slice(0, 8000) }] }], schema: CHECK_SCHEMA, temperature: 0.2, thinking: 'medium' });
+      const res = await generateJson(fair(SMART_MODELS), { system, contents: [{ role: 'user', parts: [{ text: String(p.text || '').slice(0, 8000) }] }], schema: CHECK_SCHEMA, temperature: 0.2, thinking: 'medium' });
       return json(res);
     }
 
@@ -665,7 +668,7 @@ ${UK_STYLE}`;
 
     case 'diary': {
       const system = diaryPrompt(st, str(p.question, 300).replace(/\s+/g, ' ').trim());
-      const res = await generateJson(SMART_MODELS, { system, contents: [{ role: 'user', parts: [{ text: String(p.text || '').slice(0, 6000) }] }], schema: DIARY_SCHEMA, temperature: 0.3, thinking: 'medium' });
+      const res = await generateJson(fair(SMART_MODELS), { system, contents: [{ role: 'user', parts: [{ text: String(p.text || '').slice(0, 6000) }] }], schema: DIARY_SCHEMA, temperature: 0.3, thinking: 'medium' });
       return json(cleanDiary(res));
     }
 
@@ -684,14 +687,14 @@ ${UK_STYLE}`;
     case 'level_writing': {
       // оцінка незалежна від рівня в профілі: лише текст, завдання і рівень завдання
       const { text, task, target } = lw as { text: string; task: string; target: Parameters<typeof levelWritingPrompt>[1] };
-      const res = await generateJson(PRO_MODELS, { system: levelWritingPrompt(task, target), contents: [{ role: 'user', parts: [{ text }] }], schema: LEVEL_WRITING_SCHEMA, temperature: 0.1, thinking: 'medium', maxTokens: 8000, timeoutMs: 75_000 });
+      const res = await generateJson(fair(PRO_MODELS), { system: levelWritingPrompt(task, target), contents: [{ role: 'user', parts: [{ text }] }], schema: LEVEL_WRITING_SCHEMA, temperature: 0.1, thinking: 'medium', maxTokens: 8000, timeoutMs: 75_000 });
       return json(cleanLevelWriting(res, { target, words: countWords(text) }));
     }
 
     case 'analysis': {
       // глибокий аналіз: лише очищене зведення від клієнта, без розмов; низька температура, відповідь перевіряється
       const digest = (an as { digest: Record<string, unknown> }).digest;
-      const res = await generateJson(PRO_MODELS, { system: analysisPrompt(st), contents: [{ role: 'user', parts: [{ text: JSON.stringify(digest) }] }], schema: ANALYSIS_SCHEMA, temperature: 0.2, thinking: 'high', maxTokens: 16000, timeoutMs: 75_000 });
+      const res = await generateJson(fair(PRO_MODELS), { system: analysisPrompt(st), contents: [{ role: 'user', parts: [{ text: JSON.stringify(digest) }] }], schema: ANALYSIS_SCHEMA, temperature: 0.2, thinking: 'high', maxTokens: 16000, timeoutMs: 75_000 });
       return json(cleanAnalysis(res));
     }
 

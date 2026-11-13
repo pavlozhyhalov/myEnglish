@@ -1,6 +1,6 @@
 // Версія збірки: той самий рядок у sw.js (назва кешу) і в ?v= у index.html.
 // Піднімати скриптом scripts/bump.sh після будь-якої зміни фронтенду.
-export const BUILD = '20261113104945';
+export const BUILD = '20261113105604';
 
 // Supabase (окремий проєкт myEnglish). Publishable-ключ публічний за задумом:
 // доступ до даних обмежує RLS (кожен бачить лише свої рядки); AI — будь-якому користувачу, що увійшов, з денними лімітами на кожного.
@@ -19,8 +19,8 @@ export const LIVE_WS_URL = 'wss://generativelanguage.googleapis.com/ws/google.ai
 export const LIVE_VOICES = ['Puck', 'Charon', 'Kore', 'Fenrir', 'Aoede', 'Leda', 'Orus', 'Zephyr'];
 
 export const LIMITS = {
-  textCallsPerDay: 200,
-  voiceMinutesPerDay: 60,
+  textCallsPerDay: 150,
+  voiceMinutesPerDay: 45,
   sessionResumeMs: 9 * 60 * 1000,   // перепідключення Live приблизно кожні 10 хв
   chatRetentionDays: 30,
 };

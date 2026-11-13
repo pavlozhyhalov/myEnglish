@@ -44,6 +44,13 @@ export async function usage(ctx: Ctx) {
   return data || { text_calls: 0, voice_seconds: 0, tts_calls: 0 };
 }
 
+/** Частка сильних моделей на сьогодні (charge_strong, міграція 0019): true — можна сильну, false — лише lite. Збій обліку — lite, не відмова */
+export async function chargeStrong(ctx: Ctx): Promise<boolean> {
+  const { data, error } = await ctx.admin.rpc('charge_strong', { p_user: ctx.user.id, p_cap: LIMITS.strongCalls });
+  if (error) { console.error('strong share', error.message); return false; }
+  return data === true;
+}
+
 /** Перевірити ліміт і зарахувати виклик атомарно (charge_ai_usage); збій обліку — відмова, а не безкоштовний виклик */
 export async function charge(ctx: Ctx, kind: 'text' | 'tts' | 'live', amount = 1) {
   const { data, error } = await ctx.admin.rpc('charge_ai_usage', {
