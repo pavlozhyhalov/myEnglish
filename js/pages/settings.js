@@ -84,7 +84,7 @@ export default function settings(view) {
       row('briefcase', 'Професійний контекст', toggle(!!st.workFocus, set('workFocus'), 'Професійний контекст'), 'Розмови про вашу роботу'),
     ]),
     group('Вигляд і звук', [
-      block('circle-half', 'Тема', seg([['auto', 'Авто'], ['light', 'Світла'], ['dark', 'Темна']], st.theme, (v) => { store.setSetting('theme', v); applyTheme(v); })),
+      block('circle-half', 'Тема', (() => { const sg = seg([['auto', 'Авто'], ['light', 'Світла'], ['dark', 'Темна']], st.theme, (v) => { store.setSetting('theme', v); applyTheme(v); }); sg.classList.add('set-theme-seg'); return sg; })()),
       block('flag', 'Акцент', seg([['US', 'Акцент US'], ['UK', 'Акцент UK']], st.accent, set('accent'))),
       range('rate', 0.6, 1.3, 0.05, v => `${Number(v).toFixed(2)}×`, 'timer', 'Швидкість озвучення'),
       row('speaker-high', 'Автоозвучення карток', toggle(st.autoSpeak !== false, set('autoSpeak'), 'Автоозвучення')),

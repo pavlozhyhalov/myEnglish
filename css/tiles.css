@@ -312,3 +312,12 @@ h1,h2,h3,.tx-l,.gx-res-t,.td-title,.app-header .title,.set-l,.drawer .tn-label{l
 .drawer .tn-label{font-size:12px}
 .qb-item span{font-size:10px;letter-spacing:0}
 @media (max-width:360px){.tx-l,.tx-row .tx-l{font-size:13.5px}.greet h1{font-size:23px}.drawer .tn-label{font-size:11px}}
+/* Шапка з кнопкою теми (2026-11-13): бокові колонки однакові — назва точно по центру й не наїжджає на кнопки */
+.app-header{grid-template-columns:var(--hdr-side,92px) minmax(0,1fr) var(--hdr-side,92px)}
+.app-header .title{max-width:none;min-width:0}
+.app-header .title.long{font-size:14.5px;letter-spacing:-.02em}
+.app-header .right{gap:0}
+.app-header .btn-theme{width:40px;min-width:40px}
+.app-header .btn-theme .ico{width:21px;height:21px}
+.app-header .right .streak-chip{padding:6px 4px 6px 2px}
+@media (max-width:360px){.app-header{--hdr-side:80px}.app-header .title.long{font-size:13px}.app-header .btn-theme{width:36px;min-width:36px}.streak-chip{padding:6px 6px 6px 4px}.app-header .title{font-size:14px}}

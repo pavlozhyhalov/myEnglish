@@ -8,6 +8,7 @@ export function setTitle(t) {
   if (el) {
     if (t === 'myEnglish') el.replaceChildren(h('span.wordmark', h('b', 'my'), 'English'));
     else el.textContent = t;
+    el.classList.toggle('long', t !== 'myEnglish' && String(t).length > 14);
     // заголовок сторінки для читачів екрана (на головній свій h1 — привітання)
     if (t === 'myEnglish') { el.removeAttribute('role'); el.removeAttribute('aria-level'); }
     else { el.setAttribute('role', 'heading'); el.setAttribute('aria-level', '1'); }

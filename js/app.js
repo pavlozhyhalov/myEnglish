@@ -11,7 +11,7 @@ import { sectionFor, menuItemOf, tabsetOf } from './nav.js';
 import { initAuth, onAuth, onClient, recoveryPending, user as authUser } from './supa.js';
 import { initErrlog } from './errlog.js';
 import { streak, backfillLessonTests, tidyMistakes } from './stats.js';
-import { setTitle, applyTheme } from './ui/shell.js';
+import { setTitle, applyTheme, isDark } from './ui/shell.js';
 import { keepAwake } from './ui/wakelock.js';
 import { initSelectLookup } from './ui/selectlookup.js';
 import { initDailyBar } from './ui/dailybar.js';
@@ -57,7 +57,14 @@ function header() {
   const el = h('header.app-header',
     h('button.icon-btn.btn-menu', { type: 'button', 'aria-label': S.menu, 'aria-controls': 'drawer', onclick: toggleDrawer }, ic('list')),
     h('div.title#page-title', S.app),
-    h('div.right', streakBtn));
+    h('div.right',
+      // тема одним дотиком (власник 2026-11-13): світла ↔ темна; «Авто» — у «Налаштуваннях»
+      h('button.icon-btn.btn-theme', { type: 'button', 'aria-label': 'Змінити тему: світла або темна', onclick: () => {
+        const next = isDark() ? 'light' : 'dark';
+        store.setSetting('theme', next); applyTheme(next);
+        document.querySelectorAll('.set-theme-seg [data-v]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.v === next)));
+      } }, ic(isDark() ? 'sun' : 'moon')),
+      streakBtn));
   // посилання «Перейти до змісту» лишається першим у Tab-порядку
   const skip = document.querySelector('body > .sr-only');
   if (skip) skip.after(el); else document.body.prepend(el);
