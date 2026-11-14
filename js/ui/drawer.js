@@ -7,6 +7,7 @@ import { weekSeconds } from '../stats.js';
 import { user, signOut } from '../supa.js';
 import { go } from '../router.js';
 import { pushModal } from './modal.js';
+import { markVisited, newMenuKeys } from '../start.js';
 
 let drawer, scrim, list, profileBox, current = 'home';
 
@@ -48,7 +49,7 @@ function syncA11y() {
 // Активна плитка — пункт, що містить поточний розділ (Картки й Словник — «Слова»).
 function renderList() {
   clear(list);
-  const tile = (key, { href, icon, label }, cls = '') => h(`a.tile-nav${cls}`, { href, dataset: { key, icon }, onclick: close },
+  const tile = (key, { href, icon, label }, cls = '') => h(`a.tile-nav${cls}`, { href, dataset: { key, icon }, onclick: () => { try { markVisited(key); } catch { /* */ } close(); } },
     h('span.tn-ico', ic(icon, { size: 22 })), h('span.tn-label', label));
   list.append(h('div.nav-top', TOP.map(id => {
     const s = byId[id];
@@ -68,10 +69,22 @@ function renderList() {
 function paintActive() {
   if (!list) return;
   const key = TOP.includes(current) ? current : (menuItemOf(current)?.id || '');
+  // «Нове» — розділи, яких новий учень ще не відкривав (перші 14 днів після знайомства, до 3 одночасно; js/start.js)
+  let fresh = new Set();
+  try {
+    if (key) markVisited(key);
+    if (/^#\/tutor\?(.*&)?mode=voice/.test(location.hash)) markVisited('voice');   // голос — розділ «Вчитель» з параметром
+    fresh = newMenuKeys();
+  } catch { /* */ }
   list.querySelectorAll('a.tile-nav').forEach(a => {
     const on = a.dataset.key === key;
     if (on) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current');
     a.querySelector('.tn-ico').replaceChildren(ic(a.dataset.icon, { size: 22, fill: on }));
+    const badge = a.querySelector('.tn-new');
+    if (fresh.has(a.dataset.key)) { if (!badge) a.append(h('span.tn-new', { 'aria-hidden': 'true' }, 'Нове')); }
+    else badge?.remove();
+    const lbl = a.querySelector('.tn-label')?.textContent || '';
+    if (fresh.has(a.dataset.key)) a.setAttribute('aria-label', `${lbl}, нове`); else a.removeAttribute('aria-label');
   });
 }
 

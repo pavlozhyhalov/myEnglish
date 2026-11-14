@@ -1,0 +1,65 @@
+/* «Знайомство» (#/welcome), картка «Старт · день N з 7» на головній, «Для вашої цілі», пігулка «Нове» в меню */
+
+/* ---------- Знайомство ---------- */
+.wl{display:flex;flex-direction:column;gap:18px;max-width:520px;margin:0 auto;min-height:calc(100dvh - var(--safe-t, 0px) - 120px)}
+.wl-top{display:grid;grid-template-columns:44px 1fr auto;align-items:center;gap:8px;min-height:44px}
+.wl-back{width:44px;height:44px}
+.wl-back-sp{width:44px;height:44px}
+.wl-dots{display:flex;justify-content:center;gap:6px}
+.wl-dots i{width:7px;height:7px;border-radius:99px;background:color-mix(in srgb,var(--ink-dim) 35%,transparent);transition:width .25s cubic-bezier(.2,.8,.2,1),background-color .25s ease}
+.wl-dots i.done{background:color-mix(in srgb,var(--accent) 55%,transparent)}
+.wl-dots i.on{width:22px;background:var(--accent)}
+.wl-skip{min-height:44px;padding:0 6px;border:0;background:none;color:var(--ink-dim);font:inherit;font-size:var(--fs-sm);font-weight:600;cursor:pointer;border-radius:10px}
+.wl-skip:active{opacity:.7}
+html.kbd .wl-skip:focus-visible{outline:2px solid var(--accent-ink);outline-offset:2px}
+
+.wl-form{display:flex;flex-direction:column;gap:14px;flex:1}
+.wl-head{display:flex;flex-direction:column;align-items:flex-start;gap:8px;padding:6px 4px 4px}
+.wl-ic{display:grid;place-items:center;width:52px;height:52px;border-radius:16px;background:var(--accent-soft);color:var(--accent-ink);margin-bottom:4px}
+.wl-h{margin:0;font-family:var(--font-head);font-weight:400;font-size:clamp(24px,7vw,30px);line-height:1.15;letter-spacing:-.01em;color:var(--ink)}
+.wl-sub{margin:0;font-size:var(--fs-sm);color:var(--ink-dim);line-height:1.45;max-width:36ch}
+
+.wl-card{display:flex;flex-direction:column;gap:14px;padding:16px;border-radius:var(--r-tile, 18px);background:var(--tile);border:1px solid var(--tile-edge);box-shadow:var(--tile-shadow)}
+.wl-field{display:flex;flex-direction:column;gap:6px}
+.wl-field .input{min-height:48px;font-size:16px}
+
+.wl-grid .tx-grid{gap:10px}
+.wl-opt{min-height:96px;justify-content:flex-start}
+.wl-time{min-height:84px;align-items:flex-start}
+.wl-time .tx-l{font-family:var(--font-head);font-size:22px;font-weight:400;line-height:1.1}
+.wl-time .tx-body{gap:4px}
+
+.wl-levels[hidden]{display:none}
+.wl-lvl .tx-no{width:40px;font-size:13px}
+.wl-lvl.on .tx-no{background:var(--accent);color:#fff}
+.wl-go{margin-top:auto;min-height:52px;gap:8px;font-family:var(--font-head);font-weight:400;font-size:var(--fs-md);border-radius:var(--radius-btn, 14px)}
+.wl-go.primary{background:var(--accent-grad, var(--accent));box-shadow:var(--accent-glow, none)}
+.wl-form > .wl-go:not(:first-child){margin-top:auto}
+@media (max-width:360px){
+  .wl{gap:12px}
+  .wl-ic{width:44px;height:44px;border-radius:14px}
+  .wl-opt{min-height:84px}
+  .wl-card{padding:12px;gap:10px}
+}
+
+/* ---------- Старт · день N з 7 (на синій картці, мова «Сьогодні») ---------- */
+.st-hero .st-top{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.st-days{display:flex;gap:4px}
+.st-days i{display:grid;place-items:center;width:18px;height:18px;border-radius:6px;background:rgba(255,255,255,.12);color:#0B3B24;font-style:normal}
+.st-days i.on{background:#7CE3AE}
+.st-days i.today{box-shadow:inset 0 0 0 1.5px #fff}
+.st-days i.on.today{box-shadow:none}
+.st-title{margin:0;font-family:var(--font-head);font-weight:400;font-size:24px;line-height:1.15;color:#fff;letter-spacing:-.01em}
+.st-sub{margin:4px 0 0;font-size:var(--fs-xs);color:var(--hero-dim);line-height:1.4}
+.st-kpis{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+.st-kpi{display:flex;flex-direction:column;gap:2px;padding:10px;border-radius:13px;background:rgba(255,255,255,.10)}
+.st-kpi b{font-family:var(--font-head);font-weight:400;font-size:22px;line-height:1.1;color:#fff;font-variant-numeric:tabular-nums}
+.st-kpi span{font-size:11px;color:var(--hero-dim);line-height:1.2}
+.st-plan{display:inline-flex;align-items:center;gap:6px;align-self:center;min-height:32px;color:var(--hero-dim);font-size:var(--fs-xs);font-weight:600;text-decoration:none}
+.st-plan:active{opacity:.7}
+html.kbd .st-plan:focus-visible{outline:2px solid #fff;outline-offset:2px;border-radius:8px}
+
+/* ---------- «Нове» в меню ---------- */
+.drawer .tile-nav{position:relative}
+.drawer .tn-new{position:absolute;top:5px;right:5px;padding:1px 6px;border-radius:99px;background:var(--accent);color:#fff;font-family:var(--font-body);font-size:9.5px;font-weight:700;line-height:15px;letter-spacing:.02em;pointer-events:none}
+.drawer .tile-nav.wide .tn-new{top:50%;transform:translateY(-50%);right:8px}

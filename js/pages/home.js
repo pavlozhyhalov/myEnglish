@@ -13,6 +13,7 @@ import { skel, skelCard, skelRow } from '../ui/skeleton.js';
 import { toast } from '../ui/toast.js';
 import { greetName } from './profile.js';
 import { tx, txGrid, txGroup, txBar, txDots } from '../ui/tiles.js';
+import { startDay, startPlan, finishStart, goalPicks, goalTags } from '../start.js';
 import { myLevel, LEVEL_NAME, nextLessonByLevel, byFit, diff, levelProgress, nextLevel, filterByLevel, pickOfDay, setLevel, LEVELS as LEVEL_ORDER, levelPlan } from '../level.js';
 
 const nMistakes = (n) => `${n} ${plural(n, 'помилка', 'помилки', 'помилок')}`;
@@ -32,21 +33,33 @@ export default async function home(view) {
   const sec = todaySeconds();
   const blocks = [greeting()];
 
-  // ---- «Сьогодні»: кільце «Мого дня», хвилини й стрік, кроки-плитки, одна головна кнопка ----
-  const hero = h('section.plan-hero.hm-hero', { 'aria-label': 'Сьогодні' }, heroSkeleton());
+  // ---- «Старт» (перші 7 днів після знайомства, js/start.js): одна дія на день замість «Сьогодні» ----
+  const sDay = startDay();
+  const hero = h('section.plan-hero.hm-hero' + (sDay ? '.st-hero' : ''), { 'aria-label': sDay ? `Старт, день ${sDay} з 7` : 'Сьогодні' }, heroSkeleton());
   blocks.push(hero);
-  const fillHero = (plan) => { if (view.__tok === tok) hero.replaceChildren(...heroContent(plan, sec, st)); };
-  buildPlan().then(fillHero).catch(e => { console.warn('plan', e); hero.replaceChildren(...heroFallback(sec, st)); });
+  if (sDay) {
+    startPlan().then(sp => {
+      if (view.__tok !== tok) return;
+      if (!sp) { home(view); return; }
+      hero.replaceChildren(...startContent(sp, () => home(view)));
+    }).catch(e => { console.warn('start', e); hero.replaceChildren(...heroFallback(sec, st)); });
+  } else {
+    // ---- «Сьогодні»: кільце «Мого дня», хвилини й стрік, кроки-плитки, одна головна кнопка ----
+    const fillHero = (plan) => { if (view.__tok === tok) hero.replaceChildren(...heroContent(plan, sec, st)); };
+    buildPlan().then(fillHero).catch(e => { console.warn('plan', e); hero.replaceChildren(...heroFallback(sec, st)); });
+  }
 
   // ---- нагадування (2026-11-09, власник: «щоб PWA робило сповіщення»): картка, доки на цьому пристрої їх не ввімкнено ----
-  if (user()) blocks.push(notifyCard());
+  // у перший тиждень — лише після першої завершеної розмови голосом (тоді «вчитель нагадає продовжити»), і не в день «Старту» з тим самим кроком
+  const talked = store.all('tutor_chats').some(c => c.mode === 'voice' && c.summary);
+  if (user() && (!sDay || (talked && sDay !== 2))) blocks.push(notifyCard({ afterTalk: talked && !!sDay }));
 
   if (firstRun) {
     blocks.push(h('section.tx-group',
       h('div.tx-label-row', h('h2.tx-label', 'Почніть тут'),
         h('button.tx-more.hm-skip', { type: 'button', onclick: () => { store.setProf({ placementDone: 'skipped' }); home(view); } }, 'Пропустити')),
-      tx({ wide: true, icon: 'target', href: '#/tests/placement', label: 'Визначити мій рівень',
-        sub: '≈ 25 хв · можна з паузою · план підлаштується під вас' })));
+      tx({ wide: true, icon: 'lightning', href: '#/tests/placement?quick=1', label: 'Визначити мій рівень',
+        sub: 'Швидкий тест · ≈ 10 хв · план підлаштується під вас' })));
   }
 
   // ---- рівень: поточний → наступний, опанування, рівень у розмовах, швидка зміна ----
@@ -89,6 +102,16 @@ export default async function home(view) {
   const tasksBox = h('section.tx-group', tasksHead(lvl), h('div.list', skelRow(), skelRow(), skelRow()));
   blocks.push(tasksBox);
   fillLevelTasks(tasksBox, lvl, lessonRow(gIdx)).catch(() => tasksBox.remove());
+
+  // ---- «Для вашої цілі»: до 3 пропозицій під цілі зі «Знайомства» — після тижня «Старту» (тоді Старт веде сам) ----
+  if (!sDay && goalTags().length) {
+    const slot = document.createComment('goal-picks');
+    blocks.push(slot);
+    goalPicks(3).then(list => {
+      if (!slot.parentNode || !list.length) { slot.remove?.(); return; }
+      slot.replaceWith(txGroup('Для вашої цілі', txGrid(list.map(p => tx({ icon: p.icon, label: p.label, sub: p.sub, href: p.href, cls: 'hm-goal-t' }))), { label: 'Змінити', href: '#/profile' }));
+    }).catch(() => slot.remove?.());
+  }
 
   // решта (тиждень, слово дня, останні розмови, швидкий старт) — у «Прогресі», меню й нижній панелі: головна лише про сьогодні
 
@@ -152,6 +175,46 @@ function heroContent(plan, sec, st) {
   const login = !user() && plan.steps.some(s => s.skipped) && !plan.allDone && plan.next
     ? h('a.hm-login', { href: '#/auth' }, ic('key', { size: 14 }), 'Увійдіть — і вчитель додасть розмову голосом') : null;
   return [top, steps, btn, login].filter(Boolean);
+}
+
+/** Вміст картки «Старт · день N з 7»: крапки семи днів, заголовок дня, 1–2 кроки, одна головна кнопка */
+function startContent(sp, rerender) {
+  const top = h('div.st-top',
+    h('a.label.hm-label', { href: '#/today' }, `Старт · день ${sp.day} з 7`),
+    h('span.st-days', { role: 'img', 'aria-label': `Виконано днів: ${sp.days.filter(Boolean).length} з 7` },
+      sp.days.map((d, i) => h('i' + (d ? '.on' : '') + (i + 1 === sp.day ? '.today' : ''), d ? ic('check', { size: 12 }) : null))));
+  const head = h('div', h('h2.st-title', sp.title), sp.sub ? h('p.st-sub', sp.sub) : null);
+  const stepEl = (s) => {
+    const state = s.done ? 'done' : s === sp.next ? 'next' : 'later';
+    const meta = s.done ? 'готово' : s.minutes ? `${s.minutes} хв` : 'один дотик';
+    const attrs = { 'aria-label': `${s.title}: ${s.done ? 'готово' : meta}`, 'aria-current': state === 'next' ? 'step' : null };
+    const kids = [h('span.hm-st-ico', ic(s.done ? 'check' : s.icon, { size: 16, fill: state === 'next' })), h('span.hm-st-t', s.title), h('span.hm-st-m', meta)];
+    const act = actionFor(s, rerender);
+    return act.href ? h('a.hm-st.' + state, { href: act.href, ...attrs }, kids) : h('button.hm-st.' + state, { type: 'button', onclick: act.onclick, ...attrs }, kids);
+  };
+  const steps = sp.steps.length > 1 ? h('div.hm-steps', { style: { gridTemplateColumns: `repeat(${sp.steps.length},minmax(0,1fr))` } }, sp.steps.map(stepEl)) : null;
+  const kpis = sp.totals ? h('div.st-kpis',
+    [[sp.totals.minutes, 'хвилин'], [sp.totals.words, plural(sp.totals.words, 'нове слово', 'нові слова', 'нових слів')], [sp.totals.talks, plural(sp.totals.talks, 'розмова', 'розмови', 'розмов')]]
+      .map(([n, l]) => h('div.st-kpi', h('b', String(n)), h('span', l)))) : null;
+  let btn;
+  if (sp.day === 7) btn = h('button.btn.start.block.hm-start', { type: 'button', onclick: () => { finishStart(); toast('Старт пройдено! Далі — звичайний план дня'); rerender(); } }, ic('seal-check', { size: 20, fill: true }), 'Завершити старт');
+  else if (sp.next) {
+    const act = actionFor(sp.next, rerender);
+    const label = [ic(sp.next.icon === 'microphone' ? 'microphone' : 'play', { fill: true, size: 18 }), sp.next.id === 'remind' ? 'Увімкнути нагадування' : `${sp.next.title}${sp.next.minutes ? ` · ${sp.next.minutes} хв` : ''}`];
+    btn = act.href ? h('a.btn.start.block.hm-start', { href: act.href }, label) : h('button.btn.start.block.hm-start', { type: 'button', onclick: act.onclick }, label);
+  } else btn = h('a.btn.start.block.hm-start', { href: '#/today' }, ic('seal-check', { size: 20, fill: true }), 'День виконано · ще план дня');
+  const plan = sp.next || sp.day === 7 ? h('a.st-plan', { href: '#/today' }, ic('sun-horizon', { size: 14 }), 'Звичайний план дня') : null;
+  return [top, head, kpis, steps, btn, plan].filter(Boolean);
+}
+
+/** Дія кроку «Старту»: нагадування вмикаються одним дотиком, решта — перехід */
+function actionFor(s, rerender) {
+  if (s.id !== 'remind' || s.done || s.remind !== 'ok') return { href: s.href };
+  return { onclick: async () => {
+    const P = await import('../push.js');
+    try { await P.enable(); toast(`Нагадування ввімкнено · ${P.reminderPrefs().time}`); rerender(); }
+    catch (e) { toast(P.pushErrorText(e), { kind: 'bad', ms: 6000 }); }
+  } };
 }
 
 /** Запасний вміст (план не вдалося обчислити): хвилини й посилання на «Мій день» */
@@ -296,7 +359,7 @@ function pickLesson(idx) {
 
 
 /** Картка «Увімкнути нагадування»: один дотик (дозвіл і підписка Web Push); на iPhone поза іконкою «Додому» — підказка; «Не зараз» — на 14 днів */
-function notifyCard() {
+function notifyCard({ afterTalk = false } = {}) {
   const slot = h('div.hm-notify', { hidden: true });
   const OFF = 'me:notify-off';
   try { const t = Date.parse(localStorage.getItem(OFF) || ''); if (t && Date.now() - t < 14 * 864e5) return slot; } catch {}
@@ -309,7 +372,8 @@ function notifyCard() {
     const time = P.reminderPrefs().time;
     let tile;
     if (st === 'ok') {
-      tile = tx({ wide: true, icon: 'bell', label: 'Увімкнути нагадування', sub: `щодня о ${time} — якщо є що повторити або стрік під загрозою`, end: h('span.tx-pill.accent', 'Увімкнути'),
+      tile = tx({ wide: true, icon: 'bell', label: afterTalk ? 'Вчитель нагадає продовжити' : 'Увімкнути нагадування',
+        sub: afterTalk ? `щодня о ${time} — тема з вашої розмови` : `щодня о ${time} — якщо є що повторити або стрік під загрозою`, end: h('span.tx-pill.accent', 'Увімкнути'), on: afterTalk,
         onclick: async () => {
           try { await P.enable(); toast(`Нагадування ввімкнено · ${time}. Час можна змінити в Налаштуваннях`); slot.hidden = true; }
           catch (e) { toast(P.pushErrorText(e), { kind: 'bad', ms: 6000 }); if (P.pushSupport() === 'denied') slot.replaceChildren(deniedTile(), later); }

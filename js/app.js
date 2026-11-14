@@ -18,6 +18,7 @@ import { initDailyBar } from './ui/dailybar.js';
 import { initSubnav, updateSubnav } from './ui/subnav.js';
 import { deckIndex, grammarIndex, scenarios, listening, json } from './data.js';
 import * as srs from './srs.js';
+import { welcomeRedirect } from './start.js';
 
 // ---------- Режим клавіатури: рамка фокусу видима лише після Tab/стрілок ----------
 addEventListener('keydown', (e) => {
@@ -102,6 +103,7 @@ const PAGE_FILES = {
   games: 'games',
   fluency: 'fluency',
   'listen-go': 'listengo',
+  welcome: 'welcome',
 };
 const pageUrl = (name) => `./pages/${PAGE_FILES[name]}.js`;
 const pages = Object.fromEntries(Object.keys(PAGE_FILES).map(n => [n, () => import(pageUrl(n))]));
@@ -195,6 +197,8 @@ async function boot() {
   document.addEventListener('visibilitychange', () => { if (!document.hidden) store.queueSync(500); });
   setInterval(() => store.queueSync(0), 5 * 60 * 1000);
 
+  // «Знайомство» для нового учня (js/start.js): один раз, лише з головної
+  try { welcomeRedirect(!!authUser()); } catch (e) { console.warn('welcome', e); }
   start();
 
   if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) {
