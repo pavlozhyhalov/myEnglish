@@ -19,7 +19,7 @@ export const S = {
     home: 'Головна', tutor: 'Вчитель', cards: 'Картки', vocab: 'Лексика', grammar: 'Граматика',
     listening: 'Аудіювання', reading: 'Читання', pronunciation: 'Вимова', writing: 'Письмо', scenarios: 'Розмова',
     sounds: 'Звуки', exgrammar: 'Граматика', exercises: 'Вправи',
-    tests: 'Тести', admin: 'Адміністрування', mistakes: 'Помилки', progress: 'Прогрес', analysis: 'Аналіз', report: 'Звіт', settings: 'Налаштування', profile: 'Профіль', friends: 'Друзі',
+    tests: 'Тести', mistakes: 'Помилки', progress: 'Прогрес', analysis: 'Аналіз', report: 'Звіт', settings: 'Налаштування', profile: 'Профіль', friends: 'Друзі',
     session: 'Заняття', auth: 'Вхід', lab: 'Лабораторія Live', diary: 'Щоденник', games: 'Ігри',
     today: 'Мій день', phrases: 'Фразник', fluency: 'Плавність', listengo: 'У дорозі',
   },

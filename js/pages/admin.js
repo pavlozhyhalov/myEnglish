@@ -5,6 +5,8 @@ import { user } from '../supa.js';
 import { ai, aiErrorText } from '../ai.js';
 import { tx, txRow, txRows, txKpis, txGrid, txGroup, txPill, txBar } from '../ui/tiles.js';
 import { S } from '../strings.js';
+import { go } from '../router.js';
+import { setTitle } from '../ui/shell.js';
 
 const CACHE = 'me:admin';
 const RECHECK_MS = 12 * 3600e3;
@@ -171,17 +173,17 @@ function usersSection(ud, limits = {}, budget = {}) {
 
 export default async function adminPage(view) {
   let showEmails = false, days = 7, data = null, udata = null;
+  // Для всіх, крім адміністратора, сторінки «не існує» (власник 2026-11-14): без входу чи без прав — тихо на головну,
+  // жодного заголовка чи згадки про адміністрування; заголовок з'являється лише після підтвердження сервером.
+  const away = () => go('/home', { replace: true });
+  if (!user() || cached()?.ok === false) return away();
   const body = h('div.stack-lg');
   const head = tx({ icon: 'key', wide: true, cls: 'adm-head', label: 'Адміністрування', sub: 'Лише агреговані показники' });
+  head.hidden = true;
   view.replaceChildren(h('div.stack-lg', head, body));
 
-  if (!user()) {
-    body.replaceChildren(txRows([txRow({ icon: 'key', label: 'Увійти', sub: 'Увійдіть в акаунт адміністратора.', href: '#/auth' })]));
-    return;
-  }
-
   const load = async () => {
-    body.replaceChildren(txRows([txRow({ icon: 'hourglass', label: 'Завантаження…', chevron: false })]));
+    body.replaceChildren(head.hidden ? '' : txRows([txRow({ icon: 'hourglass', label: 'Завантаження…', chevron: false })]));
     try {
       const [st, us] = await Promise.all([
         ai('admin', 'stats', { days: 14 }),
@@ -189,12 +191,16 @@ export default async function adminPage(view) {
       ]);
       data = st; udata = us;
       remember(true);
+      head.hidden = false; setTitle('Адміністрування');
       render();
     } catch (e) {
       if (e.code === 'not_admin' || e.code === 'not_allowed') {
         remember(false);
-        body.replaceChildren(txRows([txRow({ icon: 'x-circle', label: 'Доступ лише для адміністраторів', sub: 'На головну', href: '#/' })]));
+        away();
       } else {
+        // збій мережі: адміністраторові (уже підтвердженому раніше) — «Повторити», решті — нічого не показуємо
+        if (!cached()?.ok) return away();
+        head.hidden = false;
         body.replaceChildren(txRows([txRow({ icon: 'warning', label: 'Не вдалося завантажити', sub: aiErrorText(e) || 'Торкніться, щоб повторити', onclick: load })]));
       }
     }
