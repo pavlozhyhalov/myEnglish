@@ -23,7 +23,7 @@ Deno.serve(handler(async (req) => {
   const s = p.scenario && typeof p.scenario === 'object' ? p.scenario as Record<string, unknown> : null;
   const cut = (v: unknown, n: number) => (v == null ? '' : String(v)).slice(0, n);
   const scenario: Scenario | null = s ? { title: cut(s.title, 200), situation: cut(s.situation, 1000), myRole: cut(s.myRole, 300), tutorRole: cut(s.tutorRole, 300), goal: cut(s.goal, 600), phrases: Array.isArray(s.phrases) ? s.phrases.slice(0, 12).map(x => cut(x, 200)) : [] } : null;
-  const system = modePrompt(mode, st, { scenario, topic: cut(p.topic, 300) || null, voice: true });
+  const system = modePrompt(mode, st, { scenario, topic: cut(p.topic, 600) || null, voice: true });
 
   const setup = {
     model: `models/${model}`,

@@ -1,6 +1,8 @@
 // Чисті функції для відповіді вчителя: відокремлення блоку ---FIX--- під час стрімінгу,
 // перевірка виправлень, очищення meta (підказки, слова, пам'ять). Без залежностей — покриті reply_test.ts.
 import { isDisputed, ruleOf, typeOfRule, type Dispute } from '../_shared/rules.ts';
+import { TOPIC_TAGS } from '../_shared/prompts.ts';
+const TOPIC_TAG_SET = new Set(TOPIC_TAGS);
 
 export const FIX = '---FIX---';
 
@@ -281,6 +283,9 @@ export function cleanSummary(r: any, st: { words: string[]; memory: string[]; le
     focus_review: tx(o.focus_review, 500),
     practised_words: practised,
     memory: cleanMemory(o.memory, st.memory, 5),
+    topic: tx(o.topic, 80),
+    topic_tags: [...new Set((Array.isArray(o.topic_tags) ? o.topic_tags : []).map((t: unknown) => tx(t, 20).toLowerCase()).filter((t: string) => TOPIC_TAG_SET.has(t)))].slice(0, 3),
+    opened_with_memory: o.opened_with_memory === true,
   };
 }
 

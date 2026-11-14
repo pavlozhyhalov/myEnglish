@@ -7,7 +7,7 @@ import { generate, generateJson, streamText, tts, createLiveToken, useCooldownSt
 import { createClient, type SupabaseClient } from 'npm:@supabase/supabase-js@2.118.0';
 import { RULE_IDS, RULES_PROMPT } from '../_shared/rules.ts';
 import { TEXT_MODELS, CHAT_MODELS, SMART_MODELS, PRO_MODELS, LIGHT_MODELS, FAST_MODELS, META_ENABLED, TTS_MODELS, LIVE_MODELS, LIMITS, liteOnly } from '../_shared/config.ts';
-import { latinName, memoryRule, loadStudent, todayLabel, UK_STYLE, modePrompt, taskPrompt, diaryPrompt, mistakeDrillPrompt, weeklyPrompt, metaPrompt, sessionFocus, type Scenario, type Student } from '../_shared/prompts.ts';
+import { latinName, memoryRule, loadStudent, todayLabel, UK_STYLE, modePrompt, taskPrompt, diaryPrompt, mistakeDrillPrompt, weeklyPrompt, metaPrompt, sessionFocus, TOPIC_TAGS, type Scenario, type Student } from '../_shared/prompts.ts';
 import { precheck as levelWritingCheck, levelWritingPrompt, LEVEL_WRITING_SCHEMA, cleanLevelWriting, countWords } from './level_writing.ts';
 import { precheck as analysisCheck, analysisPrompt, ANALYSIS_SCHEMA, cleanAnalysis, cleanDigest, section as coachSection, coachPrompt, coachMetaPrompt, COACH_META_SCHEMA, cleanCoachMeta } from './analysis.ts';
 import { latinizeName, latinizeStream, replyStream, splitReply, cleanFixes, formatFixes, cleanMeta, cleanSummary, lastStudentText, cueText, translateInput, type Meta } from './reply.ts';
@@ -151,7 +151,10 @@ const SUMMARY_SCHEMA = OBJ({
   memory: ARR(S('STRING')),
   mastered: ARR(S('STRING')),
   fluency_tip_uk: S('STRING'),
-}, ['summary', 'mistakes', 'new_words', 'level_signal', 'level_assessment', 'next_focus', 'focus_review', 'practised_words', 'memory', 'mastered', 'fluency_tip_uk']);
+  topic: S('STRING'),
+  topic_tags: ARR(S('STRING', { enum: TOPIC_TAGS })),
+  opened_with_memory: S('BOOLEAN'),
+}, ['summary', 'mistakes', 'new_words', 'level_signal', 'level_assessment', 'next_focus', 'focus_review', 'practised_words', 'memory', 'mastered', 'fluency_tip_uk', 'topic', 'topic_tags', 'opened_with_memory']);
 
 const CHECK_SCHEMA = OBJ({
   scores: OBJ({ grammar: S('INTEGER'), vocabulary: S('INTEGER'), tone: S('INTEGER'), structure: S('INTEGER') }, ['grammar', 'vocabulary', 'tone', 'structure']),
@@ -502,7 +505,7 @@ Deno.serve(handler(async (req) => {
       const scenario = clampScenario(p.scenarioData);
       // консультація про власні результати: зведення від клієнта — лише дані (очищене й обмежене), розділ — з білого списку
       const coachSec = mode === 'coach' ? coachSection(p.section) : '';
-      const system = mode === 'coach' ? coachPrompt(st, cleanDigest(p.coachDigest), coachSec) : modePrompt(mode, st, { scenario, drillType: str(p.drillType, 40), topic: str(p.topic, 300), voice: !!p.voice });
+      const system = mode === 'coach' ? coachPrompt(st, cleanDigest(p.coachDigest), coachSec) : modePrompt(mode, st, { scenario, drillType: str(p.drillType, 40), topic: str(p.topic, 600), voice: !!p.voice });
       const contents = toContents(p.messages || []);
       const student = lastStudentText(p.messages || []);
       const cueTurn = [...(Array.isArray(p.messages) ? p.messages : [])].reverse().find((m: Msg) => m?.role === 'user')?.cue === true;
@@ -514,7 +517,7 @@ Deno.serve(handler(async (req) => {
       // виправлення перевіряються на сервері: фрагмент має бути в повідомленні учня, без «виправлень» правильного
       const fixBlock = (raw: string | null) => (raw == null || p.voice || !student || noFix ? '' : formatFixes(cleanFixes(raw, student, st.strictness, 5, st.disputes)));
       const start = !noFix && !(Array.isArray(p.messages) ? p.messages : []).some((m: Msg) => m?.role === 'model');
-      const metaCtx: MetaCtx = { st, mode, scenario, student, start, cueTurn, drillType: str(p.drillType, 40), topic: mode === 'coach' ? coachSec : str(p.topic, 300) };
+      const metaCtx: MetaCtx = { st, mode, scenario, student, start, cueTurn, drillType: str(p.drillType, 40), topic: mode === 'coach' ? coachSec : str(p.topic, 600) };
       if (p.stream === false) {
         const full = latinizeName(await generate(CHAT_MODELS, opts), st.about.name, latinName(st.about.name));
         const { body, fixRaw } = splitReply(full);
@@ -535,7 +538,7 @@ Deno.serve(handler(async (req) => {
 
     case 'summary': {
       const voiceS = p.mode === 'voice';
-      const focus = sessionFocus(st, voiceS ? 'chat' : String(p.mode || 'chat'), undefined, { drillType: str(p.drillType, 40), topic: str(p.topic, 300) });
+      const focus = sessionFocus(st, voiceS ? 'chat' : String(p.mode || 'chat'), undefined, { drillType: str(p.drillType, 40), topic: str(p.topic, 600) });
       const speech = voiceS ? clampSpeech(p.speech) : null;
       const turnFixes = clampTurnFixes(p.turn_fixes);
       const system = `${taskPrompt(st)}
@@ -556,6 +559,7 @@ TASK: Analyse the finished ${voiceS ? 'VOICE session (transcribed speech: ignore
 - focus_review: ${focus ? `the session focus was: ${focus.text}. One or two sentences in Ukrainian: did the student practise it and how well (with a concrete example from the transcript)? Empty string if the session was too short to judge.` : 'empty string.'}
 - practised_words: which of these words the student is learning were used correctly BY THE STUDENT in the session (copy them exactly from this list): ${st.words.join(', ') || '(none)'}. Usually only a few or none.
 - memory: ${memoryRule(st, 5)}
+- topic: what the conversation was mainly about, in English, 2–6 words (e.g. "Street food in Kraków", "Weekend plans"); topic_tags: 1–3 matching categories from the list; opened_with_memory: true only if the tutor's FIRST message followed up on something remembered from the student's life.
 ${summaryExtra(st, speech)}`;
       const res = await generateJson<Record<string, unknown>>(fair(PRO_MODELS), { system, contents: [{ role: 'user', parts: [{ text: transcript(p.messages || []) || '(empty session)' }] }], schema: SUMMARY_SCHEMA, temperature: 0.2, thinking: 'high', timeoutMs: 75_000 });
       const cleaned = calibrateLevel(cleanSummary(res, st), speech, st.level);

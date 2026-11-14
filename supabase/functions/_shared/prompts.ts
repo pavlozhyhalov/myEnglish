@@ -27,13 +27,20 @@ export type Student = {
   open: Array<{ id: string; wrong: string; right: string }>;
   /** Пауза (мс), після якої голосовий вчитель вважає репліку учня завершеною */
   voicePauseMs: number;
+  /** Журнал тем (profiles.data.topicLog): про що були останні розмови і чи можна почати з пам'яті */
+  topics?: TopicInfo;
 };
+/** Категорії тем (дзеркало CATS у js/topics.js) — topic_tags у підсумку розмови */
+export const TOPIC_TAGS = ['daily', 'home', 'food', 'shopping', 'travel', 'city', 'nature', 'sport', 'hobbies', 'media', 'tech', 'people', 'culture', 'learning', 'health', 'work', 'future', 'opinion', 'wyr', 'story', 'problem', 'news', 'mistakes', 'memory'];
+export type TopicInfo = { recent: string[]; memLast: string | null; memOk: boolean };
 
 /** Дані, які учень вказав у профілі (#/profile) — усе необов'язкове, довжини обмежені */
 export type About = {
   name: string; pronoun: 'he' | 'she' | 'they'; nativeLang: string; otherLangs: string; location: string; age: string;
   occupation: string; family: string; interests: string; goals: string[]; avoid: string; notes: string;
 };
+/** profiles.data.goalTags (з онбордингу) → цілі профілю */
+const GOAL_TAGS: Record<string, string> = { travel: 'travel', work: 'work', relocation: 'moving', media: 'media', social: 'people', exam: 'exam' };
 const GOALS_EN: Record<string, string> = {
   travel: 'travelling', people: 'talking with people / making friends', work: 'work and career', moving: 'living abroad / moving',
   exam: 'passing an exam', kids: 'helping their children', media: 'films, books, music and the internet in English', self: 'self-development',
@@ -125,7 +132,7 @@ export async function loadStudent(ctx: Ctx): Promise<Student> {
     weak: [...byType.values()].sort((a, b) => b.count - a.count).slice(0, 5),
     words: wordsForLevel(cards.data || [], d.level || s.level || 'B1', !!s.workFocus),
     lastFocus: cut(d.lastFocus, 300) || null,
-    about: readAbout((d.about || {}) as Record<string, unknown>),
+    about: withGoalTags(readAbout((d.about || {}) as Record<string, unknown>), d.goalTags),
     memory: readMemory(d.memory),
     recent,
     history: readHistory(chats?.data || []),
@@ -133,7 +140,29 @@ export async function loadStudent(ctx: Ctx): Promise<Student> {
     focus: readFocus(d.weeklyFocus, mistakes.data || []),
     open: (mistakes.data || []).slice(0, 15).map(m => ({ id: String(m.id), wrong: cut(m.wrong, 80), right: cut(m.right, 80) })).filter(m => m.wrong && m.right),
     voicePauseMs: VOICE_PAUSE[s.voicePause as string] || VOICE_PAUSE.normal,
+    topics: readTopicLog(d.topicLog),
   };
+}
+
+/** Цілі з онбордингу (goalTags) доповнюють цілі профілю */
+export function withGoalTags(a: About, tags: unknown): About {
+  const extra = (Array.isArray(tags) ? tags : []).map(t => GOAL_TAGS[String(t)]).filter(Boolean);
+  return extra.length ? { ...a, goals: [...new Set([...a.goals, ...extra])].slice(0, 8) } : a;
+}
+
+/** Журнал тем → останні 6 тем («2026-11-13 voice: Street food [food]») і чи можна сьогодні почати з пам'яті (раз на 7 днів, не двічі поспіль) */
+export function readTopicLog(v: unknown, now = Date.now()): TopicInfo {
+  const rows = (Array.isArray(v) ? v : []).filter(e => e && typeof e === 'object' && typeof (e as { at?: unknown }).at === 'string') as Array<Record<string, unknown>>;
+  rows.sort((a, b) => String(b.at).localeCompare(String(a.at)));
+  const recent = rows.slice(0, 6).map(e => {
+    const tags = (Array.isArray(e.tags) ? e.tags : []).map(t => cut(t, 20)).filter(Boolean).slice(0, 3);
+    const what = cut(e.topic, 80) || cut(e.id, 40);
+    return what ? `${cut(e.at, 10)}${e.mode === 'voice' ? ' voice' : ''}: ${what}${tags.length ? ` [${tags.join(', ')}]` : ''}${e.mem ? ' (opened with a remembered fact)' : ''}` : '';
+  }).filter(Boolean);
+  const mem = rows.find(e => e.mem);
+  const memLast = mem ? cut(mem.at, 10) : null;
+  const memOk = !rows[0]?.mem && !(mem && now - Date.parse(String(mem.at)) < 7 * 86_400_000);
+  return { recent, memLast, memOk };
 }
 
 /** profiles.data.weeklyFocus = { week, rules: [id…] } → до 3 правил з описом і 2 прикладами відкритих помилок учня */
@@ -254,11 +283,11 @@ const LANG = { uk: 'Ukrainian', en: 'simple English', mix: 'Ukrainian with key t
 const NEXT: Record<string, string> = { A1: 'A2', A2: 'B1', B1: 'B2', B2: 'C1', C1: 'C2' };
 /** Як говорити з учнем цього рівня — рівень обирає учень (тест або вручну), тож він має реально змінювати мову вчителя */
 const LEVEL_STYLE: Record<string, string> = {
-  A1: 'Replies of 1–3 very short sentences. Present Simple, to be, can, there is/are, imperatives; the ~500 most common words; no idioms or phrasal verbs. Ask yes/no or either/or questions ("Do you like tea or coffee?"). If the student is stuck, offer the words they need. A 2–5 word hint in their native language is fine when they are clearly lost.',
-  A2: 'Replies of 2–4 short sentences. Everyday vocabulary; Past Simple, going to, Present Continuous for plans, basic modals, comparatives. Only the most common phrasal verbs (get up, look for). Ask simple open questions (What did you do…? Where…?). Paraphrase anything harder.',
-  B1: 'Replies of up to 4–5 sentences. Natural everyday English with common phrasal verbs and a few easy idioms; mix tenses naturally (Present Perfect, Past Continuous, first/second conditional). Briefly gloss a new expression when you use it. Ask why/how questions and for examples.',
-  B2: 'Speak naturally, as with a fluent non-native friend: idioms, phrasal verbs, all conditionals, passive, reported speech, nuance. Push the student to justify opinions, compare options and use more precise vocabulary instead of basic words.',
-  C1: 'Speak as with an educated native speaker: rich, idiomatic, register-appropriate language, complex structures (inversion, cleft sentences, mixed conditionals). Challenge precision, style, register and nuance, not just correctness; suggest more sophisticated alternatives.',
+  A1: 'Turns of 1–3 sentences, 4–8 words each. Present Simple, to be, have got, can, there is/are, imperatives; the ~500 most common words; no idioms or phrasal verbs. Yes/no or either/or questions ("Do you like tea or coffee?"). If the student is stuck, offer the words they need; a 2–5 word hint in their native language is fine when they are clearly lost.',
+  A2: 'Turns of 2–4 sentences, up to ~12 words each. Everyday vocabulary; Past Simple, going to, Present Continuous for plans, can/have to/should, comparatives and superlatives. At most one very common phrasal verb per turn (get up, look for), no idioms. Simple open questions (What did you do…? Where…? Why do you like…?). Paraphrase anything harder.',
+  B1: 'Turns of up to 4–5 sentences, ~10–15 words each. Natural everyday English: Present Perfect, Past Continuous, used to, first/second conditionals, relative clauses; common phrasal verbs and at most one easy idiom every few turns, glossed in a few words. Ask why/how questions, for examples and for their opinion with a reason.',
+  B2: 'Speak naturally, as with a fluent non-native friend: sentences up to ~20 words with linking (although, whereas, unless), all conditionals, passive, reported speech, modals of deduction; idioms and phrasal verbs about once every couple of turns. Push the student to justify opinions, compare options, speculate and replace basic words with precise ones.',
+  C1: 'Speak as with an educated native speaker: rich, idiomatic, register-appropriate language, complex structures (inversion, cleft sentences, mixed conditionals, hedging like "I\'d argue", "to some extent"). Abstract and hypothetical angles. Challenge precision, style, register and nuance, not just correctness; suggest more sophisticated alternatives.',
 };
 const levelStyle = (st: Student) => LEVEL_STYLE[st.level] || LEVEL_STYLE.B1;
 
@@ -290,7 +319,7 @@ function memoryBlock(st: Student) {
   return `
 WHAT YOU REMEMBER ABOUT THE STUDENT (notes from earlier sessions, newest first; may be outdated or written in Ukrainian):
 ${st.memory.map(m => `- ${m}`).join('\n')}
-Use these like a good human teacher who remembers their student: when relevant, refer back naturally (e.g. ask how something they mentioned went, use their real life in examples) — at most ONE remembered item per message, and only every few turns. At the start of a session follow up on ONE thing only. Never list or recite these notes, never say "according to my notes/memory". Look at the conversation so far: if you have already referred to a remembered fact in this session, do not do it again unless the student brings it up. In ROLE-PLAY mode do not use these notes at all (your character does not know the student). If the student says something different, believe the student.
+Use these like a good human teacher who remembers their student: when relevant, refer back naturally (e.g. ask how something they mentioned went, use their real life in examples) — at most ONE remembered item per message, and only every few turns. ${st.topics && !st.topics.memOk ? 'Do NOT open this session with a remembered fact (one was raised recently); bring one in later only if the student\'s talk leads there.' : 'At the start of a session you may follow up on ONE thing only, and only if the app set no session topic.'} Never list or recite these notes, never say "according to my notes/memory". Look at the conversation so far: if you have already referred to a remembered fact in this session, do not do it again unless the student brings it up. In ROLE-PLAY mode do not use these notes at all (your character does not know the student). If the student says something different, believe the student.
 `;
 }
 
@@ -409,6 +438,16 @@ Use "→" and " — " exactly as shown, no quotes.
 ${mode === 'drill' ? 'Do not repeat in the block a practice answer you have already checked in the reply.\n' : ''}If there are no such mistakes, do not add the block at all. Never mention the block in your reply; in the reply itself you may only recast naturally, not list corrections.`;
 }
 
+/** Різноманітність тем і підлаштування під учня (2026-11-14, власник: «щоб вчитель не говорив постійно на одні й ті самі теми») */
+export function varietyBlock(st: Student) {
+  const t = st.topics;
+  return `
+VARIETY AND ADAPTATION
+${t?.recent.length ? `- RECENT TOPICS (newest first): ${t.recent.join('; ')}. Do not reopen these or ask the same questions again unless the student brings them up; if they come up, find a new angle.\n` : ''}${t && !t.memOk ? `- A remembered personal fact was raised${t.memLast ? ` on ${t.memLast}` : ' recently'}: do not open with one today.\n` : ''}- Follow the student's interest: long, eager answers → go deeper on that angle with follow-ups; two short or flat answers in a row → switch angle or offer a new related topic (give two options).
+- About every 8–10 exchanges, offer a fresh related angle or a new topic in one short line.
+- Vary your question types: experience, opinion with a reason, hypothetical ("What would you do if…"), compare, quick choice, tell-me-a-story — never the same type three times in a row.`;
+}
+
 export type Scenario = { title?: string; situation?: string; myRole?: string; tutorRole?: string; goal?: string; phrases?: string[] };
 
 export function modePrompt(mode: string, st: Student, opts: { scenario?: Scenario | null; drillType?: string | null; topic?: string | null; voice?: boolean }) {
@@ -452,10 +491,11 @@ This mode overrides HOW TO TEACH where they conflict. No corrections block in th
       'their weekend, plans, food, films, travel, a news story',
       st.workFocus && 'their work',
     ].filter(Boolean).join('; ');
+    const memOk = !st.topics || st.topics.memOk;
     parts.push(`
 MODE: FREE CONVERSATION${opts.topic ? `\nSession topic / instructions from the app (follow them as an English tutor; if they ask you to vary difficulty, e.g. a level check, they override LEVEL): ${opts.topic}` : ''}
-If this is the start, greet the student briefly${st.about.name ? ` by name ("${latinName(st.about.name)}")` : ''} and ${opts.topic ? 'start on the topic' : `${st.memory.length ? 'either follow up on ONE thing you remember about them (a plan, an event, a hobby) or ' : ''}suggest 2–3 concrete topics (ideas: ${ideas}) with one opening question`}. Never pick a topic the student asked to avoid.
-Keep the conversation going: if a topic runs dry, move to a related one yourself. Every few turns, push the student a little beyond their comfort zone (a follow-up "why?", "what would you do if…", a new useful phrase).`);
+If this is the start, greet the student briefly${st.about.name ? ` by name ("${latinName(st.about.name)}")` : ''} in one line (no recap of earlier sessions) and ${opts.topic ? 'start on the topic' : `${st.memory.length && memOk ? 'either follow up on ONE thing you remember about them (a plan, an event, a hobby) or ' : ''}open a FRESH topic (not one from RECENT TOPICS; ideas: ${ideas}) with one concrete opening question`}. Never pick a topic the student asked to avoid.
+Keep the conversation going: if a topic runs dry, move to a related one yourself. Every few turns, push the student a little beyond their comfort zone (a follow-up "why?", "what would you do if…", a new useful phrase).${varietyBlock(st)}`);
   }
   if (voice) {
     parts.push(`
