@@ -8,7 +8,7 @@ import { toast } from '../ui/toast.js';
 import { setTitle, setFocus } from '../ui/shell.js';
 import { tx, txGrid, txRow, txRows } from '../ui/tiles.js';
 import { LEVELS, LEVEL_NAME, LEVEL_DESC, myLevel, setLevel } from '../level.js';
-import { GOAL_OPTIONS, goalTags, saveGoals, markOnboarded, beginStart, firstTalkHref } from '../start.js';
+import { GOAL_OPTIONS, goalTags, saveGoals, markOnboarded, beginStart, firstTalkHref, hasActivity } from '../start.js';
 
 const FULL = ['name', 'goals', 'time', 'level', 'talk'];
 const SHORT = ['name', 'goals'];
@@ -27,7 +27,8 @@ export default function welcome(view, r) {
   const i = steps.indexOf(step);
   setTitle(short ? 'Про вас' : 'Знайомство');
   setFocus(true);
-  if (!short) beginStart();
+  // «Старт» — лише новому учневі (пряме посилання на #/welcome в учня з історією не вмикає тиждень «Старту»)
+  if (!short && !hasActivity()) beginStart();
 
   const q = (s) => `#/welcome?step=${s}${short ? '&short=1' : ''}`;
   const next = () => { if (i < steps.length - 1) location.hash = q(steps[i + 1]); else finish(); };

@@ -88,7 +88,9 @@ export function welcomeRedirect(isLoggedIn) {
     const off = store.on((t) => { if (t !== 'synced') return; off(); go(); });
   };
   if (store.prof().onboarded) return;
-  if (isLoggedIn && !hasActivity() && !store.syncedOnce()) { decideLater(); return; }
+  // після входу — лише після першої синхронізації: профіль на сервері може вже мати onboarded, а запис профілю до синхронізації
+  // (markOnboarded у welcomeMode) перезаписав би серверний профіль застарілою локальною копією (профіль синхронізується цілим)
+  if (isLoggedIn && !store.syncedOnce()) { decideLater(); return; }
   go();
   // гість увійшов пізніше — на іншому пристрої знайомство могло вже бути; рішення після синхронізації
   if (!isLoggedIn) decideLater();
