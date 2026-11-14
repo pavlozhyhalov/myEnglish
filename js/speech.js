@@ -20,10 +20,14 @@ export function englishVoices(accent) {
 }
 
 let currentAudio = null;
-export function stop() {
+// Номер поточного озвучення: озвучення, що ще вантажиться (Gemini TTS, 1–2 с), після stop() чи нового speak() вже не грає —
+// інакше на наступній картці звучало попереднє слово (2026-11-14)
+let seq = 0;
+function halt() {
   synth?.cancel();
   if (currentAudio) { currentAudio.pause(); currentAudio = null; }
 }
+export function stop() { seq++; halt(); }
 
 /**
  * Озвучити англійський текст. opts: rate, accent, voiceIndex (для діалогів), engine ('browser'|'gemini')
@@ -33,9 +37,11 @@ export async function speak(text, opts = {}) {
   const st = store.settings();
   const rate = opts.rate ?? st.rate ?? 1;
   const engine = opts.engine || st.ttsEngine || 'browser';
-  stop();
+  const my = ++seq;
+  halt();
   if (engine === 'gemini' && user() && navigator.onLine) {
-    try { return await playGemini(text, opts.geminiVoice, rate); } catch (e) { console.warn('Gemini TTS → браузер', e); }
+    try { return await playGemini(text, opts.geminiVoice, rate, my); } catch (e) { console.warn('Gemini TTS → браузер', e); }
+    if (my !== seq) return;   // поки чекали Gemini, вже озвучується інше — запасна озвучка браузером не потрібна
   }
   return speakBrowser(text, { rate, accent: opts.accent || st.accent, voiceIndex: opts.voiceIndex || 0 });
 }
@@ -63,10 +69,26 @@ const SILENT = 'data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAQB8AAIA+AA
 if (player) document.addEventListener('pointerdown', () => { player.src = SILENT; player.play().catch(() => {}); }, { once: true, capture: true });
 
 let pendingDone = null;
-async function playGemini(text, voice, rate) {
+const geminiUrl = async (text, voice) => {
   const key = (voice || '') + '|' + text;
   let url = audioCache.get(key);
-  if (!url) { url = URL.createObjectURL(await ttsAudio(text, { voice })); audioCache.set(key, url); }
+  if (!url) {
+    const p = (async () => URL.createObjectURL(await ttsAudio(text, { voice })))();
+    audioCache.set(key, p);           // паралельні запити того самого слова (попереднє завантаження + показ) — один виклик
+    try { url = await p; } catch (e) { audioCache.delete(key); throw e; }
+    audioCache.set(key, url);
+  }
+  return url;
+};
+/** Завантажити озвучку заздалегідь (наступна картка), якщо обрано Gemini; без помилок назовні */
+export function prefetch(text, opts = {}) {
+  const st = store.settings();
+  if ((opts.engine || st.ttsEngine || 'browser') !== 'gemini' || !user() || !navigator.onLine || !text) return;
+  geminiUrl(text, opts.geminiVoice).catch(() => {});
+}
+async function playGemini(text, voice, rate, my) {
+  const url = await geminiUrl(text, voice);
+  if (my !== seq) return;             // поки вантажилось, перейшли далі — не граємо застаріле слово
   pendingDone?.();     // попереднє відтворення перериваємо — його проміс завершуємо
   return new Promise((resolve, reject) => {
     pendingDone = resolve;

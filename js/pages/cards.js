@@ -3,7 +3,7 @@ import { h, ic, emo, fmtInterval, toggle } from '../ui/dom.js';
 import { S, plural } from '../strings.js';
 import * as store from '../store.js';
 import * as srs from '../srs.js';
-import { speak, stop as stopSpeech, recognize, canRecognize, compareWords, recordAndTranscribe } from '../speech.js';
+import { speak, stop as stopSpeech, prefetch, recognize, canRecognize, compareWords, recordAndTranscribe } from '../speech.js';
 import { activityTimer } from '../stats.js';
 import { setFocus, setTitle } from '../ui/shell.js';
 import { toast } from '../ui/toast.js';
@@ -130,7 +130,12 @@ export async function runReview(view, { limit = Infinity, onExit, onDone, embedd
     flipped = false; shownAt = Date.now();
     renderCard();
     updateCounters();
+    // озвучка Gemini: поточне слово (для перевертання) і наступне — заздалегідь, щоб звук не запізнювався
+    prefetch(cur.en);
+    if (queue[0]) prefetch(queue[0].en);
   }
+  // відкладене автоозвучення — лише якщо на екрані досі та сама картка
+  const sayLater = (card) => setTimeout(() => { if (cur === card) speak(card.en); }, 250);
 
   function renderCard() {
     const kind = srs.cardKind(cur);
@@ -141,7 +146,7 @@ export async function runReview(view, { limit = Infinity, onExit, onDone, embedd
     front.append(h('span.kind', kindLabel + (cur.reps ? '' : ' · нова')));
     if (kind === 'en-uk') {
       front.append(h('div.big', cur.en), speakBtn(cur.en));
-      if (store.settings().autoSpeak !== false) setTimeout(() => speak(cur.en), 250);
+      if (store.settings().autoSpeak !== false) sayLater(cur);
     } else if (kind === 'uk-en') {
       const said = h('div.small.dim');
       front.append(h('div.big', cur.uk || '—'), h('p.dim.small', 'Як це англійською?'), said);
@@ -159,7 +164,7 @@ export async function runReview(view, { limit = Infinity, onExit, onDone, embedd
     } else if (kind === 'audio') {
       front.append(h('button.icon-btn.soft', { type: 'button', style: { width: '96px', height: '96px', borderRadius: '50%' }, 'aria-label': 'Прослухати ще раз', onclick: (e) => { e.stopPropagation(); speak(cur.en); } }, ic('speaker-high', { size: 44 })),
         h('p.dim.small', 'Що означає почуте?'));
-      setTimeout(() => speak(cur.en), 250);
+      sayLater(cur);
     } else {
       front.append(h('div', { style: { fontSize: 'var(--fs-lg)', fontWeight: 600 } }, cloze.text), ex?.uk ? h('p.dim.small', ex.uk) : h('p.dim.small', cur.uk));
     }

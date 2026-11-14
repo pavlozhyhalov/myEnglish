@@ -7,7 +7,7 @@ import { plural } from '../strings.js';
 import * as store from '../store.js';
 import * as srs from '../srs.js';
 import { withCards } from '../data.js';
-import { speak, stop as stopSpeech, recognize, canRecognize, compareWords } from '../speech.js';
+import { speak, stop as stopSpeech, prefetch, recognize, canRecognize, compareWords } from '../speech.js';
 import { activityTimer, dayKey, today } from '../stats.js';
 import { setFocus } from '../ui/shell.js';
 import { modalOpen } from '../ui/modal.js';
@@ -193,6 +193,9 @@ export async function runTrain(view, { limit = Infinity, onExit, onDone, practic
     }
     if (!queue.length) return finish(false);
     cur = queue.shift();
+    // озвучка Gemini — поточне й наступне слово заздалегідь (без запізнення звуку)
+    prefetch(cur?.it?.card?.en);
+    prefetch(queue[0]?.it?.card?.en);
     if (!cur.kind) cur.kind = pickKind(cur.it);
     shownAt = Date.now();
     foot.replaceChildren();
@@ -285,7 +288,9 @@ export async function runTrain(view, { limit = Infinity, onExit, onDone, practic
 
   // ---------- Вправи ----------
   const speakBtn = (text, label = 'Прослухати', size = 22) => h('button.icon-btn.soft', { type: 'button', 'aria-label': label, onclick: () => speak(text) }, ic('speaker-high', { size }));
-  const autoSay = (text) => { if (store.settings().autoSpeak !== false) setTimeout(() => { if (stage.isConnected) speak(text); }, 250); };
+  // відкладене озвучення — лише якщо на екрані досі той самий крок (інакше звучало попереднє слово на новій картці)
+  const sayIfSame = (text) => { const step = cur; setTimeout(() => { if (stage.isConnected && cur === step) speak(text); }, 250); };
+  const autoSay = (text) => { if (store.settings().autoSpeak !== false) sayIfSame(text); };
   const targetOf = (it) => ({ id: it.card.id, en: it.card.en, uk: it.card.uk, deck_id: it.card.deck_id, level: it.level, pos: it.card.pos });
   const display = (en) => L.shown(en);
 
@@ -341,7 +346,7 @@ export async function runTrain(view, { limit = Infinity, onExit, onDone, practic
   }
 
   function listenPrompt(text) {
-    setTimeout(() => { if (stage.isConnected) speak(text); }, 250);
+    sayIfSame(text);
     // велика кнопка по центру, під нею — «Повільніше» і «Не можу слухати» в один рядок
     return h('div.wt-listen-box',
       h('button.wt-listen', { type: 'button', 'aria-label': 'Прослухати ще раз', onclick: () => speak(text) }, ic('speaker-high', { size: 44 })),
