@@ -551,9 +551,9 @@ Rules:
   - choice: prompt with exactly one "___"; 3–4 options including the student's typical wrong form; EXACTLY ONE option is correct; answer = that option copied character for character.
   - input: prompt with one "___" and a hint in brackets when needed; answer = only the missing word(s); alternatives = other correct fillers.
   - error: sentence with exactly ONE wrong word, reproducing the student's mistake; wrong_word = that word exactly as written, occurring only once in the sentence; answer = the correct replacement; alternatives = other correct replacements.
-  - transform: prompt = a sentence followed by the task in brackets in Ukrainian; answer = the full new sentence; alternatives = other correct versions.
+  - transform: prompt = a sentence followed by the task in brackets in Ukrainian; answer = the full new sentence; alternatives = other correct versions. The prompt sentence must contain ONLY the target mistake — every other word correct and natural (if the student's original sentence had several mistakes, fix the others yourself in the prompt, so the student changes one thing). Do not change words that were not wrong.
   - translate: uk = a natural Ukrainian sentence that needs the corrected form; answer = a natural English translation; alternatives = 1–3 other correct translations.
-- For every item: instruction = optional short instruction in Ukrainian; explanation = one short sentence in Ukrainian reminding the rule. The answer must be unambiguous; list every acceptable variant in alternatives.`;
+- For every item: instruction = optional short instruction in Ukrainian; explanation = one or two short sentences in Ukrainian that name EVERY word that changes and why (e.g. «history — історія як минуле; сюжет фільму — story»). The answer must be unambiguous; list every acceptable variant in alternatives (natural synonyms too: story/plot, takes place/is set). Keep the student's own words in the answer wherever they are correct.`;
 }
 
 /** Тижнева порада вчителя за компактною статистикою */

@@ -113,3 +113,7 @@ button.tx-sq.vw-sh-say:active{transform:scale(.94)}
 @media (max-width:360px){.cd-rev .grade{min-height:58px;font-size:13.5px}}
 @media (max-height:600px){.cd-rev .flash .face{padding-top:52px}}
 @media (max-width:360px){.vw-page .tx-grid .tx.wide .tx-s{display:none}.vw-page .tx-grid .tx.wide{min-height:60px}}
+/* Вправи: порівняння відповіді по словах (2026-11-14) */
+.ex-diff{margin-top:6px;line-height:1.7}
+.ex-dw.del{text-decoration:line-through;text-decoration-thickness:2px;color:var(--bad)}
+.ex-dw.add{color:var(--good);font-weight:600;background:color-mix(in srgb,var(--good) 12%,transparent);border-radius:6px;padding:0 4px}

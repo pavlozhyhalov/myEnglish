@@ -18,7 +18,8 @@ const CONTR = {
   "'ll": 'will', "'re": 'are', "'ve": 'have', "'m": 'am', "'d": 'would',
 };
 export function normalize(s) {
-  let t = String(s ?? '').toLowerCase().replace(/[’‘`]/g, "'").replace(/[“”]/g, '"').replace(/\s+/g, ' ').trim();
+  // діакритика не є помилкою англійської: Krakow = Kraków, cafe = café
+  let t = String(s ?? '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[’‘`]/g, "'").replace(/[“”]/g, '"').replace(/\s+/g, ' ').trim();
   t = t.replace(/[.!?,;:"]+/g, '').trim();
   t = t.split(' ').map(w => CONTR[w] || w).join(' ');
   return t.replace(/\s+/g, ' ');
@@ -27,6 +28,38 @@ export function matches(answer, accepted) {
   const list = Array.isArray(accepted) ? accepted : [accepted];
   const a = normalize(answer);
   return list.some(x => normalize(x) === a);
+}
+
+/**
+ * Порівняння відповіді з найближчим правильним варіантом по словах (2026-11-14, власник: «це аргументоване виправлення?»):
+ * зайві/хибні слова учня — закреслені, потрібні — зелені; так видно, ЩО саме не так, а не лише еталон.
+ */
+const wtoks = (s) => String(s ?? '').trim().split(/\s+/).filter(Boolean);
+const wkey = (w) => normalize(w);
+function lcsPairs(a, b) {
+  const n = a.length, m = b.length, d = Array.from({ length: n + 1 }, () => new Array(m + 1).fill(0));
+  for (let i = n - 1; i >= 0; i--) for (let j = m - 1; j >= 0; j--) d[i][j] = wkey(a[i]) === wkey(b[j]) ? d[i + 1][j + 1] + 1 : Math.max(d[i + 1][j], d[i][j + 1]);
+  return d;
+}
+export function closestAnswer(given, accepted) {
+  const list = (Array.isArray(accepted) ? accepted : [accepted]).filter(Boolean);
+  const g = wtoks(given);
+  let best = list[0], score = -1;
+  for (const x of list) { const t = wtoks(x); const sc = lcsPairs(g, t)[0][0] * 2 - t.length; if (sc > score) { score = sc; best = x; } }
+  return best;
+}
+export function wordDiff(given, target) {
+  const a = wtoks(given), b = wtoks(target), d = lcsPairs(a, b);
+  const out = []; let i = 0, j = 0;
+  const push = (cls, w) => { out.push(h('span.ex-dw' + cls, w), ' '); };
+  while (i < a.length || j < b.length) {
+    if (i < a.length && j < b.length && wkey(a[i]) === wkey(b[j])) { push('', b[j]); i++; j++; }
+    // спершу закреслене слово учня, потім правильне: «history → story»
+    else if (i < a.length && (j >= b.length || d[i + 1][j] >= d[i][j + 1])) { push('.del', a[i]); i++; }
+    else { push('.add', b[j]); j++; }
+  }
+  if (!out.some(x => x?.classList?.contains('del') || x?.classList?.contains('add'))) return null;
+  return h('div.ex-diff', { lang: 'en' }, h('span.xs.dim', 'Що змінити: '), ...out);
 }
 
 const shuffle = (arr) => { const a = arr.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
@@ -124,6 +157,7 @@ export function promptText(ex) {
 export function answerText(ex) {
   if (ex.type === 'choice') return typeof ex.answer === 'number' ? ex.options[ex.answer] : ex.answer;
   if (ex.type === 'error') return `${ex.sentence.split(/\s+/)[ex.wrongIndex]} → ${ex.correction}`;
+  if (ex._closest) return ex._closest;   // правильний варіант, найближчий до відповіді учня
   const a = ex.answer;
   return Array.isArray(a) ? a[0] : a;
 }
@@ -141,7 +175,7 @@ export function render(ex, report, next) {
       h('span.ex-fb-ic', ic(ok ? 'check-circle' : 'x-circle', { size: 20, fill: true })),
       h('div.ex-fb-t',
         h('div', { style: { fontWeight: 600 } }, ok ? 'Правильно!' : `Правильно: ${answerText(ex)}`),
-        extraText ? h('div', extraText) : null,
+        extraText ? (typeof extraText === 'string' ? h('div', extraText) : extraText) : null,
         ex.explanation ? h('div.dim', ex.explanation) : null)));
     nextBtn.hidden = false;
     nextBtn.focus({ preventScroll: true });
@@ -186,7 +220,14 @@ export function render(ex, report, next) {
 
   if (ex.type === 'input' || ex.type === 'transform') {
     const inp = h('input.input', { type: 'text', autocomplete: 'off', autocapitalize: 'off', spellcheck: 'false', 'aria-label': 'Відповідь', placeholder: 'Ваша відповідь' });
-    const check = () => { if (!reported && inp.value.trim()) { done(matches(inp.value, ex.answer), inp.value.trim()); inp.disabled = true; checkBtn.hidden = true; } };
+    const check = () => {
+      if (reported || !inp.value.trim()) return;
+      const given = inp.value.trim(), ok = matches(given, ex.answer);
+      // речення (перетворення) — показати, які слова відрізняються від найближчого правильного варіанта
+      if (!ok && Array.isArray(ex.answer) && ex.answer.length > 1) ex._closest = closestAnswer(given, ex.answer);
+      const diff = !ok && wtoks(given).length > 2 ? wordDiff(given, closestAnswer(given, ex.answer)) : null;
+      done(ok, given, diff); inp.disabled = true; checkBtn.hidden = true;
+    };
     inp.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); reported ? next() : check(); } });
     const checkBtn = h('button.btn.primary.block', { type: 'button', onclick: check }, 'Перевірити');
     return h('div.stack', instr(ex.instruction || (ex.type === 'transform' ? 'Перетворіть речення' : 'Впишіть правильну форму')),
