@@ -208,7 +208,7 @@ async function boot() {
     let reloaded = false;
     // нова версія: на «спокійних» сторінках — перезавантаження одразу; посеред заняття (голос, тест, вправи, письмо…) —
     // при наступному переході на іншу сторінку, щоб не перервати урок (2026-11-14)
-    const QUIET = /^#?\/?(home|today|progress|analysis|report|settings|profile|friends|reading\/?$|reading\/library|games\/?$|tutor\/?$|cards\/?$|vocab|grammar\/?$|mistakes\/?$|tests\/?$|admin)?(\?.*)?$/;
+    const QUIET = /^#?\/?(home|today|progress|analysis|report|settings|profile|friends|reading\/?$|reading\/library|games\/?$|cards\/?$|vocab|grammar\/?$|mistakes\/?$|tests\/?$|admin)?(\?.*)?$/;
     const reloadNow = () => { if (reloaded) return; reloaded = true; location.reload(); };
     navigator.serviceWorker.addEventListener('controllerchange', () => {
       if (!hadController || reloaded) return;
