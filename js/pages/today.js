@@ -2,6 +2,7 @@
 import { h, ic, ring } from '../ui/dom.js';
 import { tx, txPrimary, txGrid, txGroup, txRow, txBar, txLogin } from '../ui/tiles.js';
 import { plural } from '../strings.js';
+import * as store from '../store.js';
 import { streak, todaySeconds } from '../stats.js';
 import { buildPlan, markStarted } from '../daily.js';
 import { skel, skelLines } from '../ui/skeleton.js';
@@ -35,6 +36,15 @@ export function startNext(plan) {
   if (!plan.next) return;
   markStarted();
   location.hash = plan.next.href;
+}
+
+/** Виконаний крок веде до результату (2026-11-14, власник: «хочу бачити результат пройденого завдання»): розмова — до підсумку сьогоднішньої розмови з поверненням у план */
+function doneHref(s) {
+  if (s.id !== 'voice') return null;
+  const day = new Date().toDateString();
+  const chat = store.all('tutor_chats').filter(c => c.mode === 'voice' && !c.deleted && c.created_at && new Date(c.created_at).toDateString() === day)
+    .sort((a, b) => String(b.created_at).localeCompare(String(a.created_at)))[0];
+  return chat ? `#/tutor?chat=${encodeURIComponent(chat.id)}&view=summary&back=${encodeURIComponent('#/today')}` : null;
 }
 
 export default async function today(view) {
@@ -94,7 +104,7 @@ function render(view, plan) {
     const pill = s.done ? { text: 'готово', tone: 'good' } : s.skipped ? { text: 'після входу' } : s.bonus ? { text: `бонус · ${min}` } : state === 'next' ? { text: `Далі · ${min}`, tone: 'accent' } : { text: min };
     const row = txRow({
       ...(s.done ? { icon: 'check' } : s.skipped ? { icon: 'user' } : s.bonus ? { icon: s.icon } : { no: n }),
-      label: s.title, sub: s.desc, pill, href: s.href, on: state === 'next', cls: 'td-step-row.' + state, chevron: !s.done,
+      label: s.title, sub: s.desc, pill, href: s.done ? (doneHref(s) || s.href) : s.href, on: state === 'next', cls: 'td-step-row.' + state, chevron: !s.done || !!doneHref(s),
       onclick: s.skipped ? null : () => markStarted(),
       attrs: { 'aria-current': state === 'next' ? 'step' : null },
     });

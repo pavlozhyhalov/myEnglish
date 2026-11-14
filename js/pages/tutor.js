@@ -70,7 +70,10 @@ export default async function tutorPage(view, r) {
   // підсумок розмови за посиланням (сюди повертає «Скажи ще раз» і перезавантаження сторінки підсумку)
   if (q.chat && q.view === 'summary') {
     const row = store.get('tutor_chats', q.chat);
-    if (row?.summary && !row.summary.partial && row.mode !== 'check' && row.mode !== 'diary') return summaryView(view, row);
+    // back — звідки прийшли (результат заняття, «Мій день»): кнопка «Назад» повертає туди, а не в нову розмову
+    const back = typeof q.back === 'string' && /^#\/[a-z]/.test(q.back) ? q.back : null;
+    // підсумок є — показуємо; ще немає (розмову перервано) — екран «Зробити підсумок», а не сам діалог
+    if (row && row.mode !== 'check' && row.mode !== 'diary' && (row.messages || []).some(m => m.role === 'user')) return summaryView(view, row, { back });
   }
   if (q.mode === 'voice') {
     const { voiceSession } = await import('../live/voice.js');
@@ -1066,11 +1069,12 @@ function usedKnownCard(s) {
     h('div.chips.used-chips', list.map(chip)));
 }
 
-export function summaryView(view, row, { pronTurns = null } = {}) {
+export function summaryView(view, row, { pronTurns = null, back = null } = {}) {
   const s = row.summary;
   if (!s || s.partial) {
     view.replaceChildren(stateScreen({ icon: 'notebook', label: 'Підсумок розмови', title: 'Підсумку ще немає', sub: 'Вчитель розбере розмову: помилки, нові слова, рівень.' },
-      txPrimary({ icon: 'sparkle', label: 'Зробити підсумок', onclick: () => summarize(view, row, { voice: row.mode === 'voice' }) }), backToTutor()));
+      txPrimary({ icon: 'sparkle', label: 'Зробити підсумок', onclick: () => summarize(view, row, { voice: row.mode === 'voice' }) }),
+      back ? tx({ icon: 'arrow-left', label: back.startsWith('#/session') ? 'До результату заняття' : back.startsWith('#/today') ? 'До плану дня' : 'Назад', href: back, wide: true }) : backToTutor()));
     return;
   }
   const words = (s.new_words || []).filter(w => w?.en);
@@ -1170,6 +1174,7 @@ export function summaryView(view, row, { pronTurns = null } = {}) {
   const more = [assessmentCard(s), practisedCard(s), masteredCard(s), usedKnownCard(s), row.mode === 'voice' ? speechCard(s) : null, pronTurns?.length ? pronCard(pronTurns) : null, phrasesCard(row, s)].filter(Boolean);
 
   view.replaceChildren(h('div.stack-lg.tutor-summary',
+    back ? txRow({ icon: 'arrow-left', label: back.startsWith('#/session') ? 'До результату заняття' : back.startsWith('#/today') ? 'До плану дня' : 'Назад', href: back, chevron: false, cls: 'sum-back' }) : null,
     h('div.tu-sumhead', h('span.tx-sq', ic('sparkle', { size: 26, fill: true })),
       h('div.tx-body', h('h1.tu-sumh1', 'Підсумок розмови'),
         h('span.tx-s', [row.title || '', lvl && turns ? `${turns} ${plural(turns, 'репліка', 'репліки', 'реплік')}` : ''].filter(Boolean).join(' · ')))),
@@ -1192,7 +1197,7 @@ export function summaryView(view, row, { pronTurns = null } = {}) {
   // адреса підсумку: «назад» зі «Скажи ще раз» і перезавантаження повертають сюди, а не в нову розмову
   // лише якщо підсумок ще на екрані: запізнілий підсумок (учень уже почав нову розмову) не підміняє адресу нової сторінки
   if (view.isConnected && row.id && store.get('tutor_chats', row.id) && location.hash.startsWith('#/tutor')) {
-    const want = `#/tutor?chat=${encodeURIComponent(row.id)}&view=summary`;
+    const want = `#/tutor?chat=${encodeURIComponent(row.id)}&view=summary${back ? `&back=${encodeURIComponent(back)}` : ''}`;
     if (location.hash !== want) { try { history.replaceState(history.state, '', want); } catch { /* */ } }
   }
 }

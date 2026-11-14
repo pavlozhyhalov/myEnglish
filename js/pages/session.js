@@ -18,7 +18,28 @@ const STEP_IC = ['cards', 'puzzle-piece', 'microphone'];
 const EMO_IC = { cards: 'cards', puzzle: 'puzzle-piece', mic: 'microphone' };
 const scoreTone = (v) => v >= 80 ? 'good' : v >= 60 ? 'warn' : 'bad';
 
-export default async function session(view) {
+// Результат заняття має свою адресу (#/session?view=result): з підсумку розмови чи уроку можна повернутися до нього (2026-11-14)
+const LAST = 'me:session-last';
+const readLast = () => { try { return JSON.parse(localStorage.getItem(LAST) || 'null'); } catch { return null; } };
+
+function resultView(view, R) {
+  const back = encodeURIComponent('#/session?view=result');
+  view.replaceChildren(h('div.stack-lg.gx',
+    txResult({ icon: 'confetti', tone: 'good', label: 'Заняття завершено!', title: R.min ? `${R.min} хв практики` : 'Менше хвилини практики' }),
+    txPrimary({ icon: 'house', label: 'На головну', href: '#/' }),
+    txGroup('Що пройдено', txRows([
+      txRow({ icon: 'cards', label: 'Слова', sub: R.cards ? 'Тренування карток' : 'Етап пропущено', pill: R.cards ? { text: String(R.cards), tone: 'good' } : null }),
+      R.lessonId ? txRow({ icon: 'puzzle-piece', label: R.lessonTitle, sub: 'Урок граматики', pill: R.score == null ? null : { text: `${R.score}%`, tone: scoreTone(R.score) }, href: `#/grammar/${R.lessonId}` }) : null,
+      R.chatId ? txRow({ icon: 'microphone', label: 'Підсумок розмови із вчителем', sub: `${R.talkMin} хв голосом`, href: `#/tutor?chat=${encodeURIComponent(R.chatId)}&view=summary&back=${back}` })
+        : txRow({ icon: 'microphone', label: 'Розмова', sub: R.talkMin ? `${R.talkMin} хв голосом` : 'Етап пропущено' }),
+    ]))));
+}
+
+export default async function session(view, r) {
+  if (r?.query?.view === 'result') {
+    const R = readLast();
+    if (R) return resultView(view, R);
+  }
   const steps = ['Картки', 'Граматика', 'Розмова'];
   const summary = { cards: 0, score: null, talk: 0 };
   let cleanup = null, stopped = false;
@@ -114,16 +135,11 @@ export default async function session(view) {
     const logged = store.all('sessions').filter(s => Date.parse(s.ts) >= started).reduce((a, s) => a + (s.seconds || 0), 0);
     const min = Math.round(logged / 60);
     const talkMin = summary.talk ? Math.max(1, Math.round(summary.talk / 60)) : 0;
-    view.replaceChildren(h('div.stack-lg.gx',
-      // цифри етапів — пігулками в рядках «Що пройдено» (без окремого ряду показників)
-      txResult({ icon: 'confetti', tone: 'good', label: 'Заняття завершено!', title: min ? `${min} хв практики` : 'Менше хвилини практики' }),
-      txPrimary({ icon: 'house', label: 'На головну', href: '#/' }),
-      txGroup('Що пройдено', txRows([
-        txRow({ icon: 'cards', label: 'Слова', sub: summary.cards ? 'Тренування карток' : 'Етап пропущено', pill: summary.cards ? { text: String(summary.cards), tone: 'good' } : null }),
-        txRow({ icon: 'puzzle-piece', label: lesson.title, sub: 'Урок граматики', pill: summary.score == null ? null : { text: `${summary.score}%`, tone: scoreTone(summary.score) }, href: `#/grammar/${lesson.id}` }),
-        summary.chatId ? txRow({ icon: 'microphone', label: 'Підсумок розмови із вчителем', sub: `${talkMin} хв голосом`, href: `#/tutor?chat=${summary.chatId}` })
-          : txRow({ icon: 'microphone', label: 'Розмова', sub: talkMin ? `${talkMin} хв голосом` : 'Етап пропущено' }),
-      ]))));
+    const R = { at: new Date().toISOString(), min, cards: summary.cards, score: summary.score, lessonId: lesson.id, lessonTitle: lesson.title, chatId: summary.chatId || null, talkMin };
+    try { localStorage.setItem(LAST, JSON.stringify(R)); } catch { /* */ }
+    // адреса результату: «Назад» з підсумку розмови чи уроку повертає сюди, а не в нове заняття
+    try { if (view.isConnected && location.hash.startsWith('#/session')) history.replaceState(history.state, '', '#/session?view=result'); } catch { /* */ }
+    return resultView(view, R);
   }
 
   function exit() {
