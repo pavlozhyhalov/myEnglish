@@ -206,10 +206,14 @@ async function boot() {
       if (document.readyState === 'complete') setTimeout(run, 1500); else addEventListener('load', () => setTimeout(run, 1500), { once: true });
     };
     let reloaded = false;
+    // нова версія: на «спокійних» сторінках — перезавантаження одразу; посеред заняття (голос, тест, вправи, письмо…) —
+    // при наступному переході на іншу сторінку, щоб не перервати урок (2026-11-14)
+    const QUIET = /^#?\/?(home|today|progress|analysis|report|settings|profile|friends|reading\/?$|reading\/library|games\/?$|tutor\/?$|cards\/?$|vocab|grammar\/?$|mistakes\/?$|tests\/?$|admin)?(\?.*)?$/;
+    const reloadNow = () => { if (reloaded) return; reloaded = true; location.reload(); };
     navigator.serviceWorker.addEventListener('controllerchange', () => {
       if (!hadController || reloaded) return;
-      reloaded = true;
-      location.reload();
+      if (QUIET.test(location.hash || '#/home')) return reloadNow();
+      addEventListener('hashchange', reloadNow, { once: true });
     });
     afterFirstScreen(() => navigator.serviceWorker.register(`sw.js?v=${BUILD}`, { updateViaCache: 'none' }).then(reg => {
       // перевіряємо оновлення при кожному поверненні в застосунок
