@@ -20,6 +20,13 @@ export const RULES = {
   reading: { min: 8, max: 12 },
   listening: { min: 8, max: 12 },
 };
+/** Швидкий тест (знайомство, ~10 хв): лише граматика, лексика й читання, менше питань — рівень грубіший, повний тест лишається в «Тестах» */
+export const QUICK_SKILLS = ['grammar', 'vocabulary', 'reading'];
+export const QUICK_RULES = {
+  grammar: { min: 6, max: 10 },
+  vocabulary: { min: 6, max: 10 },
+  reading: { min: 4, max: 6 },
+};
 export const SE_STOP = 0.45;
 /** Додаткова умова зупинки (класифікаційна): ≥ 70% імовірності на одному рівні або SE ≤ 0.35 */
 export const MASS_STOP = 0.7;
@@ -119,8 +126,8 @@ export function confidence(theta, se) {
 }
 
 /** Чи завершувати частину: щонайменше min питань; далі — SE ≤ 0.45 або max; також якщо питання скінчились */
-export function shouldStop(skill, est, available = Infinity) {
-  const r = RULES[skill] || { min: 8, max: 12 };
+export function shouldStop(skill, est, available = Infinity, rules = RULES) {
+  const r = rules[skill] || { min: 8, max: 12 };
   if (est.n >= r.max || available <= 0) return true;
   if (est.n < r.min || est.se > SE_STOP) return false;
   // точність досягнуто; біля межі двох рівнів — ще кілька питань, поки не стане ясно, з якого боку від неї учень
@@ -203,11 +210,11 @@ export function partnerOf(bank, last, used) {
  * Наступне питання частини або null (частину завершено).
  * Пара питань до одного тексту не розривається; правило зупинки перевіряється після завершення пари.
  */
-export function nextItem(bank, { skill, est, used, seen = new Set(), last = null, rnd = Math.random }) {
-  const max = (RULES[skill] || { max: 12 }).max;
+export function nextItem(bank, { skill, est, used, seen = new Set(), last = null, rnd = Math.random, rules = RULES }) {
+  const max = (rules[skill] || { max: 12 }).max;
   const partner = last && last.skill === skill ? partnerOf(bank, last, used) : null;
   if (partner && est.n < max) return partner;
-  if (shouldStop(skill, est, available(bank, skill, used))) return null;
+  if (shouldStop(skill, est, available(bank, skill, used), rules)) return null;
   return pickItem(bank, { skill, theta: est.theta, n: est.n, used, seen, lastGroup: last?.group ?? null, rnd });
 }
 

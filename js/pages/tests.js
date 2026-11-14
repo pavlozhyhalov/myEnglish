@@ -34,7 +34,7 @@ const SKILL_UK = { grammar: 'Граматика', vocabulary: 'Лексика', 
 
 export default async function tests(view, r) {
   const [kind, ref] = r.parts;
-  if (kind === 'placement') return placementTest(view);
+  if (kind === 'placement') return placementTest(view, { quick: r.query.quick === '1', from: r.query.from || '' });
   if (kind === 'lesson' && ref) return lessonTest(view, ref);
   if (kind === 'lesson') return pickLesson(view);
   if (kind === 'weekly') return weeklyTest(view);
@@ -45,11 +45,13 @@ export default async function tests(view, r) {
 async function overview(view) {
   const titles = Object.fromEntries((await grammarIndex().catch(() => [])).map(l => [l.id, l.title]));
   const hist = store.all('tests').sort((a, b) => b.created_at.localeCompare(a.created_at));
-  const lastPl = hist.find(t => t.type === 'placement');
+  // швидкий тест (знайомство) не замінює повний: повний пропонується далі, у пігулці — рівень швидкого
+  const lastPl = hist.find(t => t.type === 'placement' && !t.scores?.quick);
+  const lastQuick = !lastPl ? hist.find(t => t.type === 'placement' && t.scores?.quick) : null;
   const plDue = !lastPl || Date.now() - Date.parse(lastPl.created_at) > 30 * 864e5;
-  const inRun = !!loadRun();
+  const inRun = !!loadRunOf(RUN_KEY);
   // три тести — плитки; головна (синя) дія — тест рівня, якщо він на паузі чи давно не проходився, інакше тижневий
-  const plPill = inRun ? txPill('на паузі', 'accent') : plDue ? txPill(lastPl ? 'час повторити' : 'не пройдено', 'warn') : txPill(lastPl.scores.overall, 'good');
+  const plPill = inRun ? txPill('на паузі', 'accent') : plDue ? (lastQuick ? txPill(`швидкий · ${lastQuick.scores.overall}`, 'accent') : txPill(lastPl ? 'час повторити' : 'не пройдено', 'warn')) : txPill(lastPl.scores.overall, 'good');
   const T = {
     placement: { icon: 'target', label: inRun ? 'Продовжити тест рівня' : 'Визначення рівня', sub: inRun ? 'Тест не завершено' : 'Адаптивний · ~25 хв', href: '#/tests/placement', pill: plPill },
     lesson: { icon: 'exam', label: 'Тест за уроком', sub: 'До 15 питань', href: '#/tests/lesson' },
@@ -72,7 +74,7 @@ async function overview(view) {
       // тест за уроком — перехід до уроку (повторити правило або пройти тест ще раз)
       return txRow({
         icon: t.type === 'placement' ? 'target' : t.type === 'weekly' ? 'calendar-blank' : t.type === 'level' ? 'seal-check' : 'exam',
-        label: t.type === 'placement' ? 'Визначення рівня' : t.type === 'weekly' ? 'Тижневий тест' : t.type === 'level' ? `Іспит рівня ${t.ref}${t.scores?.passed ? ' · склали' : ''}` : `Урок: ${titles[t.ref] || t.ref}`,
+        label: t.type === 'placement' ? (t.scores?.quick ? 'Швидкий тест рівня' : 'Визначення рівня') : t.type === 'weekly' ? 'Тижневий тест' : t.type === 'level' ? `Іспит рівня ${t.ref}${t.scores?.passed ? ' · склали' : ''}` : `Урок: ${titles[t.ref] || t.ref}`,
         sub, pill: t.type === 'placement' ? { text: t.scores.overall, tone: 'accent' } : { text: `${t.scores.score}%`, tone: t.type === 'level' ? (t.scores.passed ? 'good' : 'warn') : scoreCls(t.scores.score) },
         href: lessonRow ? `#/grammar/${t.ref}` : null, chevron: !!lessonRow,
       });
@@ -160,17 +162,16 @@ const noteTile = (icon, text, tone = '') => h('div.tx.wide.gx-note' + (tone ? '.
 // ---------- Визначення рівня ----------
 // Адаптивний тест (computer-adaptive) за частинами: граматика → лексика → читання → аудіювання, потім письмо й розмова.
 // Алгоритм (оцінка θ, вибір питань, правило зупинки) — js/placement.js. Незавершений тест зберігається в localStorage.
-const RUN_KEY = 'me:placement:run';
+// швидкий тест (знайомство, #/tests/placement?quick=1) зберігає паузу окремо — не змішується з повним
+const RUN_KEY = 'me:placement:run', QUICK_KEY = 'me:placement:quick';
 const RUN_TTL = 14 * 864e5;
-const loadRun = () => {
+const loadRunOf = (key) => {
   try {
-    const r = JSON.parse(localStorage.getItem(RUN_KEY) || 'null');
+    const r = JSON.parse(localStorage.getItem(key) || 'null');
     if (r && r.v === 1 && Date.now() - r.started < RUN_TTL) return r;
   } catch { /* приватний режим чи зіпсований запис */ }
   return null;
 };
-const saveRun = (r) => { try { localStorage.setItem(RUN_KEY, JSON.stringify(r)); } catch { /* */ } };
-const clearRun = () => { try { localStorage.removeItem(RUN_KEY); } catch { /* */ } };
 const shuffle = (a) => a.map(x => [Math.random(), x]).sort((p, q) => p[0] - q[0]).map(p => p[1]);
 const PART_UK = { grammar: 'граматика', vocabulary: 'лексика', reading: 'читання', listening: 'аудіювання' };
 
@@ -199,12 +200,20 @@ const canVoice = () => !!(navigator.mediaDevices?.getUserMedia && (window.AudioC
 /** Чи можна озвучити аудіювання: голос браузера або Gemini TTS (після входу). Без звуку частину пропускаємо, а не рахуємо як помилки */
 const canListen = () => typeof speechSynthesis !== 'undefined' || (store.settings().ttsEngine === 'gemini' && !!user());
 
-async function placementTest(view) {
-  setTitle('Визначення рівня');
+async function placementTest(view, { quick = false, from = '' } = {}) {
+  setTitle(quick ? 'Швидкий тест рівня' : 'Визначення рівня');
+  // швидкий тест: граматика, лексика, читання з меншою кількістю питань (CAT.QUICK_RULES), без письма й розмови
+  const key = quick ? QUICK_KEY : RUN_KEY;
+  const RULES = quick ? CAT.QUICK_RULES : CAT.RULES;
+  const loadRun = () => loadRunOf(key);
+  const saveRun = (r) => { try { localStorage.setItem(key, JSON.stringify(r)); } catch { /* */ } };
+  const clearRun = () => { try { localStorage.removeItem(key); } catch { /* */ } };
+  // зі «Знайомства» (#/welcome) — після тесту повертаємось до наступного кроку
+  const fromWelcome = from === 'welcome';
   const bank = (await loadPlacement()).items.filter(q => CAT.LEVELS.includes(q.level) && Array.isArray(q.options) && q.options.length);
   const byId = new Map(bank.map(q => [q.id, q]));
   const bankSkills = CAT.skillsIn(bank);
-  const skills = bankSkills.filter(s => s !== 'listening' || canListen());
+  const skills = quick ? CAT.QUICK_SKILLS.filter(s => bankSkills.includes(s)) : bankSkills.filter(s => s !== 'listening' || canListen());
   // питання трьох останніх тестів (і тексти, до яких вони були) — лише якщо свіжих на потрібному рівні вже немає
   const seen = seenRecently('placement');
   for (const id of [...seen]) { const g = byId.get(id)?.group; if (g != null) seen.add(`group:${g}`); }
@@ -233,6 +242,7 @@ async function placementTest(view) {
 
   function intro() {
     setFocus(false);
+    if (quick) return quickIntro();
     const parts = skills.map(s => PART_UK[s]);
     const done = run ? answered() : 0;
     view.replaceChildren(h('div.stack-lg.gx.pl-intro',
@@ -250,6 +260,20 @@ async function placementTest(view) {
       txRows([
         run ? txRow({ icon: 'arrow-clockwise', label: 'Почати заново', onclick: () => { clearRun(); run = null; start(); } }) : null,
         txRow({ icon: 'arrow-left', label: 'До тестів', href: '#/tests' }),
+      ])));
+  }
+
+  function quickIntro() {
+    const done = run ? answered() : 0;
+    view.replaceChildren(h('div.stack-lg.gx.pl-intro',
+      introHead({ icon: 'lightning', eyebrow: 'Швидкий тест', title: 'Визначимо ваш рівень',
+        text: 'Близько 10 хвилин: граматика, слова й читання.' }),
+      run ? txPrimary({ icon: 'play', label: 'Продовжити тест', sub: `Пройдено ${done} ${plural(done, 'питання', 'питання', 'питань')}`, onclick: resume })
+        : txPrimary({ icon: 'play', label: 'Почати', sub: `${skills.length} ${plural(skills.length, 'частина', 'частини', 'частин')} · до ${skills.reduce((a, k) => a + (RULES[k]?.max || 0), 0)} питань`, onclick: start }),
+      noteTile('lightbulb', 'Не знаєте — натисніть «Не знаю», не вгадуйте'),
+      txRows([
+        run ? txRow({ icon: 'arrow-clockwise', label: 'Почати заново', onclick: () => { clearRun(); run = null; start(); } }) : null,
+        fromWelcome ? txRow({ icon: 'arrow-left', label: 'Назад до знайомства', href: '#/welcome?step=level' }) : txRow({ icon: 'target', label: 'Повний тест · ~25 хв', sub: 'Ще аудіювання, письмо й розмова', href: '#/tests/placement' }),
       ])));
   }
 
@@ -277,12 +301,12 @@ async function placementTest(view) {
     if (q && !(Array.isArray(run.cur.options) && run.cur.options.length === q.options.length && run.cur.options.every(o => q.options.includes(o)))) { run.cur = null; q = null; }
     if (!q) {
       const last = resp.length ? byId.get(resp[resp.length - 1].id) : null;
-      q = CAT.nextItem(bank, { skill: s, est: estFor(s), used: usedIds(), seen, last });
+      q = CAT.nextItem(bank, { skill: s, est: estFor(s), used: usedIds(), seen, last, rules: RULES });
       if (!q) { run.skill++; run.cur = null; saveRun(run); return ask(); }
       run.cur = { id: q.id, options: shuffle(q.options) };   // позиція правильної відповіді не підказує
       saveRun(run);
     }
-    const max = (CAT.RULES[s] || { max: 12 }).max;
+    const max = (RULES[s] || { max: 12 }).max;
     const n = resp.length + 1;
     const share = Math.min(1, (resp.length) / max);
     const overall = (run.skill + share) / run.skills.length;
@@ -337,11 +361,11 @@ async function placementTest(view) {
 
   function pause() {
     stopSpeech(); setFocus(false); saveRun(run);
-    location.hash = '#/tests';
+    location.hash = fromWelcome ? '#/welcome?step=level' : '#/tests';
   }
 
   function afterReceptive() {
-    if (run.phase === 'receptive') { run.phase = 'writing'; run.cur = null; saveRun(run); }
+    if (run.phase === 'receptive') { run.phase = quick ? 'done' : 'writing'; run.cur = null; saveRun(run); }
     resume();
   }
 
@@ -510,7 +534,7 @@ async function placementTest(view) {
     ];
     // один і той самий тест не записуємо двічі (повторний finish після перезавантаження)
     if (!run.saved) {
-      store.put('tests', { type: 'placement', scores: { ...skillsLv, overall: o.display, level: o.level }, details });
+      store.put('tests', { type: 'placement', scores: { ...skillsLv, overall: o.display, level: o.level, ...(quick ? { quick: true } : {}) }, details });
       store.setProf({ skills: skillsLv, placementDone: true });
       setLevel(o.level, 'test');
       run.saved = true;
@@ -532,20 +556,21 @@ async function placementTest(view) {
     const skipped = [
       run.noSound ? 'аудіювання пропущено (немає звуку)' : null,
       bankSkills.includes('listening') && !run.skills.includes('listening') ? 'аудіювання — немає озвучення в цьому браузері' : null,
-      !wr?.level ? (run.writing?.skipped === 'offline' ? 'письмо — немає з\'єднання' : run.writing?.skipped ? 'письмо пропущено' : wr ? 'письмо не оцінено' : user() ? null : 'письмо й розмова — після входу') : null,
+      quick ? null : !wr?.level ? (run.writing?.skipped === 'offline' ? 'письмо — немає з\'єднання' : run.writing?.skipped ? 'письмо пропущено' : wr ? 'письмо не оцінено' : user() ? null : 'письмо й розмова — після входу') : null,
       run.speaking?.skipped ? (run.speaking.skipped === 'offline' ? 'розмова — немає з\'єднання' : run.speaking.skipped === 'no_mic' ? 'розмова недоступна' : run.speaking.skipped === 'failed' ? 'розмову не вдалося оцінити' : 'розмову пропущено') : null,
     ].filter(Boolean);
     const okN = items.filter(r => r.ok).length;
     view.replaceChildren(h('div.stack-lg.gx.pl-result',
       h('section.tx-group',
         h('div.gx-res', h('span.gx-res-ic.good', ic('trophy', { size: 26, fill: true })),
-          h('div.grow', h('div.tx-label', 'Ваш рівень'), h('div.gx-res-t', LEVEL_NAME[o.level] || o.display, conf.sure ? '' : h('span.dim', ` · ${conf.label}`)),
+          h('div.grow', h('div.tx-label', quick ? 'Ваш рівень · швидкий тест' : 'Ваш рівень'), h('div.gx-res-t', LEVEL_NAME[o.level] || o.display, conf.sure ? '' : h('span.dim', ` · ${conf.label}`)),
             LEVEL_DESC[o.level] ? h('div.tx-s', LEVEL_DESC[o.level]) : null)),
         txKpis([
           { value: o.display, label: 'загальний рівень', tone: 'accent' },
           { value: okN, unit: `/${items.length}`, label: 'правильних відповідей', ariaLabel: `${okN} з ${items.length} правильних відповідей` },
         ], 2)),
-      txPrimary({ icon: 'house', label: 'На головну', sub: `План дня вже під рівень ${o.level}`, href: '#/' }),
+      fromWelcome ? txPrimary({ icon: 'arrow-right', label: 'Далі: перша розмова', sub: `План уже під рівень ${o.level}`, href: '#/welcome?step=talk' })
+        : txPrimary({ icon: 'house', label: 'На головну', sub: `План дня вже під рівень ${o.level}`, href: '#/' }),
       txGroup('За навичками', [txRows(skillRows),
         skipped.length ? h('p.xs.dim', { style: { margin: '0 4px' } }, `Не враховано: ${skipped.join(', ')}.`) : null]),
       wr?.level || wr?.comment_uk ? txGroup('Письмо: відгук', h('div.gx-card.stack', { style: { gap: '8px' } },
@@ -553,7 +578,8 @@ async function placementTest(view) {
         wr.strengths_uk?.length ? h('div.stack', { style: { gap: '4px' } }, h('div.xs.dim', 'Що вдалося'), h('ul.small.pl-list', wr.strengths_uk.map(t => h('li', t)))) : null,
         wr.improve_uk?.length ? h('div.stack', { style: { gap: '4px' } }, h('div.xs.dim', 'Що покращити'), h('ul.small.pl-list', wr.improve_uk.map(t => h('li', t)))) : null)) : null,
       resultList(results),
-      h('p.xs.dim', { style: { margin: '0 4px' } }, 'Наступний тест — не раніше ніж за 2 тижні. Рівень змінюється в «Налаштуваннях».')));
+      quick ? txRows([txRow({ icon: 'target', label: 'Повний тест · ~25 хв', sub: 'Точніше: ще аудіювання, письмо й розмова', href: '#/tests/placement' })]) : null,
+      h('p.xs.dim', { style: { margin: '0 4px' } }, quick ? 'Рівень змінюється в «Налаштуваннях».' : 'Наступний тест — не раніше ніж за 2 тижні. Рівень змінюється в «Налаштуваннях».')));
   }
 }
 
