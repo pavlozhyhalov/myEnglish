@@ -9,7 +9,8 @@ import { speak, stop as stopSpeech, recognize, canRecognize, recordAndTranscribe
 import { logSession } from '../stats.js';
 import { scenarios as loadScenarios } from '../data.js';
 import { setFocus } from '../ui/shell.js';
-import { summarize, parseHint, topicIdeas, MISTAKES_TOPIC, focusTopic, topicIcon } from '../pages/tutor.js';
+import { summarize, parseHint, topicIdeas, MISTAKES_TOPIC, focusTopic, topicIcon, noteTopicStart } from '../pages/tutor.js';
+import { loadTopics, defaultPick, parsePickParam, pickById } from '../topics.js';
 import { tx, txPrimary, txGrid, txGroup, txRow, txRows, txResult, txLogin } from '../ui/tiles.js';
 import { go, onLeave } from '../router.js';
 
@@ -26,7 +27,7 @@ const PRON_MIN = 30, PRON_MAX = 150, PRON_KEEP = 3;   // репліки для �
 const PREWARM_WAIT = 8000;   // скільки на тапі чекати незавершене попереднє підключення
 
 /**
- * opts: scenario (id), mission (об'єкт місії — сценарій без id), topic, maxSeconds (для керованої сесії),
+ * opts: scenario (id), mission (об'єкт місії — сценарій без id), topic, pick (позначка теми з банку «id~fmt» / «mem~factId»), maxSeconds (для керованої сесії),
  * onFinish(row) — замість підсумку, debug (лог)
  */
 export async function voiceSession(view, opts = {}) {
@@ -39,7 +40,10 @@ export async function voiceSession(view, opts = {}) {
   const isMission = !!(scenario && opts.mission);
 
   const row = { mode: 'voice', scenario: scenario?.id || null, title: isMission ? `Місія: ${scenario.title}` : scenario ? `Голос: ${scenario.title}` : (opts.label ? `Голос: ${opts.label}` : opts.topic && opts.topic.length <= 40 && /[Ѐ-ӿ]/.test(opts.topic) ? `Голос: ${opts.topic}` : 'Голосова розмова'), messages: [], summary: null, seconds: 0 };
-  if (isMission) row.meta = { mission: opts.mission, topicLabel: `Місія · ${scenario.title}` };
+  row.meta = isMission ? { mission: opts.mission, topicLabel: `Місія · ${scenario.title}` } : {};
+  // вільна розмова (не сценарій, не тест рівня): теми з банку — рівень, інтереси, без тем останніх розмов (js/topics.js)
+  const free = !scenario && !opts.onFinish;
+  const topicsP = free ? loadTopics() : null;
   let started = 0, elapsedBefore = 0, live = null, audio = null, ended = false, micMuted = false, mode = 'live';
   let saved = false, cleaned = false;
   let subsOn = st.voiceSubs !== false;
@@ -299,11 +303,24 @@ export async function voiceSession(view, opts = {}) {
   const savedControls = [...controls.childNodes];
   let topic = opts.topic || null, chipTopic = null;
   prewarm();
+  if (topicsP) await topicsP;
+  if (ended) return cleanup;
   await new Promise((resolve) => {
     const begin = (t) => {
       tapped = true;
       audio = new AudioIO().prepare();     // синхронно, в жесті
-      if (t) { topic = chipTopic = t.topic; row.title = `Голос: ${t.label}`; }
+      // «Почати розмову» без теми — свіжа тема з банку (а не щоразу «привіт + те, що пам'ятаю»)
+      const auto = !t && free && !topic;
+      if (auto) t = defaultPick();
+      if (t) { topic = chipTopic = t.topic; if (!auto) row.title = `Голос: ${t.label}`; }
+      if (free) {
+        if (t) noteTopicStart(row, t, 'voice');
+        else if (topic) {
+          const pp = parsePickParam(opts.pick);
+          const known = pp?.id && pp.id !== 'mem' ? pickById(pp.id, pp.fmt) : null;
+          noteTopicStart(row, known || { ...(pp || {}), label: opts.label || 'Голос', topic }, 'voice');
+        }
+      }
       controls.classList.remove('vc-go'); ui.classList.remove('vc-starting');
       controls.replaceChildren(...savedControls);
       notice.replaceChildren();
@@ -319,10 +336,10 @@ export async function voiceSession(view, opts = {}) {
     // вільна розмова: можна одразу обрати, про що говорити (тап по темі теж стартує сесію)
     if (!scenario && !topic && !opts.onFinish) {
       const focus = store.prof()?.lastFocus;
-      const picks = [MISTAKES_TOPIC, ...(focus ? [focusTopic(focus)] : []), ...topicIdeas().slice(0, 5)];
+      const picks = [MISTAKES_TOPIC, ...(focus ? [focusTopic(focus)] : []), ...topicIdeas(focus ? 4 : 5)];
       notice.replaceChildren(h('div.vc-start.voice-topics',
         txGroup('Тема — за бажанням', [h('p.tu-note', 'Торкніться теми — або просто почніть, і вчитель запропонує сам.'),
-          txGrid(picks.map(t => tx({ icon: topicIcon(t), label: t.label, cls: 'vc-topic', onclick: () => begin(t) })))]),
+          txGrid(picks.map(t => tx({ icon: topicIcon(t), label: t.label, sub: t.sub, cls: 'vc-topic', onclick: () => begin(t) })))]),
         tip));
     } else notice.replaceChildren(h('div.vc-start', tip));
   });
@@ -358,10 +375,10 @@ export async function voiceSession(view, opts = {}) {
     started = Date.now();
     setState('Слухаю…');
     // вчитель починає першим; тему з чипа передаємо тут (у токені її немає)
-    const safeTopic = chipTopic ? chipTopic.replace(/[()]/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 300).replace(/[.!?;,\s]+$/, '') : '';
+    const safeTopic = chipTopic ? chipTopic.replace(/[()]/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 600).replace(/[.!?;,\s]+$/, '') : '';
     live.sendText(scenario ? '(Start the role-play now with your first line.)'
-      : safeTopic ? `(The student is ready. Session topic from the app: ${safeTopic}. Greet them briefly and start on this topic.)`
-        : '(The student is ready. Greet them briefly and start the conversation.)');
+      : safeTopic ? `(The student is ready. Session topic from the app: ${safeTopic}. Greet them in one short line — no recap of earlier sessions — and open with this topic.)`
+        : '(The student is ready. Greet them briefly and start the conversation with a fresh topic — not one from recent sessions.)');
     // мікрофон іде в Live лише тепер — після тапу і готового з'єднання
     audio.addEventListener('pcm', e => { live?.sendAudio(e.detail); onPcm(e.detail, e.rms ?? lastRms); });
   } catch (e) {

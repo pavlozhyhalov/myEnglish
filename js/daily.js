@@ -8,6 +8,7 @@ import { RULES, ruleLabel } from './rules.js';
 import { weeklyFocus, focusProgress } from './focus.js';
 import { user } from './supa.js';
 import { plural } from './strings.js';
+import { loadTopics, topicLog, factAllowed, defaultPick, pickById, pickParam } from './topics.js';
 
 const KEY = 'me:daily';
 export const WORDS_MAX = 12;
@@ -107,24 +108,44 @@ export function factDate(text, at) {
 }
 
 /**
- * Тема розмови на сьогодні:
- * 1) подія з пам'яті вчителя з датою в межах ±7 днів (найновіший факт); 2) порада після минулої розмови;
- * 3) найчастіше відкрите правило з «Моїх помилок»; 4) «Мій день».
+ * Тема розмови на сьогодні (2026-11-14, власник: «щоб вчитель не говорив постійно на одні й ті самі теми»):
+ * 1) подія з пам'яті вчителя з датою в межах ±7 днів — лише якщо за 7 днів розмова ще не починалась з пам'яті,
+ *    минула розмова — не з пам'яті, і цей факт ще не брали (або подія вже минула — тоді один раз «як усе пройшло»);
+ * 2) свіжа тема з банку (js/topics.js): рівень, інтереси, цілі, без тем останніх 5 розмов, формат чергується;
+ *    правила тижня й порада з минулого разу сервер і так вплітає в кожну розмову (focusBlock, TODAY'S FOCUS);
+ * 3) без банку (офлайн, збій) — як раніше: порада → найчастіше правило → «Мій день».
+ * frozen — тема, вже обрана сьогодні ({ mem } або { id, fmt }): план перебудовується часто, тема — ні.
  */
-export function voiceTopic(now = new Date()) {
+export function voiceTopic(now = new Date(), frozen = null) {
   const facts = [...(store.prof().memory?.facts || [])].filter(f => f?.text).sort((a, b) => String(b.at || '').localeCompare(String(a.at || '')));
   const today = noonOf(now);
+  const log = topicLog();
+  const eventTopic = (f, d) => {
+    const days = Math.round((d - today) / DAY_MS);
+    const when = days > 0 ? 'coming up soon' : days < 0 ? 'that happened recently' : 'happening today';
+    return {
+      kind: 'event', label: 'Подія з вашого життя', note: f.text, pick: { id: 'mem', mem: f.id || 'event', tags: ['memory'] },
+      topic: `An event in the student's life ${when} (from your memory): «${String(f.text).slice(0, 140)}». Ask about it naturally — plans, feelings, details — then let the conversation move on to related topics.`.slice(0, 300),
+    };
+  };
+  if (frozen?.mem) {
+    const f = facts.find(x => x.id === frozen.mem);
+    const d = f && factDate(f.text, f.at);
+    if (f && d) return eventTopic(f, d);
+  } else if (frozen?.id) {
+    const p = pickById(frozen.id, frozen.fmt);
+    if (p) return { kind: 'topic', label: `Тема: ${p.label}`, note: p.sub, topic: p.topic, pick: p };
+  }
   for (const f of facts) {
     const d = factDate(f.text, f.at);
     if (!d) continue;
     const days = Math.round((d - today) / DAY_MS);
     if (Math.abs(days) > 7) continue;
-    const when = days > 0 ? 'coming up soon' : days < 0 ? 'that happened recently' : 'happening today';
-    return {
-      kind: 'event', label: 'Подія з вашого життя', note: f.text,
-      topic: `An event in the student's life ${when} (from your memory): «${String(f.text).slice(0, 140)}». Ask about it naturally — plans, feelings, details — and keep the conversation going.`.slice(0, 300),
-    };
+    if (!factAllowed(log, f.id || 'event', d, now)) continue;
+    return eventTopic(f, d);
   }
+  const p = safe(() => defaultPick({ seed: `${stats.today()}:${log.length}` }));
+  if (p) return { kind: 'topic', label: `Тема: ${p.label}`, note: p.sub, topic: p.topic, pick: p };
   const focus = store.prof().lastFocus;
   if (focus) {
     return { kind: 'focus', label: 'Порада з минулої розмови', note: String(focus), topic: `Focus recommended after the last session (practise it naturally in conversation): ${focus}`.slice(0, 300) };
@@ -201,11 +222,13 @@ export async function buildPlan() {
   const talk = talkSecondsToday();
   const vDone = talk >= VOICE_SEC;
   const logged = !!user();
-  const t = voiceTopic();
+  await loadTopics();
+  const t = voiceTopic(new Date(), st.voicePick);
+  if (!st.voicePick && t.pick) st.voicePick = t.pick.mem ? { mem: t.pick.mem } : { id: t.pick.id, fmt: t.pick.fmt };
   steps.push({
     id: 'voice', icon: 'microphone', title: 'Розмова голосом',
     desc: vDone ? `Поговорили ${Math.round(talk / 60)} хв` : !logged ? 'Потрібен вхід: вчитель працює після входу в акаунт' : `${t.label}${t.note ? ` · ${shortTopic(t.note)}` : ''}`,
-    minutes: 6, href: logged ? `#/tutor?mode=voice&topic=${encodeURIComponent(t.topic.slice(0, 300))}&label=${encodeURIComponent('Мій день')}` : '#/auth',
+    minutes: 6, href: logged ? `#/tutor?mode=voice&topic=${encodeURIComponent(t.topic.slice(0, 600))}&label=${encodeURIComponent('Мій день')}${t.pick ? `&pick=${encodeURIComponent(pickParam(t.pick))}` : ''}` : '#/auth',
     done: vDone, progress: vDone ? 1 : Math.min(1, talk / VOICE_SEC), skipped: !logged && !vDone, topic: t,
   });
 
@@ -225,6 +248,7 @@ export async function buildPlan() {
   // цілі дописуються до свіжого стану: «Почати», натиснуте під час побудови плану, не губиться
   const latest = readState();
   for (const [k, v] of Object.entries(st.targets)) freeze(latest, k, v);
+  if (st.voicePick && !latest.voicePick) latest.voicePick = st.voicePick;
   writeState(latest);
   const counted = steps.filter(s => !s.skipped && !s.bonus);
   const totalMin = counted.reduce((a, s) => a + s.minutes, 0);

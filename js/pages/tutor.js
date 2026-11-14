@@ -22,6 +22,7 @@ import { tx, txPrimary, txGrid, txGroup, txRows, txRow, txKpis, txPill, txDots, 
 import { savePhrases, guessSituation, hasPhrase, situation as phraseSit } from '../phrases.js';
 import { markUsedWords, MIN_CHATS } from '../usage.js';
 import { redoItems, redoSub, redoPage } from '../redo.js';
+import { loadTopics, topicChips, defaultPick, logTopic, parsePickParam, pickById } from '../topics.js';
 
 export const MODES = [
   { id: 'chat', emoji: 'speech', icon: 'chat-circle-dots', title: 'Вільна розмова', desc: 'Текстом, на будь-яку тему' },
@@ -73,11 +74,11 @@ export default async function tutorPage(view, r) {
   }
   if (q.mode === 'voice') {
     const { voiceSession } = await import('../live/voice.js');
-    return voiceSession(view, { scenario: q.scenario, topic: q.topic, label: q.label, mission });
+    return voiceSession(view, { scenario: q.scenario, topic: q.topic, label: q.label, pick: q.pick, mission });
   }
   if (q.chat) return openChat(view, q.chat);
   if (q.mode === 'check') return checkMode(view, q);
-  if (q.mode || q.ask || q.scenario) return chat(view, { mode: q.mode || (q.scenario ? 'scenario' : 'chat'), scenario: q.scenario, type: q.type, ask: q.ask, topic: q.topic, section: q.section, mission });
+  if (q.mode || q.ask || q.scenario) return chat(view, { mode: q.mode || (q.scenario ? 'scenario' : 'chat'), scenario: q.scenario, type: q.type, ask: q.ask, topic: q.topic, pick: q.pick, section: q.section, mission });
   return overview(view);
 }
 
@@ -441,26 +442,38 @@ function askInChat(word) {
 export const MISTAKES_TOPIC = { label: 'Мої помилки', topic: 'Work on the student\'s own mistakes: name 2 of their most frequent recent mistakes (wrong → right), then keep a natural conversation that makes them use the correct forms; notice when they get it right.' };
 export const focusTopic = (focus) => ({ label: 'Порада вчителя', topic: `Focus recommended after the last session (practise it naturally in conversation): ${focus}`.slice(0, 300) });
 
-/** Ідеї тем для старту: інтереси з профілю + побутові теми */
-export function topicIdeas() {
+/**
+ * Ідеї тем для старту (плитки «Про що поговоримо?» у чаті й голосі): свіжі теми з банку (js/topics.js — рівень, інтереси,
+ * цілі, без тем останніх розмов, формат чергується) + одна з інтересів профілю. Банк має бути завантажений (loadTopics);
+ * без нього — короткий запасний набір.
+ */
+export function topicIdeas(n = 6) {
+  const chips = topicChips(n);
+  if (chips.length) return chips;
   const st = store.settings();
-  const mine = String(about().interests || '').split(/[,;\n/]|\s+(?:і|й|та|and)\s+/).map(x => x.replace(/[.!]+$/, '').trim()).filter(x => x.length >= 2 && x.length <= 40).slice(0, 4)
-    .map(x => ({ label: x.charAt(0).toUpperCase() + x.slice(1), topic: `One of the student's interests: «${x}». Talk with them about it.` }));
-  const base = [
+  return [
     { label: 'Мій день', topic: 'The student\'s day: what they did today and their plans for tomorrow.' },
     { label: 'Вихідні', topic: 'Weekends: how the student usually spends them and their plans for the next one.' },
     { label: 'Подорожі', topic: 'Travel: places the student has been to or would like to visit.' },
     { label: 'Їжа й готування', topic: 'Food and cooking: favourite dishes, eating out, cooking at home.' },
     { label: 'Фільми й серіали', topic: 'Films and TV series the student has watched recently or likes.' },
     st.workFocus ? { label: 'Робота', topic: 'The student\'s work: their tasks, colleagues and a typical working day.' } : null,
-  ].filter(Boolean);
-  const seen = new Set();
-  return [...mine, ...base].filter(t => { const k = t.label.toLowerCase(); if (seen.has(k)) return false; seen.add(k); return true; }).slice(0, 8);
+  ].filter(Boolean).slice(0, n);
+}
+
+/** Запис теми, з якої почалась розмова, у журнал тем (profiles.data.topicLog); підсумок потім уточнить запис */
+export function noteTopicStart(row, t, mode) {
+  if (!t) return;
+  row.meta = row.meta || {};
+  row.meta.tkey ||= store.uid();
+  const pick = { id: t.id || (t === MISTAKES_TOPIC ? 'mistakes' : t.label === 'Порада вчителя' ? 'focus' : null), fmt: t.fmt || null, mem: t.mem || null, tags: t.tags || null, en: t.en || null };
+  row.meta.pick = pick;
+  logTopic({ key: row.meta.tkey, id: pick.id, topic: t.en || t.label, tags: t.tags, mode, fmt: t.fmt, mem: t.mem });
 }
 
 /** Іконка теми розмови (плитки «Про що поговоримо?» у чаті й голосі) */
 const TOPIC_ICON = { 'Мої помилки': 'warning-circle', 'Порада вчителя': 'target', 'Мій день': 'sun', 'Вихідні': 'calendar-blank', 'Подорожі': 'airplane-tilt', 'Їжа й готування': 'fork-knife', 'Фільми й серіали': 'play', 'Робота': 'briefcase' };
-export const topicIcon = (t) => TOPIC_ICON[t?.label] || 'heart';
+export const topicIcon = (t) => t?.icon || TOPIC_ICON[t?.label] || 'heart';
 
 // ---------- Текстовий чат ----------
 async function chat(view, opts) {
@@ -479,6 +492,13 @@ async function chat(view, opts) {
   }
   const title = scenario ? scenario.title : opts.mode === 'drill' ? `Тренування: ${typeLabel || 'слабке місце'}` : opts.mode === 'explain' ? 'Поясни' : opts.ask ? `Слово: ${opts.ask}` : 'Вільна розмова';
   const row = { mode: opts.mode, scenario: opts.scenario || null, title, messages: [], summary: null, seconds: 0, meta: { type: opts.type || null, topic: opts.topic || null } };
+  if (row.mode === 'chat') await loadTopics();
+  // тема з адреси (план дня, «Порада вчителя»): у журнал тем — щоб наступні розмови її не повторювали
+  if (row.mode === 'chat' && opts.topic) {
+    const pp = parsePickParam(opts.pick);
+    const known = pp?.id && pp.id !== 'mem' ? pickById(pp.id, pp.fmt) : null;
+    noteTopicStart(row, known ? { ...known, topic: opts.topic } : { ...(pp || {}), label: title, topic: opts.topic }, 'chat');
+  }
   return chatUI(view, row, { scenario, ask: opts.ask, topic: opts.topic });
 }
 
@@ -891,6 +911,9 @@ function chatUI(view, row, { scenario, ask, topic, resumed } = {}) {
 
   // ---------- старт ----------
   function begin(t) {
+    // «Нехай вчитель почне» — теж свіжа тема з банку (а не щоразу «привіт + те, що пам'ятаю»)
+    if (!t && row.mode === 'chat') t = defaultPick();
+    if (t && row.mode === 'chat') noteTopicStart(row, t, 'chat');
     if (t) {
       topic = t.topic; row.meta.topic = t.topic; row.meta.topicLabel = t.label;
       row.title = `Розмова: ${t.label}`; setTitle(row.title);
@@ -902,9 +925,9 @@ function chatUI(view, row, { scenario, ask, topic, resumed } = {}) {
     const prev = store.all('tutor_chats').filter(c => c.mode === 'chat' && c.messages?.some(m => m.role === 'user' && !m.hidden))
       .sort((a, b) => String(b.updated_at || b.created_at).localeCompare(String(a.updated_at || a.created_at)))[0];
     const focus = store.prof().lastFocus;
-    const ideas = topicIdeas();
+    const ideas = topicIdeas(5);
     return h('div.stack-lg.tutor-start.tu-start',
-      txGroup('Про що поговоримо?', txGrid([MISTAKES_TOPIC, ...ideas].map(t => tx({ icon: topicIcon(t), label: t.label, cls: 'tu-topic', onclick: () => begin(t) })))),
+      txGroup('Про що поговоримо?', txGrid([MISTAKES_TOPIC, ...ideas].map(t => tx({ icon: topicIcon(t), label: t.label, sub: t.sub, cls: 'tu-topic', onclick: () => begin(t) })))),
       focus ? txGroup('Порада з минулого разу', tx({ icon: 'target', label: focus, wide: true, cls: 'start-focus', onclick: () => begin(focusTopic(focus)) })) : null,
       txPrimary({ icon: 'sparkle', label: 'Нехай вчитель почне', sub: 'Або просто напишіть перше повідомлення внизу', onclick: () => begin(null) }),
       prev ? txRows([txRow({ icon: 'arrow-clockwise', label: 'Продовжити минулу розмову', sub: `${prev.title || 'Розмова'} · ${fmtDay(prev.updated_at || prev.created_at)}`, href: `#/tutor?chat=${encodeURIComponent(prev.id)}`, cls: 'start-prev' })]) : null);
@@ -987,6 +1010,12 @@ export async function summarize(view, row, { voice = false, pronTurns = null } =
     if (used.length) { row.summary.used_known = [...(row.summary.used_known || []), ...used.map(u => ({ id: u.id, en: u.en, uk: u.uk }))]; store.put('tutor_chats', row); }
     for (const m of res.mistakes || []) if (!before.has(mkey(m))) addMistake({ ...m, source: 'tutor', ref: row.id });
     store.setProf({ lastFocus: res.next_focus || null });
+    // журнал тем: про що була розмова (тема й категорії — з підсумку), чи почалась вона з пам'яті вчителя
+    if ((row.mode === 'chat' || row.mode === 'voice') && !row.scenario && !row.meta?.mission) {
+      const pick = row.meta?.pick || {};
+      logTopic({ key: row.meta?.tkey || row.id, id: pick.id, topic: res.topic || pick.en || row.meta?.topicLabel || row.title, tags: Array.isArray(res.topic_tags) && res.topic_tags.length ? res.topic_tags : pick.tags,
+        mode: row.mode, fmt: pick.fmt, mem: pick.mem || (res.opened_with_memory === true ? 'opener' : null) });
+    }
     // новий сервер повертає й факти про учня з усієї розмови
     if (Array.isArray(res.memory) && res.memory.length) rememberFacts(res.memory);
   } catch (e) {
