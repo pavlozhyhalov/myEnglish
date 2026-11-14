@@ -148,3 +148,4 @@ body .sel-pop-more::after{inset:-2px}
 .auth-card{border-radius:var(--r-tile)}
 .auth-card .input,.adm-card .input{border-radius:var(--r-row)}
 .adm-card{border-radius:var(--r-tile)}
+.set-admin:empty{display:none}

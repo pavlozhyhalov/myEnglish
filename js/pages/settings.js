@@ -60,13 +60,15 @@ export default function settings(view) {
     ]),
     txGroup('Службове', [
       txRows([txRow({ icon: 'flask', label: 'Лабораторія Live', sub: 'Діагностика голосу', href: '#/lab/live' })]),
-      ((slot) => { if (user()) import('./admin.js').then(m => m.adminLink(slot)).catch(() => {}); return slot; })(h('div.tx-rows')),
       h('p.xs.dim.center.set-build', `myEnglish · збірка ${BUILD}`)]));
   const moreRow = txRow({ icon: 'gear-six', label: 'Ще', sub: 'Автоматика, панель, озвучення, дані', chevron: false, cls: 'set-more-row',
     end: ic('caret-down', { size: 16 }), attrs: { 'aria-expanded': 'false', 'aria-controls': 'set-more' },
     onclick: () => { more.hidden = !more.hidden; moreRow.setAttribute('aria-expanded', String(!more.hidden)); } });
 
+  // «Адміністрування» — першим рядком, лише для адміністратора (порожній слот для всіх інших)
+  const adminSlot = ((slot) => { if (user()) import('./admin.js').then(m => m.adminLink(slot)).catch(() => {}); return slot; })(h('div.tx-rows.set-admin'));
   view.replaceChildren(h('div.stack-lg.pp-set',
+    adminSlot,
     group('Навчання', [
       levelPicker(),
       range('dailyGoal', 5, 60, 5, v => `${v} хв на день`, 'target', 'Денна мета'),
