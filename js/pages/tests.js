@@ -555,7 +555,7 @@ async function placementTest(view, { quick = false, from = '' } = {}) {
     ];
     const skipped = [
       run.noSound ? 'аудіювання пропущено (немає звуку)' : null,
-      bankSkills.includes('listening') && !run.skills.includes('listening') ? 'аудіювання — немає озвучення в цьому браузері' : null,
+      !quick && bankSkills.includes('listening') && !run.skills.includes('listening') ? 'аудіювання — немає озвучення в цьому браузері' : null,
       quick ? null : !wr?.level ? (run.writing?.skipped === 'offline' ? 'письмо — немає з\'єднання' : run.writing?.skipped ? 'письмо пропущено' : wr ? 'письмо не оцінено' : user() ? null : 'письмо й розмова — після входу') : null,
       run.speaking?.skipped ? (run.speaking.skipped === 'offline' ? 'розмова — немає з\'єднання' : run.speaking.skipped === 'no_mic' ? 'розмова недоступна' : run.speaking.skipped === 'failed' ? 'розмову не вдалося оцінити' : 'розмову пропущено') : null,
     ].filter(Boolean);

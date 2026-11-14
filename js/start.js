@@ -224,12 +224,15 @@ export async function startPlan() {
     sub = 'Підсумок і що далі';
     steps = [{ id: 'summary', title: 'Підсумок', icon: 'trophy', href: '#/progress', minutes: 1, done: !!s.done?.[7] }];
   }
+  // розмова й сценарій — після входу: без акаунта крок веде на вхід, а головною дією стає те, що можна зробити зараз
+  const { user } = await import('./supa.js');
+  if (!user()) for (const x of steps) if (!x.done && ['talk', 'scenario'].includes(x.id)) Object.assign(x, { login: true, href: '#/auth?tab=up' });
   const allDone = steps.every(x => x.done);
   if (allDone && n < 7) markDay(n);
   const done = { ...(store.prof().start?.done || {}) };
   return {
     day: n, title, sub, steps, done: allDone,
-    next: steps.find(x => !x.done) || null,
+    next: steps.find(x => !x.done && !x.login) || steps.find(x => !x.done) || null,
     days: Array.from({ length: 7 }, (_, i) => !!done[i + 1]),
     totals: n === 7 ? startTotals(from) : null,
   };

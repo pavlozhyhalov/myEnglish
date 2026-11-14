@@ -180,31 +180,34 @@ function heroContent(plan, sec, st) {
 /** Вміст картки «Старт · день N з 7»: крапки семи днів, заголовок дня, 1–2 кроки, одна головна кнопка */
 function startContent(sp, rerender) {
   const top = h('div.st-top',
-    h('a.label.hm-label', { href: '#/today' }, `Старт · день ${sp.day} з 7`),
+    h('a.label.hm-label', { href: '#/today', 'aria-label': `Старт, день ${sp.day} з 7` }, `Старт · день ${sp.day}`),
     h('span.st-days', { role: 'img', 'aria-label': `Виконано днів: ${sp.days.filter(Boolean).length} з 7` },
       sp.days.map((d, i) => h('i' + (d ? '.on' : '') + (i + 1 === sp.day ? '.today' : ''), d ? ic('check', { size: 12 }) : null))));
   const head = h('div', h('h2.st-title', sp.title), sp.sub ? h('p.st-sub', sp.sub) : null);
   const stepEl = (s) => {
     const state = s.done ? 'done' : s === sp.next ? 'next' : 'later';
-    const meta = s.done ? 'готово' : s.minutes ? `${s.minutes} хв` : 'один дотик';
+    const meta = s.done ? 'готово' : s.login ? 'після входу' : s.minutes ? `${s.minutes} хв` : 'один дотик';
     const attrs = { 'aria-label': `${s.title}: ${s.done ? 'готово' : meta}`, 'aria-current': state === 'next' ? 'step' : null };
-    const kids = [h('span.hm-st-ico', ic(s.done ? 'check' : s.icon, { size: 16, fill: state === 'next' })), h('span.hm-st-t', s.title), h('span.hm-st-m', meta)];
+    const kids = [h('span.hm-st-ico', ic(s.done ? 'check' : s.login ? 'user' : s.icon, { size: 16, fill: state === 'next' })), h('span.hm-st-t', s.title), h('span.hm-st-m', meta)];
     const act = actionFor(s, rerender);
     return act.href ? h('a.hm-st.' + state, { href: act.href, ...attrs }, kids) : h('button.hm-st.' + state, { type: 'button', onclick: act.onclick, ...attrs }, kids);
   };
   const steps = sp.steps.length > 1 ? h('div.hm-steps', { style: { gridTemplateColumns: `repeat(${sp.steps.length},minmax(0,1fr))` } }, sp.steps.map(stepEl)) : null;
-  const kpis = sp.totals ? h('div.st-kpis',
+  const kpis = sp.totals && (sp.totals.minutes || sp.totals.words || sp.totals.talks) ? h('div.st-kpis',
     [[sp.totals.minutes, 'хвилин'], [sp.totals.words, plural(sp.totals.words, 'нове слово', 'нові слова', 'нових слів')], [sp.totals.talks, plural(sp.totals.talks, 'розмова', 'розмови', 'розмов')]]
-      .map(([n, l]) => h('div.st-kpi', h('b', String(n)), h('span', l)))) : null;
+      .filter(([n]) => n > 0).map(([n, l]) => h('div.st-kpi', h('b', String(n)), h('span', l)))) : null;   // без нулів
   let btn;
   if (sp.day === 7) btn = h('button.btn.start.block.hm-start', { type: 'button', onclick: () => { finishStart(); toast('Старт пройдено! Далі — звичайний план дня'); rerender(); } }, ic('seal-check', { size: 20, fill: true }), 'Завершити старт');
   else if (sp.next) {
     const act = actionFor(sp.next, rerender);
-    const label = [ic(sp.next.icon === 'microphone' ? 'microphone' : 'play', { fill: true, size: 18 }), sp.next.id === 'remind' ? 'Увімкнути нагадування' : `${sp.next.title}${sp.next.minutes ? ` · ${sp.next.minutes} хв` : ''}`];
+    const label = sp.next.login ? [ic('key', { size: 18 }), 'Увійти, щоб поговорити з вчителем']
+      : [ic(sp.next.icon === 'microphone' ? 'microphone' : 'play', { fill: true, size: 18 }), sp.next.id === 'remind' ? 'Увімкнути нагадування' : `${sp.next.title}${sp.next.minutes ? ` · ${sp.next.minutes} хв` : ''}`];
     btn = act.href ? h('a.btn.start.block.hm-start', { href: act.href }, label) : h('button.btn.start.block.hm-start', { type: 'button', onclick: act.onclick }, label);
   } else btn = h('a.btn.start.block.hm-start', { href: '#/today' }, ic('seal-check', { size: 20, fill: true }), 'День виконано · ще план дня');
-  const plan = sp.next || sp.day === 7 ? h('a.st-plan', { href: '#/today' }, ic('sun-horizon', { size: 14 }), 'Звичайний план дня') : null;
-  return [top, head, kpis, steps, btn, plan].filter(Boolean);
+  // без входу — один тихий рядок входу (як у «Сьогодні»), інакше — посилання на звичайний план дня
+  const login = sp.next && !sp.next.login && sp.steps.some(x => x.login) ? h('a.hm-login', { href: '#/auth?tab=up' }, ic('key', { size: 14 }), 'Увійдіть — і вчитель поговорить з вами голосом') : null;
+  const plan = !login && (sp.next || sp.day === 7) ? h('a.st-plan', { href: '#/today' }, ic('sun-horizon', { size: 14 }), 'Звичайний план дня') : null;
+  return [top, head, kpis, steps, btn, login, plan].filter(Boolean);
 }
 
 /** Дія кроку «Старту»: нагадування вмикаються одним дотиком, решта — перехід */
