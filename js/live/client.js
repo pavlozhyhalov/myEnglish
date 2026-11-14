@@ -242,16 +242,20 @@ export class AudioIO extends EventTarget {
    */
   prepare() {
     const AC = window.AudioContext || window.webkitAudioContext;
+    // вбудований браузер месенджера / незахищена сторінка: без getUserMedia чи AudioContext — зрозуміла помилка замість «кнопка нічого не робить»
+    const noMic = () => Promise.reject(Object.assign(new Error('mic unavailable'), { name: 'NotAllowedError' }));
+    if (!AC || !navigator.mediaDevices?.getUserMedia) { this.streamPromise = noMic(); this.streamPromise.catch(() => {}); return this; }
     this.inCtx = new AC();
     this.outCtx = new AC();
     this.inCtx.resume().catch(() => {});
     this.outCtx.resume().catch(() => {});
     // мікрофон теж запитуємо одразу в жесті
     this.streamPromise = navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: true, noiseSuppression: true, autoGainControl: true, channelCount: 1 } });
+    this.streamPromise.catch(() => {});   // помилку обробляє start(); без цього — «unhandled rejection», якщо start() не встигне
     return this;
   }
   async start() {
-    if (!this.inCtx) this.prepare();
+    if (!this.inCtx && !this.streamPromise) this.prepare();
     try {
       this.stream = await this.streamPromise;
     } catch (e) {

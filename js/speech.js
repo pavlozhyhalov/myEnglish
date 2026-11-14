@@ -83,7 +83,20 @@ async function playGemini(text, voice, rate) {
 
 // ---------- Розпізнавання ----------
 const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-export const canRecognize = () => !!SR;
+// Розпізнавання браузера є, але не працює (Samsung Internet, Brave, деякі Android без служби Google): після першого такого збою —
+// на цьому пристрої до перезапуску використовується запис + розпізнавання вчителем (Gemini)
+let srBroken = false;
+try { srBroken = sessionStorage.getItem('me:sr-broken') === '1'; } catch { /* */ }
+export const canRecognize = () => !!SR && !srBroken;
+const SR_BROKEN = ['network', 'service-not-allowed', 'language-not-supported', 'bad-grammar'];
+/** Чи може сторінка взагалі отримати мікрофон (безпечний контекст + getUserMedia; у вбудованих браузерах месенджерів часто немає) */
+export const micAvailable = () => !!(window.isSecureContext !== false && navigator.mediaDevices?.getUserMedia);
+const micError = () => Object.assign(new Error('mic unsupported'), { code: 'mic', name: 'NotAllowedError' });   // S.err.mic сам пояснює, що робити (вбудований браузер, Android, iPhone)
+async function getMic(constraints = { audio: true }) {
+  if (!micAvailable()) throw micError();
+  try { return await navigator.mediaDevices.getUserMedia(constraints); }
+  catch (e) { throw Object.assign(e, { code: e?.name === 'NotFoundError' ? 'mic_missing' : e?.name === 'NotAllowedError' || e?.name === 'SecurityError' ? 'mic' : e?.code }); }
+}
 
 /**
  * Розпізнати одну фразу англійською. onInterim(text) — проміжний результат.
@@ -107,12 +120,24 @@ export function recognize({ onInterim, lang, signal } = {}) {
       }
       onInterim?.(final?.text || interim);
     };
+    let settled = false;
     r.onerror = (e) => {
-      const code = e.error === 'not-allowed' || e.error === 'service-not-allowed' ? 'mic' : e.error;
-      if (code === 'no-speech' || code === 'aborted') resolve(final || { text: interim.trim(), alternatives: [], confidence: 0 });
-      else reject(Object.assign(new Error(e.error), { code }));
+      const code = e.error === 'not-allowed' ? 'mic' : e.error;
+      if (code === 'no-speech' || code === 'aborted') return resolve(final || { text: interim.trim(), alternatives: [], confidence: 0 });
+      // служба розпізнавання браузера недоступна (не мікрофон) → запам'ятати й записати фразу для розпізнавання вчителем
+      if (SR_BROKEN.includes(e.error) && navigator.onLine !== false) {
+        srBroken = true;
+        try { sessionStorage.setItem('me:sr-broken', '1'); } catch { /* */ }
+        if (canRecord() && user() && !signal?.aborted) {
+          settled = true;
+          onInterim?.('Слухаю…');
+          return recordAndTranscribe({ maxMs: 12000, signal }).then(resolve, reject);
+        }
+        return reject(Object.assign(new Error('unsupported'), { code: 'unsupported' }));
+      }
+      reject(Object.assign(new Error(e.error), { code }));
     };
-    r.onend = () => resolve(final || { text: interim.trim(), alternatives: [], confidence: 0 });
+    r.onend = () => { if (!settled) setTimeout(() => { if (!settled) resolve(final || { text: interim.trim(), alternatives: [], confidence: 0 }); }, 0); };
     signal?.addEventListener('abort', () => r.stop());
     try { r.start(); } catch (e) { reject(e); }
   });
@@ -123,7 +148,7 @@ export function recognize({ onInterim, lang, signal } = {}) {
  * context — необов'язково: { tutor: остання репліка вчителя } — допомагає точніше розпізнати відповідь учня.
  */
 export async function recordAndTranscribe({ maxMs = 15000, signal, context = null } = {}) {
-  const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+  const stream = await getMic();
   const mime = MediaRecorder.isTypeSupported('audio/webm') ? 'audio/webm' : (MediaRecorder.isTypeSupported('audio/mp4') ? 'audio/mp4' : '');
   const rec = new MediaRecorder(stream, mime ? { mimeType: mime } : undefined);
   const chunks = [];
@@ -154,14 +179,14 @@ export function tutorContext(text) {
 }
 
 /** Чи можна записати аудіо (MediaRecorder + мікрофон) — для AI-оцінки вимови */
-export const canRecord = () => typeof MediaRecorder !== 'undefined' && !!navigator.mediaDevices?.getUserMedia;
+export const canRecord = () => typeof MediaRecorder !== 'undefined' && micAvailable();
 
 /**
  * Записати аудіо без розпізнавання: до maxMs або до abort через signal.
  * onStart() — мікрофон увімкнено. Повертає { audio (base64), mime, ms }.
  */
 export async function recordAudio({ maxMs = 12000, signal, onStart } = {}) {
-  const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+  const stream = await getMic();
   const mime = MediaRecorder.isTypeSupported('audio/webm') ? 'audio/webm' : (MediaRecorder.isTypeSupported('audio/mp4') ? 'audio/mp4' : '');
   const release = () => stream.getTracks().forEach(tr => tr.stop());
   let rec;
