@@ -117,3 +117,4 @@ button.tx-sq.vw-sh-say:active{transform:scale(.94)}
 .ex-diff{margin-top:6px;line-height:1.7}
 .ex-dw.del{text-decoration:line-through;text-decoration-thickness:2px;color:var(--bad)}
 .ex-dw.add{color:var(--good);font-weight:600;background:color-mix(in srgb,var(--good) 12%,transparent);border-radius:6px;padding:0 4px}
+.ex-remove{align-self:flex-start;gap:6px}

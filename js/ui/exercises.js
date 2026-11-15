@@ -156,7 +156,7 @@ export function promptText(ex) {
 }
 export function answerText(ex) {
   if (ex.type === 'choice') return typeof ex.answer === 'number' ? ex.options[ex.answer] : ex.answer;
-  if (ex.type === 'error') return `${ex.sentence.split(/\s+/)[ex.wrongIndex]} → ${ex.correction}`;
+  if (ex.type === 'error') return `${ex.sentence.split(/\s+/)[ex.wrongIndex]} → ${ex.correction ? ex.correction : 'прибрати (зайве слово)'}`;
   if (ex._closest) return ex._closest;   // правильний варіант, найближчий до відповіді учня
   const a = ex.answer;
   return Array.isArray(a) ? a[0] : a;
@@ -258,33 +258,50 @@ export function render(ex, report, next) {
 
   if (ex.type === 'error') {
     const words = ex.sentence.split(/\s+/);
+    // старі вправи, де зайве слово записане як «the → work» (сусіднє слово): це видалення
+    const wclean = (w) => normalize(w).replace(/[^\p{L}\p{N}']/gu, '');
+    if (ex.correction && [words[ex.wrongIndex - 1], words[ex.wrongIndex + 1]].filter(Boolean).map(wclean).includes(wclean(ex.correction))) { ex.correction = ''; ex.alt = []; }
     let picked = null;
     const fix = h('input.input', { type: 'text', placeholder: 'Як правильно?', 'aria-label': 'Виправлення', hidden: true, autocomplete: 'off', autocapitalize: 'off' });
     const wrap = h('div.chips.ex-words', words.map((w, k) => h('button.chip', { type: 'button', onclick: (e) => {
       if (reported) return;
       wrap.querySelectorAll('.chip').forEach(c => c.classList.remove('on'));
-      e.currentTarget.classList.add('on'); picked = k; fix.hidden = false; fix.focus();
+      e.currentTarget.classList.add('on'); picked = k; fix.hidden = false; removeBtn.hidden = false; fix.focus();
     } }, w)));
+    // «Слово зайве»: виправлення — прибрати слово (2026-11-15, «go to the work» → «go to work» не зараховувалось)
+    let removing = false;
+    const removeBtn = h('button.btn.ghost.sm.ex-remove', { type: 'button', hidden: true, onclick: () => {
+      if (reported || picked == null) return;
+      removing = true; fix.value = ''; checkBtn.click();
+    } }, ic('trash', { size: 16 }), 'Це слово зайве');
+    const replaced = (k, f) => (String(f).trim() ? words.map((w, i) => (i === k ? String(f).trim() : w)) : words.filter((_, i) => i !== k)).join(' ');
     const checkBtn = h('button.btn.primary.block', { type: 'button', onclick: () => {
       if (reported || picked == null) return;
-      if (!fix.value.trim()) { fix.focus(); fix.placeholder = 'Напишіть, як правильно'; return; }
+      const val = removing ? '' : fix.value.trim();
+      if (!removing && !val) { fix.focus(); fix.placeholder = 'Напишіть, як правильно (або «Це слово зайве»)'; return; }
       const okIdx = picked === ex.wrongIndex;
-      const fixes = [ex.correction, ...(ex.alt || [])];
+      const fixes = [ex.correction ?? '', ...(ex.alt || [])];
+      // правильні речення: заміна слова або (порожнє виправлення) його видалення
+      const goodSentences = fixes.map(f => sentKey(replaced(ex.wrongIndex, f)));
+      // учень міг написати все виправлене речення замість одного слова
+      const wholeSentence = val && val.split(/\s+/).length >= Math.max(3, words.length - 2);
+      const mine = wholeSentence ? val : replaced(picked, val);
       // приймаємо й виправлення разом із сусіднім словом: «we'll stay», «I'll tell»
       const prev = words[ex.wrongIndex - 1] || '';
-      const okFix = matches(fix.value, fixes) || (!!prev && matches(fix.value, fixes.map(f => `${prev} ${f}`)));
-      // інше слово, але виправлене речення те саме (2026-11-10: «I → I'm» = «going → am going»): порівнюємо цілі речення, скорочення = повні форми
-      const mine = words.map((w, k) => (k === picked ? fix.value.trim() : w)).join(' ');
-      const sameSentence = fixes.some(f => sentKey(words.map((w, k) => (k === ex.wrongIndex ? f : w)).join(' ')) === sentKey(mine));
+      const okFix = removing ? !String(ex.correction ?? '').trim() : (matches(val, fixes.filter(f => String(f).trim())) || (!!prev && matches(val, fixes.filter(f => String(f).trim()).map(f => `${prev} ${f}`))));
+      // інше слово чи ціле речення, але виправлене речення те саме: порівнюємо цілі речення, скорочення = повні форми
+      const sameSentence = goodSentences.includes(sentKey(mine));
       const ok = (okIdx && okFix) || sameSentence;
-      done(ok, `${words[picked]} → ${fix.value.trim()}`);
+      done(ok, wholeSentence ? val : `${words[picked]} → ${removing ? 'прибрати' : val}`,
+        ok ? null : wordDiff(mine, replaced(ex.wrongIndex, ex.correction ?? '')));
+      removeBtn.hidden = true;
       wrap.querySelectorAll('.chip').forEach(c => c.classList.remove('on'));
       if (!ok) wrap.children[picked]?.classList.add('wrong');
       wrap.children[ex.wrongIndex]?.classList.add('right');
       checkBtn.hidden = true;
     } }, 'Перевірити');
     fix.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); reported ? next() : checkBtn.click(); } });
-    return h('div.stack', instr('Торкніться слова з помилкою й напишіть, як правильно'), wrap, fix, checkBtn, fb, nextBtn);
+    return h('div.stack', instr('Торкніться слова з помилкою й напишіть, як правильно (або позначте його як зайве)'), wrap, fix, removeBtn, checkBtn, fb, nextBtn);
   }
 
   if (ex.type === 'translate') {

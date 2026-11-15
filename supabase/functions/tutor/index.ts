@@ -299,9 +299,14 @@ export function cleanExercises(list: any[]) {
       const target = clean(e.wrong_word || '');
       const hits = words.map((w: string, k: number) => (clean(w) === target ? k : -1)).filter((k: number) => k >= 0);
       // слово має бути одне і траплятися в реченні рівно раз — інакше незрозуміло, яке позначати
-      if (!target || /\s/.test(String(e.wrong_word).trim()) || hits.length !== 1 || !e.answer) continue;
+      if (!target || /\s/.test(String(e.wrong_word).trim()) || hits.length !== 1) continue;
       const idx = hits[0];
-      out.push({ ...base, sentence, wrongIndex: idx, correction: e.answer, alt: e.alternatives || [] });
+      // зайве слово («go to the work»): answer порожній АБО модель записала сусіднє слово («the → work») — це видалення (correction = '')
+      const ans = String(e.answer ?? '').trim();
+      const near = [words[idx - 1], words[idx + 1]].filter(Boolean).map(clean);
+      const del = !ans || /^[-–—]$|^\(?(none|delete|remove|nothing)\)?$/i.test(ans) || near.includes(clean(ans));
+      if (!del && clean(ans) === target) continue;   // «виправлення» таке саме, як помилка
+      out.push({ ...base, sentence, wrongIndex: idx, correction: del ? '' : ans, alt: del ? [] : (e.alternatives || []).filter((x: string) => clean(String(x)) !== target) });
     } else if (e.type === 'translate') {
       const uk = e.uk || e.prompt;
       if (!uk || !alts.length) continue;
@@ -593,7 +598,7 @@ ${ex ? `Base several items on the student's real mistakes: ${ex}.
 - choice: prompt with exactly one "___"; 3–4 different options; EXACTLY ONE option is correct — the others must be clearly wrong in this sentence, not just less common; answer = that option copied character for character.
 - input: prompt with one "___", followed by a hint in brackets when needed (e.g. the base form: "She ___ (go) to work by bus."); answer = only the missing word(s); alternatives = other correct fillers.
 - order: answer = one correct sentence of 4–10 words without commas or other inner punctuation; prompt = its Ukrainian translation as a hint; alternatives = other correct word orders using the same words.
-- error: sentence with exactly ONE wrong word (a wrong form or wrong word — not a missing or extra word); wrong_word = that single word exactly as written, and it must occur only once in the sentence; answer = the correct replacement; alternatives = other correct replacements.
+- error: sentence with exactly ONE wrong word — a wrong form/word, or an EXTRA word that must be removed (e.g. "go to the work"); not a missing word; wrong_word = that single word exactly as written, and it must occur only once in the sentence; answer = the correct replacement, or "" (empty) when the word must simply be removed; alternatives = other correct replacements.
 - transform: prompt = the original sentence followed by the task in brackets in Ukrainian, e.g. "He plays tennis. (зробіть заперечення)"; answer = the full new sentence; alternatives = other correct versions.
 - translate: uk = a natural Ukrainian sentence; answer = a natural English translation; alternatives = 1–3 other correct translations.
 For every item: instruction = optional short instruction in Ukrainian; explanation = one short sentence in Ukrainian saying why the answer is right. The answer must be unambiguous; list every acceptable variant in alternatives (contractions are handled automatically). Each item must be self-contained and different from the others.`;
