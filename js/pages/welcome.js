@@ -7,7 +7,7 @@ import { user } from '../supa.js';
 import { toast } from '../ui/toast.js';
 import { setTitle, setFocus } from '../ui/shell.js';
 import { tx, txGrid, txRow, txRows } from '../ui/tiles.js';
-import { LEVELS, LEVEL_NAME, LEVEL_DESC, myLevel, setLevel } from '../level.js';
+import { LEVELS, LEVEL_NAME, LEVEL_DESC, myLevel, setLevel, lvLabel } from '../level.js';
 import { GOAL_OPTIONS, goalTags, saveGoals, markOnboarded, beginStart, firstTalkHref, hasActivity } from '../start.js';
 
 const FULL = ['name', 'goals', 'time', 'level', 'talk'];
@@ -128,17 +128,17 @@ export default function welcome(view, r) {
     const known = !!p.levelSource;
     const list = h('div.wl-levels', { hidden: true });
     const lv = myLevel();
-    list.append(txRows(LEVELS.map(l => txRow({ icon: null, no: l, label: LEVEL_NAME[l], sub: LEVEL_DESC[l], on: known && lv === l, cls: 'wl-lvl', chevron: false,
-      onclick: () => { setLevel(l, 'manual'); toast(`Рівень ${l}: план підлаштовано`); next(); } }))));
+    list.append(txRows(LEVELS.map(l => txRow({ icon: null, no: lvLabel(l), label: LEVEL_NAME[l], sub: LEVEL_DESC[l], on: known && lv === l, cls: 'wl-lvl', chevron: false,
+      onclick: () => { setLevel(l, 'manual'); toast(`Рівень ${lvLabel(l)}: план підлаштовано`); next(); } }))));
     const pick = tx({ wide: true, icon: 'list', label: 'Я знаю свій рівень', sub: 'A1–C1 · оберу сам', attrs: { 'aria-expanded': 'false' }, end: ic('caret-down', { size: 16 }), onclick: () => {
       list.hidden = !list.hidden; pick.setAttribute('aria-expanded', String(!list.hidden));
       if (!list.hidden) list.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
     } });
     return h('div.wl-form',
-      head('graduation-cap', 'Ваш рівень', known ? `Зараз: ${lv} · ${LEVEL_NAME[lv]}` : 'Від нього залежать уроки, слова й мова вчителя'),
+      head('graduation-cap', 'Ваш рівень', known ? `Зараз: ${lvLabel(lv)} · ${LEVEL_NAME[lv]}` : 'Від нього залежать уроки, слова й мова вчителя'),
       tx({ wide: true, primary: true, on: true, icon: 'lightning', label: quickDone ? 'Пройти швидкий тест ще раз' : 'Швидкий тест · ~10 хв', sub: 'Граматика, слова й читання', href: '#/tests/placement?quick=1&from=welcome' }),
       pick, list,
-      known ? h('button.btn.soft.block.wl-go', { type: 'button', onclick: next }, `Лишити ${lv}`, ic('arrow-right', { size: 18 })) : null);
+      known ? h('button.btn.soft.block.wl-go', { type: 'button', onclick: next }, `Лишити ${lvLabel(lv)}`, ic('arrow-right', { size: 18 })) : null);
   }
 
   // ---------- ґ) перша розмова ----------

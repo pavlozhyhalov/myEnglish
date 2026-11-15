@@ -7,7 +7,7 @@
 //   • Пропозиції за ціллю: goalPicks() — цілі з profiles.data.goalTags (або about.goals).
 import * as store from './store.js';
 import { today } from './stats.js';
-import { myLevel, nextLessonByLevel, filterByLevel, pickOfDay, byFit, LEVELS } from './level.js';
+import { myLevel, nextLessonByLevel, filterByLevel, pickOfDay, byFit, LEVELS, lvLabel } from './level.js';
 import { grammarIndex, scenarios as loadScenarios, json } from './data.js';
 
 // ---------- Цілі ----------
@@ -193,7 +193,7 @@ export async function startPlan() {
     const idx = await grammarIndex().catch(() => []);
     const l = nextLessonByLevel(idx);
     title = 'Перший урок граматики';
-    sub = l ? `${l.title} · ${l.level}` : `Урок рівня ${lvl}`;
+    sub = l ? `${l.title} · ${lvLabel(l.level)}` : `Урок рівня ${lvLabel(lvl)}`;
     steps = [{ id: 'lesson', title: 'Урок', icon: 'puzzle-piece', href: l ? `#/grammar/${l.id}` : '#/grammar', minutes: 7,
       done: store.all('lessons_progress').some(p => (p.completed_at || '') >= fromIso) }];
   } else if (n === 4) {
@@ -315,10 +315,10 @@ export async function goalPicks(max = 3) {
       out.push({ icon: 'microphone', label: 'Поговорити про роботу', sub: 'Голосом з вчителем', href: `#/tutor?mode=voice&topic=${encodeURIComponent(WORK_TOPIC)}&label=${encodeURIComponent('Робота')}` });
     } else if (t === 'media') {
       out.push({ icon: 'books', label: 'Бібліотека', sub: 'Книги й оповідання вашого рівня', href: '#/reading/library' });
-      out.push({ icon: 'headphones', label: 'Аудіювання', sub: `Діалоги рівня ${lvl}`, href: '#/listening' });
+      out.push({ icon: 'headphones', label: 'Аудіювання', sub: `Діалоги рівня ${lvLabel(lvl)}`, href: '#/listening' });
     } else if (t === 'exam') {
       out.push({ icon: 'exam', label: 'Тест за уроком', sub: 'Перевірити граматику', href: '#/tests/lesson' });
-      out.push({ icon: 'puzzle-piece', label: 'Граматика', sub: `Уроки рівня ${lvl}`, href: '#/grammar' });
+      out.push({ icon: 'puzzle-piece', label: 'Граматика', sub: `Уроки рівня ${lvLabel(lvl)}`, href: '#/grammar' });
     } else if (t === 'social') {
       out.push({ icon: 'users', label: 'Знайомство й small talk', sub: 'Голосом з вчителем', href: `#/tutor?mode=voice&topic=${encodeURIComponent(SOCIAL_TOPIC)}&label=${encodeURIComponent('Small talk')}` });
       const sc = await scenarioPick('social');

@@ -10,7 +10,7 @@ import { json } from '../data.js';
 import * as store from '../store.js';
 import { setTitle } from '../ui/shell.js';
 import { sheet } from '../ui/sheet.js';
-import { levelTag, myLevel } from '../level.js';
+import { levelTag, myLevel, lvLabel } from '../level.js';
 import { tx, txPrimary, txRow, txRows, txGroup, txBar, txPill } from '../ui/tiles.js';
 import { reader, classicIndex } from './reading.js';
 
@@ -19,7 +19,7 @@ const chapterOf = (bid, n) => json(`data/books/${bid}/${n}.json`);
 const glossaryOf = (bid) => json(`data/books/${bid}/glossary.json`).catch(() => []);
 const short = (id) => id.replace(/^book-/, '');
 
-const LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1'];
+const LEVELS = ['A0', 'A1', 'A2', 'B1', 'B2', 'C1'];
 const mins = (w) => Math.max(1, Math.round(w / 130));
 const dur = (w) => { const m = mins(w); return m >= 60 ? `${Math.round(m / 60)} год` : `${m} хв`; };
 
@@ -103,7 +103,7 @@ async function library(view) {
     controls.replaceChildren(
       h('div.seg.lib-kind', { role: 'group', 'aria-label': 'Що показати' }, [['books', `Книги · ${books.length}`], ['stories', `Оповідання · ${stories.length}`]].map(([v, t]) =>
         h('button', { type: 'button', 'aria-pressed': String(f.kind === v), onclick: () => { f.kind = v; draw(); } }, t))),
-      h('div.chips.scroll.lib-levels', { role: 'group', 'aria-label': 'Рівень' }, [['all', 'Усі рівні'], ...levels.map(l => [l, l === myLevel() ? `${l} · мій` : l])].map(([v, t]) =>
+      h('div.chips.scroll.lib-levels', { role: 'group', 'aria-label': 'Рівень' }, [['all', 'Усі рівні'], ...levels.map(l => [l, l === myLevel() ? `${lvLabel(l)} · мій` : lvLabel(l)])].map(([v, t]) =>
         h('button.chip', { type: 'button', 'aria-pressed': String(f.level === v), onclick: () => { f.level = v; draw(); } }, t))),
       h('div.lib-row',
         picker('Автор', [['all', 'Усі автори'], ...authors.map(([a, uk]) => [a, uk, `${items.filter(x => x.author === a).length} · ${a}`])], f.author, (v) => { f.author = v; draw(); }),
@@ -123,7 +123,7 @@ async function library(view) {
     } else {
       for (const l of LEVELS) {
         const xs = list.filter(x => x.level === l).sort(byTitle);
-        if (xs.length) groups.push(txGroup(`${l}${l === myLevel() ? ' · ваш рівень' : ''} · ${xs.length}`, txRows(xs.map(row))));
+        if (xs.length) groups.push(txGroup(`${lvLabel(l)}${l === myLevel() ? ' · ваш рівень' : ''} · ${xs.length}`, txRows(xs.map(row))));
       }
     }
     // «Читаю зараз» — над полицею, лише без фільтра автора
@@ -161,7 +161,7 @@ async function bookPage(view, b) {
   });
   view.replaceChildren(h('div.stack-lg.lib',
     h('div.gx-lhead', h('a.icon-btn', { href: '#/reading/library', 'aria-label': 'До бібліотеки' }, ic('arrow-left')),
-      h('div.grow', h('div.tx-label.gx-eyebrow', `${b.level} · ${b.authorUk}`), h('h2.gx-lh1', { lang: 'en' }, b.title),
+      h('div.grow', h('div.tx-label.gx-eyebrow', `${lvLabel(b.level)} · ${b.authorUk}`), h('h2.gx-lh1', { lang: 'en' }, b.title),
         h('div.small.dim.rd-sub', `${b.titleUk} · ${b.year} · ${n} ${plural(n, 'розділ', 'розділи', 'розділів')} · ~${dur(b.words)}`))),
     primary,
     done ? h('div.lib-prog', h('span.small', `Прочитано ${done} з ${n}`), txBar(done / n, true)) : null,

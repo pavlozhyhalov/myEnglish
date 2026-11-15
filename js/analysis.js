@@ -3,7 +3,7 @@
 import * as store from './store.js';
 import { deckIndex, grammarIndex, scenarios as loadScenarios } from './data.js';
 import { streak, lessonsToReview, MISTAKE_TYPES, dayKey, secondsByDay } from './stats.js';
-import { LEVELS, myLevel, nextLevel, levelProgress, nextLessonByLevel, byFit } from './level.js';
+import { LEVELS, myLevel, nextLevel, levelProgress, nextLessonByLevel, byFit, lvLabel } from './level.js';
 import { confidence as catConfidence } from './placement.js';
 
 const DAY = 864e5;
@@ -502,7 +502,7 @@ export function insight(section, A) {
       const parts = [];
       if (mine) parts.push(`Рівень ${A.level}: пройдено ${mine.done} з ${mine.total} уроків.`);
       const gaps = g.byLevel.filter(x => rk(x.level) < rk(A.level) && x.done < x.total);
-      if (gaps.length) parts.push(`Прогалини нижче: ${gaps.map(x => `${x.level} — ${x.total - x.done}`).join(', ')}.`);
+      if (gaps.length) parts.push(`Прогалини нижче: ${gaps.map(x => `${lvLabel(x.level)} — ${x.total - x.done}`).join(', ')}.`);
       if (g.low.length) parts.push(`Найслабший урок — «${g.low[0].title}» (${g.low[0].best}%).`);
       if (g.due.length) parts.push(`На повторення: ${g.due.length}.`);
       return parts.join(' ');

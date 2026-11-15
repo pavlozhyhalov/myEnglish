@@ -9,7 +9,7 @@ import { activityTimer, addMistake } from '../stats.js';
 import { tutor, aiErrorText } from '../ai.js';
 import { user } from '../supa.js';
 import { toast } from '../ui/toast.js';
-import { LEVELS, myLevel, byFit, levelTag, rank, levelChips, levelCounts, levelPick, filterByLevel, fallbackNote, pickOfDay } from '../level.js';
+import { LEVELS, myLevel, byFit, levelTag, rank, levelChips, levelCounts, levelPick, filterByLevel, fallbackNote, pickOfDay, lvLabel } from '../level.js';
 import { tx, txPrimary, txGroup, txRow, txRows, txGrid, txKpis, txPill, txResult } from '../ui/tiles.js';
 
 /** Іконка з мапи emo() у квадратику плитки */
@@ -72,13 +72,13 @@ function dictation(box, data) {
   const levels = dictLevels(data);
   let level = defaultDictLevel(levels);
   const start = () => openSub(`/listening/dictation?level=${level}`);
-  const startTile = txPrimary({ icon: 'headphones', label: 'Почати диктант', sub: `8 речень · рівень ${level}`, onclick: start });
+  const startTile = txPrimary({ icon: 'headphones', label: 'Почати диктант', sub: `8 речень · рівень ${lvLabel(level)}`, onclick: start });
   box.replaceChildren(h('div.stack-lg',
     startTile,
     txGroup('Рівень', h('div.chips', levels.map(l => h('button.chip', { type: 'button', 'aria-pressed': String(l === level), onclick: (e) => {
       level = l; e.currentTarget.parentNode.querySelectorAll('.chip').forEach(c => c.setAttribute('aria-pressed', String(c === e.currentTarget)));
-      startTile.querySelector('.tx-s').textContent = `8 речень · рівень ${level}`;
-    } }, l === myLevel() ? `Мій · ${l}` : l))))));
+      startTile.querySelector('.tx-s').textContent = `8 речень · рівень ${lvLabel(level)}`;
+    } }, l === myLevel() ? `Мій · ${lvLabel(l)}` : lvLabel(l)))))));
 }
 
 /** Диктант (#/listening/dictation?level=B1): 8 речень, далі — підсумок на тій самій адресі */
@@ -99,7 +99,7 @@ function runDictation(box, data, timer, wanted) {
         timer.poke();
         box.replaceChildren(h('div.stack-lg.ls',
           h('section.tx-group',
-            txResult({ icon: avg >= 80 ? 'trophy' : avg >= 60 ? 'thumbs-up' : 'barbell', tone: tone(avg), label: `Диктант · рівень ${level}`,
+            txResult({ icon: avg >= 80 ? 'trophy' : avg >= 60 ? 'thumbs-up' : 'barbell', tone: tone(avg), label: `Диктант · рівень ${lvLabel(level)}`,
               title: avg >= 90 ? 'Чуєте майже все — чудово' : avg >= 70 ? 'Добре чуєте — ще трохи практики' : 'Слухайте повільніше й частіше' }),
             txKpis([
               { value: avg, unit: '%', label: 'середня точність', tone: tone(avg) },
@@ -110,7 +110,7 @@ function runDictation(box, data, timer, wanted) {
             pill: { text: `${scores[k]}%`, tone: tone(scores[k]) }, chevron: false, onclick: () => speak(it.text),
             attrs: { 'aria-label': `Прослухати: ${it.text}. Точність ${scores[k]}%` } })))),
           h('section.tx-group',
-            txPrimary({ icon: 'arrow-clockwise', label: 'Ще один диктант', sub: `8 нових речень · рівень ${level}`, onclick: () => { window.scrollTo(0, 0); run(fresh()); } }),
+            txPrimary({ icon: 'arrow-clockwise', label: 'Ще один диктант', sub: `8 нових речень · рівень ${lvLabel(level)}`, onclick: () => { window.scrollTo(0, 0); run(fresh()); } }),
             tx({ icon: 'target', wide: true, label: 'Змінити рівень', sub: 'Рівні диктанту A1–C1', onclick: () => backTo('/listening') }))));
         return;
       }
@@ -144,7 +144,7 @@ function runDictation(box, data, timer, wanted) {
       rates.classList.add('ls-rates'); rates.setAttribute('aria-label', 'Швидкість');
       box.replaceChildren(h('div.stack-lg.ls',
         h('div.gx-lhead', h('button.icon-btn', { type: 'button', 'aria-label': 'До аудіювання', onclick: () => { stopSpeech(); backTo('/listening'); } }, ic('arrow-left')),
-          h('div.grow', h('div.tx-label.gx-eyebrow', `Диктант · рівень ${level}`), h('h2.gx-lh1', `Речення ${i + 1} з ${items.length}`))),
+          h('div.grow', h('div.tx-label.gx-eyebrow', `Диктант · рівень ${lvLabel(level)}`), h('h2.gx-lh1', `Речення ${i + 1} з ${items.length}`))),
         progress(i / items.length * 100, 'Пройдено речень'),
         h('section.ls-player', playBig, h('div.ls-player-b', h('div.ls-player-t', 'Прослухати ще раз'), rates)),
         txGroup('Що ви почули', [h('section.pp-compose', inp), checkBtn, result, nextBtn])));

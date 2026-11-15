@@ -5,7 +5,7 @@ import { S, plural } from '../strings.js';
 import * as store from '../store.js';
 import * as srs from '../srs.js';
 import { grammarIndex } from '../data.js';
-import { LEVEL_NAME, myLevel, nextLevel, levelProgress, setLevel, READY_PCT, levelPlan } from '../level.js';
+import { LEVEL_NAME, LEVELS, myLevel, nextLevel, levelProgress, setLevel, READY_PCT, levelPlan, lvLabel } from '../level.js';
 import { toast } from '../ui/toast.js';
 import { md } from '../ui/md.js';
 import { tutor, aiErrorText } from '../ai.js';
@@ -49,7 +49,7 @@ export default async function progressPage(view) {
   const testTone = (t) => { if (t.type === 'placement') return 'accent'; if (t.type === 'level') return t.scores?.passed ? 'good' : 'warn'; const v = t.scores.score; return v >= 80 ? 'good' : v < 60 ? 'bad' : 'warn'; };
   const openMk = dyn.reduce((a, d) => a + d.open, 0);
   const nReviews = store.count('reviews');
-  const LV = ['A1', 'A2', 'B1', 'B2', 'C1'];
+  const LV = LEVELS;
   const weakest = Object.keys(SKILLS).filter(k => LV.includes(skills[k])).sort((a, b) => LV.indexOf(skills[a]) - LV.indexOf(skills[b]))[0];
 
   // ще не було жодного заняття — замість рядів нулів один спокійний порожній стан (2026-11-08)
@@ -67,13 +67,13 @@ export default async function progressPage(view) {
     // «Аналіз» і «Звіт» — вкладки над сторінкою (js/ui/subnav.js)
     fresh ? null : weeklyCard(),
 
-    txGroup(`Рівень ${lvl} · ${LEVEL_NAME[lvl]}`, [
+    txGroup(`Рівень ${lvLabel(lvl)} · ${LEVEL_NAME[lvl]}`, [
       card(
-        h('div.row', h('div.level-badge', lvl), h('div.grow', h('div.pg-strong', `Опановано ${lp.pct}%`), h('div.xs.dim', `перехід від ${READY_PCT}% · уроки й слова рівня ${lvl}`))),
+        h('div.row', h('div.level-badge' + (lvl === 'A0' ? '.pre' : ''), lvLabel(lvl)), h('div.grow', h('div.pg-strong', `Опановано ${lp.pct}%`), h('div.xs.dim', `перехід від ${READY_PCT}% · уроки й слова рівня ${lvLabel(lvl)}`))),
         bar(lp.pct, 'Опанування рівня')),
-      txKpis([{ value: `${lp.grammar.done}/${lp.grammar.total}`, label: `уроків граматики ${lvl}` }, { value: `${lp.words.done}/${lp.words.total}`, label: `слів ${lvl} закріплено` }], 2),
-      lp.ready ? txPrimary({ icon: 'seal-check', label: `Іспит рівня ${lvl}`, sub: `склали — переходите на ${nextLevel()}`, href: '#/tests/level' })
-        : ((pl) => tx({ wide: true, icon: 'calendar-blank', label: `План ${lvl}: ≈ ${pl.weeks} ${plural(pl.weeks, 'тиждень', 'тижні', 'тижнів')} · іспит ~${pl.dateText}`,
+      txKpis([{ value: `${lp.grammar.done}/${lp.grammar.total}`, label: `уроків граматики ${lvLabel(lvl)}` }, { value: `${lp.words.done}/${lp.words.total}`, label: `слів ${lvLabel(lvl)} закріплено` }], 2),
+      lp.ready ? txPrimary({ icon: 'seal-check', label: `Іспит рівня ${lvLabel(lvl)}`, sub: `склали — переходите на ${nextLevel()}`, href: '#/tests/level' })
+        : ((pl) => tx({ wide: true, icon: 'calendar-blank', label: `План ${lvLabel(lvl)}: ≈ ${pl.weeks} ${plural(pl.weeks, 'тиждень', 'тижні', 'тижнів')} · іспит ~${pl.dateText}`,
           sub: `лишилось ${pl.lessonsLeft} ${plural(pl.lessonsLeft, 'урок', 'уроки', 'уроків')} і ${pl.wordsLeft} ${plural(pl.wordsLeft, 'слово', 'слова', 'слів')} · темп: ${pl.lessonsPerWeek} ${plural(pl.lessonsPerWeek, 'урок', 'уроки', 'уроків')} на тиждень, ${pl.perDay} нових слів на день`,
           href: '#/tests/level', end: h('span.tx-pill.accent', 'Іспит') }))(levelPlan(lp))]),
 

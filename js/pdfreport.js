@@ -12,7 +12,7 @@ import {
   monthPart, speechLines, conversationLevel, placementPart, speakingPart, writingPart, vocabPart, grammarPart, mistakesPart, habitsPart,
   readingPart, speechSessions, speechPart, CRIT, CRIT_UK, SKILL_UK, MONTH_IN,
 } from './analysis.js';
-import { LEVELS, myLevel, nextLevel, levelProgress, levelPlan, LEVEL_NAME } from './level.js';
+import { LEVELS, myLevel, nextLevel, levelProgress, levelPlan, LEVEL_NAME, lvLabel } from './level.js';
 import { mistakeCounts, mistakesByRule, streak } from './stats.js';
 
 const A4 = { w: 210, h: 297 };
@@ -30,7 +30,7 @@ const DAY = 864e5;
 const t = (iso) => (iso ? Date.parse(iso) || 0 : 0);
 const rk = (l) => LEVELS.indexOf(l);
 const SUB = { low: -0.3, mid: 0, high: 0.3 };
-const lvTxt = (x) => (x ? `${x.level}${x.sublevel === 'high' ? '+' : x.sublevel === 'low' ? '−' : ''}` : '—');
+const lvTxt = (x) => (x ? `${lvLabel(x.level)}${x.sublevel === 'high' ? '+' : x.sublevel === 'low' ? '−' : ''}` : '—');
 const clean = (s) => String(s ?? '').replace(/\*+|~~|`/g, '').replace(/\s+/g, ' ').trim();
 const fmt = (x) => String(x).replace('.', ',');
 const dShort = (iso) => new Date(iso).toLocaleDateString('uk-UA', { day: 'numeric', month: 'short' }).replace('.', '');
@@ -234,14 +234,14 @@ function lineChart(doc, x, y, w, h, values, { min, max, yLabels = [], xLabels = 
   return h + 3;
 }
 
-/** Шкала рівнів A1–C1 з точкою для кожного рядка: [{ label, level, sub, note }] */
+/** Шкала рівнів Pre-A1–C1 з точкою для кожного рядка: [{ label, level, sub, note }] */
 function levelScale(doc, x, y, w, rows, mine) {
   const lw = w * 0.34, sw = w - lw - 4, step = sw / (LEVELS.length - 1), rowH = 8;
   // підписи рівнів
   doc.setFont('DaysOne', 'normal'); doc.setFontSize(8);
   LEVELS.forEach((l, i) => {
     doc.setTextColor(...(l === mine ? C.accent : C.dim));
-    doc.text(l, x + lw + i * step, y + 3, { align: 'center' });
+    doc.text(lvLabel(l), x + lw + i * step, y + 3, { align: 'center' });
   });
   rows.forEach((r, j) => {
     const yy = y + 6 + j * rowH;
@@ -358,7 +358,7 @@ function grades(D) {
   out.push(!G.tried ? { area: 'Граматика', grade: 'Мало даних', tone: 'none', text: 'Уроки граматики ще не проходились.' } : {
     area: 'Граматика', grade: G.avgBest >= 85 ? 'Відмінно' : G.avgBest >= 70 ? 'Добре' : 'Потребує уваги',
     tone: G.avgBest >= 85 ? 'good' : G.avgBest >= 70 ? 'ok' : 'warn',
-    text: `За місяць зараховано ${doneMonth} ${plural(doneMonth, 'урок', 'уроки', 'уроків')}${lp ? `; рівень ${lp.level}: ${lp.grammar.done} з ${lp.grammar.total}` : ''}. Середній найкращий бал у вправах — ${G.avgBest}%.${G.low.length ? ` Слабкі уроки: ${G.low.slice(0, 2).map(x => `«${x.title}»`).join(', ')}.` : ''}`,
+    text: `За місяць зараховано ${doneMonth} ${plural(doneMonth, 'урок', 'уроки', 'уроків')}${lp ? `; рівень ${lvLabel(lp.level)}: ${lp.grammar.done} з ${lp.grammar.total}` : ''}. Середній найкращий бал у вправах — ${G.avgBest}%.${G.low.length ? ` Слабкі уроки: ${G.low.slice(0, 2).map(x => `«${x.title}»`).join(', ')}.` : ''}`,
   });
   // помилки
   const a = R.mistakes.added, c = R.mistakes.closed;
@@ -382,7 +382,7 @@ function verdict(D, gs) {
     const prev = Math.round(R.prevSec / 60), d = Math.round((min - prev) / Math.max(1, prev) * 100);
     parts.push(d >= 10 ? `Це на ${d}% більше, ніж ${R.cur ? 'за ті самі дні минулого місяця' : 'минулого місяця'}.` : d <= -10 ? `Це на ${-d}% менше, ніж ${R.cur ? 'за ті самі дні минулого місяця' : 'минулого місяця'}.` : 'Обсяг — приблизно як минулого місяця.');
   }
-  if (lp) parts.push(`Рівень ${lvl} («${LEVEL_NAME[lvl]}») опановано на ${lp.pct}%${lp.pct >= 80 ? ' — можна складати іспит рівня' : plan ? `; у теперішньому темпі до іспиту — близько ${plan.weeks} ${plural(plan.weeks, 'тижня', 'тижнів', 'тижнів')}` : ''}.`);
+  if (lp) parts.push(`Рівень ${lvLabel(lvl)} («${LEVEL_NAME[lvl]}») опановано на ${lp.pct}%${lp.pct >= 80 ? ' — можна складати іспит рівня' : plan ? `; у теперішньому темпі до іспиту — близько ${plan.weeks} ${plural(plan.weeks, 'тижня', 'тижнів', 'тижнів')}` : ''}.`);
   if (good.length) parts.push(`Найкраще йде: ${good.join(', ')}.`);
   if (weak.length) parts.push(`Потребує уваги: ${weak.join(', ')}.`);
   return parts.join(' ');
@@ -402,8 +402,8 @@ function recommendations(D, gs) {
   if (G.due.length) rec.push(`${G.due.length} ${plural(G.due.length, 'урок чекає', 'уроки чекають', 'уроків чекають')} на планове повторення — набір «Повторення» у вправах.`);
   const rules = mistakesByRule().filter(g => g.label).slice(0, 2);
   if (rules.length) rec.push(`Відпрацювати правила з найбільшою кількістю помилок: ${rules.map(g => `«${g.label}»`).join(' і ')} (у «Моїх помилках» — кнопка практики).`);
-  if (lp && lp.pct >= 80) rec.push(`Скласти іспит рівня ${lvl} (Тести → «Іспит рівня») і перейти на ${nextLevel(lvl)}.`);
-  else if (plan) rec.push(`До іспиту ${lvl}: лишилось ${plan.lessonsLeft} ${plural(plan.lessonsLeft, 'урок', 'уроки', 'уроків')} і ${plan.wordsLeft} ${plural(plan.wordsLeft, 'слово', 'слова', 'слів')}; темп ${plan.lessonsPerWeek} ${plural(plan.lessonsPerWeek, 'урок', 'уроки', 'уроків')} на тиждень і ${plan.perDay} нових слів на день.`);
+  if (lp && lp.pct >= 80) rec.push(`Скласти іспит рівня ${lvLabel(lvl)} (Тести → «Іспит рівня») і перейти на ${lvLabel(nextLevel(lvl))}.`);
+  else if (plan) rec.push(`До іспиту ${lvLabel(lvl)}: лишилось ${plan.lessonsLeft} ${plural(plan.lessonsLeft, 'урок', 'уроки', 'уроків')} і ${plan.wordsLeft} ${plural(plan.wordsLeft, 'слово', 'слова', 'слів')}; темп ${plan.lessonsPerWeek} ${plural(plan.lessonsPerWeek, 'урок', 'уроки', 'уроків')} на тиждень і ${plan.perDay} нових слів на день.`);
   if (!MK.total && R.seconds) rec.push('Писати короткі записи в щоденник (3–5 речень) — вчитель перевірить і помилки потраплять у план повторення.');
   return rec.slice(0, 7);
 }
@@ -435,7 +435,7 @@ export async function buildMonthPdf(ym) {
   L.font('head', 11, [199, 211, 245]); doc.text('myEnglish · звіт вчителя', M, 14);
   L.font('head', 24, C.white); doc.text(`Прогрес за ${R.title.toLowerCase()}`, M, 29);
   L.font('body', 10, [199, 211, 245]);
-  doc.text([name ? `Учень: ${name}` : null, `рівень ${lvl} · ${LEVEL_NAME[lvl] || ''}`].filter(Boolean).join(' · '), M, 38);
+  doc.text([name ? `Учень: ${name}` : null, `рівень ${lvLabel(lvl)} · ${LEVEL_NAME[lvl] || ''}`].filter(Boolean).join(' · '), M, 38);
   doc.text([R.cur ? `місяць триває (${elapsed} з ${R.nDays} днів)` : null, `сформовано ${today}`].filter(Boolean).join(' · '), M, 44);
   L.y = 58;
 
@@ -443,7 +443,7 @@ export async function buildMonthPdf(ym) {
   L.kpis([
     { value: min, label: `${plural(min, 'хвилина', 'хвилини', 'хвилин')} практики`, tone: 'accent' },
     { value: `${R.activeDays}/${elapsed}`, label: 'активних днів (від 5 хв)' },
-    { value: lp ? `${lp.pct}%` : lvl, label: lp ? `опановано рівень ${lvl}` : 'поточний рівень', tone: lp && lp.pct >= 80 ? 'good' : '' },
+    { value: lp ? `${lp.pct}%` : lvl, label: lp ? `опановано рівень ${lvLabel(lvl)}` : 'поточний рівень', tone: lp && lp.pct >= 80 ? 'good' : '' },
     { value: R.mistakes.closed, label: 'помилок закрито', tone: R.mistakes.closed ? 'good' : '' },
   ]);
 
@@ -505,10 +505,10 @@ export async function buildMonthPdf(ym) {
 
   // ================= 3. Рівень і говоріння =================
   L.chapter(3, 'Рівень і говоріння', 'Де учень зараз за шкалою CEFR і як він говорить');
-  L.section(`Опанування рівня ${lvl}`, 'Рівень вважається опанованим на 80%: 60% ваги — пройдені уроки граматики рівня, 40% — закріплені слова його колод. Після 80% можна складати іспит рівня.');
+  L.section(`Опанування рівня ${lvLabel(lvl)}`, 'Рівень вважається опанованим на 80%: 60% ваги — пройдені уроки граматики рівня, 40% — закріплені слова його колод. Після 80% можна складати іспит рівня.');
   if (lp) {
     L.need(40);
-    L.y += gauge(doc, M, L.y, W, lp.pct, { label: `Рівень ${lvl} · ${LEVEL_NAME[lvl]}`, markLabel: 'іспит — від 80%' });
+    L.y += gauge(doc, M, L.y, W, lp.pct, { label: `Рівень ${lvLabel(lvl)} · ${LEVEL_NAME[lvl]}`, markLabel: 'іспит — від 80%' });
     L.y += 2;
     L.cols([
       (x, y, w) => gauge(doc, x, y, w, lp.grammar.total ? Math.round(lp.grammar.done / lp.grammar.total * 100) : 0, { label: `Уроки: ${lp.grammar.done} з ${lp.grammar.total}`, mark: 1, markLabel: '' }),
@@ -532,8 +532,8 @@ export async function buildMonthPdf(ym) {
     L.section('Рівень у розмовах з часом', 'Оцінка вчителя після кожної розмови з достатнім обсягом мовлення.', 44);
     L.need(44);
     L.y += lineChart(doc, M, L.y, W, 40, SK.sessions.map(s => rk(s.level) + (SUB[s.sublevel] || 0)), {
-      min: 0, max: LEVELS.length - 1, yLabels: LEVELS.map((l, i) => [i, l]), xLabels: SK.sessions.map(s => dShort(s.at)),
-      fmtV: (v) => LEVELS[Math.round(v)] || '',
+      min: 0, max: LEVELS.length - 1, yLabels: LEVELS.map((l, i) => [i, lvLabel(l)]), xLabels: SK.sessions.map(s => dShort(s.at)),
+      fmtV: (v) => lvLabel(LEVELS[Math.round(v)]),
     });
   }
   if (SK.reasons.length || SK.toNext) {
@@ -547,7 +547,7 @@ export async function buildMonthPdf(ym) {
   L.section('Уроки граматики за рівнями', 'Скільки уроків кожного рівня зараховано (бал від 80% у вправах або в тесті за уроком).');
   if (G.byLevel.length) {
     L.need(G.byLevel.length * 7 + 4);
-    L.y += hbars(doc, M, L.y, W, G.byLevel.map(b => ({ label: `${b.level} · ${LEVEL_NAME[b.level]}`, value: b.done, max: b.total, text: `${b.done} з ${b.total}`, color: b.level === lvl ? C.accent : mix(C.accent, 0.4) })), { labelW: 0.3 }) + 3;
+    L.y += hbars(doc, M, L.y, W, G.byLevel.map(b => ({ label: `${lvLabel(b.level)} · ${LEVEL_NAME[b.level]}`, value: b.done, max: b.total, text: `${b.done} з ${b.total}`, color: b.level === lvl ? C.accent : mix(C.accent, 0.4) })), { labelW: 0.3 }) + 3;
   }
   L.kpis([
     G.tried ? { value: `${G.avgBest}%`, label: 'середній найкращий бал у вправах', tone: G.avgBest >= 80 ? 'good' : 'warn' } : null,
@@ -556,7 +556,7 @@ export async function buildMonthPdf(ym) {
   ]);
   if (G.low.length) {
     L.para('Уроки, які варто повторити (бал нижче 80%):', { size: 9, kind: 'bold', color: C.dim });
-    G.low.forEach(x => L.row(`${x.level} · ${x.title}`, `${x.best}% · ${x.attempts} ${plural(x.attempts, 'спроба', 'спроби', 'спроб')}`, 'warn'));
+    G.low.forEach(x => L.row(`${lvLabel(x.level)} · ${x.title}`, `${x.best}% · ${x.attempts} ${plural(x.attempts, 'спроба', 'спроби', 'спроб')}`, 'warn'));
   }
   if (G.due.length) L.row('Уроків на плановому повторенні', String(G.due.length));
   if (!G.tried) L.empty('Уроків граматики ще не проходили.');
@@ -584,7 +584,7 @@ export async function buildMonthPdf(ym) {
     if (V.byLevel.length) {
       L.para('Закріплені слова стартових колод за рівнями:', { size: 9, kind: 'bold', color: C.dim });
       L.need(V.byLevel.length * 7 + 3);
-      L.y += hbars(doc, M, L.y, W, V.byLevel.map(b => ({ label: `${b.level} · ${LEVEL_NAME[b.level]}`, value: b.known, max: b.total, text: `${b.known} з ${b.total}`, color: b.level === lvl ? C.good : mix(C.good, 0.4) })), { labelW: 0.3 }) + 3;
+      L.y += hbars(doc, M, L.y, W, V.byLevel.map(b => ({ label: `${lvLabel(b.level)} · ${LEVEL_NAME[b.level]}`, value: b.known, max: b.total, text: `${b.known} з ${b.total}`, color: b.level === lvl ? C.good : mix(C.good, 0.4) })), { labelW: 0.3 }) + 3;
     }
     if (V.own) L.row('Власні слова й фрази (додані учнем)', String(V.own));
     if (V.weak.length) {
@@ -702,7 +702,7 @@ export async function buildMonthPdf(ym) {
 
   L.section('Як читати цей звіт');
   [
-    ['Рівні CEFR', 'Європейська шкала знання мови: A1 — початковий, A2 — базовий, B1 — середній (вільно в побуті й подорожах), B2 — вище середнього (робота й навчання англійською), C1 — просунутий.'],
+    ['Рівні CEFR', 'Європейська шкала знання мови: Pre-A1 — старт з нуля (алфавіт, звуки, перші слова й фрази), A1 — початковий, A2 — базовий, B1 — середній (вільно в побуті й подорожах), B2 — вище середнього (робота й навчання англійською), C1 — просунутий.'],
     ['Опанування рівня', 'Частка пройдених уроків граматики (60%) і закріплених слів (40%) рівня. Від 80% можна складати іспит рівня й переходити далі.'],
     ['Активний день', 'День, коли учень займався щонайменше 5 хвилин. Рахується лише час реальної активності, без простою.'],
     ['Закріплене слово', 'Слово, яке учень згадав настільки впевнено, що наступне повторення — не раніше ніж через 7 днів.'],

@@ -6,14 +6,14 @@ import { S, plural } from '../strings.js';
 import { toast } from '../ui/toast.js';
 import { user, getSupa } from '../supa.js';
 import { deckIndex } from '../data.js';
-import { LEVELS } from '../level.js';
+import { LEVELS, lvLabel } from '../level.js';
 import { monthPart, reportMonths, voiceClips, speechLines, monthKey, isMonthKey, MONTH_UK, MONTH_IN, MONTH_ACC, CRIT, CRIT_UK } from '../analysis.js';
 import { SPEECH_META, speechRow, metricChart } from './analysis.js';
 import { masteryDots, TALK_HREF } from './mistakes.js';
 import { fold } from './progress.js';
 
 const rk = (l) => LEVELS.indexOf(l);
-const lvTxt = (x) => (x ? `${x.level}${x.sublevel === 'high' ? '+' : x.sublevel === 'low' ? '−' : ''}` : '—');
+const lvTxt = (x) => (x ? `${lvLabel(x.level)}${x.sublevel === 'high' ? '+' : x.sublevel === 'low' ? '−' : ''}` : '—');
 const fmtDate = (iso) => new Date(iso).toLocaleDateString('uk-UA', { day: 'numeric', month: 'long', year: 'numeric' });
 const stat = (value, label, tone = '') => ({ value, label, tone });
 /** Розділ звіту: згорнута плитка (назва, коротка цифра) з вмістом */
@@ -146,8 +146,8 @@ function levelCard(M) {
     crit.length ? h('div.an-table', { role: 'table', 'aria-label': 'Критерії CEFR' },
       crit.map(k => h('div.an-tr', { role: 'row' },
         h('span.grow', { role: 'cell' }, CRIT_UK[k]),
-        b ? h('span.xs.dim', { role: 'cell' }, `${a.crit[k] || '—'} →`) : null,
-        h('b', { role: 'cell' }, (b ? b.crit[k] : a.crit[k]) || '—'),
+        b ? h('span.xs.dim', { role: 'cell' }, `${lvLabel(a.crit[k]) || '—'} →`) : null,
+        h('b', { role: 'cell' }, lvLabel(b ? b.crit[k] : a.crit[k]) || '—'),
         b ? h('span', { role: 'cell' }, arrow(a.crit[k], b.crit[k])) : null))) : null));
 }
 

@@ -23,6 +23,7 @@ import { savePhrases, guessSituation, hasPhrase, situation as phraseSit } from '
 import { markUsedWords, MIN_CHATS } from '../usage.js';
 import { redoItems, redoSub, redoPage } from '../redo.js';
 import { loadTopics, topicChips, defaultPick, logTopic, parsePickParam, pickById } from '../topics.js';
+import { lvLabel } from '../level.js';
 
 export const MODES = [
   { id: 'chat', emoji: 'speech', icon: 'chat-circle-dots', title: 'Вільна розмова', desc: 'Текстом, на будь-яку тему' },
@@ -1353,17 +1354,17 @@ function disagreeBtn(f, row, onDone) {
 const CRIT_UK = { range: 'Словник і граматика', accuracy: 'Точність', fluency: 'Плавність', interaction: 'Взаємодія', coherence: 'Зв\'язність' };
 const SUB_UK = { low: 'нижня межа', mid: 'середина рівня', high: 'верхня межа' };
 const CONF_UK = { low: 'приблизна оцінка', medium: 'досить упевнено', high: 'упевнено' };
-const CEFR = ['A1', 'A2', 'B1', 'B2', 'C1'];
-/** Рівень розмови лише з A1–C1 (зіпсований level_signal — true, «b1+», порожньо — не показується) */
+const CEFR = ['A0', 'A1', 'A2', 'B1', 'B2', 'C1'];
+/** Рівень розмови лише з A0–C1 (A0 = Pre-A1; зіпсований level_signal — true, «b1+», порожньо — не показується) */
 function levelOf(v) {
-  const l = typeof v === 'string' ? v.trim().toUpperCase().replace(/\+$/, '') : '';
+  const l = typeof v === 'string' ? v.trim().toUpperCase().replace(/\+$/, '').replace(/^PRE-?A1$/, 'A0') : '';
   return CEFR.includes(l) ? l : null;
 }
 function levelLabel(s) {
   const lvl = levelOf(s.level_signal);
   if (!lvl) return null;
   const a = s.level_assessment;
-  return a && a.sublevel === 'high' ? `${lvl}+` : lvl;
+  return a && a.sublevel === 'high' ? `${lvLabel(lvl)}+` : lvLabel(lvl);
 }
 /** Чому саме такий рівень: критерії CEFR з прикладами з розмови */
 function assessmentCard(s) {
@@ -1377,7 +1378,7 @@ function assessmentCard(s) {
     const r = conversationLevel();
     if (!r || r.sessions < 2 || !rolling.isConnected) return;
     rolling.hidden = false;
-    rolling.replaceChildren(h('span.tx-no.tu-lvl', `${r.level}${r.sublevel === 'high' ? '+' : ''}`),
+    rolling.replaceChildren(h('span.tx-no.tu-lvl', `${lvLabel(r.level)}${r.sublevel === 'high' ? '+' : ''}`),
       h('div.tx-body', h('span.tx-l', 'Ваш рівень у розмовах'), h('span.tx-s', `за останніми ${r.sessions} ${plural(r.sessions, 'розмовою', 'розмовами', 'розмовами')} · ${SUB_UK[r.sublevel]}, ${CONF_UK[r.confidence]}`)));
   }).catch(() => {});
   return fold({ icon: 'target', label: `Оцінка рівня · ${levelLabel(s)}`, sub: [SUB_UK[a.sublevel], CONF_UK[a.confidence]].filter(Boolean).join(' · ') }, [

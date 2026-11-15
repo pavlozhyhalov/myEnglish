@@ -14,15 +14,21 @@ import { confirmSheet } from '../ui/sheet.js';
 import { toast } from '../ui/toast.js';
 import { setTitle } from '../ui/shell.js';
 import { go } from '../router.js';
-import { myLevel, pickOfDay } from '../level.js';
+import { myLevel, pickOfDay, lvLabel } from '../level.js';
 import { tx, txPrimary, txGroup, txRow, txRows, txKpis, txPill, txLogin, txResult } from '../ui/tiles.js';
 
 const DRAFT_KEY = 'me:diary:draft';
 /** Орієнтовна довжина запису (слів) — так само в _shared/prompts.ts (DIARY_WORDS) */
-const WORDS = { A1: [20, 50], A2: [40, 80], B1: [70, 130], B2: [110, 180], C1: [150, 250] };
+const WORDS = { A0: [5, 25], A1: [20, 50], A2: [40, 80], B1: [70, 130], B2: [110, 180], C1: [150, 250] };
 
 /** Питання дня: загальні життєві теми, мова — за рівнем. Персоналізує відповідь лише сервер (профіль). */
 export const PROMPTS = {
+  // A0 (Pre-A1): 2–3 найпростіші речення за зразком «I am… / I like… / I have…»
+  A0: [
+    'What is your name? Where are you from?', 'What do you like? (I like…)', 'What is in your bag? (I have…)', 'What colour is your phone?',
+    'Who is in your family? (I have a…)', 'What do you eat for breakfast?', 'How are you today? (I am…)', 'What is your favourite food?',
+    'What can you see in your room?', 'What day is it today?', 'What do you drink in the morning?', 'Where do you live? (I live in…)',
+  ],
   A1: [
     'What did you do today?', 'What did you eat today?', 'Where are you now? What can you see?', 'Who did you talk to today?',
     'What is the weather like today?', 'What do you usually do in the evening?', 'What is your favourite day of the week? Why?',
@@ -93,7 +99,7 @@ function editor(view) {
   const upd = () => {
     const n = wordCount(ta.value);
     info.textContent = `${n} з ${lo}–${hi} слів`;
-    info.title = `Для ${lvl} — приблизно ${lo}–${hi} слів`;
+    info.title = `Для ${lvLabel(lvl)} — приблизно ${lo}–${hi} слів`;
     try { localStorage.setItem(DRAFT_KEY, ta.value); } catch { /* */ }
   };
   ta.addEventListener('input', upd); upd();
@@ -186,7 +192,7 @@ function editor(view) {
   const today = entries().filter(c => dayKey(new Date(c.created_at)) === dayKey());
   view.replaceChildren(h('div.stack-lg.dy',
     today.length ? txRow({ icon: 'check-circle', on: true, label: 'Сьогоднішній запис уже є', sub: 'Відкрити розбір — або напишіть ще один нижче', href: `#/diary/${encodeURIComponent(today[0].id)}` }) : '',
-    txGroup(`Питання дня · рівень ${lvl}`, h('section.pp-compose.dy-compose',
+    txGroup(`Питання дня · рівень ${lvLabel(lvl)}`, h('section.pp-compose.dy-compose',
       h('div.dy-q', qText, qBtns),
       ta,
       h('div.pp-compose-foot', micBtn, info, h('span.sr-only', 'Час запису'), clock),

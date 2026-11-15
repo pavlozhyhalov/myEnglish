@@ -8,7 +8,7 @@ import { activityTimer, addMistake, recordLesson, lessonNeedsReview, lessonDone 
 import { reviewSet, dueCount } from '../review.js';
 import { setTitle } from '../ui/shell.js';
 import { go } from '../router.js';
-import { myLevel, LEVELS, levelChips, levelCounts, levelPick } from '../level.js';
+import { myLevel, LEVELS, levelChips, levelCounts, levelPick, lvLabel } from '../level.js';
 import { tx, txPrimary, txGrid, txGroup, txRow, txResult } from '../ui/tiles.js';
 import { moreRows } from './grammar.js';
 
@@ -55,7 +55,7 @@ async function grammarPractice(view, unitSlug, lv) {
   const lvl = LEVELS.includes(lv) ? lv : null;
   const unitItems = (units.find(u => u.slug === unitSlug)?.items || []).filter(l => !lvl || l.level === lvl);
   const chosen = unitSlug === 'all' ? idx : unitSlug === 'mine' ? idx.filter(l => l.level === myLevel()) : unitSlug === 'lvl' ? idx.filter(l => l.level === (lvl || myLevel())) : unitItems;
-  const title = unitSlug === 'all' ? 'Усі теми' : unitSlug === 'mine' ? `Рівень ${myLevel()}` : unitSlug === 'lvl' ? `Рівень ${lvl || myLevel()}` : lvl ? `${units.find(u => u.slug === unitSlug)?.name || 'Граматика'} · ${lvl}` : units.find(u => u.slug === unitSlug)?.name || 'Граматика';
+  const title = unitSlug === 'all' ? 'Усі теми' : unitSlug === 'mine' ? `Рівень ${lvLabel(myLevel())}` : unitSlug === 'lvl' ? `Рівень ${lvLabel(lvl || myLevel())}` : lvl ? `${units.find(u => u.slug === unitSlug)?.name || 'Граматика'} · ${lvLabel(lvl)}` : units.find(u => u.slug === unitSlug)?.name || 'Граматика';
   setTitle(title);
   const lessons = await Promise.all(chosen.map(l => loadLesson(l.id)));
   const pool = lessons.flatMap(l => l.exercises.map(e => ({ ...e, _lesson: l })));

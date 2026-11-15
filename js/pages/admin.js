@@ -7,6 +7,7 @@ import { tx, txRow, txRows, txKpis, txGrid, txGroup, txPill, txBar } from '../ui
 import { S } from '../strings.js';
 import { go } from '../router.js';
 import { setTitle } from '../ui/shell.js';
+import { lvLabel } from '../level.js';
 
 const CACHE = 'me:admin';
 const RECHECK_MS = 12 * 3600e3;
@@ -123,7 +124,7 @@ function usersSection(ud, limits = {}, budget = {}) {
         { value: `${u.mistakes_open ?? 0}`, unit: ` · ${u.mistakes_closed ?? 0}`, label: 'помилок відкр. · закр.' }]),
       h('div', { style: { marginTop: '10px' } },
         fact('Реєстрація', dShort(u.created_at)),
-        fact('Тест рівня', u.placement?.level ? `${u.placement.level} · ${dShort(u.placement.at)}` : 'не проходив'),
+        fact('Тест рівня', u.placement?.level ? `${lvLabel(u.placement.level)} · ${dShort(u.placement.at)}` : 'не проходив'),
         fact('Голосових розмов', `${u.voice7 ?? 0} за 7 дн. · ${u.voice_total ?? 0} усього`),
         fact('Нагадування', u.push ? 'увімкнені' : 'вимкнені'),
         fact('Знайомство пройдено', onb),
@@ -151,7 +152,7 @@ function usersSection(ud, limits = {}, budget = {}) {
         h('span.tx-body',
           h('span.tx-l', { style: { display: 'flex', alignItems: 'center', gap: '6px', minWidth: 0 } },
             h('span', { style: { overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' } }, u.name || 'Учень'),
-            lvl ? txPill(lvl, 'accent') : null,
+            lvl ? txPill(lvLabel(lvl), 'accent') : null,
             u.push ? ic('bell', { size: 14 }) : null),
           h('span.tx-s', u.sec_total || u.last_active
             ? `${ago(u.last_active, today)} · ${dur(u.sec7)} за 7 дн. · усього ${dur(u.sec_total)}${u.voice7 ? ` · голос ×${u.voice7}` : ''}`

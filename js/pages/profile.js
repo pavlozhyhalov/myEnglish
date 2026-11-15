@@ -5,7 +5,7 @@ import * as store from '../store.js';
 import { user } from '../supa.js';
 import { toast } from '../ui/toast.js';
 import { confirmSheet } from '../ui/sheet.js';
-import { myLevel, LEVEL_NAME } from '../level.js';
+import { myLevel, LEVEL_NAME, lvLabel } from '../level.js';
 import { tx, txGroup, txRow, txRows, txLogin } from '../ui/tiles.js';
 
 export const GOALS = [
@@ -178,7 +178,7 @@ export default function profile(view) {
   view.replaceChildren(h('div.stack-lg.pp-form',
     tx({ icon: 'user', wide: true, cls: 'pp-head', label: a.name || (u ? (u.email || '').split('@')[0] : 'Гість'),
       sub: `${u ? u.email : 'Локальний режим'} · бачить лише AI-вчитель`,
-      end: h('a.tag.accent', { href: '#/settings', title: 'Змінити рівень' }, `${lvl} · ${LEVEL_NAME[lvl]}`) }),
+      end: h('a.tag.accent', { href: '#/settings', title: 'Змінити рівень' }, `${lvLabel(lvl)} · ${LEVEL_NAME[lvl]}`) }),
     !u ? txLogin('Потрібен вхід', 'AI-вчитель і синхронізація профілю') : null,
 
     txGroup('Як до вас звертатися',

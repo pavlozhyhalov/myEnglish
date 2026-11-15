@@ -8,7 +8,7 @@ import { md, mdInline } from '../ui/md.js';
 import { tutor, aiErrorText } from '../ai.js';
 import { user } from '../supa.js';
 import { grammarIndex, json, scenarios as loadScenarios } from '../data.js';
-import { LEVELS, LEVEL_NAME } from '../level.js';
+import { LEVELS, LEVEL_NAME, lvLabel } from '../level.js';
 import { fold } from './progress.js';
 import { compute, insight, digest, digestHash, activityHref, ACTIVITY, CRIT, CRIT_UK, SKILL_UK, speechLines } from '../analysis.js';
 
@@ -38,7 +38,7 @@ export default async function analysisPage(view) {
       section('writing', 'Письмо', 'pencil-line', A, writingBody(A), w.checks || w.diary ? `${w.diary} ${plural(w.diary, 'запис', 'записи', 'записів')} у щоденнику${w.errPer100 != null ? ` · ${num(w.errPer100)} помилок на 100 слів` : ''}` : 'даних ще немає'))),
     h('section.tx-group', { 'aria-labelledby': 'an-study' }, h('h2.tx-label#an-study', 'Навчання'), h('div.pg-folds',
       section('vocabulary', 'Слова', 'cards', A, vocabBody(A), v.inWork ? `${v.inWork} у роботі · ${v.mature} міцно` : 'карток ще немає'),
-      section('grammar', 'Граматика', 'puzzle-piece', A, grammarBody(A), own ? `${own.done} з ${own.total} уроків ${A.level}` : ''),
+      section('grammar', 'Граматика', 'puzzle-piece', A, grammarBody(A), own ? `${own.done} з ${own.total} уроків ${lvLabel(A.level)}` : ''),
       section('mistakes', 'Помилки', 'warning-circle', A, mistakesBody(A), m.total ? `${m.open} відкритих · ${m.resolvedPct}% виправлено` : 'помилок ще немає'),
       section('habits', 'Звички й час', 'clock', A, habitsBody(A), hb.min4w ? [hb.streak ? `${hb.streak} ${plural(hb.streak, 'день', 'дні', 'днів')} поспіль` : '', `${hb.min4w} хв за 4 тижні`].filter(Boolean).join(' · ') : 'занять ще не було')))));
 }
@@ -71,12 +71,12 @@ function overviewCard(A, primary = true) {
   const mastery = A.lp?.pct ?? null;
   const talk = { icon: 'chat-circle-dots', label: 'Поговорити про мій прогрес', sub: 'консультація з вчителем українською', href: coachHref('overview') };
   return h('section.tx-group.an-over', { 'aria-label': 'Огляд' },
-    h('div.tx-row.an-lvl', h('span.level-badge', A.level), h('span.tx-body',
-      h('span.tx-l', `Рівень у застосунку: ${A.level} · ${LEVEL_NAME[A.level]}`),
+    h('div.tx-row.an-lvl', h('span.level-badge' + (A.level === 'A0' ? '.pre' : ''), lvLabel(A.level)), h('span.tx-body',
+      h('span.tx-l', `Рівень у застосунку: ${lvLabel(A.level)} · ${LEVEL_NAME[A.level]}`),
       h('span.tx-s', A.levelSource === 'test' ? 'визначено тестом' : A.levelSource ? 'обрано вручну або змінено' : 'рівень за замовчуванням — пройдіть тест'))),
     // лише цифри, що є: без «—» і «0%» (порожні стани без нулів)
     kpiRow([
-      mastery ? stat(`${mastery}%`, `опановано ${A.level}`) : null,
+      mastery ? stat(`${mastery}%`, `опановано ${lvLabel(A.level)}`) : null,
       pl?.overall ? stat(pl.overall, pl.days > 0 ? `тест, ${pl.days} ${plural(pl.days, 'день', 'дні', 'днів')} тому` : 'тест, сьогодні', 'accent') : null,
       sp.current ? stat(sp.current, `говоріння, ${sp.enough} ${plural(sp.enough, 'оцінка', 'оцінки', 'оцінок')}`, 'accent') : null]),
     primary ? txPrimary(talk) : tx({ ...talk, wide: true }));
@@ -118,7 +118,7 @@ function deepCard(A) {
     const out = [];
     const ov = d.overall || {};
     if (ov.level || ov.summary_uk) out.push(h('div.stack', { style: { gap: '6px' } },
-      ov.level ? h('div.row', h('span.tag.accent', `Оцінка вчителя: ${ov.level}${ov.sublevel === 'high' ? '+' : ov.sublevel === 'low' ? '−' : ''}`), h('span.xs.dim', { low: 'нижня межа рівня', mid: 'середина рівня', high: 'верхня межа рівня' }[ov.sublevel] || '')) : null,
+      ov.level ? h('div.row', h('span.tag.accent', `Оцінка вчителя: ${lvLabel(ov.level)}${ov.sublevel === 'high' ? '+' : ov.sublevel === 'low' ? '−' : ''}`), h('span.xs.dim', { low: 'нижня межа рівня', mid: 'середина рівня', high: 'верхня межа рівня' }[ov.sublevel] || '')) : null,
       ov.summary_uk ? md(ov.summary_uk) : null));
     if (d.next_level_gap_uk) out.push(h('div.feedback.ok', h('b', 'До наступного рівня: '), mdInline(d.next_level_gap_uk)));
     const folds = [];
@@ -174,8 +174,8 @@ function placementBody(A) {
       const s = p.skills[k];
       if (!s) return h('div.an-skill', h('div.row.small', h('span.grow', label), h('span.dim', 'не оцінено')));
       return h('div.an-skill',
-        h('div.row.small', h('span.grow', label), h('b', s.level), s.conf ? h('span.xs.dim', s.conf) : null),
-        h('div.pl-bar', { role: 'img', 'aria-label': `${label}: ${s.level}${s.conf ? `, ${s.conf}` : ''}` }, LEVELS.map((l, i) => h('i', { class: i <= rk(s.level) ? 'on' : '' }))));
+        h('div.row.small', h('span.grow', label), h('b', lvLabel(s.level)), s.conf ? h('span.xs.dim', s.conf) : null),
+        h('div.pl-bar', { role: 'img', 'aria-label': `${label}: ${lvLabel(s.level)}${s.conf ? `, ${s.conf}` : ''}` }, LEVELS.map((l, i) => h('i', { class: i <= rk(s.level) ? 'on' : '' }))));
     }),
     h('div.xs.dim', `Тест від ${fmtDate(p.at).replace(/\.$/, '')}. Говоріння в тесті — з короткої розмови; оцінку з довших розмов дивіться в розділі «Говоріння».`));
 }
@@ -185,18 +185,18 @@ function sparkline(sessions) {
   const W = 320, H = 96, pad = { l: 26, r: 8, t: 8, b: 8 };
   const ns = 'http://www.w3.org/2000/svg';
   const el = (tag, attrs) => { const e = document.createElementNS(ns, tag); for (const [k, v] of Object.entries(attrs)) e.setAttribute(k, v); return e; };
-  const svg = el('svg', { viewBox: `0 0 ${W} ${H}`, class: 'an-spark', role: 'img', 'aria-label': `Рівень у розмовах: ${sessions.map(s => s.level).join(', ')}` });
+  const svg = el('svg', { viewBox: `0 0 ${W} ${H}`, class: 'an-spark', role: 'img', 'aria-label': `Рівень у розмовах: ${sessions.map(s => lvLabel(s.level)).join(', ')}` });
   const y = (i) => pad.t + (H - pad.t - pad.b) * (1 - i / (LEVELS.length - 1));
   const x = (i) => pad.l + (sessions.length === 1 ? (W - pad.l - pad.r) / 2 : (W - pad.l - pad.r) * i / (sessions.length - 1));
   LEVELS.forEach((l, i) => {
     svg.append(el('line', { x1: pad.l, x2: W - pad.r, y1: y(i), y2: y(i), class: 'grid' }));
-    const tx = el('text', { x: 0, y: y(i) + 4, class: 'lbl' }); tx.textContent = l; svg.append(tx);
+    const tx = el('text', { x: 0, y: y(i) + 4, class: 'lbl' }); tx.textContent = l === 'A0' ? 'Pre' : l; svg.append(tx);
   });
   const val = (s) => rk(s.level) + (s.sublevel === 'high' ? 0.33 : s.sublevel === 'low' ? -0.33 : 0);
   if (sessions.length > 1) svg.append(el('polyline', { points: sessions.map((s, i) => `${x(i)},${y(val(s))}`).join(' '), class: 'line' }));
   sessions.forEach((s, i) => {
     const c = el('circle', { cx: x(i), cy: y(val(s)), r: 4.5, class: 'dot' });
-    const tt = el('title', {}); tt.textContent = `${fmtDate(s.at)}: ${s.level}${s.sublevel === 'high' ? '+' : ''} (${s.mode === 'voice' ? 'голос' : 'текст'})`;
+    const tt = el('title', {}); tt.textContent = `${fmtDate(s.at)}: ${lvLabel(s.level)}${s.sublevel === 'high' ? '+' : ''} (${s.mode === 'voice' ? 'голос' : 'текст'})`;
     c.append(tt); svg.append(c);
   });
   return svg;
@@ -336,7 +336,7 @@ function vocabBody(A) {
       stat(v.mature, 'міцно (інтервал ≥ 21 дн.)', v.mature ? 'good' : ''),
       stat(v.ret.n >= 20 ? `${v.ret.pct}%` : '—', v.ret.n >= 20 ? `утримання за 30 дн.${v.retPrev.pct != null && v.retPrev.n >= 20 ? ` (було ${v.retPrev.pct}%)` : ''}` : `утримання: ${v.ret.n}/20 повторів`)], 2),
     v.byLevel.length ? h('div.stack', { style: { gap: '6px' } }, h('div.xs.dim', 'Закріплені слова (інтервал ≥ 7 дн.) з колод кожного рівня'),
-      v.byLevel.map(x => hbar(x.level, x.known, x.total, `${x.known} з ${x.total}`)),
+      v.byLevel.map(x => hbar(lvLabel(x.level), x.known, x.total, `${x.known} з ${x.total}`)),
       v.own || v.work ? h('div.xs.dim', [v.own ? `ще ${v.own} з «Моїх слів»` : '', v.work ? `${v.work} з робочих колод` : ''].filter(Boolean).join(' · ')) : null) : null,
     v.weak.length ? h('div.stack', { style: { gap: '4px' } }, h('div.xs.dim', 'Слова, які забуваються найчастіше'),
       h('div.chips', v.weak.map(w => h('span.tag', { title: w.uk || '' }, h('span', { lang: 'en' }, w.en), ` · ${w.lapses}×`)))) : null,
@@ -346,10 +346,10 @@ function vocabBody(A) {
 function grammarBody(A) {
   const g = A.grammar;
   return h('div.stack', { style: { gap: '10px' } },
-    h('div.stack', { style: { gap: '6px' } }, g.byLevel.map(x => hbar(x.level === A.level ? `${x.level} · ваш рівень` : x.level, x.done, x.total, `${x.done} з ${x.total}`))),
+    h('div.stack', { style: { gap: '6px' } }, g.byLevel.map(x => hbar(x.level === A.level ? `${lvLabel(x.level)} · ваш рівень` : lvLabel(x.level), x.done, x.total, `${x.done} з ${x.total}`))),
     g.tried ? txKpis([stat(g.tried, plural(g.tried, 'урок спробувано', 'уроки спробувано', 'уроків спробувано')), stat(`${g.avgBest}%`, 'найкращий бал, сер.'), stat(g.lessonTests ? `${g.lessonTests.avg}%` : '—', 'тести за уроками')]) : null,
     g.low.length ? h('div.stack', { style: { gap: '6px' } }, h('div.xs.dim', 'Уроки нижче 80%'),
-      txRows(g.low.map(x => txRow({ icon: 'puzzle-piece', label: x.title, sub: `${x.level} · спроб: ${x.attempts}`, pill: { text: `${x.best}%`, tone: x.best < 60 ? 'bad' : 'warn' }, href: `#/grammar/${encodeURIComponent(x.id)}` })))) : null,
+      txRows(g.low.map(x => txRow({ icon: 'puzzle-piece', label: x.title, sub: `${lvLabel(x.level)} · спроб: ${x.attempts}`, pill: { text: `${x.best}%`, tone: x.best < 60 ? 'bad' : 'warn' }, href: `#/grammar/${encodeURIComponent(x.id)}` })))) : null,
     g.due.length ? h('div.small', h('b', 'На повторення: '), g.due.slice(0, 4).map((x, i) => [i ? ', ' : '', h('a', { href: `#/grammar/${encodeURIComponent(x.id)}` }, x.title)])) : null,
     g.next ? txRow({ icon: 'puzzle-piece', label: `Наступний урок: ${g.next.title}`, href: `#/grammar/${encodeURIComponent(g.next.id)}` }) : null);
 }

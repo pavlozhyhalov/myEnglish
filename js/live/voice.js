@@ -376,9 +376,12 @@ export async function voiceSession(view, opts = {}) {
     setState('Слухаю…');
     // вчитель починає першим; тему з чипа передаємо тут (у токені її немає)
     const safeTopic = chipTopic ? chipTopic.replace(/[()]/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 600).replace(/[.!?;,\s]+$/, '') : '';
+    // A0 (Pre-A1, з нуля): м'який старт «повторіть за мною» — короткі фрази, повільно, українська для пояснень
+    const a0 = store.settings().level === 'A0' && !scenario && !safeTopic.includes('absolute beginner')
+      ? ' The student is an absolute beginner (Pre-A1): speak slowly, use very short phrases, explain briefly in Ukrainian, and practise "repeat after me" — say a short phrase, let them repeat it, praise every attempt.' : '';
     live.sendText(scenario ? '(Start the role-play now with your first line.)'
-      : safeTopic ? `(The student is ready. Session topic from the app: ${safeTopic}. Greet them in one short line — no recap of earlier sessions — and open with this topic.)`
-        : '(The student is ready. Greet them briefly and start the conversation with a fresh topic — not one from recent sessions.)');
+      : safeTopic ? `(The student is ready. Session topic from the app: ${safeTopic}. Greet them in one short line — no recap of earlier sessions — and open with this topic.${a0})`
+        : `(The student is ready. Greet them briefly and start the conversation with a fresh topic — not one from recent sessions.${a0})`);
     // мікрофон іде в Live лише тепер — після тапу і готового з'єднання
     audio.addEventListener('pcm', e => { live?.sendAudio(e.detail); onPcm(e.detail, e.rms ?? lastRms); });
   } catch (e) {

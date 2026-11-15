@@ -12,7 +12,7 @@ import { activityTimer, dayKey, today } from '../stats.js';
 import { setFocus } from '../ui/shell.js';
 import { modalOpen } from '../ui/modal.js';
 import { toast } from '../ui/toast.js';
-import { myLevel, fitOrder } from '../level.js';
+import { myLevel, fitOrder, lvLabel } from '../level.js';
 import { user } from '../supa.js';
 import { tutor, aiErrorText } from '../ai.js';
 import * as L from '../wordlogic.js';
@@ -594,7 +594,7 @@ function storyOffer(box, words) {
     return;
   }
   box.replaceChildren(txGroup('Історія з моїх слів', tx({ icon: 'sparkle', label: 'Створити історію', wide: true, onclick: () => storyView(box, words),
-    sub: `рівень ${myLevel()} · ${words.length} ${plural(words.length, 'слово', 'слова', 'слів')} · 3 запитання` })));
+    sub: `рівень ${lvLabel(myLevel())} · ${words.length} ${plural(words.length, 'слово', 'слова', 'слів')} · 3 запитання` })));
 }
 
 /** Історія з AI: слова підсвічені й перекладаються дотиком, 3 запитання на розуміння */

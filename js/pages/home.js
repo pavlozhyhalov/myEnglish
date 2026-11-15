@@ -14,7 +14,7 @@ import { toast } from '../ui/toast.js';
 import { greetName } from './profile.js';
 import { tx, txGrid, txGroup, txBar, txDots } from '../ui/tiles.js';
 import { startDay, startPlan, finishStart, goalPicks, goalTags } from '../start.js';
-import { myLevel, LEVEL_NAME, nextLessonByLevel, byFit, diff, levelProgress, nextLevel, filterByLevel, pickOfDay, setLevel, LEVELS as LEVEL_ORDER, levelPlan } from '../level.js';
+import { myLevel, LEVEL_NAME, nextLessonByLevel, byFit, diff, levelProgress, nextLevel, filterByLevel, pickOfDay, setLevel, LEVELS as LEVEL_ORDER, levelPlan, lvLabel } from '../level.js';
 
 const nMistakes = (n) => `${n} ${plural(n, 'помилка', 'помилки', 'помилок')}`;
 
@@ -247,10 +247,10 @@ function levelGroup(view, gIdx, lvl) {
     if (dis && dis.level === lvl && Date.now() - Date.parse(dis.at) < 14 * 864e5) return;
     const passed = !!store.prof().levelExam?.[lvl];
     const tile = passed
-      ? tx({ wide: true, icon: 'rocket-launch', cls: 'hm-lvsug-t', label: `Іспит ${lvl} складено — перейти на ${nxt}?`, sub: 'уроки дня й нові слова стануть під новий рівень',
+      ? tx({ wide: true, icon: 'rocket-launch', cls: 'hm-lvsug-t', label: `Іспит ${lvLabel(lvl)} складено — перейти на ${nxt}?`, sub: 'уроки дня й нові слова стануть під новий рівень',
         onclick: () => { setLevel(nxt, 'exam'); toast(`Рівень ${nxt}: план і завдання оновлено`); home(view); }, end: h('span.tx-pill.accent', 'Перейти') })
       : tx({ wide: true, icon: 'seal-check', cls: 'hm-lvsug-t', href: '#/tests/level',
-        label: why.conv ? `Розмови показують ${why.conv} — закрийте ${lvl} іспитом` : `Ви майже опанували ${lvl} — скласти іспит?`,
+        label: why.conv ? `Розмови показують ${why.conv} — закрийте ${lvLabel(lvl)} іспитом` : `Ви майже опанували ${lvLabel(lvl)} — скласти іспит?`,
         sub: `≈ 10 хв · склали — переходите на ${nxt}`, end: h('span.tx-pill.accent', 'Іспит') });
     suggest.replaceChildren(tile,
       h('button.tx-more.hm-lvsug-x', { type: 'button', onclick: () => { store.setProf({ levelSuggestOff: { level: lvl, at: new Date().toISOString() } }); suggest.hidden = true; } }, 'Не зараз'));
@@ -268,13 +268,13 @@ function levelGroup(view, gIdx, lvl) {
     const cl = conversationLevel();
     if (!cl || cl.sessions < 2) return;
     const sub = cl.sublevel === 'high' ? '+' : cl.sublevel === 'low' ? '−' : '';
-    convInfo.textContent = ` · у розмовах ${cl.level}${sub}`;
+    convInfo.textContent = ` · у розмовах ${lvLabel(cl.level)}${sub}`;
     if (LEVEL_ORDER.indexOf(cl.level) > LEVEL_ORDER.indexOf(lvl) && cl.sessions >= 3 && cl.confidence !== 'low' && cl.sublevel !== 'low') { why.conv = cl.level; drawSuggest(); }
   }).catch(() => {});
   const levelTile = tx({ wide: true, href: '#/progress', cls: 'hm-level',
-    icon: null, label: lvl !== nxt ? `Рівень ${lvl} → ${nxt}` : `Рівень ${lvl}`, sub: LEVEL_NAME[lvl],
+    icon: null, label: lvl !== nxt ? `Рівень ${lvLabel(lvl)} → ${nxt}` : `Рівень ${lvl}`, sub: LEVEL_NAME[lvl],
     extra: h('span.hm-level-extra', lpBar, h('span.tx-s', lpInfo, convInfo)), end: lpPct });
-  levelTile.prepend(h('span.tx-sq.hm-level-badge', { 'aria-hidden': 'true' }, lvl));
+  levelTile.prepend(h('span.tx-sq.hm-level-badge' + (lvl === 'A0' ? '.pre' : ''), { 'aria-hidden': 'true' }, lvLabel(lvl)));
   // зміна рівня — у «Налаштуваннях», тестом або пропозицією за розмовами
   return h('div.stack.hm-lvwrap', levelTile, suggest);
 }
@@ -326,7 +326,7 @@ function lessonRow(gIdx) {
   return l ? { icon: 'puzzle-piece', kind: l.review ? 'Повторити урок' : 'Урок дня · граматика', title: l.title, href: `#/grammar/${l.id}` } : null;
 }
 
-const tasksHead = (lvl) => h('div.tx-label-row', h('h2.tx-label', `Завдання рівня ${lvl} на сьогодні`), h('span.hm-more-dim', 'нові щодня'));
+const tasksHead = (lvl) => h('div.tx-label-row', h('h2.tx-label', `Завдання рівня ${lvLabel(lvl)} на сьогодні`), h('span.hm-more-dim', 'нові щодня'));
 
 async function fillLevelTasks(box, lvl, lesson) {
   const [scen, lis, rdMod] = await Promise.all([loadScenarios(), loadListening(), import('./reading.js')]);

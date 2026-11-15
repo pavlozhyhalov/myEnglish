@@ -10,7 +10,7 @@ import { confirmSheet, sheet } from '../ui/sheet.js';
 import { user } from '../supa.js';
 import { speak, englishVoices } from '../speech.js';
 import { arrange } from '../ui/quickbar.js';
-import { LEVELS, LEVEL_NAME, LEVEL_DESC, myLevel, setLevel } from '../level.js';
+import { LEVELS, LEVEL_NAME, LEVEL_DESC, myLevel, setLevel, lvLabel } from '../level.js';
 import { txGroup, txRow, txRows } from '../ui/tiles.js';
 import { pushSupport, reminderPrefs, setReminderPrefs, remindersOn, enable as enablePush, disable as disablePush, syncPrefs, pushErrorText } from '../push.js';
 
@@ -165,8 +165,8 @@ function levelPicker() {
   const render = () => {
     const cur = myLevel();
     const p = store.prof();
-    chips.replaceChildren(...LEVELS.map(l => h('button.chip', { type: 'button', 'aria-pressed': String(l === cur), onclick: () => { setLevel(l, 'manual'); toast(`Рівень ${l}: план і завдання оновлено`); render(); } }, l)));
-    desc.replaceChildren(h('b', `${cur} · ${LEVEL_NAME[cur]}. `), LEVEL_DESC[cur]);
+    chips.replaceChildren(...LEVELS.map(l => h('button.chip', { type: 'button', 'aria-pressed': String(l === cur), onclick: () => { setLevel(l, 'manual'); toast(`Рівень ${lvLabel(l)}: план і завдання оновлено`); render(); } }, lvLabel(l))));
+    desc.replaceChildren(h('b', `${lvLabel(cur)} · ${LEVEL_NAME[cur]}. `), LEVEL_DESC[cur]);
     src.textContent = p.levelSource === 'conversation' ? 'Підвищено за розмовами' : p.levelSource === 'progress' ? 'Підвищено за прогресом' : p.levelSource === 'test' || (p.placementDone === true && p.levelSource !== 'manual') ? 'Визначено тестом' : p.levelSource === 'manual' ? 'Обрано вручну' : 'Тест уточнить рівень';
   };
   render();

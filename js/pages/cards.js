@@ -9,7 +9,7 @@ import { setFocus, setTitle } from '../ui/shell.js';
 import { toast } from '../ui/toast.js';
 import { modalOpen } from '../ui/modal.js';
 import { go } from '../router.js';
-import { myLevel, diff, levelTag, byFit } from '../level.js';
+import { myLevel, diff, levelTag, byFit, lvLabel } from '../level.js';
 import { aiErrorText } from '../ai.js';
 import { tx, txPrimary, txKpis, txGrid, txGroup, txRows, txBar, txResult } from '../ui/tiles.js';
 
@@ -78,7 +78,7 @@ export default async function cards(view, r) {
       : h('div.stack.cd-top', kpis,
         tx({ icon: 'confetti', label: 'На сьогодні все повторено', sub: 'Нові картки — завтра', wide: true, tone: 'good' }),
         tx({ icon: 'plus', label: 'Додати свої слова', sub: 'у «Мої слова»', href: '#/vocab', wide: true })),
-    txGroup(`Колоди рівня ${lv}`, [txRows([...mine.map(deckRow), myDeck ? deckRow(myDeck) : null]), moreBtn]),
+    txGroup(`Колоди рівня ${lvLabel(lv)}`, [txRows([...mine.map(deckRow), myDeck ? deckRow(myDeck) : null]), moreBtn]),
     restBox));
 }
 

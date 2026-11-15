@@ -13,7 +13,7 @@ import { grammarIndex, lesson as loadLesson, deckIndex, withCards } from '../dat
 import { runExercises, cappedRows } from '../ui/exercises.js';
 import { speak, stop as stopSpeech } from '../speech.js';
 import { activityTimer, lessonNeedsReview, addMistake } from '../stats.js';
-import { myLevel, nextLevel, setLevel, LEVEL_NAME, LEVELS } from '../level.js';
+import { myLevel, nextLevel, setLevel, LEVEL_NAME, LEVELS, lvLabel } from '../level.js';
 import { onLeave } from '../router.js';
 import { setFocus } from '../ui/shell.js';
 import { toast } from '../ui/toast.js';
@@ -57,11 +57,11 @@ export default async function levelExam(view) {
   const wordN = Math.min(MAX_WORDS, words.open.length);
 
   view.replaceChildren(h('div.stack-lg.gx.lx',
-    txResult({ icon: 'exam', tone: 'accent', label: `Іспит рівня ${level}`, title: last ? `Підтвердити рівень ${level}` : `Закрити ${level} і перейти на ${next}`,
+    txResult({ icon: 'exam', tone: 'accent', label: `Іспит рівня ${lvLabel(level)}`, title: last ? `Підтвердити рівень ${lvLabel(level)}` : `Закрити ${lvLabel(level)} і перейти на ${next}`,
       sub: `≈ ${Math.max(5, Math.round((lessons.length * PER_LESSON * 20 + wordN * 6) / 60))} хв · прохідний бал — ${PASS}% у кожній частині` }),
     txPrimary({ icon: 'play', label: 'Почати іспит', sub: `граматика ${lessons.length * PER_LESSON} · слова ${wordN}`, onclick: () => start(view, { level, next, last, lessons, words }) }),
     txGroup('Що перевіряємо', txRows([
-      txRow({ icon: 'puzzle-piece', label: 'Граматика', sub: `${lessons.length} ${plural(lessons.length, 'урок', 'уроки', 'уроків')} рівня ${level} · по ${PER_LESSON} питання` }),
+      txRow({ icon: 'puzzle-piece', label: 'Граматика', sub: `${lessons.length} ${plural(lessons.length, 'урок', 'уроки', 'уроків')} рівня ${lvLabel(level)} · по ${PER_LESSON} питання` }),
       txRow({ icon: 'cards', label: 'Слова', sub: words.open.length
         ? `${words.open.length} ${plural(words.open.length, 'слово', 'слова', 'слів')} ще не закріплено${words.open.length > MAX_WORDS ? ` · у тесті ${MAX_WORDS}` : ''} · правильні — одразу вивчені`
         : 'усі слова рівня вже закріплено' }),
