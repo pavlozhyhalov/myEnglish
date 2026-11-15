@@ -153,7 +153,8 @@ export function levelPlan(lp) {
   const now = Date.now();
   const recent = store.all('lessons_progress').filter(p => p.completed_at && now - Date.parse(p.completed_at) < 14 * 864e5).length;
   const lessonsPerWeek = Math.max(2, Math.round(recent / 2));
-  const perDay = Math.max(1, Number(store.settings().newPerDay) || 15);
+  // A0 («Старт»): «Мій день» дає до 5 нових слів — план рахуємо в тому самому темпі
+  const perDay = Math.max(1, Math.min(lp.level === 'A0' ? 5 : Infinity, Number(store.settings().newPerDay) || 15));
   const lessonsLeft = Math.max(0, lp.grammar.total - lp.grammar.done);
   const wordsLeft = Math.max(0, lp.words.total - lp.words.done);
   const wGrammar = lessonsLeft / lessonsPerWeek;

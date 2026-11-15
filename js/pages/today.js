@@ -6,6 +6,7 @@ import * as store from '../store.js';
 import { streak, todaySeconds } from '../stats.js';
 import { buildPlan, markStarted } from '../daily.js';
 import { skel, skelLines } from '../ui/skeleton.js';
+import { setTitle } from '../ui/shell.js';
 
 const reduced = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -49,6 +50,7 @@ function doneHref(s) {
 
 export default async function today(view) {
   const tok = view.__tok = (view.__tok || 0) + 1;
+  if (store.settings().level === 'A0') setTitle('Мій день за 10 хвилин');   // рівень «Старт» (Pre-A1) — коротший план
   view.replaceChildren(skeletonPage());
   const plan = await buildPlan();
   if (view.__tok !== tok) return;

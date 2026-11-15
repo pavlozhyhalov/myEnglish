@@ -57,7 +57,7 @@ export default async function progressPage(view) {
   view.replaceChildren(h('div.stack-lg.pg-page',
     fresh ? h('div.stack.pg-fresh',
       txResultFresh(),
-      txPrimary({ icon: 'play', label: 'Почати мій день', sub: 'слова → правила → розмова', href: '#/today' })) : null,
+      txPrimary({ icon: 'play', label: 'Почати мій день', sub: lvl === 'A0' ? 'звуки → слова → фраза дня' : 'слова → правила → розмова', href: '#/today' })) : null,
     fresh ? null : txKpis([
       { value: st, label: `${plural(st, 'день', 'дні', 'днів')} поспіль`, tone: st ? 'accent' : '', ariaLabel: `Стрік: ${st} ${plural(st, 'день', 'дні', 'днів')} поспіль` },
       { value: fmtMin(weekSeconds()), label: 'за 7 днів' },
