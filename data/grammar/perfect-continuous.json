@@ -80,11 +80,11 @@
   },
   {
    "type": "input",
-   "prompt": "How long ___ you ___ (wait)? (3 слова)",
+   "prompt": "How long ___ (you / wait)? (Present Perfect Continuous)",
    "answer": [
-    "have been waiting"
+    "have you been waiting"
    ],
-   "explanation": "have + been + V-ing."
+   "explanation": "Питання: have + підмет + been + V-ing."
   },
   {
    "type": "input",
@@ -140,7 +140,7 @@
     "I've been reading this book since Monday.",
     "I have been reading this book since Monday."
    ],
-   "explanation": ""
+   "explanation": "Почалося в понеділок і триває → have been + V-ing + since."
   },
   {
    "type": "translate",

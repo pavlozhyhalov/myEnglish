@@ -72,7 +72,7 @@
     "will go"
    ],
    "answer": "went",
-   "explanation": ""
+   "explanation": "It's time + підмет + Past Simple."
   },
   {
    "type": "choice",
@@ -83,7 +83,7 @@
     "will tell"
    ],
    "answer": "told",
-   "explanation": ""
+   "explanation": "would rather + інший підмет + Past Simple."
   },
   {
    "type": "choice",
@@ -94,7 +94,7 @@
     "will be"
    ],
    "answer": "were",
-   "explanation": ""
+   "explanation": "as if + were — нереальне порівняння."
   },
   {
    "type": "choice",
@@ -113,7 +113,7 @@
    "answer": [
     "started"
    ],
-   "explanation": ""
+   "explanation": "It's high time + підмет + Past Simple."
   },
   {
    "type": "input",
@@ -122,7 +122,7 @@
     "didn't call",
     "did not call"
    ],
-   "explanation": ""
+   "explanation": "would rather + інший підмет + didn't + V."
   },
   {
    "type": "input",
@@ -133,7 +133,7 @@
     "'d been crying",
     "'d cried"
    ],
-   "explanation": ""
+   "explanation": "Про минуле — as if + Past Perfect (Continuous)."
   },
   {
    "type": "error",
@@ -160,7 +160,7 @@
     "It's time we left now.",
     "It's high time we left."
    ],
-   "explanation": ""
+   "explanation": "It's time + підмет + Past Simple (left)."
   },
   {
    "type": "transform",
@@ -170,7 +170,7 @@
     "I'd rather you didn't bring your dog.",
     "I would rather you didn't bring your dog."
    ],
-   "explanation": ""
+   "explanation": "would rather + інший підмет + didn't + V."
   },
   {
    "type": "translate",
@@ -185,7 +185,7 @@
     "He's behaving as if nothing happened.",
     "He acts as though nothing happened."
    ],
-   "explanation": ""
+   "explanation": "as if + минулий час: nothing happened / had happened."
   }
  ]
 }

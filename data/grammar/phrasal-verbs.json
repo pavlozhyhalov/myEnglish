@@ -94,7 +94,7 @@
    "answer": [
     "up"
    ],
-   "explanation": ""
+   "explanation": "give up — кинути (звичку)."
   },
   {
    "type": "input",
@@ -102,7 +102,7 @@
    "answer": [
     "up"
    ],
-   "explanation": ""
+   "explanation": "pick up — заїхати по когось; займенник стоїть між дієсловом і часткою."
   },
   {
    "type": "order",
@@ -128,7 +128,7 @@
     "Turn it off, please.",
     "Please turn it off."
    ],
-   "explanation": ""
+   "explanation": "turn off — вимкнути; займенник — між дієсловом і часткою."
   },
   {
    "type": "transform",
@@ -138,7 +138,7 @@
     "I ran into an old friend in the shop.",
     "I ran into an old friend at the shop."
    ],
-   "explanation": ""
+   "explanation": "run into — випадково зустріти."
   },
   {
    "type": "translate",
@@ -150,7 +150,7 @@
     "I can't stand this noise anymore.",
     "I cannot put up with this noise anymore."
    ],
-   "explanation": ""
+   "explanation": "put up with — терпіти."
   }
  ]
 }

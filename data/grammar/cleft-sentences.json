@@ -67,7 +67,7 @@
     "What"
    ],
    "answer": "It",
-   "explanation": ""
+   "explanation": "It was + виділене слово + who/that…"
   },
   {
    "type": "choice",
@@ -78,7 +78,7 @@
     "It"
    ],
    "answer": "What",
-   "explanation": ""
+   "explanation": "What + підмет + дієслово + is… — виділяємо цілу думку."
   },
   {
    "type": "choice",
@@ -89,7 +89,7 @@
     "what"
    ],
    "answer": "that",
-   "explanation": ""
+   "explanation": "It was + час/місце + that…"
   },
   {
    "type": "choice",
@@ -100,7 +100,7 @@
     "be"
    ],
    "answer": "is",
-   "explanation": ""
+   "explanation": "All I want is… — дієслово в однині."
   },
   {
    "type": "input",
@@ -108,7 +108,7 @@
    "answer": [
     "was"
    ],
-   "explanation": ""
+   "explanation": "What-речення як підмет → дієслово в однині; минулий час → was."
   },
   {
    "type": "input",
@@ -116,7 +116,7 @@
    "answer": [
     "was"
    ],
-   "explanation": ""
+   "explanation": "It was + виділене слово + that…; минулий час → was."
   },
   {
    "type": "input",
@@ -125,7 +125,7 @@
     "What",
     "All"
    ],
-   "explanation": ""
+   "explanation": "What I need is… або All I need is…"
   },
   {
    "type": "error",
@@ -153,7 +153,7 @@
     "What annoys me most is the traffic.",
     "What annoys me the most is the traffic."
    ],
-   "explanation": ""
+   "explanation": "What + дієслово + me most + is…"
   },
   {
    "type": "transform",
@@ -161,9 +161,11 @@
    "instruction": "It was…",
    "answer": [
     "It was Emma who booked the tickets, not me.",
-    "It was Emma that booked the tickets, not me."
+    "It was Emma that booked the tickets, not me.",
+    "It was Emma, not me, who booked the tickets.",
+    "It was Emma, not me, that booked the tickets."
    ],
-   "explanation": ""
+   "explanation": "It was + особа + who/that…"
   },
   {
    "type": "translate",
@@ -174,7 +176,7 @@
     "The thing is, I've forgotten my wallet.",
     "The thing is that I've forgotten my wallet."
    ],
-   "explanation": ""
+   "explanation": "The thing is (that)… — «справа в тому, що»."
   }
  ]
 }

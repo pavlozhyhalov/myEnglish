@@ -189,7 +189,9 @@
    "prompt": "Prices are rising.",
    "instruction": "Пом'якште за допомогою appear to",
    "answer": [
-    "Prices appear to be rising."
+    "Prices appear to be rising.",
+    "It appears that prices are rising.",
+    "It appears prices are rising."
    ],
    "explanation": "appear to + be + V-ing."
   },

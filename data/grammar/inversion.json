@@ -71,7 +71,7 @@
     "I saw"
    ],
    "answer": "have I seen",
-   "explanation": ""
+   "explanation": "Після Never на початку — інверсія: have + підмет + V3."
   },
   {
    "type": "choice",
@@ -82,7 +82,7 @@
     "did he"
    ],
    "answer": "was he",
-   "explanation": ""
+   "explanation": "Not only на початку → інверсія: was he."
   },
   {
    "type": "choice",
@@ -93,7 +93,7 @@
     "then"
    ],
    "answer": "than",
-   "explanation": ""
+   "explanation": "No sooner … than — сталий вираз."
   },
   {
    "type": "choice",
@@ -104,7 +104,7 @@
     "you open"
    ],
    "answer": "should you open",
-   "explanation": ""
+   "explanation": "Under no circumstances → інверсія: should you open."
   },
   {
    "type": "input",
@@ -112,7 +112,7 @@
    "answer": [
     "did I know"
    ],
-   "explanation": ""
+   "explanation": "Little на початку → did + підмет + V: did I know."
   },
   {
    "type": "input",
@@ -121,7 +121,7 @@
     "does she complain",
     "did she complain"
    ],
-   "explanation": ""
+   "explanation": "Rarely на початку → does/did + підмет + V."
   },
   {
    "type": "input",
@@ -129,7 +129,7 @@
    "answer": [
     "had we started"
    ],
-   "explanation": ""
+   "explanation": "Hardly … when → had + підмет + V3: had we started."
   },
   {
    "type": "error",
@@ -154,7 +154,7 @@
    "answer": [
     "Never have I tasted such good pizza."
    ],
-   "explanation": ""
+   "explanation": "Never на початку → have I + V3."
   },
   {
    "type": "transform",
@@ -165,9 +165,11 @@
     "Not only didn't he apologise, but he also blamed me.",
     "Not only did he fail to apologise, but he also blamed me.",
     "Not only did he not apologise, he also blamed me.",
-    "Not only did he not apologize, but he also blamed me."
+    "Not only did he not apologize, but he also blamed me.",
+    "Not only did he fail to apologise, he also blamed me.",
+    "Not only didn't he apologise, he also blamed me."
    ],
-   "explanation": ""
+   "explanation": "Not only did he…, but he also… — інверсія з did."
   },
   {
    "type": "translate",
@@ -176,9 +178,11 @@
     "Only then did I understand how important it was.",
     "Only then did I realise how important it was.",
     "Only then did I realize how important it was.",
-    "Only then did I understand how important it is."
+    "Only then did I understand how important it is.",
+    "Only then did I realise how important it is.",
+    "Only then did I see how important it was."
    ],
-   "explanation": ""
+   "explanation": "Only then → інверсія: did I + V."
   }
  ]
 }

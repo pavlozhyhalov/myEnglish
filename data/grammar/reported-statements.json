@@ -155,7 +155,7 @@
     "He said that he lived in Kraków.",
     "He said he lived in Krakow."
    ],
-   "explanation": ""
+   "explanation": "Непряма мова: Present Simple → Past Simple (lived)."
   },
   {
    "type": "transform",
@@ -164,7 +164,8 @@
    "answer": [
     "Anna said she was working from home that day.",
     "Anna said that she was working from home that day.",
-    "Anna said she was working at home that day."
+    "Anna said she was working at home that day.",
+    "Anna said that she was working at home that day."
    ],
    "explanation": "today → that day."
   },
@@ -179,7 +180,7 @@
     "She told me that she'd forgotten about the meeting.",
     "She told me she'd forgotten the meeting."
    ],
-   "explanation": ""
+   "explanation": "Непряма мова: Past Simple → Past Perfect (had forgotten)."
   }
  ]
 }

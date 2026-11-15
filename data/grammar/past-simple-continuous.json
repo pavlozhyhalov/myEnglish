@@ -108,9 +108,9 @@
   },
   {
    "type": "input",
-   "prompt": "What ___ you ___ (do) at 8 pm yesterday? (2 слова)",
+   "prompt": "What ___ (you / do) at 8 pm yesterday? (Past Continuous)",
    "answer": [
-    "were doing"
+    "were you doing"
    ],
    "explanation": "Конкретний момент у минулому → Past Continuous."
   },

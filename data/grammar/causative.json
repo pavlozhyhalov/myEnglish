@@ -71,7 +71,7 @@
     "did"
    ],
    "answer": "had",
-   "explanation": ""
+   "explanation": "have + об'єкт + V3; yesterday → минулий час had."
   },
   {
    "type": "choice",
@@ -82,7 +82,7 @@
     "painting"
    ],
    "answer": "painted",
-   "explanation": ""
+   "explanation": "have + об'єкт + V3: painted — фарбує хтось інший."
   },
   {
    "type": "choice",
@@ -93,7 +93,7 @@
     "to test"
    ],
    "answer": "tested",
-   "explanation": ""
+   "explanation": "get + об'єкт + V3: tested — перевірить лікар."
   },
   {
    "type": "choice",
@@ -104,7 +104,7 @@
     "steal"
    ],
    "answer": "stolen",
-   "explanation": ""
+   "explanation": "have + об'єкт + V3 про неприємну подію: had his wallet stolen."
   },
   {
    "type": "input",
@@ -112,7 +112,7 @@
    "answer": [
     "have the car serviced"
    ],
-   "explanation": ""
+   "explanation": "have + об'єкт + V3: have the car serviced."
   },
   {
    "type": "input",
@@ -120,7 +120,7 @@
    "answer": [
     "got the windows cleaned"
    ],
-   "explanation": ""
+   "explanation": "get + об'єкт + V3, минулий час: got the windows cleaned."
   },
   {
    "type": "input",
@@ -128,7 +128,7 @@
    "answer": [
     "have your suit made"
    ],
-   "explanation": ""
+   "explanation": "Питання в минулому: did you have + об'єкт + V3 (made)."
   },
   {
    "type": "error",
@@ -152,9 +152,10 @@
    "answer": [
     "We're having the furniture delivered on Saturday.",
     "We are having the furniture delivered on Saturday.",
-    "We're getting the furniture delivered on Saturday."
+    "We're getting the furniture delivered on Saturday.",
+    "On Saturday we're having the furniture delivered."
    ],
-   "explanation": ""
+   "explanation": "Present Continuous для домовленості + have/get + об'єкт + V3."
   },
   {
    "type": "transform",
@@ -163,7 +164,7 @@
    "answer": [
     "I had my bike repaired."
    ],
-   "explanation": ""
+   "explanation": "Послугу зробив хтось інший → had + об'єкт + V3."
   },
   {
    "type": "translate",
@@ -174,7 +175,7 @@
     "I have to have my teeth checked.",
     "I have to get my teeth checked."
    ],
-   "explanation": ""
+   "explanation": "need to have/get + об'єкт + V3: have my teeth checked."
   }
  ]
 }

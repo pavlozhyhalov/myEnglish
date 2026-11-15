@@ -99,7 +99,7 @@
    "answer": [
     "will be watching"
    ],
-   "explanation": ""
+   "explanation": "О 8-й дія буде в процесі → will be + V-ing."
   },
   {
    "type": "error",
@@ -126,7 +126,7 @@
     "By the end of the month we will have moved.",
     "By the end of the month we'll have moved."
    ],
-   "explanation": ""
+   "explanation": "by the end of the month → Future Perfect: will have + V3."
   },
   {
    "type": "transform",
@@ -136,7 +136,7 @@
     "I'll be working at 5 pm tomorrow.",
     "I will be working at 5 pm tomorrow."
    ],
-   "explanation": ""
+   "explanation": "Дія триватиме в певний момент → will be + V-ing."
   },
   {
    "type": "translate",
@@ -148,7 +148,7 @@
     "This time tomorrow I'll be driving.",
     "I'll be on the road this time tomorrow."
    ],
-   "explanation": ""
+   "explanation": "Процес у момент майбутнього → will be + V-ing."
   }
  ]
 }

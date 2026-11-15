@@ -67,7 +67,7 @@
     "will be"
    ],
    "answer": "would be",
-   "explanation": ""
+   "explanation": "Минула умова (had learned) → результат зараз (would be)."
   },
   {
    "type": "choice",
@@ -89,7 +89,7 @@
     "lived"
    ],
    "answer": "would live",
-   "explanation": ""
+   "explanation": "Минула умова → теперішній результат: would + V."
   },
   {
    "type": "choice",
@@ -100,7 +100,7 @@
     "won't have"
    ],
    "answer": "wouldn't have had",
-   "explanation": ""
+   "explanation": "Постійна риса зараз (were) → минулий результат: would have + V3."
   },
   {
    "type": "input",
@@ -109,7 +109,7 @@
     "hadn't eaten",
     "had not eaten"
    ],
-   "explanation": ""
+   "explanation": "Минула умова → If + Past Perfect: hadn't eaten."
   },
   {
    "type": "input",
@@ -119,7 +119,7 @@
     "'d have invested",
     "would've invested"
    ],
-   "explanation": ""
+   "explanation": "Риса зараз → минулий результат: would have + V3."
   },
   {
    "type": "input",
@@ -128,7 +128,7 @@
     "had taken",
     "'d taken"
    ],
-   "explanation": ""
+   "explanation": "Минула умова → If + Past Perfect: had taken."
   },
   {
    "type": "error",
@@ -140,11 +140,11 @@
   },
   {
    "type": "error",
-   "sentence": "If he wasn't so lazy, he would pass the exam last week.",
+   "sentence": "If he weren't so lazy, he would pass the exam last week.",
    "wrongIndex": 7,
    "correction": "have passed",
    "alt": [],
-   "explanation": "Минулий результат."
+   "explanation": "Риса зараз (weren't so lazy) → минулий результат (last week): would have + V3 — would have passed."
   },
   {
    "type": "transform",
@@ -156,7 +156,7 @@
     "If I had gotten enough sleep, I wouldn't be exhausted now.",
     "If I'd gotten enough sleep, I wouldn't be exhausted now."
    ],
-   "explanation": ""
+   "explanation": "Минуле (had got) → теперішній стан (wouldn't be)."
   },
   {
    "type": "transform",
@@ -166,7 +166,7 @@
     "If she were more patient, she wouldn't have shouted at the kids yesterday.",
     "If she were patient, she wouldn't have shouted at the kids yesterday."
    ],
-   "explanation": ""
+   "explanation": "Риса зараз (were) → минулий результат (wouldn't have shouted)."
   },
   {
    "type": "translate",
@@ -189,7 +189,7 @@
     "If I'd bought that flat, I would be living in the city centre now.",
     "If I'd bought that flat, I would live in the city centre now."
    ],
-   "explanation": ""
+   "explanation": "Минула умова (had bought) → результат зараз (would live)."
   }
  ]
 }

@@ -166,7 +166,9 @@
    "sentence": "She told me she will be late, so I waited.",
    "wrongIndex": 4,
    "correction": "would",
-   "alt": [],
+   "alt": [
+    "'d"
+   ],
    "explanation": "Майбутнє з погляду минулого → would."
   },
   {

@@ -85,7 +85,7 @@
     "don't hurry",
     "do not hurry"
    ],
-   "explanation": ""
+   "explanation": "Після if — Present Simple навіть про майбутнє: don't hurry."
   },
   {
    "type": "input",
@@ -94,7 +94,7 @@
     "will tell",
     "'ll tell"
    ],
-   "explanation": ""
+   "explanation": "1 тип: результат у майбутньому — will + V."
   },
   {
    "type": "input",
@@ -131,7 +131,7 @@
     "If it is cold, I will wear a jacket.",
     "I'll wear a jacket if it's cold."
    ],
-   "explanation": ""
+   "explanation": "1 тип: If + Present Simple, will + V."
   },
   {
    "type": "transform",
@@ -142,7 +142,7 @@
     "If you eat so much, you will feel sick.",
     "If you eat too much, you'll feel sick."
    ],
-   "explanation": ""
+   "explanation": "Попередження → 1 тип: If you eat…, you'll feel sick."
   },
   {
    "type": "translate",
@@ -151,7 +151,7 @@
     "If you don't mind, I'll open the window.",
     "If you do not mind, I will open the window."
    ],
-   "explanation": ""
+   "explanation": "If + Present Simple (don't mind), will + V (I'll open)."
   }
  ]
 }

@@ -87,7 +87,7 @@
     "shouldn't",
     "should not"
    ],
-   "explanation": ""
+   "explanation": "Жаль про минуле — shouldn't have + V3."
   },
   {
    "type": "input",
@@ -97,7 +97,7 @@
     "may",
     "could"
    ],
-   "explanation": ""
+   "explanation": "Можливо, так було — might / may / could have + V3."
   },
   {
    "type": "input",
@@ -105,7 +105,7 @@
    "answer": [
     "must"
    ],
-   "explanation": ""
+   "explanation": "Впевнений висновок про минуле — must have + V3."
   },
   {
    "type": "error",
@@ -130,7 +130,7 @@
     "You should have warned me.",
     "You should've warned me."
    ],
-   "explanation": ""
+   "explanation": "Докір за минуле — should have + V3."
   },
   {
    "type": "transform",
@@ -141,7 +141,7 @@
     "I should not have bought this car.",
     "We shouldn't have bought this car."
    ],
-   "explanation": ""
+   "explanation": "Жаль про минуле — shouldn't have + V3."
   },
   {
    "type": "translate",
@@ -152,7 +152,7 @@
     "He must've forgotten about the meeting.",
     "He must've forgotten the meeting."
    ],
-   "explanation": ""
+   "explanation": "Впевнений висновок про минуле — must have + V3."
   }
  ]
 }

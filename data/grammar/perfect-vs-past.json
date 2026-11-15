@@ -121,11 +121,12 @@
   },
   {
    "type": "input",
-   "prompt": "___ you ___ (be) to Gdańsk? — Yes, I went last year. (2 слова)",
+   "prompt": "___ (you / ever / be) to Gdańsk? — Yes, I went last year.",
    "answer": [
-    "Have been"
+    "Have you ever been",
+    "Have you been"
    ],
-   "explanation": "Перше питання — досвід."
+   "explanation": "Перше питання — про досвід → Present Perfect: Have you (ever) been…?"
   },
   {
    "type": "error",

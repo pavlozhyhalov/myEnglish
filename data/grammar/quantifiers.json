@@ -88,7 +88,7 @@
     "a little"
    ],
    "answer": "a lot of",
-   "explanation": ""
+   "explanation": "Злічувані в множині (people) — a lot of; much і a little — для незлічуваних."
   },
   {
    "type": "choice",
@@ -137,7 +137,7 @@
    "answer": [
     "many"
    ],
-   "explanation": ""
+   "explanation": "Злічувані (chairs) → How many."
   },
   {
    "type": "error",
@@ -165,7 +165,7 @@
     "I don't have any money with me.",
     "I do not have any money with me."
    ],
-   "explanation": ""
+   "explanation": "Заперечення → any."
   },
   {
    "type": "transform",
@@ -174,7 +174,7 @@
    "answer": [
     "There are a few shops here."
    ],
-   "explanation": ""
+   "explanation": "a few — «кілька» (позитивно)."
   },
   {
    "type": "translate",
@@ -186,7 +186,7 @@
     "We still have some time.",
     "We still have a bit of time."
    ],
-   "explanation": ""
+   "explanation": "a little / some — трохи незлічуваного."
   }
  ]
 }

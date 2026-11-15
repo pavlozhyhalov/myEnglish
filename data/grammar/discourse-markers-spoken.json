@@ -190,7 +190,8 @@
    "type": "order",
    "prompt": "Зрештою, це твоє рішення.",
    "answer": [
-    "At the end of the day, it's your decision."
+    "At the end of the day, it's your decision.",
+    "It's your decision at the end of the day."
    ],
    "explanation": "At the end of the day на початку речення."
   },
@@ -199,7 +200,9 @@
    "prompt": "The weather was bad. But the food was excellent.",
    "instruction": "Поєднайте за допомогою Mind you",
    "answer": [
-    "The weather was bad. Mind you, the food was excellent."
+    "The weather was bad. Mind you, the food was excellent.",
+    "The weather was bad; mind you, the food was excellent.",
+    "The weather was bad, but mind you, the food was excellent."
    ],
    "explanation": "Mind you вводить протилежну думку."
   },

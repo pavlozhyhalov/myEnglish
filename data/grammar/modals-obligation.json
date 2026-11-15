@@ -119,11 +119,12 @@
   },
   {
    "type": "input",
-   "prompt": "___ we ___ to pay for parking? (have to, 2 слова)",
+   "prompt": "___ (we / have to) pay for parking? (питання)",
    "answer": [
-    "Do have"
+    "Do we have to",
+    "Have we got to"
    ],
-   "explanation": "Do we have to…?"
+   "explanation": "Питання з have to — через do: Do we have to…?"
   },
   {
    "type": "input",
@@ -132,7 +133,7 @@
     "shouldn't",
     "should not"
    ],
-   "explanation": ""
+   "explanation": "Порада «не варто» — shouldn't + V."
   },
   {
    "type": "error",
@@ -156,7 +157,7 @@
    "answer": [
     "You should sleep more."
    ],
-   "explanation": ""
+   "explanation": "Порада — should + V."
   },
   {
    "type": "transform",
@@ -167,7 +168,7 @@
     "We don't have to book a table.",
     "You do not have to book a table."
    ],
-   "explanation": ""
+   "explanation": "Не обов'язково — don't have to."
   },
   {
    "type": "translate",
@@ -180,7 +181,7 @@
     "You can't take pictures here.",
     "You mustn't take pictures here."
    ],
-   "explanation": ""
+   "explanation": "Заборона — mustn't / can't / not allowed to."
   }
  ]
 }

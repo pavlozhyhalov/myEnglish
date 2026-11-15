@@ -187,8 +187,10 @@
    "sentence": "I don't like white wine, but I love red one.",
    "wrongIndex": 9,
    "correction": "wine",
-   "alt": [],
-   "explanation": "one не замінює незлічуваний іменник."
+   "alt": [
+    ""
+   ],
+   "explanation": "one не замінює незлічуваний іменник: red wine або просто red (слово wine вже зрозуміле)."
   },
   {
    "type": "order",

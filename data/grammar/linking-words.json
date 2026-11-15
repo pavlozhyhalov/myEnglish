@@ -64,7 +64,7 @@
     "so"
    ],
    "answer": "because of",
-   "explanation": "+ іменник."
+   "explanation": "because of + іменник (the holiday); because — перед реченням."
   },
   {
    "type": "choice",
@@ -75,7 +75,7 @@
     "Despite"
    ],
    "answer": "However",
-   "explanation": "Нове речення."
+   "explanation": "However з комою починає нове речення; although і despite не стоять окремо."
   },
   {
    "type": "choice",
@@ -86,7 +86,7 @@
     "despite"
    ],
    "answer": "in case",
-   "explanation": "На випадок."
+   "explanation": "in case — «на випадок, якщо»."
   },
   {
    "type": "input",
@@ -102,7 +102,7 @@
    "answer": [
     "so"
    ],
-   "explanation": "Наслідок."
+   "explanation": "so — «тож», вводить наслідок."
   },
   {
    "type": "error",
@@ -120,7 +120,8 @@
    "wrongIndex": 3,
    "correction": "although",
    "alt": [
-    "even though"
+    "even though",
+    "though"
    ],
    "explanation": "Перед реченням — although."
   },
@@ -132,7 +133,7 @@
     "Although I was tired, I went to training.",
     "I went to the gym although I was tired."
    ],
-   "explanation": ""
+   "explanation": "Although + повне речення."
   },
   {
    "type": "transform",
@@ -146,7 +147,7 @@
     "Despite the fact that it was expensive, we bought it.",
     "In spite of the price, we bought it."
    ],
-   "explanation": ""
+   "explanation": "Despite + іменник, -ing або the fact that + речення."
   },
   {
    "type": "translate",
@@ -156,7 +157,7 @@
     "Take your jacket in case it gets cold.",
     "Take a jacket in case it gets colder."
    ],
-   "explanation": ""
+   "explanation": "in case — «на випадок, якщо» + Present Simple."
   }
  ]
 }

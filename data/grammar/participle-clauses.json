@@ -90,7 +90,7 @@
     "Knowing not"
    ],
    "answer": "Not knowing",
-   "explanation": ""
+   "explanation": "Заперечення в звороті — not перед -ing: Not knowing."
   },
   {
    "type": "choice",
@@ -98,10 +98,10 @@
    "options": [
     "Walked",
     "Walking",
-    "Having walked"
+    "Walk"
    ],
    "answer": "Walking",
-   "explanation": ""
+   "explanation": "Дії одночасні → -ing: Walking."
   },
   {
    "type": "input",
@@ -109,7 +109,7 @@
    "answer": [
     "Having finished"
    ],
-   "explanation": ""
+   "explanation": "Дія завершилась раніше → Having + V3."
   },
   {
    "type": "input",
@@ -117,7 +117,7 @@
    "answer": [
     "Feeling"
    ],
-   "explanation": ""
+   "explanation": "Причина й одночасний стан → -ing: Feeling."
   },
   {
    "type": "input",
@@ -125,7 +125,7 @@
    "answer": [
     "Surprised"
    ],
-   "explanation": ""
+   "explanation": "Пасивне значення (її здивували) → V3: Surprised."
   },
   {
    "type": "error",
@@ -150,16 +150,18 @@
    "answer": [
     "Not having an umbrella, I got wet."
    ],
-   "explanation": ""
+   "explanation": "Причина із запереченням → Not having…"
   },
   {
    "type": "transform",
    "prompt": "After she had read the letter, she started to cry.",
    "instruction": "Почніть з Having…",
    "answer": [
-    "Having read the letter, she started to cry."
+    "Having read the letter, she started to cry.",
+    "Having read the letter, she began to cry.",
+    "Having read the letter, she started crying."
    ],
-   "explanation": ""
+   "explanation": "Спершу прочитала → Having + V3."
   },
   {
    "type": "translate",
@@ -169,7 +171,7 @@
     "Not knowing the city, we got lost quickly.",
     "Not knowing the town, we quickly got lost."
    ],
-   "explanation": ""
+   "explanation": "Причина → Not + V-ing: Not knowing."
   }
  ]
 }

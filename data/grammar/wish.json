@@ -76,7 +76,7 @@
     "will know"
    ],
    "answer": "knew",
-   "explanation": ""
+   "explanation": "If only + Past Simple — жаль про теперішнє."
   },
   {
    "type": "input",
@@ -102,7 +102,7 @@
     "was",
     "were"
    ],
-   "explanation": ""
+   "explanation": "wish + was/were — жаль про теперішнє."
   },
   {
    "type": "error",
@@ -128,7 +128,7 @@
    "answer": [
     "I wish I knew the answer."
    ],
-   "explanation": ""
+   "explanation": "Жаль про теперішнє — I wish + Past Simple."
   },
   {
    "type": "transform",
@@ -140,7 +140,7 @@
     "I wish I had taken photos.",
     "I wish I'd taken photos."
    ],
-   "explanation": ""
+   "explanation": "Жаль про минуле — I wish + Past Perfect."
   },
   {
    "type": "translate",
@@ -150,7 +150,7 @@
     "I wish you could come too.",
     "If only you could come."
    ],
-   "explanation": ""
+   "explanation": "Жаль про теперішнє — I wish + could."
   }
  ]
 }

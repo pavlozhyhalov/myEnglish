@@ -98,9 +98,9 @@
   },
   {
    "type": "input",
-   "prompt": "___ you ever ___ (try) Thai food before last night? (2 слова)",
+   "prompt": "___ (you / ever / try) Thai food before last night? (Past Perfect)",
    "answer": [
-    "Had tried"
+    "Had you ever tried"
    ],
    "explanation": "До вчорашнього вечора."
   },
@@ -136,7 +136,7 @@
     "When I arrived at the stop, the bus had left.",
     "When I arrived at the stop, the bus had already left."
    ],
-   "explanation": ""
+   "explanation": "Автобус поїхав раніше → had (already) left."
   },
   {
    "type": "translate",
@@ -149,7 +149,7 @@
     "When I called, she'd left.",
     "She'd already left when I called."
    ],
-   "explanation": ""
+   "explanation": "Пішла раніше, ніж я подзвонив → had (already) left."
   }
  ]
 }

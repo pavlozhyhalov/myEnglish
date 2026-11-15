@@ -95,7 +95,7 @@
     "who",
     "that"
    ],
-   "explanation": ""
+   "explanation": "Про людину — who або that."
   },
   {
    "type": "input",
@@ -103,7 +103,7 @@
    "answer": [
     "where"
    ],
-   "explanation": ""
+   "explanation": "Місце — where."
   },
   {
    "type": "error",
@@ -111,9 +111,10 @@
    "wrongIndex": 2,
    "correction": "which",
    "alt": [
-    "that"
+    "that",
+    ""
    ],
-   "explanation": "Річ → which/that."
+   "explanation": "Річ → which/that; після film іде підмет (we), тож займенник можна й пропустити."
   },
   {
    "type": "error",
@@ -133,7 +134,7 @@
     "This is the flat that we want to rent.",
     "This is the flat which we want to rent."
    ],
-   "explanation": ""
+   "explanation": "Річ — which/that або без займенника, якщо після нього є підмет (we)."
   },
   {
    "type": "transform",
@@ -142,7 +143,7 @@
    "answer": [
     "I met a man whose dog was huge."
    ],
-   "explanation": ""
+   "explanation": "Чий собака → whose."
   },
   {
    "type": "translate",
@@ -154,7 +155,7 @@
     "The person who helped me did not leave their name.",
     "The person who helped me didn't leave a name."
    ],
-   "explanation": ""
+   "explanation": "Про людину — who."
   }
  ]
 }

@@ -131,9 +131,9 @@
   },
   {
    "type": "input",
-   "prompt": "How many countries ___ you ___ (visit)? (2 слова)",
+   "prompt": "How many countries ___ (you / visit)?",
    "answer": [
-    "have visited"
+    "have you visited"
    ],
    "explanation": "Досвід за життя."
   },

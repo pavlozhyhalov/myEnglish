@@ -89,7 +89,7 @@
     "is stolen"
    ],
    "answer": "was stolen",
-   "explanation": ""
+   "explanation": "Минулий пасив — was + V3 (stolen)."
   },
   {
    "type": "choice",
@@ -108,15 +108,15 @@
    "answer": [
     "is visited"
    ],
-   "explanation": ""
+   "explanation": "Теперішній пасив — is + V3; by — ким."
   },
   {
    "type": "input",
-   "prompt": "When ___ the Eiffel Tower ___ (build)? (2 слова)",
+   "prompt": "When ___ (the Eiffel Tower / build)? (пасив, минулий час)",
    "answer": [
-    "was built"
+    "was the Eiffel Tower built"
    ],
-   "explanation": ""
+   "explanation": "Питання в минулому пасиві: When was + підмет + V3?"
   },
   {
    "type": "input",
@@ -125,7 +125,7 @@
     "wasn't cleaned",
     "was not cleaned"
    ],
-   "explanation": ""
+   "explanation": "Заперечення в минулому пасиві — wasn't + V3."
   },
   {
    "type": "error",
@@ -150,7 +150,7 @@
     "This book was translated into 30 languages.",
     "The book was translated into 30 languages."
    ],
-   "explanation": ""
+   "explanation": "Минулий пасив — was translated; перекласти на — translate into."
   },
   {
    "type": "transform",
@@ -159,7 +159,7 @@
    "answer": [
     "Coffee is grown in Brazil."
    ],
-   "explanation": ""
+   "explanation": "Хто вирощує — неважливо → пасив: is grown."
   },
   {
    "type": "translate",
@@ -169,7 +169,7 @@
     "My flight was delayed for two hours.",
     "My flight has been delayed by two hours."
    ],
-   "explanation": ""
+   "explanation": "Минулий пасив — was delayed; на дві години — by two hours."
   }
  ]
 }

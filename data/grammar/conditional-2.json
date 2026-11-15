@@ -64,7 +64,7 @@
     "did"
    ],
    "answer": "would",
-   "explanation": ""
+   "explanation": "Питання в 2 типі: What would you do if + Past Simple?"
   },
   {
    "type": "choice",
@@ -92,7 +92,7 @@
     "would go",
     "'d go"
    ],
-   "explanation": ""
+   "explanation": "Головна частина 2 типу — would + V."
   },
   {
    "type": "input",
@@ -101,7 +101,7 @@
     "didn't work",
     "did not work"
    ],
-   "explanation": ""
+   "explanation": "Умова 2 типу: If + Past Simple, заперечення — didn't + V."
   },
   {
    "type": "error",
@@ -126,9 +126,10 @@
    "prompt": "Що б ти зробив на моєму місці?",
    "answer": [
     "What would you do if you were me?",
-    "What would you do in my place?"
+    "What would you do in my place?",
+    "If you were me, what would you do?"
    ],
-   "explanation": ""
+   "explanation": "would + V у головній частині; if you were me — «на моєму місці»."
   },
   {
    "type": "transform",
@@ -139,7 +140,7 @@
     "If I had a car, I would drive you.",
     "If I had a car, I'd drive you."
    ],
-   "explanation": ""
+   "explanation": "Нереальне теперішнє: If + Past Simple, could/would + V."
   },
   {
    "type": "translate",
@@ -151,7 +152,7 @@
     "If I knew Polish better, I would find a job easier.",
     "I would find a job more easily if I knew Polish better."
    ],
-   "explanation": ""
+   "explanation": "If + Past Simple (knew), would + V (would find)."
   }
  ]
 }

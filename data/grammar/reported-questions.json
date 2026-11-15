@@ -75,7 +75,7 @@
     "starts the film"
    ],
    "answer": "the film starts",
-   "explanation": ""
+   "explanation": "Непряме питання — прямий порядок слів: what time the film starts."
   },
   {
    "type": "input",
@@ -83,7 +83,7 @@
    "answer": [
     "was"
    ],
-   "explanation": ""
+   "explanation": "Непряме питання: are → was."
   },
   {
    "type": "input",
@@ -91,7 +91,7 @@
    "answer": [
     "wanted"
    ],
-   "explanation": ""
+   "explanation": "Непряме питання: Present Simple → Past Simple (wanted)."
   },
   {
    "type": "input",
@@ -99,7 +99,7 @@
    "answer": [
     "had"
    ],
-   "explanation": ""
+   "explanation": "Present Perfect → Past Perfect: had finished."
   },
   {
    "type": "error",
@@ -125,7 +125,7 @@
    "answer": [
     "He asked me how old I was."
    ],
-   "explanation": ""
+   "explanation": "Прямий порядок у непрямому питанні: how old I was."
   },
   {
    "type": "transform",
@@ -134,7 +134,7 @@
    "answer": [
     "Excuse me, do you know where the nearest pharmacy is?"
    ],
-   "explanation": ""
+   "explanation": "Непряме питання — прямий порядок: where the nearest pharmacy is."
   },
   {
    "type": "translate",
@@ -145,7 +145,7 @@
     "She asked whether I spoke Polish.",
     "She asked me whether I spoke Polish."
    ],
-   "explanation": ""
+   "explanation": "Так/ні-питання → if / whether + зсув часу (spoke)."
   }
  ]
 }

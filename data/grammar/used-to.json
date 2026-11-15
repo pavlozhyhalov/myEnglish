@@ -112,9 +112,10 @@
    "prompt": "We ___ (used to / not) have a dishwasher.",
    "answer": [
     "didn't use to",
-    "did not use to"
+    "did not use to",
+    "used not to"
    ],
-   "explanation": "Заперечення: didn't use to."
+   "explanation": "Заперечення: didn't use to (британське книжне — used not to)."
   },
   {
    "type": "input",
@@ -154,7 +155,7 @@
    "answer": [
     "We used to travel a lot."
    ],
-   "explanation": ""
+   "explanation": "Колишня звичка — used to + V."
   },
   {
    "type": "transform",
@@ -163,7 +164,7 @@
    "answer": [
     "I used to smoke."
    ],
-   "explanation": ""
+   "explanation": "Колишня звичка — used to + V."
   },
   {
    "type": "translate",
@@ -175,7 +176,7 @@
     "I haven't got used to the local food yet.",
     "I still can't get used to the local food."
    ],
-   "explanation": ""
+   "explanation": "Звикати — be / get used to + іменник."
   }
  ]
 }

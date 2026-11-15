@@ -133,7 +133,7 @@
     "He's still at work.",
     "He is still at work."
    ],
-   "explanation": ""
+   "explanation": "at work — без артикля."
   },
   {
    "type": "transform",
@@ -142,7 +142,7 @@
    "answer": [
     "I like coffee."
    ],
-   "explanation": ""
+   "explanation": "Про речовину загалом — без артикля."
   },
   {
    "type": "translate",
@@ -153,7 +153,7 @@
     "Children like ice cream.",
     "Kids like ice cream."
    ],
-   "explanation": ""
+   "explanation": "Про людей і речі загалом — без артикля."
   }
  ]
 }

@@ -99,7 +99,7 @@
    "answer": [
     "to call"
    ],
-   "explanation": ""
+   "explanation": "promise + to V."
   },
   {
    "type": "input",
@@ -107,7 +107,7 @@
    "answer": [
     "forgetting"
    ],
-   "explanation": ""
+   "explanation": "keep + V-ing — «постійно щось робити»."
   },
   {
    "type": "error",
@@ -130,9 +130,10 @@
    "prompt": "Він кинув курити минулого року.",
    "answer": [
     "He stopped smoking last year.",
-    "He gave up smoking last year."
+    "He gave up smoking last year.",
+    "Last year he stopped smoking."
    ],
-   "explanation": ""
+   "explanation": "stop / give up + V-ing — припинити звичку."
   },
   {
    "type": "transform",
@@ -141,7 +142,7 @@
    "answer": [
     "I enjoy swimming."
    ],
-   "explanation": ""
+   "explanation": "enjoy + V-ing."
   },
   {
    "type": "translate",
@@ -153,7 +154,7 @@
     "I managed to find somewhere to park.",
     "I was able to find a parking space."
    ],
-   "explanation": ""
+   "explanation": "manage + to V — «вдалося»."
   }
  ]
 }

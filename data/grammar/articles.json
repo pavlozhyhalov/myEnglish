@@ -126,7 +126,7 @@
    "answer": [
     "an"
    ],
-   "explanation": ""
+   "explanation": "interesting починається з голосного звуку → an."
   },
   {
    "type": "input",
@@ -167,7 +167,7 @@
    "answer": [
     "I bought a car. The car is red."
    ],
-   "explanation": ""
+   "explanation": "Перша згадка — a car, повторна — the car."
   },
   {
    "type": "translate",
@@ -178,7 +178,7 @@
     "She is a nurse in a hospital.",
     "She is a nurse at a hospital."
    ],
-   "explanation": ""
+   "explanation": "Професія — a nurse; заклад, про який згадуємо вперше, — a hospital."
   }
  ]
 }

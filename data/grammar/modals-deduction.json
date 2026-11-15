@@ -94,7 +94,7 @@
     "may",
     "could"
    ],
-   "explanation": ""
+   "explanation": "Можливо — might / may / could + V."
   },
   {
    "type": "input",
@@ -102,7 +102,7 @@
    "answer": [
     "must"
    ],
-   "explanation": ""
+   "explanation": "Впевнений висновок — must + V."
   },
   {
    "type": "error",
@@ -110,7 +110,8 @@
    "wrongIndex": 1,
    "correction": "can't",
    "alt": [
-    "cannot"
+    "cannot",
+    "couldn't"
    ],
    "explanation": "Протилежність must у висновках — can't."
   },
@@ -128,7 +129,7 @@
    "answer": [
     "He must be joking."
    ],
-   "explanation": ""
+   "explanation": "Впевнений висновок про теперішнє — must be + V-ing."
   },
   {
    "type": "transform",
@@ -138,7 +139,7 @@
     "He can't be at work today. It's Sunday.",
     "He can't be at work today."
    ],
-   "explanation": ""
+   "explanation": "Впевнений, що ні — can't + V."
   },
   {
    "type": "translate",
@@ -149,7 +150,7 @@
     "She could be late because of the traffic.",
     "She might be running late because of the traffic."
    ],
-   "explanation": ""
+   "explanation": "Припущення — might / may / could be."
   }
  ]
 }

@@ -64,7 +64,7 @@
     "didn't miss"
    ],
    "answer": "wouldn't have missed",
-   "explanation": ""
+   "explanation": "3 тип: would have + V3; заперечення — wouldn't have missed."
   },
   {
    "type": "choice",
@@ -84,7 +84,7 @@
     "had listened",
     "'d listened"
    ],
-   "explanation": ""
+   "explanation": "Умова 3 типу: If + Past Perfect (had listened)."
   },
   {
    "type": "input",
@@ -103,7 +103,7 @@
     "'d have gone",
     "would've gone"
    ],
-   "explanation": ""
+   "explanation": "Головна частина 3 типу — would have + V3: would have gone."
   },
   {
    "type": "error",
@@ -128,9 +128,10 @@
    "prompt": "Якби я знав, я б тобі сказав.",
    "answer": [
     "If I had known, I would have told you.",
-    "If I'd known, I'd have told you."
+    "If I'd known, I'd have told you.",
+    "I would have told you if I had known."
    ],
-   "explanation": ""
+   "explanation": "3 тип: If + Past Perfect, would have + V3."
   },
   {
    "type": "transform",
@@ -142,7 +143,7 @@
     "If I had set an alarm, I would not have overslept.",
     "If I'd set an alarm, I would not have overslept."
    ],
-   "explanation": ""
+   "explanation": "Нереальне минуле: If I had set…, I wouldn't have overslept."
   },
   {
    "type": "translate",
@@ -156,7 +157,7 @@
     "If we'd left earlier, we would have made the train.",
     "If we had left earlier, we would've made the train."
    ],
-   "explanation": ""
+   "explanation": "If + Past Perfect (had left), would have + V3 (would have caught)."
   }
  ]
 }

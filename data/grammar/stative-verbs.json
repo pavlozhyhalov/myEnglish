@@ -92,11 +92,11 @@
   },
   {
    "type": "input",
-   "prompt": "Who ___ this car ___ (belong) to? (2 слова)",
+   "prompt": "Who ___ (this car / belong) to?",
    "answer": [
-    "does belong"
+    "does this car belong"
    ],
-   "explanation": "Who does this car belong to?"
+   "explanation": "belong — дієслово стану, Present Simple: Who does this car belong to?"
   },
   {
    "type": "input",
@@ -128,7 +128,8 @@
    "type": "order",
    "prompt": "Мені зараз потрібна твоя допомога.",
    "answer": [
-    "I need your help now."
+    "I need your help now.",
+    "Now I need your help."
    ],
    "explanation": "need — стан."
   },

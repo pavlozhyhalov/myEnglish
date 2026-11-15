@@ -100,7 +100,7 @@
     "too",
     "so"
    ],
-   "explanation": ""
+   "explanation": "too heavy — «занадто важка» (далі не можу); so heavy — «така важка»."
   },
   {
    "type": "error",
@@ -125,7 +125,7 @@
    "answer": [
     "This jacket is too big for me."
    ],
-   "explanation": ""
+   "explanation": "too + прикметник — «занадто»."
   },
   {
    "type": "transform",
@@ -135,7 +135,7 @@
     "It was so cold that we stayed at home.",
     "It was so cold we stayed at home."
    ],
-   "explanation": ""
+   "explanation": "so + прикметник + (that) + речення."
   },
   {
    "type": "translate",
@@ -145,7 +145,7 @@
     "That was such a delicious dinner!",
     "It was such a tasty dinner!"
    ],
-   "explanation": ""
+   "explanation": "such a + прикметник + іменник."
   }
  ]
 }
