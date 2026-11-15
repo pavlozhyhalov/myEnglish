@@ -50,7 +50,7 @@ function doneHref(s) {
 
 export default async function today(view) {
   const tok = view.__tok = (view.__tok || 0) + 1;
-  if (store.settings().level === 'A0') setTitle('Мій день за 10 хвилин');   // рівень «Старт» (Pre-A1) — коротший план
+  if (store.settings().level === 'A0') setTitle('Мій день · 10 хв');   // рівень «Старт» (Pre-A1) — коротший план (коротка назва — вміщається на 320 px)
   view.replaceChildren(skeletonPage());
   const plan = await buildPlan();
   if (view.__tok !== tok) return;
