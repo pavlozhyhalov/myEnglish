@@ -186,11 +186,11 @@
   },
   {
    "type": "error",
-   "sentence": "You don't like spicy food, don't you?",
+   "sentence": "You never eat spicy food, don't you?",
    "wrongIndex": 5,
    "correction": "do",
    "alt": [],
-   "explanation": "Заперечне речення → стверджувальний хвостик."
+   "explanation": "Never робить речення заперечним, тому хвостик стверджувальний: …, do you?"
   },
   {
    "type": "order",
