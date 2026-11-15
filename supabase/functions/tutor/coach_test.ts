@@ -42,6 +42,16 @@ Deno.test('scoreEval: recall over known mistakes, fp on correct sentences', () =
   assertEquals(cleanClassify({ items: [{ i: 0, rule: 'prep-dependent' }, { i: 9, rule: 'x' }] }, 2), [{ i: 0, rule: 'prep-dependent', type: 'prepositions' }]);
 });
 
+Deno.test('calibrateLevel: A0 learner is lifted at most to A1; A0 signal of others → A2', () => {
+  const mk = (l: string) => ({ level_signal: l, level_assessment: { confidence: 'high', sublevel: 'mid', criteria: [{ name: 'fluency', level: l }], reasons_uk: [] as string[] } });
+  const sp = { words: 300, avg_len: 10, turns: 20 };
+  assertEquals(calibrateLevel(mk('A0'), sp, 'A0').level_signal, 'A1');
+  assertEquals(calibrateLevel(mk('A1'), sp, 'A0').level_signal, 'A1');
+  const b = calibrateLevel(mk('A0'), sp, 'B1');
+  assertEquals([b.level_signal, b.level_assessment.criteria[0].level], ['A2', 'A2']);
+  assertEquals(calibrateLevel(mk('A0'), null, 'A0').level_signal, 'A0');
+});
+
 Deno.test('calibrateLevel: long connected turns cannot be A1; far below usual level → low confidence', () => {
   const mk = () => ({ level_signal: 'A1', level_assessment: { confidence: 'high', sublevel: 'mid', criteria: [{ name: 'fluency', level: 'A1' }], reasons_uk: ['x'] } });
   const a = calibrateLevel(mk(), { words: 497, avg_len: 20.7, turns: 24 }, 'B1');

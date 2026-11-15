@@ -225,7 +225,7 @@ export function translateInput(v: unknown, max = 4000) {
 
 // ---------- Підсумок сесії ----------
 const MISTAKE_TYPES = ['articles', 'tenses', 'prepositions', 'word_order', 'vocabulary', 'pronunciation', 'other'];
-const LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1'];
+const LEVELS = ['A0', 'A1', 'A2', 'B1', 'B2', 'C1'];
 const tx = (v: unknown, max: number) => (typeof v === 'string' ? v : v == null ? '' : String(v)).replace(/\r/g, '').trim().slice(0, max);
 
 /** Підсумок від моделі → безпечний формат (старі поля як були; нові — focus_review, practised_words, memory) */

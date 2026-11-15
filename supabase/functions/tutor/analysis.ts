@@ -3,7 +3,7 @@
 import { UK_STYLE, taskPrompt, todayLabel, type Student } from '../_shared/prompts.ts';
 import { cleanMemory } from './reply.ts';
 
-export const LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1'] as const;
+export const LEVELS = ['A0', 'A1', 'A2', 'B1', 'B2', 'C1'] as const;
 const MISTAKE_TYPES = ['articles', 'tenses', 'prepositions', 'word_order', 'vocabulary', 'pronunciation', 'other'];
 /** Розділи аналізу / консультації */
 export const SECTIONS: Record<string, string> = {
@@ -117,7 +117,7 @@ RULES OF EVIDENCE
 - The overall level is your best-fit judgement from ALL evidence (placement, speaking assessments, writing, mastery), not just the level set in the app; if evidence is thin, stay close to the set level and say so in summary_uk.
 
 RETURN JSON
-- overall: level (A1–C1), sublevel (low/mid/high within it), summary_uk = 3–5 sentences: where the learner really is, what is driving progress, what is holding it back. Direct and respectful.
+- overall: level (A0–C1; A0 = Pre-A1, an absolute beginner), sublevel (low/mid/high within it), summary_uk = 3–5 sentences: where the learner really is, what is driving progress, what is holding it back. Direct and respectful.
 - strengths: 2–4 items: point_uk (short) + evidence_uk (the data that shows it).
 - weaknesses: 2–4 items, most important first: area (short Ukrainian name, e.g. «Артиклі», «Утримання слів», «Регулярність»), evidence_uk, why_it_matters_uk (concrete consequence for real communication or for reaching the next level), how_to_fix_uk (a concrete method with amounts, e.g. «по 10 хвилин щодня…»).
 - plan_14_days: 3–4 blocks covering 14 days (day_range like «Дні 1–3»), each with focus (short Ukrainian) and 2–4 activities. Each activity: kind (one of: ${ACTIVITY_KINDS.join(', ')}), id only when the kind needs one and the id is in the digest (grammar_lesson → a lesson id from grammar.next_lesson / weak_lessons / due_review; scenario → an id from scenarios; drill → a mistake type: ${MISTAKE_TYPES.join(', ')}), otherwise empty; text_uk = what exactly to do and how much (e.g. «20 повторів щодня, не більше 5 нових слів»). Target the weaknesses; keep the daily load realistic given habits (do not prescribe 60 minutes a day to someone doing 10).

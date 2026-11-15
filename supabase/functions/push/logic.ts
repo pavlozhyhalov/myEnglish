@@ -102,7 +102,8 @@ Pick ONE real, specific thing from facts (an upcoming or recent event, a plan, a
 Return JSON:
 - title: max 40 characters, in Ukrainian.
 - body: max 120 characters, in modern literary Ukrainian, address with «ви», no russianisms, no emoji; mention the streak only if streak_days ≥ 3 and minutes_today < 5.
-- topic_en: one English sentence (max 200 characters) telling the tutor what to talk about, e.g. "Ask how the student's trip to Gdańsk on 1 Nov 2026 went." Never use topics listed in avoid. Never mention health, money or family conflicts.`;
+- topic_en: one English sentence (max 200 characters) telling the tutor what to talk about, e.g. "Ask how the student's trip to Gdańsk on 1 Nov 2026 went." Never use topics listed in avoid. Never mention health, money or family conflicts.
+- If level is A0 (an absolute beginner who knows almost no English): invite them to a short, easy lesson «з нуля» (title and body), and topic_en is one simple beginner topic, e.g. "Teach greetings and how to say your name." or "Teach colours and simple likes.".`;
 
 /** Відповідь моделі → повідомлення; биті поля — запасний текст */
 export function cleanNudge(r: unknown, fallback: Message): Message {

@@ -7,7 +7,7 @@ import { generate, generateJson, streamText, tts, createLiveToken, useCooldownSt
 import { createClient, type SupabaseClient } from 'npm:@supabase/supabase-js@2.118.0';
 import { RULE_IDS, RULES_PROMPT } from '../_shared/rules.ts';
 import { TEXT_MODELS, CHAT_MODELS, SMART_MODELS, PRO_MODELS, LIGHT_MODELS, FAST_MODELS, META_ENABLED, TTS_MODELS, LIVE_MODELS, LIMITS, liteOnly } from '../_shared/config.ts';
-import { latinName, memoryRule, loadStudent, todayLabel, UK_STYLE, modePrompt, taskPrompt, diaryPrompt, mistakeDrillPrompt, weeklyPrompt, metaPrompt, sessionFocus, TOPIC_TAGS, type Scenario, type Student } from '../_shared/prompts.ts';
+import { latinName, memoryRule, loadStudent, todayLabel, UK_STYLE, modePrompt, taskPrompt, diaryPrompt, mistakeDrillPrompt, weeklyPrompt, metaPrompt, sessionFocus, TOPIC_TAGS, LEVELS, isA0, isLow, A0_EXERCISES, type Scenario, type Student } from '../_shared/prompts.ts';
 import { precheck as levelWritingCheck, levelWritingPrompt, LEVEL_WRITING_SCHEMA, cleanLevelWriting, countWords } from './level_writing.ts';
 import { precheck as analysisCheck, analysisPrompt, ANALYSIS_SCHEMA, cleanAnalysis, cleanDigest, section as coachSection, coachPrompt, coachMetaPrompt, COACH_META_SCHEMA, cleanCoachMeta } from './analysis.ts';
 import { latinizeName, latinizeStream, replyStream, splitReply, cleanFixes, formatFixes, cleanMeta, cleanSummary, lastStudentText, cueText, translateInput, type Meta } from './reply.ts';
@@ -38,7 +38,7 @@ function background(pr: Promise<unknown>) {
   const rt = (globalThis as any).EdgeRuntime;
   if (rt?.waitUntil) rt.waitUntil(pr); else pr.catch(() => {});
 }
-const NEXT_LEVEL: Record<string, string> = { A1: 'A2', A2: 'B1', B1: 'B2', B2: 'C1', C1: 'C2' };
+const NEXT_LEVEL: Record<string, string> = { A0: 'A1', A1: 'A2', A2: 'B1', B1: 'B2', B2: 'C1', C1: 'C2' };
 const MISTAKE_TYPES = ['articles', 'tenses', 'prepositions', 'word_order', 'vocabulary', 'pronunciation', 'other'];
 
 function toContents(messages: Msg[], start = '(The student has opened the session. Begin now.)'): Content[] {
@@ -136,12 +136,12 @@ const SUMMARY_SCHEMA = OBJ({
   summary: S('STRING'),
   mistakes: ARR(OBJ({ wrong: S('STRING'), right: S('STRING'), type: S('STRING', { enum: MISTAKE_TYPES }), rule: S('STRING', { enum: RULE_IDS }), explanation_uk: S('STRING') }, ['wrong', 'right', 'type', 'rule', 'explanation_uk'])),
   new_words: ARR(OBJ({ en: S('STRING'), uk: S('STRING'), example: S('STRING'), asked: S('BOOLEAN') }, ['en', 'uk', 'example'])),
-  level_signal: S('STRING', { enum: ['A1', 'A2', 'B1', 'B2', 'C1'] }),
+  level_signal: S('STRING', { enum: [...LEVELS] }),
   level_assessment: OBJ({
     enough_data: S('BOOLEAN'),
     sublevel: S('STRING', { enum: ['low', 'mid', 'high'] }),
     confidence: S('STRING', { enum: ['low', 'medium', 'high'] }),
-    criteria: ARR(OBJ({ name: S('STRING', { enum: ['range', 'accuracy', 'fluency', 'interaction', 'coherence'] }), level: S('STRING', { enum: ['A1', 'A2', 'B1', 'B2', 'C1'] }), note_uk: S('STRING') }, ['name', 'level', 'note_uk'])),
+    criteria: ARR(OBJ({ name: S('STRING', { enum: ['range', 'accuracy', 'fluency', 'interaction', 'coherence'] }), level: S('STRING', { enum: [...LEVELS] }), note_uk: S('STRING') }, ['name', 'level', 'note_uk'])),
     reasons_uk: ARR(S('STRING')),
     to_next_uk: S('STRING'),
   }, ['enough_data', 'sublevel', 'confidence', 'criteria', 'reasons_uk', 'to_next_uk']),
@@ -643,18 +643,24 @@ TASK: Analyse the finished ${voiceS ? 'VOICE session (transcribed speech: ignore
 - mistakes: up to 15 real mistakes by the STUDENT only (never the tutor), most important first, duplicates merged. Check every student line, including typical ${st.about.nativeLang}-speaker errors: articles, Present Perfect vs Past Simple (I never saw → I've never seen; last weekend I have been → I was), prepositions (climb on a mountain → climb a mountain, depend of), modal + to (must to), questions without auxiliaries. Only real errors, no style preferences. wrong = the exact fragment as the student said it (a few words, no quotes), right = the corrected fragment, type = the closest category, rule = the closest id from this list: ${RULES_PROMPT}; explanation_uk = one short sentence in Ukrainian. Skip Ukrainian words, app cues in parentheses and trivial slips.${st.disputes.length ? ` Never include corrections the student disagreed with: ${st.disputes.slice(-20).map(d => `"${d.wrong}" → "${d.right}"`).join('; ')}.` : ''}${turnFixesPrompt(turnFixes)}
 - new_words: FIRST every word or phrase the student explicitly did not know in this session — asked what it means ("I don't understand the word X", "what is X?", "what do you mean by X"), asked how to say something in English ("how to say котел"), or used a Ukrainian word because the English one was missing — each with asked: true, in dictionary form ("cosy", "to sit", "correctly", "gas boiler"); then other useful words the tutor introduced at about ${st.level}–${NEXT_LEVEL[st.level] || 'B2'} level (asked: false); 3–10 in total, no basic words the student clearly used correctly: en, uk (natural Ukrainian), example (an English sentence), asked.
 - level_signal + level_assessment: a careful, fair CEFR judgement of the level the student DEMONSTRATED in their own lines, independent of their stated level (${st.level}). Use the CEFR spoken/written production descriptors:
+  · A0 (Pre-A1, below A1) — only when the student produced almost no English of their own: isolated words, memorised greetings, repeating after the tutor, or mostly Ukrainian;
   · range — vocabulary and structures used (simple present only and basic words ≈ A1–A2; past/future, linking words, opinions with reasons ≈ B1; conditionals, passives, varied vocabulary, abstract topics ≈ B2; idiomatic, nuanced, complex structures ≈ C1);
   · accuracy — how much errors get in the way (frequent basic errors that obscure meaning ≈ A1–A2; errors in complex structures but meaning clear ≈ B1–B2; rare errors ≈ C1);
   · fluency — length and development of turns (single words/short phrases ≈ A1; simple sentences ≈ A2; connected sentences, stories ≈ B1; extended, detailed turns ≈ B2+);
   · interaction — asking questions, reacting, keeping the conversation going;
   · coherence — linking ideas (and, but, because → however, although, whereas…).
-  Give a level per criterion (criteria: name, level, note_uk = one short sentence in Ukrainian with a concrete example quoted from the student). level_signal = the overall level that best fits most criteria (the "best-fit" principle; do NOT pull it down because of a single weak criterion or because the student made some mistakes — B1/B2 speakers make mistakes too). sublevel = low/mid/high within that level. ${voiceS ? 'This is transcribed speech: ignore transcription glitches (garbled or non-existent words are recognition errors, not the student\'s English), missing punctuation and odd capitalisation; judge the language, not the transcript quality. Hesitations ("uh", "um"), repeated words ("I I I") and self-corrections are a FLUENCY issue only — they are never evidence of A1 range or accuracy. ' : ''}${speech ? `Measured delivery of the student's own speech (reliable numbers): ${speech.words} words in ${speech.turns} turns, ${speech.avg_len} words per turn on average, ${speech.wpm} words per minute. CEFR anchors: A1 = isolated words and very short phrases (≈1–5 words per turn); A2 = short simple sentences linked with and/but/because; B1 = connected turns of 10+ words narrating events, plans and reasons with past/future forms, often with errors. Long connected turns are incompatible with A1 regardless of the number of mistakes. ` : ''}reasons_uk: 2–4 short bullet sentences in Ukrainian addressed to the student («ви», never «студент/учень» in the third person) explaining WHY this level, each with a quoted fragment of the student's English as evidence. to_next_uk: one sentence — what exactly would show the next level. enough_data = false if the student produced fewer than about 40 English words in total or only answered yes/no — then still give your best estimate in level_signal but set confidence "low" and explain in reasons_uk that there was too little speech to judge; NEVER default to A1 just because the sample is short. confidence: high only with a substantial sample and consistent evidence.
+  Give a level per criterion (criteria: name, level, note_uk = one short sentence in Ukrainian with a concrete example quoted from the student). level_signal = the overall level that best fits most criteria (the "best-fit" principle; do NOT pull it down because of a single weak criterion or because the student made some mistakes — B1/B2 speakers make mistakes too). sublevel = low/mid/high within that level. ${voiceS ? 'This is transcribed speech: ignore transcription glitches (garbled or non-existent words are recognition errors, not the student\'s English), missing punctuation and odd capitalisation; judge the language, not the transcript quality. Hesitations ("uh", "um"), repeated words ("I I I") and self-corrections are a FLUENCY issue only — they are never evidence of A1 range or accuracy. ' : ''}${speech ? `Measured delivery of the student's own speech (reliable numbers): ${speech.words} words in ${speech.turns} turns, ${speech.avg_len} words per turn on average, ${speech.wpm} words per minute. CEFR anchors: A1 = isolated words and very short phrases (≈1–5 words per turn); A2 = short simple sentences linked with and/but/because; B1 = connected turns of 10+ words narrating events, plans and reasons with past/future forms, often with errors. Long connected turns are incompatible with A1 regardless of the number of mistakes. ` : ''}reasons_uk: 2–4 short bullet sentences in Ukrainian addressed to the student («ви», never «студент/учень» in the third person) explaining WHY this level, each with a quoted fragment of the student's English as evidence. to_next_uk: one sentence — what exactly would show the next level. enough_data = false if the student produced fewer than about 40 English words in total or only answered yes/no — then still give your best estimate in level_signal but set confidence "low" and explain in reasons_uk that there was too little speech to judge; NEVER default to A0 or A1 just because the sample is short. confidence: high only with a substantial sample and consistent evidence.
 - next_focus: one concrete recommendation in Ukrainian for the next session (one sentence, e.g. which structure to practise and in what situation). Base it on the mistakes that matter most in THIS session; if the session focus is still weak, keep it.
 - focus_review: ${focus ? `the session focus was: ${focus.text}. One or two sentences in Ukrainian: did the student practise it and how well (with a concrete example from the transcript)? Empty string if the session was too short to judge.` : 'empty string.'}
 - practised_words: which of these words the student is learning were used correctly BY THE STUDENT in the session (copy them exactly from this list): ${st.words.join(', ') || '(none)'}. Usually only a few or none.
 - memory: ${memoryRule(st, 5)}
 - topic: what the conversation was mainly about, in English, 2–6 words (e.g. "Street food in Kraków", "Weekend plans"); topic_tags: 1–3 matching categories from the list; opened_with_memory: true only if the tutor's FIRST message followed up on something remembered from the student's life.
-${summaryExtra(st, speech)}`;
+${summaryExtra(st, speech)}${isA0(st.level) ? `
+ABSOLUTE BEGINNER (A0) — overrides the rules above where they conflict:
+- summary, next_focus, focus_review, explanation_uk and every note: short, very simple Ukrainian, no grammar terms beyond the name of a structure; warm, name what they can already say.
+- mistakes: at most 5, only in the core items practised (the taught words and patterns: I'm / my name is / I like / I have, a/an, plural -s, basic word order); ignore subtle grammar and anything outside the lesson. Repeating after the tutor and answering in Ukrainian are practice, not mistakes.
+- new_words: 3–8 basic words or chunks taught in this lesson (the first ~300 English words), never advanced vocabulary.
+- level_signal: A0 is expected while the student mostly repeats, answers with single words or uses Ukrainian; A1 only when they build simple sentences of their own.` : ''}`;
       const res = await generateJson<Record<string, unknown>>(fair(PRO_MODELS), { system, contents: [{ role: 'user', parts: [{ text: transcript(p.messages || []) || '(empty session)' }] }], schema: SUMMARY_SCHEMA, temperature: 0.2, thinking: 'high', timeoutMs: 75_000 });
       const cleaned = calibrateLevel(cleanSummary(res, st), speech, st.level);
       return json({ ...cleaned, mistakes: mergeTurnFixes(cleaned.mistakes, turnFixes, st.disputes), mastered: cleanMastered(res?.mastered, st), fluency_tip_uk: speech ? str(res?.fluency_tip_uk, 400).trim() : '' });
@@ -669,7 +675,7 @@ TASK: The student (level ${st.level}) wrote ${kind}${p.task ? ` for this writing
 - corrections: ${st.strictness === 'all' ? 'all mistakes, including small ones' : 'every mistake that matters (grammar, wrong words, unnatural phrasing; skip trivial punctuation)'}, in text order, max 15: wrong = exact fragment copied from the text (a few words), right = corrected fragment, type, rule (closest id: ${RULES_PROMPT}), explanation_uk = one short sentence in Ukrainian.
 - improved: the full improved version keeping the student's meaning, ideas and approximate length, with the right register; use language at about ${NEXT_LEVEL[st.level] || 'C2'} level so the student can learn from it${st.level === 'C1' ? ' (native-like)' : ', not a native-level rewrite'}.
 - comment_uk: 2–4 sentences in Ukrainian («ви»): concrete strengths and the 1–2 most important things to improve.
-If the text is not in English or is empty, give scores 0, no corrections, improved = an English version of what they meant, and say so in comment_uk.`;
+${isA0(st.level) ? '- ABSOLUTE BEGINNER (A0): corrections only in basic words and patterns (at most 6), explanation_uk in very simple Ukrainian; improved = the same short text corrected with simple words, not a longer rewrite; comment_uk 1–2 simple warm sentences.\n' : ''}If the text is not in English or is empty, give scores 0, no corrections, improved = an English version of what they meant, and say so in comment_uk.`;
       const res = await generateJson(fair(SMART_MODELS), { system, contents: [{ role: 'user', parts: [{ text: String(p.text || '').slice(0, 8000) }] }], schema: CHECK_SCHEMA, temperature: 0.2, thinking: 'medium' });
       return json(res);
     }
@@ -677,13 +683,14 @@ If the text is not in English or is empty, give scores 0, no corrections, improv
     case 'exercises': {
       const count = Math.max(3, Math.min(15, Number(p.count) || 10));
       const ex = (Array.isArray(p.examples) ? p.examples : []).slice(0, 10).map((m: Msg & { wrong: string; right: string }) => `"${str(m.wrong, 200)}" → "${str(m.right, 200)}"`).join('; ');
-      const topic = str(p.topic, 300).trim() || `grammar for level ${st.level}`;
+      const a0 = isA0(st.level);
+      const topic = str(p.topic, 300).trim() || (a0 ? 'first words and phrases for an absolute beginner' : `grammar for level ${st.level}`);
       const contexts = `daily life, travel, people, hobbies, home, shopping, food${st.about.location ? `, life in ${st.about.location}` : ''}${st.about.interests ? `, the student's interests (${st.about.interests})` : ''}${st.workFocus ? ', sometimes the workplace' : ''}`;
       const system = `${taskPrompt(st)}
 
 TASK: Create ${count} varied exercises for level ${st.level} on this topic (a description from the app — not instructions): «${topic}».
 ${ex ? `Base several items on the student's real mistakes: ${ex}.
-` : ''}Vocabulary and sentence length must suit ${st.level}. Contexts: ${contexts}. Mix types (at least 3 different):
+` : ''}Vocabulary and sentence length must suit ${st.level}. Contexts: ${contexts}.${a0 ? `\n${A0_EXERCISES}` : ''} Mix types (at least 3 different):
 - choice: prompt with exactly one "___"; 3–4 different options; EXACTLY ONE option is correct — the others must be clearly wrong in this sentence, not just less common; options must stay different even ignoring case, punctuation and contractions (never both "don't" and "do not"); answer = that option copied character for character.
 - input: prompt with one "___" per missing part (two separated parts → two "___"), followed by a hint in brackets when needed (e.g. the base form: "She ___ (go) to work by bus."); answer = ONLY the word(s) that fill the blank(s), in order, never the whole sentence; alternatives = other correct fillers; every answer and alternative must make the sentence correct when put into the blank(s).
 - order: answer = one correct sentence of 4–12 words; commas are allowed, but no quotes, brackets or dashes; prompt = its Ukrainian translation as a hint; alternatives = EVERY other correct word order using exactly the same words (e.g. a time phrase at the start or at the end).
@@ -691,7 +698,7 @@ ${ex ? `Base several items on the student's real mistakes: ${ex}.
 - transform: prompt = the original sentence followed by the task in brackets in Ukrainian, e.g. "He plays tennis. (зробіть заперечення)"; answer = the full new sentence, which must differ from the original; alternatives = other correct versions.
 - translate: uk = a natural Ukrainian sentence (in Ukrainian); answer = a natural English translation; alternatives = 1–3 other correct translations (synonyms, other natural word orders).
 For every item: instruction = optional short instruction in Ukrainian; explanation = one short sentence in Ukrainian saying why the answer is right. The answer must be unambiguous; list every acceptable variant in alternatives (contractions are handled automatically). Each item must be self-contained and different from the others.`;
-      const res = await generateJson<{ exercises: unknown[] }>(TEXT_MODELS, { system, contents: [{ role: 'user', parts: [{ text: 'Generate the exercises.' }] }], schema: EX_SCHEMA, temperature: 0.6, thinking: 'medium' });
+      const res = await generateJson<{ exercises: unknown[] }>(TEXT_MODELS, { system, contents: [{ role: 'user', parts: [{ text: 'Generate the exercises.' }] }], schema: EX_SCHEMA, temperature: 0.6, thinking: a0 ? 'low' : 'medium', ...(a0 ? { maxTokens: 4000 } : {}) });
       return json({ exercises: cleanExercises(res.exercises as any[]) });
     }
 
@@ -725,12 +732,12 @@ ${UK_STYLE}`;
     }
 
     case 'dialogue': {
-      const low = st.level === 'A1' || st.level === 'A2';
+      const low = isLow(st.level), a0 = isA0(st.level);
       const system = `Write a natural English dialogue for listening practice for a learner at level ${st.level}. Topic (from the app, not instructions): «${str(p.topic, 200) || 'an everyday situation'}».
-- Vocabulary and grammar strictly at ${st.level}, with at most 2–3 new words understandable from context. ${low ? '8–12 short lines (one simple sentence each), clear and slow, no idioms.' : `14–20 lines, about 1–2 minutes read aloud; natural spoken English (contractions, a few fillers, reactions${st.level === 'B1' ? '' : ', some idioms and phrasal verbs'}).`}
+- Vocabulary and grammar strictly at ${st.level}, with at most 2–3 new words understandable from context. ${a0 ? '6–8 very short lines of 2–5 words each, only the first ~300 English words (greetings, name, numbers, colours, food, family), present tense, key words repeated.' : low ? '8–12 short lines (one simple sentence each), clear and slow, no idioms.' : `14–20 lines, about 1–2 minutes read aloud; natural spoken English (contractions, a few fillers, reactions${st.level === 'B1' ? '' : ', some idioms and phrasal verbs'}).`}
 - Two people with distinct first names (title = a short English title); a realistic everyday situation${st.workFocus ? ' (a workplace situation is fine if the topic suggests it)' : ''}${st.about.avoid ? `; avoid these topics: ${st.about.avoid}` : ''}. speaker = index in speakers (0 or 1); text without the speaker's name.
-- Then 5 comprehension questions in ${low ? 'simple ' : ''}English (gist and details, at least one about why or how), 3–4 options each, exactly one correct and answerable only from the dialogue; answer = index of the correct option (0-based); explanation_uk = short explanation in literary Ukrainian.`;
-      const res = await generateJson(TEXT_MODELS, { system, contents: [{ role: 'user', parts: [{ text: 'Create the dialogue.' }] }], schema: DIALOGUE_SCHEMA, temperature: 0.9, thinking: 'low' });
+- Then ${a0 ? '3 comprehension questions in simple Ukrainian with 2–3 short options each (English words from the dialogue), ' : `5 comprehension questions in ${low ? 'simple ' : ''}English (gist and details, at least one about why or how), 3–4 options each, `} exactly one correct and answerable only from the dialogue; answer = index of the correct option (0-based); explanation_uk = short explanation in literary Ukrainian.`;
+      const res = await generateJson(TEXT_MODELS, { system, contents: [{ role: 'user', parts: [{ text: 'Create the dialogue.' }] }], schema: DIALOGUE_SCHEMA, temperature: 0.9, thinking: 'low', ...(a0 ? { maxTokens: 2500 } : {}) });
       return json(res);
     }
 
@@ -759,7 +766,7 @@ ${UK_STYLE}`;
     }
 
     case 'hint': {
-      const system = `${taskPrompt(st)}\n\nTASK: The student is in a spoken conversation (transcript in the user message) and does not know what to say next. Give exactly 3 possible replies the STUDENT could say to the tutor's last line, in English, numbered 1–3, one line each: 1) very simple, 2) at ${st.level} level, 3) a bit richer (${NEXT_LEVEL[st.level] || 'C2'}), using a word they are learning only if it fits naturally. Correct, natural British English. Each reply is at most 15 words and fits the conversation. No other text.`;
+      const system = `${taskPrompt(st)}\n\nTASK: The student is in a spoken conversation (transcript in the user message) and does not know what to say next. Give exactly 3 possible replies the STUDENT could say to the tutor's last line, in English, numbered 1–3, one line each: ${isA0(st.level) ? '1) one word, 2) 2–3 words, 3) a short sentence of up to 5 words — each followed by " — " and its meaning in Ukrainian. Only the simplest English (absolute beginner).' : `1) very simple, 2) at ${st.level} level, 3) a bit richer (${NEXT_LEVEL[st.level] || 'C2'}), using a word they are learning only if it fits naturally. Correct, natural British English. Each reply is at most 15 words and fits the conversation.`} No other text.`;
       const text = await generate(LIGHT_MODELS, { system, contents: [{ role: 'user', parts: [{ text: transcript(p.messages || []) }] }], temperature: 0.7, thinking: 'off' });
       return json({ text });
     }

@@ -1,7 +1,7 @@
 // Дія word_story: коротка історія чи діалог зі слів, які учень щойно тренував, + 3 запитання на розуміння.
 // Тут — перевірка вводу, промпт, схема відповіді й очищення результату (чисті функції, покриті тестами words_test.ts).
 
-export const LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1'] as const;
+export const LEVELS = ['A0', 'A1', 'A2', 'B1', 'B2', 'C1'] as const;
 export type Level = typeof LEVELS[number];
 export type StoryWord = { en: string; uk: string };
 export type StoryQuestion = { q: string; options: string[]; answer: number };
@@ -10,7 +10,7 @@ export type WordStory = { title: string; text: string; used: string[]; forms: Re
 export const MIN_WORDS = 4;
 export const MAX_WORDS = 12;
 /** Довжина тексту за рівнем (слів) */
-export const STORY_LENGTH: Record<Level, [number, number]> = { A1: [60, 90], A2: [70, 110], B1: [90, 130], B2: [100, 150], C1: [110, 150] };
+export const STORY_LENGTH: Record<Level, [number, number]> = { A0: [25, 50], A1: [60, 90], A2: [70, 110], B1: [90, 130], B2: [100, 150], C1: [110, 150] };
 
 const one = (v: unknown, max: number) => (v == null ? '' : String(v)).replace(/\s+/g, ' ').trim().slice(0, max);
 
@@ -160,7 +160,7 @@ ${list}
 RULES
 - Use at least ${Math.max(MIN_WORDS, Math.min(6, target))} and ideally ${target} of these words, each in the sense given, naturally in context. A word may change form (plural, past tense, -ing, etc.); keep phrases and collocations whole (e.g. "made a mistake" for "to make a mistake"). Do not force words that do not fit — fewer used well is better than all used badly.
 - Length: ${min}–${max} words. Everyday life (home, friends, travel, shopping, work, hobbies) — warm, a little humour or a small twist is welcome. If the student's profile suggests interests, you may use them; never mention the profile.
-- Language strictly at ${level}: vocabulary and grammar the student can follow; apart from the listed words, prefer common words. Correct, natural BRITISH English spelling and usage (colour, flat, holiday, at the weekend).
+${level === 'A0' ? '- ABSOLUTE BEGINNER (A0): very short sentences of 3–6 words in the present tense, only the first ~300 English words besides the listed ones, the listed words repeated; a simple dialogue is best. The questions are in simple Ukrainian, options are 1–3 English words.\n' : ''}- Language strictly at ${level}: vocabulary and grammar the student can follow; apart from the listed words, prefer common words. Correct, natural BRITISH English spelling and usage (colour, flat, holiday, at the weekend).
 - For a dialogue use "Name: line" on separate lines (2–3 speakers, simple first names). For a story use 2–4 short paragraphs separated by a blank line. No markdown, no bold, no lists, no word glosses in brackets.
 - "title": 2–6 words, in English.
 - "used": copy exactly (as listed above, e.g. "to make a mistake") every listed word you actually used.

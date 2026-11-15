@@ -86,7 +86,7 @@ Return JSON missions[3]:
 - situation: 1–2 sentences in Ukrainian describing the scene.
 - myRole / tutorRole: short role names in Ukrainian.
 - goal: what the student must achieve in the scene, one sentence in Ukrainian.
-- phrases: 4–6 useful English phrases for the student at ${st.level} level (natural British English).`;
+- phrases: 4–6 useful English phrases for the student at ${st.level} level (natural British English)${st.level === 'A0' ? '; this is an absolute beginner: 2–5 words each, the simplest survival phrases (Hello, I\'d like…, How much is it?, Thank you), and situation and goal kept very simple' : ''}.`;
 }
 
 export function cleanMissions(r: unknown) {
@@ -211,17 +211,20 @@ export function scoreEval(r: unknown) {
  * 1) нижня межа за виміряним мовленням — довгі зв'язні репліки несумісні з A1 (A2 ≥ 8 слів/репліку, B1-межа не ставиться автоматично);
  * 2) оцінка на 2+ рівні нижча за рівень учня — ненадійна: упевненість «low» і пояснення.
  */
-const LV = ['A1', 'A2', 'B1', 'B2', 'C1'];
+const LV = ['A0', 'A1', 'A2', 'B1', 'B2', 'C1'];
 // deno-lint-ignore no-explicit-any
 export function calibrateLevel<T extends { level_signal: string; level_assessment: any }>(sum: T, speech: { words: number; avg_len: number; turns: number } | null, studentLevel: string): T {
   const a = sum.level_assessment;
   if (!a) return sum;
   const notes: string[] = [];
-  if (speech && speech.words >= 150 && speech.turns >= 5 && speech.avg_len >= 8 && sum.level_signal === 'A1') {
-    sum.level_signal = 'A2';
-    a.sublevel = 'high';
-    for (const c of a.criteria || []) if (c.name === 'fluency' && c.level === 'A1') c.level = 'A2';
-    notes.push(`Ви говорили зв'язними репліками (у середньому ${speech.avg_len} слова), а це вже вище за A1 — оцінку уточнено за виміряним мовленням.`);
+  // нижня межа — A2; учня рівня A0 підтягуємо не вище A1 (повтори за вчителем теж дають довгі репліки)
+  const floor = studentLevel === 'A0' ? 'A1' : 'A2';
+  const was = sum.level_signal;
+  if (speech && speech.words >= 150 && speech.turns >= 5 && speech.avg_len >= 8 && LV.includes(was) && LV.indexOf(was) < LV.indexOf(floor)) {
+    sum.level_signal = floor;
+    a.sublevel = floor === 'A2' ? 'high' : 'mid';
+    for (const c of a.criteria || []) if (c.name === 'fluency' && LV.indexOf(c.level) >= 0 && LV.indexOf(c.level) < LV.indexOf(floor)) c.level = floor;
+    notes.push(`Ви говорили зв'язними репліками (у середньому ${speech.avg_len} слова), а це вже вище за ${was} — оцінку уточнено за виміряним мовленням.`);
   }
   const gap = LV.indexOf(studentLevel) - LV.indexOf(sum.level_signal);
   if (LV.includes(studentLevel) && gap >= 2) {

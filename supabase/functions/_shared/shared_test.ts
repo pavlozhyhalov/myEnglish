@@ -1,6 +1,6 @@
 import { assertEquals, assert, assertRejects } from 'jsr:@std/assert@1';
 import { retryAfterMs, thinkingConfig, generate, streamText, candidateText, isCooled } from './gemini.ts';
-import { isoWeek, readFocus, latinName, readMemory, readHistory, sessionFocus, basePrompt, modePrompt, metaPrompt, wordsForLevel, todayLabel, memoryRule, UK_STYLE, type Student } from './prompts.ts';
+import { isoWeek, readFocus, latinName, readMemory, readHistory, sessionFocus, basePrompt, modePrompt, metaPrompt, wordsForLevel, taskPrompt, mistakeDrillPrompt, todayLabel, memoryRule, UK_STYLE, type Student } from './prompts.ts';
 
 const st = (over: Partial<Student> = {}): Student => ({
   level: 'B1', tutorName: 'Alex', tutorTone: 'friendly', explainLang: 'uk', strictness: 'important', voice: 'Puck', workFocus: false,
@@ -53,6 +53,19 @@ Deno.test('prompts include memory, focus, language rules; voice has no FIX', () 
   const a1 = modePrompt('chat', st({ level: 'A1' }), {});
   assert(a1.includes('Ukrainian hint'));
 });
+
+Deno.test('A0: beginner lesson in Ukrainian, short English chunks; A1 unchanged', () => {
+  const a0 = modePrompt('chat', st({ level: 'A0' }), {});
+  assert(a0.includes('BEGINNER LESSON') && a0.includes('Повторіть за мною') && a0.includes('simple Ukrainian'));
+  assert(!a0.includes('MODE: FREE CONVERSATION') && !a0.includes('The lesson is in English'));
+  const v = modePrompt('chat', st({ level: 'A0' }), { voice: true });
+  assert(v.includes('BEGINNER VOICE') && v.includes('«Привіт! Hello!»'));
+  assert(fixFree(modePrompt('chat', st({ level: 'A1' }), {})));
+  assert(!modePrompt('chat', st({ level: 'A1' }), {}).includes('BEGINNER'));
+  assert(taskPrompt(st({ level: 'A0' })).includes('ABSOLUTE BEGINNER') && !taskPrompt(st()).includes('ABSOLUTE BEGINNER'));
+  assert(mistakeDrillPrompt(st({ level: 'A0' }), '0. "x" → "y"', 5).includes('ABSOLUTE BEGINNER'));
+});
+const fixFree = (p: string) => p.includes('MODE: FREE CONVERSATION') && p.includes('The lesson is in English');
 
 // ---------- виклики Gemini з підміненим fetch ----------
 function withFetch(handler: (url: string, body: any) => Response, fn: () => Promise<void>) {
@@ -140,6 +153,8 @@ Deno.test('wordsForLevel: deck level, work decks, own cards', () => {
   const cards = [{ en: 'idiom', deck_id: 'idioms-c1' }, { en: 'steep', deck_id: 'weather-nature' }, { en: 'tolerance', deck_id: 'cnc' }, { en: 'my word', deck_id: 'my' }, { en: 'chat', deck_id: 'smalltalk' }];
   assertEquals(wordsForLevel(cards, 'A2', false), ['steep', 'my word', 'chat']);
   assertEquals(wordsForLevel(cards, 'C1', true), ['idiom', 'steep', 'tolerance', 'my word', 'chat']);
+  assertEquals(wordsForLevel([{ en: 'hello', deck_id: 'basics' }, { en: 'steep', deck_id: 'weather-nature' }], 'A0', false), ['hello']);
+  assertEquals(wordsForLevel([{ en: 'chat', deck_id: 'smalltalk' }, { en: 'steep', deck_id: 'collocations' }], 'zz', false), ['chat']);
 });
 
 Deno.test('sessionFocus: drill names the type; no words focus at C1 or with app topic', () => {
