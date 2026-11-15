@@ -564,7 +564,7 @@ async function placementTest(view, { quick = false, from = '' } = {}) {
     const okN = items.filter(r => r.ok).length;
     view.replaceChildren(h('div.stack-lg.gx.pl-result',
       h('section.tx-group',
-        h('div.gx-res', h('span.gx-res-ic.good', ic('trophy', { size: 26, fill: true })),
+        h('div.gx-res', h('span.gx-res-ic' + (preA1 ? '' : '.good'), ic(preA1 ? 'plant' : 'trophy', { size: 26, fill: true })),
           h('div.grow', h('div.tx-label', quick ? 'Ваш рівень · швидкий тест' : 'Ваш рівень'), h('div.gx-res-t', preA1 ? `Pre-A1 · ${LEVEL_NAME.A0}` : LEVEL_NAME[o.level] || o.display, conf.sure || preA1 ? '' : h('span.dim', ` · ${conf.label}`)),
             h('div.tx-s', preA1 ? LEVEL_DESC.A0 : LEVEL_DESC[o.level] || ''))),
         txKpis([
