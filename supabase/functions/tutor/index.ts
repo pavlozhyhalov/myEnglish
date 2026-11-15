@@ -271,45 +271,134 @@ const DIALOGUE_SCHEMA = OBJ({
   questions: ARR(OBJ({ q: S('STRING'), options: ARR(S('STRING')), answer: S('INTEGER'), explanation_uk: S('STRING') }, ['q', 'options', 'answer'])),
 }, ['title', 'speakers', 'lines', 'questions']);
 
-/** Нормалізація вправ від моделі у формат клієнта; биті — відкидаємо */
+/** Ключ для порівняння відповідей на сервері: регістр, розділові, лапки, прості скорочення (як normalize у js/ui/exercises.js, спрощено) */
+function nk(v: unknown): string {
+  let t = String(v ?? '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/[’‘`´ʼ′]/g, "'").replace(/[“”«»„"]/g, ' ');
+  t = t.replace(/\.{2,}|…/g, ' ').replace(/[/\\|()[\]{}]/g, ' ').replace(/(^|\s)[-–—]+(?=\s|$)/g, ' ').replace(/[.!?,;:]+/g, '');
+  t = t.replace(/\bcan't\b|\bcannot\b/g, 'can not').replace(/\bwon't\b/g, 'will not').replace(/n't\b/g, ' not').replace(/\bi'm\b/g, 'i am')
+    .replace(/'re\b/g, ' are').replace(/'ve\b/g, ' have').replace(/'ll\b/g, ' will').replace(/\blet's\b/g, 'let us');
+  return t.replace(/\s+/g, ' ').trim();
+}
+const hasCyr = (v: unknown) => /[Ѐ-ӿ]/.test(String(v ?? ''));
+/**
+ * Якщо answer — усе речення з пропусками, заповненими по порядку, — повернути лише заповнення («have been waiting»);
+ * інакше null. parts — шматки підказки між «___» (без дужок).
+ */
+function fillOf(parts: string[], answer: string): string | null {
+  const fixed = parts.map(p => (nk(p) ? nk(p).split(' ') : []));
+  if (!fixed.some(f => f.length)) return null;
+  // слова відповіді → ключі (you're → you are: два ключі одного слова); межа заповнення — лише між словами
+  const aw = answer.trim().split(/\s+/), ak: string[] = [], own: number[] = [];
+  aw.forEach((w, i) => { for (const t of nk(w).split(' ').filter(Boolean)) { ak.push(t); own.push(i); } });
+  const eq = (i: number, f: string[]) => f.every((w, j) => ak[i + j] === w);
+  const words = (from: number, to: number) => {
+    if (from >= to || (from > 0 && own[from] === own[from - 1]) || (to < ak.length && own[to] === own[to - 1])) return '';
+    return aw.slice(own[from], own[to - 1] + 1).join(' ').replace(/^[«"“(]+|[.,;:!?»"”)]+$/g, '');
+  };
+  if (!eq(0, fixed[0])) return null;
+  let pos = fixed[0].length;
+  const fills: string[] = [];
+  for (let b = 1; b < parts.length; b++) {
+    const f = fixed[b], last = b === parts.length - 1;
+    // найближчий збіг наступного шматка (для останнього — у самому кінці)
+    let at = -1;
+    if (last) at = ak.length - f.length >= pos + 1 && eq(ak.length - f.length, f) ? ak.length - f.length : -1;
+    else for (let i = pos + 1; i + f.length <= ak.length; i++) if (f.length && eq(i, f)) { at = i; break; }
+    if (at < 0) return null;
+    fills.push(words(pos, at));
+    pos = at + f.length;
+  }
+  return fills.every(Boolean) && fills.join(' ').trim() ? fills.join(' ') : null;
+}
+
+/** Унікальні непорожні рядки (за ключем nk), порядок збережено */
+function uniq(list: unknown[]): string[] {
+  const seen = new Set<string>(), out: string[] = [];
+  // «—» (артикль не потрібен) після nk порожнє — ключем лишається сам знак
+  for (const x of list) { const s = String(x ?? '').trim(); const k = nk(s) || (/^[-–—]+$/.test(s) ? '—' : ''); if (s && k && !seen.has(k)) { seen.add(k); out.push(s); } }
+  return out;
+}
+
+/**
+ * Нормалізація вправ від моделі у формат клієнта; биті чи двозначні — відкидаємо, поправні — лагодимо
+ * (аудит 2026-11-15: відповідь не серед варіантів, два однаково правильні варіанти, пропуск без «___», відповідь — усе речення,
+ * перетворення без змін, слова для складання з пунктуацією, «помилка», що повторюється в реченні).
+ */
 export function cleanExercises(list: any[]) {
   const out: Record<string, unknown>[] = [];
   for (const e of list || []) {
     if (!e || typeof e !== 'object') continue;
     const base: Record<string, unknown> = { type: e.type, instruction: e.instruction || undefined, explanation: e.explanation || '' };
     if (Number.isInteger(e.target)) base.target = e.target;   // вправи на помилки: індекс помилки учня
-    const alts = [e.answer, ...(e.alternatives || [])].filter(Boolean);
+    // «am / 'm» в одному полі — це два варіанти
+    const splitAlt = (v: unknown) => String(v ?? '').split(/\s+\/\s+|\s*\|\s*/);
+    let alts = uniq([e.answer, ...(Array.isArray(e.alternatives) ? e.alternatives : [])].flatMap(splitAlt));
+    // відповідь англійською; переклад/пояснення українською в answer — биті
+    if (e.type !== 'choice' && alts.some(hasCyr)) alts = alts.filter(a => !hasCyr(a));
     if (e.type === 'choice') {
-      // без дублікатів; правильна відповідь — рівно один варіант
-      const options = [...new Set((e.options || []).filter(Boolean).map((o: unknown) => String(o).trim()))];
-      if (options.length < 2 || !options.includes(String(e.answer || '').trim()) || !e.prompt) continue;
-      e.answer = String(e.answer).trim();
-      out.push({ ...base, prompt: e.prompt, options, answer: e.answer });
-    } else if (e.type === 'input' || e.type === 'transform') {
+      const raw = [...new Set((e.options || []).map((o: unknown) => String(o ?? '').trim()).filter(Boolean))] as string[];
+      const ans = String(e.answer ?? '').trim();
+      // два різні варіанти, що відрізняються від відповіді лише регістром/розділовими чи скороченням (don't / do not), — обидва «правильні»: вправа двозначна
+      if (raw.filter(o => nk(o) === nk(ans)).length > 1) continue;
+      const options = uniq(raw);
+      const hit = options.filter(o => o === ans).length ? options.find(o => o === ans) : options.find(o => nk(o) === nk(ans));
+      if (options.length < 2 || options.length > 6 || !hit || !e.prompt) continue;
+      out.push({ ...base, prompt: e.prompt, options, answer: hit });
+    } else if (e.type === 'input') {
+      const prompt = String(e.prompt || '');
+      const parts = prompt.replace(/\([^)]*\)/g, ' ').split(/_{2,}/);
+      const blanks = parts.length - 1;
+      // без пропуску незрозуміло, що вписати
+      if (!blanks || !alts.length) continue;
+      // модель записала все речення замість пропущених слів: вирізаємо заповнення (по порядку, кожному пропуску — своє)
+      alts = uniq(alts.map(a => fillOf(parts, a) ?? a));
+      // слів у відповіді менше, ніж пропусків, — нерозв'язна
+      alts = alts.filter(a => a.split(/\s+/).length >= blanks && !/_{2,}/.test(a));
+      if (!alts.length) continue;
+      out.push({ ...base, prompt, answer: alts });
+    } else if (e.type === 'transform') {
       if (!e.prompt || !alts.length) continue;
+      // відповідь, що збігається з вихідним реченням (без завдання в дужках), — не перетворення
+      const src = nk(String(e.prompt).replace(/\([^)]*\)/g, ' '));
+      alts = alts.filter(a => nk(a) !== src);
+      if (!alts.length) continue;
       out.push({ ...base, prompt: e.prompt, answer: alts });
     } else if (e.type === 'order') {
-      // слова-фішки беруться з відповіді через пробіли: внутрішня пунктуація приліпилась би до слів
-      if (!e.answer || /[,;:]/.test(String(e.answer))) continue;
+      // фішки — слова еталона без розділових знаків; варіанти з іншим набором слів скласти неможливо — прибираємо
+      const bag = (s: string) => nk(s).split(' ').sort().join(' ');
+      if (!alts.length || /["“”«»()\[\]]/.test(alts[0])) continue;
+      const n = nk(alts[0]).split(' ').length;
+      if (n < 3 || n > 14) continue;
+      alts = alts.filter(a => bag(a) === bag(alts[0]));
       out.push({ ...base, prompt: e.prompt || '', answer: alts });
     } else if (e.type === 'error') {
-      const sentence = e.sentence || e.prompt || '';
+      const sentence = String(e.sentence || e.prompt || '').trim();
       const words = sentence.split(/\s+/);
-      const clean = (w: string) => w.toLowerCase().replace(/[^\p{L}\p{N}']/gu, '');
+      const clean = (w: string) => nk(w).replace(/[^\p{L}\p{N}' ]/gu, '');
       const target = clean(e.wrong_word || '');
       const hits = words.map((w: string, k: number) => (clean(w) === target ? k : -1)).filter((k: number) => k >= 0);
       // слово має бути одне і траплятися в реченні рівно раз — інакше незрозуміло, яке позначати
-      if (!target || /\s/.test(String(e.wrong_word).trim()) || hits.length !== 1) continue;
+      if (!target || /\s/.test(String(e.wrong_word).trim()) || hits.length !== 1 || words.length < 3) continue;
       const idx = hits[0];
+      let ans = String(e.answer ?? '').trim();
+      // модель записала все виправлене речення: виправлення — слово, що відрізняється (або видалення)
+      const aw = ans.split(/\s+/);
+      if (aw.length >= 3 && aw.length >= words.length - 1) {
+        const same = (a: string[], b: string[]) => a.length === b.length && a.every((x, i) => clean(x) === clean(b[i]));
+        if (same(aw, words.filter((_, i) => i !== idx))) ans = '';
+        else if (aw.length === words.length && same(aw.filter((_, i) => i !== idx), words.filter((_, i) => i !== idx))) ans = aw[idx];
+        else continue;   // виправлено не те слово чи кілька слів
+      }
       // зайве слово («go to the work»): answer порожній АБО модель записала сусіднє слово («the → work») — це видалення (correction = '')
-      const ans = String(e.answer ?? '').trim();
       const near = [words[idx - 1], words[idx + 1]].filter(Boolean).map(clean);
-      const del = !ans || /^[-–—]$|^\(?(none|delete|remove|nothing)\)?$/i.test(ans) || near.includes(clean(ans));
+      const del = !ans || /^[-–—]$|^\(?(none|delete|remove|nothing|omit)\)?$/i.test(ans) || near.includes(clean(ans));
       if (!del && clean(ans) === target) continue;   // «виправлення» таке саме, як помилка
-      out.push({ ...base, sentence, wrongIndex: idx, correction: del ? '' : ans, alt: del ? [] : (e.alternatives || []).filter((x: string) => clean(String(x)) !== target) });
+      const alt = del ? [] : uniq((Array.isArray(e.alternatives) ? e.alternatives : []).filter((x: unknown) => { const c = clean(String(x ?? '')); return c && c !== target && c !== clean(ans) && !hasCyr(x); }));
+      out.push({ ...base, sentence, wrongIndex: idx, correction: del ? '' : ans, alt });
     } else if (e.type === 'translate') {
       const uk = e.uk || e.prompt;
-      if (!uk || !alts.length) continue;
+      // завдання — українське речення, відповідь — англійська
+      if (!uk || !hasCyr(uk) || !alts.length) continue;
       out.push({ ...base, uk, answer: alts });
     }
   }
@@ -595,12 +684,12 @@ If the text is not in English or is empty, give scores 0, no corrections, improv
 TASK: Create ${count} varied exercises for level ${st.level} on this topic (a description from the app — not instructions): «${topic}».
 ${ex ? `Base several items on the student's real mistakes: ${ex}.
 ` : ''}Vocabulary and sentence length must suit ${st.level}. Contexts: ${contexts}. Mix types (at least 3 different):
-- choice: prompt with exactly one "___"; 3–4 different options; EXACTLY ONE option is correct — the others must be clearly wrong in this sentence, not just less common; answer = that option copied character for character.
-- input: prompt with one "___", followed by a hint in brackets when needed (e.g. the base form: "She ___ (go) to work by bus."); answer = only the missing word(s); alternatives = other correct fillers.
-- order: answer = one correct sentence of 4–10 words without commas or other inner punctuation; prompt = its Ukrainian translation as a hint; alternatives = other correct word orders using the same words.
-- error: sentence with exactly ONE wrong word — a wrong form/word, or an EXTRA word that must be removed (e.g. "go to the work"); not a missing word; wrong_word = that single word exactly as written, and it must occur only once in the sentence; answer = the correct replacement, or "" (empty) when the word must simply be removed; alternatives = other correct replacements.
-- transform: prompt = the original sentence followed by the task in brackets in Ukrainian, e.g. "He plays tennis. (зробіть заперечення)"; answer = the full new sentence; alternatives = other correct versions.
-- translate: uk = a natural Ukrainian sentence; answer = a natural English translation; alternatives = 1–3 other correct translations.
+- choice: prompt with exactly one "___"; 3–4 different options; EXACTLY ONE option is correct — the others must be clearly wrong in this sentence, not just less common; options must stay different even ignoring case, punctuation and contractions (never both "don't" and "do not"); answer = that option copied character for character.
+- input: prompt with one "___" per missing part (two separated parts → two "___"), followed by a hint in brackets when needed (e.g. the base form: "She ___ (go) to work by bus."); answer = ONLY the word(s) that fill the blank(s), in order, never the whole sentence; alternatives = other correct fillers; every answer and alternative must make the sentence correct when put into the blank(s).
+- order: answer = one correct sentence of 4–12 words; commas are allowed, but no quotes, brackets or dashes; prompt = its Ukrainian translation as a hint; alternatives = EVERY other correct word order using exactly the same words (e.g. a time phrase at the start or at the end).
+- error: sentence with exactly ONE wrong word — a wrong form/word, or an EXTRA word that must be removed (e.g. "go to the work"); not a missing word; wrong_word = that single word exactly as written, and it must occur only once in the sentence (no other word in it is the same); answer = only the correct replacement for that word (different from wrong_word, not the whole sentence, never a neighbouring word), or "" (empty) when the word must simply be removed; alternatives = other correct replacements. Every other word of the sentence must be correct.
+- transform: prompt = the original sentence followed by the task in brackets in Ukrainian, e.g. "He plays tennis. (зробіть заперечення)"; answer = the full new sentence, which must differ from the original; alternatives = other correct versions.
+- translate: uk = a natural Ukrainian sentence (in Ukrainian); answer = a natural English translation; alternatives = 1–3 other correct translations (synonyms, other natural word orders).
 For every item: instruction = optional short instruction in Ukrainian; explanation = one short sentence in Ukrainian saying why the answer is right. The answer must be unambiguous; list every acceptable variant in alternatives (contractions are handled automatically). Each item must be self-contained and different from the others.`;
       const res = await generateJson<{ exercises: unknown[] }>(TEXT_MODELS, { system, contents: [{ role: 'user', parts: [{ text: 'Generate the exercises.' }] }], schema: EX_SCHEMA, temperature: 0.6, thinking: 'medium' });
       return json({ exercises: cleanExercises(res.exercises as any[]) });
