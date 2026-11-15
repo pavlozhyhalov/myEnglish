@@ -100,7 +100,9 @@ const isGeneral = (d) => d.group !== 'work' || store.settings().workFocus;
 export async function wordPool({ level = myLevel(), neighbours = true } = {}) {
   const idx = (await deckIndex()).filter(isGeneral);
   const r = LEVELS.indexOf(level);
-  const near = neighbours ? new Set([level, LEVELS[r - 1] || LEVELS[r + 1]]) : new Set([level]);
+  // сусідній рівень — нижчий (на A0 і A1 — вищий: колоди A0 «Старт» іграм A1+ не підмішуються)
+  const below = LEVELS[r - 1] && LEVELS[r - 1] !== 'A0' ? LEVELS[r - 1] : null;
+  const near = neighbours ? new Set([level, below || LEVELS[r + 1]]) : new Set([level]);
   let metas = idx.filter(d => near.has(d.level));
   if (!metas.length) metas = idx.filter(d => d.level === level);
   const decks = await withCards(metas);

@@ -105,7 +105,9 @@ const lessonOrder = (l) => { const d = diff(l); return d <= 0 ? -d : 10 + d; };
 
 /** Наступний урок за рівнем: непройдений свого рівня → прогалини нижче → наступний рівень → будь-який */
 export function nextLessonByLevel(idx) {
-  const open = idx.map((l, i) => ({ l, i })).filter(o => !lessonDone(o.l.id));
+  // уроки «Старт» (A0) — лише учням рівня A0: учню A1+ після свого рівня йде наступний, а не основи з нуля
+  const mine = myLevel();
+  const open = idx.map((l, i) => ({ l, i })).filter(o => !lessonDone(o.l.id) && (o.l.level !== 'A0' || mine === 'A0'));
   open.sort((a, b) => lessonOrder(a.l.level) - lessonOrder(b.l.level) || a.i - b.i);
   return open[0]?.l || null;
 }

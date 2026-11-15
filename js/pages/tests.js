@@ -7,7 +7,7 @@ import { render as renderExercise, answerText, mistakeCard, cappedRows } from '.
 import { speak, stop as stopSpeech } from '../speech.js';
 import { activityTimer, addMistake, dayKey, applyLessonTest, lessonNeedsReview, lessonsToReview } from '../stats.js';
 import * as srs from '../srs.js';
-import { setLevel, LEVEL_NAME, LEVEL_DESC, LEVELS, nextLessonByLevel, myLevel as myLevelNow } from '../level.js';
+import { setLevel, LEVEL_NAME, LEVEL_DESC, LEVELS, nextLessonByLevel, myLevel as myLevelNow, lvLabel } from '../level.js';
 import * as CAT from '../placement.js';
 import { onLeave } from '../router.js';
 import { tutor, aiErrorText } from '../ai.js';
@@ -56,7 +56,7 @@ async function overview(view) {
     placement: { icon: 'target', label: inRun ? 'Продовжити тест рівня' : 'Визначення рівня', sub: inRun ? 'Тест не завершено' : 'Адаптивний · ~25 хв', href: '#/tests/placement', pill: plPill },
     lesson: { icon: 'exam', label: 'Тест за уроком', sub: 'До 15 питань', href: '#/tests/lesson' },
     weekly: { icon: 'calendar-blank', label: 'Тижневий тест', sub: 'Слова й граматика за 7 днів', href: '#/tests/weekly' },
-    level: { icon: 'seal-check', label: `Іспит рівня ${myLevelNow()}`, sub: 'Закрити рівень і перейти вище', href: '#/tests/level' },
+    level: { icon: 'seal-check', label: `Іспит рівня ${lvLabel(myLevelNow())}`, sub: 'Закрити рівень і перейти вище', href: '#/tests/level' },
   };
   const main = inRun || plDue ? 'placement' : 'weekly';
   const others = Object.keys(T).filter(k => k !== main && k !== 'level');
@@ -74,7 +74,7 @@ async function overview(view) {
       // тест за уроком — перехід до уроку (повторити правило або пройти тест ще раз)
       return txRow({
         icon: t.type === 'placement' ? 'target' : t.type === 'weekly' ? 'calendar-blank' : t.type === 'level' ? 'seal-check' : 'exam',
-        label: t.type === 'placement' ? (t.scores?.quick ? 'Швидкий тест рівня' : 'Визначення рівня') : t.type === 'weekly' ? 'Тижневий тест' : t.type === 'level' ? `Іспит рівня ${t.ref}${t.scores?.passed ? ' · склали' : ''}` : `Урок: ${titles[t.ref] || t.ref}`,
+        label: t.type === 'placement' ? (t.scores?.quick ? 'Швидкий тест рівня' : 'Визначення рівня') : t.type === 'weekly' ? 'Тижневий тест' : t.type === 'level' ? `Іспит рівня ${lvLabel(t.ref)}${t.scores?.passed ? ' · склали' : ''}` : `Урок: ${titles[t.ref] || t.ref}`,
         sub, pill: t.type === 'placement' ? { text: t.scores.overall, tone: 'accent' } : { text: `${t.scores.score}%`, tone: t.type === 'level' ? (t.scores.passed ? 'good' : 'warn') : scoreCls(t.scores.score) },
         href: lessonRow ? `#/grammar/${t.ref}` : null, chevron: !!lessonRow,
       });

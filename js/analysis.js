@@ -180,7 +180,8 @@ export function vocabPart(deckIdx = [], now = Date.now()) {
     else if (LEVELS.includes(lv)) known[lv] = (known[lv] || 0) + 1;
     else own++;
   }
-  const byLevel = LEVELS.filter(l => totals[l]).map(l => ({ level: l, known: known[l] || 0, total: totals[l] }));
+  // рівень «Старт» (A0) учням A1+ — лише якщо з нього вже є закріплені слова
+  const byLevel = LEVELS.filter(l => totals[l] && (l !== 'A0' || myLevel() === 'A0' || known[l])).map(l => ({ level: l, known: known[l] || 0, total: totals[l] }));
   const weak = cards.filter(c => (c.lapses || 0) >= 2).sort((a, b) => (b.lapses || 0) - (a.lapses || 0) || t(b.last_review) - t(a.last_review)).slice(0, 8)
     .map(c => ({ en: c.en, uk: c.uk, lapses: c.lapses }));
   return { inWork: cards.length, learning, review, mature, solid: seen.size, due, ret, retPrev, reviews30: all30, byLevel, own, work, weak };
@@ -192,7 +193,7 @@ export function grammarPart(gIdx = []) {
   const byLevel = LEVELS.map(l => {
     const ls = gIdx.filter(x => x.level === l);
     return { level: l, done: ls.filter(x => prog(x.id)?.completed_at).length, total: ls.length };
-  }).filter(x => x.total);
+  }).filter(x => x.total && (x.level !== 'A0' || myLevel() === 'A0' || x.done));   // «Старт» (A0) учням A1+ — не прогалина
   const tried = store.all('lessons_progress').filter(p => p.attempts > 0);
   const title = Object.fromEntries(gIdx.map(x => [x.id, x]));
   const low = tried.filter(p => (p.best || 0) < 80 && title[p.id]).sort((a, b) => (a.best || 0) - (b.best || 0)).slice(0, 5)
@@ -500,7 +501,7 @@ export function insight(section, A) {
       const mine = g.byLevel.find(x => x.level === A.level);
       if (!g.tried) return `Уроків граматики ще не пройдено. Почніть з уроку свого рівня${g.next ? ` — «${g.next.title}»` : ''}.`;
       const parts = [];
-      if (mine) parts.push(`Рівень ${A.level}: пройдено ${mine.done} з ${mine.total} уроків.`);
+      if (mine) parts.push(`Рівень ${lvLabel(A.level)}: пройдено ${mine.done} з ${mine.total} уроків.`);
       const gaps = g.byLevel.filter(x => rk(x.level) < rk(A.level) && x.done < x.total);
       if (gaps.length) parts.push(`Прогалини нижче: ${gaps.map(x => `${lvLabel(x.level)} — ${x.total - x.done}`).join(', ')}.`);
       if (g.low.length) parts.push(`Найслабший урок — «${g.low[0].title}» (${g.low[0].best}%).`);

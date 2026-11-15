@@ -55,7 +55,7 @@ export const S = {
     network: 'Зв\'язок перервано. Перепідключаюся…',
   },
   level: {
-    A1: 'Beginner', A2: 'Elementary', B1: 'Intermediate', B2: 'Upper-Intermediate', C1: 'Advanced',
+    A0: 'Starter (Pre-A1)', A1: 'Beginner', A2: 'Elementary', B1: 'Intermediate', B2: 'Upper-Intermediate', C1: 'Advanced',
   },
   mistakeTypes: {
     articles: 'Артиклі a/the', tenses: 'Часи', prepositions: 'Прийменники', word_order: 'Порядок слів',

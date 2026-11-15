@@ -124,7 +124,9 @@ export async function reviewSet(max = 5) {
   // урок, що чекає повтору через слабке місце, — з назвою правила
   lessonsToReview().sort((a, b) => String(a.next_review).localeCompare(String(b.next_review))).forEach(p => add(weakBy.get(p.id) || byId.get(p.id), 'due'));
   weak.filter(l => store.get('lessons_progress', l.id)?.completed_at || rank(l.level) < rank(myLevel())).forEach(l => add(l, 'weak'));
-  const lower = idx.filter(l => rank(l.level) < rank(myLevel()) || (rank(l.level) === rank(myLevel()) && store.get('lessons_progress', l.id)?.completed_at));
+  // уроки «Старт» (A0) учням A1+ — лише пройдені (не нав'язуємо основи тим, хто їх не проходив)
+  const done = (l) => !!store.get('lessons_progress', l.id)?.completed_at;
+  const lower = idx.filter(l => (rank(l.level) < rank(myLevel()) && (l.level !== 'A0' || done(l))) || (rank(l.level) === rank(myLevel()) && done(l)));
   lower.sort(() => Math.random() - 0.5).forEach(l => add(l, 'old'));
   return out;
 }
