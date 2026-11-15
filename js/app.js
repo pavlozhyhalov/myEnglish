@@ -103,6 +103,7 @@ const PAGE_FILES = {
   games: 'games',
   fluency: 'fluency',
   'listen-go': 'listengo',
+  abc: 'abc',
   welcome: 'welcome',
 };
 const pageUrl = (name) => `./pages/${PAGE_FILES[name]}.js`;

@@ -1,7 +1,7 @@
 // Вимова: shadowing, мінімальні пари, проблемні звуки
 import { h, ic, seg, progress } from '../ui/dom.js';
 import { plural } from '../strings.js';
-import { txKpis, txPrimary, txRow, txResult } from '../ui/tiles.js';
+import { tx, txKpis, txPrimary, txRow, txResult } from '../ui/tiles.js';
 import { moreRows } from './grammar.js';
 import { pronunciation as loadData } from '../data.js';
 import { speak, stop as stopSpeech, recognize, canRecognize, recordAndTranscribe, compareWords, canRecord, recordAudio } from '../speech.js';
@@ -272,7 +272,10 @@ function pairs(box, data, timer) {
 function sounds(box, data, timer) {
   // кожен звук — плитка: символ МФА в квадратику, назва, підказка; розгортається з поясненням і тренуванням
   // 6 звуків на виду, решта — «Показати всі»
-  box.replaceChildren(moreRows(data.sounds.map(s => h('details.gx-sound',
+  // з нуля: літери, звуки й читання — окрема сторінка #/abc
+  const abcTile = tx({ wide: true, icon: 'text-aa', label: 'Алфавіт і звуки', sub: 'З нуля: літери, читання, спелінг', href: '#/abc' });
+  box.classList.add('stack');
+  box.replaceChildren(abcTile, moreRows(data.sounds.map(s => h('details.gx-sound',
     h('summary.gx-sound-head',
       h('span.gx-ipa', { style: { fontSize: s.symbol.length > 2 ? '14px' : '19px' } }, s.symbol),
       h('span.tx-body', h('span.tx-l', s.title), h('span.tx-s', s.short)),

@@ -1,0 +1,796 @@
+{
+ "letters": [
+  {
+   "l": "A",
+   "ipa": "/eɪ/",
+   "say": "A.",
+   "word": "apple",
+   "uk": "яблуко"
+  },
+  {
+   "l": "B",
+   "ipa": "/biː/",
+   "say": "B",
+   "word": "bag",
+   "uk": "сумка"
+  },
+  {
+   "l": "C",
+   "ipa": "/siː/",
+   "say": "C",
+   "word": "cat",
+   "uk": "кіт"
+  },
+  {
+   "l": "D",
+   "ipa": "/diː/",
+   "say": "D",
+   "word": "dog",
+   "uk": "собака"
+  },
+  {
+   "l": "E",
+   "ipa": "/iː/",
+   "say": "E",
+   "word": "egg",
+   "uk": "яйце"
+  },
+  {
+   "l": "F",
+   "ipa": "/ef/",
+   "say": "F",
+   "word": "fish",
+   "uk": "риба"
+  },
+  {
+   "l": "G",
+   "ipa": "/dʒiː/",
+   "say": "G",
+   "word": "girl",
+   "uk": "дівчинка"
+  },
+  {
+   "l": "H",
+   "ipa": "/eɪtʃ/",
+   "say": "H",
+   "word": "house",
+   "uk": "будинок"
+  },
+  {
+   "l": "I",
+   "ipa": "/aɪ/",
+   "say": "I.",
+   "word": "insect",
+   "uk": "комаха"
+  },
+  {
+   "l": "J",
+   "ipa": "/dʒeɪ/",
+   "say": "J",
+   "word": "jam",
+   "uk": "варення"
+  },
+  {
+   "l": "K",
+   "ipa": "/keɪ/",
+   "say": "K",
+   "word": "key",
+   "uk": "ключ"
+  },
+  {
+   "l": "L",
+   "ipa": "/el/",
+   "say": "L",
+   "word": "lemon",
+   "uk": "лимон"
+  },
+  {
+   "l": "M",
+   "ipa": "/em/",
+   "say": "M",
+   "word": "milk",
+   "uk": "молоко"
+  },
+  {
+   "l": "N",
+   "ipa": "/en/",
+   "say": "N",
+   "word": "nose",
+   "uk": "ніс"
+  },
+  {
+   "l": "O",
+   "ipa": "/əʊ/",
+   "say": "O",
+   "word": "orange",
+   "uk": "апельсин"
+  },
+  {
+   "l": "P",
+   "ipa": "/piː/",
+   "say": "P",
+   "word": "pen",
+   "uk": "ручка"
+  },
+  {
+   "l": "Q",
+   "ipa": "/kjuː/",
+   "say": "Q",
+   "word": "queen",
+   "uk": "королева"
+  },
+  {
+   "l": "R",
+   "ipa": "/ɑː/",
+   "say": "R",
+   "word": "red",
+   "uk": "червоний"
+  },
+  {
+   "l": "S",
+   "ipa": "/es/",
+   "say": "S",
+   "word": "sun",
+   "uk": "сонце"
+  },
+  {
+   "l": "T",
+   "ipa": "/tiː/",
+   "say": "T",
+   "word": "tea",
+   "uk": "чай"
+  },
+  {
+   "l": "U",
+   "ipa": "/juː/",
+   "say": "U",
+   "word": "umbrella",
+   "uk": "парасолька"
+  },
+  {
+   "l": "V",
+   "ipa": "/viː/",
+   "say": "V",
+   "word": "van",
+   "uk": "фургон"
+  },
+  {
+   "l": "W",
+   "ipa": "/ˈdʌbəljuː/",
+   "say": "W",
+   "word": "water",
+   "uk": "вода"
+  },
+  {
+   "l": "X",
+   "ipa": "/eks/",
+   "say": "X",
+   "word": "box",
+   "uk": "коробка"
+  },
+  {
+   "l": "Y",
+   "ipa": "/waɪ/",
+   "say": "Y",
+   "word": "yellow",
+   "uk": "жовтий"
+  },
+  {
+   "l": "Z",
+   "ipa": "/zed/",
+   "say": "zed",
+   "word": "zoo",
+   "uk": "зоопарк"
+  }
+ ],
+ "vowels": "AEIOU",
+ "tip": "Найчастіше плутають: A /eɪ/, E /iː/ та I /aɪ/; G /dʒiː/ і J /dʒeɪ/; R /ɑː/; Y /waɪ/. Z у британській — /zed/.",
+ "sounds": [
+  {
+   "id": "a",
+   "ipa": "/æ/",
+   "title": "Коротке a",
+   "spell": "a: cat",
+   "tip": "Рот широко, як для «е», а кажете «а». Щось між ними.",
+   "words": [
+    "cat",
+    "bag",
+    "hand"
+   ]
+  },
+  {
+   "id": "e",
+   "ipa": "/e/",
+   "title": "Коротке e",
+   "spell": "e: bed",
+   "tip": "Майже як українське «е».",
+   "words": [
+    "bed",
+    "red",
+    "ten"
+   ]
+  },
+  {
+   "id": "i",
+   "ipa": "/ɪ/",
+   "title": "Коротке i",
+   "spell": "i: sit",
+   "tip": "Коротко, ближче до «и», ніж до «і».",
+   "words": [
+    "sit",
+    "big",
+    "milk"
+   ]
+  },
+  {
+   "id": "o",
+   "ipa": "/ɒ/",
+   "title": "Коротке o",
+   "spell": "o: hot",
+   "tip": "Коротке «о» з округленими губами.",
+   "words": [
+    "hot",
+    "dog",
+    "box"
+   ]
+  },
+  {
+   "id": "u",
+   "ipa": "/ʌ/",
+   "title": "Коротке u",
+   "spell": "u: cup",
+   "tip": "Коротке «а», а не «у»: cup — «кап».",
+   "words": [
+    "cup",
+    "bus",
+    "sun"
+   ]
+  },
+  {
+   "id": "ee",
+   "ipa": "/iː/",
+   "title": "Довге ee / ea",
+   "spell": "ee, ea: see, tea",
+   "tip": "Довге «і-і». Коротке і довге — різні слова: ship ≠ sheep.",
+   "words": [
+    "see",
+    "tea",
+    "green"
+   ]
+  },
+  {
+   "id": "schwa",
+   "ipa": "/ə/",
+   "title": "Слабкий звук ə",
+   "spell": "a, e, er: about, teacher",
+   "tip": "Ненаголошені склади — коротко й нечітко, як «е» мимохідь.",
+   "words": [
+    "about",
+    "teacher",
+    "banana"
+   ]
+  },
+  {
+   "id": "magic",
+   "ipa": "/eɪ aɪ əʊ/",
+   "title": "Магічне e",
+   "spell": "a_e, i_e, o_e: name, five, home",
+   "tip": "Е в кінці не читається, але голосна «каже своє ім'я»: cap → cape.",
+   "words": [
+    "name",
+    "five",
+    "home"
+   ]
+  },
+  {
+   "id": "oo",
+   "ipa": "/uː ʊ/",
+   "title": "oo",
+   "spell": "oo: moon, book",
+   "tip": "Зазвичай довге «у-у» (moon). У book, good, look — коротке.",
+   "words": [
+    "moon",
+    "food",
+    "book"
+   ]
+  },
+  {
+   "id": "ar",
+   "ipa": "/ɑː/",
+   "title": "ar",
+   "spell": "ar: car",
+   "tip": "Довге «а-а». R після голосної в британській вимові не звучить.",
+   "words": [
+    "car",
+    "park",
+    "star"
+   ]
+  },
+  {
+   "id": "er",
+   "ipa": "/ɜː/",
+   "title": "er, ir, ur",
+   "spell": "er, ir, ur: her, bird, nurse",
+   "tip": "Три написання — один звук: губи спокійні, «ьо» без «р».",
+   "words": [
+    "her",
+    "bird",
+    "nurse"
+   ]
+  },
+  {
+   "id": "or",
+   "ipa": "/ɔː/",
+   "title": "or, aw",
+   "spell": "or, aw: for, saw",
+   "tip": "Довге «о-о», губи кругліші. R не вимовляємо.",
+   "words": [
+    "for",
+    "horse",
+    "saw"
+   ]
+  },
+  {
+   "id": "th1",
+   "ipa": "/θ/",
+   "title": "th глухий",
+   "spell": "th: think",
+   "tip": "Кінчик язика між зубами і видих. Не «с» і не «ф».",
+   "words": [
+    "think",
+    "three",
+    "bath"
+   ]
+  },
+  {
+   "id": "th2",
+   "ipa": "/ð/",
+   "title": "th дзвінкий",
+   "spell": "th: this",
+   "tip": "Язик між зубами, як для θ, але з голосом. Не «з» і не «д».",
+   "words": [
+    "this",
+    "mother",
+    "the"
+   ]
+  },
+  {
+   "id": "w",
+   "ipa": "/w/",
+   "title": "w — не «в»",
+   "spell": "w: we",
+   "tip": "Губи трубочкою, як «у», і швидко розкрити. Зуби губу не торкаються.",
+   "words": [
+    "we",
+    "window",
+    "wine"
+   ]
+  },
+  {
+   "id": "v",
+   "ipa": "/v/",
+   "title": "v",
+   "spell": "v: very",
+   "tip": "Як українське «в»: верхні зуби на нижній губі. wine ≠ vine.",
+   "words": [
+    "very",
+    "van",
+    "vine"
+   ]
+  },
+  {
+   "id": "h",
+   "ipa": "/h/",
+   "title": "h — легкий видих",
+   "spell": "h: hello",
+   "tip": "Просто видих, як на скло. Не хрипке «х».",
+   "words": [
+    "hello",
+    "house",
+    "hat"
+   ]
+  },
+  {
+   "id": "ng",
+   "ipa": "/ŋ/",
+   "title": "ng",
+   "spell": "ng: sing",
+   "tip": "Один носовий звук. «Г» у кінці не вимовляємо: sing, а не «сінг-г».",
+   "words": [
+    "sing",
+    "long",
+    "morning"
+   ]
+  },
+  {
+   "id": "sh",
+   "ipa": "/ʃ/",
+   "title": "sh",
+   "spell": "sh: she",
+   "tip": "М'якше за «ш», губи трохи вперед.",
+   "words": [
+    "she",
+    "fish",
+    "shop"
+   ]
+  },
+  {
+   "id": "ch",
+   "ipa": "/tʃ/",
+   "title": "ch, tch",
+   "spell": "ch: chair",
+   "tip": "Як «ч», але твердіше.",
+   "words": [
+    "chair",
+    "cheese",
+    "lunch"
+   ]
+  },
+  {
+   "id": "silent",
+   "ipa": "—",
+   "title": "Німі літери",
+   "spell": "kn, wr, mb: know, write, lamb",
+   "tip": "k перед n, w перед r, b після m не читаються.",
+   "words": [
+    "know",
+    "write",
+    "lamb"
+   ]
+  }
+ ],
+ "read": [
+  {
+   "id": "a",
+   "title": "Коротке a",
+   "rule": "a між приголосними — /æ/",
+   "words": [
+    "cat",
+    "hat",
+    "map",
+    "bag",
+    "man",
+    "dad",
+    "van",
+    "jam"
+   ],
+   "sentence": "A man has got a cat."
+  },
+  {
+   "id": "e",
+   "title": "Коротке e",
+   "rule": "e між приголосними — /e/",
+   "words": [
+    "bed",
+    "pen",
+    "red",
+    "ten",
+    "leg",
+    "net",
+    "wet",
+    "yes"
+   ],
+   "sentence": "Ten red pens."
+  },
+  {
+   "id": "i",
+   "title": "Коротке i",
+   "rule": "i між приголосними — /ɪ/",
+   "words": [
+    "sit",
+    "big",
+    "pin",
+    "six",
+    "lip",
+    "hill",
+    "win",
+    "kid"
+   ],
+   "sentence": "Six big pigs."
+  },
+  {
+   "id": "o",
+   "title": "Коротке o",
+   "rule": "o між приголосними — /ɒ/",
+   "words": [
+    "hot",
+    "dog",
+    "box",
+    "pot",
+    "top",
+    "fox",
+    "sock",
+    "lost"
+   ],
+   "sentence": "A dog in a box."
+  },
+  {
+   "id": "u",
+   "title": "Коротке u",
+   "rule": "u між приголосними — /ʌ/",
+   "words": [
+    "cup",
+    "bus",
+    "sun",
+    "run",
+    "mum",
+    "hug",
+    "cut",
+    "duck"
+   ],
+   "sentence": "Mum is on the bus."
+  },
+  {
+   "id": "cc",
+   "title": "Дві приголосні",
+   "rule": "Кожну приголосну чути: st-, fl-, -mp",
+   "words": [
+    "stop",
+    "frog",
+    "flag",
+    "swim",
+    "black",
+    "plan",
+    "drum",
+    "lamp"
+   ],
+   "sentence": "Stop the black van."
+  },
+  {
+   "id": "shch",
+   "title": "sh і ch",
+   "rule": "sh — /ʃ/, ch — /tʃ/",
+   "words": [
+    "ship",
+    "shop",
+    "fish",
+    "wish",
+    "chip",
+    "chat",
+    "much",
+    "lunch"
+   ],
+   "sentence": "Fish and chips for lunch."
+  },
+  {
+   "id": "th",
+   "title": "th",
+   "rule": "Язик між зубами",
+   "words": [
+    "this",
+    "that",
+    "then",
+    "with",
+    "thin",
+    "think",
+    "bath",
+    "moth"
+   ],
+   "sentence": "This is my bath."
+  },
+  {
+   "id": "ng",
+   "title": "ng і nk",
+   "rule": "ng — без «г» у кінці",
+   "words": [
+    "sing",
+    "ring",
+    "long",
+    "song",
+    "king",
+    "pink",
+    "bank",
+    "drink"
+   ],
+   "sentence": "The king can sing a long song."
+  },
+  {
+   "id": "ee",
+   "title": "ee і ea",
+   "rule": "ee, ea — довге /iː/",
+   "words": [
+    "see",
+    "tree",
+    "feet",
+    "green",
+    "sea",
+    "tea",
+    "eat",
+    "read"
+   ],
+   "sentence": "I see a green tree."
+  },
+  {
+   "id": "ae",
+   "title": "Магічне e: a_e",
+   "rule": "a + приголосна + e — /eɪ/",
+   "words": [
+    "cake",
+    "name",
+    "gate",
+    "make",
+    "late",
+    "plane",
+    "same",
+    "game"
+   ],
+   "sentence": "Make a cake for Kate."
+  },
+  {
+   "id": "ie",
+   "title": "Магічне e: i_e, o_e, u_e",
+   "rule": "i_e — /aɪ/, o_e — /əʊ/, u_e — /juː/",
+   "words": [
+    "bike",
+    "five",
+    "time",
+    "nine",
+    "home",
+    "nose",
+    "note",
+    "cute"
+   ],
+   "sentence": "Five bikes at home."
+  },
+  {
+   "id": "oo",
+   "title": "oo",
+   "rule": "Довге /uː/; book, look, good — коротке /ʊ/",
+   "words": [
+    "moon",
+    "food",
+    "room",
+    "spoon",
+    "zoo",
+    "book",
+    "look",
+    "good"
+   ],
+   "sentence": "Look at the moon."
+  },
+  {
+   "id": "ar",
+   "title": "ar і or",
+   "rule": "ar — /ɑː/, or — /ɔː/, r не звучить",
+   "words": [
+    "car",
+    "park",
+    "star",
+    "farm",
+    "fork",
+    "horse",
+    "short",
+    "sport"
+   ],
+   "sentence": "A horse on a farm."
+  },
+  {
+   "id": "er",
+   "title": "er, ir, ur",
+   "rule": "Один звук /ɜː/",
+   "words": [
+    "her",
+    "bird",
+    "girl",
+    "first",
+    "shirt",
+    "nurse",
+    "turn",
+    "church"
+   ],
+   "sentence": "The girl has got a bird."
+  },
+  {
+   "id": "ai",
+   "title": "ai і ay",
+   "rule": "ai, ay — /eɪ/",
+   "words": [
+    "rain",
+    "train",
+    "wait",
+    "paint",
+    "day",
+    "play",
+    "say",
+    "way"
+   ],
+   "sentence": "Play in the rain."
+  },
+  {
+   "id": "oa",
+   "title": "oa і ow",
+   "rule": "oa, ow — /əʊ/",
+   "words": [
+    "boat",
+    "coat",
+    "road",
+    "soap",
+    "snow",
+    "slow",
+    "show",
+    "window"
+   ],
+   "sentence": "A boat in the snow."
+  },
+  {
+   "id": "ou",
+   "title": "ou і ow",
+   "rule": "ou, ow — /aʊ/",
+   "words": [
+    "house",
+    "mouse",
+    "out",
+    "loud",
+    "cow",
+    "now",
+    "how",
+    "town"
+   ],
+   "sentence": "A mouse in my house."
+  },
+  {
+   "id": "igh",
+   "title": "igh і y",
+   "rule": "igh і y в кінці — /aɪ/",
+   "words": [
+    "night",
+    "light",
+    "high",
+    "right",
+    "my",
+    "fly",
+    "why",
+    "sky"
+   ],
+   "sentence": "Why is the sky so high?"
+  },
+  {
+   "id": "silent",
+   "title": "Німі літери",
+   "rule": "kn, wr, mb, h: k, w, b, h не читаються",
+   "words": [
+    "know",
+    "knife",
+    "write",
+    "wrong",
+    "lamb",
+    "climb",
+    "hour",
+    "listen"
+   ],
+   "sentence": "I know the right word."
+  }
+ ],
+ "spell": [
+  "cat",
+  "dog",
+  "red",
+  "pen",
+  "sun",
+  "bus",
+  "six",
+  "ten",
+  "map",
+  "box",
+  "cup",
+  "bed",
+  "hat",
+  "fish",
+  "shop",
+  "milk",
+  "frog",
+  "green",
+  "tea",
+  "book",
+  "car",
+  "name",
+  "five",
+  "home",
+  "rain",
+  "day",
+  "boat",
+  "house",
+  "night",
+  "girl"
+ ]
+}
