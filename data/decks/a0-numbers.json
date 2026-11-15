@@ -1,0 +1,261 @@
+{
+ "id": "a0-numbers",
+ "cards": [
+  {
+   "en": "zero",
+   "uk": "нуль",
+   "ipa": "/ˈzɪərəʊ/",
+   "pos": "num",
+   "ex": "Zero, one, two, three.",
+   "exUk": "Нуль, один, два, три."
+  },
+  {
+   "en": "one",
+   "uk": "один",
+   "ipa": "/wʌn/",
+   "pos": "num",
+   "ex": "I have one brother.",
+   "exUk": "У мене один брат."
+  },
+  {
+   "en": "two",
+   "uk": "два",
+   "ipa": "/tuː/",
+   "pos": "num",
+   "ex": "Two coffees, please.",
+   "exUk": "Дві кави, будь ласка."
+  },
+  {
+   "en": "three",
+   "uk": "три",
+   "ipa": "/θriː/",
+   "pos": "num",
+   "ex": "We have three children.",
+   "exUk": "У нас троє дітей."
+  },
+  {
+   "en": "four",
+   "uk": "чотири",
+   "ipa": "/fɔː/",
+   "pos": "num",
+   "ex": "Four cups of tea, please.",
+   "exUk": "Чотири чашки чаю, будь ласка."
+  },
+  {
+   "en": "five",
+   "uk": "п'ять",
+   "ipa": "/faɪv/",
+   "pos": "num",
+   "ex": "I have five friends here.",
+   "exUk": "У мене тут п'ятеро друзів."
+  },
+  {
+   "en": "six",
+   "uk": "шість",
+   "ipa": "/sɪks/",
+   "pos": "num",
+   "ex": "Six eggs, please.",
+   "exUk": "Шість яєць, будь ласка."
+  },
+  {
+   "en": "seven",
+   "uk": "сім",
+   "ipa": "/ˈsevn/",
+   "pos": "num",
+   "ex": "A week has seven days.",
+   "exUk": "У тижні сім днів."
+  },
+  {
+   "en": "eight",
+   "uk": "вісім",
+   "ipa": "/eɪt/",
+   "pos": "num",
+   "ex": "The bus is at eight.",
+   "exUk": "Автобус о восьмій."
+  },
+  {
+   "en": "nine",
+   "uk": "дев'ять",
+   "ipa": "/naɪn/",
+   "pos": "num",
+   "ex": "My son is nine.",
+   "exUk": "Моєму синові дев'ять років."
+  },
+  {
+   "en": "ten",
+   "uk": "десять",
+   "ipa": "/ten/",
+   "pos": "num",
+   "ex": "It costs ten pounds.",
+   "exUk": "Це коштує десять фунтів."
+  },
+  {
+   "en": "eleven",
+   "uk": "одинадцять",
+   "ipa": "/ɪˈlevn/",
+   "pos": "num",
+   "ex": "My daughter is eleven.",
+   "exUk": "Моїй доньці одинадцять років."
+  },
+  {
+   "en": "twelve",
+   "uk": "дванадцять",
+   "ipa": "/twelv/",
+   "pos": "num",
+   "ex": "A year has twelve months.",
+   "exUk": "У році дванадцять місяців."
+  },
+  {
+   "en": "thirteen",
+   "uk": "тринадцять",
+   "ipa": "/ˌθɜːˈtiːn/",
+   "pos": "num",
+   "ex": "Bus number thirteen, please.",
+   "exUk": "Автобус номер тринадцять, будь ласка."
+  },
+  {
+   "en": "fourteen",
+   "uk": "чотирнадцять",
+   "ipa": "/ˌfɔːˈtiːn/",
+   "pos": "num",
+   "ex": "She is fourteen today.",
+   "exUk": "Їй сьогодні чотирнадцять."
+  },
+  {
+   "en": "fifteen",
+   "uk": "п'ятнадцять",
+   "ipa": "/ˌfɪfˈtiːn/",
+   "pos": "num",
+   "ex": "The class has fifteen students.",
+   "exUk": "У класі п'ятнадцять учнів."
+  },
+  {
+   "en": "sixteen",
+   "uk": "шістнадцять",
+   "ipa": "/ˌsɪksˈtiːn/",
+   "pos": "num",
+   "ex": "My house is number sixteen.",
+   "exUk": "Мій будинок — номер шістнадцять."
+  },
+  {
+   "en": "seventeen",
+   "uk": "сімнадцять",
+   "ipa": "/ˌsevnˈtiːn/",
+   "pos": "num",
+   "ex": "He is seventeen.",
+   "exUk": "Йому сімнадцять років."
+  },
+  {
+   "en": "eighteen",
+   "uk": "вісімнадцять",
+   "ipa": "/ˌeɪˈtiːn/",
+   "pos": "num",
+   "ex": "It's eighteen pounds.",
+   "exUk": "Це вісімнадцять фунтів."
+  },
+  {
+   "en": "nineteen",
+   "uk": "дев'ятнадцять",
+   "ipa": "/ˌnaɪnˈtiːn/",
+   "pos": "num",
+   "ex": "Bus nineteen goes to the station.",
+   "exUk": "Автобус дев'ятнадцять їде до вокзалу."
+  },
+  {
+   "en": "twenty",
+   "uk": "двадцять",
+   "ipa": "/ˈtwenti/",
+   "pos": "num",
+   "ex": "I am twenty.",
+   "exUk": "Мені двадцять років."
+  },
+  {
+   "en": "thirty",
+   "uk": "тридцять",
+   "ipa": "/ˈθɜːti/",
+   "pos": "num",
+   "ex": "She is thirty years old.",
+   "exUk": "Їй тридцять років."
+  },
+  {
+   "en": "forty",
+   "uk": "сорок",
+   "ipa": "/ˈfɔːti/",
+   "pos": "num",
+   "ex": "Forty minutes by bus.",
+   "exUk": "Сорок хвилин автобусом."
+  },
+  {
+   "en": "fifty",
+   "uk": "п'ятдесят",
+   "ipa": "/ˈfɪfti/",
+   "pos": "num",
+   "ex": "It costs fifty pounds.",
+   "exUk": "Це коштує п'ятдесят фунтів."
+  },
+  {
+   "en": "sixty",
+   "uk": "шістдесят",
+   "ipa": "/ˈsɪksti/",
+   "pos": "num",
+   "ex": "An hour has sixty minutes.",
+   "exUk": "У годині шістдесят хвилин."
+  },
+  {
+   "en": "seventy",
+   "uk": "сімдесят",
+   "ipa": "/ˈsevnti/",
+   "pos": "num",
+   "ex": "My grandad is seventy.",
+   "exUk": "Моєму дідусеві сімдесят."
+  },
+  {
+   "en": "eighty",
+   "uk": "вісімдесят",
+   "ipa": "/ˈeɪti/",
+   "pos": "num",
+   "ex": "My grandma is eighty.",
+   "exUk": "Моїй бабусі вісімдесят."
+  },
+  {
+   "en": "ninety",
+   "uk": "дев'яносто",
+   "ipa": "/ˈnaɪnti/",
+   "pos": "num",
+   "ex": "Ninety pence, please.",
+   "exUk": "Дев'яносто пенсів, будь ласка."
+  },
+  {
+   "en": "a hundred",
+   "uk": "сто",
+   "ipa": "/ə ˈhʌndrəd/",
+   "pos": "num",
+   "ex": "I have a hundred pounds.",
+   "exUk": "У мене сто фунтів."
+  },
+  {
+   "en": "first",
+   "uk": "перший",
+   "ipa": "/fɜːst/",
+   "pos": "num",
+   "ex": "My first English lesson!",
+   "exUk": "Мій перший урок англійської!"
+  },
+  {
+   "en": "second",
+   "uk": "другий",
+   "ipa": "/ˈsekənd/",
+   "pos": "num",
+   "ex": "It's the second door.",
+   "exUk": "Це другі двері."
+  },
+  {
+   "en": "third",
+   "uk": "третій",
+   "ipa": "/θɜːd/",
+   "pos": "num",
+   "ex": "My third day in London.",
+   "exUk": "Мій третій день у Лондоні."
+  }
+ ]
+}

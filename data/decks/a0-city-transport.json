@@ -1,0 +1,205 @@
+{
+ "id": "a0-city-transport",
+ "cards": [
+  {
+   "en": "city",
+   "uk": "місто (велике)",
+   "ipa": "/ˈsɪti/",
+   "pos": "noun",
+   "ex": "London is a big city.",
+   "exUk": "Лондон — велике місто."
+  },
+  {
+   "en": "town",
+   "uk": "містечко",
+   "ipa": "/taʊn/",
+   "pos": "noun",
+   "ex": "I live in a small town.",
+   "exUk": "Я живу в маленькому містечку."
+  },
+  {
+   "en": "street",
+   "uk": "вулиця",
+   "ipa": "/striːt/",
+   "pos": "noun",
+   "ex": "What street is it?",
+   "exUk": "Що це за вулиця?"
+  },
+  {
+   "en": "road",
+   "uk": "дорога",
+   "ipa": "/rəʊd/",
+   "pos": "noun",
+   "ex": "This road goes to London.",
+   "exUk": "Ця дорога веде до Лондона."
+  },
+  {
+   "en": "shop",
+   "uk": "магазин",
+   "ipa": "/ʃɒp/",
+   "pos": "noun",
+   "ex": "The shop is closed.",
+   "exUk": "Магазин зачинений."
+  },
+  {
+   "en": "park",
+   "uk": "парк",
+   "ipa": "/pɑːk/",
+   "pos": "noun",
+   "ex": "Let's go to the park.",
+   "exUk": "Ходімо в парк."
+  },
+  {
+   "en": "station",
+   "uk": "вокзал; станція",
+   "ipa": "/ˈsteɪʃn/",
+   "pos": "noun",
+   "ex": "Where is the station?",
+   "exUk": "Де вокзал?"
+  },
+  {
+   "en": "bus",
+   "uk": "автобус",
+   "ipa": "/bʌs/",
+   "pos": "noun",
+   "ex": "The bus is late.",
+   "exUk": "Автобус запізнюється."
+  },
+  {
+   "en": "bus stop",
+   "uk": "автобусна зупинка",
+   "ipa": "/ˈbʌs stɒp/",
+   "pos": "noun",
+   "ex": "The bus stop is here.",
+   "exUk": "Зупинка тут."
+  },
+  {
+   "en": "train",
+   "uk": "поїзд",
+   "ipa": "/treɪn/",
+   "pos": "noun",
+   "ex": "Our train is at ten.",
+   "exUk": "Наш поїзд о десятій."
+  },
+  {
+   "en": "underground",
+   "uk": "метро (у Лондоні)",
+   "ipa": "/ˈʌndəɡraʊnd/",
+   "pos": "noun",
+   "ex": "Is there an underground here?",
+   "exUk": "Тут є метро?"
+  },
+  {
+   "en": "taxi",
+   "uk": "таксі",
+   "ipa": "/ˈtæksi/",
+   "pos": "noun",
+   "ex": "Call a taxi, please.",
+   "exUk": "Викличте таксі, будь ласка."
+  },
+  {
+   "en": "car",
+   "uk": "машина, автомобіль",
+   "ipa": "/kɑː/",
+   "pos": "noun",
+   "ex": "Our car is red.",
+   "exUk": "Наша машина червона."
+  },
+  {
+   "en": "bike",
+   "uk": "велосипед",
+   "ipa": "/baɪk/",
+   "pos": "noun",
+   "ex": "I go to work by bike.",
+   "exUk": "Я їжджу на роботу велосипедом."
+  },
+  {
+   "en": "plane",
+   "uk": "літак",
+   "ipa": "/pleɪn/",
+   "pos": "noun",
+   "ex": "We go by plane.",
+   "exUk": "Ми летимо літаком."
+  },
+  {
+   "en": "airport",
+   "uk": "аеропорт",
+   "ipa": "/ˈeəpɔːt/",
+   "pos": "noun",
+   "ex": "To the airport, please.",
+   "exUk": "До аеропорту, будь ласка."
+  },
+  {
+   "en": "ticket",
+   "uk": "квиток",
+   "ipa": "/ˈtɪkɪt/",
+   "pos": "noun",
+   "ex": "One ticket, please.",
+   "exUk": "Один квиток, будь ласка."
+  },
+  {
+   "en": "map",
+   "uk": "мапа, карта",
+   "ipa": "/mæp/",
+   "pos": "noun",
+   "ex": "Do you have a map?",
+   "exUk": "У вас є мапа?"
+  },
+  {
+   "en": "left",
+   "uk": "ліворуч; лівий",
+   "ipa": "/left/",
+   "pos": "adv",
+   "ex": "Turn left here.",
+   "exUk": "Тут поверніть ліворуч."
+  },
+  {
+   "en": "right",
+   "uk": "праворуч; правий",
+   "ipa": "/raɪt/",
+   "pos": "adv",
+   "ex": "It's on the right.",
+   "exUk": "Це праворуч."
+  },
+  {
+   "en": "straight on",
+   "uk": "прямо",
+   "ipa": "/ˌstreɪt ˈɒn/",
+   "pos": "adv",
+   "ex": "Go straight on.",
+   "exUk": "Ідіть прямо."
+  },
+  {
+   "en": "near",
+   "uk": "поруч, близько",
+   "ipa": "/nɪə/",
+   "pos": "adv",
+   "ex": "Is it near here?",
+   "exUk": "Це десь поруч?"
+  },
+  {
+   "en": "far",
+   "uk": "далеко",
+   "ipa": "/fɑː/",
+   "pos": "adv",
+   "ex": "Is it far from here?",
+   "exUk": "Це далеко звідси?"
+  },
+  {
+   "en": "here",
+   "uk": "тут; сюди",
+   "ipa": "/hɪə/",
+   "pos": "adv",
+   "ex": "I live here.",
+   "exUk": "Я тут живу."
+  },
+  {
+   "en": "there",
+   "uk": "там; туди",
+   "ipa": "/ðeə/",
+   "pos": "adv",
+   "ex": "The toilet is over there.",
+   "exUk": "Туалет он там."
+  }
+ ]
+}

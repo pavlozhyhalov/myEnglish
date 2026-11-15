@@ -1,0 +1,189 @@
+{
+ "id": "a0-jobs-places",
+ "cards": [
+  {
+   "en": "job",
+   "uk": "робота, посада",
+   "ipa": "/dʒɒb/",
+   "pos": "noun",
+   "ex": "What's your job?",
+   "exUk": "Ким ви працюєте?"
+  },
+  {
+   "en": "doctor",
+   "uk": "лікар",
+   "ipa": "/ˈdɒktə/",
+   "pos": "noun",
+   "ex": "The doctor is here.",
+   "exUk": "Лікар тут."
+  },
+  {
+   "en": "nurse",
+   "uk": "медсестра; медбрат",
+   "ipa": "/nɜːs/",
+   "pos": "noun",
+   "ex": "Ask the nurse, please.",
+   "exUk": "Запитайте медсестру, будь ласка."
+  },
+  {
+   "en": "teacher",
+   "uk": "учитель",
+   "ipa": "/ˈtiːtʃə/",
+   "pos": "noun",
+   "ex": "Our teacher is from London.",
+   "exUk": "Наш учитель з Лондона."
+  },
+  {
+   "en": "student",
+   "uk": "студент; учень",
+   "ipa": "/ˈstjuːdnt/",
+   "pos": "noun",
+   "ex": "Emma is a student.",
+   "exUk": "Емма — студентка."
+  },
+  {
+   "en": "driver",
+   "uk": "водій",
+   "ipa": "/ˈdraɪvə/",
+   "pos": "noun",
+   "ex": "He is a bus driver.",
+   "exUk": "Він водій автобуса."
+  },
+  {
+   "en": "cook",
+   "uk": "кухар",
+   "ipa": "/kʊk/",
+   "pos": "noun",
+   "ex": "My dad is a good cook.",
+   "exUk": "Мій тато чудово готує."
+  },
+  {
+   "en": "shop assistant",
+   "uk": "продавець",
+   "ipa": "/ˈʃɒp əˌsɪstənt/",
+   "pos": "noun",
+   "ex": "The shop assistant is very nice.",
+   "exUk": "Продавець дуже привітний."
+  },
+  {
+   "en": "waiter",
+   "uk": "офіціант",
+   "ipa": "/ˈweɪtə/",
+   "pos": "noun",
+   "ex": "The waiter is very young.",
+   "exUk": "Офіціант дуже молодий."
+  },
+  {
+   "en": "builder",
+   "uk": "будівельник",
+   "ipa": "/ˈbɪldə/",
+   "pos": "noun",
+   "ex": "He is a builder.",
+   "exUk": "Він будівельник."
+  },
+  {
+   "en": "cleaner",
+   "uk": "прибиральник; прибиральниця",
+   "ipa": "/ˈkliːnə/",
+   "pos": "noun",
+   "ex": "She works as a cleaner.",
+   "exUk": "Вона працює прибиральницею."
+  },
+  {
+   "en": "police",
+   "uk": "поліція",
+   "ipa": "/pəˈliːs/",
+   "pos": "noun",
+   "ex": "The police are here.",
+   "exUk": "Поліція тут."
+  },
+  {
+   "en": "school",
+   "uk": "школа",
+   "ipa": "/skuːl/",
+   "pos": "noun",
+   "ex": "School starts at nine.",
+   "exUk": "Уроки починаються о дев'ятій."
+  },
+  {
+   "en": "class",
+   "uk": "клас; заняття",
+   "ipa": "/klɑːs/",
+   "pos": "noun",
+   "ex": "The English class is today.",
+   "exUk": "Заняття з англійської сьогодні."
+  },
+  {
+   "en": "hospital",
+   "uk": "лікарня",
+   "ipa": "/ˈhɒspɪtl/",
+   "pos": "noun",
+   "ex": "He is in hospital.",
+   "exUk": "Він у лікарні."
+  },
+  {
+   "en": "pharmacy",
+   "uk": "аптека (також chemist's)",
+   "ipa": "/ˈfɑːməsi/",
+   "pos": "noun",
+   "ex": "The pharmacy is open.",
+   "exUk": "Аптека відчинена."
+  },
+  {
+   "en": "office",
+   "uk": "офіс",
+   "ipa": "/ˈɒfɪs/",
+   "pos": "noun",
+   "ex": "I work in an office.",
+   "exUk": "Я працюю в офісі."
+  },
+  {
+   "en": "factory",
+   "uk": "фабрика, завод",
+   "ipa": "/ˈfæktri/",
+   "pos": "noun",
+   "ex": "My dad works in a factory.",
+   "exUk": "Мій тато працює на заводі."
+  },
+  {
+   "en": "restaurant",
+   "uk": "ресторан",
+   "ipa": "/ˈrestrɒnt/",
+   "pos": "noun",
+   "ex": "This restaurant is good.",
+   "exUk": "Цей ресторан хороший."
+  },
+  {
+   "en": "café",
+   "uk": "кафе",
+   "ipa": "/ˈkæfeɪ/",
+   "pos": "noun",
+   "ex": "Let's meet at the café.",
+   "exUk": "Зустріньмося в кафе."
+  },
+  {
+   "en": "hotel",
+   "uk": "готель",
+   "ipa": "/həʊˈtel/",
+   "pos": "noun",
+   "ex": "Our hotel is near the station.",
+   "exUk": "Наш готель біля вокзалу."
+  },
+  {
+   "en": "post office",
+   "uk": "пошта (відділення)",
+   "ipa": "/ˈpəʊst ˌɒfɪs/",
+   "pos": "noun",
+   "ex": "Where is the post office?",
+   "exUk": "Де пошта?"
+  },
+  {
+   "en": "library",
+   "uk": "бібліотека",
+   "ipa": "/ˈlaɪbrəri/",
+   "pos": "noun",
+   "ex": "I read in the library.",
+   "exUk": "Я читаю в бібліотеці."
+  }
+ ]
+}

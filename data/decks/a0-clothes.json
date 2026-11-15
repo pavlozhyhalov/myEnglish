@@ -1,0 +1,181 @@
+{
+ "id": "a0-clothes",
+ "cards": [
+  {
+   "en": "clothes",
+   "uk": "одяг",
+   "ipa": "/kləʊðz/",
+   "pos": "noun",
+   "ex": "These clothes are new.",
+   "exUk": "Цей одяг новий."
+  },
+  {
+   "en": "to wear",
+   "uk": "носити (одяг, окуляри)",
+   "ipa": "/weə/",
+   "pos": "verb",
+   "ex": "I wear glasses.",
+   "exUk": "Я ношу окуляри."
+  },
+  {
+   "en": "to put on",
+   "uk": "вдягати, надягати",
+   "ipa": "/ˌpʊt ˈɒn/",
+   "pos": "verb",
+   "ex": "Put on your coat.",
+   "exUk": "Вдягни пальто."
+  },
+  {
+   "en": "size",
+   "uk": "розмір",
+   "ipa": "/saɪz/",
+   "pos": "noun",
+   "ex": "What size is it?",
+   "exUk": "Який це розмір?"
+  },
+  {
+   "en": "T-shirt",
+   "uk": "футболка",
+   "ipa": "/ˈtiː ʃɜːt/",
+   "pos": "noun",
+   "ex": "This T-shirt is cheap.",
+   "exUk": "Ця футболка дешева."
+  },
+  {
+   "en": "shirt",
+   "uk": "сорочка",
+   "ipa": "/ʃɜːt/",
+   "pos": "noun",
+   "ex": "His shirt is blue.",
+   "exUk": "Його сорочка синя."
+  },
+  {
+   "en": "trousers",
+   "uk": "штани",
+   "ipa": "/ˈtraʊzəz/",
+   "pos": "noun",
+   "ex": "These trousers are big.",
+   "exUk": "Ці штани великі."
+  },
+  {
+   "en": "jeans",
+   "uk": "джинси",
+   "ipa": "/dʒiːnz/",
+   "pos": "noun",
+   "ex": "Emma likes jeans.",
+   "exUk": "Емма любить джинси."
+  },
+  {
+   "en": "dress",
+   "uk": "сукня",
+   "ipa": "/dres/",
+   "pos": "noun",
+   "ex": "I like your dress.",
+   "exUk": "Мені подобається твоя сукня."
+  },
+  {
+   "en": "skirt",
+   "uk": "спідниця",
+   "ipa": "/skɜːt/",
+   "pos": "noun",
+   "ex": "Her skirt is long.",
+   "exUk": "Її спідниця довга."
+  },
+  {
+   "en": "jumper",
+   "uk": "светр, джемпер",
+   "ipa": "/ˈdʒʌmpə/",
+   "pos": "noun",
+   "ex": "A warm jumper, please.",
+   "exUk": "Теплий светр, будь ласка."
+  },
+  {
+   "en": "coat",
+   "uk": "пальто",
+   "ipa": "/kəʊt/",
+   "pos": "noun",
+   "ex": "My coat is grey.",
+   "exUk": "Моє пальто сіре."
+  },
+  {
+   "en": "jacket",
+   "uk": "куртка; піджак",
+   "ipa": "/ˈdʒækɪt/",
+   "pos": "noun",
+   "ex": "Where is my jacket?",
+   "exUk": "Де моя куртка?"
+  },
+  {
+   "en": "shoes",
+   "uk": "взуття; туфлі",
+   "ipa": "/ʃuːz/",
+   "pos": "noun",
+   "ex": "My shoes are black.",
+   "exUk": "Моє взуття чорне."
+  },
+  {
+   "en": "boots",
+   "uk": "черевики; чоботи",
+   "ipa": "/buːts/",
+   "pos": "noun",
+   "ex": "My boots are new.",
+   "exUk": "Мої черевики нові."
+  },
+  {
+   "en": "socks",
+   "uk": "шкарпетки",
+   "ipa": "/sɒks/",
+   "pos": "noun",
+   "ex": "I need warm socks.",
+   "exUk": "Мені потрібні теплі шкарпетки."
+  },
+  {
+   "en": "hat",
+   "uk": "капелюх; шапка",
+   "ipa": "/hæt/",
+   "pos": "noun",
+   "ex": "A warm hat for winter.",
+   "exUk": "Тепла шапка на зиму."
+  },
+  {
+   "en": "scarf",
+   "uk": "шарф",
+   "ipa": "/skɑːf/",
+   "pos": "noun",
+   "ex": "A long red scarf.",
+   "exUk": "Довгий червоний шарф."
+  },
+  {
+   "en": "bag",
+   "uk": "сумка",
+   "ipa": "/bæɡ/",
+   "pos": "noun",
+   "ex": "I have a big bag.",
+   "exUk": "У мене велика сумка."
+  },
+  {
+   "en": "glasses",
+   "uk": "окуляри",
+   "ipa": "/ˈɡlɑːsɪz/",
+   "pos": "noun",
+   "ex": "Where are my glasses?",
+   "exUk": "Де мої окуляри?"
+  },
+  {
+   "en": "watch",
+   "uk": "годинник (наручний)",
+   "ipa": "/wɒtʃ/",
+   "pos": "noun",
+   "ex": "What a nice watch!",
+   "exUk": "Який гарний годинник!"
+  },
+  {
+   "en": "pyjamas",
+   "uk": "піжама",
+   "ipa": "/pəˈdʒɑːməz/",
+   "pos": "noun",
+   "ex": "The children are in pyjamas.",
+   "exUk": "Діти в піжамах."
+  }
+ ]
+}

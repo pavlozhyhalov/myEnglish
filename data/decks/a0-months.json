@@ -1,0 +1,165 @@
+{
+ "id": "a0-months",
+ "cards": [
+  {
+   "en": "January",
+   "uk": "січень",
+   "ipa": "/ˈdʒænjuəri/",
+   "pos": "noun",
+   "ex": "January is very cold.",
+   "exUk": "Січень дуже холодний."
+  },
+  {
+   "en": "February",
+   "uk": "лютий",
+   "ipa": "/ˈfebruəri/",
+   "pos": "noun",
+   "ex": "February is short.",
+   "exUk": "Лютий короткий."
+  },
+  {
+   "en": "March",
+   "uk": "березень",
+   "ipa": "/mɑːtʃ/",
+   "pos": "noun",
+   "ex": "My birthday is in March.",
+   "exUk": "Мій день народження в березні."
+  },
+  {
+   "en": "April",
+   "uk": "квітень",
+   "ipa": "/ˈeɪprəl/",
+   "pos": "noun",
+   "ex": "It rains in April.",
+   "exUk": "У квітні йдуть дощі."
+  },
+  {
+   "en": "May",
+   "uk": "травень",
+   "ipa": "/meɪ/",
+   "pos": "noun",
+   "ex": "May is warm.",
+   "exUk": "У травні тепло."
+  },
+  {
+   "en": "June",
+   "uk": "червень",
+   "ipa": "/dʒuːn/",
+   "pos": "noun",
+   "ex": "June is warm and sunny.",
+   "exUk": "Червень теплий і сонячний."
+  },
+  {
+   "en": "July",
+   "uk": "липень",
+   "ipa": "/dʒuˈlaɪ/",
+   "pos": "noun",
+   "ex": "July is a summer month.",
+   "exUk": "Липень — літній місяць."
+  },
+  {
+   "en": "August",
+   "uk": "серпень",
+   "ipa": "/ˈɔːɡəst/",
+   "pos": "noun",
+   "ex": "We are on holiday in August.",
+   "exUk": "У серпні ми у відпустці."
+  },
+  {
+   "en": "September",
+   "uk": "вересень",
+   "ipa": "/sepˈtembə/",
+   "pos": "noun",
+   "ex": "School starts in September.",
+   "exUk": "Навчання починається у вересні."
+  },
+  {
+   "en": "October",
+   "uk": "жовтень",
+   "ipa": "/ɒkˈtəʊbə/",
+   "pos": "noun",
+   "ex": "Oliver was born in October.",
+   "exUk": "Олівер народився в жовтні."
+  },
+  {
+   "en": "November",
+   "uk": "листопад",
+   "ipa": "/nəʊˈvembə/",
+   "pos": "noun",
+   "ex": "It's grey in November.",
+   "exUk": "У листопаді сіро."
+  },
+  {
+   "en": "December",
+   "uk": "грудень",
+   "ipa": "/dɪˈsembə/",
+   "pos": "noun",
+   "ex": "Christmas is in December.",
+   "exUk": "Різдво в грудні."
+  },
+  {
+   "en": "spring",
+   "uk": "весна",
+   "ipa": "/sprɪŋ/",
+   "pos": "noun",
+   "ex": "I love spring.",
+   "exUk": "Я люблю весну."
+  },
+  {
+   "en": "summer",
+   "uk": "літо",
+   "ipa": "/ˈsʌmə/",
+   "pos": "noun",
+   "ex": "It's hot in summer.",
+   "exUk": "Влітку спекотно."
+  },
+  {
+   "en": "autumn",
+   "uk": "осінь",
+   "ipa": "/ˈɔːtəm/",
+   "pos": "noun",
+   "ex": "Autumn is beautiful in Kyiv.",
+   "exUk": "Осінь у Києві гарна."
+  },
+  {
+   "en": "winter",
+   "uk": "зима",
+   "ipa": "/ˈwɪntə/",
+   "pos": "noun",
+   "ex": "Winter is long here.",
+   "exUk": "Тут довга зима."
+  },
+  {
+   "en": "month",
+   "uk": "місяць (календарний)",
+   "ipa": "/mʌnθ/",
+   "pos": "noun",
+   "ex": "A month has four weeks.",
+   "exUk": "У місяці чотири тижні."
+  },
+  {
+   "en": "year",
+   "uk": "рік",
+   "ipa": "/jɪə/",
+   "pos": "noun",
+   "ex": "Happy New Year!",
+   "exUk": "З Новим роком!"
+  },
+  {
+   "en": "birthday",
+   "uk": "день народження",
+   "ipa": "/ˈbɜːθdeɪ/",
+   "pos": "noun",
+   "ex": "Happy birthday, Emma!",
+   "exUk": "З днем народження, Еммо!"
+  },
+  {
+   "en": "date",
+   "uk": "дата, число",
+   "ipa": "/deɪt/",
+   "pos": "noun",
+   "ex": "What's the date today?",
+   "exUk": "Яке сьогодні число?"
+  }
+ ]
+}

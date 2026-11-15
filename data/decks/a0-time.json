@@ -1,0 +1,189 @@
+{
+ "id": "a0-time",
+ "cards": [
+  {
+   "en": "Monday",
+   "uk": "понеділок",
+   "ipa": "/ˈmʌndeɪ/",
+   "pos": "noun",
+   "ex": "See you on Monday!",
+   "exUk": "До зустрічі в понеділок!"
+  },
+  {
+   "en": "Tuesday",
+   "uk": "вівторок",
+   "ipa": "/ˈtjuːzdeɪ/",
+   "pos": "noun",
+   "ex": "Today is Tuesday.",
+   "exUk": "Сьогодні вівторок."
+  },
+  {
+   "en": "Wednesday",
+   "uk": "середа",
+   "ipa": "/ˈwenzdeɪ/",
+   "pos": "noun",
+   "ex": "I swim on Wednesday.",
+   "exUk": "У середу я плаваю."
+  },
+  {
+   "en": "Thursday",
+   "uk": "четвер",
+   "ipa": "/ˈθɜːzdeɪ/",
+   "pos": "noun",
+   "ex": "I have English on Thursday.",
+   "exUk": "У четвер у мене англійська."
+  },
+  {
+   "en": "Friday",
+   "uk": "п'ятниця",
+   "ipa": "/ˈfraɪdeɪ/",
+   "pos": "noun",
+   "ex": "I love Fridays!",
+   "exUk": "Я люблю п'ятниці!"
+  },
+  {
+   "en": "Saturday",
+   "uk": "субота",
+   "ipa": "/ˈsætədeɪ/",
+   "pos": "noun",
+   "ex": "We play football on Saturday.",
+   "exUk": "У суботу ми граємо у футбол."
+  },
+  {
+   "en": "Sunday",
+   "uk": "неділя",
+   "ipa": "/ˈsʌndeɪ/",
+   "pos": "noun",
+   "ex": "On Sunday I'm at home.",
+   "exUk": "У неділю я вдома."
+  },
+  {
+   "en": "weekend",
+   "uk": "вихідні",
+   "ipa": "/ˌwiːkˈend/",
+   "pos": "noun",
+   "ex": "Have a nice weekend!",
+   "exUk": "Гарних вихідних!"
+  },
+  {
+   "en": "day",
+   "uk": "день",
+   "ipa": "/deɪ/",
+   "pos": "noun",
+   "ex": "What day is it today?",
+   "exUk": "Який сьогодні день?"
+  },
+  {
+   "en": "week",
+   "uk": "тиждень",
+   "ipa": "/wiːk/",
+   "pos": "noun",
+   "ex": "See you next week!",
+   "exUk": "До зустрічі наступного тижня!"
+  },
+  {
+   "en": "today",
+   "uk": "сьогодні",
+   "ipa": "/təˈdeɪ/",
+   "pos": "adv",
+   "ex": "I'm at home today.",
+   "exUk": "Сьогодні я вдома."
+  },
+  {
+   "en": "tomorrow",
+   "uk": "завтра",
+   "ipa": "/təˈmɒrəʊ/",
+   "pos": "adv",
+   "ex": "See you tomorrow!",
+   "exUk": "До завтра!"
+  },
+  {
+   "en": "yesterday",
+   "uk": "учора",
+   "ipa": "/ˈjestədeɪ/",
+   "pos": "adv",
+   "ex": "Yesterday was Sunday.",
+   "exUk": "Учора була неділя."
+  },
+  {
+   "en": "morning",
+   "uk": "ранок",
+   "ipa": "/ˈmɔːnɪŋ/",
+   "pos": "noun",
+   "ex": "I drink tea in the morning.",
+   "exUk": "Уранці я п'ю чай."
+  },
+  {
+   "en": "afternoon",
+   "uk": "день (після полудня)",
+   "ipa": "/ˌɑːftəˈnuːn/",
+   "pos": "noun",
+   "ex": "I work in the afternoon.",
+   "exUk": "Вдень я працюю."
+  },
+  {
+   "en": "evening",
+   "uk": "вечір",
+   "ipa": "/ˈiːvnɪŋ/",
+   "pos": "noun",
+   "ex": "We watch TV in the evening.",
+   "exUk": "Увечері ми дивимося телевізор."
+  },
+  {
+   "en": "night",
+   "uk": "ніч",
+   "ipa": "/naɪt/",
+   "pos": "noun",
+   "ex": "I sleep at night.",
+   "exUk": "Уночі я сплю."
+  },
+  {
+   "en": "time",
+   "uk": "час",
+   "ipa": "/taɪm/",
+   "pos": "noun",
+   "ex": "It's time for lunch.",
+   "exUk": "Час обідати."
+  },
+  {
+   "en": "o'clock",
+   "uk": "година (рівно)",
+   "ipa": "/əˈklɒk/",
+   "pos": "adv",
+   "ex": "It's three o'clock.",
+   "exUk": "Зараз третя година."
+  },
+  {
+   "en": "half past",
+   "uk": "пів на (+ наступна година)",
+   "ipa": "/ˈhɑːf pɑːst/",
+   "pos": "phrase",
+   "ex": "It's half past two.",
+   "exUk": "Зараз пів на третю."
+  },
+  {
+   "en": "hour",
+   "uk": "година (60 хвилин)",
+   "ipa": "/ˈaʊə/",
+   "pos": "noun",
+   "ex": "I work eight hours.",
+   "exUk": "Я працюю вісім годин."
+  },
+  {
+   "en": "minute",
+   "uk": "хвилина",
+   "ipa": "/ˈmɪnɪt/",
+   "pos": "noun",
+   "ex": "The bus comes in five minutes.",
+   "exUk": "Автобус приїде за п'ять хвилин."
+  },
+  {
+   "en": "now",
+   "uk": "зараз",
+   "ipa": "/naʊ/",
+   "pos": "adv",
+   "ex": "Where are you now?",
+   "exUk": "Де ти зараз?"
+  }
+ ]
+}

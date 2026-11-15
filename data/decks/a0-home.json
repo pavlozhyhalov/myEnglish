@@ -1,0 +1,197 @@
+{
+ "id": "a0-home",
+ "cards": [
+  {
+   "en": "home",
+   "uk": "дім, домівка",
+   "ipa": "/həʊm/",
+   "pos": "noun",
+   "ex": "I'm at home.",
+   "exUk": "Я вдома."
+  },
+  {
+   "en": "house",
+   "uk": "будинок",
+   "ipa": "/haʊs/",
+   "pos": "noun",
+   "ex": "We live in a big house.",
+   "exUk": "Ми живемо у великому будинку."
+  },
+  {
+   "en": "flat",
+   "uk": "квартира",
+   "ipa": "/flæt/",
+   "pos": "noun",
+   "ex": "My flat is small.",
+   "exUk": "Моя квартира маленька."
+  },
+  {
+   "en": "address",
+   "uk": "адреса",
+   "ipa": "/əˈdres/",
+   "pos": "noun",
+   "ex": "What's your address?",
+   "exUk": "Яка ваша адреса?"
+  },
+  {
+   "en": "room",
+   "uk": "кімната",
+   "ipa": "/ruːm/",
+   "pos": "noun",
+   "ex": "This is my room.",
+   "exUk": "Це моя кімната."
+  },
+  {
+   "en": "kitchen",
+   "uk": "кухня",
+   "ipa": "/ˈkɪtʃɪn/",
+   "pos": "noun",
+   "ex": "Mum is in the kitchen.",
+   "exUk": "Мама на кухні."
+  },
+  {
+   "en": "bedroom",
+   "uk": "спальня",
+   "ipa": "/ˈbedruːm/",
+   "pos": "noun",
+   "ex": "My bedroom is blue.",
+   "exUk": "Моя спальня синя."
+  },
+  {
+   "en": "bathroom",
+   "uk": "ванна кімната",
+   "ipa": "/ˈbɑːθruːm/",
+   "pos": "noun",
+   "ex": "I'm in the bathroom.",
+   "exUk": "Я у ванній."
+  },
+  {
+   "en": "living room",
+   "uk": "вітальня",
+   "ipa": "/ˈlɪvɪŋ ruːm/",
+   "pos": "noun",
+   "ex": "We eat in the living room.",
+   "exUk": "Ми їмо у вітальні."
+  },
+  {
+   "en": "toilet",
+   "uk": "туалет",
+   "ipa": "/ˈtɔɪlət/",
+   "pos": "noun",
+   "ex": "The toilet is on the left.",
+   "exUk": "Туалет ліворуч."
+  },
+  {
+   "en": "door",
+   "uk": "двері",
+   "ipa": "/dɔː/",
+   "pos": "noun",
+   "ex": "The door is open.",
+   "exUk": "Двері відчинені."
+  },
+  {
+   "en": "window",
+   "uk": "вікно",
+   "ipa": "/ˈwɪndəʊ/",
+   "pos": "noun",
+   "ex": "Open the window, please.",
+   "exUk": "Відчиніть вікно, будь ласка."
+  },
+  {
+   "en": "floor",
+   "uk": "підлога; поверх",
+   "ipa": "/flɔː/",
+   "pos": "noun",
+   "ex": "The bag is on the floor.",
+   "exUk": "Сумка на підлозі."
+  },
+  {
+   "en": "table",
+   "uk": "стіл",
+   "ipa": "/ˈteɪbl/",
+   "pos": "noun",
+   "ex": "The phone is on the table.",
+   "exUk": "Телефон на столі."
+  },
+  {
+   "en": "chair",
+   "uk": "стілець",
+   "ipa": "/tʃeə/",
+   "pos": "noun",
+   "ex": "This chair is new.",
+   "exUk": "Цей стілець новий."
+  },
+  {
+   "en": "bed",
+   "uk": "ліжко",
+   "ipa": "/bed/",
+   "pos": "noun",
+   "ex": "The baby is in bed.",
+   "exUk": "Малюк у ліжку."
+  },
+  {
+   "en": "sofa",
+   "uk": "диван",
+   "ipa": "/ˈsəʊfə/",
+   "pos": "noun",
+   "ex": "Dad is on the sofa.",
+   "exUk": "Тато на дивані."
+  },
+  {
+   "en": "TV",
+   "uk": "телевізор",
+   "ipa": "/ˌtiːˈviː/",
+   "pos": "noun",
+   "ex": "I don't watch TV.",
+   "exUk": "Я не дивлюся телевізор."
+  },
+  {
+   "en": "fridge",
+   "uk": "холодильник",
+   "ipa": "/frɪdʒ/",
+   "pos": "noun",
+   "ex": "The milk is in the fridge.",
+   "exUk": "Молоко в холодильнику."
+  },
+  {
+   "en": "shower",
+   "uk": "душ",
+   "ipa": "/ˈʃaʊə/",
+   "pos": "noun",
+   "ex": "I have a shower.",
+   "exUk": "Я приймаю душ."
+  },
+  {
+   "en": "cup",
+   "uk": "чашка",
+   "ipa": "/kʌp/",
+   "pos": "noun",
+   "ex": "A cup of tea, please.",
+   "exUk": "Чашку чаю, будь ласка."
+  },
+  {
+   "en": "key",
+   "uk": "ключ",
+   "ipa": "/kiː/",
+   "pos": "noun",
+   "ex": "Where is my key?",
+   "exUk": "Де мій ключ?"
+  },
+  {
+   "en": "phone",
+   "uk": "телефон",
+   "ipa": "/fəʊn/",
+   "pos": "noun",
+   "ex": "My phone is in my bag.",
+   "exUk": "Мій телефон у сумці."
+  },
+  {
+   "en": "garden",
+   "uk": "сад, садок (біля будинку)",
+   "ipa": "/ˈɡɑːdn/",
+   "pos": "noun",
+   "ex": "We have a small garden.",
+   "exUk": "У нас невеликий садок."
+  }
+ ]
+}

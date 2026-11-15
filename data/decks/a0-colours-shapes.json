@@ -1,0 +1,189 @@
+{
+ "id": "a0-colours-shapes",
+ "cards": [
+  {
+   "en": "colour",
+   "uk": "колір",
+   "ipa": "/ˈkʌlə/",
+   "pos": "noun",
+   "ex": "What colour is it?",
+   "exUk": "Якого це кольору?"
+  },
+  {
+   "en": "red",
+   "uk": "червоний",
+   "ipa": "/red/",
+   "pos": "adj",
+   "ex": "I like red.",
+   "exUk": "Мені подобається червоний."
+  },
+  {
+   "en": "blue",
+   "uk": "синій; блакитний",
+   "ipa": "/bluː/",
+   "pos": "adj",
+   "ex": "My bag is blue.",
+   "exUk": "Моя сумка синя."
+  },
+  {
+   "en": "green",
+   "uk": "зелений",
+   "ipa": "/ɡriːn/",
+   "pos": "adj",
+   "ex": "A green apple, please.",
+   "exUk": "Зелене яблуко, будь ласка."
+  },
+  {
+   "en": "yellow",
+   "uk": "жовтий",
+   "ipa": "/ˈjeləʊ/",
+   "pos": "adj",
+   "ex": "The taxi is yellow.",
+   "exUk": "Таксі жовте."
+  },
+  {
+   "en": "black",
+   "uk": "чорний",
+   "ipa": "/blæk/",
+   "pos": "adj",
+   "ex": "Black coffee, please.",
+   "exUk": "Чорну каву, будь ласка."
+  },
+  {
+   "en": "white",
+   "uk": "білий",
+   "ipa": "/waɪt/",
+   "pos": "adj",
+   "ex": "My shirt is white.",
+   "exUk": "Моя сорочка біла."
+  },
+  {
+   "en": "brown",
+   "uk": "коричневий; карий (про очі)",
+   "ipa": "/braʊn/",
+   "pos": "adj",
+   "ex": "She has brown eyes.",
+   "exUk": "У неї карі очі."
+  },
+  {
+   "en": "orange",
+   "uk": "помаранчевий",
+   "ipa": "/ˈɒrɪndʒ/",
+   "pos": "adj",
+   "ex": "My T-shirt is orange.",
+   "exUk": "Моя футболка помаранчева."
+  },
+  {
+   "en": "pink",
+   "uk": "рожевий",
+   "ipa": "/pɪŋk/",
+   "pos": "adj",
+   "ex": "Her dress is pink.",
+   "exUk": "Її сукня рожева."
+  },
+  {
+   "en": "purple",
+   "uk": "фіолетовий",
+   "ipa": "/ˈpɜːpl/",
+   "pos": "adj",
+   "ex": "My phone is purple.",
+   "exUk": "Мій телефон фіолетовий."
+  },
+  {
+   "en": "grey",
+   "uk": "сірий",
+   "ipa": "/ɡreɪ/",
+   "pos": "adj",
+   "ex": "Today is grey and cold.",
+   "exUk": "Сьогодні сіро й холодно."
+  },
+  {
+   "en": "dark",
+   "uk": "темний",
+   "ipa": "/dɑːk/",
+   "pos": "adj",
+   "ex": "A dark blue coat.",
+   "exUk": "Темно-синє пальто."
+  },
+  {
+   "en": "light",
+   "uk": "світлий (про колір)",
+   "ipa": "/laɪt/",
+   "pos": "adj",
+   "ex": "A light green shirt.",
+   "exUk": "Світло-зелена сорочка."
+  },
+  {
+   "en": "shape",
+   "uk": "форма",
+   "ipa": "/ʃeɪp/",
+   "pos": "noun",
+   "ex": "What shape is it?",
+   "exUk": "Якої це форми?"
+  },
+  {
+   "en": "circle",
+   "uk": "коло",
+   "ipa": "/ˈsɜːkl/",
+   "pos": "noun",
+   "ex": "A circle is round.",
+   "exUk": "Коло кругле."
+  },
+  {
+   "en": "square",
+   "uk": "квадрат",
+   "ipa": "/skweə/",
+   "pos": "noun",
+   "ex": "This is a square.",
+   "exUk": "Це квадрат."
+  },
+  {
+   "en": "triangle",
+   "uk": "трикутник",
+   "ipa": "/ˈtraɪæŋɡl/",
+   "pos": "noun",
+   "ex": "Look, a red triangle!",
+   "exUk": "Дивись, червоний трикутник!"
+  },
+  {
+   "en": "rectangle",
+   "uk": "прямокутник",
+   "ipa": "/ˈrektæŋɡl/",
+   "pos": "noun",
+   "ex": "The door is a rectangle.",
+   "exUk": "Двері — це прямокутник."
+  },
+  {
+   "en": "star",
+   "uk": "зірка",
+   "ipa": "/stɑː/",
+   "pos": "noun",
+   "ex": "A small yellow star.",
+   "exUk": "Маленька жовта зірка."
+  },
+  {
+   "en": "heart",
+   "uk": "серце",
+   "ipa": "/hɑːt/",
+   "pos": "noun",
+   "ex": "A big red heart.",
+   "exUk": "Велике червоне серце."
+  },
+  {
+   "en": "line",
+   "uk": "лінія",
+   "ipa": "/laɪn/",
+   "pos": "noun",
+   "ex": "A long black line.",
+   "exUk": "Довга чорна лінія."
+  },
+  {
+   "en": "round",
+   "uk": "круглий",
+   "ipa": "/raʊnd/",
+   "pos": "adj",
+   "ex": "The table is round.",
+   "exUk": "Стіл круглий."
+  }
+ ]
+}

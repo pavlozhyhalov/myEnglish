@@ -1,0 +1,205 @@
+{
+ "id": "a0-food-drink",
+ "cards": [
+  {
+   "en": "water",
+   "uk": "вода",
+   "ipa": "/ˈwɔːtə/",
+   "pos": "noun",
+   "ex": "A glass of water, please.",
+   "exUk": "Склянку води, будь ласка."
+  },
+  {
+   "en": "tea",
+   "uk": "чай",
+   "ipa": "/tiː/",
+   "pos": "noun",
+   "ex": "Tea with milk, please.",
+   "exUk": "Чай з молоком, будь ласка."
+  },
+  {
+   "en": "coffee",
+   "uk": "кава",
+   "ipa": "/ˈkɒfi/",
+   "pos": "noun",
+   "ex": "I drink coffee every morning.",
+   "exUk": "Я п'ю каву щоранку."
+  },
+  {
+   "en": "milk",
+   "uk": "молоко",
+   "ipa": "/mɪlk/",
+   "pos": "noun",
+   "ex": "The milk is cold.",
+   "exUk": "Молоко холодне."
+  },
+  {
+   "en": "juice",
+   "uk": "сік",
+   "ipa": "/dʒuːs/",
+   "pos": "noun",
+   "ex": "Orange juice, please.",
+   "exUk": "Апельсиновий сік, будь ласка."
+  },
+  {
+   "en": "bread",
+   "uk": "хліб",
+   "ipa": "/bred/",
+   "pos": "noun",
+   "ex": "I want some bread.",
+   "exUk": "Я хочу хліба."
+  },
+  {
+   "en": "cheese",
+   "uk": "сир (твердий)",
+   "ipa": "/tʃiːz/",
+   "pos": "noun",
+   "ex": "I like cheese.",
+   "exUk": "Я люблю сир."
+  },
+  {
+   "en": "egg",
+   "uk": "яйце",
+   "ipa": "/eɡ/",
+   "pos": "noun",
+   "ex": "I eat two eggs.",
+   "exUk": "Я їм два яйця."
+  },
+  {
+   "en": "meat",
+   "uk": "м'ясо",
+   "ipa": "/miːt/",
+   "pos": "noun",
+   "ex": "I don't eat meat.",
+   "exUk": "Я не їм м'яса."
+  },
+  {
+   "en": "chicken",
+   "uk": "курка; курятина",
+   "ipa": "/ˈtʃɪkɪn/",
+   "pos": "noun",
+   "ex": "Chicken and rice, please.",
+   "exUk": "Курку з рисом, будь ласка."
+  },
+  {
+   "en": "fish",
+   "uk": "риба",
+   "ipa": "/fɪʃ/",
+   "pos": "noun",
+   "ex": "We have fish today.",
+   "exUk": "Сьогодні в нас риба."
+  },
+  {
+   "en": "rice",
+   "uk": "рис",
+   "ipa": "/raɪs/",
+   "pos": "noun",
+   "ex": "Do you want rice?",
+   "exUk": "Хочеш рису?"
+  },
+  {
+   "en": "potato",
+   "uk": "картоплина; картопля",
+   "ipa": "/pəˈteɪtəʊ/",
+   "pos": "noun",
+   "ex": "Potatoes are cheap.",
+   "exUk": "Картопля дешева."
+  },
+  {
+   "en": "apple",
+   "uk": "яблуко",
+   "ipa": "/ˈæpl/",
+   "pos": "noun",
+   "ex": "I eat an apple.",
+   "exUk": "Я їм яблуко."
+  },
+  {
+   "en": "banana",
+   "uk": "банан",
+   "ipa": "/bəˈnɑːnə/",
+   "pos": "noun",
+   "ex": "Bananas are yellow.",
+   "exUk": "Банани жовті."
+  },
+  {
+   "en": "fruit",
+   "uk": "фрукти",
+   "ipa": "/fruːt/",
+   "pos": "noun",
+   "ex": "I like fruit.",
+   "exUk": "Я люблю фрукти."
+  },
+  {
+   "en": "vegetables",
+   "uk": "овочі",
+   "ipa": "/ˈvedʒtəblz/",
+   "pos": "noun",
+   "ex": "Eat your vegetables!",
+   "exUk": "Їж овочі!"
+  },
+  {
+   "en": "soup",
+   "uk": "суп",
+   "ipa": "/suːp/",
+   "pos": "noun",
+   "ex": "Mum makes soup.",
+   "exUk": "Мама варить суп."
+  },
+  {
+   "en": "salad",
+   "uk": "салат",
+   "ipa": "/ˈsæləd/",
+   "pos": "noun",
+   "ex": "A green salad, please.",
+   "exUk": "Зелений салат, будь ласка."
+  },
+  {
+   "en": "cake",
+   "uk": "торт; тістечко",
+   "ipa": "/keɪk/",
+   "pos": "noun",
+   "ex": "This cake is very good.",
+   "exUk": "Цей торт дуже смачний."
+  },
+  {
+   "en": "sugar",
+   "uk": "цукор",
+   "ipa": "/ˈʃʊɡə/",
+   "pos": "noun",
+   "ex": "No sugar, thanks.",
+   "exUk": "Без цукру, дякую."
+  },
+  {
+   "en": "salt",
+   "uk": "сіль",
+   "ipa": "/sɔːlt/",
+   "pos": "noun",
+   "ex": "Can I have the salt?",
+   "exUk": "Можна сіль?"
+  },
+  {
+   "en": "breakfast",
+   "uk": "сніданок",
+   "ipa": "/ˈbrekfəst/",
+   "pos": "noun",
+   "ex": "Breakfast is at eight.",
+   "exUk": "Сніданок о восьмій."
+  },
+  {
+   "en": "lunch",
+   "uk": "обід",
+   "ipa": "/lʌntʃ/",
+   "pos": "noun",
+   "ex": "Let's have lunch.",
+   "exUk": "Ходімо обідати."
+  },
+  {
+   "en": "dinner",
+   "uk": "вечеря",
+   "ipa": "/ˈdɪnə/",
+   "pos": "noun",
+   "ex": "Dinner is ready.",
+   "exUk": "Вечеря готова."
+  }
+ ]
+}

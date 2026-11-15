@@ -1,0 +1,213 @@
+{
+ "id": "a0-verbs",
+ "cards": [
+  {
+   "en": "to be",
+   "uk": "бути",
+   "ipa": "/biː/",
+   "pos": "verb",
+   "ex": "I am from Ukraine.",
+   "exUk": "Я з України."
+  },
+  {
+   "en": "to have",
+   "uk": "мати",
+   "ipa": "/hæv/",
+   "pos": "verb",
+   "ex": "I have a sister.",
+   "exUk": "У мене є сестра."
+  },
+  {
+   "en": "to go",
+   "uk": "іти; їхати",
+   "ipa": "/ɡəʊ/",
+   "pos": "verb",
+   "ex": "We go to school.",
+   "exUk": "Ми ходимо до школи."
+  },
+  {
+   "en": "to come",
+   "uk": "приходити; приїжджати",
+   "ipa": "/kʌm/",
+   "pos": "verb",
+   "ex": "Come here, please.",
+   "exUk": "Підійдіть сюди, будь ласка."
+  },
+  {
+   "en": "to eat",
+   "uk": "їсти",
+   "ipa": "/iːt/",
+   "pos": "verb",
+   "ex": "We eat at seven.",
+   "exUk": "Ми їмо о сьомій."
+  },
+  {
+   "en": "to drink",
+   "uk": "пити",
+   "ipa": "/drɪŋk/",
+   "pos": "verb",
+   "ex": "Drink some water.",
+   "exUk": "Випий води."
+  },
+  {
+   "en": "to like",
+   "uk": "подобатися; любити",
+   "ipa": "/laɪk/",
+   "pos": "verb",
+   "ex": "I like tea.",
+   "exUk": "Я люблю чай."
+  },
+  {
+   "en": "to want",
+   "uk": "хотіти",
+   "ipa": "/wɒnt/",
+   "pos": "verb",
+   "ex": "I want a coffee.",
+   "exUk": "Я хочу кави."
+  },
+  {
+   "en": "can",
+   "uk": "могти; уміти",
+   "ipa": "/kæn/",
+   "pos": "verb",
+   "ex": "I can swim.",
+   "exUk": "Я вмію плавати."
+  },
+  {
+   "en": "to see",
+   "uk": "бачити",
+   "ipa": "/siː/",
+   "pos": "verb",
+   "ex": "Can you see the bus?",
+   "exUk": "Ти бачиш автобус?"
+  },
+  {
+   "en": "to look",
+   "uk": "дивитися",
+   "ipa": "/lʊk/",
+   "pos": "verb",
+   "ex": "Look at me, please.",
+   "exUk": "Подивіться на мене, будь ласка."
+  },
+  {
+   "en": "to listen",
+   "uk": "слухати",
+   "ipa": "/ˈlɪsn/",
+   "pos": "verb",
+   "ex": "Listen to me, please.",
+   "exUk": "Послухайте мене, будь ласка."
+  },
+  {
+   "en": "to do",
+   "uk": "робити",
+   "ipa": "/duː/",
+   "pos": "verb",
+   "ex": "I do my homework.",
+   "exUk": "Я роблю домашнє завдання."
+  },
+  {
+   "en": "to make",
+   "uk": "робити, готувати",
+   "ipa": "/meɪk/",
+   "pos": "verb",
+   "ex": "I make tea for Mum.",
+   "exUk": "Я готую мамі чай."
+  },
+  {
+   "en": "to work",
+   "uk": "працювати",
+   "ipa": "/wɜːk/",
+   "pos": "verb",
+   "ex": "I work in a shop.",
+   "exUk": "Я працюю в магазині."
+  },
+  {
+   "en": "to live",
+   "uk": "жити",
+   "ipa": "/lɪv/",
+   "pos": "verb",
+   "ex": "We live in Leeds.",
+   "exUk": "Ми живемо в Лідсі."
+  },
+  {
+   "en": "to read",
+   "uk": "читати",
+   "ipa": "/riːd/",
+   "pos": "verb",
+   "ex": "I read books.",
+   "exUk": "Я читаю книжки."
+  },
+  {
+   "en": "to write",
+   "uk": "писати",
+   "ipa": "/raɪt/",
+   "pos": "verb",
+   "ex": "Write your name, please.",
+   "exUk": "Напишіть своє ім'я, будь ласка."
+  },
+  {
+   "en": "to speak",
+   "uk": "говорити, розмовляти (мовою)",
+   "ipa": "/spiːk/",
+   "pos": "verb",
+   "ex": "I speak Ukrainian.",
+   "exUk": "Я розмовляю українською."
+  },
+  {
+   "en": "to know",
+   "uk": "знати",
+   "ipa": "/nəʊ/",
+   "pos": "verb",
+   "ex": "I know this word.",
+   "exUk": "Я знаю це слово."
+  },
+  {
+   "en": "to understand",
+   "uk": "розуміти",
+   "ipa": "/ˌʌndəˈstænd/",
+   "pos": "verb",
+   "ex": "Do you understand?",
+   "exUk": "Ви розумієте?"
+  },
+  {
+   "en": "to open",
+   "uk": "відчиняти; відкривати",
+   "ipa": "/ˈəʊpən/",
+   "pos": "verb",
+   "ex": "Open the door, please.",
+   "exUk": "Відчиніть двері, будь ласка."
+  },
+  {
+   "en": "to close",
+   "uk": "зачиняти; закривати",
+   "ipa": "/kləʊz/",
+   "pos": "verb",
+   "ex": "Close your eyes.",
+   "exUk": "Заплющ очі."
+  },
+  {
+   "en": "to sleep",
+   "uk": "спати",
+   "ipa": "/sliːp/",
+   "pos": "verb",
+   "ex": "Babies sleep a lot.",
+   "exUk": "Немовлята багато сплять."
+  },
+  {
+   "en": "to help",
+   "uk": "допомагати",
+   "ipa": "/help/",
+   "pos": "verb",
+   "ex": "I help my mum.",
+   "exUk": "Я допомагаю мамі."
+  },
+  {
+   "en": "to need",
+   "uk": "потребувати; бути потрібним",
+   "ipa": "/niːd/",
+   "pos": "verb",
+   "ex": "I need water.",
+   "exUk": "Мені потрібна вода."
+  }
+ ]
+}

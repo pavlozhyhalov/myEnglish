@@ -1,0 +1,197 @@
+{
+ "id": "a0-shopping-money",
+ "cards": [
+  {
+   "en": "money",
+   "uk": "гроші",
+   "ipa": "/ˈmʌni/",
+   "pos": "noun",
+   "ex": "I have no money.",
+   "exUk": "У мене немає грошей."
+  },
+  {
+   "en": "pound",
+   "uk": "фунт (стерлінгів)",
+   "ipa": "/paʊnd/",
+   "pos": "noun",
+   "ex": "It's five pounds.",
+   "exUk": "Це п'ять фунтів."
+  },
+  {
+   "en": "pence",
+   "uk": "пенси (мн. від penny)",
+   "ipa": "/pens/",
+   "pos": "noun",
+   "ex": "Fifty pence, please.",
+   "exUk": "П'ятдесят пенсів, будь ласка."
+  },
+  {
+   "en": "euro",
+   "uk": "євро",
+   "ipa": "/ˈjʊərəʊ/",
+   "pos": "noun",
+   "ex": "Ten euros, please.",
+   "exUk": "Десять євро, будь ласка."
+  },
+  {
+   "en": "price",
+   "uk": "ціна",
+   "ipa": "/praɪs/",
+   "pos": "noun",
+   "ex": "What's the price?",
+   "exUk": "Яка ціна?"
+  },
+  {
+   "en": "how much",
+   "uk": "скільки (про гроші й кількість)",
+   "ipa": "/ˌhaʊ ˈmʌtʃ/",
+   "pos": "phrase",
+   "ex": "How much is this coffee?",
+   "exUk": "Скільки коштує ця кава?"
+  },
+  {
+   "en": "to cost",
+   "uk": "коштувати",
+   "ipa": "/kɒst/",
+   "pos": "verb",
+   "ex": "How much does it cost?",
+   "exUk": "Скільки це коштує?"
+  },
+  {
+   "en": "to buy",
+   "uk": "купувати",
+   "ipa": "/baɪ/",
+   "pos": "verb",
+   "ex": "I want to buy bread.",
+   "exUk": "Я хочу купити хліба."
+  },
+  {
+   "en": "to sell",
+   "uk": "продавати",
+   "ipa": "/sel/",
+   "pos": "verb",
+   "ex": "They sell bread here.",
+   "exUk": "Тут продають хліб."
+  },
+  {
+   "en": "to pay",
+   "uk": "платити",
+   "ipa": "/peɪ/",
+   "pos": "verb",
+   "ex": "I pay by card.",
+   "exUk": "Я плачу карткою."
+  },
+  {
+   "en": "card",
+   "uk": "картка (банківська)",
+   "ipa": "/kɑːd/",
+   "pos": "noun",
+   "ex": "My card doesn't work.",
+   "exUk": "Моя картка не працює."
+  },
+  {
+   "en": "cash",
+   "uk": "готівка",
+   "ipa": "/kæʃ/",
+   "pos": "noun",
+   "ex": "Cash or card?",
+   "exUk": "Готівкою чи карткою?"
+  },
+  {
+   "en": "change",
+   "uk": "решта",
+   "ipa": "/tʃeɪndʒ/",
+   "pos": "noun",
+   "ex": "Here's your change.",
+   "exUk": "Ось ваша решта."
+  },
+  {
+   "en": "receipt",
+   "uk": "чек",
+   "ipa": "/rɪˈsiːt/",
+   "pos": "noun",
+   "ex": "Can I have the receipt?",
+   "exUk": "Можна чек?"
+  },
+  {
+   "en": "bill",
+   "uk": "рахунок (у кафе, за послуги)",
+   "ipa": "/bɪl/",
+   "pos": "noun",
+   "ex": "The bill, please.",
+   "exUk": "Рахунок, будь ласка."
+  },
+  {
+   "en": "cheap",
+   "uk": "дешевий",
+   "ipa": "/tʃiːp/",
+   "pos": "adj",
+   "ex": "This is cheap.",
+   "exUk": "Це дешево."
+  },
+  {
+   "en": "expensive",
+   "uk": "дорогий",
+   "ipa": "/ɪkˈspensɪv/",
+   "pos": "adj",
+   "ex": "It's too expensive.",
+   "exUk": "Це надто дорого."
+  },
+  {
+   "en": "free",
+   "uk": "безкоштовний; вільний",
+   "ipa": "/friː/",
+   "pos": "adj",
+   "ex": "Is it free?",
+   "exUk": "Це безкоштовно?"
+  },
+  {
+   "en": "open",
+   "uk": "відчинений",
+   "ipa": "/ˈəʊpən/",
+   "pos": "adj",
+   "ex": "Is the shop open?",
+   "exUk": "Магазин відчинений?"
+  },
+  {
+   "en": "closed",
+   "uk": "зачинений",
+   "ipa": "/kləʊzd/",
+   "pos": "adj",
+   "ex": "Sorry, we're closed.",
+   "exUk": "Вибачте, ми зачинені."
+  },
+  {
+   "en": "bank",
+   "uk": "банк",
+   "ipa": "/bæŋk/",
+   "pos": "noun",
+   "ex": "The bank is closed today.",
+   "exUk": "Банк сьогодні зачинений."
+  },
+  {
+   "en": "supermarket",
+   "uk": "супермаркет",
+   "ipa": "/ˈsuːpəmɑːkɪt/",
+   "pos": "noun",
+   "ex": "I go to the supermarket.",
+   "exUk": "Я йду в супермаркет."
+  },
+  {
+   "en": "market",
+   "uk": "ринок",
+   "ipa": "/ˈmɑːkɪt/",
+   "pos": "noun",
+   "ex": "We buy fruit at the market.",
+   "exUk": "Ми купуємо фрукти на ринку."
+  },
+  {
+   "en": "shopping",
+   "uk": "покупки",
+   "ipa": "/ˈʃɒpɪŋ/",
+   "pos": "noun",
+   "ex": "I do the shopping.",
+   "exUk": "Я ходжу по продукти."
+  }
+ ]
+}

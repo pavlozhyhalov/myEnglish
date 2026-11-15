@@ -1,0 +1,181 @@
+{
+ "id": "a0-body",
+ "cards": [
+  {
+   "en": "body",
+   "uk": "тіло",
+   "ipa": "/ˈbɒdi/",
+   "pos": "noun",
+   "ex": "Water is good for the body.",
+   "exUk": "Вода корисна для тіла."
+  },
+  {
+   "en": "head",
+   "uk": "голова",
+   "ipa": "/hed/",
+   "pos": "noun",
+   "ex": "My head is hot.",
+   "exUk": "У мене гаряча голова."
+  },
+  {
+   "en": "face",
+   "uk": "обличчя",
+   "ipa": "/feɪs/",
+   "pos": "noun",
+   "ex": "She has a happy face.",
+   "exUk": "У неї щасливе обличчя."
+  },
+  {
+   "en": "eye",
+   "uk": "око",
+   "ipa": "/aɪ/",
+   "pos": "noun",
+   "ex": "I have blue eyes.",
+   "exUk": "У мене блакитні очі."
+  },
+  {
+   "en": "ear",
+   "uk": "вухо",
+   "ipa": "/ɪə/",
+   "pos": "noun",
+   "ex": "He has big ears.",
+   "exUk": "У нього великі вуха."
+  },
+  {
+   "en": "nose",
+   "uk": "ніс",
+   "ipa": "/nəʊz/",
+   "pos": "noun",
+   "ex": "He has a big nose.",
+   "exUk": "У нього великий ніс."
+  },
+  {
+   "en": "mouth",
+   "uk": "рот",
+   "ipa": "/maʊθ/",
+   "pos": "noun",
+   "ex": "Open your mouth, please.",
+   "exUk": "Відкрийте рот, будь ласка."
+  },
+  {
+   "en": "tooth",
+   "uk": "зуб (мн. teeth)",
+   "ipa": "/tuːθ/",
+   "pos": "noun",
+   "ex": "I have a bad tooth.",
+   "exUk": "У мене хворий зуб."
+  },
+  {
+   "en": "hair",
+   "uk": "волосся",
+   "ipa": "/heə/",
+   "pos": "noun",
+   "ex": "She has long hair.",
+   "exUk": "У неї довге волосся."
+  },
+  {
+   "en": "hand",
+   "uk": "рука (кисть)",
+   "ipa": "/hænd/",
+   "pos": "noun",
+   "ex": "My hands are cold.",
+   "exUk": "У мене холодні руки."
+  },
+  {
+   "en": "arm",
+   "uk": "рука (від плеча до кисті)",
+   "ipa": "/ɑːm/",
+   "pos": "noun",
+   "ex": "Show me your arm, please.",
+   "exUk": "Покажіть, будь ласка, руку."
+  },
+  {
+   "en": "finger",
+   "uk": "палець (на руці)",
+   "ipa": "/ˈfɪŋɡə/",
+   "pos": "noun",
+   "ex": "I have ten fingers.",
+   "exUk": "У мене десять пальців."
+  },
+  {
+   "en": "leg",
+   "uk": "нога",
+   "ipa": "/leɡ/",
+   "pos": "noun",
+   "ex": "He has long legs.",
+   "exUk": "У нього довгі ноги."
+  },
+  {
+   "en": "foot",
+   "uk": "стопа (мн. feet)",
+   "ipa": "/fʊt/",
+   "pos": "noun",
+   "ex": "My feet are cold.",
+   "exUk": "У мене мерзнуть ноги."
+  },
+  {
+   "en": "back",
+   "uk": "спина",
+   "ipa": "/bæk/",
+   "pos": "noun",
+   "ex": "My back hurts.",
+   "exUk": "У мене болить спина."
+  },
+  {
+   "en": "stomach",
+   "uk": "живіт; шлунок",
+   "ipa": "/ˈstʌmək/",
+   "pos": "noun",
+   "ex": "My stomach hurts.",
+   "exUk": "У мене болить живіт."
+  },
+  {
+   "en": "to hurt",
+   "uk": "боліти",
+   "ipa": "/hɜːt/",
+   "pos": "verb",
+   "ex": "Where does it hurt?",
+   "exUk": "Де болить?"
+  },
+  {
+   "en": "headache",
+   "uk": "головний біль",
+   "ipa": "/ˈhedeɪk/",
+   "pos": "noun",
+   "ex": "I have a headache.",
+   "exUk": "У мене болить голова."
+  },
+  {
+   "en": "temperature",
+   "uk": "температура",
+   "ipa": "/ˈtemprətʃə/",
+   "pos": "noun",
+   "ex": "He has a temperature.",
+   "exUk": "У нього температура."
+  },
+  {
+   "en": "ill",
+   "uk": "хворий",
+   "ipa": "/ɪl/",
+   "pos": "adj",
+   "ex": "My son is ill today.",
+   "exUk": "Мій син сьогодні хворіє."
+  },
+  {
+   "en": "well",
+   "uk": "здоровий; добре (про самопочуття)",
+   "ipa": "/wel/",
+   "pos": "adj",
+   "ex": "I'm not well.",
+   "exUk": "Я погано почуваюся."
+  },
+  {
+   "en": "medicine",
+   "uk": "ліки",
+   "ipa": "/ˈmedsn/",
+   "pos": "noun",
+   "ex": "Take this medicine.",
+   "exUk": "Прийміть ці ліки."
+  }
+ ]
+}

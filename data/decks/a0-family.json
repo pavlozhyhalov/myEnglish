@@ -1,0 +1,205 @@
+{
+ "id": "a0-family",
+ "cards": [
+  {
+   "en": "family",
+   "uk": "сім'я",
+   "ipa": "/ˈfæməli/",
+   "pos": "noun",
+   "ex": "This is my family.",
+   "exUk": "Це моя сім'я."
+  },
+  {
+   "en": "mum",
+   "uk": "мама",
+   "ipa": "/mʌm/",
+   "pos": "noun",
+   "ex": "My mum is a doctor.",
+   "exUk": "Моя мама — лікарка."
+  },
+  {
+   "en": "dad",
+   "uk": "тато",
+   "ipa": "/dæd/",
+   "pos": "noun",
+   "ex": "My dad is at work.",
+   "exUk": "Мій тато на роботі."
+  },
+  {
+   "en": "mother",
+   "uk": "мати",
+   "ipa": "/ˈmʌðə/",
+   "pos": "noun",
+   "ex": "Her mother is from Kyiv.",
+   "exUk": "Її мати з Києва."
+  },
+  {
+   "en": "father",
+   "uk": "батько",
+   "ipa": "/ˈfɑːðə/",
+   "pos": "noun",
+   "ex": "His father is a teacher.",
+   "exUk": "Його батько — вчитель."
+  },
+  {
+   "en": "parents",
+   "uk": "батьки",
+   "ipa": "/ˈpeərənts/",
+   "pos": "noun",
+   "ex": "My parents live in Lviv.",
+   "exUk": "Мої батьки живуть у Львові."
+  },
+  {
+   "en": "brother",
+   "uk": "брат",
+   "ipa": "/ˈbrʌðə/",
+   "pos": "noun",
+   "ex": "I have two brothers.",
+   "exUk": "У мене два брати."
+  },
+  {
+   "en": "sister",
+   "uk": "сестра",
+   "ipa": "/ˈsɪstə/",
+   "pos": "noun",
+   "ex": "My sister is twelve.",
+   "exUk": "Моїй сестрі дванадцять років."
+  },
+  {
+   "en": "son",
+   "uk": "син",
+   "ipa": "/sʌn/",
+   "pos": "noun",
+   "ex": "Our son is ten.",
+   "exUk": "Нашому синові десять років."
+  },
+  {
+   "en": "daughter",
+   "uk": "донька",
+   "ipa": "/ˈdɔːtə/",
+   "pos": "noun",
+   "ex": "My daughter is six.",
+   "exUk": "Моїй доньці шість років."
+  },
+  {
+   "en": "child",
+   "uk": "дитина (мн. children)",
+   "ipa": "/tʃaɪld/",
+   "pos": "noun",
+   "ex": "She is a happy child.",
+   "exUk": "Вона щаслива дитина."
+  },
+  {
+   "en": "children",
+   "uk": "діти",
+   "ipa": "/ˈtʃɪldrən/",
+   "pos": "noun",
+   "ex": "We have two children.",
+   "exUk": "У нас двоє дітей."
+  },
+  {
+   "en": "baby",
+   "uk": "немовля, малюк",
+   "ipa": "/ˈbeɪbi/",
+   "pos": "noun",
+   "ex": "The baby is small.",
+   "exUk": "Малюк маленький."
+  },
+  {
+   "en": "husband",
+   "uk": "чоловік (у шлюбі)",
+   "ipa": "/ˈhʌzbənd/",
+   "pos": "noun",
+   "ex": "Her husband is Oliver.",
+   "exUk": "Її чоловік — Олівер."
+  },
+  {
+   "en": "wife",
+   "uk": "дружина",
+   "ipa": "/waɪf/",
+   "pos": "noun",
+   "ex": "This is my wife, Emma.",
+   "exUk": "Це моя дружина Емма."
+  },
+  {
+   "en": "grandma",
+   "uk": "бабуся",
+   "ipa": "/ˈɡrænmɑː/",
+   "pos": "noun",
+   "ex": "Grandma lives with us.",
+   "exUk": "Бабуся живе з нами."
+  },
+  {
+   "en": "grandad",
+   "uk": "дідусь",
+   "ipa": "/ˈɡrændæd/",
+   "pos": "noun",
+   "ex": "My grandad lives in Odesa.",
+   "exUk": "Мій дідусь живе в Одесі."
+  },
+  {
+   "en": "grandparents",
+   "uk": "дідусь і бабуся",
+   "ipa": "/ˈɡrænpeərənts/",
+   "pos": "noun",
+   "ex": "My grandparents are old.",
+   "exUk": "Мої дідусь і бабуся вже старенькі."
+  },
+  {
+   "en": "uncle",
+   "uk": "дядько",
+   "ipa": "/ˈʌŋkl/",
+   "pos": "noun",
+   "ex": "My uncle lives in London.",
+   "exUk": "Мій дядько живе в Лондоні."
+  },
+  {
+   "en": "aunt",
+   "uk": "тітка",
+   "ipa": "/ɑːnt/",
+   "pos": "noun",
+   "ex": "My aunt is a nurse.",
+   "exUk": "Моя тітка — медсестра."
+  },
+  {
+   "en": "boy",
+   "uk": "хлопчик",
+   "ipa": "/bɔɪ/",
+   "pos": "noun",
+   "ex": "He is a good boy.",
+   "exUk": "Він хороший хлопчик."
+  },
+  {
+   "en": "girl",
+   "uk": "дівчинка; дівчина",
+   "ipa": "/ɡɜːl/",
+   "pos": "noun",
+   "ex": "The girl is my sister.",
+   "exUk": "Ця дівчинка — моя сестра."
+  },
+  {
+   "en": "man",
+   "uk": "чоловік (людина)",
+   "ipa": "/mæn/",
+   "pos": "noun",
+   "ex": "Who is that man?",
+   "exUk": "Хто той чоловік?"
+  },
+  {
+   "en": "woman",
+   "uk": "жінка",
+   "ipa": "/ˈwʊmən/",
+   "pos": "noun",
+   "ex": "That woman is a doctor.",
+   "exUk": "Та жінка — лікарка."
+  },
+  {
+   "en": "people",
+   "uk": "люди",
+   "ipa": "/ˈpiːpl/",
+   "pos": "noun",
+   "ex": "Five people live here.",
+   "exUk": "Тут живе п'ятеро людей."
+  }
+ ]
+}

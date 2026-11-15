@@ -1,0 +1,455 @@
+{
+ "id": "a0-phrases",
+ "cards": [
+  {
+   "en": "Hello, my name is …",
+   "uk": "Привіт, мене звати …",
+   "tags": [
+    "phrase",
+    "sit:smalltalk"
+   ],
+   "ex": "Hello, my name is Oliver.",
+   "exUk": "Привіт, мене звати Олівер."
+  },
+  {
+   "en": "What's your name?",
+   "uk": "Як вас звати?",
+   "tags": [
+    "phrase",
+    "sit:smalltalk"
+   ],
+   "ex": "Hi! What's your name?",
+   "exUk": "Привіт! Як тебе звати?"
+  },
+  {
+   "en": "Nice to meet you.",
+   "uk": "Приємно познайомитися.",
+   "tags": [
+    "phrase",
+    "sit:smalltalk"
+   ],
+   "ex": "Nice to meet you, Emma.",
+   "exUk": "Приємно познайомитися, Еммо."
+  },
+  {
+   "en": "How are you?",
+   "uk": "Як справи?",
+   "tags": [
+    "phrase",
+    "sit:smalltalk"
+   ],
+   "ex": "Hi, Emma! How are you?",
+   "exUk": "Привіт, Еммо! Як справи?"
+  },
+  {
+   "en": "I'm fine, thanks. And you?",
+   "uk": "Добре, дякую. А у вас?",
+   "tags": [
+    "phrase",
+    "sit:smalltalk"
+   ],
+   "ex": "— How are you? — I'm fine, thanks. And you?",
+   "exUk": "— Як справи? — Добре, дякую. А у вас?"
+  },
+  {
+   "en": "Where are you from?",
+   "uk": "Звідки ви?",
+   "tags": [
+    "phrase",
+    "sit:smalltalk"
+   ],
+   "ex": "Where are you from, Oliver?",
+   "exUk": "Звідки ви, Олівере?"
+  },
+  {
+   "en": "I'm from Ukraine.",
+   "uk": "Я з України.",
+   "tags": [
+    "phrase",
+    "sit:smalltalk"
+   ],
+   "ex": "I'm from Ukraine, from Kyiv.",
+   "exUk": "Я з України, з Києва."
+  },
+  {
+   "en": "Where do you live?",
+   "uk": "Де ви живете?",
+   "tags": [
+    "phrase",
+    "sit:smalltalk"
+   ],
+   "ex": "Where do you live, Emma?",
+   "exUk": "Де ви живете, Еммо?"
+  },
+  {
+   "en": "I live in …",
+   "uk": "Я живу в …",
+   "tags": [
+    "phrase",
+    "sit:smalltalk"
+   ],
+   "ex": "I live in London now.",
+   "exUk": "Тепер я живу в Лондоні."
+  },
+  {
+   "en": "How old are you?",
+   "uk": "Скільки вам років?",
+   "tags": [
+    "phrase",
+    "sit:smalltalk"
+   ],
+   "ex": "— How old are you? — I'm thirty.",
+   "exUk": "— Скільки вам років? — Мені тридцять."
+  },
+  {
+   "en": "I'm … years old.",
+   "uk": "Мені … років.",
+   "tags": [
+    "phrase",
+    "sit:smalltalk"
+   ],
+   "ex": "I'm forty years old.",
+   "exUk": "Мені сорок років."
+  },
+  {
+   "en": "This is my …",
+   "uk": "Це мій / моя …",
+   "tags": [
+    "phrase",
+    "sit:smalltalk"
+   ],
+   "ex": "This is my husband, Oliver.",
+   "exUk": "Це мій чоловік Олівер."
+  },
+  {
+   "en": "See you soon!",
+   "uk": "До зустрічі!",
+   "tags": [
+    "phrase",
+    "sit:smalltalk"
+   ],
+   "ex": "Bye, Emma! See you soon!",
+   "exUk": "Бувай, Еммо! До зустрічі!"
+  },
+  {
+   "en": "Thank you very much.",
+   "uk": "Щиро дякую.",
+   "tags": [
+    "phrase",
+    "sit:other"
+   ],
+   "ex": "Thank you very much, Oliver!",
+   "exUk": "Щиро дякую, Олівере!"
+  },
+  {
+   "en": "You're welcome.",
+   "uk": "Будь ласка (у відповідь на «дякую»).",
+   "tags": [
+    "phrase",
+    "sit:other"
+   ],
+   "ex": "— Thank you! — You're welcome.",
+   "exUk": "— Дякую! — Будь ласка."
+  },
+  {
+   "en": "No problem.",
+   "uk": "Нічого страшного. / Без проблем.",
+   "tags": [
+    "phrase",
+    "sit:other"
+   ],
+   "ex": "— Sorry! — No problem.",
+   "exUk": "— Вибачте! — Нічого страшного."
+  },
+  {
+   "en": "Excuse me.",
+   "uk": "Перепрошую (щоб звернутися).",
+   "tags": [
+    "phrase",
+    "sit:other"
+   ],
+   "ex": "Excuse me, where is the bus stop?",
+   "exUk": "Перепрошую, де автобусна зупинка?"
+  },
+  {
+   "en": "I don't understand.",
+   "uk": "Я не розумію.",
+   "tags": [
+    "phrase",
+    "sit:other"
+   ],
+   "ex": "Sorry, I don't understand.",
+   "exUk": "Вибачте, я не розумію."
+  },
+  {
+   "en": "Can you repeat that, please?",
+   "uk": "Можете повторити, будь ласка?",
+   "tags": [
+    "phrase",
+    "sit:other"
+   ],
+   "ex": "Sorry, can you repeat that, please?",
+   "exUk": "Вибачте, можете повторити, будь ласка?"
+  },
+  {
+   "en": "Speak slowly, please.",
+   "uk": "Говоріть повільно, будь ласка.",
+   "tags": [
+    "phrase",
+    "sit:other"
+   ],
+   "ex": "Sorry, speak slowly, please.",
+   "exUk": "Вибачте, говоріть повільно, будь ласка."
+  },
+  {
+   "en": "I speak a little English.",
+   "uk": "Я трохи розмовляю англійською.",
+   "tags": [
+    "phrase",
+    "sit:other"
+   ],
+   "ex": "Sorry, I speak a little English.",
+   "exUk": "Вибачте, я трохи розмовляю англійською."
+  },
+  {
+   "en": "Do you speak Ukrainian?",
+   "uk": "Ви розмовляєте українською?",
+   "tags": [
+    "phrase",
+    "sit:other"
+   ],
+   "ex": "Excuse me, do you speak Ukrainian?",
+   "exUk": "Перепрошую, ви розмовляєте українською?"
+  },
+  {
+   "en": "What's this in English?",
+   "uk": "Як це англійською?",
+   "tags": [
+    "phrase",
+    "sit:other"
+   ],
+   "ex": "Excuse me, what's this in English?",
+   "exUk": "Перепрошую, як це англійською?"
+  },
+  {
+   "en": "Can you write it down, please?",
+   "uk": "Можете це записати, будь ласка?",
+   "tags": [
+    "phrase",
+    "sit:other"
+   ],
+   "ex": "Sorry, can you write it down, please?",
+   "exUk": "Вибачте, можете це записати, будь ласка?"
+  },
+  {
+   "en": "I don't know.",
+   "uk": "Я не знаю.",
+   "tags": [
+    "phrase",
+    "sit:other"
+   ],
+   "ex": "Sorry, I don't know.",
+   "exUk": "Вибачте, я не знаю."
+  },
+  {
+   "en": "I have a question.",
+   "uk": "У мене питання.",
+   "tags": [
+    "phrase",
+    "sit:other"
+   ],
+   "ex": "Excuse me, I have a question.",
+   "exUk": "Перепрошую, у мене питання."
+  },
+  {
+   "en": "One moment, please.",
+   "uk": "Хвилинку, будь ласка.",
+   "tags": [
+    "phrase",
+    "sit:other"
+   ],
+   "ex": "One moment, please. I'm coming!",
+   "exUk": "Хвилинку, будь ласка. Уже йду!"
+  },
+  {
+   "en": "Can you help me, please?",
+   "uk": "Можете мені допомогти, будь ласка?",
+   "tags": [
+    "phrase",
+    "sit:other"
+   ],
+   "ex": "Excuse me, can you help me, please?",
+   "exUk": "Перепрошую, можете мені допомогти, будь ласка?"
+  },
+  {
+   "en": "Help!",
+   "uk": "Допоможіть!",
+   "tags": [
+    "phrase",
+    "sit:other"
+   ],
+   "ex": "Help! Call the police!",
+   "exUk": "Допоможіть! Викличте поліцію!"
+  },
+  {
+   "en": "What time is it?",
+   "uk": "Котра година?",
+   "tags": [
+    "phrase",
+    "sit:other"
+   ],
+   "ex": "— What time is it? — It's two o'clock.",
+   "exUk": "— Котра година? — Друга."
+  },
+  {
+   "en": "Where is the …?",
+   "uk": "Де …?",
+   "tags": [
+    "phrase",
+    "sit:travel"
+   ],
+   "ex": "Where is the bank, please?",
+   "exUk": "Де банк, підкажіть, будь ласка?"
+  },
+  {
+   "en": "Where is the toilet?",
+   "uk": "Де туалет?",
+   "tags": [
+    "phrase",
+    "sit:travel"
+   ],
+   "ex": "Excuse me, where is the toilet?",
+   "exUk": "Перепрошую, де туалет?"
+  },
+  {
+   "en": "Is there a … near here?",
+   "uk": "Тут поблизу є …?",
+   "tags": [
+    "phrase",
+    "sit:travel"
+   ],
+   "ex": "Is there a bank near here?",
+   "exUk": "Тут поблизу є банк?"
+  },
+  {
+   "en": "Can you show me on the map?",
+   "uk": "Можете показати мені на мапі?",
+   "tags": [
+    "phrase",
+    "sit:travel"
+   ],
+   "ex": "Excuse me, can you show me on the map?",
+   "exUk": "Перепрошую, можете показати мені на мапі?"
+  },
+  {
+   "en": "I'm lost.",
+   "uk": "Я заблукав(-ла).",
+   "tags": [
+    "phrase",
+    "sit:travel"
+   ],
+   "ex": "Excuse me, I'm lost.",
+   "exUk": "Перепрошую, я заблукав."
+  },
+  {
+   "en": "A ticket to …, please.",
+   "uk": "Квиток до …, будь ласка.",
+   "tags": [
+    "phrase",
+    "sit:travel"
+   ],
+   "ex": "A ticket to London, please.",
+   "exUk": "Квиток до Лондона, будь ласка."
+  },
+  {
+   "en": "How much is it?",
+   "uk": "Скільки це коштує?",
+   "tags": [
+    "phrase",
+    "sit:shop"
+   ],
+   "ex": "— How much is it? — Five pounds.",
+   "exUk": "— Скільки це коштує? — П'ять фунтів."
+  },
+  {
+   "en": "Can I pay by card?",
+   "uk": "Можна оплатити карткою?",
+   "tags": [
+    "phrase",
+    "sit:shop"
+   ],
+   "ex": "— Can I pay by card? — Yes, of course.",
+   "exUk": "— Можна оплатити карткою? — Так, звісно."
+  },
+  {
+   "en": "Here you are.",
+   "uk": "Ось, прошу (подаючи щось).",
+   "tags": [
+    "phrase",
+    "sit:shop"
+   ],
+   "ex": "— Here you are. — Thank you!",
+   "exUk": "— Ось, прошу. — Дякую!"
+  },
+  {
+   "en": "Can I have …, please?",
+   "uk": "Можна мені …, будь ласка?",
+   "tags": [
+    "phrase",
+    "sit:cafe"
+   ],
+   "ex": "Can I have a tea, please?",
+   "exUk": "Можна мені чаю, будь ласка?"
+  },
+  {
+   "en": "I'd like …, please.",
+   "uk": "Я хотів(-ла) би …, будь ласка.",
+   "tags": [
+    "phrase",
+    "sit:cafe"
+   ],
+   "ex": "I'd like a coffee, please.",
+   "exUk": "Я б хотів кави, будь ласка."
+  },
+  {
+   "en": "I need a doctor.",
+   "uk": "Мені потрібен лікар.",
+   "tags": [
+    "phrase",
+    "sit:doctor"
+   ],
+   "ex": "Please help me. I need a doctor.",
+   "exUk": "Допоможіть, будь ласка. Мені потрібен лікар."
+  },
+  {
+   "en": "It hurts here.",
+   "uk": "Тут болить.",
+   "tags": [
+    "phrase",
+    "sit:doctor"
+   ],
+   "ex": "Doctor, it hurts here.",
+   "exUk": "Лікарю, тут болить."
+  },
+  {
+   "en": "Call an ambulance!",
+   "uk": "Викличте швидку!",
+   "tags": [
+    "phrase",
+    "sit:doctor"
+   ],
+   "ex": "Please call an ambulance!",
+   "exUk": "Будь ласка, викличте швидку!"
+  },
+  {
+   "en": "What's your phone number?",
+   "uk": "Який у вас номер телефону?",
+   "tags": [
+    "phrase",
+    "sit:office"
+   ],
+   "ex": "What's your phone number, please?",
+   "exUk": "Який у вас номер телефону, підкажіть?"
+  }
+ ]
+}

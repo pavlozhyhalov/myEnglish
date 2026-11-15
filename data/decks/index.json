@@ -1,5 +1,165 @@
 [
  {
+  "id": "a0-hello",
+  "name": "Привіт і знайомство",
+  "emoji": "wave",
+  "group": "general",
+  "level": "A0",
+  "desc": "Вітання, так і ні, дякую, я — ти — ми",
+  "count": 29,
+  "withEx": 29
+ },
+ {
+  "id": "a0-numbers",
+  "name": "Числа",
+  "emoji": "chart",
+  "group": "general",
+  "level": "A0",
+  "desc": "Від 0 до 100, перший, другий, третій",
+  "count": 32,
+  "withEx": 32
+ },
+ {
+  "id": "a0-colours-shapes",
+  "name": "Кольори й форми",
+  "emoji": "star",
+  "group": "general",
+  "level": "A0",
+  "desc": "Основні кольори, коло, квадрат, трикутник",
+  "count": 23,
+  "withEx": 23
+ },
+ {
+  "id": "a0-family",
+  "name": "Сім'я",
+  "emoji": "theater",
+  "group": "general",
+  "level": "A0",
+  "desc": "Мама, тато, діти, бабуся й дідусь",
+  "count": 25,
+  "withEx": 25
+ },
+ {
+  "id": "a0-body",
+  "name": "Тіло й самопочуття",
+  "emoji": "muscle",
+  "group": "general",
+  "level": "A0",
+  "desc": "Частини тіла, «болить», у лікаря",
+  "count": 22,
+  "withEx": 22
+ },
+ {
+  "id": "a0-food-drink",
+  "name": "Їжа й напої",
+  "emoji": "food",
+  "group": "general",
+  "level": "A0",
+  "desc": "Вода, хліб, сніданок, обід, вечеря",
+  "count": 25,
+  "withEx": 25
+ },
+ {
+  "id": "a0-home",
+  "name": "Дім",
+  "emoji": "house",
+  "group": "general",
+  "level": "A0",
+  "desc": "Кімнати, меблі, речі вдома",
+  "count": 24,
+  "withEx": 24
+ },
+ {
+  "id": "a0-clothes",
+  "name": "Одяг",
+  "emoji": "shop",
+  "group": "general",
+  "level": "A0",
+  "desc": "Що ми носимо щодня",
+  "count": 22,
+  "withEx": 22
+ },
+ {
+  "id": "a0-time",
+  "name": "Дні й години",
+  "emoji": "calendar",
+  "group": "general",
+  "level": "A0",
+  "desc": "Дні тижня, сьогодні й завтра, котра година",
+  "count": 23,
+  "withEx": 23
+ },
+ {
+  "id": "a0-months",
+  "name": "Місяці й пори року",
+  "emoji": "sun",
+  "group": "general",
+  "level": "A0",
+  "desc": "Місяці, пори року, дата, день народження",
+  "count": 20,
+  "withEx": 20
+ },
+ {
+  "id": "a0-city-transport",
+  "name": "Місто й дорога",
+  "emoji": "city",
+  "group": "general",
+  "level": "A0",
+  "desc": "Вулиця, автобус, вокзал, ліворуч і праворуч",
+  "count": 25,
+  "withEx": 25
+ },
+ {
+  "id": "a0-jobs-places",
+  "name": "Професії й місця",
+  "emoji": "briefcase",
+  "group": "general",
+  "level": "A0",
+  "desc": "Лікар, учитель, школа, лікарня, пошта",
+  "count": 23,
+  "withEx": 23
+ },
+ {
+  "id": "a0-verbs",
+  "name": "Перші дієслова",
+  "emoji": "bulb",
+  "group": "general",
+  "level": "A0",
+  "desc": "Бути, мати, іти, хотіти, могти…",
+  "count": 26,
+  "withEx": 26
+ },
+ {
+  "id": "a0-adjectives",
+  "name": "Перші прикметники",
+  "emoji": "sparkles",
+  "group": "general",
+  "level": "A0",
+  "desc": "Великий і малий, гарячий і холодний",
+  "count": 27,
+  "withEx": 27
+ },
+ {
+  "id": "a0-shopping-money",
+  "name": "Покупки й гроші",
+  "emoji": "bank",
+  "group": "general",
+  "level": "A0",
+  "desc": "Ціна, готівка й картка, чек, решта",
+  "count": 24,
+  "withEx": 24
+ },
+ {
+  "id": "a0-phrases",
+  "name": "Фрази для життя",
+  "emoji": "speech",
+  "group": "general",
+  "level": "A0",
+  "desc": "Готові фрази: знайомство, дорога, магазин, лікар",
+  "count": 45,
+  "withEx": 45
+ },
+ {
   "id": "basics",
   "name": "Перші кроки",
   "emoji": "wave",

@@ -1,0 +1,221 @@
+{
+ "id": "a0-adjectives",
+ "cards": [
+  {
+   "en": "big",
+   "uk": "великий",
+   "ipa": "/bɪɡ/",
+   "pos": "adj",
+   "ex": "The city is very big.",
+   "exUk": "Місто дуже велике."
+  },
+  {
+   "en": "small",
+   "uk": "малий, маленький",
+   "ipa": "/smɔːl/",
+   "pos": "adj",
+   "ex": "A small coffee, please.",
+   "exUk": "Маленьку каву, будь ласка."
+  },
+  {
+   "en": "good",
+   "uk": "добрий, хороший",
+   "ipa": "/ɡʊd/",
+   "pos": "adj",
+   "ex": "The food is good.",
+   "exUk": "Їжа смачна."
+  },
+  {
+   "en": "bad",
+   "uk": "поганий",
+   "ipa": "/bæd/",
+   "pos": "adj",
+   "ex": "The coffee is bad.",
+   "exUk": "Кава погана."
+  },
+  {
+   "en": "hot",
+   "uk": "гарячий; спекотний",
+   "ipa": "/hɒt/",
+   "pos": "adj",
+   "ex": "The tea is hot.",
+   "exUk": "Чай гарячий."
+  },
+  {
+   "en": "cold",
+   "uk": "холодний",
+   "ipa": "/kəʊld/",
+   "pos": "adj",
+   "ex": "It's cold outside.",
+   "exUk": "Надворі холодно."
+  },
+  {
+   "en": "warm",
+   "uk": "теплий",
+   "ipa": "/wɔːm/",
+   "pos": "adj",
+   "ex": "It's warm today.",
+   "exUk": "Сьогодні тепло."
+  },
+  {
+   "en": "new",
+   "uk": "новий",
+   "ipa": "/njuː/",
+   "pos": "adj",
+   "ex": "I have a new phone.",
+   "exUk": "У мене новий телефон."
+  },
+  {
+   "en": "old",
+   "uk": "старий",
+   "ipa": "/əʊld/",
+   "pos": "adj",
+   "ex": "This car is old.",
+   "exUk": "Ця машина стара."
+  },
+  {
+   "en": "young",
+   "uk": "молодий",
+   "ipa": "/jʌŋ/",
+   "pos": "adj",
+   "ex": "She is young.",
+   "exUk": "Вона молода."
+  },
+  {
+   "en": "happy",
+   "uk": "щасливий, радий",
+   "ipa": "/ˈhæpi/",
+   "pos": "adj",
+   "ex": "We are very happy.",
+   "exUk": "Ми дуже щасливі."
+  },
+  {
+   "en": "sad",
+   "uk": "сумний",
+   "ipa": "/sæd/",
+   "pos": "adj",
+   "ex": "Why are you sad?",
+   "exUk": "Чому ти сумний?"
+  },
+  {
+   "en": "tired",
+   "uk": "утомлений",
+   "ipa": "/ˈtaɪəd/",
+   "pos": "adj",
+   "ex": "He is very tired.",
+   "exUk": "Він дуже втомився."
+  },
+  {
+   "en": "hungry",
+   "uk": "голодний",
+   "ipa": "/ˈhʌŋɡri/",
+   "pos": "adj",
+   "ex": "Are you hungry?",
+   "exUk": "Ти голодний?"
+  },
+  {
+   "en": "thirsty",
+   "uk": "спраглий",
+   "ipa": "/ˈθɜːsti/",
+   "pos": "adj",
+   "ex": "I'm thirsty.",
+   "exUk": "Я хочу пити."
+  },
+  {
+   "en": "busy",
+   "uk": "зайнятий",
+   "ipa": "/ˈbɪzi/",
+   "pos": "adj",
+   "ex": "Mum is busy now.",
+   "exUk": "Мама зараз зайнята."
+  },
+  {
+   "en": "long",
+   "uk": "довгий",
+   "ipa": "/lɒŋ/",
+   "pos": "adj",
+   "ex": "It's a long road.",
+   "exUk": "Це довга дорога."
+  },
+  {
+   "en": "short",
+   "uk": "короткий; низький (на зріст)",
+   "ipa": "/ʃɔːt/",
+   "pos": "adj",
+   "ex": "My hair is short.",
+   "exUk": "У мене коротке волосся."
+  },
+  {
+   "en": "tall",
+   "uk": "високий (про людину)",
+   "ipa": "/tɔːl/",
+   "pos": "adj",
+   "ex": "My brother is tall.",
+   "exUk": "Мій брат високий."
+  },
+  {
+   "en": "beautiful",
+   "uk": "гарний, красивий",
+   "ipa": "/ˈbjuːtɪfl/",
+   "pos": "adj",
+   "ex": "What a beautiful day!",
+   "exUk": "Який чудовий день!"
+  },
+  {
+   "en": "nice",
+   "uk": "приємний, гарний",
+   "ipa": "/naɪs/",
+   "pos": "adj",
+   "ex": "He is very nice.",
+   "exUk": "Він дуже приємний."
+  },
+  {
+   "en": "clean",
+   "uk": "чистий",
+   "ipa": "/kliːn/",
+   "pos": "adj",
+   "ex": "The room is clean.",
+   "exUk": "Кімната чиста."
+  },
+  {
+   "en": "dirty",
+   "uk": "брудний",
+   "ipa": "/ˈdɜːti/",
+   "pos": "adj",
+   "ex": "My shoes are dirty.",
+   "exUk": "Моє взуття брудне."
+  },
+  {
+   "en": "easy",
+   "uk": "легкий, простий",
+   "ipa": "/ˈiːzi/",
+   "pos": "adj",
+   "ex": "English is easy!",
+   "exUk": "Англійська — це легко!"
+  },
+  {
+   "en": "difficult",
+   "uk": "складний, важкий",
+   "ipa": "/ˈdɪfɪkəlt/",
+   "pos": "adj",
+   "ex": "This word is difficult.",
+   "exUk": "Це слово складне."
+  },
+  {
+   "en": "fast",
+   "uk": "швидкий",
+   "ipa": "/fɑːst/",
+   "pos": "adj",
+   "ex": "The train is fast.",
+   "exUk": "Поїзд швидкий."
+  },
+  {
+   "en": "slow",
+   "uk": "повільний",
+   "ipa": "/sləʊ/",
+   "pos": "adj",
+   "ex": "The bus is slow.",
+   "exUk": "Автобус повільний."
+  }
+ ]
+}

@@ -1,0 +1,237 @@
+{
+ "id": "a0-hello",
+ "cards": [
+  {
+   "en": "hello",
+   "uk": "привіт; добрий день",
+   "ipa": "/həˈləʊ/",
+   "pos": "interj",
+   "ex": "Hello, I'm Emma.",
+   "exUk": "Привіт, я Емма."
+  },
+  {
+   "en": "hi",
+   "uk": "привіт (неформально)",
+   "ipa": "/haɪ/",
+   "pos": "interj",
+   "ex": "Hi, Oliver! How are you?",
+   "exUk": "Привіт, Олівере! Як справи?"
+  },
+  {
+   "en": "goodbye",
+   "uk": "до побачення",
+   "ipa": "/ɡʊdˈbaɪ/",
+   "pos": "interj",
+   "ex": "Goodbye, Emma!",
+   "exUk": "До побачення, Еммо!"
+  },
+  {
+   "en": "bye",
+   "uk": "бувай, па",
+   "ipa": "/baɪ/",
+   "pos": "interj",
+   "ex": "Bye, Mum! See you!",
+   "exUk": "Бувай, мамо! До зустрічі!"
+  },
+  {
+   "en": "good morning",
+   "uk": "доброго ранку",
+   "ipa": "/ɡʊd ˈmɔːnɪŋ/",
+   "pos": "phrase",
+   "ex": "Good morning, Oliver!",
+   "exUk": "Доброго ранку, Олівере!"
+  },
+  {
+   "en": "good afternoon",
+   "uk": "добрий день (по обіді)",
+   "ipa": "/ɡʊd ˌɑːftəˈnuːn/",
+   "pos": "phrase",
+   "ex": "Good afternoon! Can I help you?",
+   "exUk": "Добрий день! Чим можу допомогти?"
+  },
+  {
+   "en": "good evening",
+   "uk": "добрий вечір",
+   "ipa": "/ɡʊd ˈiːvnɪŋ/",
+   "pos": "phrase",
+   "ex": "Good evening, Mrs Brown.",
+   "exUk": "Добрий вечір, пані Браун."
+  },
+  {
+   "en": "good night",
+   "uk": "на добраніч",
+   "ipa": "/ɡʊd ˈnaɪt/",
+   "pos": "phrase",
+   "ex": "Good night, Dad!",
+   "exUk": "На добраніч, тату!"
+  },
+  {
+   "en": "yes",
+   "uk": "так",
+   "ipa": "/jes/",
+   "pos": "adv",
+   "ex": "Yes, please.",
+   "exUk": "Так, будь ласка."
+  },
+  {
+   "en": "no",
+   "uk": "ні",
+   "ipa": "/nəʊ/",
+   "pos": "adv",
+   "ex": "No, thank you.",
+   "exUk": "Ні, дякую."
+  },
+  {
+   "en": "please",
+   "uk": "будь ласка (у проханні)",
+   "ipa": "/pliːz/",
+   "pos": "adv",
+   "ex": "Water, please.",
+   "exUk": "Води, будь ласка."
+  },
+  {
+   "en": "thank you",
+   "uk": "дякую",
+   "ipa": "/ˈθæŋk juː/",
+   "pos": "phrase",
+   "ex": "Thank you, Oliver!",
+   "exUk": "Дякую, Олівере!"
+  },
+  {
+   "en": "thanks",
+   "uk": "дякую (неформально)",
+   "ipa": "/θæŋks/",
+   "pos": "interj",
+   "ex": "Thanks a lot!",
+   "exUk": "Дуже дякую!"
+  },
+  {
+   "en": "sorry",
+   "uk": "вибачте; перепрошую",
+   "ipa": "/ˈsɒri/",
+   "pos": "adj",
+   "ex": "Sorry, I'm late.",
+   "exUk": "Вибачте за запізнення."
+  },
+  {
+   "en": "name",
+   "uk": "ім'я",
+   "ipa": "/neɪm/",
+   "pos": "noun",
+   "ex": "My name is Emma.",
+   "exUk": "Мене звати Емма."
+  },
+  {
+   "en": "Mr",
+   "uk": "пан, містер (перед прізвищем)",
+   "ipa": "/ˈmɪstə/",
+   "pos": "noun",
+   "ex": "Hello, Mr Brown.",
+   "exUk": "Добрий день, пане Браун."
+  },
+  {
+   "en": "Mrs",
+   "uk": "пані (заміжня, перед прізвищем)",
+   "ipa": "/ˈmɪsɪz/",
+   "pos": "noun",
+   "ex": "Good morning, Mrs Brown.",
+   "exUk": "Доброго ранку, пані Браун."
+  },
+  {
+   "en": "friend",
+   "uk": "друг; подруга",
+   "ipa": "/frend/",
+   "pos": "noun",
+   "ex": "This is my friend Oliver.",
+   "exUk": "Це мій друг Олівер."
+  },
+  {
+   "en": "OK",
+   "uk": "добре, гаразд",
+   "ipa": "/ˌəʊˈkeɪ/",
+   "pos": "adv",
+   "ex": "OK, thank you!",
+   "exUk": "Гаразд, дякую!"
+  },
+  {
+   "en": "welcome",
+   "uk": "ласкаво просимо",
+   "ipa": "/ˈwelkəm/",
+   "pos": "interj",
+   "ex": "Welcome to London!",
+   "exUk": "Ласкаво просимо до Лондона!"
+  },
+  {
+   "en": "I",
+   "uk": "я",
+   "ipa": "/aɪ/",
+   "pos": "pron",
+   "ex": "I am Emma.",
+   "exUk": "Я Емма."
+  },
+  {
+   "en": "you",
+   "uk": "ти; ви",
+   "ipa": "/juː/",
+   "pos": "pron",
+   "ex": "I'm fine. And you?",
+   "exUk": "У мене все добре. А в тебе?"
+  },
+  {
+   "en": "he",
+   "uk": "він",
+   "ipa": "/hiː/",
+   "pos": "pron",
+   "ex": "He is my brother.",
+   "exUk": "Він мій брат."
+  },
+  {
+   "en": "she",
+   "uk": "вона",
+   "ipa": "/ʃiː/",
+   "pos": "pron",
+   "ex": "She is a teacher.",
+   "exUk": "Вона вчителька."
+  },
+  {
+   "en": "it",
+   "uk": "воно; це (про річ)",
+   "ipa": "/ɪt/",
+   "pos": "pron",
+   "ex": "It is my bag.",
+   "exUk": "Це моя сумка."
+  },
+  {
+   "en": "we",
+   "uk": "ми",
+   "ipa": "/wiː/",
+   "pos": "pron",
+   "ex": "We are friends.",
+   "exUk": "Ми друзі."
+  },
+  {
+   "en": "they",
+   "uk": "вони",
+   "ipa": "/ðeɪ/",
+   "pos": "pron",
+   "ex": "They are at home.",
+   "exUk": "Вони вдома."
+  },
+  {
+   "en": "my",
+   "uk": "мій, моя, моє, мої",
+   "ipa": "/maɪ/",
+   "pos": "pron",
+   "ex": "This is my mum.",
+   "exUk": "Це моя мама."
+  },
+  {
+   "en": "your",
+   "uk": "твій; ваш",
+   "ipa": "/jɔː/",
+   "pos": "pron",
+   "ex": "Is this your phone?",
+   "exUk": "Це твій телефон?"
+  }
+ ]
+}
