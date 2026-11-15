@@ -67,7 +67,8 @@ async function visibleTexts() {
  */
 export function textOfDay(texts) {
   const list = store.settings().workFocus ? texts : texts.filter(t => t.group !== 'work');
-  const mine = list.filter(t => t.level === myLevel());
+  // для мого рівня текстів немає (Pre-A1) — найближчий рівень, а не будь-який
+  const mine = filterByLevel(list, 'mine').items;
   const pool = mine.filter(t => !progressOf(t.id));
   return pickOfDay(pool.length ? pool : mine.length ? mine : list, 'reading');
 }
