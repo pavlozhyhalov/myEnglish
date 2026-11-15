@@ -76,6 +76,14 @@ export function setDeckEnabled(d, enabled) {
   store.put('decks', r);
 }
 function enabledSet(decksList) { return new Set(decksList.filter(d => d.enabled).map(d => d.id)); }
+/**
+ * Колода «Старт» (A0) для цього учня: учень рівня A0, колоду ввімкнено вручну (рядок у decks)
+ * або з неї вже вивчаються слова. Учням A1+ колоди A0 (увімкнені за замовчуванням) нічого не додають самі.
+ */
+export function a0DeckActive(d) {
+  if (d.level !== 'A0') return true;
+  return myLevel() === 'A0' || store.get('decks', d.id)?.enabled === true || store.all('cards').some(c => c.deck_id === d.id && c.reps > 0);
+}
 
 export function starterId(deckId, en) { return `${deckId}:${slug(en)}`; }
 

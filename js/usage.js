@@ -44,7 +44,8 @@ function keysOf(en, pos = '') {
 let indexP = null;
 async function cardIndex() {
   if (!indexP) indexP = (async () => {
-    const enabled = new Set((await srs.decks()).filter(d => d.enabled).map(d => d.id));
+    // колоди «Старт» (A0) — лише для учня A0 або якщо з них уже вчаться слова: учню A1+ «hello», «mum», «tea» не стають картками
+    const enabled = new Set((await srs.decks()).filter(d => d.enabled && srs.a0DeckActive(d)).map(d => d.id));
     const m = new Map();
     const add = (en, pos, ref) => { for (const { words, noun } of keysOf(en, pos)) { const k = words[0]; if (!m.has(k)) m.set(k, []); m.get(k).push({ words, noun, ...ref }); } };
     for (const d of await allDecks()) {
