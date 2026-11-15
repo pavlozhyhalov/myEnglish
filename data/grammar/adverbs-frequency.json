@@ -83,7 +83,7 @@
     "don't never drink"
    ],
    "answer": "never drink",
-   "explanation": ""
+   "explanation": "never стоїть перед дієсловом і вже заперечне — без don't."
   },
   {
    "type": "choice",
@@ -94,7 +94,7 @@
     "When often"
    ],
    "answer": "How often",
-   "explanation": ""
+   "explanation": "«Як часто?» — How often."
   },
   {
    "type": "choice",
@@ -105,7 +105,7 @@
     "a month once"
    ],
    "answer": "once a month",
-   "explanation": ""
+   "explanation": "Частотність: once / twice + a + період — once a month."
   },
   {
    "type": "input",
@@ -113,7 +113,7 @@
    "answer": [
     "usually have"
    ],
-   "explanation": ""
+   "explanation": "Прислівник частоти — перед основним дієсловом: usually have."
   },
   {
    "type": "input",
@@ -122,7 +122,7 @@
     "are often",
     "'re often"
    ],
-   "explanation": ""
+   "explanation": "Після be прислівник частоти стоїть за ним: are often."
   },
   {
    "type": "input",
@@ -130,7 +130,7 @@
    "answer": [
     "sometimes works"
    ],
-   "explanation": ""
+   "explanation": "He → works; sometimes — перед дієсловом."
   },
   {
    "type": "error",

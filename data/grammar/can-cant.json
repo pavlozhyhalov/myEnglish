@@ -94,13 +94,13 @@
     "don't can"
    ],
    "answer": "can't",
-   "explanation": ""
+   "explanation": "Не можу — can't (не ~~don't can~~)."
   },
   {
    "type": "choice",
    "prompt": "___ I open the window?",
    "options": [
-    "Do",
+    "Does",
     "Can",
     "Am"
    ],
@@ -113,7 +113,7 @@
    "answer": [
     "can swim"
    ],
-   "explanation": ""
+   "explanation": "can + дієслово без to і без -s."
   },
   {
    "type": "input",
@@ -122,7 +122,7 @@
     "can't",
     "cannot"
    ],
-   "explanation": ""
+   "explanation": "Заперечення — can't / cannot (одним словом)."
   },
   {
    "type": "input",
@@ -172,7 +172,9 @@
    "uk": "Я не вмію плавати.",
    "answer": [
     "I can't swim.",
-    "I cannot swim."
+    "I cannot swim.",
+    "I don't know how to swim.",
+    "I do not know how to swim."
    ],
    "explanation": ""
   }

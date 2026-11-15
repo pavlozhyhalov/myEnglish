@@ -74,7 +74,7 @@
    "type": "choice",
    "prompt": "I left my bag ___ the train!",
    "options": [
-    "in",
+    "to",
     "on",
     "at"
    ],
@@ -98,7 +98,7 @@
    "options": [
     "into",
     "in",
-    "to"
+    "at"
    ],
    "answer": "into",
    "explanation": "Рух всередину."
@@ -109,7 +109,7 @@
    "answer": [
     "on"
    ],
-   "explanation": ""
+   "explanation": "Поверх — on: on the second floor."
   },
   {
    "type": "input",
@@ -117,7 +117,7 @@
    "answer": [
     "on"
    ],
-   "explanation": ""
+   "explanation": "На стіні — on the wall."
   },
   {
    "type": "error",
@@ -141,7 +141,11 @@
    "answer": [
     "I'm sitting in the car outside the house.",
     "I am sitting in the car outside the house.",
-    "I'm in the car outside the house."
+    "I'm in the car outside the house.",
+    "I'm sitting outside the house in the car.",
+    "I am sitting outside the house in the car.",
+    "I'm sitting in the car near the house.",
+    "I'm sitting in the car by the house."
    ],
    "explanation": ""
   },

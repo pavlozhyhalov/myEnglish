@@ -135,9 +135,9 @@
   },
   {
    "type": "input",
-   "prompt": "How often ___ you ___ (go) to the gym? (2 слова через пробіл)",
+   "prompt": "How often ___ you go to the gym?",
    "answer": [
-    "do go"
+    "do"
    ],
    "explanation": "Питання про частоту — Simple: How often do you go…"
   },
@@ -171,7 +171,9 @@
    "instruction": "Перепишіть з this month, зробивши дію тимчасовою",
    "answer": [
     "We're living with my parents this month.",
-    "We are living with my parents this month."
+    "We are living with my parents this month.",
+    "This month we're living with my parents.",
+    "This month we are living with my parents."
    ],
    "explanation": "Тимчасова ситуація → Continuous."
   },

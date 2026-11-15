@@ -176,12 +176,14 @@
    "type": "error",
    "sentence": "Can you give me an information about the trains?",
    "wrongIndex": 4,
-   "correction": "some",
+   "correction": "",
    "alt": [
+    "some",
     "any",
-    "the"
+    "the",
+    ""
    ],
-   "explanation": "Information — незлічуване, без an."
+   "explanation": "Information — незлічуване: an зайве. Можна прибрати або сказати some / any / the information."
   },
   {
    "type": "order",

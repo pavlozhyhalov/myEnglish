@@ -121,7 +121,7 @@
    "prompt": "The cat is ___ the table, not on it.",
    "options": [
     "under",
-    "at",
+    "into",
     "in"
    ],
    "answer": "under",

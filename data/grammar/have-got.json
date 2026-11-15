@@ -85,7 +85,7 @@
    "prompt": "___ you have a pen?",
    "options": [
     "Do",
-    "Have",
+    "Does",
     "Are"
    ],
    "answer": "Do",
@@ -109,7 +109,7 @@
     "don't have",
     "do not have"
    ],
-   "explanation": ""
+   "explanation": "Заперечення з do: don't have."
   },
   {
    "type": "input",
@@ -117,15 +117,16 @@
    "answer": [
     "Has"
    ],
-   "explanation": ""
+   "explanation": "She → has: Has she got…?"
   },
   {
    "type": "input",
    "prompt": "They ___ (have) a big flat.",
    "answer": [
-    "have"
+    "have",
+    "have got"
    ],
-   "explanation": ""
+   "explanation": "They → have (або have got)."
   },
   {
    "type": "error",

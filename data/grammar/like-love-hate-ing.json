@@ -158,7 +158,7 @@
     "traveling",
     "to travel"
    ],
-   "explanation": "Після like — V-ing."
+   "explanation": "Після like — V-ing (можна й to + V)."
   },
   {
    "type": "input",
@@ -167,7 +167,7 @@
     "playing",
     "to play"
    ],
-   "explanation": "Після love — V-ing."
+   "explanation": "Після love — V-ing (можна й to + V)."
   },
   {
    "type": "error",

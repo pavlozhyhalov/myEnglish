@@ -71,7 +71,7 @@
     "goed"
    ],
    "answer": "went",
-   "explanation": ""
+   "explanation": "go → went (неправильне дієслово)."
   },
   {
    "type": "choice",
@@ -82,7 +82,7 @@
     "are"
    ],
    "answer": "were",
-   "explanation": ""
+   "explanation": "They → were."
   },
   {
    "type": "choice",
@@ -104,7 +104,7 @@
     "wasn't"
    ],
    "answer": "didn't",
-   "explanation": ""
+   "explanation": "Минуле заперечення — didn't + V."
   },
   {
    "type": "input",
@@ -112,7 +112,7 @@
    "answer": [
     "stayed"
    ],
-   "explanation": ""
+   "explanation": "stay → stayed."
   },
   {
    "type": "input",
@@ -120,7 +120,7 @@
    "answer": [
     "bought"
    ],
-   "explanation": ""
+   "explanation": "buy → bought (неправильне дієслово)."
   },
   {
    "type": "input",
@@ -128,7 +128,7 @@
    "answer": [
     "did"
    ],
-   "explanation": ""
+   "explanation": "Питання в минулому — did + підмет + V."
   },
   {
    "type": "input",
@@ -137,7 +137,7 @@
     "wasn't",
     "was not"
    ],
-   "explanation": ""
+   "explanation": "It → wasn't (was not)."
   },
   {
    "type": "error",
@@ -172,7 +172,8 @@
     "I worked until eight yesterday.",
     "Yesterday I worked until eight.",
     "I worked till eight yesterday.",
-    "Yesterday I worked till eight."
+    "Yesterday I worked till eight.",
+    "I worked until eight o'clock yesterday."
    ],
    "explanation": ""
   }

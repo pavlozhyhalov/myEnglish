@@ -71,7 +71,7 @@
     "am"
    ],
    "answer": "are",
-   "explanation": ""
+   "explanation": "We → are going to."
   },
   {
    "type": "choice",
@@ -82,7 +82,7 @@
     "making"
    ],
    "answer": "to make",
-   "explanation": ""
+   "explanation": "going to + дієслово: to make."
   },
   {
    "type": "choice",
@@ -104,7 +104,7 @@
     "Will"
    ],
    "answer": "Are",
-   "explanation": ""
+   "explanation": "Питання: Are + you + going to …?"
   },
   {
    "type": "input",
@@ -113,7 +113,7 @@
     "am going to visit",
     "'m going to visit"
    ],
-   "explanation": ""
+   "explanation": "I → am going to + V."
   },
   {
    "type": "input",
@@ -123,7 +123,7 @@
     "are not going to sell",
     "'re not going to sell"
    ],
-   "explanation": ""
+   "explanation": "Заперечення: aren't (are not) going to + V."
   },
   {
    "type": "input",
@@ -131,7 +131,7 @@
    "answer": [
     "are"
    ],
-   "explanation": ""
+   "explanation": "You → are: What are you going to do?"
   },
   {
    "type": "error",

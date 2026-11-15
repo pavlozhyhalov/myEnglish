@@ -101,7 +101,7 @@
    "options": [
     "are visiting to",
     "are going to",
-    "shall"
+    "going to"
    ],
    "answer": "are going to",
    "explanation": "Вирішений заздалегідь план → going to."
@@ -177,7 +177,9 @@
    "prompt": "Я подзвоню тобі завтра.",
    "answer": [
     "I will call you tomorrow.",
-    "I'll call you tomorrow."
+    "I'll call you tomorrow.",
+    "Tomorrow I'll call you.",
+    "Tomorrow I will call you."
    ],
    "explanation": "will + V."
   },

@@ -137,7 +137,8 @@
    "type": "input",
    "prompt": "It's cold outside. You ___ (порада) take a warm jacket.",
    "answer": [
-    "should"
+    "should",
+    "ought to"
    ],
    "explanation": "Порада — should."
   },

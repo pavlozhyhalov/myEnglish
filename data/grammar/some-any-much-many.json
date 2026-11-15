@@ -60,14 +60,14 @@
  "exercises": [
   {
    "type": "choice",
-   "prompt": "Is there ___ milk in the fridge?",
+   "prompt": "I can't make tea — there isn't ___ milk.",
    "options": [
     "some",
     "any",
     "many"
    ],
    "answer": "any",
-   "explanation": "Питання → any."
+   "explanation": "Заперечення → any."
   },
   {
    "type": "choice",
@@ -77,7 +77,7 @@
     "many"
    ],
    "answer": "many",
-   "explanation": ""
+   "explanation": "People — злічуване → many."
   },
   {
    "type": "choice",
@@ -88,7 +88,7 @@
     "many"
    ],
    "answer": "some",
-   "explanation": ""
+   "explanation": "Information — незлічуване: some, не an."
   },
   {
    "type": "choice",
@@ -99,7 +99,7 @@
     "some"
    ],
    "answer": "much",
-   "explanation": ""
+   "explanation": "Time — незлічуване → much."
   },
   {
    "type": "input",
@@ -107,7 +107,7 @@
    "answer": [
     "some"
    ],
-   "explanation": ""
+   "explanation": "Пропозиція — some: Would you like some…?"
   },
   {
    "type": "input",
@@ -115,7 +115,7 @@
    "answer": [
     "much"
    ],
-   "explanation": ""
+   "explanation": "Money — незлічуване → much."
   },
   {
    "type": "input",
@@ -123,17 +123,19 @@
    "answer": [
     "any"
    ],
-   "explanation": ""
+   "explanation": "Заперечення → any."
   },
   {
    "type": "error",
    "sentence": "Can you give me an advice?",
    "wrongIndex": 4,
-   "correction": "some",
+   "correction": "",
    "alt": [
-    "any"
+    "some",
+    "any",
+    ""
    ],
-   "explanation": "advice — незлічуване."
+   "explanation": "Advice — незлічуване: an зайве. Можна прибрати або сказати some / any advice."
   },
   {
    "type": "error",

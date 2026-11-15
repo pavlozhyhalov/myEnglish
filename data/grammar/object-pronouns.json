@@ -72,7 +72,7 @@
     "my"
    ],
    "answer": "me",
-   "explanation": ""
+   "explanation": "Після дієслова — об'єктна форма me."
   },
   {
    "type": "choice",
@@ -83,7 +83,7 @@
     "hers"
    ],
    "answer": "her",
-   "explanation": ""
+   "explanation": "Після прийменника to — her."
   },
   {
    "type": "choice",
@@ -94,7 +94,7 @@
     "they"
    ],
    "answer": "them",
-   "explanation": ""
+   "explanation": "Keys — множина → them."
   },
   {
    "type": "choice",
@@ -113,7 +113,7 @@
    "answer": [
     "him"
    ],
-   "explanation": ""
+   "explanation": "Tom → him (після дієслова like)."
   },
   {
    "type": "input",
@@ -121,7 +121,7 @@
    "answer": [
     "us"
    ],
-   "explanation": ""
+   "explanation": "Після with — us."
   },
   {
    "type": "input",
@@ -129,7 +129,7 @@
    "answer": [
     "them"
    ],
-   "explanation": ""
+   "explanation": "Parents → them."
   },
   {
    "type": "error",
@@ -152,7 +152,9 @@
    "prompt": "Я подзвоню їй завтра.",
    "answer": [
     "I'll call her tomorrow.",
-    "I will call her tomorrow."
+    "I will call her tomorrow.",
+    "Tomorrow I'll call her.",
+    "Tomorrow I will call her."
    ],
    "explanation": ""
   },

@@ -83,7 +83,7 @@
     "we"
    ],
    "answer": "our",
-   "explanation": ""
+   "explanation": "Наш — our."
   },
   {
    "type": "choice",
@@ -94,7 +94,7 @@
     "Who's"
    ],
    "answer": "Whose",
-   "explanation": ""
+   "explanation": "Чий — whose (who's = who is)."
   },
   {
    "type": "choice",
@@ -102,7 +102,7 @@
    "options": [
     "it's",
     "its",
-    "their"
+    "its'"
    ],
    "answer": "its",
    "explanation": "Компанія — it → its."
@@ -113,7 +113,7 @@
    "answer": [
     "brother's"
    ],
-   "explanation": ""
+   "explanation": "Людина + 's: my brother's car."
   },
   {
    "type": "input",
@@ -121,7 +121,7 @@
    "answer": [
     "Their"
    ],
-   "explanation": ""
+   "explanation": "Їхній — their."
   },
   {
    "type": "input",
@@ -129,7 +129,7 @@
    "answer": [
     "your"
    ],
-   "explanation": ""
+   "explanation": "you → your (твій)."
   },
   {
    "type": "error",

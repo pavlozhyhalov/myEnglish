@@ -89,7 +89,7 @@
     "childrens"
    ],
    "answer": "children",
-   "explanation": ""
+   "explanation": "child → children (неправильна множина)."
   },
   {
    "type": "choice",
@@ -100,7 +100,7 @@
     "buss"
    ],
    "answer": "buses",
-   "explanation": ""
+   "explanation": "bus → buses: після -s додаємо -es."
   },
   {
    "type": "input",
@@ -108,7 +108,7 @@
    "answer": [
     "cities"
    ],
-   "explanation": ""
+   "explanation": "city → cities: приголосний + y → -ies."
   },
   {
    "type": "input",
@@ -116,7 +116,7 @@
    "answer": [
     "people"
    ],
-   "explanation": ""
+   "explanation": "person → people."
   },
   {
    "type": "input",
@@ -124,7 +124,7 @@
    "answer": [
     "knives"
    ],
-   "explanation": ""
+   "explanation": "knife → knives: -fe → -ves."
   },
   {
    "type": "error",

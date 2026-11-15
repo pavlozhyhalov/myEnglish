@@ -88,7 +88,7 @@
     "expensivest"
    ],
    "answer": "most expensive",
-   "explanation": ""
+   "explanation": "Довгий прикметник: the most + прикметник."
   },
   {
    "type": "choice",
@@ -118,7 +118,7 @@
    "answer": [
     "easier"
    ],
-   "explanation": ""
+   "explanation": "easy → easier: y → i + -er."
   },
   {
    "type": "input",
@@ -126,27 +126,29 @@
    "answer": [
     "worst"
    ],
-   "explanation": ""
+   "explanation": "bad → worse → the worst (неправильна форма)."
   },
   {
    "type": "input",
    "prompt": "The ___ you sleep, the better you feel.",
    "answer": [
-    "more"
+    "more",
+    "longer"
    ],
-   "explanation": ""
+   "explanation": "The more…, the better… — «чим більше…, тим краще…» (можна й The longer…)."
   },
   {
    "type": "error",
    "sentence": "My English is more better now.",
    "wrongIndex": 3,
-   "correction": "much",
+   "correction": "",
    "alt": [
+    "much",
     "a lot",
     "far",
     "even"
    ],
-   "explanation": "better вже вищий ступінь — more зайве (можна підсилити: much / a lot / far better)."
+   "explanation": "better уже вищий ступінь — more зайве. Можна прибрати або підсилити: much / a lot / far better."
   },
   {
    "type": "error",
@@ -174,7 +176,8 @@
    "answer": [
     "The bus isn't as fast as the train.",
     "The bus is not as fast as the train.",
-    "The bus isn't as quick as the train."
+    "The bus isn't as quick as the train.",
+    "The bus is not as quick as the train."
    ],
    "explanation": ""
   },
