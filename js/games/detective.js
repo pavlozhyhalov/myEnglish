@@ -137,7 +137,9 @@ function roundFromBank(it) {
     return { src: 'bank', correct: true, tokens: toks, target: -1, alt: [], missing: false, ops: toks.map((_, i) => ({ op: 'eq', i })), a: toks, b: toks, fix: it.s, rule: it.rule, tip: it.tip, id: it.id };
   }
   const d = tokenDiff(it.s, it.fix);
-  return { src: 'bank', correct: false, tokens: d.a, target: d.target, alt: d.alt, missing: d.missing, ops: d.ops, a: d.a, b: d.b, fix: it.fix, rule: it.rule, tip: it.tip, id: it.id };
+  // alt у банку — інші слова, виправивши які, теж отримаємо правильне речення (where … in: прибрати where або in)
+  const alt = [...new Set([...d.alt, ...(Array.isArray(it.alt) ? it.alt : [])])].filter(i => i !== d.target && i >= 0 && i < d.a.length);
+  return { src: 'bank', correct: false, tokens: d.a, target: d.target, alt, missing: d.missing, ops: d.ops, a: d.a, b: d.b, fix: it.fix, rule: it.rule, tip: it.tip, id: it.id };
 }
 
 /**

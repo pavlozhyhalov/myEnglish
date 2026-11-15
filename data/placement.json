@@ -1026,7 +1026,7 @@
    "id": "g10",
    "skill": "grammar",
    "level": "B1",
-   "prompt": "If it rains, we ___ at home.",
+   "prompt": "If it rains tomorrow, we ___ at home.",
    "options": [
     "stay",
     "will stay",
@@ -1034,7 +1034,7 @@
     "stayed"
    ],
    "answer": "will stay",
-   "explanation": "First conditional."
+   "explanation": "Перший тип умовних про майбутнє: if + Present Simple, will + дієслово."
   },
   {
    "id": "g11",
@@ -1952,7 +1952,7 @@
    "level": "B2",
    "prompt": "The house needs ___.",
    "options": [
-    "paint",
+    "to be painting",
     "to painting",
     "to paint",
     "painting"
@@ -3784,10 +3784,10 @@
     "take",
     "figure",
     "look",
-    "make"
+    "think"
    ],
    "answer": "figure",
-   "explanation": "figure out."
+   "explanation": "figure out — зрозуміти, збагнути."
   },
   {
    "id": "v400",

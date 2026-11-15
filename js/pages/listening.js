@@ -120,10 +120,11 @@ function runDictation(box, data, timer, wanted) {
       const play = (rate) => speak(it.text, { rate });
       const checkBtn = h('button.btn.primary.block', { type: 'button', onclick: () => {
         if (!inp.value.trim()) return;
-        const d = charDiff(it.text, inp.value.trim());
+        const given = digitsAsWords(inp.value.trim(), it.text);
+        const d = charDiff(it.text, given);
         totalPct += d.pct; scores[i] = d.pct;
         if (d.pct < 100) {
-          const wrongWords = wordMismatch(it.text, inp.value);
+          const wrongWords = wordMismatch(it.text, given);
           if (wrongWords) addMistake({ wrong: wrongWords.given, right: wrongWords.right, type: 'vocabulary', explanation_uk: 'Диктант: слово почуто або написано неправильно', source: 'exercise' });
         }
         result.replaceChildren(h('div.gx-card.stack.ls-check',
@@ -152,6 +153,21 @@ function runDictation(box, data, timer, wanted) {
     };
     step();
   }
+}
+
+const ONES = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen'];
+const TENS = ['', '', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety'];
+const numWord = (n) => n < 20 ? ONES[n] : TENS[Math.floor(n / 10)] + (n % 10 ? '-' + ONES[n % 10] : '');
+/**
+ * Диктант: число цифрами (7, 20) — не помилка, якщо в оригіналі воно словом (seven, twenty).
+ * Цифри замінюються словом лише тоді, коли саме це слово є в реченні.
+ */
+export function digitsAsWords(given, target) {
+  const t = ' ' + String(target || '').toLowerCase().replace(/[^a-z-]+/g, ' ') + ' ';
+  return String(given || '').replace(/(^|[^\d:.,])(\d{1,2})(?![\d:.,]\d)/g, (m, pre, num) => {
+    const w = numWord(+num);
+    return t.includes(' ' + w + ' ') ? pre + w : m;
+  });
 }
 
 /** Посимвольне порівняння (LCS) з підсвіткою: збіг / пропущене / зайве */
