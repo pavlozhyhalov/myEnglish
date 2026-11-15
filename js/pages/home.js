@@ -274,7 +274,7 @@ function levelGroup(view, gIdx, lvl) {
   const levelTile = tx({ wide: true, href: '#/progress', cls: 'hm-level',
     icon: null, label: lvl !== nxt ? `Рівень ${lvLabel(lvl)} → ${nxt}` : `Рівень ${lvl}`, sub: LEVEL_NAME[lvl],
     extra: h('span.hm-level-extra', lpBar, h('span.tx-s', lpInfo, convInfo)), end: lpPct });
-  levelTile.prepend(h('span.tx-sq.hm-level-badge' + (lvl === 'A0' ? '.pre' : ''), { 'aria-hidden': 'true' }, lvLabel(lvl)));
+  levelTile.prepend(h('span.tx-sq.hm-level-badge' + (lvl === 'A0' ? '.lv-pre' : ''), { 'aria-hidden': 'true' }, lvLabel(lvl)));
   // зміна рівня — у «Налаштуваннях», тестом або пропозицією за розмовами
   return h('div.stack.hm-lvwrap', levelTile, suggest);
 }

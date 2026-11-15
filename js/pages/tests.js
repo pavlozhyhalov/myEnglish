@@ -523,6 +523,8 @@ async function placementTest(view, { quick = false, from = '' } = {}) {
     if (!o) { clearRun(); view.replaceChildren(h('div.empty', emo('memo', 'xl'), h('p', 'Немає відповідей для оцінки.'), h('a.btn.soft', { href: '#/tests' }, 'До тестів'))); return; }
     const skillsLv = {};
     for (const [k, v] of Object.entries(est)) skillsLv[k] = CAT.levelOf(v.theta);
+    // дуже низький результат на рівні A1 — пропонуємо почати з рівня «Старт» (Pre-A1, A0)
+    const preA1 = CAT.belowA1(o.theta, Object.values(run.resp).flat());
     if (wr?.level) skillsLv.writing = wr.level;
     if (run.speaking?.level) skillsLv.speaking = run.speaking.level;
     const items = Object.values(run.resp).flat();
@@ -534,7 +536,7 @@ async function placementTest(view, { quick = false, from = '' } = {}) {
     ];
     // один і той самий тест не записуємо двічі (повторний finish після перезавантаження)
     if (!run.saved) {
-      store.put('tests', { type: 'placement', scores: { ...skillsLv, overall: o.display, level: o.level, ...(quick ? { quick: true } : {}) }, details });
+      store.put('tests', { type: 'placement', scores: { ...skillsLv, overall: o.display, level: o.level, ...(quick ? { quick: true } : {}), ...(preA1 ? { preA1: true } : {}) }, details });
       store.setProf({ skills: skillsLv, placementDone: true });
       setLevel(o.level, 'test');
       run.saved = true;
@@ -563,14 +565,15 @@ async function placementTest(view, { quick = false, from = '' } = {}) {
     view.replaceChildren(h('div.stack-lg.gx.pl-result',
       h('section.tx-group',
         h('div.gx-res', h('span.gx-res-ic.good', ic('trophy', { size: 26, fill: true })),
-          h('div.grow', h('div.tx-label', quick ? 'Ваш рівень · швидкий тест' : 'Ваш рівень'), h('div.gx-res-t', LEVEL_NAME[o.level] || o.display, conf.sure ? '' : h('span.dim', ` · ${conf.label}`)),
-            LEVEL_DESC[o.level] ? h('div.tx-s', LEVEL_DESC[o.level]) : null)),
+          h('div.grow', h('div.tx-label', quick ? 'Ваш рівень · швидкий тест' : 'Ваш рівень'), h('div.gx-res-t', preA1 ? `Pre-A1 · ${LEVEL_NAME.A0}` : LEVEL_NAME[o.level] || o.display, conf.sure || preA1 ? '' : h('span.dim', ` · ${conf.label}`)),
+            h('div.tx-s', preA1 ? LEVEL_DESC.A0 : LEVEL_DESC[o.level] || ''))),
         txKpis([
-          { value: o.display, label: 'загальний рівень', tone: 'accent' },
+          { value: preA1 ? 'Pre-A1' : o.display, label: 'загальний рівень', tone: 'accent' },
           { value: okN, unit: `/${items.length}`, label: 'правильних відповідей', ariaLabel: `${okN} з ${items.length} правильних відповідей` },
         ], 2)),
-      fromWelcome ? txPrimary({ icon: 'arrow-right', label: 'Далі: перша розмова', sub: `План уже під рівень ${o.level}`, href: '#/welcome?step=talk' })
-        : txPrimary({ icon: 'house', label: 'На головну', sub: `План дня вже під рівень ${o.level}`, href: '#/' }),
+      ...(preA1 ? preA1Choice(fromWelcome ? '#/welcome?step=talk' : '#/') : [
+        fromWelcome ? txPrimary({ icon: 'arrow-right', label: 'Далі: перша розмова', sub: `План уже під рівень ${o.level}`, href: '#/welcome?step=talk' })
+          : txPrimary({ icon: 'house', label: 'На головну', sub: `План дня вже під рівень ${o.level}`, href: '#/' })]),
       txGroup('За навичками', [txRows(skillRows),
         skipped.length ? h('p.xs.dim', { style: { margin: '0 4px' } }, `Не враховано: ${skipped.join(', ')}.`) : null]),
       wr?.level || wr?.comment_uk ? txGroup('Письмо: відгук', h('div.gx-card.stack', { style: { gap: '8px' } },
@@ -581,6 +584,15 @@ async function placementTest(view, { quick = false, from = '' } = {}) {
       quick ? txRows([txRow({ icon: 'target', label: 'Повний тест · ~25 хв', sub: 'Точніше: ще аудіювання, письмо й розмова', href: '#/tests/placement' })]) : null,
       h('p.xs.dim', { style: { margin: '0 4px' } }, quick ? 'Рівень змінюється в «Налаштуваннях».' : 'Наступний тест — не раніше ніж за 2 тижні. Рівень змінюється в «Налаштуваннях».')));
   }
+}
+
+/** Вибір після дуже низького результату: «Старт» (Pre-A1) — головна дія, «Залишити A1» — другорядна */
+function preA1Choice(next) {
+  const go = (lv) => { if (myLevelNow() !== lv) setLevel(lv, 'test'); location.hash = next; };
+  return [
+    txPrimary({ icon: 'plant', label: 'Почати з рівня Старт (Pre-A1)', sub: 'Алфавіт і звуки, перші слова й готові фрази — без поспіху', onclick: () => go('A0') }),
+    txRows([txRow({ icon: 'arrow-right', label: 'Залишити A1', sub: 'Якщо основи вже знайомі', onclick: () => go('A1') })]),
+  ];
 }
 
 // ---------- Тест за уроком ----------

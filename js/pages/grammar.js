@@ -11,7 +11,7 @@ import { tutor, aiErrorText } from '../ai.js';
 import { user } from '../supa.js';
 import { setTitle } from '../ui/shell.js';
 import { toast } from '../ui/toast.js';
-import { LEVELS, LEVEL_NAME, myLevel, diff, nextLessonByLevel } from '../level.js';
+import { LEVELS, LEVEL_NAME, myLevel, diff, nextLessonByLevel, lvLabel } from '../level.js';
 import { tx, txPrimary, txRow, txRows, txBar, txGrid, txGroup, txPill } from '../ui/tiles.js';
 
 export default async function grammar(view, r) {
@@ -81,7 +81,7 @@ export function levelSection(lv, { done, total, countLabel, rows, shown = null }
   const rel = lv === mine ? 'ваш рівень' : diff(lv) > 0 ? 'вище вашого' : null;
   return h('details.gx-lv' + (lv === mine ? '.mine' : ''), { open: lv === mine ? true : null },
     h('summary.gx-lv-head',
-      h('span.gx-lv-sq', lv),
+      h('span.gx-lv-sq' + (lv === 'A0' ? '.lv-pre' : ''), lvLabel(lv)),
       h('span.gx-lv-body',
         h('span.gx-lv-name', h('b', LEVEL_NAME[lv]), rel ? h('span.gx-lv-rel', rel) : null),
         txBar(total ? done / total : 0, lv === mine)),

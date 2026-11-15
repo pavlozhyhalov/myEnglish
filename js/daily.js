@@ -9,11 +9,36 @@ import { weeklyFocus, focusProgress } from './focus.js';
 import { user } from './supa.js';
 import { plural } from './strings.js';
 import { loadTopics, topicLog, factAllowed, defaultPick, pickById, pickParam } from './topics.js';
+import { deckIndex, withCards } from './data.js';
 
 const KEY = 'me:daily';
 export const WORDS_MAX = 12;
 const RULES_MAX = 5;
 const VOICE_SEC = 300;
+// Рівень A0 (Pre-A1, «Старт з нуля», 2026-11-15): ~10 хв — алфавіт і звуки (поки не відкривали), 5 нових слів + повтор,
+// фраза дня з колоди фраз A0, правила (якщо є), «Повтори за вчителем» 2–3 хв — за бажанням (bonus)
+export const A0_NEW = 5;
+const A0_WORDS = 10;
+const A0_VOICE_SEC = 150;
+const A0_VOICE_TOPIC = 'Repeat after me, about 3 minutes, for an absolute beginner (Pre-A1). Speak slowly; explain briefly in Ukrainian. Take 3–4 very short everyday phrases (greetings, please/thank you, numbers, colours, food), say each one, ask the student to repeat, praise every attempt, then ask one tiny question that uses it.';
+const isA0 = () => store.settings().level === 'A0';
+/** Коли учень відкривав «Алфавіт і звуки» (позначка з js/start.js → localStorage 'me:visited') */
+function abcVisitedAt() { try { return JSON.parse(localStorage.getItem('me:visited') || '{}')?.abc || null; } catch { return null; } }
+
+/** Фраза дня для A0: перша ще не вивчена фраза колоди фраз рівня A0 (id колоди містить «phrases»); null — колоди немає */
+async function phraseOfDay(st) {
+  try {
+    const metas = (await deckIndex()).filter(d => d.level === 'A0' && /phrase/.test(d.id));
+    if (!metas.length) return null;
+    const decks = await withCards(metas);
+    const all = decks.flatMap(d => d.cards.map(c => ({ id: srs.starterId(d.id, c.en), en: c.en, uk: c.uk })));
+    if (st.phrase) { const f = all.find(x => x.id === st.phrase); if (f) return f; }
+    const known = (x) => (store.get('cards', x.id)?.reps || 0) > 0;
+    const pick = all.find(x => !known(x)) || all[Math.floor(Date.parse(`${stats.today()}T12:00:00Z`) / 864e5) % all.length];
+    if (pick) st.phrase = pick.id;
+    return pick || null;
+  } catch (e) { console.warn('phrase of day', e); return null; }
+}
 
 function readState() {
   try {
@@ -178,22 +203,43 @@ const shortTopic = (s, n = 70) => { const t = String(s || '').replace(/\s+/g, ' 
 export async function buildPlan() {
   const st = readState();
   const steps = [];
+  const a0 = isA0();
+
+  // ---- A0: алфавіт і звуки — доки учень не відкривав #/abc (і в день першого відкриття — як виконаний) ----
+  if (a0) {
+    const at = abcVisitedAt();
+    if (!at || stats.dayKey(at) === stats.today()) {
+      steps.push({ id: 'abc', icon: 'text-aa', title: 'Алфавіт і звуки', desc: at ? 'Відкрито — повертайтесь до звуків будь-коли' : 'Літери, звуки й читання перших слів',
+        minutes: 3, href: '#/abc', done: !!at, progress: at ? 1 : 0, skipped: false });
+    }
+  }
 
   // ---- а) Слова ----
-  const [due, fresh] = await Promise.all([srs.dueCards(), srs.newCards()]);
+  const [due, fresh] = await Promise.all([srs.dueCards(), srs.newCards(a0 ? A0_NEW : undefined)]);
   const reviewed = reviewedToday();
   const avail = due.length + fresh.length;
-  const wTarget = freeze(st, 'words', Math.min(WORDS_MAX, avail + reviewed));
+  const wTarget = freeze(st, 'words', Math.min(a0 ? A0_WORDS : WORDS_MAX, avail + reviewed));
   if (wTarget > 0 || reviewed > 0) {
     const target = Math.max(1, wTarget);
     const done = reviewed >= target || avail === 0;
     const left = Math.max(0, target - reviewed);
     steps.push({
       id: 'words', icon: 'cards', title: 'Слова',
-      desc: done ? `Повторено ${reviewed} ${plural(reviewed, 'слово', 'слова', 'слів')}` : `${left} ${plural(left, 'слово', 'слова', 'слів')}: повтор і нові за рівнем`,
-      minutes: Math.max(3, Math.min(6, Math.round(target * 0.45))),
+      desc: done ? `Повторено ${reviewed} ${plural(reviewed, 'слово', 'слова', 'слів')}` : a0 ? `${left} ${plural(left, 'слово', 'слова', 'слів')}: до ${A0_NEW} нових і повтор` : `${left} ${plural(left, 'слово', 'слова', 'слів')}: повтор і нові за рівнем`,
+      minutes: a0 ? Math.max(2, Math.min(4, Math.round(target * 0.4))) : Math.max(3, Math.min(6, Math.round(target * 0.45))),
       href: '#/cards/train?daily=1', done, progress: done ? 1 : Math.min(1, reviewed / target), skipped: false,
     });
+  }
+
+  // ---- A0: фраза дня (колода фраз A0; немає колоди — кроку немає) ----
+  if (a0) {
+    const ph = await phraseOfDay(st);
+    if (ph) {
+      const d = stats.today();
+      const pDone = store.all('reviews').some(r => r.card_id === ph.id && r.ts && stats.dayKey(r.ts) === d);
+      steps.push({ id: 'phrase', icon: 'quotes', title: 'Фраза дня', desc: `${ph.en} — ${ph.uk}`, minutes: 1,
+        href: `#/cards/train?daily=1&phrase=${encodeURIComponent(ph.id)}`, done: pDone, progress: pDone ? 1 : 0, skipped: false });
+    }
   }
 
   // ---- б) Правила (контракт js/stats.js: dueRuleMistakes, rulePracticeToday); правила тижня — першими ----
@@ -220,17 +266,27 @@ export async function buildPlan() {
 
   // ---- в) Розмова голосом ----
   const talk = talkSecondsToday();
-  const vDone = talk >= VOICE_SEC;
+  const vDone = talk >= (a0 ? A0_VOICE_SEC : VOICE_SEC);
   const logged = !!user();
   await loadTopics();
-  const t = voiceTopic(new Date(), st.voicePick);
-  if (!st.voicePick && t.pick) st.voicePick = t.pick.mem ? { mem: t.pick.mem } : { id: t.pick.id, fmt: t.pick.fmt };
-  steps.push({
-    id: 'voice', icon: 'microphone', title: 'Розмова голосом',
-    desc: vDone ? `Поговорили ${Math.round(talk / 60)} хв` : !logged ? 'Потрібен вхід: вчитель працює після входу в акаунт' : `${t.label}${t.note ? ` · ${shortTopic(t.note)}` : ''}`,
-    minutes: 6, href: logged ? `#/tutor?mode=voice&topic=${encodeURIComponent(t.topic.slice(0, 600))}&label=${encodeURIComponent('Мій день')}${t.pick ? `&pick=${encodeURIComponent(pickParam(t.pick))}` : ''}` : '#/auth',
-    done: vDone, progress: vDone ? 1 : Math.min(1, talk / VOICE_SEC), skipped: !logged && !vDone, topic: t,
-  });
+  if (a0) {
+    // «Повтори за вчителем» — коротко й за бажанням: не входить у мету дня (bonus)
+    steps.push({
+      id: 'voice', bonus: true, icon: 'microphone', title: 'Повтори за вчителем',
+      desc: vDone ? `Поговорили ${Math.max(1, Math.round(talk / 60))} хв` : !logged ? 'Після входу: вчитель працює в акаунті' : '2–3 хв: короткі фрази голосом — слухаєте й повторюєте',
+      minutes: 3, href: logged ? `#/tutor?mode=voice&topic=${encodeURIComponent(A0_VOICE_TOPIC)}&label=${encodeURIComponent('Повтори за вчителем')}` : '#/auth',
+      done: vDone, progress: vDone ? 1 : Math.min(1, talk / A0_VOICE_SEC), skipped: !logged && !vDone,
+    });
+  } else {
+    const t = voiceTopic(new Date(), st.voicePick);
+    if (!st.voicePick && t.pick) st.voicePick = t.pick.mem ? { mem: t.pick.mem } : { id: t.pick.id, fmt: t.pick.fmt };
+    steps.push({
+      id: 'voice', icon: 'microphone', title: 'Розмова голосом',
+      desc: vDone ? `Поговорили ${Math.round(talk / 60)} хв` : !logged ? 'Потрібен вхід: вчитель працює після входу в акаунт' : `${t.label}${t.note ? ` · ${shortTopic(t.note)}` : ''}`,
+      minutes: 6, href: logged ? `#/tutor?mode=voice&topic=${encodeURIComponent(t.topic.slice(0, 600))}&label=${encodeURIComponent('Мій день')}${t.pick ? `&pick=${encodeURIComponent(pickParam(t.pick))}` : ''}` : '#/auth',
+      done: vDone, progress: vDone ? 1 : Math.min(1, talk / VOICE_SEC), skipped: !logged && !vDone, topic: t,
+    });
+  }
 
   // ---- г) Слух — бонус на 2 хв (2026-11-09: аудіювання й вимова були на нулі); чергується щодня: диктант → діалог → вимова.
   //      Не входить у мету дня й «Готово на сьогодні» (bonus: true); виконано — ≥ 2 хв аудіювання чи вимови сьогодні ----
@@ -239,7 +295,7 @@ export async function buildPlan() {
     { title: 'Слух · диктант', desc: '2 хв: почути речення й записати', href: '#/listening', icon: 'headphones' },
     { title: 'Слух · діалог', desc: '2 хв: діалог вашого рівня', href: '#/listening?tab=dialogues', icon: 'headphones' },
     { title: 'Вимова', desc: '2 хв: звуки, які важкі для українців', href: '#/pronunciation/sounds', icon: 'waveform' },
-  ][dayNo % 3];
+  ][a0 ? 2 : dayNo % 3];   // A0: диктант і діалоги ще зарано — звуки
   const earSec = store.all('sessions').filter(x => x.day === stats.today() && ['listening', 'pronunciation'].includes(x.type)).reduce((a, x) => a + (x.seconds || 0), 0);
   const earDone = earSec >= 120;
   steps.push({ id: 'ear', bonus: true, icon: EAR.icon, title: EAR.title, desc: earDone ? `Готово · ${Math.round(earSec / 60)} хв` : EAR.desc,

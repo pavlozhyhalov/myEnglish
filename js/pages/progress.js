@@ -69,7 +69,7 @@ export default async function progressPage(view) {
 
     txGroup(`Рівень ${lvLabel(lvl)} · ${LEVEL_NAME[lvl]}`, [
       card(
-        h('div.row', h('div.level-badge' + (lvl === 'A0' ? '.pre' : ''), lvLabel(lvl)), h('div.grow', h('div.pg-strong', `Опановано ${lp.pct}%`), h('div.xs.dim', `перехід від ${READY_PCT}% · уроки й слова рівня ${lvLabel(lvl)}`))),
+        h('div.row', h('div.level-badge' + (lvl === 'A0' ? '.lv-pre' : ''), lvLabel(lvl)), h('div.grow', h('div.pg-strong', `Опановано ${lp.pct}%`), h('div.xs.dim', `перехід від ${READY_PCT}% · уроки й слова рівня ${lvLabel(lvl)}`))),
         bar(lp.pct, 'Опанування рівня')),
       txKpis([{ value: `${lp.grammar.done}/${lp.grammar.total}`, label: `уроків граматики ${lvLabel(lvl)}` }, { value: `${lp.words.done}/${lp.words.total}`, label: `слів ${lvLabel(lvl)} закріплено` }], 2),
       lp.ready ? txPrimary({ icon: 'seal-check', label: `Іспит рівня ${lvLabel(lvl)}`, sub: `склали — переходите на ${nextLevel()}`, href: '#/tests/level' })

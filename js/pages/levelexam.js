@@ -87,7 +87,7 @@ async function start(view, ctx) {
     wordsPart(box, wq, ctx.words.all, (wres) => { timer.poke(); timer.stop(); setFocus(false); finish(view, ctx, gq, res, wq, wres); });
     return false;
   };
-  if (gq.length) runExercises(box, gq, { title: `Іспит ${ctx.level} · граматика`, onDone: grammarDone });
+  if (gq.length) runExercises(box, gq, { title: `Іспит ${lvLabel(ctx.level)} · граматика`, onDone: grammarDone });
   else grammarDone({ score: 100, correct: 0, total: 0, results: [] });
 }
 
@@ -161,8 +161,8 @@ function finish(view, ctx, gq, gres, wq, wres) {
 
   const missed = wres.filter(r => !r.ok);
   view.replaceChildren(h('div.stack-lg.lx',
-    txResult({ icon: passed ? 'seal-check' : 'exam', tone: passed ? 'good' : score >= 60 ? 'warn' : 'bad', label: `Іспит рівня ${ctx.level}`,
-      title: passed ? (ctx.last ? `Рівень ${ctx.level} підтверджено` : `Рівень ${ctx.level} закрито`) : score >= 65 ? 'Ще трохи — і рівень закрито' : `Рівень ${ctx.level} ще не закрито`,
+    txResult({ icon: passed ? 'seal-check' : 'exam', tone: passed ? 'good' : score >= 60 ? 'warn' : 'bad', label: `Іспит рівня ${lvLabel(ctx.level)}`,
+      title: passed ? (ctx.last ? `Рівень ${lvLabel(ctx.level)} підтверджено` : `Рівень ${lvLabel(ctx.level)} закрито`) : score >= 65 ? 'Ще трохи — і рівень закрито' : `Рівень ${lvLabel(ctx.level)} ще не закрито`,
       sub: passed ? (ctx.last ? 'Найвищий рівень курсу' : `Можна переходити на ${ctx.next} · ${LEVEL_NAME[ctx.next]}`) : `Прохідний бал — ${PASS}% у кожній частині` }),
     txKpis([
       { value: g, unit: '%', label: 'граматика', tone: g >= PASS ? 'good' : 'warn' },

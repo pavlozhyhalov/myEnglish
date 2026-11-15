@@ -146,7 +146,13 @@ export function finishStart() {
 }
 
 const VOICE_TOPIC = 'First lesson, about 3 minutes: get to know the student. Ask them to tell you about themselves — name, where they live, work or study, why they learn English. One short question at a time; warm and encouraging; adapt to their level.';
-export const firstTalkHref = () => `#/tutor?mode=voice&topic=${encodeURIComponent(VOICE_TOPIC)}&label=${encodeURIComponent('Розкажіть про себе')}`;
+// A0 (Pre-A1, з нуля): замість розповіді про себе — перші фрази «повторіть за мною»
+const VOICE_TOPIC_A0 = 'First lesson for an absolute beginner (Pre-A1), about 3 minutes. Speak slowly; explain briefly in Ukrainian. Teach 3 first phrases one by one — "Hello!", "My name is …", "Nice to meet you!" — say each, ask the student to repeat it, praise every attempt, then use them in a tiny exchange.';
+export const firstTalkHref = () => (myLevel() === 'A0'
+  ? `#/tutor?mode=voice&topic=${encodeURIComponent(VOICE_TOPIC_A0)}&label=${encodeURIComponent('Перші фрази')}`
+  : `#/tutor?mode=voice&topic=${encodeURIComponent(VOICE_TOPIC)}&label=${encodeURIComponent('Розкажіть про себе')}`);
+/** Учень ще не відкривав «Алфавіт і звуки» (#/abc) */
+export const abcUnseen = () => !visitedAt('abc');
 
 /** Підсумок з дня знайомства: хвилини, нові слова, закриті помилки, розмови */
 export function startTotals(from = store.prof().start?.from) {
@@ -176,7 +182,16 @@ export async function startPlan() {
   const lvl = myLevel();
   let steps = [], title = '', sub = '';
 
-  if (n === 1) {
+  if (n === 1 && lvl === 'A0') {
+    // старт з нуля: звуки й літери, перші слова, перші фрази з вчителем
+    title = 'Перший крок';
+    sub = 'Звуки англійської, перші слова й фрази';
+    steps = [
+      { id: 'abc', title: 'Алфавіт і звуки', icon: 'text-aa', href: '#/abc', minutes: 3, done: !abcUnseen() },
+      { id: 'words', title: 'Перші 5 слів', icon: 'cards', href: '#/cards/train?daily=1', minutes: 3, done: newWords >= 5 },
+      { id: 'talk', title: 'Перші фрази з вчителем', icon: 'microphone', href: firstTalkHref(), minutes: 3, done: chats.some(c => ['voice', 'chat'].includes(c.mode) && spoke(c)) },
+    ];
+  } else if (n === 1) {
     title = 'Знайомство з вчителем';
     sub = '3 хвилини розмови й перші слова';
     steps = [
@@ -208,10 +223,15 @@ export async function startPlan() {
       sub = 'Вчитель виправить помилки — з них почнеться ваш список';
       steps = [{ id: 'diary', title: 'Щоденник', icon: 'notebook', href: '#/diary', minutes: 5, done: chats.some(c => c.mode === 'diary') }];
     }
+  } else if (n === 5 && lvl === 'A0') {
+    title = 'Готові фрази для життя';
+    sub = 'Привітатися, попросити, подякувати — фрази цілком';
+    const seen = visitedAt('phrases');
+    steps = [{ id: 'phrases', title: 'Фразник', icon: 'quotes', href: '#/phrases', minutes: 5, done: !!seen && seen >= dayIso }];
   } else if (n === 5) {
     const pick = await readingPick();
     title = 'Читання для задоволення';
-    sub = pick ? `${pick.title} · ${pick.level}` : 'Текст вашого рівня';
+    sub = pick ? `${pick.title} · ${lvLabel(pick.level)}` : 'Текст вашого рівня';
     steps = [{ id: 'read', title: 'Читати', icon: 'book-open', href: pick?.href || '#/reading', minutes: 7, done: secs('reading') >= 120 }];
   } else if (n === 6) {
     const sc = await scenarioPick();

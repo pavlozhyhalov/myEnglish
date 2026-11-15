@@ -128,14 +128,18 @@ export default function welcome(view, r) {
     const known = !!p.levelSource;
     const list = h('div.wl-levels', { hidden: true });
     const lv = myLevel();
-    list.append(txRows(LEVELS.map(l => txRow({ icon: null, no: lvLabel(l), label: LEVEL_NAME[l], sub: LEVEL_DESC[l], on: known && lv === l, cls: 'wl-lvl', chevron: false,
+    list.append(txRows(LEVELS.map(l => txRow({ icon: null, no: lvLabel(l), label: LEVEL_NAME[l], sub: LEVEL_DESC[l], on: known && lv === l, cls: 'wl-lvl' + (l === 'A0' ? '.lv-pre' : ''), chevron: false,
       onclick: () => { setLevel(l, 'manual'); toast(`Рівень ${lvLabel(l)}: план підлаштовано`); next(); } }))));
-    const pick = tx({ wide: true, icon: 'list', label: 'Я знаю свій рівень', sub: 'A1–C1 · оберу сам', attrs: { 'aria-expanded': 'false' }, end: ic('caret-down', { size: 16 }), onclick: () => {
+    const pick = tx({ wide: true, icon: 'list', label: 'Я знаю свій рівень', sub: 'Pre-A1–C1 · оберу сам', attrs: { 'aria-expanded': 'false' }, end: ic('caret-down', { size: 16 }), onclick: () => {
       list.hidden = !list.hidden; pick.setAttribute('aria-expanded', String(!list.hidden));
       if (!list.hidden) list.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
     } });
+    // перша плитка — для тих, хто зовсім не знає англійської: рівень «Старт» (Pre-A1) без тесту
+    const zero = tx({ wide: true, icon: 'plant', on: known && lv === 'A0', label: 'Я починаю з нуля', sub: 'Алфавіт і звуки, перші слова й фрази',
+      onclick: () => { setLevel('A0', 'manual'); toast(`Рівень ${lvLabel('A0')}: почнемо з основ`); next(); } });
     return h('div.wl-form',
       head('graduation-cap', 'Ваш рівень', known ? `Зараз: ${lvLabel(lv)} · ${LEVEL_NAME[lv]}` : 'Від нього залежать уроки, слова й мова вчителя'),
+      zero,
       tx({ wide: true, primary: true, on: true, icon: 'lightning', label: quickDone ? 'Пройти швидкий тест ще раз' : 'Швидкий тест · ~10 хв', sub: 'Граматика, слова й читання', href: '#/tests/placement?quick=1&from=welcome' }),
       pick, list,
       known ? h('button.btn.soft.block.wl-go', { type: 'button', onclick: next }, `Лишити ${lvLabel(lv)}`, ic('arrow-right', { size: 18 })) : null);
@@ -145,7 +149,7 @@ export default function welcome(view, r) {
   function stepTalk() {
     const u = user();
     const primary = u
-      ? tx({ wide: true, primary: true, on: true, icon: 'microphone', label: 'Поговорити з вчителем · 3 хв', sub: 'Тема: розкажіть про себе', onclick: () => finish(firstTalkHref()) })
+      ? tx({ wide: true, primary: true, on: true, icon: 'microphone', label: 'Поговорити з вчителем · 3 хв', sub: myLevel() === 'A0' ? 'Перші фрази: привітатися й назвати себе' : 'Тема: розкажіть про себе', onclick: () => finish(firstTalkHref()) })
       : tx({ wide: true, primary: true, on: true, icon: 'key', label: 'Увійти й поговорити', sub: 'Вчитель працює після входу · безкоштовно', onclick: () => finish('#/auth?tab=up') });
     return h('div.wl-form',
       head('chat-circle-dots', 'Перша розмова', 'Вчитель познайомиться з вами й підбере план'),

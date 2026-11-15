@@ -71,7 +71,7 @@ function overviewCard(A, primary = true) {
   const mastery = A.lp?.pct ?? null;
   const talk = { icon: 'chat-circle-dots', label: 'Поговорити про мій прогрес', sub: 'консультація з вчителем українською', href: coachHref('overview') };
   return h('section.tx-group.an-over', { 'aria-label': 'Огляд' },
-    h('div.tx-row.an-lvl', h('span.level-badge' + (A.level === 'A0' ? '.pre' : ''), lvLabel(A.level)), h('span.tx-body',
+    h('div.tx-row.an-lvl', h('span.level-badge' + (A.level === 'A0' ? '.lv-pre' : ''), lvLabel(A.level)), h('span.tx-body',
       h('span.tx-l', `Рівень у застосунку: ${lvLabel(A.level)} · ${LEVEL_NAME[A.level]}`),
       h('span.tx-s', A.levelSource === 'test' ? 'визначено тестом' : A.levelSource ? 'обрано вручну або змінено' : 'рівень за замовчуванням — пройдіть тест'))),
     // лише цифри, що є: без «—» і «0%» (порожні стани без нулів)

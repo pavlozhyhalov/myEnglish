@@ -100,7 +100,7 @@ function render(view, plan) {
   const steps = h('ol.tx-rows.td-steps', plan.steps.filter(s => !s.skipped).map(s => {
     const state = s.skipped ? 'skipped' : s.done ? 'done' : s === plan.next ? 'next' : 'later';
     if (!s.skipped && !s.bonus) n++;
-    const min = `${s.id === 'voice' ? '5–7' : s.minutes} хв`;
+    const min = `${s.id === 'voice' && !s.bonus ? '5–7' : s.id === 'voice' ? '2–3' : s.minutes} хв`;
     const pill = s.done ? { text: 'готово', tone: 'good' } : s.skipped ? { text: 'після входу' } : s.bonus ? { text: `бонус · ${min}` } : state === 'next' ? { text: `Далі · ${min}`, tone: 'accent' } : { text: min };
     const row = txRow({
       ...(s.done ? { icon: 'check' } : s.skipped ? { icon: 'user' } : s.bonus ? { icon: s.icon } : { no: n }),

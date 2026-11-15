@@ -6,7 +6,7 @@ import { h, ic, emo } from '../ui/dom.js';
 import { plural } from '../strings.js';
 import * as store from '../store.js';
 import * as srs from '../srs.js';
-import { withCards } from '../data.js';
+import { withCards, deckIndex } from '../data.js';
 import { speak, stop as stopSpeech, prefetch, recognize, canRecognize, compareWords } from '../speech.js';
 import { activityTimer, dayKey, today } from '../stats.js';
 import { setFocus } from '../ui/shell.js';
@@ -85,6 +85,20 @@ async function buildPool(words, decks) {
  * opts: limit — макс. слів; onExit(); onDone(stats) — замість підсумкового екрана;
  * practice — масив карток для повторення без оцінок FSRS (наприклад, найважчі слова після сесії)
  */
+/** Картка стартової колоди за id «колода:slug» (зі сховища або з файлу колоди) */
+async function starterRow(id) {
+  const have = store.get('cards', id);
+  if (have) return have;
+  const deckId = String(id).split(':')[0];
+  try {
+    const meta = (await deckIndex()).find(d => d.id === deckId);
+    if (!meta) return null;
+    const [d] = await withCards([meta]);
+    const c = d.cards.find(x => srs.starterId(deckId, x.en) === id);
+    return c ? srs.rowFromStarter(deckId, c) : null;
+  } catch { return null; }
+}
+
 export async function runTrain(view, { limit = Infinity, onExit, onDone, practice = null } = {}) {
   setFocus(true);
   const timer = activityTimer('cards');
@@ -101,10 +115,15 @@ export async function runTrain(view, { limit = Infinity, onExit, onDone, practic
   const decks = await srs.decks();
   const deckMeta = new Map(decks.map(d => [d.id, d]));
   let words;
+  // фраза дня рівня A0 («Мій день»: ?phrase=<id картки>) — одна картка, звичайне оцінювання
+  const phraseId = !practice && !onDone ? parse().query.phrase : null;
+  const phraseRow = phraseId ? await starterRow(phraseId) : null;
   if (practice) words = practice.slice();
+  else if (phraseRow) words = [phraseRow];
   else {
     const due = (await srs.dueCards()).slice(0, MAX_DUE);
-    const fresh = (await srs.newCards()).slice(0, MAX_NEW);
+    // A0 (Pre-A1) у «Моєму дні» — до 5 нових слів за раз
+    const fresh = (await srs.newCards()).slice(0, daily && myLevel() === 'A0' ? 5 : MAX_NEW);
     words = L.interleave(due, fresh);
     if (Number.isFinite(limit)) words = words.slice(0, limit);
   }

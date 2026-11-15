@@ -321,3 +321,5 @@ h1,h2,h3,.tx-l,.gx-res-t,.td-title,.app-header .title,.set-l,.drawer .tn-label{l
 .app-header .btn-theme .ico{width:21px;height:21px}
 .app-header .right .streak-chip{padding:6px 4px 6px 2px}
 @media (max-width:360px){.app-header{--hdr-side:80px}.app-header .title.long{font-size:13px}.app-header .btn-theme{width:36px;min-width:36px}.streak-chip{padding:6px 6px 6px 4px}.app-header .title{font-size:14px}}
+/* Рівень Pre-A1 (A0) у квадратиках рівня — дрібніше, у два рядки «Pre- / A1» (2026-11-15) */
+.lv-pre,.tx-row.lv-pre .tx-no{font-size:9.5px!important;line-height:1.05;text-align:center;letter-spacing:0;padding:0 2px}

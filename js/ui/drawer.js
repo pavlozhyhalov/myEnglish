@@ -74,6 +74,7 @@ function paintActive() {
   try {
     if (key) markVisited(key);
     if (/^#\/tutor\?(.*&)?mode=voice/.test(location.hash)) markVisited('voice');   // голос — розділ «Вчитель» з параметром
+    if (/^#\/abc(\/|\?|$)/.test(location.hash)) markVisited('abc');   // «Алфавіт і звуки» (рівень A0) — для кроку «Мого дня» і «Старту»
     fresh = newMenuKeys();
   } catch { /* */ }
   list.querySelectorAll('a.tile-nav').forEach(a => {

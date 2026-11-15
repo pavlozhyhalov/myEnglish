@@ -175,6 +175,19 @@ export const available = (bank, skill, used) => bank.filter(q => q.skill === ski
 /** Які навички є в банку (частини без питань пропускаються) */
 export const skillsIn = (bank) => SKILLS.filter(s => bank.some(q => q.skill === s && LEVELS.includes(q.level)));
 
+/**
+ * Нижче за A1 (Pre-A1, у застосунку — рівень A0 «Старт з нуля»). Шкала тесту починається з A1 (θ = 0 — межа A1:
+ * ~62% правильних на питаннях A1), тож A0 тест не видає сам — лише пропонує, коли загальний рівень A1 і
+ * θ < 0 (межу A1 не досягнуто) або на питаннях рівня A1 (щонайменше 4) правильних менше половини.
+ * items: [{ level: 'A1', ok }]
+ */
+export function belowA1(theta, items = []) {
+  if (!Number.isFinite(theta) || levelIdx(theta) > 0) return false;
+  if (theta < 0) return true;
+  const a1 = items.filter(r => (r.level ?? LEVELS[r.lvl]) === 'A1');
+  return a1.length >= 4 && a1.filter(r => r.ok).length / a1.length < 0.5;
+}
+
 /** Письмо/говоріння → θ: рівень + підрівень (low .2, mid .5, high .8) */
 export function productiveTheta(level, sublevel = 'mid') {
   const i = LEVELS.indexOf(level);
