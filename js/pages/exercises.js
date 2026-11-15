@@ -37,7 +37,7 @@ async function grammarPractice(view, unitSlug, lv) {
       const due = dueCount();
       const rev = (primary) => (primary ? txPrimary : (o) => tx({ ...o, wide: true }))({ icon: 'arrow-clockwise', label: 'Повторення',
         sub: due ? `${due} ${plural(due, 'урок чекає', 'уроки чекають', 'уроків чекають')} повтору · слабкі місця й пройдені рівні` : 'слабкі місця й пройдені рівні · 10 вправ', href: '#/exercises/grammar/review' });
-      const mix = (primary) => (primary ? txPrimary : (o) => tx({ ...o, wide: true }))({ icon: 'lightning', label: sel === 'all' ? 'Усі теми вперемішку' : `Вперемішку · ${lvSel}`, sub: sel === 'all' ? '10 вправ з усіх тем' : '10 вправ з тем цього рівня', href: sel === 'all' ? '#/exercises/grammar/all' : `#/exercises/grammar/lvl?lv=${lvSel}` });
+      const mix = (primary) => (primary ? txPrimary : (o) => tx({ ...o, wide: true }))({ icon: 'lightning', label: sel === 'all' ? 'Усі теми вперемішку' : `Вперемішку · ${lvLabel(lvSel)}`, sub: sel === 'all' ? '10 вправ з усіх тем' : '10 вправ з тем цього рівня', href: sel === 'all' ? '#/exercises/grammar/all' : `#/exercises/grammar/lvl?lv=${lvSel}` });
       primBox.replaceChildren(h('div.stack', due ? rev(true) : mix(true), due ? mix(false) : rev(false)));
       listBox.replaceChildren(
         rows.length ? txGroup('Теми', moreRows(rows.map(({ u, items }, k) => txRow({
