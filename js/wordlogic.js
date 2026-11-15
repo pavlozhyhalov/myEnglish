@@ -390,7 +390,7 @@ export function stageOf(card) {
   return 'mature';
 }
 
-const LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1'];
+const LEVELS = ['A0', 'A1', 'A2', 'B1', 'B2', 'C1'];
 /** Збирання речення з плиток — для фраз і колокацій від B1, коли приклад має 4–12 слів */
 export function canBuild(card, level = 'B1') {
   const ex = card?.examples?.[0]?.en;
@@ -399,7 +399,7 @@ export function canBuild(card, level = 'B1') {
   if (n < 4 || n > 12) return false;
   const phrase = wordCount(card.en) > 1 || (card.tags || []).some(t => /colloc|phrasal|idiom/.test(t));
   const lv = Math.max(LEVELS.indexOf(card.level || ''), LEVELS.indexOf(level));
-  return phrase && lv >= 2;
+  return phrase && lv >= LEVELS.indexOf('B1');
 }
 
 /**

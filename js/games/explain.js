@@ -3,7 +3,7 @@
 // Модель слова не бачить — target потрібен серверу лише для перевірки. Очки: 1-ша здогадка 3, 2-га 2, 3-тя 1; фол — 0.
 import * as store from '../store.js';
 import { h, ic } from '../ui/dom.js';
-import { myLevel } from '../level.js';
+import { myLevel, lvLabel } from '../level.js';
 import { activityTimer } from '../stats.js';
 import { tutor, aiErrorText } from '../ai.js';
 import { speak, stop as stopSpeech, blobToBase64 } from '../speech.js';
@@ -107,7 +107,7 @@ export default function explain(view) {
   const live = h('div.sr-only', { 'aria-live': 'polite', role: 'status' });
   const body = h('div.stack');
   const fill = (...kids) => body.replaceChildren(...kids.flat().filter(k => k != null && k !== false));
-  view.replaceChildren(h('div.stack.games.gx-game', gameHead(h('span.tag', lv)), body, live));
+  view.replaceChildren(h('div.stack.games.gx-game', gameHead(h('span.tag', lvLabel(lv))), body, live));
   if (!user()) { fill(gameLoginCard('Ваше пояснення слухає й розпізнає AI — і пробує вгадати слово. Це працює після входу.')); return; }
 
   const timer = activityTimer('game');
@@ -141,7 +141,7 @@ export default function explain(view) {
       text: 'Поясніть слово англійською, не називаючи його, — AI вгадує.',
       rules: [`До ${EXPLAIN.maxSec} секунд на пояснення`, 'AI вгадав з першої спроби — 3 очки, з другої — 2, з третьої — 1', 'Назвали саме слово — фол, 0 очок'],
       top: [canRecord() ? null : micErrorCard('unsupported')],
-      best: best ? { label: `Рекорд рівня ${lv}`, value: `${best} з ${EXPLAIN.words * POINTS[0]}` } : null,
+      best: best ? { label: `Рекорд рівня ${lvLabel(lv)}`, value: `${best} з ${EXPLAIN.words * POINTS[0]}` } : null,
       start: canRecord() ? start : null,
     }));
     if (canRecord()) start.focus({ preventScroll: true });
@@ -348,7 +348,7 @@ export default function explain(view) {
       icon: 'chat-circle-dots', record: upd.record, score: String(score), unit: ` / ${max}`,
       sub: score >= max * 0.8 ? 'Блискуче пояснення!' : score >= max / 2 ? 'Добра гра!' : 'Пояснювати — найкраще тренування говоріння',
       kpis: [{ value: `${hits.length}/${words.length}`, label: 'вгадано', tone: 'good' }, { value: first, label: 'з першої спроби' }, { value: fouls, label: plural(fouls, 'фол', 'фоли', 'фолів'), tone: fouls ? 'warn' : '' }],
-      note: upd.prev && !upd.record ? `Рекорд рівня ${lv}: ${upd.prev}` : null,
+      note: upd.prev && !upd.record ? `Рекорд рівня ${lvLabel(lv)}: ${upd.prev}` : null,
       sections: [txGroup('Слова гри', txRows(results.map((r) => wordRow({
         en: r.w.en, uk: r.w.uk, cls: 'gx-res.' + r.kind,
         end: [r.w.own || inMyWords(r.w.en) ? null : addWordButton(r.w, { compact: true }),

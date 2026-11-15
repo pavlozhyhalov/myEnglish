@@ -1,7 +1,7 @@
 // «Швидкий переклад»: 60 секунд, слово за словом — оберіть переклад із чотирьох (або «так / ні»).
 // Темп зростає, комбо множить очки, три життя. Рекорд — для кожного рівня й варіанта гри.
 import { h, ic, seg } from '../ui/dom.js';
-import { myLevel } from '../level.js';
+import { myLevel, lvLabel } from '../level.js';
 import { activityTimer } from '../stats.js';
 import { speak, stop as stopSpeech } from '../speech.js';
 import { setTitle, setFocus } from '../ui/shell.js';
@@ -22,7 +22,7 @@ export default async function rush(view) {
   let game = null;   // поточний раунд: { stop() }
   const live = h('div.sr-only', { 'aria-live': 'assertive', role: 'status' });
   const body = h('div.stack');
-  view.replaceChildren(h('div.stack.games.rush', gameHead(h('span.tag', lv)), body, live));
+  view.replaceChildren(h('div.stack.games.rush', gameHead(h('span.tag', lvLabel(lv))), body, live));
 
   function intro() {
     setFocus(false);
@@ -35,7 +35,7 @@ export default async function rush(view) {
         : 'Переклад правильний? Свайп праворуч — так, ліворуч — ні.',
       rules: [`${RUSH_SECONDS} секунд і ${RUSH_LIVES} життя`, 'Кожні 5 правильних поспіль — множник очок до ×4', 'Темп поступово зростає'],
       top: [txGroup('Варіант гри', seg([['choice', 'Чотири варіанти'], ['truth', 'Так чи ні']], mode, (v) => { mode = v; saveGameState({ rushMode: v }); intro(); }))],
-      best: best ? { label: `Рекорд рівня ${lv}`, value: best } : null,
+      best: best ? { label: `Рекорд рівня ${lvLabel(lv)}`, value: best } : null,
       start,
     }));
     start.focus({ preventScroll: true });
@@ -174,7 +174,7 @@ export default async function rush(view) {
         record: upd.record, score: String(score), unit: plural(score, 'очко', 'очки', 'очок'),
         sub: lives <= 0 ? 'Життя скінчились' : 'Час вийшов',
         kpis: [{ value: correct, label: 'правильно', tone: 'good' }, { value: `${acc}%`, label: 'точність' }, { value: maxCombo, label: 'найдовше комбо' }],
-        note: upd.prev && !upd.record ? `Рекорд рівня ${lv}: ${upd.prev}` : null,
+        note: upd.prev && !upd.record ? `Рекорд рівня ${lvLabel(lv)}: ${upd.prev}` : null,
         sections: [missed.length ? missedList(missed) : tx({ icon: 'check-circle', label: 'Жодної помилки!', wide: true, tone: 'good' })],
         primary: { icon: 'arrow-clockwise', label: 'Ще раз', sub: mode === 'choice' ? 'Чотири варіанти' : 'Так чи ні', onclick: play },
         more: [{ icon: 'shuffle', label: 'Змінити варіант', onclick: intro }, { icon: 'game-controller', label: 'Усі ігри', href: '#/games' }],

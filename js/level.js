@@ -4,9 +4,14 @@ import * as store from './store.js';
 import { h } from './ui/dom.js';
 import { deckIndex, withCards, slug } from './data.js';
 
-export const LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1'];
-export const LEVEL_NAME = { A1: 'Початковий', A2: 'Базовий', B1: 'Середній', B2: 'Вище середнього', C1: 'Просунутий' };
+// A0 — «Старт (з нуля)», Pre-A1 за CEFR (2026-11-15, власник: рівень для тих, хто зовсім не знає англійської).
+// Внутрішній код 'A0', учню показується «Pre-A1» (`lvLabel`).
+export const LEVELS = ['A0', 'A1', 'A2', 'B1', 'B2', 'C1'];
+/** Підпис рівня для учня: A0 → Pre-A1, решта — як є */
+export const lvLabel = (l) => (l === 'A0' ? 'Pre-A1' : l || '');
+export const LEVEL_NAME = { A0: 'Старт (з нуля)', A1: 'Початковий', A2: 'Базовий', B1: 'Середній', B2: 'Вище середнього', C1: 'Просунутий' };
 export const LEVEL_DESC = {
+  A0: 'Алфавіт і звуки, перші 300 слів, готові фрази для життя, найпростіші речення.',
   A1: 'Прості фрази про себе, родину, покупки. Базові часи й порядок слів.',
   A2: 'Побутові розмови, минулий час, плани. Розумієте повільне чітке мовлення.',
   B1: 'Говорите на знайомі теми, розповідаєте історії, розумієте основне в живій мові.',
@@ -42,7 +47,7 @@ export function byFit(list, get = (x) => x.level) {
 export function levelTag(l) {
   if (!l) return null;
   const d = diff(l);
-  return h('span.tag' + (d === 0 ? '.accent' : d > 1 ? '.far' : ''), { title: LEVEL_NAME[l] }, l);
+  return h('span.tag' + (d === 0 ? '.accent' : d > 1 ? '.far' : ''), { title: LEVEL_NAME[l] }, lvLabel(l));
 }
 
 // ---------- Фільтр за рівнем на сторінках завдань ----------
@@ -68,7 +73,7 @@ export function filterByLevel(list, sel, get = (x) => x.level) {
  */
 export function levelChips(page, counts, onPick) {
   const wrap = h('div.chips.scroll.level-chips', { role: 'group', 'aria-label': 'Рівень завдань' });
-  const opts = [['mine', `Мій · ${myLevel()}`], ...LEVELS.filter(l => counts[l]).map(l => [l, `${l} · ${counts[l]}`]), ['all', 'Усі']];
+  const opts = [['mine', `Мій · ${lvLabel(myLevel())}`], ...LEVELS.filter(l => counts[l]).map(l => [l, `${lvLabel(l)} · ${counts[l]}`]), ['all', 'Усі']];
   const draw = () => wrap.replaceChildren(...opts.map(([v, t]) => h('button.chip', { type: 'button', 'aria-pressed': String(levelPick(page) === v), onclick: () => { picked.set(page, v); draw(); onPick(v); } }, t)));
   draw();
   return wrap;
@@ -81,7 +86,7 @@ export function levelCounts(list, get = (x) => x.level) {
 /** Підпис під списком, коли для мого рівня немає завдань і показано найближчий рівень */
 export function fallbackNote(lv) {
   // порожній рядок, а не null: replaceChildren(null) вставив би текст «null»
-  return lv ? h('p.xs.dim', { style: { margin: '0 2px' } }, `Для рівня ${myLevel()} тут ще немає завдань — показано найближчий рівень ${lv}.`) : '';
+  return lv ? h('p.xs.dim', { style: { margin: '0 2px' } }, `Для рівня ${lvLabel(myLevel())} тут ще немає завдань — показано найближчий рівень ${lvLabel(lv)}.`) : '';
 }
 
 /** Детермінований вибір «на сьогодні»: той самий день і рівень → той самий елемент */

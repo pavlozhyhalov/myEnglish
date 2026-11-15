@@ -5,7 +5,7 @@
 import * as store from '../store.js';
 import { h, ic } from '../ui/dom.js';
 import { json } from '../data.js';
-import { myLevel } from '../level.js';
+import { myLevel, lvLabel } from '../level.js';
 import { activityTimer, isDisputed } from '../stats.js';
 import { ruleLabel } from '../rules.js';
 import { focusRules } from '../focus.js';
@@ -19,7 +19,7 @@ export const ROUNDS = 15;
 export const OWN_SHARE = 0.6;
 const BASE_MS = 5000;
 const SEEN_KEY = 'me:detective-seen';
-const BANK_LEVELS = { A1: ['A2'], A2: ['A2', 'B1'], B1: ['B1', 'A2', 'B2'], B2: ['B2', 'B1'], C1: ['B2', 'B1'] };
+const BANK_LEVELS = { A0: ['A2'], A1: ['A2'], A2: ['A2', 'B1'], B1: ['B1', 'A2', 'B2'], B2: ['B2', 'B1'], C1: ['B2', 'B1'] };
 
 // ---------- Логіка (чиста, без DOM) ----------
 
@@ -213,7 +213,7 @@ export default async function detective(view) {
   const later = (fn, ms) => { const t = setTimeout(() => { timeouts.delete(t); if (!disposed) fn(); }, ms); timeouts.add(t); return t; };
   const live = h('div.sr-only', { 'aria-live': 'assertive', role: 'status' });
   const body = h('div.stack');
-  view.replaceChildren(h('div.stack.games.dt', gameHead(h('span.tag', lv)), body, live));
+  view.replaceChildren(h('div.stack.games.dt', gameHead(h('span.tag', lvLabel(lv))), body, live));
 
   function intro() {
     setFocus(false);
@@ -229,7 +229,7 @@ export default async function detective(view) {
       extra: [
         ownN ? tx({ icon: 'target', label: `${ownN} ${plural(ownN, 'речення', 'речення', 'речень')} — з ваших помилок`, sub: focus.length ? 'Правила тижня — першими' : 'Решта — з банку речень вашого рівня', wide: true, cls: 'dt-note' }) : null,
         !bank.length && !own.length ? h('p.feedback.no', { style: { margin: 0 } }, 'Не вдалося завантажити речення. Перевірте з\'єднання.') : null],
-      best: best ? { label: `Рекорд рівня ${lv}`, value: best } : null,
+      best: best ? { label: `Рекорд рівня ${lvLabel(lv)}`, value: best } : null,
       start,
     }));
     start.focus({ preventScroll: true });

@@ -308,7 +308,7 @@ export function levelMeter(n = 14) {
 
 // ---------- Банки речень: рівні, «вже бачені», найкращий час ----------
 /** Рівні банку речень A2–B2 для мого рівня: перший — основний, решта — сусідні */
-const BANK_BAND = { A1: ['A2'], A2: ['A2', 'B1'], B1: ['B1', 'A2', 'B2'], B2: ['B2', 'B1'], C1: ['B2', 'B1'] };
+const BANK_BAND = { A0: ['A2'], A1: ['A2'], A2: ['A2', 'B1'], B1: ['B1', 'A2', 'B2'], B2: ['B2', 'B1'], C1: ['B2', 'B1'] };
 export const bankLevels = (level = myLevel()) => BANK_BAND[level] || BANK_BAND.B1;
 
 /** Недавно бачені id завдань гри (localStorage): read() → Set, add(ids) — додати й обрізати до max */

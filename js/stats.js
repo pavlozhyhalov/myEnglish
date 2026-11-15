@@ -453,7 +453,7 @@ export function skillLevels() {
   const out = { grammar: null, vocabulary: null, reading: null, listening: null, writing: null, speaking: null, ...fromTest, ...(prof.skills || {}) };
   const signals = store.all('tutor_chats').filter(c => c.summary?.level_signal && c.summary.level_assessment?.enough_data !== false).sort((a, b) => b.created_at.localeCompare(a.created_at)).slice(0, 5);
   if (signals.length) {
-    const order = ['A1', 'A2', 'B1', 'B2', 'C1'];
+    const order = ['A0', 'A1', 'A2', 'B1', 'B2', 'C1'];
     const avg = signals.reduce((a, c) => a + Math.max(0, order.indexOf(c.summary.level_signal)), 0) / signals.length;
     out.speaking = order[Math.round(avg)];
   }

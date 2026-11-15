@@ -2,7 +2,7 @@
 // Щоденна загадка однакова для дня й рівня; тренування — без обмежень. Після гри — значення, вимова, приклад.
 import { h, ic } from '../ui/dom.js';
 import { deck } from '../data.js';
-import { myLevel } from '../level.js';
+import { myLevel, lvLabel } from '../level.js';
 import { activityTimer, today, dayKey } from '../stats.js';
 import { speak, stop as stopSpeech } from '../speech.js';
 import { setTitle, setFocus } from '../ui/shell.js';
@@ -75,7 +75,7 @@ export default async function wordle(view, r) {
   const hintBox = h('div.wd-hint');
   const result = h('div.wd-result');
   view.replaceChildren(h('div.stack.games.wd',
-    gameHead(h('span.tag', lv)),
+    gameHead(h('span.tag', lvLabel(lv))),
     board, hintBox, result, kb, live));
   setFocus(true);
 
@@ -172,7 +172,7 @@ export default async function wordle(view, r) {
     hintBox.replaceChildren();
     kb.hidden = true;
     const w = { en: info.en, uk: info.uk, ipa: info.ipa, ex: info.ex, exUk: info.exUk };
-    const title = practice ? 'myEnglish · Тренування' : `myEnglish · Слово дня ${new Date().toLocaleDateString('uk-UA', { day: '2-digit', month: '2-digit' })} · ${lv}`;
+    const title = practice ? 'myEnglish · Тренування' : `myEnglish · Слово дня ${new Date().toLocaleDateString('uk-UA', { day: '2-digit', month: '2-digit' })} · ${lvLabel(lv)}`;
     const text = shareText({ title, rows, won, hint });
     const share = async () => {
       try {

@@ -3,7 +3,7 @@ import { fsrs, generatorParameters, createEmptyCard, Rating, State } from '../ve
 import * as store from './store.js';
 import { withCards, deckIndex, slug } from './data.js';
 import { today } from './stats.js';
-import { fitOrder, diff } from './level.js';
+import { fitOrder, diff, myLevel } from './level.js';
 
 export { Rating, State };
 let scheduler = null;
@@ -160,6 +160,7 @@ export async function dueCards(now = new Date()) {
 /**
  * Нові картки на сьогодні: власні («Мої слова») першими, далі стартові колоди за рівнем:
  * спершу колоди мого рівня, потім наступного, потім нижчих (від найближчого). Колоди на 2+ рівні вище нових слів не дають.
+ * Учень A0 (Pre-A1): колоди A0 → A1; учням A1+ колоди A0 нових слів не дають, якщо їх не увімкнено вручну.
  */
 export async function newCards(limit) {
   const ds = await decks();
@@ -175,7 +176,9 @@ export async function newCards(limit) {
     if (en.has(c.deck_id) && !c.reps) out.push(c);
   }
   if (out.length < left) {
-    const starters = ds.filter(d => d.builtin && en.has(d.id) && diff(d.level) <= 1);
+    // колоди «Старт» (A0) — лише учням рівня A0 або якщо учень сам увімкнув колоду (рядок у decks), не за замовчуванням
+    const a0Ok = (d) => d.level !== 'A0' || myLevel() === 'A0' || store.get('decks', d.id)?.enabled === true;
+    const starters = ds.filter(d => d.builtin && en.has(d.id) && diff(d.level) <= 1 && a0Ok(d));
     // групи за доречністю рівня (свій → наступний → нижчі, ближчі першими); усередині групи колоди чергуються.
     // Файли колод вантажаться погрупно: наступна група — лише якщо попередньої не вистачило
     for (const group of [...new Set(starters.map(d => fitOrder(d.level)))].sort((a, b) => a - b)) {

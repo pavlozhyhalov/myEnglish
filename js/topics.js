@@ -5,8 +5,11 @@
 import * as store from './store.js';
 import { json } from './data.js';
 
-const LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1'];
-const rank = (l) => { const i = LEVELS.indexOf(l); return i < 0 ? 2 : i; };
+const LEVELS = ['A0', 'A1', 'A2', 'B1', 'B2', 'C1'];
+const rank = (l) => { const i = LEVELS.indexOf(l); return i < 0 ? LEVELS.indexOf('B1') : i; };
+// A0 (Pre-A1, «Старт з нуля»): лише найпростіші побутові теми (свої A0 у банку або A1 цих категорій) і формати «бліц»/«розмова»
+const A0_CATS = new Set(['daily', 'home', 'food', 'people', 'nature', 'shopping', 'hobbies']);
+const A0_TEXT = ' The student is an absolute beginner (Pre-A1): very short simple questions, one at a time; give a model answer and let them repeat it ("repeat after me"); praise every attempt.';
 const DAY = 864e5;
 /** Скільки останніх розмов не повторюємо тему */
 export const RECENT_N = 5;
@@ -38,6 +41,7 @@ const GOAL_CATS = {
 // формати за замовчуванням для категорії; вага формату за рівнем (складніші — вище)
 const CAT_FMT = { opinion: ['debate'], wyr: ['wyr'], story: ['story'], problem: ['solve', 'roleplay'] };
 const FMT_W = {
+  A0: { quick: 3, chat: 2 },
   A1: { chat: 3, quick: 3, describe: 1 },
   A2: { chat: 3, quick: 2, describe: 2, wyr: 2, roleplay: 2, story: 1 },
   B1: { chat: 2, quick: 1, describe: 2, wyr: 2, roleplay: 2, story: 2, debate: 2, solve: 2 },
@@ -130,7 +134,9 @@ const slugOf = (s) => String(s).toLowerCase().replace(/[^a-zа-яіїєґ0-9]+/g
 function chooseFmt(t, level, log, rand, formats) {
   const lr = rank(level);
   const byId = new Map(formats.map(f => [f.id, f]));
-  let allowed = (t.fmt || CAT_FMT[t.cat] || ['chat', 'describe', 'quick']).filter(f => byId.has(f) && lr >= rank(byId.get(f).min));
+  let allowed = level === 'A0'
+    ? ['quick', 'chat'].filter(f => byId.has(f))
+    : (t.fmt || CAT_FMT[t.cat] || ['chat', 'describe', 'quick']).filter(f => byId.has(f) && lr >= rank(byId.get(f).min));
   if (!allowed.length) allowed = ['chat'];
   const recentF = log.slice(0, 3).map(e => e.fmt).filter(Boolean);
   const w = allowed.map(f => (FMT_W[level]?.[f] ?? 1) * (recentF.includes(f) ? 0.35 : 1) + 0.01);
@@ -175,9 +181,16 @@ export function pickTopics(o = {}) {
   for (const e of log) if (e.id) used.set(e.id, (used.get(e.id) || 0) + 1);
 
   const scored = [];
+  const a0 = level === 'A0';
+  // для A0: власні теми A0 банку, якщо є; інакше — A1-теми найпростіших категорій (як рівень A0)
+  const hasA0 = a0 && b.topics.some(t => t.lv?.[0] === 'A0');
   for (const t of b.topics) {
     const lo = rank(t.lv?.[0]), hi = rank(t.lv?.[1] || t.lv?.[0]);
-    const dist = lr < lo ? lo - lr : lr > hi ? lr - hi : 0;
+    let dist = lr < lo ? lo - lr : lr > hi ? lr - hi : 0;
+    if (a0) {
+      if (hasA0 ? t.lv?.[0] !== 'A0' : (t.lv?.[0] !== 'A1' || !A0_CATS.has(t.cat))) continue;
+      dist = 0;
+    }
     if (dist > 1 || recentIds.has(t.id) || exclude.has(t.id)) continue;
     if (t.cat === 'work' && !work) continue;
     const kws = [...(t.kw || []), ...(CAT_KW[t.cat] || [])];
@@ -201,7 +214,8 @@ export function pickTopics(o = {}) {
     cats.add(t.cat);
     const fmt = chooseFmt(t, level, log, rand, b.formats || []);
     const F = (b.formats || []).find(f => f.id === fmt);
-    out.push({ id: t.id, label: t.uk, sub: F?.uk || '', icon: CAT_ICON[t.cat] || 'chat-circle-dots', cat: t.cat, fmt, tags: [t.cat], en: t.en, topic: topicText(t, fmt, b.formats || []) });
+    const text = topicText(t, fmt, b.formats || []);
+    out.push({ id: t.id, label: t.uk, sub: F?.uk || '', icon: CAT_ICON[t.cat] || 'chat-circle-dots', cat: t.cat, fmt, tags: [t.cat], en: t.en, topic: a0 ? (text.slice(0, 600 - A0_TEXT.length) + A0_TEXT) : text });
     if (out.length >= n) break;
   }
   return out;
@@ -215,7 +229,7 @@ export function interestPick(about = {}, log = [], level = 'B1') {
   const lastAt = (id) => { const e = log.find(l => l.id === id); return e ? Date.parse(e.at) : 0; };
   list.sort((a, b) => lastAt(a.id) - lastAt(b.id));
   const { x, id } = list[0];
-  const fmt = rank(level) >= 2 ? 'describe' : 'chat';
+  const fmt = rank(level) >= rank('A2') ? 'describe' : 'chat';
   return {
     id, label: x.charAt(0).toUpperCase() + x.slice(1), sub: 'Ваш інтерес', icon: 'heart', cat: 'interest', fmt, tags: ['hobbies'], en: x,
     topic: `Topic: one of the student's interests — «${x}». Go into specifics in a fresh way (a recent experience, a recommendation, an opinion, how they got into it); do not repeat questions from earlier sessions. The student may switch topic at any time.`.slice(0, 600),
@@ -248,7 +262,9 @@ export function pickById(id, fmt) {
   const t = bank?.topics?.find(x => x.id === id);
   if (!t) return null;
   const F = (bank.formats || []).find(f => f.id === fmt) || (bank.formats || [])[0];
-  return { id: t.id, label: t.uk, sub: F?.uk || '', icon: CAT_ICON[t.cat] || 'chat-circle-dots', cat: t.cat, fmt: F?.id || 'chat', tags: [t.cat], en: t.en, topic: topicText(t, F?.id, bank.formats || []) };
+  const text = topicText(t, F?.id, bank.formats || []);
+  const a0 = store.settings().level === 'A0';
+  return { id: t.id, label: t.uk, sub: F?.uk || '', icon: CAT_ICON[t.cat] || 'chat-circle-dots', cat: t.cat, fmt: F?.id || 'chat', tags: [t.cat], en: t.en, topic: a0 ? text.slice(0, 600 - A0_TEXT.length) + A0_TEXT : text };
 }
 
 /** Позначка теми для адреси: «id~fmt» або «mem~factId» */

@@ -2,7 +2,7 @@
 // Український переклад — підказка; за кожне речення +4 с до таймера; після правильної відповіді речення звучить.
 import { h, ic } from '../ui/dom.js';
 import { grammarIndex, lesson } from '../data.js';
-import { myLevel } from '../level.js';
+import { myLevel, lvLabel } from '../level.js';
 import { activityTimer } from '../stats.js';
 import { speak, stop as stopSpeech } from '../speech.js';
 import { setTitle, setFocus } from '../ui/shell.js';
@@ -46,18 +46,18 @@ export default async function build(view) {
   let disposed = false, round = null;
   const live = h('div.sr-only', { 'aria-live': 'polite', role: 'status' });
   const body = h('div.stack');
-  view.replaceChildren(h('div.stack.games.bld', gameHead(h('span.tag', lv)), body, live));
+  view.replaceChildren(h('div.stack.games.bld', gameHead(h('span.tag', lvLabel(lv))), body, live));
 
   function intro() {
     setFocus(false);
     const best = gameState().best?.build?.[lv] || 0;
-    const start = startTile({ label: 'Почати', sub: `${BUILD_SECONDS} секунд · речення рівня ${lv}`, onclick: play, disabled: !all.length });
+    const start = startTile({ label: 'Почати', sub: `${BUILD_SECONDS} секунд · речення рівня ${lvLabel(lv)}`, onclick: play, disabled: !all.length });
     body.replaceChildren(gameIntro({
       icon: 'puzzle-piece',
       text: 'Складіть англійське речення за перекладом — дотиками по словах.',
       rules: [`${BUILD_SECONDS} секунд, за кожне речення +${BUILD_BONUS} с`, 'Серія без помилок дає бонусні очки', 'Слово з речення можна повернути дотиком'],
       top: [all.length ? null : h('p.feedback.no', { style: { margin: 0 } }, 'Не вдалося завантажити речення. Перевірте з\'єднання.')],
-      best: best ? { label: `Рекорд рівня ${lv}`, value: best } : null,
+      best: best ? { label: `Рекорд рівня ${lvLabel(lv)}`, value: best } : null,
       start,
     }));
     start.focus({ preventScroll: true });
@@ -164,7 +164,7 @@ export default async function build(view) {
       body.replaceChildren(gameResult({
         icon: 'timer', record: upd.record, score: String(score), unit: plural(score, 'очко', 'очки', 'очок'), sub: 'Час вийшов',
         kpis: [{ value: done, label: plural(done, 'речення', 'речення', 'речень') + ' складено', tone: 'good' }, { value: bestStreak, label: 'найдовша серія' }, { value: missed.length, label: 'з помилками', tone: missed.length ? 'warn' : '' }],
-        note: upd.prev && !upd.record ? `Рекорд рівня ${lv}: ${upd.prev}` : null,
+        note: upd.prev && !upd.record ? `Рекорд рівня ${lvLabel(lv)}: ${upd.prev}` : null,
         sections: [missed.length
           ? txGroup('Варто повторити', moreRows(missed.map(m => wordRow({ en: m.en, uk: m.uk, cls: 'g-sent' }))))
           : (done ? tx({ icon: 'check-circle', label: 'Жодної помилки!', wide: true, tone: 'good' }) : null)],

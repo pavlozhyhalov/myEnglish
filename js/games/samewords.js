@@ -5,7 +5,7 @@
 import * as store from '../store.js';
 import { h, ic } from '../ui/dom.js';
 import { json } from '../data.js';
-import { myLevel } from '../level.js';
+import { myLevel, lvLabel } from '../level.js';
 import { activityTimer, isDisputed } from '../stats.js';
 import { setTitle, setFocus } from '../ui/shell.js';
 import { bestUpdate, shuffleArr } from './logic.js';
@@ -113,7 +113,7 @@ export default async function samewords(view) {
   const later = (fn, ms) => { const t = setTimeout(() => { timeouts.delete(t); if (!disposed) fn(); }, ms); timeouts.add(t); return t; };
   const live = h('div.sr-only', { 'aria-live': 'assertive', role: 'status' });
   const body = h('div.stack');
-  view.replaceChildren(h('div.stack.games.sw', gameHead(h('span.tag', lv)), body, live));
+  view.replaceChildren(h('div.stack.games.sw', gameHead(h('span.tag', lvLabel(lv))), body, live));
   const matched = () => ownMatches(sets, store.all('mistakes'));
 
   function intro() {
@@ -131,7 +131,7 @@ export default async function samewords(view) {
         ownN ? tx({ icon: 'target', label: `${ownN} ${plural(ownN, 'набір', 'набори', 'наборів')} — з ваших помилок`, sub: 'Ідуть першими', wide: true, cls: 'sw-note' }) : null,
         fast ? tx({ icon: 'timer', label: 'Найкращий час', wide: true, cls: 'g-best sw-fast', end: h('b.num.g-best-n', clock(fast)) }) : null,
         !sets.length ? h('p.feedback.no', { style: { margin: 0 } }, 'Не вдалося завантажити речення. Перевірте з\'єднання.') : null],
-      best: best ? { label: `Рекорд рівня ${lv}`, value: best } : null,
+      best: best ? { label: `Рекорд рівня ${lvLabel(lv)}`, value: best } : null,
       start,
     }));
     start.focus({ preventScroll: true });
@@ -272,7 +272,7 @@ export default async function samewords(view) {
       body.replaceChildren(gameResult({
         icon: 'swap', record, score: String(score), unit: plural(score, 'очко', 'очки', 'очок'), sub: verdict(hits, rounds.length),
         kpis: [{ value: `${hits}/${rounds.length}`, label: 'правильно', tone: 'good' }, { value: clock(elapsed), label: fast.record ? 'рекорд часу' : 'час', tone: fast.record ? 'good' : '' }, { value: maxCombo, label: 'найдовше комбо' }],
-        note: [upd.prev && !upd.record ? `Рекорд рівня ${lv}: ${upd.prev}` : null, fastNote].filter(Boolean).join(' · ') || null,
+        note: [upd.prev && !upd.record ? `Рекорд рівня ${lvLabel(lv)}: ${upd.prev}` : null, fastNote].filter(Boolean).join(' · ') || null,
         sections: [rows.length
           ? txGroup('Варто запам\'ятати', moreRows(rows))
           : tx({ icon: 'seal-check', label: 'Жодної помилки — ви розрізняєте ці слова!', wide: true, tone: 'good' })],

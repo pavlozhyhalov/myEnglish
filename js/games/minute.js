@@ -2,7 +2,7 @@
 // Наприкінці — ОДИН виклик tutor 'transcribe' з hint 'fluency' (дослівно, із заминками), потім драматичний повтор:
 // текст з'являється слово за словом, заминки й повтори розбивають серця. Очки — секунди, які ви «протрималися».
 import { h, ic } from '../ui/dom.js';
-import { myLevel } from '../level.js';
+import { myLevel, lvLabel } from '../level.js';
 import { activityTimer } from '../stats.js';
 import { tutor, aiErrorText } from '../ai.js';
 import { speak, stop as stopSpeech, blobToBase64 } from '../speech.js';
@@ -91,7 +91,7 @@ export default function minute(view) {
   const live = h('div.sr-only', { 'aria-live': 'polite', role: 'status' });
   const body = h('div.stack');
   const fill = (...kids) => body.replaceChildren(...kids.flat().filter(k => k != null && k !== false));
-  view.replaceChildren(h('div.stack.games.gm', gameHead(h('span.tag', lv)), body, live));
+  view.replaceChildren(h('div.stack.games.gm', gameHead(h('span.tag', lvLabel(lv))), body, live));
   if (!user()) { fill(gameLoginCard('Ваше мовлення дослівно розпізнає AI — з усіма «uh» і повторами, щоб їх порахувати. Це працює після входу.')); return; }
 
   const timer = activityTimer('game');
@@ -147,7 +147,7 @@ export default function minute(view) {
         top: [topicCard(), canRecord() ? null : micErrorCard('unsupported')],
         extra: [other],
         rules: [`До ${MINUTE.sec} секунд мовлення про тему`, '«uh», «um» чи повтор — мінус життя, третя заминка — кінець', 'AI перевіряє після запису, очки — секунди до третьої заминки'],
-        best: best ? { label: `Рекорд рівня ${lv}`, value: nSec(best) } : null,
+        best: best ? { label: `Рекорд рівня ${lvLabel(lv)}`, value: nSec(best) } : null,
         start: canRecord() ? start : null,
       }));
     if (canRecord()) start.focus({ preventScroll: true });
@@ -333,7 +333,7 @@ export default function minute(view) {
       icon: s.full ? 'trophy' : 'timer', record: upd.record,
       score: [s.approx ? h('span.gm-approx', '≈') : null, String(s.sec)], unit: ' с', sub: head,
       kpis: [{ value: s.words, label: plural(s.words, 'слово', 'слова', 'слів') }, { value: String(s.per100).replace('.', ','), label: 'заминок на 100 слів', tone: s.per100 > 6 ? 'warn' : '' }, { value: s.repeats, label: plural(s.repeats, 'повтор', 'повтори', 'повторів') }],
-      note: upd.prev && !upd.record ? `Рекорд рівня ${lv}: ${nSec(upd.prev)}` : null,
+      note: upd.prev && !upd.record ? `Рекорд рівня ${lvLabel(lv)}: ${nSec(upd.prev)}` : null,
       sections: [
         h('div.fl-legend.gm-legend', h('span', h('i.gm-f'), 'заминка'), h('span', h('i.gm-r'), 'повтор'), s.cut >= 0 ? h('span', h('i.gm-g'), 'після третьої') : null),
         txGroup('Замість «uh» — фраза, що дає час подумати', [

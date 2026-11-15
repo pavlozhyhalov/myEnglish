@@ -5,7 +5,7 @@
 import * as store from '../store.js';
 import { h, ic } from '../ui/dom.js';
 import { json } from '../data.js';
-import { myLevel } from '../level.js';
+import { myLevel, lvLabel } from '../level.js';
 import { activityTimer, isDisputed } from '../stats.js';
 import { setTitle, setFocus } from '../ui/shell.js';
 import { bestUpdate, shuffleArr } from './logic.js';
@@ -119,7 +119,7 @@ export default async function articles(view) {
   const later = (fn, ms) => { const t = setTimeout(() => { timeouts.delete(t); if (!disposed) fn(); }, ms); timeouts.add(t); return t; };
   const live = h('div.sr-only', { 'aria-live': 'assertive', role: 'status' });
   const body = h('div.stack');
-  view.replaceChildren(h('div.stack.games.ar', gameHead(h('span.tag', lv)), body, live));
+  view.replaceChildren(h('div.stack.games.ar', gameHead(h('span.tag', lvLabel(lv))), body, live));
 
   const own = () => ownItems(store.all('mistakes'));
 
@@ -135,7 +135,7 @@ export default async function articles(view) {
       extra: [
         ownN ? tx({ icon: 'target', label: `${ownN} ${plural(ownN, 'речення', 'речення', 'речень')} — з ваших помилок`, sub: 'Трапляться серед перших', wide: true, cls: 'ar-note' }) : null,
         !bank.length && !ownN ? h('p.feedback.no', { style: { margin: 0 } }, 'Не вдалося завантажити речення. Перевірте з\'єднання.') : null],
-      best: best ? { label: `Рекорд рівня ${lv}`, value: best } : null,
+      best: best ? { label: `Рекорд рівня ${lvLabel(lv)}`, value: best } : null,
       start,
     }));
     start.focus({ preventScroll: true });
@@ -276,7 +276,7 @@ export default async function articles(view) {
       body.replaceChildren(gameResult({
         icon: 'hourglass', record: upd.record, score: String(score), unit: plural(score, 'очко', 'очки', 'очок'), sub: verdict(hits, answered),
         kpis: [{ value: `${hits}/${answered}`, label: 'правильно', tone: 'good' }, { value: `${acc}%`, label: 'точність' }, { value: maxCombo, label: 'найдовше комбо' }],
-        note: upd.prev && !upd.record ? `Рекорд рівня ${lv}: ${upd.prev}` : null,
+        note: upd.prev && !upd.record ? `Рекорд рівня ${lvLabel(lv)}: ${upd.prev}` : null,
         sections: [misses.length
           ? txGroup('Варто повторити', moreRows(dedupe(misses).map(missRow)))
           : answered ? tx({ icon: 'seal-check', label: 'Жодної помилки — артиклі під контролем!', wide: true, tone: 'good' }) : null],

@@ -2,7 +2,7 @@
 // «Слово дня» (оцінка спроби, стан клавіш, текст для поширення), «Швидкий переклад» (комбо, темп), «Збери речення» (плитки).
 import { tilesOf, norm, sameSentence, isSentence } from '../wordlogic.js';
 
-export const LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1'];
+export const LEVELS = ['A0', 'A1', 'A2', 'B1', 'B2', 'C1'];
 const rank = (l) => Math.max(0, LEVELS.indexOf(l));
 
 // ---------- «Слово дня» ----------
@@ -54,11 +54,12 @@ export function validSet(str, extra = []) {
 }
 
 /**
- * Кандидати у відповіді для рівня: слова цього рівня і на один нижче (на A1 — лише A1).
+ * Кандидати у відповіді для рівня: слова цього рівня і на один нижче (на A1 і A0 — лише A1).
  * data — вміст data/words5.json; повертає [{ w, level, deck? | uk, ipa, ex }], відсортовано (стабільний вибір дня).
  */
 export function answersFor(data, level) {
-  const r = rank(level);
+  // A0 (Pre-A1): банк ігор починається з A1 — беремо найпростіші слова A1
+  const r = Math.max(rank('A1'), rank(level));
   const ok = (l) => rank(l) === r || rank(l) === r - 1;
   const out = [];
   for (const [w, l, deck] of data.answers || []) if (ok(l)) out.push({ w, level: l, deck });
