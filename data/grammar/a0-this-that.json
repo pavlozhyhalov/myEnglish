@@ -1,0 +1,170 @@
+{
+ "id": "a0-this-that",
+ "title": "This / that: що це?",
+ "titleEn": "this, that; What's this? — It's…",
+ "unit": "Іменник і артиклі",
+ "level": "A0",
+ "mistakeType": "other",
+ "explanation": "**this** — це (близько, у руці), **that** — те (далеко).\n\n*What's this?* — Що це? Відповідь: ***It's** a pen.* Коли знайомимо людину: ***This is** Emma.*",
+ "formula": [
+  "**This is** + … (близько)",
+  "**That is** + … (далеко)",
+  "**What's this?** — **It's** a …"
+ ],
+ "table": {
+  "head": [
+   "",
+   "Близько",
+   "Далеко"
+  ],
+  "rows": [
+   [
+    "Що це?",
+    "What's this?",
+    "What's that?"
+   ],
+   [
+    "Це …",
+    "This is a pen.",
+    "That is a car."
+   ],
+   [
+    "Відповідь",
+    "It's a pen.",
+    "It's a car."
+   ]
+  ]
+ },
+ "examples": [
+  {
+   "en": "This is my phone.",
+   "uk": "Це мій телефон."
+  },
+  {
+   "en": "That is a big house.",
+   "uk": "То великий будинок."
+  },
+  {
+   "en": "What's this?",
+   "uk": "Що це?"
+  },
+  {
+   "en": "It's a book.",
+   "uk": "Це книжка."
+  },
+  {
+   "en": "Is that your bag?",
+   "uk": "То твоя сумка?"
+  },
+  {
+   "en": "Yes, it is.",
+   "uk": "Так."
+  },
+  {
+   "en": "This is Emma.",
+   "uk": "Це Емма. (знайомимо)"
+  },
+  {
+   "en": "That's a nice car.",
+   "uk": "Яка гарна машина! (там)"
+  }
+ ],
+ "tip": "Знайомите людину — ***This is** Emma*, а не ~~It is Emma~~.",
+ "exercises": [
+  {
+   "type": "choice",
+   "prompt": "___ is my phone. (у руці)",
+   "options": [
+    "This",
+    "That"
+   ],
+   "answer": "This",
+   "explanation": "Близько — this."
+  },
+  {
+   "type": "choice",
+   "prompt": "Look! ___ is my car. (там, на вулиці)",
+   "options": [
+    "This",
+    "That"
+   ],
+   "answer": "That",
+   "explanation": "Далеко — that."
+  },
+  {
+   "type": "choice",
+   "prompt": "What's this? — ___ a pen.",
+   "options": [
+    "It's",
+    "This's",
+    "It"
+   ],
+   "answer": "It's",
+   "explanation": "Відповідь: It's a …"
+  },
+  {
+   "type": "choice",
+   "prompt": "This ___ Emma.",
+   "options": [
+    "is",
+    "are",
+    "am"
+   ],
+   "answer": "is",
+   "explanation": "this → is."
+  },
+  {
+   "type": "input",
+   "prompt": "What's ___? (те, далеко)",
+   "answer": [
+    "that"
+   ],
+   "explanation": "Далеко — that."
+  },
+  {
+   "type": "input",
+   "prompt": "What's this? — It's ___ book.",
+   "answer": [
+    "a"
+   ],
+   "explanation": "Один предмет — a."
+  },
+  {
+   "type": "order",
+   "prompt": "Це моя сумка.",
+   "answer": [
+    "This is my bag."
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "order",
+   "prompt": "Що це?",
+   "answer": [
+    "What is this?"
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "translate",
+   "uk": "Це Олівер.",
+   "answer": [
+    "This is Oliver.",
+    "It's Oliver.",
+    "It is Oliver.",
+    "That's Oliver.",
+    "That is Oliver."
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "translate",
+   "uk": "Що то? (далеко)",
+   "answer": [
+    "What's that?",
+    "What is that?"
+   ],
+   "explanation": ""
+  }
+ ]
+}

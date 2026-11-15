@@ -1,0 +1,184 @@
+{
+ "id": "a0-be-negative",
+ "title": "Заперечення: I'm not, isn't, aren't",
+ "titleEn": "be: negative",
+ "unit": "Основи речення",
+ "level": "A0",
+ "mistakeType": "tenses",
+ "explanation": "«Не» — це **not** після *am / is / are*: *I am **not** tired.*\n\nУ розмові скорочуємо: **I'm not**, **he isn't**, **they aren't**.",
+ "formula": [
+  "**I'm not** …",
+  "**he / she / it isn't** …",
+  "**you / we / they aren't** …"
+ ],
+ "table": {
+  "head": [
+   "Повністю",
+   "Коротко"
+  ],
+  "rows": [
+   [
+    "I am not",
+    "I'm not"
+   ],
+   [
+    "you are not",
+    "you aren't"
+   ],
+   [
+    "he is not",
+    "he isn't"
+   ],
+   [
+    "she is not",
+    "she isn't"
+   ],
+   [
+    "it is not",
+    "it isn't"
+   ],
+   [
+    "we are not",
+    "we aren't"
+   ],
+   [
+    "they are not",
+    "they aren't"
+   ]
+  ]
+ },
+ "examples": [
+  {
+   "en": "I'm not hungry.",
+   "uk": "Я не голодний."
+  },
+  {
+   "en": "She isn't at home.",
+   "uk": "Її немає вдома."
+  },
+  {
+   "en": "It isn't cold.",
+   "uk": "Не холодно."
+  },
+  {
+   "en": "We aren't late.",
+   "uk": "Ми не запізнилися."
+  },
+  {
+   "en": "They aren't from London.",
+   "uk": "Вони не з Лондона."
+  },
+  {
+   "en": "He isn't tired.",
+   "uk": "Він не втомився."
+  },
+  {
+   "en": "You aren't alone.",
+   "uk": "Ти не сам."
+  },
+  {
+   "en": "I'm not from Kyiv.",
+   "uk": "Я не з Києва."
+  }
+ ],
+ "tip": "~~I amn't~~ — так не кажуть. Тільки *I'm not*.",
+ "exercises": [
+  {
+   "type": "choice",
+   "prompt": "I ___ hungry.",
+   "options": [
+    "am not",
+    "is not",
+    "not"
+   ],
+   "answer": "am not",
+   "explanation": "I → am not."
+  },
+  {
+   "type": "choice",
+   "prompt": "She ___ at home.",
+   "options": [
+    "isn't",
+    "aren't",
+    "not"
+   ],
+   "answer": "isn't",
+   "explanation": "she → isn't."
+  },
+  {
+   "type": "choice",
+   "prompt": "They ___ from Kyiv.",
+   "options": [
+    "isn't",
+    "aren't",
+    "am not"
+   ],
+   "answer": "aren't",
+   "explanation": "they → aren't."
+  },
+  {
+   "type": "input",
+   "prompt": "It ___ cold today. (is not — коротко)",
+   "answer": [
+    "isn't",
+    "is not"
+   ],
+   "explanation": "it → isn't."
+  },
+  {
+   "type": "input",
+   "prompt": "We ___ tired. (are not — коротко)",
+   "answer": [
+    "aren't",
+    "are not"
+   ],
+   "explanation": "we → aren't."
+  },
+  {
+   "type": "input",
+   "prompt": "I'm ___ late.",
+   "answer": [
+    "not"
+   ],
+   "explanation": "I'm not."
+  },
+  {
+   "type": "error",
+   "sentence": "I amn't tired.",
+   "wrongIndex": 1,
+   "correction": "am not",
+   "alt": [],
+   "explanation": "Не ~~amn't~~ — тільки I'm not / I am not."
+  },
+  {
+   "type": "order",
+   "prompt": "Мені не холодно.",
+   "answer": [
+    "I am not cold."
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "translate",
+   "uk": "Він не вдома.",
+   "answer": [
+    "He isn't at home.",
+    "He is not at home.",
+    "He's not at home.",
+    "He isn't home.",
+    "He's not home.",
+    "He is not home."
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "translate",
+   "uk": "Я не втомлений.",
+   "answer": [
+    "I'm not tired.",
+    "I am not tired."
+   ],
+   "explanation": ""
+  }
+ ]
+}

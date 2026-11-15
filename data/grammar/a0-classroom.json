@@ -1,0 +1,198 @@
+{
+ "id": "a0-classroom",
+ "title": "На уроці: Open, Listen, Don't…",
+ "titleEn": "Imperatives and classroom phrases",
+ "unit": "Основи речення",
+ "level": "A0",
+ "mistakeType": "word_order",
+ "explanation": "Прохання й команди — просто дія на початку: ***Open** your book. **Listen.** **Repeat.***\n\n«Не роби» — **Don't** + дія: ***Don't** write.* Додайте **please** — і це ввічливо: *Please sit down.*",
+ "formula": [
+  "Дія + …: **Open** your book.",
+  "**Don't** + дія: **Don't** look.",
+  "**Please** … / … , **please**."
+ ],
+ "table": {
+  "head": [
+   "Англійською",
+   "Українською"
+  ],
+  "rows": [
+   [
+    "Open your book.",
+    "Відкрийте книжку."
+   ],
+   [
+    "Close your book.",
+    "Закрийте книжку."
+   ],
+   [
+    "Listen.",
+    "Слухайте."
+   ],
+   [
+    "Repeat.",
+    "Повторіть."
+   ],
+   [
+    "Read.",
+    "Читайте."
+   ],
+   [
+    "Write.",
+    "Пишіть."
+   ],
+   [
+    "Look at the board.",
+    "Подивіться на дошку."
+   ],
+   [
+    "Sit down, please.",
+    "Сідайте, будь ласка."
+   ],
+   [
+    "Stand up.",
+    "Встаньте."
+   ],
+   [
+    "Don't speak.",
+    "Не розмовляйте."
+   ]
+  ]
+ },
+ "examples": [
+  {
+   "en": "Open your book, please.",
+   "uk": "Відкрийте книжку, будь ласка."
+  },
+  {
+   "en": "Listen and repeat.",
+   "uk": "Слухайте й повторюйте."
+  },
+  {
+   "en": "Look at the picture.",
+   "uk": "Подивіться на малюнок."
+  },
+  {
+   "en": "Don't write. Listen.",
+   "uk": "Не пишіть. Слухайте."
+  },
+  {
+   "en": "Please speak slowly.",
+   "uk": "Говоріть повільно, будь ласка."
+  },
+  {
+   "en": "Can you repeat that, please?",
+   "uk": "Можете повторити, будь ласка?"
+  },
+  {
+   "en": "Sorry, I don't understand.",
+   "uk": "Вибачте, я не розумію."
+  },
+  {
+   "en": "How do you say «яблуко» in English?",
+   "uk": "Як сказати «яблуко» англійською?"
+  }
+ ],
+ "tip": "«Не роби» — *Don't* + дія: ~~Not write~~ → ***Don't** write.*",
+ "exercises": [
+  {
+   "type": "choice",
+   "prompt": "___ your book, please.",
+   "options": [
+    "Open",
+    "Opens",
+    "To open"
+   ],
+   "answer": "Open",
+   "explanation": "Прохання — дія без змін."
+  },
+  {
+   "type": "choice",
+   "prompt": "___ speak Ukrainian, please.",
+   "options": [
+    "Don't",
+    "Not",
+    "No"
+   ],
+   "answer": "Don't",
+   "explanation": "«Не роби» — Don't."
+  },
+  {
+   "type": "choice",
+   "prompt": "Listen and ___.",
+   "options": [
+    "repeat",
+    "repeats",
+    "to repeat"
+   ],
+   "answer": "repeat",
+   "explanation": "Listen and repeat — слухайте й повторюйте."
+  },
+  {
+   "type": "choice",
+   "prompt": "Sit ___, please.",
+   "options": [
+    "down",
+    "up",
+    "on"
+   ],
+   "answer": "down",
+   "explanation": "Sit down — сідайте."
+  },
+  {
+   "type": "input",
+   "prompt": "___ write. Listen! (не пишіть)",
+   "answer": [
+    "Don't",
+    "Do not"
+   ],
+   "explanation": "«Не пишіть» — Don't write."
+  },
+  {
+   "type": "input",
+   "prompt": "___ at the picture. (подивіться)",
+   "answer": [
+    "Look"
+   ],
+   "explanation": "Look at… — подивіться на…"
+  },
+  {
+   "type": "order",
+   "prompt": "Відкрийте книжку, будь ласка.",
+   "answer": [
+    "Open your book, please.",
+    "Please open your book."
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "order",
+   "prompt": "Говоріть повільно, будь ласка.",
+   "answer": [
+    "Please speak slowly.",
+    "Speak slowly, please."
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "translate",
+   "uk": "Слухайте й повторюйте.",
+   "answer": [
+    "Listen and repeat."
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "translate",
+   "uk": "Не пишіть.",
+   "answer": [
+    "Don't write.",
+    "Do not write.",
+    "Don't write, please.",
+    "Please don't write.",
+    "Please do not write."
+   ],
+   "explanation": ""
+  }
+ ]
+}

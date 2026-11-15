@@ -1,0 +1,185 @@
+{
+ "id": "a0-plurals",
+ "title": "Множина: books, men, children",
+ "titleEn": "Plurals: -s, -es, men, children",
+ "unit": "Іменник і артиклі",
+ "level": "A0",
+ "mistakeType": "other",
+ "explanation": "Якщо предметів два і більше — додайте **-s**: *one book → two book**s***. Після *s, x, sh, ch* — **-es**: *box → boxes*.\n\nКілька слів змінюються інакше: *man → **men**, woman → **women**, child → **children**, person → **people***. У множині **a / an** не ставимо: *a cat → cats*.",
+ "formula": [
+  "one **book** → two **books**",
+  "**a** cat → cat**s** (без a)"
+ ],
+ "table": {
+  "head": [
+   "Один",
+   "Багато"
+  ],
+  "rows": [
+   [
+    "a book",
+    "books"
+   ],
+   [
+    "an apple",
+    "apples"
+   ],
+   [
+    "a box",
+    "boxes"
+   ],
+   [
+    "a bus",
+    "buses"
+   ],
+   [
+    "a man",
+    "men"
+   ],
+   [
+    "a woman",
+    "women"
+   ],
+   [
+    "a child",
+    "children"
+   ],
+   [
+    "a person",
+    "people"
+   ]
+  ]
+ },
+ "examples": [
+  {
+   "en": "Three apples, please.",
+   "uk": "Три яблука, будь ласка."
+  },
+  {
+   "en": "They are my friends.",
+   "uk": "Вони мої друзі."
+  },
+  {
+   "en": "My children are at school.",
+   "uk": "Мої діти в школі."
+  },
+  {
+   "en": "Five men and two women.",
+   "uk": "П'ятеро чоловіків і дві жінки."
+  },
+  {
+   "en": "Ten boxes.",
+   "uk": "Десять коробок."
+  },
+  {
+   "en": "We are students.",
+   "uk": "Ми студенти."
+  },
+  {
+   "en": "My cats are black.",
+   "uk": "Мої коти чорні."
+  },
+  {
+   "en": "Two buses.",
+   "uk": "Два автобуси."
+  }
+ ],
+ "tip": "У множині без *a*: ~~a books~~ → *books*. І ~~childs~~ → *children*.",
+ "exercises": [
+  {
+   "type": "choice",
+   "prompt": "two ___",
+   "options": [
+    "book",
+    "books",
+    "a books"
+   ],
+   "answer": "books",
+   "explanation": "Два і більше — -s."
+  },
+  {
+   "type": "choice",
+   "prompt": "three ___",
+   "options": [
+    "child",
+    "childs",
+    "children"
+   ],
+   "answer": "children",
+   "explanation": "child → children."
+  },
+  {
+   "type": "choice",
+   "prompt": "We are ___.",
+   "options": [
+    "student",
+    "a students",
+    "students"
+   ],
+   "answer": "students",
+   "explanation": "Множина без a."
+  },
+  {
+   "type": "choice",
+   "prompt": "five ___",
+   "options": [
+    "box",
+    "boxs",
+    "boxes"
+   ],
+   "answer": "boxes",
+   "explanation": "Після x — -es."
+  },
+  {
+   "type": "input",
+   "prompt": "one man → two ___",
+   "answer": [
+    "men"
+   ],
+   "explanation": "man → men."
+  },
+  {
+   "type": "input",
+   "prompt": "one woman → two ___",
+   "answer": [
+    "women"
+   ],
+   "explanation": "woman → women."
+  },
+  {
+   "type": "input",
+   "prompt": "one apple → four ___",
+   "answer": [
+    "apples"
+   ],
+   "explanation": "apple → apples."
+  },
+  {
+   "type": "error",
+   "sentence": "They are my friend.",
+   "wrongIndex": 3,
+   "correction": "friends",
+   "alt": [],
+   "explanation": "They — багато → friends."
+  },
+  {
+   "type": "error",
+   "sentence": "Ten childs are at school.",
+   "wrongIndex": 1,
+   "correction": "children",
+   "alt": [],
+   "explanation": "child → children."
+  },
+  {
+   "type": "translate",
+   "uk": "Три яблука, будь ласка.",
+   "answer": [
+    "Three apples, please.",
+    "Three apples please.",
+    "Please, three apples.",
+    "Three apples."
+   ],
+   "explanation": ""
+  }
+ ]
+}

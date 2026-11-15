@@ -1,0 +1,170 @@
+{
+ "id": "a0-a-an",
+ "title": "a / an: a pen, an apple",
+ "titleEn": "a / an with things and jobs",
+ "unit": "Іменник і артиклі",
+ "level": "A0",
+ "mistakeType": "articles",
+ "explanation": "Перед одним предметом чи професією ставимо **a** («один, якийсь»): *a book, a doctor*.\n\nЯкщо слово починається з голосного **звуку** (a, e, i, o, u) — **an**: *an apple, an egg*. Українською такого слова немає, тож його легко забути: *I'm **a** student.*",
+ "formula": [
+  "**a** + приголосний звук: *a pen, a teacher*",
+  "**an** + голосний звук: *an apple, an orange*"
+ ],
+ "table": {
+  "head": [
+   "a",
+   "an"
+  ],
+  "rows": [
+   [
+    "a book",
+    "an apple"
+   ],
+   [
+    "a bag",
+    "an egg"
+   ],
+   [
+    "a cat",
+    "an orange"
+   ],
+   [
+    "a teacher",
+    "an umbrella"
+   ],
+   [
+    "a doctor",
+    "an artist"
+   ]
+  ]
+ },
+ "examples": [
+  {
+   "en": "It's a pen.",
+   "uk": "Це ручка."
+  },
+  {
+   "en": "It's an apple.",
+   "uk": "Це яблуко."
+  },
+  {
+   "en": "I'm a student.",
+   "uk": "Я студент."
+  },
+  {
+   "en": "She is a teacher.",
+   "uk": "Вона вчителька."
+  },
+  {
+   "en": "He is a doctor.",
+   "uk": "Він лікар."
+  },
+  {
+   "en": "It's an egg.",
+   "uk": "Це яйце."
+  },
+  {
+   "en": "Emma is an artist.",
+   "uk": "Емма — художниця."
+  },
+  {
+   "en": "Is it an orange?",
+   "uk": "Це апельсин?"
+  }
+ ],
+ "tip": "Без *a* не можна: ~~I'm student~~ → *I'm **a** student.*",
+ "exercises": [
+  {
+   "type": "choice",
+   "prompt": "It's ___ apple.",
+   "options": [
+    "a",
+    "an"
+   ],
+   "answer": "an",
+   "explanation": "apple починається з голосного звуку → an."
+  },
+  {
+   "type": "choice",
+   "prompt": "She is ___ teacher.",
+   "options": [
+    "a",
+    "an"
+   ],
+   "answer": "a",
+   "explanation": "teacher — приголосний звук → a."
+  },
+  {
+   "type": "choice",
+   "prompt": "It's ___ egg.",
+   "options": [
+    "a",
+    "an"
+   ],
+   "answer": "an",
+   "explanation": "egg — голосний звук → an."
+  },
+  {
+   "type": "choice",
+   "prompt": "I'm ___ student.",
+   "options": [
+    "a",
+    "an"
+   ],
+   "answer": "a",
+   "explanation": "Професія — з a."
+  },
+  {
+   "type": "input",
+   "prompt": "He is ___ doctor.",
+   "answer": [
+    "a"
+   ],
+   "explanation": "doctor — приголосний звук → a."
+  },
+  {
+   "type": "input",
+   "prompt": "It's ___ orange.",
+   "answer": [
+    "an"
+   ],
+   "explanation": "orange — голосний звук → an."
+  },
+  {
+   "type": "input",
+   "prompt": "Is it ___ umbrella?",
+   "answer": [
+    "an"
+   ],
+   "explanation": "umbrella — голосний звук → an."
+  },
+  {
+   "type": "error",
+   "sentence": "She is a artist.",
+   "wrongIndex": 2,
+   "correction": "an",
+   "alt": [],
+   "explanation": "artist — голосний звук → an."
+  },
+  {
+   "type": "order",
+   "prompt": "Я студент.",
+   "answer": [
+    "I am a student."
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "translate",
+   "uk": "Це яблуко.",
+   "answer": [
+    "It's an apple.",
+    "It is an apple.",
+    "This is an apple.",
+    "That's an apple.",
+    "That is an apple."
+   ],
+   "explanation": ""
+  }
+ ]
+}

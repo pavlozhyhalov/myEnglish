@@ -1,0 +1,181 @@
+{
+ "id": "a0-be-questions",
+ "title": "Питання: Are you…? Is he…?",
+ "titleEn": "be: questions and short answers",
+ "unit": "Основи речення",
+ "level": "A0",
+ "mistakeType": "word_order",
+ "explanation": "Щоб запитати, поставте **am / is / are** на початок: *You are tired.* → ***Are** you tired?*\n\nКоротка відповідь — тим самим словом: *Yes, I **am**. / No, I'm not.* У відповіді «так» не скорочуйте: *Yes, he **is**.*",
+ "formula": [
+  "**Am / Is / Are** + хто + …?",
+  "**Yes, I am.** · **No, I'm not.**"
+ ],
+ "table": {
+  "head": [
+   "Питання",
+   "Так",
+   "Ні"
+  ],
+  "rows": [
+   [
+    "Am I late?",
+    "Yes, you are.",
+    "No, you aren't."
+   ],
+   [
+    "Are you tired?",
+    "Yes, I am.",
+    "No, I'm not."
+   ],
+   [
+    "Is he at home?",
+    "Yes, he is.",
+    "No, he isn't."
+   ],
+   [
+    "Is she happy?",
+    "Yes, she is.",
+    "No, she isn't."
+   ],
+   [
+    "Is it cold?",
+    "Yes, it is.",
+    "No, it isn't."
+   ],
+   [
+    "Are they friends?",
+    "Yes, they are.",
+    "No, they aren't."
+   ]
+  ]
+ },
+ "examples": [
+  {
+   "en": "Are you OK?",
+   "uk": "Ти в порядку?"
+  },
+  {
+   "en": "Yes, I am.",
+   "uk": "Так."
+  },
+  {
+   "en": "Is she at home?",
+   "uk": "Вона вдома?"
+  },
+  {
+   "en": "No, she isn't.",
+   "uk": "Ні, її немає."
+  },
+  {
+   "en": "Is it far?",
+   "uk": "Це далеко?"
+  },
+  {
+   "en": "Are they from Kyiv?",
+   "uk": "Вони з Києва?"
+  },
+  {
+   "en": "Am I late?",
+   "uk": "Я запізнився?"
+  },
+  {
+   "en": "Is Oliver your friend?",
+   "uk": "Олівер — твій друг?"
+  }
+ ],
+ "tip": "Питання → відповідь тим самим словом: ***Are** you…?* — *Yes, I **am**.* ***Is** he…?* — *Yes, he **is**.*",
+ "exercises": [
+  {
+   "type": "choice",
+   "prompt": "___ you tired?",
+   "options": [
+    "Am",
+    "Is",
+    "Are"
+   ],
+   "answer": "Are",
+   "explanation": "you → are; у питанні — на початку."
+  },
+  {
+   "type": "choice",
+   "prompt": "___ she at home?",
+   "options": [
+    "Am",
+    "Is",
+    "Are"
+   ],
+   "answer": "Is",
+   "explanation": "she → is."
+  },
+  {
+   "type": "choice",
+   "prompt": "Are you from Ukraine? — Yes, I ___.",
+   "options": [
+    "am",
+    "are",
+    "is"
+   ],
+   "answer": "am",
+   "explanation": "Are you…? — Yes, I am."
+  },
+  {
+   "type": "choice",
+   "prompt": "Is it cold? — No, it ___.",
+   "options": [
+    "isn't",
+    "aren't",
+    "not"
+   ],
+   "answer": "isn't",
+   "explanation": "it → isn't."
+  },
+  {
+   "type": "input",
+   "prompt": "___ they friends? (Am / Is / Are)",
+   "answer": [
+    "Are"
+   ],
+   "explanation": "they → are."
+  },
+  {
+   "type": "input",
+   "prompt": "Is Emma at home? — Yes, she ___.",
+   "answer": [
+    "is"
+   ],
+   "explanation": "Is she…? — Yes, she is."
+  },
+  {
+   "type": "input",
+   "prompt": "Are you OK? — No, I'm ___.",
+   "answer": [
+    "not"
+   ],
+   "explanation": "No, I'm not."
+  },
+  {
+   "type": "order",
+   "prompt": "Він удома?",
+   "answer": [
+    "Is he at home?"
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "order",
+   "prompt": "Ти з Лондона?",
+   "answer": [
+    "Are you from London?"
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "translate",
+   "uk": "Вона щаслива?",
+   "answer": [
+    "Is she happy?"
+   ],
+   "explanation": ""
+  }
+ ]
+}

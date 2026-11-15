@@ -1,0 +1,181 @@
+{
+ "id": "a0-hello",
+ "title": "Привіт! Я… (I'm / My name is)",
+ "titleEn": "Hello! I'm… / My name is…",
+ "unit": "Основи речення",
+ "level": "A0",
+ "mistakeType": "tenses",
+ "explanation": "Щоб назвати себе, скажіть **I'm** + ім'я або **My name is** + ім'я.\n\n*I'm* — коротко від *I am* («я є»). «Я» англійською — **I**, і це слово завжди пишемо з великої літери.",
+ "formula": [
+  "**Hello! I'm** + ім'я",
+  "**My name is** + ім'я",
+  "**What's your name?** — Як тебе звати?"
+ ],
+ "table": {
+  "head": [
+   "Повністю",
+   "Коротко",
+   "Переклад"
+  ],
+  "rows": [
+   [
+    "I am Emma.",
+    "I'm Emma.",
+    "Я Емма."
+   ],
+   [
+    "My name is Oliver.",
+    "My name's Oliver.",
+    "Мене звати Олівер."
+   ],
+   [
+    "What is your name?",
+    "What's your name?",
+    "Як тебе звати?"
+   ],
+   [
+    "Nice to meet you.",
+    "—",
+    "Приємно познайомитися."
+   ]
+  ]
+ },
+ "examples": [
+  {
+   "en": "Hello! I'm Emma.",
+   "uk": "Привіт! Я Емма."
+  },
+  {
+   "en": "Hi! My name is Oliver.",
+   "uk": "Привіт! Мене звати Олівер."
+  },
+  {
+   "en": "What's your name?",
+   "uk": "Як тебе звати?"
+  },
+  {
+   "en": "I'm from Ukraine.",
+   "uk": "Я з України."
+  },
+  {
+   "en": "Nice to meet you.",
+   "uk": "Приємно познайомитися."
+  },
+  {
+   "en": "Good morning!",
+   "uk": "Доброго ранку!"
+  },
+  {
+   "en": "I'm fine, thank you.",
+   "uk": "У мене все добре, дякую."
+  },
+  {
+   "en": "Goodbye!",
+   "uk": "До побачення!"
+  }
+ ],
+ "tip": "**I** — завжди з великої літери: *I'm Emma*, а не ~~i'm Emma~~.",
+ "exercises": [
+  {
+   "type": "choice",
+   "prompt": "___ Emma.",
+   "options": [
+    "I'm",
+    "I",
+    "My"
+   ],
+   "answer": "I'm",
+   "explanation": "I'm = I am — «я (є)»."
+  },
+  {
+   "type": "choice",
+   "prompt": "My name ___ Oliver.",
+   "options": [
+    "am",
+    "is",
+    "are"
+   ],
+   "answer": "is",
+   "explanation": "name — «воно» → is."
+  },
+  {
+   "type": "choice",
+   "prompt": "What's your ___?",
+   "options": [
+    "name",
+    "I'm",
+    "is"
+   ],
+   "answer": "name",
+   "explanation": "What's your name? — Як тебе звати?"
+  },
+  {
+   "type": "choice",
+   "prompt": "Nice to ___ you.",
+   "options": [
+    "meet",
+    "name",
+    "am"
+   ],
+   "answer": "meet",
+   "explanation": "Nice to meet you — приємно познайомитися."
+  },
+  {
+   "type": "input",
+   "prompt": "My ___ is Emma.",
+   "answer": [
+    "name"
+   ],
+   "explanation": "My name is… — мене звати…"
+  },
+  {
+   "type": "input",
+   "prompt": "I ___ Oliver. (am / is)",
+   "answer": [
+    "am"
+   ],
+   "explanation": "I → am."
+  },
+  {
+   "type": "order",
+   "prompt": "Мене звати Олівер.",
+   "answer": [
+    "My name is Oliver.",
+    "Oliver is my name."
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "order",
+   "prompt": "Як тебе звати?",
+   "answer": [
+    "What is your name?"
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "error",
+   "sentence": "My name are Emma.",
+   "wrongIndex": 2,
+   "correction": "is",
+   "alt": [],
+   "explanation": "name → is."
+  },
+  {
+   "type": "translate",
+   "uk": "Привіт! Я Емма.",
+   "answer": [
+    "Hello! I'm Emma.",
+    "Hi! I'm Emma.",
+    "Hey! I'm Emma.",
+    "Hello! My name is Emma.",
+    "Hi! My name is Emma.",
+    "Hey! My name is Emma.",
+    "Hello! I'm Emma.",
+    "Hello! Emma.",
+    "Hello! It's Emma."
+   ],
+   "explanation": "Hello / Hi + I'm Emma."
+  }
+ ]
+}

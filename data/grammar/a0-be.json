@@ -1,0 +1,196 @@
+{
+ "id": "a0-be",
+ "title": "Я, ти, він, вона: am / is / are",
+ "titleEn": "be: I am, you are, he / she is",
+ "unit": "Основи речення",
+ "level": "A0",
+ "mistakeType": "tenses",
+ "explanation": "Українською ми кажемо «Він удома», «Вона щаслива» — без дієслова. Англійською тут обов'язкове **am / is / are** (дієслово *be* — «бути»): *He **is** at home.*\n\nЯке саме — залежить від того, хто: **I am**, **you are**, **he / she / it is**, **we / they are**.",
+ "formula": [
+  "**I am** · **you are**",
+  "**he / she / it is**",
+  "**we / they are**"
+ ],
+ "table": {
+  "head": [
+   "Хто",
+   "be",
+   "Коротко",
+   "Приклад"
+  ],
+  "rows": [
+   [
+    "I",
+    "am",
+    "I'm",
+    "I'm at home."
+   ],
+   [
+    "you",
+    "are",
+    "you're",
+    "You're late."
+   ],
+   [
+    "he",
+    "is",
+    "he's",
+    "He's from London."
+   ],
+   [
+    "she",
+    "is",
+    "she's",
+    "She's happy."
+   ],
+   [
+    "it",
+    "is",
+    "it's",
+    "It's cold."
+   ],
+   [
+    "we",
+    "are",
+    "we're",
+    "We're friends."
+   ],
+   [
+    "they",
+    "are",
+    "they're",
+    "They're in Kyiv."
+   ]
+  ]
+ },
+ "examples": [
+  {
+   "en": "She is happy.",
+   "uk": "Вона щаслива."
+  },
+  {
+   "en": "He is at home.",
+   "uk": "Він удома."
+  },
+  {
+   "en": "You are late.",
+   "uk": "Ти запізнився."
+  },
+  {
+   "en": "It's cold today.",
+   "uk": "Сьогодні холодно."
+  },
+  {
+   "en": "We are friends.",
+   "uk": "Ми друзі."
+  },
+  {
+   "en": "They are from Ukraine.",
+   "uk": "Вони з України."
+  },
+  {
+   "en": "Emma is in London.",
+   "uk": "Емма в Лондоні."
+  },
+  {
+   "en": "Oliver is tired.",
+   "uk": "Олівер утомився."
+  }
+ ],
+ "tip": "Не пропускайте *is / are*: ~~She happy~~ → *She **is** happy.*",
+ "exercises": [
+  {
+   "type": "choice",
+   "prompt": "She ___ happy.",
+   "options": [
+    "am",
+    "is",
+    "are"
+   ],
+   "answer": "is",
+   "explanation": "she → is."
+  },
+  {
+   "type": "choice",
+   "prompt": "You ___ late.",
+   "options": [
+    "am",
+    "is",
+    "are"
+   ],
+   "answer": "are",
+   "explanation": "you → are."
+  },
+  {
+   "type": "choice",
+   "prompt": "They ___ from Ukraine.",
+   "options": [
+    "am",
+    "is",
+    "are"
+   ],
+   "answer": "are",
+   "explanation": "they → are."
+  },
+  {
+   "type": "choice",
+   "prompt": "It ___ cold today.",
+   "options": [
+    "am",
+    "is",
+    "are"
+   ],
+   "answer": "is",
+   "explanation": "it → is."
+  },
+  {
+   "type": "input",
+   "prompt": "We ___ friends. (am / is / are)",
+   "answer": [
+    "are"
+   ],
+   "explanation": "we → are."
+  },
+  {
+   "type": "input",
+   "prompt": "He ___ at home. (am / is / are)",
+   "answer": [
+    "is"
+   ],
+   "explanation": "he → is."
+  },
+  {
+   "type": "error",
+   "sentence": "Oliver are at home.",
+   "wrongIndex": 1,
+   "correction": "is",
+   "alt": [],
+   "explanation": "Oliver = he → is."
+  },
+  {
+   "type": "error",
+   "sentence": "We is friends.",
+   "wrongIndex": 1,
+   "correction": "are",
+   "alt": [],
+   "explanation": "we → are."
+  },
+  {
+   "type": "order",
+   "prompt": "Вона вдома.",
+   "answer": [
+    "She is at home."
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "translate",
+   "uk": "Ми з України.",
+   "answer": [
+    "We are from Ukraine.",
+    "We're from Ukraine."
+   ],
+   "explanation": ""
+  }
+ ]
+}

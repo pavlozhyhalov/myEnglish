@@ -1,0 +1,169 @@
+{
+ "id": "a0-present-simple",
+ "title": "I live, I work: про себе",
+ "titleEn": "Present Simple: I / you / we / they",
+ "unit": "Теперішні часи",
+ "level": "A0",
+ "mistakeType": "tenses",
+ "explanation": "Про те, що робимо завжди чи зазвичай, кажемо просто дію: *I **live** in Kyiv. We **work** at home.* З **I, you, we, they** вона не змінюється.\n\n«Не» — **don't** + дія: *I **don't** work on Sunday.* Питання — **Do** на початку: ***Do** you live here?* Про *he / she* (з -s) — у курсі A1.",
+ "formula": [
+  "**I / you / we / they** + дія: *I live in Kyiv.*",
+  "**don't** + дія: *I don't work.*",
+  "**Do** you …? — **Yes, I do. / No, I don't.**"
+ ],
+ "table": {
+  "head": [
+   "+",
+   "−",
+   "?"
+  ],
+  "rows": [
+   [
+    "I live in Kyiv.",
+    "I don't live in London.",
+    "Do you live in Kyiv?"
+   ],
+   [
+    "We work at home.",
+    "We don't work on Sunday.",
+    "Do you work?"
+   ],
+   [
+    "They speak English.",
+    "They don't speak French.",
+    "Do they speak English?"
+   ]
+  ]
+ },
+ "examples": [
+  {
+   "en": "I live in Lviv.",
+   "uk": "Я живу у Львові."
+  },
+  {
+   "en": "I work in a shop.",
+   "uk": "Я працюю в магазині."
+  },
+  {
+   "en": "We speak Ukrainian.",
+   "uk": "Ми говоримо українською."
+  },
+  {
+   "en": "They don't eat meat.",
+   "uk": "Вони не їдять м'яса."
+  },
+  {
+   "en": "Do you like tea?",
+   "uk": "Ти любиш чай?"
+  },
+  {
+   "en": "Yes, I do.",
+   "uk": "Так."
+  },
+  {
+   "en": "I don't drink coffee.",
+   "uk": "Я не п'ю кави."
+  },
+  {
+   "en": "Where do you live?",
+   "uk": "Де ти живеш?"
+  }
+ ],
+ "tip": "Не додавайте *am / are*: ~~I am live in Kyiv~~ → *I **live** in Kyiv.*",
+ "exercises": [
+  {
+   "type": "choice",
+   "prompt": "I ___ in Kyiv.",
+   "options": [
+    "live",
+    "am live",
+    "lives"
+   ],
+   "answer": "live",
+   "explanation": "I + дія без змін."
+  },
+  {
+   "type": "choice",
+   "prompt": "We ___ at home.",
+   "options": [
+    "work",
+    "are work",
+    "works"
+   ],
+   "answer": "work",
+   "explanation": "we + дія без змін."
+  },
+  {
+   "type": "choice",
+   "prompt": "I ___ drink coffee.",
+   "options": [
+    "don't",
+    "not",
+    "am not"
+   ],
+   "answer": "don't",
+   "explanation": "«Не» з дією — don't."
+  },
+  {
+   "type": "choice",
+   "prompt": "___ you speak English?",
+   "options": [
+    "Do",
+    "Are",
+    "Is"
+   ],
+   "answer": "Do",
+   "explanation": "Питання з дією — Do."
+  },
+  {
+   "type": "input",
+   "prompt": "They ___ in London. (live)",
+   "answer": [
+    "live"
+   ],
+   "explanation": "they + дія без змін."
+  },
+  {
+   "type": "input",
+   "prompt": "Do you work? — Yes, I ___.",
+   "answer": [
+    "do"
+   ],
+   "explanation": "Do you…? — Yes, I do."
+  },
+  {
+   "type": "input",
+   "prompt": "I ___ eat meat. (не їм)",
+   "answer": [
+    "don't",
+    "do not"
+   ],
+   "explanation": "«Не» — don't."
+  },
+  {
+   "type": "error",
+   "sentence": "Do you lives here?",
+   "wrongIndex": 2,
+   "correction": "live",
+   "alt": [],
+   "explanation": "Після Do you — дія без -s."
+  },
+  {
+   "type": "order",
+   "prompt": "Де ти живеш?",
+   "answer": [
+    "Where do you live?"
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "translate",
+   "uk": "Я працюю вдома.",
+   "answer": [
+    "I work at home.",
+    "I work from home."
+   ],
+   "explanation": ""
+  }
+ ]
+}

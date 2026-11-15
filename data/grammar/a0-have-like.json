@@ -1,0 +1,176 @@
+{
+ "id": "a0-have-like",
+ "title": "I've got… / I like…",
+ "titleEn": "have got and like",
+ "unit": "Основи речення",
+ "level": "A0",
+ "mistakeType": "other",
+ "explanation": "«У мене є» англійською — **I have got** (коротко *I've got*): *I've got a dog.*\n\n«Мені подобається, я люблю» — **I like** + що: *I like tea.* Про нього чи неї — ***has** got* і ***likes*** (з *-s*): *She **has got** a cat. He **likes** pizza.*",
+ "formula": [
+  "**I / you / we / they have got** (*'ve got*)",
+  "**he / she has got** (*'s got*)",
+  "**I like** … · **he / she likes** …"
+ ],
+ "table": {
+  "head": [
+   "Хто",
+   "have got",
+   "like"
+  ],
+  "rows": [
+   [
+    "I",
+    "I've got a cat.",
+    "I like tea."
+   ],
+   [
+    "you",
+    "You've got a phone.",
+    "You like music."
+   ],
+   [
+    "he",
+    "He's got a car.",
+    "He likes pizza."
+   ],
+   [
+    "she",
+    "She's got a dog.",
+    "She likes coffee."
+   ],
+   [
+    "we / they",
+    "We've got two children.",
+    "They like apples."
+   ]
+  ]
+ },
+ "examples": [
+  {
+   "en": "I've got a sister.",
+   "uk": "У мене є сестра."
+  },
+  {
+   "en": "She's got a new phone.",
+   "uk": "У неї новий телефон."
+  },
+  {
+   "en": "We have got two cats.",
+   "uk": "У нас двоє котів."
+  },
+  {
+   "en": "I like coffee.",
+   "uk": "Я люблю каву."
+  },
+  {
+   "en": "He likes football.",
+   "uk": "Він любить футбол."
+  },
+  {
+   "en": "My son likes pizza.",
+   "uk": "Мій син любить піцу."
+  },
+  {
+   "en": "They like music.",
+   "uk": "Вони люблять музику."
+  },
+  {
+   "en": "I like apples.",
+   "uk": "Я люблю яблука."
+  }
+ ],
+ "tip": "З *he / she* — **-s**: ~~She like tea~~ → *She **likes** tea.* *She's got* = *She **has** got*.",
+ "exercises": [
+  {
+   "type": "choice",
+   "prompt": "I ___ got a dog.",
+   "options": [
+    "have",
+    "has",
+    "am"
+   ],
+   "answer": "have",
+   "explanation": "I → have got."
+  },
+  {
+   "type": "choice",
+   "prompt": "She ___ got a cat.",
+   "options": [
+    "have",
+    "has",
+    "is"
+   ],
+   "answer": "has",
+   "explanation": "she → has got."
+  },
+  {
+   "type": "choice",
+   "prompt": "He ___ pizza.",
+   "options": [
+    "like",
+    "likes"
+   ],
+   "answer": "likes",
+   "explanation": "he → likes."
+  },
+  {
+   "type": "choice",
+   "prompt": "I ___ tea.",
+   "options": [
+    "like",
+    "likes"
+   ],
+   "answer": "like",
+   "explanation": "I → like (без -s)."
+  },
+  {
+   "type": "input",
+   "prompt": "We ___ got two children. (have / has)",
+   "answer": [
+    "have"
+   ],
+   "explanation": "we → have got."
+  },
+  {
+   "type": "input",
+   "prompt": "My mum ___ coffee. (like)",
+   "answer": [
+    "likes"
+   ],
+   "explanation": "mum = she → likes."
+  },
+  {
+   "type": "error",
+   "sentence": "Emma like coffee.",
+   "wrongIndex": 1,
+   "correction": "likes",
+   "alt": [],
+   "explanation": "Emma = she → likes."
+  },
+  {
+   "type": "error",
+   "sentence": "He have got a car.",
+   "wrongIndex": 1,
+   "correction": "has",
+   "alt": [],
+   "explanation": "he → has got."
+  },
+  {
+   "type": "order",
+   "prompt": "У мене є кіт.",
+   "answer": [
+    "I have got a cat."
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "translate",
+   "uk": "Я люблю чай.",
+   "answer": [
+    "I like tea.",
+    "I love tea."
+   ],
+   "explanation": ""
+  }
+ ]
+}

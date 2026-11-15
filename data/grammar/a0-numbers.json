@@ -1,0 +1,209 @@
+{
+ "id": "a0-numbers",
+ "title": "Числа, вік і ціна",
+ "titleEn": "Numbers; How old are you? How much is it?",
+ "unit": "Будова речення",
+ "level": "A0",
+ "mistakeType": "other",
+ "explanation": "Вік кажемо з **am / is / are**, а не «маю»: *I **am** 25.* Питання: ***How old are** you?*\n\nЦіна: ***How much is** it?* — *It's 5 pounds.*",
+ "formula": [
+  "**How old are you?** — **I'm** 30.",
+  "**How much is it?** — **It's** 5 pounds."
+ ],
+ "table": {
+  "head": [
+   "1–10",
+   "11–19",
+   "20–100"
+  ],
+  "rows": [
+   [
+    "1 one",
+    "11 eleven",
+    "20 twenty"
+   ],
+   [
+    "2 two",
+    "12 twelve",
+    "30 thirty"
+   ],
+   [
+    "3 three",
+    "13 thirteen",
+    "40 forty"
+   ],
+   [
+    "4 four",
+    "14 fourteen",
+    "50 fifty"
+   ],
+   [
+    "5 five",
+    "15 fifteen",
+    "60 sixty"
+   ],
+   [
+    "6 six",
+    "16 sixteen",
+    "70 seventy"
+   ],
+   [
+    "7 seven",
+    "17 seventeen",
+    "80 eighty"
+   ],
+   [
+    "8 eight",
+    "18 eighteen",
+    "90 ninety"
+   ],
+   [
+    "9 nine",
+    "19 nineteen",
+    "100 a hundred"
+   ],
+   [
+    "10 ten",
+    "",
+    "21 twenty-one"
+   ]
+  ]
+ },
+ "examples": [
+  {
+   "en": "How old are you?",
+   "uk": "Скільки тобі років?"
+  },
+  {
+   "en": "I'm twenty-five.",
+   "uk": "Мені двадцять п'ять."
+  },
+  {
+   "en": "My son is seven.",
+   "uk": "Моєму синові сім."
+  },
+  {
+   "en": "How much is it?",
+   "uk": "Скільки це коштує?"
+  },
+  {
+   "en": "It's ten pounds.",
+   "uk": "Десять фунтів."
+  },
+  {
+   "en": "How much is this bag?",
+   "uk": "Скільки коштує ця сумка?"
+  },
+  {
+   "en": "Two coffees, please.",
+   "uk": "Дві кави, будь ласка."
+  },
+  {
+   "en": "My phone number is 0 6 7…",
+   "uk": "Мій номер телефону — 0 6 7…"
+  }
+ ],
+ "tip": "Вік — з *am / is / are*: ~~I have 30 years~~ → *I'm 30.* (*I'm 30 years old* теж правильно.)",
+ "exercises": [
+  {
+   "type": "choice",
+   "prompt": "How old ___ you?",
+   "options": [
+    "is",
+    "are",
+    "am"
+   ],
+   "answer": "are",
+   "explanation": "you → are."
+  },
+  {
+   "type": "choice",
+   "prompt": "I ___ 25.",
+   "options": [
+    "am",
+    "have",
+    "is"
+   ],
+   "answer": "am",
+   "explanation": "Вік — I am, не ~~I have~~."
+  },
+  {
+   "type": "choice",
+   "prompt": "How ___ is it? — It's 3 pounds.",
+   "options": [
+    "much",
+    "old",
+    "many"
+   ],
+   "answer": "much",
+   "explanation": "Ціна — How much."
+  },
+  {
+   "type": "choice",
+   "prompt": "15 = ___",
+   "options": [
+    "fifty",
+    "fifteen",
+    "five"
+   ],
+   "answer": "fifteen",
+   "explanation": "15 — fifteen, 50 — fifty."
+  },
+  {
+   "type": "input",
+   "prompt": "How ___ are you? — I'm 40.",
+   "answer": [
+    "old"
+   ],
+   "explanation": "Вік — How old."
+  },
+  {
+   "type": "input",
+   "prompt": "3 + 4 = ___ (словом)",
+   "answer": [
+    "seven"
+   ],
+   "explanation": "3 + 4 = 7 — seven."
+  },
+  {
+   "type": "error",
+   "sentence": "My daughter have ten.",
+   "wrongIndex": 2,
+   "correction": "is",
+   "alt": [],
+   "explanation": "Вік — з is: My daughter is ten."
+  },
+  {
+   "type": "order",
+   "prompt": "Скільки тобі років?",
+   "answer": [
+    "How old are you?"
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "translate",
+   "uk": "Скільки це коштує?",
+   "answer": [
+    "How much is it?",
+    "How much is this?",
+    "How much is that?",
+    "How much does it cost?",
+    "How much does this cost?",
+    "How much does that cost?"
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "translate",
+   "uk": "Мені двадцять років.",
+   "answer": [
+    "I'm twenty.",
+    "I am twenty.",
+    "I'm twenty years old.",
+    "I am twenty years old."
+   ],
+   "explanation": ""
+  }
+ ]
+}

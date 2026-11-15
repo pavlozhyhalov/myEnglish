@@ -1,0 +1,157 @@
+{
+ "id": "a0-there-is",
+ "title": "There is / there are: тут є…",
+ "titleEn": "There is / there are (positive)",
+ "unit": "Основи речення",
+ "level": "A0",
+ "mistakeType": "other",
+ "explanation": "Щоб сказати, що десь **є** щось, починаємо з **there**: ***There is** a cat in my room.* — У моїй кімнаті є кіт.\n\nОдин предмет — **there is** (*there's*), багато — **there are**.",
+ "formula": [
+  "**There is** + a … (один)",
+  "**There are** + … -s (багато)"
+ ],
+ "table": {
+  "head": [
+   "Один",
+   "Багато"
+  ],
+  "rows": [
+   [
+    "There is a cat.",
+    "There are two cats."
+   ],
+   [
+    "There's a book.",
+    "There are three books."
+   ],
+   [
+    "There is an apple.",
+    "There are apples."
+   ]
+  ]
+ },
+ "examples": [
+  {
+   "en": "There is a cat in my room.",
+   "uk": "У моїй кімнаті є кіт."
+  },
+  {
+   "en": "There are two beds.",
+   "uk": "Там два ліжка."
+  },
+  {
+   "en": "There's a shop near my house.",
+   "uk": "Біля мого будинку є магазин."
+  },
+  {
+   "en": "There are five people in my family.",
+   "uk": "У моїй сім'ї п'ятеро людей."
+  },
+  {
+   "en": "There is a bus at ten.",
+   "uk": "О десятій є автобус."
+  },
+  {
+   "en": "There are books on the table.",
+   "uk": "На столі книжки."
+  },
+  {
+   "en": "There's a park in my town.",
+   "uk": "У моєму місті є парк."
+  }
+ ],
+ "tip": "Не кажіть ~~In my room is a cat~~ — почніть з *There is*: ***There is** a cat in my room.*",
+ "exercises": [
+  {
+   "type": "choice",
+   "prompt": "There ___ a cat in my room.",
+   "options": [
+    "is",
+    "are"
+   ],
+   "answer": "is",
+   "explanation": "Один кіт — there is."
+  },
+  {
+   "type": "choice",
+   "prompt": "There ___ two beds.",
+   "options": [
+    "is",
+    "are"
+   ],
+   "answer": "are",
+   "explanation": "Два — there are."
+  },
+  {
+   "type": "choice",
+   "prompt": "There are three ___.",
+   "options": [
+    "book",
+    "books"
+   ],
+   "answer": "books",
+   "explanation": "Багато — -s."
+  },
+  {
+   "type": "choice",
+   "prompt": "___ a shop near my house.",
+   "options": [
+    "There's",
+    "There are",
+    "It"
+   ],
+   "answer": "There's",
+   "explanation": "Один магазин — there's."
+  },
+  {
+   "type": "input",
+   "prompt": "There ___ five people in my family. (is / are)",
+   "answer": [
+    "are"
+   ],
+   "explanation": "people — багато → are."
+  },
+  {
+   "type": "input",
+   "prompt": "There ___ an apple in my bag. (is / are)",
+   "answer": [
+    "is"
+   ],
+   "explanation": "Одне яблуко — is."
+  },
+  {
+   "type": "input",
+   "prompt": "___ is a park in my town.",
+   "answer": [
+    "There"
+   ],
+   "explanation": "There is…"
+  },
+  {
+   "type": "error",
+   "sentence": "There are a bus at ten.",
+   "wrongIndex": 1,
+   "correction": "is",
+   "alt": [],
+   "explanation": "a bus — один → there is."
+  },
+  {
+   "type": "order",
+   "prompt": "Тут є кіт.",
+   "answer": [
+    "There is a cat here."
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "translate",
+   "uk": "Є два ліжка.",
+   "answer": [
+    "There are two beds.",
+    "There are two beds here.",
+    "There are two beds there."
+   ],
+   "explanation": ""
+  }
+ ]
+}

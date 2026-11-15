@@ -1,0 +1,168 @@
+{
+ "id": "a0-can",
+ "title": "Can / can't: я вмію",
+ "titleEn": "can and can't: ability",
+ "unit": "Модальні дієслова",
+ "level": "A0",
+ "mistakeType": "other",
+ "explanation": "**can** — «можу, вмію»: *I **can** swim.* Не вмію — **can't** (*cannot*): *I **can't** cook.*\n\nПісля *can* — дія без змін і без *to*. *can* однакове для всіх: *he **can**, she **can*** (без -s). Питання: ***Can** you swim?* — *Yes, I can. / No, I can't.*",
+ "formula": [
+  "хто + **can / can't** + дія",
+  "**Can** + хто + дія? — **Yes, I can. / No, I can't.**"
+ ],
+ "table": {
+  "head": [
+   "+",
+   "−",
+   "?"
+  ],
+  "rows": [
+   [
+    "I can swim.",
+    "I can't swim.",
+    "Can you swim?"
+   ],
+   [
+    "She can cook.",
+    "She can't cook.",
+    "Can she cook?"
+   ],
+   [
+    "They can sing.",
+    "They can't sing.",
+    "Can they sing?"
+   ]
+  ]
+ },
+ "examples": [
+  {
+   "en": "I can swim.",
+   "uk": "Я вмію плавати."
+  },
+  {
+   "en": "I can't cook.",
+   "uk": "Я не вмію готувати."
+  },
+  {
+   "en": "Can you drive?",
+   "uk": "Ти вмієш водити машину?"
+  },
+  {
+   "en": "Yes, I can.",
+   "uk": "Так, умію."
+  },
+  {
+   "en": "She can speak English.",
+   "uk": "Вона вміє говорити англійською."
+  },
+  {
+   "en": "He can't dance.",
+   "uk": "Він не вміє танцювати."
+  },
+  {
+   "en": "My son can read.",
+   "uk": "Мій син уміє читати."
+  },
+  {
+   "en": "Can you help me?",
+   "uk": "Можеш мені допомогти?"
+  }
+ ],
+ "tip": "Без *to* і без *-s*: ~~She cans to swim~~ → *She **can** swim.*",
+ "exercises": [
+  {
+   "type": "choice",
+   "prompt": "She ___ swim.",
+   "options": [
+    "can",
+    "cans",
+    "can to"
+   ],
+   "answer": "can",
+   "explanation": "can — без -s і без to."
+  },
+  {
+   "type": "choice",
+   "prompt": "I can ___ English.",
+   "options": [
+    "speak",
+    "to speak",
+    "speaks"
+   ],
+   "answer": "speak",
+   "explanation": "Після can — дія без to."
+  },
+  {
+   "type": "choice",
+   "prompt": "Can you cook? — No, I ___.",
+   "options": [
+    "can't",
+    "don't",
+    "not"
+   ],
+   "answer": "can't",
+   "explanation": "Can you…? — No, I can't."
+  },
+  {
+   "type": "choice",
+   "prompt": "___ you drive?",
+   "options": [
+    "Can",
+    "Do can",
+    "Are"
+   ],
+   "answer": "Can",
+   "explanation": "Питання — Can на початку."
+  },
+  {
+   "type": "input",
+   "prompt": "I ___ swim. (не вмію)",
+   "answer": [
+    "can't",
+    "cannot"
+   ],
+   "explanation": "Не вмію — can't."
+  },
+  {
+   "type": "input",
+   "prompt": "Can he dance? — Yes, he ___.",
+   "answer": [
+    "can"
+   ],
+   "explanation": "Yes, he can."
+  },
+  {
+   "type": "error",
+   "sentence": "He cans read.",
+   "wrongIndex": 1,
+   "correction": "can",
+   "alt": [],
+   "explanation": "can — без -s."
+  },
+  {
+   "type": "error",
+   "sentence": "I can to dance.",
+   "wrongIndex": 2,
+   "correction": "",
+   "alt": [],
+   "explanation": "Після can — без to: I can dance."
+  },
+  {
+   "type": "order",
+   "prompt": "Ти вмієш плавати?",
+   "answer": [
+    "Can you swim?"
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "translate",
+   "uk": "Я не вмію готувати.",
+   "answer": [
+    "I can't cook.",
+    "I cannot cook."
+   ],
+   "explanation": ""
+  }
+ ]
+}

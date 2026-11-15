@@ -1,0 +1,178 @@
+{
+ "id": "a0-my-your",
+ "title": "my, your, his, her",
+ "titleEn": "Possessives: my, your, his, her",
+ "unit": "Іменник і артиклі",
+ "level": "A0",
+ "mistakeType": "other",
+ "explanation": "Чий? — **my** (мій, моя), **your** (твій, ваш), **his** (його), **her** (її).\n\nСлово не змінюється: *my mum, my dad, my books*. **his** — про чоловіка, **her** — про жінку.",
+ "formula": [
+  "I → **my** · you → **your**",
+  "he → **his** · she → **her**"
+ ],
+ "table": {
+  "head": [
+   "Хто",
+   "Чий",
+   "Приклад"
+  ],
+  "rows": [
+   [
+    "I",
+    "my",
+    "my bag"
+   ],
+   [
+    "you",
+    "your",
+    "your phone"
+   ],
+   [
+    "he",
+    "his",
+    "his car"
+   ],
+   [
+    "she",
+    "her",
+    "her name"
+   ]
+  ]
+ },
+ "examples": [
+  {
+   "en": "This is my mum.",
+   "uk": "Це моя мама."
+  },
+  {
+   "en": "What's your name?",
+   "uk": "Як тебе звати?"
+  },
+  {
+   "en": "His name is Oliver.",
+   "uk": "Його звати Олівер."
+  },
+  {
+   "en": "Her name is Emma.",
+   "uk": "Її звати Емма."
+  },
+  {
+   "en": "Is this your bag?",
+   "uk": "Це твоя сумка?"
+  },
+  {
+   "en": "My dad is a doctor.",
+   "uk": "Мій тато — лікар."
+  },
+  {
+   "en": "Her cat is black.",
+   "uk": "Її кіт чорний."
+  },
+  {
+   "en": "His phone is new.",
+   "uk": "Його телефон новий."
+  }
+ ],
+ "tip": "Не плутайте *he's* (= he is, «він є») і ***his*** («його»): *His name is Oliver. He's from London.*",
+ "exercises": [
+  {
+   "type": "choice",
+   "prompt": "This is Emma. ___ cat is black.",
+   "options": [
+    "Her",
+    "His",
+    "She"
+   ],
+   "answer": "Her",
+   "explanation": "Emma — жінка → her."
+  },
+  {
+   "type": "choice",
+   "prompt": "This is Oliver. ___ phone is new.",
+   "options": [
+    "His",
+    "Her",
+    "He"
+   ],
+   "answer": "His",
+   "explanation": "Oliver — чоловік → his."
+  },
+  {
+   "type": "choice",
+   "prompt": "I'm Emma. ___ name is Emma.",
+   "options": [
+    "My",
+    "Your",
+    "Her"
+   ],
+   "answer": "My",
+   "explanation": "I → my."
+  },
+  {
+   "type": "choice",
+   "prompt": "What's ___ name?",
+   "options": [
+    "your",
+    "you",
+    "you're"
+   ],
+   "answer": "your",
+   "explanation": "you → your."
+  },
+  {
+   "type": "input",
+   "prompt": "I am Oliver. ___ name is Oliver.",
+   "answer": [
+    "My"
+   ],
+   "explanation": "I → my."
+  },
+  {
+   "type": "input",
+   "prompt": "He is Oliver. ___ name is Oliver.",
+   "answer": [
+    "His"
+   ],
+   "explanation": "he → his."
+  },
+  {
+   "type": "error",
+   "sentence": "She is my sister. His name is Emma.",
+   "wrongIndex": 4,
+   "correction": "Her",
+   "alt": [],
+   "explanation": "Сестра — жінка → her."
+  },
+  {
+   "type": "order",
+   "prompt": "Це моя мама.",
+   "answer": [
+    "This is my mum."
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "translate",
+   "uk": "Його звати Олівер.",
+   "answer": [
+    "His name is Oliver.",
+    "His name's Oliver.",
+    "He is Oliver.",
+    "He's Oliver.",
+    "He is called Oliver.",
+    "He's called Oliver."
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "translate",
+   "uk": "Це твій телефон?",
+   "answer": [
+    "Is this your phone?",
+    "Is it your phone?",
+    "Is that your phone?"
+   ],
+   "explanation": ""
+  }
+ ]
+}

@@ -1,0 +1,178 @@
+{
+ "id": "a0-in-on-under",
+ "title": "Де? in, on, under",
+ "titleEn": "Prepositions of place: in, on, under",
+ "unit": "Прийменники",
+ "level": "A0",
+ "mistakeType": "prepositions",
+ "explanation": "Де? **in** — у, всередині (*in the bag*), **on** — на (*on the table*), **under** — під (*under the bed*).\n\n**the** перед предметом — коли зрозуміло, про який саме мова: *the table* (цей стіл). Питання: ***Where is** my phone?* — *It's **on** the table.*",
+ "formula": [
+  "**Where is** …? — **It's in / on / under** the …",
+  "**in** — у · **on** — на · **under** — під"
+ ],
+ "table": {
+  "head": [
+   "Слово",
+   "Значення",
+   "Приклад"
+  ],
+  "rows": [
+   [
+    "in",
+    "у, в",
+    "in the box"
+   ],
+   [
+    "on",
+    "на",
+    "on the table"
+   ],
+   [
+    "under",
+    "під",
+    "under the chair"
+   ],
+   [
+    "next to",
+    "поруч із",
+    "next to the door"
+   ]
+  ]
+ },
+ "examples": [
+  {
+   "en": "Where is my phone?",
+   "uk": "Де мій телефон?"
+  },
+  {
+   "en": "It's on the table.",
+   "uk": "Він на столі."
+  },
+  {
+   "en": "The cat is under the bed.",
+   "uk": "Кіт під ліжком."
+  },
+  {
+   "en": "My keys are in my bag.",
+   "uk": "Мої ключі в сумці."
+  },
+  {
+   "en": "The book is on the chair.",
+   "uk": "Книжка на стільці."
+  },
+  {
+   "en": "Is it in the box?",
+   "uk": "Воно в коробці?"
+  },
+  {
+   "en": "The dog is next to the door.",
+   "uk": "Собака біля дверей."
+  },
+  {
+   "en": "I'm in the kitchen.",
+   "uk": "Я на кухні."
+  }
+ ],
+ "tip": "Українське «на кухні» англійською — ***in** the kitchen* (усередині кімнати). На поверхні — **on**: *on the table*.",
+ "exercises": [
+  {
+   "type": "choice",
+   "prompt": "The cat is ___ the bed. (під)",
+   "options": [
+    "under",
+    "on",
+    "in"
+   ],
+   "answer": "under",
+   "explanation": "під — under."
+  },
+  {
+   "type": "choice",
+   "prompt": "My phone is ___ the table. (на)",
+   "options": [
+    "on",
+    "in",
+    "under"
+   ],
+   "answer": "on",
+   "explanation": "на — on."
+  },
+  {
+   "type": "choice",
+   "prompt": "The apple is ___ the box. (у)",
+   "options": [
+    "in",
+    "on",
+    "under"
+   ],
+   "answer": "in",
+   "explanation": "у — in."
+  },
+  {
+   "type": "choice",
+   "prompt": "___ is my bag? — It's on the chair.",
+   "options": [
+    "Where",
+    "What",
+    "How"
+   ],
+   "answer": "Where",
+   "explanation": "Де? — Where."
+  },
+  {
+   "type": "input",
+   "prompt": "The book is ___ the table. (на)",
+   "answer": [
+    "on"
+   ],
+   "explanation": "на — on."
+  },
+  {
+   "type": "input",
+   "prompt": "My keys are ___ my bag. (у)",
+   "answer": [
+    "in"
+   ],
+   "explanation": "у — in."
+  },
+  {
+   "type": "input",
+   "prompt": "The dog is ___ the chair. (під)",
+   "answer": [
+    "under"
+   ],
+   "explanation": "під — under."
+  },
+  {
+   "type": "order",
+   "prompt": "Де мій телефон?",
+   "answer": [
+    "Where is my phone?"
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "translate",
+   "uk": "Кіт під ліжком.",
+   "answer": [
+    "The cat is under the bed.",
+    "A cat is under the bed.",
+    "My cat is under the bed.",
+    "There is a cat under the bed."
+   ],
+   "explanation": ""
+  },
+  {
+   "type": "translate",
+   "uk": "Ключі на столі.",
+   "answer": [
+    "The keys are on the table.",
+    "My keys are on the table.",
+    "Keys are on the table.",
+    "There are keys on the table.",
+    "The keys are on a table."
+   ],
+   "explanation": ""
+  }
+ ]
+}
