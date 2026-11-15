@@ -747,7 +747,7 @@
   {
    "id": "silent",
    "title": "Німі літери",
-   "rule": "kn, wr, mb, h: k, w, b, h не читаються",
+   "rule": "Не читаються: k у kn, w у wr, b у mb, h у hour, t у listen",
    "words": [
     "know",
     "knife",
