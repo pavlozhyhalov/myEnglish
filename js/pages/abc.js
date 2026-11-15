@@ -127,7 +127,7 @@ function read(box, data) {
   const items = data.read.map((d, k) => {
     const pill = h('span.abc-pill', done.has(d.id) ? txPill('✓', 'good') : null);
     const el = h('details.gx-sound.abc-drill', {
-      ontoggle: (e) => { if (e.currentTarget.open && !done.has(d.id)) { done.add(d.id); markRead(d.id); pill.replaceChildren(txPill('✓', 'good')); } } },
+      ontoggle: (e) => { if (e.currentTarget.open && !done.has(d.id)) { done.add(d.id); markRead(d.id); pill.replaceChildren(txPill('✓', 'good')); head.textContent = label(); } } },
       h('summary.gx-sound-head',
         h('span.tx-no', String(k + 1)),
         h('span.tx-body', h('span.tx-l', d.title), h('span.tx-s', d.rule)),
@@ -140,7 +140,10 @@ function read(box, data) {
           h('span.tx-sq', ic('speaker-high', { size: 18 })), h('span.tx-body', h('span.tx-l', d.sentence), h('span.tx-s', 'Речення — прочитайте й прослухайте')))));
     return el;
   });
-  box.replaceChildren(txGroup(`Вправи · ${done.size} з ${data.read.length}`, moreRows(items, shown)));
+  const label = () => `Вправи · ${done.size} з ${data.read.length}`;
+  const group = txGroup(label(), moreRows(items, shown));
+  const head = group.querySelector('.tx-label');
+  box.replaceChildren(group);
 }
 
 // ---------- Спелінг ----------
