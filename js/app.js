@@ -17,6 +17,7 @@ import { initSelectLookup } from './ui/selectlookup.js';
 import { initDailyBar } from './ui/dailybar.js';
 import { initSubnav, updateSubnav } from './ui/subnav.js';
 import { initFit } from './ui/fit.js';
+import { initInbox } from './ui/inbox.js';
 import { deckIndex, grammarIndex, scenarios, listening, json } from './data.js';
 import * as srs from './srs.js';
 import { welcomeRedirect } from './start.js';
@@ -37,7 +38,7 @@ function header() {
   const streakBtn = h('a.streak-chip', { href: '#/progress' });
   const updateStreak = () => {
     const n = streak();
-    streakBtn.replaceChildren(ic('fire', { size: 20, fill: true }), h('span.num', String(n)));
+    streakBtn.replaceChildren(ic('fire', { size: 21 }), h('span.num', String(n)));   // монохромна лінійна, як усі іконки сайту (власник 2026-11-16)
     streakBtn.setAttribute('aria-label', S.streak(n));
     // нульовий стрік не показуємо — шапка без «0»
     streakBtn.hidden = n < 1;
@@ -56,8 +57,13 @@ function header() {
     ('requestIdleCallback' in window) ? requestIdleCallback(run, { timeout: 8000 }) : setTimeout(run, 3000);
   }
   try { backfillLessonTests(); } catch (e) { console.warn('tests backfill', e); }
+  const bellBtn = h('button.icon-btn.btn-bell', { type: 'button', 'aria-label': 'Сповіщення', hidden: true }, ic('bell', { size: 21 }));
+  initInbox(bellBtn);
   const el = h('header.app-header',
-    h('button.icon-btn.btn-menu', { type: 'button', 'aria-label': S.menu, 'aria-controls': 'drawer', onclick: toggleDrawer }, ic('list')),
+    h('div.left',
+      h('button.icon-btn.btn-menu', { type: 'button', 'aria-label': S.menu, 'aria-controls': 'drawer', onclick: toggleDrawer }, ic('list')),
+      // дзвіночок: сповіщення й швидкий вхід у групи та чати (js/ui/inbox.js)
+      bellBtn),
     h('div.title#page-title', S.app),
     h('div.right',
       // тема одним дотиком (власник 2026-11-13): світла ↔ темна; «Авто» — у «Налаштуваннях»
