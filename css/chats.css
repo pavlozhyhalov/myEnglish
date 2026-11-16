@@ -1,0 +1,84 @@
+/* ---------- Друзі → Чати (js/pages/chats.js): список, чат, голосові, виправлення, виклики ---------- */
+.ch-ava{border-radius:12px}
+.ch-list .ch-row{min-height:64px}
+.ch-row .tx-body{min-width:0}
+.ch-prev{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:block}
+.ch-row.unread .tx-l{font-weight:700}
+.ch-row.unread .ch-prev{color:var(--ink)}
+.ch-meta{display:flex;flex-direction:column;align-items:flex-end;gap:5px;flex:none;margin-left:6px}
+.ch-time{font-size:var(--fs-xs);color:var(--ink-dim);font-variant-numeric:tabular-nums;white-space:nowrap}
+.ch-badge{min-width:22px;height:22px;padding:0 7px;border-radius:11px;background:var(--accent-grad);color:#fff;font-family:var(--font-head);font-size:12px;display:grid;place-items:center;font-variant-numeric:tabular-nums}
+.ch-muted{color:var(--ink-dim);opacity:.7;display:inline-flex}
+
+/* вибір друзів (шторка) */
+.ch-sheet{gap:12px}
+.ch-pick-list{max-height:min(52vh,420px);overflow-y:auto;-webkit-overflow-scrolling:touch}
+.ch-pick{width:100%;text-align:left;font:inherit;color:inherit;cursor:pointer}
+.ch-check{width:24px;height:24px;flex:none;border-radius:8px;border:2px solid var(--field-edge,var(--line-strong,#8A94A8));display:grid;place-items:center;color:transparent;margin-left:auto}
+.ch-pick.on .ch-check{background:var(--accent-grad);border-color:transparent;color:#fff}
+.ch-danger .tx-l,.ch-danger .tx-sq{color:var(--bad)}
+
+/* чат */
+.ch-room{display:flex;flex-direction:column;gap:10px;min-height:calc(100dvh - 220px)}
+.ch-title{gap:10px}
+.ch-title .tx-body{min-width:0}
+.ch-title .tx-s{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:block}
+.ch-title .icon-btn{flex:none;border-radius:12px}
+.ch-strip:empty{display:none}
+.ch-older{align-self:center}
+.ch-older[hidden]{display:none}
+.ch-msgs{display:flex;flex-direction:column;gap:6px;flex:1;padding-bottom:6px}
+.ch-day{align-self:center;font-size:var(--fs-xs);color:var(--ink-dim);background:var(--tile-sq);border-radius:10px;padding:3px 10px;margin:8px 0 2px}
+.ch-empty{display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;color:var(--ink-dim);padding:36px 12px;margin:auto 0}
+.ch-wrap{display:flex;flex-direction:column;max-width:86%}
+.ch-wrap.me{align-self:flex-end;align-items:flex-end}
+.ch-wrap.ai{align-self:flex-start;align-items:flex-start}
+.ch-wrap .msg{max-width:100%}
+.ch-msg{border-radius:18px;padding:9px 12px 6px;cursor:pointer;-webkit-tap-highlight-color:transparent;position:relative}
+.ch-msg.me{background:var(--accent-grad);color:#fff;border:0;border-bottom-right-radius:6px;box-shadow:0 6px 16px -10px rgba(30,58,138,.55)}
+.ch-msg.ai{background:var(--tile);border:1px solid var(--tile-edge);border-bottom-left-radius:6px;box-shadow:var(--tile-shadow)}
+.ch-msg:focus-visible{outline:2px solid var(--accent-ink);outline-offset:2px}
+.ch-name{font-size:var(--fs-xs);font-weight:700;color:var(--accent-ink);margin-bottom:2px}
+.ch-text{white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.42}
+.ch-tr{font-size:var(--fs-sm);margin-top:6px;opacity:.95}
+.ch-ts{display:block;text-align:right;font-size:11px;opacity:.7;margin-top:2px;font-variant-numeric:tabular-nums}
+.ch-del{font-style:italic;opacity:.7;padding:8px 12px;font-size:var(--fs-sm)}
+.msg.me.ch-del{background:var(--tile-sq);color:var(--ink-dim);box-shadow:none}
+.msg.sys{max-width:90%}
+/* помилка в моєму повідомленні — підкреслення хвилькою, дотик → «Як краще» */
+mark.ch-err{background:transparent;color:inherit;text-decoration:underline wavy #FFB4A6;text-decoration-thickness:1.5px;text-underline-offset:3px;cursor:pointer}
+.ch-msg.ai mark.ch-err{text-decoration-color:var(--bad)}
+.ch-fixes{display:inline-flex;align-items:center;gap:5px;margin-top:4px;border:0;background:var(--warn-soft);color:var(--warn);font:inherit;font-size:var(--fs-xs);font-weight:700;border-radius:10px;padding:5px 10px;min-height:32px;cursor:pointer}
+.ch-checking{font-size:11px;color:var(--ink-dim);margin-top:3px}
+.ch-fix{display:flex;flex-direction:column;gap:4px;background:var(--tile);border:1px solid var(--tile-edge);border-radius:14px;padding:10px 12px}
+.ch-fix-w,.ch-fix-r{display:flex;align-items:center;gap:6px;overflow-wrap:anywhere}
+.ch-fix-w{color:var(--bad)}
+.ch-fix-r{color:var(--good)}
+.ch-fix-w s{color:var(--ink-dim)}
+.ch-fix-r b{color:var(--ink)}
+.ch-fix .btn{align-self:flex-start}
+.ch-uk{color:var(--ink-dim)}
+/* голосове */
+.ch-voice{display:flex;align-items:center;gap:10px;min-width:180px}
+.ch-play{width:36px;height:36px;flex:none;border-radius:50%;border:0;display:grid;place-items:center;cursor:pointer;background:rgba(255,255,255,.2);color:inherit}
+.ch-msg.ai .ch-play{background:var(--accent-grad);color:#fff}
+.ch-wave{flex:1;height:4px;border-radius:2px;background:currentColor;opacity:.35;position:relative;overflow:hidden;min-width:60px}
+.ch-wave i{position:absolute;inset:0 auto 0 0;width:0;background:currentColor;border-radius:2px}
+.ch-dur{font-size:var(--fs-xs);font-variant-numeric:tabular-nums;opacity:.85}
+.ch-sending{opacity:.7}
+/* виклик у чаті */
+.ch-card{align-self:stretch}
+.ch-chal .tx-sq{background:var(--warn-soft);color:var(--warn)}
+.ch-prog .tx-body{gap:6px}
+.ch-val{font-family:var(--font-head);font-variant-numeric:tabular-nums;flex:none}
+/* запис голосового */
+.ch-rec{align-items:center}
+.ch-rec-dot{width:10px;height:10px;border-radius:50%;background:var(--bad);flex:none;animation:ch-pulse 1s ease-in-out infinite}
+.ch-rec-t{font-family:var(--font-head);font-variant-numeric:tabular-nums}
+.ch-rec-hint{flex:1;color:var(--ink-dim);font-size:var(--fs-sm);overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+@keyframes ch-pulse{50%{opacity:.35}}
+@media (prefers-reduced-motion:reduce){.ch-rec-dot{animation:none}}
+.ch-dock{margin-top:auto}
+/* шапка чату липне під шапкою застосунку: меню й виклик завжди під рукою */
+.ch-head{position:sticky;top:calc(var(--header-h) + var(--safe-t));z-index:6;margin:-8px -6px 0;padding:8px 6px 4px;border-radius:20px;background:color-mix(in srgb,var(--bg) 82%,transparent);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}
+.fr-tap{cursor:pointer}

@@ -13,6 +13,7 @@ export function reminderPrefs() {
     time: /^\d{2}:\d{2}$/.test(r.time || '') ? r.time : REMINDER_DEFAULTS.time,
     cards: r.cards !== false,
     streak: r.streak !== false,
+    chat: r.chat !== false,
   };
 }
 export function setReminderPrefs(patch) {
@@ -95,7 +96,7 @@ function row(sub, uid) {
   try { tz = Intl.DateTimeFormat().resolvedOptions().timeZone || tz; } catch { /* лишаємо типовий */ }
   return {
     user_id: uid, endpoint: j.endpoint, keys: { p256dh: j.keys?.p256dh, auth: j.keys?.auth },
-    tz, remind_at: p.time, kinds: { cards: p.cards, streak: p.streak }, enabled: true,
+    tz, remind_at: p.time, kinds: { cards: p.cards, streak: p.streak, chat: p.chat }, enabled: true,
   };
 }
 

@@ -114,7 +114,7 @@ const SR_BROKEN = ['network', 'service-not-allowed', 'language-not-supported', '
 /** Чи може сторінка взагалі отримати мікрофон (безпечний контекст + getUserMedia; у вбудованих браузерах месенджерів часто немає) */
 export const micAvailable = () => !!(window.isSecureContext !== false && navigator.mediaDevices?.getUserMedia);
 const micError = () => Object.assign(new Error('mic unsupported'), { code: 'mic', name: 'NotAllowedError' });   // S.err.mic сам пояснює, що робити (вбудований браузер, Android, iPhone)
-async function getMic(constraints = { audio: true }) {
+export async function getMic(constraints = { audio: true }) {
   if (!micAvailable()) throw micError();
   try { return await navigator.mediaDevices.getUserMedia(constraints); }
   catch (e) { throw Object.assign(e, { code: e?.name === 'NotFoundError' ? 'mic_missing' : e?.name === 'NotAllowedError' || e?.name === 'SecurityError' ? 'mic' : e?.code }); }

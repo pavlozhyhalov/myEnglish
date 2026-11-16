@@ -1,13 +1,15 @@
-// Друзі: код запрошення, додавання за кодом, стрік і хвилини друзів (спільний стрік).
+// Друзі: код запрошення, додавання за кодом, стрік і хвилини друзів (спільний стрік); вкладка «Чати» — js/pages/chats.js.
 // Друзі бачать лише ім'я для друзів, стрік і хвилини (сьогодні, цей тиждень) — RPC friends_stats() (міграція 0012).
 import { h, ic, emo } from '../ui/dom.js';
 import { plural } from '../strings.js';
 import * as store from '../store.js';
 import { user, getSupa } from '../supa.js';
 import { toast } from '../ui/toast.js';
-import { confirmSheet } from '../ui/sheet.js';
+import { sheet, confirmSheet } from '../ui/sheet.js';
 import { streak, dayKey } from '../stats.js';
-import { tx, txPrimary, txGroup, txRow, txLogin } from '../ui/tiles.js';
+import { tx, txPrimary, txGroup, txRow, txRows, txLogin } from '../ui/tiles.js';
+import { chatsList, chatRoom, openDmAndGo } from './chats.js';
+import * as chat from '../chat.js';
 
 const days = (n) => `${n} ${plural(n, 'день', 'дні', 'днів')}`;
 const mins = (sec) => `${Math.round((sec || 0) / 60)}\u00a0хв`;
@@ -46,6 +48,13 @@ async function rpc(name, args) {
 }
 
 export default function friends(view, r) {
+  // «Друзі» → «Чати» (#/friends/chats) і чат (#/friends/chat/<id>) — js/pages/chats.js
+  if (r?.parts?.[0] === 'chats') return chatsList(view, r);
+  if (r?.parts?.[0] === 'chat') return chatRoom(view, r.parts[1] || '', r);
+  return friendsPage(view, r);
+}
+
+function friendsPage(view, r) {
   let alive = true;
   const u = user();
   if (!u) {
@@ -133,21 +142,32 @@ export default function friends(view, r) {
   }
 
   async function remove(f) {
-    if (!await confirmSheet('Видалити з друзів?', `${f.name} більше не бачитиме ваш стрік і хвилини, а ви — його. Додати знову можна за кодом.`, 'Видалити', { danger: true })) return;
+    if (!await confirmSheet('Видалити з друзів?', `${f.name} більше не бачитиме ваш стрік і хвилини, а ви — його; переписка 1:1 зупиниться. Додати знову можна за кодом.`, 'Видалити', { danger: true })) return;
     try { await rpc('remove_friend', { p_friend: f.friend_id }); toast('Видалено з друзів'); await loadList(); }
     catch { toast('Не вдалося видалити', { kind: 'bad' }); }
   }
 
+  // дотик по рядку — дії з другом (написати, видалити); праворуч — стрік і «Написати»
+  function friendMenu(f) {
+    let s = null;
+    s = sheet(f.name, h('div.stack', txRows([
+      txRow({ icon: 'chat-circle-dots', label: 'Написати', sub: 'Переписка англійською — вчитель тихо підкаже', onclick: () => { s.close(); openDmAndGo(f.friend_id); } }),
+      txRow({ icon: 'trash', label: 'Видалити з друзів', cls: 'ch-danger', onclick: () => { s.close(); remove(f); } }),
+    ])));
+  }
   function friendRow(f, mine) {
     const shared = Math.min(f.streak || 0, mine.streak || 0);
-    return h('div.tx-row.friend-row',
+    const row = h('div.tx-row.friend-row.fr-tap', { role: 'button', tabindex: 0, 'aria-label': `${f.name}: дії` },
       h('div.friend-ava', { 'aria-hidden': 'true', style: ST.ava }, (f.name || '?').trim().charAt(0).toUpperCase()),
       h('span.tx-body',
         h('span.tx-l', f.name),
         h('span.tx-s', `Сьогодні ${mins(f.today_seconds)} · тиждень ${mins(f.week_seconds)}`),
         shared > 0 ? h('span.tx-s', `Разом без перерви: ${days(shared)}`) : null),
       h('div.friend-streak', { style: ST.streak, title: `Стрік: ${days(f.streak || 0)}`, 'aria-label': `Стрік: ${days(f.streak || 0)}` }, emo('fire'), h('span.num', String(f.streak || 0))),
-      h('button.icon-btn', { type: 'button', 'aria-label': `Видалити ${f.name} з друзів`, onclick: () => remove(f) }, ic('trash', { size: 18 })));
+      h('button.icon-btn', { type: 'button', 'aria-label': `Написати ${f.name}`, onclick: (e) => { e.stopPropagation(); openDmAndGo(f.friend_id); } }, ic('chat-circle-dots', { size: 18 })));
+    row.addEventListener('click', () => friendMenu(f));
+    row.addEventListener('keydown', (e) => { if (e.key === 'Enter' && e.target === row) friendMenu(f); });
+    return row;
   }
 
   async function loadList() {
@@ -183,7 +203,32 @@ export default function friends(view, r) {
     end: ic('caret-down', { size: 16 }), attrs: { 'aria-expanded': 'false', 'aria-controls': 'fr-name' },
     onclick: () => { nameBox.hidden = !nameBox.hidden; nameRow.setAttribute('aria-expanded', String(!nameBox.hidden)); if (!nameBox.hidden) nameInp.focus(); } });
 
+  // нові повідомлення — одним рядком над усім (чати — на вкладці «Чати»)
+  const unreadBox = h('div', { hidden: true });
+  chat.listChats().then(rows => {
+    const n = (rows || []).reduce((a, c) => a + (c.muted ? 0 : c.unread || 0), 0);
+    if (!alive || !n) return;
+    unreadBox.hidden = false;
+    unreadBox.replaceChildren(txRow({ icon: 'chat-circle-dots', label: 'Нові повідомлення', on: true, pill: { text: String(n), tone: 'accent' }, href: '#/friends/chats' }));
+  }).catch(() => {});
+  // заблоковані — у згорнутому рядку внизу
+  const blockedBox = h('div', { hidden: true });
+  const loadBlocks = () => chat.myBlocks().then(rows => {
+    if (!alive) return;
+    blockedBox.hidden = !rows?.length;
+    if (!rows?.length) { blockedBox.replaceChildren(); return; }
+    blockedBox.replaceChildren(txRow({ icon: 'x-circle', label: `Заблоковані · ${rows.length}`, sub: 'Не можуть писати вам і додати вас', chevron: true, onclick: () => {
+      let s = null;
+      s = sheet('Заблоковані', h('div.stack', txRows(rows.map(b => txRow({ label: b.name, sub: 'Розблокувати', chevron: false, end: ic('arrow-clockwise', { size: 18 }), onclick: async () => {
+        try { await chat.unblock(b.user_id); s.close(); toast(`${b.name} розблоковано. Щоб знову дружити — обміняйтеся кодами.`); loadBlocks(); }
+        catch { toast('Не вдалося розблокувати', { kind: 'bad' }); }
+      } })))));
+    } }));
+  }).catch(() => {});
+  loadBlocks();
+
   view.replaceChildren(h('div.stack-lg',
+    unreadBox,
     txGroup('Мій код друга', [
       h('div.tx.wide.fr-code', h('span.tx-sq', ic('user-plus', { size: 20 })),
         h('span.tx-body', codeBox, h('span.tx-s', 'Друг введе його у себе')),
@@ -194,7 +239,7 @@ export default function friends(view, r) {
 
     txGroup('Додати друга', h('div.row', { style: { gap: '8px' } }, h('div.grow', codeInp), addBtn)),
 
-    h('div.stack', nameRow, nameBox)));
+    h('div.stack', nameRow, nameBox, blockedBox)));
 
   store.queueSync(0);   // свіжі хвилини — на сервер, щоб друзі бачили актуальне
   loadMe().then(loadList);

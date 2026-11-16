@@ -138,6 +138,7 @@ function remindersGroup() {
       on ? row('clock', 'Час', time, 'Місцевий час') : null,
       on ? kindToggle('cards', 'cards', 'Повторити картки', 'Якщо пора повторити') : null,
       on ? kindToggle('fire', 'streak', 'Стрік під загрозою', 'Якщо сьогодні < 5 хв') : null,
+      on ? kindToggle('chat-circle-dots', 'chat', 'Повідомлення друзів', 'Нові повідомлення й виклики') : null,
     ].filter(Boolean);
     const notes = [];
     if (st === 'ios-install') {

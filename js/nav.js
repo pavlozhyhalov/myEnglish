@@ -33,6 +33,7 @@ export const SECTIONS = [
   // Я
   { id: 'profile', icon: 'user', href: '#/profile', group: 'me' },
   { id: 'friends', icon: 'users', href: '#/friends', group: 'me' },
+  { id: 'chats', icon: 'chat-circle-dots', href: '#/friends/chats', group: 'me' },
   { id: 'settings', icon: 'gear-six', href: '#/settings', group: 'me' },
 ].map(s => ({ ...s, emoji: s.icon, label: s.label || S.nav[s.id], long: s.long || S.navLong[s.id] || S.nav[s.id] }));
 
@@ -75,6 +76,7 @@ export const TABSETS = [
   [['listening', 'Аудіювання'], ['reading', 'Читання']],
   [['writing', 'Письмо'], ['diary', 'Щоденник']],
   [['progress', 'Прогрес'], ['analysis', 'Аналіз'], ['report', 'Звіт']],
+  [['friends', 'Друзі'], ['chats', 'Чати']],
 ];
 export const tabsetOf = (sectionId) => TABSETS.find(t => t.some(([id]) => id === sectionId)) || null;
 
