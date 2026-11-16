@@ -57,6 +57,8 @@ const dur = (sec) => {
 };
 const typeName = (t) => S.sessionTypes?.[t] || t;
 
+/** Секунди сьогодні: останній день у days7 (сервер віддає 7 днів по зростанню, останній — сьогодні) */
+const todaySec = (u) => (Array.isArray(u.days7) && u.days7.length ? Number(u.days7[u.days7.length - 1]) || 0 : 0);
 /** Остання активність: «сьогодні», «вчора», «N дн. тому», дата */
 function ago(day, today) {
   if (!day) return 'ще без занять';
@@ -139,7 +141,7 @@ function usersSection(ud, limits = {}, budget = {}) {
   const row = (u) => {
     // за 7 днів — лише види від хвилини (не «Тест 0 хв»); без занять за тиждень — підсумок «усього», а не загальний час під виглядом тижневого
     const week = (u.by_type || []).filter(t => (t.sec7 || 0) >= 60).sort((x, y) => y.sec7 - x.sec7);
-    const top = (week.length ? week.slice(0, 3).map(t => `${typeName(t.type)} ${dur(t.sec7)}`)
+    const top = (week.length ? ['тиждень: ' + week.slice(0, 3).map(t => `${typeName(t.type)} ${dur(t.sec7)}`).join(' · ')]
       : (u.by_type || []).filter(t => t.sec >= 60).sort((x, y) => y.sec - x.sec).slice(0, 3).map(t => `${typeName(t.type)} ${dur(t.sec)} усього`)).join(' · ');
     const lvl = u.level || u.placement?.level;
     const wrapEl = h('div', { style: { borderRadius: 'var(--r-row)', background: 'var(--tile)', boxShadow: 'var(--tile-shadow)' } });
@@ -156,7 +158,8 @@ function usersSection(ud, limits = {}, budget = {}) {
             lvl ? txPill(lvLabel(lvl), 'accent') : null,
             u.push ? ic('bell', { size: 14 }) : null),
           h('span.tx-s', u.sec_total || u.last_active
-            ? `${ago(u.last_active, today)} · ${dur(u.sec7)} за 7 дн. · усього ${dur(u.sec_total)}${u.voice7 ? ` · голос ×${u.voice7}` : ''}`
+            // 2026-11-16 (власник: «як у мене сьогодні може бути 4 год?») — «сьогодні · 4 год за 7 дн.» читалось як 4 год сьогодні: кожна цифра з підписом
+            ? `${todaySec(u) >= 60 ? `сьогодні ${dur(todaySec(u))}` : (ago(u.last_active, today) === 'сьогодні' ? 'сьогодні < 1 хв' : `був ${ago(u.last_active, today)}`)} · тиждень ${dur(u.sec7)} · усього ${dur(u.sec_total)}${u.voice7 ? ` · голос ×${u.voice7}` : ''}`
             : `ще без занять · реєстрація ${dShort(u.created_at)}`),
           top ? h('span.tx-s', top) : null),
         spark(u.days7),
