@@ -108,3 +108,7 @@ mark.ch-err{background:transparent;color:inherit;text-decoration:underline wavy 
 .hw-focus{align-self:flex-start;font-size:var(--fs-xs);font-weight:700;color:var(--accent-ink);background:var(--accent-soft);border-radius:8px;padding:3px 8px}
 .hw-val{flex:none;font-family:var(--font-head);font-size:var(--fs-sm);font-variant-numeric:tabular-nums;color:var(--ink-dim);white-space:nowrap}
 .tx-no.hw-ok{background:var(--good-soft);color:var(--good)}
+/* вчитель у групі */
+.ch-msg.ch-tutor{background:var(--tile);border:1px solid color-mix(in srgb,var(--accent-ink) 35%,var(--tile-edge));box-shadow:var(--tile-shadow)}
+.ch-tutor-name{display:inline-flex;align-items:center;gap:5px}
+.ch-typing .typing{display:inline-flex;gap:4px;padding:6px 2px}

@@ -58,6 +58,10 @@ export const cancelChallenge = (id) => rpc('chat_challenge_cancel', { p_id: id }
 export const homework = (room) => rpc('chat_homework_status', { p_room: room });
 export const homeworkDone = (id) => rpc('chat_homework_done', { p_homework: id }).catch(() => false);
 export const newHomework = (room) => tutor('homework', { room_id: room });
+// вчитель у групі (міграція 0027): відповідає на «@teacher» / «Teacher, …» / «Вчителю…», вітає з виконаним домашнім
+export const mentionsTutor = (text) => /(^|[\s,.!?(«"'])@?(teacher|tutor|вчител|учител)/i.test(String(text || ''));
+export const askTutor = (room, messageId) => tutor('group_tutor', { room_id: room, message_id: messageId });
+export const praiseTutor = (room) => tutor('group_tutor', { room_id: room, praise: true }).catch(() => null);
 export const hwTaskDone = (t) => (t.value || 0) >= (t.target || 1);
 
 /** Повідомлення чату: найновіші PAGE (або старші за before), у хронологічному порядку */

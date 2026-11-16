@@ -14,6 +14,7 @@ import { latinizeName, latinizeStream, replyStream, splitReply, cleanFixes, form
 import { GUESS_SCHEMA, guessPrompt, judgeGuess, cleanGuess, recognitionContext, learnerTranscribePrompt, fluencyTranscribePrompt, FLUENCY_SCHEMA, clampRounds, fluencyPrompt, cleanFluency, calibrateLevel, clampTurnFixes, turnFixesPrompt, mergeTurnFixes, CLASSIFY_SCHEMA, classifyPrompt, cleanClassify, EVAL_SCHEMA, evalPrompt, evalInput, scoreEval, VOICE_CHECK_SCHEMA, voiceCheckPrompt, cleanVoiceCheck, clampSpeech, summaryExtra, cleanMastered, MISSION_SCHEMA, missionPrompt, cleanMissions } from './coach.ts';
 import { friendCheck, friendVoice } from './friends.ts';
 import { createHomework } from '../_shared/homework.ts';
+import { mentionsTutor, tutorReply, tutorPraise, tutorCount, postTutor, TUTOR_DAILY_MAX } from '../_shared/grouptutor.ts';
 import { precheck as wordStoryCheck, wordStoryPrompt, WORD_STORY_SCHEMA, cleanWordStory, LEVELS as STORY_LEVELS, type StoryWord, type Level as StoryLevel } from './words.ts';
 
 type Msg = { role: 'user' | 'model'; text: string; cue?: boolean };
@@ -26,6 +27,7 @@ ACTIONS.add('explain_guess');
 ACTIONS.add('friend_check');
 ACTIONS.add('friend_voice');
 ACTIONS.add('homework');
+ACTIONS.add('group_tutor');
 const AUDIO_MIME = /^audio\/(webm|ogg|mp4|mpeg|wav|x-wav|aac|m4a)(;.*)?$/;
 /** Рядок з обмеженням довжини (захист від роздутих промптів і витрат) */
 const str = (v: unknown, max: number) => (v == null ? '' : String(v)).slice(0, max);
@@ -596,6 +598,37 @@ Deno.serve(handler(async (req) => {
     const r = await createHomework(ctx.admin, room, ctx.user.id, 3);
     if (!r) throw new HttpError(400, 'bad_request', 'Not a group');
     return json(r);
+  }
+
+  // вчитель у групі: відповідь на звертання (message_id) або привітання з виконаним домашнім (praise)
+  if (action === 'group_tutor') {
+    const room = String(p.room_id || '');
+    if (!/^[0-9a-f-]{36}$/i.test(room)) throw new HttpError(400, 'bad_request', 'Bad room');
+    const { data: rm } = await ctx.admin.from('chat_rooms').select('kind').eq('id', room).maybeSingle();
+    const { data: member } = await ctx.db.rpc('is_chat_member', { p_room: room });
+    if (member !== true || rm?.kind !== 'group') throw new HttpError(403, 'not_allowed');
+    if (await tutorCount(ctx.admin, room, 24) >= TUTOR_DAILY_MAX) return json({ skipped: 'limit' });
+    if (p.praise) {
+      // лише якщо цей учень щойно (≤ 15 хв) виконав домашнє і вчитель його ще не вітав
+      const since = new Date(Date.now() - 15 * 60_000).toISOString();
+      const { data: t } = await ctx.admin.from('chat_homework_tasks').select('homework_id, done_at, chat_homework!inner(room_id)').eq('user_id', ctx.user.id)
+        .eq('chat_homework.room_id', room).gte('done_at', since).limit(1).maybeSingle();
+      if (!t) return json({ skipped: 'not_done' });
+      const { count } = await ctx.admin.from('chat_messages').select('id', { count: 'exact', head: true }).eq('room_id', room).eq('kind', 'system')
+        .eq('meta->>event', 'tutor').eq('meta->>praise_for', ctx.user.id).eq('meta->>homework_id', t.homework_id);
+      if (count) return json({ skipped: 'done' });
+      await charge(ctx, 'text');
+      const text = await tutorPraise(ctx.admin, room, ctx.user.id);
+      if (!text) return json({ skipped: 'none' });
+      return json({ message: await postTutor(ctx.admin, room, ctx.user.id, text, { mode: 'praise', praise_for: ctx.user.id, homework_id: t.homework_id }) });
+    }
+    const id = String(p.message_id || '');
+    const { data: msg } = await ctx.db.from('chat_messages').select('id, room_id, user_id, kind, body, created_at').eq('id', id).maybeSingle();
+    if (!msg || msg.room_id !== room || msg.user_id !== ctx.user.id || msg.kind !== 'text' || !mentionsTutor(msg.body)) throw new HttpError(400, 'bad_request', 'Not addressed to the teacher');
+    if (Date.now() - Date.parse(msg.created_at) > 10 * 60_000) return json({ skipped: 'old' });
+    await charge(ctx, 'text');
+    const text = await tutorReply(ctx.admin, room);
+    return json({ message: await postTutor(ctx.admin, room, ctx.user.id, text, { mode: 'reply', reply_to: id }) });
   }
 
   // переписка з друзями: власні межі й списання (friends.ts), без частки сильних моделей

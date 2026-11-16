@@ -13,6 +13,7 @@ import { generateJson } from '../_shared/gemini.ts';
 import { FAST_MODELS } from '../_shared/config.ts';
 import { readMemory } from '../_shared/prompts.ts';
 import { createHomework } from '../_shared/homework.ts';
+import { tutorNudge, tutorCount, postTutor } from '../_shared/grouptutor.ts';
 import { nudgeInput, cleanNudge, monitorDue, NUDGE_SCHEMA, NUDGE_PROMPT, chatNotifyDue, chatMessageText, challengeDue, challengeNudge, topicDue, groupLevel, pickTopic, type Topic } from './logic.ts';
 
 type SubRow = {
@@ -206,6 +207,23 @@ async function challengePush(db: SupabaseClient, vapid: Vapid) {
   }
   let sent = 0;
   for (const r of byUser.values()) sent += await sendToUser(db, r.user_id, { ...challengeNudge(r), url: `#/friends/chat/${r.room_id}`, tag: `myenglish-challenge-${r.room_id}` }, vapid);
+  // вчитель у групах: раз на день — перевірка домашнього (хвалить, жартома сварить); не в перший день після видачі
+  const { data: hwRooms } = await db.from('chat_homework').select('room_id, created_at').gt('due_at', new Date().toISOString())
+    .lt('created_at', new Date(Date.now() - 20 * 3600e3).toISOString()).limit(200);
+  for (const room of new Set((hwRooms || []).map(r => r.room_id))) {
+    try {
+      if (await tutorCount(db, room, 20, 'nudge')) continue;
+      const n = await tutorNudge(db, room);
+      if (!n) continue;
+      const { data: rm } = await db.from('chat_rooms').select('title').eq('id', room).maybeSingle();
+      const { data: author } = await db.from('chat_members').select('user_id').eq('room_id', room).is('left_at', null).order('joined_at').limit(1).maybeSingle();
+      if (!author) continue;
+      await postTutor(db, room, author.user_id, n.text, { mode: 'nudge' });
+      const { data: muted } = await db.from('chat_members').select('user_id').eq('room_id', room).eq('muted', true);
+      const skip = new Set((muted || []).map(m => m.user_id));
+      for (const uid of n.lazy) if (!skip.has(uid)) sent += await sendToUser(db, uid, { title: `${rm?.title || 'Група'} · вчитель`.slice(0, 50), body: n.text.slice(0, 170), url: `#/friends/chat/${room}`, tag: `myenglish-tutor-${room}` }, vapid);
+    } catch (e) { console.error('tutor nudge', (e as Error).message?.slice(0, 120)); }
+  }
   // домашнє: термін спливає протягом доби, а завдання ще лишились
   const { data: hw, error: he } = await db.rpc('chat_homework_laggards');
   if (he) console.error('hw laggards', he.message);

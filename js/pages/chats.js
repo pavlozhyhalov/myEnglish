@@ -44,6 +44,7 @@ function sysText(m) {
     case 'topic': return `Тема дня: ${x.q || ''}`;
     case 'homework': return 'Вчитель дав домашнє завдання — у кожного своє';
     case 'homework_done': return `${x.name || 'Учасник'}: домашнє виконано`;
+    case 'tutor': return `Вчитель: ${x.text || ''}`;
     case 'duel_score': return `${x.name || 'Учасник'}: ${x.score ?? 0} у дуелі «${duel.GAMES[x.game]?.label || 'гра'}»`;
     default: return '';
   }
@@ -245,7 +246,11 @@ export function chatRoom(view, roomId) {
       chs = a || []; dls = b || []; hw = c || null;
       // усе виконано — сервер перевіряє й один раз пише про це в групу
       if (hw?.mine && !hw.over && !hw.mine.done_at && hw.mine.tasks.length && hw.mine.tasks.every(chat.hwTaskDone)) {
-        chat.homeworkDone(hw.id).then((ok) => { if (ok && alive) { toast('Домашнє виконано — молодець!'); hw.mine.done_at = new Date().toISOString(); renderStrip(); refreshCards(); } });
+        chat.homeworkDone(hw.id).then((ok) => {
+          if (!ok || !alive) return;
+          toast('Домашнє виконано — молодець!'); hw.mine.done_at = new Date().toISOString(); renderStrip(); refreshCards();
+          chat.praiseTutor(roomId).then((r) => { if (r?.message && alive) append(r.message); });   // вчитель вітає в групі
+        });
       }
       if (alive) { renderStrip(); refreshCards(); }
     } catch (e) { console.warn('challenges', e); }
@@ -298,6 +303,18 @@ export function chatRoom(view, roomId) {
         pill: { text: `${c.done} з ${c.total}`, tone: c.done >= c.total ? 'good' : '' }, chevron: false })))) : null,
       hw.over ? h('button.btn.soft', { type: 'button', onclick: (e) => { s.close(); askHomework(e.currentTarget); } }, ic('arrow-clockwise', { size: 16 }), 'Нове домашнє') : null));
   }
+  /** Репліка вчителя в групі */
+  function tutorBubble(m) {
+    const text = String(m.meta?.text || '');
+    const el = h('div.msg.ai.ch-msg.ch-tutor', { tabindex: 0, role: 'article' },
+      h('div.ch-name.ch-tutor-name', ic('chalkboard-teacher', { size: 14 }), 'Вчитель'),
+      h('div.ch-text', { lang: 'en' }, text),
+      h('span.ch-ts', hhmm(m.created_at)));
+    const open = () => actions({ ...m, body: text, user_id: '__tutor__' });
+    el.addEventListener('click', open);
+    el.addEventListener('keydown', (e) => { if (e.key === 'Enter') open(); });
+    return h('div.ch-wrap.ai', { dataset: { id: m.id } }, el);
+  }
   function hwCard(m) {
     const cur = hw && hw.id === m.meta?.homework_id ? hw : null;
     const mine = cur?.mine;
@@ -344,7 +361,10 @@ export function chatRoom(view, roomId) {
       group ? h('div.tx-label', 'Домашнє від вчителя') : null,
       group ? txRows([txRow({ icon: 'chalkboard-teacher', label: hwActive ? 'Моє домашнє' : 'Отримати домашнє', on: !hwActive,
         sub: hwActive && hw.mine ? `Виконано ${hw.mine.tasks.filter(chat.hwTaskDone).length} з ${hw.mine.tasks.length} · до ${dueLabel(hw.due_at)}` : 'У кожного своє — за рівнем і помилками · на 7 днів',
-        onclick: (e) => { s.close(); hwActive ? hwSheet() : askHomework(e.currentTarget); } })]) : null,
+        onclick: (e) => { s.close(); hwActive ? hwSheet() : askHomework(e.currentTarget); } }),
+        txRow({ icon: 'chat-circle-dots', label: 'Запитати вчителя', sub: 'Почніть повідомлення з @teacher — він відповість у групі', onclick: () => {
+          s.close(); if (!/@teacher/i.test(ta.value)) ta.value = `@teacher ${ta.value}`.trimEnd() + ' '; grow(); setTimeout(() => ta.focus(), 250);
+        } })]) : null,
       h('div.tx-label', 'Дуель зараз · 24 години'),
       txRows(Object.entries(duel.GAMES).map(([id, g]) => txRow({ icon: g.icon, label: g.label, sub: `${g.sub} · рівень ${lvLabel(myLevel())}`, onclick: async () => {
         try {
@@ -535,6 +555,7 @@ export function chatRoom(view, roomId) {
   function bubble(m) {
     if (m.kind === 'system' && m.meta?.event === 'topic') return topicCard(m);
     if (m.kind === 'system' && m.meta?.event === 'homework') return hwCard(m);
+    if (m.kind === 'system' && m.meta?.event === 'tutor') return tutorBubble(m);
     if (m.kind === 'system') { const t = sysText(m); return t ? h('div.msg.sys', { dataset: { id: m.id } }, t) : h('div', { dataset: { id: m.id }, hidden: true }); }
     if (m.kind === 'challenge') return challengeCard(m);
     const mine = m.user_id === me;
@@ -572,7 +593,7 @@ export function chatRoom(view, roomId) {
       try { await chat.deleteMessage(m); m.deleted_at = new Date().toISOString(); m.body = ''; update(m); } catch (e) { toast(chat.chatErrText(e), { kind: 'bad' }); }
     } }));
     if (!rows.length) return;
-    s = sheet(mine ? 'Ваше повідомлення' : nameOf(m.user_id), h('div.stack.ch-sheet', txRows(rows)));
+    s = sheet(mine ? 'Ваше повідомлення' : m.user_id === '__tutor__' ? 'Вчитель' : nameOf(m.user_id), h('div.stack.ch-sheet', txRows(rows)));
   }
 
   function renderAll() {
@@ -659,6 +680,7 @@ export function chatRoom(view, roomId) {
       ta.value = ''; grow(); lsSet(draftKey, '');
       checking.add(m.id);
       append(m);
+      if (info?.kind === 'group' && chat.mentionsTutor(body)) tutorTyping(m.id);
       chat.checkMessage(m).then(({ fixes }) => {
         checking.delete(m.id);
         if (fixes.length) fb.set(m.id, fixes);
@@ -666,6 +688,19 @@ export function chatRoom(view, roomId) {
       }).catch((e) => { checking.delete(m.id); if (alive) update(byId.get(m.id) || m); console.warn('friend_check', e?.code || e); });
     } catch (e) { toast(chat.chatErrText(e), { kind: 'bad' }); }
     sending = false; sendBtn.disabled = false;
+  }
+
+  /** «Вчитель пише…» поки сервер готує відповідь; сама репліка приходить через Realtime (або з відповіді функції) */
+  async function tutorTyping(messageId) {
+    const ph = h('div.ch-wrap.ai.ch-typing', h('div.msg.ai.ch-msg.ch-tutor', h('div.ch-name.ch-tutor-name', ic('chalkboard-teacher', { size: 14 }), 'Вчитель'),
+      h('span.typing', { 'aria-hidden': 'true' }, h('i'), h('i'), h('i')), h('span.sr-only', 'Вчитель пише…')));
+    list.append(ph); toBottom();
+    try {
+      const r = await chat.askTutor(roomId, messageId);
+      ph.remove();
+      if (r?.message && alive) append(r.message);
+      else if (r?.skipped === 'limit') toast('Вчитель сьогодні вже багато говорив — завтра продовжить');
+    } catch (e) { ph.remove(); toast(aiErrorText(e) || 'Вчитель зараз не відповів', { kind: 'bad' }); }
   }
 
   let rec = null;
