@@ -1254,7 +1254,7 @@ function phrasesCard(row, s) {
   return fold({ icon: 'chat-centered-text', label: `Фрази з розмови · ${items.length}`, sub: `у фразник · ${phraseSit(sit).uk}` }, list, all);
 }
 
-/** «Засвоєно»: помилки, які учень цього разу вжив правильно (3 рази поспіль — закрито) */
+/** «Засвоєно»: помилки, які учень цього разу вжив правильно (2 рази в різні дні — закрито) */
 function masteredCard(s) {
   const items = (Array.isArray(s.mastered) ? s.mastered : []).map(id => store.get('mistakes', String(id))).filter(m => m && !m.deleted);
   if (!items.length) return null;

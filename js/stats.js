@@ -156,9 +156,8 @@ export function addMistake({ wrong, right, type, rule, explanation_uk, source, r
   if (rule && rule !== 'other') type = RULES[rule].type;
   // оскаржене учнем («Не згоден») — не додаємо
   if (isDisputed(wrong, right)) return null;
-  // помилка на граматичне правило — серії інших помилок цього правила відступають на крок (не до нуля);
-  // у «словникових» правилах кожна помилка окрема — нова помилка інших не чіпає (2026-11-08: 191 з 193 помилок мали серію 0)
-  if (rule && !LEXICAL.has(rule)) ruleMiss(rule);
+  // 2026-11-16: нова помилка на правило не чіпає серій інших помилок (за тиждень 124 нові й 2 закриті — кожна розмова відкочувала всі);
+  // слабкість правила й так тримається в «Правилах тижня» за вагою нових помилок
   const ex = store.all('mistakes').find(m => norm(m.wrong) === norm(wrong) && norm(m.right) === norm(right));
   if (ex) { ex.count = (ex.count || 1) + 1; ex.streak = 0; ex.resolved = false; if (rule && !ex.rule) ex.rule = rule; return store.put('mistakes', ex); }
   return store.put('mistakes', { wrong, right, type, rule, explanation_uk: explanation_uk || '', source: source || 'tutor', count: 1, streak: 0, resolved: false, ref: ref || null });
@@ -166,10 +165,6 @@ export function addMistake({ wrong, right, type, rule, explanation_uk, source, r
 const openOfRule = (rule) => store.all('mistakes').filter(m => !m.deleted && !m.resolved && m.rule === rule);
 /** «Словникові» правила: кожна помилка — окреме слово чи вислів, тож правило не можна «засвоїти» разом (make/do ≠ borrow/lend) */
 export const LEXICAL = new Set(['word-choice', 'collocations', 'prep-dependent', 'irregular-verbs', 'other']);
-/** Нова помилка на граматичне правило: серії інших відкритих помилок цього правила — на крок назад */
-function ruleMiss(rule) {
-  for (const m of openOfRule(rule)) if (m.streak) { m.streak = Math.max(0, m.streak - 1); store.put('mistakes', m); }
-}
 /** Правильне використання граматичного правила в розмові: +1 до серії кожної відкритої помилки цього правила (3 — закрито) */
 export function ruleHit(rule, done = new Set()) {
   if (!rule || LEXICAL.has(rule)) return 0;
@@ -223,7 +218,7 @@ export function tidyMistakes({ force = false } = {}) {
   const now = Date.now(), DAY = 864e5;
   for (const m of store.all('mistakes')) {
     // словникові з 2+ правильними поспіль (до 2026-11-09 мета була 3) — вже засвоєні
-    if (!m.deleted && !m.resolved && isLexicalMistake(m) && (m.streak || 0) >= mistakeGoal(m)) { m.resolved = true; store.put('mistakes', m); closed++; continue; }
+    if (!m.deleted && !m.resolved && (m.streak || 0) >= mistakeGoal(m)) { m.resolved = true; store.put('mistakes', m); closed++; continue; }
     if (m.deleted || m.resolved || (m.count || 1) > 1) continue;
     const at = Date.parse(m.updated_at || m.created_at || '');
     if (!at) continue;   // без дати — не закриваємо навмання
@@ -281,8 +276,9 @@ export function classifyPending() {
 // ---------- Засвоєння помилки (2026-11-09) ----------
 /** «Словникова» помилка (слово, колокація, прийменник, форма дієслова) — окреме слово, закривається швидше */
 export const isLexicalMistake = (m) => !!m && LEXICAL.has(m.rule);
-/** Скільки правильних відповідей поспіль закривають помилку: словникові — 2 (у різні дні), граматичні — 3 */
-export const mistakeGoal = (m) => (isLexicalMistake(m) ? 2 : 3);
+/** Скільки правильних відповідей поспіль закривають помилку: 2 у різні дні — і словникові, і граматичні (2026-11-16; до того граматичні — 3) */
+export const MISTAKE_GOAL = 2;
+export const mistakeGoal = () => MISTAKE_GOAL;
 // день останньої зарахованої правильної відповіді словникової помилки: { [id]: 'YYYY-MM-DD' } (без нового стовпця в БД)
 const HIT_KEY = 'me:mk-hit';
 let hitMem = {};
@@ -302,12 +298,12 @@ function lastHitDay(m) {
   if (d) return d;
   return m.streak >= 1 && m.updated_at ? dayKey(m.updated_at) : null;
 }
-/** Чи зарахується правильна відповідь сьогодні (словникова з серією вже зарахована сьогодні — ні, лише завтра) */
+/** Чи зарахується правильна відповідь сьогодні (з серією, уже зарахованою сьогодні, — ні, лише завтра) */
 export function mistakeHitCounts(m) {
-  return !isLexicalMistake(m) || !(m.streak >= 1) || lastHitDay(m) !== today();
+  return !(m.streak >= 1) || lastHitDay(m) !== today();
 }
 /**
- * Відповідь на помилку: правильно → +1 до серії (граматична — 3 поспіль закриває; словникова — 2, у різні дні:
+ * Відповідь на помилку: правильно → +1 до серії (2 у різні дні закривають:
  * друге «правильно» того самого дня не зараховується); неправильно → серія з нуля, лічильник +1.
  * Повертає true, якщо правильна відповідь зарахована.
  */
@@ -316,7 +312,7 @@ export function mistakeHit(m, correct) {
   if (!correct) { m.streak = 0; m.count = (m.count || 1) + 1; }
   else if (mistakeHitCounts(m)) { m.streak = (m.streak || 0) + 1; counted = true; }
   m.resolved = (m.streak || 0) >= mistakeGoal(m);
-  if (isLexicalMistake(m)) {
+  {
     const v = { ...hitRead() };
     if (counted) v[m.id] = today(); else if (!correct) delete v[m.id];
     hitWrite(v);
@@ -579,7 +575,7 @@ export function nextRulePracticeAt() {
 }
 /** Скільки помилок повторено сьогодні */
 export function rulePracticeToday() { return Number(rpRead().days[today()]) || 0; }
-/** Відповідь у повторі правил: серія помилки (mistakeHit: 3 поспіль або 2 у різні дні — закрито), позначка часу, лічильник дня; true — зараховано */
+/** Відповідь у повторі правил: серія помилки (mistakeHit: 2 у різні дні — закрито), позначка часу, лічильник дня; true — зараховано */
 export function logRulePractice(m, correct) {
   if (!m) return false;
   const counted = mistakeHit(m, correct);

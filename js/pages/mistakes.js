@@ -20,7 +20,7 @@ const DAY = 864e5;
 export const TALK_HREF = '#/tutor?mode=voice&topic=' + encodeURIComponent('Work on the student\'s own mistakes: name 2 of their most frequent recent mistakes (wrong → right), then keep a natural conversation that makes them use the correct forms; notice when they get it right.');
 const fmtDay = (iso) => new Date(iso).toLocaleDateString('uk-UA', { day: 'numeric', month: 'short', year: new Date(iso).getFullYear() === new Date().getFullYear() ? undefined : 'numeric' });
 
-/** Засвоєння помилки: крапки (правильні вживання поспіль); max — 3 для граматики, 2 для словникових (mistakeGoal) */
+/** Засвоєння помилки: крапки (правильні вживання поспіль); max — mistakeGoal() = 2 */
 export function masteryDots(streakN, label = true, max = 3) {
   const n = Math.max(0, Math.min(max, streakN || 0));
   return h('span.mk-dots', { role: 'img', 'aria-label': `Засвоєння: ${n} з ${max}` },
@@ -28,7 +28,7 @@ export function masteryDots(streakN, label = true, max = 3) {
     h('span.tx-dots', { 'aria-hidden': 'true' }, Array.from({ length: max }, (_, i) => h('i' + (i < n ? '.on' : '')))));
 }
 /** Мета серії для правила тижня: словникове — 2, граматичне — 3 */
-const ruleGoal = (rule) => (LEXICAL.has(rule) ? 2 : 3);
+const ruleGoal = () => mistakeGoal();
 
 const nMist = (n) => `${n} ${plural(n, 'помилка', 'помилки', 'помилок')}`;
 
@@ -86,7 +86,7 @@ export default function mistakes(view, r) {
             h('div.mk-fix', h('s.dim', m.wrong), ' → ', h('b.good', m.right)),
             h('div.tx-s', `${S.mistakeTypes[m.type] || m.type} · ×${m.count || 1} · закрито ${m.updated_at ? fmtDay(m.updated_at) : ''}`)),
           delBtn(m)))))
-        : txResult({ icon: 'seal-check', label: 'Закриті', title: 'Закритих помилок поки немає', sub: 'Граматична помилка закривається після 3 правильних відповідей поспіль, словникова — після 2 у різні дні.' }));
+        : txResult({ icon: 'seal-check', label: 'Закриті', title: 'Закритих помилок поки немає', sub: 'Помилка закривається після 2 правильних відповідей у різні дні.' }));
       return;
     }
     // групи — за правилом граматики (помилки без правила — за типом); засвоєння правила = найменша серія серед його помилок
