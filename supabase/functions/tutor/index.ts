@@ -13,6 +13,7 @@ import { precheck as analysisCheck, analysisPrompt, ANALYSIS_SCHEMA, cleanAnalys
 import { latinizeName, latinizeStream, replyStream, splitReply, cleanFixes, formatFixes, cleanMeta, cleanSummary, lastStudentText, cueText, translateInput, type Meta } from './reply.ts';
 import { GUESS_SCHEMA, guessPrompt, judgeGuess, cleanGuess, recognitionContext, learnerTranscribePrompt, fluencyTranscribePrompt, FLUENCY_SCHEMA, clampRounds, fluencyPrompt, cleanFluency, calibrateLevel, clampTurnFixes, turnFixesPrompt, mergeTurnFixes, CLASSIFY_SCHEMA, classifyPrompt, cleanClassify, EVAL_SCHEMA, evalPrompt, evalInput, scoreEval, VOICE_CHECK_SCHEMA, voiceCheckPrompt, cleanVoiceCheck, clampSpeech, summaryExtra, cleanMastered, MISSION_SCHEMA, missionPrompt, cleanMissions } from './coach.ts';
 import { friendCheck, friendVoice } from './friends.ts';
+import { createHomework } from '../_shared/homework.ts';
 import { precheck as wordStoryCheck, wordStoryPrompt, WORD_STORY_SCHEMA, cleanWordStory, LEVELS as STORY_LEVELS, type StoryWord, type Level as StoryLevel } from './words.ts';
 
 type Msg = { role: 'user' | 'model'; text: string; cue?: boolean };
@@ -24,6 +25,7 @@ ACTIONS.add('fluency_feedback');
 ACTIONS.add('explain_guess');
 ACTIONS.add('friend_check');
 ACTIONS.add('friend_voice');
+ACTIONS.add('homework');
 const AUDIO_MIME = /^audio\/(webm|ogg|mp4|mpeg|wav|x-wav|aac|m4a)(;.*)?$/;
 /** Рядок з обмеженням довжини (захист від роздутих промптів і витрат) */
 const str = (v: unknown, max: number) => (v == null ? '' : String(v)).slice(0, max);
@@ -581,6 +583,19 @@ Deno.serve(handler(async (req) => {
     if (sec) await ctx.admin.rpc('bump_ai_usage', { p_user: ctx.user.id, p_text: 0, p_voice: sec, p_tts: 0 });
     const u = await usage(ctx);
     return json({ ...u, limits: LIMITS });
+  }
+
+  // домашнє від вчителя в групі (на запит учасника; не частіше ніж раз на 3 дні на групу — інакше повертається наявне)
+  if (action === 'homework') {
+    const room = String(p.room_id || '');
+    if (!/^[0-9a-f-]{36}$/i.test(room)) throw new HttpError(400, 'bad_request', 'Bad room');
+    const { data: member } = await ctx.db.rpc('is_chat_member', { p_room: room });
+    if (member !== true) throw new HttpError(403, 'not_allowed');
+    const { data: last } = await ctx.admin.from('chat_homework').select('created_at').eq('room_id', room).order('created_at', { ascending: false }).limit(1).maybeSingle();
+    if (!last || Date.now() - Date.parse(last.created_at) >= 3 * 864e5) await charge(ctx, 'text');
+    const r = await createHomework(ctx.admin, room, ctx.user.id, 3);
+    if (!r) throw new HttpError(400, 'bad_request', 'Not a group');
+    return json(r);
   }
 
   // переписка з друзями: власні межі й списання (friends.ts), без частки сильних моделей

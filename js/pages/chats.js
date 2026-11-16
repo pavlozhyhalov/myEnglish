@@ -42,6 +42,8 @@ function sysText(m) {
     case 'left': return `${x.name || 'Учасник'} виходить з групи`;
     case 'renamed': return `${x.name || 'Хтось'} змінює назву на «${x.title || ''}»`;
     case 'topic': return `Тема дня: ${x.q || ''}`;
+    case 'homework': return 'Вчитель дав домашнє завдання — у кожного своє';
+    case 'homework_done': return `${x.name || 'Учасник'}: домашнє виконано`;
     case 'duel_score': return `${x.name || 'Учасник'}: ${x.score ?? 0} у дуелі «${duel.GAMES[x.game]?.label || 'гра'}»`;
     default: return '';
   }
@@ -225,19 +227,87 @@ export function chatRoom(view, roomId) {
     const act = chs.filter(chat.challengeActive);
     // дуелі, у які я ще не зіграв, — угорі, щоб не загубились у переписці
     const open = dls.filter(d => !d.over && !d.results.some(p => p.me && p.score != null)).slice(0, 2);
+    const hwLeft = hw?.mine && !hw.over && !hw.mine.done_at ? hw.mine.tasks.filter(t => !chat.hwTaskDone(t)).length : 0;
     const rows = [
+      hwLeft ? txRow({ icon: 'chalkboard-teacher', label: 'Домашнє завдання', sub: `Виконано ${hw.mine.tasks.length - hwLeft} з ${hw.mine.tasks.length} · до ${dueLabel(hw.due_at)}`,
+        pill: { text: `${hwLeft} лишилось`, tone: 'accent' }, onclick: () => hwSheet() }) : null,
       ...open.map(d => txRow({ icon: 'sword', label: `Дуель · ${(duel.GAMES[d.game] || duel.GAMES.detective).label}`, sub: `Зіграли ${d.results.filter(p => p.score != null).length} з ${d.results.length}`,
         pill: { text: 'Грати', tone: 'accent' }, href: duel.duelHref(d.game, d, roomId) })),
       ...act.slice(0, 3).map(challengeRow)];
-    strip.replaceChildren(rows.length ? txRows(rows) : '');
+    strip.replaceChildren(rows.some(Boolean) ? txRows(rows) : '');
   }
   let dls = [];   // дуелі за 7 днів (js/duel.js)
+  let hw = null;   // поточне домашнє групи (chat_homework_status)
   async function loadChallenges() {
     try {
-      const [a, b] = await Promise.all([chat.challenges(roomId), duel.duels(roomId).catch(() => [])]);
-      chs = a || []; dls = b || [];
+      const [a, b, c] = await Promise.all([chat.challenges(roomId), duel.duels(roomId).catch(() => []),
+        info?.kind === 'group' ? chat.homework(roomId).catch(() => null) : null]);
+      chs = a || []; dls = b || []; hw = c || null;
+      // усе виконано — сервер перевіряє й один раз пише про це в групу
+      if (hw?.mine && !hw.over && !hw.mine.done_at && hw.mine.tasks.length && hw.mine.tasks.every(chat.hwTaskDone)) {
+        chat.homeworkDone(hw.id).then((ok) => { if (ok && alive) { toast('Домашнє виконано — молодець!'); hw.mine.done_at = new Date().toISOString(); renderStrip(); refreshCards(); } });
+      }
       if (alive) { renderStrip(); refreshCards(); }
     } catch (e) { console.warn('challenges', e); }
+  }
+  const dueLabel = (iso) => new Date(iso).toLocaleDateString('uk-UA', { weekday: 'short', day: 'numeric', month: 'numeric' });
+  async function askHomework(btn) {
+    if (btn) btn.disabled = true;
+    try {
+      const r = await chat.newHomework(roomId);
+      if (r && !r.created) toast('Домашнє вже є — ось воно');
+      await loadChallenges();
+      hwSheet();
+    } catch (e) { toast(aiErrorText(e) || chat.chatErrText(e), { kind: 'bad' }); }
+    if (btn) btn.disabled = false;
+  }
+  /** Шторка «Домашнє»: моє (особисто для мене) і клас (лише «N з 3») */
+  function hwSheet() {
+    if (!hw) return;
+    const mine = hw.mine;
+    let s = null;
+    const act = (t) => {
+      if (hw.over || chat.hwTaskDone(t)) return null;
+      if (t.kind === 'write') return () => { s.close(); setTimeout(() => ta.focus(), 250); };
+      if (t.kind === 'speak') return micBtn ? () => { s.close(); setTimeout(() => record(), 250); } : null;
+      return null;
+    };
+    const href = (t) => (hw.over || chat.hwTaskDone(t) ? null : t.kind === 'lesson' && t.lesson_id ? `#/grammar/${encodeURIComponent(t.lesson_id)}` : t.kind === 'words' ? '#/cards/train' : null);
+    const unit = (t) => (t.kind === 'write' ? 'слів' : t.kind === 'speak' ? 'с' : t.kind === 'words' ? 'слів' : '');
+    const taskRow = (t, i) => {
+      const done = chat.hwTaskDone(t);
+      const fn = act(t), link = href(t);
+      const kids = [
+        h('span.tx-no' + (done ? '.hw-ok' : ''), done ? ic('check', { size: 16 }) : String(i + 1)),
+        h('span.tx-body',
+          h('span.tx-l', t.title_uk),
+          t.prompt_en ? h('span.hw-en', { lang: 'en' }, t.prompt_en) : null,
+          t.prompt_uk && ['A0', 'A1', 'A2'].includes(myLevel()) ? h('span.tx-s', t.prompt_uk) : null,
+          t.focus_uk ? h('span.hw-focus', t.focus_uk) : null,
+          t.kind !== 'lesson' ? txBar(Math.min(1, (t.value || 0) / (t.target || 1)), true) : null),
+        h('span.hw-val', t.kind === 'lesson' ? (done ? 'Зараховано' : '') : `${Math.min(t.value || 0, 9999)}/${t.target}${unit(t) === 'с' ? ' с' : ''}`)];
+      if (fn) return h('button.tx-row.hw-task', { type: 'button', onclick: fn }, ...kids, ic('caret-right', { size: 16 }));
+      if (link) return h('a.tx-row.hw-task', { href: link, onclick: () => s.close() }, ...kids, ic('caret-right', { size: 16 }));
+      return h('div.tx-row.hw-task' + (done ? '.on' : ''), ...kids);
+    };
+    s = sheet('Домашнє завдання', h('div.stack.ch-sheet',
+      h('div.tx-s', hw.over ? 'Термін минув' : `У кожного своє · до ${dueLabel(hw.due_at)}`),
+      mine ? h('div.hw-note', h('span.tx-sq', ic('chalkboard-teacher', { size: 18 })), h('p', mine.note)) : h('div.tx-s', 'Вас ще не було в групі, коли вчитель дав це завдання.'),
+      mine ? txGroup(mine.done_at ? 'Моє · виконано' : 'Моє', h('div.tx-rows', mine.tasks.map(taskRow))) : null,
+      hw.class?.length > 1 ? txGroup('Клас', txRows(hw.class.map(c => txRow({ label: c.me ? `${c.name} (ви)` : c.name, end: ava(c.name),
+        pill: { text: `${c.done} з ${c.total}`, tone: c.done >= c.total ? 'good' : '' }, chevron: false })))) : null,
+      hw.over ? h('button.btn.soft', { type: 'button', onclick: (e) => { s.close(); askHomework(e.currentTarget); } }, ic('arrow-clockwise', { size: 16 }), 'Нове домашнє') : null));
+  }
+  function hwCard(m) {
+    const cur = hw && hw.id === m.meta?.homework_id ? hw : null;
+    const mine = cur?.mine;
+    const doneN = mine ? mine.tasks.filter(chat.hwTaskDone).length : 0;
+    const sub = !cur ? 'Завершено' : cur.over ? 'Термін минув' : mine
+      ? `У кожного своє · ви: ${doneN} з ${mine.tasks.length} · до ${dueLabel(cur.due_at)}` : 'У кожного своє';
+    return h('div.ch-card', { dataset: { id: m.id } },
+      tx({ icon: 'chalkboard-teacher', wide: true, cls: 'ch-chal ch-hw', label: 'Домашнє завдання від вчителя', sub,
+        end: mine && !cur.over ? (mine.done_at || doneN >= mine.tasks.length ? txPill('Виконано', 'good') : txPill('Відкрити', 'accent')) : undefined,
+        onclick: cur ? () => hwSheet() : null }));
   }
   function duelDetails(d) {
     const g = duel.GAMES[d.game] || duel.GAMES.detective;
@@ -268,7 +338,13 @@ export function chatRoom(view, roomId) {
   function challengeSheet() {
     let s = null;
     const act = chs.filter(chat.challengeActive);
+    const group = info?.kind === 'group';
+    const hwActive = hw && !hw.over;
     s = sheet('Разом', h('div.stack.ch-sheet',
+      group ? h('div.tx-label', 'Домашнє від вчителя') : null,
+      group ? txRows([txRow({ icon: 'chalkboard-teacher', label: hwActive ? 'Моє домашнє' : 'Отримати домашнє', on: !hwActive,
+        sub: hwActive && hw.mine ? `Виконано ${hw.mine.tasks.filter(chat.hwTaskDone).length} з ${hw.mine.tasks.length} · до ${dueLabel(hw.due_at)}` : 'У кожного своє — за рівнем і помилками · на 7 днів',
+        onclick: (e) => { s.close(); hwActive ? hwSheet() : askHomework(e.currentTarget); } })]) : null,
       h('div.tx-label', 'Дуель зараз · 24 години'),
       txRows(Object.entries(duel.GAMES).map(([id, g]) => txRow({ icon: g.icon, label: g.label, sub: `${g.sub} · рівень ${lvLabel(myLevel())}`, onclick: async () => {
         try {
@@ -454,10 +530,11 @@ export function chatRoom(view, roomId) {
         sub: `${mine ? 'Ви почали' : `${m.meta?.name || nameOf(m.user_id)} пропонує`} виклик на 7 днів${c ? ` · ${c.people.filter(p => p.value >= c.target).length} з ${c.people.length} виконали` : ''}`,
         onclick: c ? () => challengeDetails(c) : null }));
   }
-  function refreshCards() { for (const m of msgs) if (m.kind === 'challenge') update(m); }
+  function refreshCards() { for (const m of msgs) if (m.kind === 'challenge' || m.meta?.event === 'homework') update(m); }
 
   function bubble(m) {
     if (m.kind === 'system' && m.meta?.event === 'topic') return topicCard(m);
+    if (m.kind === 'system' && m.meta?.event === 'homework') return hwCard(m);
     if (m.kind === 'system') { const t = sysText(m); return t ? h('div.msg.sys', { dataset: { id: m.id } }, t) : h('div', { dataset: { id: m.id }, hidden: true }); }
     if (m.kind === 'challenge') return challengeCard(m);
     const mine = m.user_id === me;
@@ -644,7 +721,7 @@ export function chatRoom(view, roomId) {
     if (ev === 'INSERT') {
       if (row.user_id !== me && !members.has(row.user_id) && row.kind !== 'system') loadMembers().then(renderHead).catch(() => {});
       if (row.kind === 'system') loadMembers().then(renderHead).catch(() => {});
-      if (row.kind === 'challenge' || row.meta?.event === 'duel_score') loadChallenges();
+      if (row.kind === 'challenge' || ['duel_score', 'homework', 'homework_done'].includes(row.meta?.event)) loadChallenges();
       append(row);
       if (!document.hidden) chat.markRead(roomId);
     } else if (ev === 'UPDATE' && byId.has(row.id)) { Object.assign(byId.get(row.id), row); update(byId.get(row.id)); }

@@ -54,6 +54,11 @@ export const myBlocks = () => rpc('chat_my_blocks');
 export const challenges = (room) => rpc('chat_challenges_list', { p_room: room });
 export const createChallenge = (room, kind, target) => rpc('chat_challenge_create', { p_room: room, p_kind: kind, p_target: target });
 export const cancelChallenge = (id) => rpc('chat_challenge_cancel', { p_id: id });
+// домашнє від вчителя (міграція 0026): у кожного своє; стан — моє з прогресом і клас «N з 3»
+export const homework = (room) => rpc('chat_homework_status', { p_room: room });
+export const homeworkDone = (id) => rpc('chat_homework_done', { p_homework: id }).catch(() => false);
+export const newHomework = (room) => tutor('homework', { room_id: room });
+export const hwTaskDone = (t) => (t.value || 0) >= (t.target || 1);
 
 /** Повідомлення чату: найновіші PAGE (або старші за before), у хронологічному порядку */
 export async function messages(room, before = null) {

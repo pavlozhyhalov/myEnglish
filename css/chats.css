@@ -96,3 +96,15 @@ mark.ch-err{background:transparent;color:inherit;text-decoration:underline wavy 
 .dl-note .tx-sq{background:var(--accent-soft);color:var(--accent-ink)}
 /* нові повідомлення на «Друзі» в бічному меню */
 .drawer .pc-badge{position:absolute;top:-5px;right:-5px;min-width:18px;height:18px;padding:0 5px;border-radius:9px;background:var(--accent-grad);color:#fff;font-family:var(--font-head);font-size:10px;display:grid;place-items:center;box-shadow:0 0 0 2px var(--drawer-bg,var(--bg));pointer-events:none}
+/* домашнє від вчителя */
+.ch-hw .tx-sq{background:var(--accent-grad);color:#fff}
+.hw-note{display:flex;gap:10px;align-items:flex-start;background:var(--accent-soft);border-radius:16px;padding:10px 12px}
+.hw-note .tx-sq{background:var(--accent-grad);color:#fff;flex:none}
+.hw-note p{margin:0;line-height:1.45;color:var(--ink)}
+.hw-task{width:100%;text-align:left;font:inherit;color:inherit;align-items:flex-start}
+.hw-task .tx-body{display:flex;flex-direction:column;gap:5px;min-width:0}
+.hw-task .tx-bar{margin-top:2px}
+.hw-en{font-size:var(--fs-sm);line-height:1.4;color:var(--ink)}
+.hw-focus{align-self:flex-start;font-size:var(--fs-xs);font-weight:700;color:var(--accent-ink);background:var(--accent-soft);border-radius:8px;padding:3px 8px}
+.hw-val{flex:none;font-family:var(--font-head);font-size:var(--fs-sm);font-variant-numeric:tabular-nums;color:var(--ink-dim);white-space:nowrap}
+.tx-no.hw-ok{background:var(--good-soft);color:var(--good)}
