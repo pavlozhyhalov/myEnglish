@@ -711,7 +711,7 @@ async function weeklyTest(view) {
   for (const c of freshFirst(cards, seen).slice(0, lessons.length ? 10 : 15)) {
     const distract = allCards.filter(x => x.uk !== c.uk).sort(() => Math.random() - 0.5).slice(0, 3).map(x => x.uk);
     if (Math.random() < 0.5) qs.push({ id: c.id, _card: c.id, type: 'choice', prompt: c.en, audio: c.en, options: [c.uk, ...distract].sort(() => Math.random() - 0.5), answer: c.uk, mistakeType: 'vocabulary', instruction: 'Що це означає?' });
-    else qs.push({ id: c.id, _card: c.id, type: 'input', prompt: `${c.uk}`, answer: [c.en], mistakeType: 'vocabulary', instruction: 'Напишіть англійською' });
+    else qs.push({ id: c.id, _card: c.id, type: 'input', prompt: `${c.uk}`, answer: [c.en], word: c.en, mistakeType: 'vocabulary', instruction: 'Напишіть англійською' });
   }
   for (const p of lessons.slice(0, 5)) {
     try { const l = await loadLesson(p.id); qs.push(...freshFirst(l.exercises, seen).slice(0, 2).map(e => ({ ...e, mistakeType: l.mistakeType, _lesson: p.id }))); } catch { /* */ }

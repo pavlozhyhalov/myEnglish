@@ -179,6 +179,12 @@ export function checkTyped(input, en, { known = null } = {}) {
     const pat = slotWords(v);
     if (pat.some(w => PLACEHOLDER.has(w)) && slotMatch(iWords, pat)) return { ok: true, almost: false, expected: v };
   }
+  // однина ↔ множина іменника: «shrimps» = «shrimp», «cities» = «city», «children» = «child» (2026-11-16: «shrimps» не зараховано)
+  for (const v of vars) {
+    const c = core(v);
+    if (/^to /.test(norm(v)) || c.split(' ').length > 3) continue;
+    if (sameNoun(i, c)) return { ok: true, almost: false, expected: v };
+  }
   const realWord = !i.includes(' ') && (CONFUSABLE.has(i) || known?.has(i));
   let best = Infinity, bestVar = expected;
   for (const v of vars) {
@@ -192,6 +198,21 @@ export function checkTyped(input, en, { known = null } = {}) {
   }
   if (best < Infinity) return { ok: true, almost: true, expected: bestVar };
   return { ok: false, almost: false, expected };
+}
+
+/** Те саме слово (останнє у фразі) в однині чи множині: city/cities, box/boxes, knife/knives, child/children */
+function nounForms(w) {
+  const f = new Set([w, w + 's', w + 'es']);
+  if (/[^aeiou]y$/.test(w)) f.add(w.slice(0, -1) + 'ies');
+  if (/fe?$/.test(w)) f.add(w.replace(/fe?$/, 'ves'));
+  for (const x of IRR[w] || []) f.add(x);
+  return f;
+}
+function sameNoun(a, b) {
+  const aw = a.split(' '), bw = b.split(' ');
+  if (aw.length !== bw.length || aw.slice(0, -1).join(' ') !== bw.slice(0, -1).join(' ')) return false;
+  const x = aw[aw.length - 1], y = bw[bw.length - 1];
+  return x !== y && (nounForms(y).has(x) || nounForms(x).has(y));
 }
 
 // ---------- Форми слова ----------

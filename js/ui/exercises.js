@@ -5,6 +5,7 @@ import { plural } from '../strings.js';
 import { txKpis, txGroup, txPill, txRow, txRows } from './tiles.js';
 import { tutor, aiErrorText } from '../ai.js';
 import { user } from '../supa.js';
+import { checkTyped } from '../wordlogic.js';
 
 /*
  * Порівняння відповідей (аудит 2026-11-15, власник: «правильні відповіді не мають відхилятися, а хибні — зараховуватися»).
@@ -364,7 +365,9 @@ export function render(ex, report, next) {
     const check = () => {
       if (reported || !inp.value.trim()) return;
       // у пропуск можна вписати й сусідні слова чи все речення
-      const given = inp.value.trim(), ok = matches(given, ex.answer) || (ex.type === 'input' && fitsBlanks(given, ex.prompt, ex.answer));
+      const given = inp.value.trim(), ok = matches(given, ex.answer) || (ex.type === 'input' && fitsBlanks(given, ex.prompt, ex.answer))
+        // переклад слова картки: як у тренуванні слів — однина/множина, артикль, «to», варіанти через «/» (ex.word — англ. картки)
+        || (ex.word ? checkTyped(given, ex.word).ok : false);
       // речення (перетворення) — показати, які слова відрізняються від найближчого правильного варіанта
       if (!ok && Array.isArray(ex.answer) && ex.answer.length > 1) ex._closest = closestAnswer(given, ex.answer);
       const diff = !ok && wtoks(given).length > 2 ? wordDiff(given, closestAnswer(given, ex.answer)) : null;
