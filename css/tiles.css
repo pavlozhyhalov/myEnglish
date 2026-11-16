@@ -292,7 +292,7 @@ input.range::-moz-range-thumb{width:24px;height:24px;border-radius:50%;backgroun
 .tx.primary{box-shadow:var(--accent-glow),inset 0 1px 0 rgba(255,255,255,.16)}
 .tx-kpi:active,div.tx:active,div.tx-row:active{box-shadow:var(--tile-shadow)}
 /* бокове меню */
-.drawer .tile-nav{background-image:var(--nav-grad);box-shadow:var(--nav-shadow)}
+.drawer .tile-nav{background-image:var(--nav-grad);box-shadow:var(--nav-shadow);border:1px solid var(--tile-edge)}
 .drawer .nav-top .tile-nav{box-shadow:var(--nav-shadow)}
 .drawer .tile-nav.pressed{box-shadow:var(--tile-shadow-press)}
 .drawer .tile-nav[aria-current="page"]{background-image:none}

@@ -146,7 +146,7 @@ textarea.input{resize:vertical;min-height:120px;line-height:1.45}
 /* Панель меню закріплена на весь екран і сама не прокручується — гортається лише список усередині */
 .drawer{
   position:fixed;top:0;left:0;height:100vh;height:100dvh;z-index:50;width:84vw;max-width:360px;
-  background:var(--surface);transform:translateX(-102%);transition:transform var(--dur) var(--ease);
+  background:var(--drawer-bg,var(--surface));transform:translateX(-102%);transition:transform var(--dur) var(--ease);
   display:flex;flex-direction:column;padding:calc(var(--safe-t) + 12px) 12px calc(var(--safe-b) + 12px);
   overflow:hidden;overscroll-behavior:none;will-change:transform;
 }

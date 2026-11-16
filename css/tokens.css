@@ -66,8 +66,8 @@
   --tile-shadow:0 1px 2px rgba(11,21,48,.06),0 8px 18px -8px rgba(11,21,48,.20),inset 0 -1px 0 rgba(11,21,48,.05);
   --tile-shadow-press:0 1px 1px rgba(11,21,48,.04),inset 0 1px 2px rgba(11,21,48,.06);
   --tile-grad:linear-gradient(180deg,#FFFFFF 0%,#FAFBFD 100%);
-  --nav-grad:linear-gradient(180deg,#FFFFFF 0%,#F4F6FA 100%);
-  --nav-shadow:0 1px 1px rgba(11,21,48,.04),0 4px 10px -6px rgba(11,21,48,.14),inset 0 1px 0 rgba(255,255,255,.9);
+  --nav-grad:linear-gradient(180deg,#FFFFFF 0%,#FAFBFD 100%); --drawer-bg:#EBEEF4;
+  --nav-shadow:0 1px 2px rgba(11,21,48,.06),0 8px 18px -8px rgba(11,21,48,.20),inset 0 -1px 0 rgba(11,21,48,.05);
   --tile-hi:none;
 }
 /* Ніч: акцент світліший, щоб кнопки не зливались із тлом; текст-акцент — блакитний */
@@ -90,7 +90,7 @@
     --tile-shadow:inset 0 1px 0 rgba(255,255,255,.07),0 8px 18px -12px rgba(0,0,0,.7);
   --tile-shadow-press:inset 0 1px 2px rgba(0,0,0,.35);
   --tile-grad:linear-gradient(180deg,#182236 0%,#121A2B 100%);
-  --nav-grad:linear-gradient(180deg,#1D2843 0%,#172038 100%);
+  --nav-grad:linear-gradient(180deg,#1D2843 0%,#172038 100%); --drawer-bg:#111A2C;
   --nav-shadow:inset 0 1px 0 rgba(255,255,255,.07),0 6px 14px -10px rgba(0,0,0,.7);
     --accent-grad:linear-gradient(135deg,#3E62D6 0%,#3556C9 55%,#2B47AA 100%);
     --hero-grad:radial-gradient(120% 90% at 100% 0%,rgba(110,140,255,.22) 0%,transparent 55%),linear-gradient(160deg,#1C3175 0%,#16275F 50%,#101D4A 100%);
@@ -115,7 +115,7 @@
   --tile-shadow:inset 0 1px 0 rgba(255,255,255,.07),0 8px 18px -12px rgba(0,0,0,.7);
   --tile-shadow-press:inset 0 1px 2px rgba(0,0,0,.35);
   --tile-grad:linear-gradient(180deg,#182236 0%,#121A2B 100%);
-  --nav-grad:linear-gradient(180deg,#1D2843 0%,#172038 100%);
+  --nav-grad:linear-gradient(180deg,#1D2843 0%,#172038 100%); --drawer-bg:#111A2C;
   --nav-shadow:inset 0 1px 0 rgba(255,255,255,.07),0 6px 14px -10px rgba(0,0,0,.7);
   --accent-grad:linear-gradient(135deg,#3E62D6 0%,#3556C9 55%,#2B47AA 100%);
   --hero-grad:radial-gradient(120% 90% at 100% 0%,rgba(110,140,255,.22) 0%,transparent 55%),linear-gradient(160deg,#1C3175 0%,#16275F 50%,#101D4A 100%);
