@@ -155,9 +155,17 @@ export async function voiceSession(view, opts = {}) {
   let clipTurn = null;             // найдовша репліка ≤ 20 с — для звіту «до/після»
   const pronCands = [];            // до трьох найдовших реплік 3–15 с — для оцінки вимови (лише в пам'яті)
   const jobs = new Set();
-  const MAX_SEG = 300;   // ~30 с (пакети по 100 мс)
+  const MAX_SEG = 900;   // ~90 с (пакети по 100 мс): довга розповідь учня не обрізається з початку (2026-11-16: до того 30 с — початок губився)
+  // учень говорить, поки вчитель ще звучить (перебиває): ці ~5 с теж його репліка — якщо Live скаже «interrupted», вони йдуть на початок сегмента
+  let barge = [], bargeFlags = [];
+  const BARGE_MAX = 50;
   function onPcm(buf, rms) {
-    if (tutorTalking || micMuted || fixPlaying) return;
+    if (micMuted || fixPlaying) return;
+    if (tutorTalking) {
+      barge.push(buf); bargeFlags.push(rms > SPEECH_RMS);
+      if (barge.length > BARGE_MAX) { barge.shift(); bargeFlags.shift(); }
+      return;
+    }
     const sp = rms > SPEECH_RMS;
     seg.push(buf); segFlags.push(sp);
     if (sp) { segSpeech++; speechPackets++; }
@@ -189,6 +197,8 @@ export async function voiceSession(view, opts = {}) {
       const mi = row.messages.findIndex((m, i) => i >= from && m.role === 'model');
       row.messages.splice(mi < 0 ? row.messages.length : mi, 0, target);
     }
+    // що почув сам Live (до уточнення): запасний текст, якщо повторне розпізнавання поверне уривок
+    const liveText = users.map(u => String(u.text || '').trim()).filter(Boolean).join(' ');
     for (const u of users) if (u !== target) u.text = '';   // кілька шматків однієї репліки зливаються в один
     target.pending = true; renderSubs();
     const turn = trimTurn(chunks, flags);
@@ -200,7 +210,10 @@ export async function voiceSession(view, opts = {}) {
     const job = tutor('transcribe', payload)
       .then(r => {
         const text = String(r?.text || '').trim();
-        if (!text || /^\[?unclear\]?$/i.test(text)) return;
+        const words = (x) => (String(x).match(/[\p{L}\p{N}']+/gu) || []).length;
+        // уривок на кшталт «que», «du 15», коли Live почув цілу фразу (2026-11-16): лишаємо текст Live
+        if (!text || /^\[?unclear\]?$/i.test(text)) { if (liveText && !target.text) target.text = liveText; return; }
+        if (liveText && words(text) < 3 && words(liveText) >= 2 * words(text) + 2) { target.text = liveText; return; }
         target.text = text;
         const fx = cleanFixes(r.fixes, text);
         if (fx.length) { target.fixes = fx; fixTotal += fx.length; paintBadge(); log(`fixes ${fx.length}`); }
@@ -351,7 +364,7 @@ export async function voiceSession(view, opts = {}) {
     log(`audio ok · in ${info.inRate} Hz (${info.inState}) · out ${info.outRate} Hz (${info.outState})`);
     audio.addEventListener('mic-level', e => { micLevel = e.detail; lastRms = e.detail; });
     audio.addEventListener('out-level', e => { outLevel = e.detail; });
-    audio.addEventListener('speaking', () => { tutorTalking = true; cutSegment(); if (mode === 'live') setState(`Говорить ${st.tutorName}`); });
+    audio.addEventListener('speaking', () => { tutorTalking = true; barge = []; bargeFlags = []; cutSegment(); if (mode === 'live') setState(`Говорить ${st.tutorName}`); });
     audio.addEventListener('idle', () => { tutorTalking = false; tutorLine = lastTutorBefore(-1) || tutorLine; if (mode === 'live' && live?.ready) setState(micMuted ? 'Мікрофон вимкнено' : 'Слухаю…'); });
 
     const pre = await liveP;
@@ -362,7 +375,11 @@ export async function voiceSession(view, opts = {}) {
     warmClient = null;
     log(pre ? 'using prewarmed session' : 'connecting on tap');
     live.addEventListener('audio', e => audio?.play(e.detail));
-    live.addEventListener('interrupted', () => { audio?.clear(); closeTurns(); });
+    live.addEventListener('interrupted', () => {
+      audio?.clear(); closeTurns();
+      // учень перебив вчителя: його слова під час репліки вчителя — початок нової репліки (а не втрачений шматок)
+      if (barge.length) { seg = barge.concat(seg); segFlags = bargeFlags.concat(segFlags); segSpeech += bargeFlags.filter(Boolean).length; barge = []; bargeFlags = []; }
+    });
     live.addEventListener('input', e => addText('user', e.detail));
     live.addEventListener('output', e => addText('model', e.detail));
     live.addEventListener('turn', closeTurns);

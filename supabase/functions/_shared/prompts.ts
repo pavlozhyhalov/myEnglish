@@ -139,7 +139,8 @@ export async function loadStudent(ctx: Ctx): Promise<Student> {
     disputes: readDisputes(d.disputes),
     focus: readFocus(d.weeklyFocus, mistakes.data || []),
     open: (mistakes.data || []).slice(0, 15).map(m => ({ id: String(m.id), wrong: cut(m.wrong, 80), right: cut(m.right, 80) })).filter(m => m.wrong && m.right),
-    voicePauseMs: VOICE_PAUSE[s.voicePause as string] || VOICE_PAUSE.normal,
+    // «Авто» (за замовчуванням, 2026-11-16): A0–B1 думають над словом довше — вчитель чекає довгу паузу, інакше відповідає на півслові
+    voicePauseMs: VOICE_PAUSE[s.voicePause as string] || (['A0', 'A1', 'A2', 'B1'].includes(String(d.level || s.level || 'B1')) ? VOICE_PAUSE.long : VOICE_PAUSE.normal),
     topics: readTopicLog(d.topicLog),
   };
 }

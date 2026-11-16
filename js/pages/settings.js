@@ -82,7 +82,7 @@ export default function settings(view) {
       block('translate', 'Мова пояснень', segOf('explainLang', [['uk', 'Українська'], ['en', 'English'], ['mix', 'Змішано']])),
       block('check-circle', 'Виправлення', segOf('strictness', [['important', 'Лише важливе'], ['all', 'Усе']])),
       row('microphone', 'Голос вчителя', pick('voice', LIVE_VOICES.map(v => [v, v]), 'Голос вчителя'), 'Gemini Live'),
-      block('hourglass', 'Пауза в голосі', segOf('voicePause', [['short', 'Коротка'], ['normal', 'Звичайна'], ['long', 'Довга']]), 'Перебиває — оберіть «Довга»'),
+      block('hourglass', 'Пауза в голосі', segOf('voicePause', [['auto', 'Авто'], ['normal', 'Звичайна'], ['long', 'Довга']]), 'Перебиває — оберіть «Довга»'),
       row('briefcase', 'Професійний контекст', toggle(!!st.workFocus, set('workFocus'), 'Професійний контекст'), 'Розмови про вашу роботу'),
     ]),
     group('Вигляд і звук', [
