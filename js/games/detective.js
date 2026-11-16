@@ -301,8 +301,8 @@ export default async function detective(view, r) {
         flash('ok');
         live.textContent = (cur.correct ? 'Так, без помилок.' : 'Влучно!') + (up ? ` Множник ×${comboMult(combo)}` : '') + (cur.correct ? '' : ` Правильно: ${cur.fix}`);
         drawHud();
-        if (cur.correct) return later(next, 520);
-        later(() => { showFix(false); later(next, 900); }, 260);
+        if (cur.correct) return later(() => showFix(false), 260);
+        later(() => showFix(false), 260);
       } else {
         combo = 0;
         misses.push(cur);
@@ -342,15 +342,14 @@ export default async function detective(view, r) {
       }
       const card = h('div.card.dt-reveal' + (miss ? '.miss' : '.hit'), kids);
       stage.querySelector('.dt-card')?.replaceWith(card);
-      if (!miss) return;
       const none = stage.querySelector('.dt-none');
       const go = h('button.btn.primary.dt-next', { type: 'button' }, 'Далі', ic('arrow-right', { size: 18 }));
       none?.replaceWith(go);
-      const readMs = Math.min(3200, 1300 + (cur.tip || '').length * 14);
-      const t = later(next, readMs);
-      go.onclick = () => { clearTimeout(t); timeouts.delete(t); next(); };
+      // після промаху — далі лише кнопкою (власник 2026-11-16: «не встигаєш прочитати пояснення»); час раунду не йде
+      let gone = false;
+      go.onclick = () => { if (gone) return; gone = true; next(); };
       card.onclick = go.onclick;
-      if (document.documentElement.classList.contains('kbd')) go.focus({ preventScroll: true });
+      go.focus({ preventScroll: true });
     }
     const focusOf = (rule) => !!rule && focus.includes(rule);
 

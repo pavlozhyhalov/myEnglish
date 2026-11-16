@@ -118,7 +118,13 @@ function wordsPart(box, list, pool, done) {
         if (b.dataset.v === it.c.uk) b.classList.add('ok');
         else if (b.dataset.v === given) b.classList.add('no');
       });
-      setTimeout(() => { i++; i < list.length ? show() : done(results); }, ok ? 450 : 1100);
+      // далі — кнопкою (власник 2026-11-16: «не встигаєш прочитати»); Enter теж
+      body.querySelector('.lx-idk')?.remove();
+      const go = h('button.btn.primary.lg.block.lx-next', { type: 'button', onclick: () => { if (go.disabled) return; go.disabled = true; i++; i < list.length ? show() : done(results); } },
+        i + 1 < list.length ? 'Далі' : 'Результат', ic('arrow-right', { size: 18 }));
+      body.append(h('div.feedback' + (ok ? '.ok' : '.no'), ok ? 'Правильно' : `Правильно: ${it.c.uk}`), go);
+      go.focus({ preventScroll: true });
+      requestAnimationFrame(() => go.scrollIntoView({ block: 'nearest' }));
     };
     body.replaceChildren(
       h('div.card.lx-word',

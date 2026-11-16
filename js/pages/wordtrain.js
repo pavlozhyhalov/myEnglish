@@ -299,8 +299,7 @@ export async function runTrain(view, { limit = Infinity, onExit, onDone, practic
     nextBtn.focus({ preventScroll: true });
     requestAnimationFrame(() => nextBtn.scrollIntoView({ block: 'nearest', behavior: reducedMotion() ? 'auto' : 'smooth' }));
     if (store.settings().autoSpeak !== false && !kind.startsWith('listen')) setTimeout(() => { if (cur?.answeredNow && cur.it === it) speak(c.en); }, 280);
-    // правильний вибір з варіантів — далі автоматично (кнопка «Далі» — щоб не чекати)
-    if (res.correct && !res.almost && CHOICE.has(kind)) autoNext = setTimeout(() => { if (nextBtn.isConnected) next(); }, 1300);
+    // далі — лише кнопкою «Далі» (власник 2026-11-16: «не встигаєш прочитати пояснення»)
   }
   const PRAISE = ['Правильно!', 'Чудово!', 'Так тримати!', 'Саме так!', 'Влучно!'];
   const pickPraise = () => combo >= 5 ? `Чудово! ${combo} поспіль` : PRAISE[Math.floor(Math.random() * PRAISE.length)];

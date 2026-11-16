@@ -128,10 +128,14 @@ export default async function build(view) {
       locked = true; streak = 0; hud();
       if (!missed.includes(cur)) missed.push(cur);
       line.replaceChildren(h('div.feedback.no.en', { lang: 'en', style: { width: '100%' } }, cur.en));
-      bankEl.replaceChildren();
+      // далі — лише кнопкою (власник 2026-11-16: «не встигаєш прочитати»)
+      const go = h('button.btn.primary.bld-next', { type: 'button' }, 'Далі', ic('arrow-right', { size: 18 }));
+      let gone = false;
+      go.onclick = () => { if (gone || ended) return; gone = true; next(); };
+      bankEl.replaceChildren(go);
+      go.focus({ preventScroll: true });
       live.textContent = `Правильно: ${cur.en}`;
       autoSpeak(cur.en);
-      setTimeout(next, 1800);
     }
     const onKey = (e) => {
       if (e.ctrlKey || e.metaKey || e.altKey || locked || ended) return;
@@ -141,7 +145,7 @@ export default async function build(view) {
     const loop = (now) => {
       if (disposed || ended) return;
       const dt = Math.min(250, now - last); last = now;
-      if (!document.hidden) {
+      if (!document.hidden && !locked) {   // поки показано правильну відповідь — годинник стоїть
         const before = Math.ceil(left / 1000);
         left -= dt;
         const s = Math.ceil(left / 1000);

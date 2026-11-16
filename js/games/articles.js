@@ -212,8 +212,7 @@ export default async function articles(view) {
         pop(up ? `×${comboMult(combo)}!` : `+${gained}`, up);
         live.textContent = `Так. ${cur.why_uk}` + (up ? ` Множник ×${comboMult(combo)}` : '');
         drawHud();
-        const t = later(next, 1100);
-        card.onclick = () => { clearTimeout(t); timeouts.delete(t); next(); };
+        nextButton();
       } else {
         combo = 0;
         misses.push({ ...cur, picked: v });
@@ -221,11 +220,15 @@ export default async function articles(view) {
         if (!reducedMotion()) { stage.classList.remove('shake'); void stage.offsetWidth; stage.classList.add('shake'); }
         live.textContent = `Ні. Правильно: ${cur.answer || 'без артикля'}. ${cur.why_uk}`;
         drawHud();
+        nextButton();
+      }
+      // далі — лише кнопкою (власник 2026-11-16: «не встигаєш прочитати пояснення»); годинник під час пояснення стоїть
+      function nextButton() {
         const go = h('button.btn.primary.ar-next', { type: 'button' }, 'Далі', ic('arrow-right', { size: 18 }));
-        stage.querySelector('.ar-opts').replaceWith(go);
-        const t = later(next, Math.min(3600, 1600 + cur.why_uk.length * 16));
-        go.onclick = card.onclick = () => { clearTimeout(t); timeouts.delete(t); next(); };
-        if (document.documentElement.classList.contains('kbd')) go.focus({ preventScroll: true });
+        stage.querySelector('.ar-opts')?.replaceWith(go);
+        let gone = false;
+        go.onclick = card.onclick = () => { if (gone) return; gone = true; next(); };
+        go.focus({ preventScroll: true });
       }
     }
 

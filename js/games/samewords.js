@@ -217,9 +217,10 @@ export default async function samewords(view) {
       drawHud();
       const go = h('button.btn.primary.sw-next', { type: 'button' }, ri + 1 >= rounds.length ? 'Підсумок' : 'Далі', ic('arrow-right', { size: 18 }));
       stage.querySelector('.sw-opts').replaceWith(go);
-      const t = later(next, ok ? 1500 : Math.min(4200, 1800 + cur.why_uk.length * 16));
-      go.onclick = card.onclick = () => { clearTimeout(t); timeouts.delete(t); next(); };
-      if (document.documentElement.classList.contains('kbd')) go.focus({ preventScroll: true });
+      // далі — лише кнопкою (власник 2026-11-16: «не встигаєш прочитати пояснення»)
+      let gone = false;
+      go.onclick = card.onclick = () => { if (gone) return; gone = true; next(); };
+      go.focus({ preventScroll: true });
     }
 
     function pop(text, big) {
