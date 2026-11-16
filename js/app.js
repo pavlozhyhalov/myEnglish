@@ -216,9 +216,12 @@ async function boot() {
     const QUIET = /^#?\/?(home|today|progress|analysis|report|settings|profile|friends|reading\/?$|reading\/library|games\/?$|cards\/?$|vocab|grammar\/?$|mistakes\/?$|tests\/?$|admin)?(\?.*)?$/;
     const reloadNow = () => { if (reloaded) return; reloaded = true; location.reload(); };
     navigator.serviceWorker.addEventListener('controllerchange', () => {
-      if (!hadController || reloaded) return;
+      if (reloaded) return;
+      // модулі вже в пам'яті — зі старої збірки (або сторінку відкрито ще без SW): наступна сторінка з нової збірки з ними не зв'яжеться,
+      // тож роутер перед переходом перезавантажить застосунок (window.__meStale), а не вантажитиме нову сторінку поверх старих модулів
+      if (!hadController) return;      // перше відкриття: модулі в пам'яті — тієї ж збірки, що встановилась
+      window.__meStale = true;
       if (QUIET.test(location.hash || '#/home')) return reloadNow();
-      addEventListener('hashchange', reloadNow, { once: true });
     });
     afterFirstScreen(() => navigator.serviceWorker.register(`sw.js?v=${BUILD}`, { updateViaCache: 'none' }).then(reg => {
       // перевіряємо оновлення при кожному поверненні в застосунок

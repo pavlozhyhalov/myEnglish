@@ -4,6 +4,18 @@ let current = null;     // { name, cleanup }
 let notFound = null;
 const listeners = new Set();
 
+const STALE_ERR = /binding|does not provide an export|not found|dynamically imported module|Importing a module script failed|error loading dynamically/i;
+/** Перезавантаження через застарілі модулі — не частіше ніж раз на 30 с (інакше справжня помилка зациклила б перезавантаження) */
+function staleReload() {
+  try {
+    const last = Number(sessionStorage.getItem('me:stale-reload')) || 0;
+    if (Date.now() - last < 30000) return false;
+    sessionStorage.setItem('me:stale-reload', String(Date.now()));
+  } catch { /* без sessionStorage — пробуємо один раз */ if (window.__meReloading) return false; }
+  window.__meReloading = true;
+  location.reload();
+  return true;
+}
 export function route(name, loader) { routes.set(name, loader); }
 export function fallback(fn) { notFound = fn; }
 export function onRoute(fn) { listeners.add(fn); return () => listeners.delete(fn); }
@@ -74,6 +86,8 @@ export async function render() {
   host.dataset.page = r.name;
   if (!loader) { view.replaceChildren(host); current = { name: r.name, cleanup: null, host }; listeners.forEach(fn => fn(r)); notFound?.(host, r); return; }
   // перше відкриття розділу (модуль іще не завантажено) або повільні дані сторінки — легка заглушка через 150 мс
+  // нова збірка вже керує сторінкою (controllerchange), а в пам'яті — модулі старої: нову сторінку не вантажимо поверх них, а перезавантажуємо застосунок
+  if (window.__meStale && staleReload()) return;
   const ph = placeholder(view, host, seq);
   try {
     const mod = await loader();
@@ -97,6 +111,8 @@ export async function render() {
     if (restoreY) requestAnimationFrame(() => window.scrollTo(0, restoreY));
   } catch (e) {
     console.error(e);
+    // модуль нової збірки не зв'язався зі старими в пам'яті («Importing binding name … is not found», 2026-11-16) або файл недоступний — один раз перезавантажуємо
+    if (STALE_ERR.test(String(e?.message || e)) && staleReload()) return;
     if (seq === renderSeq) { if (host.parentNode !== view) view.replaceChildren(host); host.textContent = 'Помилка завантаження сторінки: ' + e.message; }
   } finally {
     ph.done();
