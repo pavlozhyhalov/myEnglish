@@ -102,7 +102,7 @@ export function renderProfile() {
         h('div.xs.dim.pc-sub', `${S.weekTime}: ${Math.round(weekSeconds() / 60)} хв`)),
       ic('caret-right', { size: 16 })),
     h('div.pc-row',
-      mini('#/friends', 'users', 'Друзі'),
+      Object.assign(mini('#/friends', 'users', 'Друзі'), { id: 'pc-friends' }),
       mini('#/settings', 'gear-six', 'Налаштування'),
       u ? h('button.pc-btn', { type: 'button', onclick: async () => { await signOut(); close(); } }, ic('sign-out', { size: 20 }), h('span', S.logout))
         : h('a.pc-btn.accent', { href: '#/auth', onclick: close }, ic('key', { size: 20 }), h('span', S.login)))));
@@ -136,6 +136,7 @@ export function open() {
   lockScroll(true);
   syncA11y();
   popModal = pushModal([drawer, scrim], close);   // Tab не виходить за меню, Escape закриває лише його
+  unreadBadge();
   // фокус на саму панель (без видимої рамки), щоб не обводити пункт меню
   drawer.focus({ preventScroll: true, focusVisible: false });
 }
@@ -208,4 +209,20 @@ function pressFeedback(root) {
   root.addEventListener('scroll', drop, { passive: true, capture: true });
   // довге утримання не відкриває системне меню посилання (iOS) — інакше воно забирає дотик
   root.addEventListener('contextmenu', (e) => { if (e.target.closest(SEL)) e.preventDefault(); });
+}
+
+/** Нові повідомлення друзів — цифра на «Друзі» в картці профілю (чати — лише після входу; модуль чатів вантажиться лише тут) */
+let badgeAt = 0;
+function unreadBadge() {
+  if (!user() || Date.now() - badgeAt < 30000) return;
+  badgeAt = Date.now();
+  import('../chat.js').then(m => m.listChats()).then((rows) => {
+    const n = (rows || []).reduce((a, c) => a + (c.muted ? 0 : c.unread || 0), 0);
+    const btn = document.getElementById('pc-friends');
+    if (!btn) return;
+    btn.querySelector('.pc-badge')?.remove();
+    btn.setAttribute('href', n ? '#/friends/chats' : '#/friends');
+    btn.setAttribute('aria-label', n ? `Друзі: ${n} нових повідомлень` : 'Друзі');
+    if (n) btn.append(h('span.pc-badge', { 'aria-hidden': 'true' }, n > 99 ? '99+' : String(n)));
+  }).catch(() => {});
 }

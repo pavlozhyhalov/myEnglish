@@ -12,7 +12,7 @@ import { cors } from '../_shared/http.ts';
 import { generateJson } from '../_shared/gemini.ts';
 import { FAST_MODELS } from '../_shared/config.ts';
 import { readMemory } from '../_shared/prompts.ts';
-import { nudgeInput, cleanNudge, monitorDue, NUDGE_SCHEMA, NUDGE_PROMPT, chatNotifyDue, chatMessageText, challengeDue, challengeNudge } from './logic.ts';
+import { nudgeInput, cleanNudge, monitorDue, NUDGE_SCHEMA, NUDGE_PROMPT, chatNotifyDue, chatMessageText, challengeDue, challengeNudge, topicDue, groupLevel, pickTopic, type Topic } from './logic.ts';
 
 type SubRow = {
   id: string; user_id: string; endpoint: string; keys: PushKeys; tz: string;
@@ -156,6 +156,38 @@ async function chatPush(db: SupabaseClient, id: string, vapid: Vapid) {
   return { sent };
 }
 
+
+/** «Тема дня» від вчителя: у кожній живій групі (≥ 2 учасники, повідомлення за 14 днів) — питання англійською за рівнем групи */
+const TOPICS_URL = 'https://raw.githubusercontent.com/pavlozhyhalov/myEnglish/main/data/topics.json';
+async function topicOfDay(db: SupabaseClient, vapid: Vapid) {
+  const since14 = new Date(Date.now() - 14 * 864e5).toISOString();
+  const { data: rooms } = await db.from('chat_rooms').select('id, title').eq('kind', 'group').gte('last_msg_at', since14).limit(200);
+  if (!rooms?.length) return;
+  const topics = ((await fetch(TOPICS_URL).then(r => r.json()).catch(() => null))?.topics || []) as Topic[];
+  if (!topics.length) { console.error('topics unavailable'); return; }
+  let posted = 0;
+  for (const room of rooms) {
+    const { data: members } = await db.from('chat_members').select('user_id, muted').eq('room_id', room.id).is('left_at', null);
+    if (!members || members.length < 2) continue;
+    const { data: recent } = await db.from('chat_messages').select('meta, created_at').eq('room_id', room.id).eq('kind', 'system')
+      .eq('meta->>event', 'topic').gte('created_at', new Date(Date.now() - 90 * 864e5).toISOString()).order('created_at', { ascending: false }).limit(90);
+    if (recent?.[0] && Date.now() - Date.parse(recent[0].created_at) < 20 * 3600e3) continue;   // сьогодні вже була
+    const { data: profs } = await db.from('profiles').select('data').in('user_id', members.map(m => m.user_id));
+    const level = groupLevel((profs || []).map(p => String((p.data as any)?.settings?.level || (p.data as any)?.level || '')));
+    const t = pickTopic(topics, level, new Set((recent || []).map(r => String((r.meta as any)?.topic_id || ''))));
+    if (!t) continue;
+    const { error } = await db.from('chat_messages').insert({ room_id: room.id, user_id: members[0].user_id, kind: 'system', body: '',
+      meta: { event: 'topic', topic_id: t.id, q: t.q, en: t.en, uk: t.uk, a: (t.a || []).slice(0, 3), level } });
+    if (error) { console.error('topic insert', error.message); continue; }
+    posted++;
+    for (const m of members) {
+      if (m.muted) continue;
+      await sendToUser(db, m.user_id, { title: String(room.title || 'Група').slice(0, 50), body: `Тема дня: ${t.q}`.slice(0, 160), url: `#/friends/chat/${room.id}`, tag: `myenglish-topic-${room.id}` }, vapid);
+    }
+  }
+  console.info('topic of day', posted);
+}
+
 /** Раз на добу: тим, хто відстає у спільному виклику, — нагадування (одне на людину, найвідсталіший виклик) */
 async function challengePush(db: SupabaseClient, vapid: Vapid) {
   const { data, error } = await db.rpc('chat_challenge_laggards');
@@ -218,6 +250,11 @@ Deno.serve(async (req) => {
   // раз на добу (перший запуск після 06:00 UTC) — автомонітор AI у фоні, щоб не затримувати нагадування
   if (monitorDue(now)) {
     const job = monitor(db, secret, vapid).catch(e => console.error('monitor', (e as Error).message));
+    // deno-lint-ignore no-explicit-any
+    const rt = (globalThis as any).EdgeRuntime; if (rt?.waitUntil) rt.waitUntil(job);
+  }
+  if (topicDue(now)) {
+    const job = topicOfDay(db, vapid).catch(e => console.error('topic', (e as Error).message));
     // deno-lint-ignore no-explicit-any
     const rt = (globalThis as any).EdgeRuntime; if (rt?.waitUntil) rt.waitUntil(job);
   }

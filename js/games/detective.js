@@ -13,6 +13,7 @@ import { setTitle, setFocus } from '../ui/shell.js';
 import { bestUpdate, shuffleArr } from './logic.js';
 import { plural } from '../strings.js';
 import { tx, txGroup, txRows, txPill } from '../ui/tiles.js';
+import { duelOf, duelNote, seeded, finishDuel } from '../duel.js';
 import { gameState, saveGameState, beep, buzz, reducedMotion, gameHead, statPill, gameIntro, startTile, gameResult, moreRows } from './common.js';
 
 export const ROUNDS = 15;
@@ -146,7 +147,7 @@ function roundFromBank(it) {
  * 15 раундів: власні помилки — до 60% (деякі як правильні речення з right), решта — банк мого рівня й сусідніх;
  * ~25% правильних речень; без повторів у грі; недавно бачені з банку — в кінці черги.
  */
-export function buildRounds(bank, { level = myLevel(), focus = [], own = [], rng = Math.random, n = ROUNDS } = {}) {
+export function buildRounds(bank, { level = myLevel(), focus = [], own = [], rng = Math.random, n = ROUNDS, seen: seenList = null } = {}) {
   const wantCorrect = Math.round(n * 0.25) + (rng() < 0.3 ? -1 : 0);
   const ownTake = own.slice(0, Math.round(n * OWN_SHARE));
   const rounds = [];
@@ -161,7 +162,7 @@ export function buildRounds(bank, { level = myLevel(), focus = [], own = [], rng
     rounds.push(r);
   });
   const levels = BANK_LEVELS[level] || BANK_LEVELS.B1;
-  const seen = new Set(readSeen());
+  const seen = new Set(seenList || readSeen());
   const score = (it) => rng() * 1.4 + (seen.has(it.id) ? 3 : 0) - (focus.includes(it.rule) ? 0.6 : 0);
   // схожі речення (банк «It depends of the weather.» і власне «It depends on the weather tomorrow») в одній грі не зустрічаються
   const ownText = own.flatMap(c => [c.w, c.r]).map(t => ' ' + tokensOf(t).map(normTok).join(' ') + ' ');
@@ -202,9 +203,11 @@ function arrange(list, rng) {
 
 // ---------- Гра ----------
 
-export default async function detective(view) {
+export default async function detective(view, r) {
   setTitle('Детектив помилок');
-  const lv = myLevel();
+  // дуель у чаті друзів: однакові раунди для всіх (seed), рівень автора дуелі, без власних помилок
+  const duel = duelOf(r);
+  const lv = duel ? duel.level : myLevel();
   let bank = [];
   try { bank = await json('data/detective.json'); } catch { bank = []; }
   const timer = activityTimer('game');
@@ -217,15 +220,16 @@ export default async function detective(view) {
 
   function intro() {
     setFocus(false);
-    const focus = safe(focusRules, []);
-    const own = ownPool(focus);
+    const focus = duel ? [] : safe(focusRules, []);
+    const own = duel ? [] : ownPool(focus);
     const best = gameState().best?.detective?.[lv] || 0;
     const ownN = Math.min(own.length, Math.round(ROUNDS * OWN_SHARE));
-    const start = startTile({ label: 'Почати', sub: `${ROUNDS} речень · по 5 секунд`, onclick: play, disabled: !bank.length && !own.length });
+    const start = startTile({ label: duel ? 'Почати дуель' : 'Почати', sub: `${ROUNDS} речень · по 5 секунд`, onclick: play, disabled: !bank.length && !own.length });
     body.replaceChildren(gameIntro({
       icon: 'magnifying-glass',
       text: 'Торкніться слова з помилкою — або «Без помилок».',
       rules: [`${ROUNDS} речень, на кожне — 5 секунд`, 'Три влучні поспіль — очки ×2, шість — ×3', 'Якщо бракує слова — торкніться слова перед пропуском'],
+      top: duel ? [duelNote(duel)] : undefined,
       extra: [
         ownN ? tx({ icon: 'target', label: `${ownN} ${plural(ownN, 'речення', 'речення', 'речень')} — з ваших помилок`, sub: focus.length ? 'Правила тижня — першими' : 'Решта — з банку речень вашого рівня', wide: true, cls: 'dt-note' }) : null,
         !bank.length && !own.length ? h('p.feedback.no', { style: { margin: 0 } }, 'Не вдалося завантажити речення. Перевірте з\'єднання.') : null],
@@ -237,8 +241,8 @@ export default async function detective(view) {
 
   function play() {
     setFocus(true);
-    const focus = safe(focusRules, []);
-    const rounds = buildRounds(bank, { level: lv, focus, own: ownPool(focus) });
+    const focus = duel ? [] : safe(focusRules, []);
+    const rounds = duel ? buildRounds(bank, { level: lv, rng: seeded(duel.seed), seen: [] }) : buildRounds(bank, { level: lv, focus, own: ownPool(focus) });
     if (!rounds.length) return intro();
     writeSeen([...readSeen().filter(id => !rounds.some(r => r.id === id)), ...rounds.filter(r => r.src === 'bank').map(r => r.id)]);
     let ri = -1, score = 0, combo = 0, maxCombo = 0, hits = 0, cur = null, locked = true, left = 0, total = 0, raf = 0, last = performance.now(), paused = false;
@@ -416,11 +420,12 @@ export default async function detective(view) {
       body.replaceChildren(gameResult({
         icon: 'magnifying-glass', record: upd.record, score: String(score), unit: plural(score, 'очко', 'очки', 'очок'), sub: verdict(hits, rounds.length),
         kpis: [{ value: `${hits}/${rounds.length}`, label: 'знайдено', tone: 'good' }, { value: maxCombo, label: 'найдовше комбо' }, { value: Math.max(upd.prev, score), label: `рекорд ${lv}` }],
-        sections: [list.length
+        sections: [duel ? finishDuel(duel, score, hits, rounds.length) : null, list.length
           ? txGroup('Правила, на яких ви спіткнулися', [moreRows(ruleRows),
             anyFocus ? tx({ icon: 'target', label: 'Потренувати правила тижня', sub: 'Мої помилки · за розкладом', href: '#/mistakes?practice=due&focus=1', wide: true }) : null])
           : tx({ icon: 'seal-check', label: 'Жодного промаху — справжній детектив!', wide: true, tone: 'good' })],
-        primary: { icon: 'arrow-clockwise', label: 'Ще раз', sub: `${ROUNDS} нових речень`, onclick: play },
+        primary: duel ? { icon: 'chat-circle-dots', label: 'Повернутися в чат', sub: 'Результат уже там', href: `#/friends/chat/${duel.room}` }
+          : { icon: 'arrow-clockwise', label: 'Ще раз', sub: `${ROUNDS} нових речень`, onclick: play },
         more: [{ icon: 'game-controller', label: 'Усі ігри', href: '#/games' }],
       }));
       live.textContent = `Гру завершено. Очки: ${score}. Знайдено ${hits} з ${rounds.length}.` + (upd.record ? ' Новий рекорд!' : '');

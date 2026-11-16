@@ -130,6 +130,7 @@ export function chatNotifyDue(now: number, m: { last_read_at: string; notified_a
   return !notified || notified < read || now - notified > CHAT_RENOTIFY_MS;
 }
 
+export const GAME_LABEL: Record<string, string> = { detective: 'Детектив помилок', rush: 'Швидкий переклад' };
 const CH_LABEL: Record<string, string> = { daily15: '15 хв щодня', words: 'Слова за тиждень', talks: 'Розмови з вчителем' };
 export const challengeLabel = (kind: string, target: number) =>
   kind === 'daily15' ? (target >= 7 ? '15 хв щодня' : `15 хв · ${target} ${plural(target, 'день', 'дні', 'днів')}`)
@@ -139,7 +140,7 @@ export const challengeLabel = (kind: string, target: number) =>
 export function chatMessageText(o: { kind: string; body: string; sender: string; room: { kind: string; title: string | null }; meta?: Record<string, unknown> }): { title: string; body: string } {
   const cut = (s: string, n: number) => (s.length > n ? s.slice(0, n - 1).trimEnd() + '…' : s);
   const body = o.kind === 'voice' ? (o.body ? `Голосове: ${o.body}` : 'Голосове повідомлення')
-    : o.kind === 'challenge' ? `Новий виклик: ${challengeLabel(String(o.meta?.kind || ''), Number(o.meta?.target) || 0)}`
+    : o.kind === 'challenge' ? (o.meta?.duel_id ? `Дуель: ${GAME_LABEL[String(o.meta?.game)] || 'гра'} — хто більше?` : `Новий виклик: ${challengeLabel(String(o.meta?.kind || ''), Number(o.meta?.target) || 0)}`)
     : o.body;
   const dm = o.room.kind === 'dm';
   return { title: cut(dm ? o.sender : (o.room.title || 'Група'), 50), body: cut(dm ? body : `${o.sender}: ${body}`, 160) };
@@ -158,4 +159,27 @@ export function challengeNudge(o: { room_title: string; kind: string; target: nu
     title: `Виклик «${challengeLabel(o.kind, o.target)}»`.slice(0, 60),
     body: `${o.room_title ? `${o.room_title}: ` : ''}у вас ${o.value} з ${o.target} ${unit}. ${tail} Наздоганяйте!`.slice(0, 170),
   };
+}
+
+// ---------- «Тема дня» в групах ----------
+/** Раз на добу: перший запуск cron після 07:00 UTC (ранок у Європі) */
+export function topicDue(now: Date) {
+  return now.getUTCHours() === 7 && now.getUTCMinutes() < 15;
+}
+export type Topic = { id: string; lv: string[]; cat?: string; uk: string; en: string; q: string; a?: string[] };
+const LV = ['A0', 'A1', 'A2', 'B1', 'B2', 'C1'];
+/** Рівень групи — медіана рівнів учасників (A0 → A1: тем для «Старту» немає) */
+export function groupLevel(levels: string[]) {
+  const idx = levels.map(l => LV.indexOf(l)).filter(i => i >= 0).sort((a, b) => a - b);
+  if (!idx.length) return 'B1';
+  return LV[Math.max(1, idx[Math.floor((idx.length - 1) / 2)])];
+}
+/** Тема для групи: рівень у межах теми, без тем за останні 90 днів; rng — для тестів */
+export function pickTopic(topics: Topic[], level: string, used: Set<string>, rng = Math.random): Topic | null {
+  const L = LV.indexOf(level);
+  const fits = (t: Topic) => Array.isArray(t.lv) && LV.indexOf(t.lv[0]) <= L && L <= LV.indexOf(t.lv[t.lv.length - 1]);
+  let list = topics.filter(t => t?.q && fits(t) && !used.has(t.id));
+  if (!list.length) list = topics.filter(t => t?.q && fits(t));
+  if (!list.length) list = topics.filter(t => t?.q);
+  return list.length ? list[Math.floor(rng() * list.length)] : null;
 }

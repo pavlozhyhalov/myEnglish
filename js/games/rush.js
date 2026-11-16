@@ -9,16 +9,19 @@ import { pickDistractors, shuffle } from '../wordlogic.js';
 import { RUSH_SECONDS, RUSH_LIVES, comboMult, rushTimeFor, rushPoints, buildQueue, truthPair, bestUpdate } from './logic.js';
 import { plural } from '../strings.js';
 import { tx, txGroup } from '../ui/tiles.js';
+import { duelOf, duelNote, seeded, finishDuel } from '../duel.js';
 import { wordPool, gameState, saveGameState, beep, buzz, reducedMotion, addWordButton, gameHead, statPill, gameIntro, startTile, gameResult, wordRow, moreRows } from './common.js';
 
 const MODE_KEY = { choice: 'rush4', truth: 'rushtf' };
 
-export default async function rush(view) {
+export default async function rush(view, r) {
   setTitle('Швидкий переклад');
-  const lv = myLevel();
-  const { pool, priority } = await wordPool();
+  // дуель у чаті друзів: ті самі слова в тому самому порядку для всіх (seed), рівень автора, лише «Чотири варіанти»
+  const duel = duelOf(r);
+  const lv = duel ? duel.level : myLevel();
+  const { pool, priority } = await wordPool(duel ? { level: lv } : undefined);
   const timer = activityTimer('game');
-  let disposed = false, mode = gameState().rushMode === 'truth' ? 'truth' : 'choice';
+  let disposed = false, mode = !duel && gameState().rushMode === 'truth' ? 'truth' : 'choice';
   let game = null;   // поточний раунд: { stop() }
   const live = h('div.sr-only', { 'aria-live': 'assertive', role: 'status' });
   const body = h('div.stack');
@@ -27,14 +30,14 @@ export default async function rush(view) {
   function intro() {
     setFocus(false);
     const best = gameState().best?.[MODE_KEY[mode]]?.[lv] || 0;
-    const start = startTile({ label: 'Почати', sub: `${mode === 'choice' ? 'Чотири варіанти' : 'Так чи ні'} · ${RUSH_SECONDS} секунд`, onclick: play });
+    const start = startTile({ label: duel ? 'Почати дуель' : 'Почати', sub: `${mode === 'choice' ? 'Чотири варіанти' : 'Так чи ні'} · ${RUSH_SECONDS} секунд`, onclick: play });
     body.replaceChildren(gameIntro({
       icon: 'lightning',
       text: mode === 'choice'
         ? 'Оберіть переклад слова — що швидше, то більше очок.'
         : 'Переклад правильний? Свайп праворуч — так, ліворуч — ні.',
       rules: [`${RUSH_SECONDS} секунд і ${RUSH_LIVES} життя`, 'Кожні 5 правильних поспіль — множник очок до ×4', 'Темп поступово зростає'],
-      top: [txGroup('Варіант гри', seg([['choice', 'Чотири варіанти'], ['truth', 'Так чи ні']], mode, (v) => { mode = v; saveGameState({ rushMode: v }); intro(); }))],
+      top: duel ? [duelNote(duel)] : [txGroup('Варіант гри', seg([['choice', 'Чотири варіанти'], ['truth', 'Так чи ні']], mode, (v) => { mode = v; saveGameState({ rushMode: v }); intro(); }))],
       best: best ? { label: `Рекорд рівня ${lvLabel(lv)}`, value: best } : null,
       start,
     }));
@@ -43,7 +46,8 @@ export default async function rush(view) {
 
   function play() {
     setFocus(true);
-    const queue = buildQueue(priority, pool);
+    const rng = duel ? seeded(duel.seed) : Math.random;
+    const queue = duel ? buildQueue([], [...pool].sort((a, b) => (a.id < b.id ? -1 : a.id > b.id ? 1 : 0)), rng) : buildQueue(priority, pool);
     let qi = 0, score = 0, combo = 0, maxCombo = 0, lives = RUSH_LIVES, correct = 0, answered = 0;
     let left = RUSH_SECONDS * 1000, wordLeft = 0, wordTotal = 0, cur = null, locked = false, last = performance.now(), raf = 0, paused = false;
     const missed = [];
@@ -67,13 +71,13 @@ export default async function rush(view) {
       for (let k = 0; k < queue.length; k++) {
         if (qi >= queue.length) qi = 0;
         card = queue[qi++];
-        ds = pickDistractors(card, pool, { n: 3 });
+        ds = pickDistractors(card, pool, { n: 3, rng });
         if (ds.length >= (mode === 'choice' ? 3 : 1)) break;
       }
       wordTotal = wordLeft = rushTimeFor(correct);
       locked = false;
       if (mode === 'choice') {
-        const opts = shuffle([card, ...ds]);
+        const opts = shuffle([card, ...ds], rng);
         cur = { card, opts };
         stage.replaceChildren(
           h('div.g-word', h('span.en', { lang: 'en' }, card.en)),
@@ -175,9 +179,10 @@ export default async function rush(view) {
         sub: lives <= 0 ? 'Життя скінчились' : 'Час вийшов',
         kpis: [{ value: correct, label: 'правильно', tone: 'good' }, { value: `${acc}%`, label: 'точність' }, { value: maxCombo, label: 'найдовше комбо' }],
         note: upd.prev && !upd.record ? `Рекорд рівня ${lvLabel(lv)}: ${upd.prev}` : null,
-        sections: [missed.length ? missedList(missed) : tx({ icon: 'check-circle', label: 'Жодної помилки!', wide: true, tone: 'good' })],
-        primary: { icon: 'arrow-clockwise', label: 'Ще раз', sub: mode === 'choice' ? 'Чотири варіанти' : 'Так чи ні', onclick: play },
-        more: [{ icon: 'shuffle', label: 'Змінити варіант', onclick: intro }, { icon: 'game-controller', label: 'Усі ігри', href: '#/games' }],
+        sections: [duel ? finishDuel(duel, score, correct, answered) : null, missed.length ? missedList(missed) : tx({ icon: 'check-circle', label: 'Жодної помилки!', wide: true, tone: 'good' })],
+        primary: duel ? { icon: 'chat-circle-dots', label: 'Повернутися в чат', sub: 'Результат уже там', href: `#/friends/chat/${duel.room}` }
+          : { icon: 'arrow-clockwise', label: 'Ще раз', sub: mode === 'choice' ? 'Чотири варіанти' : 'Так чи ні', onclick: play },
+        more: duel ? [{ icon: 'game-controller', label: 'Усі ігри', href: '#/games' }] : [{ icon: 'shuffle', label: 'Змінити варіант', onclick: intro }, { icon: 'game-controller', label: 'Усі ігри', href: '#/games' }],
       }));
       live.textContent = `Гру завершено. Очки: ${score}.` + (upd.record ? ' Новий рекорд!' : '') + (missed.length ? ` Помилок: ${missed.length}.` : '');
       body.querySelector('.g-again')?.focus({ preventScroll: true });

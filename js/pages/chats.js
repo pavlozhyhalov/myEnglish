@@ -9,6 +9,8 @@ import { tx, txPrimary, txGroup, txRow, txRows, txPill, txBar, txLogin } from '.
 import { tutor, aiErrorText } from '../ai.js';
 import { disputeFix } from '../stats.js';
 import * as chat from '../chat.js';
+import * as duel from '../duel.js';
+import { myLevel, lvLabel } from '../level.js';
 
 const initial = (s) => (String(s || '?').trim().charAt(0) || '?').toUpperCase();
 const ava = (name, group = false) => h('span.friend-ava.ch-ava', { 'aria-hidden': 'true' }, group ? ic('users-three', { size: 18 }) : initial(name));
@@ -39,6 +41,8 @@ function sysText(m) {
     case 'joined': return x.by ? `${x.by} додає ${x.name}` : `${x.name} приєднується`;
     case 'left': return `${x.name || 'Учасник'} виходить з групи`;
     case 'renamed': return `${x.name || 'Хтось'} змінює назву на «${x.title || ''}»`;
+    case 'topic': return `Тема дня: ${x.q || ''}`;
+    case 'duel_score': return `${x.name || 'Учасник'}: ${x.score ?? 0} у дуелі «${duel.GAMES[x.game]?.label || 'гра'}»`;
     default: return '';
   }
 }
@@ -48,7 +52,7 @@ function preview(c) {
   if (c.last_kind === 'system') return sysText({ meta: c.last_meta });
   if (c.last_body == null && c.last_kind !== 'challenge') return 'Повідомлення видалено';
   const body = c.last_kind === 'voice' ? `Голосове${c.last_body ? ': ' + c.last_body : ''}`
-    : c.last_kind === 'challenge' ? `Виклик: ${chat.challengeTitle(c.last_meta?.kind, c.last_meta?.target)}` : c.last_body;
+    : c.last_kind === 'challenge' ? (c.last_meta?.duel_id ? `Дуель: ${duel.GAMES[c.last_meta.game]?.label || 'гра'}` : `Виклик: ${chat.challengeTitle(c.last_meta?.kind, c.last_meta?.target)}`) : c.last_body;
   const who = c.last_mine ? 'Ви: ' : c.kind === 'group' && c.last_name ? `${c.last_name}: ` : '';
   return who + body;
 }
@@ -204,7 +208,7 @@ export function chatRoom(view, roomId) {
     head.replaceChildren(h('div.tx-row.ch-title',
       ava(info.title, group),
       h('span.tx-body', h('span.tx-l', info.title || 'Чат'), h('span.tx-s', sub)),
-      h('button.icon-btn', { type: 'button', 'aria-label': 'Виклик', onclick: challengeSheet }, ic('trophy', { size: 20 })),
+      h('button.icon-btn', { type: 'button', 'aria-label': 'Разом: дуель або виклик', onclick: challengeSheet }, ic('trophy', { size: 20 })),
       h('button.icon-btn', { type: 'button', 'aria-label': 'Про чат', onclick: menu }, ic(group ? 'users' : 'info', { size: 20 }))));
   }
   function challengeRow(c) {
@@ -219,10 +223,30 @@ export function chatRoom(view, roomId) {
   }
   function renderStrip() {
     const act = chs.filter(chat.challengeActive);
-    strip.replaceChildren(act.length ? txRows(act.slice(0, 3).map(challengeRow)) : '');
+    // дуелі, у які я ще не зіграв, — угорі, щоб не загубились у переписці
+    const open = dls.filter(d => !d.over && !d.results.some(p => p.me && p.score != null)).slice(0, 2);
+    const rows = [
+      ...open.map(d => txRow({ icon: 'sword', label: `Дуель · ${(duel.GAMES[d.game] || duel.GAMES.detective).label}`, sub: `Зіграли ${d.results.filter(p => p.score != null).length} з ${d.results.length}`,
+        pill: { text: 'Грати', tone: 'accent' }, href: duel.duelHref(d.game, d, roomId) })),
+      ...act.slice(0, 3).map(challengeRow)];
+    strip.replaceChildren(rows.length ? txRows(rows) : '');
   }
+  let dls = [];   // дуелі за 7 днів (js/duel.js)
   async function loadChallenges() {
-    try { chs = await chat.challenges(roomId) || []; if (alive) { renderStrip(); refreshCards(); } } catch (e) { console.warn('challenges', e); }
+    try {
+      const [a, b] = await Promise.all([chat.challenges(roomId), duel.duels(roomId).catch(() => [])]);
+      chs = a || []; dls = b || [];
+      if (alive) { renderStrip(); refreshCards(); }
+    } catch (e) { console.warn('challenges', e); }
+  }
+  function duelDetails(d) {
+    const g = duel.GAMES[d.game] || duel.GAMES.detective;
+    const meDone = d.results.some(p => p.me && p.score != null);
+    let s = null;
+    s = sheet(`Дуель · ${g.label}`, h('div.stack.ch-sheet',
+      h('div.tx-s', d.over ? 'Дуель завершено' : `Рівень ${lvLabel(d.level)} · ті самі завдання для всіх · до ${new Date(d.ends_at).toLocaleTimeString('uk-UA', { hour: '2-digit', minute: '2-digit' })} завтра`),
+      duel.duelTable(d.results),
+      !d.over && !meDone ? txPrimary({ icon: g.icon, label: 'Грати', sub: g.sub, href: duel.duelHref(d.game, d, roomId), onclick: () => s.close() }) : null));
   }
   function challengeDetails(c) {
     const people = [...c.people].sort((a, b) => b.value - a.value);
@@ -244,9 +268,19 @@ export function chatRoom(view, roomId) {
   function challengeSheet() {
     let s = null;
     const act = chs.filter(chat.challengeActive);
-    s = sheet('Спільний виклик', h('div.stack.ch-sheet',
-      act.length ? h('div.stack', { style: { gap: '6px' } }, h('div.tx-label', 'Зараз'), txRows(act.map(challengeRow))) : null,
-      h('div.tx-label', 'Почати новий · 7 днів'),
+    s = sheet('Разом', h('div.stack.ch-sheet',
+      h('div.tx-label', 'Дуель зараз · 24 години'),
+      txRows(Object.entries(duel.GAMES).map(([id, g]) => txRow({ icon: g.icon, label: g.label, sub: `${g.sub} · рівень ${lvLabel(myLevel())}`, onclick: async () => {
+        try {
+          const dId = await duel.createDuel(roomId, id, myLevel());
+          s.close();
+          await loadChallenges();
+          const d = dls.find(x => x.id === dId);
+          if (d) location.hash = duel.duelHref(d.game, d, roomId);
+        } catch (e) { toast(chat.chatErrText(e), { kind: 'bad' }); }
+      } }))),
+      act.length ? h('div.stack', { style: { gap: '6px' } }, h('div.tx-label', 'Виклики зараз'), txRows(act.map(challengeRow))) : null,
+      h('div.tx-label', 'Виклик на тиждень'),
       txRows(chat.CHALLENGES.map(d => txRow({ icon: d.icon, label: d.label, sub: d.sub, onclick: async () => {
         try { await chat.createChallenge(roomId, d.kind, d.target); s.close(); toast('Виклик почався — удачі!'); loadChallenges(); }
         catch (e) { toast(chat.chatErrText(e), { kind: 'bad' }); }
@@ -385,7 +419,34 @@ export function chatRoom(view, roomId) {
     });
     return h('div.ch-voice', btn, bar, time);
   }
+  function duelCard(m) {
+    const d = dls.find(x => x.id === m.meta?.duel_id);
+    const g = duel.GAMES[m.meta?.game] || duel.GAMES.detective;
+    const mine = m.user_id === me;
+    const played = d ? d.results.filter(p => p.score != null) : [];
+    const meDone = d?.results.some(p => p.me && p.score != null);
+    const leader = played[0];
+    const sub = d?.over ? (leader ? `Завершено · переміг(-ла) ${leader.me ? 'ви' : leader.name} · ${leader.score}` : 'Завершено')
+      : `${mine ? 'Ви кличете' : `${m.meta?.name || nameOf(m.user_id)} кличе`} на дуель · рівень ${lvLabel(m.meta?.level)}${played.length ? ` · зіграли ${played.length}` : ''}`;
+    return h('div.ch-card', { dataset: { id: m.id } },
+      tx({ icon: 'sword', wide: true, cls: 'ch-chal ch-duel', label: `Дуель · ${g.label}`, sub,
+        end: d && !d.over && !meDone ? txPill('Грати', 'accent') : leader ? h('span.dl-score', String(leader.score)) : undefined,
+        onclick: d ? () => (d.over || meDone ? duelDetails(d) : (location.hash = duel.duelHref(d.game, d, roomId))) : null }));
+  }
+  function topicCard(m) {
+    const x = m.meta || {};
+    const angles = Array.isArray(x.a) ? x.a.filter(Boolean).slice(0, 3) : [];
+    return h('div.ch-card.ch-topic', { dataset: { id: m.id } },
+      h('div.tx.wide.ch-topic-in',
+        h('span.tx-sq', ic('chalkboard-teacher', { size: 20 })),
+        h('span.tx-body',
+          h('span.tx-s.ch-topic-lab', `Тема дня від вчителя · ${x.uk || x.en || ''}`),
+          h('span.tx-l.ch-topic-q', { lang: 'en' }, x.q || ''),
+          angles.length ? h('span.tx-s', { lang: 'en' }, 'Ideas: ' + angles.join(' · ')) : null,
+          h('button.btn.sm.soft.ch-topic-btn', { type: 'button', onclick: () => { ta.focus(); } }, ic('pencil-simple', { size: 16 }), 'Відповісти англійською'))));
+  }
   function challengeCard(m) {
+    if (m.meta?.duel_id) return duelCard(m);
     const c = chs.find(x => x.id === m.meta?.challenge_id);
     const mine = m.user_id === me;
     return h('div.ch-card', { dataset: { id: m.id } },
@@ -396,6 +457,7 @@ export function chatRoom(view, roomId) {
   function refreshCards() { for (const m of msgs) if (m.kind === 'challenge') update(m); }
 
   function bubble(m) {
+    if (m.kind === 'system' && m.meta?.event === 'topic') return topicCard(m);
     if (m.kind === 'system') { const t = sysText(m); return t ? h('div.msg.sys', { dataset: { id: m.id } }, t) : h('div', { dataset: { id: m.id }, hidden: true }); }
     if (m.kind === 'challenge') return challengeCard(m);
     const mine = m.user_id === me;
@@ -582,7 +644,7 @@ export function chatRoom(view, roomId) {
     if (ev === 'INSERT') {
       if (row.user_id !== me && !members.has(row.user_id) && row.kind !== 'system') loadMembers().then(renderHead).catch(() => {});
       if (row.kind === 'system') loadMembers().then(renderHead).catch(() => {});
-      if (row.kind === 'challenge') loadChallenges();
+      if (row.kind === 'challenge' || row.meta?.event === 'duel_score') loadChallenges();
       append(row);
       if (!document.hidden) chat.markRead(roomId);
     } else if (ev === 'UPDATE' && byId.has(row.id)) { Object.assign(byId.get(row.id), row); update(byId.get(row.id)); }

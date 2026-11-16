@@ -82,3 +82,17 @@ mark.ch-err{background:transparent;color:inherit;text-decoration:underline wavy 
 /* шапка чату липне під шапкою застосунку: меню й виклик завжди під рукою */
 .ch-head{position:sticky;top:calc(var(--header-h) + var(--safe-t));z-index:6;margin:-8px -6px 0;padding:8px 6px 4px;border-radius:20px;background:color-mix(in srgb,var(--bg) 82%,transparent);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}
 .fr-tap{cursor:pointer}
+/* етап 2: «Тема дня» і дуелі */
+.ch-duel .tx-sq{background:var(--accent-soft);color:var(--accent-ink)}
+.ch-topic-in{align-items:flex-start;background:var(--tile);border:1px solid var(--tile-edge);box-shadow:var(--tile-shadow);border-radius:var(--r-tile,18px);padding:12px 14px;gap:12px}
+.ch-topic-in .tx-sq{background:var(--accent-grad);color:#fff;flex:none}
+.ch-topic-in .tx-body{display:flex;flex-direction:column;gap:5px;min-width:0}
+.ch-topic-lab{text-transform:uppercase;letter-spacing:.04em;font-size:11px;font-weight:700;color:var(--accent-ink)}
+.ch-topic-q{font-size:var(--fs-md);line-height:1.35;white-space:normal}
+.ch-topic-btn{align-self:flex-start;margin-top:4px}
+.dl-score{font-family:var(--font-head);font-variant-numeric:tabular-nums;flex:none;font-size:var(--fs-md)}
+.dl-score small{font-family:var(--font-body,inherit);font-size:var(--fs-xs);color:var(--ink-dim)}
+.dl-win{background:var(--accent-grad)!important;color:#fff!important}
+.dl-note .tx-sq{background:var(--accent-soft);color:var(--accent-ink)}
+/* нові повідомлення на «Друзі» в бічному меню */
+.drawer .pc-badge{position:absolute;top:-5px;right:-5px;min-width:18px;height:18px;padding:0 5px;border-radius:9px;background:var(--accent-grad);color:#fff;font-family:var(--font-head);font-size:10px;display:grid;place-items:center;box-shadow:0 0 0 2px var(--drawer-bg,var(--bg));pointer-events:none}

@@ -102,3 +102,14 @@ Deno.test('chatMessageText and challenge texts', () => {
   assertEquals(n.title, 'Виклик «15 хв щодня»');
   assertEquals(n.body, 'Група: у вас 2 з 7 днів. Лишилось 3 дні. Наздоганяйте!');
 });
+
+import { groupLevel, pickTopic, GAME_LABEL } from './logic.ts';
+Deno.test('topic of day: group level and pick', () => {
+  assertEquals(groupLevel(['A2', 'B1', 'B2']), 'B1');
+  assertEquals(groupLevel(['A0', 'A0']), 'A1');
+  assertEquals(groupLevel([]), 'B1');
+  const T = [{ id: 'a', lv: ['A1', 'A2'], uk: '', en: '', q: 'Q1' }, { id: 'b', lv: ['B1', 'C1'], uk: '', en: '', q: 'Q2' }, { id: 'c', lv: ['B1', 'B2'], uk: '', en: '', q: 'Q3' }];
+  assertEquals(pickTopic(T, 'B1', new Set(['b']), () => 0)?.id, 'c');
+  assertEquals(pickTopic(T, 'A2', new Set(['a']), () => 0)?.id, 'a');   // усі використані — повтор краще, ніж нічого
+  assertEquals(chatMessageText({ kind: 'challenge', body: '', sender: 'Емма', room: { kind: 'dm', title: null }, meta: { duel_id: 'x', game: 'detective' } }).body, `Дуель: ${GAME_LABEL.detective} — хто більше?`);
+});
