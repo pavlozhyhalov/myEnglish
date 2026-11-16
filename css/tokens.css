@@ -38,7 +38,7 @@
 
   /* День: темно-синій акцент на світлих нейтральних поверхнях */
   color-scheme:light;
-  --bg:#EBEEF4; --surface:#FFFFFF; --surface-2:#E7EBF2; --line:#DCE1EA;
+  --bg:#E1E6EF; --surface:#FFFFFF; --surface-2:#E7EBF2; --line:#D3D9E4;
   --ink:#0B1530; --ink-dim:#5B6680;
   --accent:#1E3A8A; --accent-hover:#172E6E; --accent-ink:#1E3A8A; --accent-soft:#E5EBFA; --on-accent:#FFFFFF;
   --hero:#1E3A8A; --hero-edge:#1E3A8A; --hero-dim:#C7D3F5;
@@ -61,12 +61,12 @@
   /* текст/значок на суцільному --good / --bad (у темній темі вони світлі — потрібен темний текст) */
   --on-good:#FFFFFF; --on-bad:#FFFFFF;
   /* плитки (стиль меню, 2026-11-05): фон плитки на сторінці і квадратик іконки */
-  --tile:#FFFFFF; --tile-sq:#EAEEF5; --tile-edge:rgba(11,21,48,.10);
+  --tile:#FFFFFF; --tile-sq:#E6EBF3; --tile-edge:rgba(11,21,48,.13);
   /* ледь помітний об'єм (2026-11-08): світло зверху, м'яка тінь знизу, тонка нижня кромка */
-  --tile-shadow:0 1px 2px rgba(11,21,48,.06),0 8px 18px -8px rgba(11,21,48,.20),inset 0 -1px 0 rgba(11,21,48,.05);
+  --tile-shadow:0 1px 2px rgba(11,21,48,.08),0 8px 20px -8px rgba(11,21,48,.26),inset 0 -1px 0 rgba(11,21,48,.06);
   --tile-shadow-press:0 1px 1px rgba(11,21,48,.04),inset 0 1px 2px rgba(11,21,48,.06);
   --tile-grad:linear-gradient(180deg,#FFFFFF 0%,#FAFBFD 100%);
-  --nav-grad:linear-gradient(180deg,#FFFFFF 0%,#FAFBFD 100%); --drawer-bg:#EBEEF4;
+  --nav-grad:linear-gradient(180deg,#FFFFFF 0%,#FAFBFD 100%); --drawer-bg:#DCE2EC;
   --nav-shadow:0 1px 2px rgba(11,21,48,.06),0 8px 18px -8px rgba(11,21,48,.20),inset 0 -1px 0 rgba(11,21,48,.05);
   --tile-hi:none;
 }

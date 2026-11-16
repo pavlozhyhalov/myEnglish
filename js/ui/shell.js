@@ -34,7 +34,7 @@ export function applyTheme(theme = store.settings().theme) {
   if (theme === 'light' || theme === 'dark') root.dataset.theme = theme;
   else delete root.dataset.theme;
   const dark = isDark();
-  document.querySelector('meta[name="theme-color"]')?.setAttribute('content', dark ? '#070B15' : '#F3F5F9');
+  document.querySelector('meta[name="theme-color"]')?.setAttribute('content', dark ? '#070B15' : '#E1E6EF');
   // іконка показує тему, на яку перемкне кнопка
   const btn = document.querySelector('.btn-theme');
   if (btn) btn.replaceChildren(ic(dark ? 'sun' : 'moon'));
