@@ -311,6 +311,12 @@ function fillOf(parts: string[], answer: string): string | null {
   return fills.every(Boolean) && fills.join(' ').trim() ? fills.join(' ') : null;
 }
 
+/** Службові слова: їх у пропуск можна вивести з граматики речення без підказки */
+const FUNCTION_WORDS = new Set(("a an the some any no not n't one this that these those my your his her its our their me him us them it i you he she we they " +
+  "am is are was were be been being do does did have has had will would shall should can could may might must " +
+  "in on at to for from of with by about into onto over under up down out off away back after before since until during " +
+  "and or but so because if than as who whom whose which that where when what how why there here very much many more most less few little " +
+  "own self myself yourself himself herself itself ourselves themselves ever never already yet just still too enough such").split(' '));
 /** Унікальні непорожні рядки (за ключем nk), порядок збережено */
 function uniq(list: unknown[]): string[] {
   const seen = new Set<string>(), out: string[] = [];
@@ -355,7 +361,10 @@ export function cleanExercises(list: any[]) {
       // слів у відповіді менше, ніж пропусків, — нерозв'язна
       alts = alts.filter(a => a.split(/\s+/).length >= blanks && !/_{2,}/.test(a));
       if (!alts.length) continue;
-      out.push({ ...base, prompt, answer: alts });
+      // «I have ___ with my bills» → problems: повнозначне слово без підказки не вгадати (2026-11-16) — потрібна підказка в дужках
+      // (базова форма чи український зміст); службові слова (артиклі, прийменники, допоміжні) виводяться з граматики речення
+      if (!/\([^)]+\)/.test(prompt) && !e.hint && alts[0].split(/\s+/).some((w: string) => !FUNCTION_WORDS.has(w.toLowerCase().replace(/[^a-z']/g, '')))) continue;
+      out.push({ ...base, prompt, answer: alts, ...(e.hint ? { hint: String(e.hint).slice(0, 80) } : {}) });
     } else if (e.type === 'transform') {
       if (!e.prompt || !alts.length) continue;
       // відповідь, що збігається з вихідним реченням (без завдання в дужках), — не перетворення
@@ -692,7 +701,7 @@ TASK: Create ${count} varied exercises for level ${st.level} on this topic (a de
 ${ex ? `Base several items on the student's real mistakes: ${ex}.
 ` : ''}Vocabulary and sentence length must suit ${st.level}. Contexts: ${contexts}.${a0 ? `\n${A0_EXERCISES}` : ''} Mix types (at least 3 different):
 - choice: prompt with exactly one "___"; 3–4 different options; EXACTLY ONE option is correct — the others must be clearly wrong in this sentence, not just less common; options must stay different even ignoring case, punctuation and contractions (never both "don't" and "do not"); answer = that option copied character for character.
-- input: prompt with one "___" per missing part (two separated parts → two "___"), followed by a hint in brackets when needed (e.g. the base form: "She ___ (go) to work by bus."); answer = ONLY the word(s) that fill the blank(s), in order, never the whole sentence; alternatives = other correct fillers; every answer and alternative must make the sentence correct when put into the blank(s).
+- input: prompt with one "___" per missing part (two separated parts → two "___"), followed by a hint in brackets — ALWAYS when the missing word is not a function word (article, preposition, auxiliary, pronoun): the base form ("She ___ (go) to work by bus.", "I have ___ (problem) with…") or the Ukrainian meaning; answer = ONLY the word(s) that fill the blank(s), in order, never the whole sentence; alternatives = other correct fillers; every answer and alternative must make the sentence correct when put into the blank(s).
 - order: answer = one correct sentence of 4–12 words; commas are allowed, but no quotes, brackets or dashes; prompt = its Ukrainian translation as a hint; alternatives = EVERY other correct word order using exactly the same words (e.g. a time phrase at the start or at the end).
 - error: sentence with exactly ONE wrong word — a wrong form/word, or an EXTRA word that must be removed (e.g. "go to the work"); not a missing word; wrong_word = that single word exactly as written, and it must occur only once in the sentence (no other word in it is the same); answer = only the correct replacement for that word (different from wrong_word, not the whole sentence, never a neighbouring word), or "" (empty) when the word must simply be removed; alternatives = other correct replacements. Every other word of the sentence must be correct.
 - transform: prompt = the original sentence followed by the task in brackets in Ukrainian, e.g. "He plays tennis. (зробіть заперечення)"; answer = the full new sentence, which must differ from the original; alternatives = other correct versions.
