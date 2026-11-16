@@ -77,6 +77,9 @@ export class LiveClient extends EventTarget {
           this.ready = true; this.retries = 0;
           this.log('setup complete' + (restoring ? ' · new session, restoring context' : ''));
           if (restoring) this.restoreContext();
+          // відновлено за handle: Gemini мав би пам'ятати розмову, але на 10-й хвилині вчитель кілька разів «починав з нуля»
+          // (2026-11-16) — тихо (без відповіді моделі) нагадуємо стенограму, щоб він не вітався й не міняв тему
+          else if (this.everReady) this.restoreContext(true);
           this.everReady = true;
           this.flushPending();
           this.scheduleResume();
@@ -162,12 +165,19 @@ export class LiveClient extends EventTarget {
    * Нова сесія замість втраченої (відновлення за handle не вдалося): передаємо вчителю стенограму розмови,
    * щоб він продовжив з того самого місця, а не вітався й не починав тему заново.
    */
-  restoreContext() {
+  restoreContext(silent = false) {
     const msgs = (this.opts.history?.() || []).filter(m => m.text?.trim() && !m.hidden);
     if (!msgs.length) return;
     let lines = msgs.map(m => `${m.role === 'user' ? 'Student' : 'Tutor'}: ${m.text.replace(/\s+/g, ' ').trim()}`);
-    // найсвіжіше важливіше: обрізаємо з початку до ~8000 символів
-    while (lines.length > 2 && lines.join('\n').length > 8000) lines = lines.slice(1);
+    // найсвіжіше важливіше: обрізаємо з початку до ~8000 символів (тихе нагадування — до ~4000)
+    const max = silent ? 4000 : 8000;
+    while (lines.length > 2 && lines.join('\n').length > max) lines = lines.slice(1);
+    if (silent) {
+      const note = '(Context note — the connection was refreshed; this is the SAME lesson continuing. Do NOT greet, do NOT restart, do NOT change the topic or the role-play. '
+        + 'Recent transcript:\n' + lines.join('\n') + '\nWait for the student and continue from exactly this point.)';
+      this.ws.send(JSON.stringify({ clientContent: { turns: [{ role: 'user', parts: [{ text: note }] }], turnComplete: false } }));
+      return;
+    }
     const text = '(The connection dropped and was restored. This is the SAME lesson continuing — do NOT greet the student, do NOT restart, '
       + 'do NOT go back to the opening topic. Keep the topic, role-play and agreements below. Transcript so far:\n'
       + lines.join('\n')

@@ -661,7 +661,7 @@ ABSOLUTE BEGINNER (A0) — overrides the rules above where they conflict:
 - mistakes: at most 5, only in the core items practised (the taught words and patterns: I'm / my name is / I like / I have, a/an, plural -s, basic word order); ignore subtle grammar and anything outside the lesson. Repeating after the tutor and answering in Ukrainian are practice, not mistakes.
 - new_words: 3–8 basic words or chunks taught in this lesson (the first ~300 English words), never advanced vocabulary.
 - level_signal: A0 is expected while the student mostly repeats, answers with single words or uses Ukrainian; A1 only when they build simple sentences of their own.` : ''}`;
-      const res = await generateJson<Record<string, unknown>>(fair(PRO_MODELS), { system, contents: [{ role: 'user', parts: [{ text: transcript(p.messages || []) || '(empty session)' }] }], schema: SUMMARY_SCHEMA, temperature: 0.2, thinking: 'high', timeoutMs: 75_000 });
+      const res = await generateJson<Record<string, unknown>>(fair(PRO_MODELS), { system, contents: [{ role: 'user', parts: [{ text: transcript(p.messages || []) || '(empty session)' }] }], schema: SUMMARY_SCHEMA, temperature: 0.2, thinking: 'high', timeoutMs: 60_000, budgetMs: 120_000 });
       const cleaned = calibrateLevel(cleanSummary(res, st), speech, st.level);
       return json({ ...cleaned, mistakes: mergeTurnFixes(cleaned.mistakes, turnFixes, st.disputes), mastered: cleanMastered(res?.mastered, st), fluency_tip_uk: speech ? str(res?.fluency_tip_uk, 400).trim() : '' });
     }
@@ -792,14 +792,14 @@ ${UK_STYLE}`;
     case 'level_writing': {
       // оцінка незалежна від рівня в профілі: лише текст, завдання і рівень завдання
       const { text, task, target } = lw as { text: string; task: string; target: Parameters<typeof levelWritingPrompt>[1] };
-      const res = await generateJson(fair(PRO_MODELS), { system: levelWritingPrompt(task, target), contents: [{ role: 'user', parts: [{ text }] }], schema: LEVEL_WRITING_SCHEMA, temperature: 0.1, thinking: 'medium', maxTokens: 8000, timeoutMs: 75_000 });
+      const res = await generateJson(fair(PRO_MODELS), { system: levelWritingPrompt(task, target), contents: [{ role: 'user', parts: [{ text }] }], schema: LEVEL_WRITING_SCHEMA, temperature: 0.1, thinking: 'medium', maxTokens: 8000, timeoutMs: 60_000, budgetMs: 120_000 });
       return json(cleanLevelWriting(res, { target, words: countWords(text) }));
     }
 
     case 'analysis': {
       // глибокий аналіз: лише очищене зведення від клієнта, без розмов; низька температура, відповідь перевіряється
       const digest = (an as { digest: Record<string, unknown> }).digest;
-      const res = await generateJson(fair(PRO_MODELS), { system: analysisPrompt(st), contents: [{ role: 'user', parts: [{ text: JSON.stringify(digest) }] }], schema: ANALYSIS_SCHEMA, temperature: 0.2, thinking: 'high', maxTokens: 16000, timeoutMs: 75_000 });
+      const res = await generateJson(fair(PRO_MODELS), { system: analysisPrompt(st), contents: [{ role: 'user', parts: [{ text: JSON.stringify(digest) }] }], schema: ANALYSIS_SCHEMA, temperature: 0.2, thinking: 'high', maxTokens: 16000, timeoutMs: 60_000, budgetMs: 120_000 });
       return json(cleanAnalysis(res));
     }
 

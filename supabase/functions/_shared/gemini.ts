@@ -40,6 +40,8 @@ export type GenOpts = {
   thinking?: Thinking;
   /** Тайм-аут одного виклику моделі, мс (типово 30 с) */
   timeoutMs?: number;
+  /** Загальний час на всі запасні моделі разом, мс: функцію Supabase вбиває через 150 с — відповідь має встигнути (2026-11-16: підсумок «не вдалося») */
+  budgetMs?: number;
 };
 
 /** Моделі, що не прийняли thinkingConfig (кеш теплого екземпляра) — далі без нього */
@@ -164,8 +166,12 @@ async function withModels<T>(models: string[], fn: (m: string) => Promise<T>): P
 }
 
 export async function generate(models: string[], o: GenOpts): Promise<string> {
+  const end = o.budgetMs ? Date.now() + o.budgetMs : Infinity;
   return withModels(models, async (model) => {
-    const once = async (oo: GenOpts) => candidateText(await (await call(model, 'generateContent', oo, oo.timeoutMs || TIMEOUT_MS)).json());
+    const left = end - Date.now();
+    // часу на ще одну модель не лишилось — далі не пробуємо (інакше функцію обірве платформа, і учень не отримає нічого)
+    if (left < 12_000) throw new HttpError(503, 'busy', 'Time budget exhausted');
+    const once = async (oo: GenOpts) => candidateText(await (await call(model, 'generateContent', oo, Math.min(oo.timeoutMs || TIMEOUT_MS, end - Date.now()))).json());
     try { return await once(o); } catch (e) {
       // порожньо чи обрізано через «роздуми» — один повтор тієї ж моделі без них
       if (e instanceof HttpError && (e.code === 'empty' || e.code === 'truncated') && o.thinking && o.thinking !== 'off') return await once({ ...o, thinking: 'off' });
