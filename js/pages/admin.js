@@ -107,14 +107,14 @@ function usersSection(ud, limits = {}, budget = {}) {
       { value: `${a.strong ?? 0}/${strongCap}`, label: 'сильні моделі сьогодні', tone: strongTone }], 2),
     h('section.card.stack.adm-card',
       h('div', { style: { display: 'flex', justifyContent: 'space-between', gap: '8px' } },
-        h('span.small', 'Gemini сьогодні, усі разом'), h('span.xs.dim', `${a.users ?? 0} ${a.users === 1 ? 'особа' : 'осіб'}`)),
+        h('span.small', 'Gemini сьогодні, усі разом'), h('span.xs.dim', `з AI: ${a.users ?? 0} ${a.users === 1 ? 'особа' : 'осіб'}`)),
       txBar(Math.min(1, (a.strong || 0) / strongCap), true),
       h('div.xs.dim', `сильні ${a.strong ?? 0} з ≈${strongCap} · текст ${a.text ?? 0} · голос ${mins(a.voice_sec)} · озвучення ${a.tts ?? 0} · Live ${a.live ?? 0}`)),
   ]);
 
   const details = (u) => {
     const ai = u.ai_today || {};
-    const types = (u.by_type || []).filter(t => t.sec > 0);
+    const types = (u.by_type || []).filter(t => t.sec >= 60);
     const maxT = Math.max(1, ...types.map(t => t.sec));
     const onb = u.onboarded == null ? '—' : (u.onboarded ? 'так' : 'ні');
     return h('div', { style: { padding: '4px 14px 12px' } },
@@ -137,9 +137,10 @@ function usersSection(ud, limits = {}, budget = {}) {
   };
 
   const row = (u) => {
-    const top = (u.by_type || []).filter(t => (t.sec7 || t.sec) > 0)
-      .sort((x, y) => (y.sec7 - x.sec7) || (y.sec - x.sec)).slice(0, 3)
-      .map(t => `${typeName(t.type)} ${dur(t.sec7 || t.sec)}`).join(' · ');
+    // за 7 днів — лише види від хвилини (не «Тест 0 хв»); без занять за тиждень — підсумок «усього», а не загальний час під виглядом тижневого
+    const week = (u.by_type || []).filter(t => (t.sec7 || 0) >= 60).sort((x, y) => y.sec7 - x.sec7);
+    const top = (week.length ? week.slice(0, 3).map(t => `${typeName(t.type)} ${dur(t.sec7)}`)
+      : (u.by_type || []).filter(t => t.sec >= 60).sort((x, y) => y.sec - x.sec).slice(0, 3).map(t => `${typeName(t.type)} ${dur(t.sec)} усього`)).join(' · ');
     const lvl = u.level || u.placement?.level;
     const wrapEl = h('div', { style: { borderRadius: 'var(--r-row)', background: 'var(--tile)', boxShadow: 'var(--tile-shadow)' } });
     const draw = () => {
