@@ -94,13 +94,13 @@ Deno.test('chatNotifyDue: active reader, muted, unread push', () => {
   assertEquals(chatNotifyDue(now, { last_read_at: iso(3_600_000), notified_at: iso(700_000), muted: false }), true);
 });
 Deno.test('chatMessageText and challenge texts', () => {
-  assertEquals(chatMessageText({ kind: 'text', body: 'Hi there', sender: 'Олівер', room: { kind: 'dm', title: null } }), { title: 'Олівер', body: 'Hi there' });
-  assertEquals(chatMessageText({ kind: 'voice', body: '', sender: 'Емма', room: { kind: 'group', title: 'Сім\'я' } }).body, 'Емма: Голосове повідомлення');
+  assertEquals(chatMessageText({ kind: 'text', body: 'Hi there', sender: 'Олівер', room: { kind: 'dm', title: null } }), { title: 'Вам пише Олівер', body: 'Hi there' });
+  assertEquals(chatMessageText({ kind: 'voice', body: '', sender: 'Емма', room: { kind: 'group', title: 'Сім\'я' } }), { title: 'Нові повідомлення в групі «Сім\'я»', body: 'Емма: голосове повідомлення' });
   assertEquals(challengeLabel('words', 200), '200 слів за тиждень');
   assertEquals(challengeLabel('talks', 5), '5 розмов з вчителем');
   const n = challengeNudge({ room_title: 'Група', kind: 'daily15', target: 7, value: 2, days_left: 3 });
-  assertEquals(n.title, 'Виклик «15 хв щодня»');
-  assertEquals(n.body, 'Група: у вас 2 з 7 днів. Лишилось 3 дні. Наздоганяйте!');
+  assertEquals(n.title, 'Наздоганяйте у виклику «15 хв щодня»');
+  assertEquals(n.body, 'Група: у вас 2 з 7 днів. Лишилось 3 дні.');
 });
 
 import { groupLevel, pickTopic, GAME_LABEL } from './logic.ts';
@@ -111,5 +111,5 @@ Deno.test('topic of day: group level and pick', () => {
   const T = [{ id: 'a', lv: ['A1', 'A2'], uk: '', en: '', q: 'Q1' }, { id: 'b', lv: ['B1', 'C1'], uk: '', en: '', q: 'Q2' }, { id: 'c', lv: ['B1', 'B2'], uk: '', en: '', q: 'Q3' }];
   assertEquals(pickTopic(T, 'B1', new Set(['b']), () => 0)?.id, 'c');
   assertEquals(pickTopic(T, 'A2', new Set(['a']), () => 0)?.id, 'a');   // усі використані — повтор краще, ніж нічого
-  assertEquals(chatMessageText({ kind: 'challenge', body: '', sender: 'Емма', room: { kind: 'dm', title: null }, meta: { duel_id: 'x', game: 'detective' } }).body, `Дуель: ${GAME_LABEL.detective} — хто більше?`);
+  assertEquals(chatMessageText({ kind: 'challenge', body: '', sender: 'Емма', room: { kind: 'dm', title: null }, meta: { duel_id: 'x', game: 'detective' } }), { title: 'Вас кличуть на дуель', body: `Емма · ${GAME_LABEL.detective} — хто більше?` });
 });

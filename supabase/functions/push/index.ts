@@ -189,8 +189,8 @@ async function topicOfDay(db: SupabaseClient, vapid: Vapid) {
     }
     for (const m of members) {
       if (m.muted) continue;
-      await sendToUser(db, m.user_id, { title: String(room.title || 'Група').slice(0, 50),
-        body: (hw ? `Нове домашнє завдання — у кожного своє. Тема дня: ${t.q}` : `Тема дня: ${t.q}`).slice(0, 170), url: `#/friends/chat/${room.id}`, tag: `myenglish-topic-${room.id}` }, vapid);
+      await sendToUser(db, m.user_id, { title: (hw ? `Нове домашнє завдання · «${room.title || 'Група'}»` : `Тема дня в групі «${room.title || 'Група'}»`).slice(0, 70),
+        body: (hw ? `У кожного своє — відкрийте й подивіться. Тема дня: ${t.q}` : t.q).slice(0, 170), url: `#/friends/chat/${room.id}`, tag: `myenglish-topic-${room.id}` }, vapid);
     }
   }
   console.info('topic of day', posted);
@@ -221,7 +221,7 @@ async function challengePush(db: SupabaseClient, vapid: Vapid) {
       await postTutor(db, room, author.user_id, n.text, { mode: 'nudge' });
       const { data: muted } = await db.from('chat_members').select('user_id').eq('room_id', room).eq('muted', true);
       const skip = new Set((muted || []).map(m => m.user_id));
-      for (const uid of n.lazy) if (!skip.has(uid)) sent += await sendToUser(db, uid, { title: `${rm?.title || 'Група'} · вчитель`.slice(0, 50), body: n.text.slice(0, 170), url: `#/friends/chat/${room}`, tag: `myenglish-tutor-${room}` }, vapid);
+      for (const uid of n.lazy) if (!skip.has(uid)) sent += await sendToUser(db, uid, { title: `Вчитель у групі «${rm?.title || 'Група'}»`.slice(0, 70), body: n.text.slice(0, 170), url: `#/friends/chat/${room}`, tag: `myenglish-tutor-${room}` }, vapid);
     } catch (e) { console.error('tutor nudge', (e as Error).message?.slice(0, 120)); }
   }
   // домашнє: термін спливає протягом доби, а завдання ще лишились
@@ -229,7 +229,7 @@ async function challengePush(db: SupabaseClient, vapid: Vapid) {
   if (he) console.error('hw laggards', he.message);
   for (const r of (hw || []) as Array<{ user_id: string; room_id: string; room_title: string | null; left_tasks: number }>) {
     if (!r.left_tasks) continue;
-    sent += await sendToUser(db, r.user_id, { title: 'Домашнє завдання', body: `${r.room_title ? r.room_title + ': ' : ''}лишилось ${r.left_tasks} з 3 — термін завтра. Встигнете!`.slice(0, 170),
+    sent += await sendToUser(db, r.user_id, { title: `Виконайте домашнє завдання${r.room_title ? ` · «${r.room_title}»` : ''}`.slice(0, 70), body: `Лишилось ${r.left_tasks} з 3 — термін завтра. Встигнете!`,
       url: `#/friends/chat/${r.room_id}`, tag: `myenglish-hw-${r.room_id}` }, vapid);
   }
   console.info('challenge push', byUser.size, sent);

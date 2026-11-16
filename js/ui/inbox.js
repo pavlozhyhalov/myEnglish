@@ -24,6 +24,8 @@ function paint() {
   btn.querySelector('.hdr-badge')?.remove();
   if (n) btn.append(h('span.hdr-badge', { 'aria-hidden': 'true' }, n > 99 ? '99+' : String(n)));
   btn.setAttribute('aria-label', n ? `Сповіщення: ${n} ${plural(n, 'нове', 'нові', 'нових')}` : 'Сповіщення');
+  // та сама цифра — на іконці застосунку (PWA на екрані «Додому»)
+  if (data && navigator.setAppBadge) (n ? navigator.setAppBadge(n) : navigator.clearAppBadge()).catch(() => {});
 }
 
 export async function refreshInbox() {
@@ -63,9 +65,9 @@ export async function openInbox() {
     const chats = d.chats || [];
     const unread = chats.filter(c => c.unread > 0 && !c.muted);
     const fresh = [
-      ...unread.map(c => txRow({ icon: chatIcon(c), label: c.title || 'Чат', sub: preview(c), pill: { text: String(c.unread > 99 ? '99+' : c.unread), tone: 'accent' }, href: `#/friends/chat/${c.id}`, onclick: close })),
-      ...(d.homework || []).map(x => txRow({ icon: 'chalkboard-teacher', label: `Домашнє · ${x.title || 'група'}`, sub: `Виконано ${x.done} з ${x.total} · до ${due(x.due_at)}`, pill: { text: `${x.total - x.done} лишилось`, tone: 'warn' }, href: `#/friends/chat/${x.room_id}`, onclick: close })),
-      ...(d.duels || []).map(x => txRow({ icon: 'sword', label: `Дуель · ${GAMES[x.game] || 'гра'}`, sub: `${x.by} кличе · ${x.title}`, pill: { text: 'Грати', tone: 'accent' },
+      ...unread.map(c => txRow({ icon: chatIcon(c), label: c.kind === 'group' ? `Нові повідомлення в групі «${c.title || 'Група'}»` : `Вам пише ${c.title || 'друг'}`, sub: preview(c), pill: { text: String(c.unread > 99 ? '99+' : c.unread), tone: 'accent' }, href: `#/friends/chat/${c.id}`, onclick: close })),
+      ...(d.homework || []).map(x => txRow({ icon: 'chalkboard-teacher', label: 'Виконайте домашнє завдання', sub: `«${x.title || 'група'}» · виконано ${x.done} з ${x.total} · до ${due(x.due_at)}`, pill: { text: `${x.total - x.done} лишилось`, tone: 'warn' }, href: `#/friends/chat/${x.room_id}`, onclick: close })),
+      ...(d.duels || []).map(x => txRow({ icon: 'sword', label: 'Вас кличуть на дуель', sub: `${x.by} · ${GAMES[x.game] || 'гра'} · «${x.title}»`, pill: { text: 'Грати', tone: 'accent' },
         href: `#/games/${x.game}?duel=${x.id}&seed=${x.seed}&lv=${x.level}&room=${x.room_id}`, onclick: close })),
     ];
     const recent = chats.slice(0, 5);

@@ -138,12 +138,20 @@ export const challengeLabel = (kind: string, target: number) =>
 
 /** Текст push про нове повідомлення: назва чату й «Ім'я: текст» (для 1:1 — без імені) */
 export function chatMessageText(o: { kind: string; body: string; sender: string; room: { kind: string; title: string | null }; meta?: Record<string, unknown> }): { title: string; body: string } {
+  // однакові формулювання з дзвіночком у застосунку (js/ui/inbox.js): «Вам пише …», «Нові повідомлення в групі «…»», «Вас кличуть на дуель»
   const cut = (s: string, n: number) => (s.length > n ? s.slice(0, n - 1).trimEnd() + '…' : s);
-  const body = o.kind === 'voice' ? (o.body ? `Голосове: ${o.body}` : 'Голосове повідомлення')
-    : o.kind === 'challenge' ? (o.meta?.duel_id ? `Дуель: ${GAME_LABEL[String(o.meta?.game)] || 'гра'} — хто більше?` : `Новий виклик: ${challengeLabel(String(o.meta?.kind || ''), Number(o.meta?.target) || 0)}`)
-    : o.body;
   const dm = o.room.kind === 'dm';
-  return { title: cut(dm ? o.sender : (o.room.title || 'Група'), 50), body: cut(dm ? body : `${o.sender}: ${body}`, 160) };
+  const group = `«${cut(o.room.title || 'Група', 40)}»`;
+  if (o.kind === 'challenge' && o.meta?.duel_id) {
+    return { title: 'Вас кличуть на дуель', body: cut(`${o.sender} · ${GAME_LABEL[String(o.meta?.game)] || 'гра'}${dm ? '' : ` · група ${group}`} — хто більше?`, 160) };
+  }
+  if (o.kind === 'challenge') {
+    return { title: dm ? `${o.sender} пропонує виклик` : `Новий виклик у групі ${group}`, body: cut(`${dm ? '' : `${o.sender}: `}${challengeLabel(String(o.meta?.kind || ''), Number(o.meta?.target) || 0)} — 7 днів`, 160) };
+  }
+  const body = o.kind === 'voice' ? (o.body ? `голосове: ${o.body}` : 'голосове повідомлення') : o.body;
+  return dm
+    ? { title: cut(`Вам пише ${o.sender}`, 60), body: cut(body.charAt(0).toUpperCase() + body.slice(1), 160) }
+    : { title: cut(`Нові повідомлення в групі ${group}`, 70), body: cut(`${o.sender}: ${body}`, 160) };
 }
 
 /** Нагадування про виклик — раз на добу: перший запуск cron після 16:00 UTC (вечір у Європі) */
@@ -156,8 +164,8 @@ export function challengeNudge(o: { room_title: string; kind: string; target: nu
   const unit = o.kind === 'daily15' ? 'днів' : o.kind === 'words' ? 'слів' : 'розмов';
   const tail = left > 0 ? `Лишилось ${left} ${plural(left, 'день', 'дні', 'днів')}.` : 'Сьогодні останній день!';
   return {
-    title: `Виклик «${challengeLabel(o.kind, o.target)}»`.slice(0, 60),
-    body: `${o.room_title ? `${o.room_title}: ` : ''}у вас ${o.value} з ${o.target} ${unit}. ${tail} Наздоганяйте!`.slice(0, 170),
+    title: `Наздоганяйте у виклику «${challengeLabel(o.kind, o.target)}»`.slice(0, 70),
+    body: `${o.room_title ? `${o.room_title}: ` : ''}у вас ${o.value} з ${o.target} ${unit}. ${tail}`.slice(0, 170),
   };
 }
 

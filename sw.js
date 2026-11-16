@@ -1,5 +1,5 @@
 // Service worker: офлайн-кеш оболонки й контенту. AI і Supabase — завжди мережа.
-const BUILD = '20261116225034';
+const BUILD = '20261116225442';
 const CACHE = `myenglish-${BUILD}`;
 importScripts(`precache-list.js?v=${BUILD}`);
 
@@ -137,18 +137,31 @@ self.addEventListener('push', (e) => {
   let d = {};
   try { d = e.data ? e.data.json() : {}; } catch { d = { body: e.data ? e.data.text() : '' }; }
   const url = typeof d.url === 'string' && d.url.startsWith('#/') ? d.url : '#/';
+  const tag = d.tag || 'myenglish-reminder';
   e.waitUntil(self.registration.showNotification(d.title || 'myEnglish', {
     body: d.body || '',
-    tag: d.tag || 'myenglish-reminder',
+    tag,
+    renotify: tag !== 'myenglish-reminder',   // нове повідомлення в тому ж чаті — знову звук/вібрація
     icon: 'assets/icons/icon-192.png',
     badge: 'assets/icons/icon-192.png',
     lang: 'uk',
     data: { url },
-  }));
+  }).then(syncBadge));
 });
+
+// цифра на іконці застосунку (iOS 16.4+ на екрані «Додому», Android, комп'ютер): кількість непрочитаних сповіщень;
+// точну цифру з дзвіночка ставить сам застосунок, коли відкритий (js/ui/inbox.js)
+async function syncBadge() {
+  try {
+    if (!self.navigator.setAppBadge) return;
+    const n = (await self.registration.getNotifications()).length;
+    n ? await self.navigator.setAppBadge(n) : await self.navigator.clearAppBadge();
+  } catch { /* без підтримки — нічого */ }
+}
 
 self.addEventListener('notificationclick', (e) => {
   e.notification.close();
+  syncBadge();
   const hash = e.notification.data?.url || '#/';
   const target = new URL(hash, self.registration.scope).href;
   e.waitUntil((async () => {
