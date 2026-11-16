@@ -84,3 +84,10 @@ Deno.test('explain game: normalisation, judging, saying the word is a foul', () 
   assertEquals(judgeGuess('take off', 'what a plane does', ['land', 'take off']).correct, true);
   assertEquals(cleanGuess({ transcript: 'x', guesses: ['a', 'a', 'б', 'c', 'd'] }).guesses, ['a', 'c', 'd']);
 });
+
+Deno.test('voice check: підстановка власної назви — не помилка учня', () => {
+  const r = cleanVoiceCheck({ text: 'I want to work you in your company. Your company half alloy is the most', fixes: [
+    { wrong: 'half alloy', right: 'Alugier', why_uk: 'Помилка в назві компанії', rule: 'other' },
+    { wrong: 'work you in your', right: 'work for your', why_uk: 'Прийменник', rule: 'prep-dependent' }] });
+  assertEquals(r.fixes.map(f => f.right), ['work for your']);
+});

@@ -19,10 +19,17 @@ export const VOICE_CHECK_SCHEMA = OBJ({
 export function voiceCheckPrompt(level: string, disputes: Dispute[] = [], ctx = '') {
   return `The audio is one spoken turn of a Ukrainian learner of English (level ${level}) in a live conversation with a tutor.
 1) text: transcribe exactly what they say in English (Latin letters), keeping their grammar mistakes; drop hesitations like "um"/"uh" but keep repeated words. If they say a Ukrainian word, write it in Ukrainian Cyrillic. Never output any other language or script, never translate, never answer. If nothing intelligible is said, text = "".
-2) fixes: 0–2 of the most important REAL mistakes in that transcript that a teacher would definitely correct (grammar, wrong word, calques). Not pronunciation, not punctuation, not hesitations or self-corrections, not style. If a fluent speaker could say it, it is not a mistake; American English is correct. wrong = the exact fragment from text (2–6 words), right = the same fragment corrected, why_uk = max 8 words in Ukrainian naming the rule, rule = the closest id from this list: ${RULES_PROMPT}. Most turns have 0 fixes.${ctx ? `\n${ctx}` : ''}${disputes.length ? `
+2) fixes: 0–2 of the most important REAL mistakes in that transcript that a teacher would definitely correct (grammar, wrong word, calques). Not pronunciation, not punctuation, not hesitations or self-corrections, not style. NEVER correct names of people, companies, brands or places, and never "correct" a word you may have misheard — that is a recognition problem, not the student's mistake; never insert a name from the context that is not clearly said. If a fluent speaker could say it, it is not a mistake; American English is correct. wrong = the exact fragment from text (2–6 words), right = the same fragment corrected, why_uk = max 8 words in Ukrainian naming the rule, rule = the closest id from this list: ${RULES_PROMPT}. Most turns have 0 fixes.${ctx ? `\n${ctx}` : ''}${disputes.length ? `
 The student disagreed with these corrections before — never flag them: ${disputes.slice(-20).map(d => `"${d.wrong}" → "${d.right}"`).join('; ')}` : ''}`;
 }
 
+/** У виправленні з'явилось слово з великої літери (не I і не на початку), якого не було в помилковому фрагменті — підставлено власну назву */
+export function newName(wrong: string, right: string) {
+  const had = new Set((wrong.match(/[\p{L}'-]+/gu) || []).map(w => w.toLowerCase()));
+  const words = right.match(/[\p{L}'-]+/gu) || [];
+  return words.some((w, i) => i > 0 && /^\p{Lu}/u.test(w) && w !== 'I' && !/^I'/.test(w) && !had.has(w.toLowerCase()))
+    || (words.length === 1 && /^\p{Lu}/u.test(words[0]) && words[0] !== 'I' && !had.has(words[0].toLowerCase()));
+}
 /** Лише виправлення, фрагмент яких справді є в тексті; без «виправлень» на те саме */
 export function cleanVoiceCheck(r: unknown, disputes: Dispute[] = []): { text: string; fixes: Array<{ wrong: string; right: string; why_uk: string; rule: string }> } {
   const o = (r && typeof r === 'object' ? r : {}) as Record<string, unknown>;
@@ -36,6 +43,8 @@ export function cleanVoiceCheck(r: unknown, disputes: Dispute[] = []): { text: s
     const wrong = txt(x.wrong, 120).replace(/^["«“]+|["»”]+$/g, ''), right = txt(x.right, 120).replace(/^["«“]+|["»”]+$/g, '');
     if (!wrong || !right || norm(wrong) === norm(right) || !nt.includes(` ${norm(wrong)} `)) continue;
     if (fixes.some(y => norm(y.wrong) === norm(wrong)) || isDisputed({ wrong, right }, disputes)) continue;
+    // «half alloy → Alugier» (2026-11-16): заміна на власну назву — це помилка розпізнавання, а не учня
+    if (newName(wrong, right) || /назв|ім'я|імені|бренд/i.test(txt(x.why_uk, 100))) continue;
     fixes.push({ wrong, right, why_uk: txt(x.why_uk, 100), rule: ruleOf(x.rule) });
     if (fixes.length >= 2) break;
   }
