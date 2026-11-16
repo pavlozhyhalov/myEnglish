@@ -172,6 +172,13 @@ async function boot() {
   initDailyBar();       // плашка «Далі за планом» (Мій день)
   initSubnav();         // вкладки розділів, об'єднаних в один пункт меню
   initFit();            // слова в плитках не рвуться посередині (js/ui/fit.js)
+  // 2026-11-16 (власник: «озвучка в пріоритеті — Gemini»): одноразово перемкнути з браузерної на Gemini; потім — як обере учень
+  try {
+    if (!localStorage.getItem('me:tts-gemini')) {
+      if (store.settings().ttsEngine === 'browser') store.setSetting('ttsEngine', 'gemini');
+      localStorage.setItem('me:tts-gemini', '1');
+    }
+  } catch { /* приватний режим */ }
   applyTheme();
 
   for (const [name, loader] of Object.entries(pages)) route(name, loader);

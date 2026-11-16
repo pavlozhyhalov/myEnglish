@@ -1,6 +1,6 @@
 // Версія збірки: той самий рядок у sw.js (назва кешу) і в ?v= у index.html.
 // Піднімати скриптом scripts/bump.sh після будь-якої зміни фронтенду.
-export const BUILD = '20261116225442';
+export const BUILD = '20261116225632';
 
 // Supabase (окремий проєкт myEnglish). Publishable-ключ публічний за задумом:
 // доступ до даних обмежує RLS (кожен бачить лише свої рядки); AI — будь-якому користувачу, що увійшов, з денними лімітами на кожного.
@@ -40,7 +40,7 @@ export const DEFAULTS = {
   quickbar: ['home', 'today', 'tutor', 'cards', 'progress'],   // 2026-11-08: «Мій день» замість «Граматики» (граматика — у меню)
   level: 'B1',
   retention: 0.9,
-  ttsEngine: 'browser',
+  ttsEngine: 'gemini',        // 2026-11-16: Gemini — основна озвучка; браузер — запасна (офлайн, після ліміту)
   autoSpeak: true,
   pinDrawer: true,
   voiceSubs: true,

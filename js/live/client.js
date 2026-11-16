@@ -1,5 +1,6 @@
 // Клієнт Gemini Live (WebSocket, ефемерний токен), аудіо через AudioWorklet
 import { LIVE_WS_URL, LIMITS, BUILD } from '../config.js';
+import { sessionRecord, trackMic } from '../audiosession.js';
 import { liveToken, AiError } from '../ai.js';
 
 // токен дозволяє відкрити нову сесію протягом 60 с після створення — беремо з запасом
@@ -260,7 +261,8 @@ export class AudioIO extends EventTarget {
     this.inCtx.resume().catch(() => {});
     this.outCtx.resume().catch(() => {});
     // мікрофон теж запитуємо одразу в жесті
-    this.streamPromise = navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: true, noiseSuppression: true, autoGainControl: true, channelCount: 1 } });
+    sessionRecord();
+    this.streamPromise = navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: true, noiseSuppression: true, autoGainControl: true, channelCount: 1 } }).then(trackMic);
     this.streamPromise.catch(() => {});   // помилку обробляє start(); без цього — «unhandled rejection», якщо start() не встигне
     return this;
   }

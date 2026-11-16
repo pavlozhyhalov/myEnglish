@@ -43,7 +43,7 @@ export default function settings(view) {
       row('sun', 'Не вимикати екран', toggle(st.keepAwake !== false, (v) => { store.setSetting('keepAwake', v); }, 'Не вимикати екран'), 'Під час завдань'),
     ]),
     group('Озвучення й вчитель', [
-      block('waveform', 'Рушій озвучення', segOf('ttsEngine', [['browser', 'Браузер · офлайн'], ['gemini', 'Gemini · онлайн']]), 'Gemini звучить природніше'),
+      block('waveform', 'Рушій озвучення', segOf('ttsEngine', [['gemini', 'Gemini · природний'], ['browser', 'Браузер · офлайн']]), 'Без мережі чи після денного ліміту — голос браузера'),
       row('play', 'Перевірити голос',
         h('button.btn.sm.soft', { type: 'button', onclick: () => speak('Hi! This is how I sound. Shall we practise some English today?') }, ic('play', { size: 16, fill: true }), 'Тест'), `Голосів браузера: ${englishVoices().length}`),
       row('chalkboard-teacher', "Ім'я вчителя", text('tutorName', "Ім'я")),

@@ -1,6 +1,7 @@
 // Тренажер плавності (#/fluency): техніка 4-3-2, фрази «замість uh», метрики мовлення, запис із мікрофона, історія.
 // Метрики рахуються на пристрої з дослівної транскрипції (tutor 'transcribe' з hint 'fluency' зберігає um/uh і повтори).
 import * as store from './store.js';
+import { sessionRecord, trackMic } from './audiosession.js';
 
 // ---------- Раунди 4-3-2 (класика: 4 → 3 → 2 хв; для B1 — 60 → 45 → 30 с) ----------
 export const ROUNDS = [{ sec: 60 }, { sec: 45 }, { sec: 30 }];
@@ -231,7 +232,8 @@ export function createMic() {
       if (AC && !ctx) { try { ctx = new AC(); } catch { ctx = null; } }
       const resumed = ctx?.state === 'suspended' ? ctx.resume().catch(() => {}) : null;
       if (!live()) {
-        stream = await navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: true, noiseSuppression: true, autoGainControl: true } });
+        sessionRecord();
+        stream = trackMic(await navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: true, noiseSuppression: true, autoGainControl: true } }));
         try { source?.disconnect(); } catch { /* */ }
         source = null; analyser = null;
       }

@@ -2,6 +2,7 @@
 import * as store from './store.js';
 import { ttsAudio, tutor } from './ai.js';
 import { user } from './supa.js';
+import { trackMic, sessionRecord, sessionPlayback } from './audiosession.js';
 
 const synth = window.speechSynthesis;
 let voicesCache = [];
@@ -36,11 +37,12 @@ export function stop() { seq++; halt(); }
 export async function speak(text, opts = {}) {
   const st = store.settings();
   const rate = opts.rate ?? st.rate ?? 1;
-  const engine = opts.engine || st.ttsEngine || 'browser';
+  const engine = opts.engine || st.ttsEngine || 'gemini';
   const my = ++seq;
   halt();
-  if (engine === 'gemini' && user() && navigator.onLine) {
-    try { return await playGemini(text, opts.geminiVoice, rate, my); } catch (e) { console.warn('Gemini TTS → браузер', e); }
+  sessionPlayback();   // iPhone: звичайна гучність медіа — кнопки гучності діють (js/audiosession.js)
+  if (engine === 'gemini' && user() && navigator.onLine && !geminiPaused()) {
+    try { return await playGemini(text, opts.geminiVoice, rate, my); } catch (e) { console.warn('Gemini TTS → браузер', e); pauseGemini(e); }
     if (my !== seq) return;   // поки чекали Gemini, вже озвучується інше — запасна озвучка браузером не потрібна
   }
   return speakBrowser(text, { rate, accent: opts.accent || st.accent, voiceIndex: opts.voiceIndex || 0 });
@@ -62,6 +64,28 @@ export function speakBrowser(text, { rate = 1, accent, voiceIndex = 0 } = {}) {
   });
 }
 
+// Gemini — основна озвучка (власник 2026-11-16: «альтернативна звучить дуже погано»). Після вичерпаного денного ліміту чи збою —
+// голос браузера на 10 хв (без зайвих секунд очікування на кожному слові), потім знову Gemini
+const PAUSE_KEY = 'me:tts-pause';
+const geminiPaused = () => { try { return Date.now() < Number(sessionStorage.getItem(PAUSE_KEY) || 0); } catch { return false; } };
+function pauseGemini(e) {
+  if (!['quota', 'rate_limited', 'overloaded', 'need_login'].includes(e?.code)) return;
+  try { sessionStorage.setItem(PAUSE_KEY, String(Date.now() + 10 * 60_000)); } catch { /* */ }
+}
+// Постійний кеш озвучок на пристрої (Cache Storage): слово, озвучене раз, більше не завантажується й не витрачає ліміт
+const TTS_CACHE = 'me-tts-v1';
+const cacheReq = (key) => new Request(`/__tts/${encodeURIComponent(key)}`);
+async function cachedBlob(key) {
+  try { const r = await (await caches.open(TTS_CACHE)).match(cacheReq(key)); return r ? await r.blob() : null; } catch { return null; }
+}
+function storeBlob(key, blob) {
+  caches.open(TTS_CACHE).then(async (c) => {
+    await c.put(cacheReq(key), new Response(blob, { headers: { 'Content-Type': blob.type || 'audio/wav' } }));
+    const keys = await c.keys();
+    if (keys.length > 1500) for (const k of keys.slice(0, keys.length - 1500)) c.delete(k);
+  }).catch(() => {});
+}
+
 const audioCache = new Map();
 // iOS дозволяє play() лише в жесті: один аудіоелемент «розблоковуємо» першим дотиком і далі використовуємо його
 const player = typeof Audio !== 'undefined' ? new Audio() : null;
@@ -73,7 +97,11 @@ const geminiUrl = async (text, voice) => {
   const key = (voice || '') + '|' + text;
   let url = audioCache.get(key);
   if (!url) {
-    const p = (async () => URL.createObjectURL(await ttsAudio(text, { voice })))();
+    const p = (async () => {
+      let blob = await cachedBlob(key);
+      if (!blob) { blob = await ttsAudio(text, { voice }); storeBlob(key, blob); }
+      return URL.createObjectURL(blob);
+    })();
     audioCache.set(key, p);           // паралельні запити того самого слова (попереднє завантаження + показ) — один виклик
     try { url = await p; } catch (e) { audioCache.delete(key); throw e; }
     audioCache.set(key, url);
@@ -83,7 +111,7 @@ const geminiUrl = async (text, voice) => {
 /** Завантажити озвучку заздалегідь (наступна картка), якщо обрано Gemini; без помилок назовні */
 export function prefetch(text, opts = {}) {
   const st = store.settings();
-  if ((opts.engine || st.ttsEngine || 'browser') !== 'gemini' || !user() || !navigator.onLine || !text) return;
+  if ((opts.engine || st.ttsEngine || 'gemini') !== 'gemini' || !user() || !navigator.onLine || !text || geminiPaused()) return;
   geminiUrl(text, opts.geminiVoice).catch(() => {});
 }
 async function playGemini(text, voice, rate, my) {
@@ -116,7 +144,8 @@ export const micAvailable = () => !!(window.isSecureContext !== false && navigat
 const micError = () => Object.assign(new Error('mic unsupported'), { code: 'mic', name: 'NotAllowedError' });   // S.err.mic сам пояснює, що робити (вбудований браузер, Android, iPhone)
 export async function getMic(constraints = { audio: true }) {
   if (!micAvailable()) throw micError();
-  try { return await navigator.mediaDevices.getUserMedia(constraints); }
+  sessionRecord();
+  try { return trackMic(await navigator.mediaDevices.getUserMedia(constraints)); }
   catch (e) { throw Object.assign(e, { code: e?.name === 'NotFoundError' ? 'mic_missing' : e?.name === 'NotAllowedError' || e?.name === 'SecurityError' ? 'mic' : e?.code }); }
 }
 

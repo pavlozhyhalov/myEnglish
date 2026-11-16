@@ -10,6 +10,7 @@ import { tutor, aiErrorText } from '../ai.js';
 import { disputeFix } from '../stats.js';
 import * as chat from '../chat.js';
 import * as duel from '../duel.js';
+import { sessionPlayback } from '../audiosession.js';
 import { myLevel, lvLabel } from '../level.js';
 
 const initial = (s) => (String(s || '?').trim().charAt(0) || '?').toUpperCase();
@@ -509,6 +510,7 @@ export function chatRoom(view, roomId) {
         if (audio.paused) {
           if (playing && playing.audio !== audio) playing.audio.pause();
           playing = { audio };
+          sessionPlayback();
           await audio.play(); btn.replaceChildren(ic('pause', { size: 18, fill: true }));
         } else audio.pause();
       } catch (err) { console.warn('play', err); toast('Не вдалося відтворити', { kind: 'bad' }); }
