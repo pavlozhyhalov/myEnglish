@@ -249,7 +249,7 @@ export function chatRoom(view, roomId) {
       h('div.tx-label', 'Почати новий · 7 днів'),
       txRows(chat.CHALLENGES.map(d => txRow({ icon: d.icon, label: d.label, sub: d.sub, onclick: async () => {
         try { await chat.createChallenge(roomId, d.kind, d.target); s.close(); toast('Виклик почався — удачі!'); loadChallenges(); }
-        catch (e) { toast(chat.chatErrText(e).replace('У групі може бути до 10 людей.', 'У чаті може бути до 3 активних викликів.'), { kind: 'bad' }); }
+        catch (e) { toast(chat.chatErrText(e), { kind: 'bad' }); }
       } })))));
   }
 
@@ -359,6 +359,8 @@ export function chatRoom(view, roomId) {
       } }, ic('pencil-simple', { size: 16 }), 'Написати правильно ще раз') : null);
     s = sheet('Як краще', body);
   }
+  let playing = null;   // { audio, reset } — одночасно грає лише одне голосове
+  onLeave(view, () => playing?.audio.pause());
   function voicePlayer(m) {
     let audio = null;
     const btn = h('button.ch-play', { type: 'button', 'aria-label': 'Слухати голосове' }, ic('play', { size: 18, fill: true }));
@@ -368,13 +370,17 @@ export function chatRoom(view, roomId) {
       e.stopPropagation();
       try {
         if (!audio) {
-          audio = new Audio(await chat.audioUrl(m.audio_path));
+          // адреса вже є (prefetchAudio) — play() лишається в межах дотику (iOS)
+          audio = new Audio(chat.cachedAudioUrl(m.audio_path) || await chat.audioUrl(m.audio_path));
           audio.addEventListener('timeupdate', () => { const d = audio.duration || m.meta?.dur || 1; bar.firstChild.style.width = `${Math.min(100, audio.currentTime / d * 100)}%`; time.textContent = fmtDur(audio.currentTime); });
           audio.addEventListener('ended', () => { btn.replaceChildren(ic('play', { size: 18, fill: true })); bar.firstChild.style.width = '0'; time.textContent = fmtDur(m.meta?.dur || 0); });
-          onLeave(view, () => audio?.pause());
+          audio.addEventListener('pause', () => btn.replaceChildren(ic('play', { size: 18, fill: true })));
         }
-        if (audio.paused) { document.querySelectorAll('.ch-room audio').forEach(a => a.pause()); await audio.play(); btn.replaceChildren(ic('pause', { size: 18, fill: true })); }
-        else { audio.pause(); btn.replaceChildren(ic('play', { size: 18, fill: true })); }
+        if (audio.paused) {
+          if (playing && playing.audio !== audio) playing.audio.pause();
+          playing = { audio };
+          await audio.play(); btn.replaceChildren(ic('pause', { size: 18, fill: true }));
+        } else audio.pause();
       } catch (err) { console.warn('play', err); toast('Не вдалося відтворити', { kind: 'bad' }); }
     });
     return h('div.ch-voice', btn, bar, time);
@@ -449,6 +455,7 @@ export function chatRoom(view, roomId) {
   function append(m) {
     if (byId.has(m.id)) { Object.assign(byId.get(m.id), m); update(byId.get(m.id)); return; }
     byId.set(m.id, m);
+    if (m.kind === 'voice' && m.audio_path) chat.prefetchAudio([m.audio_path]);
     const stick = nearBottom() || m.user_id === me;
     const lastM = msgs[msgs.length - 1];
     msgs.push(m);
@@ -478,6 +485,7 @@ export function chatRoom(view, roomId) {
     more = data.length >= chat.PAGE;
     msgs = data; byId.clear(); for (const m of msgs) byId.set(m.id, m);
     fb = await chat.feedback(msgs.filter(m => m.user_id === me && m.kind !== 'system').map(m => m.id));
+    chat.prefetchAudio(msgs.filter(m => m.kind === 'voice' && m.audio_path && !m.deleted_at).map(m => m.audio_path));
     if (!alive) return;
     renderHead(); renderAll(); toBottom();
   }
@@ -491,6 +499,7 @@ export function chatRoom(view, roomId) {
       for (const m of add) byId.set(m.id, m);
       const f2 = await chat.feedback(add.filter(m => m.user_id === me).map(m => m.id));
       for (const [k, v] of f2) fb.set(k, v);
+      chat.prefetchAudio(add.filter(m => m.kind === 'voice' && m.audio_path).map(m => m.audio_path));
       const h0 = document.documentElement.scrollHeight;
       msgs = [...add, ...msgs];
       renderAll();
@@ -536,12 +545,14 @@ export function chatRoom(view, roomId) {
       return;
     }
     composer.replaceWith(bar);
-    const restore = () => { if (bar.isConnected) bar.replaceWith(composer); rec = null; };
-    onLeave(view, () => rec?.cancel());
-    cancelBtn.addEventListener('click', () => { rec?.cancel(); restore(); });
+    const mine = rec;
+    const restore = () => { if (bar.isConnected) bar.replaceWith(composer); if (rec === mine) rec = null; };
+    // вихід зі сторінки чи «Скасувати» — запис не надсилається
+    onLeave(view, () => { if (rec === mine) rec = null; mine.cancel(); });
+    cancelBtn.addEventListener('click', () => { mine.cancel(); restore(); });
     const finish = async () => {
-      if (!rec) return;
-      const r = rec; rec = null;
+      if (rec !== mine || mine.cancelled || !alive) return;
+      const r = mine; rec = null;
       const { blob, dur } = await r.stop();
       restore();
       if (dur < 1 || blob.size < 1500) { toast('Задовго не говорили — запис закороткий'); return; }
@@ -554,7 +565,7 @@ export function chatRoom(view, roomId) {
       } catch (e) { ph.remove(); toast(aiErrorText(e) || chat.chatErrText(e), { kind: 'bad' }); }
     };
     stopBtn.addEventListener('click', finish);
-    rec.auto.then(() => { if (rec) finish(); });
+    mine.auto.then(() => { if (rec === mine && !mine.cancelled) finish(); });
   }
 
   // ---------- старт, Realtime, прочитано ----------
@@ -580,7 +591,7 @@ export function chatRoom(view, roomId) {
   const poll = async () => {
     if (document.hidden || !alive) return;
     chat.markRead(roomId);
-    if (rtOk || !msgs.length) return;
+    if (rtOk) return;
     try {
       const data = await chat.messages(roomId);
       for (const m of data) if (!byId.has(m.id)) append(m);
@@ -589,5 +600,5 @@ export function chatRoom(view, roomId) {
   const iv = setInterval(poll, 15000);
   const vis = () => { if (!document.hidden) { poll(); loadChallenges(); } };
   document.addEventListener('visibilitychange', vis);
-  return () => { alive = false; clearInterval(iv); document.removeEventListener('visibilitychange', vis); unsub(); rec?.cancel(); chat.markRead(roomId); };
+  return () => { alive = false; clearInterval(iv); document.removeEventListener('visibilitychange', vis); unsub(); const r = rec; rec = null; r?.cancel(); chat.markRead(roomId); };
 }

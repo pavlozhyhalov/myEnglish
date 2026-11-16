@@ -5,7 +5,7 @@
 // Помилки з переписки йдуть у «Мої помилки» (source 'chat-friends', ref = id повідомлення) лише на пристрої, що надіслав.
 import { getSupa, user } from './supa.js';
 import { tutor } from './ai.js';
-import { addMistake } from './stats.js';
+import { addMistake, isDisputed } from './stats.js';
 import { getMic, micAvailable } from './speech.js';
 
 const COLS = 'id, room_id, user_id, kind, body, audio_path, meta, created_at, deleted_at';
@@ -18,6 +18,7 @@ const ERR = {
   not_friends: 'Ви більше не друзі — написати не можна.',
   blocked: 'Написати не можна: людину заблоковано.',
   rate_limited: 'Забагато повідомлень. Зачекайте трохи.',
+  too_many_challenges: 'У чаті може бути до 3 активних викликів.',
   too_many: 'У групі може бути до 10 людей.',
   bad_title: 'Введіть назву групи.',
   bad_message: 'Повідомлення порожнє або задовге (до 1000 символів).',
@@ -70,7 +71,8 @@ export async function feedback(ids) {
   if (!ids.length) return out;
   const c = await getSupa();
   const { data } = await c.from('chat_feedback').select('message_id, fixes').in('message_id', ids.slice(0, 200));
-  for (const r of data || []) out.set(r.message_id, Array.isArray(r.fixes) ? r.fixes : []);
+  // «Не згоден» — виправлення більше не показується (profiles.data.disputes)
+  for (const r of data || []) out.set(r.message_id, (Array.isArray(r.fixes) ? r.fixes : []).filter(f => !isDisputed(f.wrong, f.right)));
   return out;
 }
 
@@ -79,7 +81,7 @@ export function subscribe(room, onChange, onStatus) {
   let ch = null, dead = false;
   getSupa().then(c => {
     if (dead) return;
-    ch = c.channel(`chat:${room}`)
+    ch = c.channel(`chat:${room}:${Math.random().toString(36).slice(2, 10)}`)   // унікальна тема: повторне відкриття не натрапить на канал, що ще закривається
       .on('postgres_changes', { event: '*', schema: 'public', table: 'chat_messages', filter: `room_id=eq.${room}` }, (p) => { try { onChange(p.new || p.old, p.eventType); } catch (e) { console.warn('chat rt', e); } })
       .subscribe((st) => onStatus?.(st));
   }).catch(() => onStatus?.('CHANNEL_ERROR'));
@@ -98,11 +100,18 @@ export async function sendText(room, body) {
 export async function checkMessage(msg) {
   const r = await tutor('friend_check', { message_id: msg.id });
   const fixes = Array.isArray(r?.fixes) ? r.fixes : [];
-  if (!r?.cached) logFixes(fixes, msg.id);
-  return { fixes, skipped: r?.skipped || null };
+  logFixes(fixes, msg.id);
+  return { fixes: fixes.filter(f => !isDisputed(f.wrong, f.right)), skipped: r?.skipped || null };
 }
 
+// помилки повідомлення — у «Мої помилки» один раз (повтор запиту після втраченої відповіді не подвоює лічильник)
+const LOGGED = 'me:chat-logged';
 function logFixes(fixes, ref) {
+  if (!fixes.length) return;
+  let seen = [];
+  try { seen = JSON.parse(localStorage.getItem(LOGGED) || '[]'); } catch { /* приватний режим */ }
+  if (seen.includes(ref)) return;
+  try { localStorage.setItem(LOGGED, JSON.stringify([...seen, ref].slice(-300))); } catch { /* */ }
   for (const f of fixes) {
     try { addMistake({ wrong: f.wrong, right: f.right, type: 'other', rule: f.rule, explanation_uk: f.why_uk, source: 'chat-friends', ref }); }
     catch (e) { console.warn('chat mistake', e); }
@@ -121,14 +130,10 @@ export async function sendVoice(room, blob, dur) {
   const c = await getSupa();
   const up = await c.storage.from('chat-voice').upload(path, blob, { contentType: mime, upsert: false });
   if (up.error) throw new ChatError('bad_audio', up.error.message);
-  try {
-    const r = await tutor('friend_voice', { room_id: room, path, audio: await toB64(blob), mime, dur: Math.round(dur * 10) / 10 });
-    if (r?.message?.id) logFixes(r.fixes || [], r.message.id);
-    return r;
-  } catch (e) {
-    c.storage.from('chat-voice').remove([path]).catch(() => {});
-    throw e;
-  }
+  // файл не видаляємо при збої: сервер міг уже вставити повідомлення (відповідь загубилась); якщо вставки не було — прибирає сервер
+  const r = await tutor('friend_voice', { room_id: room, path, audio: await toB64(blob), mime, dur: Math.round(dur * 10) / 10 });
+  if (r?.message?.id) logFixes(r.fixes || [], r.message.id);
+  return r;
 }
 
 /** Видалити своє повідомлення (м'яко) і його аудіофайл */
@@ -149,6 +154,18 @@ export async function audioUrl(path) {
   return data.signedUrl;
 }
 
+/** Підписані адреси для всіх голосових одним запитом — щоб перший дотик «Слухати» одразу запускав звук (iOS) */
+export async function prefetchAudio(paths) {
+  const need = [...new Set(paths)].filter(p => p && !(urlCache.get(p)?.exp > Date.now()));
+  if (!need.length) return;
+  try {
+    const c = await getSupa();
+    const { data } = await c.storage.from('chat-voice').createSignedUrls(need.slice(0, 100), 3600);
+    for (const d of data || []) if (d.signedUrl && d.path) urlCache.set(d.path, { url: d.signedUrl, exp: Date.now() + 3_300_000 });
+  } catch { /* тоді — за першим дотиком */ }
+}
+export const cachedAudioUrl = (path) => (urlCache.get(path)?.exp > Date.now() ? urlCache.get(path).url : null);
+
 export const canVoice = () => typeof MediaRecorder !== 'undefined' && micAvailable();
 
 /** Запис голосового: { stop() → Promise<{ blob, dur }>, cancel() }, onTick(сек) */
@@ -166,12 +183,13 @@ export async function startRecording({ onTick, maxMs = VOICE_MAX_MS } = {}) {
   rec.onstop = () => { stream.getTracks().forEach(t => t.stop()); done(); };
   const iv = setInterval(() => onTick?.((Date.now() - t0) / 1000), 250);
   const auto = setTimeout(() => halt(), maxMs);
-  let stopped = false;
+  let stopped = false, cancelled = false;
   function halt() { if (stopped) return; stopped = true; clearInterval(iv); clearTimeout(auto); if (rec.state !== 'inactive') rec.stop(); }
   return {
     auto: finished,
     async stop() { const dur = (Date.now() - t0) / 1000; halt(); await finished; return { blob: new Blob(chunks, { type: (rec.mimeType || type || 'audio/webm').split(';')[0] }), dur }; },
-    cancel() { halt(); },
+    cancel() { cancelled = true; halt(); },
+    get cancelled() { return cancelled; },
   };
 }
 

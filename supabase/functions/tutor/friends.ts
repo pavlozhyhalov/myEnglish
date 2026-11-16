@@ -68,9 +68,9 @@ export function cleanFriendFixes(raw: unknown, text: string, disputes: Dispute[]
   return out;
 }
 
-async function countSince(ctx: Ctx, table: 'chat_feedback' | 'chat_messages', extra: (q: any) => any) {
+async function countSince(ctx: Ctx, table: 'chat_feedback' | 'chat_messages', cols: string, extra: (q: any) => any) {
   const since = new Date(Date.now() - 86_400_000).toISOString();
-  const { count, error } = await extra(ctx.admin.from(table).select('*', { count: 'exact', head: true }).eq('user_id', ctx.user.id).gte('created_at', since));
+  const { count, error } = await extra(ctx.admin.from(table).select(cols, { count: 'exact', head: true }).eq('user_id', ctx.user.id).gte('created_at', since));
   if (error) { console.error('friend count', error.message); return 0; }
   return count || 0;
 }
@@ -87,7 +87,8 @@ export async function friendCheck(ctx: Ctx, p: Record<string, unknown>, level: s
   const { data: done } = await ctx.admin.from('chat_feedback').select('fixes').eq('message_id', id).maybeSingle();
   if (done) return { fixes: done.fixes || [], cached: true };
   if (!worthChecking(msg.body)) return { fixes: [], skipped: 'short' };
-  if (await countSince(ctx, 'chat_feedback', q => q) >= FRIEND_LIMITS.checks) return { fixes: [], skipped: 'limit' };
+  // межа — лише перевірки тексту (голосові мають свою)
+  if (await countSince(ctx, 'chat_feedback', 'message_id, chat_messages!inner(kind)', q => q.eq('chat_messages.kind', 'text')) >= FRIEND_LIMITS.checks) return { fixes: [], skipped: 'limit' };
   await charge(ctx, 'text');
   const { data: prev } = await ctx.db.from('chat_messages').select('user_id, body, kind').eq('room_id', msg.room_id).lt('created_at', msg.created_at)
     .in('kind', ['text', 'voice']).is('deleted_at', null).order('created_at', { ascending: false }).limit(5);
@@ -111,7 +112,17 @@ export async function friendVoice(ctx: Ctx, p: Record<string, unknown>, level: s
   if (!UUID.test(room) || !path.startsWith(`${room}/${ctx.user.id}/`) || !audio || audio.length > 4_000_000 || !MIME.test(mime)) throw new HttpError(400, 'bad_request', 'Bad voice message');
   const { data: member } = await ctx.db.rpc('is_chat_member', { p_room: room });
   if (member !== true) throw new HttpError(403, 'not_allowed');
-  if (await countSince(ctx, 'chat_messages', q => q.eq('kind', 'voice')) >= FRIEND_LIMITS.voice) throw new HttpError(429, 'quota');
+  if (await countSince(ctx, 'chat_messages', 'id', q => q.eq('kind', 'voice')) >= FRIEND_LIMITS.voice) throw new HttpError(429, 'quota');
+  // чат 1:1: дружба й блокування — до списання квоти (тригер усе одно перевірить під час вставки)
+  const { data: rm } = await ctx.admin.from('chat_rooms').select('kind').eq('id', room).maybeSingle();
+  if (rm?.kind === 'dm') {
+    const { data: other } = await ctx.admin.from('chat_members').select('user_id').eq('room_id', room).neq('user_id', ctx.user.id).limit(1).maybeSingle();
+    const [{ data: fr }, { data: bl }] = await Promise.all([
+      ctx.admin.from('friendships').select('user_id').eq('user_id', ctx.user.id).eq('friend_id', other?.user_id || '00000000-0000-0000-0000-000000000000').is('removed_at', null).maybeSingle(),
+      ctx.admin.from('chat_blocks').select('user_id').or(`and(user_id.eq.${ctx.user.id},blocked_id.eq.${other?.user_id}),and(user_id.eq.${other?.user_id},blocked_id.eq.${ctx.user.id})`).is('removed_at', null).limit(1),
+    ]);
+    if (!other || !fr || bl?.length) { await ctx.admin.storage.from('chat-voice').remove([path]).catch(() => {}); throw new HttpError(403, 'not_allowed'); }
+  }
   await charge(ctx, 'text');
   let text = '', fixes: Fix[] = [];
   try {
@@ -130,6 +141,8 @@ export async function friendVoice(ctx: Ctx, p: Record<string, unknown>, level: s
   const { data: msg, error } = await ctx.db.from('chat_messages').insert({ room_id: room, user_id: ctx.user.id, kind: 'voice', body: text, audio_path: path, meta: { dur } })
     .select('id, room_id, user_id, kind, body, audio_path, meta, created_at, deleted_at').single();
   if (error || !msg) {
+    // повідомлення не створено — файл більше нікому не потрібен (клієнт свій не видаляє: міг утратити відповідь уже після вставки)
+    await ctx.admin.storage.from('chat-voice').remove([path]).catch(() => {});
     const m = String(error?.message || '');
     throw new HttpError(m.includes('blocked') || m.includes('not_friends') ? 403 : m.includes('rate_limited') ? 429 : 400, m.includes('rate_limited') ? 'rate_limited' : 'bad_request', m.slice(0, 80) || 'Insert failed');
   }

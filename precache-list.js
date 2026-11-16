@@ -1,7 +1,7 @@
 // Згенеровано scripts/bump.sh — не редагувати вручну
 // шлях → хеш вмісту (sha256, 12 символів)
 self.PRECACHE = {
-  './': 'dbb31894adaa', './index.html': 'dbb31894adaa', './manifest.webmanifest': 'b87f180a6d8d',
+  './': '89c49a5991ce', './index.html': '89c49a5991ce', './manifest.webmanifest': 'b87f180a6d8d',
   './assets/icons/apple-touch-icon.png': '49e9cb2a0d59',
   './assets/icons/icon-192.png': '8f448517285d',
   './assets/icons/icon-512.png': 'b2f707bcc4de',
@@ -262,8 +262,8 @@ self.PRECACHE = {
   './js/ai.js': '7eb8286ecdab',
   './js/analysis.js': 'd4e413c48022',
   './js/app.js': 'b61eb0704680',
-  './js/chat.js': 'eef253586d45',
-  './js/config.js': '28b76137fcdb',
+  './js/chat.js': '27c1d442333d',
+  './js/config.js': '08bbf601aa88',
   './js/daily.js': 'f128a7bf9190',
   './js/data.js': 'b13181517b77',
   './js/errlog.js': 'b1996f6e588a',
@@ -290,7 +290,7 @@ self.PRECACHE = {
   './js/pages/analysis.js': 'eab0f77a0e8d',
   './js/pages/auth.js': 'b5414f1d2dcd',
   './js/pages/cards.js': '29b29b8a21d7',
-  './js/pages/chats.js': 'fe84c13e096d',
+  './js/pages/chats.js': '42b1705547f8',
   './js/pages/diary.js': '5feb56890c21',
   './js/pages/exercises.js': 'de93226b5fcf',
   './js/pages/fluency.js': '8fc0a98a1818',
