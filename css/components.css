@@ -129,7 +129,7 @@ a.tag{text-decoration:none}
   border:1px solid var(--field-edge);background:var(--surface);color:var(--ink);outline:none;
 }
 /* поле після перевірки: «застигле», але текст читабельний (без сірого браузерного стилю) */
-.input:disabled{background:var(--surface-2);border-color:transparent;color:var(--ink);-webkit-text-fill-color:var(--ink);opacity:1}
+.input:disabled{background:var(--tile);border-color:var(--line-strong);color:var(--ink);-webkit-text-fill-color:var(--ink);opacity:1}
 .input:focus{border-color:var(--accent-ink);box-shadow:0 0 0 3px var(--accent-soft)}
 textarea.input{resize:vertical;min-height:120px;line-height:1.45}
 .switch{position:relative;width:52px;height:32px;flex:none}
