@@ -1,7 +1,7 @@
 // Edge Function `admin`: агреговані показники для адмін-сторінки (#/admin).
 // Доступ — лише адміністраторам (ALLOWED_USERS, isAdmin); решті — 403 (клієнт за цим ховає посилання).
 // Дані — RPC admin_stats (міграція 0013) і admin_users (0020, дія `users`: активність кожного користувача — ім'я або частина email до «@»,
-// хвилини, рівень, лічильники) через service role; лише агрегати, без вмісту розмов.
+// хвилини, рівень, лічильники) через service role; лише агрегати, без вмісту розмов. Переписка друзів — лише кількість (admin_chat_stats, 0023).
 import { handler, json, HttpError } from '../_shared/http.ts';
 import { authenticate, isAdmin } from '../_shared/auth.ts';
 import { LIMITS } from '../_shared/config.ts';
@@ -12,10 +12,10 @@ Deno.serve(handler(async (req) => {
   const p = await req.json().catch(() => ({})) as { action?: string; days?: number };
   if (p.action === 'ping') return json({ admin: true });
   if (p.action === 'users') {
-    const { data, error } = await ctx.admin.rpc('admin_users');
+    const [{ data, error }, chats] = await Promise.all([ctx.admin.rpc('admin_users'), ctx.admin.rpc('admin_chat_stats')]);
     if (error) { console.error('admin_users', error.message); throw new HttpError(503, 'server', 'Users unavailable'); }
     // Спільний денний запас сильних моделей: частка на людину × 10 людей (розрахунок 2026-11-13) ≈ 80
-    return json({ admin: true, limits: LIMITS, budget: { strongCalls: LIMITS.strongCalls * 10 }, users: data }, 200, { 'Cache-Control': 'no-store' });
+    return json({ admin: true, limits: LIMITS, budget: { strongCalls: LIMITS.strongCalls * 10 }, users: data, chats: chats.data || null }, 200, { 'Cache-Control': 'no-store' });
   }
   if (p.action && p.action !== 'stats') throw new HttpError(400, 'bad_action');
   const days = Math.max(1, Math.min(60, Number(p.days) || 14));

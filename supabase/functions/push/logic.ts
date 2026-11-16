@@ -117,3 +117,45 @@ export function cleanNudge(r: unknown, fallback: Message): Message {
 export function monitorDue(now: Date) {
   return now.getUTCHours() === 9 && now.getUTCMinutes() < 15;
 }
+
+// ---------- Переписка з друзями й спільні виклики (міграція 0023) ----------
+export const CHAT_RENOTIFY_MS = 10 * 60_000;   // повторний push про той самий чат — лише якщо прочитано або минуло 10 хв
+export const CHAT_ACTIVE_MS = 25_000;          // учасник щойно читав чат (відкритий застосунок) — без push
+
+/** Чи надсилати push учаснику: не автор, не вимкнув сповіщення, не читає чат зараз і не отримав ще непрочитаний push */
+export function chatNotifyDue(now: number, m: { last_read_at: string; notified_at: string | null; muted: boolean }) {
+  if (m.muted) return false;
+  const read = Date.parse(m.last_read_at) || 0, notified = m.notified_at ? Date.parse(m.notified_at) : 0;
+  if (now - read < CHAT_ACTIVE_MS) return false;
+  return !notified || notified < read || now - notified > CHAT_RENOTIFY_MS;
+}
+
+const CH_LABEL: Record<string, string> = { daily15: '15 хв щодня', words: 'Слова за тиждень', talks: 'Розмови з вчителем' };
+export const challengeLabel = (kind: string, target: number) =>
+  kind === 'daily15' ? (target >= 7 ? '15 хв щодня' : `15 хв · ${target} ${plural(target, 'день', 'дні', 'днів')}`)
+    : kind === 'words' ? `${target} слів за тиждень` : kind === 'talks' ? `${target} ${plural(target, 'розмова', 'розмови', 'розмов')} з вчителем` : (CH_LABEL[kind] || 'Виклик');
+
+/** Текст push про нове повідомлення: назва чату й «Ім'я: текст» (для 1:1 — без імені) */
+export function chatMessageText(o: { kind: string; body: string; sender: string; room: { kind: string; title: string | null }; meta?: Record<string, unknown> }): { title: string; body: string } {
+  const cut = (s: string, n: number) => (s.length > n ? s.slice(0, n - 1).trimEnd() + '…' : s);
+  const body = o.kind === 'voice' ? (o.body ? `Голосове: ${o.body}` : 'Голосове повідомлення')
+    : o.kind === 'challenge' ? `Новий виклик: ${challengeLabel(String(o.meta?.kind || ''), Number(o.meta?.target) || 0)}`
+    : o.body;
+  const dm = o.room.kind === 'dm';
+  return { title: cut(dm ? o.sender : (o.room.title || 'Група'), 50), body: cut(dm ? body : `${o.sender}: ${body}`, 160) };
+}
+
+/** Нагадування про виклик — раз на добу: перший запуск cron після 16:00 UTC (вечір у Європі) */
+export function challengeDue(now: Date) {
+  return now.getUTCHours() === 16 && now.getUTCMinutes() < 15;
+}
+
+export function challengeNudge(o: { room_title: string; kind: string; target: number; value: number; days_left: number }): { title: string; body: string } {
+  const left = o.days_left;
+  const unit = o.kind === 'daily15' ? 'днів' : o.kind === 'words' ? 'слів' : 'розмов';
+  const tail = left > 0 ? `Лишилось ${left} ${plural(left, 'день', 'дні', 'днів')}.` : 'Сьогодні останній день!';
+  return {
+    title: `Виклик «${challengeLabel(o.kind, o.target)}»`.slice(0, 60),
+    body: `${o.room_title ? `${o.room_title}: ` : ''}у вас ${o.value} з ${o.target} ${unit}. ${tail} Наздоганяйте!`.slice(0, 170),
+  };
+}

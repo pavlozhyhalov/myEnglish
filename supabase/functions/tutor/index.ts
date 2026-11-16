@@ -12,6 +12,7 @@ import { precheck as levelWritingCheck, levelWritingPrompt, LEVEL_WRITING_SCHEMA
 import { precheck as analysisCheck, analysisPrompt, ANALYSIS_SCHEMA, cleanAnalysis, cleanDigest, section as coachSection, coachPrompt, coachMetaPrompt, COACH_META_SCHEMA, cleanCoachMeta } from './analysis.ts';
 import { latinizeName, latinizeStream, replyStream, splitReply, cleanFixes, formatFixes, cleanMeta, cleanSummary, lastStudentText, cueText, translateInput, type Meta } from './reply.ts';
 import { GUESS_SCHEMA, guessPrompt, judgeGuess, cleanGuess, recognitionContext, learnerTranscribePrompt, fluencyTranscribePrompt, FLUENCY_SCHEMA, clampRounds, fluencyPrompt, cleanFluency, calibrateLevel, clampTurnFixes, turnFixesPrompt, mergeTurnFixes, CLASSIFY_SCHEMA, classifyPrompt, cleanClassify, EVAL_SCHEMA, evalPrompt, evalInput, scoreEval, VOICE_CHECK_SCHEMA, voiceCheckPrompt, cleanVoiceCheck, clampSpeech, summaryExtra, cleanMastered, MISSION_SCHEMA, missionPrompt, cleanMissions } from './coach.ts';
+import { friendCheck, friendVoice } from './friends.ts';
 import { precheck as wordStoryCheck, wordStoryPrompt, WORD_STORY_SCHEMA, cleanWordStory, LEVELS as STORY_LEVELS, type StoryWord, type Level as StoryLevel } from './words.ts';
 
 type Msg = { role: 'user' | 'model'; text: string; cue?: boolean };
@@ -21,6 +22,8 @@ ACTIONS.add('mission');
 ACTIONS.add('classify');
 ACTIONS.add('fluency_feedback');
 ACTIONS.add('explain_guess');
+ACTIONS.add('friend_check');
+ACTIONS.add('friend_voice');
 const AUDIO_MIME = /^audio\/(webm|ogg|mp4|mpeg|wav|x-wav|aac|m4a)(;.*)?$/;
 /** Рядок з обмеженням довжини (захист від роздутих промптів і витрат) */
 const str = (v: unknown, max: number) => (v == null ? '' : String(v)).slice(0, max);
@@ -578,6 +581,12 @@ Deno.serve(handler(async (req) => {
     if (sec) await ctx.admin.rpc('bump_ai_usage', { p_user: ctx.user.id, p_text: 0, p_voice: sec, p_tts: 0 });
     const u = await usage(ctx);
     return json({ ...u, limits: LIMITS });
+  }
+
+  // переписка з друзями: власні межі й списання (friends.ts), без частки сильних моделей
+  if (action === 'friend_check' || action === 'friend_voice') {
+    const st = await loadStudent(ctx);
+    return json(action === 'friend_check' ? await friendCheck(ctx, p, st.level, st.disputes) : await friendVoice(ctx, p, st.level, st.disputes));
   }
 
   // перевірка вводу до списання ліміту

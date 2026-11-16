@@ -234,6 +234,10 @@ export default async function adminPage(view) {
     const people = udata?.users ? usersSection(udata.users, udata.limits || lim, udata.budget) : null;
     body.replaceChildren(...[
       ...(people || []),
+      udata?.chats ? txGroup('Переписка друзів · лише кількість', txKpis([
+        stat(udata.chats.today, 'повідомлень за добу'), stat(udata.chats.week, 'за 7 днів'), stat(udata.chats.senders_week, 'пишуть'),
+        stat(udata.chats.groups, 'груп'), stat(udata.chats.voice_week, 'голосових'), stat(udata.chats.fixes_week, 'виправлень'),
+      ])) : null,
       txGroup(`Оновлено ${dtShort(s.generated_at)}`, txGrid([
         tx({ icon: showEmails ? 'eye-slash' : 'eye', label: showEmails ? 'Сховати email' : 'Показати email', attrs: { 'aria-pressed': String(showEmails) }, onclick: () => { showEmails = !showEmails; render(); } }),
         tx({ icon: 'arrow-clockwise', label: 'Оновити', onclick: load })], 2)),

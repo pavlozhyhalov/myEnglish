@@ -12,7 +12,7 @@ import { cors } from '../_shared/http.ts';
 import { generateJson } from '../_shared/gemini.ts';
 import { FAST_MODELS } from '../_shared/config.ts';
 import { readMemory } from '../_shared/prompts.ts';
-import { nudgeInput, cleanNudge, monitorDue, NUDGE_SCHEMA, NUDGE_PROMPT } from './logic.ts';
+import { nudgeInput, cleanNudge, monitorDue, NUDGE_SCHEMA, NUDGE_PROMPT, chatNotifyDue, chatMessageText, challengeDue, challengeNudge } from './logic.ts';
 
 type SubRow = {
   id: string; user_id: string; endpoint: string; keys: PushKeys; tz: string;
@@ -109,6 +109,67 @@ async function monitor(db: SupabaseClient, secret: string, vapid: Vapid) {
   for (const s of subs || []) await sendPush({ endpoint: s.endpoint, keys: s.keys }, { title: 'myEnglish: збій AI', body: text.slice(0, 180), url: '#/admin', tag: 'myenglish-monitor' }, vapid).catch(() => {});
 }
 
+
+/** Надіслати push усім увімкненим підпискам людини (kinds.chat не вимкнено); недійсні — видалити. Повертає кількість доставлених */
+async function sendToUser(db: SupabaseClient, userId: string, msg: Message, vapid: Vapid) {
+  const { data: subs } = await db.from('push_subscriptions').select('id, endpoint, keys, kinds').eq('user_id', userId).eq('enabled', true).limit(10);
+  let sent = 0;
+  for (const s of subs || []) {
+    if ((s.kinds as Record<string, unknown>)?.chat === false) continue;
+    const r = await sendPush({ endpoint: s.endpoint, keys: s.keys }, msg, vapid).catch(() => ({ status: 0, text: '' }));
+    if (r.status === 404 || r.status === 410) await db.from('push_subscriptions').delete().eq('id', s.id);
+    else if (r.status >= 200 && r.status < 300) sent++;
+  }
+  return sent;
+}
+
+/** Ім'я для друзів (як private.friend_name): власне → з профілю → «Учень» */
+async function friendName(db: SupabaseClient, userId: string) {
+  const [{ data: fp }, { data: pr }] = await Promise.all([
+    db.from('friend_profiles').select('display_name').eq('user_id', userId).maybeSingle(),
+    db.from('profiles').select('data').eq('user_id', userId).maybeSingle(),
+  ]);
+  const n = String(fp?.display_name || '').trim() || String((pr?.data as any)?.about?.name || '').trim() || 'Учень';
+  return { data: n.slice(0, 40) };
+}
+
+/** Нове повідомлення в чаті друзів (тригер chat_messages_after → сюди): push учасникам, які зараз не читають чат */
+async function chatPush(db: SupabaseClient, id: string, vapid: Vapid) {
+  const { data: m } = await db.from('chat_messages').select('id, room_id, user_id, kind, body, meta, deleted_at').eq('id', id).maybeSingle();
+  if (!m || m.deleted_at || !['text', 'voice', 'challenge'].includes(m.kind)) return { sent: 0 };
+  const [{ data: room }, { data: members }, { data: sender }] = await Promise.all([
+    db.from('chat_rooms').select('kind, title').eq('id', m.room_id).maybeSingle(),
+    db.from('chat_members').select('user_id, last_read_at, notified_at, muted').eq('room_id', m.room_id).is('left_at', null),
+    friendName(db, m.user_id),
+  ]);
+  if (!room) return { sent: 0 };
+  const { data: blocks } = await db.from('chat_blocks').select('user_id').eq('blocked_id', m.user_id).is('removed_at', null);
+  const blockedBy = new Set((blocks || []).map(b => b.user_id));
+  const now = Date.now();
+  const text = chatMessageText({ kind: m.kind, body: m.body || '', sender, room, meta: m.meta || {} });
+  let sent = 0;
+  for (const r of members || []) {
+    if (r.user_id === m.user_id || blockedBy.has(r.user_id) || !chatNotifyDue(now, r)) continue;
+    const n = await sendToUser(db, r.user_id, { ...text, url: `#/friends/chat/${m.room_id}`, tag: `myenglish-chat-${m.room_id}` }, vapid);
+    if (n) { sent += n; await db.from('chat_members').update({ notified_at: new Date().toISOString() }).eq('room_id', m.room_id).eq('user_id', r.user_id); }
+  }
+  return { sent };
+}
+
+/** Раз на добу: тим, хто відстає у спільному виклику, — нагадування (одне на людину, найвідсталіший виклик) */
+async function challengePush(db: SupabaseClient, vapid: Vapid) {
+  const { data, error } = await db.rpc('chat_challenge_laggards');
+  if (error) { console.error('laggards', error.message); return; }
+  const byUser = new Map<string, any>();
+  for (const r of (data || []) as any[]) {
+    const gap = (r.expected - r.value) / Math.max(1, r.target);
+    if (!byUser.has(r.user_id) || gap > byUser.get(r.user_id).gap) byUser.set(r.user_id, { ...r, gap });
+  }
+  let sent = 0;
+  for (const r of byUser.values()) sent += await sendToUser(db, r.user_id, { ...challengeNudge(r), url: `#/friends/chat/${r.room_id}`, tag: `myenglish-challenge-${r.room_id}` }, vapid);
+  console.info('challenge push', byUser.size, sent);
+}
+
 async function userStats(db: SupabaseClient, userId: string, day: string) {
   const [cards, sess] = await Promise.all([
     db.from('cards').select('id', { count: 'exact', head: true })
@@ -143,6 +204,12 @@ Deno.serve(async (req) => {
 
   let vapid: Vapid;
   try { vapid = await loadVapid(db); } catch (e) { console.error('vapid', (e as Error).message); return json({ error: 'vapid_not_configured' }, 500); }
+  // нове повідомлення в чаті друзів (тригер бази)
+  if ((body as { action?: string; id?: string })?.action === 'chat') {
+    const id = String((body as { id?: string }).id || '');
+    if (!/^[0-9a-f-]{36}$/.test(id)) return json({ error: 'bad_request' }, 400);
+    try { return json(await chatPush(db, id, vapid)); } catch (e) { console.error('chat push', (e as Error).message?.slice(0, 160)); return json({ error: 'failed' }, 500); }
+  }
   const { data: subs, error } = await db.from('push_subscriptions')
     .select('id, user_id, endpoint, keys, tz, remind_at, kinds, last_sent_day').eq('enabled', true).limit(5000);
   if (error) { console.error('subs', error.message); return json({ error: 'db' }, 500); }
@@ -151,6 +218,11 @@ Deno.serve(async (req) => {
   // раз на добу (перший запуск після 06:00 UTC) — автомонітор AI у фоні, щоб не затримувати нагадування
   if (monitorDue(now)) {
     const job = monitor(db, secret, vapid).catch(e => console.error('monitor', (e as Error).message));
+    // deno-lint-ignore no-explicit-any
+    const rt = (globalThis as any).EdgeRuntime; if (rt?.waitUntil) rt.waitUntil(job);
+  }
+  if (challengeDue(now)) {
+    const job = challengePush(db, vapid).catch(e => console.error('challenge push', (e as Error).message));
     // deno-lint-ignore no-explicit-any
     const rt = (globalThis as any).EdgeRuntime; if (rt?.waitUntil) rt.waitUntil(job);
   }

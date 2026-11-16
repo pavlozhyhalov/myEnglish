@@ -80,3 +80,25 @@ Deno.test('nudge: input only with personal data, clean falls back on bad output'
   ok(good.url.startsWith('#/tutor?mode=voice&topic='));
   ok(monitorDue(new Date('2026-11-02T09:05:00Z')) && !monitorDue(new Date('2026-11-02T09:20:00Z')) && !monitorDue(new Date('2026-11-02T06:05:00Z')));
 });
+
+import { assertEquals } from "jsr:@std/assert@1";
+import { chatNotifyDue, chatMessageText, challengeNudge, challengeLabel } from './logic.ts';
+Deno.test('chatNotifyDue: active reader, muted, unread push', () => {
+  const now = Date.parse('2026-11-16T12:00:00Z');
+  const iso = (ms: number) => new Date(now - ms).toISOString();
+  assertEquals(chatNotifyDue(now, { last_read_at: iso(5000), notified_at: null, muted: false }), false);
+  assertEquals(chatNotifyDue(now, { last_read_at: iso(60_000), notified_at: null, muted: false }), true);
+  assertEquals(chatNotifyDue(now, { last_read_at: iso(60_000), notified_at: null, muted: true }), false);
+  assertEquals(chatNotifyDue(now, { last_read_at: iso(600_000), notified_at: iso(60_000), muted: false }), false);
+  assertEquals(chatNotifyDue(now, { last_read_at: iso(60_000), notified_at: iso(120_000), muted: false }), true);
+  assertEquals(chatNotifyDue(now, { last_read_at: iso(3_600_000), notified_at: iso(700_000), muted: false }), true);
+});
+Deno.test('chatMessageText and challenge texts', () => {
+  assertEquals(chatMessageText({ kind: 'text', body: 'Hi there', sender: 'Олівер', room: { kind: 'dm', title: null } }), { title: 'Олівер', body: 'Hi there' });
+  assertEquals(chatMessageText({ kind: 'voice', body: '', sender: 'Емма', room: { kind: 'group', title: 'Сім\'я' } }).body, 'Емма: Голосове повідомлення');
+  assertEquals(challengeLabel('words', 200), '200 слів за тиждень');
+  assertEquals(challengeLabel('talks', 5), '5 розмов з вчителем');
+  const n = challengeNudge({ room_title: 'Група', kind: 'daily15', target: 7, value: 2, days_left: 3 });
+  assertEquals(n.title, 'Виклик «15 хв щодня»');
+  assertEquals(n.body, 'Група: у вас 2 з 7 днів. Лишилось 3 дні. Наздоганяйте!');
+});
