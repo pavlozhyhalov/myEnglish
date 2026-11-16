@@ -30,8 +30,8 @@ html.kbd .tx:focus-visible{outline:2px solid var(--accent-ink);outline-offset:2p
 .tx[disabled]:active{transform:none}
 .tx-sq{flex:none;display:grid;place-items:center;width:36px;height:36px;border-radius:11px;background:var(--tile-sq);color:var(--ink-dim)}
 .tx-body{display:flex;flex-direction:column;gap:2px;min-width:0;max-width:100%}
-.tx-l{font-weight:600;font-size:var(--fs-sm);line-height:1.25;overflow-wrap:anywhere}
-.tx-s{font-size:var(--fs-xs);color:var(--ink-dim);line-height:1.3;overflow-wrap:anywhere}
+.tx-l{font-weight:600;font-size:var(--fs-sm);line-height:1.25;overflow-wrap:normal}
+.tx-s{font-size:var(--fs-xs);color:var(--ink-dim);line-height:1.3;overflow-wrap:normal}
 .tx-end{margin-left:auto;flex:none;display:flex;align-items:center;gap:6px;color:var(--ink-dim)}
 /* горизонтальна (широка) плитка */
 .tx.wide{flex-direction:row;align-items:center;gap:12px}
@@ -144,7 +144,7 @@ details.card > summary{font-weight:600}
 .gx-res{display:flex;align-items:center;gap:12px;padding:0 4px}
 .gx-res .tx-label{padding:0}
 .gx-res-b{display:flex;flex-direction:column;gap:2px;min-width:0}
-.gx-res-t{font-weight:600;font-size:var(--fs-md);line-height:1.3;overflow-wrap:anywhere}
+.gx-res-t{font-weight:600;font-size:var(--fs-md);line-height:1.3;overflow-wrap:normal}
 .gx-res-ic{flex:none;width:48px;height:48px;border-radius:14px;display:grid;place-items:center;background:var(--tile-sq);color:var(--ink-dim)}
 .gx-res-ic.good{background:var(--good-soft);color:var(--good)}
 .gx-res-ic.warn{background:var(--warn-soft);color:var(--warn)}
@@ -323,3 +323,7 @@ h1,h2,h3,.tx-l,.gx-res-t,.td-title,.app-header .title,.set-l,.drawer .tn-label{l
 @media (max-width:360px){.app-header{--hdr-side:80px}.app-header .title.long{font-size:13px}.app-header .btn-theme{width:36px;min-width:36px}.streak-chip{padding:6px 6px 6px 4px}.app-header .title{font-size:14px}}
 /* Рівень Pre-A1 (A0) у квадратиках рівня — дрібніше, у два рядки «Pre- / A1» (2026-11-15) */
 .lv-pre,.tx-row.lv-pre .tx-no{font-size:9.5px!important;line-height:1.05;text-align:center;letter-spacing:0;padding:0 2px}
+
+/* слова не рвуться посередині: шрифт підганяє js/ui/fit.js; перенос — лише якщо й найменший не вміщає */
+.tx-body{min-width:0}
+.fit-break{overflow-wrap:anywhere!important;hyphens:auto}

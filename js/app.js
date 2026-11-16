@@ -16,6 +16,7 @@ import { keepAwake } from './ui/wakelock.js';
 import { initSelectLookup } from './ui/selectlookup.js';
 import { initDailyBar } from './ui/dailybar.js';
 import { initSubnav, updateSubnav } from './ui/subnav.js';
+import { initFit } from './ui/fit.js';
 import { deckIndex, grammarIndex, scenarios, listening, json } from './data.js';
 import * as srs from './srs.js';
 import { welcomeRedirect } from './start.js';
@@ -164,6 +165,7 @@ async function boot() {
   initSelectLookup();   // виділення англійських слів → «Що це?»
   initDailyBar();       // плашка «Далі за планом» (Мій день)
   initSubnav();         // вкладки розділів, об'єднаних в один пункт меню
+  initFit();            // слова в плитках не рвуться посередині (js/ui/fit.js)
   applyTheme();
 
   for (const [name, loader] of Object.entries(pages)) route(name, loader);
