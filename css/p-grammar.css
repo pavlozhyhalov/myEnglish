@@ -260,7 +260,7 @@ html.kbd .pr-big:focus-visible{outline:2px solid var(--accent-ink);outline-offse
 .opt.ex-opt.sel .ex-key{background:var(--accent-grad)}
 .ex-prompt{letter-spacing:-.01em}
 .ex-prompt.uk{font-size:var(--fs-md);font-weight:500;color:var(--ink-dim)}
-.ex-instr{font-size:var(--fs-xs);color:var(--ink-dim);padding:0 4px}
+.ex-instr{font-size:var(--fs-sm,15px);font-weight:600;color:var(--ink);padding:0 4px}
 
 /* відгук — м'яка плитка з тоном */
 .feedback.ex-fb{border-radius:var(--r-row);padding:13px 14px;gap:11px;line-height:1.45}

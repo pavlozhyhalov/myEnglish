@@ -320,7 +320,7 @@ export function render(ex, report, next) {
     // «Далі» має бути видно (не під нижньою панеллю): відступ задає scroll-padding-bottom
     requestAnimationFrame(() => nextBtn.scrollIntoView({ block: 'nearest', behavior: 'smooth' }));
   };
-  const instr = (t) => h('div.xs.dim.ex-instr', t);
+  const instr = (t) => h('div.ex-instr', t);
   const speakIt = (t) => h('button.icon-btn.soft', { type: 'button', 'aria-label': 'Прослухати', onclick: () => speak(t) }, ic('speaker-high', { size: 20 }));
 
   if (ex.type === 'choice') {
@@ -360,7 +360,7 @@ export function render(ex, report, next) {
   }
 
   if (ex.type === 'input' || ex.type === 'transform') {
-    const inp = h('input.input', { type: 'text', autocomplete: 'off', autocapitalize: 'off', spellcheck: 'false', 'aria-label': 'Відповідь', placeholder: 'Ваша відповідь' });
+    const inp = h('input.input', { type: 'text', autocomplete: 'off', autocapitalize: 'off', spellcheck: 'false', 'aria-label': 'Відповідь', placeholder: ex.type === 'transform' ? 'Напишіть усе речення' : 'Ваша відповідь' });
     const check = () => {
       if (reported || !inp.value.trim()) return;
       // у пропуск можна вписати й сусідні слова чи все речення
@@ -372,8 +372,17 @@ export function render(ex, report, next) {
     };
     inp.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); reported ? next() : check(); } });
     const checkBtn = h('button.btn.primary.block', { type: 'button', onclick: check }, 'Перевірити');
-    return h('div.stack', instr(ex.instruction || (ex.type === 'transform' ? 'Перетворіть речення' : 'Впишіть правильну форму')),
-      h('div.ex-prompt', ex.prompt),
+    // перетворення: завдання з дужок у кінці («He plays. (зробіть заперечення)») — окремим рядком над реченням;
+    // без завдання (2026-11-16: «не зрозуміло, що перетворювати») — це виправлення помилки
+    let prompt = ex.prompt, task = ex.instruction;
+    if (ex.type === 'transform') {
+      const m = String(prompt || '').match(/^(.*\S)\s*\(([^()]*[А-Яа-яІіЇїЄєҐґ][^()]*)\)\s*$/s);
+      if (m && !task) { prompt = m[1]; task = m[2]; }
+      if (!task || /^перетвор/i.test(task)) task = 'Знайдіть помилку й напишіть усе речення правильно';
+      task = task.charAt(0).toUpperCase() + task.slice(1);
+    }
+    return h('div.stack', instr(task || 'Впишіть правильну форму'),
+      h('div.ex-prompt', prompt),
       ex.hint ? h('div.small.dim', `Підказка: ${ex.hint}`) : null, inp, checkBtn, fb, nextBtn);
   }
 
