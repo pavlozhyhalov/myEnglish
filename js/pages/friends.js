@@ -98,6 +98,7 @@ function friendsPage(view, r) {
   // ---------- Запити в друзі й пошук людей (міграція 0030) ----------
   // Вхідні запити — «Прийняти / Відхилити»; пошук за іменем (лише ті, хто дозволив пошук, або знайомі: спільна група, спільні друзі).
   const reqBox = h('div', { hidden: true });
+  const outBox = h('div', { hidden: true });
   const peopleList = h('div.tx-rows.fr-people');
   const searchInp = h('input.input.fr-search', { type: 'search', placeholder: 'Ім\'я людини', 'aria-label': 'Знайти людей за іменем', autocomplete: 'off', enterkeyhint: 'search' });
   let searchT = 0, searchSeq = 0;
@@ -163,6 +164,19 @@ function friendsPage(view, r) {
       discoverable = r?.discoverable !== false;
       const inp = discToggle.querySelector('input'); if (inp) inp.checked = discoverable;
       const inc = r?.incoming || [];
+      const out = r?.outgoing || [];
+      // надіслані — одним згорнутим рядком (людей без імені пошук не показує, а тут видно всіх, кому я надіслав)
+      outBox.hidden = !out.length;
+      outBox.replaceChildren(out.length ? txRow({ icon: 'paper-plane-right', label: `Надіслані запити · ${out.length}`, sub: 'Чекають, поки людина прийме', onclick: () => {
+        let s = null;
+        s = sheet('Надіслані запити', h('div.stack', txRows(out.map(p => {
+          const nm = p.name === 'Учень' ? 'Учень (без імені)' : p.name;
+          return h('div.tx-row.friend-row', ava(p.name), h('span.tx-body', h('span.tx-l', nm), h('span.tx-s', `Надіслано ${new Date(p.at).toLocaleDateString('uk-UA', { day: 'numeric', month: 'long' })}`)),
+            h('button.btn.sm.ghost', { type: 'button', onclick: async () => {
+              try { await rpc('friend_request_cancel', { p_to: p.user_id }); toast('Запит скасовано'); s.close(); refreshAll(); } catch { toast('Не вдалося', { kind: 'bad' }); }
+            } }, 'Скасувати'));
+        }))));
+      } }) : '');
       reqBox.hidden = !inc.length;
       reqBox.replaceChildren(inc.length ? txGroup(`Запити в друзі · ${inc.length}`, txRows(inc.map(p => {
         const row = h('div.tx-row.friend-row.on', ava(p.name),
@@ -322,7 +336,7 @@ function friendsPage(view, r) {
     // головне — запросити посиланням: друг відкриє його й додасться одним дотиком (навіть якщо ще не зареєстрований)
     txPrimary({ icon: 'share-network', label: 'Запросити друзів', sub: 'Посилання в Telegram, Viber чи SMS — друг додасться одним дотиком', onclick: share }),
     reqBox,
-    txGroup('Знайти людей', [searchInp, peopleList]),
+    txGroup('Знайти людей', [searchInp, peopleList, outBox]),
     txGroup('Друзі', list),
     // код — для тих, хто поруч (продиктувати) — згорнуто
     h('div.stack', codeRow, codeBox2, nameRow, nameBox, blockedBox)));
