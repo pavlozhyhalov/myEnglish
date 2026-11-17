@@ -55,6 +55,8 @@ function header() {
       c.shareNews('streak', n);
     }).catch(() => {});
   }
+  // звідки людина прийшла на «Написати розробнику» — сторінка йде разом зі зверненням (js/pages/feedback.js)
+  addEventListener('hashchange', (e) => { try { const from = new URL(e.oldURL).hash; if (from && !from.startsWith('#/feedback')) sessionStorage.setItem('me:last-route', from.slice(0, 200)); } catch { /* */ } });
   // «у мережі» для друзів: серцебиття, поки застосунок на екрані (не частіше раз на хвилину)
   const beat = () => { if (authUser() && !document.hidden) import('./chat.js').then(c => c.heartbeat()).catch(() => {}); };
   setTimeout(beat, 5000); setInterval(beat, 60_000);
@@ -126,6 +128,7 @@ const PAGE_FILES = {
   games: 'games',
   fluency: 'fluency',
   'listen-go': 'listengo',
+  feedback: 'feedback',
   abc: 'abc',
   welcome: 'welcome',
 };

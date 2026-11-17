@@ -21,7 +21,7 @@ export const S = {
     sounds: 'Звуки', exgrammar: 'Граматика', exercises: 'Вправи',
     tests: 'Тести', mistakes: 'Помилки', progress: 'Прогрес', analysis: 'Аналіз', report: 'Звіт', settings: 'Налаштування', profile: 'Профіль', friends: 'Друзі', chats: 'Чати',
     session: 'Заняття', auth: 'Вхід', lab: 'Лабораторія Live', diary: 'Щоденник', games: 'Ігри',
-    today: 'Мій день', phrases: 'Фразник', fluency: 'Плавність', listengo: 'У дорозі',
+    today: 'Мій день', phrases: 'Фразник', fluency: 'Плавність', listengo: 'У дорозі', feedback: 'Написати розробнику',
   },
   navLong: { tutor: 'Вчитель', vocab: 'Слова й фрази', sounds: 'Звуки й вимова', mistakes: 'Мої помилки', scenarios: 'Сценарії', exgrammar: 'Граматика', tests: 'Тести', analysis: 'Аналіз навчання', report: 'Звіт за місяць', today: 'Мій день за 15 хвилин', phrases: 'Фразник', fluency: 'Тренажер плавності', listengo: 'Слухати в дорозі' },
   groups: { learn: 'Вивчати', practice: 'Практикувати', check: 'Контроль і прогрес', me: 'Я' },

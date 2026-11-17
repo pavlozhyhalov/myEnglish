@@ -104,6 +104,7 @@ export function renderProfile() {
     h('div.pc-row',
       Object.assign(mini('#/friends', 'users', 'Друзі'), { id: 'pc-friends' }),
       mini('#/settings', 'gear-six', 'Налаштування'),
+      u ? mini('#/feedback', 'envelope-simple', 'Написати розробнику') : null,
       u ? h('button.pc-btn', { type: 'button', onclick: async () => { await signOut(); close(); } }, ic('sign-out', { size: 20 }), h('span', S.logout))
         : h('a.pc-btn.accent', { href: '#/auth', onclick: close }, ic('key', { size: 20 }), h('span', S.login)))));
 }

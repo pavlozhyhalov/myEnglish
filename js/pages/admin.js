@@ -193,7 +193,8 @@ export default async function adminPage(view) {
       const [st, us] = await Promise.all([
         ai('admin', 'stats', { days: 14 }),
         ai('admin', 'users').catch(() => null),   // стара версія функції без дії `users` — показуємо решту
-      ]);
+        ai('admin', 'feedback').catch(() => null),
+      ]).then(([a, b, c]) => { fdata = c; return [a, b]; });
       data = st; udata = us;
       remember(true);
       head.hidden = false; setTitle('Адміністрування');
@@ -223,6 +224,44 @@ export default async function adminPage(view) {
   };
   const wrap = { overflowWrap: 'anywhere', minWidth: 0 };
 
+  // ---------- Звернення користувачів (#/feedback, міграція 0036) ----------
+  let fdata = null, fbAll = false;
+  const KIND = { bug: 'Помилка', idea: 'Ідея', other: 'Інше' };
+  const fbSet = async (f, patch) => {
+    try { await ai('admin', 'feedback_update', { id: f.id, ...patch }); Object.assign(f, patch, patch.reply ? { status: 'done', replied_at: new Date().toISOString() } : {}); render(); }
+    catch (e) { alert(aiErrorText(e) || 'Не вдалося'); }
+  };
+  function replySheet(f) {
+    import('../ui/sheet.js').then(({ sheet }) => {
+      const inp = h('textarea.input', { rows: 5, maxlength: 2000, placeholder: 'Відповідь — прийде людині push-ем і в дзвіночок', 'aria-label': 'Відповідь' });
+      inp.value = f.reply || '';
+      let s = null;
+      s = sheet(`Відповісти: ${f.name}`, h('div.stack', h('p.small', { style: wrap }, f.body), inp,
+        h('button.btn.primary', { type: 'button', onclick: async () => { const t = inp.value.trim(); if (!t) return inp.focus(); s.close(); await fbSet(f, { reply: t }); } }, 'Надіслати відповідь')));
+      setTimeout(() => inp.focus(), 300);
+    });
+  }
+  function feedbackSection(list) {
+    const fresh = list.filter(f => f.status === 'new');
+    // відкрили сторінку — нові стали «переглянуто» (цифра в дзвіночку зникає)
+    for (const f of fresh) ai('admin', 'feedback_update', { id: f.id, status: 'seen' }).then(() => { f.status = 'seen'; }).catch(() => {});
+    const shown = fbAll ? list : list.slice(0, 6);
+    const row = (f) => h('div.tx-row.adm-fb' + (fresh.includes(f) ? '.on' : ''),
+      h('span.tx-body', { style: wrap },
+        h('span.tx-l', `${f.name} · ${KIND[f.kind] || ''}`),
+        h('span.tx-s', `${dtShort(f.created_at)}${f.route ? ` · ${f.route}` : ''} · ${f.build || ''}`),
+        h('span.small', { style: { whiteSpace: 'pre-wrap', ...wrap } }, f.body),
+        f.image ? h('a', { href: f.image, target: '_blank', rel: 'noopener' }, h('img.adm-fb-img', { src: f.image, alt: 'Скріншот', loading: 'lazy' })) : null,
+        f.reply ? h('span.tx-s', { style: wrap }, `Ваша відповідь: ${f.reply}`) : null,
+        h('span.row', { style: { gap: '6px', flexWrap: 'wrap' } },
+          h('button.btn.sm.primary', { type: 'button', onclick: () => replySheet(f) }, f.reply ? 'Змінити відповідь' : 'Відповісти'),
+          f.status !== 'done' ? h('button.btn.sm.soft', { type: 'button', onclick: () => fbSet(f, { status: 'done' }) }, 'Зроблено') : null)),
+      txPill(f.status === 'done' ? 'Зроблено' : f.status === 'seen' ? 'Переглянуто' : 'Нове', f.status === 'done' ? 'good' : f.status === 'new' ? 'accent' : ''));
+    return txGroup(`Звернення${fresh.length ? ` · ${fresh.length} нових` : ` · ${list.length}`}`, list.length
+      ? h('div.tx-rows', ...shown.map(row), shown.length < list.length ? txRow({ icon: 'caret-down', label: `Показати всі · ${list.length}`, chevron: false, cls: 'tx-showall', onclick: () => { fbAll = true; render(); } }) : '')
+      : txRows([txRow({ icon: 'envelope-simple', label: 'Звернень поки немає', sub: 'Користувачі пишуть з меню «Я» → конверт', chevron: false })]));
+  }
+
   function render() {
     const s = data.stats || {}, u = s.users || {}, t = s.ai_totals || {}, lim = data.limits || {};
     const today = s.today;
@@ -233,6 +272,7 @@ export default async function adminPage(view) {
 
     const people = udata?.users ? usersSection(udata.users, udata.limits || lim, udata.budget) : null;
     body.replaceChildren(...[
+      fdata?.feedback ? feedbackSection(fdata.feedback) : null,
       ...(people || []),
       udata?.chats ? txGroup('Переписка друзів · лише кількість', txKpis([
         stat(udata.chats.today, 'повідомлень за добу'), stat(udata.chats.week, 'за 7 днів'), stat(udata.chats.senders_week, 'пишуть'),

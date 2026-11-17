@@ -114,3 +114,18 @@ html.kbd .pg-fold>summary:focus-visible{outline:2px solid var(--accent-ink);outl
 .pg-fold-b .tx-card .tx,.pg-fold-b .tx-card .tx-row{background:var(--tile)}
 .pg-folds{display:flex;flex-direction:column;gap:8px}
 .tx.pg-gram .tx-bar{margin-top:6px}
+/* «Написати розробнику» (#/feedback) і звернення на #/admin (2026-11-17) */
+.fb-form{background:var(--tile);border:1px solid var(--tile-edge);box-shadow:var(--tile-shadow);border-radius:var(--r-tile,18px);padding:14px}
+.fb-text{min-height:130px;resize:vertical;font:inherit;line-height:1.45}
+.fb-shot-btn{align-self:flex-start}
+.fb-shot-on{position:relative;align-self:flex-start}
+.fb-shot-on img{display:block;max-width:160px;max-height:220px;border-radius:12px;border:1px solid var(--tile-edge)}
+.fb-shot-on .icon-btn{position:absolute;top:-10px;right:-10px;background:var(--tile);box-shadow:var(--tile-shadow);border-radius:50%}
+.fb-send{align-self:stretch}
+.fb-row{align-items:flex-start}
+.fb-row .tx-body{display:flex;flex-direction:column;gap:3px;min-width:0}
+.fb-body{white-space:pre-wrap;overflow-wrap:anywhere;font-size:var(--fs-sm,14px);color:var(--ink)}
+.fb-reply{white-space:pre-wrap;overflow-wrap:anywhere;font-size:var(--fs-sm,14px);color:var(--accent-ink);background:color-mix(in srgb,var(--accent-ink) 7%,transparent);border-radius:10px;padding:6px 8px;margin-top:2px}
+.adm-fb{align-items:flex-start}
+.adm-fb .tx-body{display:flex;flex-direction:column;gap:5px}
+.adm-fb-img{display:block;max-width:180px;max-height:240px;border-radius:10px;border:1px solid var(--tile-edge)}

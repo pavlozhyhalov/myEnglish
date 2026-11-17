@@ -17,6 +17,35 @@ Deno.serve(handler(async (req) => {
     // Спільний денний запас сильних моделей: частка на людину × 10 людей (розрахунок 2026-11-13) ≈ 80
     return json({ admin: true, limits: LIMITS, budget: { strongCalls: LIMITS.strongCalls * 10 }, users: data, chats: chats.data || null }, 200, { 'Cache-Control': 'no-store' });
   }
+  // «Написати розробнику» (міграція 0036): звернення зі скріншотом (підписане посилання на 1 год), відповідь і стан
+  if (p.action === 'feedback') {
+    const { data: rows, error } = await ctx.admin.from('feedback').select('id, user_id, kind, body, route, build, ua, image_path, status, reply, replied_at, created_at')
+      .order('created_at', { ascending: false }).limit(60);
+    if (error) throw new HttpError(503, 'server', 'Feedback unavailable');
+    const ids = [...new Set((rows || []).map(r => r.user_id))];
+    const [{ data: fps }, { data: profs }] = await Promise.all([
+      ids.length ? ctx.admin.from('friend_profiles').select('user_id, display_name').in('user_id', ids) : { data: [] },
+      ids.length ? ctx.admin.from('profiles').select('user_id, data').in('user_id', ids) : { data: [] }]);
+    const name = (id: string) => String((fps || []).find(f => f.user_id === id)?.display_name || ((profs || []).find(x => x.user_id === id)?.data as any)?.about?.name || 'Учень').slice(0, 40);
+    const out = [];
+    for (const r of rows || []) {
+      let image = null;
+      if (r.image_path) { const { data: u } = await ctx.admin.storage.from('feedback').createSignedUrl(r.image_path, 3600); image = u?.signedUrl || null; }
+      out.push({ ...r, image_path: undefined, image, name: name(r.user_id) });
+    }
+    return json({ admin: true, feedback: out }, 200, { 'Cache-Control': 'no-store' });
+  }
+  if (p.action === 'feedback_update') {
+    const q = p as { id?: string; status?: string; reply?: string };
+    if (!/^[0-9a-f-]{36}$/.test(String(q.id))) throw new HttpError(400, 'bad_request');
+    const patch: Record<string, unknown> = {};
+    if (['new', 'seen', 'done'].includes(String(q.status))) patch.status = q.status;
+    if (typeof q.reply === 'string' && q.reply.trim()) { patch.reply = q.reply.trim().slice(0, 2000); patch.replied_at = new Date().toISOString(); patch.status = q.status && patch.status ? patch.status : 'done'; }
+    if (!Object.keys(patch).length) throw new HttpError(400, 'bad_request');
+    const { error } = await ctx.admin.from('feedback').update(patch).eq('id', String(q.id));
+    if (error) throw new HttpError(503, 'server', 'Update failed');
+    return json({ ok: true });
+  }
   if (p.action && p.action !== 'stats') throw new HttpError(400, 'bad_action');
   const days = Math.max(1, Math.min(60, Number(p.days) || 14));
   const { data, error } = await ctx.admin.rpc('admin_stats', { p_days: days });

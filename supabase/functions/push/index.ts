@@ -312,6 +312,26 @@ Deno.serve(async (req) => {
       return json({ sent: 0 });
     } catch (e) { console.error('friend push', (e as Error).message?.slice(0, 120)); return json({ error: 'failed' }, 500); }
   }
+  // «Написати розробнику» (міграція 0036): нове звернення — адміністраторам (app_admins), відповідь — автору
+  if (['feedback', 'feedback_reply'].includes(String((body as { action?: string })?.action))) {
+    const b = body as { action: string; id?: string };
+    if (!/^[0-9a-f-]{36}$/.test(String(b.id))) return json({ error: 'bad_request' }, 400);
+    try {
+      const { data: f } = await db.from('feedback').select('id, user_id, kind, body, reply').eq('id', String(b.id)).maybeSingle();
+      if (!f) return json({ sent: 0 });
+      if (b.action === 'feedback_reply') {
+        return json({ sent: await sendToUser(db, f.user_id, { title: 'Відповідь розробника', body: String(f.reply || '').slice(0, 160), url: '#/feedback', tag: `myenglish-fb-${f.id}` }, vapid, { urgency: 'high', ttl: 7 * 86400 }) });
+      }
+      const [{ data: name }, { data: admins }] = await Promise.all([friendName(db, f.user_id), db.from('app_admins').select('user_id')]);
+      const label = f.kind === 'idea' ? 'Ідея' : f.kind === 'bug' ? 'Помилка' : 'Звернення';
+      let sent = 0;
+      for (const a of admins || []) {
+        if (a.user_id === f.user_id) continue;
+        sent += await sendToUser(db, a.user_id, { title: `${label} від ${name}`, body: String(f.body).slice(0, 160), url: '#/admin', tag: `myenglish-fb-${f.id}` }, vapid, { urgency: 'high', ttl: 7 * 86400 });
+      }
+      return json({ sent });
+    } catch (e) { console.error('feedback push', (e as Error).message?.slice(0, 120)); return json({ error: 'failed' }, 500); }
+  }
   // запрошення в групу (тригер chat_group_invites_notify, міграція 0035)
   if ((body as { action?: string })?.action === 'group_invite') {
     const b = body as { room?: string; from?: string; to?: string };

@@ -189,3 +189,10 @@ body.focus-mode .ch-dock{bottom:calc(var(--safe-b) + 8px)}
 .fr-ginv .tx-body{flex:1 1 calc(100% - 64px)}
 .fr-ginv .tx-s{white-space:normal}
 .fr-ginv .fr-req-acts{width:100%;justify-content:flex-end}
+/* Як у месенджерах (власник 2026-11-17: «коли виділяю повідомлення, виділяється весь текст»): у чаті нічого не виділяється й не з'являється системне меню;
+   довге натискання — дії з повідомленням (копіювати там), бульбашка ледь стискається, поки тримаєте */
+.ch-room,.ch-room *{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+.ch-room textarea,.ch-room input{-webkit-user-select:text;user-select:text;-webkit-touch-callout:default}
+.ch-msg,.ch-news{transition:transform 160ms ease,filter 160ms ease}
+.ch-msg.ch-press,.ch-news.ch-press{transform:scale(.97);filter:brightness(.96)}
+@media (prefers-reduced-motion: reduce){.ch-msg.ch-press,.ch-news.ch-press{transform:none}}

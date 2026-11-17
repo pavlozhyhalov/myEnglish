@@ -412,10 +412,16 @@ export function chatRoom(view, roomId) {
   function wire(el, m) {
     const open = () => actions(m);
     let t = 0, x0 = 0, y0 = 0, long = false;
-    const cancel = () => { clearTimeout(t); t = 0; };
-    el.addEventListener('pointerdown', (e) => { x0 = e.clientX; y0 = e.clientY; long = false; cancel(); t = setTimeout(() => { t = 0; long = true; navigator.vibrate?.(8); open(); }, 480); });
+    const cancel = () => { clearTimeout(t); t = 0; el.classList.remove('ch-press'); };
+    el.addEventListener('pointerdown', (e) => {
+      x0 = e.clientX; y0 = e.clientY; long = false; cancel();
+      if (e.button > 0) return;   // правий клік — через contextmenu
+      el.classList.add('ch-press');
+      t = setTimeout(() => { t = 0; long = true; el.classList.remove('ch-press'); navigator.vibrate?.(8); open(); }, 450);
+    });
     el.addEventListener('pointermove', (e) => { if (Math.abs(e.clientX - x0) + Math.abs(e.clientY - y0) > 10) cancel(); });
     el.addEventListener('pointerup', cancel);
+    el.addEventListener('pointerleave', cancel);
     el.addEventListener('pointercancel', cancel);
     el.addEventListener('click', (e) => { if (long) { long = false; e.stopPropagation(); e.preventDefault(); } }, true);
     el.addEventListener('click', (e) => { if (!e.target.closest('button, mark, span.w, .ch-quote, a')) open(); });
@@ -1078,6 +1084,9 @@ export function chatRoom(view, roomId) {
   }
 
   // ---------- старт, Realtime, прочитано ----------
+  // у чаті текст не виділяється (iOS/Android інакше виділяють усю сторінку довгим натисканням); копіювати — у діях повідомлення
+  const noSelect = (e) => { if (!e.target.closest?.('textarea, input')) e.preventDefault(); };
+  view.addEventListener('selectstart', noSelect);
   list.replaceChildren(h('div.ch-empty', h('div.tx-s', 'Завантаження…')));
   let rtOk = false;
   reload().then(() => { readNow(); loadChallenges(); loadPinned(); }).catch((e) => {
