@@ -184,7 +184,9 @@ async function topicOfDay(db: SupabaseClient, vapid: Vapid) {
     posted++;
     // щопонеділка — ще й нове домашнє (у кожного своє)
     let hw = false;
-    if (new Date().getUTCDay() === 1) {
+    // щопонеділка; нова група без жодного домашнього — одразу на найближчому ранковому запуску
+    const { count: hwCount } = await db.from('chat_homework').select('id', { count: 'exact', head: true }).eq('room_id', room.id);
+    if (new Date().getUTCDay() === 1 || !hwCount) {
       try { hw = !!(await createHomework(db, room.id, null, 6))?.created; } catch (e) { console.error('homework', (e as Error).message?.slice(0, 120)); }
     }
     for (const m of members) {
