@@ -271,6 +271,23 @@ Deno.serve(async (req) => {
 
   let vapid: Vapid;
   try { vapid = await loadVapid(db); } catch (e) { console.error('vapid', (e as Error).message); return json({ error: 'vapid_not_configured' }, 500); }
+  // запит у друзі (тригер friend_requests_notify, міграція 0030): новий — тому, кому надіслали; прийнято — тому, хто надсилав
+  if ((body as { action?: string })?.action === 'friend') {
+    const b = body as { from?: string; to?: string; status?: string };
+    const uuid = /^[0-9a-f-]{36}$/;
+    if (!uuid.test(String(b.from)) || !uuid.test(String(b.to))) return json({ error: 'bad_request' }, 400);
+    try {
+      if (b.status === 'pending') {
+        const { data: name } = await friendName(db, String(b.from));
+        return json({ sent: await sendToUser(db, String(b.to), { title: 'Запит у друзі', body: `${name} хоче додати вас у друзі`, url: '#/friends', tag: `myenglish-req-${b.from}` }, vapid) });
+      }
+      if (b.status === 'accepted') {
+        const { data: name } = await friendName(db, String(b.to));
+        return json({ sent: await sendToUser(db, String(b.from), { title: 'Запит прийнято', body: `${name} тепер у ваших друзях — напишіть англійською!`, url: '#/friends', tag: `myenglish-req-${b.to}` }, vapid) });
+      }
+      return json({ sent: 0 });
+    } catch (e) { console.error('friend push', (e as Error).message?.slice(0, 120)); return json({ error: 'failed' }, 500); }
+  }
   // нове повідомлення в чаті друзів (тригер бази)
   if ((body as { action?: string; id?: string })?.action === 'chat') {
     const id = String((body as { id?: string }).id || '');

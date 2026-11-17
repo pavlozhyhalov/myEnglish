@@ -1,6 +1,6 @@
 // Друзі: код запрошення, додавання за кодом, стрік і хвилини друзів (спільний стрік); вкладка «Чати» — js/pages/chats.js.
 // Друзі бачать лише ім'я для друзів, стрік і хвилини (сьогодні, цей тиждень) — RPC friends_stats() (міграція 0012).
-import { h, ic, emo } from '../ui/dom.js';
+import { h, ic, emo, toggle } from '../ui/dom.js';
 import { plural } from '../strings.js';
 import * as store from '../store.js';
 import { user, getSupa } from '../supa.js';
@@ -95,28 +95,86 @@ function friendsPage(view, r) {
     await shareLink(shareUrl(), shareText());
   }
 
-  // «Можливо, ви знайомі»: учасники моїх груп і друзі друзів — додати одним дотиком (friend_suggestions, міграція 0029)
-  const suggBox = h('div', { hidden: true });
-  const loadSugg = () => rpc('friend_suggestions', {}).then(rows => {
-    if (!alive) return;
-    suggBox.hidden = !rows?.length;
-    if (!rows?.length) { suggBox.replaceChildren(); return; }
-    suggBox.replaceChildren(txGroup('Можливо, ви знайомі', txRows(rows.slice(0, 6).map(p => {
-      const btn = h('button.btn.sm.soft.fr-add', { type: 'button' }, ic('user-plus', { size: 16 }), 'Додати');
-      btn.addEventListener('click', async () => {
-        btn.disabled = true;
-        try {
-          const res = (await rpc('add_friend_direct', { p_user: p.user_id }))?.[0];
-          if (res?.status === 'ok') { toast(`${res.name} тепер у ваших друзях`); loadSugg(); loadList(); }
-          else { toast(ADD_ERR[res?.status] || 'Не вдалося додати', { kind: 'bad' }); btn.disabled = false; }
-        } catch { toast(navigator.onLine ? 'Не вдалося додати' : 'Немає мережі', { kind: 'bad' }); btn.disabled = false; }
-      });
-      return h('div.tx-row.friend-row',
-        h('div.friend-ava', { 'aria-hidden': 'true' }, (p.name || '?').charAt(0).toUpperCase()),
-        h('span.tx-body', h('span.tx-l', p.name), h('span.tx-s', p.reason === 'group' ? `З групи «${p.room_title || ''}»` : `${p.mutual} ${plural(p.mutual, 'спільний друг', 'спільні друзі', 'спільних друзів')}`)),
-        btn);
-    }))));
-  }).catch(() => {});
+  // ---------- Запити в друзі й пошук людей (міграція 0030) ----------
+  // Вхідні запити — «Прийняти / Відхилити»; пошук за іменем (лише ті, хто дозволив пошук, або знайомі: спільна група, спільні друзі).
+  const reqBox = h('div', { hidden: true });
+  const peopleList = h('div.tx-rows.fr-people');
+  const searchInp = h('input.input.fr-search', { type: 'search', placeholder: 'Ім\'я людини', 'aria-label': 'Знайти людей за іменем', autocomplete: 'off', enterkeyhint: 'search' });
+  let searchT = 0, searchSeq = 0;
+  const REQ_TEXT = { sent: 'Запит надіслано', accepted: 'Тепер ви друзі', friend: 'Ви вже друзі', declined: 'Людина відхилила запит — спробуйте пізніше', too_many: 'Забагато надісланих запитів', rate_limited: ADD_ERR.rate_limited, not_found: 'Людину не знайдено', self: 'Це ви' };
+  const ava = (name) => h('div.friend-ava', { 'aria-hidden': 'true' }, (name || '?').trim().charAt(0).toUpperCase());
+
+  async function sendReq(p, btn) {
+    btn.disabled = true;
+    try {
+      const st = await rpc('friend_request_send', { p_user: p.user_id });
+      toast(st === 'accepted' ? `${p.name} тепер у ваших друзях` : REQ_TEXT[st] || 'Не вдалося', { kind: ['sent', 'accepted', 'friend'].includes(st) ? '' : 'bad' });
+      refreshAll();
+    } catch { toast(navigator.onLine ? 'Не вдалося надіслати запит' : 'Немає мережі', { kind: 'bad' }); btn.disabled = false; }
+  }
+  async function respond(p, accept, row) {
+    row.querySelectorAll('button').forEach(b => { b.disabled = true; });
+    try {
+      const st = await rpc('friend_request_respond', { p_from: p.user_id, p_accept: accept });
+      toast(st === 'accepted' ? `${p.name} тепер у ваших друзях` : st === 'declined' ? 'Запит відхилено' : 'Запит уже неактуальний');
+      refreshAll();
+    } catch { toast('Не вдалося', { kind: 'bad' }); row.querySelectorAll('button').forEach(b => { b.disabled = false; }); }
+  }
+  function personRow(p) {
+    const sub = p.hint || (p.streak > 0 ? `Серія ${days(p.streak)}` : 'Вчить англійську в myEnglish');
+    let end;
+    if (p.status === 'friend') end = h('button.icon-btn', { type: 'button', 'aria-label': `Написати ${p.name}`, onclick: () => openDmAndGo(p.user_id) }, ic('chat-circle-dots', { size: 18 }));
+    else if (p.status === 'sent') {
+      end = h('button.btn.sm.ghost.fr-add', { type: 'button', onclick: async () => {
+        if (!await confirmSheet('Скасувати запит?', `${p.name} більше не бачитиме вашого запиту.`, 'Скасувати запит')) return;
+        try { await rpc('friend_request_cancel', { p_to: p.user_id }); toast('Запит скасовано'); refreshAll(); } catch { toast('Не вдалося', { kind: 'bad' }); }
+      } }, ic('check', { size: 16 }), 'Надіслано');
+    } else if (p.status === 'incoming') {
+      end = h('button.btn.sm.primary.fr-add', { type: 'button' }, 'Прийняти');
+      end.addEventListener('click', (e) => respond(p, true, e.currentTarget.closest('.tx-row')));
+    } else {
+      end = h('button.btn.sm.soft.fr-add', { type: 'button' }, ic('user-plus', { size: 16 }), 'Додати');
+      end.addEventListener('click', () => sendReq(p, end));
+    }
+    return h('div.tx-row.friend-row', ava(p.name), h('span.tx-body', h('span.tx-l', p.name), h('span.tx-s', sub)), end);
+  }
+  async function loadPeople() {
+    const q = searchInp.value.trim();
+    const my = ++searchSeq;
+    try {
+      const rows = await rpc('people_search', { p_q: q });
+      if (!alive || my !== searchSeq) return;
+      const list = (rows || []).filter(p => p.status !== 'friend' || q);
+      peopleList.replaceChildren(...(list.length ? list.map(personRow)
+        : [txRow({ icon: 'magnifying-glass', label: q ? 'Нікого не знайдено' : 'Поки нікого', sub: q ? 'Перевірте ім\'я або надішліть посилання-запрошення' : 'Запросіть друзів посиланням — вони з\'являться тут', chevron: false })]));
+    } catch { if (alive) peopleList.replaceChildren(txRow({ icon: 'warning-circle', label: navigator.onLine ? 'Не вдалося завантажити' : 'Немає мережі', chevron: false })); }
+  }
+  searchInp.addEventListener('input', () => { clearTimeout(searchT); searchT = setTimeout(loadPeople, 300); });
+  let discoverable = true;
+  const discToggle = h('div.row.fr-disc', h('span.grow', h('div.small', 'Мене можна знайти в пошуку'), h('div.xs.dim', 'Видно лише ім\'я й серію днів')),
+    toggle(true, async (v) => {
+      try { discoverable = await rpc('friend_set_discoverable', { p_on: v }); toast(v ? 'Вас можна знайти в пошуку' : 'Вас більше не видно в пошуку'); }
+      catch { toast('Не вдалося зберегти', { kind: 'bad' }); }
+    }, 'Мене можна знайти в пошуку'));
+  async function loadRequests() {
+    try {
+      const r = await rpc('friend_requests_list', {});
+      if (!alive) return;
+      discoverable = r?.discoverable !== false;
+      const inp = discToggle.querySelector('input'); if (inp) inp.checked = discoverable;
+      const inc = r?.incoming || [];
+      reqBox.hidden = !inc.length;
+      reqBox.replaceChildren(inc.length ? txGroup(`Запити в друзі · ${inc.length}`, txRows(inc.map(p => {
+        const row = h('div.tx-row.friend-row.on', ava(p.name),
+          h('span.tx-body', h('span.tx-l', p.name), h('span.tx-s', p.hint || 'Хоче додати вас у друзі')),
+          h('div.row.fr-req-acts',
+            h('button.btn.sm.primary', { type: 'button', onclick: () => respond(p, true, row) }, 'Прийняти'),
+            h('button.icon-btn', { type: 'button', 'aria-label': `Відхилити запит від ${p.name}`, onclick: () => respond(p, false, row) }, ic('x', { size: 18 }))));
+        return row;
+      }))) : '');
+    } catch { /* офлайн */ }
+  }
+  function refreshAll() { loadRequests(); loadPeople(); loadList(); }
 
   async function loadMe() {
     let tz = null;
@@ -229,8 +287,9 @@ function friendsPage(view, r) {
     onclick: () => { codeBox2.hidden = !codeBox2.hidden; codeRow.setAttribute('aria-expanded', String(!codeBox2.hidden)); if (!codeBox2.hidden) codeInp.focus(); } });
   const nameBox = h('section.card.stack.pp-panel.fr-name', { id: 'fr-name', hidden: true, style: { gap: '8px' } },
     h('div.field', h('label', 'Ім\'я, яке бачать друзі'), nameInp,
-      h('div.xs.dim', 'Порожнє — ім\'я з «Профілю» або «Учень». Друзі бачать лише ім\'я, стрік і хвилини.')));
-  const nameRow = txRow({ icon: 'user', label: 'Ім\'я для друзів', sub: 'Пошту й навчання друзі не бачать', chevron: false, cls: 'fr-name-row',
+      h('div.xs.dim', 'Порожнє — ім\'я з «Профілю» або «Учень». Друзі бачать лише ім\'я, стрік і хвилини. Без імені вас не знайдуть у пошуку.')),
+    discToggle);
+  const nameRow = txRow({ icon: 'user', label: 'Ім\'я й пошук', sub: 'Як вас бачать і чи можна вас знайти', chevron: false, cls: 'fr-name-row',
     end: ic('caret-down', { size: 16 }), attrs: { 'aria-expanded': 'false', 'aria-controls': 'fr-name' },
     onclick: () => { nameBox.hidden = !nameBox.hidden; nameRow.setAttribute('aria-expanded', String(!nameBox.hidden)); if (!nameBox.hidden) nameInp.focus(); } });
 
@@ -262,14 +321,15 @@ function friendsPage(view, r) {
     unreadBox,
     // головне — запросити посиланням: друг відкриє його й додасться одним дотиком (навіть якщо ще не зареєстрований)
     txPrimary({ icon: 'share-network', label: 'Запросити друзів', sub: 'Посилання в Telegram, Viber чи SMS — друг додасться одним дотиком', onclick: share }),
-    suggBox,
+    reqBox,
+    txGroup('Знайти людей', [searchInp, peopleList]),
     txGroup('Друзі', list),
     // код — для тих, хто поруч (продиктувати) — згорнуто
     h('div.stack', codeRow, codeBox2, nameRow, nameBox, blockedBox)));
 
   store.queueSync(0);   // свіжі хвилини — на сервер, щоб друзі бачили актуальне
   loadMe().then(loadList);
-  loadSugg();
+  loadRequests(); loadPeople();
   const iv = setInterval(() => { if (!document.hidden) loadList(); }, 60000);
   return () => { alive = false; clearInterval(iv); };
 }

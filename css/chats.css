@@ -117,3 +117,7 @@ mark.ch-err{background:transparent;color:inherit;text-decoration:underline wavy 
 .inv-ava{width:72px;height:72px;flex:0 0 72px;border-radius:22px;font-size:30px;background:var(--accent-grad);color:#fff}
 .inv-t{font-family:var(--font-head);font-size:var(--fs-lg);line-height:1.25;color:var(--ink)}
 .fr-add{flex:none}
+/* пошук людей і запити в друзі (js/pages/friends.js) */
+.fr-search{margin-bottom:8px}
+.fr-req-acts{gap:4px;flex:none;align-items:center}
+.fr-disc{gap:10px;align-items:center;margin-top:6px}

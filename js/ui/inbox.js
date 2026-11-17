@@ -15,7 +15,7 @@ const due = (iso) => new Date(iso).toLocaleDateString('uk-UA', { weekday: 'short
 
 function count(d) {
   if (!d) return 0;
-  return (d.chats || []).reduce((a, c) => a + (c.muted ? 0 : c.unread || 0), 0) + (d.homework || []).length + (d.duels || []).length;
+  return (d.chats || []).reduce((a, c) => a + (c.muted ? 0 : c.unread || 0), 0) + (d.homework || []).length + (d.duels || []).length + (d.requests || []).length;
 }
 function paint() {
   if (!btn) return;
@@ -65,6 +65,7 @@ export async function openInbox() {
     const chats = d.chats || [];
     const unread = chats.filter(c => c.unread > 0 && !c.muted);
     const fresh = [
+      ...(d.requests || []).map(x => txRow({ icon: 'user-plus', label: `${x.name} хоче додати вас у друзі`, sub: 'Прийняти чи відхилити — на сторінці «Друзі»', pill: { text: 'Запит', tone: 'accent' }, href: '#/friends', onclick: close })),
       ...unread.map(c => txRow({ icon: chatIcon(c), label: c.kind === 'group' ? `Нові повідомлення в групі «${c.title || 'Група'}»` : `Вам пише ${c.title || 'друг'}`, sub: preview(c), pill: { text: String(c.unread > 99 ? '99+' : c.unread), tone: 'accent' }, href: `#/friends/chat/${c.id}`, onclick: close })),
       ...(d.homework || []).map(x => txRow({ icon: 'chalkboard-teacher', label: 'Виконайте домашнє завдання', sub: `«${x.title || 'група'}» · виконано ${x.done} з ${x.total} · до ${due(x.due_at)}`, pill: { text: `${x.total - x.done} лишилось`, tone: 'warn' }, href: `#/friends/chat/${x.room_id}`, onclick: close })),
       ...(d.duels || []).map(x => txRow({ icon: 'sword', label: 'Вас кличуть на дуель', sub: `${x.by} · ${GAMES[x.game] || 'гра'} · «${x.title}»`, pill: { text: 'Грати', tone: 'accent' },

@@ -433,7 +433,15 @@ export function chatRoom(view, roomId) {
   function memberMenu(m) {
     let s = null;
     s = sheet(m.name, h('div.stack.ch-sheet', txRows([
-      m.is_friend ? txRow({ icon: 'chat-circle-dots', label: 'Написати особисто', onclick: () => { s.close(); openDmAndGo(m.user_id); } }) : null,
+      m.is_friend ? txRow({ icon: 'chat-circle-dots', label: 'Написати особисто', onclick: () => { s.close(); openDmAndGo(m.user_id); } })
+        : m.blocked ? null : txRow({ icon: 'user-plus', label: 'Додати в друзі', sub: 'Надіслати запит — після прийняття зможете писати особисто', on: true, onclick: async () => {
+          s.close();
+          try {
+            const st = await chat.rpc('friend_request_send', { p_user: m.user_id });
+            toast(st === 'accepted' ? `${m.name} тепер у ваших друзях` : st === 'sent' ? `Запит надіслано — ${m.name} отримає сповіщення` : st === 'friend' ? 'Ви вже друзі' : st === 'declined' ? 'Запит відхилено — спробуйте пізніше' : 'Не вдалося надіслати запит', { kind: ['sent', 'accepted', 'friend'].includes(st) ? '' : 'bad' });
+            if (st === 'accepted') loadMembers().then(renderHead).catch(() => {});
+          } catch { toast('Не вдалося надіслати запит', { kind: 'bad' }); }
+        } }),
       txRow({ icon: 'x-circle', label: m.blocked ? 'Розблокувати' : 'Заблокувати', sub: m.blocked ? 'Знову бачитимете повідомлення' : 'Не бачитимете повідомлень цієї людини', cls: m.blocked ? null : 'ch-danger',
         onclick: async () => {
           s.close();
