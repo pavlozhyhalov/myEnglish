@@ -11,6 +11,7 @@ import { disputeFix } from '../stats.js';
 import * as chat from '../chat.js';
 import * as duel from '../duel.js';
 import { sessionPlayback } from '../audiosession.js';
+import { shareGroup, shareLink, friendLink } from '../invite.js';
 import { myLevel, lvLabel } from '../level.js';
 
 const initial = (s) => (String(s || '?').trim().charAt(0) || '?').toUpperCase();
@@ -84,7 +85,7 @@ function pickFriends(friends, { title, okLabel, exclude = new Set(), max = chat.
     const s = sheet(title, h('div.stack.ch-sheet',
       withName ? h('div.field', h('label', 'Назва групи'), nameInp) : null,
       list.length ? h('div.stack', { style: { gap: '6px' } }, h('div.tx-label', withName ? 'Кого запросити' : 'Друзі'), h('div.tx-rows.ch-pick-list', rows))
-        : txRow({ icon: 'user-plus', label: 'Немає кого запросити', sub: 'Додайте друзів за кодом на вкладці «Друзі»', href: '#/friends' }),
+        : txRow({ icon: 'share-network', label: withName ? 'Запросите людей посиланням' : 'Поки немає друзів', sub: withName ? 'Після створення — посилання на групу для Telegram чи Viber' : 'Запросіть посиланням — кнопка нижче', chevron: false }),
       h('div.row', okBtn)), { onClose: () => { if (!done) resolve(null); } });
     okBtn.addEventListener('click', () => {
       if (withName && !nameInp.value.trim()) { toast('Введіть назву групи'); nameInp.focus(); return; }
@@ -114,16 +115,26 @@ export function chatsList(view) {
   const list = h('div.tx-rows.ch-list', txRow({ icon: 'hourglass', label: 'Завантаження…', chevron: false }));
 
   async function newGroup() {
+    // друзі не обов'язкові: групу можна створити одну й запросити людей посиланням
     const friends = await loadFriends();
-    if (!friends.length) { toast('Спершу додайте друзів за кодом'); go('/friends'); return; }
     const r = await pickFriends(friends, { title: 'Нова група', okLabel: 'Створити', withName: true });
     if (!r) return;
-    try { const id = await chat.createGroup(r.title, r.ids); go(`/friends/chat/${id}`); }
-    catch (e) { toast(chat.chatErrText(e), { kind: 'bad' }); }
+    try {
+      const id = await chat.createGroup(r.title, r.ids);
+      go(`/friends/chat/${id}`);
+      setTimeout(() => shareGroup(id, r.title), 600);   // одразу — посилання для запрошення
+    } catch (e) { toast(chat.chatErrText(e), { kind: 'bad' }); }
   }
   async function write() {
     const friends = await loadFriends();
-    if (!friends.length) { toast('Спершу додайте друзів за кодом'); go('/friends'); return; }
+    if (!friends.length) {
+      // друзів ще немає — одразу запросити посиланням (друг додасться одним дотиком)
+      try {
+        const me = (await chat.rpc('my_friend_code', { p_tz: null }))?.[0];
+        if (me?.code) return shareLink(friendLink(me.code), 'Вчимо англійську разом у myEnglish! Додай мене в друзі — одним дотиком:');
+      } catch { /* нижче — на сторінку друзів */ }
+      go('/friends'); return;
+    }
     let s = null;
     s = sheet('Написати другу', h('div.tx-rows.ch-pick-list', friends.map(f =>
       txRow({ label: f.name, end: ava(f.name), onclick: () => { s.close(); openDmAndGo(f.friend_id); } }))));
@@ -396,7 +407,8 @@ export function chatRoom(view, roomId) {
         label: m.is_me ? `${m.name} (ви)` : m.name, sub: m.role === 'owner' ? 'Створив(-ла) групу' : null, end: ava(m.name),
         onclick: m.is_me ? null : () => { close(); memberMenu(m); }, chevron: !m.is_me })))));
       items.push(txRows([
-        txRow({ icon: 'user-plus', label: 'Запросити друзів', onclick: async () => {
+        txRow({ icon: 'share-network', label: 'Запросити за посиланням', sub: 'Будь-кого — навіть без акаунта й без дружби', on: true, onclick: () => { close(); shareGroup(roomId, info.title); } }),
+        txRow({ icon: 'user-plus', label: 'Додати з друзів', onclick: async () => {
           close();
           const r = await pickFriends(await loadFriends(), { title: 'Запросити в групу', okLabel: 'Запросити', exclude: new Set(members.keys()), max: chat.MAX_GROUP - members.size });
           if (!r?.ids.length) return;

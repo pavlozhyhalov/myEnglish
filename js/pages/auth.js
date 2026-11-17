@@ -2,6 +2,7 @@
 // Маршрути: #/auth (вкладки «Увійти» · «Зареєструватися»; ?tab=up — одразу реєстрація), #/auth/forgot (лист для зміни пароля),
 // #/auth/reset (новий пароль після переходу з листа), для того, хто увійшов, — акаунт і «Змінити пароль».
 import { h, ic } from '../ui/dom.js';
+import { takePending } from '../invite.js';
 import { S } from '../strings.js';
 import { signIn, signUp, user, signOut, resetPassword, updatePassword, recoveryPending, clearRecovery } from '../supa.js';
 import * as store from '../store.js';
@@ -122,6 +123,9 @@ async function afterLogin(text) {
   toast(text);
   clearRecovery();
   await store.sync().catch(() => {});
+  // запрошення в друзі чи групу, що чекало входу (js/invite.js)
+  const pending = takePending();
+  if (pending) { location.hash = pending; return; }
   go('/', { replace: true });
 }
 

@@ -10,6 +10,8 @@ import { streak, dayKey } from '../stats.js';
 import { tx, txPrimary, txGroup, txRow, txRows, txLogin } from '../ui/tiles.js';
 import { chatsList, chatRoom, openDmAndGo } from './chats.js';
 import * as chat from '../chat.js';
+import { friendInvite, groupInvite, friendLink, shareLink } from '../invite.js';
+import { go } from '../router.js';
 
 const days = (n) => `${n} ${plural(n, 'день', 'дні', 'днів')}`;
 const mins = (sec) => `${Math.round((sec || 0) / 60)}\u00a0хв`;
@@ -51,6 +53,9 @@ export default function friends(view, r) {
   // «Друзі» → «Чати» (#/friends/chats) і чат (#/friends/chat/<id>) — js/pages/chats.js
   if (r?.parts?.[0] === 'chats') return chatsList(view, r);
   if (r?.parts?.[0] === 'chat') return chatRoom(view, r.parts[1] || '', r);
+  // запрошення посиланням (js/invite.js): у групу — #/friends/join/<код>, у друзі — #/friends?code=<код>
+  if (r?.parts?.[0] === 'join') { groupInvite(view, cleanCode(r.parts[1])); return; }
+  if (r?.query?.code && cleanCode(r.query.code).length === 8) { friendInvite(view, cleanCode(r.query.code), { onDone: () => go('/friends', { replace: true }) }); return; }
   return friendsPage(view, r);
 }
 
@@ -60,7 +65,7 @@ function friendsPage(view, r) {
   if (!u) {
     view.replaceChildren(h('div.stack-lg',
       txLogin('Друзі й спільний стрік — після входу', 'Вхід і реєстрація — на одній сторінці'),
-      tx({ icon: 'users', wide: true, cls: 'fr-head', label: 'Як це працює', sub: 'Обміняйтеся кодами — і бачитимете стрік і хвилини одне одного' })));
+      tx({ icon: 'users', wide: true, cls: 'fr-head', label: 'Як це працює', sub: 'Надішліть другу посилання — він додасться одним дотиком' })));
     return;
   }
 
@@ -77,8 +82,8 @@ function friendsPage(view, r) {
   let myCode = '';
   let allFriends = false;
 
-  const shareUrl = () => `${location.origin}${location.pathname}#/friends?code=${myCode}`;
-  const shareText = () => `Займаймося англійською разом у myEnglish! Мій код друга: ${fmtCode(myCode)}`;
+  const shareUrl = () => friendLink(myCode);
+  const shareText = () => `Вчимо англійську разом у myEnglish! Додай мене в друзі — одним дотиком:`;
 
   async function copy() {
     if (!myCode) return;
@@ -86,14 +91,32 @@ function friendsPage(view, r) {
     catch { toast(`Ваш код: ${fmtCode(myCode)}`); }
   }
   async function share() {
-    if (!myCode) return;
-    if (navigator.share) {
-      try { await navigator.share({ title: 'myEnglish', text: shareText(), url: shareUrl() }); return; }
-      catch (e) { if (e?.name === 'AbortError') return; }
-    }
-    try { await navigator.clipboard.writeText(`${shareText()}\n${shareUrl()}`); toast('Запрошення скопійовано'); }
-    catch { toast(shareText()); }
+    if (!myCode) { await loadMe(); if (!myCode) return toast('Немає зв\'язку — спробуйте ще раз', { kind: 'bad' }); }
+    await shareLink(shareUrl(), shareText());
   }
+
+  // «Можливо, ви знайомі»: учасники моїх груп і друзі друзів — додати одним дотиком (friend_suggestions, міграція 0029)
+  const suggBox = h('div', { hidden: true });
+  const loadSugg = () => rpc('friend_suggestions', {}).then(rows => {
+    if (!alive) return;
+    suggBox.hidden = !rows?.length;
+    if (!rows?.length) { suggBox.replaceChildren(); return; }
+    suggBox.replaceChildren(txGroup('Можливо, ви знайомі', txRows(rows.slice(0, 6).map(p => {
+      const btn = h('button.btn.sm.soft.fr-add', { type: 'button' }, ic('user-plus', { size: 16 }), 'Додати');
+      btn.addEventListener('click', async () => {
+        btn.disabled = true;
+        try {
+          const res = (await rpc('add_friend_direct', { p_user: p.user_id }))?.[0];
+          if (res?.status === 'ok') { toast(`${res.name} тепер у ваших друзях`); loadSugg(); loadList(); }
+          else { toast(ADD_ERR[res?.status] || 'Не вдалося додати', { kind: 'bad' }); btn.disabled = false; }
+        } catch { toast(navigator.onLine ? 'Не вдалося додати' : 'Немає мережі', { kind: 'bad' }); btn.disabled = false; }
+      });
+      return h('div.tx-row.friend-row',
+        h('div.friend-ava', { 'aria-hidden': 'true' }, (p.name || '?').charAt(0).toUpperCase()),
+        h('span.tx-body', h('span.tx-l', p.name), h('span.tx-s', p.reason === 'group' ? `З групи «${p.room_title || ''}»` : `${p.mutual} ${plural(p.mutual, 'спільний друг', 'спільні друзі', 'спільних друзів')}`)),
+        btn);
+    }))));
+  }).catch(() => {});
 
   async function loadMe() {
     let tz = null;
@@ -196,6 +219,14 @@ function friendsPage(view, r) {
   }
 
   // головне — запросити (код + «Поділитися»); далі друзі й додавання за кодом; ім'я для друзів — згорнуте
+  const codeBox2 = h('section.card.stack.pp-panel.fr-name', { id: 'fr-code', hidden: true, style: { gap: '10px' } },
+    h('div.tx.wide.fr-code', h('span.tx-sq', ic('user-plus', { size: 20 })),
+      h('span.tx-body', codeBox, h('span.tx-s', 'Ваш код — друг введе його у себе')),
+      h('button.icon-btn', { type: 'button', 'aria-label': 'Копіювати код', onclick: copy }, ic('copy', { size: 20 }))),
+    h('div.row', { style: { gap: '8px' } }, h('div.grow', codeInp), addBtn));
+  const codeRow = txRow({ icon: 'keyboard', label: 'Додати за кодом', sub: 'Якщо друг поруч — продиктуйте код', chevron: false, cls: 'fr-name-row',
+    end: ic('caret-down', { size: 16 }), attrs: { 'aria-expanded': 'false', 'aria-controls': 'fr-code' },
+    onclick: () => { codeBox2.hidden = !codeBox2.hidden; codeRow.setAttribute('aria-expanded', String(!codeBox2.hidden)); if (!codeBox2.hidden) codeInp.focus(); } });
   const nameBox = h('section.card.stack.pp-panel.fr-name', { id: 'fr-name', hidden: true, style: { gap: '8px' } },
     h('div.field', h('label', 'Ім\'я, яке бачать друзі'), nameInp,
       h('div.xs.dim', 'Порожнє — ім\'я з «Профілю» або «Учень». Друзі бачать лише ім\'я, стрік і хвилини.')));
@@ -229,20 +260,16 @@ function friendsPage(view, r) {
 
   view.replaceChildren(h('div.stack-lg',
     unreadBox,
-    txGroup('Мій код друга', [
-      h('div.tx.wide.fr-code', h('span.tx-sq', ic('user-plus', { size: 20 })),
-        h('span.tx-body', codeBox, h('span.tx-s', 'Друг введе його у себе')),
-        h('button.icon-btn', { type: 'button', 'aria-label': 'Копіювати код', onclick: copy }, ic('copy', { size: 20 }))),
-      txPrimary({ icon: 'share-network', label: 'Запросити друга', sub: 'Посилання з вашим кодом', onclick: share })]),
-
+    // головне — запросити посиланням: друг відкриє його й додасться одним дотиком (навіть якщо ще не зареєстрований)
+    txPrimary({ icon: 'share-network', label: 'Запросити друзів', sub: 'Посилання в Telegram, Viber чи SMS — друг додасться одним дотиком', onclick: share }),
+    suggBox,
     txGroup('Друзі', list),
-
-    txGroup('Додати друга', h('div.row', { style: { gap: '8px' } }, h('div.grow', codeInp), addBtn)),
-
-    h('div.stack', nameRow, nameBox, blockedBox)));
+    // код — для тих, хто поруч (продиктувати) — згорнуто
+    h('div.stack', codeRow, codeBox2, nameRow, nameBox, blockedBox)));
 
   store.queueSync(0);   // свіжі хвилини — на сервер, щоб друзі бачили актуальне
   loadMe().then(loadList);
+  loadSugg();
   const iv = setInterval(() => { if (!document.hidden) loadList(); }, 60000);
   return () => { alive = false; clearInterval(iv); };
 }
