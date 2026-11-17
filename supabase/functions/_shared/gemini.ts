@@ -12,12 +12,16 @@ async function gfetch(url: string, init: RequestInit, ms = TIMEOUT_MS, firstByte
   const timer = setTimeout(() => ac.abort(new DOMException('timeout', 'TimeoutError')), ms);
   try {
     const res = await fetch(url, { ...init, signal: ac.signal });
-    if (firstByteOnly) clearTimeout(timer);
-    else { const done = () => clearTimeout(timer); res.clone().arrayBuffer().then(done, done); }
-    return res;
+    if (firstByteOnly) { clearTimeout(timer); return res; }
+    // тіло читаємо тут, під тим самим тайм-аутом: інакше обрив посеред читання тіла вилітав сирим DOMException (500 замість переходу до іншої моделі)
+    const buf = await res.arrayBuffer();
+    clearTimeout(timer);
+    return new Response(buf, { status: res.status, statusText: res.statusText, headers: res.headers });
   } catch (e) {
     clearTimeout(timer);
-    if ((e as Error).name === 'TimeoutError' || (e as Error).name === 'AbortError') throw new HttpError(503, 'overloaded', 'Gemini timeout');
+    // 2026-11-17: власний короткий тайм-аут (за бюджетом чи довжиною звуку) — не ознака перевантаження: код 'timeout' без паузи моделі;
+    // справжнє зависання (≥ 30 с) — пауза, як і раніше
+    if ((e as Error).name === 'TimeoutError' || (e as Error).name === 'AbortError') throw Object.assign(new HttpError(503, 'timeout', `Gemini timeout ${ms} ms`), { waitedMs: ms });
     throw e;
   }
 }
@@ -142,7 +146,7 @@ export function useCooldownStore(saved: Record<string, number> | null, save: (al
 }
 export function isCooled(model: string) { return (cooled.get(model) || 0) > Date.now(); }
 
-const RETRYABLE = ['model_not_found', 'overloaded', 'rate_limited', 'bad_model_request', 'empty', 'truncated'];
+const RETRYABLE = ['model_not_found', 'overloaded', 'rate_limited', 'bad_model_request', 'empty', 'truncated', 'timeout'];
 
 /** Пробує моделі по черзі (охолоджені — в кінці черги); перевантажена/без квоти/порожня — наступна */
 async function withModels<T>(models: string[], fn: (m: string) => Promise<T>): Promise<T> {
@@ -155,6 +159,7 @@ async function withModels<T>(models: string[], fn: (m: string) => Promise<T>): P
       if (e instanceof HttpError && e.code === 'rate_limited') coolDown(m, (e as HttpError & { retryMs?: number }).retryMs || COOLDOWN_MS);
       // зависла / перевантажена / зникла модель — теж відкладаємо: наступні запити не чекають її тайм-ауту
       if (e instanceof HttpError && e.code === 'overloaded') coolDown(m, OVERLOAD_COOLDOWN_MS);
+      if (e instanceof HttpError && e.code === 'timeout' && ((e as HttpError & { waitedMs?: number }).waitedMs || 0) >= 30_000) coolDown(m, OVERLOAD_COOLDOWN_MS);
       if (e instanceof HttpError && e.code === 'model_not_found') coolDown(m, 60 * 60_000);
       if (e instanceof HttpError && RETRYABLE.includes(e.code)) continue;
       throw e;
@@ -166,27 +171,33 @@ async function withModels<T>(models: string[], fn: (m: string) => Promise<T>): P
 }
 
 export async function generate(models: string[], o: GenOpts): Promise<string> {
+  return generateWith(models, o, (t) => t);
+}
+
+/** Спільне для generate/generateJson: модель за моделлю в межах бюджету; відповідь, яку не вдалося розібрати, — наступна модель */
+async function generateWith<R>(models: string[], o: GenOpts, parse: (text: string) => R): Promise<R> {
   const end = o.budgetMs ? Date.now() + o.budgetMs : Infinity;
   return withModels(models, async (model) => {
-    const left = end - Date.now();
     // часу на ще одну модель не лишилось — далі не пробуємо (інакше функцію обірве платформа, і учень не отримає нічого)
-    if (left < 12_000) throw new HttpError(503, 'busy', 'Time budget exhausted');
-    const once = async (oo: GenOpts) => candidateText(await (await call(model, 'generateContent', oo, Math.min(oo.timeoutMs || TIMEOUT_MS, end - Date.now()))).json());
+    if (end - Date.now() < 12_000) throw new HttpError(503, 'busy', 'Time budget exhausted');
+    const once = async (oo: GenOpts) => parse(candidateText(await (await call(model, 'generateContent', oo, Math.min(oo.timeoutMs || TIMEOUT_MS, end - Date.now()))).json()));
     try { return await once(o); } catch (e) {
-      // порожньо чи обрізано через «роздуми» — один повтор тієї ж моделі без них
-      if (e instanceof HttpError && (e.code === 'empty' || e.code === 'truncated') && o.thinking && o.thinking !== 'off') return await once({ ...o, thinking: 'off' });
+      // порожньо чи обрізано через «роздуми» — один повтор тієї ж моделі без них (якщо ще є час)
+      if (e instanceof HttpError && (e.code === 'empty' || e.code === 'truncated') && o.thinking && o.thinking !== 'off' && end - Date.now() >= 12_000) return await once({ ...o, thinking: 'off' });
       throw e;
     }
   });
 }
 
+export function parseJsonText<T>(text: string): T {
+  try { return JSON.parse(text) as T; } catch { /* нижче — пошук об'єкта в тексті */ }
+  const m = text.match(/\{[\s\S]*\}/);
+  if (m) { try { return JSON.parse(m[0]) as T; } catch { /* */ } }
+  throw new HttpError(502, 'empty', 'Bad JSON from model');   // 'empty' — повторювана: пробуємо наступну модель
+}
+
 export async function generateJson<T = unknown>(models: string[], o: GenOpts): Promise<T> {
-  const text = await generate(models, { temperature: 0.4, ...o });
-  try { return JSON.parse(text) as T; } catch {
-    const m = text.match(/\{[\s\S]*\}/);
-    if (m) return JSON.parse(m[0]) as T;
-    throw new HttpError(502, 'gemini', 'Bad JSON from model');
-  }
+  return generateWith(models, { temperature: 0.4, ...o }, (t) => parseJsonText<T>(t));
 }
 
 /**
@@ -271,15 +282,21 @@ export async function tts(models: string[], text: string, voice: string): Promis
 /** Ефемерний токен для Gemini Live (v1alpha) з заблокованою конфігурацією */
 export async function createLiveToken(setup: Record<string, unknown>, { uses = 10, minutes = 30 } = {}) {
   const now = Date.now();
+  // 2026-11-17 (перевірено на живому Gemini через ai-probe): без fieldMask токен бере ВЕСЬ setup із себе й ігнорує setup клієнта —
+  // разом із sessionResumption.handle; відновлення сесії відкривало нову розмову («I do not know your secret number»), звідси «вчитель забуває
+  // розмову кожні ~10 хв». Тепер у токені заблоковано все, крім sessionResumption (його шле клієнт: {} або { handle }); шляхи маски — snake_case
+  // (camelCase Google приймає, але сесія після відновлення мовчить)
+  const { sessionResumption: _client, ...locked } = setup;
+  const snake = (k: string) => k.replace(/[A-Z]/g, c => '_' + c.toLowerCase());
   const res = await gfetch(`${BASE}/v1alpha/auth_tokens`, {
     method: 'POST', headers: { 'Content-Type': 'application/json', 'x-goog-api-key': apiKey() },
     body: JSON.stringify({
       uses,
       expireTime: new Date(now + minutes * 60_000).toISOString(),
-      // протягом усього життя токена: планове відновлення сесії (~кожні 9 хв) відкриває нове з'єднання тим самим токеном —
-      // з 60 с воно відхилялось, клієнт відкривав нову сесію без контексту, і вчитель «забував» розмову (2026-11-11)
+      // протягом усього життя токена: планове відновлення сесії (~кожні 9 хв) відкриває нове з'єднання тим самим токеном
       newSessionExpireTime: new Date(now + minutes * 60_000).toISOString(),
-      bidiGenerateContentSetup: setup,
+      bidiGenerateContentSetup: locked,
+      fieldMask: Object.keys(locked).map(snake).join(','),
     }),
   });
   if (!res.ok) throw await mapError(res);

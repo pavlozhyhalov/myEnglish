@@ -69,7 +69,7 @@ export function speakBrowser(text, { rate = 1, accent, voiceIndex = 0 } = {}) {
 const PAUSE_KEY = 'me:tts-pause';
 const geminiPaused = () => { try { return Date.now() < Number(sessionStorage.getItem(PAUSE_KEY) || 0); } catch { return false; } };
 function pauseGemini(e) {
-  if (!['quota', 'rate_limited', 'overloaded', 'need_login'].includes(e?.code)) return;
+  if (!['quota', 'rate_limited', 'overloaded', 'timeout', 'busy', 'need_login'].includes(e?.code)) return;
   try { sessionStorage.setItem(PAUSE_KEY, String(Date.now() + 10 * 60_000)); } catch { /* */ }
 }
 // Постійний кеш озвучок на пристрої (Cache Storage): слово, озвучене раз, більше не завантажується й не витрачає ліміт

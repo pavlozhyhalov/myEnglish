@@ -159,6 +159,8 @@ export async function voiceSession(view, opts = {}) {
   const MAX_SEG = 900;   // ~90 с (пакети по 100 мс): довга розповідь учня не обрізається з початку (2026-11-16: до того 30 с — початок губився)
   // учень говорить, поки вчитель ще звучить (перебиває): ці ~5 с теж його репліка — якщо Live скаже «interrupted», вони йдуть на початок сегмента
   let barge = [], bargeFlags = [];
+  let lastCutTarget = null;        // остання репліка учня, відправлена на уточнення
+  let heldInput = '';              // текст Live, що прийшов, поки звучав вчитель: перебивання → нова репліка, інакше — запізнілий хвіст попередньої
   const BARGE_MAX = 50;
   function onPcm(buf, rms) {
     if (micMuted || fixPlaying) return;
@@ -168,6 +170,7 @@ export async function voiceSession(view, opts = {}) {
       return;
     }
     const sp = rms > SPEECH_RMS;
+    if (sp) live?.noteSpeech?.();
     seg.push(buf); segFlags.push(sp);
     if (sp) { segSpeech++; speechPackets++; }
     if (seg.length > MAX_SEG) { seg.shift(); if (segFlags.shift()) segSpeech--; }
@@ -190,7 +193,17 @@ export async function voiceSession(view, opts = {}) {
     const chunks = seg, flags = segFlags, speech = segSpeech;
     seg = []; segFlags = []; segSpeech = 0;
     const from = cutIdx; cutIdx = row.messages.length;
-    const users = row.messages.slice(from).filter(m => m.role === 'user');
+    // Які репліки учня у вікні — «ця» репліка (зливаються в одну й уточнюються):
+    //  • є репліки учня ПІСЛЯ останньої репліки вчителя — це вони (раніші — окрема, вже відповіла репліка: учень говорив під хвіст вчителя, той відповів);
+    //  • немає — остання репліка вчителя і є відповіддю на цю (її текст часто приходить раніше за звук) — беремо репліки перед нею.
+    // 2026-11-17: раніше зливалось усе вікно — окремі репліки затирались і зникали з підсумку (рецензія); перша спроба виправлення дублювала репліку (імітація)
+    let lastModel = -1, prevModel = from - 1;
+    for (let i = row.messages.length - 1; i >= from; i--) if (row.messages[i].role === 'model') { lastModel = i; break; }
+    let users = row.messages.slice(Math.max(from, lastModel + 1)).filter(m => m.role === 'user');
+    if (!users.length && lastModel >= 0) {
+      for (let i = lastModel - 1; i >= from; i--) if (row.messages[i].role === 'model') { prevModel = i; break; }
+      users = row.messages.slice(prevModel + 1, lastModel).filter(m => m.role === 'user');
+    }
     if (speech < 5 || mode !== 'live') return;   // < ~0,5 с мовлення — нічого уточнювати
     let target = users[users.length - 1];
     if (!target) {   // Live не розпізнав нічого — додаємо репліку перед відповіддю вчителя
@@ -200,7 +213,8 @@ export async function voiceSession(view, opts = {}) {
     }
     // що почув сам Live (до уточнення): запасний текст, якщо повторне розпізнавання поверне уривок
     const liveText = users.map(u => String(u.text || '').trim()).filter(Boolean).join(' ');
-    for (const u of users) if (u !== target) u.text = '';   // кілька шматків однієї репліки зливаються в один
+    for (const u of users) { u.closed = true; if (u !== target) u.text = ''; }   // кілька шматків однієї репліки зливаються в один
+    target.closed = true; lastCutTarget = target;
     target.pending = true; renderSubs();
     const turn = trimTurn(chunks, flags);
     // лише мовлення: без тиші до й після й зі стиснутими довгими паузами всередині (2026-11-17: сегмент разом з очікуванням важив 2–3 МБ
@@ -210,23 +224,33 @@ export async function voiceSession(view, opts = {}) {
     // Репліка, яку вчитель договорив останньою (подія idle), точніша за позицію в транскрипті: текст і звук Live приходять у різному порядку
     const ctx = tutorContext(tutorLine || lastTutorBefore(row.messages.indexOf(target)));
     if (ctx) payload.context = { tutor: ctx };
-    const job = tutor('transcribe', payload)
+    const job = tutor('transcribe', payload, { signal: AbortSignal.timeout ? AbortSignal.timeout(15_000) : undefined })
       .then(r => {
         const text = String(r?.text || '').trim();
         const words = (x) => (String(x).match(/[\p{L}\p{N}']+/gu) || []).length;
         // уривок на кшталт «que», «du 15», коли Live почув цілу фразу (2026-11-16): лишаємо текст Live
         if (!text || /^\[?unclear\]?$/i.test(text)) { if (liveText && !target.text) target.text = liveText; return; }
         if (liveText && words(text) < 3 && words(liveText) >= 2 * words(text) + 2) { target.text = liveText; return; }
+        // уточнення загубило помітну частину сказаного (обрізаний початок) — лишаємо повніший текст Live
+        if (liveText && words(text) < words(liveText) * 0.6) { target.text = liveText; return; }
         target.text = text;
         const fx = cleanFixes(r.fixes, text);
         if (fx.length) { target.fixes = fx; fixTotal += fx.length; paintBadge(); log(`fixes ${fx.length}`); }
         if (turn) keepTurn({ msg: target, chunks: turn.chunks, sec: turn.sec, speech });
       })
-      .catch(e => log('transcribe failed ' + (e.code || e.message)))
-      .finally(() => { target.pending = false; renderSubs(); jobs.delete(job); });
+      // уточнення не вдалося (мережа, тайм-аут 15 с) — лишається все, що почув Live (а не лише останній шматок)
+      .catch(e => { log('transcribe failed ' + (e.code || e.name || e.message)); import('../errlog.js').then(m => m.report(e, `voice transcribe ${e?.code || e?.name || ''}`.trim())).catch(() => {}); if (liveText && String(target.text || '').length < liveText.length) target.text = liveText; })
+      .finally(() => {
+        delete target.pending; jobs.delete(job);
+        // розмову вже збережено (завершили чи пішли, поки уточнювалось) — дописуємо уточнений текст у збережений рядок
+        if (saved) {
+          if (!String(target.text || '').trim()) { const i = row.messages.indexOf(target); if (i >= 0) row.messages.splice(i, 1); }
+          if (row.messages.length) store.put('tutor_chats', row);
+        } else renderSubs();
+      });
     jobs.add(job);
   }
-  /** Мовлення учня для розпізнавання: від першого до останнього пакета з голосом (± PAD), паузи довші за 1 с скорочені до 1 с */
+  /** Мовлення учня для розпізнавання: від першого до останнього пакета з голосом (± PAD), паузи довші за 1,5 с скорочені до 1,5 с (тихе мовлення в паузі не губиться) */
   function compact(chunks, flags) {
     const a = flags.indexOf(true), b = flags.lastIndexOf(true);
     if (a < 0) return chunks;
@@ -234,7 +258,7 @@ export async function voiceSession(view, opts = {}) {
     let quiet = 0;
     for (let i = Math.max(0, a - PAD); i <= Math.min(chunks.length - 1, b + PAD); i++) {
       quiet = flags[i] ? 0 : quiet + 1;
-      if (quiet <= 10) out.push(chunks[i]);
+      if (quiet <= 15) out.push(chunks[i]);
     }
     return out;
   }
@@ -263,13 +287,14 @@ export async function voiceSession(view, opts = {}) {
 
   // ---------- аура ----------
   let micLevel = 0, outLevel = 0, raf = 0, lastRms = 0;
+  const coreEl = aura.querySelector('.core');
   function animate() {
     const lv = Math.max(micLevel * 3, outLevel * 3);
     const me = micLevel * 3 > outLevel * 3 && micLevel > 0.02;
     aura.classList.toggle('me', me);
     halo1.style.transform = `scale(${1 + Math.min(0.5, lv)})`;
     halo2.style.transform = `scale(${1 + Math.min(0.35, lv * 0.7)})`;
-    aura.querySelector('.core').style.transform = `scale(${1 + Math.min(0.12, lv * 0.2)})`;
+    coreEl.style.transform = `scale(${1 + Math.min(0.12, lv * 0.2)})`;
     if (started) {
       const s = elapsed();
       timerEl.textContent = `${String(Math.floor(s / 60)).padStart(2, '0')}:${String(s % 60).padStart(2, '0')}`;
@@ -277,8 +302,45 @@ export async function voiceSession(view, opts = {}) {
     }
     raf = requestAnimationFrame(animate);
   }
-  const elapsed = () => Math.floor(elapsedBefore + (started ? (Date.now() - started) / 1000 : 0));
+  // час у фоні (заблокований екран, інший застосунок) не рахується — це не заняття (2026-11-17, рецензія)
+  let pausedAt = 0;
+  const elapsed = () => Math.floor(elapsedBefore + (started && !pausedAt ? (Date.now() - started) / 1000 : 0));
   raf = requestAnimationFrame(animate);
+
+  // ---------- збереження по ходу: iOS може вбити застосунок (екран, нестача пам'яті) — розмова не губиться, підсумок доробиться фоном ----------
+  let startResolve = null, cpTimer = 0;
+  function checkpoint() {
+    if (saved || !started) return;
+    const msgs = row.messages.filter(m => String(m.text || '').trim()).map(({ role, text, fixes }) => ({ role, text: text.trim(), ...(role === 'user' && fixes?.length ? { fixes } : {}) }));
+    if (!msgs.some(m => m.role === 'user')) return;
+    const snap = { id: row.id, created_at: row.created_at, mode: 'voice', scenario: row.scenario, title: row.title, meta: row.meta, messages: msgs, seconds: elapsed(),
+      summary: { ...(row.summary || {}), partial: true, ...(opts.onFinish ? { guided: true } : {}) } };
+    store.put('tutor_chats', snap);
+    row.id = snap.id; row.created_at = snap.created_at;
+  }
+  const checkpointSoon = () => { clearTimeout(cpTimer); cpTimer = setTimeout(checkpoint, 20_000); };
+  function askWake() {
+    if (notice.querySelector('.vc-wake')) return;
+    setState('Пауза');
+    notice.replaceChildren(h('div.vc-wake', txPrimary({ icon: 'microphone', label: 'Торкніться, щоб продовжити', sub: 'телефон призупинив звук і мікрофон', onclick: async () => {
+      const ok = await audio?.revive().catch(() => false);
+      log(`wake · ${ok ? 'ok' : 'still suspended'}`);
+      if (ok) { notice.replaceChildren(); setState(micMuted ? 'Мікрофон вимкнено' : 'Слухаю…'); }
+    } })));
+  }
+  function onVis() {
+    if (document.hidden) {
+      if (started && !pausedAt) { elapsedBefore = elapsed(); pausedAt = Date.now(); }
+      checkpoint();
+      return;
+    }
+    if (pausedAt) { started = Date.now(); pausedAt = 0; }
+    // без дотику iOS може не «розбудити» звук ніколи (resume() не завершується) — чекаємо 1,5 с, далі просимо дотик
+    if (audio && mode === 'live' && !ended && started) Promise.race([audio.revive(), new Promise(r => setTimeout(() => r(false), 1500))]).then(ok => { if (!ok) askWake(); }).catch(() => askWake());
+  }
+  const onHide = () => checkpoint();
+  document.addEventListener('visibilitychange', onVis);
+  addEventListener('pagehide', onHide);
 
   if (!user()) { fail({ code: 'need_login' }); return cleanup; }
   if (!navigator.onLine) { fail({ code: 'offline' }); return cleanup; }
@@ -334,6 +396,7 @@ export async function voiceSession(view, opts = {}) {
   if (topicsP) await topicsP;
   if (ended) return cleanup;
   await new Promise((resolve) => {
+    startResolve = resolve;
     const begin = (t) => {
       tapped = true;
       audio = new AudioIO().prepare();     // синхронно, в жесті
@@ -380,7 +443,20 @@ export async function voiceSession(view, opts = {}) {
     audio.addEventListener('mic-level', e => { micLevel = e.detail; lastRms = e.detail; });
     audio.addEventListener('out-level', e => { outLevel = e.detail; });
     audio.addEventListener('speaking', () => { tutorTalking = true; barge = []; bargeFlags = []; cutSegment(); if (mode === 'live') setState(`Говорить ${st.tutorName}`); });
-    audio.addEventListener('idle', () => { tutorTalking = false; tutorLine = lastTutorBefore(-1) || tutorLine; if (mode === 'live' && live?.ready) setState(micMuted ? 'Мікрофон вимкнено' : 'Слухаю…'); });
+    audio.addEventListener('idle', () => {
+      tutorTalking = false; tutorLine = lastTutorBefore(-1) || tutorLine;
+      // учень почав відповідати ще під хвіст вчителя (без «interrupted», бо вчитель уже договорив): початок відповіді — у сегмент,
+      // інакше уточнення отримувало фразу без початку й затирало повний текст Live (2026-11-17, рецензія)
+      const tail = bargeFlags.lastIndexOf(true);
+      if (tail >= 0 && tail >= bargeFlags.length - 10) {
+        let a = tail; while (a > 0 && bargeFlags.slice(Math.max(0, a - 5), a).some(Boolean)) a--;
+        a = Math.max(0, a - PAD);
+        seg = barge.slice(a).concat(seg); segFlags = bargeFlags.slice(a).concat(segFlags); segSpeech += bargeFlags.slice(a).filter(Boolean).length;
+        if (heldInput.trim()) { addText('user', heldInput); }
+      } else if (heldInput.trim() && lastCutTarget) lastCutTarget.liveExtra = ((lastCutTarget.liveExtra || '') + heldInput).slice(0, 2000);
+      heldInput = ''; barge = []; bargeFlags = [];
+      if (mode === 'live' && live?.ready) setState(micMuted ? 'Мікрофон вимкнено' : 'Слухаю…');
+    });
 
     const pre = await liveP;
     if (ended) { try { pre?.close(); } catch { /* */ } return cleanup; }
@@ -391,15 +467,23 @@ export async function voiceSession(view, opts = {}) {
     log(pre ? 'using prewarmed session' : 'connecting on tap');
     live.addEventListener('audio', e => audio?.play(e.detail));
     live.addEventListener('interrupted', () => {
+      tutorTalking = false;   // одразу: пакети до події «idle» від програвача інакше йшли в щойно очищений barge і губились
       audio?.clear(); closeTurns();
+      if (heldInput.trim()) addText('user', heldInput);
+      heldInput = '';
       // учень перебив вчителя: його слова під час репліки вчителя — початок нової репліки (а не втрачений шматок)
       if (barge.length) { seg = barge.concat(seg); segFlags = bargeFlags.concat(segFlags); segSpeech += bargeFlags.filter(Boolean).length; barge = []; bargeFlags = []; }
     });
-    live.addEventListener('input', e => addText('user', e.detail));
+    // текст учня, що прийшов, поки звучить вчитель, — притримуємо: перебив → нова репліка, ні → запізнілий хвіст попередньої (не дописуємо в уточнений текст)
+    live.addEventListener('input', e => { if (tutorTalking) heldInput += e.detail; else addText('user', e.detail); });
     live.addEventListener('output', e => addText('model', e.detail));
-    live.addEventListener('turn', closeTurns);
+    live.addEventListener('turn', () => { closeTurns(); checkpointSoon(); });
     live.addEventListener('reconnecting', () => { if (!ended) setState(S.err.network); });
-    live.addEventListener('ready', () => { setState('Слухаю…'); notice.textContent = ''; });
+    // планове оновлення сесії (~раз на 9 хв) — тихо, без «Зв'язок перервано»
+    live.addEventListener('resuming', () => log('planned resume'));
+    live.addEventListener('ready', () => { if (!tutorTalking) setState(micMuted ? 'Мікрофон вимкнено' : 'Слухаю…'); if (!notice.querySelector('.vc-wake')) notice.textContent = ''; });
+    // iOS: дзвінок, Siri, блокування екрана «присипляють» звук і мікрофон — просимо дотик, щоб повернути
+    audio.addEventListener('audio-state', (e) => { if (!e.detail && !ended && mode === 'live') askWake(); });
     live.addEventListener('error', e => { log('error ' + e.detail?.message); switchToFallback(e.detail); });
 
     if (!pre) await live.connect();
@@ -447,6 +531,8 @@ export async function voiceSession(view, opts = {}) {
   // ---------- запасний режим «рація» ----------
   function switchToFallback(err) {
     if (mode === 'ptt' || ended) return;
+    import('../errlog.js').then(m => m.report(err || new Error('live'), `voice fallback ${err?.code || ''}`.trim())).catch(() => {});
+    if (mode === 'live' && started && !tutorTalking) cutSegment();   // остання репліка Live — на уточнення, поки ще режим live
     mode = 'ptt';
     if (started) { elapsedBefore = elapsed(); started = Date.now(); } else started = Date.now();
     try { live?.close(); } catch { /* */ }
@@ -586,14 +672,18 @@ export async function voiceSession(view, opts = {}) {
     saved = true;
     const seconds = elapsed();
     row.seconds = seconds;
-    row.messages = row.messages.map(({ role, text, fixes }) => {
-      const m = { role, text: (text || '').trim() };
-      if (role === 'user' && fixes?.length) m.fixes = fixes;
-      return m;
-    }).filter(m => m.text);
+    // ті самі об'єкти (не копії): уточнення, що ще йде, допише текст у збережену розмову; порожня репліка, що ще уточнюється, лишається до результату
+    for (const m of row.messages) {
+      m.text = String(m.text || '').trim();
+      delete m.closed; delete m.liveExtra; delete m.hidden;
+      if (m.role !== 'user' || !m.fixes?.length) delete m.fixes;
+    }
+    row.messages = row.messages.filter(m => m.text || m.pending);
     const speech = speechMetrics();
     // у tutor_chats немає окремої колонки для метрик — тримаємо їх у summary (синхронізується), підсумок їх збереже
     if (speech) { if (!row.summary) row.summary = { partial: true, speech }; else row.summary.speech = speech; }
+    // тест чи заняття: позначка в summary (синхронізується між пристроями, meta — ні) — фонове доробляння підсумку таку розмову не чіпає
+    if (opts.onFinish) row.summary = { ...(row.summary || { partial: true }), guided: true };
     if (row.messages.length) store.put('tutor_chats', row);
     if (seconds > 5) {
       logSession('voice', seconds, row.id || null);
@@ -612,6 +702,10 @@ export async function voiceSession(view, opts = {}) {
     ended = true;
     // остання репліка учня ще не уточнена — уточнюємо й чекаємо (до 12 с), щоб підсумок і оцінка рахувались з правильного тексту
     if (mode === 'live' && !tutorTalking) cutSegment();
+    startResolve?.();
+    // далі вчитель уже не потрібен: тиша й закрите з'єднання — інакше під час «уточнюю» він міг відповісти вголос, а мікрофон писав нові шматки
+    try { audio?.clear(); audio?.mute(true); } catch { /* */ }
+    try { live?.close(); } catch { /* */ }
     if (jobs.size) {
       setState('Уточнюю ваші репліки…');
       await Promise.race([Promise.allSettled([...jobs]), new Promise(r => setTimeout(r, 12000))]);
@@ -643,6 +737,10 @@ export async function voiceSession(view, opts = {}) {
   function cleanup() {
     if (cleaned) return;
     cleaned = true;
+    startResolve?.();
+    clearTimeout(cpTimer);
+    document.removeEventListener('visibilitychange', onVis);
+    removeEventListener('pagehide', onHide);
     cancelAnimationFrame(raf);
     subsRO?.disconnect();
     try { warmClient?.close(); } catch { /* */ }
@@ -651,8 +749,8 @@ export async function voiceSession(view, opts = {}) {
     stopSpeech();
     setFocus(false);
     ui.remove();
-    // пішли зі сторінки без «Завершити» — все одно зберігаємо
-    if (!ended) { ended = true; save(); }
+    // пішли зі сторінки без «Завершити» — все одно зберігаємо (остання репліка — на уточнення: результат допишеться в збережену розмову)
+    if (!ended) { ended = true; if (mode === 'live' && started && !tutorTalking) { try { cutSegment(); } catch { /* */ } } save(); }
   }
   return cleanup;
 }

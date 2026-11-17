@@ -553,7 +553,13 @@ async function loadCooldowns(admin: SupabaseClient) {
   try {
     const { data } = await admin.from('app_keys').select('value').eq('id', 'model_cooldowns').maybeSingle();
     useCooldownStore((data?.value || null) as Record<string, number> | null, (all) => {
-      background(Promise.resolve(admin.from('app_keys').upsert({ id: 'model_cooldowns', value: all })).then(() => {}, () => {}));
+      // зливаємо з уже збереженим (інші екземпляри могли додати свої паузи) — максимум на модель, прострочені відкидаємо
+      background((async () => {
+        const { data: cur } = await admin.from('app_keys').select('value').eq('id', 'model_cooldowns').maybeSingle();
+        const now = Date.now(), merged: Record<string, number> = {};
+        for (const src of [cur?.value || {}, all] as Record<string, number>[]) for (const [m, t] of Object.entries(src)) if (typeof t === 'number' && t > now) merged[m] = Math.max(merged[m] || 0, t);
+        await admin.from('app_keys').upsert({ id: 'model_cooldowns', value: merged });
+      })().then(() => {}, () => {}));
     });
   } catch { /* без збережених пауз — моделі перевіряться заново */ }
 }
@@ -563,12 +569,16 @@ async function loadCooldowns(admin: SupabaseClient) {
  * Раніше «high» + 60 с на модель + бюджет 120 с: дві сильні моделі висли, і учень лишався без підсумку (2026-11-17). Разом тепер ≤ ~100 с.
  */
 async function strongThenLite<T>(models: string[], o: GenOpts, label: string): Promise<T> {
+  // сильні — лише не відкладені (вичерпаний денний ліміт, зависання): інакше підсумок марно чекав на «мертву» модель
   const strong = models.filter(m => !m.includes('lite'));
-  if (strong.length) {
-    try { return await generateJson<T>(strong.slice(0, 2), { ...o, thinking: 'medium', timeoutMs: 45_000, budgetMs: 50_000 }); }
+  const fresh = strong.filter(m => !isCooled(m));
+  if (fresh.length) {
+    try { return await generateJson<T>(fresh.slice(0, 2), { ...o, thinking: 'medium', timeoutMs: 45_000, budgetMs: 50_000 }); }
     catch (e) { console.error(`${label}: strong failed → lite`, (e as HttpError).code || (e as Error).message?.slice(0, 120)); }
   }
-  return await generateJson<T>(liteOnly(models), { ...o, thinking: 'off', timeoutMs: 30_000, budgetMs: 50_000 });
+  // швидкі без роздумів; якщо й вони всі вичерпані — ще не відкладені сильні (підсумок важливіший за економію)
+  const long = label === 'analysis';
+  return await generateJson<T>([...liteOnly(models), ...fresh], { ...o, thinking: 'off', timeoutMs: long ? 40_000 : 30_000, budgetMs: long ? 55_000 : 50_000 });
 }
 
 Deno.serve(handler(async (req) => {
@@ -684,9 +694,15 @@ Deno.serve(handler(async (req) => {
   if (an && 'error' in an) throw new HttpError(400, 'bad_request', an.error);
   const ws = action === 'word_story' ? wordStoryCheck(p) : null;
   if (ws && 'error' in ws) throw new HttpError(400, 'bad_request', ws.error);
-  await charge(ctx, 'text');
-  // сильні моделі — лише для оцінок (PRO/SMART) і в межах денної частки користувача; понад неї — lite (2026-11-13)
-  const strongOk = ['summary', 'check_text', 'diary', 'level_writing', 'analysis'].includes(action) ? await chargeStrong(ctx) : true;
+  // 2026-11-17 (рецензія): уточнення кожної голосової репліки йшло в загальний ліміт (у власника — 129 з 150 за день голосу), і підсумок наприкінці дня
+  // отримував «ліміт вичерпано». Голосові репліки обмежені секундами голосу — у загальний ліміт не йдуть (запобіжник — 3× ліміту);
+  // підсумок розмови й аналіз ліміт не блокує ніколи (ключова дія; рахується, якщо є місце)
+  const voiceTurn = action === 'transcribe' && (p.hint === 'learner' || p.hint === 'fluency');
+  if (voiceTurn) { const u = await usage(ctx); if ((u.text_calls || 0) >= LIMITS.textCalls * 3) throw new HttpError(429, 'quota'); }
+  else if (action === 'summary' || action === 'analysis') { try { await charge(ctx, 'text'); } catch (e) { if ((e as HttpError).code !== 'quota') throw e; } }
+  else await charge(ctx, 'text');
+  // сильні моделі — лише для оцінок (PRO/SMART) і в межах денної частки користувача; понад неї — lite (2026-11-13). Повтор підсумку (retry) частку вдруге не списує
+  const strongOk = ['summary', 'check_text', 'diary', 'level_writing', 'analysis'].includes(action) ? (action === 'summary' && p.retry ? true : await chargeStrong(ctx)) : true;
   const fair = (models: string[]) => (strongOk ? models : liteOnly(models));
   const st = await loadStudent(ctx);
 

@@ -7,9 +7,11 @@ class Player extends AudioWorkletProcessor {
     this.off = 0;
     this.playing = false;
     this.frames = 0;
+    this.empty = 0;         // скільки квантів поспіль черга порожня: «вчитель замовк» — лише після ~250 мс (розрив між шматками звуку — не кінець репліки)
+    this.idleAfter = Math.ceil(0.25 * sampleRate / 128);
     this.port.onmessage = (e) => {
       if (e.data.type === 'push') this.queue.push(e.data.data);
-      else if (e.data.type === 'clear') { this.queue = []; this.cur = null; this.off = 0; }
+      else if (e.data.type === 'clear') { this.queue = []; this.cur = null; this.off = 0; this.empty = this.idleAfter; }
     };
   }
   process(_inputs, outputs) {
@@ -21,7 +23,8 @@ class Player extends AudioWorkletProcessor {
       const v = this.cur[this.off++];
       out[i] = v; sum += v * v; wrote++;
     }
-    const playing = wrote > 0;
+    this.empty = wrote > 0 ? 0 : this.empty + 1;
+    const playing = wrote > 0 || (this.playing && this.empty < this.idleAfter);
     if (playing !== this.playing) { this.playing = playing; this.port.postMessage({ type: playing ? 'start' : 'idle' }); }
     if (++this.frames % 4 === 0) this.port.postMessage({ type: 'level', rms: wrote ? Math.sqrt(sum / wrote) : 0 });
     return true;

@@ -950,12 +950,19 @@ function chatUI(view, row, { scenario, ask, topic, resumed } = {}) {
 
 // ---------- Підсумок сесії ----------
 /** Підсумок розмови без екрана: запит до вчителя, помилки, слова, пам'ять, журнал тем. Спільне для екрана підсумку й фонового доробляння. */
-const sumInFlight = new Set();
-export async function makeSummary(row, { onRetry } = {}) {
+// підсумок, що вже готується (той самий рядок), — спільна обіцянка: повернулись на екран чи фон спрацював одночасно — чекаємо той самий запит
+const sumInFlight = new Map();
+export function summaryInFlight(row) { return sumInFlight.has(row?.id || row); }
+export function makeSummary(row, opts = {}) {
   const key = row.id || row;
-  if (sumInFlight.has(key)) throw new AiError('busy', 'Підсумок уже готується');
-  sumInFlight.add(key);
-  try {
+  if (sumInFlight.has(key)) return sumInFlight.get(key);
+  const p = runSummary(row, opts).finally(() => sumInFlight.delete(key));
+  sumInFlight.set(key, p);
+  return p;
+}
+const RETRYABLE_SUM = ['busy', 'overloaded', 'server', 'gemini', 'empty', 'timeout'];
+async function runSummary(row, { onRetry } = {}) {
+  {
     const prev = row.summary || null;
     const payload = { mode: row.mode, messages: (row.messages || []).filter(m => !m.hidden).map(m => ({ role: m.role, text: m.text })) };
     // виправлення, вже показані під час розмови (картки в чаті, підказки під репліками в голосі), — сервер гарантує їх у підсумку
@@ -966,10 +973,15 @@ export async function makeSummary(row, { onRetry } = {}) {
     const sp = prev?.speech;
     if (row.mode === 'voice' && sp?.words && sp.speech_sec >= 5) payload.speech = Object.fromEntries(SPEECH_KEYS.map(k => [k, Number(sp[k]) || 0]));
     // сервер зайнятий / модель зависла / обірвався зв'язок — один тихий повтор, а не екран помилки (2026-11-17)
-    const res = await tutor('summary', payload).catch((e) => {
-      if (!['busy', 'overloaded', 'server', 'gemini', 'empty', 'network'].includes(e?.code) && navigator.onLine) throw e;
+    // 2026-11-17 (рецензія): обрив мережі (TypeError без коду) теж повторюємо; запит не висить вічно (125 с); повторюємо лише швидкі збої —
+    // довгий збій сервера (~100 с) іде на екран помилки, а фонове доробляння (autoSummarizePending) візьме розмову пізніше
+    const ask = (retry) => tutor('summary', { ...payload, ...(retry ? { retry: true } : {}) }, { signal: AbortSignal.timeout ? AbortSignal.timeout(125_000) : undefined });
+    const t0 = Date.now();
+    const res = await ask(false).catch((e) => {
+      const net = !(e instanceof AiError) && e?.name !== 'AbortError' && e?.name !== 'TimeoutError';
+      if (!(net || RETRYABLE_SUM.includes(e?.code)) || Date.now() - t0 > 60_000 || !navigator.onLine) throw e;
       onRetry?.();
-      return tutor('summary', payload);
+      return ask(true);
     });
     // повторний підсумок продовженої розмови (і помилки, вже додані з виправлень) не зараховуються вдруге
     const prevList = prev?.mistakes || [];
@@ -1006,7 +1018,9 @@ export async function makeSummary(row, { onRetry } = {}) {
     const used = await markUsedWords({ onlyChat: row.id }).catch(e => { console.warn('used words', e); return []; });
     if (used.length) { row.summary.used_known = [...(row.summary.used_known || []), ...used.map(u => ({ id: u.id, en: u.en, uk: u.uk }))]; store.put('tutor_chats', row); }
     for (const m of res.mistakes || []) if (!before.has(mkey(m))) addMistake({ ...m, source: 'tutor', ref: row.id });
-    store.setProf({ lastFocus: res.next_focus || null });
+    // порада «наступного разу» — лише від найновішої розмови з підсумком (фонове доробляння старішої її не перезаписує)
+    const newer = store.all('tutor_chats').some(r => r !== row && !r.deleted && r.summary && !r.summary.partial && Date.parse(r.created_at || 0) > Date.parse(row.created_at || 0));
+    if (!newer) store.setProf({ lastFocus: res.next_focus || null });
     // журнал тем: про що була розмова (тема й категорії — з підсумку), чи почалась вона з пам'яті вчителя
     if ((row.mode === 'chat' || row.mode === 'voice') && !row.scenario && !row.meta?.mission) {
       const pick = row.meta?.pick || {};
@@ -1015,32 +1029,35 @@ export async function makeSummary(row, { onRetry } = {}) {
     }
     // новий сервер повертає й факти про учня з усієї розмови
     if (Array.isArray(res.memory) && res.memory.length) rememberFacts(res.memory);
-  } finally { sumInFlight.delete(key); }
+  }
 }
 
 /**
- * Фонове доробляння підсумків (2026-11-17, власник: «аналіз у кінці не завжди робиться… це ключова фішка»): голосова розмова за 3 дні,
+ * Фонове доробляння підсумків (2026-11-17, власник: «аналіз у кінці не завжди робиться… це ключова фішка»): голосова, текстова чи сценарій за 3 дні,
  * де підсумку немає (вийшли зі сторінки, вимкнувся телефон, сервер не встиг), — підсумок робиться сам при наступному відкритті застосунку.
  * По одній розмові за раз, кожну — не частіше раз на 2 год і не більше 3 спроб (localStorage['me:autosum']).
  */
 export async function autoSummarizePending() {
   if (!user() || !navigator.onLine) return null;
   let tries = {}; try { tries = JSON.parse(localStorage.getItem('me:autosum') || '{}') || {}; } catch { /* */ }
-  const since = Date.now() - 3 * 864e5;
-  const words = (r) => (r.messages || []).filter(m => m.role === 'user').reduce((a, m) => a + (String(m.text || '').match(/[A-Za-z']+/g) || []).length, 0);
-  const row = store.all('tutor_chats').filter(r => !r.deleted && r.mode === 'voice' && !r.meta?.guided && (!r.summary || r.summary.partial)
-    && Date.parse(r.updated_at || r.created_at || 0) > since && (r.messages || []).filter(m => m.role === 'user').length >= 2 && words(r) >= 25
-    && !sumInFlight.has(r.id) && (tries[r.id]?.n || 0) < 3 && Date.now() - (tries[r.id]?.at || 0) > 2 * 3600e3)
+  const now = Date.now(), since = now - 3 * 864e5;
+  const words = (r) => (r.messages || []).filter(m => m.role === 'user' && !m.hidden).reduce((a, m) => a + (String(m.text || '').match(/[A-Za-z']+/g) || []).length, 0);
+  // голос — через 15 хв після кінця (інший пристрій міг ще робити свій підсумок), текст і сценарій — через 30 хв тиші (розмова могла тривати)
+  const idleOk = (r) => now - Date.parse(r.updated_at || r.created_at || 0) > (r.mode === 'voice' ? 15 : 30) * 60_000;
+  const row = store.all('tutor_chats').filter(r => !r.deleted && ['voice', 'chat', 'scenario'].includes(r.mode) && !r.meta?.guided && !r.summary?.guided && !r.meta?.mission
+    && (!r.summary || r.summary.partial) && Date.parse(r.updated_at || r.created_at || 0) > since && idleOk(r)
+    && (r.messages || []).filter(m => m.role === 'user' && !m.hidden).length >= 2 && words(r) >= 25
+    && !sumInFlight.has(r.id) && (tries[r.id]?.n || 0) < 3 && now - (tries[r.id]?.at || 0) > 2 * 3600e3)
     .sort((a, b) => Date.parse(b.updated_at || 0) - Date.parse(a.updated_at || 0))[0];
   if (!row) return null;
-  tries[row.id] = { n: (tries[row.id]?.n || 0) + 1, at: Date.now() };
+  tries[row.id] = { n: (tries[row.id]?.n || 0) + 1, at: now };
   try { localStorage.setItem('me:autosum', JSON.stringify(Object.fromEntries(Object.entries(tries).slice(-30)))); } catch { /* */ }
   await makeSummary(row);
   return row;
 }
 
 // Підсумок рахує Pro-модель — до хвилини: текст очікування змінюється, щоб екран не здавався завислим
-const SUMMARY_STEPS = ['Перечитую розмову…', 'Перевіряю ваші репліки…', 'Шукаю помилки, які повторюються…', 'Оцінюю рівень за критеріями CEFR…', 'Добираю нові слова…', 'Готую пораду на наступний раз…', 'Майже готово — докладний розбір займає до хвилини…'];
+const SUMMARY_STEPS = ['Перечитую розмову…', 'Перевіряю ваші репліки…', 'Шукаю помилки, які повторюються…', 'Оцінюю рівень за критеріями CEFR…', 'Добираю нові слова…', 'Готую пораду на наступний раз…', 'Майже готово. Можна вийти — підсумок збережеться сам'];
 const SPEECH_KEYS = ['words', 'speech_sec', 'wpm', 'avg_len', 'repeats', 'fillers', 'unique_ratio', 'turns'];
 
 /** opts.voice — голосова сесія; opts.pronTurns — репліки з аудіо для оцінки вимови (лише одразу після голосу, у пам'яті) */
@@ -1060,6 +1077,8 @@ export async function summarize(view, row, { voice = false, pronTurns = null } =
   try {
     await makeSummary(row, { onRetry: () => { stepEl.textContent = 'Ще трохи — вчитель перевіряє ще раз…'; } });
   } catch (e) {
+    // у журнал помилок (#/admin) — збій ключової функції має бути видно розробнику, а не лише учневі
+    import('../errlog.js').then(m => m.report(e, `summary ${row.mode} ${e?.code || e?.name || ''}`.trim())).catch(() => {});
     view.replaceChildren(stateScreen({ icon: 'warning', tone: 'bad', label: 'Підсумок розмови', title: 'Не вдалося зробити підсумок', sub: aiErrorText(e) || S.err.generic, role: 'alert' },
       txPrimary({ icon: 'arrow-clockwise', label: 'Спробувати ще раз', sub: 'розмова збережена', onclick: () => summarize(view, row, { voice, pronTurns }) }), backToTutor()));
     return;
@@ -1109,6 +1128,7 @@ function usedKnownCard(s) {
 
 export function summaryView(view, row, { pronTurns = null, back = null } = {}) {
   const s = row.summary;
+  if ((!s || s.partial) && summaryInFlight(row)) return summarize(view, row, { voice: row.mode === 'voice' });   // уже готується — екран очікування того самого запиту
   if (!s || s.partial) {
     view.replaceChildren(stateScreen({ icon: 'notebook', label: 'Підсумок розмови', title: 'Підсумку ще немає', sub: 'Вчитель розбере розмову: помилки, нові слова, рівень.' },
       txPrimary({ icon: 'sparkle', label: 'Зробити підсумок', onclick: () => summarize(view, row, { voice: row.mode === 'voice' }) }),

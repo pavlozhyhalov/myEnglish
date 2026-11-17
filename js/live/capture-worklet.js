@@ -7,6 +7,7 @@ class Capture extends AudioWorkletProcessor {
     this.n = 0;
     this.pos = 0;           // дробова позиція для ресемплінгу
     this.muted = false;
+    this.q = 0;             // рівень для анімації — раз на 8 квантів (~47 разів/с замість 375): менше роботи головному потоку телефона
     this.pSum = 0;          // сума квадратів і кількість семплів поточного пакета — rms пакета
     this.pN = 0;
     this.port.onmessage = (e) => { if (e.data?.type === 'mute') this.muted = e.data.value; };
@@ -33,7 +34,7 @@ class Capture extends AudioWorkletProcessor {
       }
     }
     this.pos -= ch.length;
-    this.port.postMessage({ type: 'level', rms: this.muted ? 0 : rms });
+    if (++this.q % 8 === 0) this.port.postMessage({ type: 'level', rms: this.muted ? 0 : rms });
     return true;
   }
 }

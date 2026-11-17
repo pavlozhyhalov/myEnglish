@@ -9,7 +9,8 @@ import { loadStudent, modePrompt, type Scenario } from '../_shared/prompts.ts';
 Deno.serve(handler(async (req) => {
   const ctx = await authenticate(req);
   const p = await req.json().catch(() => ({}));
-  const u = await usage(ctx);
+  // паралельно (2026-11-17, рецензія: послідовні запити додавали ~0,2–0,4 с до старту голосу)
+  const [u, st] = await Promise.all([usage(ctx), loadStudent(ctx)]);
   const left = LIMITS.voiceSeconds - (u.voice_seconds || 0);
   if (left <= 30) throw new HttpError(429, 'quota');
   // кожен токен рахується (денний ліміт токенів) — голосовий ліміт не тримається лише на чесності клієнта
@@ -17,7 +18,6 @@ Deno.serve(handler(async (req) => {
 
   const idx = Math.max(0, Math.min(LIVE_MODELS.length - 1, Number(p.fallback) || 0));
   const model = LIVE_MODELS[idx];
-  const st = await loadStudent(ctx);
   const voice = LIVE_VOICES.includes(p.voice) ? p.voice : (LIVE_VOICES.includes(st.voice) ? st.voice : 'Puck');
   const mode = p.scenario ? 'scenario' : 'chat';
   const s = p.scenario && typeof p.scenario === 'object' ? p.scenario as Record<string, unknown> : null;
@@ -52,13 +52,14 @@ Deno.serve(handler(async (req) => {
   };
   let basic = !!p.basic;
   let tok;
-  try { tok = await createLiveToken(setup, { uses: 5, minutes: 30 }); } catch (e) {
+  try { tok = await createLiveToken(setup, { uses: 20, minutes: 30 }); } catch (e) {
     // Google не прийняв налаштування паузи — токен без них (голос працює зі стандартною паузою)
-    if (basic || (e as HttpError).code !== 'bad_model_request') throw e;
+    // лише якщо помилка справді про налаштування паузи/слухання (2026-11-17, рецензія: будь-яка помилка вимикала їх — паузу за замовчуванням, обриви на півслові)
+    if (basic || (e as HttpError).code !== 'bad_model_request' || !/realtime|activity|sensitivity|silence|prefix|padding/i.test(String((e as Error).message))) throw e;
     console.error('live-token: VAD config rejected', String((e as Error).message).slice(0, 200));
     delete (setup as Record<string, unknown>).realtimeInputConfig;
     basic = true;
-    tok = await createLiveToken(setup, { uses: 5, minutes: 30 });
+    tok = await createLiveToken(setup, { uses: 20, minutes: 30 });
   }
   return json({ ...tok, model, voice, pauseMs: basic ? 0 : st.voicePauseMs, voiceSecondsLeft: left, hasMoreModels: idx < LIVE_MODELS.length - 1 });
 }));

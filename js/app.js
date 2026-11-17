@@ -60,7 +60,9 @@ function header() {
   // голосова розмова без підсумку (вийшли, вимкнувся телефон, сервер не встиг) — підсумок доробляється сам (js/pages/tutor.js)
   let autoSumAt = 0;
   const autoSum = () => {
-    if (!authUser() || document.hidden || Date.now() - autoSumAt < 60_000 || /^#\/tutor/.test(location.hash)) return;
+    // лише на «спокійних» сторінках: не посеред голосу, уроку, тесту чи гри (сильна модель і toast там заважають)
+    const calm = /^#?\/?(home|today|progress|analysis|report|settings|profile|friends|reading\/?$|reading\/library|games\/?$|cards\/?$|vocab|grammar\/?$|mistakes\/?$|admin|feedback)?(\?.*)?$/;
+    if (!authUser() || document.hidden || Date.now() - autoSumAt < 60_000 || !calm.test(location.hash || '#/home')) return;
     autoSumAt = Date.now();
     import('./pages/tutor.js').then(m => m.autoSummarizePending()).then(row => {
       if (row) toast('Підсумок розмови готовий: помилки й нові слова вже у вашому навчанні', { ms: 7000, action: 'Відкрити', onAction: () => { location.hash = `#/tutor?chat=${row.id}&view=summary`; } });

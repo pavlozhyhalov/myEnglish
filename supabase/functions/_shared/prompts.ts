@@ -199,7 +199,8 @@ export function readDisputes(v: unknown): Dispute[] {
 
 /** Скільки тиші (мс) голосовий вчитель чекає, перш ніж відповісти: учневі, що підбирає слова, потрібно більше */
 export const VOICE_PAUSE: Record<string, number> = { short: 700, normal: 1300, long: 2200 };
-export const autoPause = (level: string) => (['A0', 'A1'].includes(level) ? 1800 : ['A2', 'B1'].includes(level) ? 1600 : 1300);
+// A0–A1 — як і раніше 2,2 с (дані тижня: 11% реплік — уривки 1–2 слова, переважно в початківців); A2–B1 — 1,7 с; B2+ — 1,3 с
+export const autoPause = (level: string) => (['A0', 'A1'].includes(level) ? 2200 : ['A2', 'B1'].includes(level) ? 1700 : 1300);
 
 /** Підсумки останніх розмов → рядки для промпту: «2026-10-30 (voice): …; mistakes: …; next: …» */
 export function readHistory(rows: Array<{ mode?: unknown; title?: unknown; summary?: unknown; updated_at?: unknown }>): string[] {
@@ -480,9 +481,12 @@ ${t?.recent.length ? `- RECENT TOPICS (newest first): ${t.recent.join('; ')}. Do
 
 export type Scenario = { title?: string; situation?: string; myRole?: string; tutorRole?: string; goal?: string; phrases?: string[] };
 
-export function modePrompt(mode: string, st: Student, opts: { scenario?: Scenario | null; drillType?: string | null; topic?: string | null; voice?: boolean }) {
-  const parts = [basePrompt(st, mode, { drillType: opts.drillType, topic: opts.topic })];
+export function modePrompt(mode: string, st0: Student, opts: { scenario?: Scenario | null; drillType?: string | null; topic?: string | null; voice?: boolean }) {
   const voice = !!opts.voice;
+  // Голос (2026-11-17, рецензія): промпт до ~23 тис. символів сповільнював старт і кожне відновлення сесії й гірше виконувався
+  // голосовою моделлю — у голосі лише найсвіжіше: 12 фактів пам'яті, 1 попередня розмова, 5 оскаржень
+  const st = voice ? { ...st0, memory: st0.memory.slice(0, 12), history: st0.history.slice(0, 1), disputes: st0.disputes.slice(0, 5) } : st0;
+  const parts = [basePrompt(st, mode, { drillType: opts.drillType, topic: opts.topic })];
   const a0 = isA0(st.level);
   const fb = voice && !a0 ? 'in simple English, 1–2 sentences' : `in ${explainIn(st)}, 2–3 sentences`;
   if (mode === 'scenario' && opts.scenario) {
@@ -537,8 +541,8 @@ Never greet again or reopen the opening topic later in the same session, even af
 VOICE MODE (overrides formatting rules above)
 - You are speaking out loud in real time. Short turns: 1–3 sentences, then let the student talk. No Markdown, lists or emoji; say numbers and symbols as words.
 - ${a0 ? 'Mistakes: say the correct chunk right away, slowly, and ask to repeat it once — no explanations. A review happens after the session.' : 'Mistakes: do not interrupt or explain — recast the correct version naturally in your reply. A detailed review happens after the session.'}
-- The student's speech may be unclear (accent, noise, street sounds): if you did not understand, ask them to repeat or rephrase instead of guessing. Never answer to sounds that seem to be in another language (Spanish, Portuguese…) — the student speaks English or Ukrainian.
-- The student is a learner who thinks while speaking: if their turn sounds unfinished (cut mid-sentence, "and…", "because…"), do not answer the half-thought — say something short like "Go on…" or "Take your time" and let them finish.
+- A learner thinks while speaking. If their turn sounds unfinished or cut off but you understand where it is going ("I went to the…", "and…", "because…"), it is NOT unclear: reply with at most three words ("Go on…", "Mm-hm, and?", "Take your time") and wait — never answer the half-thought. This overrides the rule about fragments in THE STUDENT LEADS.
+- Ask them to repeat only when you could not understand the sound at all (noise, a garbled word). Never answer to sounds that seem to be in another language (Spanish, Portuguese…) — the student speaks English or Ukrainian.
 - Keep your turns short so the student can react; never deliver monologues or several pieces of advice at once.
 - If the student is silent or says they don't know, simplify the question or offer two options.
 - If asked to slow down, speak slower and use simpler words. If asked for a hint, give 3 short options of what they could say.
