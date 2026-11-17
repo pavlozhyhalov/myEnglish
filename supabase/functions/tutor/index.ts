@@ -558,6 +558,19 @@ async function loadCooldowns(admin: SupabaseClient) {
   } catch { /* без збережених пауз — моделі перевіряться заново */ }
 }
 
+/**
+ * Довгі оцінки (підсумок розмови, глибокий аналіз): одна сильна модель з роздумами «medium» і до 45 с, далі — гарантовано швидкі lite без роздумів.
+ * Раніше «high» + 60 с на модель + бюджет 120 с: дві сильні моделі висли, і учень лишався без підсумку (2026-11-17). Разом тепер ≤ ~100 с.
+ */
+async function strongThenLite<T>(models: string[], o: GenOpts, label: string): Promise<T> {
+  const strong = models.filter(m => !m.includes('lite'));
+  if (strong.length) {
+    try { return await generateJson<T>(strong.slice(0, 2), { ...o, thinking: 'medium', timeoutMs: 45_000, budgetMs: 50_000 }); }
+    catch (e) { console.error(`${label}: strong failed → lite`, (e as HttpError).code || (e as Error).message?.slice(0, 120)); }
+  }
+  return await generateJson<T>(liteOnly(models), { ...o, thinking: 'off', timeoutMs: 30_000, budgetMs: 50_000 });
+}
+
 Deno.serve(handler(async (req) => {
   if (Number(req.headers.get('content-length') || 0) > 9_000_000) throw new HttpError(413, 'bad_request', 'Request too large');
   const p = await req.json().catch(() => ({}));
@@ -745,7 +758,8 @@ ABSOLUTE BEGINNER (A0) — overrides the rules above where they conflict:
 - mistakes: at most 5, only in the core items practised (the taught words and patterns: I'm / my name is / I like / I have, a/an, plural -s, basic word order); ignore subtle grammar and anything outside the lesson. Repeating after the tutor and answering in Ukrainian are practice, not mistakes.
 - new_words: 3–8 basic words or chunks taught in this lesson (the first ~300 English words), never advanced vocabulary.
 - level_signal: A0 is expected while the student mostly repeats, answers with single words or uses Ukrainian; A1 only when they build simple sentences of their own.` : ''}`;
-      const res = await generateJson<Record<string, unknown>>(fair(PRO_MODELS), { system, contents: [{ role: 'user', parts: [{ text: transcript(p.messages || []) || '(empty session)' }] }], schema: SUMMARY_SCHEMA, temperature: 0.2, thinking: 'high', timeoutMs: 60_000, budgetMs: 120_000 });
+      // 2026-11-17 (власник: «аналіз у кінці не завжди робиться»): сильна модель з роздумами «high» двічі висла по 60 с → бюджет вичерпано, підсумку немає
+      const res = await strongThenLite<Record<string, unknown>>(fair(PRO_MODELS), { system, contents: [{ role: 'user', parts: [{ text: transcript(p.messages || []) || '(empty session)' }] }], schema: SUMMARY_SCHEMA, temperature: 0.2 }, 'summary');
       const cleaned = calibrateLevel(cleanSummary(res, st), speech, st.level);
       return json({ ...cleaned, mistakes: mergeTurnFixes(cleaned.mistakes, turnFixes, st.disputes), mastered: cleanMastered(res?.mastered, st), fluency_tip_uk: speech ? str(res?.fluency_tip_uk, 400).trim() : '' });
     }
@@ -883,7 +897,7 @@ ${UK_STYLE}`;
     case 'analysis': {
       // глибокий аналіз: лише очищене зведення від клієнта, без розмов; низька температура, відповідь перевіряється
       const digest = (an as { digest: Record<string, unknown> }).digest;
-      const res = await generateJson(fair(PRO_MODELS), { system: analysisPrompt(st), contents: [{ role: 'user', parts: [{ text: JSON.stringify(digest) }] }], schema: ANALYSIS_SCHEMA, temperature: 0.2, thinking: 'high', maxTokens: 16000, timeoutMs: 60_000, budgetMs: 120_000 });
+      const res = await strongThenLite<Record<string, unknown>>(fair(PRO_MODELS), { system: analysisPrompt(st), contents: [{ role: 'user', parts: [{ text: JSON.stringify(digest) }] }], schema: ANALYSIS_SCHEMA, temperature: 0.2, maxTokens: 16000 }, 'analysis');
       return json(cleanAnalysis(res));
     }
 

@@ -36,12 +36,13 @@ Deno.serve(handler(async (req) => {
     outputAudioTranscription: {},
     sessionResumption: {},
     contextWindowCompression: { slidingWindow: {} },
-    // учень підбирає слова з паузами: не обриваємо його (довша тиша, низька чутливість кінця мовлення),
-    // і вуличний шум не перебиває вчителя (низька чутливість початку). basic — відкат, якщо модель не прийняла налаштування.
+    // учень підбирає слова з паузами: не обриваємо його (низька чутливість кінця мовлення, пауза за рівнем).
+    // Початок мовлення — висока чутливість (2026-11-17, власник: «не все чує»; з LOW тихий чи короткий початок репліки не вмикав «слухання»,
+    // вчитель мовчав і учень перепитував «you hear me?»). basic — відкат, якщо модель не прийняла налаштування.
     ...(p.basic ? {} : {
       realtimeInputConfig: {
         automaticActivityDetection: {
-          startOfSpeechSensitivity: 'START_SENSITIVITY_LOW',
+          startOfSpeechSensitivity: 'START_SENSITIVITY_HIGH',
           endOfSpeechSensitivity: 'END_SENSITIVITY_LOW',
           prefixPaddingMs: 200,
           silenceDurationMs: st.voicePauseMs,

@@ -202,7 +202,9 @@ export async function voiceSession(view, opts = {}) {
     for (const u of users) if (u !== target) u.text = '';   // кілька шматків однієї репліки зливаються в один
     target.pending = true; renderSubs();
     const turn = trimTurn(chunks, flags);
-    const payload = { audio: b64(wavBytes(chunks)), mime: 'audio/wav', hint: 'learner', check: !opts.onFinish };
+    // лише мовлення: без тиші до й після й зі стиснутими довгими паузами всередині (2026-11-17: сегмент разом з очікуванням важив 2–3 МБ
+    // і на мобільному інтернеті забивав канал — живий звук до вчителя запізнювався, «вчитель довго думає»)
+    const payload = { audio: b64(wavBytes(compact(chunks, flags))), mime: 'audio/wav', hint: 'learner', check: !opts.onFinish };
     // контекст розпізнавання: що вчитель сказав перед цією реплікою (відповідь учня — на це питання).
     // Репліка, яку вчитель договорив останньою (подія idle), точніша за позицію в транскрипті: текст і звук Live приходять у різному порядку
     const ctx = tutorContext(tutorLine || lastTutorBefore(row.messages.indexOf(target)));
@@ -222,6 +224,18 @@ export async function voiceSession(view, opts = {}) {
       .catch(e => log('transcribe failed ' + (e.code || e.message)))
       .finally(() => { target.pending = false; renderSubs(); jobs.delete(job); });
     jobs.add(job);
+  }
+  /** Мовлення учня для розпізнавання: від першого до останнього пакета з голосом (± PAD), паузи довші за 1 с скорочені до 1 с */
+  function compact(chunks, flags) {
+    const a = flags.indexOf(true), b = flags.lastIndexOf(true);
+    if (a < 0) return chunks;
+    const out = [];
+    let quiet = 0;
+    for (let i = Math.max(0, a - PAD); i <= Math.min(chunks.length - 1, b + PAD); i++) {
+      quiet = flags[i] ? 0 : quiet + 1;
+      if (quiet <= 10) out.push(chunks[i]);
+    }
+    return out;
   }
   /** Текст останньої репліки вчителя перед позицією idx у транскрипті ('' — вчитель ще нічого не сказав) */
   function lastTutorBefore(idx) {

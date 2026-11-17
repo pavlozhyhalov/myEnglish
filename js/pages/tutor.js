@@ -977,7 +977,12 @@ export async function summarize(view, row, { voice = false, pronTurns = null } =
     // метрики мовлення голосової сесії (рахує voice.js); без виміряного часу мовлення (режим «рація») — не надсилаємо
     const sp = prev?.speech;
     if (row.mode === 'voice' && sp?.words && sp.speech_sec >= 5) payload.speech = Object.fromEntries(SPEECH_KEYS.map(k => [k, Number(sp[k]) || 0]));
-    const res = await tutor('summary', payload);
+    // сервер зайнятий / модель зависла / обірвався зв'язок — один тихий повтор, а не екран помилки (2026-11-17)
+    const res = await tutor('summary', payload).catch((e) => {
+      if (!['busy', 'overloaded', 'server', 'gemini', 'empty', 'network'].includes(e?.code) && navigator.onLine) throw e;
+      stepEl.textContent = 'Ще трохи — вчитель перевіряє ще раз…';
+      return tutor('summary', payload);
+    });
     // повторний підсумок продовженої розмови (і помилки, вже додані з виправлень) не зараховуються вдруге
     const prevList = prev?.mistakes || [];
     const before = new Set(prevList.map(mkey));

@@ -139,8 +139,9 @@ export async function loadStudent(ctx: Ctx): Promise<Student> {
     disputes: readDisputes(d.disputes),
     focus: readFocus(d.weeklyFocus, mistakes.data || []),
     open: (mistakes.data || []).slice(0, 15).map(m => ({ id: String(m.id), wrong: cut(m.wrong, 80), right: cut(m.right, 80) })).filter(m => m.wrong && m.right),
-    // «Авто» (за замовчуванням, 2026-11-16): A0–B1 думають над словом довше — вчитель чекає довгу паузу, інакше відповідає на півслові
-    voicePauseMs: VOICE_PAUSE[s.voicePause as string] || (['A0', 'A1', 'A2', 'B1'].includes(String(d.level || s.level || 'B1')) ? VOICE_PAUSE.long : VOICE_PAUSE.normal),
+    // «Авто» (за замовчуванням): 2026-11-16 — 2,2 с для A0–B1 (вчитель відповідав на півслові), 2026-11-17 — «вчитель довго думає»:
+    // середина — A0–A1 1,8 с, A2–B1 1,6 с, B2+ 1,3 с; повна тиша «Довга» (2,2 с) лишається в «Налаштуваннях»
+    voicePauseMs: VOICE_PAUSE[s.voicePause as string] || autoPause(String(d.level || s.level || 'B1')),
     topics: readTopicLog(d.topicLog),
   };
 }
@@ -198,6 +199,7 @@ export function readDisputes(v: unknown): Dispute[] {
 
 /** Скільки тиші (мс) голосовий вчитель чекає, перш ніж відповісти: учневі, що підбирає слова, потрібно більше */
 export const VOICE_PAUSE: Record<string, number> = { short: 700, normal: 1300, long: 2200 };
+export const autoPause = (level: string) => (['A0', 'A1'].includes(level) ? 1800 : ['A2', 'B1'].includes(level) ? 1600 : 1300);
 
 /** Підсумки останніх розмов → рядки для промпту: «2026-10-30 (voice): …; mistakes: …; next: …» */
 export function readHistory(rows: Array<{ mode?: unknown; title?: unknown; summary?: unknown; updated_at?: unknown }>): string[] {
