@@ -164,6 +164,7 @@ function finish(view, ctx, gq, gres, wq, wres) {
   store.put('tests', { type: 'level', ref: ctx.level, scores: { score, grammar: g, words: w, passed },
     details: [...gres.results.map(r => ({ ok: r.ok, lesson: r.ex._lesson })), ...wres.map(r => ({ ok: r.ok, card: r.it.id }))] });
   if (passed) store.setProf({ levelExam: { ...(store.prof().levelExam || {}), [ctx.level]: new Date().toISOString() } });
+  if (passed) import('../chat.js').then(c => c.shareNews('exam', ctx.level)).catch(() => {});   // новина друзям у групах
 
   const missed = wres.filter(r => !r.ok);
   view.replaceChildren(h('div.stack-lg.lx',

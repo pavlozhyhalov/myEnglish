@@ -12,7 +12,7 @@ import { onLeave } from '../router.js';
 import { plural } from '../strings.js';
 import { canRecord, createMic, recordRound, micErrorKind, markup, analyze, isFiller, normWord, TOPICS, GAMBITS, interestTopics } from '../fluency.js';
 import { bestUpdate } from './logic.js';
-import { gameState, saveGameState, beep, buzz, reducedMotion, gameHead, gameLoginCard, micErrorCard, countdownRing, levelMeter, gameIntro, startTile, gameResult } from './common.js';
+import { gameState, saveGameState, beep, buzz, reducedMotion, gameHead, gameLoginCard, micErrorCard, countdownRing, levelMeter, gameIntro, startTile, gameResult, newsRecord } from './common.js';
 import { tx, txGroup, txPrimary } from '../ui/tiles.js';
 
 /** Налаштування гри (об'єкт, щоб тести могли скоротити тривалість) */
@@ -324,6 +324,7 @@ export default function minute(view) {
     const st = gameState();
     const upd = bestUpdate(st.best?.minute, lv, s.sec);
     saveGameState({ best: { ...(st.best || {}), minute: upd.best } });
+    newsRecord('minute', upd, s.sec);
     upd.record ? (beep('win'), buzz([30, 40, 30])) : s.full ? beep('win') : beep('lose');
     stage.onclick = null;
     stage.querySelector('.gm-replay')?.removeAttribute('aria-hidden');

@@ -10,7 +10,7 @@ import { route, fallback, onRoute, start, go, parse } from './router.js';
 import { sectionFor, menuItemOf, tabsetOf } from './nav.js';
 import { initAuth, onAuth, onClient, recoveryPending, user as authUser } from './supa.js';
 import { initErrlog } from './errlog.js';
-import { streak, backfillLessonTests, tidyMistakes } from './stats.js';
+import { streak, todaySeconds, backfillLessonTests, tidyMistakes } from './stats.js';
 import { setTitle, applyTheme, isDark } from './ui/shell.js';
 import { keepAwake } from './ui/wakelock.js';
 import { initSelectLookup } from './ui/selectlookup.js';
@@ -42,7 +42,23 @@ function header() {
     streakBtn.setAttribute('aria-label', S.streak(n));
     // нульовий стрік не показуємо — шапка без «0»
     streakBtn.hidden = n < 1;
+    streakNews(n);
   };
+  // серія 3, 7, 14, 30… днів (сьогоднішній день уже зараховано) — новина друзям у групах (раз; сервер теж не повторює)
+  function streakNews(n) {
+    if (n < 3 || !authUser() || todaySeconds() < 300) return;
+    let last = 0; try { last = +localStorage.getItem('me:streak-news') || 0; } catch { /* */ }
+    if (last === n) return;
+    import('./chat.js').then(c => {
+      if (!c.STREAK_NEWS.includes(n)) return;
+      try { localStorage.setItem('me:streak-news', String(n)); } catch { /* */ }
+      c.shareNews('streak', n);
+    }).catch(() => {});
+  }
+  // «у мережі» для друзів: серцебиття, поки застосунок на екрані (не частіше раз на хвилину)
+  const beat = () => { if (authUser() && !document.hidden) import('./chat.js').then(c => c.heartbeat()).catch(() => {}); };
+  setTimeout(beat, 5000); setInterval(beat, 60_000);
+  document.addEventListener('visibilitychange', beat);
   updateStreak();
   store.on(t => { if (t === 'sessions') updateStreak(); if (t === 'synced') { try { backfillLessonTests(); } catch (e) { console.warn('tests backfill', e); } try { tidyMistakes(); } catch (e) { console.warn('tidy mistakes', e); } reviewLater(); usedWordsLater(); } });
   // повторення пройденого й слабких місць — раз на добу (js/review.js)

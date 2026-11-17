@@ -606,7 +606,10 @@ Deno.serve(handler(async (req) => {
     if (!/^[0-9a-f-]{36}$/i.test(room)) throw new HttpError(400, 'bad_request', 'Bad room');
     const { data: rm } = await ctx.admin.from('chat_rooms').select('kind').eq('id', room).maybeSingle();
     const { data: member } = await ctx.db.rpc('is_chat_member', { p_room: room });
-    if (member !== true || rm?.kind !== 'group') throw new HttpError(403, 'not_allowed');
+    if (member !== true || !rm) throw new HttpError(403, 'not_allowed');
+    const isGroup = rm.kind === 'group';
+    // чат 1:1: вчитель — лише на звернення (без домашнього, привітань і реплік «від себе»)
+    if (!isGroup && p.praise) return json({ skipped: 'dm' });
     if (await tutorCount(ctx.admin, room, 24) >= TUTOR_DAILY_MAX) return json({ skipped: 'limit' });
     if (p.praise) {
       // лише якщо цей учень щойно (≤ 15 хв) виконав домашнє і вчитель його ще не вітав
@@ -627,18 +630,18 @@ Deno.serve(handler(async (req) => {
     if (!msg || msg.room_id !== room || msg.user_id !== ctx.user.id || !['text', 'voice'].includes(msg.kind)) throw new HttpError(400, 'bad_request', 'Bad message');
     if (Date.now() - Date.parse(msg.created_at) > 10 * 60_000) return json({ skipped: 'old' });
     // звертання: «@teacher», «Вчителю…» або відповідь на репліку вчителя
-    let addressed = msg.kind === 'text' && mentionsTutor(msg.body);
+    let addressed = mentionsTutor(msg.body);   // текст або розпізнане голосове
     if (!addressed && msg.reply_to) {
       const { data: parent } = await ctx.admin.from('chat_messages').select('kind, meta').eq('id', msg.reply_to).maybeSingle();
       addressed = parent?.kind === 'system' && (parent.meta as Record<string, unknown>)?.event === 'tutor';
     }
     if (addressed) {
       await charge(ctx, 'text');
-      const text = await tutorReply(ctx.admin, room);
+      const text = await tutorReply(ctx.admin, room, isGroup);
       return json({ message: await postTutor(ctx.admin, room, ctx.user.id, text, { mode: 'reply', reply_to: id }) });
     }
     // вчитель сам долучається до жвавої розмови (не частіше ніж раз на 90 хв)
-    if (p.auto && await shouldChime(ctx.admin, room)) {
+    if (p.auto && isGroup && await shouldChime(ctx.admin, room)) {
       await charge(ctx, 'text');
       const text = await tutorChime(ctx.admin, room);
       return json({ message: await postTutor(ctx.admin, room, ctx.user.id, text, { mode: 'chime' }) });

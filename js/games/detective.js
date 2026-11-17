@@ -14,7 +14,7 @@ import { bestUpdate, shuffleArr } from './logic.js';
 import { plural } from '../strings.js';
 import { tx, txGroup, txRows, txPill } from '../ui/tiles.js';
 import { duelOf, duelNote, seeded, finishDuel } from '../duel.js';
-import { gameState, saveGameState, beep, buzz, reducedMotion, gameHead, statPill, gameIntro, startTile, gameResult, moreRows } from './common.js';
+import { gameState, saveGameState, beep, buzz, reducedMotion, gameHead, statPill, gameIntro, startTile, gameResult, moreRows, newsRecord } from './common.js';
 
 export const ROUNDS = 15;
 export const OWN_SHARE = 0.6;
@@ -399,6 +399,7 @@ export default async function detective(view, r) {
       const st = gameState();
       const upd = bestUpdate(st.best?.detective, lv, score);
       saveGameState({ best: { ...(st.best || {}), detective: upd.best } });
+      newsRecord('detective', upd, score);
       upd.record ? (beep('win'), buzz([30, 40, 30])) : beep(hits >= rounds.length / 2 ? 'ok' : 'lose');
       const byRule = new Map();
       for (const r of misses) {

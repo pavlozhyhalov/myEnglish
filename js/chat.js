@@ -4,6 +4,7 @@
 // Перевірка: текст — tutor `friend_check` після надсилання; голос — tutor `friend_voice` (розпізнавання + перевірка + вставка).
 // Помилки з переписки йдуть у «Мої помилки» (source 'chat-friends', ref = id повідомлення) лише на пристрої, що надіслав.
 import { getSupa, user } from './supa.js';
+import * as store from './store.js';
 import { tutor } from './ai.js';
 import { addMistake, isDisputed } from './stats.js';
 import { getMic, micAvailable } from './speech.js';
@@ -40,7 +41,8 @@ export async function rpc(name, args = {}) {
 }
 
 export const listChats = () => rpc('chat_list');
-export const roomMembers = (room) => rpc('chat_room_members', { p_room: room });
+// учасники + «у мережі» і «прочитано» (міграція 0034); старий виклик — запасний
+export const roomMembers = (room) => rpc('chat_room_people', { p_room: room }).catch(() => rpc('chat_room_members', { p_room: room }));
 export const openDm = (friend) => rpc('chat_open_dm', { p_friend: friend });
 export const createGroup = (title, members) => rpc('chat_create_group', { p_title: title, p_members: members });
 export const invite = (room, members) => rpc('chat_invite', { p_room: room, p_members: members });
@@ -58,8 +60,20 @@ export const cancelChallenge = (id) => rpc('chat_challenge_cancel', { p_id: id }
 export const homework = (room) => rpc('chat_homework_status', { p_room: room });
 export const homeworkDone = (id) => rpc('chat_homework_done', { p_homework: id }).catch(() => false);
 export const newHomework = (room) => tutor('homework', { room_id: room });
-// вчитель у групі (міграція 0027): відповідає на «@teacher» / «Teacher, …» / «Вчителю…», вітає з виконаним домашнім
-export const mentionsTutor = (text) => /(^|[\s,.!?(«"'])@?(teacher|tutor|вчител|учител)/i.test(String(text || ''));
+// вчитель у чаті (міграції 0027, 0034): відповідає на звертання «Teacher, …» / «Вчителю…» — у групі й у чаті з другом
+/** Чи звертаються до вчителя (власник 2026-11-17: «просто зверненням "Teacher,", без @ і видумок»).
+ *  Так: «Teacher, …», «Hi teacher …», «Teacher how do you say…» (на початку), «…, teacher?» (у кінці), «So, teacher, …», «Вчителю…», «@teacher».
+ *  Ні: «my teacher at school», «I asked the teacher» — слово «teacher» у розповіді вчителя не кличе. */
+const T_WORD = '(?:teacher|tutor|вчителю|учителю|вчитель|учитель)';
+const T_END = '(?=$|[\\s,.!?:;)"»\'’…-])';
+const T_START = new RegExp(`^[\\s"«'(]*(?:(?:hi|hey|hello|dear|ok|okay|so|and|please|sorry|thanks|thank you|well|excuse me|good (?:morning|afternoon|evening)|привіт|вітаю|добрий день|шановний|пане)[\\s,!.]+)*@?${T_WORD}${T_END}`, 'iu');
+const T_TAIL = new RegExp(`,\\s*@?${T_WORD}\\s*[.!?)…]*\\s*$`, 'iu');
+const T_MID = new RegExp(`,\\s*${T_WORD}\\s*,`, 'iu');
+const T_ANY = /(^|[^\p{L}])(?:@(?:teacher|tutor)|вчителю|учителю)(?!\p{L})/iu;
+export function mentionsTutor(text) {
+  const t = String(text || '').slice(0, 1000);
+  return T_START.test(t) || T_TAIL.test(t) || T_MID.test(t) || T_ANY.test(t);
+}
 export const askTutor = (room, messageId, auto = false) => tutor('group_tutor', { room_id: room, message_id: messageId, auto });
 export const praiseTutor = (room) => tutor('group_tutor', { room_id: room, praise: true }).catch(() => null);
 export const hwTaskDone = (t) => (t.value || 0) >= (t.target || 1);
@@ -248,3 +262,71 @@ export function subscribeReactions(room, onChange) {
   }).catch(() => {});
   return () => { dead = true; if (ch) getSupa().then(c => c.removeChannel(ch)).catch(() => {}); };
 }
+
+// ---------- Живий чат (міграція 0034): «друкує…», «прочитано», «у мережі», новини друзів ----------
+/** Приватний канал room:<id> (лише учасники): «друкує…» і «прочитав» наживо. Повертає { typing(), read(), close() } */
+export function roomLive(room, { onTyping, onRead } = {}) {
+  let ch = null, dead = false, ready = false, lastTyping = 0;
+  const me = user()?.id;
+  getSupa().then(c => {
+    if (dead) return;
+    ch = c.channel(`room:${room}`, { config: { private: true, broadcast: { self: false } } })
+      .on('broadcast', { event: 'typing' }, ({ payload }) => { if (payload?.uid && payload.uid !== me) onTyping?.(payload.uid); })
+      .on('broadcast', { event: 'read' }, ({ payload }) => { if (payload?.uid && payload.uid !== me) onRead?.(payload.uid, payload.at); })
+      .subscribe((st) => { ready = st === 'SUBSCRIBED'; });
+  }).catch(() => {});
+  const send = (event, payload) => { if (ready && ch) ch.send({ type: 'broadcast', event, payload: { uid: me, ...payload } }).catch(() => {}); };
+  return {
+    // не частіше раз на 2,5 с; співрозмовник гасить «друкує…» сам через 5 с без нових сигналів
+    typing() { const t = Date.now(); if (t - lastTyping < 2500) return; lastTyping = t; send('typing', {}); },
+    read() { send('read', { at: new Date().toISOString() }); },
+    close() { dead = true; if (ch) getSupa().then(c => c.removeChannel(ch)).catch(() => {}); },
+  };
+}
+
+/** «У мережі» — серцебиття з пристрою, поки застосунок на екрані (не частіше раз на хвилину) */
+let seenAt = 0;
+export function heartbeat() {
+  if (!user() || document.hidden || !navigator.onLine || Date.now() - seenAt < 60_000) return;
+  seenAt = Date.now();
+  rpc('chat_seen').catch(() => { seenAt = 0; });
+}
+export const presenceHidden = (on = null) => rpc('chat_presence_hidden', { p_hidden: on });
+export const ONLINE_MS = 3 * 60_000;
+/** Підпис присутності: «у мережі», «востаннє в мережі 5 хв тому», «… сьогодні о 14:05», «… учора», «… 12 лист.» */
+export function seenLabel(iso) {
+  if (!iso) return '';
+  const t = Date.parse(iso), d = Date.now() - t;
+  if (d < ONLINE_MS) return 'у мережі';
+  if (d < 60 * 60_000) return `востаннє в мережі ${Math.round(d / 60_000)} хв тому`;
+  const dt = new Date(t), now = new Date();
+  const hm = `${String(dt.getHours()).padStart(2, '0')}:${String(dt.getMinutes()).padStart(2, '0')}`;
+  if (dt.toDateString() === now.toDateString()) return `востаннє в мережі сьогодні о ${hm}`;
+  if (new Date(now - 864e5).toDateString() === dt.toDateString()) return `востаннє в мережі вчора о ${hm}`;
+  if (d < 30 * 864e5) return `востаннє в мережі ${dt.toLocaleDateString('uk-UA', { day: 'numeric', month: 'short' })}`;
+  return 'давно не заходили';
+}
+
+/** «Про що поговорити?» — 3 теми з банку вчителя (data/topics.json) за рівнем; щоразу інші */
+let topicsP = null;
+export async function starters(level, n = 3) {
+  topicsP ||= fetch('data/topics.json').then(r => r.json()).catch(() => { topicsP = null; return { topics: [] }; });
+  const all = (await topicsP).topics || [];
+  const LV = ['A0', 'A1', 'A2', 'B1', 'B2', 'C1'];
+  const i = Math.max(0, LV.indexOf(level === 'A0' ? 'A1' : level));
+  const fit = all.filter(t => { const [a, b] = (t.lv || []).map(x => LV.indexOf(x)); return a <= i && i <= (b ?? a); });
+  const pool = (fit.length >= n ? fit : all).slice();
+  for (let k = pool.length - 1; k > 0; k--) { const j = Math.floor(Math.random() * (k + 1)); [pool[k], pool[j]] = [pool[j], pool[k]]; }
+  // різні категорії
+  const out = [], cats = new Set();
+  for (const t of pool) { if (out.length >= n) break; if (cats.has(t.cat)) continue; cats.add(t.cat); out.push(t); }
+  return out;
+}
+
+/** Новини друзів у групах (серія днів, іспит рівня, рекорд у грі) — лише якщо учень не вимкнув shareNews */
+export async function shareNews(kind, value, score = null) {
+  if (!user()) return 0;
+  if (store.settings().shareNews === false) return 0;
+  return rpc('chat_share_news', { p_kind: kind, p_value: String(value), p_score: score }).catch(() => 0);
+}
+export const STREAK_NEWS = [3, 7, 14, 21, 30, 50, 75, 100, 150, 200, 300, 365, 500, 730, 1000];

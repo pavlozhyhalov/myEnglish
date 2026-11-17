@@ -10,7 +10,7 @@ import { norm, sameSentence, tilesOf } from '../wordlogic.js';
 import { BUILD_SECONDS, BUILD_BONUS, goodSentence, shuffledTiles, firstMismatch, buildPoints, bestUpdate, shuffleArr } from './logic.js';
 import { plural } from '../strings.js';
 import { tx, txGroup, txRows } from '../ui/tiles.js';
-import { wordPool, gameState, saveGameState, beep, buzz, reducedMotion, gameHead, statPill, autoSpeak, gameIntro, startTile, gameResult, wordRow, moreRows } from './common.js';
+import { wordPool, gameState, saveGameState, beep, buzz, reducedMotion, gameHead, statPill, autoSpeak, gameIntro, startTile, gameResult, wordRow, moreRows, newsRecord } from './common.js';
 
 /** Речення рівня: приклади з карток, які зараз вчаться, першими; далі колоди й уроки граматики мого рівня */
 async function sentences(lv) {
@@ -164,6 +164,7 @@ export default async function build(view) {
       const st = gameState();
       const upd = bestUpdate(st.best?.build, lv, score);
       saveGameState({ best: { ...(st.best || {}), build: upd.best } });
+      newsRecord('build', upd, score);
       upd.record ? (beep('win'), buzz([30, 40, 30])) : beep('lose');
       body.replaceChildren(gameResult({
         icon: 'timer', record: upd.record, score: String(score), unit: plural(score, 'очко', 'очки', 'очок'), sub: 'Час вийшов',

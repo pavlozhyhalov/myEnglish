@@ -18,3 +18,11 @@ Deno.test('weekly summary helpers', () => {
   assertEquals(weeklyDue(new Date('2026-11-22T17:05:00Z')), true);   // неділя
   assertEquals(weeklyDue(new Date('2026-11-21T17:05:00Z')), false);
 });
+
+Deno.test('mentionsTutor: просто звертання, без вигадок', () => {
+  for (const t of ['Teacher, how do I say this?', 'teacher how are you', 'Hi teacher, help me', 'Hello, Teacher!', 'Good morning teacher',
+    'Can you help me, teacher?', 'Thanks, teacher.', 'So, teacher, what do you think?', 'Вчителю, допоможіть', 'Добрий день, вчителю', '@teacher hi', 'Teacher!', 'Okay teacher, got it'])
+    assertEquals(mentionsTutor(t), true, t);
+  for (const t of ['My teacher at school was strict', 'I asked the teacher yesterday', 'She is a teacher', 'Teachers are great', 'I want to be a teacher, really', 'teachery', 'Мій учитель був добрий'])
+    assertEquals(mentionsTutor(t), false, t);
+});

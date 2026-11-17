@@ -156,3 +156,22 @@ mark.ch-err{background:transparent;color:inherit;text-decoration:underline wavy 
 /* відкритий чат: без нижньої панелі (focus-mode) — уся висота екрана, поле вводу внизу */
 body.focus-mode .ch-room{min-height:calc(100dvh - var(--header-h) - var(--safe-t) - var(--safe-b) - 40px)}
 body.focus-mode .ch-dock{bottom:calc(var(--safe-b) + 8px)}
+/* Живий чат (2026-11-17): «друкує…», «у мережі», «Переглянуто», теми для розмови, новини друзів */
+.ch-title .tx-s.ch-live{color:var(--accent-ink);font-weight:600}
+.ch-ava.ch-online{position:relative}
+.ch-ava.ch-online::after{content:"";position:absolute;right:-2px;bottom:-2px;width:11px;height:11px;border-radius:50%;background:var(--good,#2E9E62);border:2px solid var(--bg)}
+.ch-seen{align-self:flex-end;display:inline-flex;align-items:center;gap:4px;margin:-2px 4px 4px 0;font-size:11.5px;color:var(--ink-dim)}
+.ch-seen.on{color:var(--accent-ink)}
+.ch-starters{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding:0 2px 8px}
+.ch-starters::-webkit-scrollbar{display:none}
+.ch-starters[hidden]{display:none}
+.ch-starter{flex:none;display:inline-flex;align-items:center;gap:5px;min-height:36px;padding:6px 11px;border-radius:18px;border:1px solid var(--tile-edge);background:var(--tile);color:var(--ink);font:inherit;font-size:13px;font-weight:600;box-shadow:var(--tile-shadow);cursor:pointer;white-space:nowrap}
+.ch-starter svg{color:var(--accent-ink)}
+.ch-starter:active{box-shadow:var(--tile-shadow-press,var(--tile-shadow))}
+.ch-newswrap{display:flex;flex-direction:column;align-items:center;gap:4px}
+.ch-news{align-items:center;gap:12px;width:100%;max-width:420px;background:var(--tile);border:1px solid var(--tile-edge);box-shadow:var(--tile-shadow);border-radius:var(--r-tile,18px);padding:10px 12px;cursor:pointer}
+.ch-news .tx-sq{background:var(--accent-grad);color:#fff;flex:none}
+.ch-news .tx-body{display:flex;flex-direction:column;gap:2px;min-width:0;flex:1}
+.ch-news .tx-l{white-space:normal;line-height:1.3}
+.ch-news-btn{flex:none}
+.ch-newswrap .ch-reacts{justify-content:center}

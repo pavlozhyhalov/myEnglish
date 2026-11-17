@@ -29,6 +29,16 @@ export default function settings(view) {
     fill(Number(st[k]));
     return block(icon, label, inp, null, out);
   };
+  // «у мережі» й «Переглянуто» — на сервері (міграція 0034), одне налаштування для всіх пристроїв
+  const presenceToggle = () => {
+    const el = toggle(true, async (v) => {
+      try { const hidden = await import('../chat.js').then(c => c.presenceHidden(!v)); inp.checked = !hidden; }
+      catch { inp.checked = !v; toast('Не вдалося зберегти', { kind: 'bad' }); }
+    }, 'Показувати, що я в мережі');
+    const inp = el.querySelector('input');
+    import('../chat.js').then(c => c.presenceHidden()).then(hidden => { inp.checked = !hidden; }).catch(() => {});
+    return el;
+  };
   // замість системних списків: сегменти (2–3 варіанти) або шторка з вибором (більше варіантів)
   const segOf = (k, options) => seg(options, String(st[k]), (v) => store.setSetting(k, typeof DEFAULTS[k] === 'number' ? Number(v) : v));
   const pick = (k, options, label) => pickerBtn(label, options, String(st[k]), (v) => store.setSetting(k, typeof DEFAULTS[k] === 'number' ? Number(v) : v));
@@ -42,6 +52,10 @@ export default function settings(view) {
       block('brain', 'Утримуваність FSRS', segOf('retention', [['0.85', '85%'], ['0.9', '90%'], ['0.95', '95%']]), 'Вища — частіші повтори'),
       row('sun', 'Не вимикати екран', toggle(st.keepAwake !== false, (v) => { store.setSetting('keepAwake', v); }, 'Не вимикати екран'), 'Під час завдань'),
     ]),
+    user() ? group('Друзі й групи', [
+      row('confetti', 'Ділитися успіхами в групах', toggle(st.shareNews !== false, set('shareNews'), 'Ділитися успіхами в групах'), 'Серія днів, іспит рівня, рекорди в іграх'),
+      row('eye', 'Показувати, що я в мережі', presenceToggle(), 'І «Переглянуто». Вимкнете — не бачитимете й чужих'),
+    ]) : null,
     group('Озвучення й вчитель', [
       block('waveform', 'Рушій озвучення', segOf('ttsEngine', [['gemini', 'Gemini · природний'], ['browser', 'Браузер · офлайн']]), 'Без мережі чи після денного ліміту — голос браузера'),
       row('play', 'Перевірити голос',

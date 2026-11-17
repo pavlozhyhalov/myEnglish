@@ -51,10 +51,22 @@ function sysText(m) {
     case 'homework_done': return `${x.name || 'Учасник'}: домашнє виконано`;
     case 'tutor': return `Вчитель: ${x.text || ''}`;
     case 'weekly': return 'Підсумок тижня від вчителя';
+    case 'news': return newsText(x);
     case 'duel_score': return `${x.name || 'Учасник'}: ${x.score ?? 0} у дуелі «${duel.GAMES[x.game]?.label || 'гра'}»`;
     default: return '';
   }
 }
+/** Новина друга в групі (міграція 0034): серія днів, іспит рівня, рекорд у грі */
+const NEWS_GAMES = { detective: 'Детектив помилок', rush: 'Швидкий переклад', explain: 'Поясни слово', minute: 'Хвилина без «uh»', articles: 'Артиклі на швидкість', samewords: 'Те саме слово?', build: 'Збери речення' };
+const daysWord = (n) => (n % 10 === 1 && n % 100 !== 11 ? 'день' : [2, 3, 4].includes(n % 10) && ![12, 13, 14].includes(n % 100) ? 'дні' : 'днів');
+function newsText(x) {
+  const who = x.name || 'Учасник';
+  if (x.kind === 'streak') return `${who}: ${x.value} ${daysWord(+x.value)} поспіль`;
+  if (x.kind === 'exam') return `${who}: іспит рівня ${lvLabel(x.value)} складено`;
+  if (x.kind === 'record') return `${who}: новий рекорд у грі «${NEWS_GAMES[x.value] || 'гра'}» — ${x.score}`;
+  return '';
+}
+const NEWS_ICON = { streak: 'fire', exam: 'graduation-cap', record: 'trophy' };
 /** Підпис останнього повідомлення в списку */
 function preview(c) {
   if (!c.last_kind) return c.kind === 'group' ? `${c.members} ${c.members === 1 ? 'учасник' : c.members < 5 ? 'учасники' : 'учасників'}` : '';
@@ -200,11 +212,25 @@ export function chatRoom(view, roomId) {
   const micBtn = chat.canVoice() ? h('button.icon-btn', { type: 'button', 'aria-label': 'Записати голосове' }, ic('microphone')) : null;
   const composer = h('div.composer', micBtn, ta, sendBtn);
   const replyBar = h('div.ch-replybar', { hidden: true });   // «Відповідь: …» над полем вводу
-  const dock = h('div.tutor-dock.ch-dock', replyBar, composer);
+  // «Про що поговорити?» — над полем, коли в чаті тихо (немає повідомлень або останнє — понад 3 год тому) і поле порожнє
+  const starter = h('div.ch-starters', { hidden: true },
+    h('button.ch-starter', { type: 'button', onclick: () => startersSheet() }, ic('lightbulb', { size: 16 }), 'Про що поговорити?'),
+    h('button.ch-starter', { type: 'button', onclick: () => callTutor() }, ic('chalkboard-teacher', { size: 16 }), 'Покликати вчителя'));
+  const dock = h('div.tutor-dock.ch-dock', starter, replyBar, composer);
+  // «друкує…» і «прочитано» наживо (приватний канал room:<id>, лише учасники)
+  const typingUntil = new Map();
+  const live = chat.roomLive(roomId, {
+    onTyping: (uid) => {
+      typingUntil.set(uid, Date.now() + 5000);
+      const p = members.get(uid); if (p) p.seen_at = new Date().toISOString();
+      renderHead(); setTimeout(() => { if (alive) renderHead(); }, 5200);
+    },
+    onRead: (uid, at) => { const p = members.get(uid); if (p && p.read_at !== null) { p.read_at = at; p.seen_at = at; renderSeen(); renderHead(); } },
+  });
   const draftKey = `me:chdraft:${roomId}`;
   ta.value = lsGet(draftKey);
   const grow = () => { ta.style.height = 'auto'; ta.style.height = Math.min(140, ta.scrollHeight) + 'px'; };
-  ta.addEventListener('input', () => { grow(); lsSet(draftKey, ta.value.trim() ? ta.value : ''); });
+  ta.addEventListener('input', () => { grow(); lsSet(draftKey, ta.value.trim() ? ta.value : ''); if (ta.value.trim()) live.typing(); renderStarter(); });
   ta.addEventListener('keydown', (e) => {
     if (e.key !== 'Enter' || e.isComposing) return;
     if (e.ctrlKey || e.metaKey || (!e.shiftKey && !coarse)) { e.preventDefault(); sendText(); }
@@ -214,6 +240,13 @@ export function chatRoom(view, roomId) {
   micBtn?.addEventListener('click', () => record());
 
   view.replaceChildren(h('div.ch-room', head, strip, olderBtn, list, dock));
+  let lastBroadcastRead = '';
+  /** Прочитано: на сервері й наживо співрозмовникам (лише коли з'явилось нове) */
+  const readNow = () => {
+    chat.markRead(roomId);
+    const lastId = msgs[msgs.length - 1]?.id || '';
+    if (lastId && lastId !== lastBroadcastRead) { lastBroadcastRead = lastId; live.read(); }
+  };
   // як у месенджерах: у відкритому чаті нижня панель ховається, поле вводу — внизу екрана (власник 2026-11-17)
   setFocus(true);
 
@@ -226,11 +259,26 @@ export function chatRoom(view, roomId) {
     if (!info) return;
     const group = info.kind === 'group';
     const others = [...members.values()].filter(m => !m.is_me);
-    const sub = group ? `${members.size} ${members.size < 5 ? 'учасники' : 'учасників'} · ${others.slice(0, 3).map(m => m.name).join(', ')}${others.length > 3 ? '…' : ''}`
-      : info.is_friend === false ? 'Більше не у друзях' : 'Друг · переписка англійською';
+    const now = Date.now();
+    const typers = others.filter(m => (typingUntil.get(m.user_id) || 0) > now);
+    const online = others.filter(m => m.seen_at && now - Date.parse(m.seen_at) < chat.ONLINE_MS);
+    let sub, cls = '';
+    if (typers.length) {
+      sub = group ? `${typers.slice(0, 2).map(m => m.name).join(', ')} ${typers.length > 1 ? 'друкують' : 'друкує'}…` : 'друкує…';
+      cls = '.ch-live';
+    } else if (group) {
+      sub = `${members.size} ${members.size < 5 ? 'учасники' : 'учасників'}${online.length ? ` · ${online.length} у мережі` : ` · ${others.slice(0, 3).map(m => m.name).join(', ')}${others.length > 3 ? '…' : ''}`}`;
+    } else if (info.is_friend === false) sub = 'Більше не у друзях';
+    else {
+      const seen = chat.seenLabel(others[0]?.seen_at);
+      sub = seen || 'Друг · переписка англійською';
+      if (online.length) cls = '.ch-live';
+    }
+    const avaEl = ava(info.title, group);
+    if (!group && online.length) avaEl.classList.add('ch-online');
     head.replaceChildren(h('div.tx-row.ch-title',
-      ava(info.title, group),
-      h('span.tx-body', h('span.tx-l', info.title || 'Чат'), h('span.tx-s', sub)),
+      avaEl,
+      h('span.tx-body', h('span.tx-l', info.title || 'Чат'), h('span.tx-s' + cls, sub)),
       h('button.icon-btn', { type: 'button', 'aria-label': 'Разом: дуель або виклик', onclick: challengeSheet }, ic('trophy', { size: 20 })),
       h('button.icon-btn', { type: 'button', 'aria-label': 'Про чат', onclick: menu }, ic(group ? 'users' : 'info', { size: 20 }))));
   }
@@ -259,6 +307,7 @@ export function chatRoom(view, roomId) {
   }
   let dls = [];   // дуелі за 7 днів (js/duel.js)
   let hw = null;   // поточне домашнє групи (chat_homework_status)
+  let membersAt = 0;      // коли оновлено «у мережі» / «прочитано»
   let rx = new Map();     // реакції: id повідомлення → [{ who, kind }] (міграція 0031)
   let replyTo = null;     // на яке повідомлення відповідаю: { id, name, text, tutor }
   async function loadChallenges() {
@@ -409,11 +458,68 @@ export function chatRoom(view, roomId) {
   }
   function setReply(m) {
     replyTo = m ? { id: m.id, name: whoName(m), text: snippet(m), tutor: m.kind === 'system' && m.meta?.event === 'tutor' } : null;
-    replyBar.hidden = !replyTo;
+    replyBar.hidden = !replyTo; renderStarter();
     replyBar.replaceChildren(...(replyTo ? [ic('arrow-bend-up-left', { size: 16 }),
       h('span.ch-replybar-t', h('b', replyTo.tutor ? 'Відповідь вчителю' : `Відповідь: ${replyTo.name}`), h('span', replyTo.text)),
       h('button.icon-btn', { type: 'button', 'aria-label': 'Скасувати відповідь', onclick: () => setReply(null) }, ic('x', { size: 18 }))] : []));
     if (replyTo) setTimeout(() => ta.focus(), 200);
+  }
+
+  // ---------- Живий чат: «Переглянуто», теми для розмови, вчитель, новини ----------
+  const human = (m) => (m.kind === 'text' || m.kind === 'voice') && !m.deleted_at;
+  /** Під моїм останнім повідомленням: «Переглянуто» (1:1) або «Переглянули: N» (група) — якщо після нього ще ніхто не писав */
+  function renderSeen() {
+    list.querySelectorAll(':scope > .ch-seen').forEach(x => x.remove());
+    const last = [...msgs].reverse().find(human);
+    if (!last || last.user_id !== me) return;
+    const t = Date.parse(last.created_at);
+    const others = [...members.values()].filter(p => !p.is_me);
+    if (!others.length || others.every(p => p.read_at == null)) return;   // присутність приховано
+    const n = others.filter(p => p.read_at && Date.parse(p.read_at) >= t - 1000).length;
+    const group = info?.kind === 'group';
+    const text = group ? (n ? (n === others.length ? 'Переглянули всі' : `Переглянули: ${n}`) : '') : n ? 'Переглянуто' : 'Надіслано';
+    const wrap = list.querySelector(`:scope > [data-id="${last.id}"]`);
+    if (text && wrap) wrap.after(h('div.ch-seen' + (n ? '.on' : ''), ic(n ? 'checks' : 'check', { size: 14 }), text));
+  }
+  function renderStarter() {
+    const last = [...msgs].reverse().find(human);
+    const quiet = !last || Date.now() - Date.parse(last.created_at) > 3 * 3600e3;
+    starter.hidden = !quiet || !!ta.value.trim() || !!replyTo || !info || (info.kind === 'dm' && info.is_friend === false);
+  }
+  /** «Teacher, » на початку поля — вчитель відповість у цьому чаті */
+  function callTutor() {
+    const v = ta.value.replace(/^\s*@?teacher[\s,]*/i, '');
+    ta.value = `Teacher, ${v}`; grow(); renderStarter();
+    setTimeout(() => { ta.focus(); ta.setSelectionRange(ta.value.length, ta.value.length); }, 250);
+  }
+  /** Три теми-питання з банку вчителя (рівень учня); дотик — питання в поле вводу */
+  async function startersSheet() {
+    let s = null;
+    const body = h('div.stack.ch-sheet', h('div.tx-s', 'Оберіть питання — воно з’явиться в полі, можна змінити й надіслати'));
+    const box = h('div');
+    const fill = async () => {
+      const list3 = await chat.starters(myLevel());
+      box.replaceChildren(txRows(list3.map(t => txRow({ icon: 'chat-circle-dots', label: t.q, sub: t.uk, onclick: () => {
+        s.close(); ta.value = t.q; grow(); lsSet(draftKey, ta.value); renderStarter(); setTimeout(() => ta.focus(), 250);
+      } }))));
+      box.querySelectorAll('.tx-l').forEach(x => x.setAttribute('lang', 'en'));
+    };
+    body.append(box, h('button.btn.soft', { type: 'button', onclick: fill }, ic('arrow-clockwise', { size: 16 }), 'Інші теми'));
+    s = sheet('Про що поговорити?', body);
+    await fill();
+  }
+  /** Новина друга: серія, іспит, рекорд — привітати одним дотиком */
+  function newsCard(m) {
+    const x = m.meta || {};
+    const mine = m.user_id === me;
+    const myKind = (rx.get(m.id) || []).find(r => r.who === me)?.kind;
+    const text = newsText(x);
+    const el = h('div.tx.wide.ch-news', { tabindex: 0, role: 'article' },
+      h('span.tx-sq', ic(NEWS_ICON[x.kind] || 'confetti', { size: 20 })),
+      h('span.tx-body', h('span.tx-l', text), h('span.tx-s', mine ? 'Друзі бачать це в групах' : myKind ? 'Ви привітали' : `${hhmm(m.created_at)} · привітайте`)),
+      !mine && !myKind ? h('button.btn.sm.soft.ch-news-btn', { type: 'button', onclick: (e) => { e.stopPropagation(); setReaction(m, 'bravo'); } }, ic('hands-clapping', { size: 16 }), 'Браво') : null);
+    wire(el, { ...m, body: text });
+    return h('div.ch-card.ch-newswrap', { dataset: { id: m.id } }, el, reactRow(m));
   }
 
   function hwCard(m) {
@@ -462,10 +568,11 @@ export function chatRoom(view, roomId) {
       group ? h('div.tx-label', 'Домашнє від вчителя') : null,
       group ? txRows([txRow({ icon: 'chalkboard-teacher', label: hwActive ? 'Моє домашнє' : 'Отримати домашнє', on: !hwActive,
         sub: hwActive && hw.mine ? `Виконано ${hw.mine.tasks.filter(chat.hwTaskDone).length} з ${hw.mine.tasks.length} · до ${dueLabel(hw.due_at)}` : 'У кожного своє — за рівнем і помилками · на 7 днів',
-        onclick: (e) => { s.close(); hwActive ? hwSheet() : askHomework(e.currentTarget); } }),
-        txRow({ icon: 'chat-circle-dots', label: 'Запитати вчителя', sub: 'Почніть повідомлення з @teacher — він відповість у групі', onclick: () => {
-          s.close(); if (!/@teacher/i.test(ta.value)) ta.value = `@teacher ${ta.value}`.trimEnd() + ' '; grow(); setTimeout(() => ta.focus(), 250);
-        } })]) : null,
+        onclick: (e) => { s.close(); hwActive ? hwSheet() : askHomework(e.currentTarget); } })]) : null,
+      h('div.tx-label', 'Розмова'),
+      txRows([
+        txRow({ icon: 'lightbulb', label: 'Про що поговорити?', sub: 'Три теми-питання за рівнем', onclick: () => { s.close(); startersSheet(); } }),
+        txRow({ icon: 'chat-circle-dots', label: 'Запитати вчителя', sub: 'Почніть повідомлення з «Teacher,» — він відповість тут', onclick: () => { s.close(); callTutor(); } })]),
       h('div.tx-label', 'Дуель зараз · 24 години'),
       txRows(Object.entries(duel.GAMES).map(([id, g]) => txRow({ icon: g.icon, label: g.label, sub: `${g.sub} · рівень ${lvLabel(myLevel())}`, onclick: async () => {
         try {
@@ -668,6 +775,7 @@ export function chatRoom(view, roomId) {
     if (m.kind === 'system' && m.meta?.event === 'homework') return hwCard(m);
     if (m.kind === 'system' && m.meta?.event === 'tutor') return tutorBubble(m);
     if (m.kind === 'system' && m.meta?.event === 'weekly') return weeklyCard(m);
+    if (m.kind === 'system' && m.meta?.event === 'news') return newsCard(m);
     if (m.kind === 'system') { const t = sysText(m); return t ? h('div.msg.sys', { dataset: { id: m.id } }, t) : h('div', { dataset: { id: m.id }, hidden: true }); }
     if (m.kind === 'challenge') return challengeCard(m);
     const mine = m.user_id === me;
@@ -726,6 +834,7 @@ export function chatRoom(view, roomId) {
     if (!msgs.length) kids.push(h('div.ch-empty', ic('chat-circle-dots', { size: 28 }), h('div', 'Напишіть перше повідомлення англійською'), h('div.tx-s', 'Помилки підкреслить вчитель — бачите лише ви')));
     list.replaceChildren(...kids);
     olderBtn.hidden = !more;
+    renderSeen(); renderStarter();
   }
   function update(m) {
     const old = list.querySelector(`:scope > [data-id="${m.id}"]`);
@@ -741,12 +850,15 @@ export function chatRoom(view, roomId) {
     list.querySelector('.ch-empty')?.remove();
     if (!lastM || dayKey(lastM.created_at) !== dayKey(m.created_at)) list.append(h('div.ch-day', dayLabel(m.created_at)));
     list.append(bubble(m));
+    if (m.user_id && m.user_id !== me && typingUntil.delete(m.user_id)) renderHead();
+    renderSeen(); renderStarter();
     if (stick) toBottom();
   }
 
   async function loadMembers() {
     const rows = await chat.roomMembers(roomId);
     members = new Map(rows.map(r => [r.user_id, r]));
+    membersAt = Date.now();
   }
   async function loadInfo() {
     const all = await chat.listChats();
@@ -813,8 +925,8 @@ export function chatRoom(view, roomId) {
   /** Після мого повідомлення в групі: звернулись до вчителя (чи відповіли на його репліку) — «Вчитель пише…»;
    *  інакше сервер тихо вирішує, чи вчителю долучитися до жвавої розмови (не частіше ніж раз на 90 хв) */
   function afterSend(m, addressed) {
-    if (info?.kind !== 'group') return;
     if (addressed) { tutorTyping(m.id); return; }
+    if (info?.kind !== 'group') return;
     chat.askTutor(roomId, m.id, true).then((r) => { if (r?.message && alive) append(r.message); }).catch(() => {});
   }
 
@@ -864,7 +976,7 @@ export function chatRoom(view, roomId) {
         const rep = replyTo;
         const res = await chat.sendVoice(roomId, blob, dur, rep?.id);
         ph.remove(); setReply(null);
-        if (res?.message) { if (res.fixes?.length) fb.set(res.message.id, res.fixes); append(res.message); afterSend(res.message, rep?.tutor); }
+        if (res?.message) { if (res.fixes?.length) fb.set(res.message.id, res.fixes); append(res.message); afterSend(res.message, chat.mentionsTutor(res.message.body) || rep?.tutor); }
       } catch (e) { ph.remove(); toast(aiErrorText(e) || chat.chatErrText(e), { kind: 'bad' }); }
     };
     stopBtn.addEventListener('click', finish);
@@ -874,7 +986,7 @@ export function chatRoom(view, roomId) {
   // ---------- старт, Realtime, прочитано ----------
   list.replaceChildren(h('div.ch-empty', h('div.tx-s', 'Завантаження…')));
   let rtOk = false;
-  reload().then(() => { chat.markRead(roomId); loadChallenges(); }).catch((e) => {
+  reload().then(() => { readNow(); loadChallenges(); }).catch((e) => {
     console.warn('chat', e);
     if (!alive) return;
     if (e?.code === 'not_member') { toast('Цей чат недоступний'); go('/friends/chats', { replace: true }); return; }
@@ -894,13 +1006,15 @@ export function chatRoom(view, roomId) {
       if (row.kind === 'system') loadMembers().then(renderHead).catch(() => {});
       if (row.kind === 'challenge' || ['duel_score', 'homework', 'homework_done'].includes(row.meta?.event)) loadChallenges();
       append(row);
-      if (!document.hidden) chat.markRead(roomId);
+      if (!document.hidden) readNow();
     } else if (ev === 'UPDATE' && byId.has(row.id)) { Object.assign(byId.get(row.id), row); update(byId.get(row.id)); }
   }, (st) => { rtOk = st === 'SUBSCRIBED'; });
   // запасний шлях без Realtime і «тримати прочитаним» (поки чат відкрито — push не приходить)
   const poll = async () => {
     if (document.hidden || !alive) return;
-    chat.markRead(roomId);
+    readNow();
+    // «у мережі» й «прочитано» — раз на хвилину
+    if (Date.now() - membersAt > 55_000) loadMembers().then(() => { if (alive) { renderHead(); renderSeen(); } }).catch(() => {});
     if (rtOk) return;
     try {
       const data = await chat.messages(roomId);
@@ -910,5 +1024,5 @@ export function chatRoom(view, roomId) {
   const iv = setInterval(poll, 15000);
   const vis = () => { if (!document.hidden) { poll(); loadChallenges(); } };
   document.addEventListener('visibilitychange', vis);
-  return () => { alive = false; setFocus(false); clearInterval(iv); document.removeEventListener('visibilitychange', vis); unsub(); unsubRx(); const r = rec; rec = null; r?.cancel(); chat.markRead(roomId); };
+  return () => { alive = false; setFocus(false); clearInterval(iv); document.removeEventListener('visibilitychange', vis); unsub(); unsubRx(); live.close(); const r = rec; rec = null; r?.cancel(); chat.markRead(roomId); };
 }

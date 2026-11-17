@@ -15,8 +15,7 @@ import { canRecord, createMic, recordRound, micErrorKind } from '../fluency.js';
 import { bestUpdate } from './logic.js';
 import {
   wordPool, gameState, saveGameState, beep, buzz, reducedMotion, gameHead, statPill, addWordButton, inMyWords,
-  gameLoginCard, micErrorCard, countdownRing, levelMeter, gameIntro, startTile, gameResult, wordRow,
-} from './common.js';
+  gameLoginCard, micErrorCard, countdownRing, levelMeter, gameIntro, startTile, gameResult, wordRow, newsRecord } from './common.js';
 import { tx, txGroup, txRows, txPrimary, txGrid } from '../ui/tiles.js';
 
 /** Налаштування гри (об'єкт, щоб тести могли скоротити тривалість) */
@@ -337,6 +336,7 @@ export default function explain(view) {
     const st = gameState();
     const upd = bestUpdate(st.best?.explain, lv, score);
     saveGameState({ best: { ...(st.best || {}), explain: upd.best } });
+    newsRecord('explain', upd, score);
     upd.record ? (beep('win'), buzz([30, 40, 30])) : beep('lose');
     const hits = results.filter(r => r?.kind === 'hit');
     const first = hits.filter(r => r.idx === 0).length;

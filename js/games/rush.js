@@ -10,7 +10,7 @@ import { RUSH_SECONDS, RUSH_LIVES, comboMult, rushTimeFor, rushPoints, buildQueu
 import { plural } from '../strings.js';
 import { tx, txGroup } from '../ui/tiles.js';
 import { duelOf, duelNote, seeded, finishDuel } from '../duel.js';
-import { wordPool, gameState, saveGameState, beep, buzz, reducedMotion, addWordButton, gameHead, statPill, gameIntro, startTile, gameResult, wordRow, moreRows } from './common.js';
+import { wordPool, gameState, saveGameState, beep, buzz, reducedMotion, addWordButton, gameHead, statPill, gameIntro, startTile, gameResult, wordRow, moreRows, newsRecord } from './common.js';
 
 const MODE_KEY = { choice: 'rush4', truth: 'rushtf' };
 
@@ -171,6 +171,7 @@ export default async function rush(view, r) {
       const st = gameState();
       const upd = bestUpdate(st.best?.[k], lv, score);
       saveGameState({ best: { ...(st.best || {}), [k]: upd.best } });
+      newsRecord('rush', upd, score);
       upd.record ? (beep('win'), buzz([30, 40, 30])) : beep('lose');
       const acc = answered ? Math.round(correct / answered * 100) : 0;
       body.replaceChildren(gameResult({

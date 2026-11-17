@@ -11,7 +11,7 @@ import { setTitle, setFocus } from '../ui/shell.js';
 import { bestUpdate, shuffleArr } from './logic.js';
 import { plural } from '../strings.js';
 import { tx, txGroup } from '../ui/tiles.js';
-import { gameState, saveGameState, beep, buzz, reducedMotion, gameHead, statPill, gameIntro, startTile, gameResult, moreRows, bankLevels, seenStore, gapSentence, fastBest, saveFast, clock } from './common.js';
+import { gameState, saveGameState, beep, buzz, reducedMotion, gameHead, statPill, gameIntro, startTile, gameResult, moreRows, bankLevels, seenStore, gapSentence, fastBest, saveFast, clock, newsRecord } from './common.js';
 
 export const ROUNDS = 15;
 const OWN_MAX = 8;           // раундів з наборів «з ваших помилок»
@@ -261,6 +261,7 @@ export default async function samewords(view) {
       const st = gameState();
       const upd = bestUpdate(st.best?.same, lv, score);
       saveGameState({ best: { ...(st.best || {}), same: upd.best } });
+      newsRecord('samewords', upd, score);
       const fastPrev = fastBest('same', lv);
       const fast = hits >= FAST_MIN_HITS && rounds.length === ROUNDS ? saveFast('same', lv, elapsed) : { record: false, prev: fastPrev };
       const record = upd.record || fast.record;

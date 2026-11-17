@@ -46,7 +46,8 @@ function preview(c) {
   if (c.last_kind === 'challenge') return c.last_meta?.duel_id ? `Дуель: ${GAMES[c.last_meta.game] || 'гра'}` : 'Новий виклик';
   if (c.last_kind === 'system') {
     const e = c.last_meta?.event;
-    return e === 'tutor' ? `Вчитель: ${c.last_meta.text || ''}` : e === 'topic' ? `Тема дня: ${c.last_meta.q || ''}` : e === 'homework' ? 'Нове домашнє завдання' : e === 'weekly' ? 'Підсумок тижня від вчителя' : '';
+    return e === 'tutor' ? `Вчитель: ${c.last_meta.text || ''}` : e === 'topic' ? `Тема дня: ${c.last_meta.q || ''}` : e === 'homework' ? 'Нове домашнє завдання' : e === 'weekly' ? 'Підсумок тижня від вчителя'
+      : e === 'news' ? `${c.last_meta.name || 'Друг'}: ${c.last_meta.kind === 'streak' ? `серія ${c.last_meta.value} дн. поспіль` : c.last_meta.kind === 'exam' ? 'іспит рівня складено' : 'новий рекорд у грі'}` : '';
   }
   return (c.last_mine ? 'Ви: ' : c.kind === 'group' && c.last_name ? `${c.last_name}: ` : '') + (c.last_body || '');
 }

@@ -12,7 +12,7 @@ import { bestUpdate, shuffleArr } from './logic.js';
 import { tokenDiff, normTok, shortTip } from './detective.js';
 import { plural } from '../strings.js';
 import { tx, txGroup, txPill } from '../ui/tiles.js';
-import { gameState, saveGameState, beep, buzz, reducedMotion, gameHead, statPill, gameIntro, startTile, gameResult, moreRows, bankLevels, seenStore, gapSentence } from './common.js';
+import { gameState, saveGameState, beep, buzz, reducedMotion, gameHead, statPill, gameIntro, startTile, gameResult, moreRows, bankLevels, seenStore, gapSentence, newsRecord } from './common.js';
 
 export const SECONDS = 60;
 export const OPTIONS = [['a', 'a'], ['an', 'an'], ['the', 'the'], ['', '—']];
@@ -274,6 +274,7 @@ export default async function articles(view) {
       const st = gameState();
       const upd = bestUpdate(st.best?.articles, lv, score);
       saveGameState({ best: { ...(st.best || {}), articles: upd.best } });
+      newsRecord('articles', upd, score);
       upd.record ? (beep('win'), buzz([30, 40, 30])) : beep(answered && hits / answered >= 0.7 ? 'ok' : 'lose');
       const acc = answered ? Math.round(hits / answered * 100) : 0;
       body.replaceChildren(gameResult({

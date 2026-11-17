@@ -32,6 +32,12 @@ export function saveGameState(patch) {
   if (Object.keys(synced).length) store.setProf({ games: { ...(store.prof().games || {}), ...synced } });
 }
 
+/** Новий рекорд (не перший результат) — новина друзям у групах (js/chat.js shareNews; сервер — не частіше раз на добу) */
+export function newsRecord(game, upd, score) {
+  if (!upd?.record || !(upd.prev > 0)) return;
+  import('../chat.js').then(c => c.shareNews('record', game, Math.round(score))).catch(() => {});
+}
+
 // ---------- Звук і вібрація ----------
 export const muted = () => !!readLocal().mute;
 export function setMuted(on) { const s = readLocal(); s.mute = !!on; writeLocal(s); if (on) { try { stopSpeech(); } catch { /* */ } } }
