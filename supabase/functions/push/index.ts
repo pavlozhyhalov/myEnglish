@@ -13,7 +13,7 @@ import { generateJson } from '../_shared/gemini.ts';
 import { FAST_MODELS } from '../_shared/config.ts';
 import { readMemory } from '../_shared/prompts.ts';
 import { createHomework } from '../_shared/homework.ts';
-import { tutorNudge, tutorCount, postTutor } from '../_shared/grouptutor.ts';
+import { tutorNudge, tutorCount, postTutor, tutorWeekly, weeklyDue } from '../_shared/grouptutor.ts';
 import { nudgeInput, cleanNudge, monitorDue, NUDGE_SCHEMA, NUDGE_PROMPT, chatNotifyDue, chatMessageText, challengeDue, challengeNudge, topicDue, groupLevel, pickTopic, type Topic } from './logic.ts';
 
 type SubRow = {
@@ -198,6 +198,29 @@ async function topicOfDay(db: SupabaseClient, vapid: Vapid) {
   console.info('topic of day', posted);
 }
 
+
+/** Неділя ~17:00 UTC: підсумок тижня в кожній живій групі — текст вчителя, найактивніші, спільні помилки (без імен) */
+async function weeklyPush(db: SupabaseClient, vapid: Vapid) {
+  const since = new Date(Date.now() - 7 * 864e5).toISOString();
+  const { data: rooms } = await db.from('chat_rooms').select('id, title').eq('kind', 'group').gte('last_msg_at', since).limit(200);
+  let posted = 0;
+  for (const room of rooms || []) {
+    try {
+      const { count } = await db.from('chat_messages').select('id', { count: 'exact', head: true }).eq('room_id', room.id).eq('kind', 'system')
+        .eq('meta->>event', 'weekly').gte('created_at', new Date(Date.now() - 6 * 864e5).toISOString());
+      if (count) continue;
+      const w = await tutorWeekly(db, room.id);
+      if (!w) continue;
+      const { data: members } = await db.from('chat_members').select('user_id, muted').eq('room_id', room.id).is('left_at', null).order('joined_at');
+      if (!members?.length) continue;
+      await db.from('chat_messages').insert({ room_id: room.id, user_id: members[0].user_id, kind: 'system', body: '', meta: { event: 'weekly', text: w.text, stars: w.stars, mistakes: w.mistakes } });
+      posted++;
+      for (const m of members) if (!m.muted) await sendToUser(db, m.user_id, { title: `Підсумок тижня в групі «${room.title || 'Група'}»`.slice(0, 70), body: w.text.slice(0, 170), url: `#/friends/chat/${room.id}`, tag: `myenglish-weekly-${room.id}` }, vapid);
+    } catch (e) { console.error('weekly', (e as Error).message?.slice(0, 120)); }
+  }
+  console.info('weekly summary', posted);
+}
+
 /** Раз на добу: тим, хто відстає у спільному виклику, — нагадування (одне на людину, найвідсталіший виклик) */
 async function challengePush(db: SupabaseClient, vapid: Vapid) {
   const { data, error } = await db.rpc('chat_challenge_laggards');
@@ -307,6 +330,11 @@ Deno.serve(async (req) => {
   }
   if (topicDue(now)) {
     const job = topicOfDay(db, vapid).catch(e => console.error('topic', (e as Error).message));
+    // deno-lint-ignore no-explicit-any
+    const rt = (globalThis as any).EdgeRuntime; if (rt?.waitUntil) rt.waitUntil(job);
+  }
+  if (weeklyDue(now)) {
+    const job = weeklyPush(db, vapid).catch(e => console.error('weekly', (e as Error).message));
     // deno-lint-ignore no-explicit-any
     const rt = (globalThis as any).EdgeRuntime; if (rt?.waitUntil) rt.waitUntil(job);
   }

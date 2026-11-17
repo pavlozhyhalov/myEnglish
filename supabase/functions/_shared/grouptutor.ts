@@ -33,6 +33,14 @@ export function nudgePrompt(level: string) {
   return `${STYLE(level)}
 Write today's homework check-in for the group. Praise by name everyone who finished all their homework. Gently and jokingly tell off those who have not finished yet — light school-teacher humour (e.g. "Taras, is your homework on holiday?", "Emma, the cards miss you!"), never shaming, insulting or threatening. Mention how many days are left. If nobody has started, joke about the whole class. End with a short encouraging line.`;
 }
+export function chimePrompt(level: string) {
+  return `${STYLE(level)}
+Nobody asked you anything — you are joining the group's conversation naturally, like a friendly teacher passing by. React briefly to what they are talking about (by name), teach ONE useful natural phrase or expression that fits this conversation (with a tiny example), and ask ONE open question that invites everyone to keep talking in English. Never correct anyone, never lecture.`;
+}
+export function weeklyPrompt(level: string) {
+  return `${STYLE(level)}
+Write the end-of-week message for the group (2–4 short sentences). Congratulate by name the most active students of the week (data below), cheer on the quieter ones kindly and with light humour, mention in general words the most common mistake pattern of the group this week (no names!) and finish with an inspiring line for next week.`;
+}
 export function praisePrompt(level: string) {
   return `${STYLE(level)}
 One student has just finished ALL their homework this week. Congratulate them by name in a fun way, and playfully motivate the others who have not finished yet (by name, if given).`;
@@ -138,3 +146,66 @@ export async function tutorPraise(db: SupabaseClient, room: string, userId: stri
   const level = lowestLevel(board.map(b => b.level));
   return say(praisePrompt(level), JSON.stringify({ finished: me.name, not_finished_yet: others }), praiseFallback(me.name, others));
 }
+
+/** Чи варто вчителю самому долучитися до розмови: ≥ 6 реплік людей після його останньої репліки, від ≥ 2 людей, і він мовчить ≥ 90 хв */
+export async function shouldChime(db: SupabaseClient, room: string) {
+  const { data: lastTutor } = await db.from('chat_messages').select('created_at').eq('room_id', room).eq('kind', 'system').eq('meta->>event', 'tutor')
+    .order('created_at', { ascending: false }).limit(1).maybeSingle();
+  if (lastTutor && Date.now() - Date.parse(lastTutor.created_at) < 90 * 60_000) return false;
+  let q = db.from('chat_messages').select('user_id').eq('room_id', room).in('kind', ['text', 'voice']).is('deleted_at', null).order('created_at', { ascending: false }).limit(12);
+  if (lastTutor) q = q.gt('created_at', lastTutor.created_at);
+  const { data: human } = await q;
+  if (!human || human.length < 6) return false;
+  return new Set(human.slice(0, 6).map(m => m.user_id)).size >= 2;
+}
+
+/** Репліка вчителя «від себе» (контекст — ті самі 15 останніх реплік) */
+export async function tutorChime(db: SupabaseClient, room: string) {
+  const members = await groupMembers(db, room);
+  const names = new Map(members.map(m => [m.user_id, m.name]));
+  const { data: msgs } = await db.from('chat_messages').select('user_id, kind, body').eq('room_id', room).is('deleted_at', null)
+    .in('kind', ['text', 'voice']).order('created_at', { ascending: false }).limit(15);
+  const lines = (msgs || []).reverse().map(m => `${names.get(m.user_id) || 'Student'}: ${cut(m.body, 400) || '(voice message)'}`);
+  return say(chimePrompt(lowestLevel(members.map(m => m.level))), `GROUP MEMBERS: ${members.map(m => m.name).join(', ')}\nCHAT (oldest first):\n${lines.join('\n')}`,
+    'Great chat, everyone! A useful phrase for you: "That sounds fun!" What are your plans for the weekend?');
+}
+
+export type WeekRow = { user_id: string; name: string; level: string; minutes: number; messages: number; homework_done: boolean };
+export function weeklyFallback(rows: WeekRow[]) {
+  const top = rows.filter(r => r.minutes > 0).slice(0, 2).map(r => r.name);
+  return top.length ? `What a week! Big applause for ${top.join(' and ')}. Everyone else — a new week is a new chance. See you in the chat!`
+    : 'A quiet week, class! Let\'s make the next one louder — one message in English a day is enough.';
+}
+
+/** Підсумок тижня групи: текст вчителя, найактивніші, спільні помилки (без імен) */
+export async function tutorWeekly(db: SupabaseClient, room: string) {
+  const { data } = await db.rpc('chat_week_board', { p_room: room });
+  const rows = (data || []) as WeekRow[];
+  if (rows.length < 2 || !rows.some(r => r.minutes > 0 || r.messages > 0)) return null;
+  // спільні помилки тижня з переписки групи (лише фрагменти, без імен)
+  const since = new Date(Date.now() - 7 * 864e5).toISOString();
+  const { data: fb } = await db.from('chat_feedback').select('fixes, chat_messages!inner(room_id)').eq('chat_messages.room_id', room).gte('created_at', since).limit(200);
+  const byRule = new Map<string, { n: number; ex: { wrong: string; right: string; why_uk: string } }>();
+  for (const f of fb || []) for (const x of (Array.isArray(f.fixes) ? f.fixes : []) as Array<Record<string, string>>) {
+    const k = x.rule || 'other';
+    const e = byRule.get(k) || { n: 0, ex: { wrong: cut(x.wrong, 80), right: cut(x.right, 80), why_uk: cut(x.why_uk, 100) } };
+    e.n++; byRule.set(k, e);
+  }
+  const mistakes = [...byRule.values()].sort((a, b) => b.n - a.n).slice(0, 3).map(e => e.ex);
+  const level = lowestLevel(rows.map(r => r.level));
+  const input = { students: rows.map(r => ({ name: r.name, minutes_this_week: r.minutes, messages_in_group: r.messages, homework_done: r.homework_done })),
+    common_mistakes: mistakes.map(m => `"${m.wrong}" → "${m.right}"`) };
+  const text = await say(weeklyPrompt(level), JSON.stringify(input), weeklyFallback(rows));
+  return { text, stars: rows.slice(0, 5).map(r => ({ name: r.name, minutes: r.minutes, messages: r.messages, homework: r.homework_done })), mistakes };
+}
+
+/** Вчитель ставить реакцію на вдале повідомлення (без помилок, ≥ 8 слів; не на кожне — ~1 з 3) */
+export async function tutorReact(db: SupabaseClient, message: { id: string; room_id: string; body: string }, fixes: number) {
+  const words = (String(message.body || '').match(/[A-Za-z][A-Za-z'’-]*/g) || []).length;
+  if (fixes > 0 || words < 8 || Math.random() > 0.35) return;
+  const kind = words >= 20 ? 'bravo' : 'smart';
+  await db.from('chat_reactions').upsert({ message_id: message.id, room_id: message.room_id, who: 'tutor', user_id: null, kind }, { onConflict: 'message_id,who' }).then(() => {}, () => {});
+}
+
+/** Тиждень: перший запуск cron у неділю після 17:00 UTC */
+export const weeklyDue = (now: Date) => now.getUTCDay() === 0 && now.getUTCHours() === 17 && now.getUTCMinutes() < 15;

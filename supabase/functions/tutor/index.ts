@@ -14,7 +14,7 @@ import { latinizeName, latinizeStream, replyStream, splitReply, cleanFixes, form
 import { GUESS_SCHEMA, guessPrompt, judgeGuess, cleanGuess, recognitionContext, learnerTranscribePrompt, fluencyTranscribePrompt, FLUENCY_SCHEMA, clampRounds, fluencyPrompt, cleanFluency, calibrateLevel, clampTurnFixes, turnFixesPrompt, mergeTurnFixes, CLASSIFY_SCHEMA, classifyPrompt, cleanClassify, EVAL_SCHEMA, evalPrompt, evalInput, scoreEval, VOICE_CHECK_SCHEMA, voiceCheckPrompt, cleanVoiceCheck, clampSpeech, summaryExtra, cleanMastered, MISSION_SCHEMA, missionPrompt, cleanMissions } from './coach.ts';
 import { friendCheck, friendVoice } from './friends.ts';
 import { createHomework } from '../_shared/homework.ts';
-import { mentionsTutor, tutorReply, tutorPraise, tutorCount, postTutor, TUTOR_DAILY_MAX } from '../_shared/grouptutor.ts';
+import { mentionsTutor, tutorReply, tutorPraise, tutorCount, postTutor, TUTOR_DAILY_MAX, shouldChime, tutorChime } from '../_shared/grouptutor.ts';
 import { precheck as wordStoryCheck, wordStoryPrompt, WORD_STORY_SCHEMA, cleanWordStory, LEVELS as STORY_LEVELS, type StoryWord, type Level as StoryLevel } from './words.ts';
 
 type Msg = { role: 'user' | 'model'; text: string; cue?: boolean };
@@ -623,12 +623,27 @@ Deno.serve(handler(async (req) => {
       return json({ message: await postTutor(ctx.admin, room, ctx.user.id, text, { mode: 'praise', praise_for: ctx.user.id, homework_id: t.homework_id }) });
     }
     const id = String(p.message_id || '');
-    const { data: msg } = await ctx.db.from('chat_messages').select('id, room_id, user_id, kind, body, created_at').eq('id', id).maybeSingle();
-    if (!msg || msg.room_id !== room || msg.user_id !== ctx.user.id || msg.kind !== 'text' || !mentionsTutor(msg.body)) throw new HttpError(400, 'bad_request', 'Not addressed to the teacher');
+    const { data: msg } = await ctx.db.from('chat_messages').select('id, room_id, user_id, kind, body, created_at, reply_to').eq('id', id).maybeSingle();
+    if (!msg || msg.room_id !== room || msg.user_id !== ctx.user.id || !['text', 'voice'].includes(msg.kind)) throw new HttpError(400, 'bad_request', 'Bad message');
     if (Date.now() - Date.parse(msg.created_at) > 10 * 60_000) return json({ skipped: 'old' });
-    await charge(ctx, 'text');
-    const text = await tutorReply(ctx.admin, room);
-    return json({ message: await postTutor(ctx.admin, room, ctx.user.id, text, { mode: 'reply', reply_to: id }) });
+    // звертання: «@teacher», «Вчителю…» або відповідь на репліку вчителя
+    let addressed = msg.kind === 'text' && mentionsTutor(msg.body);
+    if (!addressed && msg.reply_to) {
+      const { data: parent } = await ctx.admin.from('chat_messages').select('kind, meta').eq('id', msg.reply_to).maybeSingle();
+      addressed = parent?.kind === 'system' && (parent.meta as Record<string, unknown>)?.event === 'tutor';
+    }
+    if (addressed) {
+      await charge(ctx, 'text');
+      const text = await tutorReply(ctx.admin, room);
+      return json({ message: await postTutor(ctx.admin, room, ctx.user.id, text, { mode: 'reply', reply_to: id }) });
+    }
+    // вчитель сам долучається до жвавої розмови (не частіше ніж раз на 90 хв)
+    if (p.auto && await shouldChime(ctx.admin, room)) {
+      await charge(ctx, 'text');
+      const text = await tutorChime(ctx.admin, room);
+      return json({ message: await postTutor(ctx.admin, room, ctx.user.id, text, { mode: 'chime' }) });
+    }
+    return json({ skipped: 'quiet' });
   }
 
   // переписка з друзями: власні межі й списання (friends.ts), без частки сильних моделей

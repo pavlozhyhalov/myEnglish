@@ -11,6 +11,7 @@ import { disputeFix } from '../stats.js';
 import * as chat from '../chat.js';
 import * as duel from '../duel.js';
 import { sessionPlayback } from '../audiosession.js';
+import { tappable } from '../ui/wordtap.js';
 import { shareGroup, shareLink, friendLink } from '../invite.js';
 import { myLevel, lvLabel } from '../level.js';
 
@@ -47,6 +48,7 @@ function sysText(m) {
     case 'homework': return 'Вчитель дав домашнє завдання — у кожного своє';
     case 'homework_done': return `${x.name || 'Учасник'}: домашнє виконано`;
     case 'tutor': return `Вчитель: ${x.text || ''}`;
+    case 'weekly': return 'Підсумок тижня від вчителя';
     case 'duel_score': return `${x.name || 'Учасник'}: ${x.score ?? 0} у дуелі «${duel.GAMES[x.game]?.label || 'гра'}»`;
     default: return '';
   }
@@ -194,7 +196,8 @@ export function chatRoom(view, roomId) {
   const sendBtn = h('button.icon-btn.send', { type: 'button', 'aria-label': 'Надіслати' }, ic('paper-plane-right', { fill: true }));
   const micBtn = chat.canVoice() ? h('button.icon-btn', { type: 'button', 'aria-label': 'Записати голосове' }, ic('microphone')) : null;
   const composer = h('div.composer', micBtn, ta, sendBtn);
-  const dock = h('div.tutor-dock.ch-dock', composer);
+  const replyBar = h('div.ch-replybar', { hidden: true });   // «Відповідь: …» над полем вводу
+  const dock = h('div.tutor-dock.ch-dock', replyBar, composer);
   const draftKey = `me:chdraft:${roomId}`;
   ta.value = lsGet(draftKey);
   const grow = () => { ta.style.height = 'auto'; ta.style.height = Math.min(140, ta.scrollHeight) + 'px'; };
@@ -251,6 +254,8 @@ export function chatRoom(view, roomId) {
   }
   let dls = [];   // дуелі за 7 днів (js/duel.js)
   let hw = null;   // поточне домашнє групи (chat_homework_status)
+  let rx = new Map();     // реакції: id повідомлення → [{ who, kind }] (міграція 0031)
+  let replyTo = null;     // на яке повідомлення відповідаю: { id, name, text, tutor }
   async function loadChallenges() {
     try {
       const [a, b, c] = await Promise.all([chat.challenges(roomId), duel.duels(roomId).catch(() => []),
@@ -318,15 +323,94 @@ export function chatRoom(view, roomId) {
   /** Репліка вчителя в групі */
   function tutorBubble(m) {
     const text = String(m.meta?.text || '');
+    const textEl = tappable(h('div.ch-text', { lang: 'en' }, text));
     const el = h('div.msg.ai.ch-msg.ch-tutor', { tabindex: 0, role: 'article' },
       h('div.ch-name.ch-tutor-name', ic('chalkboard-teacher', { size: 14 }), 'Вчитель'),
-      h('div.ch-text', { lang: 'en' }, text),
+      m.meta?.reply_to ? quote(m.meta.reply_to) : null,
+      textEl,
       h('span.ch-ts', hhmm(m.created_at)));
-    const open = () => actions({ ...m, body: text, user_id: '__tutor__' });
-    el.addEventListener('click', open);
-    el.addEventListener('keydown', (e) => { if (e.key === 'Enter') open(); });
-    return h('div.ch-wrap.ai', { dataset: { id: m.id } }, el);
+    wire(el, { ...m, body: text, user_id: '__tutor__' });
+    return h('div.ch-wrap.ai', { dataset: { id: m.id } }, el, reactRow(m));
   }
+  /** Підсумок тижня в групі: слово вчителя, найактивніші, спільні помилки (без імен) */
+  function weeklyCard(m) {
+    const x = m.meta || {};
+    const stars = Array.isArray(x.stars) ? x.stars : [];
+    const mistakes = Array.isArray(x.mistakes) ? x.mistakes : [];
+    return h('div.ch-card.ch-weekly', { dataset: { id: m.id } },
+      h('div.ch-weekly-in',
+        h('div.ch-topic-lab', ic('chalkboard-teacher', { size: 14 }), ' Підсумок тижня від вчителя'),
+        tappable(h('p.ch-weekly-t', { lang: 'en' }, x.text || '')),
+        stars.length ? h('div.tx-rows', stars.slice(0, 5).map((p, i) => h('div.tx-row.ch-wk-row',
+          h('span.tx-no' + (i === 0 && p.minutes > 0 ? '.dl-win' : ''), i === 0 && p.minutes > 0 ? ic('trophy', { size: 15, fill: true }) : String(i + 1)),
+          h('span.tx-body', h('span.tx-l', p.name), h('span.tx-s', `${p.messages} ${p.messages === 1 ? 'повідомлення' : 'повідомлень'} у групі${p.homework ? ' · домашнє виконано' : ''}`)),
+          h('span.dl-score', String(p.minutes), h('small', ' хв'))))) : null,
+        mistakes.length ? h('div.stack.ch-wk-mist', h('div.tx-label', 'Спільні помилки тижня'),
+          mistakes.map(f => h('div.ch-fix', h('div.ch-fix-w', ic('x', { size: 14 }), h('s', f.wrong)), h('div.ch-fix-r', ic('check', { size: 14 }), h('b', f.right)), f.why_uk ? h('div.tx-s', f.why_uk) : null))) : null),
+      reactRow(m));
+  }
+
+  // ---------- Дотик, довге натискання, реакції, відповіді ----------
+  /** Дотик по слову — переклад (як скрізь на сайті); дотик повз слово, довге натискання чи правий клік — дії з повідомленням */
+  function wire(el, m) {
+    const open = () => actions(m);
+    let t = 0, x0 = 0, y0 = 0, long = false;
+    const cancel = () => { clearTimeout(t); t = 0; };
+    el.addEventListener('pointerdown', (e) => { x0 = e.clientX; y0 = e.clientY; long = false; cancel(); t = setTimeout(() => { t = 0; long = true; navigator.vibrate?.(8); open(); }, 480); });
+    el.addEventListener('pointermove', (e) => { if (Math.abs(e.clientX - x0) + Math.abs(e.clientY - y0) > 10) cancel(); });
+    el.addEventListener('pointerup', cancel);
+    el.addEventListener('pointercancel', cancel);
+    el.addEventListener('click', (e) => { if (long) { long = false; e.stopPropagation(); e.preventDefault(); } }, true);
+    el.addEventListener('click', (e) => { if (!e.target.closest('button, mark, span.w, .ch-quote, a')) open(); });
+    el.addEventListener('contextmenu', (e) => { e.preventDefault(); cancel(); open(); });
+    el.addEventListener('keydown', (e) => { if (e.key === 'Enter' && e.target === el) open(); });
+  }
+  const whoName = (m) => (m?.kind === 'system' && m.meta?.event === 'tutor' ? 'Вчитель' : m?.user_id === me ? 'Ви' : nameOf(m?.user_id));
+  const snippet = (m) => (m?.deleted_at ? 'Повідомлення видалено' : m?.kind === 'voice' ? (m.body ? `Голосове: ${m.body}` : 'Голосове повідомлення')
+    : m?.kind === 'system' ? String(m.meta?.text || '') : String(m?.body || '')).slice(0, 90);
+  /** Цитата повідомлення, на яке відповіли; дотик — прокрутити до нього */
+  function quote(id) {
+    const o = byId.get(id);
+    return h('button.ch-quote', { type: 'button', onclick: (e) => {
+      e.stopPropagation();
+      const t = list.querySelector(`:scope > [data-id="${id}"]`);
+      if (!t) { toast('Це повідомлення вище — завантажте раніші'); return; }
+      t.scrollIntoView({ block: 'center', behavior: 'smooth' });
+      t.classList.add('ch-flash'); setTimeout(() => t.classList.remove('ch-flash'), 1400);
+    } }, h('b', o ? whoName(o) : 'Повідомлення'), h('span', o ? snippet(o) : 'вище в чаті'));
+  }
+  /** Реакції під повідомленням: однакові — разом з числом; реакція вчителя — окремо з його значком */
+  function reactRow(m) {
+    const list2 = (rx.get(m.id) || []).filter(r => r.kind);
+    if (!list2.length) return null;
+    const mine = list2.find(r => r.who === me)?.kind;
+    const counts = new Map();
+    for (const r of list2) if (r.who !== 'tutor') counts.set(r.kind, (counts.get(r.kind) || 0) + 1);
+    const tutorR = list2.find(r => r.who === 'tutor');
+    const chips = [...counts.entries()].map(([k, n]) => {
+      const d = chat.reactionDef(k);
+      return h('button.ch-react' + (mine === k ? '.on' : ''), { type: 'button', 'aria-label': `${d?.label || k}: ${n}${mine === k ? ', ваша' : ''}`, 'aria-pressed': String(mine === k), onclick: (e) => { e.stopPropagation(); setReaction(m, mine === k ? null : k); } },
+        ic(d?.icon || 'thumbs-up', { size: 15, fill: mine === k }), n > 1 ? h('span', String(n)) : null);
+    });
+    if (tutorR) chips.push(h('span.ch-react.tutor', { 'aria-label': `Вчитель: ${chat.reactionDef(tutorR.kind)?.label || ''}` }, ic('chalkboard-teacher', { size: 14 }), ic(chat.reactionDef(tutorR.kind)?.icon || 'lightbulb', { size: 15, fill: true })));
+    return h('div.ch-reacts', chips);
+  }
+  async function setReaction(m, kind) {
+    const prev = rx.get(m.id) || [];
+    rx.set(m.id, [...prev.filter(r => r.who !== me), ...(kind ? [{ who: me, kind }] : [])]);
+    update(byId.get(m.id) || m);
+    try { await chat.react(m.id, kind); }
+    catch (e) { rx.set(m.id, prev); update(byId.get(m.id) || m); toast(chat.chatErrText(e), { kind: 'bad' }); }
+  }
+  function setReply(m) {
+    replyTo = m ? { id: m.id, name: whoName(m), text: snippet(m), tutor: m.kind === 'system' && m.meta?.event === 'tutor' } : null;
+    replyBar.hidden = !replyTo;
+    replyBar.replaceChildren(...(replyTo ? [ic('arrow-bend-up-left', { size: 16 }),
+      h('span.ch-replybar-t', h('b', replyTo.tutor ? 'Відповідь вчителю' : `Відповідь: ${replyTo.name}`), h('span', replyTo.text)),
+      h('button.icon-btn', { type: 'button', 'aria-label': 'Скасувати відповідь', onclick: () => setReply(null) }, ic('x', { size: 18 }))] : []));
+    if (replyTo) setTimeout(() => ta.focus(), 200);
+  }
+
   function hwCard(m) {
     const cur = hw && hw.id === m.meta?.homework_id ? hw : null;
     const mine = cur?.mine;
@@ -578,6 +662,7 @@ export function chatRoom(view, roomId) {
     if (m.kind === 'system' && m.meta?.event === 'topic') return topicCard(m);
     if (m.kind === 'system' && m.meta?.event === 'homework') return hwCard(m);
     if (m.kind === 'system' && m.meta?.event === 'tutor') return tutorBubble(m);
+    if (m.kind === 'system' && m.meta?.event === 'weekly') return weeklyCard(m);
     if (m.kind === 'system') { const t = sysText(m); return t ? h('div.msg.sys', { dataset: { id: m.id } }, t) : h('div', { dataset: { id: m.id }, hidden: true }); }
     if (m.kind === 'challenge') return challengeCard(m);
     const mine = m.user_id === me;
@@ -586,14 +671,15 @@ export function chatRoom(view, roomId) {
     const fixes = mine ? fb.get(m.id) : null;
     const kids = [];
     if (!mine && group) kids.push(h('div.ch-name', nameOf(m.user_id)));
+    if (m.reply_to) kids.push(quote(m.reply_to));
     if (m.kind === 'voice') kids.push(voicePlayer(m));
-    if (m.body) kids.push(h('div.ch-text' + (m.kind === 'voice' ? '.ch-tr' : ''), { lang: 'en' }, ...(mine ? marked(m.body, fixes) : [m.body])));
+    // дотик по слову — переклад (js/ui/wordtap.js), як скрізь на сайті
+    if (m.body) kids.push(tappable(h('div.ch-text' + (m.kind === 'voice' ? '.ch-tr' : ''), { lang: 'en' }, ...(mine ? marked(m.body, fixes) : [m.body]))));
     kids.push(h('span.ch-ts', hhmm(m.created_at)));
     const el = h(`div.msg.${mine ? 'me' : 'ai'}.ch-msg`, { dataset: { id: m.id }, tabindex: 0, role: 'article' }, kids);
-    el.addEventListener('click', (e) => { if (!e.target.closest('button, mark')) actions(m); });
-    el.addEventListener('keydown', (e) => { if (e.key === 'Enter' && e.target === el) actions(m); });
+    wire(el, m);
     el.querySelectorAll('mark.ch-err').forEach(mk => mk.addEventListener('click', (e) => { e.stopPropagation(); fixesSheet(m); }));
-    const wrapEl = h('div.ch-wrap.' + (mine ? 'me' : 'ai'), { dataset: { id: m.id } }, el);
+    const wrapEl = h('div.ch-wrap.' + (mine ? 'me' : 'ai'), { dataset: { id: m.id } }, el, reactRow(m));
     if (mine && fixes?.length) wrapEl.append(h('button.ch-fixes', { type: 'button', onclick: () => fixesSheet(m) }, ic('lightbulb', { size: 14 }), `Як краще · ${fixes.length}`));
     else if (mine && checking.has(m.id)) wrapEl.append(h('span.ch-checking', 'Вчитель перевіряє…'));
     return wrapEl;
@@ -602,6 +688,8 @@ export function chatRoom(view, roomId) {
     const mine = m.user_id === me;
     let s = null;
     const rows = [];
+    const real = byId.get(m.id) || m;
+    if (!real.deleted_at) rows.push(txRow({ icon: 'arrow-bend-up-left', label: 'Відповісти', onclick: () => { s.close(); setReply(real); } }));
     if (m.body) rows.push(txRow({ icon: 'copy', label: 'Копіювати', onclick: async () => { s.close(); try { await navigator.clipboard.writeText(m.body); toast('Скопійовано'); } catch { toast('Не вдалося скопіювати'); } } }));
     if (!mine && m.body) rows.push(txRow({ icon: 'translate', label: 'Перекласти', onclick: async () => {
       s.close();
@@ -615,7 +703,11 @@ export function chatRoom(view, roomId) {
       try { await chat.deleteMessage(m); m.deleted_at = new Date().toISOString(); m.body = ''; update(m); } catch (e) { toast(chat.chatErrText(e), { kind: 'bad' }); }
     } }));
     if (!rows.length) return;
-    s = sheet(mine ? 'Ваше повідомлення' : m.user_id === '__tutor__' ? 'Вчитель' : nameOf(m.user_id), h('div.stack.ch-sheet', txRows(rows)));
+    const myKind = (rx.get(m.id) || []).find(r => r.who === me)?.kind;
+    const bar = real.deleted_at ? null : h('div.ch-react-bar', { role: 'group', 'aria-label': 'Реакція' }, chat.REACTIONS.map(d =>
+      h('button.ch-react-pick' + (myKind === d.kind ? '.on' : ''), { type: 'button', 'aria-label': d.label, 'aria-pressed': String(myKind === d.kind),
+        onclick: () => { s.close(); setReaction(real, myKind === d.kind ? null : d.kind); } }, ic(d.icon, { size: 22, fill: myKind === d.kind }), h('span', d.label))));
+    s = sheet(mine ? 'Ваше повідомлення' : m.user_id === '__tutor__' ? 'Вчитель' : nameOf(m.user_id), h('div.stack.ch-sheet', bar, txRows(rows)));
   }
 
   function renderAll() {
@@ -666,7 +758,7 @@ export function chatRoom(view, roomId) {
     const data = await chat.messages(roomId);
     more = data.length >= chat.PAGE;
     msgs = data; byId.clear(); for (const m of msgs) byId.set(m.id, m);
-    fb = await chat.feedback(msgs.filter(m => m.user_id === me && m.kind !== 'system').map(m => m.id));
+    [fb, rx] = await Promise.all([chat.feedback(msgs.filter(m => m.user_id === me && m.kind !== 'system').map(m => m.id)), chat.reactions(roomId).catch(() => new Map())]);
     chat.prefetchAudio(msgs.filter(m => m.kind === 'voice' && m.audio_path && !m.deleted_at).map(m => m.audio_path));
     if (!alive) return;
     renderHead(); renderAll(); toBottom();
@@ -698,11 +790,12 @@ export function chatRoom(view, roomId) {
     if (info?.kind === 'dm' && info.is_friend === false) { toast(chat.chatErrText({ code: 'not_friends' }), { kind: 'bad' }); return; }
     sending = true; sendBtn.disabled = true;
     try {
-      const m = await chat.sendText(roomId, body);
-      ta.value = ''; grow(); lsSet(draftKey, '');
+      const rep = replyTo;
+      const m = await chat.sendText(roomId, body, rep?.id);
+      ta.value = ''; grow(); lsSet(draftKey, ''); setReply(null);
       checking.add(m.id);
       append(m);
-      if (info?.kind === 'group' && chat.mentionsTutor(body)) tutorTyping(m.id);
+      afterSend(m, chat.mentionsTutor(body) || rep?.tutor);
       chat.checkMessage(m).then(({ fixes }) => {
         checking.delete(m.id);
         if (fixes.length) fb.set(m.id, fixes);
@@ -710,6 +803,14 @@ export function chatRoom(view, roomId) {
       }).catch((e) => { checking.delete(m.id); if (alive) update(byId.get(m.id) || m); console.warn('friend_check', e?.code || e); });
     } catch (e) { toast(chat.chatErrText(e), { kind: 'bad' }); }
     sending = false; sendBtn.disabled = false;
+  }
+
+  /** Після мого повідомлення в групі: звернулись до вчителя (чи відповіли на його репліку) — «Вчитель пише…»;
+   *  інакше сервер тихо вирішує, чи вчителю долучитися до жвавої розмови (не частіше ніж раз на 90 хв) */
+  function afterSend(m, addressed) {
+    if (info?.kind !== 'group') return;
+    if (addressed) { tutorTyping(m.id); return; }
+    chat.askTutor(roomId, m.id, true).then((r) => { if (r?.message && alive) append(r.message); }).catch(() => {});
   }
 
   /** «Вчитель пише…» поки сервер готує відповідь; сама репліка приходить через Realtime (або з відповіді функції) */
@@ -755,9 +856,10 @@ export function chatRoom(view, roomId) {
       const ph = h('div.ch-wrap.me.ch-sending', h('div.msg.me.ch-msg', h('div.ch-voice', h('span.ch-play', ic('microphone', { size: 18 })), h('span.ch-tr', 'Надсилаю й розпізнаю…'))));
       list.append(ph); toBottom();
       try {
-        const res = await chat.sendVoice(roomId, blob, dur);
-        ph.remove();
-        if (res?.message) { if (res.fixes?.length) fb.set(res.message.id, res.fixes); append(res.message); }
+        const rep = replyTo;
+        const res = await chat.sendVoice(roomId, blob, dur, rep?.id);
+        ph.remove(); setReply(null);
+        if (res?.message) { if (res.fixes?.length) fb.set(res.message.id, res.fixes); append(res.message); afterSend(res.message, rep?.tutor); }
       } catch (e) { ph.remove(); toast(aiErrorText(e) || chat.chatErrText(e), { kind: 'bad' }); }
     };
     stopBtn.addEventListener('click', finish);
@@ -772,6 +874,13 @@ export function chatRoom(view, roomId) {
     if (!alive) return;
     if (e?.code === 'not_member') { toast('Цей чат недоступний'); go('/friends/chats', { replace: true }); return; }
     list.replaceChildren(txRow({ icon: 'warning-circle', label: navigator.onLine ? 'Не вдалося відкрити чат' : 'Немає мережі', sub: 'Торкніться, щоб повторити', onclick: () => location.reload() }));
+  });
+  // реакції наживо (окремий канал): своя, друзів і вчителя
+  const unsubRx = chat.subscribeReactions(roomId, (row) => {
+    if (!alive || !row?.message_id) return;
+    const cur = (rx.get(row.message_id) || []).filter(r => r.who !== row.who);
+    rx.set(row.message_id, row.kind ? [...cur, { who: row.who, kind: row.kind }] : cur);
+    if (byId.has(row.message_id)) update(byId.get(row.message_id));
   });
   const unsub = chat.subscribe(roomId, (row, ev) => {
     if (!alive || !row?.id) return;
@@ -796,5 +905,5 @@ export function chatRoom(view, roomId) {
   const iv = setInterval(poll, 15000);
   const vis = () => { if (!document.hidden) { poll(); loadChallenges(); } };
   document.addEventListener('visibilitychange', vis);
-  return () => { alive = false; clearInterval(iv); document.removeEventListener('visibilitychange', vis); unsub(); const r = rec; rec = null; r?.cancel(); chat.markRead(roomId); };
+  return () => { alive = false; clearInterval(iv); document.removeEventListener('visibilitychange', vis); unsub(); unsubRx(); const r = rec; rec = null; r?.cancel(); chat.markRead(roomId); };
 }

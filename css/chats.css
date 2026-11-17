@@ -121,3 +121,30 @@ mark.ch-err{background:transparent;color:inherit;text-decoration:underline wavy 
 .fr-search{margin-bottom:8px}
 .fr-req-acts{gap:4px;flex:none;align-items:center}
 .fr-disc{gap:10px;align-items:center;margin-top:6px}
+/* реакції, відповіді, підсумок тижня (2026-11-17) */
+.ch-msg{-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}
+.ch-msg .w{cursor:pointer;border-radius:4px}
+.ch-msg .w:active{background:color-mix(in srgb,currentColor 18%,transparent)}
+.ch-reacts{display:flex;flex-wrap:wrap;gap:4px;margin-top:-6px;padding:0 6px;position:relative;z-index:1}
+.ch-wrap.me .ch-reacts{justify-content:flex-end}
+.ch-react{display:inline-flex;align-items:center;gap:3px;min-height:28px;padding:2px 8px;border-radius:14px;border:1px solid var(--tile-edge);background:var(--tile);color:var(--ink);font:inherit;font-size:12px;font-weight:700;box-shadow:var(--tile-shadow);cursor:pointer}
+.ch-react.on{background:var(--accent-soft);color:var(--accent-ink);border-color:color-mix(in srgb,var(--accent-ink) 40%,transparent)}
+.ch-react.tutor{cursor:default;color:var(--accent-ink)}
+.ch-react-bar{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px}
+.ch-react-pick{display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 2px;border-radius:14px;border:1px solid var(--tile-edge);background:var(--tile);color:var(--ink);font:inherit;font-size:11px;cursor:pointer;box-shadow:var(--tile-shadow);min-height:64px}
+.ch-react-pick.on{background:var(--accent-soft);color:var(--accent-ink)}
+.ch-react-pick span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.ch-quote{display:flex;flex-direction:column;align-items:flex-start;gap:1px;width:100%;text-align:left;font:inherit;font-size:var(--fs-xs);border:0;border-left:3px solid currentColor;border-radius:8px;padding:4px 8px;margin:2px 0 6px;background:color-mix(in srgb,currentColor 10%,transparent);color:inherit;cursor:pointer;min-height:36px}
+.ch-quote b{font-weight:700}
+.ch-quote span{opacity:.85;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:100%}
+.ch-replybar{display:flex;align-items:center;gap:8px;background:var(--tile);border:1px solid var(--tile-edge);border-left:3px solid var(--accent-ink);border-radius:14px;padding:4px 4px 4px 10px;color:var(--accent-ink);box-shadow:var(--tile-shadow)}
+.ch-replybar[hidden]{display:none}
+.ch-replybar-t{flex:1;min-width:0;display:flex;flex-direction:column;font-size:var(--fs-xs);color:var(--ink)}
+.ch-replybar-t b{color:var(--accent-ink)}
+.ch-replybar-t span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ch-flash > .ch-msg,.ch-flash.ch-msg{animation:ch-flash 1.4s ease}
+@keyframes ch-flash{0%,60%{box-shadow:0 0 0 3px var(--accent-ink)}100%{box-shadow:none}}
+.ch-weekly-in{display:flex;flex-direction:column;gap:10px;background:var(--tile);border:1px solid color-mix(in srgb,var(--accent-ink) 30%,var(--tile-edge));box-shadow:var(--tile-shadow);border-radius:var(--r-tile,18px);padding:12px 14px}
+.ch-weekly-t{margin:0;line-height:1.45;color:var(--ink)}
+.ch-wk-row{min-height:52px}
+.ch-wk-mist{gap:6px}

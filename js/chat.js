@@ -8,7 +8,7 @@ import { tutor } from './ai.js';
 import { addMistake, isDisputed } from './stats.js';
 import { getMic, micAvailable } from './speech.js';
 
-const COLS = 'id, room_id, user_id, kind, body, audio_path, meta, created_at, deleted_at';
+const COLS = 'id, room_id, user_id, kind, body, audio_path, meta, created_at, deleted_at, reply_to';
 export const PAGE = 50;
 export const MAX_GROUP = 10;
 export const VOICE_MAX_MS = 60_000;
@@ -60,7 +60,7 @@ export const homeworkDone = (id) => rpc('chat_homework_done', { p_homework: id }
 export const newHomework = (room) => tutor('homework', { room_id: room });
 // вчитель у групі (міграція 0027): відповідає на «@teacher» / «Teacher, …» / «Вчителю…», вітає з виконаним домашнім
 export const mentionsTutor = (text) => /(^|[\s,.!?(«"'])@?(teacher|tutor|вчител|учител)/i.test(String(text || ''));
-export const askTutor = (room, messageId) => tutor('group_tutor', { room_id: room, message_id: messageId });
+export const askTutor = (room, messageId, auto = false) => tutor('group_tutor', { room_id: room, message_id: messageId, auto });
 export const praiseTutor = (room) => tutor('group_tutor', { room_id: room, praise: true }).catch(() => null);
 export const hwTaskDone = (t) => (t.value || 0) >= (t.target || 1);
 
@@ -98,9 +98,9 @@ export function subscribe(room, onChange, onStatus) {
 }
 
 /** Надіслати текст: вставка (миттєво) → перевірка вчителем у фоні (onFixes) */
-export async function sendText(room, body) {
+export async function sendText(room, body, replyTo = null) {
   const c = await getSupa();
-  const { data, error } = await c.from('chat_messages').insert({ room_id: room, user_id: user()?.id, kind: 'text', body }).select(COLS).single();
+  const { data, error } = await c.from('chat_messages').insert({ room_id: room, user_id: user()?.id, kind: 'text', body, reply_to: replyTo || null }).select(COLS).single();
   if (error) throw wrap(error);
   return data;
 }
@@ -132,7 +132,7 @@ const rid = () => (crypto.randomUUID ? crypto.randomUUID().replace(/-/g, '') : M
 const toB64 = (blob) => new Promise((res, rej) => { const fr = new FileReader(); fr.onload = () => res(String(fr.result).split(',')[1]); fr.onerror = rej; fr.readAsDataURL(blob); });
 
 /** Надіслати голосове: файл у сховище → сервер розпізнає, перевіряє й вставляє повідомлення → { message, fixes } */
-export async function sendVoice(room, blob, dur) {
+export async function sendVoice(room, blob, dur, replyTo = null) {
   const mime = (blob.type || 'audio/webm').split(';')[0];
   const ext = EXT[mime] || 'webm';
   const path = `${room}/${user()?.id}/${rid()}.${ext}`;
@@ -140,7 +140,7 @@ export async function sendVoice(room, blob, dur) {
   const up = await c.storage.from('chat-voice').upload(path, blob, { contentType: mime, upsert: false });
   if (up.error) throw new ChatError('bad_audio', up.error.message);
   // файл не видаляємо при збої: сервер міг уже вставити повідомлення (відповідь загубилась); якщо вставки не було — прибирає сервер
-  const r = await tutor('friend_voice', { room_id: room, path, audio: await toB64(blob), mime, dur: Math.round(dur * 10) / 10 });
+  const r = await tutor('friend_voice', { room_id: room, path, audio: await toB64(blob), mime, dur: Math.round(dur * 10) / 10, reply_to: replyTo || undefined });
   if (r?.message?.id) logFixes(r.fixes || [], r.message.id);
   return r;
 }
@@ -218,3 +218,33 @@ export function challengeTitle(kind, target) {
 export const challengeActive = (c) => !c.cancelled && c.ends_on >= c.today;
 /** Днів лишилось (включно з сьогодні) */
 export const daysLeft = (c) => Math.max(0, Math.round((Date.parse(c.ends_on) - Date.parse(c.today)) / 864e5) + 1);
+
+// ---------- Реакції (міграція 0031): одна на людину на повідомлення; 'tutor' — реакція вчителя ----------
+export const REACTIONS = [
+  { kind: 'like', icon: 'thumbs-up', label: 'Клас' },
+  { kind: 'love', icon: 'heart', label: 'Супер' },
+  { kind: 'haha', icon: 'smiley', label: 'Смішно' },
+  { kind: 'smart', icon: 'lightbulb', label: 'Влучно' },
+  { kind: 'bravo', icon: 'hands-clapping', label: 'Браво' },
+];
+export const reactionDef = (k) => REACTIONS.find(r => r.kind === k);
+/** Реакції чату → Map(messageId → [{ who, kind }]) */
+export async function reactions(room) {
+  const c = await getSupa();
+  const { data } = await c.from('chat_reactions').select('message_id, who, kind').eq('room_id', room).not('kind', 'is', null).limit(2000);
+  const out = new Map();
+  for (const r of data || []) { if (!out.has(r.message_id)) out.set(r.message_id, []); out.get(r.message_id).push({ who: r.who, kind: r.kind }); }
+  return out;
+}
+export const react = (messageId, kind) => rpc('chat_react', { p_message: messageId, p_kind: kind || null });
+/** Підписка на реакції чату (окремий канал) */
+export function subscribeReactions(room, onChange) {
+  let ch = null, dead = false;
+  getSupa().then(c => {
+    if (dead) return;
+    ch = c.channel(`react:${room}:${Math.random().toString(36).slice(2, 10)}`)
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'chat_reactions', filter: `room_id=eq.${room}` }, (p) => { try { onChange(p.new); } catch (e) { console.warn('react rt', e); } })
+      .subscribe();
+  }).catch(() => {});
+  return () => { dead = true; if (ch) getSupa().then(c => c.removeChannel(ch)).catch(() => {}); };
+}

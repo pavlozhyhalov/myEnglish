@@ -8,6 +8,7 @@ import { generateJson } from '../_shared/gemini.ts';
 import { LIGHT_MODELS } from '../_shared/config.ts';
 import { RULE_IDS, RULES_PROMPT, ruleOf, isDisputed, type Dispute } from '../_shared/rules.ts';
 import { newName } from './coach.ts';
+import { tutorReact } from '../_shared/grouptutor.ts';
 
 export const FRIEND_LIMITS = { checks: 40, voice: 30 };
 export type Fix = { wrong: string; right: string; why_uk: string; rule: string };
@@ -100,6 +101,7 @@ export async function friendCheck(ctx: Ctx, p: Record<string, unknown>, level: s
   });
   const fixes = cleanFriendFixes(r?.fixes, msg.body, disputes);
   await saveFeedback(ctx, id, fixes);
+  await tutorReact(ctx.admin, msg, fixes.length);   // вдале повідомлення — інколи реакція вчителя
   return { fixes };
 }
 
@@ -138,14 +140,15 @@ export async function friendVoice(ctx: Ctx, p: Record<string, unknown>, level: s
     console.error('friend voice', (e as Error).message?.slice(0, 120));
   }
   const dur = Math.max(0, Math.min(120, Number(p.dur) || 0));
-  const { data: msg, error } = await ctx.db.from('chat_messages').insert({ room_id: room, user_id: ctx.user.id, kind: 'voice', body: text, audio_path: path, meta: { dur } })
-    .select('id, room_id, user_id, kind, body, audio_path, meta, created_at, deleted_at').single();
+  const replyTo = UUID.test(String(p.reply_to || '')) ? String(p.reply_to) : null;
+  const { data: msg, error } = await ctx.db.from('chat_messages').insert({ room_id: room, user_id: ctx.user.id, kind: 'voice', body: text, audio_path: path, meta: { dur }, reply_to: replyTo })
+    .select('id, room_id, user_id, kind, body, audio_path, meta, created_at, deleted_at, reply_to').single();
   if (error || !msg) {
     // повідомлення не створено — файл більше нікому не потрібен (клієнт свій не видаляє: міг утратити відповідь уже після вставки)
     await ctx.admin.storage.from('chat-voice').remove([path]).catch(() => {});
     const m = String(error?.message || '');
     throw new HttpError(m.includes('blocked') || m.includes('not_friends') ? 403 : m.includes('rate_limited') ? 429 : 400, m.includes('rate_limited') ? 'rate_limited' : 'bad_request', m.slice(0, 80) || 'Insert failed');
   }
-  if (text) await saveFeedback(ctx, msg.id, fixes);
+  if (text) { await saveFeedback(ctx, msg.id, fixes); await tutorReact(ctx.admin, msg, fixes.length); }
   return { message: msg, fixes };
 }
