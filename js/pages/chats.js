@@ -12,6 +12,7 @@ import * as chat from '../chat.js';
 import * as duel from '../duel.js';
 import { sessionPlayback } from '../audiosession.js';
 import { tappable } from '../ui/wordtap.js';
+import { notifyPrompt } from '../ui/notifyprompt.js';
 import { shareGroup, shareLink, friendLink } from '../invite.js';
 import { myLevel, lvLabel } from '../level.js';
 
@@ -169,6 +170,7 @@ export function chatsList(view) {
   }
 
   view.replaceChildren(h('div.stack-lg',
+    notifyPrompt({ sub: 'Щоб бачити нові повідомлення, навіть коли застосунок закрито' }),
     txPrimary({ icon: 'chat-circle-dots', label: 'Написати другу', sub: 'Англійською — вчитель тихо підкаже', onclick: write }),
     txGroup('Чати', list),
     tx({ icon: 'users-three', wide: true, label: 'Нова група', sub: `До ${chat.MAX_GROUP} людей · спільні виклики`, onclick: newGroup })));

@@ -8,6 +8,7 @@ import { txGroup, txRow, txRows } from './tiles.js';
 import { user, getSupa, onAuth } from '../supa.js';
 import * as store from '../store.js';
 import { plural } from '../strings.js';
+import { notifyPrompt } from './notifyprompt.js';
 
 let btn = null, data = null, timer = 0, busy = false;
 const GAMES = { detective: 'Детектив помилок', rush: 'Швидкий переклад' };
@@ -60,6 +61,7 @@ export async function openInbox() {
   let s = null;
   const body = h('div.stack.ib-sheet');
   const close = () => s?.close();
+  const prompt = notifyPrompt({ label: 'Сповіщення на цьому телефоні', sub: 'Щоб це все приходило, навіть коли застосунок закрито' });
   const render = () => {
     const d = data || {};
     const chats = d.chats || [];
@@ -74,6 +76,7 @@ export async function openInbox() {
     const recent = chats.slice(0, 5);
     const n = cardsDue();
     body.replaceChildren(...[
+      prompt,
       txGroup('Нове', fresh.length ? txRows(fresh) : txRows([txRow({ icon: 'check-circle', label: 'Нових сповіщень немає', sub: 'Повідомлення, домашнє й дуелі з’являться тут', chevron: false })])),
       txGroup('Мої групи й чати', txRows([
         ...recent.map(c => txRow({ icon: chatIcon(c), label: c.title || 'Чат', sub: preview(c) || (c.kind === 'group' ? `${c.members} учасн.` : ''), href: `#/friends/chat/${c.id}`, onclick: close })),

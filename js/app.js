@@ -241,7 +241,11 @@ async function boot() {
     afterFirstScreen(() => navigator.serviceWorker.register(`sw.js?v=${BUILD}`, { updateViaCache: 'none' }).then(reg => {
       // перевіряємо оновлення при кожному поверненні в застосунок
       document.addEventListener('visibilitychange', () => { if (!document.hidden) reg.update().catch(() => {}); });
+      // підписка на сповіщення жива: тихо відновити, якщо система її скинула (js/push.js, раз на добу)
+      setTimeout(() => import('./push.js').then(m => m.ensurePush()).catch(() => {}), 4000);
     }).catch(e => console.warn('sw', e)));
+    // Android/Chrome: системне «Встановити застосунок» — запам'ятати, щоб показати свою кнопку (js/ui/notifyprompt.js)
+    addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); window.__meInstall = e; });
   }
 }
 

@@ -174,3 +174,23 @@ export function pushErrorText(e) {
     no_sw: 'Застосунок ще завантажується. Спробуйте за кілька секунд.',
   })[code] || 'Не вдалося ввімкнути нагадування. Спробуйте ще раз.';
 }
+
+/**
+ * Тихе відновлення підписки на старті (раз на добу або коли змінилась): дозвіл уже є, а підписки немає чи вона нова
+ * (iOS/Android після оновлення системи, браузер сам її оновив) — підписуємось знову й записуємо на сервер. Без вікон і запитів дозволу.
+ */
+export async function ensurePush() {
+  try {
+    if (!user() || pushSupport() !== 'ok' || Notification.permission !== 'granted') return false;
+    const reg = await registration();
+    const key = b64uToBytes(await vapidKey());
+    let sub = await reg.pushManager.getSubscription();
+    if (sub && !sameKey(sub.options?.applicationServerKey, key)) { await sub.unsubscribe().catch(() => {}); sub = null; }
+    if (!sub) sub = await reg.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: key });
+    const mark = `${sub.endpoint.slice(-24)}|${new Date().toISOString().slice(0, 10)}`;
+    if (localStorage.getItem('me:push-sync') === mark) return true;
+    await save(sub);
+    localStorage.setItem('me:push-sync', mark);
+    return true;
+  } catch (e) { console.warn('ensurePush', e?.message || e); return false; }
+}

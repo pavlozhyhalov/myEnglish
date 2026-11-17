@@ -113,12 +113,13 @@ async function monitor(db: SupabaseClient, secret: string, vapid: Vapid) {
 
 
 /** Надіслати push усім увімкненим підпискам людини (kinds.chat не вимкнено); недійсні — видалити. Повертає кількість доставлених */
-async function sendToUser(db: SupabaseClient, userId: string, msg: Message, vapid: Vapid) {
+async function sendToUser(db: SupabaseClient, userId: string, msg: Message, vapid: Vapid, opts: { ttl?: number; urgency?: string } = {}) {
   const { data: subs } = await db.from('push_subscriptions').select('id, endpoint, keys, kinds').eq('user_id', userId).eq('enabled', true).limit(10);
   let sent = 0;
   for (const s of subs || []) {
     if ((s.kinds as Record<string, unknown>)?.chat === false) continue;
-    const r = await sendPush({ endpoint: s.endpoint, keys: s.keys }, msg, vapid).catch(() => ({ status: 0, text: '' }));
+    // повідомлення друзів і запити — високий пріоритет (Android у режимі економії інакше відкладає), живуть добу
+    const r = await sendPush({ endpoint: s.endpoint, keys: s.keys }, msg, vapid, { ttl: opts.ttl ?? 24 * 3600, urgency: opts.urgency ?? 'normal' }).catch(() => ({ status: 0, text: '' }));
     if (r.status === 404 || r.status === 410) await db.from('push_subscriptions').delete().eq('id', s.id);
     else if (r.status >= 200 && r.status < 300) sent++;
   }
@@ -152,7 +153,7 @@ async function chatPush(db: SupabaseClient, id: string, vapid: Vapid) {
   let sent = 0;
   for (const r of members || []) {
     if (r.user_id === m.user_id || blockedBy.has(r.user_id) || !chatNotifyDue(now, r)) continue;
-    const n = await sendToUser(db, r.user_id, { ...text, url: `#/friends/chat/${m.room_id}`, tag: `myenglish-chat-${m.room_id}` }, vapid);
+    const n = await sendToUser(db, r.user_id, { ...text, url: `#/friends/chat/${m.room_id}`, tag: `myenglish-chat-${m.room_id}` }, vapid, { urgency: 'high' });
     if (n) { sent += n; await db.from('chat_members').update({ notified_at: new Date().toISOString() }).eq('room_id', m.room_id).eq('user_id', r.user_id); }
   }
   return { sent };
@@ -302,11 +303,11 @@ Deno.serve(async (req) => {
     try {
       if (b.status === 'pending') {
         const { data: name } = await friendName(db, String(b.from));
-        return json({ sent: await sendToUser(db, String(b.to), { title: 'Запит у друзі', body: `${name} хоче додати вас у друзі`, url: '#/friends', tag: `myenglish-req-${b.from}` }, vapid) });
+        return json({ sent: await sendToUser(db, String(b.to), { title: 'Запит у друзі', body: `${name} хоче додати вас у друзі`, url: '#/friends', tag: `myenglish-req-${b.from}` }, vapid, { urgency: 'high', ttl: 7 * 86400 }) });
       }
       if (b.status === 'accepted') {
         const { data: name } = await friendName(db, String(b.to));
-        return json({ sent: await sendToUser(db, String(b.from), { title: 'Запит прийнято', body: `${name} тепер у ваших друзях — напишіть англійською!`, url: '#/friends', tag: `myenglish-req-${b.to}` }, vapid) });
+        return json({ sent: await sendToUser(db, String(b.from), { title: 'Запит прийнято', body: `${name} тепер у ваших друзях — напишіть англійською!`, url: '#/friends', tag: `myenglish-req-${b.to}` }, vapid, { urgency: 'high', ttl: 3 * 86400 }) });
       }
       return json({ sent: 0 });
     } catch (e) { console.error('friend push', (e as Error).message?.slice(0, 120)); return json({ error: 'failed' }, 500); }

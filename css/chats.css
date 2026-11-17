@@ -148,3 +148,8 @@ mark.ch-err{background:transparent;color:inherit;text-decoration:underline wavy 
 .ch-weekly-t{margin:0;line-height:1.45;color:var(--ink)}
 .ch-wk-row{min-height:52px}
 .ch-wk-mist{gap:6px}
+/* «Увімкніть сповіщення» (js/ui/notifyprompt.js) */
+.np{display:flex;flex-direction:column;gap:8px}
+.np[hidden]{display:none}
+.np-later{align-self:flex-end;margin-top:-2px}
+.np-sheet{gap:12px}

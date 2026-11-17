@@ -1,5 +1,5 @@
 // Service worker: офлайн-кеш оболонки й контенту. AI і Supabase — завжди мережа.
-const BUILD = '20261117091614';
+const BUILD = '20261117092017';
 const CACHE = `myenglish-${BUILD}`;
 importScripts(`precache-list.js?v=${BUILD}`);
 
@@ -143,7 +143,7 @@ self.addEventListener('push', (e) => {
     tag,
     renotify: tag !== 'myenglish-reminder',   // нове повідомлення в тому ж чаті — знову звук/вібрація
     icon: 'assets/icons/icon-192.png',
-    badge: 'assets/icons/icon-192.png',
+    badge: 'assets/icons/badge-96.png',   // Android: дрібний значок у рядку стану — одноколірний «En» на прозорому (кольоровий там стає білим квадратом)
     lang: 'uk',
     data: { url },
   }).then(syncBadge));
@@ -158,6 +158,14 @@ async function syncBadge() {
     n ? await self.navigator.setAppBadge(n) : await self.navigator.clearAppBadge();
   } catch { /* без підтримки — нічого */ }
 }
+
+// Браузер сам оновив підписку (Android/iOS після оновлення системи чи браузера): підписуємось знову з тими самими параметрами;
+// новий endpoint застосунок запише на сервер під час наступного відкриття (ensurePush у js/push.js), старий сервер прибере за 410
+self.addEventListener('pushsubscriptionchange', (e) => {
+  const opts = e.oldSubscription?.options;
+  if (!opts?.applicationServerKey) return;
+  e.waitUntil(self.registration.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: opts.applicationServerKey }).catch(() => {}));
+});
 
 self.addEventListener('notificationclick', (e) => {
   e.notification.close();

@@ -11,6 +11,7 @@ import { tx, txPrimary, txGroup, txRow, txRows, txLogin } from '../ui/tiles.js';
 import { chatsList, chatRoom, openDmAndGo } from './chats.js';
 import * as chat from '../chat.js';
 import { friendInvite, groupInvite, friendLink, shareLink } from '../invite.js';
+import { notifyPrompt } from '../ui/notifyprompt.js';
 import { go } from '../router.js';
 
 const days = (n) => `${n} ${plural(n, 'день', 'дні', 'днів')}`;
@@ -333,6 +334,7 @@ function friendsPage(view, r) {
 
   view.replaceChildren(h('div.stack-lg',
     unreadBox,
+    notifyPrompt(),
     // головне — запросити посиланням: друг відкриє його й додасться одним дотиком (навіть якщо ще не зареєстрований)
     txPrimary({ icon: 'share-network', label: 'Запросити друзів', sub: 'Посилання в Telegram, Viber чи SMS — друг додасться одним дотиком', onclick: share }),
     reqBox,
