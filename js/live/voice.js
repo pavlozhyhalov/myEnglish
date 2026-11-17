@@ -41,6 +41,7 @@ export async function voiceSession(view, opts = {}) {
 
   const row = { mode: 'voice', scenario: scenario?.id || null, title: isMission ? `Місія: ${scenario.title}` : scenario ? `Голос: ${scenario.title}` : (opts.label ? `Голос: ${opts.label}` : opts.topic && opts.topic.length <= 40 && /[Ѐ-ӿ]/.test(opts.topic) ? `Голос: ${opts.topic}` : 'Голосова розмова'), messages: [], summary: null, seconds: 0 };
   row.meta = isMission ? { mission: opts.mission, topicLabel: `Місія · ${scenario.title}` } : {};
+  if (opts.onFinish) row.meta.guided = true;   // тест чи заняття: свій підсумок, фонове доробляння (autoSummarizePending) не чіпає
   // вільна розмова (не сценарій, не тест рівня): теми з банку — рівень, інтереси, без тем останніх розмов (js/topics.js)
   const free = !scenario && !opts.onFinish;
   const topicsP = free ? loadTopics() : null;

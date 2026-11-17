@@ -57,6 +57,18 @@ function header() {
   }
   // звідки людина прийшла на «Написати розробнику» — сторінка йде разом зі зверненням (js/pages/feedback.js)
   addEventListener('hashchange', (e) => { try { const from = new URL(e.oldURL).hash; if (from && !from.startsWith('#/feedback')) sessionStorage.setItem('me:last-route', from.slice(0, 200)); } catch { /* */ } });
+  // голосова розмова без підсумку (вийшли, вимкнувся телефон, сервер не встиг) — підсумок доробляється сам (js/pages/tutor.js)
+  let autoSumAt = 0;
+  const autoSum = () => {
+    if (!authUser() || document.hidden || Date.now() - autoSumAt < 60_000 || /^#\/tutor/.test(location.hash)) return;
+    autoSumAt = Date.now();
+    import('./pages/tutor.js').then(m => m.autoSummarizePending()).then(row => {
+      if (row) toast('Підсумок розмови готовий: помилки й нові слова вже у вашому навчанні', { ms: 7000, action: 'Відкрити', onAction: () => { location.hash = `#/tutor?chat=${row.id}&view=summary`; } });
+    }).catch(e => console.warn('auto summary', e?.code || e));
+  };
+  setTimeout(autoSum, 12_000);
+  store.on(t => { if (t === 'synced') setTimeout(autoSum, 4000); });
+  document.addEventListener('visibilitychange', () => { if (!document.hidden) setTimeout(autoSum, 5000); });
   // «у мережі» для друзів: серцебиття, поки застосунок на екрані (не частіше раз на хвилину)
   const beat = () => { if (authUser() && !document.hidden) import('./chat.js').then(c => c.heartbeat()).catch(() => {}); };
   setTimeout(beat, 5000); setInterval(beat, 60_000);

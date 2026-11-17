@@ -846,11 +846,14 @@ ${UK_STYLE}`;
       const learner = p.hint === 'learner', fluency = p.hint === 'fluency';
       // підказка розпізнаванню: остання репліка вчителя (від клієнта) + власні назви й слова учня (з профілю й пам'яті)
       const ctxText = (learner || fluency) ? recognitionContext(st, str(p.context?.tutor ?? p.tutor, 300)) : '';
+      // 2026-11-17: одна lite-модель інколи висла до 20 с — учень бачив «уточнюю» до 44 с. Тайм-аут за довжиною звуку (8–18 с), разом ≤ 30 с
+      const audioSec = audio.length * 0.75 / 32000;
+      const tOut = Math.round(Math.min(18_000, 8_000 + audioSec * 150));
       // голос: точний текст репліки + до 2 миттєвих виправлень одним викликом
       if (learner && p.check) {
         const r = await generateJson(LIGHT_MODELS, {
           contents: [{ role: 'user', parts: [{ inlineData: { mimeType: String(p.mime || 'audio/webm').split(';')[0], data: audio } }, { text: voiceCheckPrompt(st.level, st.disputes, ctxText) }] }],
-          schema: VOICE_CHECK_SCHEMA, temperature: 0, thinking: 'off', maxTokens: 1500, timeoutMs: 20_000,
+          schema: VOICE_CHECK_SCHEMA, temperature: 0, thinking: 'off', maxTokens: 1500, timeoutMs: tOut, budgetMs: 30_000,
         });
         return json(cleanVoiceCheck(r, st.disputes));
       }
@@ -858,7 +861,7 @@ ${UK_STYLE}`;
         : 'Transcribe this speech exactly as spoken: do not correct mistakes, do not translate, do not answer it. Return only the transcript text (empty if there is no speech).';
       const text = await generate(LIGHT_MODELS, {
         contents: [{ role: 'user', parts: [{ inlineData: { mimeType: String(p.mime || 'audio/webm'), data: audio } }, { text: instr }] }],
-        temperature: 0, thinking: 'off',
+        temperature: 0, thinking: 'off', timeoutMs: tOut, budgetMs: 30_000,
       });
       return json({ text: text.trim() });
     }

@@ -949,24 +949,12 @@ function chatUI(view, row, { scenario, ask, topic, resumed } = {}) {
 }
 
 // ---------- Підсумок сесії ----------
-// Підсумок рахує Pro-модель — до хвилини: текст очікування змінюється, щоб екран не здавався завислим
-const SUMMARY_STEPS = ['Перечитую розмову…', 'Перевіряю ваші репліки…', 'Шукаю помилки, які повторюються…', 'Оцінюю рівень за критеріями CEFR…', 'Добираю нові слова…', 'Готую пораду на наступний раз…', 'Майже готово — докладний розбір займає до хвилини…'];
-const SPEECH_KEYS = ['words', 'speech_sec', 'wpm', 'avg_len', 'repeats', 'fillers', 'unique_ratio', 'turns'];
-
-/** opts.voice — голосова сесія; opts.pronTurns — репліки з аудіо для оцінки вимови (лише одразу після голосу, у пам'яті) */
-export async function summarize(view, row, { voice = false, pronTurns = null } = {}) {
-  setFocus(false);
-  const stepEl = h('span.sum-wait', { 'aria-live': 'polite' }, SUMMARY_STEPS[0]);
-  view.replaceChildren(stateScreen({ icon: 'hourglass', tone: 'accent', label: 'Підсумок розмови', title: 'Вчитель готує підсумок…', sub: stepEl },
-    h('div.sum-wait-bar', { 'aria-hidden': 'true' }, h('i')),
-    // контури майбутнього підсумку — екран очікування не порожній
-    h('div.stack.sum-wait-skel', { 'aria-hidden': 'true' }, skelCard({ rows: 2 }), skelCard({ rows: 3 }), skelCard({ rows: 1 }))));
-  let step = 0;
-  const tick = setInterval(() => {
-    if (!stepEl.isConnected) { clearInterval(tick); return; }
-    step = Math.min(SUMMARY_STEPS.length - 1, step + 1);
-    stepEl.textContent = SUMMARY_STEPS[step];
-  }, 8000);
+/** Підсумок розмови без екрана: запит до вчителя, помилки, слова, пам'ять, журнал тем. Спільне для екрана підсумку й фонового доробляння. */
+const sumInFlight = new Set();
+export async function makeSummary(row, { onRetry } = {}) {
+  const key = row.id || row;
+  if (sumInFlight.has(key)) throw new AiError('busy', 'Підсумок уже готується');
+  sumInFlight.add(key);
   try {
     const prev = row.summary || null;
     const payload = { mode: row.mode, messages: (row.messages || []).filter(m => !m.hidden).map(m => ({ role: m.role, text: m.text })) };
@@ -980,7 +968,7 @@ export async function summarize(view, row, { voice = false, pronTurns = null } =
     // сервер зайнятий / модель зависла / обірвався зв'язок — один тихий повтор, а не екран помилки (2026-11-17)
     const res = await tutor('summary', payload).catch((e) => {
       if (!['busy', 'overloaded', 'server', 'gemini', 'empty', 'network'].includes(e?.code) && navigator.onLine) throw e;
-      stepEl.textContent = 'Ще трохи — вчитель перевіряє ще раз…';
+      onRetry?.();
       return tutor('summary', payload);
     });
     // повторний підсумок продовженої розмови (і помилки, вже додані з виправлень) не зараховуються вдруге
@@ -1027,6 +1015,50 @@ export async function summarize(view, row, { voice = false, pronTurns = null } =
     }
     // новий сервер повертає й факти про учня з усієї розмови
     if (Array.isArray(res.memory) && res.memory.length) rememberFacts(res.memory);
+  } finally { sumInFlight.delete(key); }
+}
+
+/**
+ * Фонове доробляння підсумків (2026-11-17, власник: «аналіз у кінці не завжди робиться… це ключова фішка»): голосова розмова за 3 дні,
+ * де підсумку немає (вийшли зі сторінки, вимкнувся телефон, сервер не встиг), — підсумок робиться сам при наступному відкритті застосунку.
+ * По одній розмові за раз, кожну — не частіше раз на 2 год і не більше 3 спроб (localStorage['me:autosum']).
+ */
+export async function autoSummarizePending() {
+  if (!user() || !navigator.onLine) return null;
+  let tries = {}; try { tries = JSON.parse(localStorage.getItem('me:autosum') || '{}') || {}; } catch { /* */ }
+  const since = Date.now() - 3 * 864e5;
+  const words = (r) => (r.messages || []).filter(m => m.role === 'user').reduce((a, m) => a + (String(m.text || '').match(/[A-Za-z']+/g) || []).length, 0);
+  const row = store.all('tutor_chats').filter(r => !r.deleted && r.mode === 'voice' && !r.meta?.guided && (!r.summary || r.summary.partial)
+    && Date.parse(r.updated_at || r.created_at || 0) > since && (r.messages || []).filter(m => m.role === 'user').length >= 2 && words(r) >= 25
+    && !sumInFlight.has(r.id) && (tries[r.id]?.n || 0) < 3 && Date.now() - (tries[r.id]?.at || 0) > 2 * 3600e3)
+    .sort((a, b) => Date.parse(b.updated_at || 0) - Date.parse(a.updated_at || 0))[0];
+  if (!row) return null;
+  tries[row.id] = { n: (tries[row.id]?.n || 0) + 1, at: Date.now() };
+  try { localStorage.setItem('me:autosum', JSON.stringify(Object.fromEntries(Object.entries(tries).slice(-30)))); } catch { /* */ }
+  await makeSummary(row);
+  return row;
+}
+
+// Підсумок рахує Pro-модель — до хвилини: текст очікування змінюється, щоб екран не здавався завислим
+const SUMMARY_STEPS = ['Перечитую розмову…', 'Перевіряю ваші репліки…', 'Шукаю помилки, які повторюються…', 'Оцінюю рівень за критеріями CEFR…', 'Добираю нові слова…', 'Готую пораду на наступний раз…', 'Майже готово — докладний розбір займає до хвилини…'];
+const SPEECH_KEYS = ['words', 'speech_sec', 'wpm', 'avg_len', 'repeats', 'fillers', 'unique_ratio', 'turns'];
+
+/** opts.voice — голосова сесія; opts.pronTurns — репліки з аудіо для оцінки вимови (лише одразу після голосу, у пам'яті) */
+export async function summarize(view, row, { voice = false, pronTurns = null } = {}) {
+  setFocus(false);
+  const stepEl = h('span.sum-wait', { 'aria-live': 'polite' }, SUMMARY_STEPS[0]);
+  view.replaceChildren(stateScreen({ icon: 'hourglass', tone: 'accent', label: 'Підсумок розмови', title: 'Вчитель готує підсумок…', sub: stepEl },
+    h('div.sum-wait-bar', { 'aria-hidden': 'true' }, h('i')),
+    // контури майбутнього підсумку — екран очікування не порожній
+    h('div.stack.sum-wait-skel', { 'aria-hidden': 'true' }, skelCard({ rows: 2 }), skelCard({ rows: 3 }), skelCard({ rows: 1 }))));
+  let step = 0;
+  const tick = setInterval(() => {
+    if (!stepEl.isConnected) { clearInterval(tick); return; }
+    step = Math.min(SUMMARY_STEPS.length - 1, step + 1);
+    stepEl.textContent = SUMMARY_STEPS[step];
+  }, 8000);
+  try {
+    await makeSummary(row, { onRetry: () => { stepEl.textContent = 'Ще трохи — вчитель перевіряє ще раз…'; } });
   } catch (e) {
     view.replaceChildren(stateScreen({ icon: 'warning', tone: 'bad', label: 'Підсумок розмови', title: 'Не вдалося зробити підсумок', sub: aiErrorText(e) || S.err.generic, role: 'alert' },
       txPrimary({ icon: 'arrow-clockwise', label: 'Спробувати ще раз', sub: 'розмова збережена', onclick: () => summarize(view, row, { voice, pronTurns }) }), backToTutor()));
