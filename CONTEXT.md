@@ -26,7 +26,7 @@
 
 ## 3. Технології та інфраструктура
 - **Фронтенд:** статична PWA без збірки — HTML + CSS + vanilla JS (ES modules), hash-роутер. Хостинг — **GitHub Pages** з `main` репозиторію `pavlozhyhalov/myEnglish` (публічний). Бібліотеки в `/vendor` (Supabase JS, ts-fsrs). Після кожної зміни фронтенду — `scripts/bump.sh` (версія, кеш SW).
-- **Бекенд:** Supabase-проєкт **myEnglish** (`uxqdklwnxdtyifksphoz`, eu-central-1): Postgres з RLS, синхронізація local-first (IndexedDB ↔ Supabase), міграції 0001–0031. Edge-функції (Deno): `tutor` (усі текстові дії AI), `live-token` (голос Gemini Live), `tts`, `pron` (вимова), `push` (нагадування + щоденний автомонітор), `admin`.
+- **Бекенд:** Supabase-проєкт **myEnglish** (`uxqdklwnxdtyifksphoz`, eu-central-1): Postgres з RLS, синхронізація local-first (IndexedDB ↔ Supabase), міграції 0001–0033. Edge-функції (Deno): `tutor` (усі текстові дії AI), `live-token` (голос Gemini Live), `tts`, `pron` (вимова), `push` (нагадування + щоденний автомонітор), `admin`.
 - **AI:** Google Gemini, лише безкоштовний ключ (у секретах Supabase). Розподіл моделей у `_shared/config.ts`: важкі оцінки — 3-flash-preview з thinking, чат — 3.5-flash, масові дії — lite; вичерпана модель пропускається до скидання ліміту; щоденний автотест якості виправлень.
 - **Деплой функцій:** однорядковий `index.ts` з імпортом `raw.githubusercontent.com/.../<commit-sha>/...` — спершу commit+push, потім деплой з повним SHA.
 - **Resonance** (мій інший застосунок): час навчання автоматично йде туди (Мови → English) — лише для мого акаунта.
