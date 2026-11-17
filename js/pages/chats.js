@@ -3,6 +3,7 @@
 import { h, ic } from '../ui/dom.js';
 import { user } from '../supa.js';
 import { go, onLeave } from '../router.js';
+import { setFocus } from '../ui/shell.js';
 import { toast } from '../ui/toast.js';
 import { sheet, confirmSheet } from '../ui/sheet.js';
 import { tx, txPrimary, txGroup, txRow, txRows, txPill, txBar, txLogin } from '../ui/tiles.js';
@@ -213,6 +214,8 @@ export function chatRoom(view, roomId) {
   micBtn?.addEventListener('click', () => record());
 
   view.replaceChildren(h('div.ch-room', head, strip, olderBtn, list, dock));
+  // як у месенджерах: у відкритому чаті нижня панель ховається, поле вводу — внизу екрана (власник 2026-11-17)
+  setFocus(true);
 
   const nearBottom = () => window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 160;
   const toBottom = () => { const go2 = () => window.scrollTo({ top: document.documentElement.scrollHeight }); requestAnimationFrame(go2); setTimeout(go2, 350); };
@@ -907,5 +910,5 @@ export function chatRoom(view, roomId) {
   const iv = setInterval(poll, 15000);
   const vis = () => { if (!document.hidden) { poll(); loadChallenges(); } };
   document.addEventListener('visibilitychange', vis);
-  return () => { alive = false; clearInterval(iv); document.removeEventListener('visibilitychange', vis); unsub(); unsubRx(); const r = rec; rec = null; r?.cancel(); chat.markRead(roomId); };
+  return () => { alive = false; setFocus(false); clearInterval(iv); document.removeEventListener('visibilitychange', vis); unsub(); unsubRx(); const r = rec; rec = null; r?.cancel(); chat.markRead(roomId); };
 }

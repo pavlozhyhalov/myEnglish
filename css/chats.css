@@ -153,3 +153,6 @@ mark.ch-err{background:transparent;color:inherit;text-decoration:underline wavy 
 .np[hidden]{display:none}
 .np-later{align-self:flex-end;margin-top:-2px}
 .np-sheet{gap:12px}
+/* відкритий чат: без нижньої панелі (focus-mode) — уся висота екрана, поле вводу внизу */
+body.focus-mode .ch-room{min-height:calc(100dvh - var(--header-h) - var(--safe-t) - var(--safe-b) - 40px)}
+body.focus-mode .ch-dock{bottom:calc(var(--safe-b) + 8px)}
