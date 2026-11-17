@@ -312,6 +312,17 @@ Deno.serve(async (req) => {
       return json({ sent: 0 });
     } catch (e) { console.error('friend push', (e as Error).message?.slice(0, 120)); return json({ error: 'failed' }, 500); }
   }
+  // запрошення в групу (тригер chat_group_invites_notify, міграція 0035)
+  if ((body as { action?: string })?.action === 'group_invite') {
+    const b = body as { room?: string; from?: string; to?: string };
+    const uuid = /^[0-9a-f-]{36}$/;
+    if (!uuid.test(String(b.room)) || !uuid.test(String(b.from)) || !uuid.test(String(b.to))) return json({ error: 'bad_request' }, 400);
+    try {
+      const [{ data: name }, { data: room }] = await Promise.all([friendName(db, String(b.from)), db.from('chat_rooms').select('title').eq('id', String(b.room)).maybeSingle()]);
+      return json({ sent: await sendToUser(db, String(b.to), { title: 'Запрошення в групу', body: `${name} запрошує вас у групу «${room?.title || 'Група'}»`, url: '#/friends',
+        tag: `myenglish-ginv-${b.room}` }, vapid, { urgency: 'high', ttl: 7 * 86400 }) });
+    } catch (e) { console.error('group invite push', (e as Error).message?.slice(0, 120)); return json({ error: 'failed' }, 500); }
+  }
   // нове повідомлення в чаті друзів (тригер бази)
   if ((body as { action?: string; id?: string })?.action === 'chat') {
     const id = String((body as { id?: string }).id || '');

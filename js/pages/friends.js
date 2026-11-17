@@ -99,6 +99,7 @@ function friendsPage(view, r) {
   // ---------- Запити в друзі й пошук людей (міграція 0030) ----------
   // Вхідні запити — «Прийняти / Відхилити»; пошук за іменем (лише ті, хто дозволив пошук, або знайомі: спільна група, спільні друзі).
   const reqBox = h('div', { hidden: true });
+  const ginvBox = h('div', { hidden: true });   // запрошення в групи (міграція 0035)
   const outBox = h('div', { hidden: true });
   const peopleList = h('div.tx-rows.fr-people');
   const searchInp = h('input.input.fr-search', { type: 'search', placeholder: 'Ім\'я людини', 'aria-label': 'Знайти людей за іменем', autocomplete: 'off', enterkeyhint: 'search' });
@@ -189,7 +190,31 @@ function friendsPage(view, r) {
       }))) : '');
     } catch { /* офлайн */ }
   }
-  function refreshAll() { loadRequests(); loadPeople(); loadList(); }
+  async function loadGroupInvites() {
+    try {
+      const inv = await chat.groupInvites();
+      if (!alive) return;
+      ginvBox.hidden = !inv.length;
+      ginvBox.replaceChildren(inv.length ? txGroup(`Запрошення в групи · ${inv.length}`, txRows(inv.map(g => {
+        const act = async (accept, row) => {
+          row.querySelectorAll('button').forEach(b => { b.disabled = true; });
+          try {
+            const room = await chat.respondGroupInvite(g.room_id, accept);
+            if (accept && room) { toast(`Ви в групі «${g.title}»`); go(`/friends/chat/${room}`); return; }
+            row.remove(); loadGroupInvites();
+          } catch (e) { toast(chat.chatErrText(e), { kind: 'bad' }); row.querySelectorAll('button').forEach(b => { b.disabled = false; }); }
+        };
+        const names = (g.names || []).slice(0, 3).join(', ');
+        const row = h('div.tx-row.friend-row.on.fr-ginv', h('span.friend-ava.ch-ava', { 'aria-hidden': 'true' }, ic('users-three', { size: 18 })),
+          h('span.tx-body', h('span.tx-l', g.title || 'Група'), h('span.tx-s', `${g.from} запрошує · ${g.members} ${plural(g.members, 'учасник', 'учасники', 'учасників')}${names ? `: ${names}` : ''}`)),
+          h('div.row.fr-req-acts',
+            h('button.btn.sm.primary', { type: 'button', onclick: () => act(true, row) }, 'Приєднатися'),
+            h('button.icon-btn', { type: 'button', 'aria-label': `Відхилити запрошення в «${g.title}»`, onclick: () => act(false, row) }, ic('x', { size: 18 }))));
+        return row;
+      }))) : '');
+    } catch { /* офлайн */ }
+  }
+  function refreshAll() { loadRequests(); loadGroupInvites(); loadPeople(); loadList(); }
 
   async function loadMe() {
     let tz = null;
@@ -337,6 +362,7 @@ function friendsPage(view, r) {
     notifyPrompt(),
     // головне — запросити посиланням: друг відкриє його й додасться одним дотиком (навіть якщо ще не зареєстрований)
     txPrimary({ icon: 'share-network', label: 'Запросити друзів', sub: 'Посилання в Telegram, Viber чи SMS — друг додасться одним дотиком', onclick: share }),
+    ginvBox,
     reqBox,
     txGroup('Знайти людей', [searchInp, peopleList, outBox]),
     txGroup('Друзі', list),
@@ -345,7 +371,7 @@ function friendsPage(view, r) {
 
   store.queueSync(0);   // свіжі хвилини — на сервер, щоб друзі бачили актуальне
   loadMe().then(loadList);
-  loadRequests(); loadPeople();
+  loadRequests(); loadGroupInvites(); loadPeople();
   const iv = setInterval(() => { if (!document.hidden) loadList(); }, 60000);
   return () => { alive = false; clearInterval(iv); };
 }

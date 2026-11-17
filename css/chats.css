@@ -175,3 +175,17 @@ body.focus-mode .ch-dock{bottom:calc(var(--safe-b) + 8px)}
 .ch-news .tx-l{white-space:normal;line-height:1.3}
 .ch-news-btn{flex:none}
 .ch-newswrap .ch-reacts{justify-content:center}
+/* Закріплене повідомлення (2026-11-17) */
+.ch-pinbar[hidden]{display:none}
+.ch-pin{display:flex;align-items:center;gap:10px;width:100%;text-align:left;font:inherit;color:var(--ink);background:var(--tile);border:1px solid var(--tile-edge);border-left:3px solid var(--accent-ink);border-radius:14px;padding:8px 10px;box-shadow:var(--tile-shadow);cursor:pointer}
+.ch-pin-ic{color:var(--accent-ink);flex:none;display:inline-flex}
+.ch-pin-body{flex:1;min-width:0;display:flex;flex-direction:column;gap:1px}
+.ch-pin-lab{font-size:11px;font-weight:700;letter-spacing:.03em;text-transform:uppercase;color:var(--accent-ink)}
+.ch-pin-t{font-size:var(--fs-sm,14px);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ch-pin > svg:last-child{flex:none;color:var(--ink-dim)}
+.ch-pin-full{font-size:var(--fs-md);line-height:1.45;white-space:pre-wrap;margin:0}
+.ch-head .ch-pinbar{margin-top:6px}
+.fr-ginv{flex-wrap:wrap;row-gap:8px}
+.fr-ginv .tx-body{flex:1 1 calc(100% - 64px)}
+.fr-ginv .tx-s{white-space:normal}
+.fr-ginv .fr-req-acts{width:100%;justify-content:flex-end}

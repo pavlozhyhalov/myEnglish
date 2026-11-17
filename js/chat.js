@@ -330,3 +330,11 @@ export async function shareNews(kind, value, score = null) {
   return rpc('chat_share_news', { p_kind: kind, p_value: String(value), p_score: score }).catch(() => 0);
 }
 export const STREAK_NEWS = [3, 7, 14, 21, 30, 50, 75, 100, 150, 200, 300, 365, 500, 730, 1000];
+
+// ---------- Запрошення в групу й закріплене повідомлення (міграція 0035) ----------
+export const groupInvites = () => rpc('chat_group_invites_list').then(r => r || []);
+export const respondGroupInvite = (room, accept) => rpc('chat_group_invite_respond', { p_room: room, p_accept: !!accept });
+export const sendGroupInvites = (room, users) => rpc('chat_group_invite_send', { p_room: room, p_users: users });
+export const searchPeople = (q) => rpc('people_search', { p_q: q || '' }).then(r => r || []);
+export const pinned = (room) => rpc('chat_pinned', { p_room: room });
+export const pin = (room, messageId) => rpc('chat_pin', { p_room: room, p_message: messageId || null });
