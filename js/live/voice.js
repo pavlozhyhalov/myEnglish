@@ -175,6 +175,47 @@ export async function voiceSession(view, opts = {}) {
     if (sp) { segSpeech++; speechPackets++; }
     if (seg.length > MAX_SEG) { seg.shift(); if (segFlags.shift()) segSpeech--; }
   }
+  // ---------- відлуння: поки звучить вчитель, у Live іде лише справжнє мовлення учня ----------
+  // 2026-11-17 (власник: «чує те, чого я не говорив»): динамік телефона повертався в мікрофон, Live «чув» «¿Qué?», «y», «It's»,
+  // обривав вчителя, і той вітався знову. Під час репліки вчителя (і 450 мс після) пакет проходить, лише якщо він утричі гучніший
+  // за відлуння, що лишилося після шумозаглушення (і не тихіший за GATE_MIN), два пакети поспіль; решта — тиша.
+  // Пакети тримаються 200 мс, тож перебивання доходить до Live з початком, а не з другого склада.
+  const GATE_MIN = 0.045, GATE_K = 3, GATE_HOLD = 8, GATE_TAIL_MS = 450, GATE_KEEP = 2;
+  let echoAvg = 0.01, gatePass = false, gateHold = 0, gateHits = 0, gateBuf = [], idleAt = 0;
+  const hush = (b) => new ArrayBuffer(b.byteLength);
+  function gate(buf, rms) {
+    const zone = tutorTalking || Date.now() - idleAt < GATE_TAIL_MS;
+    const thr = Math.max(GATE_MIN, echoAvg * GATE_K);
+    if (!zone) {
+      gatePass = false; gateHits = 0;
+      const out = gateBuf.map(([b, r]) => r > thr ? [b, r] : [hush(b), 0]); gateBuf = [];
+      return [...out, [buf, rms]];
+    }
+    if (gatePass) {
+      gateHold = rms > thr ? GATE_HOLD : gateHold - 1;
+      if (gateHold <= 0) gatePass = false;
+      return [[buf, rms]];
+    }
+    gateBuf.push([buf, rms]);
+    if (rms > thr) gateHits++;
+    else { gateHits = 0; echoAvg = Math.min(0.05, echoAvg * 0.9 + rms * 0.1); }
+    if (gateHits >= 2) {
+      gatePass = true; gateHold = GATE_HOLD; gateHits = 0;
+      log(`barge-in ${rms.toFixed(3)} > ${thr.toFixed(3)}`);
+      const out = gateBuf; gateBuf = []; return out;
+    }
+    const out = [];
+    while (gateBuf.length > GATE_KEEP) { const [b] = gateBuf.shift(); out.push([hush(b), 0]); }
+    return out;
+  }
+  /** Латиниця/кирилиця — менше половини літер: Live «почув» хінді, арабську тощо — це не текст учня */
+  const foreignScript = (t) => {
+    const all = (String(t).match(/\p{L}/gu) || []).length;
+    const ok = (String(t).match(/[\p{Script=Latin}\p{Script=Cyrillic}]/gu) || []).length;
+    return all > 0 && ok < all / 2;
+  };
+  const wordCount = (x) => (String(x).match(/[\p{L}\p{N}']+/gu) || []).length;
+
   function trimTurn(chunks, flags) {
     const a = flags.indexOf(true), b = flags.lastIndexOf(true);
     if (a < 0) return null;
@@ -204,6 +245,15 @@ export async function voiceSession(view, opts = {}) {
       for (let i = lastModel - 1; i >= from; i--) if (row.messages[i].role === 'model') { prevModel = i; break; }
       users = row.messages.slice(prevModel + 1, lastModel).filter(m => m.role === 'user');
     }
+    // фантомна репліка: мікрофон майже не чув голосу (< 0,2 с), а Live «почув» одне-два слова чи чужу мову — це шум/відлуння, прибираємо
+    if (mode === 'live' && speech < 2 && users.length) {
+      const t = users.map(u => String(u.text || '').trim()).join(' ');
+      if (t && (wordCount(t) <= 2 || foreignScript(t))) {
+        log(`phantom turn dropped: ${t.slice(0, 40)}`);
+        for (const u of users) { const i = row.messages.indexOf(u); if (i >= 0) row.messages.splice(i, 1); }
+        cutIdx = row.messages.length; renderSubs(); return;
+      }
+    }
     if (speech < 5 || mode !== 'live') return;   // < ~0,5 с мовлення — нічого уточнювати
     let target = users[users.length - 1];
     if (!target) {   // Live не розпізнав нічого — додаємо репліку перед відповіддю вчителя
@@ -212,7 +262,9 @@ export async function voiceSession(view, opts = {}) {
       row.messages.splice(mi < 0 ? row.messages.length : mi, 0, target);
     }
     // що почув сам Live (до уточнення): запасний текст, якщо повторне розпізнавання поверне уривок
-    const liveText = users.map(u => String(u.text || '').trim()).filter(Boolean).join(' ');
+    // текст чужим письмом (хінді замість «Hello, can you hear me?») — не запасний варіант: уточнення завжди перемагає
+    const liveRaw = users.map(u => String(u.text || '').trim()).filter(Boolean).join(' ');
+    const liveText = foreignScript(liveRaw) ? '' : liveRaw;
     for (const u of users) { u.closed = true; if (u !== target) u.text = ''; }   // кілька шматків однієї репліки зливаються в один
     target.closed = true; lastCutTarget = target;
     target.pending = true; renderSubs();
@@ -227,9 +279,9 @@ export async function voiceSession(view, opts = {}) {
     const job = tutor('transcribe', payload, { signal: AbortSignal.timeout ? AbortSignal.timeout(15_000) : undefined })
       .then(r => {
         const text = String(r?.text || '').trim();
-        const words = (x) => (String(x).match(/[\p{L}\p{N}']+/gu) || []).length;
+        const words = wordCount;
         // уривок на кшталт «que», «du 15», коли Live почув цілу фразу (2026-11-16): лишаємо текст Live
-        if (!text || /^\[?unclear\]?$/i.test(text)) { if (liveText && !target.text) target.text = liveText; return; }
+        if (!text || /^\[?unclear\]?$/i.test(text)) { if (foreignScript(target.text)) target.text = ''; if (liveText && !target.text) target.text = liveText; return; }
         if (liveText && words(text) < 3 && words(liveText) >= 2 * words(text) + 2) { target.text = liveText; return; }
         // уточнення загубило помітну частину сказаного (обрізаний початок) — лишаємо повніший текст Live
         if (liveText && words(text) < words(liveText) * 0.6) { target.text = liveText; return; }
@@ -239,7 +291,7 @@ export async function voiceSession(view, opts = {}) {
         if (turn) keepTurn({ msg: target, chunks: turn.chunks, sec: turn.sec, speech });
       })
       // уточнення не вдалося (мережа, тайм-аут 15 с) — лишається все, що почув Live (а не лише останній шматок)
-      .catch(e => { log('transcribe failed ' + (e.code || e.name || e.message)); import('../errlog.js').then(m => m.report(e, `voice transcribe ${e?.code || e?.name || ''}`.trim())).catch(() => {}); if (liveText && String(target.text || '').length < liveText.length) target.text = liveText; })
+      .catch(e => { if (foreignScript(target.text)) target.text = ''; log('transcribe failed ' + (e.code || e.name || e.message)); import('../errlog.js').then(m => m.report(e, `voice transcribe ${e?.code || e?.name || ''}`.trim())).catch(() => {}); if (liveText && String(target.text || '').length < liveText.length) target.text = liveText; })
       .finally(() => {
         delete target.pending; jobs.delete(job);
         // розмову вже збережено (завершили чи пішли, поки уточнювалось) — дописуємо уточнений текст у збережений рядок
@@ -444,7 +496,7 @@ export async function voiceSession(view, opts = {}) {
     audio.addEventListener('out-level', e => { outLevel = e.detail; });
     audio.addEventListener('speaking', () => { tutorTalking = true; barge = []; bargeFlags = []; cutSegment(); if (mode === 'live') setState(`Говорить ${st.tutorName}`); });
     audio.addEventListener('idle', () => {
-      tutorTalking = false; tutorLine = lastTutorBefore(-1) || tutorLine;
+      tutorTalking = false; idleAt = Date.now(); tutorLine = lastTutorBefore(-1) || tutorLine;
       // учень почав відповідати ще під хвіст вчителя (без «interrupted», бо вчитель уже договорив): початок відповіді — у сегмент,
       // інакше уточнення отримувало фразу без початку й затирало повний текст Live (2026-11-17, рецензія)
       const tail = bargeFlags.lastIndexOf(true);
@@ -499,7 +551,7 @@ export async function voiceSession(view, opts = {}) {
       : safeTopic ? `(The student is ready. Session topic from the app: ${safeTopic}. Greet them in one short line — no recap of earlier sessions — and open with this topic.${a0})`
         : `(The student is ready. Greet them briefly and start the conversation with a fresh topic — not one from recent sessions.${a0})`);
     // мікрофон іде в Live лише тепер — після тапу і готового з'єднання
-    audio.addEventListener('pcm', e => { live?.sendAudio(e.detail); onPcm(e.detail, e.rms ?? lastRms); });
+    audio.addEventListener('pcm', e => { for (const [b, r] of gate(e.detail, e.rms ?? lastRms)) { live?.sendAudio(b); onPcm(b, r); } });
   } catch (e) {
     log('start failed: ' + (e.code || '') + ' ' + e.message);
     try { warmClient?.close(); } catch { /* */ }
