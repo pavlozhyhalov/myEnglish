@@ -46,6 +46,8 @@ export class LiveClient extends EventTarget {
     this.lastSpeechAt = 0;       // коли учень востаннє говорив (noteSpeech з voice.js)
     this.lastReplyAt = 0;        // остання відповідь вчителя (звук, кінець репліки, перебивання)
     this.streamEndFor = 0;       // для якого мовлення вже надіслано audioStreamEnd
+    this.heard = '';             // що Live розпізнав з мовлення учня після останньої відповіді вчителя
+    this.heardAt = 0;
     this.failStart = 0;          // початок поточної серії невдалих перепідключень
     this.handleFails = 0;        // невдалі спроби з handle поспіль
     this.watch = setInterval(() => this.checkStall(), 2000);
@@ -62,6 +64,17 @@ export class LiveClient extends EventTarget {
       this.streamEndFor = this.lastSpeechAt;
       this.log(`no reply ${Math.round(quiet / 100) / 10}s after speech → audioStreamEnd`);
       try { this.ws.send(JSON.stringify({ realtimeInput: { audioStreamEnd: true } })); } catch { /* */ }
+    }
+    // Live розпізнав слова учня, але «хід» так і не закрився — вчитель мовчить, учень питає «can you hear me?» (18.11: тричі за день,
+    // зокрема після оновлення з'єднання на 10-й хвилині). Через паузу + 4 с без відповіді надсилаємо почуте текстом — вчитель відповідає на нього.
+    const heardWords = (this.heard.match(/[\p{L}\p{N}']+/gu) || []).length;
+    if (heardWords >= 2 && this.lastSpeechAt > this.lastReplyAt && now - Math.max(this.heardAt, this.lastSpeechAt) > (this.token?.pauseMs || 1600) + 4000) {
+      const t = this.heard.trim().slice(0, 1500);
+      this.heard = '';
+      this.lastReplyAt = now;
+      this.log(`no reply to "${t.slice(0, 40)}" → sent as text`);
+      this.emit('nudge', t);
+      try { this.ws.send(JSON.stringify({ clientContent: { turns: [{ role: 'user', parts: [{ text: t }] }], turnComplete: true } })); } catch { /* */ }
     }
     const deaf = this.lastSpeechAt > this.lastServerAt + 2000 && now - this.lastServerAt > STALL_MS && now - this.lastSpeechAt < 4000;
     const clogged = (this.ws?.bufferedAmount || 0) > 256 * 1024;
@@ -267,7 +280,8 @@ export class LiveClient extends EventTarget {
     if (!sc) return;
     if (sc.modelTurn || sc.turnComplete || sc.interrupted) this.lastReplyAt = Date.now();
     if (sc.interrupted) this.emit('interrupted');
-    if (sc.inputTranscription?.text) this.emit('input', sc.inputTranscription.text);
+    if (sc.inputTranscription?.text) { this.heard = (this.heard + sc.inputTranscription.text).slice(-3000); this.heardAt = Date.now(); this.emit('input', sc.inputTranscription.text); }
+    if (sc.modelTurn || sc.outputTranscription?.text) this.heard = '';
     if (sc.outputTranscription?.text) this.emit('output', sc.outputTranscription.text);
     for (const part of sc.modelTurn?.parts || []) {
       if (part.inlineData?.data && /audio/.test(part.inlineData.mimeType || 'audio')) {

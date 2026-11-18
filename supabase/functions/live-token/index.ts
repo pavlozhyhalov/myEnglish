@@ -37,12 +37,13 @@ Deno.serve(handler(async (req) => {
     sessionResumption: {},
     contextWindowCompression: { slidingWindow: {} },
     // учень підбирає слова з паузами: не обриваємо його (низька чутливість кінця мовлення, пауза за рівнем).
-    // Початок мовлення — низька чутливість і 300 мс мовлення для старту (2026-11-17 ввечері: HIGH ловив відлуння вчителя з динаміка й фоновий звук гри —
-    // «¿Qué?», «y» замість тиші, вчитель обривався й вітався знову). Відлуння додатково глушить клієнт (echo gate у js/live/voice.js). basic — відкат.
+    // Початок мовлення — висока чутливість, 300 мс мовлення для старту. LOW (17.11 ввечері) не вмикав «хід» на iPhone: Live розпізнавав слова,
+    // а вчитель мовчав («can you hear me?» тричі за 18.11). Відлуння вчителя глушить клієнт (gate у js/live/voice.js), фантоми — промпт і фільтр.
+    // Якщо хід усе ж не закрився — клієнт надсилає почуте текстом (checkStall у js/live/client.js). basic — відкат.
     ...(p.basic ? {} : {
       realtimeInputConfig: {
         automaticActivityDetection: {
-          startOfSpeechSensitivity: 'START_SENSITIVITY_LOW',
+          startOfSpeechSensitivity: 'START_SENSITIVITY_HIGH',
           endOfSpeechSensitivity: 'END_SENSITIVITY_LOW',
           prefixPaddingMs: 300,
           silenceDurationMs: st.voicePauseMs,
