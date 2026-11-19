@@ -15,9 +15,14 @@ export function englishVoices(accent) {
   const lang = langCode(accent).toLowerCase();
   const vs = voicesCache.filter(v => v.lang.toLowerCase().replace('_', '-') === lang);
   const any = voicesCache.filter(v => v.lang.toLowerCase().startsWith('en'));
-  // якісніші голоси (Google/Microsoft Natural/Siri) — першими
-  const score = (v) => (/natural|neural|online|google|siri|premium|enhanced/i.test(v.name) ? 0 : 1) + (v.localService ? 0.5 : 0);
-  return (vs.length ? vs : any).slice().sort((a, b) => score(a) - score(b));
+  // 2026-11-19 (власник: «хуйовий голос у картках»): на iPhone/Mac серед англійських є «жартівливі» й старі голоси (Albert, Bad News, Bubbles,
+  // Fred, Zarvox…) — вони могли опинитись першими. Тепер — лише нормальні, найкращі першими: преміум/покращені → відомі якісні → системний за замовчуванням
+  const NOVELTY = /albert|bad news|bahh|bells|boing|bubbles|cellos|good news|jester|organ|superstar|trinoids|whisper|wobble|zarvox|fred|junior|kathy|ralph|rocko|grandma|grandpa|eddy|flo|reed|sandy|shelley|deranged|hysterical|pipe organ/i;
+  const GOOD = /samantha|ava|allison|susan|zoe|evan|nathan|joelle|nicky|noelle|daniel|kate|serena|arthur|martha|stephanie|oliver|google (us|uk) english|aria|jenny|guy|libby|sonia|ryan/i;
+  const score = (v) => (/premium|enhanced|natural|neural/i.test(v.name) ? 0 : GOOD.test(v.name) ? 1 : /google|online|siri/i.test(v.name) ? 1.5 : v.default ? 2 : 3);
+  const ok = (list) => list.filter(v => !NOVELTY.test(v.name));
+  const pool = ok(vs).length ? ok(vs) : ok(any).length ? ok(any) : (vs.length ? vs : any);
+  return pool.slice().sort((a, b) => score(a) - score(b));
 }
 
 let currentAudio = null;
