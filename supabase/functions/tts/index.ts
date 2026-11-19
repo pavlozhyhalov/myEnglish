@@ -15,7 +15,7 @@ Deno.serve(handler(async (req) => {
   // Діалог (аудіювання, 2026-11-19, власник: «паршивий голос, нічого не зрозуміло»): одним записом, два голоси Gemini, ясно й природно.
   // dialogue: [{ s: 0|1, t }], speakers: [{ name, voice }] × 2. Кешується для всіх за хешем — кожен діалог генерується один раз.
   const isDlg = Array.isArray(p.dialogue);
-  let text = '', voice = '', speakers: { name: string; voice: string }[] | undefined;
+  let text = '', voice = '', speakers: { name: string; voice: string }[] | undefined, dlgLines: { speaker: string; text: string }[] | undefined;
   if (isDlg) {
     const lines = (p.dialogue as { s?: number; t?: string }[]).slice(0, 30).map(l => ({ s: l?.s ? 1 : 0, t: String(l?.t || '').replace(/\s+/g, ' ').trim().slice(0, 400) })).filter(l => l.t);
     const sp = Array.isArray(p.speakers) ? p.speakers : [];
@@ -27,6 +27,7 @@ Deno.serve(handler(async (req) => {
     if (!lines.length || body.length > 4000) throw new HttpError(400, 'bad_request', 'Bad dialogue');
     text = `Read this everyday conversation aloud for English learners: clear, natural, friendly, at a calm and steady pace, with a short pause between lines.\n\n${body}`;
     voice = speakers.map(s => s.voice).join('+');
+    dlgLines = lines.map(l => ({ speaker: names[l.s], text: l.t }));
   } else {
     text = String(p.text || '').trim().slice(0, 1500);
     if (!text) throw new HttpError(400, 'bad_request', 'No text');
@@ -39,7 +40,7 @@ Deno.serve(handler(async (req) => {
   if (cached.data) return new Response(cached.data, { headers });
 
   await charge(ctx, 'tts');
-  const { pcm, rate } = await tts(TTS_MODELS, text, voice, isDlg ? { speakers, timeoutMs: 65_000 } : {});
+  const { pcm, rate } = await tts(TTS_MODELS, text, voice, isDlg ? { speakers, lines: dlgLines, timeoutMs: 65_000 } : {});
   const file = wav(pcm, rate);
   const up = ctx.admin.storage.from('tts').upload(key, file, { contentType: 'audio/wav', upsert: true }).then(() => {}, () => {});
   // deno-lint-ignore no-explicit-any

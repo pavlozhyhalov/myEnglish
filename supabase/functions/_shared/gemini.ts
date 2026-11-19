@@ -259,18 +259,25 @@ export async function streamSSE(models: string[], o: GenOpts): Promise<ReadableS
 
 /** TTS: повертає PCM 16-bit 24 kHz */
 /** Gemini TTS. voice — один голос; speakers — діалог двома голосами ({ name, voice }, імена — як у тексті «Name: репліка») */
-export async function tts(models: string[], text: string, voice: string, opts: { speakers?: { name: string; voice: string }[]; timeoutMs?: number } = {}): Promise<{ pcm: Uint8Array; rate: number }> {
-  const speechConfig = opts.speakers?.length
-    ? { multiSpeakerVoiceConfig: { speakerVoiceConfigs: opts.speakers.map(s => ({ speaker: s.name, voiceConfig: { prebuiltVoiceConfig: { voiceName: s.voice } } })) } }
+export async function tts(models: string[], text: string, voice: string, opts: { speakers?: { name: string; voice: string }[]; lines?: { speaker: string; text: string }[]; timeoutMs?: number } = {}): Promise<{ pcm: Uint8Array; rate: number }> {
+  const multi = !!opts.speakers?.length;
+  const speechConfig = multi
+    ? { multiSpeakerVoiceConfig: { speakerVoiceConfigs: opts.speakers!.map(s => ({ speaker: s.name, voiceConfig: { prebuiltVoiceConfig: { voiceName: s.voice } } })) } }
     : { voiceConfig: { prebuiltVoiceConfig: { voiceName: voice } } };
   return withModels(models, async (model) => {
+    // Gemini 3.x TTS (перевірено 2026-11-19): діалог — окрема частина на репліку з speechMetadata.speaker; 2.5 — один текст «Ім'я: репліка»
+    const parts = multi && opts.lines?.length && /gemini-3/.test(model)
+      ? opts.lines.map(l => ({ text: l.text, speechMetadata: { speaker: l.speaker } }))
+      : [{ text }];
     const res = await gfetch(`${BASE}/v1beta/models/${model}:generateContent`, {
       method: 'POST', headers: { 'Content-Type': 'application/json', 'x-goog-api-key': apiKey() },
       body: JSON.stringify({
-        contents: [{ role: 'user', parts: [{ text }] }],
+        contents: [{ role: 'user', parts }],
         generationConfig: { responseModalities: ['AUDIO'], speechConfig },
       }),
     }, opts.timeoutMs || TIMEOUT_MS);
+    // діалог, який ця модель не прийняла (формат запиту), — пробуємо наступну, а не віддаємо помилку
+    if (!res.ok && multi && res.status === 400) throw new HttpError(503, 'overloaded', `TTS ${model} rejected dialogue`);
     if (!res.ok) throw await mapError(res);
     const j = await res.json();
     const part = (j?.candidates?.[0]?.content?.parts || []).find((p: { inlineData?: unknown }) => p.inlineData);
