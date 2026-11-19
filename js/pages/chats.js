@@ -805,27 +805,60 @@ export function chatRoom(view, roomId) {
   let playing = null;   // { audio, reset } — одночасно грає лише одне голосове
   onLeave(view, () => playing?.audio.pause());
   function voicePlayer(m) {
-    let audio = null;
+    let audio = null, dec = null;   // dec — запасне відтворення через Web Audio (файл, який <audio> не відкриває: WebM на iPhone)
     const btn = h('button.ch-play', { type: 'button', 'aria-label': 'Слухати голосове' }, ic('play', { size: 18, fill: true }));
     const bar = h('span.ch-wave', h('i'));
     const time = h('span.ch-dur', fmtDur(m.meta?.dur || 0));
+    const total = () => audio?.duration && isFinite(audio.duration) ? audio.duration : dec?.buf?.duration || m.meta?.dur || 1;
+    const show = (t) => { bar.firstChild.style.width = `${Math.min(100, t / total() * 100)}%`; time.textContent = fmtDur(t); };
+    const idle = () => { btn.replaceChildren(ic('play', { size: 18, fill: true })); };
+    const done = () => { idle(); bar.firstChild.style.width = '0'; time.textContent = fmtDur(m.meta?.dur || 0); };
+    const url = async () => chat.cachedAudioUrl(m.audio_path) || await chat.audioUrl(m.audio_path);
+    // Web Audio: декодуємо весь файл і граємо буфером (контекст розблоковано тим самим дотиком)
+    async function decode(ctx) {
+      if (!dec) dec = { buf: null, src: null, at: 0, off: 0, iv: 0 };
+      if (!dec.buf) {
+        const r = await fetch(await url());
+        if (!r.ok) throw new Error('fetch ' + r.status);
+        const ab = await r.arrayBuffer();
+        dec.buf = await new Promise((res, rej) => { const p = ctx.decodeAudioData(ab, res, rej); p?.then?.(res, rej); });
+      }
+      if (dec.off >= dec.buf.duration - 0.05) dec.off = 0;
+      const src = ctx.createBufferSource(); src.buffer = dec.buf; src.connect(ctx.destination);
+      dec.src = src; dec.at = ctx.currentTime - dec.off;
+      src.onended = () => { if (dec.src !== src) return; clearInterval(dec.iv); dec.src = null; if (ctx.currentTime - dec.at >= dec.buf.duration - 0.1) { dec.off = 0; done(); } };
+      src.start(0, dec.off);
+      dec.iv = setInterval(() => show(ctx.currentTime - dec.at), 200);
+      playing = { audio: { pause: stopDec }, owner: btn };
+      btn.replaceChildren(ic('pause', { size: 18, fill: true }));
+    }
+    function stopDec() { if (!dec?.src) return; const ctx = chat.audioCtx(); dec.off = ctx.currentTime - dec.at; const s = dec.src; dec.src = null; clearInterval(dec.iv); try { s.stop(); } catch { /* */ } idle(); }
     btn.addEventListener('click', async (e) => {
       e.stopPropagation();
+      if (dec?.src) { stopDec(); return; }
+      if (playing && playing.owner !== btn) playing.audio.pause();
+      sessionPlayback();
+      // контекст відкриваємо синхронно в дотику — тоді запасне відтворення дозволене й після await (iOS)
+      const ctx = chat.audioCtx(); ctx?.resume?.().catch(() => {});
       try {
+        if (dec?.buf || (!audio && chat.needsDecode(m.audio_path))) { await decode(ctx); return; }
         if (!audio) {
           // адреса вже є (prefetchAudio) — play() лишається в межах дотику (iOS)
           audio = new Audio(chat.cachedAudioUrl(m.audio_path) || await chat.audioUrl(m.audio_path));
-          audio.addEventListener('timeupdate', () => { const d = audio.duration || m.meta?.dur || 1; bar.firstChild.style.width = `${Math.min(100, audio.currentTime / d * 100)}%`; time.textContent = fmtDur(audio.currentTime); });
-          audio.addEventListener('ended', () => { btn.replaceChildren(ic('play', { size: 18, fill: true })); bar.firstChild.style.width = '0'; time.textContent = fmtDur(m.meta?.dur || 0); });
-          audio.addEventListener('pause', () => btn.replaceChildren(ic('play', { size: 18, fill: true })));
+          audio.addEventListener('timeupdate', () => show(audio.currentTime));
+          audio.addEventListener('ended', done);
+          audio.addEventListener('pause', idle);
         }
         if (audio.paused) {
-          if (playing && playing.audio !== audio) playing.audio.pause();
-          playing = { audio };
-          sessionPlayback();
+          playing = { audio, owner: btn };
           await audio.play(); btn.replaceChildren(ic('pause', { size: 18, fill: true }));
         } else audio.pause();
-      } catch (err) { console.warn('play', err); toast('Не вдалося відтворити', { kind: 'bad' }); }
+      } catch (err) {
+        console.warn('play', err);
+        // <audio> не відкрив файл — пробуємо Web Audio
+        if (!dec?.buf && ctx) { try { audio = null; await decode(ctx); return; } catch (e2) { console.warn('decode', e2); } }
+        toast('Не вдалося відтворити', { kind: 'bad' });
+      }
     });
     return h('div.ch-voice', btn, bar, time);
   }

@@ -194,9 +194,15 @@ export const canVoice = () => typeof MediaRecorder !== 'undefined' && micAvailab
 /** Запис голосового: { stop() → Promise<{ blob, dur }>, cancel() }, onTick(сек) */
 export async function startRecording({ onTick, maxMs = VOICE_MAX_MS } = {}) {
   const stream = await getMic();
-  const type = ['audio/webm;codecs=opus', 'audio/webm', 'audio/mp4', 'audio/aac'].find(t => MediaRecorder.isTypeSupported?.(t)) || '';
+  // MP4 (AAC) першим: його відтворюють і iPhone, і Android, і комп'ютери. WebM із Safari 18.4+ iPhone сам не відтворює (19.11: «Не вдалося відтворити»).
+  // 48 кбіт/с — досить для голосу: 36 с ≈ 220 КБ замість 1 МБ (швидше завантаження й розпізнавання)
+  const type = ['audio/mp4;codecs=mp4a.40.2', 'audio/mp4', 'audio/aac', 'audio/webm;codecs=opus', 'audio/webm'].find(t => MediaRecorder.isTypeSupported?.(t)) || '';
   let rec;
-  try { rec = new MediaRecorder(stream, type ? { mimeType: type } : undefined); rec.start(250); }
+  try {
+    const o = { audioBitsPerSecond: 48000 }; if (type) o.mimeType = type;
+    try { rec = new MediaRecorder(stream, o); } catch { rec = new MediaRecorder(stream, type ? { mimeType: type } : undefined); }
+    rec.start(250);
+  }
   catch (e) { stream.getTracks().forEach(t => t.stop()); throw e; }
   const chunks = [];
   rec.ondataavailable = (e) => { if (e.data?.size) chunks.push(e.data); };
@@ -338,3 +344,18 @@ export const sendGroupInvites = (room, users) => rpc('chat_group_invite_send', {
 export const searchPeople = (q) => rpc('people_search', { p_q: q || '' }).then(r => r || []);
 export const pinned = (room) => rpc('chat_pinned', { p_room: room });
 export const pin = (room, messageId) => rpc('chat_pin', { p_room: room, p_message: messageId || null });
+
+/** Один спільний AudioContext для запасного відтворення голосових (Web Audio) */
+let actx = null;
+export function audioCtx() {
+  if (actx && actx.state !== 'closed') return actx;
+  const AC = window.AudioContext || window.webkitAudioContext;
+  try { actx = AC ? new AC() : null; } catch { actx = null; }
+  return actx;
+}
+/** WebM на iPhone/iPad і в Safari: <audio> його не відтворює — одразу Web Audio */
+export function needsDecode(path) {
+  if (!/\.webm$/i.test(path || '')) return false;
+  const ua = navigator.userAgent;
+  return /iPhone|iPad|iPod/.test(ua) || (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1) || (/Safari\//.test(ua) && !/Chrome|Chromium|CriOS|Edg|Android/.test(ua));
+}
