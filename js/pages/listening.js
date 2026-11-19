@@ -3,7 +3,7 @@ import { h, ic, emo, seg, progress } from '../ui/dom.js';
 import { S, plural } from '../strings.js';
 import { listening as loadListening } from '../data.js';
 import { go } from '../router.js';
-import { speak, stop as stopSpeech, playDialogue, prefetchDialogue, dialogueVoices } from '../speech.js';
+import { speak, stop as stopSpeech, playDialogue as playDialogueTts, prefetchDialogue, dialogueVoices } from '../speech.js';
 const dialogueVoice = (d, sp) => dialogueVoices(d.speakers)[sp ? 1 : 0].voice;
 import { normalize } from '../ui/exercises.js';
 import { activityTimer, addMistake } from '../stats.js';
@@ -284,7 +284,7 @@ function playDialogue(box, d, timer, onBack) {
       const ends = sizes.map((_, i) => sizes.slice(0, i + 1).reduce((a, b) => a + b, 0) / sum);
       try {
         let started = false;
-        await playDialogue(d, { onProgress: (f) => {
+        await playDialogueTts(d, { onProgress: (f) => {
           if (!started) { started = true; setPlay('waveform', 'Звучить діалог…'); }
           const k = ends.findIndex(e => f < e);
           lines.forEach((el, j) => el.classList.toggle('on', j === k && showText));
