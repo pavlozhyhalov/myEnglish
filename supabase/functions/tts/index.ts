@@ -31,6 +31,8 @@ Deno.serve(handler(async (req) => {
 
   const cached = await ctx.admin.storage.from('tts').download(key);
   if (cached.data) return new Response(cached.data, { headers });
+  // клієнт під паузою Gemini (ліміт вичерпано) питає лише готовий запис — без генерації (19.11: власні слова озвучено Kokoro в цей кеш)
+  if (p.cacheOnly) throw new HttpError(404, 'not_cached', 'Not cached');
 
   await charge(ctx, 'tts');
   const file = dlg ? await renderDialogue(dlg) : await (async () => { const { pcm, rate } = await tts(TTS_MODELS, text, voice); return wav(pcm, rate); })();

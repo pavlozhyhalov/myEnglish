@@ -20,7 +20,9 @@ export function englishVoices(accent) {
   // Fred, Zarvox…) — вони могли опинитись першими. Тепер — лише нормальні, найкращі першими: преміум/покращені → відомі якісні → системний за замовчуванням
   const NOVELTY = /albert|bad news|bahh|bells|boing|bubbles|cellos|good news|jester|organ|superstar|trinoids|whisper|wobble|zarvox|fred|junior|kathy|ralph|rocko|grandma|grandpa|eddy|flo|reed|sandy|shelley|deranged|hysterical|pipe organ/i;
   const GOOD = /samantha|ava|allison|susan|zoe|evan|nathan|joelle|nicky|noelle|daniel|kate|serena|arthur|martha|stephanie|oliver|google (us|uk) english|aria|jenny|guy|libby|sonia|ryan/i;
-  const score = (v) => (/premium|enhanced|natural|neural/i.test(v.name) ? 0 : GOOD.test(v.name) ? 1 : /google|online|siri/i.test(v.name) ? 1.5 : v.default ? 2 : 3);
+  // жіночий голос — першим (той самий характер, що й записи Kokoro й Gemini Kore; власник 19.11: «чоловічий паршивий»)
+  const FEM = /samantha|ava|allison|susan|zoe|joelle|nicky|noelle|kate|serena|martha|stephanie|aria|jenny|libby|sonia|karen|moira|tessa|female/i;
+  const score = (v) => (/premium|enhanced|natural|neural/i.test(v.name) ? 0 : GOOD.test(v.name) ? 1 : /google|online|siri/i.test(v.name) ? 1.5 : v.default ? 2 : 3) - (FEM.test(v.name) ? 0.6 : 0);
   const ok = (list) => list.filter(v => !NOVELTY.test(v.name));
   const pool = ok(vs).length ? ok(vs) : ok(any).length ? ok(any) : (vs.length ? vs : any);
   return pool.slice().sort((a, b) => score(a) - score(b));
@@ -80,8 +82,10 @@ export async function speak(text, opts = {}) {
     if (my !== seq) return;
     if (url) { try { return await playSrc(url, rate, my); } catch (e) { console.warn('static audio', e); } if (my !== seq) return; }
   }
-  if (engine === 'gemini' && user() && navigator.onLine && !geminiPaused()) {
-    try { return await playGemini(text, opts.geminiVoice, rate, my); } catch (e) { console.warn('Gemini TTS → браузер', e); pauseGemini(e); }
+  if (engine === 'gemini' && user() && navigator.onLine) {
+    // під паузою Gemini (ліміт) — лише готовий запис із серверного кешу (Gemini чи Kokoro), без генерації
+    const paused = geminiPaused();
+    try { return await playGemini(text, opts.geminiVoice, rate, my, paused); } catch (e) { if (!paused) { console.warn('Gemini TTS → браузер', e); pauseGemini(e); } }
     if (my !== seq) return;   // поки чекали Gemini, вже озвучується інше — запасна озвучка браузером не потрібна
   }
   return speakBrowser(text, { rate, accent: opts.accent || st.accent, voiceIndex: opts.voiceIndex || 0 });
@@ -140,13 +144,13 @@ const SILENT = 'data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAQB8AAIA+AA
 if (player) document.addEventListener('pointerdown', () => { player.src = SILENT; player.play().catch(() => {}); }, { once: true, capture: true });
 
 let pendingDone = null;
-const geminiUrl = async (text, voice) => {
+const geminiUrl = async (text, voice, cacheOnly = false) => {
   const key = (voice || '') + '|' + text;
   let url = audioCache.get(key);
   if (!url) {
     const p = (async () => {
       let blob = await cachedBlob(key);
-      if (!blob) { blob = await ttsAudio(text, { voice }); storeBlob(key, blob); }
+      if (!blob) { blob = await ttsAudio(text, { voice, cacheOnly }); storeBlob(key, blob); }
       return URL.createObjectURL(blob);
     })();
     audioCache.set(key, p);           // паралельні запити того самого слова (попереднє завантаження + показ) — один виклик
@@ -165,8 +169,8 @@ export function prefetch(text, opts = {}) {
     geminiUrl(text, opts.geminiVoice).catch(() => {});
   }).catch(() => {});
 }
-async function playGemini(text, voice, rate, my) {
-  const url = await geminiUrl(text, voice);
+async function playGemini(text, voice, rate, my, cacheOnly = false) {
+  const url = await geminiUrl(text, voice, cacheOnly);
   return playSrc(url, rate, my);
 }
 function playSrc(url, rate, my) {
