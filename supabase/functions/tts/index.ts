@@ -12,9 +12,26 @@ async function sha256(s: string) {
 Deno.serve(handler(async (req) => {
   const ctx = await authenticate(req);
   const p = await req.json().catch(() => ({}));
-  const text = String(p.text || '').trim().slice(0, 1500);
-  if (!text) throw new HttpError(400, 'bad_request', 'No text');
-  const voice = LIVE_VOICES.includes(p.voice) ? p.voice : 'Kore';
+  // Діалог (аудіювання, 2026-11-19, власник: «паршивий голос, нічого не зрозуміло»): одним записом, два голоси Gemini, ясно й природно.
+  // dialogue: [{ s: 0|1, t }], speakers: [{ name, voice }] × 2. Кешується для всіх за хешем — кожен діалог генерується один раз.
+  const isDlg = Array.isArray(p.dialogue);
+  let text = '', voice = '', speakers: { name: string; voice: string }[] | undefined;
+  if (isDlg) {
+    const lines = (p.dialogue as { s?: number; t?: string }[]).slice(0, 30).map(l => ({ s: l?.s ? 1 : 0, t: String(l?.t || '').replace(/\s+/g, ' ').trim().slice(0, 400) })).filter(l => l.t);
+    const sp = Array.isArray(p.speakers) ? p.speakers : [];
+    const names = [0, 1].map(i => String(sp[i]?.name || '').replace(/[^A-Za-z]/g, '').slice(0, 20) || ['Alex', 'Sam'][i]);
+    if (names[0] === names[1]) names[1] = names[1] + 'B';
+    speakers = [0, 1].map(i => ({ name: names[i], voice: LIVE_VOICES.includes(sp[i]?.voice) ? sp[i].voice : ['Kore', 'Puck'][i] }));
+    if (speakers[0].voice === speakers[1].voice) speakers[1].voice = speakers[0].voice === 'Puck' ? 'Kore' : 'Puck';
+    const body = lines.map(l => `${names[l.s]}: ${l.t}`).join('\n');
+    if (!lines.length || body.length > 4000) throw new HttpError(400, 'bad_request', 'Bad dialogue');
+    text = `Read this everyday conversation aloud for English learners: clear, natural, friendly, at a calm and steady pace, with a short pause between lines.\n\n${body}`;
+    voice = speakers.map(s => s.voice).join('+');
+  } else {
+    text = String(p.text || '').trim().slice(0, 1500);
+    if (!text) throw new HttpError(400, 'bad_request', 'No text');
+    voice = LIVE_VOICES.includes(p.voice) ? p.voice : 'Kore';
+  }
   const key = `${await sha256(voice + '|' + text)}.wav`;
   const headers = { ...cors, 'Content-Type': 'audio/wav', 'Cache-Control': 'private, max-age=31536000' };
 
@@ -22,7 +39,7 @@ Deno.serve(handler(async (req) => {
   if (cached.data) return new Response(cached.data, { headers });
 
   await charge(ctx, 'tts');
-  const { pcm, rate } = await tts(TTS_MODELS, text, voice);
+  const { pcm, rate } = await tts(TTS_MODELS, text, voice, isDlg ? { speakers, timeoutMs: 65_000 } : {});
   const file = wav(pcm, rate);
   const up = ctx.admin.storage.from('tts').upload(key, file, { contentType: 'audio/wav', upsert: true }).then(() => {}, () => {});
   // deno-lint-ignore no-explicit-any

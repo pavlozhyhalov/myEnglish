@@ -83,10 +83,10 @@ export async function tutorStream(payload, onText, { signal, onMeta, onEnd } = {
 }
 
 /** TTS Gemini → Blob (audio/wav) */
-export async function ttsAudio(text, { voice, signal } = {}) {
+export async function ttsAudio(text, { voice, signal, dialogue, speakers } = {}) {
   if (!navigator.onLine) throw new AiError('offline', S.err.offline);
   const res = await fetch(`${FUNCTIONS_URL}/tts`, {
-    method: 'POST', headers: await headers(), body: JSON.stringify({ text, voice }), signal,
+    method: 'POST', headers: await headers(), body: JSON.stringify(dialogue ? { dialogue, speakers } : { text, voice }), signal,
   });
   if (!res.ok) throw await errorFrom(res);
   return res.blob();

@@ -258,15 +258,19 @@ export async function streamSSE(models: string[], o: GenOpts): Promise<ReadableS
 }
 
 /** TTS: повертає PCM 16-bit 24 kHz */
-export async function tts(models: string[], text: string, voice: string): Promise<{ pcm: Uint8Array; rate: number }> {
+/** Gemini TTS. voice — один голос; speakers — діалог двома голосами ({ name, voice }, імена — як у тексті «Name: репліка») */
+export async function tts(models: string[], text: string, voice: string, opts: { speakers?: { name: string; voice: string }[]; timeoutMs?: number } = {}): Promise<{ pcm: Uint8Array; rate: number }> {
+  const speechConfig = opts.speakers?.length
+    ? { multiSpeakerVoiceConfig: { speakerVoiceConfigs: opts.speakers.map(s => ({ speaker: s.name, voiceConfig: { prebuiltVoiceConfig: { voiceName: s.voice } } })) } }
+    : { voiceConfig: { prebuiltVoiceConfig: { voiceName: voice } } };
   return withModels(models, async (model) => {
     const res = await gfetch(`${BASE}/v1beta/models/${model}:generateContent`, {
       method: 'POST', headers: { 'Content-Type': 'application/json', 'x-goog-api-key': apiKey() },
       body: JSON.stringify({
         contents: [{ role: 'user', parts: [{ text }] }],
-        generationConfig: { responseModalities: ['AUDIO'], speechConfig: { voiceConfig: { prebuiltVoiceConfig: { voiceName: voice } } } },
+        generationConfig: { responseModalities: ['AUDIO'], speechConfig },
       }),
-    });
+    }, opts.timeoutMs || TIMEOUT_MS);
     if (!res.ok) throw await mapError(res);
     const j = await res.json();
     const part = (j?.candidates?.[0]?.content?.parts || []).find((p: { inlineData?: unknown }) => p.inlineData);

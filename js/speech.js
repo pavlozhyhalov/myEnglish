@@ -131,6 +131,62 @@ async function playGemini(text, voice, rate, my) {
   });
 }
 
+// ---------- Діалоги аудіювання: один запис Gemini двома голосами (2026-11-19, власник: «паршивий голос, нічого не зрозуміло») ----------
+const FEMALE = /^(mrs|ms|miss|woman|girl|anna|emma|ewa|kasia|kate|sophie|olga|maria|marta|julia|lucy|sarah|alice|vita|tetiana|natalia|ola|zosia)\b/i;
+const MALE = /^(mr|man|boy|oliver|tom|marek|john|james|jack|david|peter|piotr|adam|max|sam|paul|mark|taras|ivan)\b/i;
+/** Голоси для двох мовців за іменами: жінка — Kore/Aoede, чоловік — Puck/Charon; ролі без статі — протилежна до співрозмовника */
+export function dialogueVoices(names = []) {
+  let g = [0, 1].map(i => FEMALE.test(names[i] || '') ? 'f' : MALE.test(names[i] || '') ? 'm' : '');
+  if (!g[0] && !g[1]) g = ['f', 'm'];
+  else if (!g[0]) g[0] = g[1] === 'm' ? 'f' : 'm';
+  else if (!g[1]) g[1] = g[0] === 'm' ? 'f' : 'm';
+  const v = g[0] === g[1] ? (g[0] === 'f' ? ['Kore', 'Aoede'] : ['Puck', 'Charon']) : g.map(x => (x === 'f' ? 'Kore' : 'Puck'));
+  return [0, 1].map(i => ({ name: names[i] || '', voice: v[i] }));
+}
+const dlgBody = (d) => ({ dialogue: d.lines.map(l => ({ s: l.speaker ? 1 : 0, t: l.text })), speakers: dialogueVoices(d.speakers) });
+const dlgUrls = new Map();
+function dialogueUrl(d) {
+  const body = dlgBody(d);
+  const key = 'dlg|' + JSON.stringify(body);
+  if (!dlgUrls.has(key)) {
+    const p = (async () => {
+      let blob = await cachedBlob(key);
+      if (!blob) { blob = await ttsAudio('', body); storeBlob(key, blob); }
+      return URL.createObjectURL(blob);
+    })();
+    dlgUrls.set(key, p);
+    p.catch(() => dlgUrls.delete(key));
+  }
+  return dlgUrls.get(key);
+}
+/** Підготувати запис діалогу заздалегідь (відкрили діалог — поки читають питання, запис готується) */
+export function prefetchDialogue(d) {
+  if (!user() || !navigator.onLine || !d?.lines?.length) return;
+  dialogueUrl(d).catch(() => {});
+}
+/** Програти діалог одним записом Gemini. onProgress(частка 0..1). Кидає помилку, якщо запису немає (тоді — по репліках) */
+export async function playDialogue(d, { rate, onProgress } = {}) {
+  if (!user() || !navigator.onLine) throw Object.assign(new Error('offline'), { code: 'offline' });
+  const my = ++seq;
+  halt();
+  sessionPlayback();
+  const url = await dialogueUrl(d);
+  if (my !== seq) return;
+  pendingDone?.();
+  return new Promise((resolve, reject) => {
+    pendingDone = resolve;
+    const a = player || new Audio();
+    a.onended = () => resolve();
+    a.onpause = () => resolve();
+    a.onerror = () => reject(new Error('audio'));
+    a.ontimeupdate = () => { if (a.duration) onProgress?.(a.currentTime / a.duration); };
+    a.src = url;
+    a.playbackRate = rate ?? store.settings().rate ?? 1;
+    currentAudio = a;
+    a.play().catch(reject);
+  }).finally(() => { if (player) player.ontimeupdate = null; });
+}
+
 // ---------- Розпізнавання ----------
 const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
 // Розпізнавання браузера є, але не працює (Samsung Internet, Brave, деякі Android без служби Google): після першого такого збою —

@@ -3,7 +3,8 @@ import { h, ic, emo, seg, progress } from '../ui/dom.js';
 import { S, plural } from '../strings.js';
 import { listening as loadListening } from '../data.js';
 import { go } from '../router.js';
-import { speak, stop as stopSpeech } from '../speech.js';
+import { speak, stop as stopSpeech, playDialogue, prefetchDialogue, dialogueVoices } from '../speech.js';
+const dialogueVoice = (d, sp) => dialogueVoices(d.speakers)[sp ? 1 : 0].voice;
 import { normalize } from '../ui/exercises.js';
 import { activityTimer, addMistake } from '../stats.js';
 import { tutor, aiErrorText } from '../ai.js';
@@ -266,6 +267,7 @@ function playDialogue(box, d, timer, onBack) {
   const transcript = h('div.gx-card.stack.ls-tr', { hidden: true });
   const lines = d.lines.map((l) => h('div.ls-line', h('b.ls-who' + (l.speaker ? '.b' : ''), d.speakers?.[l.speaker] || (l.speaker ? 'B' : 'A')), h('div.grow', { lang: 'en' }, l.text)));
   transcript.append(...lines);
+  prefetchDialogue(d);   // поки читають питання — запис готується (і кешується для всіх)
   const playBtn = txPrimary({ icon: 'play', label: 'Слухати діалог', sub: `${d.lines.length} ${plural(d.lines.length, 'репліка', 'репліки', 'реплік')} · два голоси`, onclick: playAll, end: null });
   const setPlay = (icon, label) => { playBtn.querySelector('.tx-sq').replaceChildren(ic(icon, { size: 20, fill: true })); playBtn.querySelector('.tx-l').textContent = label; };
   async function playAll() {
@@ -273,9 +275,29 @@ function playDialogue(box, d, timer, onBack) {
     playBtn.disabled = true;
     setPlay('waveform', 'Звучить діалог…');
     // box.isConnected: користувач пішов зі сторінки або на іншу вкладку — не дочитуємо діалог
-    for (let k = 0; k < d.lines.length && !stopFlag && box.isConnected && box.__gen === myGen; k++) {
+    // 2026-11-19 (власник: «паршивий голос, нічого не зрозуміло»): увесь діалог — одним записом Gemini, два живі голоси;
+    // підсвітка репліки — за часткою тексту. Немає входу/мережі/ліміту — по репліках (Gemini, якщо можна, інакше голос браузера)
+    let whole = false;
+    if (user() && navigator.onLine) {
+      setPlay('hourglass', 'Готуємо голос…');
+      const sizes = d.lines.map(l => l.text.length + 12), sum = sizes.reduce((a, b) => a + b, 0);
+      const ends = sizes.map((_, i) => sizes.slice(0, i + 1).reduce((a, b) => a + b, 0) / sum);
+      try {
+        let started = false;
+        await playDialogue(d, { onProgress: (f) => {
+          if (!started) { started = true; setPlay('waveform', 'Звучить діалог…'); }
+          const k = ends.findIndex(e => f < e);
+          lines.forEach((el, j) => el.classList.toggle('on', j === k && showText));
+          timer.poke();
+        } });
+        whole = true;
+      } catch (e) { console.warn('dialogue tts', e); }
+      if (!box.isConnected || box.__gen !== myGen) return;
+      setPlay('waveform', 'Звучить діалог…');
+    }
+    for (let k = 0; !whole && k < d.lines.length && !stopFlag && box.isConnected && box.__gen === myGen; k++) {
       lines.forEach((el, j) => el.classList.toggle('on', j === k && showText));
-      await speak(d.lines[k].text, { voiceIndex: d.lines[k].speaker ? 1 : 0, engine: 'browser' });
+      await speak(d.lines[k].text, { voiceIndex: d.lines[k].speaker ? 1 : 0, geminiVoice: dialogueVoice(d, d.lines[k].speaker) });
       if (!box.isConnected || stopFlag || box.__gen !== myGen) break;
       timer.poke();
     }
