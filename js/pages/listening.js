@@ -38,7 +38,12 @@ export default async function listening(view, r) {
   if (sub === 'dialogue') {
     const d = id === 'ai' ? aiDialogue : data.dialogues[Number(id) - 1];
     if (!d) { go('/listening?tab=dialogues', { replace: true }); return cleanup; }
-    playDialogue(view, d, timer, () => backTo('/listening?tab=dialogues'));
+    // наступний — діалог мого рівня після цього (по колу), інакше просто наступний у списку
+    const i = data.dialogues.indexOf(d), lv = myLevel();
+    const after = i < 0 ? [] : [...data.dialogues.slice(i + 1), ...data.dialogues.slice(0, i)];
+    const nd = after.find(x => x.level === lv) || after[0];
+    const next = nd ? { title: nd.title, href: dialogueHref(data, nd) } : null;
+    playDialogue(view, d, timer, () => backTo('/listening?tab=dialogues'), next);
     return cleanup;
   }
   if (sub === 'dictation') {
@@ -261,7 +266,7 @@ function dialogues(box, data) {
     } }, t))))));
 }
 
-function playDialogue(box, d, timer, onBack) {
+function playDialogue(box, d, timer, onBack, next) {
   let showText = false, stopFlag = false;
   const myGen = (box.__gen = (box.__gen || 0) + 1);   // зміна вкладки збільшує лічильник — програвання зупиняється
   const transcript = h('div.gx-card.stack.ls-tr', { hidden: true });
@@ -330,7 +335,11 @@ function playDialogue(box, d, timer, onBack) {
         timer.poke();
         const good = right >= Math.ceil(d.questions.length * 0.8);
         total.replaceChildren(tx({ wide: true, tone: good ? 'good' : 'warn', icon: good ? 'check-circle' : 'lightbulb',
-          label: `Розуміння: ${right} з ${d.questions.length}`, sub: good ? 'Діалог зрозуміло добре' : 'Прослухайте ще раз — з текстом або без' }));
+          label: `Розуміння: ${right} з ${d.questions.length}`, sub: good ? 'Діалог зрозуміло добре' : 'Прослухайте ще раз — з текстом або без' }),
+          // 2026-11-19 (власник: «як закінчити аудіювання?»): після останнього питання — що далі, а не глухий кут
+          next ? txPrimary({ icon: 'arrow-right', label: 'Наступний діалог', sub: next.title, onclick: () => { stopFlag = true; stopSpeech(); go(next.href, { replace: true }); } }) : null,
+          txRows([txRow({ icon: 'headphones', label: 'До всіх діалогів', onclick: () => { stopFlag = true; stopSpeech(); onBack(); } })]));
+        total.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
     } }, h('span.ex-key', { 'aria-hidden': 'true' }, String(k + 1)), h('span.grow', { lang: 'en' }, o)));
     qBox.append(h('div.gx-card.stack.ls-q', h('div.ls-qt', { lang: 'en' }, h('span.tx-no', String(qi + 1)), h('b', q.q)), h('div.ex-opts', opts)));

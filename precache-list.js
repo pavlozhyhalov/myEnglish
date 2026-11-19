@@ -1,7 +1,7 @@
 // Згенеровано scripts/bump.sh — не редагувати вручну
 // шлях → хеш вмісту (sha256, 12 символів)
 self.PRECACHE = {
-  './': 'f43bd4f215cb', './index.html': 'f43bd4f215cb', './manifest.webmanifest': 'd94fd1b79b2a',
+  './': '7b2bb38a9a13', './index.html': '7b2bb38a9a13', './manifest.webmanifest': 'd94fd1b79b2a',
   './assets/icons/apple-touch-icon.png': '49e9cb2a0d59',
   './assets/icons/badge-96.png': '05f32f54be9f',
   './assets/icons/icon-192.png': '8f448517285d',
@@ -265,7 +265,7 @@ self.PRECACHE = {
   './js/app.js': 'daf9019455ab',
   './js/audiosession.js': '559af3ef813b',
   './js/chat.js': '9e7b0ed2969c',
-  './js/config.js': 'e7c9165d0670',
+  './js/config.js': '83c6b82e2a3e',
   './js/daily.js': 'f128a7bf9190',
   './js/data.js': 'b13181517b77',
   './js/duel.js': '8edc72d8ded7',
@@ -307,7 +307,7 @@ self.PRECACHE = {
   './js/pages/levelexam.js': '9c56efbb816b',
   './js/pages/library.js': '3d0db0ec77a3',
   './js/pages/listengo.js': '404524dbd2bc',
-  './js/pages/listening.js': 'f92a8075b9ce',
+  './js/pages/listening.js': '4789c1e4cf68',
   './js/pages/mistakes.js': '46919fc90390',
   './js/pages/phrases.js': 'c8f27b2b7d54',
   './js/pages/profile.js': 'b9abb16bfb56',
