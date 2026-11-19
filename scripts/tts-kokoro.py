@@ -39,7 +39,7 @@ def collect():
     items = {}
     def add(t, slow=False):
         n = norm(t)
-        if n and re.search(r'[A-Za-z]', n) and len(n) <= 400: items.setdefault(key(t), (n, 0.9 if len(n) < 25 else 0.95))
+        if n and re.search(r'[A-Za-z]', n) and len(n) <= 1500: items.setdefault(key(t), (n, 0.9 if len(n) < 25 else 0.95 if len(n) < 200 else 0.92))
     for f in glob.glob(os.path.join(ROOT, 'data/decks/*.json')):
         if f.endswith('index.json'): continue
         d = json.load(open(f)); cards = d['cards'] if isinstance(d, dict) else d
@@ -52,6 +52,11 @@ def collect():
     for it in P.get('sounds', []):
         for w in it.get('words', []): add(w)
         if it.get('sentence'): add(it['sentence'])
+    # «Читання» (2026-11-19, власник: «Так, роби»): абзаци 63 текстів і слова їхніх словничків; класика й книги — ні (~500 тис. знаків)
+    R = json.load(open(os.path.join(ROOT, 'data/reading.json')))
+    for t in R:
+        for para in t.get('text', []): add(para)
+        for g in t.get('glossary', []): add(g.get('en') or g.get('w', ''))
     dlgs = []
     for d in L['dialogues']:
         lines = [l['text'] for l in d['lines']]
@@ -120,8 +125,9 @@ if __name__ == '__main__':
         for dk, v in offsets.items(): old[dk] = {**old.get(dk, {}), **v}
         write_index(items, old); sys.exit()
     for acc in VOICE: os.makedirs(os.path.join(OUT, acc), exist_ok=True)
-    tasks = [(acc, k, t, sp) for acc in VOICE for k, (t, sp) in items.items()]
-    dtasks = [(acc, dk, names, lines) for acc in VOICE for dk, names, lines in dlgs]
+    accs = os.environ.get('ACC', 'us,uk').split(',')
+    tasks = [(acc, k, t, sp) for acc in accs for k, (t, sp) in items.items()]
+    dtasks = [] if os.environ.get('NODLG') else [(acc, dk, names, lines) for acc in accs for dk, names, lines in dlgs]
     with Pool(int(os.environ.get('JOBS', '4')), initializer=init, initargs=(model, voices)) as p:
         done = 0
         for r in p.imap_unordered(job_item, tasks, chunksize=8):
