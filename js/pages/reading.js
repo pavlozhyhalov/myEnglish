@@ -65,10 +65,16 @@ async function visibleTexts() {
  * «Текст дня»: свого рівня, непрочитаний (якщо такі ще є); змінюється щодня і зі зміною рівня.
  * Приймає всі тексти (робочі відкидає сама, якщо вимкнено «Професійний контекст») — для головної.
  */
+/** Текст прочитано (питання пройдено) сьогодні */
+export function readToday(id) { const p = progressOf(id); return !!(p?.at && new Date(p.at).toDateString() === new Date().toDateString()); }
 export function textOfDay(texts) {
   const list = store.settings().workFocus ? texts : texts.filter(t => t.group !== 'work');
   // для мого рівня текстів немає (Pre-A1) — найближчий рівень, а не будь-який
   const mine = filterByLevel(list, 'mine').items;
+  // прочитаний сьогодні — він же (на головній зеленим), інакше непрочитаний
+  const todayK = new Date().toDateString();
+  const doneToday = mine.find(t => { const p = progressOf(t.id); return p?.at && new Date(p.at).toDateString() === todayK; });
+  if (doneToday) return doneToday;
   const pool = mine.filter(t => !progressOf(t.id));
   return pickOfDay(pool.length ? pool : mine.length ? mine : list, 'reading');
 }

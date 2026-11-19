@@ -11,6 +11,7 @@ import { tutor, aiErrorText } from '../ai.js';
 import { user } from '../supa.js';
 import { toast } from '../ui/toast.js';
 import { LEVELS, myLevel, byFit, levelTag, rank, levelChips, levelCounts, levelPick, filterByLevel, fallbackNote, pickOfDay, lvLabel } from '../level.js';
+import * as store from '../store.js';
 import { tx, txPrimary, txGroup, txRow, txRows, txGrid, txKpis, txPill, txResult } from '../ui/tiles.js';
 
 /** Іконка з мапи emo() у квадратику плитки */
@@ -27,6 +28,25 @@ function backTo(path) {
 }
 /** Адреса готового діалогу: номер у data/listening.json */
 const dialogueHref = (data, d) => `/listening/dialogue/${data.dialogues.indexOf(d) + 1}`;
+// Пройдені діалоги (2026-11-19, власник: «чому ще пропонує аудіювання, яке я вже пройшов?»): profiles.data.listening { назва: { best, last, total, n, at } }
+// — головна бере непройдені й показує сьогодні пройдений зеленим; список діалогів позначає пройдені
+export const dialogueDone = (title) => store.prof().listening?.[title] || null;
+function saveDialogue(title, right, total) {
+  const all = { ...(store.prof().listening || {}) };
+  const p = all[title] || { best: 0, n: 0 };
+  all[title] = { best: Math.max(p.best || 0, right), last: right, total, n: (p.n || 0) + 1, at: new Date().toISOString() };
+  store.setProf({ listening: all });
+}
+/** Діалог дня: свого рівня, непройдений; пройдений сьогодні — він же (зеленим на головній) */
+export function dialogueOfDay(dialogues) {
+  const mine = filterByLevel(dialogues, 'mine').items;
+  const todayK = new Date().toDateString();
+  const doneToday = mine.find(d => { const p = dialogueDone(d.title); return p?.at && new Date(p.at).toDateString() === todayK; });
+  if (doneToday) return { d: doneToday, done: true };
+  const pool = mine.filter(d => !dialogueDone(d.title));
+  const d = pickOfDay(pool.length ? pool : mine, 'dialogue');
+  return d ? { d, done: false } : null;
+}
 /** Відкрити підсторінку розділу з головної сторінки аудіювання */
 function openSub(path) { fromList = true; go(path); }
 
@@ -41,7 +61,7 @@ export default async function listening(view, r) {
     // наступний — діалог мого рівня після цього (по колу), інакше просто наступний у списку
     const i = data.dialogues.indexOf(d), lv = myLevel();
     const after = i < 0 ? [] : [...data.dialogues.slice(i + 1), ...data.dialogues.slice(0, i)];
-    const nd = after.find(x => x.level === lv) || after[0];
+    const nd = after.find(x => x.level === lv && !dialogueDone(x.title)) || after.find(x => x.level === lv) || after[0];
     const next = nd ? { title: nd.title, href: dialogueHref(data, nd) } : null;
     playDialogue(view, d, timer, () => backTo('/listening?tab=dialogues'), next);
     return cleanup;
@@ -235,7 +255,7 @@ function dialogues(box, data) {
   const topics = ['У кафе', 'Плани на вихідні', 'В аеропорту', 'Оренда квартири', 'У лікаря', 'Знайомство на вечірці', 'Покупки й повернення', 'Подорож потягом', 'Обговорення фільму', 'Співбесіда'];
   // діалоги вибраного рівня (за замовчуванням — мого)
   // діалог дня — той самий, що в «Завданнях рівня» на головній
-  const day = pickOfDay(filterByLevel(data.dialogues, 'mine').items, 'dialogue');
+  const day = dialogueOfDay(data.dialogues)?.d;
   const listBox = h('div.stack');
   const open = (d) => openSub(dialogueHref(data, d));
   let all = false;
@@ -246,12 +266,12 @@ function dialogues(box, data) {
     const shown = all ? rows : rows.slice(0, 6);
     listBox.replaceChildren(fallbackNote(fallback), txRows([...shown.map(d => sqEmo(txRow({ icon: 'headphones', label: d.title, onclick: () => open(d),
       sub: `${d.lines.length} ${plural(d.lines.length, 'репліка', 'репліки', 'реплік')} · ${d.questions.length} ${plural(d.questions.length, 'питання', 'питання', 'питань')}`,
-      end: sel === 'all' || fallback ? levelTag(d.level) : null }), d.emoji || 'headphone')),
+      end: dialogueDone(d.title) ? txPill(`✓ ${dialogueDone(d.title).best} з ${dialogueDone(d.title).total || d.questions.length}`, 'good') : sel === 'all' || fallback ? levelTag(d.level) : null }), d.emoji || 'headphone')),
       shown.length < rows.length ? txRow({ icon: 'caret-down', label: `Показати всі · ${items.length}`, chevron: false, cls: 'tx-showall', onclick: () => { all = true; drawList(); } }) : null]));
   };
   drawList();
   box.replaceChildren(h('div.stack-lg',
-    day ? sqEmo(txPrimary({ icon: 'headphones', label: day.title, sub: `Діалог дня · ${day.level} · ${day.lines.length} ${plural(day.lines.length, 'репліка', 'репліки', 'реплік')}`, onclick: () => open(day) }), day.emoji || 'headphone') : null,
+    day ? sqEmo(txPrimary({ icon: 'headphones', label: day.title, sub: dialogueDone(day.title) ? `Діалог дня · пройдено · ${dialogueDone(day.title).best} з ${dialogueDone(day.title).total || day.questions.length}` : `Діалог дня · ${day.level} · ${day.lines.length} ${plural(day.lines.length, 'репліка', 'репліки', 'реплік')}`, onclick: () => open(day) }), day.emoji || 'headphone') : null,
     txGroup('Готові діалоги', [levelChips('dialogues', levelCounts(data.dialogues), () => { all = false; drawList(); }), listBox]),
     txGroup('Новий діалог від AI', h('div.chips.scroll', { role: 'group', 'aria-label': 'Тема нового діалогу' }, topics.map(t => h('button.chip', { type: 'button', onclick: async (e) => {
       if (!user()) { toast(S.err.needLogin); return; }
@@ -333,6 +353,7 @@ function playDialogue(box, d, timer, onBack, next) {
       if (q.explanation_uk) opts[q.answer].after(h('div.xs.dim.ls-why', q.explanation_uk));
       if (answered === d.questions.length) {
         timer.poke();
+        if (d.level !== 'AI') saveDialogue(d.title, right, d.questions.length);
         const good = right >= Math.ceil(d.questions.length * 0.8);
         total.replaceChildren(tx({ wide: true, tone: good ? 'good' : 'warn', icon: good ? 'check-circle' : 'lightbulb',
           label: `Розуміння: ${right} з ${d.questions.length}`, sub: good ? 'Діалог зрозуміло добре' : 'Прослухайте ще раз — з текстом або без' }),

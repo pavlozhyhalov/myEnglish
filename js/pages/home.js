@@ -329,17 +329,19 @@ function lessonRow(gIdx) {
 const tasksHead = (lvl) => h('div.tx-label-row', h('h2.tx-label', `Завдання рівня ${lvLabel(lvl)} на сьогодні`), h('span.hm-more-dim', 'нові щодня'));
 
 async function fillLevelTasks(box, lvl, lesson) {
-  const [scen, lis, rdMod] = await Promise.all([loadScenarios(), loadListening(), import('./reading.js')]);
+  const [scen, lis, rdMod, lsMod] = await Promise.all([loadScenarios(), loadListening(), import('./reading.js'), import('./listening.js')]);
   const rd = rdMod.textOfDay(await rdMod.readingTexts());
+  const rdDone = rd && rdMod.readToday?.(rd.id);
   const sc = pickOfDay(filterByLevel(scen.filter(x => x.group !== 'work'), 'mine').items, 'scen');
-  const dl = pickOfDay(filterByLevel(lis.dialogues, 'mine').items, 'dialogue');
+  const dlPick = lsMod.dialogueOfDay(lis.dialogues);
+  const dl = dlPick?.d;
   // плитки як у меню: по дві в ряд, тип завдання — підписом, виконане — зелене
   const task = (icon, kind, title, href, done = false) => tx({ icon: done ? 'check' : icon, label: title, sub: done ? `${kind} · готово` : kind, href, tone: done ? 'good' : null, cls: 'hm-task' });
   const rows = [
     lesson && task(lesson.icon, lesson.kind, lesson.title, lesson.href, lesson.done),
     sc && task('users-three', 'Розмова із вчителем', sc.title, `#/scenarios/${sc.id}`),
-    dl && task('headphones', 'Аудіювання', dl.title, `#/listening?tab=dialogues&d=${encodeURIComponent(dl.title)}`),
-    rd && task('book-open', 'Читання', rd.title, `#/reading/${rd.id}`),
+    dl && task('headphones', 'Аудіювання', dl.title, `#/listening?tab=dialogues&d=${encodeURIComponent(dl.title)}`, dlPick.done),
+    rd && task('book-open', 'Читання', rd.title, `#/reading/${rd.id}`, !!rdDone),
   ].filter(Boolean).slice(0, 4);   // головна — лише чотири завдання; решта — у розділах
   if (!rows.length) { box.remove(); return; }
   const grid = txGrid(rows, 2);
