@@ -279,15 +279,15 @@ function playDialogue(box, d, timer, onBack) {
     // 2026-11-19 (власник: «паршивий голос, нічого не зрозуміло»): увесь діалог — одним записом Gemini, два живі голоси;
     // підсвітка репліки — за часткою тексту. Немає входу/мережі/ліміту — по репліках (Gemini, якщо можна, інакше голос браузера)
     let whole = false;
-    if (user() && navigator.onLine) {
+    {
       setPlay('hourglass', 'Готуємо голос…');
       const sizes = d.lines.map(l => l.text.length + 12), sum = sizes.reduce((a, b) => a + b, 0);
       const ends = sizes.map((_, i) => sizes.slice(0, i + 1).reduce((a, b) => a + b, 0) / sum);
       try {
         let started = false;
-        await playDialogueTts(d, { onProgress: (f) => {
+        await playDialogueTts(d, { onProgress: (f, line) => {
           if (!started) { started = true; setPlay('waveform', 'Звучить діалог…'); }
-          const k = ends.findIndex(e => f < e);
+          const k = line ?? ends.findIndex(e => f < e);
           lines.forEach((el, j) => el.classList.toggle('on', j === k && showText));
           timer.poke();
         } });

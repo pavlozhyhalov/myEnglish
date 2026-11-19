@@ -1,5 +1,5 @@
 // Service worker: офлайн-кеш оболонки й контенту. AI і Supabase — завжди мережа.
-const BUILD = '20261119171124';
+const BUILD = '20261119174715';
 const CACHE = `myenglish-${BUILD}`;
 importScripts(`precache-list.js?v=${BUILD}`);
 
@@ -101,6 +101,8 @@ self.addEventListener('fetch', (e) => {
   if (req.method !== 'GET') return;
   const url = new URL(req.url);
   if (url.origin !== location.origin) return;           // Supabase, Gemini — мимо кешу
+  // записи озвучки (audio/*.m4a): Safari вантажить звук частинами (Range → 206) — віддаємо браузеру напряму, без кешу SW
+  if (/\.(m4a|mp3|wav)$/.test(url.pathname)) return;
   e.respondWith((async () => {
     // сторінка (index.html) — одразу з кешу цієї збірки: старт без очікування мережі (iPhone у метро, слабкий LTE).
     // Нова збірка приходить через оновлення SW (sw.js перевіряється при кожному відкритті): встановлення кладе в новий кеш

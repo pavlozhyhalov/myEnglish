@@ -2,6 +2,7 @@
 import * as store from './store.js';
 import { ttsAudio, tutor } from './ai.js';
 import { user } from './supa.js';
+import { BUILD } from './config.js';
 import { trackMic, sessionRecord, sessionPlayback } from './audiosession.js';
 
 const synth = window.speechSynthesis;
@@ -39,6 +40,34 @@ export function stop() { seq++; halt(); }
  * Озвучити англійський текст. opts: rate, accent, voiceIndex (для діалогів), engine ('browser'|'gemini')
  * Повертає Promise, що завершується після озвучення.
  */
+// ---------- Записи Kokoro на сайті (2026-11-19, власник: «найжахливіший голос у картках») ----------
+// Слова карток, диктант, фрази вимови й діалоги озвучено наперед (scripts/tts-kokoro.py → audio/<us|uk>/<ключ>.m4a, audio/index.json):
+// миттєво, без лімітів, без входу. Перший вибір для такого тексту; Gemini — для решти (відповіді вчителя, власні слова), браузер — запасний.
+export function staticNorm(t) {
+  return String(t).replace(/\([^)]*\)/g, ' ').replace(/\s*\/\s*/g, ', ').replace(/\s+/g, ' ').trim().replace(/^,+|,+$/g, '').trim();
+}
+const enc = new TextEncoder();
+export function staticKey(t) {
+  const s = staticNorm(t).toLowerCase();
+  let h = 0x811c9dc5;
+  for (const b of enc.encode(s)) { h ^= b; h = Math.imul(h, 0x01000193) >>> 0; }
+  return h.toString(16).padStart(8, '0') + s.length.toString(16);
+}
+let staticIdx = null;
+function staticIndex() {
+  if (!staticIdx) staticIdx = fetch(`audio/index.json?v=${BUILD}`).then(r => (r.ok ? r.json() : null))
+    .then(j => (j ? { keys: { us: new Set(j.keys?.us || []), uk: new Set(j.keys?.uk || []) }, dlg: j.dlg || {} } : null)).catch(() => { staticIdx = null; return null; });
+  return staticIdx;
+}
+setTimeout(() => staticIndex(), 2500);   // список записів — заздалегідь, щоб перший дотик не чекав
+const accDir = (accent) => (accent === 'UK' ? 'uk' : 'us');
+async function staticUrl(text, accent) {
+  const idx = await staticIndex();
+  const k = staticKey(text);
+  const acc = accDir(accent);
+  return idx?.keys[acc]?.has(k) ? `audio/${acc}/${k}.m4a` : null;
+}
+
 export async function speak(text, opts = {}) {
   const st = store.settings();
   const rate = opts.rate ?? st.rate ?? 1;
@@ -46,6 +75,11 @@ export async function speak(text, opts = {}) {
   const my = ++seq;
   halt();
   sessionPlayback();   // iPhone: звичайна гучність медіа — кнопки гучності діють (js/audiosession.js)
+  if (opts.engine !== 'browser') {
+    const url = await staticUrl(text, opts.accent || st.accent);
+    if (my !== seq) return;
+    if (url) { try { return await playSrc(url, rate, my); } catch (e) { console.warn('static audio', e); } if (my !== seq) return; }
+  }
   if (engine === 'gemini' && user() && navigator.onLine && !geminiPaused()) {
     try { return await playGemini(text, opts.geminiVoice, rate, my); } catch (e) { console.warn('Gemini TTS → браузер', e); pauseGemini(e); }
     if (my !== seq) return;   // поки чекали Gemini, вже озвучується інше — запасна озвучка браузером не потрібна
@@ -124,11 +158,18 @@ const geminiUrl = async (text, voice) => {
 /** Завантажити озвучку заздалегідь (наступна картка), якщо обрано Gemini; без помилок назовні */
 export function prefetch(text, opts = {}) {
   const st = store.settings();
-  if ((opts.engine || st.ttsEngine || 'gemini') !== 'gemini' || !user() || !navigator.onLine || !text || geminiPaused()) return;
-  geminiUrl(text, opts.geminiVoice).catch(() => {});
+  if (!text) return;
+  staticUrl(text, opts.accent || st.accent).then(u => {
+    if (u) { fetch(u).catch(() => {}); return; }   // є запис на сайті — Gemini не потрібен (ліміт не витрачається)
+    if ((opts.engine || st.ttsEngine || 'gemini') !== 'gemini' || !user() || !navigator.onLine || geminiPaused()) return;
+    geminiUrl(text, opts.geminiVoice).catch(() => {});
+  }).catch(() => {});
 }
 async function playGemini(text, voice, rate, my) {
   const url = await geminiUrl(text, voice);
+  return playSrc(url, rate, my);
+}
+function playSrc(url, rate, my) {
   if (my !== seq) return;             // поки вантажилось, перейшли далі — не граємо застаріле слово
   pendingDone?.();     // попереднє відтворення перериваємо — його проміс завершуємо
   return new Promise((resolve, reject) => {
@@ -174,17 +215,34 @@ function dialogueUrl(d) {
   return dlgUrls.get(key);
 }
 /** Підготувати запис діалогу заздалегідь (відкрили діалог — поки читають питання, запис готується) */
+async function staticDialogue(d) {
+  const idx = await staticIndex();
+  const k = 'd' + staticKey(d.lines.map(l => l.text).join('\n'));
+  const acc = accDir(store.settings().accent);
+  const offs = idx?.dlg?.[k]?.[acc];
+  return offs ? { url: `audio/${acc}/${k}.m4a`, offs } : null;
+}
 export function prefetchDialogue(d) {
-  if (!user() || !navigator.onLine || !d?.lines?.length) return;
-  dialogueUrl(d).catch(() => {});
+  if (!d?.lines?.length) return;
+  staticDialogue(d).then(st => {
+    if (st) { fetch(st.url).catch(() => {}); return; }
+    if (user() && navigator.onLine) dialogueUrl(d).catch(() => {});
+  }).catch(() => {});
 }
 /** Програти діалог одним записом Gemini. onProgress(частка 0..1). Кидає помилку, якщо запису немає (тоді — по репліках) */
 export async function playDialogue(d, { rate, onProgress } = {}) {
-  if (!user() || !navigator.onLine) throw Object.assign(new Error('offline'), { code: 'offline' });
   const my = ++seq;
   halt();
   sessionPlayback();
-  const url = await dialogueUrl(d);
+  // запис Kokoro на сайті — з точними початками реплік (onProgress(частка, номер репліки))
+  const st = await staticDialogue(d).catch(() => null);
+  if (my !== seq) return;
+  let url, offs = null;
+  if (st) { url = st.url; offs = st.offs; }
+  else {
+    if (!user() || !navigator.onLine) throw Object.assign(new Error('offline'), { code: 'offline' });
+    url = await dialogueUrl(d);
+  }
   if (my !== seq) return;
   pendingDone?.();
   return new Promise((resolve, reject) => {
@@ -193,7 +251,11 @@ export async function playDialogue(d, { rate, onProgress } = {}) {
     a.onended = () => resolve();
     a.onpause = () => resolve();
     a.onerror = () => reject(new Error('audio'));
-    a.ontimeupdate = () => { if (a.duration) onProgress?.(a.currentTime / a.duration); };
+    a.ontimeupdate = () => {
+      if (!a.duration) return;
+      const line = offs ? Math.max(0, offs.findLastIndex(t => t <= a.currentTime + 0.05)) : null;
+      onProgress?.(a.currentTime / a.duration, line);
+    };
     a.src = url;
     a.playbackRate = rate ?? store.settings().rate ?? 1;
     currentAudio = a;
