@@ -3,6 +3,7 @@ import { handler, HttpError, cors } from '../_shared/http.ts';
 import { authenticate, charge } from '../_shared/auth.ts';
 import { tts, wav } from '../_shared/gemini.ts';
 import { TTS_MODELS, LIVE_VOICES } from '../_shared/config.ts';
+import { buildDialogue, renderDialogue, type Dialogue } from '../_shared/ttsdlg.ts';
 
 async function sha256(s: string) {
   const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s));
@@ -15,33 +16,24 @@ Deno.serve(handler(async (req) => {
   // Діалог (аудіювання, 2026-11-19, власник: «паршивий голос, нічого не зрозуміло»): одним записом, два голоси Gemini, ясно й природно.
   // dialogue: [{ s: 0|1, t }], speakers: [{ name, voice }] × 2. Кешується для всіх за хешем — кожен діалог генерується один раз.
   const isDlg = Array.isArray(p.dialogue);
-  let text = '', voice = '', speakers: { name: string; voice: string }[] | undefined, dlgLines: { speaker: string; text: string }[] | undefined;
+  let text = '', voice = '', dlg: Dialogue | null = null;
   if (isDlg) {
-    const lines = (p.dialogue as { s?: number; t?: string }[]).slice(0, 30).map(l => ({ s: l?.s ? 1 : 0, t: String(l?.t || '').replace(/\s+/g, ' ').trim().slice(0, 400) })).filter(l => l.t);
-    const sp = Array.isArray(p.speakers) ? p.speakers : [];
-    const names = [0, 1].map(i => String(sp[i]?.name || '').replace(/[^A-Za-z]/g, '').slice(0, 20) || ['Alex', 'Sam'][i]);
-    if (names[0] === names[1]) names[1] = names[1] + 'B';
-    speakers = [0, 1].map(i => ({ name: names[i], voice: LIVE_VOICES.includes(sp[i]?.voice) ? sp[i].voice : ['Kore', 'Puck'][i] }));
-    if (speakers[0].voice === speakers[1].voice) speakers[1].voice = speakers[0].voice === 'Puck' ? 'Kore' : 'Puck';
-    const body = lines.map(l => `${names[l.s]}: ${l.t}`).join('\n');
-    if (!lines.length || body.length > 4000) throw new HttpError(400, 'bad_request', 'Bad dialogue');
-    text = `Read this everyday conversation aloud for English learners: clear, natural, friendly, at a calm and steady pace, with a short pause between lines.\n\n${body}`;
-    voice = speakers.map(s => s.voice).join('+');
-    dlgLines = lines.map(l => ({ speaker: names[l.s], text: l.t }));
+    dlg = await buildDialogue(p.dialogue, (Array.isArray(p.speakers) ? p.speakers : []).map((x: { name?: string } | string) => typeof x === 'string' ? x : String(x?.name || '')));
+    if (!dlg) throw new HttpError(400, 'bad_request', 'Bad dialogue');
+    text = dlg.text; voice = dlg.voice;
   } else {
     text = String(p.text || '').trim().slice(0, 1500);
     if (!text) throw new HttpError(400, 'bad_request', 'No text');
     voice = LIVE_VOICES.includes(p.voice) ? p.voice : 'Kore';
   }
-  const key = `${await sha256(voice + '|' + text)}.wav`;
+  const key = dlg ? dlg.key : `${await sha256(voice + '|' + text)}.wav`;
   const headers = { ...cors, 'Content-Type': 'audio/wav', 'Cache-Control': 'private, max-age=31536000' };
 
   const cached = await ctx.admin.storage.from('tts').download(key);
   if (cached.data) return new Response(cached.data, { headers });
 
   await charge(ctx, 'tts');
-  const { pcm, rate } = await tts(TTS_MODELS, text, voice, isDlg ? { speakers, lines: dlgLines, timeoutMs: 65_000 } : {});
-  const file = wav(pcm, rate);
+  const file = dlg ? await renderDialogue(dlg) : await (async () => { const { pcm, rate } = await tts(TTS_MODELS, text, voice); return wav(pcm, rate); })();
   const up = ctx.admin.storage.from('tts').upload(key, file, { contentType: 'audio/wav', upsert: true }).then(() => {}, () => {});
   // deno-lint-ignore no-explicit-any
   const rt = (globalThis as any).EdgeRuntime; if (rt?.waitUntil) rt.waitUntil(up);

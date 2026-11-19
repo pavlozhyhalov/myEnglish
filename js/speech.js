@@ -48,16 +48,24 @@ export async function speak(text, opts = {}) {
   return speakBrowser(text, { rate, accent: opts.accent || st.accent, voiceIndex: opts.voiceIndex || 0 });
 }
 
+/** iPhone дозволяє озвучку браузера лише з дотику: «розблоковуємо» її тихою фразою в самому дотику, щоб запасний голос
+ *  міг заговорити й після очікування Gemini (2026-11-19: ліміт Gemini вичерпано → тиша й «Звучить діалог…» назавжди) */
+export function unlockSpeech() {
+  if (!synth) return;
+  try { const u = new SpeechSynthesisUtterance(' '); u.volume = 0; synth.speak(u); } catch { /* */ }
+}
 export function speakBrowser(text, { rate = 1, accent, voiceIndex = 0 } = {}) {
   return new Promise((resolve) => {
     if (!synth) return resolve();
+    // браузер мовчки відмовив (iOS без дотику, немає голосів) — не зависаємо: проміс завершується за оцінкою тривалості
+    const guard = setTimeout(() => resolve(), 4000 + String(text).length * 90 / (rate || 1));
     const u = new SpeechSynthesisUtterance(text);
     u.lang = langCode(accent);
     const vs = englishVoices(accent);
     if (vs.length) u.voice = vs[voiceIndex % vs.length];
     if (voiceIndex && vs.length < 2) u.pitch = voiceIndex % 2 ? 0.8 : 1.15;   // один голос — розрізняємо висотою
     u.rate = rate;
-    u.onend = u.onerror = () => resolve();
+    u.onend = u.onerror = () => { clearTimeout(guard); resolve(); };
     synth.speak(u);
     // Chrome інколи «засинає» на довгих текстах
     const keep = setInterval(() => { if (!synth.speaking) clearInterval(keep); else { synth.pause(); synth.resume(); } }, 10000);
@@ -143,7 +151,8 @@ export function dialogueVoices(names = []) {
   const v = g[0] === g[1] ? (g[0] === 'f' ? ['Kore', 'Aoede'] : ['Puck', 'Charon']) : g.map(x => (x === 'f' ? 'Kore' : 'Puck'));
   return [0, 1].map(i => ({ name: names[i] || '', voice: v[i] }));
 }
-const dlgBody = (d) => ({ dialogue: d.lines.map(l => ({ s: l.speaker ? 1 : 0, t: l.text })), speakers: dialogueVoices(d.speakers) });
+// голоси обирає сервер за тими самими правилами (_shared/ttsdlg.ts) — передаємо лише імена
+const dlgBody = (d) => ({ dialogue: d.lines.map(l => ({ s: l.speaker ? 1 : 0, t: l.text })), speakers: [0, 1].map(i => d.speakers?.[i] || '') });
 const dlgUrls = new Map();
 function dialogueUrl(d) {
   const body = dlgBody(d);

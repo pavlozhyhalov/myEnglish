@@ -13,6 +13,7 @@ import { generateJson } from '../_shared/gemini.ts';
 import { FAST_MODELS } from '../_shared/config.ts';
 import { readMemory } from '../_shared/prompts.ts';
 import { createHomework } from '../_shared/homework.ts';
+import { buildDialogue, renderDialogue } from '../_shared/ttsdlg.ts';
 import { tutorNudge, tutorCount, postTutor, tutorWeekly, weeklyDue } from '../_shared/grouptutor.ts';
 import { nudgeInput, cleanNudge, monitorDue, NUDGE_SCHEMA, NUDGE_PROMPT, chatNotifyDue, chatMessageText, challengeDue, challengeNudge, topicDue, groupLevel, pickTopic, type Topic } from './logic.ts';
 
@@ -161,6 +162,29 @@ async function chatPush(db: SupabaseClient, id: string, vapid: Vapid) {
 
 
 /** «Тема дня» від вчителя: у кожній живій групі (≥ 2 учасники, повідомлення за 14 днів) — питання англійською за рівнем групи */
+// Діалоги аудіювання — озвучуються наперед у кеш `tts` (2026-11-19, власник: «ніхуя не говорить» — безкоштовний денний ліміт TTS вичерпувався
+// саме на першому прослуховуванні). Щогодини 08–22 UTC до 2 ще не озвучених діалогів; ліміт вичерпано — до наступної години.
+const LISTENING_URL = 'https://raw.githubusercontent.com/pavlozhyhalov/myEnglish/main/data/listening.json';
+async function warmDialogues(db: SupabaseClient) {
+  const r = await fetch(LISTENING_URL);
+  if (!r.ok) return;
+  const data = await r.json();
+  let made = 0, have = 0;
+  for (const d of (data?.dialogues || []) as { speakers?: string[]; lines: { speaker?: number; text: string }[] }[]) {
+    const dlg = await buildDialogue(d.lines.map(l => ({ s: l.speaker ? 1 : 0, t: l.text })), d.speakers || []);
+    if (!dlg) continue;
+    const { data: hit } = await db.storage.from('tts').list('', { search: dlg.key, limit: 1 });
+    if (hit?.some(f => f.name === dlg.key)) { have++; continue; }
+    if (made >= 2) break;
+    try {
+      const file = await renderDialogue(dlg);
+      await db.storage.from('tts').upload(dlg.key, file, { contentType: 'audio/wav', upsert: true });
+      made++;
+    } catch (e) { console.info('warm dialogues stop', (e as Error).message?.slice(0, 80)); break; }
+  }
+  console.info('warm dialogues', { made, have });
+}
+
 const TOPICS_URL = 'https://raw.githubusercontent.com/pavlozhyhalov/myEnglish/main/data/topics.json';
 async function topicOfDay(db: SupabaseClient, vapid: Vapid) {
   const since14 = new Date(Date.now() - 14 * 864e5).toISOString();
@@ -357,6 +381,11 @@ Deno.serve(async (req) => {
   // раз на добу (перший запуск після 06:00 UTC) — автомонітор AI у фоні, щоб не затримувати нагадування
   if (monitorDue(now)) {
     const job = monitor(db, secret, vapid).catch(e => console.error('monitor', (e as Error).message));
+    // deno-lint-ignore no-explicit-any
+    const rt = (globalThis as any).EdgeRuntime; if (rt?.waitUntil) rt.waitUntil(job);
+  }
+  if (now.getUTCMinutes() < 15 && now.getUTCHours() >= 8 && now.getUTCHours() <= 22) {
+    const job = warmDialogues(db).catch(e => console.error('warm dialogues', (e as Error).message));
     // deno-lint-ignore no-explicit-any
     const rt = (globalThis as any).EdgeRuntime; if (rt?.waitUntil) rt.waitUntil(job);
   }

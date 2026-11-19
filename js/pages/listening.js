@@ -3,7 +3,7 @@ import { h, ic, emo, seg, progress } from '../ui/dom.js';
 import { S, plural } from '../strings.js';
 import { listening as loadListening } from '../data.js';
 import { go } from '../router.js';
-import { speak, stop as stopSpeech, playDialogue as playDialogueTts, prefetchDialogue, dialogueVoices } from '../speech.js';
+import { speak, stop as stopSpeech, playDialogue as playDialogueTts, prefetchDialogue, dialogueVoices, unlockSpeech } from '../speech.js';
 const dialogueVoice = (d, sp) => dialogueVoices(d.speakers)[sp ? 1 : 0].voice;
 import { normalize } from '../ui/exercises.js';
 import { activityTimer, addMistake } from '../stats.js';
@@ -271,6 +271,7 @@ function playDialogue(box, d, timer, onBack) {
   const playBtn = txPrimary({ icon: 'play', label: 'Слухати діалог', sub: `${d.lines.length} ${plural(d.lines.length, 'репліка', 'репліки', 'реплік')} · два голоси`, onclick: playAll, end: null });
   const setPlay = (icon, label) => { playBtn.querySelector('.tx-sq').replaceChildren(ic(icon, { size: 20, fill: true })); playBtn.querySelector('.tx-l').textContent = label; };
   async function playAll() {
+    unlockSpeech();   // у самому дотику — запасний голос зможе заговорити й після невдалої спроби Gemini (iPhone)
     stopFlag = false;
     playBtn.disabled = true;
     setPlay('waveform', 'Звучить діалог…');
