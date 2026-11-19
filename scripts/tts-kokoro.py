@@ -110,6 +110,15 @@ if __name__ == '__main__':
         write_index(collect()[0]); sys.exit()
     model, voices = sys.argv[1], sys.argv[2]
     items, dlgs = collect()
+    if os.environ.get('ONLY') == 'dlg':   # лише діалоги (акценти — ACC=us,uk)
+        accs = os.environ.get('ACC', 'us,uk').split(',')
+        with Pool(int(os.environ.get('JOBS', '4')), initializer=init, initargs=(model, voices)) as p:
+            offsets = {}
+            for dk, acc, offs in p.imap_unordered(job_dlg, [(acc, dk, n, l) for acc in accs for dk, n, l in dlgs]):
+                offsets.setdefault(dk, {})[acc] = offs
+        old = json.load(open(os.path.join(OUT, 'index.json'))).get('dlg', {}) if os.path.exists(os.path.join(OUT, 'index.json')) else {}
+        for dk, v in offsets.items(): old[dk] = {**old.get(dk, {}), **v}
+        write_index(items, old); sys.exit()
     for acc in VOICE: os.makedirs(os.path.join(OUT, acc), exist_ok=True)
     tasks = [(acc, k, t, sp) for acc in VOICE for k, (t, sp) in items.items()]
     dtasks = [(acc, dk, names, lines) for acc in VOICE for dk, names, lines in dlgs]
