@@ -31,6 +31,19 @@ export function newName(wrong: string, right: string) {
     || (words.length === 1 && /^\p{Lu}/u.test(words[0]) && words[0] !== 'I' && !had.has(words[0].toLowerCase()));
 }
 /** Лише виправлення, фрагмент яких справді є в тексті; без «виправлень» на те саме */
+/** Виправлення лише прибирає повтори, «uh/um» чи початок, який учень сам переказав: «I go I I went» → «I went», «we have we had» → «we had» */
+export function isDisfluency(wrong: string, right: string) {
+  const words = (s: string) => s.toLowerCase().replace(/[^a-z' ]+/g, ' ').split(/\s+/).filter(w => w && !/^(uh+|um+|er+|ah+|erm|hmm+)$/.test(w));
+  const w = words(wrong), r = words(right);
+  if (!r.length) return false;
+  const dedup = w.filter((x, i) => x !== w[i - 1]);
+  if (dedup.join(' ') === r.join(' ')) return true;
+  // правильне — кінець сказаного, а перед ним — обірваний початок тієї ж фрази
+  const tail = dedup.slice(-r.length).join(' ') === r.join(' ') ? dedup.slice(0, dedup.length - r.length) : null;
+  if (tail && tail.length) return tail[0] === r[0] || tail.every(t => r.includes(t));
+  return false;
+}
+
 export function cleanVoiceCheck(r: unknown, disputes: Dispute[] = []): { text: string; fixes: Array<{ wrong: string; right: string; why_uk: string; rule: string }> } {
   const o = (r && typeof r === 'object' ? r : {}) as Record<string, unknown>;
   const text = txt(o.text, 2000);
@@ -45,6 +58,8 @@ export function cleanVoiceCheck(r: unknown, disputes: Dispute[] = []): { text: s
     if (fixes.some(y => norm(y.wrong) === norm(wrong)) || isDisputed({ wrong, right }, disputes)) continue;
     // «half alloy → Alugier» (2026-11-16): заміна на власну назву — це помилка розпізнавання, а не учня
     if (newName(wrong, right) || /назв|ім'я|імені|бренд/i.test(txt(x.why_uk, 100))) continue;
+    // запинки й самовиправлення — не помилки (21.11: «choose I will choose → I will choose · Неправильне повторення», «we have we had → we had»)
+    if (isDisfluency(wrong, right) || /повтор|запин|самовиправ/i.test(txt(x.why_uk, 100))) continue;
     fixes.push({ wrong, right, why_uk: txt(x.why_uk, 100), rule: ruleOf(x.rule) });
     if (fixes.length >= 2) break;
   }

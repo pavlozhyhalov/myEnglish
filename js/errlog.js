@@ -54,7 +54,8 @@ export function report(err, extra = '') {
   try {
     if (count >= MAX_SESSION) return;
     const message = scrub((extra ? extra + ': ' : '') + (err?.message || err?.reason || String(err ?? 'unknown')), 500);
-    const stack = scrub(String(err?.stack || '').split(location.origin).join('').split('\n').slice(0, 6).map(l => l.trim()).join('\n'), 1500);
+    const long = extra === 'voice-log';   // журнал голосової сесії — довший (діагностика збоїв голосу)
+    const stack = scrub(String(err?.stack || '').split(location.origin).join('').split('\n').slice(0, long ? 80 : 6).map(l => l.trim()).join('\n'), long ? 6000 : 1500);
     if (/ResizeObserver loop|^Script error\.?$/i.test(message)) return;
     if (/chrome-extension:|moz-extension:|safari-web-extension:/.test(stack)) return;
     const sig = message + '|' + (stack.split('\n').find(l => l.startsWith('at ') || l.includes('@')) || '');

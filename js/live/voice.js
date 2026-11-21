@@ -97,6 +97,16 @@ export async function voiceSession(view, opts = {}) {
     if (logBox) { logBox.textContent += line + '\n'; logBox.scrollTop = 1e9; }
   };
   const setState = (t) => { stateEl.textContent = t; };
+  // збої голосу — у журнал помилок (#/admin), щоб розібрати без телефона: обрив, «мертве» з'єднання, вчитель мовчав, застаріла сесія.
+  // Без тексту реплік (лише технічні рядки, слова в лапках прибрано)
+  const ANOMALY = /stall|reconnect|ws close (?!1000)|no reply|sent as text|prewarm stale|switch|fallback|error|failed|resum/i;
+  function reportVoiceLog() {
+    try {
+      if (!logLines.some(l => ANOMALY.test(l))) return;
+      const lines = logLines.slice(1).map(l => l.replace(/"[^"]*"/g, '"…"').replace(/phantom turn dropped: .*/, 'phantom turn dropped')).slice(-60).join('\n');
+      import('../errlog.js').then(m => m.report({ message: 'voice anomaly', stack: lines }, 'voice-log')).catch(() => {});
+    } catch { /* */ }
+  }
 
   // ---------- субтитри / транскрипт ----------
   function addText(role, text) {
@@ -401,7 +411,9 @@ export async function voiceSession(view, opts = {}) {
   // Тема з чипів у токен не потрапляє (її ще не обрано) — вона йде в першу репліку-сигнал. Сценарій/місія і тема
   // з посилання відомі заздалегідь — вони в токені. Мікрофон і таймер вмикаються лише після тапу.
   const scenData = scenario ? { title: scenario.title, situation: scenario.situation, myRole: scenario.myRole, tutorRole: scenario.tutorRole, goal: scenario.goal, phrases: scenario.phrases } : null;
-  let tapped = false, warm = null, warmClient = null, warmTries = 0;
+  let tapped = false, warm = null, warmClient = null, warmTries = 0, warmReadyAt = 0;
+  // 21.11 (власник: «довго слухає і не чує»): сесію, підготовлену > 40 с до дотику, сервер міг «приспати» — вітався, а мовлення учня не обробляв 20 с
+  const WARM_MAX_AGE = 40_000;
   const makeLive = () => {
     // до тапу topic = opts.topic; після тапу — і тема з чипа (тоді вона в системному промпті нового токена)
     const lc = new LiveClient({ scenario: scenData, topic: topic || null, voice: st.voice, history: () => row.messages });
@@ -423,7 +435,7 @@ export async function voiceSession(view, opts = {}) {
     };
     lc.addEventListener('reconnecting', dropped);
     lc.addEventListener('error', dropped);
-    warm = lc.connect().then(() => { log(`prewarm ready · ${Date.now() - t0} ms`); return lc; }, (e) => {
+    warm = lc.connect().then(() => { warmReadyAt = Date.now(); log(`prewarm ready · ${Date.now() - t0} ms`); return lc; }, (e) => {
       log('prewarm failed: ' + (e?.code || '') + ' ' + (e?.message || ''));
       if (warmClient === lc) warmClient = null;
       try { lc.close(); } catch { /* */ }
@@ -437,6 +449,7 @@ export async function voiceSession(view, opts = {}) {
     if (lc === 'slow') { log('prewarm too slow — connecting anew'); try { warmClient?.close(); } catch { /* */ } warmClient = null; return null; }
     if (!lc) return null;
     if (!lc.open) { log('prewarm socket not open — connecting anew'); try { lc.close(); } catch { /* */ } return null; }
+    if (warmReadyAt && Date.now() - warmReadyAt > WARM_MAX_AGE) { log(`prewarm stale · ${Math.round((Date.now() - warmReadyAt) / 1000)} s — connecting anew`); try { lc.close(); } catch { /* */ } return null; }
     return lc;
   }
 
@@ -789,6 +802,7 @@ export async function voiceSession(view, opts = {}) {
   function cleanup() {
     if (cleaned) return;
     cleaned = true;
+    reportVoiceLog();
     startResolve?.();
     clearTimeout(cpTimer);
     document.removeEventListener('visibilitychange', onVis);
