@@ -27,6 +27,18 @@ function paint() {
   btn.setAttribute('aria-label', n ? `Сповіщення: ${n} ${plural(n, 'нове', 'нові', 'нових')}` : 'Сповіщення');
   // та сама цифра — на іконці застосунку (PWA на екрані «Додому»)
   if (data && navigator.setAppBadge) (n ? navigator.setAppBadge(n) : navigator.clearAppBadge()).catch(() => {});
+  if (data && !document.hidden) syncSw(n);
+}
+
+// Застосунок на екрані — сповіщення в Центрі сповіщень уже не потрібні (усе нове — у дзвіночку): прибираємо їх,
+// а цифру дзвіночка передаємо SW — на іконці буде вона + лише ті push, що прийдуть після цього (sw.js syncBadge)
+async function syncSw(n) {
+  try {
+    const reg = await navigator.serviceWorker?.getRegistration();
+    if (!reg) return;
+    (await reg.getNotifications()).forEach(x => x.close());
+    (reg.active || navigator.serviceWorker.controller)?.postMessage({ type: 'badge', n });
+  } catch { /* без SW — нічого */ }
 }
 
 export async function refreshInbox() {

@@ -1,5 +1,5 @@
 // Service worker: офлайн-кеш оболонки й контенту. AI і Supabase — завжди мережа.
-const BUILD = '20261121170853';
+const BUILD = '20261121212148';
 const CACHE = `myenglish-${BUILD}`;
 importScripts(`precache-list.js?v=${BUILD}`);
 
@@ -151,15 +151,25 @@ self.addEventListener('push', (e) => {
   }).then(syncBadge));
 });
 
-// цифра на іконці застосунку (iOS 16.4+ на екрані «Додому», Android, комп'ютер): кількість непрочитаних сповіщень;
-// точну цифру з дзвіночка ставить сам застосунок, коли відкритий (js/ui/inbox.js)
+// цифра на іконці застосунку (iOS 16.4+ на екрані «Додому», Android, комп'ютер).
+// 2026-11-21 (власник: «на іконці 8, а заходжу — 1»): раніше бралась кількість сповіщень у Центрі сповіщень — туди накопичувались і вже прочитані.
+// Тепер: цифра дзвіночка з останнього відкриття застосунку (застосунок надсилає її сюди й прибирає старі сповіщення) + нові сповіщення після того.
+const BADGE_KEY = '/__badge';
+async function badgeBase() {
+  try { const r = await (await caches.open('me-badge')).match(BADGE_KEY); return r ? Number(await r.text()) || 0 : 0; } catch { return 0; }
+}
 async function syncBadge() {
   try {
     if (!self.navigator.setAppBadge) return;
-    const n = (await self.registration.getNotifications()).length;
+    const n = (await badgeBase()) + (await self.registration.getNotifications()).length;
     n ? await self.navigator.setAppBadge(n) : await self.navigator.clearAppBadge();
   } catch { /* без підтримки — нічого */ }
 }
+self.addEventListener('message', (e) => {
+  if (e.data?.type !== 'badge') return;
+  const n = Math.max(0, Math.min(999, Number(e.data.n) || 0));
+  e.waitUntil(caches.open('me-badge').then(c => c.put(BADGE_KEY, new Response(String(n)))).then(syncBadge).catch(() => {}));
+});
 
 // Браузер сам оновив підписку (Android/iOS після оновлення системи чи браузера): підписуємось знову з тими самими параметрами;
 // новий endpoint застосунок запише на сервер під час наступного відкриття (ensurePush у js/push.js), старий сервер прибере за 410
