@@ -1,5 +1,5 @@
 import { assertEquals, assert } from 'jsr:@std/assert@1';
-import { normWord, judgeGuess, cleanGuess, recognitionContext, clampRounds, cleanFluency, calibrateLevel, mergeTurnFixes, scoreEval, GOLDEN, cleanClassify, cleanVoiceCheck, clampSpeech, cleanMastered, cleanMissions, summaryExtra } from './coach.ts';
+import { normWord, judgeGuess, cleanGuess, recognitionContext, clampRounds, cleanFluency, calibrateLevel, mergeTurnFixes, scoreEval, GOLDEN, cleanClassify, cleanVoiceCheck, clampSpeech, cleanMastered, rankMastery, cleanMissions, summaryExtra } from './coach.ts';
 
 const ST = { open: [{ id: 'm1', wrong: 'I feeling tired', right: "I'm feeling tired" }] } as any;
 
@@ -90,4 +90,16 @@ Deno.test('voice check: підстановка власної назви — н�
     { wrong: 'half alloy', right: 'Alugier', why_uk: 'Помилка в назві компанії', rule: 'other' },
     { wrong: 'work you in your', right: 'work for your', why_uk: 'Прийменник', rule: 'prep-dependent' }] });
   assertEquals(r.fixes.map(f => f.right), ['work for your']);
+});
+
+Deno.test('rankMastery: правильна форма в репліках учня — першою, далі найчастіші', () => {
+  const open = [
+    { id: 'a', wrong: 'I have been there last year', right: 'I was there last year', count: 1 },
+    { id: 'b', wrong: 'depend of', right: 'depend on', count: 3 },
+    { id: 'c', wrong: 'make a photo', right: 'take a photo', count: 1 },
+  ];
+  const base = [{ id: 'z', wrong: 'x y', right: 'y z' }];
+  const r = rankMastery(open, 'Well, it depends on the weather. I was there last year with my wife.', base);
+  assertEquals(r.map(m => m.id), ['a', 'b', 'z']);
+  assertEquals(cleanMastered(['a', 'b', 'nope'], { open: r }), ['a', 'b']);
 });

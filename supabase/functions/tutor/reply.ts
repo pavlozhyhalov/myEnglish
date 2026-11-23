@@ -262,7 +262,7 @@ export function cleanSummary(r: any, st: { words: string[]; memory: string[]; le
     if (isDisputed({ wrong, right }, st.disputes || [])) continue;
     seen.add(key);
     const rule = ruleOf(m.rule);
-    mistakes.push({ wrong, right, type: typeOfRule(rule, MISTAKE_TYPES.includes(m.type) ? m.type : 'other'), rule, explanation_uk: tx(m.explanation_uk, 300) });
+    mistakes.push({ wrong, right, type: typeOfRule(rule, MISTAKE_TYPES.includes(m.type) ? m.type : 'other'), rule, explanation_uk: tx(m.explanation_uk, 300), ...(m.self_fixed === true ? { self_fixed: true } : {}) });
     if (mistakes.length >= 15) break;
   }
   const learning = new Map(st.words.map(w => [w.toLowerCase(), w]));

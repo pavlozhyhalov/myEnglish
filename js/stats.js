@@ -149,7 +149,20 @@ export function totalSeconds() { return store.all('sessions').reduce((a, s) => a
 const norm = (s) => String(s || '').toLowerCase().replace(/[^\p{L}\p{N}' ]/gu, '').replace(/\s+/g, ' ').trim();
 export const MISTAKE_TYPES = ['articles', 'tenses', 'prepositions', 'word_order', 'vocabulary', 'pronunciation', 'other'];
 
-export function addMistake({ wrong, right, type, rule, explanation_uk, source, ref }) {
+/**
+ * Учень вжив правильно в розмові те, у чому раніше помилявся (або сам виправився) — помилку закрито одразу (2026-11-23, власник:
+ * «якщо в діалозі я виправляюсь — помилка закривалась, а не лише картками чи вправами»). Повертає true, якщо закрито зараз.
+ */
+export function mistakeClose(m) {
+  if (!m || m.deleted || m.resolved) return false;
+  m.streak = Math.max(m.streak || 0, mistakeGoal(m));
+  m.resolved = true;
+  store.put('mistakes', m);
+  return true;
+}
+
+/** fixed: учень у цій самій розмові вже сказав правильно (self_fixed) — записуємо закритою, наявну таку саму — закриваємо */
+export function addMistake({ wrong, right, type, rule, explanation_uk, source, ref, fixed = false }) {
   if (!wrong || !right || norm(wrong) === norm(right)) return null;
   if (!MISTAKE_TYPES.includes(type)) type = 'other';
   rule = RULES[rule] ? rule : null;
@@ -159,8 +172,12 @@ export function addMistake({ wrong, right, type, rule, explanation_uk, source, r
   // 2026-11-16: нова помилка на правило не чіпає серій інших помилок (за тиждень 124 нові й 2 закриті — кожна розмова відкочувала всі);
   // слабкість правила й так тримається в «Правилах тижня» за вагою нових помилок
   const ex = store.all('mistakes').find(m => norm(m.wrong) === norm(wrong) && norm(m.right) === norm(right));
-  if (ex) { ex.count = (ex.count || 1) + 1; ex.streak = 0; ex.resolved = false; if (rule && !ex.rule) ex.rule = rule; return store.put('mistakes', ex); }
-  return store.put('mistakes', { wrong, right, type, rule, explanation_uk: explanation_uk || '', source: source || 'tutor', count: 1, streak: 0, resolved: false, ref: ref || null });
+  if (ex) {
+    if (rule && !ex.rule) ex.rule = rule;
+    if (fixed) { ex.count = (ex.count || 1) + 1; ex.streak = Math.max(ex.streak || 0, MISTAKE_GOAL); ex.resolved = true; return store.put('mistakes', ex); }
+    ex.count = (ex.count || 1) + 1; ex.streak = 0; ex.resolved = false; return store.put('mistakes', ex);
+  }
+  return store.put('mistakes', { wrong, right, type, rule, explanation_uk: explanation_uk || '', source: source || 'tutor', count: 1, streak: fixed ? MISTAKE_GOAL : 0, resolved: !!fixed, ref: ref || null });
 }
 const openOfRule = (rule) => store.all('mistakes').filter(m => !m.deleted && !m.resolved && m.rule === rule);
 /** «Словникові» правила: кожна помилка — окреме слово чи вислів, тож правило не можна «засвоїти» разом (make/do ≠ borrow/lend) */

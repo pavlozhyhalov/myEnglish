@@ -9,7 +9,7 @@ import { tappable, lookupDeck } from '../ui/wordtap.js';
 import { ai, tutor, tutorStream, pron, aiErrorText, AiError } from '../ai.js';
 import { user } from '../supa.js';
 import { speak, stop as stopSpeech, recognize, canRecognize } from '../speech.js';
-import { activityTimer, addMistake, deleteChat, mistakeHit, ruleHit, disputeFix, isDisputed, today as localDay } from '../stats.js';
+import { activityTimer, addMistake, deleteChat, mistakeClose, ruleHit, disputeFix, isDisputed, today as localDay } from '../stats.js';
 import { ruleLabel } from '../rules.js';
 import { confirmSheet } from '../ui/sheet.js';
 import { scenarios as loadScenarios } from '../data.js';
@@ -991,12 +991,13 @@ async function runSummary(row, { onRetry } = {}) {
     for (const m of prevList) if (!mistakes.some(x => mkey(x) === mkey(m))) mistakes.push(m);
     // засвоєні помилки: правильне вживання зараховується один раз на розмову (повторний підсумок не рахує вдруге)
     const applied = new Set(Array.isArray(prev?.mastered_applied) ? prev.mastered_applied : []);
-    const mastered = [...new Set((Array.isArray(res.mastered) ? res.mastered : []).map(String))].slice(0, 5);
+    const mastered = [...new Set((Array.isArray(res.mastered) ? res.mastered : []).map(String))].slice(0, 15);
     for (const id of mastered) {
       if (applied.has(id)) continue;
       const m = store.get('mistakes', id);
       if (!m || m.deleted) continue;
-      if (!m.resolved) mistakeHit(m, true);
+      // правильно вжито в живій розмові — закрито одразу (картки й вправи — 2 правильні в різні дні)
+      mistakeClose(m);
       applied.add(id);
       // правильне вживання правила зараховується й іншим відкритим помилкам цього правила
       const done = new Set([...applied]);
@@ -1017,7 +1018,7 @@ async function runSummary(row, { onRetry } = {}) {
     // слова, які учень правильно вжив і в цій, і в попередніх розмовах, — «вивчено» (js/usage.js)
     const used = await markUsedWords({ onlyChat: row.id }).catch(e => { console.warn('used words', e); return []; });
     if (used.length) { row.summary.used_known = [...(row.summary.used_known || []), ...used.map(u => ({ id: u.id, en: u.en, uk: u.uk }))]; store.put('tutor_chats', row); }
-    for (const m of res.mistakes || []) if (!before.has(mkey(m))) addMistake({ ...m, source: 'tutor', ref: row.id });
+    for (const m of res.mistakes || []) if (!before.has(mkey(m))) addMistake({ ...m, source: 'tutor', ref: row.id, fixed: m.self_fixed === true });
     // порада «наступного разу» — лише від найновішої розмови з підсумком (фонове доробляння старішої її не перезаписує)
     const newer = store.all('tutor_chats').some(r => r !== row && !r.deleted && r.summary && !r.summary.partial && Date.parse(r.created_at || 0) > Date.parse(row.created_at || 0));
     if (!newer) store.setProf({ lastFocus: res.next_focus || null });
@@ -1221,6 +1222,7 @@ export function summaryView(view, row, { pronTurns = null, back = null } = {}) {
       m.explanation_uk ? h('span.tx-s', mdInline(m.explanation_uk)) : null,
       h('div.row.wrap.sum-mistake-foot',
         ruleLabel(m.rule) && m.rule !== 'other' ? txPill(ruleLabel(m.rule)) : m.type && S.mistakeTypes[m.type] ? txPill(S.mistakeTypes[m.type]) : null,
+        m.self_fixed ? txPill('виправились самі', 'good') : null,
         disagreeBtn(m, row, () => summaryView(view, row, { pronTurns })))));
   const M_SHOW = 5;
   const nextHref = s.next_focus ? `#/tutor?mode=chat&topic=${encodeURIComponent(`Focus recommended after the last session (practise it naturally in conversation): ${s.next_focus}`)}` : null;
@@ -1311,11 +1313,11 @@ function phrasesCard(row, s) {
   return fold({ icon: 'chat-centered-text', label: `Фрази з розмови · ${items.length}`, sub: `у фразник · ${phraseSit(sit).uk}` }, list, all);
 }
 
-/** «Засвоєно»: помилки, які учень цього разу вжив правильно (2 рази в різні дні — закрито) */
+/** «Засвоєно»: помилки, які учень цього разу вжив правильно — закрито одразу (2026-11-23) */
 function masteredCard(s) {
   const items = (Array.isArray(s.mastered) ? s.mastered : []).map(id => store.get('mistakes', String(id))).filter(m => m && !m.deleted);
   if (!items.length) return null;
-  return fold({ icon: 'seal-check', label: `Засвоєно · ${items.length}`, sub: 'раніше помилка — цього разу правильно' }, [
+  return fold({ icon: 'seal-check', label: `Засвоєно · ${items.length}`, sub: 'раніше помилка — цього разу правильно, закрито' }, [
     txRows(items.map(m => {
       const n = Math.min(3, m.streak || 0);
       return h('div.tx-row.sum-mastered-row', h('span.tx-sq.tu-good', ic('check-circle', { size: 18 })),

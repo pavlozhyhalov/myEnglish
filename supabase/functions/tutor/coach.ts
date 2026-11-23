@@ -79,7 +79,7 @@ export function clampSpeech(v: unknown): Speech | null {
 
 export function summaryExtra(st: Student, speech: Speech | null) {
   const open = st.open.length
-    ? `- mastered: ids of the student's OPEN mistakes below that the STUDENT clearly produced CORRECTLY in this session (they used the right form in their own line, not just repeated your sentence right after you said it). Copy ids exactly; usually [] or one or two. Never include a mistake they made again in this session.
+    ? `- mastered: ids of the student's OPEN mistakes (from earlier sessions) below that the STUDENT produced CORRECTLY in this session in their own line — the right form where they used to make the mistake, or they made it again and then corrected themselves so that their LAST use was correct. A bare one-word echo right after your correction does not count. Copy ids exactly; [] if none. Never include a mistake whose last use in this session was still wrong.
 ${st.open.map(m => `  ${m.id}: "${m.wrong}" → "${m.right}"`).join('\n')}`
     : '- mastered: [] (no open mistakes).';
   const fl = speech
@@ -88,9 +88,41 @@ ${st.open.map(m => `  ${m.id}: "${m.wrong}" → "${m.right}"`).join('\n')}`
   return `${open}\n${fl}`;
 }
 
-export function cleanMastered(r: unknown, st: Student): string[] {
+export function cleanMastered(r: unknown, st: Pick<Student, 'open'>): string[] {
   const ids = new Set(st.open.map(m => m.id));
-  return [...new Set((Array.isArray(r) ? r : []).map(x => String(x || '').trim()).filter(x => ids.has(x)))].slice(0, 5);
+  return [...new Set((Array.isArray(r) ? r : []).map(x => String(x || '').trim()).filter(x => ids.has(x)))].slice(0, 15);
+}
+
+const STOP = new Set('a an the to of in on at for and or but is am are was were be been i you he she it we they my your his her its our their me him us them this that do does did not no have has had will would can could'.split(' '));
+const toks = (s: string) => String(s || '').toLowerCase().replace(/[’ʼ]/g, "'").match(/[a-z']+/g) || [];
+const stem = (w: string) => w.length > 4 ? w.replace(/(ies|es|s|ed|ing)$/, '') : w;
+/**
+ * Кандидати на «засвоєно» для підсумку (2026-11-23): відкриті помилки, чия правильна форма трапляється в репліках учня цієї розмови.
+ * Бал — частка слів правильної форми в репліках (фраза повністю — найвищий); далі найчастіші з base. До max.
+ */
+export function rankMastery(open: Array<{ id: string; wrong: string; right: string; count?: number }>, studentText: string, base: Array<{ id: string; wrong: string; right: string }>, max = 40) {
+  const text = ' ' + toks(studentText).join(' ') + ' ';
+  const words = new Set(toks(studentText).map(stem));
+  const scored: Array<{ m: { id: string; wrong: string; right: string }; s: number }> = [];
+  for (const m of open) {
+    if (!m?.id || !m.wrong || !m.right) continue;
+    const r = toks(m.right);
+    if (!r.length) continue;
+    let s = 0;
+    if (text.includes(' ' + r.join(' ') + ' ')) s = 2 + r.length / 10;
+    else {
+      const content = r.filter(w => !STOP.has(w));
+      const key = content.length ? content : r;
+      const hit = key.filter(w => words.has(stem(w))).length / key.length;
+      if (hit >= 0.5) s = hit;
+    }
+    if (s > 0) scored.push({ m: { id: String(m.id), wrong: String(m.wrong).slice(0, 80), right: String(m.right).slice(0, 80) }, s: s + Math.min(1, (m.count || 1) / 10) });
+  }
+  scored.sort((a, b) => b.s - a.s);
+  const out = new Map<string, { id: string; wrong: string; right: string }>();
+  for (const x of scored) { if (out.size >= max - 10) break; out.set(x.m.id, x.m); }
+  for (const m of base) { if (out.size >= max) break; if (!out.has(m.id)) out.set(m.id, m); }
+  return [...out.values()];
 }
 
 // ---------- Місії з життя ----------
