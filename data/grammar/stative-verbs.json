@@ -1,157 +1,256 @@
 {
- "id": "stative-verbs",
- "title": "Дієслова стану",
- "titleEn": "Stative verbs (know, want, like) vs action verbs",
- "unit": "Теперішні часи",
- "level": "B1",
- "mistakeType": "tenses",
- "explanation": "Деякі дієслова описують **стан**, а не дію. Їх зазвичай **не** ставлять у Continuous, навіть якщо мова про «зараз».\n\nОсновні групи:\n- думки: *know, believe, understand, remember, forget, mean, think (=вважати)*\n- почуття: *like, love, hate, prefer, want, need*\n- володіння: *have (=мати), own, belong*\n- сприйняття і враження: *see, hear, smell, taste, seem, look (=мати вигляд)*\n\nДеякі мають два значення: *I think it's good* (вважаю — стан) vs *I'm thinking about it* (обмірковую — дія). *I have a car* (маю) vs *I'm having lunch* (обідаю).",
- "formula": [
-  "Стан: I **want** a coffee now. (не ~~I'm wanting~~)",
-  "Дія: I'm **having** dinner. / I'm **thinking** about it."
- ],
- "examples": [
-  {
-   "en": "I need a break right now.",
-   "uk": "Мені зараз потрібна перерва."
+  "id": "stative-verbs",
+  "title": "Дієслова стану",
+  "titleEn": "Stative verbs (know, want, like) vs action verbs",
+  "unit": "Теперішні часи",
+  "level": "B1",
+  "mistakeType": "tenses",
+  "explanation": "**Дієслова стану** вживаємо в простих формах (Present Simple, Past Simple), навіть коли мова про «зараз»:\n*I **know** · I **want** · She **doesn't understand** · **Do** you **like** it?*\n\nОсновні групи:\n- думки: *know, believe, understand, remember, forget, mean, realise, suppose*\n- почуття й бажання: *like, love, hate, prefer, want, need, wish*\n- володіння: *have (= мати), own, belong, contain*\n- чуття й враження: *see, hear, smell, taste, seem, look (= мати вигляд), sound*\n\nДва значення — дві форми:\n- *think*: I think so (вважаю) · I'm thinking about it (обмірковую)\n- *have*: I have a car (маю) · I'm having lunch (обідаю)\n- *see*: I see what you mean (розумію) · I'm seeing Anna tonight (зустрічаюся)\n- *taste*: It tastes good (на смак) · She's tasting the soup (куштує)",
+  "guide": {
+    "idea": "Деякі дієслова означають не дію, а стан: що ви знаєте, відчуваєте, маєте чи сприймаєте. Стан не триває «в процесі», тому навіть про «зараз» кажемо *I know*, *I want*, а не *I'm knowing*.",
+    "use": [
+      {
+        "when": "Знання й думки",
+        "note": "know, understand, believe, remember, mean — процесу немає, є лише стан у голові.",
+        "en": "Sorry, I don't understand what you mean.",
+        "uk": "Вибачте, я не розумію, що ви маєте на увазі."
+      },
+      {
+        "when": "Бажання й почуття",
+        "note": "want, need, like, love, prefer — навіть якщо хочеться саме зараз.",
+        "en": "I really need a coffee right now.",
+        "uk": "Мені зараз дуже потрібна кава."
+      },
+      {
+        "when": "Володіння",
+        "note": "have (= мати), own, belong — це не дія, а факт.",
+        "en": "This umbrella belongs to Emma.",
+        "uk": "Ця парасолька належить Еммі."
+      },
+      {
+        "when": "Враження від чуття",
+        "note": "taste, smell, sound, look, seem описують, яким щось є.",
+        "en": "Your idea sounds great.",
+        "uk": "Твоя ідея звучить чудово."
+      },
+      {
+        "when": "Те саме дієслово як дія",
+        "note": "Коли think, have, taste, see означають дію (обмірковувати, їсти, куштувати, зустрічатися), Continuous можливий.",
+        "en": "We're having dinner — can I call you back?",
+        "uk": "Ми вечеряємо — можна я передзвоню?"
+      }
+    ],
+    "vs": [
+      {
+        "title": "I think чи I'm thinking?",
+        "a": {
+          "en": "I think it's a good idea.",
+          "uk": "Я вважаю, що це гарна ідея.",
+          "note": "Думка, погляд — стан, лише проста форма."
+        },
+        "b": {
+          "en": "I'm thinking about a new job.",
+          "uk": "Я обмірковую нову роботу.",
+          "note": "Процес обмірковування — дія, можна Continuous."
+        }
+      },
+      {
+        "title": "I have чи I'm having?",
+        "a": {
+          "en": "I have two brothers.",
+          "uk": "У мене два брати.",
+          "note": "Мати — стан."
+        },
+        "b": {
+          "en": "I'm having a shower.",
+          "uk": "Я в душі.",
+          "note": "have у виразах have a shower, have lunch, have a party — дія."
+        }
+      },
+      {
+        "title": "It tastes чи he's tasting?",
+        "a": {
+          "en": "This soup tastes salty.",
+          "uk": "Цей суп солоний на смак.",
+          "note": "Який суп на смак — стан."
+        },
+        "b": {
+          "en": "He's tasting the soup.",
+          "uk": "Він куштує суп.",
+          "note": "Людина виконує дію."
+        }
+      }
+    ],
+    "signals": [],
+    "mistakes": [
+      {
+        "wrong": "I'm knowing the answer.",
+        "right": "I know the answer.",
+        "why": "know — дієслово стану, у Continuous не вживається."
+      },
+      {
+        "wrong": "Are you understanding me?",
+        "right": "Do you understand me?",
+        "why": "understand — стан, тому питання з do."
+      },
+      {
+        "wrong": "I'm having a car.",
+        "right": "I have a car.",
+        "why": "have у значенні «мати» — лише проста форма (або have got)."
+      },
+      {
+        "wrong": "I'm thinking it's a good idea.",
+        "right": "I think it's a good idea.",
+        "why": "think = вважати — стан; Continuous лише в значенні «обмірковувати»."
+      }
+    ]
   },
-  {
-   "en": "Do you understand what I mean?",
-   "uk": "Ти розумієш, що я маю на увазі?"
-  },
-  {
-   "en": "I'm thinking of changing my job.",
-   "uk": "Я думаю про те, щоб змінити роботу."
-  },
-  {
-   "en": "This soup tastes amazing.",
-   "uk": "Цей суп дуже смачний."
-  },
-  {
-   "en": "We're having a party on Saturday.",
-   "uk": "У суботу в нас вечірка."
-  },
-  {
-   "en": "This bike belongs to my wife.",
-   "uk": "Цей велосипед належить моїй дружині."
-  }
- ],
- "tip": "*I'm loving it* — рекламний виняток, у звичайній мові краще *I love it*.",
- "exercises": [
-  {
-   "type": "choice",
-   "prompt": "I ___ what you mean.",
-   "options": [
-    "understand",
-    "'m understanding",
-    "am understand"
-   ],
-   "answer": "understand",
-   "explanation": "understand — стан."
-  },
-  {
-   "type": "choice",
-   "prompt": "We ___ dinner, can I call you back?",
-   "options": [
-    "have",
-    "are having",
-    "has"
-   ],
-   "answer": "are having",
-   "explanation": "have dinner — дія (вечеряємо зараз)."
-  },
-  {
-   "type": "choice",
-   "prompt": "This cake ___ delicious.",
-   "options": [
-    "smells",
-    "is smelling",
-    "smell"
-   ],
-   "answer": "smells",
-   "explanation": "smell = мати запах, стан."
-  },
-  {
-   "type": "choice",
-   "prompt": "At the moment I ___ about moving to Gdańsk.",
-   "options": [
-    "think",
-    "am thinking",
-    "thinks"
-   ],
-   "answer": "am thinking",
-   "explanation": "think about = обмірковувати, дія."
-  },
-  {
-   "type": "input",
-   "prompt": "She ___ (want) a new phone for her birthday.",
-   "answer": [
-    "wants"
-   ],
-   "explanation": "want — стан, Simple."
-  },
-  {
-   "type": "input",
-   "prompt": "Who ___ (this car / belong) to?",
-   "answer": [
-    "does this car belong"
-   ],
-   "explanation": "belong — дієслово стану, Present Simple: Who does this car belong to?"
-  },
-  {
-   "type": "input",
-   "prompt": "You ___ (look) tired. Are you OK?",
-   "answer": [
-    "look",
-    "are looking",
-    "'re looking"
-   ],
-   "explanation": "look = мати вигляд, стан: You look tired (у розмові можна й You're looking tired)."
-  },
-  {
-   "type": "error",
-   "sentence": "I am not believe his story.",
-   "wrongIndex": 1,
-   "correction": "do",
-   "alt": [],
-   "explanation": "believe — дієслово стану, не вживається в Continuous: I don't (do not) believe."
-  },
-  {
-   "type": "error",
-   "sentence": "Are you know where my keys are?",
-   "wrongIndex": 0,
-   "correction": "Do",
-   "alt": [],
-   "explanation": "know — дієслово стану: питання через Do — Do you know…?"
-  },
-  {
-   "type": "order",
-   "prompt": "Мені зараз потрібна твоя допомога.",
-   "answer": [
-    "I need your help now.",
-    "Now I need your help."
-   ],
-   "explanation": "need — стан."
-  },
-  {
-   "type": "transform",
-   "prompt": "I think about our holiday a lot these days.",
-   "instruction": "Зробіть дію тимчасовою (обмірковую)",
-   "answer": [
-    "I'm thinking about our holiday a lot these days.",
-    "I am thinking about our holiday a lot these days."
-   ],
-   "explanation": "think about = обмірковувати — можна в Continuous."
-  },
-  {
-   "type": "translate",
-   "uk": "Я не пам'ятаю його імені.",
-   "answer": [
-    "I don't remember his name.",
-    "I do not remember his name.",
-    "I can't remember his name."
-   ],
-   "explanation": "remember — стан."
-  }
- ]
+  "formula": [
+    "Стан: I **want** a coffee now. (не ~~I'm wanting~~)",
+    "Дія: I'm **having** dinner. / I'm **thinking** about it."
+  ],
+  "examples": [
+    {
+      "en": "I need a break right now.",
+      "uk": "Мені зараз потрібна перерва."
+    },
+    {
+      "en": "Do you understand what I mean?",
+      "uk": "Ти розумієш, що я маю на увазі?"
+    },
+    {
+      "en": "I'm thinking of changing my job.",
+      "uk": "Я думаю про те, щоб змінити роботу."
+    },
+    {
+      "en": "This soup tastes amazing.",
+      "uk": "Цей суп дуже смачний."
+    },
+    {
+      "en": "We're having a party on Saturday.",
+      "uk": "У суботу в нас вечірка."
+    },
+    {
+      "en": "This bike belongs to my wife.",
+      "uk": "Цей велосипед належить моїй дружині."
+    }
+  ],
+  "tip": "*I'm loving it* — рекламний виняток, у звичайній мові краще *I love it*.",
+  "exercises": [
+    {
+      "type": "choice",
+      "prompt": "I ___ what you mean.",
+      "options": [
+        "understand",
+        "'m understanding",
+        "am understand"
+      ],
+      "answer": "understand",
+      "explanation": "understand — стан."
+    },
+    {
+      "type": "choice",
+      "prompt": "We ___ dinner, can I call you back?",
+      "options": [
+        "have",
+        "are having",
+        "has"
+      ],
+      "answer": "are having",
+      "explanation": "have dinner — дія (вечеряємо зараз)."
+    },
+    {
+      "type": "choice",
+      "prompt": "This cake ___ delicious.",
+      "options": [
+        "smells",
+        "is smelling",
+        "smell"
+      ],
+      "answer": "smells",
+      "explanation": "smell = мати запах, стан."
+    },
+    {
+      "type": "choice",
+      "prompt": "At the moment I ___ about moving to Gdańsk.",
+      "options": [
+        "think",
+        "am thinking",
+        "thinks"
+      ],
+      "answer": "am thinking",
+      "explanation": "think about = обмірковувати, дія."
+    },
+    {
+      "type": "input",
+      "prompt": "She ___ (want) a new phone for her birthday.",
+      "answer": [
+        "wants"
+      ],
+      "explanation": "want — стан, Simple."
+    },
+    {
+      "type": "input",
+      "prompt": "Who ___ (this car / belong) to?",
+      "answer": [
+        "does this car belong"
+      ],
+      "explanation": "belong — дієслово стану, Present Simple: Who does this car belong to?"
+    },
+    {
+      "type": "input",
+      "prompt": "You ___ (look) tired. Are you OK?",
+      "answer": [
+        "look",
+        "are looking",
+        "'re looking"
+      ],
+      "explanation": "look = мати вигляд, стан: You look tired (у розмові можна й You're looking tired)."
+    },
+    {
+      "type": "error",
+      "sentence": "I am not believe his story.",
+      "wrongIndex": 1,
+      "correction": "do",
+      "alt": [],
+      "explanation": "believe — дієслово стану, не вживається в Continuous: I don't (do not) believe."
+    },
+    {
+      "type": "error",
+      "sentence": "Are you know where my keys are?",
+      "wrongIndex": 0,
+      "correction": "Do",
+      "alt": [],
+      "explanation": "know — дієслово стану: питання через Do — Do you know…?"
+    },
+    {
+      "type": "order",
+      "prompt": "Мені зараз потрібна твоя допомога.",
+      "answer": [
+        "I need your help now.",
+        "Now I need your help."
+      ],
+      "explanation": "need — стан."
+    },
+    {
+      "type": "transform",
+      "prompt": "I think about our holiday a lot these days.",
+      "instruction": "Зробіть дію тимчасовою (обмірковую)",
+      "answer": [
+        "I'm thinking about our holiday a lot these days.",
+        "I am thinking about our holiday a lot these days."
+      ],
+      "explanation": "think about = обмірковувати — можна в Continuous."
+    },
+    {
+      "type": "translate",
+      "uk": "Я не пам'ятаю його імені.",
+      "answer": [
+        "I don't remember his name.",
+        "I do not remember his name.",
+        "I can't remember his name."
+      ],
+      "explanation": "remember — стан."
+    }
+  ]
 }

@@ -1,186 +1,296 @@
 {
- "id": "perfect-vs-past",
- "title": "Present Perfect чи Past Simple",
- "titleEn": "Present Perfect vs Past Simple",
- "unit": "Минулі часи",
- "level": "B1",
- "mistakeType": "tenses",
- "explanation": "Головне питання: **чи важливий точний час у минулому?**\n\n- Є час або завершений період (*yesterday, last year, when I was a child, in May*) → **Past Simple**.\n- Час не вказано, важливий досвід/результат, або період ще триває (*today, this month, ever, so far*) → **Present Perfect**.\n\nЧасто розмова **починається** з Present Perfect (загальний досвід), а **деталі** — у Past Simple:\n*Have you ever been to Rome? — Yes, I **went** there two years ago. We **stayed** for a week.*",
- "formula": [
-  "Досвід/результат: have/has + V3",
-  "Коли саме? → V2 (Past Simple)"
- ],
- "table": {
-  "head": [
-   "Present Perfect",
-   "Past Simple"
+  "id": "perfect-vs-past",
+  "title": "Present Perfect чи Past Simple",
+  "titleEn": "Present Perfect vs Past Simple",
+  "unit": "Минулі часи",
+  "level": "B1",
+  "mistakeType": "tenses",
+  "explanation": "**Present Perfect:** have / has + **V3** — *I've seen · She hasn't called · Have you been…?*\n**Past Simple:** V2 / -ed — *I saw · She didn't call · Did you go…?*\n\nСлова, що підказують час:\n- Present Perfect: *ever, never, just, already, yet, so far, recently, today, this week, for, since*\n- Past Simple: *yesterday, last week, ago, in 2020, when I was a child, then* і питання *When…?*\n\nТипова розмова: питання чи новина — Present Perfect, деталі — Past Simple:\n*Have you ever been to Rome? — Yes, I **went** there in 2023. We **stayed** for a week.*",
+  "guide": {
+    "idea": "Обидва часи — про те, що вже сталося. Past Simple розповідає про минуле як про закриту сторінку: коли, де, як. Present Perfect дивиться з «зараз»: важливо не коли, а що це означає тепер — досвід, результат, новина.",
+    "use": [
+      {
+        "when": "Точний час — Past Simple",
+        "note": "Якщо є «коли» (yesterday, in May, ago) — лише Past Simple.",
+        "en": "I met Oliver at a conference two years ago.",
+        "uk": "Я познайомився з Олівером на конференції два роки тому."
+      },
+      {
+        "when": "Досвід без дати — Present Perfect",
+        "note": "Чи бувало це хоч раз у житті; коли саме — неважливо.",
+        "en": "I've never tried Indian food.",
+        "uk": "Я ніколи не куштував індійської кухні."
+      },
+      {
+        "when": "Результат зараз — Present Perfect",
+        "note": "Наслідок видно тепер: окулярів немає, двері відчинені.",
+        "en": "I've broken my glasses, so I can't read this.",
+        "uk": "Я розбив окуляри, тож не можу це прочитати."
+      },
+      {
+        "when": "Новина, а потім деталі",
+        "note": "Новину повідомляємо в Present Perfect, подробиці — коли, де, як — у Past Simple.",
+        "en": "I've found a new flat! I saw it on Monday and signed the contract yesterday.",
+        "uk": "Я знайшов нову квартиру! Побачив її в понеділок, а вчора підписав договір."
+      },
+      {
+        "when": "Період ще триває",
+        "note": "today, this week, this year — поки не скінчились, Present Perfect.",
+        "en": "I haven't had a day off this month.",
+        "uk": "Цього місяця в мене не було жодного вихідного."
+      },
+      {
+        "when": "Ситуація вже скінчилась — Past Simple",
+        "note": "Ви там більше не живете, не працюєте — це закрита сторінка.",
+        "en": "I worked in a hotel for two years when I was a student.",
+        "uk": "Коли я був студентом, я два роки працював у готелі."
+      }
+    ],
+    "vs": [
+      {
+        "title": "Досвід чи конкретний випадок?",
+        "a": {
+          "en": "Have you ever been to Scotland?",
+          "uk": "Ви коли-небудь бували в Шотландії?",
+          "note": "Питаємо про досвід за все життя."
+        },
+        "b": {
+          "en": "When did you go to Scotland?",
+          "uk": "Коли ви їздили до Шотландії?",
+          "note": "Питаємо про конкретну поїздку — When завжди з Past Simple."
+        }
+      },
+      {
+        "title": "Ще триває чи вже ні?",
+        "a": {
+          "en": "She's worked here for five years.",
+          "uk": "Вона працює тут п'ять років.",
+          "note": "Досі працює."
+        },
+        "b": {
+          "en": "She worked here for five years.",
+          "uk": "Вона пропрацювала тут п'ять років.",
+          "note": "Уже не працює."
+        }
+      },
+      {
+        "title": "this morning: Perfect чи Past?",
+        "a": {
+          "en": "I've had two coffees this morning.",
+          "uk": "Цього ранку я вже випив дві кави.",
+          "note": "Кажемо до обіду — ранок ще триває."
+        },
+        "b": {
+          "en": "I had two coffees this morning.",
+          "uk": "Зранку я випив дві кави.",
+          "note": "Кажемо ввечері — ранок уже минув."
+        }
+      }
+    ],
+    "signals": [],
+    "mistakes": [
+      {
+        "wrong": "I have seen this film last week.",
+        "right": "I saw this film last week.",
+        "why": "last week — точний час у минулому, тому Past Simple."
+      },
+      {
+        "wrong": "When have you arrived?",
+        "right": "When did you arrive?",
+        "why": "Питання When…? — завжди Past Simple."
+      },
+      {
+        "wrong": "Did you ever eat sushi?",
+        "right": "Have you ever eaten sushi?",
+        "why": "Досвід за все життя — Present Perfect."
+      },
+      {
+        "wrong": "I've lost my keys yesterday.",
+        "right": "I lost my keys yesterday.",
+        "why": "Щойно з'являється yesterday, Present Perfect неможливий."
+      },
+      {
+        "wrong": "I didn't finish yet.",
+        "right": "I haven't finished yet.",
+        "why": "yet у британській англійській — з Present Perfect: ще не зроблено до цього моменту."
+      }
+    ]
+  },
+  "formula": [
+    "Досвід/результат: have/has + V3",
+    "Коли саме? → V2 (Past Simple)"
   ],
-  "rows": [
-   [
-    "I've lost my keys.",
-    "I lost my keys yesterday."
-   ],
-   [
-    "She's worked here for 3 years. (і далі працює)",
-    "She worked here for 3 years. (вже ні)"
-   ],
-   [
-    "Have you seen Anna today?",
-    "Did you see Anna this morning? (ранок минув)"
-   ]
+  "table": {
+    "head": [
+      "Present Perfect",
+      "Past Simple"
+    ],
+    "rows": [
+      [
+        "I've lost my keys.",
+        "I lost my keys yesterday."
+      ],
+      [
+        "She's worked here for 3 years. (і далі працює)",
+        "She worked here for 3 years. (вже ні)"
+      ],
+      [
+        "Have you seen Anna today?",
+        "Did you see Anna this morning? (ранок минув)"
+      ]
+    ]
+  },
+  "examples": [
+    {
+      "en": "I've been to Lviv many times. Last time I went there in May.",
+      "uk": "Я багато разів бував у Львові. Востаннє їздив у травні."
+    },
+    {
+      "en": "Have you heard the news? Tom got a new job!",
+      "uk": "Чув новину? Том отримав нову роботу!"
+    },
+    {
+      "en": "We've lived here since 2022.",
+      "uk": "Ми живемо тут з 2022 року."
+    },
+    {
+      "en": "We lived in Kyiv before the war.",
+      "uk": "До війни ми жили в Києві."
+    },
+    {
+      "en": "I haven't seen him this week.",
+      "uk": "Я не бачив його цього тижня."
+    },
+    {
+      "en": "When did you start learning English?",
+      "uk": "Коли ти почав вчити англійську?"
+    }
+  ],
+  "tip": "Питання з **When…?** — завжди Past Simple: *When did you arrive?* (не ~~When have you arrived?~~).",
+  "exercises": [
+    {
+      "type": "choice",
+      "prompt": "When ___ you ___ here?",
+      "options": [
+        "have / come",
+        "did / come",
+        "have / came"
+      ],
+      "answer": "did / come",
+      "explanation": "When → Past Simple."
+    },
+    {
+      "type": "choice",
+      "prompt": "So far I ___ this film three times.",
+      "options": [
+        "saw",
+        "'ve seen",
+        "see"
+      ],
+      "answer": "'ve seen",
+      "explanation": "Досвід, час не вказано."
+    },
+    {
+      "type": "choice",
+      "prompt": "My grandfather ___ in a factory all his life. He retired in 2005.",
+      "options": [
+        "has worked",
+        "worked",
+        "works"
+      ],
+      "answer": "worked",
+      "explanation": "Дідусь уже на пенсії — період завершено → Past Simple."
+    },
+    {
+      "type": "choice",
+      "prompt": "___ you see the match last night?",
+      "options": [
+        "Have",
+        "Did",
+        "Were"
+      ],
+      "answer": "Did",
+      "explanation": "last night → Past Simple."
+    },
+    {
+      "type": "input",
+      "prompt": "We ___ (know) each other since school.",
+      "answer": [
+        "'ve known",
+        "have known"
+      ],
+      "explanation": "since + період до тепер."
+    },
+    {
+      "type": "input",
+      "prompt": "I ___ (lose) my umbrella yesterday.",
+      "answer": [
+        "lost"
+      ],
+      "explanation": "yesterday."
+    },
+    {
+      "type": "input",
+      "prompt": "___ (you / ever / be) to Gdańsk? — Yes, I went last year.",
+      "answer": [
+        "Have you ever been",
+        "Have you been"
+      ],
+      "explanation": "Перше питання — про досвід → Present Perfect: Have you (ever) been…?"
+    },
+    {
+      "type": "error",
+      "sentence": "I lived here since 2020.",
+      "wrongIndex": 1,
+      "correction": "have lived",
+      "alt": [
+        "'ve lived",
+        "have been living",
+        "'ve been living"
+      ],
+      "explanation": "since + досі → Present Perfect: I have lived here since 2020."
+    },
+    {
+      "type": "error",
+      "sentence": "When have you come to Poland?",
+      "wrongIndex": 1,
+      "correction": "did",
+      "alt": [],
+      "explanation": "When…? → Past Simple: When did you come to Poland?"
+    },
+    {
+      "type": "order",
+      "prompt": "Я ніколи не був у Лондоні.",
+      "answer": [
+        "I've never been to London.",
+        "I have never been to London."
+      ],
+      "explanation": "Досвід."
+    },
+    {
+      "type": "transform",
+      "prompt": "She started working here in 2021. She still works here.",
+      "instruction": "Одним реченням з for/since",
+      "answer": [
+        "She has worked here since 2021.",
+        "She's worked here since 2021.",
+        "She has been working here since 2021.",
+        "She's been working here since 2021."
+      ],
+      "explanation": "since 2021 + досі."
+    },
+    {
+      "type": "translate",
+      "uk": "Я загубив ключі, тож не можу потрапити додому.",
+      "answer": [
+        "I've lost my keys, so I can't get home.",
+        "I have lost my keys, so I can't get home.",
+        "I've lost my keys so I can't get into my house.",
+        "I've lost my keys, so I can't get in.",
+        "I've lost my keys and I can't get home.",
+        "I've lost my keys, so I can't get into the house."
+      ],
+      "explanation": "Результат зараз."
+    }
   ]
- },
- "examples": [
-  {
-   "en": "I've been to Lviv many times. Last time I went there in May.",
-   "uk": "Я багато разів бував у Львові. Востаннє їздив у травні."
-  },
-  {
-   "en": "Have you heard the news? Tom got a new job!",
-   "uk": "Чув новину? Том отримав нову роботу!"
-  },
-  {
-   "en": "We've lived here since 2022.",
-   "uk": "Ми живемо тут з 2022 року."
-  },
-  {
-   "en": "We lived in Kyiv before the war.",
-   "uk": "До війни ми жили в Києві."
-  },
-  {
-   "en": "I haven't seen him this week.",
-   "uk": "Я не бачив його цього тижня."
-  },
-  {
-   "en": "When did you start learning English?",
-   "uk": "Коли ти почав вчити англійську?"
-  }
- ],
- "tip": "Питання з **When…?** — завжди Past Simple: *When did you arrive?* (не ~~When have you arrived?~~).",
- "exercises": [
-  {
-   "type": "choice",
-   "prompt": "When ___ you ___ here?",
-   "options": [
-    "have / come",
-    "did / come",
-    "have / came"
-   ],
-   "answer": "did / come",
-   "explanation": "When → Past Simple."
-  },
-  {
-   "type": "choice",
-   "prompt": "So far I ___ this film three times.",
-   "options": [
-    "saw",
-    "'ve seen",
-    "see"
-   ],
-   "answer": "'ve seen",
-   "explanation": "Досвід, час не вказано."
-  },
-  {
-   "type": "choice",
-   "prompt": "My grandfather ___ in a factory all his life. He retired in 2005.",
-   "options": [
-    "has worked",
-    "worked",
-    "works"
-   ],
-   "answer": "worked",
-   "explanation": "Дідусь уже на пенсії — період завершено → Past Simple."
-  },
-  {
-   "type": "choice",
-   "prompt": "___ you see the match last night?",
-   "options": [
-    "Have",
-    "Did",
-    "Were"
-   ],
-   "answer": "Did",
-   "explanation": "last night → Past Simple."
-  },
-  {
-   "type": "input",
-   "prompt": "We ___ (know) each other since school.",
-   "answer": [
-    "'ve known",
-    "have known"
-   ],
-   "explanation": "since + період до тепер."
-  },
-  {
-   "type": "input",
-   "prompt": "I ___ (lose) my umbrella yesterday.",
-   "answer": [
-    "lost"
-   ],
-   "explanation": "yesterday."
-  },
-  {
-   "type": "input",
-   "prompt": "___ (you / ever / be) to Gdańsk? — Yes, I went last year.",
-   "answer": [
-    "Have you ever been",
-    "Have you been"
-   ],
-   "explanation": "Перше питання — про досвід → Present Perfect: Have you (ever) been…?"
-  },
-  {
-   "type": "error",
-   "sentence": "I lived here since 2020.",
-   "wrongIndex": 1,
-   "correction": "have lived",
-   "alt": [
-    "'ve lived",
-    "have been living",
-    "'ve been living"
-   ],
-   "explanation": "since + досі → Present Perfect: I have lived here since 2020."
-  },
-  {
-   "type": "error",
-   "sentence": "When have you come to Poland?",
-   "wrongIndex": 1,
-   "correction": "did",
-   "alt": [],
-   "explanation": "When…? → Past Simple: When did you come to Poland?"
-  },
-  {
-   "type": "order",
-   "prompt": "Я ніколи не був у Лондоні.",
-   "answer": [
-    "I've never been to London.",
-    "I have never been to London."
-   ],
-   "explanation": "Досвід."
-  },
-  {
-   "type": "transform",
-   "prompt": "She started working here in 2021. She still works here.",
-   "instruction": "Одним реченням з for/since",
-   "answer": [
-    "She has worked here since 2021.",
-    "She's worked here since 2021.",
-    "She has been working here since 2021.",
-    "She's been working here since 2021."
-   ],
-   "explanation": "since 2021 + досі."
-  },
-  {
-   "type": "translate",
-   "uk": "Я загубив ключі, тож не можу потрапити додому.",
-   "answer": [
-    "I've lost my keys, so I can't get home.",
-    "I have lost my keys, so I can't get home.",
-    "I've lost my keys so I can't get into my house.",
-    "I've lost my keys, so I can't get in.",
-    "I've lost my keys and I can't get home.",
-    "I've lost my keys, so I can't get into the house."
-   ],
-   "explanation": "Результат зараз."
-  }
- ]
 }

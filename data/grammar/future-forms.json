@@ -1,164 +1,269 @@
 {
- "id": "future-forms",
- "title": "Майбутнє: will, going to, Present Continuous",
- "titleEn": "Future forms: will vs going to vs Present Continuous",
- "unit": "Майбутнє",
- "level": "B1",
- "mistakeType": "tenses",
- "explanation": "Англійська має кілька способів говорити про майбутнє:\n\n- **will** — рішення **в момент мовлення**, обіцянки, пропозиції, прогнози-думки: *I'll help you. I think it will rain.*\n- **be going to** — **намір**, вирішено заздалегідь; прогноз на основі того, що **бачимо**: *I'm going to learn to drive. Look at those clouds — it's going to rain.*\n- **Present Continuous** — **домовленість** з часом/місцем: *I'm meeting Anna at 6.*\n- **Present Simple** — розклад: *The train leaves at 7.*\n\nПісля *when, if, as soon as, before, after, until* про майбутнє — **Present Simple**: *I'll call you when I **get** home* (не ~~when I will get~~).",
- "formula": [
-  "will + V · be going to + V · am/is/are + V-ing",
-  "when/if/as soon as + **Present Simple**"
- ],
- "examples": [
-  {
-   "en": "The phone's ringing. — I'll get it!",
-   "uk": "Телефон дзвонить. — Я візьму!"
+  "id": "future-forms",
+  "title": "Майбутнє: will, going to, Present Continuous",
+  "titleEn": "Future forms: will vs going to vs Present Continuous",
+  "unit": "Майбутнє",
+  "level": "B1",
+  "mistakeType": "tenses",
+  "explanation": "- **will** + V: *I'll call · It won't rain · Will you help?* (*'ll*, *won't*)\n- **be going to** + V: *I'm going to buy · She isn't going to come · Are you going to stay?*\n- **Present Continuous** (am / is / are + V-ing) + час: *We're meeting at six.*\n- **Present Simple** — розклад: *The film starts at 8.*\n- **Shall I / we** + V? — пропозиція: *Shall I open the window?*\n\nПісля *when, if, as soon as, before, after, until* — **Present Simple** навіть про майбутнє: *I'll call you when I **get** home.*",
+  "guide": {
+    "idea": "В англійській немає одного «майбутнього часу» — форму обирають за тим, звідки береться майбутнє: вирішили щойно (will), задумали заздалегідь (going to), уже домовились (Present Continuous) чи це розклад (Present Simple).",
+    "use": [
+      {
+        "when": "Рішення щойно",
+        "note": "Вирішили в момент розмови — will.",
+        "en": "It's cold in here. I'll close the window.",
+        "uk": "Тут холодно. Я зачиню вікно."
+      },
+      {
+        "when": "Обіцянка, пропозиція, прохання",
+        "note": "I'll…, I won't…, Will you…? — та сама will.",
+        "en": "Don't worry, I won't tell anyone.",
+        "uk": "Не хвилюйся, я нікому не скажу."
+      },
+      {
+        "when": "План, задуманий заздалегідь",
+        "note": "Намір уже є, хоча деталі ще не домовлено, — be going to.",
+        "en": "We're going to redecorate the living room this summer.",
+        "uk": "Цього літа ми збираємося зробити ремонт у вітальні."
+      },
+      {
+        "when": "Домовленість з часом і місцем",
+        "note": "Уже в календарі, інша людина теж знає — Present Continuous.",
+        "en": "I'm having lunch with Sophie on Friday.",
+        "uk": "У п'ятницю я обідаю з Софі."
+      },
+      {
+        "when": "Прогноз: думка чи доказ",
+        "note": "Думка — will (I think, probably); доказ видно просто зараз — going to.",
+        "en": "Look at that sky — it's going to pour.",
+        "uk": "Подивись на небо — зараз поллє."
+      },
+      {
+        "when": "Розклад",
+        "note": "Потяги, фільми, уроки за розкладом — Present Simple.",
+        "en": "Our flight leaves at 6.40 tomorrow morning.",
+        "uk": "Наш рейс вилітає завтра о 6:40 ранку."
+      }
+    ],
+    "vs": [
+      {
+        "title": "will чи going to?",
+        "a": {
+          "en": "We've run out of milk? Oh, I'll buy some.",
+          "uk": "У нас закінчилося молоко? О, я куплю.",
+          "note": "Вирішив щойно, у момент розмови."
+        },
+        "b": {
+          "en": "I'm going to buy some milk — do you need anything?",
+          "uk": "Я йду купити молока — тобі щось треба?",
+          "note": "Рішення ухвалено раніше, зараз лише виконую."
+        }
+      },
+      {
+        "title": "going to чи Present Continuous?",
+        "a": {
+          "en": "I'm going to see a dentist.",
+          "uk": "Я збираюся сходити до стоматолога.",
+          "note": "Намір, але ще не записався."
+        },
+        "b": {
+          "en": "I'm seeing the dentist at three tomorrow.",
+          "uk": "Завтра о третій я йду до стоматолога.",
+          "note": "Запис уже є — домовленість."
+        }
+      },
+      {
+        "title": "Прогноз: will чи going to?",
+        "a": {
+          "en": "I think Emma will love the present.",
+          "uk": "Думаю, Еммі сподобається подарунок.",
+          "note": "Моя думка, припущення."
+        },
+        "b": {
+          "en": "Careful — that glass is going to fall!",
+          "uk": "Обережно — ця склянка зараз упаде!",
+          "note": "Бачу, що це от-от станеться."
+        }
+      }
+    ],
+    "signals": [],
+    "mistakes": [
+      {
+        "wrong": "I will call you when I will get home.",
+        "right": "I'll call you when I get home.",
+        "why": "Після when, if, as soon as — Present Simple навіть про майбутнє."
+      },
+      {
+        "wrong": "— The phone's ringing. — I'm going to answer it.",
+        "right": "— The phone's ringing. — I'll get it.",
+        "why": "Рішення в момент мовлення — will."
+      },
+      {
+        "wrong": "I go to the cinema tomorrow.",
+        "right": "I'm going to the cinema tomorrow.",
+        "why": "Present Simple про майбутнє — лише розклади; особисті плани — Present Continuous або going to."
+      },
+      {
+        "wrong": "Will I open the window?",
+        "right": "Shall I open the window?",
+        "why": "Пропозиція «Може, мені…?» — Shall I…?"
+      }
+    ]
   },
-  {
-   "en": "We're going to paint the bedroom this weekend.",
-   "uk": "Цих вихідних ми збираємося пофарбувати спальню."
-  },
-  {
-   "en": "I'm seeing the doctor on Thursday.",
-   "uk": "У четвер у мене прийом у лікаря."
-  },
-  {
-   "en": "I promise I won't tell anyone.",
-   "uk": "Обіцяю, що нікому не скажу."
-  },
-  {
-   "en": "Watch out! You're going to fall!",
-   "uk": "Обережно! Ти зараз упадеш!"
-  },
-  {
-   "en": "I'll text you as soon as I arrive.",
-   "uk": "Напишу, щойно приїду."
-  }
- ],
- "tip": "*Shall I…?* — пропозиція: *Shall I open the window?* (Відкрити вікно?)",
- "exercises": [
-  {
-   "type": "choice",
-   "prompt": "I'm thirsty. — I ___ get you some water.",
-   "options": [
-    "'ll",
-    "'m going to",
-    "am"
-   ],
-   "answer": "'ll",
-   "explanation": "Рішення в момент мовлення."
-  },
-  {
-   "type": "choice",
-   "prompt": "We ___ buy a new car next year. We've already saved the money.",
-   "options": [
-    "'ll",
-    "'re going to",
-    "buy"
-   ],
-   "answer": "'re going to",
-   "explanation": "Намір, вирішено заздалегідь."
-  },
-  {
-   "type": "choice",
-   "prompt": "I ___ my parents on Sunday — we've booked the tickets.",
-   "options": [
-    "visit",
-    "'m visiting",
-    "'ll visit"
-   ],
-   "answer": "'m visiting",
-   "explanation": "Домовленість."
-  },
-  {
-   "type": "choice",
-   "prompt": "Call me when you ___ home.",
-   "options": [
-    "will get",
-    "get",
-    "are getting"
-   ],
-   "answer": "get",
-   "explanation": "when + Present Simple."
-  },
-  {
-   "type": "choice",
-   "prompt": "Look at that sky! It ___ rain.",
-   "options": [
-    "'s going to",
-    "will",
-    "rains"
-   ],
-   "answer": "'s going to",
-   "explanation": "Прогноз за тим, що бачимо."
-  },
-  {
-   "type": "input",
-   "prompt": "Don't worry, I ___ (not / forget).",
-   "answer": [
-    "won't forget",
-    "will not forget"
-   ],
-   "explanation": "Обіцянка."
-  },
-  {
-   "type": "input",
-   "prompt": "The film ___ (start) at 8:30.",
-   "answer": [
-    "starts"
-   ],
-   "explanation": "Розклад."
-  },
-  {
-   "type": "error",
-   "sentence": "Look at those black clouds! It will rain.",
-   "wrongIndex": 6,
-   "correction": "is going to",
-   "alt": [
-    "'s going to"
-   ],
-   "explanation": "Прогноз за тим, що бачимо → be going to."
-  },
-  {
-   "type": "error",
-   "sentence": "If it rains tomorrow, we stays at home.",
-   "wrongIndex": 5,
-   "correction": "will stay",
-   "alt": [
-    "'ll stay"
-   ],
-   "explanation": "Головна частина: will + V."
-  },
-  {
-   "type": "order",
-   "prompt": "Що ти робиш цього вечора?",
-   "answer": [
-    "What are you doing this evening?"
-   ],
-   "explanation": "Плани/домовленості → Present Continuous."
-  },
-  {
-   "type": "transform",
-   "prompt": "My plan is to learn Spanish next year.",
-   "instruction": "Перепишіть з going to",
-   "answer": [
-    "I'm going to learn Spanish next year.",
-    "I am going to learn Spanish next year."
-   ],
-   "explanation": "Намір, вирішений заздалегідь → be going to + V."
-  },
-  {
-   "type": "translate",
-   "uk": "Я допоможу тобі з валізами.",
-   "answer": [
-    "I'll help you with your suitcases.",
-    "I will help you with your suitcases.",
-    "I'll help you with the suitcases.",
-    "I'll help you with your luggage.",
-    "I'll help you with the luggage."
-   ],
-   "explanation": "Пропозиція → will."
-  }
- ]
+  "formula": [
+    "will + V · be going to + V · am/is/are + V-ing",
+    "when/if/as soon as + **Present Simple**"
+  ],
+  "examples": [
+    {
+      "en": "The phone's ringing. — I'll get it!",
+      "uk": "Телефон дзвонить. — Я візьму!"
+    },
+    {
+      "en": "We're going to paint the bedroom this weekend.",
+      "uk": "Цих вихідних ми збираємося пофарбувати спальню."
+    },
+    {
+      "en": "I'm seeing the doctor on Thursday.",
+      "uk": "У четвер у мене прийом у лікаря."
+    },
+    {
+      "en": "I promise I won't tell anyone.",
+      "uk": "Обіцяю, що нікому не скажу."
+    },
+    {
+      "en": "Watch out! You're going to fall!",
+      "uk": "Обережно! Ти зараз упадеш!"
+    },
+    {
+      "en": "I'll text you as soon as I arrive.",
+      "uk": "Напишу, щойно приїду."
+    }
+  ],
+  "tip": "*Shall I…?* — пропозиція: *Shall I open the window?* (Відкрити вікно?)",
+  "exercises": [
+    {
+      "type": "choice",
+      "prompt": "I'm thirsty. — I ___ get you some water.",
+      "options": [
+        "'ll",
+        "'m going to",
+        "am"
+      ],
+      "answer": "'ll",
+      "explanation": "Рішення в момент мовлення."
+    },
+    {
+      "type": "choice",
+      "prompt": "We ___ buy a new car next year. We've already saved the money.",
+      "options": [
+        "'ll",
+        "'re going to",
+        "buy"
+      ],
+      "answer": "'re going to",
+      "explanation": "Намір, вирішено заздалегідь."
+    },
+    {
+      "type": "choice",
+      "prompt": "I ___ my parents on Sunday — we've booked the tickets.",
+      "options": [
+        "visit",
+        "'m visiting",
+        "'ll visit"
+      ],
+      "answer": "'m visiting",
+      "explanation": "Домовленість."
+    },
+    {
+      "type": "choice",
+      "prompt": "Call me when you ___ home.",
+      "options": [
+        "will get",
+        "get",
+        "are getting"
+      ],
+      "answer": "get",
+      "explanation": "when + Present Simple."
+    },
+    {
+      "type": "choice",
+      "prompt": "Look at that sky! It ___ rain.",
+      "options": [
+        "'s going to",
+        "will",
+        "rains"
+      ],
+      "answer": "'s going to",
+      "explanation": "Прогноз за тим, що бачимо."
+    },
+    {
+      "type": "input",
+      "prompt": "Don't worry, I ___ (not / forget).",
+      "answer": [
+        "won't forget",
+        "will not forget"
+      ],
+      "explanation": "Обіцянка."
+    },
+    {
+      "type": "input",
+      "prompt": "The film ___ (start) at 8:30.",
+      "answer": [
+        "starts"
+      ],
+      "explanation": "Розклад."
+    },
+    {
+      "type": "error",
+      "sentence": "Look at those black clouds! It will rain.",
+      "wrongIndex": 6,
+      "correction": "is going to",
+      "alt": [
+        "'s going to"
+      ],
+      "explanation": "Прогноз за тим, що бачимо → be going to."
+    },
+    {
+      "type": "error",
+      "sentence": "If it rains tomorrow, we stays at home.",
+      "wrongIndex": 5,
+      "correction": "will stay",
+      "alt": [
+        "'ll stay"
+      ],
+      "explanation": "Головна частина: will + V."
+    },
+    {
+      "type": "order",
+      "prompt": "Що ти робиш цього вечора?",
+      "answer": [
+        "What are you doing this evening?"
+      ],
+      "explanation": "Плани/домовленості → Present Continuous."
+    },
+    {
+      "type": "transform",
+      "prompt": "My plan is to learn Spanish next year.",
+      "instruction": "Перепишіть з going to",
+      "answer": [
+        "I'm going to learn Spanish next year.",
+        "I am going to learn Spanish next year."
+      ],
+      "explanation": "Намір, вирішений заздалегідь → be going to + V."
+    },
+    {
+      "type": "translate",
+      "uk": "Я допоможу тобі з валізами.",
+      "answer": [
+        "I'll help you with your suitcases.",
+        "I will help you with your suitcases.",
+        "I'll help you with the suitcases.",
+        "I'll help you with your luggage.",
+        "I'll help you with the luggage."
+      ],
+      "explanation": "Пропозиція → will."
+    }
+  ]
 }

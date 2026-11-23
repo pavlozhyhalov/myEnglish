@@ -1,155 +1,262 @@
 {
- "id": "past-perfect",
- "title": "Past Perfect",
- "titleEn": "Past Perfect (had + V3)",
- "unit": "Минулі часи",
- "level": "B1",
- "mistakeType": "tenses",
- "explanation": "**Past Perfect** — «минуле в минулому»: дія відбулася **раніше** за іншу минулу дію.\n\n*When we got to the station, the train **had** already **left**.* — спочатку потяг поїхав, потім ми прийшли.\n\nЧасто з *already, just, before, after, by the time, never… before*.\n\nЯкщо порядок дій і так зрозумілий (*after, before*), Past Perfect не обов'язковий: *After I finished work, I went home* — нормально.",
- "formula": [
-  "had + **V3**",
-  "− hadn't + V3 · ? Had + S + V3?"
- ],
- "examples": [
-  {
-   "en": "When I arrived, the film had already started.",
-   "uk": "Коли я прийшов, фільм уже почався."
+  "id": "past-perfect",
+  "title": "Past Perfect",
+  "titleEn": "Past Perfect (had + V3)",
+  "unit": "Минулі часи",
+  "level": "B1",
+  "mistakeType": "tenses",
+  "explanation": "**Утворення:** had + **V3** — однаково для всіх осіб.\n\n- **+** I / she / they **had** (I'd) left\n- **−** **hadn't** + V3: *We hadn't met before.*\n- **?** Had + підмет + V3: ***Had** you **been** there before?*\n\nСкорочення *'d* = **had** або **would**: *I'd left* (had + V3) · *I'd leave* (would + V) — розрізняємо за формою дієслова.",
+  "guide": {
+    "idea": "Past Perfect — «минуле до минулого». Коли ви вже розповідаєте про минуле в Past Simple, а треба сказати, що щось сталося ще раніше, для цієї ранішої дії беремо had + V3. Так слухач не заплутається в порядку подій.",
+    "use": [
+      {
+        "when": "Сталося раніше за іншу подію",
+        "note": "Дві минулі дії: раніша — Past Perfect, пізніша — Past Simple.",
+        "en": "When we got to the station, the train had already left.",
+        "uk": "Коли ми прийшли на вокзал, потяг уже поїхав."
+      },
+      {
+        "when": "Причина в минулому",
+        "note": "Пояснюємо, чому так було, — причина сталася раніше.",
+        "en": "Sophie was upset because she had lost her phone.",
+        "uk": "Софі була засмучена, бо загубила телефон."
+      },
+      {
+        "when": "Досвід до певного моменту",
+        "note": "Як Present Perfect, але відлік — від моменту в минулому: never… before, for the first time.",
+        "en": "I had never flown before that trip.",
+        "uk": "До тієї поїздки я ніколи не літав."
+      },
+      {
+        "when": "До певного часу в минулому",
+        "note": "by the time, by then — до цього моменту дію вже завершено.",
+        "en": "By the time I got home, the kids had gone to bed.",
+        "uk": "Коли я дістався додому, діти вже лягли спати."
+      },
+      {
+        "when": "Переказ чужих слів",
+        "note": "У непрямій мові Past Simple і Present Perfect зсуваються в Past Perfect.",
+        "en": "Tom said he had already seen the film.",
+        "uk": "Том сказав, що вже бачив цей фільм."
+      }
+    ],
+    "vs": [
+      {
+        "title": "Past Simple чи Past Perfect після when?",
+        "a": {
+          "en": "When I arrived, Emma left.",
+          "uk": "Коли я прийшов, Емма пішла.",
+          "note": "Спершу я прийшов, потім вона пішла — ми бачились."
+        },
+        "b": {
+          "en": "When I arrived, Emma had left.",
+          "uk": "Коли я прийшов, Емма вже пішла.",
+          "note": "Вона пішла до мого приходу — ми розминулися."
+        }
+      },
+      {
+        "title": "Коли Past Perfect не потрібен",
+        "a": {
+          "en": "I had a shower and went to bed.",
+          "uk": "Я прийняв душ і ліг спати.",
+          "note": "Дії названо в тому ж порядку, що й сталися, — досить Past Simple."
+        },
+        "b": {
+          "en": "I was tired because I had worked all day.",
+          "uk": "Я був втомлений, бо працював цілий день.",
+          "note": "Повертаємось назад у часі — потрібен Past Perfect."
+        }
+      },
+      {
+        "title": "Present Perfect чи Past Perfect?",
+        "a": {
+          "en": "I've lost my keys.",
+          "uk": "Я загубив ключі.",
+          "note": "Відлік від «зараз»: ключів немає зараз."
+        },
+        "b": {
+          "en": "I'd lost my keys, so I couldn't get in.",
+          "uk": "Я загубив ключі, тож не міг зайти.",
+          "note": "Відлік від моменту в минулому."
+        }
+      }
+    ],
+    "signals": [
+      "already",
+      "just",
+      "never … before",
+      "by the time",
+      "before",
+      "after",
+      "because"
+    ],
+    "mistakes": [
+      {
+        "wrong": "When I came, the film already started.",
+        "right": "When I came, the film had already started.",
+        "why": "Фільм почався раніше за мій прихід — для ранішої дії Past Perfect."
+      },
+      {
+        "wrong": "I had seen him yesterday.",
+        "right": "I saw him yesterday.",
+        "why": "Одна минула подія без «ранішої» — Past Simple; Past Perfect не означає «давно»."
+      },
+      {
+        "wrong": "She said she has lost her bag.",
+        "right": "She said she had lost her bag.",
+        "why": "Після said минуле й Present Perfect зсуваються в Past Perfect."
+      },
+      {
+        "wrong": "By then everyone had went home.",
+        "right": "By then everyone had gone home.",
+        "why": "Після had — третя форма (gone), а не друга (went)."
+      }
+    ]
   },
-  {
-   "en": "I had never seen the sea before that trip.",
-   "uk": "До тієї поїздки я ніколи не бачив моря."
-  },
-  {
-   "en": "She was upset because she had lost her phone.",
-   "uk": "Вона була засмучена, бо загубила телефон."
-  },
-  {
-   "en": "By the time we got home, the kids had fallen asleep.",
-   "uk": "Коли ми дісталися додому, діти вже заснули."
-  },
-  {
-   "en": "Had you met him before the party?",
-   "uk": "Ти був знайомий з ним до вечірки?"
-  }
- ],
- "tip": "Порівняй: *When I arrived, she **left*** (пішла, коли я прийшов) vs *When I arrived, she **had left*** (пішла ще до мене).",
- "exercises": [
-  {
-   "type": "choice",
-   "prompt": "When we got to the cinema, the film ___.",
-   "options": [
-    "already started",
-    "had already started",
-    "has already started"
-   ],
-   "answer": "had already started",
-   "explanation": "Почався раніше, ніж ми прийшли."
-  },
-  {
-   "type": "choice",
-   "prompt": "I ___ never ___ snow before I came to Poland.",
-   "options": [
-    "have / seen",
-    "had / seen",
-    "did / see"
-   ],
-   "answer": "had / seen",
-   "explanation": "До моменту в минулому."
-  },
-  {
-   "type": "choice",
-   "prompt": "She was hungry because she ___ breakfast.",
-   "options": [
-    "doesn't have",
-    "hadn't had",
-    "hasn't had"
-   ],
-   "answer": "hadn't had",
-   "explanation": "Причина раніше за стан."
-  },
-  {
-   "type": "choice",
-   "prompt": "By the time the police arrived, the thief ___.",
-   "options": [
-    "escaped",
-    "had escaped",
-    "has escaped"
-   ],
-   "answer": "had escaped",
-   "explanation": "By the time → Past Perfect."
-  },
-  {
-   "type": "input",
-   "prompt": "I couldn't log in because I ___ (forget) my password. (Past Perfect)",
-   "answer": [
-    "had forgotten",
-    "'d forgotten"
-   ],
-   "explanation": "Спочатку забув, потім не зміг."
-  },
-  {
-   "type": "input",
-   "prompt": "They ___ (just / leave) when we arrived.",
-   "answer": [
-    "had just left",
-    "'d just left"
-   ],
-   "explanation": "just між had і V3."
-  },
-  {
-   "type": "input",
-   "prompt": "___ (you / ever / try) Thai food before last night? (Past Perfect)",
-   "answer": [
-    "Had you ever tried"
-   ],
-   "explanation": "До вчорашнього вечора."
-  },
-  {
-   "type": "error",
-   "sentence": "When I got home, my wife has cooked dinner.",
-   "wrongIndex": 6,
-   "correction": "had",
-   "alt": [],
-   "explanation": "Минуле в минулому → had cooked."
-  },
-  {
-   "type": "error",
-   "sentence": "I realised I had leave my keys in the car.",
-   "wrongIndex": 4,
-   "correction": "left",
-   "alt": [],
-   "explanation": "had + V3: left."
-  },
-  {
-   "type": "order",
-   "prompt": "Він сказав, що вже бачив цей фільм.",
-   "answer": [
-    "He said he had already seen the film."
-   ],
-   "explanation": "Узгодження в минулому."
-  },
-  {
-   "type": "transform",
-   "prompt": "The bus left. Then I arrived at the stop.",
-   "instruction": "Одне речення: When I arrived…",
-   "answer": [
-    "When I arrived at the stop, the bus had left.",
-    "When I arrived at the stop, the bus had already left."
-   ],
-   "explanation": "Автобус поїхав раніше → had (already) left."
-  },
-  {
-   "type": "translate",
-   "uk": "Коли я подзвонив, вона вже пішла.",
-   "answer": [
-    "When I called, she had already left.",
-    "When I called, she had left.",
-    "She had already left when I called.",
-    "When I called, she'd already left.",
-    "When I called, she'd left.",
-    "She'd already left when I called."
-   ],
-   "explanation": "Пішла раніше, ніж я подзвонив → had (already) left."
-  }
- ]
+  "formula": [
+    "had + **V3**",
+    "− hadn't + V3 · ? Had + S + V3?"
+  ],
+  "examples": [
+    {
+      "en": "When I arrived, the film had already started.",
+      "uk": "Коли я прийшов, фільм уже почався."
+    },
+    {
+      "en": "I had never seen the sea before that trip.",
+      "uk": "До тієї поїздки я ніколи не бачив моря."
+    },
+    {
+      "en": "She was upset because she had lost her phone.",
+      "uk": "Вона була засмучена, бо загубила телефон."
+    },
+    {
+      "en": "By the time we got home, the kids had fallen asleep.",
+      "uk": "Коли ми дісталися додому, діти вже заснули."
+    },
+    {
+      "en": "Had you met him before the party?",
+      "uk": "Ти був знайомий з ним до вечірки?"
+    }
+  ],
+  "tip": "Порівняй: *When I arrived, she **left*** (пішла, коли я прийшов) vs *When I arrived, she **had left*** (пішла ще до мене).",
+  "exercises": [
+    {
+      "type": "choice",
+      "prompt": "When we got to the cinema, the film ___.",
+      "options": [
+        "already started",
+        "had already started",
+        "has already started"
+      ],
+      "answer": "had already started",
+      "explanation": "Почався раніше, ніж ми прийшли."
+    },
+    {
+      "type": "choice",
+      "prompt": "I ___ never ___ snow before I came to Poland.",
+      "options": [
+        "have / seen",
+        "had / seen",
+        "did / see"
+      ],
+      "answer": "had / seen",
+      "explanation": "До моменту в минулому."
+    },
+    {
+      "type": "choice",
+      "prompt": "She was hungry because she ___ breakfast.",
+      "options": [
+        "doesn't have",
+        "hadn't had",
+        "hasn't had"
+      ],
+      "answer": "hadn't had",
+      "explanation": "Причина раніше за стан."
+    },
+    {
+      "type": "choice",
+      "prompt": "By the time the police arrived, the thief ___.",
+      "options": [
+        "escaped",
+        "had escaped",
+        "has escaped"
+      ],
+      "answer": "had escaped",
+      "explanation": "By the time → Past Perfect."
+    },
+    {
+      "type": "input",
+      "prompt": "I couldn't log in because I ___ (forget) my password. (Past Perfect)",
+      "answer": [
+        "had forgotten",
+        "'d forgotten"
+      ],
+      "explanation": "Спочатку забув, потім не зміг."
+    },
+    {
+      "type": "input",
+      "prompt": "They ___ (just / leave) when we arrived.",
+      "answer": [
+        "had just left",
+        "'d just left"
+      ],
+      "explanation": "just між had і V3."
+    },
+    {
+      "type": "input",
+      "prompt": "___ (you / ever / try) Thai food before last night? (Past Perfect)",
+      "answer": [
+        "Had you ever tried"
+      ],
+      "explanation": "До вчорашнього вечора."
+    },
+    {
+      "type": "error",
+      "sentence": "When I got home, my wife has cooked dinner.",
+      "wrongIndex": 6,
+      "correction": "had",
+      "alt": [],
+      "explanation": "Минуле в минулому → had cooked."
+    },
+    {
+      "type": "error",
+      "sentence": "I realised I had leave my keys in the car.",
+      "wrongIndex": 4,
+      "correction": "left",
+      "alt": [],
+      "explanation": "had + V3: left."
+    },
+    {
+      "type": "order",
+      "prompt": "Він сказав, що вже бачив цей фільм.",
+      "answer": [
+        "He said he had already seen the film."
+      ],
+      "explanation": "Узгодження в минулому."
+    },
+    {
+      "type": "transform",
+      "prompt": "The bus left. Then I arrived at the stop.",
+      "instruction": "Одне речення: When I arrived…",
+      "answer": [
+        "When I arrived at the stop, the bus had left.",
+        "When I arrived at the stop, the bus had already left."
+      ],
+      "explanation": "Автобус поїхав раніше → had (already) left."
+    },
+    {
+      "type": "translate",
+      "uk": "Коли я подзвонив, вона вже пішла.",
+      "answer": [
+        "When I called, she had already left.",
+        "When I called, she had left.",
+        "She had already left when I called.",
+        "When I called, she'd already left.",
+        "When I called, she'd left.",
+        "She'd already left when I called."
+      ],
+      "explanation": "Пішла раніше, ніж я подзвонив → had (already) left."
+    }
+  ]
 }
