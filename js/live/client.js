@@ -6,7 +6,14 @@ import { liveToken, AiError } from '../ai.js';
 // Токен відкриває нові сесії весь свій час (live-token: newSessionExpireTime = expireTime) — новий токен лише перед закінченням строку.
 const CONNECT_TIMEOUT_MS = 10_000;   // від відкриття сокета до setupComplete — далі вважаємо спробу невдалою
 const RECONNECT_BUDGET_MS = 45_000;  // скільки пробуємо відновити зв'язок, перш ніж здатися
-const STALL_MS = 10_000;  // 21.11: було 20 с — учень двічі перепитував «can you hear me?» до відновлення             // учень говорив, а від сервера ні слова стільки часу — з'єднання «мертве», відновлюємо (з запасом: довгий монолог без проміжних субтитрів — не збій)
+// Сторож «мертвого» з'єднання (2026-11-23, власник: «на 11-й хв перестав мене чути»): 21.11 сторож рвав сесію, щойно мікрофон 10 с чув мовлення
+// чи шум, а сервер мовчав (довга репліка, шум) — відновлення, 1008 «already connected», знову відновлення кожні 10 с, вчитель нічого не чув.
+// Тепер — лише за доказом: текстовий запит (завжди має відповідь) без жодного слова сервера TEXT_STALL_MS, або закрита репліка учня
+// (audioStreamEnd) без відповіді й сервер мовчить ≥ QUIET_STALL_MS. Між спрацюваннями — пауза, що подвоюється (60 → 240 с).
+const TEXT_STALL_MS = 8_000;
+const END_STALL_MS = 10_000;
+const QUIET_STALL_MS = 20_000;
+const STALL_GAP_MS = 60_000;
 const dec = new TextDecoder();
 
 const b64 = {
@@ -50,6 +57,10 @@ export class LiveClient extends EventTarget {
     this.heardAt = 0;
     this.failStart = 0;          // початок поточної серії невдалих перепідключень
     this.handleFails = 0;        // невдалі спроби з handle поспіль
+    this.expectAt = 0;           // коли надіслано текст, на який сервер зобов'язаний відповісти
+    this.streamEndAt = 0;        // коли закрито репліку учня (audioStreamEnd)
+    this.stallAt = 0;            // останнє спрацювання сторожа
+    this.stallN = 0;             // спрацювань поспіль без нормальної відповіді вчителя
     this.watch = setInterval(() => this.checkStall(), 2000);
   }
   /** Учень щойно говорив (пакет з голосом) — для сторожа «мертвого» з'єднання */
@@ -63,6 +74,7 @@ export class LiveClient extends EventTarget {
     if (this.lastSpeechAt > this.lastReplyAt && this.streamEndFor !== this.lastSpeechAt && quiet > (this.token?.pauseMs || 1600) + 2500 && quiet < 15000) {
       this.streamEndFor = this.lastSpeechAt;
       this.log(`no reply ${Math.round(quiet / 100) / 10}s after speech → audioStreamEnd`);
+      this.streamEndAt = now;
       try { this.ws.send(JSON.stringify({ realtimeInput: { audioStreamEnd: true } })); } catch { /* */ }
     }
     // Live розпізнав слова учня, але «хід» так і не закрився — вчитель мовчить, учень питає «can you hear me?» (18.11: тричі за день,
@@ -74,13 +86,18 @@ export class LiveClient extends EventTarget {
       this.lastReplyAt = now;
       this.log(`no reply to "${t.slice(0, 40)}" → sent as text`);
       this.emit('nudge', t);
+      this.expectAt = now;
       try { this.ws.send(JSON.stringify({ clientContent: { turns: [{ role: 'user', parts: [{ text: t }] }], turnComplete: true } })); } catch { /* */ }
     }
-    const deaf = this.lastSpeechAt > this.lastServerAt + 2000 && now - this.lastServerAt > STALL_MS && now - this.lastSpeechAt < 4000;
+    const textDeaf = this.expectAt > this.lastServerAt && now - this.expectAt > TEXT_STALL_MS;
+    const endDeaf = this.streamEndAt > this.lastServerAt && now - this.streamEndAt > END_STALL_MS && now - this.lastServerAt > QUIET_STALL_MS;
     const clogged = (this.ws?.bufferedAmount || 0) > 256 * 1024;
-    if (!deaf && !clogged) return;
-    this.log(`stall · ${clogged ? 'send buffer ' + this.ws.bufferedAmount : 'no server reply ' + Math.round((now - this.lastServerAt) / 1000) + 's'}`);
-    this.lastServerAt = now;   // не частіше одного разу на STALL_MS
+    if (!textDeaf && !endDeaf && !clogged) return;
+    const gap = STALL_GAP_MS * 2 ** Math.min(2, Math.max(0, this.stallN - 1));
+    if (!clogged && this.stallAt && now - this.stallAt < gap) return;
+    this.stallAt = now; this.stallN++;
+    this.expectAt = 0; this.streamEndAt = 0;
+    this.log(`stall · ${clogged ? 'send buffer ' + this.ws.bufferedAmount : (textDeaf ? 'text' : 'turn end') + ' unanswered · server quiet ' + Math.round((now - this.lastServerAt) / 1000) + 's'}`);
     if (this.handle) this.resumeNow('stall', true);
     else { const old = this.ws; this.ws = null; this.ready = false; try { old.onclose = null; old.close(); } catch { /* */ } this.reconnect(); }
   }
@@ -164,7 +181,9 @@ export class LiveClient extends EventTarget {
             try { await this.connect(); resolve(); } catch (e) { reject(e); }
             return;
           }
-          reject(new AiError(ev.code === 1008 ? 'live_denied' : 'live_failed', ev.reason || 'Live недоступний'));
+          // «session is already connected to an existing client» — старий сокет ще не відпущено сервером: не відмова, просто повторити
+          const busy = /already connected/i.test(ev.reason || '');
+          reject(new AiError(ev.code === 1008 && !busy ? 'live_denied' : 'live_failed', ev.reason || 'Live недоступний'));
           return;
         }
         this.reconnect(ev);
@@ -190,7 +209,7 @@ export class LiveClient extends EventTarget {
       if (e?.code === 'quota') { this.emit('error', e); return; }
       // handle тримаємо кілька спроб: обрив мережі — не причина втрачати пам'ять розмови; токен — оновити
       if (e?.code === 'live_denied') this.token = null;
-      if (this.handle && ++this.handleFails >= 3) { this.log('resume failed 3×, new session'); this.handle = null; }
+      if (this.handle && !/already connected/i.test(e?.message || '') && ++this.handleFails >= 3) { this.log('resume failed 3×, new session'); this.handle = null; }
       this.reconnect(ev);
     }
   }
@@ -219,10 +238,16 @@ export class LiveClient extends EventTarget {
     this.log(`session resumption · ${why}`);
     const old = this.ws;
     this.ws = null; this.ready = false;
-    if (old) { old.onclose = null; try { old.close(); } catch { /* */ } }
+    // нове з'єднання — лише після закриття старого (до 2 с): інакше сервер відповідає 1008 «already connected» і спроба згорає
+    const closed = new Promise(r => {
+      if (!old || old.readyState === 3) return r();
+      old.onclose = () => r();
+      setTimeout(r, 2000);
+      try { old.close(1000, 'resume'); } catch { r(); }
+    });
     // планове відновлення — тихо (без «Зв'язок перервано»), збій — з повідомленням
     this.emit(failure ? 'reconnecting' : 'resuming');
-    this.connect().catch(() => { if (!this.closedByUser) this.reconnect(); });
+    closed.then(() => this.closedByUser || this.ws ? null : this.connect()).catch(() => { if (!this.closedByUser) this.reconnect(); });
   }
   /**
    * Нова сесія замість втраченої (відновлення за handle не вдалося): передаємо вчителю стенограму розмови,
@@ -246,6 +271,7 @@ export class LiveClient extends EventTarget {
       + lines.join('\n')
       + '\nContinue naturally from the last point in one or two short sentences: answer the student\'s last line or invite them to go on.)';
     this.ws.send(JSON.stringify({ clientContent: { turns: [{ role: 'user', parts: [{ text }] }], turnComplete: true } }));
+    this.expectAt = Date.now();
   }
   flushPending() {
     const q = this.pending; this.pending = [];
@@ -279,6 +305,7 @@ export class LiveClient extends EventTarget {
     const sc = msg.serverContent;
     if (!sc) return;
     if (sc.modelTurn || sc.turnComplete || sc.interrupted) this.lastReplyAt = Date.now();
+    if (sc.modelTurn) this.stallN = 0;   // вчитель відповідає — з'єднання справне, пауза сторожа знову мінімальна
     if (sc.interrupted) this.emit('interrupted');
     if (sc.inputTranscription?.text) { this.heard = (this.heard + sc.inputTranscription.text).slice(-3000); this.heardAt = Date.now(); this.emit('input', sc.inputTranscription.text); }
     if (sc.modelTurn || sc.outputTranscription?.text) this.heard = '';
@@ -310,6 +337,7 @@ export class LiveClient extends EventTarget {
   }
   sendText(text) {
     if (!this.ready || this.ws?.readyState !== 1) return false;
+    this.expectAt = Date.now();
     this.ws.send(JSON.stringify({ clientContent: { turns: [{ role: 'user', parts: [{ text }] }], turnComplete: true } }));
     return true;
   }
