@@ -8,6 +8,7 @@ import { go } from '../router.js';
 import { setTitle } from '../ui/shell.js';
 import { activityTimer } from '../stats.js';
 import { byFit, levelTag, myLevel, levelChips, levelCounts, levelPick, filterByLevel, fallbackNote, pickOfDay } from '../level.js';
+import { taskOfDay, writingWritten, writingDoneToday } from '../done.js';
 import { tx, txPrimary, txGroup, txRow, txRows } from '../ui/tiles.js';
 
 /** Іконка з мапи emo() у квадратику плитки (дані завдань зберігають назви emo) */
@@ -24,7 +25,8 @@ export default async function writing(view, r) {
     if (t) return taskView(view, t);
   }
   // завдання дня — те саме, що в «Завданнях рівня» на головній
-  const day = pickOfDay(filterByLevel(all.filter(x => x.group !== 'work'), 'mine').items, 'writing');
+  const day = taskOfDay(filterByLevel(all.filter(x => x.group !== 'work'), 'mine').items, 'writing', writingWritten, writingDoneToday);
+  const dayDone = day && writingDoneToday(day.id);
   // завдання вибраного рівня: до 6, решта — «Показати всі»
   const list = h('div.stack');
   let open = false;
@@ -35,11 +37,11 @@ export default async function writing(view, r) {
     const rest = sorted.filter(t => t !== day);   // завдання дня — головна дія вгорі
     const shown = open ? sorted : rest.slice(0, 6);
     list.replaceChildren(fallbackNote(fallback), txRows([...shown.map(t => sqEmo(txRow({ icon: 'envelope-simple', label: t.title, sub: `${t.kindLabel} · ${t.words} слів`,
-      href: `#/writing/${t.id}`, end: sel === 'all' || fallback ? levelTag(t.level) : null }), t.emoji || 'envelope')),
+      href: `#/writing/${t.id}`, pill: writingWritten(t.id) ? { text: 'написано', tone: 'good' } : null, end: sel === 'all' || fallback ? levelTag(t.level) : null }), t.emoji || 'envelope')),
       !open && rest.length > 6 ? txRow({ icon: 'caret-down', label: `Показати всі · ${sorted.length}`, chevron: false, cls: 'tx-showall', onclick: () => { open = true; draw(); } }) : null]));
   };
   view.replaceChildren(h('div.stack-lg',
-    day ? sqEmo(txPrimary({ icon: 'envelope-simple', label: day.title, sub: `Завдання дня · ${day.kindLabel} · ${day.words} слів`, href: `#/writing/${day.id}` }), day.emoji || 'envelope') : null,
+    day ? sqEmo(txPrimary({ icon: dayDone ? 'check' : 'envelope-simple', label: day.title, sub: dayDone ? 'Завдання дня · готово' : `Завдання дня · ${day.kindLabel} · ${day.words} слів`, href: `#/writing/${day.id}` }), day.emoji || 'envelope') : null,
     txGroup('Листи, повідомлення й есе', [levelChips('writing', levelCounts(tasks), () => { open = false; draw(); }), list]),
     txGroup('Свій текст', tx({ icon: 'sparkle', label: 'Перевірити довільний текст', sub: 'Вчитель виправить і пояснить', wide: true, href: '#/tutor?mode=check' }))));
   draw();
@@ -88,7 +90,7 @@ function taskView(view, t) {
       if (ta.value.trim().length < 20) { toast('Напишіть хоча б кілька речень'); return; }
       try { sessionStorage.setItem('me:draft', ta.value); } catch { /* */ }
       timer.stop();
-      go(`/tutor?mode=check&kind=${t.kind}&task=${encodeURIComponent(t.task)}`);
+      go(`/tutor?mode=check&kind=${t.kind}&task=${encodeURIComponent(t.task)}&wid=${encodeURIComponent(t.id)}`);
     } }),
     t.sample ? h('details.wr-gl.wr-sample',
       h('summary.wr-gl-head', h('span.tx-sq', ic('eye', { size: 18 })), h('span.tx-body', h('span.tx-l', 'Зразок відповіді'), h('span.tx-s', 'Подивіться після власної спроби')), ic('caret-down', { size: 18 })),

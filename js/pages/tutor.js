@@ -1488,7 +1488,8 @@ function checkMode(view, q) {
     btn.disabled = true; repaintTx(btn, 'hourglass', 'Вчитель читає…', 'до пів хвилини');
     try {
       const res = await tutor('check_text', { text, kind, task: q.task || null });
-      const row = store.put('tutor_chats', { mode: 'check', title: `Перевірка: ${text.slice(0, 40)}…`, messages: [{ role: 'user', text }], summary: res, seconds: Math.round(timer.seconds()) });
+      // завдання «Письма» (wid) — у summary (синхронізується): «написано» / «готово» на сторінці письма (js/done.js)
+      const row = store.put('tutor_chats', { mode: 'check', title: `Перевірка: ${text.slice(0, 40)}…`, messages: [{ role: 'user', text }], summary: q.wid ? { ...res, writing: String(q.wid).slice(0, 80) } : res, seconds: Math.round(timer.seconds()) });
       for (const c of res.corrections || []) addMistake({ wrong: c.wrong, right: c.right, type: c.type, rule: c.rule, explanation_uk: c.explanation_uk, source: 'tutor', ref: row.id });
       timer.poke();
       timer.setRef(row.id);

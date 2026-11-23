@@ -14,6 +14,7 @@ import { toast } from '../ui/toast.js';
 import { greetName } from './profile.js';
 import { tx, txGrid, txGroup, txBar, txDots } from '../ui/tiles.js';
 import { startDay, startPlan, finishStart, goalPicks, goalTags } from '../start.js';
+import { scenarioOfDay, scenarioDoneToday } from '../done.js';
 import { myLevel, LEVEL_NAME, nextLessonByLevel, byFit, diff, levelProgress, nextLevel, filterByLevel, pickOfDay, setLevel, LEVELS as LEVEL_ORDER, levelPlan, lvLabel } from '../level.js';
 
 const nMistakes = (n) => `${n} ${plural(n, 'помилка', 'помилки', 'помилок')}`;
@@ -109,7 +110,7 @@ export default async function home(view) {
     blocks.push(slot);
     goalPicks(3).then(list => {
       if (!slot.parentNode || !list.length) { slot.remove?.(); return; }
-      slot.replaceWith(txGroup('Для вашої цілі', txGrid(list.map(p => tx({ icon: p.icon, label: p.label, sub: p.sub, href: p.href, cls: 'hm-goal-t' }))), { label: 'Змінити', href: '#/profile' }));
+      slot.replaceWith(txGroup('Для вашої цілі', txGrid(list.map(p => tx({ icon: p.done ? 'check' : p.icon, label: p.label, sub: p.done ? `${p.sub} · готово` : p.sub, href: p.href, tone: p.done ? 'good' : null, cls: 'hm-goal-t' }))), { label: 'Змінити', href: '#/profile' }));
     }).catch(() => slot.remove?.());
   }
 
@@ -332,10 +333,8 @@ async function fillLevelTasks(box, lvl, lesson) {
   const [scen, lis, rdMod, lsMod] = await Promise.all([loadScenarios(), loadListening(), import('./reading.js'), import('./listening.js')]);
   const rd = rdMod.textOfDay(await rdMod.readingTexts());
   const rdDone = rd && rdMod.readToday?.(rd.id);
-  const sc = pickOfDay(filterByLevel(scen.filter(x => x.group !== 'work'), 'mine').items, 'scen');
-  // сценарій дня зіграно сьогодні (голосом чи текстом, ≥ 2 власні репліки) — зелене «готово» (2026-11-23: раніше позначки не було взагалі)
-  const scDone = sc && store.all('tutor_chats').some(c => !c.deleted && c.scenario === sc.id && dayKey(c.created_at || c.updated_at || '') === today()
-    && (c.messages || []).filter(m => m.role === 'user' && !m.cue && String(m.text || '').trim()).length >= 2);
+  const sc = scenarioOfDay(filterByLevel(scen.filter(x => x.group !== 'work'), 'mine').items, 'scen');
+  const scDone = sc && scenarioDoneToday(sc.id);   // js/done.js — те саме «готово», що й скрізь
   const dlPick = lsMod.dialogueOfDay(lis.dialogues);
   const dl = dlPick?.d;
   // плитки як у меню: по дві в ряд, тип завдання — підписом, виконане — зелене

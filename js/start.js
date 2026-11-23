@@ -9,6 +9,7 @@ import * as store from './store.js';
 import { today } from './stats.js';
 import { myLevel, nextLessonByLevel, filterByLevel, pickOfDay, byFit, LEVELS, lvLabel } from './level.js';
 import { grammarIndex, scenarios as loadScenarios, json } from './data.js';
+import { scenarioOfDay, scenarioDoneToday, talkDoneToday } from './done.js';
 
 // ---------- Цілі ----------
 // tag — машинний список profiles.data.goalTags; about — ключ, який уже читають профіль і сервер (GOALS у js/pages/profile.js, GOALS_EN у _shared/prompts.ts)
@@ -303,7 +304,11 @@ async function scenarioPick(goal = null) {
   const list = Array.isArray(all) ? all : all.items || [];
   const ids = goal ? GOAL_SCEN[goal] : goalTags().flatMap(t => GOAL_SCEN[t] || []);
   const pool = ids?.length ? list.filter(x => ids.includes(x.id)) : list.filter(x => x.group !== 'work');
-  return pickOfDay(filterByLevel(pool.length ? pool : list.filter(x => x.group !== 'work'), 'mine').items, `start${goal || ''}`);
+  const items = filterByLevel(pool.length ? pool : list.filter(x => x.group !== 'work'), 'mine').items;
+  // не той самий сценарій, що в «Завданнях рівня» на головній (2026-11-23: «У готелі» стояв двічі)
+  const levelDay = scenarioOfDay(filterByLevel(list.filter(x => x.group !== 'work'), 'mine').items, 'scen');
+  const rest = items.filter(x => x.id !== levelDay?.id);
+  return scenarioOfDay(rest.length ? rest : items, `start${goal || ''}`);
 }
 
 // ---------- Пропозиції за ціллю ----------
@@ -323,16 +328,16 @@ export async function goalPicks(max = 3) {
     const out = [];
     if (t === 'travel') {
       const sc = await scenarioPick('travel');
-      if (sc) out.push({ icon: 'airplane-tilt', label: sc.title, sub: 'Сценарій для подорожі', href: `#/scenarios/${sc.id}` });
+      if (sc) out.push({ icon: 'airplane-tilt', label: sc.title, sub: 'Сценарій для подорожі', href: `#/scenarios/${sc.id}`, done: scenarioDoneToday(sc.id) });
       out.push({ icon: 'quotes', label: 'Фрази для подорожей', sub: 'Фразник · транспорт і готель', href: '#/phrases/travel' });
     } else if (t === 'relocation') {
       const sc = await scenarioPick('relocation');
-      if (sc) out.push({ icon: 'buildings', label: sc.title, sub: 'Сценарій: життя за кордоном', href: `#/scenarios/${sc.id}` });
+      if (sc) out.push({ icon: 'buildings', label: sc.title, sub: 'Сценарій: життя за кордоном', href: `#/scenarios/${sc.id}`, done: scenarioDoneToday(sc.id) });
       out.push({ icon: 'quotes', label: 'Банк, пошта, документи', sub: 'Фразник', href: '#/phrases/office' });
     } else if (t === 'work') {
       const sc = await scenarioPick('work');
-      if (sc) out.push({ icon: 'briefcase', label: sc.title, sub: 'Робочий сценарій', href: `#/scenarios/${sc.id}` });
-      out.push({ icon: 'microphone', label: 'Поговорити про роботу', sub: 'Голосом з вчителем', href: `#/tutor?mode=voice&topic=${encodeURIComponent(WORK_TOPIC)}&label=${encodeURIComponent('Робота')}` });
+      if (sc) out.push({ icon: 'briefcase', label: sc.title, sub: 'Робочий сценарій', href: `#/scenarios/${sc.id}`, done: scenarioDoneToday(sc.id) });
+      out.push({ icon: 'microphone', label: 'Поговорити про роботу', sub: 'Голосом з вчителем', href: `#/tutor?mode=voice&topic=${encodeURIComponent(WORK_TOPIC)}&label=${encodeURIComponent('Робота')}`, done: talkDoneToday('Робота') });
     } else if (t === 'media') {
       out.push({ icon: 'books', label: 'Бібліотека', sub: 'Книги й оповідання вашого рівня', href: '#/reading/library' });
       out.push({ icon: 'headphones', label: 'Аудіювання', sub: `Діалоги рівня ${lvLabel(lvl)}`, href: '#/listening' });
@@ -340,9 +345,9 @@ export async function goalPicks(max = 3) {
       out.push({ icon: 'exam', label: 'Тест за уроком', sub: 'Перевірити граматику', href: '#/tests/lesson' });
       out.push({ icon: 'puzzle-piece', label: 'Граматика', sub: `Уроки рівня ${lvLabel(lvl)}`, href: '#/grammar' });
     } else if (t === 'social') {
-      out.push({ icon: 'users', label: 'Знайомство й small talk', sub: 'Голосом з вчителем', href: `#/tutor?mode=voice&topic=${encodeURIComponent(SOCIAL_TOPIC)}&label=${encodeURIComponent('Small talk')}` });
+      out.push({ icon: 'users', label: 'Знайомство й small talk', sub: 'Голосом з вчителем', href: `#/tutor?mode=voice&topic=${encodeURIComponent(SOCIAL_TOPIC)}&label=${encodeURIComponent('Small talk')}`, done: talkDoneToday('Small talk') });
       const sc = await scenarioPick('social');
-      if (sc) out.push({ icon: 'users-three', label: sc.title, sub: 'Сценарій', href: `#/scenarios/${sc.id}` });
+      if (sc) out.push({ icon: 'users-three', label: sc.title, sub: 'Сценарій', href: `#/scenarios/${sc.id}`, done: scenarioDoneToday(sc.id) });
     }
     by[t] = out;
   }

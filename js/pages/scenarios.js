@@ -8,6 +8,7 @@ import { savePhrases, guessSituation, hasPhrase, situation as phraseSit } from '
 import { toast } from '../ui/toast.js';
 import { go } from '../router.js';
 import { byFit, levelTag, myLevel, levelChips, levelCounts, levelPick, filterByLevel, fallbackNote, pickOfDay } from '../level.js';
+import { scenarioOfDay, scenarioPlayed, scenarioDoneToday } from '../done.js';
 import { tx, txPrimary, txGroup, txRow, txRows } from '../ui/tiles.js';
 
 /** Іконка з мапи emo() у квадратику плитки (дані сценаріїв зберігають назви emo) */
@@ -17,10 +18,10 @@ export default async function scenarios(view, r) {
   const list = await load();
   const s = r.parts[0] && list.find(x => x.id === r.parts[0]);
   if (s) return detail(view, s);
-  const played = new Set(store.all('tutor_chats').map(c => c.scenario).filter(Boolean));
+  const played = new Set(list.filter(x => scenarioPlayed(x.id)).map(x => x.id));   // js/done.js: ≥ 2 власні репліки
   const groups = [['life', 'Повсякдення'], ['travel', 'Подорожі'], ['work', 'Робота']];
   // сценарій дня — той самий, що в «Завданнях рівня» на головній
-  const day = pickOfDay(filterByLevel(list.filter(x => x.group !== 'work'), 'mine').items, 'scen');
+  const day = scenarioOfDay(filterByLevel(list.filter(x => x.group !== 'work'), 'mine').items, 'scen');
   const body = h('div.stack-lg');
   let open = false;
   const row = (x, tag) => sqEmo(txRow({ icon: 'users-three', label: x.title, sub: x.short, href: `#/scenarios/${x.id}`,
@@ -43,7 +44,7 @@ export default async function scenarios(view, r) {
     }).filter(Boolean));
   };
   view.replaceChildren(h('div.stack-lg',
-    day ? sqEmo(txPrimary({ icon: 'users-three', label: day.title, sub: `Сценарій дня · ${day.short || `рівень ${day.level}`}`, href: `#/scenarios/${day.id}` }), day.emoji || 'theater') : null,
+    day ? sqEmo(txPrimary({ icon: scenarioDoneToday(day.id) ? 'check' : 'users-three', label: day.title, sub: scenarioDoneToday(day.id) ? 'Сценарій дня · готово' : `Сценарій дня · ${day.short || `рівень ${day.level}`}`, href: `#/scenarios/${day.id}` }), day.emoji || 'theater') : null,
     txGroup('Рольові ігри', [levelChips('scenarios', levelCounts(list), () => { open = false; draw(); }), body])));
   draw();
 }
