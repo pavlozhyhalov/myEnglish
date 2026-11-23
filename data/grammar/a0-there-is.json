@@ -5,7 +5,63 @@
  "unit": "Основи речення",
  "level": "A0",
  "mistakeType": "other",
- "explanation": "Щоб сказати, що десь **є** щось, починаємо з **there**: ***There is** a cat in my room.* — У моїй кімнаті є кіт.\n\nОдин предмет — **there is** (*there's*), багато — **there are**.",
+ "explanation": "Одне — **There is** (*There's*) + a / an …\nБагато — **There are** + … -s\n\nПорядок: There is + **що** + **де**: *There's a shop near my house.*\n«Немає» й питання (*There isn't…, Is there…?*) — далі в курсі.",
+ "guide": {
+  "idea": "There is / there are кажемо, коли повідомляємо, що десь щось є: у кімнаті, місті, сумці.",
+  "use": [
+   {
+    "when": "Що є в місці",
+    "note": "Розповідаємо про дім, кімнату, місто.",
+    "en": "There's a park near my house.",
+    "uk": "Біля мого будинку є парк."
+   },
+   {
+    "when": "Скільки чогось",
+    "note": "Багато — there are.",
+    "en": "There are three people in my family.",
+    "uk": "У моїй сім'ї троє людей."
+   },
+   {
+    "when": "Що буде за розкладом",
+    "note": "Автобус, урок, фільм — і час.",
+    "en": "There's a bus at ten.",
+    "uk": "О десятій є автобус."
+   }
+  ],
+  "vs": [
+   {
+    "title": "There is чи It is?",
+    "a": {
+     "en": "There's a cat in my room.",
+     "uk": "У моїй кімнаті є кіт.",
+     "note": "Повідомляємо, що щось є."
+    },
+    "b": {
+     "en": "It's a black cat.",
+     "uk": "Це чорний кіт.",
+     "note": "Описуємо те, про що вже сказали."
+    }
+   }
+  ],
+  "signals": [],
+  "mistakes": [
+   {
+    "wrong": "In my room is a cat.",
+    "right": "There is a cat in my room.",
+    "why": "«Десь є щось» — починаємо з There is."
+   },
+   {
+    "wrong": "There is two cats.",
+    "right": "There are two cats.",
+    "why": "Багато — there are."
+   },
+   {
+    "wrong": "In my town have a park.",
+    "right": "There's a park in my town.",
+    "why": "«Є» тут — не have, а there is."
+   }
+  ]
+ },
  "formula": [
   "**There is** + a … (один)",
   "**There are** + … -s (багато)"

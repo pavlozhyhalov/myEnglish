@@ -5,7 +5,63 @@
  "unit": "Прийменники",
  "level": "A0",
  "mistakeType": "prepositions",
- "explanation": "Де? **in** — у, всередині (*in the bag*), **on** — на (*on the table*), **under** — під (*under the bed*).\n\n**the** перед предметом — коли зрозуміло, про який саме мова: *the table* (цей стіл). Питання: ***Where is** my phone?* — *It's **on** the table.*",
+ "explanation": "**in** — у, всередині · **on** — на · **under** — під · **next to** — поруч із\n\nПорядок: хто / що + **is / are** + in / on / under + **the** …: *The cat **is under the** bed.*\nПитання: **Where is** …? (*Where's*) · багато — **Where are** …?\n\n**the** — коли ясно, про що саме мова: *the table* (цей стіл).",
+ "guide": {
+  "idea": "in, on, under кажуть, де щось лежить чи де хтось є: у, на, під.",
+  "use": [
+   {
+    "when": "in — всередині",
+    "note": "У сумці, коробці, кімнаті, місті.",
+    "en": "My keys are in my bag.",
+    "uk": "Мої ключі в сумці."
+   },
+   {
+    "when": "on — на поверхні",
+    "note": "Лежить зверху: стіл, стілець, підлога.",
+    "en": "Your phone is on the table.",
+    "uk": "Твій телефон на столі."
+   },
+   {
+    "when": "under — під",
+    "note": "Щось знизу, під іншим.",
+    "en": "The cat is under the bed.",
+    "uk": "Кіт під ліжком."
+   }
+  ],
+  "vs": [
+   {
+    "title": "in чи on?",
+    "a": {
+     "en": "I'm in the kitchen.",
+     "uk": "Я на кухні.",
+     "note": "Кімната — in, хоч українською «на»."
+    },
+    "b": {
+     "en": "It's on the table.",
+     "uk": "Він на столі.",
+     "note": "Поверхня — on."
+    }
+   }
+  ],
+  "signals": [],
+  "mistakes": [
+   {
+    "wrong": "I'm on the kitchen.",
+    "right": "I'm in the kitchen.",
+    "why": "Кімната — простір усередині, тому in."
+   },
+   {
+    "wrong": "Where my phone?",
+    "right": "Where is my phone?",
+    "why": "Після where потрібне is або are."
+   },
+   {
+    "wrong": "My phone is on table.",
+    "right": "My phone is on the table.",
+    "why": "Перед предметом потрібне the (або my, your)."
+   }
+  ]
+ },
  "formula": [
   "**Where is** …? — **It's in / on / under** the …",
   "**in** — у · **on** — на · **under** — під"

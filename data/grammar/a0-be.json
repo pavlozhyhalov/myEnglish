@@ -5,7 +5,63 @@
  "unit": "Основи речення",
  "level": "A0",
  "mistakeType": "tenses",
- "explanation": "Українською ми кажемо «Він удома», «Вона щаслива» — без дієслова. Англійською тут обов'язкове **am / is / are** (дієслово *be* — «бути»): *He **is** at home.*\n\nЯке саме — залежить від того, хто: **I am**, **you are**, **he / she / it is**, **we / they are**.",
+ "explanation": "**I** → **am** (*I'm*)\n**he / she / it** → **is** (*he's, she's, it's*)\n**you / we / they** → **are** (*you're, we're, they're*)\n\nПорядок: хто + am / is / are + решта: *Emma **is** in London.*\nУ розмові — коротко: *I'm, she's, they're*.",
+ "guide": {
+  "idea": "Українською кажемо «Він удома» без дієслова, а англійською тут завжди стоїть am / is / are.",
+  "use": [
+   {
+    "when": "Хто людина",
+    "note": "Ким є людина чи хто це.",
+    "en": "We're friends.",
+    "uk": "Ми друзі."
+   },
+   {
+    "when": "Яка, як почувається",
+    "note": "Перед словом-ознакою: happy, tired, cold.",
+    "en": "She's tired.",
+    "uk": "Вона втомилася."
+   },
+   {
+    "when": "Де й звідки",
+    "note": "Перед at home, in London, from Ukraine.",
+    "en": "He's at home.",
+    "uk": "Він удома."
+   }
+  ],
+  "vs": [
+   {
+    "title": "is чи are?",
+    "a": {
+     "en": "Tom is at home.",
+     "uk": "Том удома.",
+     "note": "Один: he, she, it, Tom."
+    },
+    "b": {
+     "en": "Tom and Anna are at home.",
+     "uk": "Том і Анна вдома.",
+     "note": "Двоє й більше, а також you."
+    }
+   }
+  ],
+  "signals": [],
+  "mistakes": [
+   {
+    "wrong": "She happy.",
+    "right": "She is happy.",
+    "why": "Англійською «є» не пропускають — без is речення неповне."
+   },
+   {
+    "wrong": "I is at home.",
+    "right": "I am at home.",
+    "why": "З I — лише am."
+   },
+   {
+    "wrong": "They is friends.",
+    "right": "They are friends.",
+    "why": "З we, you, they — are."
+   }
+  ]
+ },
  "formula": [
   "**I am** · **you are**",
   "**he / she / it is**",

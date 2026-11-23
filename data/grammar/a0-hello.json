@@ -5,7 +5,63 @@
  "unit": "Основи речення",
  "level": "A0",
  "mistakeType": "tenses",
- "explanation": "Щоб назвати себе, скажіть **I'm** + ім'я або **My name is** + ім'я.\n\n*I'm* — коротко від *I am* («я є»). «Я» англійською — **I**, і це слово завжди пишемо з великої літери.",
+ "explanation": "**I'm** = I am: *I'm Emma.*\n**My name is** = **My name's**: *My name's Oliver.*\nПитання: **What's your name?** (*What's* = What is)\n\n**I** («я») — завжди з великої літери.",
+ "guide": {
+  "idea": "Перші фрази знайомства: привітатися, назвати себе й запитати ім'я.",
+  "use": [
+   {
+    "when": "Назвати себе",
+    "note": "I'm + ім'я — найпростіше й найчастіше.",
+    "en": "Hi! I'm Anna.",
+    "uk": "Привіт! Я Анна."
+   },
+   {
+    "when": "Запитати ім'я",
+    "note": "Питаємо What's your name? — відповідь My name's…",
+    "en": "What's your name? — My name's Tom.",
+    "uk": "Як тебе звати? — Мене звати Том."
+   },
+   {
+    "when": "Після знайомства",
+    "note": "Nice to meet you — коли познайомилися вперше.",
+    "en": "Nice to meet you, Tom.",
+    "uk": "Приємно познайомитися, Томе."
+   }
+  ],
+  "vs": [
+   {
+    "title": "Hello чи Hi?",
+    "a": {
+     "en": "Hello! I'm Emma.",
+     "uk": "Добрий день! Я Емма.",
+     "note": "Нейтрально — можна всім."
+    },
+    "b": {
+     "en": "Hi, Jack!",
+     "uk": "Привіт, Джеку!",
+     "note": "Просто й по-дружньому."
+    }
+   }
+  ],
+  "signals": [],
+  "mistakes": [
+   {
+    "wrong": "i'm Emma.",
+    "right": "I'm Emma.",
+    "why": "«Я» — I — завжди з великої літери."
+   },
+   {
+    "wrong": "My name Emma.",
+    "right": "My name is Emma.",
+    "why": "Без is речення неповне."
+   },
+   {
+    "wrong": "How is your name?",
+    "right": "What's your name?",
+    "why": "«Як тебе звати?» — з What, а не How."
+   }
+  ]
+ },
  "formula": [
   "**Hello! I'm** + ім'я",
   "**My name is** + ім'я",

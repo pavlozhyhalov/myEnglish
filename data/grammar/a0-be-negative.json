@@ -5,7 +5,63 @@
  "unit": "Основи речення",
  "level": "A0",
  "mistakeType": "tenses",
- "explanation": "«Не» — це **not** після *am / is / are*: *I am **not** tired.*\n\nУ розмові скорочуємо: **I'm not**, **he isn't**, **they aren't**.",
+ "explanation": "Хто + am / is / are + **not**:\n- **I'm not** (*I am not*)\n- **he / she / it isn't** (*is not*)\n- **you / we / they aren't** (*are not*)\n\nУ розмові — коротко. Можна й так: *he's not, they're not*.",
+ "guide": {
+  "idea": "Щоб сказати «я не…, він не…», ставимо not після am / is / are.",
+  "use": [
+   {
+    "when": "Стан чи почуття",
+    "note": "Заперечуємо, як почуваємося.",
+    "en": "I'm not hungry, thanks.",
+    "uk": "Я не голодний, дякую."
+   },
+   {
+    "when": "Когось немає",
+    "note": "«Немає тут, немає вдома» — isn't / aren't + місце.",
+    "en": "Sorry, Tom isn't here.",
+    "uk": "Вибачте, Тома тут немає."
+   },
+   {
+    "when": "Виправити помилку",
+    "note": "Коли про вас сказали неправильно.",
+    "en": "I'm not from London. I'm from Leeds.",
+    "uk": "Я не з Лондона. Я з Лідса."
+   }
+  ],
+  "vs": [
+   {
+    "title": "isn't чи aren't?",
+    "a": {
+     "en": "My bag isn't here.",
+     "uk": "Моєї сумки тут немає.",
+     "note": "Одне: he, she, it."
+    },
+    "b": {
+     "en": "My keys aren't here.",
+     "uk": "Моїх ключів тут немає.",
+     "note": "Багато: we, you, they."
+    }
+   }
+  ],
+  "signals": [],
+  "mistakes": [
+   {
+    "wrong": "I amn't tired.",
+    "right": "I'm not tired.",
+    "why": "Форми amn't немає — тільки I'm not."
+   },
+   {
+    "wrong": "She not at home.",
+    "right": "She isn't at home.",
+    "why": "Саме not не працює — потрібне is: is not = isn't."
+   },
+   {
+    "wrong": "I don't tired.",
+    "right": "I'm not tired.",
+    "why": "З am / is / are «не» — це not, без don't."
+   }
+  ]
+ },
  "formula": [
   "**I'm not** …",
   "**he / she / it isn't** …",

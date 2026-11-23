@@ -5,7 +5,63 @@
  "unit": "Основи речення",
  "level": "A0",
  "mistakeType": "other",
- "explanation": "«У мене є» англійською — **I have got** (коротко *I've got*): *I've got a dog.*\n\n«Мені подобається, я люблю» — **I like** + що: *I like tea.* Про нього чи неї — ***has** got* і ***likes*** (з *-s*): *She **has got** a cat. He **likes** pizza.*",
+ "explanation": "**have got** — у мене є:\n- I / you / we / they **have got** (*'ve got*)\n- he / she **has got** (*'s got*)\n\n**like** — подобається:\n- I / you / we / they **like**\n- he / she **likes** (+ -s)\n\nЗ like про речі загалом — множина: *I like **apples***.",
+ "guide": {
+  "idea": "I've got — що в мене є (родина, речі, тварини); I like — що мені подобається.",
+  "use": [
+   {
+    "when": "Що в мене є",
+    "note": "Родина, речі, тварини.",
+    "en": "I've got a brother.",
+    "uk": "У мене є брат."
+   },
+   {
+    "when": "Що я люблю",
+    "note": "Їжа, музика, спорт — з like.",
+    "en": "I like tea.",
+    "uk": "Я люблю чай."
+   },
+   {
+    "when": "Про нього чи неї",
+    "note": "he / she → has got і likes.",
+    "en": "Anna's got a dog. She likes dogs.",
+    "uk": "В Анни є собака. Вона любить собак."
+   }
+  ],
+  "vs": [
+   {
+    "title": "have got чи like?",
+    "a": {
+     "en": "I've got a cat.",
+     "uk": "У мене є кіт.",
+     "note": "Кіт у мене вдома."
+    },
+    "b": {
+     "en": "I like cats.",
+     "uk": "Я люблю котів.",
+     "note": "Подобаються коти взагалі — множина."
+    }
+   }
+  ],
+  "signals": [],
+  "mistakes": [
+   {
+    "wrong": "She like tea.",
+    "right": "She likes tea.",
+    "why": "З he / she — -s у кінці."
+   },
+   {
+    "wrong": "In me is a car.",
+    "right": "I've got a car.",
+    "why": "«У мене є» — I've got, а не дослівно."
+   },
+   {
+    "wrong": "I like cat.",
+    "right": "I like cats.",
+    "why": "Про те, що любите загалом, — множина."
+   }
+  ]
+ },
  "formula": [
   "**I / you / we / they have got** (*'ve got*)",
   "**he / she has got** (*'s got*)",

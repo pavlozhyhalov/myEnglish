@@ -5,7 +5,58 @@
  "unit": "Іменник і артиклі",
  "level": "A0",
  "mistakeType": "other",
- "explanation": "**this** — це (близько, у руці), **that** — те (далеко).\n\n*What's this?* — Що це? Відповідь: ***It's** a pen.* Коли знайомимо людину: ***This is** Emma.*",
+ "explanation": "**this** — близько · **that** — далеко\n\n- **This is** + … · **That is** (*That's*) + …\n- Питання: **What's this? / What's that?**\n- Відповідь: **It's** + a …\n- **Is this / that** your bag? — **Yes, it is. / No, it isn't.**",
+ "guide": {
+  "idea": "this — про те, що поруч (у руці), that — про те, що далі від вас.",
+  "use": [
+   {
+    "when": "Поруч, у руці",
+    "note": "Річ близько — можна торкнутися.",
+    "en": "This is my phone.",
+    "uk": "Це мій телефон."
+   },
+   {
+    "when": "Далеко",
+    "note": "Показуємо на щось далеко.",
+    "en": "Look! That's my house.",
+    "uk": "Дивись! Он мій будинок."
+   },
+   {
+    "when": "Знайомимо людину",
+    "note": "Представляємо когось — тільки This is…",
+    "en": "Mum, this is Tom.",
+    "uk": "Мамо, це Том."
+   }
+  ],
+  "vs": [
+   {
+    "title": "this чи it?",
+    "a": {
+     "en": "What's this?",
+     "uk": "Що це?",
+     "note": "Питаємо й показуємо — this."
+    },
+    "b": {
+     "en": "It's a pen.",
+     "uk": "Це ручка.",
+     "note": "У відповіді — it, а не знову this."
+    }
+   }
+  ],
+  "signals": [],
+  "mistakes": [
+   {
+    "wrong": "It is Emma.",
+    "right": "This is Emma.",
+    "why": "Знайомимо людину — This is."
+   },
+   {
+    "wrong": "This my bag.",
+    "right": "This is my bag.",
+    "why": "Після this потрібне is."
+   }
+  ]
+ },
  "formula": [
   "**This is** + … (близько)",
   "**That is** + … (далеко)",

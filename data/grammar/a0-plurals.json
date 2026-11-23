@@ -5,7 +5,63 @@
  "unit": "Іменник і артиклі",
  "level": "A0",
  "mistakeType": "other",
- "explanation": "Якщо предметів два і більше — додайте **-s**: *one book → two book**s***. Після *s, x, sh, ch* — **-es**: *box → boxes*.\n\nКілька слів змінюються інакше: *man → **men**, woman → **women**, child → **children**, person → **people***. У множині **a / an** не ставимо: *a cat → cats*.",
+ "explanation": "Звичайно + **-s**: *book → books, cat → cats*\nПісля **s, x, sh, ch** + **-es**: *bus → buses, box → boxes*\n\nОсобливі слова:\n- man → **men** · woman → **women**\n- child → **children** · person → **people**\n\nУ множині без **a / an**: *a cat → cats*.",
+ "guide": {
+  "idea": "Якщо речей дві й більше, слово змінюється — найчастіше в кінці додаємо -s.",
+  "use": [
+   {
+    "when": "Два й більше",
+    "note": "Після two, three, many — множина.",
+    "en": "Two coffees, please.",
+    "uk": "Дві кави, будь ласка."
+   },
+   {
+    "when": "Кілька людей",
+    "note": "Коли нас кілька — і слово в множині.",
+    "en": "We are students.",
+    "uk": "Ми студенти."
+   },
+   {
+    "when": "Особливі слова",
+    "note": "men, women, children, people — без -s.",
+    "en": "My children are at school.",
+    "uk": "Мої діти в школі."
+   }
+  ],
+  "vs": [
+   {
+    "title": "person чи people?",
+    "a": {
+     "en": "She's a nice person.",
+     "uk": "Вона приємна людина.",
+     "note": "Одна людина."
+    },
+    "b": {
+     "en": "They're nice people.",
+     "uk": "Вони приємні люди.",
+     "note": "Кілька людей — people, не persons."
+    }
+   }
+  ],
+  "signals": [],
+  "mistakes": [
+   {
+    "wrong": "two book",
+    "right": "two books",
+    "why": "Після two, three… у кінці -s."
+   },
+   {
+    "wrong": "a books",
+    "right": "books",
+    "why": "a — лише з однією річчю."
+   },
+   {
+    "wrong": "three childs",
+    "right": "three children",
+    "why": "child має особливу множину."
+   }
+  ]
+ },
  "formula": [
   "one **book** → two **books**",
   "**a** cat → cat**s** (без a)"

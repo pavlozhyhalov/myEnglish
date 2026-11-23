@@ -5,7 +5,63 @@
  "unit": "Теперішні часи",
  "level": "A0",
  "mistakeType": "tenses",
- "explanation": "Про те, що робимо завжди чи зазвичай, кажемо просто дію: *I **live** in Kyiv. We **work** at home.* З **I, you, we, they** вона не змінюється.\n\n«Не» — **don't** + дія: *I **don't** work on Sunday.* Питання — **Do** на початку: ***Do** you live here?* Про *he / she* (з -s) — у курсі A1.",
+ "explanation": "**I / you / we / they** + дія: *I **live** in London.*\n- **−** **don't** (= do not) + дія: *I **don't** eat meat.*\n- **?** **Do** + хто + дія? — *Yes, I do. / No, I don't.*\n- З питальним словом: ***Where do** you live?*\n\nДія не змінюється. Про *he / she* (з -s) — у курсі A1.",
+ "guide": {
+  "idea": "Так розповідаємо про себе: де живемо, що робимо зазвичай, що любимо.",
+  "use": [
+   {
+    "when": "Про себе й життя",
+    "note": "Де живете, працюєте, якою мовою говорите.",
+    "en": "I live in Leeds.",
+    "uk": "Я живу в Лідсі."
+   },
+   {
+    "when": "Що робимо зазвичай",
+    "note": "Звичка — щодня, щоранку.",
+    "en": "I drink tea in the morning.",
+    "uk": "Я п'ю чай уранці."
+   },
+   {
+    "when": "Питаємо про людину",
+    "note": "Знайомство: Do you…? Where do you…?",
+    "en": "Where do you live?",
+    "uk": "Де ти живеш?"
+   }
+  ],
+  "vs": [
+   {
+    "title": "I live чи I am?",
+    "a": {
+     "en": "I live in London.",
+     "uk": "Я живу в Лондоні.",
+     "note": "Є дія (live) — без am."
+    },
+    "b": {
+     "en": "I'm from London.",
+     "uk": "Я з Лондона.",
+     "note": "Дії немає (звідки, хто) — потрібне am."
+    }
+   }
+  ],
+  "signals": [],
+  "mistakes": [
+   {
+    "wrong": "I am live in London.",
+    "right": "I live in London.",
+    "why": "З дією am не потрібне."
+   },
+   {
+    "wrong": "I not work on Sunday.",
+    "right": "I don't work on Sunday.",
+    "why": "«Не» — don't перед дією."
+   },
+   {
+    "wrong": "You live here?",
+    "right": "Do you live here?",
+    "why": "Питання починається з Do."
+   }
+  ]
+ },
  "formula": [
   "**I / you / we / they** + дія: *I live in Kyiv.*",
   "**don't** + дія: *I don't work.*",

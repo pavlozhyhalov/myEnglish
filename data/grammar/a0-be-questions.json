@@ -5,7 +5,49 @@
  "unit": "Основи речення",
  "level": "A0",
  "mistakeType": "word_order",
- "explanation": "Щоб запитати, поставте **am / is / are** на початок: *You are tired.* → ***Are** you tired?*\n\nКоротка відповідь — тим самим словом: *Yes, I **am**. / No, I'm not.* У відповіді «так» не скорочуйте: *Yes, he **is**.*",
+ "explanation": "Питання: **Am / Is / Are** + хто + …?\n*She is at home.* → ***Is** she at home?*\n\nКоротка відповідь — тим самим словом:\n- **Yes, I am. / Yes, he is. / Yes, they are.**\n- **No, I'm not. / No, he isn't. / No, they aren't.**",
+ "guide": {
+  "idea": "Щоб запитати «Ти втомився? Він удома?», ставимо am / is / are на початок речення.",
+  "use": [
+   {
+    "when": "Як людина почувається",
+    "note": "Питаємо про стан: OK, tired, hungry.",
+    "en": "Are you OK?",
+    "uk": "Ти в порядку?"
+   },
+   {
+    "when": "Де хтось",
+    "note": "Питаємо, де людина чи річ.",
+    "en": "Is Emma at home?",
+    "uk": "Емма вдома?"
+   },
+   {
+    "when": "Звідки людина",
+    "note": "Відповідь — Yes, I am або No, I'm not.",
+    "en": "Are you from Dublin?",
+    "uk": "Ви з Дубліна?"
+   }
+  ],
+  "vs": [],
+  "signals": [],
+  "mistakes": [
+   {
+    "wrong": "You are tired?",
+    "right": "Are you tired?",
+    "why": "У питанні are іде на початок."
+   },
+   {
+    "wrong": "Yes, I'm.",
+    "right": "Yes, I am.",
+    "why": "У короткій відповіді «так» не скорочуємо."
+   },
+   {
+    "wrong": "Is you OK?",
+    "right": "Are you OK?",
+    "why": "З you — завжди are."
+   }
+  ]
+ },
  "formula": [
   "**Am / Is / Are** + хто + …?",
   "**Yes, I am.** · **No, I'm not.**"

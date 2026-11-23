@@ -5,7 +5,63 @@
  "unit": "Будова речення",
  "level": "A0",
  "mistakeType": "other",
- "explanation": "Вік кажемо з **am / is / are**, а не «маю»: *I **am** 25.* Питання: ***How old are** you?*\n\nЦіна: ***How much is** it?* — *It's 5 pounds.*",
+ "explanation": "13–19 → **-teen**: *thirteen, fifteen*\n20, 30… → **-ty**: *twenty, thirty, forty* (без u!)\n21 → **twenty-one** (через дефіс) · 100 → **a hundred**\n\nВік: хто + **am / is / are** + число: *I'm 25.*\nЦіна: **How much is** + річ? — **It's** + ціна.",
+ "guide": {
+  "idea": "Числа потрібні щодня: вік, ціна, кількість. Вік і ціну кажемо з am / is / are.",
+  "use": [
+   {
+    "when": "Вік",
+    "note": "Вік — з am / is / are, не з «маю».",
+    "en": "How old are you? — I'm thirty.",
+    "uk": "Скільки вам років? — Мені тридцять."
+   },
+   {
+    "when": "Ціна",
+    "note": "How much is…? — питаємо, скільки коштує.",
+    "en": "How much is this? — It's five pounds.",
+    "uk": "Скільки це коштує? — П'ять фунтів."
+   },
+   {
+    "when": "Скільки чогось",
+    "note": "Число + слово в множині.",
+    "en": "Two coffees, please.",
+    "uk": "Дві кави, будь ласка."
+   }
+  ],
+  "vs": [
+   {
+    "title": "-teen чи -ty?",
+    "a": {
+     "en": "I'm fifteen.",
+     "uk": "Мені п'ятнадцять.",
+     "note": "-teen — 13–19, наголос у кінці."
+    },
+    "b": {
+     "en": "I'm fifty.",
+     "uk": "Мені п'ятдесят.",
+     "note": "-ty — 20, 30…, наголос на початку."
+    }
+   }
+  ],
+  "signals": [],
+  "mistakes": [
+   {
+    "wrong": "I have 30 years.",
+    "right": "I'm 30.",
+    "why": "Вік — через am / is / are, не через have."
+   },
+   {
+    "wrong": "How much it costs?",
+    "right": "How much is it?",
+    "why": "Найпростіше питання про ціну — How much is it?"
+   },
+   {
+    "wrong": "fourty",
+    "right": "forty",
+    "why": "Пишемо forty — без u, хоча four з u."
+   }
+  ]
+ },
  "formula": [
   "**How old are you?** — **I'm** 30.",
   "**How much is it?** — **It's** 5 pounds."

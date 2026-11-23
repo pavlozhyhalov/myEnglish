@@ -5,7 +5,63 @@
  "unit": "Іменник і артиклі",
  "level": "A0",
  "mistakeType": "articles",
- "explanation": "Перед одним предметом чи професією ставимо **a** («один, якийсь»): *a book, a doctor*.\n\nЯкщо слово починається з голосного **звуку** (a, e, i, o, u) — **an**: *an apple, an egg*. Українською такого слова немає, тож його легко забути: *I'm **a** student.*",
+ "explanation": "**a** — перед приголосним **звуком**: *a book, a pen, a teacher*\n**an** — перед голосним **звуком** (a, e, i, o, u): *an apple, an egg, an orange*\n\nЛише з **одним** предметом: *a cat*, але *cats*.\nВажить звук, а не буква: *an hour* (h не вимовляється).",
+ "guide": {
+  "idea": "Коли називаємо одну річ чи професію, перед словом ставимо a або an — українською такого слова немає.",
+  "use": [
+   {
+    "when": "Що це за річ",
+    "note": "Називаємо одну річ.",
+    "en": "It's a phone.",
+    "uk": "Це телефон."
+   },
+   {
+    "when": "Хто за професією",
+    "note": "Професія чи хто ви: a student, a doctor.",
+    "en": "Anna is a nurse.",
+    "uk": "Анна — медсестра."
+   },
+   {
+    "when": "Одна якась річ",
+    "note": "Не конкретна — будь-яка одна.",
+    "en": "I want an apple.",
+    "uk": "Я хочу яблуко."
+   }
+  ],
+  "vs": [
+   {
+    "title": "a чи an?",
+    "a": {
+     "en": "It's a banana.",
+     "uk": "Це банан.",
+     "note": "Перший звук приголосний (b) — a."
+    },
+    "b": {
+     "en": "It's an orange.",
+     "uk": "Це апельсин.",
+     "note": "Перший звук голосний (o) — an."
+    }
+   }
+  ],
+  "signals": [],
+  "mistakes": [
+   {
+    "wrong": "I'm student.",
+    "right": "I'm a student.",
+    "why": "Перед професією чи «хто я» потрібне a."
+   },
+   {
+    "wrong": "It's a apple.",
+    "right": "It's an apple.",
+    "why": "apple починається з голосного звуку — тому an."
+   },
+   {
+    "wrong": "They are a doctors.",
+    "right": "They are doctors.",
+    "why": "a — лише про одне; у множині його немає."
+   }
+  ]
+ },
  "formula": [
   "**a** + приголосний звук: *a pen, a teacher*",
   "**an** + голосний звук: *an apple, an orange*"

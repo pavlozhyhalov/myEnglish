@@ -5,7 +5,58 @@
  "unit": "Основи речення",
  "level": "A0",
  "mistakeType": "word_order",
- "explanation": "Прохання й команди — просто дія на початку: ***Open** your book. **Listen.** **Repeat.***\n\n«Не роби» — **Don't** + дія: ***Don't** write.* Додайте **please** — і це ввічливо: *Please sit down.*",
+ "explanation": "Дія на початку, без *you*: ***Open** your book.*\n«Не роби» — **Don't** + дія: ***Don't** write.*\nВвічливо — **please** на початку або в кінці: *Please sit down. / Sit down, please.*\n\nОднаково для однієї людини й для багатьох.",
+ "guide": {
+  "idea": "Щоб попросити чи сказати, що робити, починаємо просто з дії: Listen. Open your book.",
+  "use": [
+   {
+    "when": "Завдання на уроці",
+    "note": "Так говорить учитель.",
+    "en": "Listen and repeat.",
+    "uk": "Слухайте й повторюйте."
+   },
+   {
+    "when": "Ввічливе прохання",
+    "note": "Додайте please — і це вже ввічливо.",
+    "en": "Please speak slowly.",
+    "uk": "Говоріть повільно, будь ласка."
+   },
+   {
+    "when": "Заборона",
+    "note": "«Не роби» — Don't + дія.",
+    "en": "Don't look!",
+    "uk": "Не дивіться!"
+   }
+  ],
+  "vs": [
+   {
+    "title": "Коротко чи ввічливіше?",
+    "a": {
+     "en": "Repeat, please.",
+     "uk": "Повторіть, будь ласка.",
+     "note": "Коротке прохання — так каже вчитель."
+    },
+    "b": {
+     "en": "Can you repeat that, please?",
+     "uk": "Можете повторити, будь ласка?",
+     "note": "Ще ввічливіше — так просить учень."
+    }
+   }
+  ],
+  "signals": [],
+  "mistakes": [
+   {
+    "wrong": "Not write!",
+    "right": "Don't write!",
+    "why": "«Не роби» — Don't, а не not."
+   },
+   {
+    "wrong": "You open your book.",
+    "right": "Open your book.",
+    "why": "Прохання чи команда — просто дія, без you."
+   }
+  ]
+ },
  "formula": [
   "Дія + …: **Open** your book.",
   "**Don't** + дія: **Don't** look.",

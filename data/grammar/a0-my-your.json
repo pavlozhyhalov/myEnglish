@@ -5,7 +5,63 @@
  "unit": "Іменник і артиклі",
  "level": "A0",
  "mistakeType": "other",
- "explanation": "Чий? — **my** (мій, моя), **your** (твій, ваш), **his** (його), **her** (її).\n\nСлово не змінюється: *my mum, my dad, my books*. **his** — про чоловіка, **her** — про жінку.",
+ "explanation": "I → **my** · you → **your**\nhe → **his** · she → **her**\n\nСтоїть перед річчю чи людиною: ***my** phone, **her** name*.\nСлово не змінюється: *my mum, my dad, my books*.",
+ "guide": {
+  "idea": "my, your, his, her відповідають на питання «чий?» і стоять перед річчю чи людиною.",
+  "use": [
+   {
+    "when": "Про своє",
+    "note": "Моє — my: і «мій», і «моя», і «мої».",
+    "en": "This is my bag.",
+    "uk": "Це моя сумка."
+   },
+   {
+    "when": "Питаємо, чиє",
+    "note": "your — і «твій», і «ваш».",
+    "en": "Is this your phone?",
+    "uk": "Це твій телефон?"
+   },
+   {
+    "when": "Про інших",
+    "note": "his — його (чоловіка), her — її (жінки).",
+    "en": "Emma is my friend. Her cat is white.",
+    "uk": "Емма — моя подруга. Її кіт білий."
+   }
+  ],
+  "vs": [
+   {
+    "title": "his чи her?",
+    "a": {
+     "en": "This is Tom and his dog.",
+     "uk": "Це Том і його собака.",
+     "note": "Власник — чоловік: his."
+    },
+    "b": {
+     "en": "This is Anna and her dog.",
+     "uk": "Це Анна і її собака.",
+     "note": "Власниця — жінка: her."
+    }
+   }
+  ],
+  "signals": [],
+  "mistakes": [
+   {
+    "wrong": "Anna and his car",
+    "right": "Anna and her car",
+    "why": "Обираємо за власником (Анна — her), а не за річчю."
+   },
+   {
+    "wrong": "He's name is Tom.",
+    "right": "His name is Tom.",
+    "why": "he's = he is; «його» — his."
+   },
+   {
+    "wrong": "This is me bag.",
+    "right": "This is my bag.",
+    "why": "«Мій» — my, а не me."
+   }
+  ]
+ },
  "formula": [
   "I → **my** · you → **your**",
   "he → **his** · she → **her**"
