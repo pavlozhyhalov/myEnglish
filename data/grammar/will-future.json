@@ -92,9 +92,7 @@
       "probably",
       "I'm sure",
       "I promise",
-      "maybe",
-      "tomorrow",
-      "next year"
+      "maybe"
     ],
     "mistakes": [
       {
@@ -181,8 +179,8 @@
       "uk": "Забронювати столик на п'ятницю?"
     },
     {
-      "en": "I'm sure you'll like Kraków.",
-      "uk": "Я впевнений, що тобі сподобається Краків."
+      "en": "I'm sure you'll like Edinburgh.",
+      "uk": "Я впевнений, що тобі сподобається Единбург."
     },
     {
       "en": "Will you be at home tonight?",

@@ -223,7 +223,7 @@
     },
     {
       "type": "choice",
-      "prompt": "There ___ a lot of traffic in Kraków today.",
+      "prompt": "There ___ a lot of traffic in London today.",
       "options": [
         "is",
         "are",

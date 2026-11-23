@@ -200,7 +200,7 @@
     },
     {
       "type": "input",
-      "prompt": "How long ___ you lived in Poland?",
+      "prompt": "How long ___ you lived in this flat?",
       "answer": [
         "have"
       ],
@@ -241,7 +241,7 @@
     },
     {
       "type": "transform",
-      "prompt": "She lives in Gdańsk. (питання з Where)",
+      "prompt": "She lives in Leeds. (питання з Where)",
       "instruction": "Поставте питання до місця",
       "answer": [
         "Where does she live?"

@@ -239,7 +239,7 @@
     },
     {
       "type": "error",
-      "sentence": "We arrived to Warsaw at 6.",
+      "sentence": "We arrived to Leeds at 6.",
       "wrongIndex": 2,
       "correction": "in",
       "alt": [],

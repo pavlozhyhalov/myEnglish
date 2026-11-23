@@ -1,151 +1,255 @@
 {
- "id": "so-such-too-enough",
- "title": "So, such, too, enough",
- "titleEn": "so / such, too / enough",
- "unit": "Будова речення",
- "level": "B1",
- "mistakeType": "word_order",
- "explanation": "**so + прикметник/прислівник**: *It was **so cold**! She speaks **so fast**.*\n**such (a) + (прикметник) + іменник**: *It was **such a cold day**! They're **such nice people**.*\n\nОбидва часто з наслідком *that*: *It was so late **that** we took a taxi.*\n\n**too + прикметник** = занадто (проблема): *This coffee is **too hot** to drink.*\n**прикметник + enough** = достатньо: *He's **old enough** to drive.*\n**enough + іменник**: *We don't have **enough time**.*",
- "formula": [
-  "so + adj · such a + adj + noun",
-  "too + adj (+ to V) · adj + enough · enough + noun"
- ],
- "examples": [
-  {
-   "en": "The film was so boring that I fell asleep.",
-   "uk": "Фільм був такий нудний, що я заснув."
+  "id": "so-such-too-enough",
+  "title": "So, such, too, enough",
+  "titleEn": "so / such, too / enough",
+  "unit": "Будова речення",
+  "level": "B1",
+  "mistakeType": "word_order",
+  "explanation": "- **so** + прикметник / прислівник: *so tired, so quickly* · **so much / so many** + іменник: *so much traffic*\n- **such** + (прикметник) + іменник: ***such a** nice day* (однина — з a / an) · ***such** nice people* · ***such** good weather* (множина й незлічувані — без a)\n- наслідок: *so / such … **that** + речення*\n\n- **too** + прикметник / прислівник (+ **for** кого) (+ **to** V): *too hot to drink · too expensive for us*\n- **too much / too many** + іменник: *too much sugar, too many people*\n- прикметник + **enough** (після!): *warm enough*\n- **enough** + іменник (перед!): *enough chairs*\n- + **for** кого / **to** V: *old enough to vote*",
+  "guide": {
+    "idea": "*so* і *such* підсилюють: «такий», «так» — коли щось вражає. *too* і *enough* оцінюють, чи підходить кількість чи якість: *too* — більше, ніж треба (і це проблема), *enough* — стільки, скільки треба. Тому *too* не замінює «дуже».",
+    "use": [
+      {
+        "when": "Враження — so",
+        "note": "so перед прикметником чи прислівником без іменника.",
+        "en": "I'm so glad you came!",
+        "uk": "Я така рада, що ти прийшов!"
+      },
+      {
+        "when": "Враження з іменником — such",
+        "note": "such (a) + прикметник + іменник.",
+        "en": "It was such a lovely evening.",
+        "uk": "Це був такий чудовий вечір."
+      },
+      {
+        "when": "Причина й наслідок",
+        "note": "so / such … that — щось настільки сильне, що спричинило наслідок.",
+        "en": "The music was so loud that we couldn't talk.",
+        "uk": "Музика була така гучна, що ми не могли розмовляти."
+      },
+      {
+        "when": "Більше, ніж треба — too",
+        "note": "Є проблема: через це щось неможливо чи не годиться.",
+        "en": "This jacket is too small for me.",
+        "uk": "Ця куртка мені замала."
+      },
+      {
+        "when": "Досить — enough",
+        "note": "Достатньо для мети; у запереченні — «не вистачає».",
+        "en": "We haven't got enough chairs for everyone.",
+        "uk": "У нас не вистачає стільців для всіх."
+      }
+    ],
+    "vs": [
+      {
+        "title": "very чи too?",
+        "a": {
+          "en": "This tea is very hot.",
+          "uk": "Цей чай дуже гарячий.",
+          "note": "Просто факт — гарячий, але пити можна."
+        },
+        "b": {
+          "en": "This tea is too hot to drink.",
+          "uk": "Цей чай надто гарячий, щоб пити.",
+          "note": "Проблема — пити неможливо."
+        }
+      },
+      {
+        "title": "so чи such?",
+        "a": {
+          "en": "The weather was so nice.",
+          "uk": "Погода була така гарна.",
+          "note": "so + прикметник без іменника."
+        },
+        "b": {
+          "en": "We had such nice weather.",
+          "uk": "У нас була така гарна погода.",
+          "note": "such + прикметник + іменник."
+        }
+      },
+      {
+        "title": "too чи not enough?",
+        "a": {
+          "en": "The flat is too small.",
+          "uk": "Квартира замала.",
+          "note": "Наголос на «занадто»."
+        },
+        "b": {
+          "en": "The flat isn't big enough.",
+          "uk": "Квартира недостатньо велика.",
+          "note": "Те саме по суті, але наголос на «бракує»."
+        }
+      }
+    ],
+    "signals": [],
+    "mistakes": [
+      {
+        "wrong": "It was so a beautiful day.",
+        "right": "It was such a beautiful day.",
+        "why": "Перед іменником — such (a), а не so."
+      },
+      {
+        "wrong": "He isn't enough old to drive.",
+        "right": "He isn't old enough to drive.",
+        "why": "enough стоїть після прикметника."
+      },
+      {
+        "wrong": "This bag is too much heavy.",
+        "right": "This bag is too heavy.",
+        "why": "Перед прикметником — просто too; too much — лише з іменником."
+      },
+      {
+        "wrong": "It was a such good film.",
+        "right": "It was such a good film.",
+        "why": "Порядок: such a + прикметник + іменник."
+      },
+      {
+        "wrong": "I'm too happy to see you!",
+        "right": "I'm so happy to see you!",
+        "why": "too — «занадто», проблема; для радості й захвату — so або very."
+      }
+    ]
   },
-  {
-   "en": "It's such a beautiful city!",
-   "uk": "Це таке гарне місто!"
-  },
-  {
-   "en": "I'm too tired to go out tonight.",
-   "uk": "Я надто втомлений, щоб кудись іти ввечері."
-  },
-  {
-   "en": "Is the room big enough for four people?",
-   "uk": "Кімната достатньо велика для чотирьох?"
-  },
-  {
-   "en": "We didn't have enough money for a taxi.",
-   "uk": "Нам не вистачало грошей на таксі."
-  }
- ],
- "exercises": [
-  {
-   "type": "choice",
-   "prompt": "It's ___ a lovely day!",
-   "options": [
-    "so",
-    "such",
-    "too"
-   ],
-   "answer": "such",
-   "explanation": "such a + adj + noun."
-  },
-  {
-   "type": "choice",
-   "prompt": "The soup is ___ hot to eat.",
-   "options": [
-    "too",
-    "so",
-    "enough"
-   ],
-   "answer": "too",
-   "explanation": "too + adj + to V."
-  },
-  {
-   "type": "choice",
-   "prompt": "She isn't old ___ to watch this film.",
-   "options": [
-    "too",
-    "enough",
-    "so"
-   ],
-   "answer": "enough",
-   "explanation": "adj + enough."
-  },
-  {
-   "type": "choice",
-   "prompt": "I was ___ tired that I went to bed at 8.",
-   "options": [
-    "such",
-    "so",
-    "too"
-   ],
-   "answer": "so",
-   "explanation": "so + adj + that."
-  },
-  {
-   "type": "input",
-   "prompt": "We don't have ___ chairs for everyone.",
-   "answer": [
-    "enough"
-   ],
-   "explanation": "enough + noun."
-  },
-  {
-   "type": "input",
-   "prompt": "They're ___ friendly people. (so / such)",
-   "answer": [
-    "such"
-   ],
-   "explanation": "such + adj + plural."
-  },
-  {
-   "type": "input",
-   "prompt": "This bag is ___ heavy. I can't lift it. (too / so / enough)",
-   "answer": [
-    "too",
-    "so"
-   ],
-   "explanation": "too heavy — «занадто важка» (далі не можу); so heavy — «така важка»."
-  },
-  {
-   "type": "error",
-   "sentence": "It was so a good party!",
-   "wrongIndex": 2,
-   "correction": "such",
-   "alt": [],
-   "explanation": "such a good party."
-  },
-  {
-   "type": "order",
-   "prompt": "Він недостатньо високий, щоб грати в баскетбол.",
-   "answer": [
-    "He isn't tall enough to play basketball.",
-    "He is not tall enough to play basketball."
-   ],
-   "explanation": "adj + enough."
-  },
-  {
-   "type": "order",
-   "prompt": "Ця куртка мені завелика.",
-   "answer": [
-    "This jacket is too big for me."
-   ],
-   "explanation": "too + прикметник — «занадто»."
-  },
-  {
-   "type": "transform",
-   "prompt": "It was very cold. We stayed at home. (so … that)",
-   "instruction": "Об'єднайте",
-   "answer": [
-    "It was so cold that we stayed at home.",
-    "It was so cold we stayed at home."
-   ],
-   "explanation": "so + прикметник + (that) + речення."
-  },
-  {
-   "type": "translate",
-   "uk": "Це була така смачна вечеря!",
-   "answer": [
-    "It was such a delicious dinner!",
-    "That was such a delicious dinner!",
-    "It was such a tasty dinner!"
-   ],
-   "explanation": "such a + прикметник + іменник."
-  }
- ]
+  "formula": [
+    "so + adj · such a + adj + noun",
+    "too + adj (+ to V) · adj + enough · enough + noun"
+  ],
+  "examples": [
+    {
+      "en": "The film was so boring that I fell asleep.",
+      "uk": "Фільм був такий нудний, що я заснув."
+    },
+    {
+      "en": "It's such a beautiful city!",
+      "uk": "Це таке гарне місто!"
+    },
+    {
+      "en": "I'm too tired to go out tonight.",
+      "uk": "Я надто втомлений, щоб кудись іти ввечері."
+    },
+    {
+      "en": "Is the room big enough for four people?",
+      "uk": "Кімната достатньо велика для чотирьох?"
+    },
+    {
+      "en": "We didn't have enough money for a taxi.",
+      "uk": "Нам не вистачало грошей на таксі."
+    }
+  ],
+  "exercises": [
+    {
+      "type": "choice",
+      "prompt": "It's ___ a lovely day!",
+      "options": [
+        "so",
+        "such",
+        "too"
+      ],
+      "answer": "such",
+      "explanation": "such a + adj + noun."
+    },
+    {
+      "type": "choice",
+      "prompt": "The soup is ___ hot to eat.",
+      "options": [
+        "too",
+        "so",
+        "enough"
+      ],
+      "answer": "too",
+      "explanation": "too + adj + to V."
+    },
+    {
+      "type": "choice",
+      "prompt": "She isn't old ___ to watch this film.",
+      "options": [
+        "too",
+        "enough",
+        "so"
+      ],
+      "answer": "enough",
+      "explanation": "adj + enough."
+    },
+    {
+      "type": "choice",
+      "prompt": "I was ___ tired that I went to bed at 8.",
+      "options": [
+        "such",
+        "so",
+        "too"
+      ],
+      "answer": "so",
+      "explanation": "so + adj + that."
+    },
+    {
+      "type": "input",
+      "prompt": "We don't have ___ chairs for everyone.",
+      "answer": [
+        "enough"
+      ],
+      "explanation": "enough + noun."
+    },
+    {
+      "type": "input",
+      "prompt": "They're ___ friendly people. (so / such)",
+      "answer": [
+        "such"
+      ],
+      "explanation": "such + adj + plural."
+    },
+    {
+      "type": "input",
+      "prompt": "This bag is ___ heavy. I can't lift it. (too / so / enough)",
+      "answer": [
+        "too",
+        "so"
+      ],
+      "explanation": "too heavy — «занадто важка» (далі не можу); so heavy — «така важка»."
+    },
+    {
+      "type": "error",
+      "sentence": "It was so a good party!",
+      "wrongIndex": 2,
+      "correction": "such",
+      "alt": [],
+      "explanation": "such a good party."
+    },
+    {
+      "type": "order",
+      "prompt": "Він недостатньо високий, щоб грати в баскетбол.",
+      "answer": [
+        "He isn't tall enough to play basketball.",
+        "He is not tall enough to play basketball."
+      ],
+      "explanation": "adj + enough."
+    },
+    {
+      "type": "order",
+      "prompt": "Ця куртка мені завелика.",
+      "answer": [
+        "This jacket is too big for me."
+      ],
+      "explanation": "too + прикметник — «занадто»."
+    },
+    {
+      "type": "transform",
+      "prompt": "It was very cold. We stayed at home. (so … that)",
+      "instruction": "Об'єднайте",
+      "answer": [
+        "It was so cold that we stayed at home.",
+        "It was so cold we stayed at home."
+      ],
+      "explanation": "so + прикметник + (that) + речення."
+    },
+    {
+      "type": "translate",
+      "uk": "Це була така смачна вечеря!",
+      "answer": [
+        "It was such a delicious dinner!",
+        "That was such a delicious dinner!",
+        "It was such a tasty dinner!"
+      ],
+      "explanation": "such a + прикметник + іменник."
+    }
+  ]
 }

@@ -124,8 +124,8 @@
       ],
       [
         "ever?",
-        "Have you ever eaten oscypek?",
-        "Ти колись їв оскипек?"
+        "Have you ever tried haggis?",
+        "Ти колись куштував хагіс?"
       ],
       [
         "never",
@@ -146,16 +146,16 @@
   },
   "examples": [
     {
-      "en": "I've been to Gdańsk twice.",
-      "uk": "Я двічі бував у Гданську."
+      "en": "I've been to Edinburgh twice.",
+      "uk": "Я двічі бував в Единбурзі."
     },
     {
-      "en": "Have you ever tried żurek?",
-      "uk": "Ти колись куштував журек?"
+      "en": "Have you ever tried fish and chips?",
+      "uk": "Ти колись куштував фіш-енд-чіпс?"
     },
     {
-      "en": "Emma has never been to Zakopane.",
-      "uk": "Емма ніколи не була в Закопаному."
+      "en": "Emma has never been to Wales.",
+      "uk": "Емма ніколи не була в Уельсі."
     },
     {
       "en": "We've just bought a new washing machine.",
@@ -284,9 +284,9 @@
     },
     {
       "type": "order",
-      "prompt": "Ти колись був у Варшаві?",
+      "prompt": "Ти колись був у Дубліні?",
       "answer": [
-        "Have you ever been to Warsaw?"
+        "Have you ever been to Dublin?"
       ],
       "explanation": "Have + you + ever + been."
     },

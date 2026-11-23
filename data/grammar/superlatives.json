@@ -149,8 +149,8 @@
   },
   "examples": [
     {
-      "en": "For me, Kraków is the most beautiful city in Poland.",
-      "uk": "Як на мене, Краків — найкрасивіше місто в Польщі."
+      "en": "For me, Edinburgh is the most beautiful city in Scotland.",
+      "uk": "Як на мене, Единбург — найкрасивіше місто Шотландії."
     },
     {
       "en": "This is the cheapest shop in our area.",
@@ -221,7 +221,7 @@
     },
     {
       "type": "choice",
-      "prompt": "Which is the biggest city ___ Poland?",
+      "prompt": "Which is the biggest city ___ Scotland?",
       "options": [
         "in",
         "of",
@@ -240,7 +240,7 @@
     },
     {
       "type": "input",
-      "prompt": "This is ___ (expensive) hotel in Kraków.",
+      "prompt": "This is ___ (expensive) hotel in London.",
       "answer": [
         "the most expensive"
       ],
@@ -264,7 +264,7 @@
     },
     {
       "type": "error",
-      "sentence": "This is the more interesting museum in Kraków.",
+      "sentence": "This is the more interesting museum in London.",
       "wrongIndex": 3,
       "correction": "most",
       "alt": [],

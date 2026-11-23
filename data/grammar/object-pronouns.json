@@ -189,7 +189,7 @@
     },
     {
       "type": "choice",
-      "prompt": "___ live in Kraków.",
+      "prompt": "___ live in London.",
       "options": [
         "We",
         "Us",

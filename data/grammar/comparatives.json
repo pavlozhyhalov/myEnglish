@@ -252,7 +252,7 @@
     },
     {
       "type": "error",
-      "sentence": "Warsaw is bigger that Kraków.",
+      "sentence": "London is bigger that Leeds.",
       "wrongIndex": 3,
       "correction": "than",
       "alt": [],

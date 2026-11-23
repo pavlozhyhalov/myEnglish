@@ -239,7 +239,7 @@
     },
     {
       "type": "input",
-      "prompt": "The Kowalskis have a red car. The red car is ___ (they).",
+      "prompt": "The Browns have a red car. The red car is ___ (they).",
       "answer": [
         "theirs"
       ],
@@ -310,10 +310,10 @@
     },
     {
       "type": "translate",
-      "uk": "Марек — один з моїх друзів.",
+      "uk": "Олівер — один з моїх друзів.",
       "answer": [
-        "Marek is a friend of mine.",
-        "Marek is one of my friends."
+        "Oliver is a friend of mine.",
+        "Oliver is one of my friends."
       ],
       "explanation": "a friend of mine = один з моїх друзів."
     }

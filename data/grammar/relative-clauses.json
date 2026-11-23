@@ -1,161 +1,265 @@
 {
- "id": "relative-clauses",
- "title": "Відносні речення: who, which, that, where",
- "titleEn": "Relative clauses: who, which, that, where, whose",
- "unit": "Будова речення",
- "level": "B1",
- "mistakeType": "word_order",
- "explanation": "Відносні речення уточнюють, **про кого / що** йдеться.\n\n- **who** — люди: *the man **who** lives next door*\n- **which** — речі, тварини: *the phone **which** I bought*\n- **that** — і люди, і речі (лише в обмежувальних реченнях без ком; особливо часто в розмові)\n- **where** — місця: *the city **where** I was born*\n- **whose** — чий: *the woman **whose** car was stolen*\n\nЯкщо *who/which/that* — **додаток** (після нього є свій підмет), його можна пропустити: *the film (that) **we** watched*.\n\nДодаткова інформація в комах — **лише which/who**, без that: *My sister, **who** lives in Lviv, is a doctor.*",
- "formula": [
-  "людина + who/that · річ + which/that",
-  "місце + where · чий + whose"
- ],
- "examples": [
-  {
-   "en": "That's the restaurant where we had our first date.",
-   "uk": "Це ресторан, де ми були на першому побаченні."
+  "id": "relative-clauses",
+  "title": "Відносні речення: who, which, that, where",
+  "titleEn": "Relative clauses: who, which, that, where, whose",
+  "unit": "Будова речення",
+  "level": "B1",
+  "mistakeType": "word_order",
+  "explanation": "Відносне речення стоїть **одразу після** слова, яке уточнює: *The man **who lives next door** is a pilot.*\n\n- **who** — люди · **which** — речі й тварини · **that** — люди й речі (без ком)\n- **where** — місця · **whose** + іменник — чий · **when** — час: *the day **when** we met*\n\n**Пропуск:** who / which / that можна пропустити, якщо після нього є свій підмет: *the film (that) **we** watched*. Якщо слово саме є підметом — не пропускаємо: *the man **who** lives next door*.\n\n**Коми:** додаткова інформація про вже відоме — у комах, лише *who / which*, пропускати не можна: *My brother, **who** lives in Dublin, is a chef.*\n\nЗайменник не повторюємо: *the book that I bought* (не ~~that I bought it~~).",
+  "guide": {
+    "idea": "Відносне речення працює як «довгий прикметник»: пояснює, про кого чи про що саме йдеться. Замість двох коротких речень (*I have a friend. She lives in Paris.*) кажемо одне: *I have a friend who lives in Paris.* Слово-зв'язка залежить від того, кого чи що уточнюємо.",
+    "use": [
+      {
+        "when": "Уточнити людину — who / that",
+        "note": "Який саме чоловік, яка жінка.",
+        "en": "The woman who helped me was really kind.",
+        "uk": "Жінка, яка мені допомогла, була дуже доброю."
+      },
+      {
+        "when": "Уточнити річ — which / that",
+        "note": "У розмові частіше that або взагалі без слова.",
+        "en": "Where's the charger that was on the table?",
+        "uk": "Де зарядка, яка лежала на столі?"
+      },
+      {
+        "when": "Місце — where",
+        "note": "Замість «у якому», «де».",
+        "en": "This is the café where we first met.",
+        "uk": "Це кафе, де ми вперше зустрілися."
+      },
+      {
+        "when": "Чий — whose",
+        "note": "Належність: людина + whose + те, що їй належить.",
+        "en": "I've got a neighbour whose dog barks all night.",
+        "uk": "У мене є сусід, чий собака гавкає всю ніч."
+      },
+      {
+        "when": "Додаткова інформація в комах",
+        "note": "Про кого мова, вже зрозуміло, — просто додаємо факт: лише who / which, з комами.",
+        "en": "Edinburgh, which is in Scotland, is famous for its festival.",
+        "uk": "Единбург, що в Шотландії, славиться своїм фестивалем."
+      }
+    ],
+    "vs": [
+      {
+        "title": "З комами чи без?",
+        "a": {
+          "en": "My sister who lives in Leeds is a vet.",
+          "uk": "Та моя сестра, що живе в Лідсі, — ветеринар.",
+          "note": "Без ком: сестер кілька — уточнюю, яка саме."
+        },
+        "b": {
+          "en": "My sister, who lives in Leeds, is a vet.",
+          "uk": "Моя сестра (вона живе в Лідсі) — ветеринар.",
+          "note": "З комами: сестра одна — це просто додатковий факт."
+        }
+      },
+      {
+        "title": "Можна пропустити чи ні?",
+        "a": {
+          "en": "The film we watched was great.",
+          "uk": "Фільм, який ми дивилися, був чудовий.",
+          "note": "Після слова є свій підмет (we) — that можна пропустити."
+        },
+        "b": {
+          "en": "The film that won the prize was boring.",
+          "uk": "Фільм, який отримав приз, був нудний.",
+          "note": "that тут сам підмет — пропускати не можна."
+        }
+      },
+      {
+        "title": "where чи which?",
+        "a": {
+          "en": "This is the hotel where we stayed.",
+          "uk": "Це готель, у якому ми зупинялися.",
+          "note": "Місце, де щось відбувалося, — where."
+        },
+        "b": {
+          "en": "This is the hotel which we booked.",
+          "uk": "Це готель, який ми забронювали.",
+          "note": "Готель — те, що забронювали (кого? що?), — which / that."
+        }
+      }
+    ],
+    "signals": [],
+    "mistakes": [
+      {
+        "wrong": "The man which called you is my boss.",
+        "right": "The man who called you is my boss.",
+        "why": "Про людей — who або that, не which."
+      },
+      {
+        "wrong": "This is the book that I told you about it.",
+        "right": "This is the book that I told you about.",
+        "why": "Займенник у відносному реченні не повторюємо."
+      },
+      {
+        "wrong": "Leeds, that is in the north, is a big city.",
+        "right": "Leeds, which is in the north, is a big city.",
+        "why": "У реченнях із комами — лише which / who, не that."
+      },
+      {
+        "wrong": "The girl lives next door is a student.",
+        "right": "The girl who lives next door is a student.",
+        "why": "Коли who — підмет відносного речення, його не можна пропустити."
+      },
+      {
+        "wrong": "I know a man who his car was stolen.",
+        "right": "I know a man whose car was stolen.",
+        "why": "«Чий» — одне слово whose, без his."
+      }
+    ]
   },
-  {
-   "en": "The woman who called you is my boss.",
-   "uk": "Жінка, яка тобі дзвонила, — моя начальниця."
-  },
-  {
-   "en": "Is this the book you were talking about?",
-   "uk": "Це та книжка, про яку ти говорив?"
-  },
-  {
-   "en": "I have a friend whose wife is from Brazil.",
-   "uk": "У мене є друг, дружина якого з Бразилії."
-  },
-  {
-   "en": "Kraków, which is in the south of Poland, is beautiful.",
-   "uk": "Краків, що на півдні Польщі, дуже гарний."
-  }
- ],
- "exercises": [
-  {
-   "type": "choice",
-   "prompt": "The man ___ fixed our car was very friendly.",
-   "options": [
-    "which",
-    "who",
-    "where"
-   ],
-   "answer": "who",
-   "explanation": "Людина."
-  },
-  {
-   "type": "choice",
-   "prompt": "This is the café ___ I usually work.",
-   "options": [
-    "which",
-    "where",
-    "who"
-   ],
-   "answer": "where",
-   "explanation": "Місце."
-  },
-  {
-   "type": "choice",
-   "prompt": "I lost the umbrella ___ you gave me.",
-   "options": [
-    "who",
-    "which",
-    "whose"
-   ],
-   "answer": "which",
-   "explanation": "Річ."
-  },
-  {
-   "type": "choice",
-   "prompt": "She's the girl ___ brother plays for Cracovia.",
-   "options": [
-    "who",
-    "whose",
-    "which"
-   ],
-   "answer": "whose",
-   "explanation": "Чий брат."
-  },
-  {
-   "type": "choice",
-   "prompt": "My father, ___ is 70, still goes cycling.",
-   "options": [
-    "that",
-    "who",
-    "which"
-   ],
-   "answer": "who",
-   "explanation": "Між комами (додаткова інформація) — who, а не that."
-  },
-  {
-   "type": "input",
-   "prompt": "Do you know anyone ___ speaks Japanese?",
-   "answer": [
-    "who",
-    "that"
-   ],
-   "explanation": "Про людину — who або that."
-  },
-  {
-   "type": "input",
-   "prompt": "That's the hotel ___ we stayed last year.",
-   "answer": [
-    "where"
-   ],
-   "explanation": "Місце — where."
-  },
-  {
-   "type": "error",
-   "sentence": "The film who we watched was boring.",
-   "wrongIndex": 2,
-   "correction": "which",
-   "alt": [
-    "that",
-    ""
-   ],
-   "explanation": "Річ → which/that; після film іде підмет (we), тож займенник можна й пропустити."
-  },
-  {
-   "type": "error",
-   "sentence": "I know a woman which works at the airport.",
-   "wrongIndex": 4,
-   "correction": "who",
-   "alt": [
-    "that"
-   ],
-   "explanation": "Людина → who/that."
-  },
-  {
-   "type": "order",
-   "prompt": "Це квартира, яку ми хочемо орендувати.",
-   "answer": [
-    "This is the flat we want to rent.",
-    "This is the flat that we want to rent.",
-    "This is the flat which we want to rent."
-   ],
-   "explanation": "Річ — which/that або без займенника, якщо після нього є підмет (we)."
-  },
-  {
-   "type": "transform",
-   "prompt": "I met a man. His dog was huge.",
-   "instruction": "Об'єднайте з whose",
-   "answer": [
-    "I met a man whose dog was huge."
-   ],
-   "explanation": "Чий собака → whose."
-  },
-  {
-   "type": "translate",
-   "uk": "Людина, яка мені допомогла, не залишила свого імені.",
-   "answer": [
-    "The person who helped me didn't leave their name.",
-    "The man who helped me didn't leave his name.",
-    "The woman who helped me didn't leave her name.",
-    "The person who helped me did not leave their name.",
-    "The person who helped me didn't leave a name."
-   ],
-   "explanation": "Про людину — who."
-  }
- ]
+  "formula": [
+    "людина + who/that · річ + which/that",
+    "місце + where · чий + whose"
+  ],
+  "examples": [
+    {
+      "en": "That's the restaurant where we had our first date.",
+      "uk": "Це ресторан, де ми були на першому побаченні."
+    },
+    {
+      "en": "The woman who called you is my boss.",
+      "uk": "Жінка, яка тобі дзвонила, — моя начальниця."
+    },
+    {
+      "en": "Is this the book you were talking about?",
+      "uk": "Це та книжка, про яку ти говорив?"
+    },
+    {
+      "en": "I have a friend whose wife is from Brazil.",
+      "uk": "У мене є друг, дружина якого з Бразилії."
+    },
+    {
+      "en": "Kraków, which is in the south of Poland, is beautiful.",
+      "uk": "Краків, що на півдні Польщі, дуже гарний."
+    }
+  ],
+  "exercises": [
+    {
+      "type": "choice",
+      "prompt": "The man ___ fixed our car was very friendly.",
+      "options": [
+        "which",
+        "who",
+        "where"
+      ],
+      "answer": "who",
+      "explanation": "Людина."
+    },
+    {
+      "type": "choice",
+      "prompt": "This is the café ___ I usually work.",
+      "options": [
+        "which",
+        "where",
+        "who"
+      ],
+      "answer": "where",
+      "explanation": "Місце."
+    },
+    {
+      "type": "choice",
+      "prompt": "I lost the umbrella ___ you gave me.",
+      "options": [
+        "who",
+        "which",
+        "whose"
+      ],
+      "answer": "which",
+      "explanation": "Річ."
+    },
+    {
+      "type": "choice",
+      "prompt": "She's the girl ___ brother plays for Cracovia.",
+      "options": [
+        "who",
+        "whose",
+        "which"
+      ],
+      "answer": "whose",
+      "explanation": "Чий брат."
+    },
+    {
+      "type": "choice",
+      "prompt": "My father, ___ is 70, still goes cycling.",
+      "options": [
+        "that",
+        "who",
+        "which"
+      ],
+      "answer": "who",
+      "explanation": "Між комами (додаткова інформація) — who, а не that."
+    },
+    {
+      "type": "input",
+      "prompt": "Do you know anyone ___ speaks Japanese?",
+      "answer": [
+        "who",
+        "that"
+      ],
+      "explanation": "Про людину — who або that."
+    },
+    {
+      "type": "input",
+      "prompt": "That's the hotel ___ we stayed last year.",
+      "answer": [
+        "where"
+      ],
+      "explanation": "Місце — where."
+    },
+    {
+      "type": "error",
+      "sentence": "The film who we watched was boring.",
+      "wrongIndex": 2,
+      "correction": "which",
+      "alt": [
+        "that",
+        ""
+      ],
+      "explanation": "Річ → which/that; після film іде підмет (we), тож займенник можна й пропустити."
+    },
+    {
+      "type": "error",
+      "sentence": "I know a woman which works at the airport.",
+      "wrongIndex": 4,
+      "correction": "who",
+      "alt": [
+        "that"
+      ],
+      "explanation": "Людина → who/that."
+    },
+    {
+      "type": "order",
+      "prompt": "Це квартира, яку ми хочемо орендувати.",
+      "answer": [
+        "This is the flat we want to rent.",
+        "This is the flat that we want to rent.",
+        "This is the flat which we want to rent."
+      ],
+      "explanation": "Річ — which/that або без займенника, якщо після нього є підмет (we)."
+    },
+    {
+      "type": "transform",
+      "prompt": "I met a man. His dog was huge.",
+      "instruction": "Об'єднайте з whose",
+      "answer": [
+        "I met a man whose dog was huge."
+      ],
+      "explanation": "Чий собака → whose."
+    },
+    {
+      "type": "translate",
+      "uk": "Людина, яка мені допомогла, не залишила свого імені.",
+      "answer": [
+        "The person who helped me didn't leave their name.",
+        "The man who helped me didn't leave his name.",
+        "The woman who helped me didn't leave her name.",
+        "The person who helped me did not leave their name.",
+        "The person who helped me didn't leave a name."
+      ],
+      "explanation": "Про людину — who."
+    }
+  ]
 }

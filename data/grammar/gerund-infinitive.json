@@ -1,160 +1,264 @@
 {
- "id": "gerund-infinitive",
- "title": "Герундій чи інфінітив",
- "titleEn": "Gerund (-ing) vs infinitive (to do)",
- "unit": "Будова речення",
- "level": "B1",
- "mistakeType": "other",
- "explanation": "Після деяких дієслів іде **-ing**, після інших — **to + V**. Це треба запам'ятати.\n\n**+ -ing:** *enjoy, mind, avoid, finish, keep, suggest, can't stand, practise, miss, consider* — *I enjoy **cooking**.*\n**+ to V:** *want, need, decide, hope, plan, agree, promise, refuse, manage, learn, would like* — *I decided **to stay**.*\n**Після прийменників — завжди -ing:** *I'm good **at drawing**. Thanks **for helping**. Before **leaving**…*\n\nЗмінюють значення:\n- *stop **smoking*** (кинути) vs *stop **to smoke*** (зупинитися, щоб покурити)\n- *remember **locking*** (пам'ятаю, що замкнув) vs *remember **to lock*** (не забути замкнути)\n- *try **opening** the window* (спробуй як варіант) vs *try **to open*** (намагатися)",
- "formula": [
-  "enjoy/mind/avoid/finish/keep + **V-ing**",
-  "want/decide/hope/plan/need + **to V**",
-  "прийменник + V-ing"
- ],
- "examples": [
-  {
-   "en": "Do you mind waiting a few minutes?",
-   "uk": "Ви не проти почекати кілька хвилин?"
+  "id": "gerund-infinitive",
+  "title": "Герундій чи інфінітив",
+  "titleEn": "Gerund (-ing) vs infinitive (to do)",
+  "unit": "Будова речення",
+  "level": "B1",
+  "mistakeType": "other",
+  "explanation": "**V-ing (герундій):**\n- після *enjoy, mind, avoid, finish, keep, suggest, practise, miss, consider, can't stand, give up*\n- після **будь-якого прийменника**: *good at, interested in, thanks for, before, after, without, look forward to*\n- як підмет: ***Swimming** is good for you.*\n\n**to + V (інфінітив):**\n- після *want, need, decide, hope, plan, agree, promise, refuse, manage, learn, offer, would like*\n- після прикметників: *happy **to help**, easy **to use***\n- мета «щоб»: *I came **to see** you.*\n\nПісля *like, love, hate, start, begin* — можна обидва: *I like **reading** / **to read**.*\nЗаперечення — *not* перед формою: *I decided **not to go**.*",
+  "guide": {
+    "idea": "Коли одне дієслово йде за іншим, друге стає або *-ing*, або *to + V*. Здебільшого це просто пара, яку треба запам'ятати. Але є підказка: *to + V* часто дивиться вперед (намір, мета, план), а *-ing* — на саму дію чи досвід.",
+    "use": [
+      {
+        "when": "Намір, рішення, план — to V",
+        "note": "want, decide, plan, hope, promise — дія ще попереду.",
+        "en": "We've decided to sell the car.",
+        "uk": "Ми вирішили продати машину."
+      },
+      {
+        "when": "Ставлення до дії — -ing",
+        "note": "enjoy, mind, avoid, keep, finish — про саму дію як процес.",
+        "en": "I don't mind working at the weekend.",
+        "uk": "Я не проти працювати у вихідні."
+      },
+      {
+        "when": "Після прийменника — завжди -ing",
+        "note": "about, at, for, in, of, without, before, after, look forward to.",
+        "en": "Thanks for helping me with the move.",
+        "uk": "Дякую, що допоміг мені з переїздом."
+      },
+      {
+        "when": "Мета «щоб» — to V",
+        "note": "Навіщо ви це робите — to + V, а не for + V.",
+        "en": "I went to the shop to buy some bread.",
+        "uk": "Я пішов у магазин купити хліба."
+      },
+      {
+        "when": "Дія як підмет — -ing",
+        "note": "Дія на початку речення як тема розмови.",
+        "en": "Cycling to work saves me a lot of money.",
+        "uk": "Їзда на роботу велосипедом заощаджує мені багато грошей."
+      }
+    ],
+    "vs": [
+      {
+        "title": "stop doing чи stop to do?",
+        "a": {
+          "en": "I stopped eating meat.",
+          "uk": "Я перестав їсти м'ясо.",
+          "note": "Припинив саму дію."
+        },
+        "b": {
+          "en": "I stopped to eat a sandwich.",
+          "uk": "Я зупинився, щоб з'їсти сендвіч.",
+          "note": "Зупинився з певною метою."
+        }
+      },
+      {
+        "title": "remember doing чи remember to do?",
+        "a": {
+          "en": "I remember locking the door.",
+          "uk": "Пам'ятаю, що замкнув двері.",
+          "note": "Спогад про те, що вже зроблено."
+        },
+        "b": {
+          "en": "Remember to lock the door.",
+          "uk": "Не забудь замкнути двері.",
+          "note": "Не забути зробити в майбутньому."
+        }
+      },
+      {
+        "title": "try doing чи try to do?",
+        "a": {
+          "en": "Try restarting your laptop.",
+          "uk": "Спробуй перезавантажити ноутбук.",
+          "note": "Спробуй як варіант — може, допоможе."
+        },
+        "b": {
+          "en": "I tried to open the jar, but the lid was too tight.",
+          "uk": "Я намагався відкрити банку, але кришка сиділа надто туго.",
+          "note": "Докладав зусиль — було важко."
+        }
+      }
+    ],
+    "signals": [],
+    "mistakes": [
+      {
+        "wrong": "I enjoy to cook.",
+        "right": "I enjoy cooking.",
+        "why": "Після enjoy — завжди -ing."
+      },
+      {
+        "wrong": "I'm looking forward to see you.",
+        "right": "I'm looking forward to seeing you.",
+        "why": "Тут to — прийменник, тому далі -ing."
+      },
+      {
+        "wrong": "I went there for buy a ticket.",
+        "right": "I went there to buy a ticket.",
+        "why": "Мету «щоб» передаємо через to + V, а не for."
+      },
+      {
+        "wrong": "She decided going home.",
+        "right": "She decided to go home.",
+        "why": "Після decide — to + V."
+      },
+      {
+        "wrong": "Thank you for help me.",
+        "right": "Thank you for helping me.",
+        "why": "Після прийменника for — -ing."
+      }
+    ]
   },
-  {
-   "en": "We're planning to visit Lisbon in spring.",
-   "uk": "Навесні ми плануємо поїхати до Лісабона."
-  },
-  {
-   "en": "I gave up trying to understand the instructions.",
-   "uk": "Я облишив спроби зрозуміти інструкцію."
-  },
-  {
-   "en": "Don't forget to buy some bread.",
-   "uk": "Не забудь купити хліба."
-  },
-  {
-   "en": "I'm looking forward to seeing you.",
-   "uk": "Чекаю на зустріч з тобою."
-  },
-  {
-   "en": "He's interested in learning Spanish.",
-   "uk": "Йому цікаво вивчати іспанську."
-  }
- ],
- "exercises": [
-  {
-   "type": "choice",
-   "prompt": "I enjoy ___ in the mountains.",
-   "options": [
-    "to hike",
-    "hiking",
-    "hike"
-   ],
-   "answer": "hiking",
-   "explanation": "enjoy + -ing."
-  },
-  {
-   "type": "choice",
-   "prompt": "We decided ___ a new flat.",
-   "options": [
-    "looking for",
-    "to look for",
-    "look for"
-   ],
-   "answer": "to look for",
-   "explanation": "decide + to."
-  },
-  {
-   "type": "choice",
-   "prompt": "Would you mind ___ the window?",
-   "options": [
-    "to close",
-    "closing",
-    "close"
-   ],
-   "answer": "closing",
-   "explanation": "mind + -ing."
-  },
-  {
-   "type": "choice",
-   "prompt": "I'm tired of ___ for the bus.",
-   "options": [
-    "wait",
-    "to wait",
-    "waiting"
-   ],
-   "answer": "waiting",
-   "explanation": "Після прийменника — -ing."
-  },
-  {
-   "type": "choice",
-   "prompt": "Remember ___ the door when you leave!",
-   "options": [
-    "locking",
-    "to lock",
-    "lock"
-   ],
-   "answer": "to lock",
-   "explanation": "Не забудь (майбутнє)."
-  },
-  {
-   "type": "input",
-   "prompt": "She promised ___ (call) me back. (2 слова)",
-   "answer": [
-    "to call"
-   ],
-   "explanation": "promise + to V."
-  },
-  {
-   "type": "input",
-   "prompt": "He keeps ___ (forget) my name.",
-   "answer": [
-    "forgetting"
-   ],
-   "explanation": "keep + V-ing — «постійно щось робити»."
-  },
-  {
-   "type": "error",
-   "sentence": "I want learning to play the guitar.",
-   "wrongIndex": 2,
-   "correction": "to learn",
-   "alt": [],
-   "explanation": "want + to V."
-  },
-  {
-   "type": "error",
-   "sentence": "I'm looking forward to see you.",
-   "wrongIndex": 4,
-   "correction": "seeing",
-   "alt": [],
-   "explanation": "look forward to + -ing (to тут прийменник)."
-  },
-  {
-   "type": "order",
-   "prompt": "Він кинув курити минулого року.",
-   "answer": [
-    "He stopped smoking last year.",
-    "He gave up smoking last year.",
-    "Last year he stopped smoking."
-   ],
-   "explanation": "stop / give up + V-ing — припинити звичку."
-  },
-  {
-   "type": "transform",
-   "prompt": "I like to swim. (отримувати задоволення)",
-   "instruction": "Перепишіть з enjoy",
-   "answer": [
-    "I enjoy swimming."
-   ],
-   "explanation": "enjoy + V-ing."
-  },
-  {
-   "type": "translate",
-   "uk": "Мені вдалося знайти місце для паркування.",
-   "answer": [
-    "I managed to find a parking space.",
-    "I managed to find a parking spot.",
-    "I managed to find a place to park.",
-    "I managed to find somewhere to park.",
-    "I was able to find a parking space."
-   ],
-   "explanation": "manage + to V — «вдалося»."
-  }
- ]
+  "formula": [
+    "enjoy/mind/avoid/finish/keep + **V-ing**",
+    "want/decide/hope/plan/need + **to V**",
+    "прийменник + V-ing"
+  ],
+  "examples": [
+    {
+      "en": "Do you mind waiting a few minutes?",
+      "uk": "Ви не проти почекати кілька хвилин?"
+    },
+    {
+      "en": "We're planning to visit Lisbon in spring.",
+      "uk": "Навесні ми плануємо поїхати до Лісабона."
+    },
+    {
+      "en": "I gave up trying to understand the instructions.",
+      "uk": "Я облишив спроби зрозуміти інструкцію."
+    },
+    {
+      "en": "Don't forget to buy some bread.",
+      "uk": "Не забудь купити хліба."
+    },
+    {
+      "en": "I'm looking forward to seeing you.",
+      "uk": "Чекаю на зустріч з тобою."
+    },
+    {
+      "en": "He's interested in learning Spanish.",
+      "uk": "Йому цікаво вивчати іспанську."
+    }
+  ],
+  "exercises": [
+    {
+      "type": "choice",
+      "prompt": "I enjoy ___ in the mountains.",
+      "options": [
+        "to hike",
+        "hiking",
+        "hike"
+      ],
+      "answer": "hiking",
+      "explanation": "enjoy + -ing."
+    },
+    {
+      "type": "choice",
+      "prompt": "We decided ___ a new flat.",
+      "options": [
+        "looking for",
+        "to look for",
+        "look for"
+      ],
+      "answer": "to look for",
+      "explanation": "decide + to."
+    },
+    {
+      "type": "choice",
+      "prompt": "Would you mind ___ the window?",
+      "options": [
+        "to close",
+        "closing",
+        "close"
+      ],
+      "answer": "closing",
+      "explanation": "mind + -ing."
+    },
+    {
+      "type": "choice",
+      "prompt": "I'm tired of ___ for the bus.",
+      "options": [
+        "wait",
+        "to wait",
+        "waiting"
+      ],
+      "answer": "waiting",
+      "explanation": "Після прийменника — -ing."
+    },
+    {
+      "type": "choice",
+      "prompt": "Remember ___ the door when you leave!",
+      "options": [
+        "locking",
+        "to lock",
+        "lock"
+      ],
+      "answer": "to lock",
+      "explanation": "Не забудь (майбутнє)."
+    },
+    {
+      "type": "input",
+      "prompt": "She promised ___ (call) me back. (2 слова)",
+      "answer": [
+        "to call"
+      ],
+      "explanation": "promise + to V."
+    },
+    {
+      "type": "input",
+      "prompt": "He keeps ___ (forget) my name.",
+      "answer": [
+        "forgetting"
+      ],
+      "explanation": "keep + V-ing — «постійно щось робити»."
+    },
+    {
+      "type": "error",
+      "sentence": "I want learning to play the guitar.",
+      "wrongIndex": 2,
+      "correction": "to learn",
+      "alt": [],
+      "explanation": "want + to V."
+    },
+    {
+      "type": "error",
+      "sentence": "I'm looking forward to see you.",
+      "wrongIndex": 4,
+      "correction": "seeing",
+      "alt": [],
+      "explanation": "look forward to + -ing (to тут прийменник)."
+    },
+    {
+      "type": "order",
+      "prompt": "Він кинув курити минулого року.",
+      "answer": [
+        "He stopped smoking last year.",
+        "He gave up smoking last year.",
+        "Last year he stopped smoking."
+      ],
+      "explanation": "stop / give up + V-ing — припинити звичку."
+    },
+    {
+      "type": "transform",
+      "prompt": "I like to swim. (отримувати задоволення)",
+      "instruction": "Перепишіть з enjoy",
+      "answer": [
+        "I enjoy swimming."
+      ],
+      "explanation": "enjoy + V-ing."
+    },
+    {
+      "type": "translate",
+      "uk": "Мені вдалося знайти місце для паркування.",
+      "answer": [
+        "I managed to find a parking space.",
+        "I managed to find a parking spot.",
+        "I managed to find a place to park.",
+        "I managed to find somewhere to park.",
+        "I was able to find a parking space."
+      ],
+      "explanation": "manage + to V — «вдалося»."
+    }
+  ]
 }

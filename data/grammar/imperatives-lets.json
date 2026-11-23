@@ -79,7 +79,7 @@
       {
         "wrong": "Not touch it!",
         "right": "Don't touch it!",
-        "why": "Заборона — завжди Don't + дієслово."
+        "why": "Заборону будують з Don't + дієслово, а не з Not."
       },
       {
         "wrong": "Don't to be late.",
@@ -149,8 +149,8 @@
   },
   "examples": [
     {
-      "en": "Take the tram and get off at the Main Square.",
-      "uk": "Сідай на трамвай і виходь на Головній площі."
+      "en": "Take the number 5 bus and get off at the station.",
+      "uk": "Сідай на п'ятий автобус і виходь біля вокзалу."
     },
     {
       "en": "Don't forget to buy bread.",

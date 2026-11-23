@@ -1,184 +1,281 @@
 {
- "id": "articles",
- "title": "Артиклі a/an і the",
- "titleEn": "Articles: a/an vs the",
- "unit": "Іменник і артиклі",
- "level": "B1",
- "mistakeType": "articles",
- "explanation": "В українській артиклів немає, тому це **найчастіша помилка**. Головна логіка:\n\n**a / an** — «один якийсь», **вперше** згадуємо, неважливо який:\n*I saw **a** dog.* · *She's **a** doctor.* (професія!)\n\n**the** — «той самий», **конкретний**, відомий обом:\n***The** dog was huge.* (той, про якого я сказав)\n*Can you close **the** door?* (ті двері, що перед нами)\nЄдині у своєму роді: *the sun, the internet, the government*.\n\n*an* — перед **голосним звуком**: *an apple, an hour* (h не вимовляється), але *a university* (звук /j/).",
- "formula": [
-  "a/an + одна злічувана річ (вперше, будь-яка)",
-  "the + конкретна, відома, єдина"
- ],
- "table": {
-  "head": [
-   "Ситуація",
-   "Приклад"
+  "id": "articles",
+  "title": "Артиклі a/an і the",
+  "titleEn": "Articles: a/an vs the",
+  "unit": "Іменник і артиклі",
+  "level": "B1",
+  "mistakeType": "articles",
+  "explanation": "**a** — перед приголосним **звуком**: *a book, a university, a European city*\n**an** — перед голосним **звуком**: *an apple, an hour, an MP*\n**the** — з усіма: *the book, the apple, the books*\n\n- a / an — лише з **одниною злічуваних**: *a chair* (але не ~~a water~~, не ~~a chairs~~)\n- прикметник стоїть між артиклем та іменником: *a **nice** flat · the **same** day*\n- *the* вимовляють /ðə/ перед приголосним і /ði/ перед голосним: *the end*\n- найвищий ступінь — з *the*: *the best, the biggest*",
+  "guide": {
+    "idea": "Артикль показує, чи знає слухач, про який саме предмет ідеться. *a / an* — «якийсь один, ще невідомий»; *the* — «той самий, ви знаєте який». В українській цю роботу роблять контекст і слова «один», «цей», тому ми артиклі легко пропускаємо.",
+    "use": [
+      {
+        "when": "Перша згадка — a / an",
+        "note": "Слухач ще не знає, про який предмет ідеться.",
+        "en": "We stayed in a small hotel near the beach.",
+        "uk": "Ми зупинилися в невеликому готелі біля пляжу."
+      },
+      {
+        "when": "Повторна згадка — the",
+        "note": "Про цей предмет уже говорили — тепер він відомий.",
+        "en": "The hotel had a lovely garden.",
+        "uk": "У готелю був чудовий сад."
+      },
+      {
+        "when": "Хто ви, що це — a / an",
+        "note": "Професія чи «що це за річ» в однині — з a / an.",
+        "en": "Sophie's a nurse.",
+        "uk": "Софі — медсестра."
+      },
+      {
+        "when": "Зрозуміло з ситуації — the",
+        "note": "Обидва бачать чи знають, про що мова: двері в кімнаті, наш кіт.",
+        "en": "Can you open the window, please?",
+        "uk": "Відчини, будь ласка, вікно."
+      },
+      {
+        "when": "Єдине у світі — the",
+        "note": "the sun, the sea, the internet, the government.",
+        "en": "I read the news on the internet.",
+        "uk": "Я читаю новини в інтернеті."
+      },
+      {
+        "when": "Уточнено словами після — the",
+        "note": "Уточнення з of, in, who, that робить предмет конкретним.",
+        "en": "The girl in the red coat is my cousin.",
+        "uk": "Дівчина в червоному пальті — моя двоюрідна сестра."
+      }
+    ],
+    "vs": [
+      {
+        "title": "a чи the?",
+        "a": {
+          "en": "I need a pen.",
+          "uk": "Мені потрібна ручка.",
+          "note": "Будь-яка ручка."
+        },
+        "b": {
+          "en": "I need the pen on your desk.",
+          "uk": "Мені потрібна ручка з твого столу.",
+          "note": "Конкретна, обидва знаємо яка."
+        }
+      },
+      {
+        "title": "a чи an?",
+        "a": {
+          "en": "a university",
+          "uk": "університет",
+          "note": "На початку звук /j/ — a."
+        },
+        "b": {
+          "en": "an hour",
+          "uk": "година",
+          "note": "h не вимовляється, звук голосний — an."
+        }
+      }
+    ],
+    "signals": [],
+    "mistakes": [
+      {
+        "wrong": "She's teacher.",
+        "right": "She's a teacher.",
+        "why": "Перед професією в однині — a / an."
+      },
+      {
+        "wrong": "Sun is very hot today.",
+        "right": "The sun is very hot today.",
+        "why": "Єдине у світі — з the."
+      },
+      {
+        "wrong": "I bought a car. A car is red.",
+        "right": "I bought a car. The car is red.",
+        "why": "Удруге про той самий предмет — the."
+      },
+      {
+        "wrong": "Can you close door?",
+        "right": "Can you close the door?",
+        "why": "Злічуваний іменник в однині не стоїть без артикля."
+      },
+      {
+        "wrong": "It's a best café in town.",
+        "right": "It's the best café in town.",
+        "why": "Найвищий ступінь — завжди з the."
+      }
+    ]
+  },
+  "formula": [
+    "a/an + одна злічувана річ (вперше, будь-яка)",
+    "the + конкретна, відома, єдина"
   ],
-  "rows": [
-   [
-    "Перша згадка",
-    "We stayed in a hotel."
-   ],
-   [
-    "Повторна згадка",
-    "The hotel was near the beach."
-   ],
-   [
-    "Професія",
-    "My wife is a teacher."
-   ],
-   [
-    "Єдине",
-    "the moon, the sea, the world"
-   ],
-   [
-    "Конкретне в ситуації",
-    "Pass me the salt, please."
-   ]
+  "table": {
+    "head": [
+      "Ситуація",
+      "Приклад"
+    ],
+    "rows": [
+      [
+        "Перша згадка",
+        "We stayed in a hotel."
+      ],
+      [
+        "Повторна згадка",
+        "The hotel was near the beach."
+      ],
+      [
+        "Професія",
+        "My wife is a teacher."
+      ],
+      [
+        "Єдине",
+        "the moon, the sea, the world"
+      ],
+      [
+        "Конкретне в ситуації",
+        "Pass me the salt, please."
+      ]
+    ]
+  },
+  "examples": [
+    {
+      "en": "I bought a new jacket. The jacket was on sale.",
+      "uk": "Я купив нову куртку. Куртка була зі знижкою."
+    },
+    {
+      "en": "Is there a pharmacy near here?",
+      "uk": "Тут поруч є аптека?"
+    },
+    {
+      "en": "Can you turn off the light, please?",
+      "uk": "Вимкни, будь ласка, світло."
+    },
+    {
+      "en": "He's an engineer.",
+      "uk": "Він інженер."
+    },
+    {
+      "en": "I waited for an hour.",
+      "uk": "Я чекав годину."
+    },
+    {
+      "en": "The weather is lovely today.",
+      "uk": "Сьогодні чудова погода."
+    }
+  ],
+  "tip": "Якщо можна сказати українською «цей / той самий» — швидше за все **the**. Якщо «якийсь / один» — **a**.",
+  "exercises": [
+    {
+      "type": "choice",
+      "prompt": "My brother is ___ architect.",
+      "options": [
+        "a",
+        "an",
+        "the"
+      ],
+      "answer": "an",
+      "explanation": "Професія + голосний звук."
+    },
+    {
+      "type": "choice",
+      "prompt": "I've got ___ idea!",
+      "options": [
+        "a",
+        "an",
+        "the"
+      ],
+      "answer": "an",
+      "explanation": "Голосний звук."
+    },
+    {
+      "type": "choice",
+      "prompt": "Could you open ___ window? It's hot in here.",
+      "options": [
+        "a",
+        "an",
+        "the"
+      ],
+      "answer": "the",
+      "explanation": "Конкретне вікно в кімнаті."
+    },
+    {
+      "type": "choice",
+      "prompt": "We stayed in ___ small hotel. ___ hotel had a great view.",
+      "options": [
+        "a / The",
+        "the / A",
+        "a / A"
+      ],
+      "answer": "a / The",
+      "explanation": "Перша і повторна згадка."
+    },
+    {
+      "type": "choice",
+      "prompt": "She studies at ___ university.",
+      "options": [
+        "a",
+        "an"
+      ],
+      "answer": "a",
+      "explanation": "university — звук /j/."
+    },
+    {
+      "type": "input",
+      "prompt": "I saw ___ interesting film yesterday.",
+      "answer": [
+        "an"
+      ],
+      "explanation": "interesting починається з голосного звуку → an."
+    },
+    {
+      "type": "input",
+      "prompt": "___ sun is shining.",
+      "answer": [
+        "The",
+        "the"
+      ],
+      "explanation": "Єдине."
+    },
+    {
+      "type": "input",
+      "prompt": "Is there ___ bank near here?",
+      "answer": [
+        "a"
+      ],
+      "explanation": "Будь-який."
+    },
+    {
+      "type": "error",
+      "sentence": "My wife is teacher.",
+      "wrongIndex": 3,
+      "correction": "a teacher",
+      "alt": [],
+      "explanation": "Професія — з a."
+    },
+    {
+      "type": "error",
+      "sentence": "I waited for a hour.",
+      "wrongIndex": 3,
+      "correction": "an",
+      "alt": [],
+      "explanation": "hour — h не вимовляється → an hour."
+    },
+    {
+      "type": "order",
+      "prompt": "Я купив машину. Машина червона.",
+      "answer": [
+        "I bought a car. The car is red."
+      ],
+      "explanation": "Перша згадка — a car, повторна — the car."
+    },
+    {
+      "type": "translate",
+      "uk": "Вона працює в лікарні медсестрою.",
+      "answer": [
+        "She works in a hospital as a nurse.",
+        "She works at a hospital as a nurse.",
+        "She is a nurse in a hospital.",
+        "She is a nurse at a hospital."
+      ],
+      "explanation": "Професія — a nurse; заклад, про який згадуємо вперше, — a hospital."
+    }
   ]
- },
- "examples": [
-  {
-   "en": "I bought a new jacket. The jacket was on sale.",
-   "uk": "Я купив нову куртку. Куртка була зі знижкою."
-  },
-  {
-   "en": "Is there a pharmacy near here?",
-   "uk": "Тут поруч є аптека?"
-  },
-  {
-   "en": "Can you turn off the light, please?",
-   "uk": "Вимкни, будь ласка, світло."
-  },
-  {
-   "en": "He's an engineer.",
-   "uk": "Він інженер."
-  },
-  {
-   "en": "I waited for an hour.",
-   "uk": "Я чекав годину."
-  },
-  {
-   "en": "The weather is lovely today.",
-   "uk": "Сьогодні чудова погода."
-  }
- ],
- "tip": "Якщо можна сказати українською «цей / той самий» — швидше за все **the**. Якщо «якийсь / один» — **a**.",
- "exercises": [
-  {
-   "type": "choice",
-   "prompt": "My brother is ___ architect.",
-   "options": [
-    "a",
-    "an",
-    "the"
-   ],
-   "answer": "an",
-   "explanation": "Професія + голосний звук."
-  },
-  {
-   "type": "choice",
-   "prompt": "I've got ___ idea!",
-   "options": [
-    "a",
-    "an",
-    "the"
-   ],
-   "answer": "an",
-   "explanation": "Голосний звук."
-  },
-  {
-   "type": "choice",
-   "prompt": "Could you open ___ window? It's hot in here.",
-   "options": [
-    "a",
-    "an",
-    "the"
-   ],
-   "answer": "the",
-   "explanation": "Конкретне вікно в кімнаті."
-  },
-  {
-   "type": "choice",
-   "prompt": "We stayed in ___ small hotel. ___ hotel had a great view.",
-   "options": [
-    "a / The",
-    "the / A",
-    "a / A"
-   ],
-   "answer": "a / The",
-   "explanation": "Перша і повторна згадка."
-  },
-  {
-   "type": "choice",
-   "prompt": "She studies at ___ university.",
-   "options": [
-    "a",
-    "an"
-   ],
-   "answer": "a",
-   "explanation": "university — звук /j/."
-  },
-  {
-   "type": "input",
-   "prompt": "I saw ___ interesting film yesterday.",
-   "answer": [
-    "an"
-   ],
-   "explanation": "interesting починається з голосного звуку → an."
-  },
-  {
-   "type": "input",
-   "prompt": "___ sun is shining.",
-   "answer": [
-    "The",
-    "the"
-   ],
-   "explanation": "Єдине."
-  },
-  {
-   "type": "input",
-   "prompt": "Is there ___ bank near here?",
-   "answer": [
-    "a"
-   ],
-   "explanation": "Будь-який."
-  },
-  {
-   "type": "error",
-   "sentence": "My wife is teacher.",
-   "wrongIndex": 3,
-   "correction": "a teacher",
-   "alt": [],
-   "explanation": "Професія — з a."
-  },
-  {
-   "type": "error",
-   "sentence": "I waited for a hour.",
-   "wrongIndex": 3,
-   "correction": "an",
-   "alt": [],
-   "explanation": "hour — h не вимовляється → an hour."
-  },
-  {
-   "type": "order",
-   "prompt": "Я купив машину. Машина червона.",
-   "answer": [
-    "I bought a car. The car is red."
-   ],
-   "explanation": "Перша згадка — a car, повторна — the car."
-  },
-  {
-   "type": "translate",
-   "uk": "Вона працює в лікарні медсестрою.",
-   "answer": [
-    "She works in a hospital as a nurse.",
-    "She works at a hospital as a nurse.",
-    "She is a nurse in a hospital.",
-    "She is a nurse at a hospital."
-   ],
-   "explanation": "Професія — a nurse; заклад, про який згадуємо вперше, — a hospital."
-  }
- ]
 }

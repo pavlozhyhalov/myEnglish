@@ -1,157 +1,267 @@
 {
- "id": "modals-ability",
- "title": "Can, could, be able to, may",
- "titleEn": "Ability and permission: can, could, be able to, may, be allowed to",
- "unit": "Модальні дієслова",
- "level": "B1",
- "mistakeType": "other",
- "explanation": "**Уміння:**\n- *can* — зараз: *I can swim.*\n- *could* — загалом у минулому: *I could read when I was four.*\n- *be able to* — для інших часів і для **конкретного успіху в минулому**: *I'll be able to help you tomorrow. Despite the traffic, we **were able to** catch the train.*\n\n**Дозвіл:**\n- *Can I…?* — розмовне, *Could I…?* — ввічливіше, *May I…?* — формальне.\n- *be allowed to* — дозволено (правилами): *We aren't allowed to use phones at the cinema.*",
- "formula": [
-  "can / could / may + V",
-  "will be able to · was able to · have been able to"
- ],
- "examples": [
-  {
-   "en": "Can you speak Polish? — A little.",
-   "uk": "Ти розмовляєш польською? — Трохи."
+  "id": "modals-ability",
+  "title": "Can, could, be able to, may",
+  "titleEn": "Ability and permission: can, could, be able to, may, be allowed to",
+  "unit": "Модальні дієслова",
+  "level": "B1",
+  "mistakeType": "other",
+  "explanation": "Після **can, could, may** — дієслово без to, форма однакова для всіх осіб: *She **can** swim* (не ~~cans~~).\n- **−** can't (cannot) · couldn't · may not\n- **?** Can / Could / May + підмет + V: ***Could** you help me?*\n\n**be able to** — там, де can не має форми:\n- майбутнє: **will be able to** · Present Perfect: **have been able to**\n- після інших модальних і *to*: *I'd like **to be able to** ski.*\n\n**be allowed to** — дозвіл за правилами: *am / is / are allowed to · was / were allowed to*\n\nВідповіді на прохання: *Sure, go ahead. · Of course. · I'm afraid not.*",
+  "guide": {
+    "idea": "Ці слова відповідають на два питання: «чи вмію, чи зможу?» і «чи можна?». *can* — найуживаніше для обох, *could* — минуле вміння й ввічливе прохання, *be able to* — заміна can там, де can не має форми.",
+    "use": [
+      {
+        "when": "Уміння зараз",
+        "note": "can / can't — умію чи ні, можу чи не можу зараз.",
+        "en": "Can you speak French? — Just a little.",
+        "uk": "Ви розмовляєте французькою? — Трошки."
+      },
+      {
+        "when": "Уміння в минулому загалом",
+        "note": "could — умів колись, протягом певного періоду.",
+        "en": "I could ride a bike when I was four.",
+        "uk": "Я вмів їздити на велосипеді в чотири роки."
+      },
+      {
+        "when": "Вдалося одного разу",
+        "note": "Конкретний успіх у минулому — was / were able to або managed to, не could.",
+        "en": "The shop was closed, but we were able to buy milk at the petrol station.",
+        "uk": "Магазин був зачинений, але нам вдалося купити молоко на заправці."
+      },
+      {
+        "when": "Зможу в майбутньому",
+        "note": "will be able to — can не має майбутньої форми.",
+        "en": "I'll be able to help you after six.",
+        "uk": "Я зможу тобі допомогти після шостої."
+      },
+      {
+        "when": "Прохання й дозвіл",
+        "note": "Can I…? — просто, Could I…? — ввічливіше, May I…? — офіційно.",
+        "en": "Could I borrow your charger for a minute?",
+        "uk": "Можна позичити твою зарядку на хвилинку?"
+      },
+      {
+        "when": "Дозволено правилами",
+        "note": "be allowed to — що дозволяють чи забороняють правила.",
+        "en": "We aren't allowed to take photos in the museum.",
+        "uk": "У музеї не можна фотографувати."
+      }
+    ],
+    "vs": [
+      {
+        "title": "could чи was able to?",
+        "a": {
+          "en": "I could swim when I was six.",
+          "uk": "Я вмів плавати в шість років.",
+          "note": "Загальне вміння в минулому."
+        },
+        "b": {
+          "en": "The water was cold, but I was able to swim to the shore.",
+          "uk": "Вода була холодна, але я зміг доплисти до берега.",
+          "note": "Один конкретний успіх — was able to."
+        }
+      },
+      {
+        "title": "can чи be allowed to?",
+        "a": {
+          "en": "Can I park here?",
+          "uk": "Тут можна припаркуватися?",
+          "note": "Звичайне розмовне питання."
+        },
+        "b": {
+          "en": "Are we allowed to park here?",
+          "uk": "Тут дозволено паркуватися?",
+          "note": "Питаємо саме про правила."
+        }
+      },
+      {
+        "title": "Can you…? чи Could you…?",
+        "a": {
+          "en": "Can you pass the salt?",
+          "uk": "Передай сіль.",
+          "note": "Між своїми — нормально."
+        },
+        "b": {
+          "en": "Could you tell me the way to the station?",
+          "uk": "Чи не підкажете, як пройти до вокзалу?",
+          "note": "До незнайомих і на роботі — ввічливіше."
+        }
+      }
+    ],
+    "signals": [],
+    "mistakes": [
+      {
+        "wrong": "I will can help you tomorrow.",
+        "right": "I'll be able to help you tomorrow.",
+        "why": "can не має майбутньої форми — will be able to."
+      },
+      {
+        "wrong": "She cans drive.",
+        "right": "She can drive.",
+        "why": "can не змінюється за особою — без -s."
+      },
+      {
+        "wrong": "I can to swim.",
+        "right": "I can swim.",
+        "why": "Після can — дієслово без to."
+      },
+      {
+        "wrong": "We ran and could catch the last bus.",
+        "right": "We ran and managed to catch the last bus.",
+        "why": "Конкретний успіх у минулому — managed to / was able to; could — загальне вміння."
+      },
+      {
+        "wrong": "I haven't could sleep.",
+        "right": "I haven't been able to sleep.",
+        "why": "Після have / has — been able to."
+      }
+    ]
   },
-  {
-   "en": "Could you pass the salt, please?",
-   "uk": "Чи не передасте сіль, будь ласка?"
-  },
-  {
-   "en": "I haven't been able to sleep well lately.",
-   "uk": "Останнім часом я не можу нормально спати."
-  },
-  {
-   "en": "May I come in?",
-   "uk": "Можна увійти?"
-  },
-  {
-   "en": "Are we allowed to bring our dog?",
-   "uk": "Нам можна взяти собаку?"
-  },
-  {
-   "en": "I'll be able to drive after I pass the test.",
-   "uk": "Я зможу водити, коли складу іспит."
-  }
- ],
- "exercises": [
-  {
-   "type": "choice",
-   "prompt": "I ___ ride a bike when I was five.",
-   "options": [
-    "can",
-    "could",
-    "am able"
-   ],
-   "answer": "could",
-   "explanation": "Уміння в минулому загалом."
-  },
-  {
-   "type": "choice",
-   "prompt": "I'm sorry, I ___ come to your party next week.",
-   "options": [
-    "won't be able to",
-    "can't to",
-    "couldn't"
-   ],
-   "answer": "won't be able to",
-   "explanation": "Майбутнє → be able to."
-  },
-  {
-   "type": "choice",
-   "prompt": "___ I use your phone, please?",
-   "options": [
-    "May",
-    "Must",
-    "Should"
-   ],
-   "answer": "May",
-   "explanation": "Ввічливий дозвіл."
-  },
-  {
-   "type": "choice",
-   "prompt": "Passengers ___ smoke on the plane.",
-   "options": [
-    "aren't allowed to",
-    "don't can",
-    "can't to"
-   ],
-   "answer": "aren't allowed to",
-   "explanation": "Заборона правилами."
-  },
-  {
-   "type": "input",
-   "prompt": "___ you help me with this box? (ввічливо, 1 слово)",
-   "answer": [
-    "Could",
-    "Would"
-   ],
-   "explanation": "Ввічливе прохання: Could / Would you…?"
-  },
-  {
-   "type": "input",
-   "prompt": "We ___ to find a parking space, so we were late. (be able, заперечення)",
-   "answer": [
-    "weren't able",
-    "were not able"
-   ],
-   "explanation": "Конкретний невдалий випадок."
-  },
-  {
-   "type": "input",
-   "prompt": "I've never ___ to understand maths. (be able, 2 слова)",
-   "answer": [
-    "been able"
-   ],
-   "explanation": "Present Perfect → been able to."
-  },
-  {
-   "type": "error",
-   "sentence": "I can swimming very well.",
-   "wrongIndex": 2,
-   "correction": "swim",
-   "alt": [],
-   "explanation": "can + V без to: I can swim."
-  },
-  {
-   "type": "error",
-   "sentence": "Will you can come tomorrow?",
-   "wrongIndex": 2,
-   "correction": "be able to",
-   "alt": [],
-   "explanation": "Майбутнє: Will you be able to come?"
-  },
-  {
-   "type": "order",
-   "prompt": "Чи можете ви говорити повільніше?",
-   "answer": [
-    "Could you speak more slowly?"
-   ],
-   "explanation": "Ввічливе прохання — Could you…?"
-  },
-  {
-   "type": "transform",
-   "prompt": "It is possible for me to meet you on Friday.",
-   "instruction": "Перепишіть з can",
-   "answer": [
-    "I can meet you on Friday."
-   ],
-   "explanation": "Можливість зараз або в майбутньому — can + V."
-  },
-  {
-   "type": "translate",
-   "uk": "Ми змогли купити квитки в останній момент.",
-   "answer": [
-    "We were able to buy tickets at the last moment.",
-    "We managed to buy tickets at the last minute.",
-    "We were able to buy the tickets at the last minute.",
-    "We were able to buy tickets at the last minute.",
-    "We managed to buy tickets at the last moment.",
-    "We managed to buy the tickets at the last minute."
-   ],
-   "explanation": "Конкретний успіх → was/were able to."
-  }
- ]
+  "formula": [
+    "can / could / may + V",
+    "will be able to · was able to · have been able to"
+  ],
+  "examples": [
+    {
+      "en": "Can you speak Polish? — A little.",
+      "uk": "Ти розмовляєш польською? — Трохи."
+    },
+    {
+      "en": "Could you pass the salt, please?",
+      "uk": "Чи не передасте сіль, будь ласка?"
+    },
+    {
+      "en": "I haven't been able to sleep well lately.",
+      "uk": "Останнім часом я не можу нормально спати."
+    },
+    {
+      "en": "May I come in?",
+      "uk": "Можна увійти?"
+    },
+    {
+      "en": "Are we allowed to bring our dog?",
+      "uk": "Нам можна взяти собаку?"
+    },
+    {
+      "en": "I'll be able to drive after I pass the test.",
+      "uk": "Я зможу водити, коли складу іспит."
+    }
+  ],
+  "exercises": [
+    {
+      "type": "choice",
+      "prompt": "I ___ ride a bike when I was five.",
+      "options": [
+        "can",
+        "could",
+        "am able"
+      ],
+      "answer": "could",
+      "explanation": "Уміння в минулому загалом."
+    },
+    {
+      "type": "choice",
+      "prompt": "I'm sorry, I ___ come to your party next week.",
+      "options": [
+        "won't be able to",
+        "can't to",
+        "couldn't"
+      ],
+      "answer": "won't be able to",
+      "explanation": "Майбутнє → be able to."
+    },
+    {
+      "type": "choice",
+      "prompt": "___ I use your phone, please?",
+      "options": [
+        "May",
+        "Must",
+        "Should"
+      ],
+      "answer": "May",
+      "explanation": "Ввічливий дозвіл."
+    },
+    {
+      "type": "choice",
+      "prompt": "Passengers ___ smoke on the plane.",
+      "options": [
+        "aren't allowed to",
+        "don't can",
+        "can't to"
+      ],
+      "answer": "aren't allowed to",
+      "explanation": "Заборона правилами."
+    },
+    {
+      "type": "input",
+      "prompt": "___ you help me with this box? (ввічливо, 1 слово)",
+      "answer": [
+        "Could",
+        "Would"
+      ],
+      "explanation": "Ввічливе прохання: Could / Would you…?"
+    },
+    {
+      "type": "input",
+      "prompt": "We ___ to find a parking space, so we were late. (be able, заперечення)",
+      "answer": [
+        "weren't able",
+        "were not able"
+      ],
+      "explanation": "Конкретний невдалий випадок."
+    },
+    {
+      "type": "input",
+      "prompt": "I've never ___ to understand maths. (be able, 2 слова)",
+      "answer": [
+        "been able"
+      ],
+      "explanation": "Present Perfect → been able to."
+    },
+    {
+      "type": "error",
+      "sentence": "I can swimming very well.",
+      "wrongIndex": 2,
+      "correction": "swim",
+      "alt": [],
+      "explanation": "can + V без to: I can swim."
+    },
+    {
+      "type": "error",
+      "sentence": "Will you can come tomorrow?",
+      "wrongIndex": 2,
+      "correction": "be able to",
+      "alt": [],
+      "explanation": "Майбутнє: Will you be able to come?"
+    },
+    {
+      "type": "order",
+      "prompt": "Чи можете ви говорити повільніше?",
+      "answer": [
+        "Could you speak more slowly?"
+      ],
+      "explanation": "Ввічливе прохання — Could you…?"
+    },
+    {
+      "type": "transform",
+      "prompt": "It is possible for me to meet you on Friday.",
+      "instruction": "Перепишіть з can",
+      "answer": [
+        "I can meet you on Friday."
+      ],
+      "explanation": "Можливість зараз або в майбутньому — can + V."
+    },
+    {
+      "type": "translate",
+      "uk": "Ми змогли купити квитки в останній момент.",
+      "answer": [
+        "We were able to buy tickets at the last moment.",
+        "We managed to buy tickets at the last minute.",
+        "We were able to buy the tickets at the last minute.",
+        "We were able to buy tickets at the last minute.",
+        "We managed to buy tickets at the last moment.",
+        "We managed to buy the tickets at the last minute."
+      ],
+      "explanation": "Конкретний успіх → was/were able to."
+    }
+  ]
 }

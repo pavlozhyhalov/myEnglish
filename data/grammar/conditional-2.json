@@ -1,158 +1,244 @@
 {
- "id": "conditional-2",
- "title": "Умовні речення 2 типу",
- "titleEn": "Second conditional (unreal present/future)",
- "unit": "Умовні речення",
- "level": "B1",
- "mistakeType": "tenses",
- "explanation": "**Second conditional** — **уявна, нереальна або малоймовірна** ситуація в теперішньому чи майбутньому.\n\n*If I **had** more time, I **would learn** Spanish.* (але часу немає)\n*If I **won** the lottery, I'**d travel** the world.*\n\nСтруктура: *If + Past Simple, would + V.*\n\nЗ *be* часто вживають **were** для всіх осіб: *If I **were** you, I'd take the job.* (порада)\n\nПорівняй: *If I see him, I'll tell him* (реально) vs *If I saw him, I'd tell him* (малоймовірно).",
- "formula": [
-  "If + **Past Simple**, **would** + V",
-  "If I were you, I would…"
- ],
- "examples": [
-  {
-   "en": "If I lived closer, I'd visit you more often.",
-   "uk": "Якби я жив ближче, приїжджав би частіше."
+  "id": "conditional-2",
+  "title": "Умовні речення 2 типу",
+  "titleEn": "Second conditional (unreal present/future)",
+  "unit": "Умовні речення",
+  "level": "B1",
+  "mistakeType": "tenses",
+  "explanation": "**If + Past Simple, would + V**\n*If I **had** a car, I **would drive** to work.*\n\n- *would* скорочується: *I'd, you'd* · заперечення — *wouldn't*\n- замість *would* можна **could** (зміг би) або **might** (можливо, б): *If I had more time, I **could** learn to dance.*\n- *be* після *if* — **were** для всіх осіб: *If I **were** you… · If it **were** cheaper…* (у розмові буває *was*, але *If I were you* — стала фраза)\n- питання: ***What would** you **do** if…?*\n- частини можна міняти місцями; кома — коли *if* стоїть першим.",
+  "guide": {
+    "idea": "Другий тип умовних речень — для уявного: того, чого немає зараз або що навряд чи станеться. Минула форма після *if* тут не про минуле, а сигнал «це не реальність». Українською — «якби… то б».",
+    "use": [
+      {
+        "when": "Не так, як насправді",
+        "note": "Зараз умова не виконується — уявляємо інакше.",
+        "en": "If I lived closer, I'd see you more often.",
+        "uk": "Якби я жив ближче, бачився б з тобою частіше."
+      },
+      {
+        "when": "Мрії й фантазії",
+        "note": "Малоймовірне: виграш у лотерею, інше життя.",
+        "en": "If I won the lottery, I'd buy a house by the sea.",
+        "uk": "Якби я виграв у лотерею, купив би будинок біля моря."
+      },
+      {
+        "when": "Порада — If I were you",
+        "note": "«На твоєму місці я б…» — найуживаніша фраза цього типу.",
+        "en": "If I were you, I'd talk to your manager.",
+        "uk": "На твоєму місці я б поговорив з керівником."
+      },
+      {
+        "when": "Гіпотетичне питання",
+        "note": "What would you do if…? — уявна ситуація для розмови.",
+        "en": "What would you do if you lost your passport abroad?",
+        "uk": "Що б ти робив, якби загубив паспорт за кордоном?"
+      },
+      {
+        "when": "Пояснити, чому ні",
+        "note": "Ввічлива відмова: заважає умова, якої не змінити.",
+        "en": "I'd come to the party if I didn't have to work.",
+        "uk": "Я б прийшов на вечірку, якби не треба було працювати."
+      }
+    ],
+    "vs": [
+      {
+        "title": "First чи Second?",
+        "a": {
+          "en": "If I have time this weekend, I'll paint the fence.",
+          "uk": "Якщо матиму час на вихідних, пофарбую паркан.",
+          "note": "Цілком можливо."
+        },
+        "b": {
+          "en": "If I had time, I'd paint the fence.",
+          "uk": "Якби я мав час, то пофарбував би паркан.",
+          "note": "Часу немає — це лише уява."
+        }
+      },
+      {
+        "title": "would чи could?",
+        "a": {
+          "en": "If I had a car, I would drive to work.",
+          "uk": "Якби в мене була машина, я б їздив на роботу на ній.",
+          "note": "would — що я робив би."
+        },
+        "b": {
+          "en": "If I had a car, I could visit my parents more often.",
+          "uk": "Якби в мене була машина, я міг би частіше навідувати батьків.",
+          "note": "could — що я мав би змогу робити."
+        }
+      }
+    ],
+    "signals": [],
+    "mistakes": [
+      {
+        "wrong": "If I would have more money, I'd travel.",
+        "right": "If I had more money, I'd travel.",
+        "why": "Після if — Past Simple; would лише в іншій частині."
+      },
+      {
+        "wrong": "If I am you, I'll take the job.",
+        "right": "If I were you, I'd take the job.",
+        "why": "Порада «на твоєму місці» — уявна ситуація, тому were і would."
+      },
+      {
+        "wrong": "If I had a dog, I walk it every day.",
+        "right": "If I had a dog, I'd walk it every day.",
+        "why": "Наслідок уявної умови — would + V."
+      },
+      {
+        "wrong": "If I knew his number, I will call him.",
+        "right": "If I knew his number, I'd call him.",
+        "why": "Після Past Simple в if-частині — would, а не will."
+      }
+    ]
   },
-  {
-   "en": "What would you do if you lost your passport?",
-   "uk": "Що б ти робив, якби загубив паспорт?"
-  },
-  {
-   "en": "If I were you, I wouldn't buy that car.",
-   "uk": "На твоєму місці я б не купував цю машину."
-  },
-  {
-   "en": "I would help you if I could.",
-   "uk": "Я б допоміг, якби міг."
-  },
-  {
-   "en": "If we had a garden, we'd get a dog.",
-   "uk": "Якби в нас був сад, ми б завели собаку."
-  }
- ],
- "exercises": [
-  {
-   "type": "choice",
-   "prompt": "If I ___ rich, I'd buy a house by the sea.",
-   "options": [
-    "am",
-    "were",
-    "will be"
-   ],
-   "answer": "were",
-   "explanation": "Нереальне теперішнє."
-  },
-  {
-   "type": "choice",
-   "prompt": "If she had more time, she ___ more.",
-   "options": [
-    "will read",
-    "would read",
-    "reads"
-   ],
-   "answer": "would read",
-   "explanation": "would + V."
-  },
-  {
-   "type": "choice",
-   "prompt": "What ___ you do if you met a famous actor?",
-   "options": [
-    "will",
-    "would",
-    "did"
-   ],
-   "answer": "would",
-   "explanation": "Питання в 2 типі: What would you do if + Past Simple?"
-  },
-  {
-   "type": "choice",
-   "prompt": "If I ___ you, I'd talk to him.",
-   "options": [
-    "would be",
-    "were",
-    "am"
-   ],
-   "answer": "were",
-   "explanation": "If I were you — порада."
-  },
-  {
-   "type": "input",
-   "prompt": "If I ___ (know) the answer, I would tell you.",
-   "answer": [
-    "knew"
-   ],
-   "explanation": "Past Simple."
-  },
-  {
-   "type": "input",
-   "prompt": "We ___ (go) out more if we didn't have a baby. (2 слова)",
-   "answer": [
-    "would go",
-    "'d go"
-   ],
-   "explanation": "Головна частина 2 типу — would + V."
-  },
-  {
-   "type": "input",
-   "prompt": "If he ___ (not / work) so much, he'd be happier.",
-   "answer": [
-    "didn't work",
-    "did not work"
-   ],
-   "explanation": "Умова 2 типу: If + Past Simple, заперечення — didn't + V."
-  },
-  {
-   "type": "error",
-   "sentence": "If I have a car, I'd drive to work.",
-   "wrongIndex": 2,
-   "correction": "had",
-   "alt": [],
-   "explanation": "Нереальна умова → If + Past Simple: If I had a car…"
-  },
-  {
-   "type": "error",
-   "sentence": "If I were you, I will apologise.",
-   "wrongIndex": 5,
-   "correction": "would",
-   "alt": [
-    "'d"
-   ],
-   "explanation": "Друга частина — would."
-  },
-  {
-   "type": "order",
-   "prompt": "Що б ти зробив на моєму місці?",
-   "answer": [
-    "What would you do if you were me?",
-    "What would you do in my place?",
-    "If you were me, what would you do?"
-   ],
-   "explanation": "would + V у головній частині; if you were me — «на моєму місці»."
-  },
-  {
-   "type": "transform",
-   "prompt": "I don't have a car, so I can't drive you.",
-   "instruction": "Перепишіть з If (2 тип)",
-   "answer": [
-    "If I had a car, I could drive you.",
-    "If I had a car, I would drive you.",
-    "If I had a car, I'd drive you."
-   ],
-   "explanation": "Нереальне теперішнє: If + Past Simple, could/would + V."
-  },
-  {
-   "type": "translate",
-   "uk": "Якби я знав польську краще, я б знайшов роботу легше.",
-   "answer": [
-    "If I knew Polish better, I would find a job more easily.",
-    "If I knew Polish better, I'd find a job more easily.",
-    "If I spoke Polish better, I would find a job more easily.",
-    "If I knew Polish better, I would find a job easier.",
-    "I would find a job more easily if I knew Polish better."
-   ],
-   "explanation": "If + Past Simple (knew), would + V (would find)."
-  }
- ]
+  "formula": [
+    "If + **Past Simple**, **would** + V",
+    "If I were you, I would…"
+  ],
+  "examples": [
+    {
+      "en": "If I lived closer, I'd visit you more often.",
+      "uk": "Якби я жив ближче, приїжджав би частіше."
+    },
+    {
+      "en": "What would you do if you lost your passport?",
+      "uk": "Що б ти робив, якби загубив паспорт?"
+    },
+    {
+      "en": "If I were you, I wouldn't buy that car.",
+      "uk": "На твоєму місці я б не купував цю машину."
+    },
+    {
+      "en": "I would help you if I could.",
+      "uk": "Я б допоміг, якби міг."
+    },
+    {
+      "en": "If we had a garden, we'd get a dog.",
+      "uk": "Якби в нас був сад, ми б завели собаку."
+    }
+  ],
+  "exercises": [
+    {
+      "type": "choice",
+      "prompt": "If I ___ rich, I'd buy a house by the sea.",
+      "options": [
+        "am",
+        "were",
+        "will be"
+      ],
+      "answer": "were",
+      "explanation": "Нереальне теперішнє."
+    },
+    {
+      "type": "choice",
+      "prompt": "If she had more time, she ___ more.",
+      "options": [
+        "will read",
+        "would read",
+        "reads"
+      ],
+      "answer": "would read",
+      "explanation": "would + V."
+    },
+    {
+      "type": "choice",
+      "prompt": "What ___ you do if you met a famous actor?",
+      "options": [
+        "will",
+        "would",
+        "did"
+      ],
+      "answer": "would",
+      "explanation": "Питання в 2 типі: What would you do if + Past Simple?"
+    },
+    {
+      "type": "choice",
+      "prompt": "If I ___ you, I'd talk to him.",
+      "options": [
+        "would be",
+        "were",
+        "am"
+      ],
+      "answer": "were",
+      "explanation": "If I were you — порада."
+    },
+    {
+      "type": "input",
+      "prompt": "If I ___ (know) the answer, I would tell you.",
+      "answer": [
+        "knew"
+      ],
+      "explanation": "Past Simple."
+    },
+    {
+      "type": "input",
+      "prompt": "We ___ (go) out more if we didn't have a baby. (2 слова)",
+      "answer": [
+        "would go",
+        "'d go"
+      ],
+      "explanation": "Головна частина 2 типу — would + V."
+    },
+    {
+      "type": "input",
+      "prompt": "If he ___ (not / work) so much, he'd be happier.",
+      "answer": [
+        "didn't work",
+        "did not work"
+      ],
+      "explanation": "Умова 2 типу: If + Past Simple, заперечення — didn't + V."
+    },
+    {
+      "type": "error",
+      "sentence": "If I have a car, I'd drive to work.",
+      "wrongIndex": 2,
+      "correction": "had",
+      "alt": [],
+      "explanation": "Нереальна умова → If + Past Simple: If I had a car…"
+    },
+    {
+      "type": "error",
+      "sentence": "If I were you, I will apologise.",
+      "wrongIndex": 5,
+      "correction": "would",
+      "alt": [
+        "'d"
+      ],
+      "explanation": "Друга частина — would."
+    },
+    {
+      "type": "order",
+      "prompt": "Що б ти зробив на моєму місці?",
+      "answer": [
+        "What would you do if you were me?",
+        "What would you do in my place?",
+        "If you were me, what would you do?"
+      ],
+      "explanation": "would + V у головній частині; if you were me — «на моєму місці»."
+    },
+    {
+      "type": "transform",
+      "prompt": "I don't have a car, so I can't drive you.",
+      "instruction": "Перепишіть з If (2 тип)",
+      "answer": [
+        "If I had a car, I could drive you.",
+        "If I had a car, I would drive you.",
+        "If I had a car, I'd drive you."
+      ],
+      "explanation": "Нереальне теперішнє: If + Past Simple, could/would + V."
+    },
+    {
+      "type": "translate",
+      "uk": "Якби я знав польську краще, я б знайшов роботу легше.",
+      "answer": [
+        "If I knew Polish better, I would find a job more easily.",
+        "If I knew Polish better, I'd find a job more easily.",
+        "If I spoke Polish better, I would find a job more easily.",
+        "If I knew Polish better, I would find a job easier.",
+        "I would find a job more easily if I knew Polish better."
+      ],
+      "explanation": "If + Past Simple (knew), would + V (would find)."
+    }
+  ]
 }
