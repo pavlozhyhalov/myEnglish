@@ -31,7 +31,7 @@
         "when": "Щось згадали",
         "note": "come to think of it — думка спала на гадку просто зараз.",
         "en": "Come to think of it, I haven't heard from Jack for ages.",
-        "uk": "До речі, я вже сто років нічого не чув від Джека."
+        "uk": "Якщо подумати, я вже сто років нічого не чув від Джека."
       },
       {
         "when": "Змінити чи повернути тему",
@@ -92,7 +92,7 @@
       {
         "wrong": "Actually, prices are rising fast.",
         "right": "At the moment, prices are rising fast.",
-        "why": "actually — «насправді», а не «актуально, зараз»."
+        "why": "actually — «насправді»; «зараз, нині» — at the moment або currently."
       },
       {
         "wrong": "The hotel was great. Mind you, the food was great too.",
@@ -173,8 +173,8 @@
       "uk": "Зрештою, головне — що ми щасливі."
     },
     {
-      "en": "I'm not a big fan of hiking. Having said that, the Tatras were stunning.",
-      "uk": "Я не великий фанат походів. Проте Татри були приголомшливі."
+      "en": "I'm not a big fan of hiking. Having said that, the Scottish Highlands were stunning.",
+      "uk": "Я не великий шанувальник походів. Проте Шотландське нагір'я було приголомшливе."
     },
     {
       "en": "Anyway, enough about me — how was your trip?",
@@ -209,7 +209,7 @@
     },
     {
       "type": "choice",
-      "prompt": "___, I haven't heard from Olek in ages. I should give him a call.",
+      "prompt": "___, I haven't heard from Tom in ages. I should give him a call.",
       "options": [
         "Come to think of it",
         "Mind you",
@@ -261,7 +261,7 @@
     },
     {
       "type": "input",
-      "prompt": "It's expensive. ___ you, everything in Kraków is expensive these days. (одне слово)",
+      "prompt": "It's expensive. ___ you, everything in London is expensive these days. (одне слово)",
       "answer": [
         "mind"
       ],

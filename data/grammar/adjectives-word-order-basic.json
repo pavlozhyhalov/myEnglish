@@ -143,8 +143,8 @@
       "uk": "Ці черевики дуже зручні."
     },
     {
-      "en": "Kraków has many old churches.",
-      "uk": "У Кракові багато старих церков."
+      "en": "York has a lot of old churches.",
+      "uk": "У Йорку багато старих церков."
     },
     {
       "en": "He's a very kind man.",
@@ -226,7 +226,7 @@
     },
     {
       "type": "input",
-      "prompt": "Kraków is ___ (city / a / beautiful).",
+      "prompt": "Edinburgh is ___ (city / a / beautiful).",
       "answer": [
         "a beautiful city"
       ],

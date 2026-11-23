@@ -124,7 +124,7 @@
       {
         "wrong": "\"Can you come?\" — \"I'd love, but I can't.\"",
         "right": "\"Can you come?\" — \"I'd love to, but I can't.\"",
-        "why": "Після love / like / want частку to не викидаємо."
+        "why": "Після I'd love / I'd like частку to не викидаємо: I'd love to."
       }
     ]
   },
@@ -238,7 +238,7 @@
     },
     {
       "type": "choice",
-      "prompt": "\"I love living in Kraków.\" — \"So ___ I.\"",
+      "prompt": "\"I love living in London.\" — \"So ___ I.\"",
       "options": [
         "do",
         "am",

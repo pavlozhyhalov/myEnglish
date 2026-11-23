@@ -141,8 +141,8 @@
       "uk": "Мій друг — інженер."
     },
     {
-      "en": "We live in a small flat in Kraków.",
-      "uk": "Ми живемо в невеликій квартирі в Кракові."
+      "en": "We live in a small flat in Leeds.",
+      "uk": "Ми живемо в невеликій квартирі в Лідсі."
     },
     {
       "en": "I'd like an apple, please.",
@@ -205,7 +205,7 @@
     },
     {
       "type": "choice",
-      "prompt": "Kraków is ___ old city.",
+      "prompt": "York is ___ old city.",
       "options": [
         "a",
         "an",
@@ -232,7 +232,7 @@
     },
     {
       "type": "input",
-      "prompt": "Kraków is ___ (a / an) beautiful city.",
+      "prompt": "Edinburgh is ___ (a / an) beautiful city.",
       "answer": [
         "a"
       ],
@@ -248,7 +248,7 @@
     },
     {
       "type": "error",
-      "sentence": "My wife is an doctor.",
+      "sentence": "My sister is an doctor.",
       "wrongIndex": 3,
       "correction": "a",
       "alt": [],

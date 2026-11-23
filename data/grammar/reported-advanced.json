@@ -37,7 +37,7 @@
         "when": "Вибачення, звинувачення, подяка",
         "note": "дієслово + прийменник + -ing: apologise for, accuse of, thank for.",
         "en": "She thanked us for coming.",
-        "uk": "Вона подякувала нам, що прийшли."
+        "uk": "Вона подякувала нам за те, що ми прийшли."
       }
     ],
     "vs": [
@@ -163,8 +163,8 @@
       "uk": "Сусід наполіг на тому, щоб заплатити за каву."
     },
     {
-      "en": "I suggested that we meet in the Main Square.",
-      "uk": "Я запропонував зустрітися на Головній площі."
+      "en": "I suggested that we meet outside the station.",
+      "uk": "Я запропонував зустрітися біля вокзалу."
     }
   ],
   "tip": "**suggest** не має конструкції «кого + to»: ~~She suggested me to go~~ → *She suggested **going*** / *She suggested **(that) I go***.",

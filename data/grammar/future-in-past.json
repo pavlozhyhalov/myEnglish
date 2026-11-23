@@ -150,8 +150,8 @@
       "uk": "Емма сказала, що зустріне мене на вокзалі."
     },
     {
-      "en": "I never imagined I would learn Polish.",
-      "uk": "Я ніколи не думав, що вивчу польську."
+      "en": "I never imagined I would enjoy cooking so much.",
+      "uk": "Я й не уявляв, що мені так сподобається готувати."
     },
     {
       "en": "We were just about to leave when it started pouring.",
@@ -217,7 +217,7 @@
     },
     {
       "type": "input",
-      "prompt": "We ___ (go) to Gdańsk last weekend, but Emma got sick. (намір, 4 слова)",
+      "prompt": "We ___ (go) to Brighton last weekend, but Emma got sick. (намір, 4 слова)",
       "answer": [
         "were going to go"
       ],
@@ -306,17 +306,15 @@
     },
     {
       "type": "translate",
-      "uk": "Я ніколи не думав, що житиму в Кракові.",
+      "uk": "Я ніколи не думав, що житиму в Единбурзі.",
       "answer": [
-        "I never thought I would live in Kraków.",
-        "I never thought I'd live in Kraków.",
-        "I never thought that I would live in Kraków.",
-        "I never thought I would live in Krakow.",
-        "I never thought I'd live in Krakow.",
-        "I never thought I would be living in Kraków.",
-        "I never thought I'd be living in Kraków.",
-        "I never imagined I would live in Kraków.",
-        "I never imagined I'd live in Kraków."
+        "I never thought I would live in Edinburgh.",
+        "I never thought I'd live in Edinburgh.",
+        "I never thought that I would live in Edinburgh.",
+        "I never thought I would be living in Edinburgh.",
+        "I never thought I'd be living in Edinburgh.",
+        "I never imagined I would live in Edinburgh.",
+        "I never imagined I'd live in Edinburgh."
       ],
       "explanation": "Після thought у минулому → would."
     }

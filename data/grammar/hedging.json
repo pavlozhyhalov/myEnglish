@@ -107,7 +107,7 @@
       {
         "wrong": "You are not right.",
         "right": "I'm not sure that's quite right.",
-        "why": "Калька «ви не праві» звучить різко; англійці пом'якшують і критикують думку, а не людину."
+        "why": "Пряме «ви помиляєтеся» англійською звучить різко; англійці пом'якшують і критикують думку, а не людину."
       },
       {
         "wrong": "Maybe it might possibly be a bit wrong.",
@@ -149,8 +149,8 @@
         "немає 100% даних"
       ],
       [
-        "Kraków is the best city in Poland.",
-        "Kraków is arguably the best city in Poland.",
+        "Edinburgh is the most beautiful city in the UK.",
+        "Edinburgh is arguably the most beautiful city in the UK.",
         "спірне твердження"
       ],
       [
@@ -166,8 +166,8 @@
       "uk": "Схоже, ресторан закрився."
     },
     {
-      "en": "People in Kraków tend to be quite friendly.",
-      "uk": "Люди в Кракові здебільшого досить привітні."
+      "en": "People in Manchester tend to be quite friendly.",
+      "uk": "Люди в Манчестері здебільшого досить привітні."
     },
     {
       "en": "It would appear that someone has taken my bike.",

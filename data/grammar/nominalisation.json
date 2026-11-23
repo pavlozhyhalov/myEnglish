@@ -155,8 +155,8 @@
       "uk": "Через закриття головної дороги автобуси затримуються."
     },
     {
-      "en": "There has been a significant improvement in air quality in Kraków.",
-      "uk": "Якість повітря в Кракові значно покращилася."
+      "en": "There has been a significant improvement in air quality in Manchester.",
+      "uk": "Якість повітря в Манчестері значно покращилася."
     },
     {
       "en": "The lack of parking spaces is a real problem in our area.",
@@ -292,13 +292,13 @@
     },
     {
       "type": "transform",
-      "prompt": "The flight was cancelled, so we stayed in Warsaw for another night.",
+      "prompt": "The flight was cancelled, so we stayed in Dublin for another night.",
       "instruction": "Почніть з Due to the cancellation…",
       "answer": [
-        "Due to the cancellation of the flight, we stayed in Warsaw for another night.",
-        "Due to the cancellation of our flight, we stayed in Warsaw for another night.",
-        "Due to the cancellation of the flight, we stayed in Warsaw another night.",
-        "Due to the cancellation of our flight, we stayed in Warsaw another night."
+        "Due to the cancellation of the flight, we stayed in Dublin for another night.",
+        "Due to the cancellation of our flight, we stayed in Dublin for another night.",
+        "Due to the cancellation of the flight, we stayed in Dublin another night.",
+        "Due to the cancellation of our flight, we stayed in Dublin another night."
       ],
       "explanation": "Дієслово cancel → іменник cancellation."
     },

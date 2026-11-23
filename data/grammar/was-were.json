@@ -172,7 +172,7 @@
     },
     {
       "type": "choice",
-      "prompt": "My parents ___ in Kraków last week.",
+      "prompt": "My parents ___ in London last week.",
       "options": [
         "was",
         "were",

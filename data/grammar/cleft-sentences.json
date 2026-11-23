@@ -147,8 +147,8 @@
       "uk": "Саме шуму я не виношу."
     },
     {
-      "en": "What I really like about Kraków is the atmosphere.",
-      "uk": "Що мені справді подобається в Кракові — це атмосфера."
+      "en": "What I really like about Edinburgh is the atmosphere.",
+      "uk": "Що мені справді подобається в Единбурзі, то це атмосфера."
     },
     {
       "en": "It was only last year that I started learning English seriously.",
@@ -160,7 +160,7 @@
     },
     {
       "en": "The thing is, we don't have enough money.",
-      "uk": "Справа в тому, що нам бракує грошей."
+      "uk": "Річ у тім, що нам бракує грошей."
     }
   ],
   "tip": "Після **What…** дієслово-зв'язка зазвичай в однині: *What we need **is** new ideas.*",
@@ -276,14 +276,14 @@
     },
     {
       "type": "translate",
-      "uk": "Справа в тому, що я забув гаманець.",
+      "uk": "Річ у тім, що я забув гаманець.",
       "answer": [
         "The thing is, I forgot my wallet.",
         "The thing is that I forgot my wallet.",
         "The thing is, I've forgotten my wallet.",
         "The thing is that I've forgotten my wallet."
       ],
-      "explanation": "The thing is (that)… — «справа в тому, що»."
+      "explanation": "The thing is (that)… — «річ у тім, що»."
     }
   ]
 }

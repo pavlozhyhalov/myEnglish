@@ -5,7 +5,7 @@
   "unit": "Просунуті конструкції",
   "level": "C1",
   "mistakeType": "tenses",
-  "explanation": "Після тригера — **that** + підмет + **базова форма**: однакова для всіх осіб, без -s і без часу\n*I suggest that he **call**.* · *They insisted that she **stay**.*\n\n- **be** для всіх: *It's essential that everyone **be** there.*\n- **−** **not** + V, без do: *that he **not tell** anyone*\n- **пасив** — **be + V3**: *that the room **be cleaned***\n- минулий час головного речення нічого не змінює: *He insisted that I **stay**.*\n- **that** можна пропустити: *I suggest you **call**.*\n\n**Тригери:**\n- дієслова: suggest, recommend, insist, demand, request, propose, advise, urge, ask\n- прикметники: It is essential / vital / important / crucial / necessary / imperative that…\n- іменники: the suggestion / recommendation / demand that…\n\n**Британська альтернатива:** that + підмет + **should + V**",
+  "explanation": "Після тригера — **that** + підмет + **базова форма**: однакова для всіх осіб, без -s і без часу\n*I suggest that he **call**.* · *They insisted that she **stay**.*\n\n- **be** для всіх: *It's essential that everyone **be** there.*\n- **−** **not** + V, без do: *that he **not tell** anyone*\n- **пасив** — **be + V3**: *that the room **be cleaned***\n- минулий час головного речення форму не змінює: *He insisted that I **stay**.*\n- **that** можна пропустити: *I suggest you **call**.*\n\n**Тригери:**\n- дієслова: suggest, recommend, insist, demand, request, propose, advise, urge, ask\n- прикметники: It is essential / vital / important / crucial / necessary / imperative that…\n- іменники: the suggestion / recommendation / demand that…\n\n**Британські варіанти:**\n- that + підмет + **should + V**: *I suggest that she **should see** a doctor.*\n- у розмові — звичайний час (з узгодженням часів): *I suggest she **sees** a doctor.* · *He insisted that I **stayed**.*",
   "guide": {
     "idea": "Subjunctive — базова форма дієслова після слів вимоги, поради й важливості: insist that he come, essential that she be. Так звучать офіційні листи, правила, поради лікарів і юристів. У британській розмові частіше кажуть should + V або звичайний час, тож subjunctive — передусім для письма й офіційних ситуацій.",
     "use": [
@@ -46,12 +46,12 @@
         "a": {
           "en": "I suggest that she see a doctor.",
           "uk": "Раджу їй звернутися до лікаря.",
-          "note": "Коротко й офіційно; типово для листів і американської англійської."
+          "note": "Коротко й офіційно; типово для письма, а в американській — і для розмови."
         },
         "b": {
           "en": "I suggest that she should see a doctor.",
           "uk": "Раджу їй звернутися до лікаря.",
-          "note": "Британський варіант, трохи м'якший; теж правильний."
+          "note": "Типово британський, трохи м'якший; у розмові ще й просто: I suggest she sees a doctor."
         }
       },
       {
@@ -102,14 +102,14 @@
         "why": "Після suggest не буває «кого + to V» — лише that-речення або V-ing."
       },
       {
-        "wrong": "She insisted that he doesn't tell anyone.",
+        "wrong": "She insisted that he don't tell anyone.",
         "right": "She insisted that he not tell anyone.",
-        "why": "Заперечення subjunctive — not + V, без do / does."
+        "why": "Заперечення subjunctive — not + V, без do: don't / doesn't тут неможливі."
       },
       {
-        "wrong": "He insisted that I stayed for dinner.",
+        "wrong": "He insisted on that I stay for dinner.",
         "right": "He insisted that I stay for dinner.",
-        "why": "Минулий час головного речення не змінює базову форму."
+        "why": "Калька «наполягав на тому, щоб»: або insist that + речення, або insist on + V-ing (insisted on my staying), але не on that."
       },
       {
         "wrong": "It's vital that the form be fill in.",
@@ -163,8 +163,8 @@
       "uk": "Орендодавець наполіг, щоб ми заплатили заставу готівкою."
     },
     {
-      "en": "The doctor recommended that Emma take folic acid.",
-      "uk": "Лікар порадив Еммі приймати фолієву кислоту."
+      "en": "The doctor recommended that Emma take more vitamin D.",
+      "uk": "Лікар порадив Еммі приймати більше вітаміну D."
     },
     {
       "en": "It's vital that the car seat be fitted correctly.",
@@ -183,7 +183,7 @@
       "uk": "Якщо буде потреба, можемо залишитися ще на ніч."
     }
   ],
-  "tip": "Головна ознака — **немає -s** у третій особі: *I insist that he **come***. Якщо сумніваєтеся, скажіть *that he **should** come* — це теж правильно.",
+  "tip": "Головна ознака — **немає -s** у третій особі: *I insist that he **come***. Якщо сумніваєтеся, скажіть *that he **should** come* — це теж правильно. У розмовній британській чути й звичайний час (*I suggest he **comes***), але в листі краще subjunctive або should.",
   "exercises": [
     {
       "type": "choice",
@@ -238,9 +238,10 @@
       "prompt": "Emma's mum insisted that we ___ (stay) for dinner.",
       "answer": [
         "stay",
-        "should stay"
+        "should stay",
+        "stayed"
       ],
-      "explanation": "insist that + базова форма або should + V."
+      "explanation": "insist that + базова форма або should + V; у розмовній британській — і stayed."
     },
     {
       "type": "input",

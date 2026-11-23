@@ -11,7 +11,7 @@
     "use": [
       {
         "when": "Поступка в одному реченні",
-        "note": "although / even though + підмет і дієслово; even though — сильніше, «хоч навіть».",
+        "note": "although / even though + підмет і дієслово; even though — сильніше: «навіть попри те, що».",
         "en": "Even though I'd set two alarms, I overslept.",
         "uk": "Хоча я поставив два будильники, я проспав."
       },
@@ -35,7 +35,7 @@
       },
       {
         "when": "Розмовне «утім»",
-        "note": "though в кінці речення — легке заперечення сказаного перед тим.",
+        "note": "though в кінці речення — м'яке «але» до сказаного перед тим.",
         "en": "The hotel was a bit old. The staff were lovely, though.",
         "uk": "Готель був трохи старий. Утім, персонал був чудовий."
       }
@@ -170,8 +170,8 @@
       "uk": "Попри затори, ми вчасно дісталися до аеропорту."
     },
     {
-      "en": "Despite living in Poland for three years, I still mix up some words.",
-      "uk": "Попри те що живу в Польщі три роки, я досі плутаю деякі слова."
+      "en": "Despite living in London for three years, Anna still gets lost on the Tube.",
+      "uk": "Попри те що Анна живе в Лондоні вже три роки, вона досі губиться в метро."
     },
     {
       "en": "The flat is quite small. However, the location is perfect.",
@@ -182,8 +182,8 @@
       "uk": "Я — жайворонок, тоді як Емма — сова."
     },
     {
-      "en": "The concert was expensive. It was worth every złoty, though.",
-      "uk": "Концерт був дорогий. Утім, вартий кожного злотого."
+      "en": "The concert was expensive. It was worth every penny, though.",
+      "uk": "Концерт був дорогий. Утім, вартий кожної копійки."
     }
   ],
   "tip": "Після **despite** не буває ні *of*, ні речення: ~~despite it was raining~~ → *despite **the rain*** або *despite **the fact that** it was raining*.",
@@ -283,7 +283,7 @@
     },
     {
       "type": "error",
-      "sentence": "I like coffee, however my wife prefers tea.",
+      "sentence": "I like coffee, however my sister prefers tea.",
       "wrongIndex": 3,
       "correction": "but",
       "alt": [

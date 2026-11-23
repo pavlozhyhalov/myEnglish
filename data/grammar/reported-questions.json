@@ -147,7 +147,7 @@
     },
     {
       "type": "choice",
-      "prompt": "He asked ___ I liked Polish food.",
+      "prompt": "He asked ___ I liked Thai food.",
       "options": [
         "that",
         "if",
@@ -228,12 +228,12 @@
     },
     {
       "type": "translate",
-      "uk": "Вона запитала, чи я говорю польською.",
+      "uk": "Вона запитала, чи я говорю іспанською.",
       "answer": [
-        "She asked if I spoke Polish.",
-        "She asked me if I spoke Polish.",
-        "She asked whether I spoke Polish.",
-        "She asked me whether I spoke Polish."
+        "She asked if I spoke Spanish.",
+        "She asked me if I spoke Spanish.",
+        "She asked whether I spoke Spanish.",
+        "She asked me whether I spoke Spanish."
       ],
       "explanation": "Так/ні-питання → if / whether + зсув часу (spoke)."
     }

@@ -293,7 +293,7 @@
     },
     {
       "type": "error",
-      "sentence": "The restaurant is said to serving the best pierogi in Kraków.",
+      "sentence": "The restaurant is said to serving the best fish and chips in Leeds.",
       "wrongIndex": 5,
       "correction": "serve",
       "alt": [],

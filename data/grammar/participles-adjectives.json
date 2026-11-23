@@ -226,7 +226,7 @@
     },
     {
       "type": "input",
-      "prompt": "After a ___ (relax) weekend in Zakopane, we felt great.",
+      "prompt": "After a ___ (relax) weekend in the Lake District, we felt great.",
       "answer": [
         "relaxing"
       ],

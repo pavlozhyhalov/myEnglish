@@ -135,8 +135,8 @@
       "uk": "Я з України."
     },
     {
-      "en": "My wife is a teacher.",
-      "uk": "Моя дружина — вчителька."
+      "en": "My sister is a teacher.",
+      "uk": "Моя сестра — вчителька."
     },
     {
       "en": "We aren't at home now.",
@@ -166,7 +166,7 @@
     },
     {
       "type": "choice",
-      "prompt": "We ___ in Kraków.",
+      "prompt": "We ___ in London.",
       "options": [
         "am",
         "is",
@@ -240,9 +240,9 @@
     },
     {
       "type": "order",
-      "prompt": "Ти з Польщі?",
+      "prompt": "Ти з Ірландії?",
       "answer": [
-        "Are you from Poland?"
+        "Are you from Ireland?"
       ],
       "explanation": ""
     },

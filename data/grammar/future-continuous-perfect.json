@@ -79,9 +79,9 @@
     ],
     "mistakes": [
       {
-        "wrong": "By Friday I will finish the project.",
-        "right": "By Friday I will have finished the project.",
-        "why": "З by + момент, коли важливо «вже буде зроблено», — Future Perfect."
+        "wrong": "By June we will live here for ten years.",
+        "right": "By June we will have lived here for ten years.",
+        "why": "Скільки часу мине до певного моменту (by June … for ten years) — Future Perfect, а не просте will."
       },
       {
         "wrong": "By the time you will arrive, I'll have cooked dinner.",

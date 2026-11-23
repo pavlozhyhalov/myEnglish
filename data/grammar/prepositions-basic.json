@@ -5,7 +5,7 @@
   "unit": "Прийменники",
   "level": "A1",
   "mistakeType": "prepositions",
-  "explanation": "**Місце**\n- **in** — всередині: *in the box, in the kitchen, in London*\n- **on** — на поверхні: *on the table, on the wall, on the floor*\n- **at** — точка, звичне місце: *at home, at work, at school, at the bus stop*\n- **under** — під · **next to** — поруч із\n\n**Час**\n- **at** + година: *at 7 o'clock, at night, at the weekend*\n- **on** + день, дата: *on Monday, on 5 May*\n- **in** + місяць, рік, частина дня: *in July, in 2026, in the morning*\n\nБез прийменника: *today, tomorrow, yesterday, every day, next week, last year*",
+  "explanation": "**Місце**\n- **in** — всередині: *in the box, in the kitchen, in London*\n- **on** — на поверхні: *on the table, on the wall, on the floor*\n- **at** — точка, звичне місце: *at home, at work, at school, at the bus stop*\n- **under** — під · **next to** — поруч із\n\n**Час**\n- **at** + година, а також *at night, at the weekend*: *at 7 o'clock*\n- **on** + день, дата: *on Monday, on 5 May*\n- **in** + місяць, рік, частина дня: *in July, in 2026, in the morning*\n\nБез прийменника: *today, tomorrow, yesterday, every day, next week, last year*",
   "guide": {
     "idea": "Прийменники показують, ДЕ щось (у, на, під, біля) і КОЛИ (о, у, в). Вибір не збігається з українським, тому краще запам'ятовувати цілими фразами: at home, on the table, in the morning.",
     "use": [
@@ -110,7 +110,7 @@
     "rows": [
       [
         "in",
-        "in the kitchen, in Kraków",
+        "in the kitchen, in London",
         "in July, in 2026, in the evening"
       ],
       [
@@ -252,7 +252,7 @@
     },
     {
       "type": "error",
-      "sentence": "We live on Kraków.",
+      "sentence": "We live on London.",
       "wrongIndex": 2,
       "correction": "in",
       "alt": [],

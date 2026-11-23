@@ -25,7 +25,7 @@
         "when": "Порада звернутися до фахівця",
         "note": "should / need to + get / have + що + V3.",
         "en": "You should get your eyes tested.",
-        "uk": "Тобі варто перевірити зір."
+        "uk": "Тобі варто перевірити зір у лікаря."
       },
       {
         "when": "Неприємність, що сталася",
@@ -72,7 +72,7 @@
       {
         "wrong": "I had cut my hair.",
         "right": "I had my hair cut.",
-        "why": "Порядок: have + що + V3; had cut my hair — «я (сам) підстриг»."
+        "why": "had cut my hair — це Past Perfect «я сам (уже) підстригся»; послуга — have + що + V3."
       },
       {
         "wrong": "I need to have my phone repair.",

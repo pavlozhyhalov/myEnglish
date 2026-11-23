@@ -5,7 +5,7 @@
   "unit": "Іменник і артиклі",
   "level": "A1",
   "mistakeType": "other",
-  "explanation": "**Множина**\n- зазвичай + **-s**: *car → cars*\n- після -s, -sh, -ch, -x + **-es**: *bus → buses, dish → dishes, box → boxes* (читається [ɪz])\n- приголосний + y → **-ies**: *city → cities* (але *day → days*)\n- часто -f / -fe → **-ves**: *knife → knives, wife → wives*\n- винятки: *man → men, woman → women, child → children, person → people, foot → feet, tooth → teeth*\n\n**this / that** + однина + **is** · **these / those** + множина + **are**",
+  "explanation": "**Множина**\n- зазвичай + **-s**: *car → cars*\n- після -s, -sh, -ch, -x + **-es**: *bus → buses, dish → dishes, box → boxes* (читається [ɪz])\n- приголосний + y → **-ies**: *city → cities* (але *day → days*)\n- часто -f / -fe → **-ves**: *knife → knives, leaf → leaves*\n- винятки: *man → men, woman → women, child → children, person → people, foot → feet, tooth → teeth*\n\n**this / that** + однина + **is** · **these / those** + множина + **are**",
   "guide": {
     "idea": "Множина в англійській зазвичай — просто -s. А this / that / these / those показують, про яку саме річ мова: ту, що поруч, чи ту, що далі. Як «цей» і «той», але для множини є окремі слова.",
     "use": [
@@ -138,8 +138,8 @@
       "uk": "Ті люди — мої сусіди."
     },
     {
-      "en": "This is my wife, Emma.",
-      "uk": "Це моя дружина, Емма."
+      "en": "This is my friend Emma.",
+      "uk": "Це моя подруга Емма."
     }
   ],
   "tip": "**people** — уже множина: *People **are**…*, не ~~peoples is~~.",

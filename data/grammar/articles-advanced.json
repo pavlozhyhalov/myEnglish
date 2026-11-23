@@ -5,7 +5,7 @@
   "unit": "Іменник і артиклі",
   "level": "B2",
   "mistakeType": "articles",
-  "explanation": "**∅** (без артикля):\n- загалом — множина чи незлічуване: *Dogs are loyal.*\n- заклад за призначенням: *school, bed, hospital, church, prison, university, work*\n- абстракції загалом: *life, nature, society, space*\n- окремі гори й озера, більшість країн і вулиць: *Snowdon, Lake Windermere, France, Oxford Street*\n\n**the:**\n- вид, винахід, інструмент: *the smartphone, the piano*\n- група людей: *the rich, the elderly, the French*\n- єдине: *the sun, the internet, the government, the environment, the weather*\n- заклад як будівля: *I went to **the** school to see the teacher.*\n- річки, моря, гірські пасма, країни-множини чи з of: *the Thames, the Alps, the Netherlands, the UK*\n\n**a / an** + однина — будь-який представник: *A teacher needs patience.*",
+  "explanation": "**∅** (без артикля):\n- загалом — множина чи незлічуване: *Dogs are loyal.*\n- заклад за призначенням: *school, bed, hospital, church, prison, university, work*\n- абстракції загалом: *life, nature, society, space*\n- окремі гори й озера, більшість країн і вулиць: *Snowdon, Lake Windermere, France, Oxford Street*\n\n**the:**\n- вид, винахід, інструмент: *the smartphone, the piano*\n- група людей: *the rich, the elderly, the French*\n- єдине: *the sun, the internet, the government, the environment, the weather*\n- заклад як будівля: *I went to **the** school to see the teacher.*\n- річки, моря, гірські пасма, країни-множини й назви з Kingdom / Republic / States: *the Thames, the Alps, the Netherlands, the UK, the USA*\n\n**a / an** + однина — будь-який представник: *A teacher needs patience.*",
   "guide": {
     "idea": "На B2 артикль показує, як ми дивимося на річ: про всіх загалом, про цілий вид чи групу людей, про щось єдине на світі, про заклад як призначення чи як будівлю. Помилка тут рідко заважає зрозуміти, але одразу видає іноземця.",
     "use": [
@@ -29,7 +29,7 @@
       },
       {
         "when": "Єдине у світі",
-        "note": "the sun, the internet, the government, the police.",
+        "note": "Те, що для нас одне: the sun, the internet, the government, the police.",
         "en": "The internet was down all morning.",
         "uk": "Інтернету не було весь ранок."
       },
@@ -178,8 +178,8 @@
       "uk": "Її бабуся в лікарні з понеділка."
     },
     {
-      "en": "We went hiking in the Tatras last summer.",
-      "uk": "Минулого літа ми ходили в похід у Татри."
+      "en": "We went hiking in the Pyrenees last summer.",
+      "uk": "Минулого літа ми ходили в похід у Піренеї."
     },
     {
       "en": "A good doctor always listens to the patient.",
@@ -246,7 +246,7 @@
     },
     {
       "type": "choice",
-      "prompt": "___ Vistula flows through Kraków.",
+      "prompt": "___ Thames flows through London.",
       "options": [
         "The",
         "A",

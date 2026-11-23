@@ -45,7 +45,7 @@
         "title": "З комами чи без?",
         "a": {
           "en": "My brother who lives in Leeds is a teacher.",
-          "uk": "Мій брат, який живе в Лідсі, — учитель.",
+          "uk": "Мій брат — той, що живе в Лідсі, — учитель.",
           "note": "Без ком: братів кілька, уточнюємо, який саме."
         },
         "b": {
@@ -124,7 +124,7 @@
     "rows": [
       [
         "non-defining",
-        "Our landlord, who is Polish, speaks good English.",
+        "Our landlord, who lives downstairs, is very helpful.",
         "коми, без that"
       ],
       [
@@ -151,8 +151,8 @@
   },
   "examples": [
     {
-      "en": "Kraków, which is my favourite city, gets very busy in summer.",
-      "uk": "Улітку в Кракові, моєму улюбленому місті, дуже людно."
+      "en": "Edinburgh, which is my favourite city, gets very busy in summer.",
+      "uk": "Улітку в Единбурзі, моєму улюбленому місті, дуже людно."
     },
     {
       "en": "Emma found a doctor whose clinic is just around the corner.",
@@ -179,7 +179,7 @@
   "exercises": [
     {
       "type": "choice",
-      "prompt": "My sister-in-law, ___ lives in Gdańsk, is coming to visit.",
+      "prompt": "My sister-in-law, ___ lives in Bristol, is coming to visit.",
       "options": [
         "who",
         "that",

@@ -51,8 +51,8 @@
     "why": "З дією am не потрібне."
    },
    {
-    "wrong": "I not work on Sunday.",
-    "right": "I don't work on Sunday.",
+    "wrong": "I not work on Sundays.",
+    "right": "I don't work on Sundays.",
     "why": "«Не» — don't перед дією."
    },
    {
@@ -81,7 +81,7 @@
    ],
    [
     "We work at home.",
-    "We don't work on Sunday.",
+    "We don't work on Sundays.",
     "Do you work?"
    ],
    [

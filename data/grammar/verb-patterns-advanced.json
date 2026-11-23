@@ -40,7 +40,7 @@
         "uk": "Після школи він пішов вивчати медицину."
       },
       {
-        "when": "need + -ing — треба зробити з цим",
+        "when": "need + -ing — «треба зробити»",
         "note": "Пасивне значення: хтось має це зробити.",
         "en": "The grass needs cutting.",
         "uk": "Траву треба покосити."
@@ -82,7 +82,7 @@
         },
         "b": {
           "en": "This job means working at weekends.",
-          "uk": "Ця робота означає працювати у вихідні.",
+          "uk": "На цій роботі доведеться працювати у вихідні.",
           "note": "Наслідок — «означає»."
         }
       }
@@ -201,7 +201,7 @@
     },
     {
       "type": "choice",
-      "prompt": "I'll never forget ___ Kraków for the first time.",
+      "prompt": "I'll never forget ___ London for the first time.",
       "options": [
         "seeing",
         "to see",
@@ -307,13 +307,13 @@
     },
     {
       "type": "transform",
-      "prompt": "I'm sorry that I didn't learn Polish earlier.",
+      "prompt": "I'm sorry that I didn't learn Spanish earlier.",
       "instruction": "Почніть з I regret…",
       "answer": [
-        "I regret not learning Polish earlier.",
-        "I regret not having learned Polish earlier.",
-        "I regret not having learnt Polish earlier.",
-        "I regret that I didn't learn Polish earlier."
+        "I regret not learning Spanish earlier.",
+        "I regret not having learned Spanish earlier.",
+        "I regret not having learnt Spanish earlier.",
+        "I regret that I didn't learn Spanish earlier."
       ],
       "explanation": "Шкодувати про минуле — regret + not + -ing."
     },

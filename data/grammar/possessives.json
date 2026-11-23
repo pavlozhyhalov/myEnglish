@@ -11,15 +11,9 @@
     "use": [
       {
         "when": "Моє, твоє, наше",
-        "note": "Особу замінюємо присвійним словом: I → my, we → our.",
+        "note": "Хто власник — таке й слово: I → my, we → our, they → their.",
         "en": "Our flat is small but cosy.",
         "uk": "Наша квартира невелика, але затишна."
-      },
-      {
-        "when": "his чи her — за власником",
-        "note": "his — власник чоловік, her — жінка; рід самої речі неважливий.",
-        "en": "Tom loves his sister, and Anna loves her brother.",
-        "uk": "Том любить свою сестру, а Анна — свого брата."
       },
       {
         "when": "Річ конкретної людини",
@@ -30,8 +24,8 @@
       {
         "when": "Родина",
         "note": "'s показує, чия це рідня.",
-        "en": "My brother's wife is from Dublin.",
-        "uk": "Дружина мого брата з Дубліна."
+        "en": "My brother's girlfriend is from Dublin.",
+        "uk": "Дівчина мого брата з Дубліна."
       },
       {
         "when": "Річ чи тварина — its",
@@ -50,14 +44,14 @@
       {
         "title": "his чи her?",
         "a": {
-          "en": "Emma and her dad",
-          "uk": "Емма і її тато",
-          "note": "Власниця — жінка, тому her."
+          "en": "Tom loves his sister.",
+          "uk": "Том любить свою сестру.",
+          "note": "Власник — Том, тому his, хоч сестра — жінка."
         },
         "b": {
-          "en": "Tom and his mum",
-          "uk": "Том і його мама",
-          "note": "Власник — чоловік, тому his, хоч мама — жінка."
+          "en": "Anna loves her brother.",
+          "uk": "Анна любить свого брата.",
+          "note": "Власниця — Анна, тому her; «свій» — за власником."
         }
       },
       {
@@ -254,10 +248,10 @@
     },
     {
       "type": "order",
-      "prompt": "Як звати твою дружину?",
+      "prompt": "Як звати твою сестру?",
       "answer": [
-        "What's your wife's name?",
-        "What is your wife's name?"
+        "What's your sister's name?",
+        "What is your sister's name?"
       ],
       "explanation": ""
     },

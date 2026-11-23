@@ -11,7 +11,7 @@
   "use": [
    {
     "when": "Вік",
-    "note": "Вік — з am / is / are, не з «маю».",
+    "note": "Вік — з am / is / are: «мені тридцять» = I'm thirty.",
     "en": "How old are you? — I'm thirty.",
     "uk": "Скільки вам років? — Мені тридцять."
    },
@@ -53,7 +53,7 @@
    {
     "wrong": "How much it costs?",
     "right": "How much is it?",
-    "why": "Найпростіше питання про ціну — How much is it?"
+    "why": "У питанні is (або does) стоїть перед it: How much is it? / How much does it cost?"
    },
    {
     "wrong": "fourty",

@@ -149,8 +149,8 @@
   },
   "examples": [
     {
-      "en": "Where do you live? — I live in Kraków.",
-      "uk": "Де ти живеш? — Я живу в Кракові."
+      "en": "Where do you live? — I live in Leeds.",
+      "uk": "Де ти живеш? — Я живу в Лідсі."
     },
     {
       "en": "What time is it?",
@@ -177,7 +177,7 @@
   "exercises": [
     {
       "type": "choice",
-      "prompt": "___ do you live? — In Kraków.",
+      "prompt": "___ do you live? — In Leeds.",
       "options": [
         "What",
         "Where",
@@ -243,7 +243,7 @@
     },
     {
       "type": "input",
-      "prompt": "___ (скільки) is this bag? — 50 złoty.",
+      "prompt": "___ (скільки) is this bag? — Fifty pounds.",
       "answer": [
         "How much"
       ],
@@ -291,8 +291,8 @@
     },
     {
       "type": "transform",
-      "prompt": "She lives in Warsaw.",
-      "instruction": "Поставте питання до слова Warsaw (Where…?)",
+      "prompt": "She lives in Dublin.",
+      "instruction": "Поставте питання до слова Dublin (Where…?)",
       "answer": [
         "Where does she live?"
       ],
@@ -300,11 +300,11 @@
     },
     {
       "type": "translate",
-      "uk": "Як звати твою дружину?",
+      "uk": "Як звати твою сестру?",
       "answer": [
-        "What is your wife's name?",
-        "What's your wife's name?",
-        "What is the name of your wife?"
+        "What is your sister's name?",
+        "What's your sister's name?",
+        "What is the name of your sister?"
       ],
       "explanation": "Ім'я питаємо через What is … name?"
     }

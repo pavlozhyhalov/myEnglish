@@ -181,7 +181,7 @@
     },
     {
       "type": "choice",
-      "prompt": "___ your husband speak Polish?",
+      "prompt": "___ your brother speak French?",
       "options": [
         "Do",
         "Does",

@@ -46,9 +46,9 @@
   "signals": [],
   "mistakes": [
    {
-    "wrong": "i'm Emma.",
-    "right": "I'm Emma.",
-    "why": "«Я» — I — завжди з великої літери."
+    "wrong": "Hi, i'm Emma.",
+    "right": "Hi, I'm Emma.",
+    "why": "I («я») завжди пишемо з великої літери — навіть посеред речення."
    },
    {
     "wrong": "My name Emma.",

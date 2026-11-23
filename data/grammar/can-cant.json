@@ -213,7 +213,7 @@
     },
     {
       "type": "error",
-      "sentence": "He cans drive a truck.",
+      "sentence": "He cans drive a bus.",
       "wrongIndex": 1,
       "correction": "can",
       "alt": [],

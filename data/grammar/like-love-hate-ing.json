@@ -143,8 +143,8 @@
   },
   "examples": [
     {
-      "en": "I love walking in Planty Park.",
-      "uk": "Я дуже люблю гуляти в парку Планти."
+      "en": "I love walking in the park.",
+      "uk": "Я дуже люблю гуляти в парку."
     },
     {
       "en": "Emma likes reading books in the evening.",
@@ -182,7 +182,7 @@
     },
     {
       "type": "choice",
-      "prompt": "My wife ___ cooking.",
+      "prompt": "My sister ___ cooking.",
       "options": [
         "like",
         "likes",
