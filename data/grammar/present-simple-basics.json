@@ -1,172 +1,273 @@
 {
- "id": "present-simple-basics",
- "title": "Present Simple: основи",
- "titleEn": "Present Simple: positive, negative, questions",
- "unit": "Теперішні часи",
- "level": "A1",
- "mistakeType": "tenses",
- "explanation": "**Present Simple** — для того, що відбувається **регулярно або завжди**: звички, розклад, факти. *I **work** in a factory. She **drinks** coffee every morning.*\n\nУ 3-й особі однини (**he, she, it**) до дієслова додаємо **-s / -es**: *he work**s**, she watch**es**, it go**es***.\n\nЗаперечення і питання — з допоміжним **do / does**, а основне дієслово без -s: *I **don't** like it. She **doesn't** eat meat. **Do** you speak English? **Does** he live here?*",
- "formula": [
-  "I/you/we/they + V · he/she/it + V**-s**",
-  "**don't / doesn't** + V · **Do / Does** + підмет + V?"
- ],
- "table": {
-  "head": [
-   "Підмет",
-   "+",
-   "−",
-   "?"
+  "id": "present-simple-basics",
+  "title": "Present Simple: основи",
+  "titleEn": "Present Simple: positive, negative, questions",
+  "unit": "Теперішні часи",
+  "level": "A1",
+  "mistakeType": "tenses",
+  "explanation": "**+** I / you / we / they **work** · he / she / it **works**\n**−** **don't / doesn't** + дієслово: *She doesn't work.*\n**?** **Do / Does** + підмет + дієслово: *Does she work?*\n\nКороткі відповіді: *Yes, I do. / No, he doesn't.*\n\nПравопис -s для he / she / it:\n- після -s, -sh, -ch, -x, -o + **-es**: *watches, goes, does*\n- приголосний + y → **-ies**: *study → studies* (але *play → plays*)\n- **have → has**\n\nСлова частоти — перед дієсловом, але після be: *I usually walk. She's always late.*",
+  "guide": {
+    "idea": "Present Simple — час для звичок, правил і фактів: що ви робите зазвичай, де живете, що любите. Він не про «саме зараз», а про «взагалі, завжди, щодня».",
+    "use": [
+      {
+        "when": "Звички й розпорядок дня",
+        "note": "Те, що повторюється: щодня, щотижня, зазвичай.",
+        "en": "I get up at seven and have breakfast at home.",
+        "uk": "Я встаю о сьомій і снідаю вдома."
+      },
+      {
+        "when": "Факти про себе",
+        "note": "Робота, житло, мови — те, що довго не змінюється.",
+        "en": "Sophie lives in Leeds and works in a hotel.",
+        "uk": "Софі живе в Лідсі й працює в готелі."
+      },
+      {
+        "when": "Почуття й думки",
+        "note": "like, love, want, know, understand майже завжди в Present Simple.",
+        "en": "I don't understand this word.",
+        "uk": "Я не розумію цього слова."
+      },
+      {
+        "when": "Розклад",
+        "note": "Коли відходить автобус, відчиняється магазин.",
+        "en": "The bus leaves at 8:15.",
+        "uk": "Автобус відходить о 8:15."
+      },
+      {
+        "when": "Загальні істини",
+        "note": "Те, що правда завжди.",
+        "en": "Cats don't like water.",
+        "uk": "Коти не люблять воду."
+      }
+    ],
+    "vs": [
+      {
+        "title": "Present Simple чи Present Continuous?",
+        "a": {
+          "en": "I work in a bank.",
+          "uk": "Я працюю в банку.",
+          "note": "Це моя робота взагалі."
+        },
+        "b": {
+          "en": "I'm working at home today.",
+          "uk": "Сьогодні я працюю вдома.",
+          "note": "Лише зараз, тимчасово."
+        }
+      },
+      {
+        "title": "do чи does?",
+        "a": {
+          "en": "Do you like tea?",
+          "uk": "Ти любиш чай?",
+          "note": "I, you, we, they — do."
+        },
+        "b": {
+          "en": "Does he like tea?",
+          "uk": "Він любить чай?",
+          "note": "he, she, it — does, а дієслово без -s."
+        }
+      }
+    ],
+    "signals": [
+      "always",
+      "usually",
+      "often",
+      "sometimes",
+      "never",
+      "every day",
+      "every week",
+      "on Mondays",
+      "at the weekend"
+    ],
+    "mistakes": [
+      {
+        "wrong": "She work in a shop.",
+        "right": "She works in a shop.",
+        "why": "Після he / she / it дієслово отримує -s."
+      },
+      {
+        "wrong": "Does she works here?",
+        "right": "Does she work here?",
+        "why": "-s уже в does, тому дієслово без нього."
+      },
+      {
+        "wrong": "I am work in an office.",
+        "right": "I work in an office.",
+        "why": "Present Simple не потребує am / is / are."
+      },
+      {
+        "wrong": "You like coffee?",
+        "right": "Do you like coffee?",
+        "why": "У питанні потрібне do / does."
+      },
+      {
+        "wrong": "I not like it.",
+        "right": "I don't like it.",
+        "why": "Заперечення — через don't / doesn't."
+      }
+    ]
+  },
+  "formula": [
+    "I/you/we/they + V · he/she/it + V**-s**",
+    "**don't / doesn't** + V · **Do / Does** + підмет + V?"
   ],
-  "rows": [
-   [
-    "I / you / we / they",
-    "I work",
-    "I don't work",
-    "Do you work?"
-   ],
-   [
-    "he / she / it",
-    "she works",
-    "she doesn't work",
-    "Does she work?"
-   ]
+  "table": {
+    "head": [
+      "Підмет",
+      "+",
+      "−",
+      "?"
+    ],
+    "rows": [
+      [
+        "I / you / we / they",
+        "I work",
+        "I don't work",
+        "Do you work?"
+      ],
+      [
+        "he / she / it",
+        "she works",
+        "she doesn't work",
+        "Does she work?"
+      ]
+    ]
+  },
+  "examples": [
+    {
+      "en": "I get up at seven.",
+      "uk": "Я встаю о сьомій."
+    },
+    {
+      "en": "My brother lives in Kyiv.",
+      "uk": "Мій брат живе в Києві."
+    },
+    {
+      "en": "We don't watch TV.",
+      "uk": "Ми не дивимося телевізор."
+    },
+    {
+      "en": "Does the bus stop here?",
+      "uk": "Автобус тут зупиняється?"
+    },
+    {
+      "en": "What do you do?",
+      "uk": "Ким ти працюєш?"
+    }
+  ],
+  "tip": "Після **does / doesn't** дієслово **без -s**: ~~Does she works?~~ → *Does she **work**?*",
+  "exercises": [
+    {
+      "type": "choice",
+      "prompt": "She ___ in a bank.",
+      "options": [
+        "work",
+        "works",
+        "working"
+      ],
+      "answer": "works",
+      "explanation": "she → -s."
+    },
+    {
+      "type": "choice",
+      "prompt": "I ___ like fish.",
+      "options": [
+        "don't",
+        "doesn't",
+        "not"
+      ],
+      "answer": "don't",
+      "explanation": "I → don't."
+    },
+    {
+      "type": "choice",
+      "prompt": "___ your husband speak Polish?",
+      "options": [
+        "Do",
+        "Does",
+        "Is"
+      ],
+      "answer": "Does",
+      "explanation": "he → does."
+    },
+    {
+      "type": "choice",
+      "prompt": "They ___ to the gym on Mondays.",
+      "options": [
+        "go",
+        "goes",
+        "going"
+      ],
+      "answer": "go",
+      "explanation": "they → без -s."
+    },
+    {
+      "type": "input",
+      "prompt": "My son ___ (watch) cartoons every evening.",
+      "answer": [
+        "watches"
+      ],
+      "explanation": "watch → watches."
+    },
+    {
+      "type": "input",
+      "prompt": "He ___ (not / drink) coffee. (скорочено)",
+      "answer": [
+        "doesn't drink",
+        "does not drink"
+      ],
+      "explanation": "doesn't + V."
+    },
+    {
+      "type": "input",
+      "prompt": "Where ___ you live?",
+      "answer": [
+        "do"
+      ],
+      "explanation": "you → do."
+    },
+    {
+      "type": "error",
+      "sentence": "She don't like rain.",
+      "wrongIndex": 1,
+      "correction": "doesn't",
+      "alt": [],
+      "explanation": "she → doesn't."
+    },
+    {
+      "type": "error",
+      "sentence": "Does he plays football?",
+      "wrongIndex": 2,
+      "correction": "play",
+      "alt": [],
+      "explanation": "Після does — без -s."
+    },
+    {
+      "type": "order",
+      "prompt": "Ми зазвичай вечеряємо о шостій.",
+      "answer": [
+        "We usually have dinner at six.",
+        "We usually eat dinner at six.",
+        "Usually we have dinner at six."
+      ],
+      "explanation": ""
+    },
+    {
+      "type": "translate",
+      "uk": "Він працює вдома.",
+      "answer": [
+        "He works at home.",
+        "He works from home."
+      ],
+      "explanation": ""
+    },
+    {
+      "type": "translate",
+      "uk": "Ти любиш каву?",
+      "answer": [
+        "Do you like coffee?"
+      ],
+      "explanation": ""
+    }
   ]
- },
- "examples": [
-  {
-   "en": "I get up at seven.",
-   "uk": "Я встаю о сьомій."
-  },
-  {
-   "en": "My brother lives in Kyiv.",
-   "uk": "Мій брат живе в Києві."
-  },
-  {
-   "en": "We don't watch TV.",
-   "uk": "Ми не дивимося телевізор."
-  },
-  {
-   "en": "Does the bus stop here?",
-   "uk": "Автобус тут зупиняється?"
-  },
-  {
-   "en": "What do you do?",
-   "uk": "Ким ти працюєш?"
-  }
- ],
- "tip": "Після **does / doesn't** дієслово **без -s**: ~~Does she works?~~ → *Does she **work**?*",
- "exercises": [
-  {
-   "type": "choice",
-   "prompt": "She ___ in a bank.",
-   "options": [
-    "work",
-    "works",
-    "working"
-   ],
-   "answer": "works",
-   "explanation": "she → -s."
-  },
-  {
-   "type": "choice",
-   "prompt": "I ___ like fish.",
-   "options": [
-    "don't",
-    "doesn't",
-    "not"
-   ],
-   "answer": "don't",
-   "explanation": "I → don't."
-  },
-  {
-   "type": "choice",
-   "prompt": "___ your husband speak Polish?",
-   "options": [
-    "Do",
-    "Does",
-    "Is"
-   ],
-   "answer": "Does",
-   "explanation": "he → does."
-  },
-  {
-   "type": "choice",
-   "prompt": "They ___ to the gym on Mondays.",
-   "options": [
-    "go",
-    "goes",
-    "going"
-   ],
-   "answer": "go",
-   "explanation": "they → без -s."
-  },
-  {
-   "type": "input",
-   "prompt": "My son ___ (watch) cartoons every evening.",
-   "answer": [
-    "watches"
-   ],
-   "explanation": "watch → watches."
-  },
-  {
-   "type": "input",
-   "prompt": "He ___ (not / drink) coffee. (скорочено)",
-   "answer": [
-    "doesn't drink",
-    "does not drink"
-   ],
-   "explanation": "doesn't + V."
-  },
-  {
-   "type": "input",
-   "prompt": "Where ___ you live?",
-   "answer": [
-    "do"
-   ],
-   "explanation": "you → do."
-  },
-  {
-   "type": "error",
-   "sentence": "She don't like rain.",
-   "wrongIndex": 1,
-   "correction": "doesn't",
-   "alt": [],
-   "explanation": "she → doesn't."
-  },
-  {
-   "type": "error",
-   "sentence": "Does he plays football?",
-   "wrongIndex": 2,
-   "correction": "play",
-   "alt": [],
-   "explanation": "Після does — без -s."
-  },
-  {
-   "type": "order",
-   "prompt": "Ми зазвичай вечеряємо о шостій.",
-   "answer": [
-    "We usually have dinner at six.",
-    "We usually eat dinner at six.",
-    "Usually we have dinner at six."
-   ],
-   "explanation": ""
-  },
-  {
-   "type": "translate",
-   "uk": "Він працює вдома.",
-   "answer": [
-    "He works at home.",
-    "He works from home."
-   ],
-   "explanation": ""
-  },
-  {
-   "type": "translate",
-   "uk": "Ти любиш каву?",
-   "answer": [
-    "Do you like coffee?"
-   ],
-   "explanation": ""
-  }
- ]
 }

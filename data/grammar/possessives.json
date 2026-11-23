@@ -1,177 +1,282 @@
 {
- "id": "possessives",
- "title": "Присвійні: my, your, 's",
- "titleEn": "Possessive adjectives and 's",
- "unit": "Іменник і артиклі",
- "level": "A1",
- "mistakeType": "other",
- "explanation": "**Чий?** — *my* (мій), *your* (твій/ваш), *his* (його), *her* (її), *its* (його/її про річ), *our* (наш), *their* (їхній): *This is **my** car. **Their** house is big.*\n\nДля людей додаємо **'s**: *Oliver**'s** car* (машина Олівера), *my wife**'s** name*. Якщо слово в множині вже на -s — лише апостроф: *my parents**'** house*.\n\nПитання — **whose?**: ***Whose** phone is this?*\n\nНе плутайте **its** (його — присвійне) і **it's** (= it is).",
- "formula": [
-  "**my / your / his / her / its / our / their** + іменник",
-  "людина + **'s** + іменник"
- ],
- "table": {
-  "head": [
-   "Особа",
-   "Присвійне",
-   "Приклад"
+  "id": "possessives",
+  "title": "Присвійні: my, your, 's",
+  "titleEn": "Possessive adjectives and 's",
+  "unit": "Іменник і артиклі",
+  "level": "A1",
+  "mistakeType": "other",
+  "explanation": "**I → my · you → your · he → his · she → her · it → its · we → our · they → their**\n\n- Присвійне слово — **перед іменником**, без артикля і без змін: *my brother, my sisters*\n- Людина + **'s**: *Oliver's car, my mum's birthday*\n- Множина на -s — лише апостроф: *my parents' house*; інша множина — 's: *the children's room*\n- Питання — **whose** + іменник: *Whose bag is this?*",
+  "guide": {
+    "idea": "Присвійні слова відповідають на питання «чий?». В українській «свій» підходить усім, а в англійській для кожної особи своє слово: my, your, his, her, our, their. Про людей кажемо ще й через 's: Emma's phone.",
+    "use": [
+      {
+        "when": "Моє, твоє, наше",
+        "note": "Особу замінюємо присвійним словом: I → my, we → our.",
+        "en": "Our flat is small but cosy.",
+        "uk": "Наша квартира невелика, але затишна."
+      },
+      {
+        "when": "his чи her — за власником",
+        "note": "his — власник чоловік, her — жінка; рід самої речі неважливий.",
+        "en": "Tom loves his sister, and Anna loves her brother.",
+        "uk": "Том любить свою сестру, а Анна — свого брата."
+      },
+      {
+        "when": "Річ конкретної людини",
+        "note": "Ім'я + 's — замість «кімната Емми».",
+        "en": "This is Emma's room.",
+        "uk": "Це кімната Емми."
+      },
+      {
+        "when": "Родина",
+        "note": "'s показує, чия це рідня.",
+        "en": "My brother's wife is from Dublin.",
+        "uk": "Дружина мого брата з Дубліна."
+      },
+      {
+        "when": "Річ чи тварина — its",
+        "note": "Власник — не людина: предмет, місце, тварина.",
+        "en": "The hotel is nice, but its restaurant is expensive.",
+        "uk": "Готель гарний, але його ресторан дорогий."
+      },
+      {
+        "when": "Питаємо, чиє",
+        "note": "Whose + іменник на початку.",
+        "en": "Whose coat is this?",
+        "uk": "Чиє це пальто?"
+      }
+    ],
+    "vs": [
+      {
+        "title": "his чи her?",
+        "a": {
+          "en": "Emma and her dad",
+          "uk": "Емма і її тато",
+          "note": "Власниця — жінка, тому her."
+        },
+        "b": {
+          "en": "Tom and his mum",
+          "uk": "Том і його мама",
+          "note": "Власник — чоловік, тому his, хоч мама — жінка."
+        }
+      },
+      {
+        "title": "its чи it's?",
+        "a": {
+          "en": "The dog wants its ball.",
+          "uk": "Собака хоче свій м'ячик.",
+          "note": "its — присвійне, без апострофа."
+        },
+        "b": {
+          "en": "It's a big dog.",
+          "uk": "Це великий собака.",
+          "note": "it's = it is."
+        }
+      },
+      {
+        "title": "'s чи of?",
+        "a": {
+          "en": "Oliver's car",
+          "uk": "машина Олівера",
+          "note": "Про людей — 's."
+        },
+        "b": {
+          "en": "the end of the film",
+          "uk": "кінець фільму",
+          "note": "Про речі частіше of."
+        }
+      }
+    ],
+    "signals": [],
+    "mistakes": [
+      {
+        "wrong": "She loves his husband.",
+        "right": "She loves her husband.",
+        "why": "«Свій» перекладаємо за власником: вона — her, він — his."
+      },
+      {
+        "wrong": "the car of my brother",
+        "right": "my brother's car",
+        "why": "Про людей природніше 's."
+      },
+      {
+        "wrong": "It's colour is red.",
+        "right": "Its colour is red.",
+        "why": "Присвійне its пишемо без апострофа."
+      },
+      {
+        "wrong": "This is the my bag.",
+        "right": "This is my bag.",
+        "why": "З my, your, his артикль не ставимо."
+      }
+    ]
+  },
+  "formula": [
+    "**my / your / his / her / its / our / their** + іменник",
+    "людина + **'s** + іменник"
   ],
-  "rows": [
-   [
-    "I",
-    "my",
-    "my job"
-   ],
-   [
-    "you",
-    "your",
-    "your bag"
-   ],
-   [
-    "he / she / it",
-    "his / her / its",
-    "her name"
-   ],
-   [
-    "we / they",
-    "our / their",
-    "their kids"
-   ]
+  "table": {
+    "head": [
+      "Особа",
+      "Присвійне",
+      "Приклад"
+    ],
+    "rows": [
+      [
+        "I",
+        "my",
+        "my job"
+      ],
+      [
+        "you",
+        "your",
+        "your bag"
+      ],
+      [
+        "he / she / it",
+        "his / her / its",
+        "her name"
+      ],
+      [
+        "we / they",
+        "our / their",
+        "their kids"
+      ]
+    ]
+  },
+  "examples": [
+    {
+      "en": "What's your name?",
+      "uk": "Як тебе звати?"
+    },
+    {
+      "en": "My sister's husband is a pilot.",
+      "uk": "Чоловік моєї сестри — пілот."
+    },
+    {
+      "en": "Their flat is on the fifth floor.",
+      "uk": "Їхня квартира на п'ятому поверсі."
+    },
+    {
+      "en": "Whose keys are these?",
+      "uk": "Чиї це ключі?"
+    },
+    {
+      "en": "The dog is wagging its tail.",
+      "uk": "Собака виляє хвостом."
+    }
+  ],
+  "tip": "*Their* (їхній), *there* (там), *they're* (= they are) звучать однаково — пишуться по-різному.",
+  "exercises": [
+    {
+      "type": "choice",
+      "prompt": "This is Anna and this is ___ husband.",
+      "options": [
+        "his",
+        "her",
+        "their"
+      ],
+      "answer": "her",
+      "explanation": "Анна → her."
+    },
+    {
+      "type": "choice",
+      "prompt": "We love ___ new flat.",
+      "options": [
+        "our",
+        "us",
+        "we"
+      ],
+      "answer": "our",
+      "explanation": "Наш — our."
+    },
+    {
+      "type": "choice",
+      "prompt": "___ phone is this?",
+      "options": [
+        "Who",
+        "Whose",
+        "Who's"
+      ],
+      "answer": "Whose",
+      "explanation": "Чий — whose (who's = who is)."
+    },
+    {
+      "type": "choice",
+      "prompt": "The company changed ___ logo.",
+      "options": [
+        "it's",
+        "its",
+        "its'"
+      ],
+      "answer": "its",
+      "explanation": "Компанія — it → its."
+    },
+    {
+      "type": "input",
+      "prompt": "This is the car of my brother. → This is my ___ car.",
+      "answer": [
+        "brother's"
+      ],
+      "explanation": "Людина + 's: my brother's car."
+    },
+    {
+      "type": "input",
+      "prompt": "They have a big garden. ___ garden is beautiful.",
+      "answer": [
+        "Their"
+      ],
+      "explanation": "Їхній — their."
+    },
+    {
+      "type": "input",
+      "prompt": "Is this ___ (you) umbrella?",
+      "answer": [
+        "your"
+      ],
+      "explanation": "you → your (твій)."
+    },
+    {
+      "type": "error",
+      "sentence": "Me name is Oliver.",
+      "wrongIndex": 0,
+      "correction": "My",
+      "alt": [],
+      "explanation": "Присвійне — my."
+    },
+    {
+      "type": "error",
+      "sentence": "This is Oliver car.",
+      "wrongIndex": 2,
+      "correction": "Oliver's",
+      "alt": [],
+      "explanation": "Потрібно 's."
+    },
+    {
+      "type": "order",
+      "prompt": "Як звати твою дружину?",
+      "answer": [
+        "What's your wife's name?",
+        "What is your wife's name?"
+      ],
+      "explanation": ""
+    },
+    {
+      "type": "translate",
+      "uk": "Це будинок моїх батьків.",
+      "answer": [
+        "This is my parents' house.",
+        "It's my parents' house."
+      ],
+      "explanation": ""
+    },
+    {
+      "type": "translate",
+      "uk": "Їхній син — лікар.",
+      "answer": [
+        "Their son is a doctor."
+      ],
+      "explanation": ""
+    }
   ]
- },
- "examples": [
-  {
-   "en": "What's your name?",
-   "uk": "Як тебе звати?"
-  },
-  {
-   "en": "My sister's husband is a pilot.",
-   "uk": "Чоловік моєї сестри — пілот."
-  },
-  {
-   "en": "Their flat is on the fifth floor.",
-   "uk": "Їхня квартира на п'ятому поверсі."
-  },
-  {
-   "en": "Whose keys are these?",
-   "uk": "Чиї це ключі?"
-  },
-  {
-   "en": "The dog is wagging its tail.",
-   "uk": "Собака виляє хвостом."
-  }
- ],
- "tip": "*Their* (їхній), *there* (там), *they're* (= they are) звучать однаково — пишуться по-різному.",
- "exercises": [
-  {
-   "type": "choice",
-   "prompt": "This is Anna and this is ___ husband.",
-   "options": [
-    "his",
-    "her",
-    "their"
-   ],
-   "answer": "her",
-   "explanation": "Анна → her."
-  },
-  {
-   "type": "choice",
-   "prompt": "We love ___ new flat.",
-   "options": [
-    "our",
-    "us",
-    "we"
-   ],
-   "answer": "our",
-   "explanation": "Наш — our."
-  },
-  {
-   "type": "choice",
-   "prompt": "___ phone is this?",
-   "options": [
-    "Who",
-    "Whose",
-    "Who's"
-   ],
-   "answer": "Whose",
-   "explanation": "Чий — whose (who's = who is)."
-  },
-  {
-   "type": "choice",
-   "prompt": "The company changed ___ logo.",
-   "options": [
-    "it's",
-    "its",
-    "its'"
-   ],
-   "answer": "its",
-   "explanation": "Компанія — it → its."
-  },
-  {
-   "type": "input",
-   "prompt": "This is the car of my brother. → This is my ___ car.",
-   "answer": [
-    "brother's"
-   ],
-   "explanation": "Людина + 's: my brother's car."
-  },
-  {
-   "type": "input",
-   "prompt": "They have a big garden. ___ garden is beautiful.",
-   "answer": [
-    "Their"
-   ],
-   "explanation": "Їхній — their."
-  },
-  {
-   "type": "input",
-   "prompt": "Is this ___ (you) umbrella?",
-   "answer": [
-    "your"
-   ],
-   "explanation": "you → your (твій)."
-  },
-  {
-   "type": "error",
-   "sentence": "Me name is Oliver.",
-   "wrongIndex": 0,
-   "correction": "My",
-   "alt": [],
-   "explanation": "Присвійне — my."
-  },
-  {
-   "type": "error",
-   "sentence": "This is Oliver car.",
-   "wrongIndex": 2,
-   "correction": "Oliver's",
-   "alt": [],
-   "explanation": "Потрібно 's."
-  },
-  {
-   "type": "order",
-   "prompt": "Як звати твою дружину?",
-   "answer": [
-    "What's your wife's name?",
-    "What is your wife's name?"
-   ],
-   "explanation": ""
-  },
-  {
-   "type": "translate",
-   "uk": "Це будинок моїх батьків.",
-   "answer": [
-    "This is my parents' house.",
-    "It's my parents' house."
-   ],
-   "explanation": ""
-  },
-  {
-   "type": "translate",
-   "uk": "Їхній син — лікар.",
-   "answer": [
-    "Their son is a doctor."
-   ],
-   "explanation": ""
-  }
- ]
 }

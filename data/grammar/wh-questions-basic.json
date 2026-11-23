@@ -1,215 +1,312 @@
 {
- "id": "wh-questions-basic",
- "title": "Питальні слова: what, where, when, who, how",
- "titleEn": "Wh-questions (basics)",
- "unit": "Будова речення",
- "level": "A1",
- "mistakeType": "word_order",
- "explanation": "Питальне слово завжди стоїть **на початку**: **what** — що, який; **where** — де, куди; **when** — коли; **who** — хто; **how** — як. А ще **how much / how many** — скільки, **how old** — скільки років, **what time** — о котрій.\n\nЯкщо в реченні є **be**, ставимо його одразу після питального слова: *Where **is** the station? Who **are** they?*\n\nЗ іншими дієсловами потрібен помічник **do / does**: *Where **do** you live? When **does** the shop open?* (з he/she/it — does, а дієслово без -s).\n\nКоли **who** — це той, хто робить дію, do не потрібне: *Who **lives** here? Who wants tea?*",
- "formula": [
-  "Wh- + am / is / are + підмет? — Where is the bank?",
-  "Wh- + do / does + підмет + дієслово? — Where do you live?",
-  "Who + дієслово-s? — Who lives here?"
- ],
- "table": {
-  "head": [
-   "Слово",
-   "Значення",
-   "Приклад"
+  "id": "wh-questions-basic",
+  "title": "Питальні слова: what, where, when, who, how",
+  "titleEn": "Wh-questions (basics)",
+  "unit": "Будова речення",
+  "level": "A1",
+  "mistakeType": "word_order",
+  "explanation": "**З be:** питальне слово + **am / is / are** + підмет: *Where **is** the station?*\n**З іншими дієсловами:** питальне слово + **do / does** + підмет + дієслово: *Where **do** you live? When **does** it open?* (після does — без -s)\n**Who / What як підмет** — без do: *Who **lives** here? What happens next?*\n\n- Пари: **what time** — о котрій, **how much** — скільки (ціна, незлічуване), **how many** — скільки штук, **how old** — скільки років, **what** + іменник: *what colour, what music*\n- Прийменник — у кінці: *Where are you **from**?*",
+  "guide": {
+    "idea": "Питальні слова — найкоротший шлях до розмови: з ними дізнаються ім'я, адресу, час і ціну. Питальне слово завжди першим, а далі — порядок питання: is / are або do / does перед підметом.",
+    "use": [
+      {
+        "when": "Знайомство",
+        "note": "What, where, how old — перші питання до нової людини.",
+        "en": "What's your name? Where are you from?",
+        "uk": "Як тебе звати? Звідки ти?"
+      },
+      {
+        "when": "Місце й дорога",
+        "note": "where — де, куди.",
+        "en": "Excuse me, where's the nearest bus stop?",
+        "uk": "Перепрошую, де найближча зупинка?"
+      },
+      {
+        "when": "Час і розклад",
+        "note": "when — коли загалом, what time — о котрій саме.",
+        "en": "What time does the film start?",
+        "uk": "О котрій починається фільм?"
+      },
+      {
+        "when": "Ціна й кількість",
+        "note": "how much — ціна й незлічуване, how many — те, що рахуємо.",
+        "en": "How many people are there in your family?",
+        "uk": "Скільки людей у вашій сім'ї?"
+      },
+      {
+        "when": "Хто",
+        "note": "who — про людей.",
+        "en": "Who's your best friend?",
+        "uk": "Хто твій найкращий друг?"
+      },
+      {
+        "when": "Як",
+        "note": "how — спосіб і самопочуття.",
+        "en": "How do you say this in English?",
+        "uk": "Як це сказати англійською?"
+      }
+    ],
+    "vs": [
+      {
+        "title": "how much чи how many?",
+        "a": {
+          "en": "How much milk do we need?",
+          "uk": "Скільки молока нам треба?",
+          "note": "Те, що не рахуємо поштучно, і ціна."
+        },
+        "b": {
+          "en": "How many eggs do we need?",
+          "uk": "Скільки яєць нам треба?",
+          "note": "Те, що рахуємо: яйця, люди, дні."
+        }
+      },
+      {
+        "title": "Who з do чи без?",
+        "a": {
+          "en": "Who lives here?",
+          "uk": "Хто тут живе?",
+          "note": "Питаємо, хто робить дію, — без do."
+        },
+        "b": {
+          "en": "Who do you live with?",
+          "uk": "З ким ти живеш?",
+          "note": "Дію робить you, тому потрібне do."
+        }
+      }
+    ],
+    "signals": [],
+    "mistakes": [
+      {
+        "wrong": "Where you live?",
+        "right": "Where do you live?",
+        "why": "У питанні потрібне do / does перед підметом."
+      },
+      {
+        "wrong": "Where does she lives?",
+        "right": "Where does she live?",
+        "why": "Після does дієслово без -s."
+      },
+      {
+        "wrong": "How old you are?",
+        "right": "How old are you?",
+        "why": "У питанні be стоїть перед підметом."
+      },
+      {
+        "wrong": "How much people?",
+        "right": "How many people?",
+        "why": "Людей рахуємо, тому how many."
+      },
+      {
+        "wrong": "Who does live here?",
+        "right": "Who lives here?",
+        "why": "Коли who — той, хто робить дію, do не потрібне."
+      }
+    ]
+  },
+  "formula": [
+    "Wh- + am / is / are + підмет? — Where is the bank?",
+    "Wh- + do / does + підмет + дієслово? — Where do you live?",
+    "Who + дієслово-s? — Who lives here?"
   ],
-  "rows": [
-   [
-    "What",
-    "що, який",
-    "What is your name?"
-   ],
-   [
-    "Where",
-    "де, куди",
-    "Where do you live?"
-   ],
-   [
-    "When",
-    "коли",
-    "When does the shop open?"
-   ],
-   [
-    "Who",
-    "хто",
-    "Who is that man?"
-   ],
-   [
-    "How",
-    "як",
-    "How are you?"
-   ],
-   [
-    "How much / How many",
-    "скільки",
-    "How much is this?"
-   ]
+  "table": {
+    "head": [
+      "Слово",
+      "Значення",
+      "Приклад"
+    ],
+    "rows": [
+      [
+        "What",
+        "що, який",
+        "What is your name?"
+      ],
+      [
+        "Where",
+        "де, куди",
+        "Where do you live?"
+      ],
+      [
+        "When",
+        "коли",
+        "When does the shop open?"
+      ],
+      [
+        "Who",
+        "хто",
+        "Who is that man?"
+      ],
+      [
+        "How",
+        "як",
+        "How are you?"
+      ],
+      [
+        "How much / How many",
+        "скільки",
+        "How much is this?"
+      ]
+    ]
+  },
+  "examples": [
+    {
+      "en": "Where do you live? — I live in Kraków.",
+      "uk": "Де ти живеш? — Я живу в Кракові."
+    },
+    {
+      "en": "What time is it?",
+      "uk": "Котра година?"
+    },
+    {
+      "en": "When does the shop close?",
+      "uk": "Коли зачиняється магазин?"
+    },
+    {
+      "en": "Who is that woman?",
+      "uk": "Хто та жінка?"
+    },
+    {
+      "en": "How do you get to the city centre?",
+      "uk": "Як ти добираєшся до центру міста?"
+    },
+    {
+      "en": "How much are these apples?",
+      "uk": "Скільки коштують ці яблука?"
+    }
+  ],
+  "tip": "Не залишайте порядок як у твердженні: ~~Where you live?~~ → *Where **do** you live?*",
+  "exercises": [
+    {
+      "type": "choice",
+      "prompt": "___ do you live? — In Kraków.",
+      "options": [
+        "What",
+        "Where",
+        "When"
+      ],
+      "answer": "Where",
+      "explanation": "Питаємо про місце."
+    },
+    {
+      "type": "choice",
+      "prompt": "___ is your birthday? — In May.",
+      "options": [
+        "When",
+        "Who",
+        "Where"
+      ],
+      "answer": "When",
+      "explanation": "Питаємо про час."
+    },
+    {
+      "type": "choice",
+      "prompt": "___ is that man? — He's my neighbour.",
+      "options": [
+        "What",
+        "Who",
+        "How"
+      ],
+      "answer": "Who",
+      "explanation": "Питаємо про людину."
+    },
+    {
+      "type": "choice",
+      "prompt": "Where ___ your sister work?",
+      "options": [
+        "do",
+        "does",
+        "is"
+      ],
+      "answer": "does",
+      "explanation": "Sister = she → does."
+    },
+    {
+      "type": "choice",
+      "prompt": "___ are you? — I'm fine, thanks.",
+      "options": [
+        "How",
+        "What",
+        "Who"
+      ],
+      "answer": "How",
+      "explanation": "Як справи — How are you?"
+    },
+    {
+      "type": "choice",
+      "prompt": "What ___ your name?",
+      "options": [
+        "is",
+        "are",
+        "do"
+      ],
+      "answer": "is",
+      "explanation": "Name — однина, тому is."
+    },
+    {
+      "type": "input",
+      "prompt": "___ (скільки) is this bag? — 50 złoty.",
+      "answer": [
+        "How much"
+      ],
+      "explanation": "Ціна — How much."
+    },
+    {
+      "type": "input",
+      "prompt": "What time ___ (do / does) the train leave?",
+      "answer": [
+        "does"
+      ],
+      "explanation": "Train = it → does."
+    },
+    {
+      "type": "input",
+      "prompt": "Where ___ (be) the toilets, please?",
+      "answer": [
+        "are"
+      ],
+      "explanation": "Toilets — множина, тому are."
+    },
+    {
+      "type": "error",
+      "sentence": "Where does you live?",
+      "wrongIndex": 1,
+      "correction": "do",
+      "alt": [],
+      "explanation": "З you — do."
+    },
+    {
+      "type": "error",
+      "sentence": "What time do the bus leave?",
+      "wrongIndex": 2,
+      "correction": "does",
+      "alt": [],
+      "explanation": "Bus = it → does."
+    },
+    {
+      "type": "order",
+      "prompt": "Коли ти встаєш?",
+      "answer": [
+        "When do you get up?"
+      ],
+      "explanation": "When + do + you + дієслово."
+    },
+    {
+      "type": "transform",
+      "prompt": "She lives in Warsaw.",
+      "instruction": "Поставте питання до слова Warsaw (Where…?)",
+      "answer": [
+        "Where does she live?"
+      ],
+      "explanation": "З she — does, дієслово без -s."
+    },
+    {
+      "type": "translate",
+      "uk": "Як звати твою дружину?",
+      "answer": [
+        "What is your wife's name?",
+        "What's your wife's name?",
+        "What is the name of your wife?"
+      ],
+      "explanation": "Ім'я питаємо через What is … name?"
+    }
   ]
- },
- "examples": [
-  {
-   "en": "Where do you live? — I live in Kraków.",
-   "uk": "Де ти живеш? — Я живу в Кракові."
-  },
-  {
-   "en": "What time is it?",
-   "uk": "Котра година?"
-  },
-  {
-   "en": "When does the shop close?",
-   "uk": "Коли зачиняється магазин?"
-  },
-  {
-   "en": "Who is that woman?",
-   "uk": "Хто та жінка?"
-  },
-  {
-   "en": "How do you get to the city centre?",
-   "uk": "Як ти добираєшся до центру міста?"
-  },
-  {
-   "en": "How much are these apples?",
-   "uk": "Скільки коштують ці яблука?"
-  }
- ],
- "tip": "Не залишайте порядок як у твердженні: ~~Where you live?~~ → *Where **do** you live?*",
- "exercises": [
-  {
-   "type": "choice",
-   "prompt": "___ do you live? — In Kraków.",
-   "options": [
-    "What",
-    "Where",
-    "When"
-   ],
-   "answer": "Where",
-   "explanation": "Питаємо про місце."
-  },
-  {
-   "type": "choice",
-   "prompt": "___ is your birthday? — In May.",
-   "options": [
-    "When",
-    "Who",
-    "Where"
-   ],
-   "answer": "When",
-   "explanation": "Питаємо про час."
-  },
-  {
-   "type": "choice",
-   "prompt": "___ is that man? — He's my neighbour.",
-   "options": [
-    "What",
-    "Who",
-    "How"
-   ],
-   "answer": "Who",
-   "explanation": "Питаємо про людину."
-  },
-  {
-   "type": "choice",
-   "prompt": "Where ___ your sister work?",
-   "options": [
-    "do",
-    "does",
-    "is"
-   ],
-   "answer": "does",
-   "explanation": "Sister = she → does."
-  },
-  {
-   "type": "choice",
-   "prompt": "___ are you? — I'm fine, thanks.",
-   "options": [
-    "How",
-    "What",
-    "Who"
-   ],
-   "answer": "How",
-   "explanation": "Як справи — How are you?"
-  },
-  {
-   "type": "choice",
-   "prompt": "What ___ your name?",
-   "options": [
-    "is",
-    "are",
-    "do"
-   ],
-   "answer": "is",
-   "explanation": "Name — однина, тому is."
-  },
-  {
-   "type": "input",
-   "prompt": "___ (скільки) is this bag? — 50 złoty.",
-   "answer": [
-    "How much"
-   ],
-   "explanation": "Ціна — How much."
-  },
-  {
-   "type": "input",
-   "prompt": "What time ___ (do / does) the train leave?",
-   "answer": [
-    "does"
-   ],
-   "explanation": "Train = it → does."
-  },
-  {
-   "type": "input",
-   "prompt": "Where ___ (be) the toilets, please?",
-   "answer": [
-    "are"
-   ],
-   "explanation": "Toilets — множина, тому are."
-  },
-  {
-   "type": "error",
-   "sentence": "Where does you live?",
-   "wrongIndex": 1,
-   "correction": "do",
-   "alt": [],
-   "explanation": "З you — do."
-  },
-  {
-   "type": "error",
-   "sentence": "What time do the bus leave?",
-   "wrongIndex": 2,
-   "correction": "does",
-   "alt": [],
-   "explanation": "Bus = it → does."
-  },
-  {
-   "type": "order",
-   "prompt": "Коли ти встаєш?",
-   "answer": [
-    "When do you get up?"
-   ],
-   "explanation": "When + do + you + дієслово."
-  },
-  {
-   "type": "transform",
-   "prompt": "She lives in Warsaw.",
-   "instruction": "Поставте питання до слова Warsaw (Where…?)",
-   "answer": [
-    "Where does she live?"
-   ],
-   "explanation": "З she — does, дієслово без -s."
-  },
-  {
-   "type": "translate",
-   "uk": "Як звати твою дружину?",
-   "answer": [
-    "What is your wife's name?",
-    "What's your wife's name?",
-    "What is the name of your wife?"
-   ],
-   "explanation": "Ім'я питаємо через What is … name?"
-  }
- ]
 }

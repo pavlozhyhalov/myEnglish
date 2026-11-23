@@ -1,203 +1,294 @@
 {
- "id": "articles-a-an",
- "title": "Артиклі a / an",
- "titleEn": "Articles a / an (basics)",
- "unit": "Іменник і артиклі",
- "level": "A1",
- "mistakeType": "articles",
- "explanation": "В українській артиклів немає, а в англійській перед **одним предметом** (злічуваний іменник в однині) зазвичай стоїть **a** або **an**: *I have **a** car. She has **an** apple.*\n\n**a** — перед приголосним **звуком**: *a book, a big flat, a university* (звучить [ju:]). **an** — перед голосним **звуком**: *an egg, an old house, an hour* (h не читається).\n\nВажливий саме **звук**, а не буква, і саме те слово, що стоїть одразу після артикля: *an apple*, але *a red apple*.\n\nПро професію теж кажемо з a/an: *My friend is **an** engineer. Anna is **a** nurse.* Не пропускайте артикль: ~~She is doctor~~ → *She is **a** doctor.*\n\nУ **множині** та з речовинами (water, milk, bread) **a/an не вживаємо**: *apples, books, water*.",
- "formula": [
-  "a + приголосний звук: a car, a university",
-  "an + голосний звук: an apple, an hour",
-  "множина — без a/an: cars, apples"
- ],
- "table": {
-  "head": [
-   "Артикль",
-   "Коли",
-   "Приклад"
+  "id": "articles-a-an",
+  "title": "Артиклі a / an",
+  "titleEn": "Articles a / an (basics)",
+  "unit": "Іменник і артиклі",
+  "level": "A1",
+  "mistakeType": "articles",
+  "explanation": "**a** + приголосний **звук**: *a car, a big flat, a university* [ju:], *a European city*\n**an** + голосний **звук**: *an egg, an old house, an umbrella, an hour* (h не читається)\n\n- Важить слово одразу після артикля: *an apple*, але *a red apple*\n- Лише з одниною злічуваних: *a book* → *books*; *water, bread, money* — без a/an\n- З *my, your, this* артикль не ставимо: *my car*, не ~~a my car~~",
+  "guide": {
+    "idea": "A / an означає «один, якийсь» — одна річ, про яку співрозмовник ще не знає або неважливо, яка саме. В українській такого слова немає, тому його легко пропустити, а без нього англійське речення звучить ламано.",
+    "use": [
+      {
+        "when": "Одна річ, згадана вперше",
+        "note": "Співрозмовник ще не знає, про яку саме річ мова.",
+        "en": "I've got a new phone.",
+        "uk": "У мене новий телефон."
+      },
+      {
+        "when": "Професія",
+        "note": "Хто людина за фахом — завжди з a / an.",
+        "en": "Emma is a nurse, and her husband is an engineer.",
+        "uk": "Емма — медсестра, а її чоловік — інженер."
+      },
+      {
+        "when": "Опис: що це за річ",
+        "note": "Кажемо, до якого виду належить річ чи людина.",
+        "en": "It's a good idea.",
+        "uk": "Це гарна ідея."
+      },
+      {
+        "when": "Прохання в кафе й магазині",
+        "note": "Одна порція чи одна штука — a / an.",
+        "en": "Can I have a coffee and an orange juice, please?",
+        "uk": "Можна каву й апельсиновий сік, будь ласка?"
+      },
+      {
+        "when": "«На», «за»: частота й ціна",
+        "note": "a = «на» в «раз на тиждень», «за» в «фунт за кілограм».",
+        "en": "I go swimming twice a week.",
+        "uk": "Я ходжу плавати двічі на тиждень."
+      }
+    ],
+    "vs": [
+      {
+        "title": "a чи an?",
+        "a": {
+          "en": "a university",
+          "uk": "університет",
+          "note": "Буква u, але звук [ju:] — тому a."
+        },
+        "b": {
+          "en": "an hour",
+          "uk": "година",
+          "note": "Буква h, але звук голосний — тому an."
+        }
+      },
+      {
+        "title": "a / an чи без артикля?",
+        "a": {
+          "en": "I'd like an apple.",
+          "uk": "Я б хотів яблуко.",
+          "note": "Одна штука — a / an."
+        },
+        "b": {
+          "en": "I like apples.",
+          "uk": "Я люблю яблука.",
+          "note": "Про всі яблука загалом — множина без артикля."
+        }
+      }
+    ],
+    "signals": [],
+    "mistakes": [
+      {
+        "wrong": "She is doctor.",
+        "right": "She is a doctor.",
+        "why": "Професію в однині кажемо з a / an."
+      },
+      {
+        "wrong": "a apple",
+        "right": "an apple",
+        "why": "Перед голосним звуком — an, так легше вимовити."
+      },
+      {
+        "wrong": "an university",
+        "right": "a university",
+        "why": "Важить звук [ju:], а не буква u."
+      },
+      {
+        "wrong": "I need a water.",
+        "right": "I need some water.",
+        "why": "water, bread, money не рахують поштучно — без a / an."
+      },
+      {
+        "wrong": "It's a my car.",
+        "right": "It's my car.",
+        "why": "З my, your, his тощо артикль не ставимо."
+      }
+    ]
+  },
+  "formula": [
+    "a + приголосний звук: a car, a university",
+    "an + голосний звук: an apple, an hour",
+    "множина — без a/an: cars, apples"
   ],
-  "rows": [
-   [
-    "a",
-    "перед приголосним звуком",
-    "a bag, a house, a European city"
-   ],
-   [
-    "an",
-    "перед голосним звуком",
-    "an egg, an idea, an hour"
-   ],
-   [
-    "a / an",
-    "професія",
-    "He is a driver. She is an artist."
-   ],
-   [
-    "—",
-    "множина, речовини",
-    "eggs, houses, water, bread"
-   ]
+  "table": {
+    "head": [
+      "Артикль",
+      "Коли",
+      "Приклад"
+    ],
+    "rows": [
+      [
+        "a",
+        "перед приголосним звуком",
+        "a bag, a house, a European city"
+      ],
+      [
+        "an",
+        "перед голосним звуком",
+        "an egg, an idea, an hour"
+      ],
+      [
+        "a / an",
+        "професія",
+        "He is a driver. She is an artist."
+      ],
+      [
+        "—",
+        "множина, речовини",
+        "eggs, houses, water, bread"
+      ]
+    ]
+  },
+  "examples": [
+    {
+      "en": "I have a sister and a brother.",
+      "uk": "У мене є сестра і брат."
+    },
+    {
+      "en": "My friend is an engineer.",
+      "uk": "Мій друг — інженер."
+    },
+    {
+      "en": "We live in a small flat in Kraków.",
+      "uk": "Ми живемо в невеликій квартирі в Кракові."
+    },
+    {
+      "en": "I'd like an apple, please.",
+      "uk": "Я б хотів яблуко, будь ласка."
+    },
+    {
+      "en": "It takes an hour to get there.",
+      "uk": "Дорога туди займає годину."
+    },
+    {
+      "en": "There are apples on the table.",
+      "uk": "На столі є яблука."
+    }
+  ],
+  "tip": "Слухайте перший **звук**: *a uniform* [ju:], але *an umbrella* [ʌ]; *an hour*, але *a house*.",
+  "exercises": [
+    {
+      "type": "choice",
+      "prompt": "I eat ___ egg every morning.",
+      "options": [
+        "a",
+        "an",
+        "—"
+      ],
+      "answer": "an",
+      "explanation": "Egg починається з голосного звуку."
+    },
+    {
+      "type": "choice",
+      "prompt": "She is ___ university student.",
+      "options": [
+        "a",
+        "an",
+        "—"
+      ],
+      "answer": "a",
+      "explanation": "University звучить як [ju:], це приголосний звук."
+    },
+    {
+      "type": "choice",
+      "prompt": "We waited for ___ hour.",
+      "options": [
+        "a",
+        "an",
+        "—"
+      ],
+      "answer": "an",
+      "explanation": "У слові hour h не читається."
+    },
+    {
+      "type": "choice",
+      "prompt": "There are ___ in the garden.",
+      "options": [
+        "a cats",
+        "an cats",
+        "cats"
+      ],
+      "answer": "cats",
+      "explanation": "У множині a/an не вживаємо."
+    },
+    {
+      "type": "choice",
+      "prompt": "Kraków is ___ old city.",
+      "options": [
+        "a",
+        "an",
+        "—"
+      ],
+      "answer": "an",
+      "explanation": "Old починається з голосного звуку."
+    },
+    {
+      "type": "input",
+      "prompt": "My brother is ___ (a / an) engineer.",
+      "answer": [
+        "an"
+      ],
+      "explanation": "Engineer починається з голосного звуку."
+    },
+    {
+      "type": "input",
+      "prompt": "Can I borrow ___ (a / an) umbrella? It's raining.",
+      "answer": [
+        "an"
+      ],
+      "explanation": "Umbrella починається з голосного звуку."
+    },
+    {
+      "type": "input",
+      "prompt": "Kraków is ___ (a / an) beautiful city.",
+      "answer": [
+        "a"
+      ],
+      "explanation": "Має значення слово одразу після артикля: beautiful починається з приголосного звуку."
+    },
+    {
+      "type": "error",
+      "sentence": "I have a idea.",
+      "wrongIndex": 2,
+      "correction": "an",
+      "alt": [],
+      "explanation": "Idea починається з голосного звуку."
+    },
+    {
+      "type": "error",
+      "sentence": "My wife is an doctor.",
+      "wrongIndex": 3,
+      "correction": "a",
+      "alt": [],
+      "explanation": "Doctor починається з приголосного звуку."
+    },
+    {
+      "type": "error",
+      "sentence": "It is a old house.",
+      "wrongIndex": 2,
+      "correction": "an",
+      "alt": [],
+      "explanation": "Old починається з голосного звуку."
+    },
+    {
+      "type": "order",
+      "prompt": "Я живу в старому будинку.",
+      "answer": [
+        "I live in an old house."
+      ],
+      "explanation": "Перед old — an."
+    },
+    {
+      "type": "transform",
+      "prompt": "She is a student.",
+      "instruction": "Замініть she на they",
+      "answer": [
+        "They are students.",
+        "They're students."
+      ],
+      "explanation": "У множині a зникає, а іменник отримує -s."
+    },
+    {
+      "type": "translate",
+      "uk": "У мене є собака і кіт.",
+      "answer": [
+        "I have a dog and a cat.",
+        "I've got a dog and a cat.",
+        "I have got a dog and a cat."
+      ],
+      "explanation": "Перед кожним іменником в однині — a."
+    }
   ]
- },
- "examples": [
-  {
-   "en": "I have a sister and a brother.",
-   "uk": "У мене є сестра і брат."
-  },
-  {
-   "en": "My friend is an engineer.",
-   "uk": "Мій друг — інженер."
-  },
-  {
-   "en": "We live in a small flat in Kraków.",
-   "uk": "Ми живемо в невеликій квартирі в Кракові."
-  },
-  {
-   "en": "I'd like an apple, please.",
-   "uk": "Я б хотів яблуко, будь ласка."
-  },
-  {
-   "en": "It takes an hour to get there.",
-   "uk": "Дорога туди займає годину."
-  },
-  {
-   "en": "There are apples on the table.",
-   "uk": "На столі є яблука."
-  }
- ],
- "tip": "Слухайте перший **звук**: *a uniform* [ju:], але *an umbrella* [ʌ]; *an hour*, але *a house*.",
- "exercises": [
-  {
-   "type": "choice",
-   "prompt": "I eat ___ egg every morning.",
-   "options": [
-    "a",
-    "an",
-    "—"
-   ],
-   "answer": "an",
-   "explanation": "Egg починається з голосного звуку."
-  },
-  {
-   "type": "choice",
-   "prompt": "She is ___ university student.",
-   "options": [
-    "a",
-    "an",
-    "—"
-   ],
-   "answer": "a",
-   "explanation": "University звучить як [ju:], це приголосний звук."
-  },
-  {
-   "type": "choice",
-   "prompt": "We waited for ___ hour.",
-   "options": [
-    "a",
-    "an",
-    "—"
-   ],
-   "answer": "an",
-   "explanation": "У слові hour h не читається."
-  },
-  {
-   "type": "choice",
-   "prompt": "There are ___ in the garden.",
-   "options": [
-    "a cats",
-    "an cats",
-    "cats"
-   ],
-   "answer": "cats",
-   "explanation": "У множині a/an не вживаємо."
-  },
-  {
-   "type": "choice",
-   "prompt": "Kraków is ___ old city.",
-   "options": [
-    "a",
-    "an",
-    "—"
-   ],
-   "answer": "an",
-   "explanation": "Old починається з голосного звуку."
-  },
-  {
-   "type": "input",
-   "prompt": "My brother is ___ (a / an) engineer.",
-   "answer": [
-    "an"
-   ],
-   "explanation": "Engineer починається з голосного звуку."
-  },
-  {
-   "type": "input",
-   "prompt": "Can I borrow ___ (a / an) umbrella? It's raining.",
-   "answer": [
-    "an"
-   ],
-   "explanation": "Umbrella починається з голосного звуку."
-  },
-  {
-   "type": "input",
-   "prompt": "Kraków is ___ (a / an) beautiful city.",
-   "answer": [
-    "a"
-   ],
-   "explanation": "Має значення слово одразу після артикля: beautiful починається з приголосного звуку."
-  },
-  {
-   "type": "error",
-   "sentence": "I have a idea.",
-   "wrongIndex": 2,
-   "correction": "an",
-   "alt": [],
-   "explanation": "Idea починається з голосного звуку."
-  },
-  {
-   "type": "error",
-   "sentence": "My wife is an doctor.",
-   "wrongIndex": 3,
-   "correction": "a",
-   "alt": [],
-   "explanation": "Doctor починається з приголосного звуку."
-  },
-  {
-   "type": "error",
-   "sentence": "It is a old house.",
-   "wrongIndex": 2,
-   "correction": "an",
-   "alt": [],
-   "explanation": "Old починається з голосного звуку."
-  },
-  {
-   "type": "order",
-   "prompt": "Я живу в старому будинку.",
-   "answer": [
-    "I live in an old house."
-   ],
-   "explanation": "Перед old — an."
-  },
-  {
-   "type": "transform",
-   "prompt": "She is a student.",
-   "instruction": "Замініть she на they",
-   "answer": [
-    "They are students.",
-    "They're students."
-   ],
-   "explanation": "У множині a зникає, а іменник отримує -s."
-  },
-  {
-   "type": "translate",
-   "uk": "У мене є собака і кіт.",
-   "answer": [
-    "I have a dog and a cat.",
-    "I've got a dog and a cat.",
-    "I have got a dog and a cat."
-   ],
-   "explanation": "Перед кожним іменником в однині — a."
-  }
- ]
 }

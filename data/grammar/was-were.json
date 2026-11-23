@@ -1,205 +1,303 @@
 {
- "id": "was-were",
- "title": "Was / were: минуле to be",
- "titleEn": "Past of be: was / were",
- "unit": "Минулі часи",
- "level": "A1",
- "mistakeType": "tenses",
- "explanation": "У минулому часі **to be** має дві форми: **was** — з *I, he, she, it*; **were** — з *we, you, they*: *I **was** tired. We **were** in Lviv.*\n\nЗаперечення — **wasn't / weren't** (was not / were not): *The shop **wasn't** open.*\n\nПитання — was/were на початок: ***Were** you at home? Where **was** Emma?*\n\nТипові слова: **yesterday, last week, last summer, in 2020, two days ago**. Так само: *There **was** a problem. There **were** many people.*",
- "formula": [
-  "I / he / she / it + was",
-  "we / you / they + were",
-  "Was / Were + підмет …? · wasn't / weren't"
- ],
- "table": {
-  "head": [
-   "Особа",
-   "Ствердження",
-   "Заперечення",
-   "Питання"
+  "id": "was-were",
+  "title": "Was / were: минуле to be",
+  "titleEn": "Past of be: was / were",
+  "unit": "Минулі часи",
+  "level": "A1",
+  "mistakeType": "tenses",
+  "explanation": "**+** I / he / she / it **was** · we / you / they **were**\n**−** **wasn't** (was not) · **weren't** (were not)\n**?** **Was / Were** + підмет …? — *Were you at home?*\n\nКороткі відповіді: *Yes, I was. / No, they weren't.*\n- **you** — завжди were, навіть про одну людину\n- з there: *there was* + однина · *there were* + множина",
+  "guide": {
+    "idea": "Was / were — минуле від am / is / are: де ви були, як почувалися, яким усе було. Форму обираємо за підметом, а не за родом, як у «був / була / були».",
+    "use": [
+      {
+        "when": "Де хтось був",
+        "note": "Місце в минулому.",
+        "en": "I was at a friend's house last night.",
+        "uk": "Учора ввечері я був у друга."
+      },
+      {
+        "when": "Який, як пройшло",
+        "note": "Враження й стан у минулому.",
+        "en": "The film was great, but the cinema was cold.",
+        "uk": "Фільм був чудовий, але в кінотеатрі було холодно."
+      },
+      {
+        "when": "Народження",
+        "note": "«Я народився» — лише was / were born.",
+        "en": "Emma was born in Edinburgh.",
+        "uk": "Емма народилася в Единбурзі."
+      },
+      {
+        "when": "Що було в місці",
+        "note": "there was / there were.",
+        "en": "There were a lot of people at the party.",
+        "uk": "На вечірці було багато людей."
+      },
+      {
+        "when": "Питаємо про минуле",
+        "note": "How was…? — як минуло.",
+        "en": "How was your holiday?",
+        "uk": "Як минула твоя відпустка?"
+      }
+    ],
+    "vs": [
+      {
+        "title": "was чи were?",
+        "a": {
+          "en": "I was tired.",
+          "uk": "Я був утомлений.",
+          "note": "I, he, she, it — was."
+        },
+        "b": {
+          "en": "You were right.",
+          "uk": "Ти мав рацію.",
+          "note": "you, we, they — were, навіть про одну людину."
+        }
+      },
+      {
+        "title": "was / were чи did?",
+        "a": {
+          "en": "Where were you yesterday?",
+          "uk": "Де ти був учора?",
+          "note": "Стан і місце — was / were."
+        },
+        "b": {
+          "en": "Where did you go yesterday?",
+          "uk": "Куди ти ходив учора?",
+          "note": "Інша дія (go, work, see) — через did."
+        }
+      }
+    ],
+    "signals": [
+      "yesterday",
+      "last night",
+      "last week",
+      "last summer",
+      "ago",
+      "in 2020"
+    ],
+    "mistakes": [
+      {
+        "wrong": "You was right.",
+        "right": "You were right.",
+        "why": "З you — завжди were."
+      },
+      {
+        "wrong": "I didn't be at home.",
+        "right": "I wasn't at home.",
+        "why": "be у минулому заперечуємо через wasn't / weren't, без did."
+      },
+      {
+        "wrong": "Did you be at work?",
+        "right": "Were you at work?",
+        "why": "Питання з be — was / were на початок, без did."
+      },
+      {
+        "wrong": "I born in 1990.",
+        "right": "I was born in 1990.",
+        "why": "«Народився» — was / were born."
+      },
+      {
+        "wrong": "Yesterday I at home.",
+        "right": "Yesterday I was at home.",
+        "why": "Без was речення неповне."
+      }
+    ]
+  },
+  "formula": [
+    "I / he / she / it + was",
+    "we / you / they + were",
+    "Was / Were + підмет …? · wasn't / weren't"
   ],
-  "rows": [
-   [
-    "I / he / she / it",
-    "She was at home.",
-    "She wasn't at home.",
-    "Was she at home?"
-   ],
-   [
-    "we / you / they",
-    "We were tired.",
-    "We weren't tired.",
-    "Were you tired?"
-   ]
+  "table": {
+    "head": [
+      "Особа",
+      "Ствердження",
+      "Заперечення",
+      "Питання"
+    ],
+    "rows": [
+      [
+        "I / he / she / it",
+        "She was at home.",
+        "She wasn't at home.",
+        "Was she at home?"
+      ],
+      [
+        "we / you / they",
+        "We were tired.",
+        "We weren't tired.",
+        "Were you tired?"
+      ]
+    ]
+  },
+  "examples": [
+    {
+      "en": "I was at home yesterday.",
+      "uk": "Учора я був удома."
+    },
+    {
+      "en": "The weather was terrible last weekend.",
+      "uk": "Минулих вихідних погода була жахлива."
+    },
+    {
+      "en": "We were in Lviv last summer.",
+      "uk": "Минулого літа ми були у Львові."
+    },
+    {
+      "en": "Emma wasn't at work on Monday.",
+      "uk": "У понеділок Емми не було на роботі."
+    },
+    {
+      "en": "Were you tired after the trip?",
+      "uk": "Ти втомився після поїздки?"
+    },
+    {
+      "en": "Where were you last night?",
+      "uk": "Де ти був учора ввечері?"
+    }
+  ],
+  "tip": "**you** — завжди **were**, навіть про одну людину: *You **were** right.*",
+  "exercises": [
+    {
+      "type": "choice",
+      "prompt": "I ___ very tired yesterday.",
+      "options": [
+        "was",
+        "were",
+        "am"
+      ],
+      "answer": "was",
+      "explanation": "I + was, бо yesterday."
+    },
+    {
+      "type": "choice",
+      "prompt": "My parents ___ in Kraków last week.",
+      "options": [
+        "was",
+        "were",
+        "are"
+      ],
+      "answer": "were",
+      "explanation": "Parents = they → were."
+    },
+    {
+      "type": "choice",
+      "prompt": "___ you at the party on Saturday?",
+      "options": [
+        "Was",
+        "Were",
+        "Did"
+      ],
+      "answer": "Were",
+      "explanation": "You → were."
+    },
+    {
+      "type": "choice",
+      "prompt": "The shop ___ open yesterday, so we went home.",
+      "options": [
+        "wasn't",
+        "weren't",
+        "didn't"
+      ],
+      "answer": "wasn't",
+      "explanation": "Shop = it → wasn't."
+    },
+    {
+      "type": "choice",
+      "prompt": "Where ___ Emma this morning?",
+      "options": [
+        "was",
+        "were",
+        "did"
+      ],
+      "answer": "was",
+      "explanation": "Emma = she → was."
+    },
+    {
+      "type": "input",
+      "prompt": "It ___ (be) cold last night.",
+      "answer": [
+        "was"
+      ],
+      "explanation": "It → was."
+    },
+    {
+      "type": "input",
+      "prompt": "We ___ (not / be) at home on Sunday.",
+      "answer": [
+        "weren't",
+        "were not"
+      ],
+      "explanation": "We → weren't."
+    },
+    {
+      "type": "input",
+      "prompt": "___ (be) the film good? — Yes, it was.",
+      "answer": [
+        "Was"
+      ],
+      "explanation": "Film = it → Was."
+    },
+    {
+      "type": "error",
+      "sentence": "They was in Italy last summer.",
+      "wrongIndex": 1,
+      "correction": "were",
+      "alt": [],
+      "explanation": "They → were."
+    },
+    {
+      "type": "error",
+      "sentence": "I were at the doctor's yesterday.",
+      "wrongIndex": 1,
+      "correction": "was",
+      "alt": [],
+      "explanation": "I → was."
+    },
+    {
+      "type": "order",
+      "prompt": "Учора ми були в кіно.",
+      "answer": [
+        "We were at the cinema yesterday.",
+        "Yesterday we were at the cinema."
+      ],
+      "explanation": "We → were."
+    },
+    {
+      "type": "transform",
+      "prompt": "I am at home now.",
+      "instruction": "Поставте в минулий час (yesterday)",
+      "answer": [
+        "I was at home yesterday.",
+        "Yesterday I was at home."
+      ],
+      "explanation": "am → was."
+    },
+    {
+      "type": "translate",
+      "uk": "Де ти був учора?",
+      "answer": [
+        "Where were you yesterday?"
+      ],
+      "explanation": "You → were."
+    },
+    {
+      "type": "translate",
+      "uk": "Погода була чудова.",
+      "answer": [
+        "The weather was great.",
+        "The weather was wonderful.",
+        "The weather was lovely.",
+        "The weather was beautiful.",
+        "The weather was excellent.",
+        "The weather was fantastic.",
+        "The weather was perfect.",
+        "The weather was very good.",
+        "The weather was nice.",
+        "The weather was amazing."
+      ],
+      "explanation": "Weather = it → was."
+    }
   ]
- },
- "examples": [
-  {
-   "en": "I was at home yesterday.",
-   "uk": "Учора я був удома."
-  },
-  {
-   "en": "The weather was terrible last weekend.",
-   "uk": "Минулих вихідних погода була жахлива."
-  },
-  {
-   "en": "We were in Lviv last summer.",
-   "uk": "Минулого літа ми були у Львові."
-  },
-  {
-   "en": "Emma wasn't at work on Monday.",
-   "uk": "У понеділок Емми не було на роботі."
-  },
-  {
-   "en": "Were you tired after the trip?",
-   "uk": "Ти втомився після поїздки?"
-  },
-  {
-   "en": "Where were you last night?",
-   "uk": "Де ти був учора ввечері?"
-  }
- ],
- "tip": "**you** — завжди **were**, навіть про одну людину: *You **were** right.*",
- "exercises": [
-  {
-   "type": "choice",
-   "prompt": "I ___ very tired yesterday.",
-   "options": [
-    "was",
-    "were",
-    "am"
-   ],
-   "answer": "was",
-   "explanation": "I + was, бо yesterday."
-  },
-  {
-   "type": "choice",
-   "prompt": "My parents ___ in Kraków last week.",
-   "options": [
-    "was",
-    "were",
-    "are"
-   ],
-   "answer": "were",
-   "explanation": "Parents = they → were."
-  },
-  {
-   "type": "choice",
-   "prompt": "___ you at the party on Saturday?",
-   "options": [
-    "Was",
-    "Were",
-    "Did"
-   ],
-   "answer": "Were",
-   "explanation": "You → were."
-  },
-  {
-   "type": "choice",
-   "prompt": "The shop ___ open yesterday, so we went home.",
-   "options": [
-    "wasn't",
-    "weren't",
-    "didn't"
-   ],
-   "answer": "wasn't",
-   "explanation": "Shop = it → wasn't."
-  },
-  {
-   "type": "choice",
-   "prompt": "Where ___ Emma this morning?",
-   "options": [
-    "was",
-    "were",
-    "did"
-   ],
-   "answer": "was",
-   "explanation": "Emma = she → was."
-  },
-  {
-   "type": "input",
-   "prompt": "It ___ (be) cold last night.",
-   "answer": [
-    "was"
-   ],
-   "explanation": "It → was."
-  },
-  {
-   "type": "input",
-   "prompt": "We ___ (not / be) at home on Sunday.",
-   "answer": [
-    "weren't",
-    "were not"
-   ],
-   "explanation": "We → weren't."
-  },
-  {
-   "type": "input",
-   "prompt": "___ (be) the film good? — Yes, it was.",
-   "answer": [
-    "Was"
-   ],
-   "explanation": "Film = it → Was."
-  },
-  {
-   "type": "error",
-   "sentence": "They was in Italy last summer.",
-   "wrongIndex": 1,
-   "correction": "were",
-   "alt": [],
-   "explanation": "They → were."
-  },
-  {
-   "type": "error",
-   "sentence": "I were at the doctor's yesterday.",
-   "wrongIndex": 1,
-   "correction": "was",
-   "alt": [],
-   "explanation": "I → was."
-  },
-  {
-   "type": "order",
-   "prompt": "Учора ми були в кіно.",
-   "answer": [
-    "We were at the cinema yesterday.",
-    "Yesterday we were at the cinema."
-   ],
-   "explanation": "We → were."
-  },
-  {
-   "type": "transform",
-   "prompt": "I am at home now.",
-   "instruction": "Поставте в минулий час (yesterday)",
-   "answer": [
-    "I was at home yesterday.",
-    "Yesterday I was at home."
-   ],
-   "explanation": "am → was."
-  },
-  {
-   "type": "translate",
-   "uk": "Де ти був учора?",
-   "answer": [
-    "Where were you yesterday?"
-   ],
-   "explanation": "You → were."
-  },
-  {
-   "type": "translate",
-   "uk": "Погода була чудова.",
-   "answer": [
-    "The weather was great.",
-    "The weather was wonderful.",
-    "The weather was lovely.",
-    "The weather was beautiful.",
-    "The weather was excellent.",
-    "The weather was fantastic.",
-    "The weather was perfect.",
-    "The weather was very good.",
-    "The weather was nice.",
-    "The weather was amazing."
-   ],
-   "explanation": "Weather = it → was."
-  }
- ]
 }
