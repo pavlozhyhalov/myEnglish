@@ -333,13 +333,16 @@ async function fillLevelTasks(box, lvl, lesson) {
   const rd = rdMod.textOfDay(await rdMod.readingTexts());
   const rdDone = rd && rdMod.readToday?.(rd.id);
   const sc = pickOfDay(filterByLevel(scen.filter(x => x.group !== 'work'), 'mine').items, 'scen');
+  // сценарій дня зіграно сьогодні (голосом чи текстом, ≥ 2 власні репліки) — зелене «готово» (2026-11-23: раніше позначки не було взагалі)
+  const scDone = sc && store.all('tutor_chats').some(c => !c.deleted && c.scenario === sc.id && dayKey(c.created_at || c.updated_at || '') === today()
+    && (c.messages || []).filter(m => m.role === 'user' && !m.cue && String(m.text || '').trim()).length >= 2);
   const dlPick = lsMod.dialogueOfDay(lis.dialogues);
   const dl = dlPick?.d;
   // плитки як у меню: по дві в ряд, тип завдання — підписом, виконане — зелене
   const task = (icon, kind, title, href, done = false) => tx({ icon: done ? 'check' : icon, label: title, sub: done ? `${kind} · готово` : kind, href, tone: done ? 'good' : null, cls: 'hm-task' });
   const rows = [
     lesson && task(lesson.icon, lesson.kind, lesson.title, lesson.href, lesson.done),
-    sc && task('users-three', 'Розмова із вчителем', sc.title, `#/scenarios/${sc.id}`),
+    sc && task('users-three', 'Розмова із вчителем', sc.title, `#/scenarios/${sc.id}`, !!scDone),
     dl && task('headphones', 'Аудіювання', dl.title, `#/listening?tab=dialogues&d=${encodeURIComponent(dl.title)}`, dlPick.done),
     rd && task('book-open', 'Читання', rd.title, `#/reading/${rd.id}`, !!rdDone),
   ].filter(Boolean).slice(0, 4);   // головна — лише чотири завдання; решта — у розділах
