@@ -142,6 +142,35 @@ html.kbd button.gx-say:focus-visible{outline:2px solid var(--accent-ink);outline
 .gx-tip .tx-body > p{margin:0}
 .gx-tip .tx-body > p + p{margin-top:6px}
 
+/* ---------- «Коли й навіщо» (guide, 2026-11-23): Суть · Коли вживати · Не плутайте · Типові помилки ---------- */
+.card.gx-idea{padding:16px 18px;border-left:3px solid var(--accent-ink)}
+.gx-idea p{margin:0;font-size:16.5px;line-height:1.55;color:var(--ink)}
+ol.gx-use{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.gx-use-i{display:flex;gap:12px;align-items:flex-start;padding:14px 14px 14px 12px;border-radius:var(--r-row,16px);background:var(--tile-grad,var(--tile));box-shadow:var(--tile-shadow);border:1px solid var(--tile-edge)}
+.gx-use-i > .tx-no{flex:none;margin-top:1px}
+.gx-use-b{min-width:0;flex:1;display:flex;flex-direction:column;gap:4px}
+.gx-use-w{font-family:var(--font-head);font-size:15.5px;line-height:1.35;color:var(--ink)}
+.gx-use-n{font-size:var(--fs-sm,14px);line-height:1.45;color:var(--ink-dim)}
+.gx-g-ex{display:flex;gap:10px;align-items:flex-start;margin-top:6px;padding:10px 12px 10px 10px;border-radius:12px;background:var(--tile-sq)}
+.gx-g-ex-t{min-width:0;display:flex;flex-direction:column;gap:2px}
+.gx-g-en{font-weight:600;line-height:1.4;color:var(--ink);overflow-wrap:anywhere}
+.gx-g-uk{font-size:var(--fs-sm,14px);line-height:1.4;color:var(--ink-dim)}
+button.gx-g-say{flex:none;width:32px;height:32px;border-radius:10px;display:grid;place-items:center;background:var(--tile)}
+.gx-signals{display:flex;flex-direction:column;gap:8px;margin-top:2px;padding:12px 14px;border-radius:var(--r-row,16px);background:var(--tile);border:1px solid var(--tile-edge)}
+.gx-signals-l{font-size:11px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;color:var(--ink-dim)}
+.gx-chips{display:flex;flex-wrap:wrap;gap:6px}
+.gx-chip{padding:5px 10px;border-radius:999px;background:var(--accent-soft);color:var(--accent-ink);font-weight:600;font-size:14px;line-height:1.2}
+.card.gx-vs{padding:14px 14px 12px}
+.gx-vs + .gx-vs{margin-top:10px}
+h3.gx-vs-t{margin:0 0 10px;font-family:var(--font-head);font-weight:400;font-size:15.5px;line-height:1.35}
+.gx-vs-grid{display:grid;grid-template-columns:1fr;gap:8px}
+@media (min-width:560px){.gx-vs-grid{grid-template-columns:1fr 1fr}}
+.gx-vs-side{display:flex;flex-direction:column;gap:6px}
+.gx-vs-side .gx-g-ex{margin-top:0}
+.gx-vs-n{font-size:var(--fs-sm,14px);line-height:1.45;color:var(--ink-dim);padding:0 4px}
+.gx-mk{gap:10px}
+.gx-mk-i .ex-mis-why{color:var(--ink-dim)}
+
 /* ---------- Набір вправ (js/ui/exercises.js): шапка й результат ---------- */
 .ex-head{display:flex;flex-direction:column;gap:8px}
 .ex-head-t{display:flex;align-items:center;gap:8px;min-height:24px}
@@ -305,3 +334,5 @@ html.kbd .pr-big:focus-visible{outline:2px solid var(--accent-ink);outline-offse
 .gx-exnext{margin-top:12px}
 .ex-mis-a.bad > span.ex-mis-dk{text-decoration:none;font-style:italic}
 .gx-lv.mine .gx-lv-sq{background:var(--accent-soft);color:var(--accent-ink)}
+/* приклад у «Коли вживати» — на всю ширину плитки, під номером (на вузькому екрані не стискається) */
+.gx-use-i .gx-g-ex{margin-left:-46px}

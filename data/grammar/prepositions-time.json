@@ -1,191 +1,283 @@
 {
- "id": "prepositions-time",
- "title": "Прийменники часу",
- "titleEn": "Prepositions of time: in/on/at, for/since/during, by/until",
- "unit": "Прийменники",
- "level": "A2",
- "mistakeType": "prepositions",
- "explanation": "**at** — точний час і свята: *at 7 o'clock, at night, at the weekend (UK), at Christmas*\n**on** — дні й дати: *on Monday, on 5 May, on my birthday, on Friday evening*\n**in** — місяці, роки, сезони, частини дня: *in July, in 2024, in winter, in the morning*\n\nБез прийменника: *next week, last year, this morning, every day, tomorrow*.\n\n- **for** — тривалість: *for two hours*; **since** — з моменту: *since 2020*\n- **during** — протягом події: *during the film*\n- **by** — не пізніше ніж: *Send it **by** Friday.*; **until** — до (триває до моменту): *I'll wait **until** 6.*\n- **in** + період = через: *I'll be back **in** ten minutes.*",
- "formula": [
-  "at + час · on + день/дата · in + місяць/рік/сезон",
-  "for + період · since + момент · by (дедлайн) · until (до кінця)"
- ],
- "table": {
-  "head": [
-   "at",
-   "on",
-   "in"
+  "id": "prepositions-time",
+  "title": "Прийменники часу",
+  "titleEn": "Prepositions of time: in/on/at, for/since/during, by/until",
+  "unit": "Прийменники",
+  "level": "A2",
+  "mistakeType": "prepositions",
+  "explanation": "**at** — точний час: *at 7 o'clock, at noon, at night, at the weekend (UK)*\n**on** — день і дата: *on Monday, on 5 May, on my birthday*\n**in** — місяць, рік, сезон, частина дня: *in July, in 2024, in winter, in the morning*\n\n- **for** + тривалість: *for two hours* · **since** + момент: *since 2020*\n- **during** + подія: *during the film*\n- **by** — не пізніше ніж · **until** — аж до\n- **in** + період = через: *in ten minutes*",
+  "guide": {
+    "idea": "Прийменники часу показують, КОЛИ щось відбувається або СКІЛЬКИ триває. Головна трійка at / on / in іде від точного до широкого: точка на годиннику → день → місяць, рік, сезон.",
+    "use": [
+      {
+        "when": "at — точний час і свята",
+        "note": "Година, «вночі», вихідні (у британській), свята без слова day.",
+        "en": "The train leaves at 7:15.",
+        "uk": "Потяг відходить о 7:15."
+      },
+      {
+        "when": "on — день і дата",
+        "note": "Дні тижня, дати, конкретний день з частиною доби.",
+        "en": "Let's meet on Friday evening.",
+        "uk": "Зустріньмося в п'ятницю ввечері."
+      },
+      {
+        "when": "in — довший період",
+        "note": "Місяць, рік, сезон, частина дня (in the morning).",
+        "en": "We usually go to the sea in August.",
+        "uk": "Ми зазвичай їздимо на море в серпні."
+      },
+      {
+        "when": "for / since — скільки триває",
+        "note": "for + тривалість (for two hours), since + точка початку (since Monday).",
+        "en": "I've worked here since March.",
+        "uk": "Я працюю тут з березня."
+      },
+      {
+        "when": "by / until — крайній строк чи «до кінця»",
+        "note": "by — не пізніше ніж (дедлайн), until — дія триває аж до цього моменту.",
+        "en": "Please send it by Thursday.",
+        "uk": "Надішліть, будь ласка, до четверга."
+      },
+      {
+        "when": "in + період — «через»",
+        "note": "Коли щось станеться в майбутньому, рахуючи від зараз.",
+        "en": "I'll call you back in ten minutes.",
+        "uk": "Я передзвоню через десять хвилин."
+      }
+    ],
+    "vs": [
+      {
+        "title": "by чи until?",
+        "a": {
+          "en": "Finish the report by 5.",
+          "uk": "Закінчіть звіт до 5-ї.",
+          "note": "Будь-коли, але не пізніше 5-ї."
+        },
+        "b": {
+          "en": "I'll be in the office until 5.",
+          "uk": "Я буду в офісі до 5-ї.",
+          "note": "Весь час аж до 5-ї."
+        }
+      },
+      {
+        "title": "Без прийменника",
+        "a": {
+          "en": "See you next week.",
+          "uk": "Побачимось наступного тижня.",
+          "note": "next, last, this, every, tomorrow, yesterday — без at/on/in."
+        },
+        "b": {
+          "en": "See you on Monday.",
+          "uk": "Побачимось у понеділок.",
+          "note": "Назва дня — з on."
+        }
+      }
+    ],
+    "signals": [],
+    "mistakes": [
+      {
+        "wrong": "in Monday",
+        "right": "on Monday",
+        "why": "Дні тижня й дати — завжди on."
+      },
+      {
+        "wrong": "on the next week",
+        "right": "next week",
+        "why": "Перед next / last / this / every прийменник не ставимо."
+      },
+      {
+        "wrong": "I live here since three years.",
+        "right": "I've lived here for three years.",
+        "why": "Тривалість — for; since лише з моментом початку (since 2022). І час — Present Perfect."
+      },
+      {
+        "wrong": "I'll be back after ten minutes.",
+        "right": "I'll be back in ten minutes.",
+        "why": "«Через 10 хвилин» від зараз — in, а не after."
+      }
+    ]
+  },
+  "formula": [
+    "at + час · on + день/дата · in + місяць/рік/сезон",
+    "for + період · since + момент · by (дедлайн) · until (до кінця)"
   ],
-  "rows": [
-   [
-    "at 6 pm",
-    "on Monday",
-    "in May"
-   ],
-   [
-    "at night",
-    "on 3 March",
-    "in 2025"
-   ],
-   [
-    "at the weekend",
-    "on Sunday morning",
-    "in the evening"
-   ],
-   [
-    "at Easter",
-    "on my birthday",
-    "in summer"
-   ]
+  "table": {
+    "head": [
+      "at",
+      "on",
+      "in"
+    ],
+    "rows": [
+      [
+        "at 6 pm",
+        "on Monday",
+        "in May"
+      ],
+      [
+        "at night",
+        "on 3 March",
+        "in 2025"
+      ],
+      [
+        "at the weekend",
+        "on Sunday morning",
+        "in the evening"
+      ],
+      [
+        "at Easter",
+        "on my birthday",
+        "in summer"
+      ]
+    ]
+  },
+  "examples": [
+    {
+      "en": "The shop opens at 9 on weekdays.",
+      "uk": "Магазин відкривається о 9 у будні."
+    },
+    {
+      "en": "We got married in 2019, on 14 September.",
+      "uk": "Ми одружилися у 2019 році, 14 вересня."
+    },
+    {
+      "en": "I'll be ready in five minutes.",
+      "uk": "Я буду готовий за п'ять хвилин."
+    },
+    {
+      "en": "Please reply by Thursday.",
+      "uk": "Будь ласка, відповідайте до четверга."
+    },
+    {
+      "en": "We stayed until midnight.",
+      "uk": "Ми залишалися до півночі."
+    },
+    {
+      "en": "Someone called during the meeting.",
+      "uk": "Хтось дзвонив під час зустрічі."
+    }
+  ],
+  "exercises": [
+    {
+      "type": "choice",
+      "prompt": "Let's meet ___ Friday.",
+      "options": [
+        "in",
+        "on",
+        "at"
+      ],
+      "answer": "on",
+      "explanation": "День тижня."
+    },
+    {
+      "type": "choice",
+      "prompt": "I was born ___ 1994.",
+      "options": [
+        "in",
+        "on",
+        "at"
+      ],
+      "answer": "in",
+      "explanation": "Рік."
+    },
+    {
+      "type": "choice",
+      "prompt": "The film starts ___ 8:30.",
+      "options": [
+        "in",
+        "on",
+        "at"
+      ],
+      "answer": "at",
+      "explanation": "Точний час."
+    },
+    {
+      "type": "choice",
+      "prompt": "I'll see you ___ week.",
+      "options": [
+        "next",
+        "on next",
+        "in next"
+      ],
+      "answer": "next",
+      "explanation": "next week — без прийменника."
+    },
+    {
+      "type": "choice",
+      "prompt": "Please finish the report ___ Monday.",
+      "options": [
+        "until",
+        "by",
+        "since"
+      ],
+      "answer": "by",
+      "explanation": "Дедлайн → by."
+    },
+    {
+      "type": "choice",
+      "prompt": "I slept ___ the flight.",
+      "options": [
+        "for",
+        "during",
+        "while"
+      ],
+      "answer": "during",
+      "explanation": "Протягом події."
+    },
+    {
+      "type": "input",
+      "prompt": "I've worked here ___ 2023. (з якого моменту)",
+      "answer": [
+        "since"
+      ],
+      "explanation": "since + момент початку."
+    },
+    {
+      "type": "input",
+      "prompt": "We waited ___ two hours. (тривалість)",
+      "answer": [
+        "for"
+      ],
+      "explanation": "for + тривалість."
+    },
+    {
+      "type": "error",
+      "sentence": "See you in Monday!",
+      "wrongIndex": 2,
+      "correction": "on",
+      "alt": [],
+      "explanation": "Дні — on."
+    },
+    {
+      "type": "error",
+      "sentence": "I usually go to bed in midnight.",
+      "wrongIndex": 5,
+      "correction": "at",
+      "alt": [],
+      "explanation": "at midnight."
+    },
+    {
+      "type": "order",
+      "prompt": "Я повернуся за десять хвилин.",
+      "answer": [
+        "I'll be back in ten minutes.",
+        "I will be back in ten minutes."
+      ],
+      "explanation": ""
+    },
+    {
+      "type": "translate",
+      "uk": "Магазин працює до 22:00.",
+      "answer": [
+        "The shop is open until 10 pm.",
+        "The shop is open until 22:00.",
+        "The shop is open till 10 pm.",
+        "The store is open until 10 pm.",
+        "The shop is open till 22:00.",
+        "The shop is open until 10.",
+        "The shop closes at 10 pm."
+      ],
+      "explanation": ""
+    }
   ]
- },
- "examples": [
-  {
-   "en": "The shop opens at 9 on weekdays.",
-   "uk": "Магазин відкривається о 9 у будні."
-  },
-  {
-   "en": "We got married in 2019, on 14 September.",
-   "uk": "Ми одружилися у 2019 році, 14 вересня."
-  },
-  {
-   "en": "I'll be ready in five minutes.",
-   "uk": "Я буду готовий за п'ять хвилин."
-  },
-  {
-   "en": "Please reply by Thursday.",
-   "uk": "Будь ласка, відповідайте до четверга."
-  },
-  {
-   "en": "We stayed until midnight.",
-   "uk": "Ми залишалися до півночі."
-  },
-  {
-   "en": "Someone called during the meeting.",
-   "uk": "Хтось дзвонив під час зустрічі."
-  }
- ],
- "exercises": [
-  {
-   "type": "choice",
-   "prompt": "Let's meet ___ Friday.",
-   "options": [
-    "in",
-    "on",
-    "at"
-   ],
-   "answer": "on",
-   "explanation": "День тижня."
-  },
-  {
-   "type": "choice",
-   "prompt": "I was born ___ 1994.",
-   "options": [
-    "in",
-    "on",
-    "at"
-   ],
-   "answer": "in",
-   "explanation": "Рік."
-  },
-  {
-   "type": "choice",
-   "prompt": "The film starts ___ 8:30.",
-   "options": [
-    "in",
-    "on",
-    "at"
-   ],
-   "answer": "at",
-   "explanation": "Точний час."
-  },
-  {
-   "type": "choice",
-   "prompt": "I'll see you ___ week.",
-   "options": [
-    "next",
-    "on next",
-    "in next"
-   ],
-   "answer": "next",
-   "explanation": "next week — без прийменника."
-  },
-  {
-   "type": "choice",
-   "prompt": "Please finish the report ___ Monday.",
-   "options": [
-    "until",
-    "by",
-    "since"
-   ],
-   "answer": "by",
-   "explanation": "Дедлайн → by."
-  },
-  {
-   "type": "choice",
-   "prompt": "I slept ___ the flight.",
-   "options": [
-    "for",
-    "during",
-    "while"
-   ],
-   "answer": "during",
-   "explanation": "Протягом події."
-  },
-  {
-   "type": "input",
-   "prompt": "I've worked here ___ 2023. (з якого моменту)",
-   "answer": [
-    "since"
-   ],
-   "explanation": "since + момент початку."
-  },
-  {
-   "type": "input",
-   "prompt": "We waited ___ two hours. (тривалість)",
-   "answer": [
-    "for"
-   ],
-   "explanation": "for + тривалість."
-  },
-  {
-   "type": "error",
-   "sentence": "See you in Monday!",
-   "wrongIndex": 2,
-   "correction": "on",
-   "alt": [],
-   "explanation": "Дні — on."
-  },
-  {
-   "type": "error",
-   "sentence": "I usually go to bed in midnight.",
-   "wrongIndex": 5,
-   "correction": "at",
-   "alt": [],
-   "explanation": "at midnight."
-  },
-  {
-   "type": "order",
-   "prompt": "Я повернуся за десять хвилин.",
-   "answer": [
-    "I'll be back in ten minutes.",
-    "I will be back in ten minutes."
-   ],
-   "explanation": ""
-  },
-  {
-   "type": "translate",
-   "uk": "Магазин працює до 22:00.",
-   "answer": [
-    "The shop is open until 10 pm.",
-    "The shop is open until 22:00.",
-    "The shop is open till 10 pm.",
-    "The store is open until 10 pm.",
-    "The shop is open till 22:00.",
-    "The shop is open until 10.",
-    "The shop closes at 10 pm."
-   ],
-   "explanation": ""
-  }
- ]
 }

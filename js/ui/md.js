@@ -55,7 +55,8 @@ export function md(src) {
   const frag = document.createDocumentFragment();
   const lines = String(src || '').replace(/\r/g, '').split('\n');
   let list = null, para = [];
-  const flushPara = () => { if (para.length) { frag.append(h('p', inline(para.join(' ')))); para = []; } };
+  // рядки абзацу, розділені одиночним переносом, — окремими рядками (2026-11-23: «at — … on — … in — …» у правилі склеювались в один суцільний текст)
+  const flushPara = () => { if (para.length) { frag.append(h('p', para.flatMap((l, k) => k ? [h('br'), ...inline(l)] : inline(l)))); para = []; } };
   const flushList = () => { if (list) { frag.append(list); list = null; } };
   for (const raw of lines) {
     const line = raw.trimEnd();

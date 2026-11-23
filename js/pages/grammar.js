@@ -158,8 +158,10 @@ async function lessonPage(view, id, query = {}) {
     h('div.gx-lhead', h('a.icon-btn', { href: '#/grammar', 'aria-label': 'До курсу' }, ic('arrow-left')),
       h('div.grow', h('h1.tx-label.gx-eyebrow', { 'aria-label': `${l.title}. ${l.unit}, урок ${idx[pos]?.n ?? pos + 1}` }, `${l.unit} · урок ${idx[pos]?.n ?? pos + 1}`)),
       isDue ? txPill('Повторити', 'warn') : p?.completed_at ? txPill(`${p.best}%`, 'good') : null),
-    // правило, формули й порада — одна група; таблиця — згорнута плитка; приклади — 6 на виду, решта — «Показати всі»
-    txGroup('Правило', [h('section.card.gx-expl', md(l.explanation)),
+    // 2026-11-23 (власник: «все зливається… треба для чого і коли вживається»): з guide — Суть → Коли вживати → Як утворити → Не плутайте → Типові помилки
+    ...(l.guide ? guideGroups(l.guide) : []),
+    // правило (з guide — «Як утворити»), формули й порада — одна група; таблиця — згорнута плитка; приклади — 6 на виду, решта — «Показати всі»
+    txGroup(l.guide ? 'Як утворити' : 'Правило', [l.explanation ? h('section.card.gx-expl', md(l.explanation)) : null,
       l.formula?.length ? txRows(l.formula.map((f, k) =>
         h('div.tx-row.gx-formula', { 'aria-label': `Формула${l.formula.length > 1 ? ' ' + (k + 1) : ''}` }, l.formula.length > 1 ? h('span.tx-no', String(k + 1)) : h('span.tx-sq', ic('lightning', { size: 18 })), h('span.tx-body', h('span.tx-l', mdInline(f)))))) : null,
       l.tip ? h('div.tx.wide.gx-tip', h('span.tx-sq', ic('lightbulb', { size: 20 })), h('div.tx-body.small', md(l.tip))) : null,
@@ -170,6 +172,7 @@ async function lessonPage(view, id, query = {}) {
         h('div.gx-sound-body.gx-table', h('table.gtable',
           h('thead', h('tr', l.table.head.map(c => h('th', c)))),
           h('tbody', l.table.rows.map(rw => h('tr', rw.map(c => h('td', c)))))))) : null]),
+    ...(l.guide ? guideTail(l.guide) : []),
     txGroup('Приклади', moreRows(l.examples.map(e => h('div.tx-row.gx-ex',
       h('button.tx-sq.gx-say', { type: 'button', 'aria-label': `Прослухати: ${e.en}`, onclick: () => speak(e.en) }, ic('speaker-high', { size: 18 })),
       h('span.tx-body', h('span.tx-l', { lang: 'en' }, e.en), h('span.tx-s', e.uk)))))),
@@ -182,6 +185,39 @@ async function lessonPage(view, id, query = {}) {
 
   if (query.ex) startEx(shuffle(l.exercises).slice(0, 10), 'Вправи');
   return () => timer.stop();
+}
+
+// ---------- «Коли й навіщо» (data/grammar/*.json → guide) ----------
+const sayBtn = (en) => h('button.gx-say.gx-g-say', { type: 'button', 'aria-label': `Прослухати: ${en}`, onclick: () => speak(en) }, ic('speaker-high', { size: 16 }));
+const exLine = (en, uk) => en ? h('div.gx-g-ex', sayBtn(en), h('div.gx-g-ex-t', h('span.gx-g-en', { lang: 'en' }, mdInline(en)), uk ? h('span.gx-g-uk', mdInline(uk)) : null)) : null;
+/** Суть і «Коли вживати» (+ слова-підказки) — над формою */
+function guideGroups(g) {
+  const out = [];
+  if (g.idea) out.push(txGroup('Суть', h('section.card.gx-idea', h('p', mdInline(g.idea)))));
+  const use = Array.isArray(g.use) ? g.use : [];
+  if (use.length) {
+    out.push(txGroup('Коли вживати', [
+      h('ol.gx-use', use.map((u, i) => h('li.gx-use-i',
+        h('span.tx-no', String(i + 1)),
+        h('div.gx-use-b', h('div.gx-use-w', mdInline(u.when)), u.note ? h('div.gx-use-n', mdInline(u.note)) : null, exLine(u.en, u.uk))))),
+      g.signals?.length ? h('div.gx-signals', { 'aria-label': 'Слова-підказки' }, h('span.gx-signals-l', 'Слова-підказки'), h('div.gx-chips', g.signals.map(w => h('span.gx-chip', { lang: 'en' }, w)))) : null]));
+  }
+  return out;
+}
+/** «Не плутайте» й «Типові помилки» — після форми */
+function guideTail(g) {
+  const out = [];
+  const vs = Array.isArray(g.vs) ? g.vs : [];
+  if (vs.length) out.push(txGroup('Не плутайте', vs.map(v => h('section.card.gx-vs',
+    v.title ? h('h3.gx-vs-t', mdInline(v.title)) : null,
+    h('div.gx-vs-grid', [v.a, v.b].filter(Boolean).map((x) => h('div.gx-vs-side',
+      exLine(x.en, x.uk), x.note ? h('div.gx-vs-n', mdInline(x.note)) : null)))))));
+  const mk = Array.isArray(g.mistakes) ? g.mistakes : [];
+  if (mk.length) out.push(txGroup('Типові помилки', h('div.stack.gx-mk', mk.map(m => h('div.gx-card.ex-mis.gx-mk-i',
+    h('div.ex-mis-a.bad', ic('x', { size: 14 }), h('span', { lang: 'en' }, m.wrong)),
+    h('div.ex-mis-a.good', ic('check', { size: 14 }), h('span', { lang: 'en' }, m.right)),
+    m.why ? h('div.ex-mis-why', mdInline(m.why)) : null)))));
+  return out;
 }
 
 export function shuffle(arr) { const a = arr.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }

@@ -101,7 +101,9 @@ export default async function session(view, r) {
     setFocus(true);
     const timer = activityTimer('grammar');
     const box = h('div.gx-exbox');
-    const short = lesson.explanation.split('\n\n').slice(0, 2).join('\n\n');
+    // з guide — суть і «коли вживати» (без прикладів), інакше — перші абзаци правила
+    const g = lesson.guide;
+    const short = g?.idea ? [g.idea, '', ...(g.use || []).map(u => `- **${u.when}**${u.note ? ` — ${u.note}` : ''}`)].join('\n') : String(lesson.explanation || '').split('\n\n').slice(0, 2).join('\n\n');
     const fs = (lesson.formula || []).slice(0, 2);
     view.replaceChildren(h('div.stack-lg.gx',
       sesHead(1),
