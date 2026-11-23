@@ -1,225 +1,316 @@
 {
- "id": "reported-advanced",
- "title": "Дієслова непрямої мови: suggest, advise, warn",
- "titleEn": "Reporting verbs and their patterns",
- "unit": "Пасив і непряма мова",
- "level": "B2",
- "mistakeType": "other",
- "explanation": "Замість *said / told* носії часто беруть дієслово, яке одразу передає **суть** сказаного: *\"I didn't do it\"* → *He **denied doing** it.* Так коротше й точніше. Головне — запам'ятати, яка конструкція йде після кожного дієслова.\n\n**+ to V:** *agree, offer, promise, refuse, threaten*: *She **offered to help**.* **+ кого + to V:** *advise, ask, encourage, invite, persuade, remind, tell, warn*: *The doctor **advised me to rest**.* Заперечення — **not to**: *He **warned us not to swim** there.*\n\n**+ -ing:** *admit, deny, suggest, recommend*: *He **admitted lying**.* **+ прийменник + -ing:** *apologise **for**, insist **on**, accuse sb **of**, blame sb **for**, thank sb **for**, congratulate sb **on***: *She **apologised for being** late.*\n\n**suggest** — головна пастка: ніколи ~~suggest me to~~. Правильно: *She suggested **going*** або *She suggested **(that) we go***. Так само **recommend**: *I recommend **booking** early*.\n\n**+ that + речення** можна після *agree, admit, deny, explain, promise, complain, insist*: *He admitted **that he had lied**.* Тут зсув часів — як у звичайній непрямій мові.",
- "formula": [
-  "offer / promise / refuse / agree + **to V**",
-  "advise / warn / remind / persuade + **кого + (not) to V**",
-  "admit / deny / suggest + **-ing** · apologise for / insist on / accuse of + **-ing**"
- ],
- "table": {
-  "head": [
-   "Пряма мова",
-   "Непряма",
-   "Схема"
+  "id": "reported-advanced",
+  "title": "Дієслова непрямої мови: suggest, advise, warn",
+  "titleEn": "Reporting verbs and their patterns",
+  "unit": "Пасив і непряма мова",
+  "level": "B2",
+  "mistakeType": "other",
+  "explanation": "- **+ to V:** *agree, offer, promise, refuse, threaten* — *She offered **to help**.*\n- **+ кого + (not) to V:** *advise, ask, encourage, invite, persuade, remind, tell, warn*\n- **+ -ing:** *admit, deny, suggest, recommend* — *He denied **lying**.*\n- **+ прийменник + -ing:** *apologise for, insist on, accuse sb of, blame sb for, thank sb for, congratulate sb on*\n- **+ that + речення:** *agree, admit, deny, explain, promise, complain, insist, suggest* — зі зсувом часів\n\nЗаперечення — **not** перед to чи -ing: *He promised **not to** be late.* · *She admitted **not** checking.*\n*suggest* + that: *She suggested (that) we **go** / we **should go**.*",
+  "guide": {
+    "idea": "Замість безликого said / told можна обрати дієслово, яке одразу передає намір мовця: пропозицію, пораду, відмову, вибачення. Переказ стає коротшим і точнішим, але кожне дієслово має свою конструкцію.",
+    "use": [
+      {
+        "when": "Пропозиція, обіцянка, відмова",
+        "note": "offer / promise / refuse / agree + to V — людина говорить про власну дію.",
+        "en": "Tom refused to lend me his car.",
+        "uk": "Том відмовився позичити мені машину."
+      },
+      {
+        "when": "Порада, прохання, попередження",
+        "note": "advise / warn / remind / persuade + кого + (not) to V — про те, що має зробити інший.",
+        "en": "My friend persuaded me to apply for the job.",
+        "uk": "Друг переконав мене подати заявку на цю роботу."
+      },
+      {
+        "when": "Визнання чи заперечення",
+        "note": "admit / deny + -ing — про власну дію в минулому.",
+        "en": "Jack denied taking the money.",
+        "uk": "Джек заперечив, що взяв гроші."
+      },
+      {
+        "when": "«Давайте…»",
+        "note": "suggest + -ing або that + речення — ідея для всіх.",
+        "en": "Emma suggested going for a walk.",
+        "uk": "Емма запропонувала прогулятися."
+      },
+      {
+        "when": "Вибачення, звинувачення, подяка",
+        "note": "дієслово + прийменник + -ing: apologise for, accuse of, thank for.",
+        "en": "She thanked us for coming.",
+        "uk": "Вона подякувала нам, що прийшли."
+      }
+    ],
+    "vs": [
+      {
+        "title": "offer чи suggest?",
+        "a": {
+          "en": "Tom offered to drive us home.",
+          "uk": "Том запропонував відвезти нас додому.",
+          "note": "Сам зробить — offer + to V."
+        },
+        "b": {
+          "en": "Tom suggested taking a taxi.",
+          "uk": "Том запропонував узяти таксі.",
+          "note": "Ідея для всіх — suggest + -ing."
+        }
+      },
+      {
+        "title": "say чи tell?",
+        "a": {
+          "en": "She said (that) she was tired.",
+          "uk": "Вона сказала, що втомилася.",
+          "note": "say — без «кому» (або say to sb)."
+        },
+        "b": {
+          "en": "She told me (that) she was tired.",
+          "uk": "Вона сказала мені, що втомилася.",
+          "note": "tell — завжди кому: told me, told Tom."
+        }
+      }
+    ],
+    "signals": [],
+    "mistakes": [
+      {
+        "wrong": "She suggested me to go.",
+        "right": "She suggested that I go.",
+        "why": "Після suggest не буває «кого + to»: suggest + -ing або that + речення."
+      },
+      {
+        "wrong": "He denied to take the money.",
+        "right": "He denied taking the money.",
+        "why": "deny і admit — з -ing."
+      },
+      {
+        "wrong": "The doctor advised me don't eat sugar.",
+        "right": "The doctor advised me not to eat sugar.",
+        "why": "Заперечна порада — not to + V."
+      },
+      {
+        "wrong": "She apologised for be late.",
+        "right": "She apologised for being late.",
+        "why": "Після прийменника — завжди -ing."
+      },
+      {
+        "wrong": "He explained me the rules.",
+        "right": "He explained the rules to me.",
+        "why": "Після explain «кому» не ставимо одразу: explain sth to sb."
+      }
+    ]
+  },
+  "formula": [
+    "offer / promise / refuse / agree + **to V**",
+    "advise / warn / remind / persuade + **кого + (not) to V**",
+    "admit / deny / suggest + **-ing** · apologise for / insist on / accuse of + **-ing**"
   ],
-  "rows": [
-   [
-    "\"I'll carry your bag.\"",
-    "He offered to carry my bag.",
-    "offer + to V"
-   ],
-   [
-    "\"Don't touch the stove!\"",
-    "She warned me not to touch the stove.",
-    "warn + кого + not to V"
-   ],
-   [
-    "\"Let's take a taxi.\"",
-    "Emma suggested taking a taxi.",
-    "suggest + -ing"
-   ],
-   [
-    "\"I didn't eat the cake!\"",
-    "He denied eating the cake.",
-    "deny + -ing"
-   ],
-   [
-    "\"Sorry I'm late.\"",
-    "She apologised for being late.",
-    "apologise for + -ing"
-   ],
-   [
-    "\"You broke it!\"",
-    "They accused me of breaking it.",
-    "accuse + кого + of + -ing"
-   ]
+  "table": {
+    "head": [
+      "Пряма мова",
+      "Непряма",
+      "Схема"
+    ],
+    "rows": [
+      [
+        "\"I'll carry your bag.\"",
+        "He offered to carry my bag.",
+        "offer + to V"
+      ],
+      [
+        "\"Don't touch the stove!\"",
+        "She warned me not to touch the stove.",
+        "warn + кого + not to V"
+      ],
+      [
+        "\"Let's take a taxi.\"",
+        "Emma suggested taking a taxi.",
+        "suggest + -ing"
+      ],
+      [
+        "\"I didn't eat the cake!\"",
+        "He denied eating the cake.",
+        "deny + -ing"
+      ],
+      [
+        "\"Sorry I'm late.\"",
+        "She apologised for being late.",
+        "apologise for + -ing"
+      ],
+      [
+        "\"You broke it!\"",
+        "They accused me of breaking it.",
+        "accuse + кого + of + -ing"
+      ]
+    ]
+  },
+  "examples": [
+    {
+      "en": "The doctor advised Emma to take more vitamins.",
+      "uk": "Лікар порадив Еммі приймати більше вітамінів."
+    },
+    {
+      "en": "My friend offered to help us move.",
+      "uk": "Друг запропонував допомогти нам переїхати."
+    },
+    {
+      "en": "He admitted forgetting our anniversary.",
+      "uk": "Він визнав, що забув про нашу річницю."
+    },
+    {
+      "en": "She reminded me to buy flowers for her mum.",
+      "uk": "Вона нагадала мені купити квіти для її мами."
+    },
+    {
+      "en": "Our neighbour insisted on paying for the coffee.",
+      "uk": "Сусід наполіг на тому, щоб заплатити за каву."
+    },
+    {
+      "en": "I suggested that we meet in the Main Square.",
+      "uk": "Я запропонував зустрітися на Головній площі."
+    }
+  ],
+  "tip": "**suggest** не має конструкції «кого + to»: ~~She suggested me to go~~ → *She suggested **going*** / *She suggested **(that) I go***.",
+  "exercises": [
+    {
+      "type": "choice",
+      "prompt": "My brother offered ___ us to the airport.",
+      "options": [
+        "to drive",
+        "driving",
+        "drive"
+      ],
+      "answer": "to drive",
+      "explanation": "offer + to V."
+    },
+    {
+      "type": "choice",
+      "prompt": "Emma suggested ___ a picnic by the river.",
+      "options": [
+        "having",
+        "to have",
+        "us to have",
+        "have"
+      ],
+      "answer": "having",
+      "explanation": "suggest + -ing, без «кого + to»."
+    },
+    {
+      "type": "choice",
+      "prompt": "He denied ___ my chocolate.",
+      "options": [
+        "eating",
+        "to eat",
+        "eat"
+      ],
+      "answer": "eating",
+      "explanation": "deny + -ing."
+    },
+    {
+      "type": "choice",
+      "prompt": "The guide warned us ___ too close to the edge.",
+      "options": [
+        "not to go",
+        "not going",
+        "to not going",
+        "don't go"
+      ],
+      "answer": "not to go",
+      "explanation": "warn + кого + not to V."
+    },
+    {
+      "type": "choice",
+      "prompt": "She apologised ___ late for dinner.",
+      "options": [
+        "for being",
+        "to be",
+        "being",
+        "of being"
+      ],
+      "answer": "for being",
+      "explanation": "apologise for + -ing."
+    },
+    {
+      "type": "input",
+      "prompt": "\"You should see a doctor,\" my mum said. → My mum advised me ___ (see) a doctor.",
+      "answer": [
+        "to see"
+      ],
+      "explanation": "advise + кого + to V."
+    },
+    {
+      "type": "input",
+      "prompt": "They accused him ___ (steal) the bike. (2 слова)",
+      "answer": [
+        "of stealing"
+      ],
+      "explanation": "accuse + кого + of + -ing."
+    },
+    {
+      "type": "input",
+      "prompt": "Emma reminded me ___ (not / forget) the keys. (3 слова)",
+      "answer": [
+        "not to forget"
+      ],
+      "explanation": "remind + кого + not to V."
+    },
+    {
+      "type": "error",
+      "sentence": "She insisted on pay for dinner.",
+      "wrongIndex": 3,
+      "correction": "paying",
+      "alt": [],
+      "explanation": "insist on + -ing."
+    },
+    {
+      "type": "error",
+      "sentence": "The doctor advised me resting more.",
+      "wrongIndex": 4,
+      "correction": "to rest",
+      "alt": [],
+      "explanation": "advise + кого + to V."
+    },
+    {
+      "type": "order",
+      "prompt": "Він відмовився нам допомогти.",
+      "answer": [
+        "He refused to help us."
+      ],
+      "explanation": "refuse + to V."
+    },
+    {
+      "type": "transform",
+      "prompt": "\"I'm sorry I forgot your birthday,\" he said to me.",
+      "instruction": "Почніть з He apologised…",
+      "answer": [
+        "He apologised for forgetting my birthday.",
+        "He apologized for forgetting my birthday.",
+        "He apologised to me for forgetting my birthday.",
+        "He apologized to me for forgetting my birthday.",
+        "He apologised for having forgotten my birthday."
+      ],
+      "explanation": "apologise for + -ing."
+    },
+    {
+      "type": "transform",
+      "prompt": "\"Let's go to the cinema,\" said Emma.",
+      "instruction": "Почніть з Emma suggested…",
+      "answer": [
+        "Emma suggested going to the cinema.",
+        "Emma suggested that we go to the cinema.",
+        "Emma suggested that we should go to the cinema.",
+        "Emma suggested we go to the cinema.",
+        "Emma suggested we should go to the cinema."
+      ],
+      "explanation": "suggest + -ing або that + речення."
+    },
+    {
+      "type": "translate",
+      "uk": "Вона пообіцяла не запізнюватися.",
+      "answer": [
+        "She promised not to be late.",
+        "She promised that she wouldn't be late.",
+        "She promised she wouldn't be late.",
+        "She promised not to come late."
+      ],
+      "explanation": "promise + not to V."
+    }
   ]
- },
- "examples": [
-  {
-   "en": "The doctor advised Emma to take more vitamins.",
-   "uk": "Лікар порадив Еммі приймати більше вітамінів."
-  },
-  {
-   "en": "My friend offered to help us move.",
-   "uk": "Друг запропонував допомогти нам переїхати."
-  },
-  {
-   "en": "He admitted forgetting our anniversary.",
-   "uk": "Він визнав, що забув про нашу річницю."
-  },
-  {
-   "en": "She reminded me to buy flowers for her mum.",
-   "uk": "Вона нагадала мені купити квіти для її мами."
-  },
-  {
-   "en": "Our neighbour insisted on paying for the coffee.",
-   "uk": "Сусід наполіг на тому, щоб заплатити за каву."
-  },
-  {
-   "en": "I suggested that we meet in the Main Square.",
-   "uk": "Я запропонував зустрітися на Головній площі."
-  }
- ],
- "tip": "**suggest** не має конструкції «кого + to»: ~~She suggested me to go~~ → *She suggested **going*** / *She suggested **(that) I go***.",
- "exercises": [
-  {
-   "type": "choice",
-   "prompt": "My brother offered ___ us to the airport.",
-   "options": [
-    "to drive",
-    "driving",
-    "drive"
-   ],
-   "answer": "to drive",
-   "explanation": "offer + to V."
-  },
-  {
-   "type": "choice",
-   "prompt": "Emma suggested ___ a picnic by the river.",
-   "options": [
-    "having",
-    "to have",
-    "us to have",
-    "have"
-   ],
-   "answer": "having",
-   "explanation": "suggest + -ing, без «кого + to»."
-  },
-  {
-   "type": "choice",
-   "prompt": "He denied ___ my chocolate.",
-   "options": [
-    "eating",
-    "to eat",
-    "eat"
-   ],
-   "answer": "eating",
-   "explanation": "deny + -ing."
-  },
-  {
-   "type": "choice",
-   "prompt": "The guide warned us ___ too close to the edge.",
-   "options": [
-    "not to go",
-    "not going",
-    "to not going",
-    "don't go"
-   ],
-   "answer": "not to go",
-   "explanation": "warn + кого + not to V."
-  },
-  {
-   "type": "choice",
-   "prompt": "She apologised ___ late for dinner.",
-   "options": [
-    "for being",
-    "to be",
-    "being",
-    "of being"
-   ],
-   "answer": "for being",
-   "explanation": "apologise for + -ing."
-  },
-  {
-   "type": "input",
-   "prompt": "\"You should see a doctor,\" my mum said. → My mum advised me ___ (see) a doctor.",
-   "answer": [
-    "to see"
-   ],
-   "explanation": "advise + кого + to V."
-  },
-  {
-   "type": "input",
-   "prompt": "They accused him ___ (steal) the bike. (2 слова)",
-   "answer": [
-    "of stealing"
-   ],
-   "explanation": "accuse + кого + of + -ing."
-  },
-  {
-   "type": "input",
-   "prompt": "Emma reminded me ___ (not / forget) the keys. (3 слова)",
-   "answer": [
-    "not to forget"
-   ],
-   "explanation": "remind + кого + not to V."
-  },
-  {
-   "type": "error",
-   "sentence": "She insisted on pay for dinner.",
-   "wrongIndex": 3,
-   "correction": "paying",
-   "alt": [],
-   "explanation": "insist on + -ing."
-  },
-  {
-   "type": "error",
-   "sentence": "The doctor advised me resting more.",
-   "wrongIndex": 4,
-   "correction": "to rest",
-   "alt": [],
-   "explanation": "advise + кого + to V."
-  },
-  {
-   "type": "order",
-   "prompt": "Він відмовився нам допомогти.",
-   "answer": [
-    "He refused to help us."
-   ],
-   "explanation": "refuse + to V."
-  },
-  {
-   "type": "transform",
-   "prompt": "\"I'm sorry I forgot your birthday,\" he said to me.",
-   "instruction": "Почніть з He apologised…",
-   "answer": [
-    "He apologised for forgetting my birthday.",
-    "He apologized for forgetting my birthday.",
-    "He apologised to me for forgetting my birthday.",
-    "He apologized to me for forgetting my birthday.",
-    "He apologised for having forgotten my birthday."
-   ],
-   "explanation": "apologise for + -ing."
-  },
-  {
-   "type": "transform",
-   "prompt": "\"Let's go to the cinema,\" said Emma.",
-   "instruction": "Почніть з Emma suggested…",
-   "answer": [
-    "Emma suggested going to the cinema.",
-    "Emma suggested that we go to the cinema.",
-    "Emma suggested that we should go to the cinema.",
-    "Emma suggested we go to the cinema.",
-    "Emma suggested we should go to the cinema."
-   ],
-   "explanation": "suggest + -ing або that + речення."
-  },
-  {
-   "type": "translate",
-   "uk": "Вона пообіцяла не запізнюватися.",
-   "answer": [
-    "She promised not to be late.",
-    "She promised that she wouldn't be late.",
-    "She promised she wouldn't be late.",
-    "She promised not to come late."
-   ],
-   "explanation": "promise + not to V."
-  }
- ]
 }

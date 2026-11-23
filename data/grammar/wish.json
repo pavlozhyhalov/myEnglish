@@ -1,156 +1,242 @@
 {
- "id": "wish",
- "title": "I wish, if only",
- "titleEn": "Wishes and regrets: I wish / if only",
- "unit": "Умовні речення",
- "level": "B2",
- "mistakeType": "tenses",
- "explanation": "**I wish / If only** — бажання, щоб усе було інакше:\n\n- **теперішнє**: *I wish + Past Simple* — *I wish I **had** more free time.* (зараз немає); *I wish I **were** taller.*\n- **минуле** (жаль): *I wish + Past Perfect* — *I wish I **had studied** harder.*\n- **роздратування / прохання**: *I wish + would* — *I wish you **would** stop interrupting!*\n\n*If only* — те саме, але емоційніше: *If only I hadn't said that!*",
- "formula": [
-  "wish + Past Simple (зараз)",
-  "wish + had + V3 (минуле)",
-  "wish + would + V (хочу, щоб хтось змінився)"
- ],
- "examples": [
-  {
-   "en": "I wish I could speak English fluently.",
-   "uk": "Як би я хотів вільно говорити англійською."
+  "id": "wish",
+  "title": "I wish, if only",
+  "titleEn": "Wishes and regrets: I wish / if only",
+  "unit": "Умовні речення",
+  "level": "B2",
+  "mistakeType": "tenses",
+  "explanation": "**Теперішнє:** wish / if only + **Past Simple** або **could**: *I wish I **knew**.* · *I wish I **could** come.*\n- be: *I wish I **were**…* (охайніше) / *I wish I **was**…* (розмовно)\n\n**Минуле:** wish + **had + V3**: *I wish I **had gone**.* · − *I wish I **hadn't** gone.*\n\n**Чужа поведінка:** wish + **would** + V: *I wish he **would** call.* · − *I wish you **wouldn't** shout.*\n\nЗаперечення — у другій частині: *I wish I **didn't** have to work.*",
+  "guide": {
+    "idea": "I wish / If only — коли реальність не така, як хочеться. Час «відступає на крок назад»: про теперішнє — минулий час, про минуле — Past Perfect, про чужу поведінку — would.",
+    "use": [
+      {
+        "when": "Шкода, що зараз не так",
+        "note": "wish + Past Simple: бажаний стан, якого зараз немає.",
+        "en": "I wish I lived closer to work.",
+        "uk": "Шкода, що я живу не ближче до роботи."
+      },
+      {
+        "when": "Хотілося б уміти",
+        "note": "wish + could: про вміння чи можливість зараз.",
+        "en": "I wish I could drive.",
+        "uk": "Шкода, що я не вмію водити."
+      },
+      {
+        "when": "Жаль про минуле",
+        "note": "wish + had + V3: шкодуємо про те, що вже сталося чи не сталося.",
+        "en": "I wish I hadn't said that.",
+        "uk": "Шкода, що я це сказав."
+      },
+      {
+        "when": "Роздратування чужою поведінкою",
+        "note": "wish + would: хочемо, щоб хтось змінив свою дію, — часто скарга.",
+        "en": "I wish you would stop leaving your socks everywhere.",
+        "uk": "Хоч би ти перестав розкидати шкарпетки всюди."
+      },
+      {
+        "when": "Сильніше почуття",
+        "note": "If only — те саме, але емоційніше, часто з окликом.",
+        "en": "If only I'd listened to you!",
+        "uk": "Якби ж я тебе послухав!"
+      }
+    ],
+    "vs": [
+      {
+        "title": "wish чи hope?",
+        "a": {
+          "en": "I hope you pass the exam.",
+          "uk": "Сподіваюся, ти складеш іспит.",
+          "note": "Реальне бажання, яке може здійснитися."
+        },
+        "b": {
+          "en": "I wish I had passed the exam.",
+          "uk": "Шкода, що я не склав іспит.",
+          "note": "Уже сталося інакше, змінити не можна."
+        }
+      },
+      {
+        "title": "wish + Past Simple чи wish + would?",
+        "a": {
+          "en": "I wish it wasn't so cold.",
+          "uk": "Шкода, що так холодно.",
+          "note": "Стан, на який ніхто не впливає."
+        },
+        "b": {
+          "en": "I wish you would turn the heating on.",
+          "uk": "Хоч би ти ввімкнув опалення.",
+          "note": "Хочемо, щоб хтось щось зробив."
+        }
+      }
+    ],
+    "signals": [],
+    "mistakes": [
+      {
+        "wrong": "I wish I have more time.",
+        "right": "I wish I had more time.",
+        "why": "Про теперішнє після wish — минулий час, хоч ідеться про «зараз»."
+      },
+      {
+        "wrong": "I wish I didn't eat so much yesterday.",
+        "right": "I wish I hadn't eaten so much yesterday.",
+        "why": "Жаль про минуле — had + V3."
+      },
+      {
+        "wrong": "I wish I would be taller.",
+        "right": "I wish I were taller.",
+        "why": "would — лише про чужу поведінку; про себе й про стани — минулий час."
+      },
+      {
+        "wrong": "I wish you will pass the exam.",
+        "right": "I hope you pass the exam.",
+        "why": "Побажання на майбутнє — hope; wish + will не буває."
+      }
+    ]
   },
-  {
-   "en": "I wish we lived closer to the sea.",
-   "uk": "Шкода, що ми не живемо ближче до моря."
-  },
-  {
-   "en": "I wish I hadn't eaten so much.",
-   "uk": "Шкода, що я так багато з'їв."
-  },
-  {
-   "en": "If only I had more time!",
-   "uk": "Якби ж то в мене було більше часу!"
-  },
-  {
-   "en": "I wish the neighbours would turn the music down.",
-   "uk": "Хоч би сусіди стишили музику."
-  }
- ],
- "exercises": [
-  {
-   "type": "choice",
-   "prompt": "I wish I ___ a bigger flat.",
-   "options": [
-    "have",
-    "had",
-    "will have"
-   ],
-   "answer": "had",
-   "explanation": "Зараз → Past Simple."
-  },
-  {
-   "type": "choice",
-   "prompt": "I wish I ___ to the party yesterday. It was great!",
-   "options": [
-    "went",
-    "had gone",
-    "would go"
-   ],
-   "answer": "had gone",
-   "explanation": "Минуле → Past Perfect."
-  },
-  {
-   "type": "choice",
-   "prompt": "I wish you ___ leaving your socks on the floor!",
-   "options": [
-    "stop",
-    "would stop",
-    "stopped"
-   ],
-   "answer": "would stop",
-   "explanation": "Роздратування → would."
-  },
-  {
-   "type": "choice",
-   "prompt": "If only I ___ his number!",
-   "options": [
-    "know",
-    "knew",
-    "will know"
-   ],
-   "answer": "knew",
-   "explanation": "If only + Past Simple — жаль про теперішнє."
-  },
-  {
-   "type": "input",
-   "prompt": "I wish I ___ (can) play the piano.",
-   "answer": [
-    "could"
-   ],
-   "explanation": "can → could."
-  },
-  {
-   "type": "input",
-   "prompt": "I wish I ___ (not / say) that. It hurt her.",
-   "answer": [
-    "hadn't said",
-    "had not said"
-   ],
-   "explanation": "Жаль про минуле."
-  },
-  {
-   "type": "input",
-   "prompt": "I wish it ___ (be) summer already.",
-   "answer": [
-    "was",
-    "were"
-   ],
-   "explanation": "wish + was/were — жаль про теперішнє."
-  },
-  {
-   "type": "error",
-   "sentence": "I wish I have more money.",
-   "wrongIndex": 3,
-   "correction": "had",
-   "alt": [],
-   "explanation": "wish + Past Simple."
-  },
-  {
-   "type": "error",
-   "sentence": "I wish I didn't come to that party last night.",
-   "wrongIndex": 3,
-   "correction": "hadn't",
-   "alt": [
-    "had not"
-   ],
-   "explanation": "Жаль про минуле → wish + Past Perfect: hadn't come."
-  },
-  {
-   "type": "order",
-   "prompt": "Шкода, що я не знаю відповіді.",
-   "answer": [
-    "I wish I knew the answer."
-   ],
-   "explanation": "Жаль про теперішнє — I wish + Past Simple."
-  },
-  {
-   "type": "transform",
-   "prompt": "I'm sorry I didn't take any photos.",
-   "instruction": "Перепишіть з I wish",
-   "answer": [
-    "I wish I had taken some photos.",
-    "I wish I'd taken some photos.",
-    "I wish I had taken photos.",
-    "I wish I'd taken photos."
-   ],
-   "explanation": "Жаль про минуле — I wish + Past Perfect."
-  },
-  {
-   "type": "translate",
-   "uk": "Шкода, що ти не можеш прийти.",
-   "answer": [
-    "I wish you could come.",
-    "I wish you could come too.",
-    "If only you could come."
-   ],
-   "explanation": "Жаль про теперішнє — I wish + could."
-  }
- ]
+  "formula": [
+    "wish + Past Simple (зараз)",
+    "wish + had + V3 (минуле)",
+    "wish + would + V (хочу, щоб хтось змінився)"
+  ],
+  "examples": [
+    {
+      "en": "I wish I could speak English fluently.",
+      "uk": "Як би я хотів вільно говорити англійською."
+    },
+    {
+      "en": "I wish we lived closer to the sea.",
+      "uk": "Шкода, що ми не живемо ближче до моря."
+    },
+    {
+      "en": "I wish I hadn't eaten so much.",
+      "uk": "Шкода, що я так багато з'їв."
+    },
+    {
+      "en": "If only I had more time!",
+      "uk": "Якби ж то в мене було більше часу!"
+    },
+    {
+      "en": "I wish the neighbours would turn the music down.",
+      "uk": "Хоч би сусіди стишили музику."
+    }
+  ],
+  "exercises": [
+    {
+      "type": "choice",
+      "prompt": "I wish I ___ a bigger flat.",
+      "options": [
+        "have",
+        "had",
+        "will have"
+      ],
+      "answer": "had",
+      "explanation": "Зараз → Past Simple."
+    },
+    {
+      "type": "choice",
+      "prompt": "I wish I ___ to the party yesterday. It was great!",
+      "options": [
+        "went",
+        "had gone",
+        "would go"
+      ],
+      "answer": "had gone",
+      "explanation": "Минуле → Past Perfect."
+    },
+    {
+      "type": "choice",
+      "prompt": "I wish you ___ leaving your socks on the floor!",
+      "options": [
+        "stop",
+        "would stop",
+        "stopped"
+      ],
+      "answer": "would stop",
+      "explanation": "Роздратування → would."
+    },
+    {
+      "type": "choice",
+      "prompt": "If only I ___ his number!",
+      "options": [
+        "know",
+        "knew",
+        "will know"
+      ],
+      "answer": "knew",
+      "explanation": "If only + Past Simple — жаль про теперішнє."
+    },
+    {
+      "type": "input",
+      "prompt": "I wish I ___ (can) play the piano.",
+      "answer": [
+        "could"
+      ],
+      "explanation": "can → could."
+    },
+    {
+      "type": "input",
+      "prompt": "I wish I ___ (not / say) that. It hurt her.",
+      "answer": [
+        "hadn't said",
+        "had not said"
+      ],
+      "explanation": "Жаль про минуле."
+    },
+    {
+      "type": "input",
+      "prompt": "I wish it ___ (be) summer already.",
+      "answer": [
+        "was",
+        "were"
+      ],
+      "explanation": "wish + was/were — жаль про теперішнє."
+    },
+    {
+      "type": "error",
+      "sentence": "I wish I have more money.",
+      "wrongIndex": 3,
+      "correction": "had",
+      "alt": [],
+      "explanation": "wish + Past Simple."
+    },
+    {
+      "type": "error",
+      "sentence": "I wish I didn't come to that party last night.",
+      "wrongIndex": 3,
+      "correction": "hadn't",
+      "alt": [
+        "had not"
+      ],
+      "explanation": "Жаль про минуле → wish + Past Perfect: hadn't come."
+    },
+    {
+      "type": "order",
+      "prompt": "Шкода, що я не знаю відповіді.",
+      "answer": [
+        "I wish I knew the answer."
+      ],
+      "explanation": "Жаль про теперішнє — I wish + Past Simple."
+    },
+    {
+      "type": "transform",
+      "prompt": "I'm sorry I didn't take any photos.",
+      "instruction": "Перепишіть з I wish",
+      "answer": [
+        "I wish I had taken some photos.",
+        "I wish I'd taken some photos.",
+        "I wish I had taken photos.",
+        "I wish I'd taken photos."
+      ],
+      "explanation": "Жаль про минуле — I wish + Past Perfect."
+    },
+    {
+      "type": "translate",
+      "uk": "Шкода, що ти не можеш прийти.",
+      "answer": [
+        "I wish you could come.",
+        "I wish you could come too.",
+        "If only you could come."
+      ],
+      "explanation": "Жаль про теперішнє — I wish + could."
+    }
+  ]
 }

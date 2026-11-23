@@ -1,197 +1,297 @@
 {
- "id": "comparatives",
- "title": "Порівняння прикметників",
- "titleEn": "Comparatives and superlatives; as…as",
- "unit": "Будова речення",
- "level": "A2",
- "mistakeType": "other",
- "explanation": "- Короткі (1 склад): **-er / the -est** — *cheap → cheaper → the cheapest*\n- На -y: *easy → easier → the easiest*\n- Довгі (2+ склади): **more / the most** — *expensive → more expensive → the most expensive*\n- Неправильні: *good → better → the best · bad → worse → the worst · far → further → the furthest*\n\nПорівнюємо через **than**: *Kraków is smaller **than** Warsaw.*\nРівність: **as … as**: *It's **as** cold **as** yesterday. He isn't **as** tall **as** me.*\n\nПідсилення: *much / a lot / far bigger*, *a bit / slightly cheaper*.\n*The more…, the better*: ***The more** you practise, **the better** you speak.*",
- "formula": [
-  "adj-er + than · more + adj + than",
-  "the + adj-est · the most + adj",
-  "as + adj + as"
- ],
- "table": {
-  "head": [
-   "",
-   "Вищий",
-   "Найвищий"
+  "id": "comparatives",
+  "title": "Порівняння прикметників",
+  "titleEn": "Comparatives and superlatives; as…as",
+  "unit": "Будова речення",
+  "level": "A2",
+  "mistakeType": "other",
+  "explanation": "**Вищий ступінь** (+ than) · **найвищий** (the …):\n- 1 склад: **-er / the -est** — *cheap → cheaper → the cheapest*\n- на -e: *nice → nicer → the nicest*\n- подвоєння після короткого голосного: *big → bigger, hot → the hottest*\n- на -y: **-ier / -iest** — *easy → easier → the easiest*\n- 2+ склади: **more / the most** — *more expensive → the most expensive*\n- неправильні: *good → better → the best · bad → worse → the worst · far → further → the furthest*\n\n**as + прикметник + as** — однаково · **not as … as** — менше\nПідсилення: **much / a lot / far** + вищий ступінь; трохи — **a bit**",
+  "guide": {
+    "idea": "Ступені порівняння допомагають вибирати й пояснювати різницю: дешевший, зручніший, «такий самий, як». Без них не обійтися в магазині, у подорожі, коли радимо: *The train is faster than the bus.*",
+    "use": [
+      {
+        "when": "Порівняти дві речі",
+        "note": "Вищий ступінь + than: що з двох більше, краще.",
+        "en": "This flat is bigger than our old one.",
+        "uk": "Ця квартира більша за нашу стару."
+      },
+      {
+        "when": "Найкраще з групи",
+        "note": "the + -est / the most — одне з усіх.",
+        "en": "It's the cheapest phone in the shop.",
+        "uk": "Це найдешевший телефон у магазині."
+      },
+      {
+        "when": "Однаково чи ні",
+        "note": "as … as — рівні; not as … as — «не такий, як».",
+        "en": "My new job isn't as stressful as my old one.",
+        "uk": "Моя нова робота не така напружена, як стара."
+      },
+      {
+        "when": "Наскільки різниця",
+        "note": "much / a lot / far — набагато; a bit — трохи.",
+        "en": "It's a bit warmer today.",
+        "uk": "Сьогодні трохи тепліше."
+      },
+      {
+        "when": "Чим більше…, тим…",
+        "note": "the + вищий ступінь, the + вищий ступінь.",
+        "en": "The sooner we leave, the better.",
+        "uk": "Чим раніше виїдемо, тим краще."
+      }
+    ],
+    "vs": [
+      {
+        "title": "-er чи more?",
+        "a": {
+          "en": "cheaper, bigger, easier",
+          "uk": "дешевший, більший, легший",
+          "note": "Один склад або два з -y — закінчення -er."
+        },
+        "b": {
+          "en": "more expensive, more comfortable",
+          "uk": "дорожчий, зручніший",
+          "note": "Довгі прикметники — more, без -er."
+        }
+      },
+      {
+        "title": "than чи as … as?",
+        "a": {
+          "en": "Tom is taller than me.",
+          "uk": "Том вищий за мене.",
+          "note": "Є різниця — than."
+        },
+        "b": {
+          "en": "Tom is as tall as me.",
+          "uk": "Том такого самого зросту, як я.",
+          "note": "Рівність — as … as."
+        }
+      }
+    ],
+    "signals": [
+      "than",
+      "as … as",
+      "much",
+      "a lot",
+      "far",
+      "a bit",
+      "the most",
+      "ever"
+    ],
+    "mistakes": [
+      {
+        "wrong": "It's more cheaper.",
+        "right": "It's cheaper.",
+        "why": "Або -er, або more — не разом."
+      },
+      {
+        "wrong": "She is taller that me.",
+        "right": "She is taller than me.",
+        "why": "Порівнюємо через than, а не that."
+      },
+      {
+        "wrong": "This one is more good.",
+        "right": "This one is better.",
+        "why": "good → better → the best — неправильні форми."
+      },
+      {
+        "wrong": "It's very cheaper here.",
+        "right": "It's much cheaper here.",
+        "why": "Перед вищим ступенем — much / a lot / far, а не very."
+      },
+      {
+        "wrong": "It's the most big city.",
+        "right": "It's the biggest city.",
+        "why": "Короткий прикметник — -est, з подвоєнням: big → biggest."
+      }
+    ]
+  },
+  "formula": [
+    "adj-er + than · more + adj + than",
+    "the + adj-est · the most + adj",
+    "as + adj + as"
   ],
-  "rows": [
-   [
-    "big",
-    "bigger",
-    "the biggest"
-   ],
-   [
-    "happy",
-    "happier",
-    "the happiest"
-   ],
-   [
-    "comfortable",
-    "more comfortable",
-    "the most comfortable"
-   ],
-   [
-    "good",
-    "better",
-    "the best"
-   ],
-   [
-    "bad",
-    "worse",
-    "the worst"
-   ]
+  "table": {
+    "head": [
+      "",
+      "Вищий",
+      "Найвищий"
+    ],
+    "rows": [
+      [
+        "big",
+        "bigger",
+        "the biggest"
+      ],
+      [
+        "happy",
+        "happier",
+        "the happiest"
+      ],
+      [
+        "comfortable",
+        "more comfortable",
+        "the most comfortable"
+      ],
+      [
+        "good",
+        "better",
+        "the best"
+      ],
+      [
+        "bad",
+        "worse",
+        "the worst"
+      ]
+    ]
+  },
+  "examples": [
+    {
+      "en": "This flat is bigger but more expensive.",
+      "uk": "Ця квартира більша, але дорожча."
+    },
+    {
+      "en": "It's the best pizza I've ever had.",
+      "uk": "Це найкраща піца, яку я коли-небудь їв."
+    },
+    {
+      "en": "Today isn't as warm as yesterday.",
+      "uk": "Сьогодні не так тепло, як учора."
+    },
+    {
+      "en": "The train is much faster than the bus.",
+      "uk": "Потяг набагато швидший за автобус."
+    },
+    {
+      "en": "The more I learn, the more I want to know.",
+      "uk": "Чим більше я вчу, тим більше хочу знати."
+    }
+  ],
+  "exercises": [
+    {
+      "type": "choice",
+      "prompt": "My new phone is ___ than the old one.",
+      "options": [
+        "more good",
+        "better",
+        "best"
+      ],
+      "answer": "better",
+      "explanation": "good → better."
+    },
+    {
+      "type": "choice",
+      "prompt": "This is the ___ restaurant in town.",
+      "options": [
+        "more expensive",
+        "most expensive",
+        "expensivest"
+      ],
+      "answer": "most expensive",
+      "explanation": "Довгий прикметник: the most + прикметник."
+    },
+    {
+      "type": "choice",
+      "prompt": "He's not as tall ___ his brother.",
+      "options": [
+        "than",
+        "as",
+        "like"
+      ],
+      "answer": "as",
+      "explanation": "as … as."
+    },
+    {
+      "type": "choice",
+      "prompt": "Today is ___ than yesterday.",
+      "options": [
+        "hotter",
+        "more hot",
+        "hottest"
+      ],
+      "answer": "hotter",
+      "explanation": "hot → hotter (подвоєння)."
+    },
+    {
+      "type": "input",
+      "prompt": "This exam was ___ (easy) than I expected.",
+      "answer": [
+        "easier"
+      ],
+      "explanation": "easy → easier: y → i + -er."
+    },
+    {
+      "type": "input",
+      "prompt": "It was the ___ (bad) day of my life.",
+      "answer": [
+        "worst"
+      ],
+      "explanation": "bad → worse → the worst (неправильна форма)."
+    },
+    {
+      "type": "input",
+      "prompt": "The ___ you sleep, the better you feel.",
+      "answer": [
+        "more",
+        "longer"
+      ],
+      "explanation": "The more…, the better… — «чим більше…, тим краще…» (можна й The longer…)."
+    },
+    {
+      "type": "error",
+      "sentence": "My English is more better now.",
+      "wrongIndex": 3,
+      "correction": "",
+      "alt": [
+        "much",
+        "a lot",
+        "far",
+        "even"
+      ],
+      "explanation": "better уже вищий ступінь — more зайве. Можна прибрати або підсилити: much / a lot / far better."
+    },
+    {
+      "type": "error",
+      "sentence": "Warsaw is bigger that Kraków.",
+      "wrongIndex": 3,
+      "correction": "than",
+      "alt": [],
+      "explanation": "Порівняння — than."
+    },
+    {
+      "type": "order",
+      "prompt": "Це найцікавіша книжка, яку я читав.",
+      "answer": [
+        "It's the most interesting book I've read.",
+        "This is the most interesting book I have read.",
+        "It's the most interesting book I've ever read.",
+        "This is the most interesting book I've ever read."
+      ],
+      "explanation": ""
+    },
+    {
+      "type": "transform",
+      "prompt": "The bus is slower than the train.",
+      "instruction": "Перепишіть з not as … as",
+      "answer": [
+        "The bus isn't as fast as the train.",
+        "The bus is not as fast as the train.",
+        "The bus isn't as quick as the train.",
+        "The bus is not as quick as the train."
+      ],
+      "explanation": ""
+    },
+    {
+      "type": "translate",
+      "uk": "Тут набагато дешевше, ніж у центрі.",
+      "answer": [
+        "It's much cheaper here than in the centre.",
+        "It is much cheaper here than in the city centre.",
+        "It's a lot cheaper here than in the centre.",
+        "It's much cheaper here than in the city centre.",
+        "It's a lot cheaper here than in the city centre."
+      ],
+      "explanation": ""
+    }
   ]
- },
- "examples": [
-  {
-   "en": "This flat is bigger but more expensive.",
-   "uk": "Ця квартира більша, але дорожча."
-  },
-  {
-   "en": "It's the best pizza I've ever had.",
-   "uk": "Це найкраща піца, яку я коли-небудь їв."
-  },
-  {
-   "en": "Today isn't as warm as yesterday.",
-   "uk": "Сьогодні не так тепло, як учора."
-  },
-  {
-   "en": "The train is much faster than the bus.",
-   "uk": "Потяг набагато швидший за автобус."
-  },
-  {
-   "en": "The more I learn, the more I want to know.",
-   "uk": "Чим більше я вчу, тим більше хочу знати."
-  }
- ],
- "exercises": [
-  {
-   "type": "choice",
-   "prompt": "My new phone is ___ than the old one.",
-   "options": [
-    "more good",
-    "better",
-    "best"
-   ],
-   "answer": "better",
-   "explanation": "good → better."
-  },
-  {
-   "type": "choice",
-   "prompt": "This is the ___ restaurant in town.",
-   "options": [
-    "more expensive",
-    "most expensive",
-    "expensivest"
-   ],
-   "answer": "most expensive",
-   "explanation": "Довгий прикметник: the most + прикметник."
-  },
-  {
-   "type": "choice",
-   "prompt": "He's not as tall ___ his brother.",
-   "options": [
-    "than",
-    "as",
-    "like"
-   ],
-   "answer": "as",
-   "explanation": "as … as."
-  },
-  {
-   "type": "choice",
-   "prompt": "Today is ___ than yesterday.",
-   "options": [
-    "hotter",
-    "more hot",
-    "hottest"
-   ],
-   "answer": "hotter",
-   "explanation": "hot → hotter (подвоєння)."
-  },
-  {
-   "type": "input",
-   "prompt": "This exam was ___ (easy) than I expected.",
-   "answer": [
-    "easier"
-   ],
-   "explanation": "easy → easier: y → i + -er."
-  },
-  {
-   "type": "input",
-   "prompt": "It was the ___ (bad) day of my life.",
-   "answer": [
-    "worst"
-   ],
-   "explanation": "bad → worse → the worst (неправильна форма)."
-  },
-  {
-   "type": "input",
-   "prompt": "The ___ you sleep, the better you feel.",
-   "answer": [
-    "more",
-    "longer"
-   ],
-   "explanation": "The more…, the better… — «чим більше…, тим краще…» (можна й The longer…)."
-  },
-  {
-   "type": "error",
-   "sentence": "My English is more better now.",
-   "wrongIndex": 3,
-   "correction": "",
-   "alt": [
-    "much",
-    "a lot",
-    "far",
-    "even"
-   ],
-   "explanation": "better уже вищий ступінь — more зайве. Можна прибрати або підсилити: much / a lot / far better."
-  },
-  {
-   "type": "error",
-   "sentence": "Warsaw is bigger that Kraków.",
-   "wrongIndex": 3,
-   "correction": "than",
-   "alt": [],
-   "explanation": "Порівняння — than."
-  },
-  {
-   "type": "order",
-   "prompt": "Це найцікавіша книжка, яку я читав.",
-   "answer": [
-    "It's the most interesting book I've read.",
-    "This is the most interesting book I have read.",
-    "It's the most interesting book I've ever read.",
-    "This is the most interesting book I've ever read."
-   ],
-   "explanation": ""
-  },
-  {
-   "type": "transform",
-   "prompt": "The bus is slower than the train.",
-   "instruction": "Перепишіть з not as … as",
-   "answer": [
-    "The bus isn't as fast as the train.",
-    "The bus is not as fast as the train.",
-    "The bus isn't as quick as the train.",
-    "The bus is not as quick as the train."
-   ],
-   "explanation": ""
-  },
-  {
-   "type": "translate",
-   "uk": "Тут набагато дешевше, ніж у центрі.",
-   "answer": [
-    "It's much cheaper here than in the centre.",
-    "It is much cheaper here than in the city centre.",
-    "It's a lot cheaper here than in the centre.",
-    "It's much cheaper here than in the city centre.",
-    "It's a lot cheaper here than in the city centre."
-   ],
-   "explanation": ""
-  }
- ]
 }

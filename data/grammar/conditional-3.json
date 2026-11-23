@@ -1,163 +1,249 @@
 {
- "id": "conditional-3",
- "title": "Умовні речення 3 типу і змішані",
- "titleEn": "Third and mixed conditionals",
- "unit": "Умовні речення",
- "level": "B2",
- "mistakeType": "tenses",
- "explanation": "**Third conditional** — уявне **минуле**, якого вже не змінити (жаль, критика, «а що якби»).\n\n*If I **had left** earlier, I **wouldn't have missed** the train.* (але я вийшов пізно і запізнився)\n\nСтруктура: *If + Past Perfect, would have + V3.*\n\n**Mixed conditional** — умова в минулому, результат зараз:\n*If I **had studied** medicine, I **would be** a doctor now.*",
- "formula": [
-  "3: If + **had + V3**, would have + V3",
-  "Mixed: If + had + V3, would + V (зараз)"
- ],
- "examples": [
-  {
-   "en": "If you had told me, I would have helped.",
-   "uk": "Якби ти мені сказав, я б допоміг."
+  "id": "conditional-3",
+  "title": "Умовні речення 3 типу і змішані",
+  "titleEn": "Third and mixed conditionals",
+  "unit": "Умовні речення",
+  "level": "B2",
+  "mistakeType": "tenses",
+  "explanation": "**Третій тип:** If + **had + V3**, … **would have + V3**\n- *If she had called, I would have answered.*\n- Замість would — *could have / might have*: *We could have won.*\n- **−** *If I hadn't…, I wouldn't have…*\n\n**Змішаний:** If + had + V3, … **would + V** (результат зараз): *If I'd saved more, I'd have a car now.*\n\nЧастини можна міняти місцями (тоді без коми): *I'd have come if you'd asked.*\nСкорочення *'d*: в if-частині = **had**, у результаті = **would**: *If I'd known, I'd have come.*",
+  "guide": {
+    "idea": "Третій тип — уявне минуле: що було б, якби тоді все склалося інакше. Ним шкодують, дорікають або фантазують про інший перебіг подій, знаючи, що змінити вже нічого не можна.",
+    "use": [
+      {
+        "when": "Жаль про своє рішення",
+        "note": "Уявляємо інший вибір і інший результат у минулому.",
+        "en": "If I had left earlier, I wouldn't have missed the train.",
+        "uk": "Якби я вийшов раніше, я б устиг на потяг."
+      },
+      {
+        "when": "Докір або вдячність",
+        "note": "Хтось учинив (не) так — і ось що могло б бути.",
+        "en": "If you hadn't helped me, I would never have finished on time.",
+        "uk": "Якби ти мені не допоміг, я б ніколи не встиг вчасно."
+      },
+      {
+        "when": "Уявна ситуація з минулого",
+        "note": "Питаємо, як би людина вчинила тоді.",
+        "en": "What would you have done if you had lost your passport?",
+        "uk": "Що б ти зробив, якби загубив паспорт?"
+      },
+      {
+        "when": "Минуле змінило б теперішнє",
+        "note": "Змішаний тип: умова в минулому (had + V3), результат зараз (would + V).",
+        "en": "If I had taken that job, I would be living in Dublin now.",
+        "uk": "Якби я тоді погодився на ту роботу, то зараз жив би в Дубліні."
+      },
+      {
+        "when": "Риса характеру пояснює минуле",
+        "note": "Змішаний навпаки: умова — те, що є завжди (Past Simple), результат — у минулому.",
+        "en": "If I weren't so shy, I would have spoken to her.",
+        "uk": "Якби я не був такий сором'язливий, я б із нею заговорив."
+      }
+    ],
+    "vs": [
+      {
+        "title": "Другий тип чи третій?",
+        "a": {
+          "en": "If I had a car, I would drive to work.",
+          "uk": "Якби в мене була машина, я б їздив на роботу.",
+          "note": "Уявне зараз — ще може змінитися."
+        },
+        "b": {
+          "en": "If I had had a car, I would have driven to work.",
+          "uk": "Якби в мене тоді була машина, я б поїхав на роботу.",
+          "note": "Уявне минуле — змінити вже не можна."
+        }
+      },
+      {
+        "title": "Третій чи змішаний?",
+        "a": {
+          "en": "If I had studied harder, I would have passed the exam.",
+          "uk": "Якби я краще вчився, я б склав іспит.",
+          "note": "Результат теж у минулому: іспит уже був."
+        },
+        "b": {
+          "en": "If I had studied harder, I would have a better job now.",
+          "uk": "Якби я краще вчився, у мене зараз була б краща робота.",
+          "note": "Результат — зараз."
+        }
+      }
+    ],
+    "signals": [],
+    "mistakes": [
+      {
+        "wrong": "If I would have known, I would have come.",
+        "right": "If I had known, I would have come.",
+        "why": "У частині з if — had + V3; would там не ставимо."
+      },
+      {
+        "wrong": "If I knew about the party yesterday, I would come.",
+        "right": "If I had known about the party yesterday, I would have come.",
+        "why": "Українське «якби знав — прийшов би» час не показує; про минуле англійською потрібен третій тип."
+      },
+      {
+        "wrong": "If you had told me, I would help.",
+        "right": "If you had told me, I would have helped.",
+        "why": "Результат у минулому — would have + V3."
+      },
+      {
+        "wrong": "We would have went by train.",
+        "right": "We would have gone by train.",
+        "why": "Після would have — третя форма (gone), а не друга."
+      }
+    ]
   },
-  {
-   "en": "We wouldn't have got lost if we had taken a map.",
-   "uk": "Ми б не заблукали, якби взяли карту."
-  },
-  {
-   "en": "If I hadn't met my wife, I wouldn't have moved to Poland.",
-   "uk": "Якби я не зустрів дружину, я б не переїхав до Польщі."
-  },
-  {
-   "en": "If I had saved more money, I'd have a car now.",
-   "uk": "Якби я більше заощадив, у мене зараз була б машина."
-  },
-  {
-   "en": "What would you have done if you had been there?",
-   "uk": "Що б ти зробив, якби був там?"
-  }
- ],
- "exercises": [
-  {
-   "type": "choice",
-   "prompt": "If I had known you were ill, I ___ you.",
-   "options": [
-    "would visit",
-    "would have visited",
-    "visited"
-   ],
-   "answer": "would have visited",
-   "explanation": "3 тип."
-  },
-  {
-   "type": "choice",
-   "prompt": "If she ___ harder, she would have passed.",
-   "options": [
-    "studied",
-    "had studied",
-    "would study"
-   ],
-   "answer": "had studied",
-   "explanation": "If + Past Perfect."
-  },
-  {
-   "type": "choice",
-   "prompt": "If we had left on time, we ___ the beginning of the film.",
-   "options": [
-    "wouldn't miss",
-    "wouldn't have missed",
-    "didn't miss"
-   ],
-   "answer": "wouldn't have missed",
-   "explanation": "3 тип: would have + V3; заперечення — wouldn't have missed."
-  },
-  {
-   "type": "choice",
-   "prompt": "If I had taken that job, I ___ in London now.",
-   "options": [
-    "would live",
-    "would have lived",
-    "lived"
-   ],
-   "answer": "would live",
-   "explanation": "Mixed: результат зараз."
-  },
-  {
-   "type": "input",
-   "prompt": "If you ___ (listen) to me, this wouldn't have happened.",
-   "answer": [
-    "had listened",
-    "'d listened"
-   ],
-   "explanation": "Умова 3 типу: If + Past Perfect (had listened)."
-  },
-  {
-   "type": "input",
-   "prompt": "I would have called you if I ___ (have) your number.",
-   "answer": [
-    "had had",
-    "'d had"
-   ],
-   "explanation": "had had — так, двічі."
-  },
-  {
-   "type": "input",
-   "prompt": "If it hadn't rained, we ___ (go) to the beach. (3 слова)",
-   "answer": [
-    "would have gone",
-    "'d have gone",
-    "would've gone"
-   ],
-   "explanation": "Головна частина 3 типу — would have + V3: would have gone."
-  },
-  {
-   "type": "error",
-   "sentence": "If I had knew, I would have come.",
-   "wrongIndex": 3,
-   "correction": "known,",
-   "alt": [
-    "known"
-   ],
-   "explanation": "Past Perfect: had + V3 (known)."
-  },
-  {
-   "type": "error",
-   "sentence": "If he had driven more carefully, he would have avoid the accident.",
-   "wrongIndex": 9,
-   "correction": "avoided",
-   "alt": [],
-   "explanation": "would have + V3."
-  },
-  {
-   "type": "order",
-   "prompt": "Якби я знав, я б тобі сказав.",
-   "answer": [
-    "If I had known, I would have told you.",
-    "If I'd known, I'd have told you.",
-    "I would have told you if I had known."
-   ],
-   "explanation": "3 тип: If + Past Perfect, would have + V3."
-  },
-  {
-   "type": "transform",
-   "prompt": "I didn't set an alarm, so I overslept.",
-   "instruction": "Перепишіть з If (3 тип)",
-   "answer": [
-    "If I had set an alarm, I wouldn't have overslept.",
-    "If I'd set an alarm, I wouldn't have overslept.",
-    "If I had set an alarm, I would not have overslept.",
-    "If I'd set an alarm, I would not have overslept."
-   ],
-   "explanation": "Нереальне минуле: If I had set…, I wouldn't have overslept."
-  },
-  {
-   "type": "translate",
-   "uk": "Якби ми вийшли раніше, ми б встигли на потяг.",
-   "answer": [
-    "If we had left earlier, we would have caught the train.",
-    "If we'd left earlier, we'd have caught the train.",
-    "If we had left earlier, we would have made the train.",
-    "If we'd left earlier, we would have caught the train.",
-    "If we had left earlier, we would've caught the train.",
-    "If we'd left earlier, we would have made the train.",
-    "If we had left earlier, we would've made the train."
-   ],
-   "explanation": "If + Past Perfect (had left), would have + V3 (would have caught)."
-  }
- ]
+  "formula": [
+    "3: If + **had + V3**, would have + V3",
+    "Mixed: If + had + V3, would + V (зараз)"
+  ],
+  "examples": [
+    {
+      "en": "If you had told me, I would have helped.",
+      "uk": "Якби ти мені сказав, я б допоміг."
+    },
+    {
+      "en": "We wouldn't have got lost if we had taken a map.",
+      "uk": "Ми б не заблукали, якби взяли карту."
+    },
+    {
+      "en": "If I hadn't met my wife, I wouldn't have moved to Poland.",
+      "uk": "Якби я не зустрів дружину, я б не переїхав до Польщі."
+    },
+    {
+      "en": "If I had saved more money, I'd have a car now.",
+      "uk": "Якби я більше заощадив, у мене зараз була б машина."
+    },
+    {
+      "en": "What would you have done if you had been there?",
+      "uk": "Що б ти зробив, якби був там?"
+    }
+  ],
+  "exercises": [
+    {
+      "type": "choice",
+      "prompt": "If I had known you were ill, I ___ you.",
+      "options": [
+        "would visit",
+        "would have visited",
+        "visited"
+      ],
+      "answer": "would have visited",
+      "explanation": "3 тип."
+    },
+    {
+      "type": "choice",
+      "prompt": "If she ___ harder, she would have passed.",
+      "options": [
+        "studied",
+        "had studied",
+        "would study"
+      ],
+      "answer": "had studied",
+      "explanation": "If + Past Perfect."
+    },
+    {
+      "type": "choice",
+      "prompt": "If we had left on time, we ___ the beginning of the film.",
+      "options": [
+        "wouldn't miss",
+        "wouldn't have missed",
+        "didn't miss"
+      ],
+      "answer": "wouldn't have missed",
+      "explanation": "3 тип: would have + V3; заперечення — wouldn't have missed."
+    },
+    {
+      "type": "choice",
+      "prompt": "If I had taken that job, I ___ in London now.",
+      "options": [
+        "would live",
+        "would have lived",
+        "lived"
+      ],
+      "answer": "would live",
+      "explanation": "Mixed: результат зараз."
+    },
+    {
+      "type": "input",
+      "prompt": "If you ___ (listen) to me, this wouldn't have happened.",
+      "answer": [
+        "had listened",
+        "'d listened"
+      ],
+      "explanation": "Умова 3 типу: If + Past Perfect (had listened)."
+    },
+    {
+      "type": "input",
+      "prompt": "I would have called you if I ___ (have) your number.",
+      "answer": [
+        "had had",
+        "'d had"
+      ],
+      "explanation": "had had — так, двічі."
+    },
+    {
+      "type": "input",
+      "prompt": "If it hadn't rained, we ___ (go) to the beach. (3 слова)",
+      "answer": [
+        "would have gone",
+        "'d have gone",
+        "would've gone"
+      ],
+      "explanation": "Головна частина 3 типу — would have + V3: would have gone."
+    },
+    {
+      "type": "error",
+      "sentence": "If I had knew, I would have come.",
+      "wrongIndex": 3,
+      "correction": "known,",
+      "alt": [
+        "known"
+      ],
+      "explanation": "Past Perfect: had + V3 (known)."
+    },
+    {
+      "type": "error",
+      "sentence": "If he had driven more carefully, he would have avoid the accident.",
+      "wrongIndex": 9,
+      "correction": "avoided",
+      "alt": [],
+      "explanation": "would have + V3."
+    },
+    {
+      "type": "order",
+      "prompt": "Якби я знав, я б тобі сказав.",
+      "answer": [
+        "If I had known, I would have told you.",
+        "If I'd known, I'd have told you.",
+        "I would have told you if I had known."
+      ],
+      "explanation": "3 тип: If + Past Perfect, would have + V3."
+    },
+    {
+      "type": "transform",
+      "prompt": "I didn't set an alarm, so I overslept.",
+      "instruction": "Перепишіть з If (3 тип)",
+      "answer": [
+        "If I had set an alarm, I wouldn't have overslept.",
+        "If I'd set an alarm, I wouldn't have overslept.",
+        "If I had set an alarm, I would not have overslept.",
+        "If I'd set an alarm, I would not have overslept."
+      ],
+      "explanation": "Нереальне минуле: If I had set…, I wouldn't have overslept."
+    },
+    {
+      "type": "translate",
+      "uk": "Якби ми вийшли раніше, ми б встигли на потяг.",
+      "answer": [
+        "If we had left earlier, we would have caught the train.",
+        "If we'd left earlier, we'd have caught the train.",
+        "If we had left earlier, we would have made the train.",
+        "If we'd left earlier, we would have caught the train.",
+        "If we had left earlier, we would've caught the train.",
+        "If we'd left earlier, we would have made the train.",
+        "If we had left earlier, we would've made the train."
+      ],
+      "explanation": "If + Past Perfect (had left), would have + V3 (would have caught)."
+    }
+  ]
 }

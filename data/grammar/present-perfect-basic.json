@@ -1,222 +1,321 @@
 {
- "id": "present-perfect-basic",
- "title": "Present Perfect: ever, never, just",
- "titleEn": "Present Perfect (basics)",
- "unit": "Минулі часи",
- "level": "A2",
- "mistakeType": "tenses",
- "explanation": "**Present Perfect** = **have / has + третя форма дієслова (V3)**: *I **have seen**, she **has been***. Скорочено: *I've, she's*.\n\n**Досвід у житті** без точного часу: *I'**ve been** to Italy.* (колись у житті). Питання — з **ever**: *Have you **ever** tried pierogi?* Заперечення — з **never**: *I've **never** seen snow in April.* Після never дієслово ствердне: ~~I haven't never~~.\n\n**just** — «щойно»: *We'**ve just** finished dinner.*\n\n**been to** — бував і повернувся: *She **has been to** Paris.* **gone to** — пішов і ще там: *He **has gone to** the shop.*\n\nЯкщо називаємо точний час (*yesterday, last week, in 2020*), потрібен Past Simple: *I **visited** Paris in 2019* (не ~~have visited~~).",
- "formula": [
-  "I / you / we / they + have ('ve) + V3",
-  "he / she / it + has ('s) + V3",
-  "Have you ever + V3…? · I've never + V3 · I've just + V3"
- ],
- "table": {
-  "head": [
-   "Значення",
-   "Приклад",
-   "Переклад"
+  "id": "present-perfect-basic",
+  "title": "Present Perfect: ever, never, just",
+  "titleEn": "Present Perfect (basics)",
+  "unit": "Минулі часи",
+  "level": "A2",
+  "mistakeType": "tenses",
+  "explanation": "**have / has + V3** (третя форма)\n- **+** I/you/we/they **have** ('ve) · he/she/it **has** ('s) + V3: *I've seen it.*\n- **−** haven't / hasn't + V3: *She hasn't called.*\n- **?** Have / Has + підмет + V3: *Have you eaten?*\n\nV3: правильні — як у Past Simple (*worked, lived*); неправильні — третя колонка (*go → gone, see → seen, eat → eaten, be → been*).\n**ever, never, just** — між have / has і V3: *I've just eaten.*\nКороткі відповіді: *Yes, I have. / No, I haven't.*",
+  "guide": {
+    "idea": "Present Perfect (have / has + третя форма) пов'язує минуле з «зараз». На цьому рівні — три головні випадки: досвід у житті («я колись…»), новина «щойно» (just) і результат, який видно тепер. Коли саме це сталося — не кажемо.",
+    "use": [
+      {
+        "when": "Досвід у житті",
+        "note": "Чи бувало хоч раз — без дати; у питанні ever.",
+        "en": "Have you ever ridden a horse?",
+        "uk": "Ти колись їздив верхи?"
+      },
+      {
+        "when": "Ще ніколи",
+        "note": "never + ствердне дієслово.",
+        "en": "I've never been to Scotland.",
+        "uk": "Я ніколи не був у Шотландії."
+      },
+      {
+        "when": "Щойно",
+        "note": "just — сталося хвилину тому, свіжа новина.",
+        "en": "Sorry, Emma has just left.",
+        "uk": "Вибачте, Емма щойно пішла."
+      },
+      {
+        "when": "Результат видно зараз",
+        "note": "Сталося раніше, а наслідок — тепер.",
+        "en": "I've lost my keys — can you open the door?",
+        "uk": "Я загубив ключі — можеш відчинити двері?"
+      },
+      {
+        "when": "Скільки разів у житті",
+        "note": "once, twice, three times — без дати.",
+        "en": "We've been to London twice.",
+        "uk": "Ми двічі були в Лондоні."
+      }
+    ],
+    "vs": [
+      {
+        "title": "Present Perfect чи Past Simple?",
+        "a": {
+          "en": "I've been to Rome.",
+          "uk": "Я бував у Римі.",
+          "note": "Досвід — коли, неважливо."
+        },
+        "b": {
+          "en": "I went to Rome last summer.",
+          "uk": "Минулого літа я їздив до Рима.",
+          "note": "Названо час — Past Simple."
+        }
+      },
+      {
+        "title": "been чи gone?",
+        "a": {
+          "en": "She's been to the shop.",
+          "uk": "Вона сходила в магазин.",
+          "note": "Пішла й уже повернулася."
+        },
+        "b": {
+          "en": "She's gone to the shop.",
+          "uk": "Вона пішла в магазин.",
+          "note": "Досі там."
+        }
+      }
+    ],
+    "signals": [
+      "ever",
+      "never",
+      "just",
+      "before",
+      "once",
+      "twice",
+      "three times"
+    ],
+    "mistakes": [
+      {
+        "wrong": "I have been to Paris last year.",
+        "right": "I went to Paris last year.",
+        "why": "З точним часом у минулому — Past Simple."
+      },
+      {
+        "wrong": "Have you ever went to London?",
+        "right": "Have you ever been to London?",
+        "why": "Після have — третя форма: been, gone, seen, а не went."
+      },
+      {
+        "wrong": "I haven't never seen snow.",
+        "right": "I've never seen snow.",
+        "why": "never уже заперечує."
+      },
+      {
+        "wrong": "She have just called.",
+        "right": "She has just called.",
+        "why": "he / she / it — has."
+      },
+      {
+        "wrong": "Did you ever eat Thai food?",
+        "right": "Have you ever eaten Thai food?",
+        "why": "Питання про досвід за все життя — Present Perfect."
+      }
+    ]
+  },
+  "formula": [
+    "I / you / we / they + have ('ve) + V3",
+    "he / she / it + has ('s) + V3",
+    "Have you ever + V3…? · I've never + V3 · I've just + V3"
   ],
-  "rows": [
-   [
-    "досвід",
-    "I've been to London.",
-    "Я бував у Лондоні."
-   ],
-   [
-    "ever?",
-    "Have you ever eaten oscypek?",
-    "Ти колись їв оскипек?"
-   ],
-   [
-    "never",
-    "We've never seen the sea in winter.",
-    "Ми ніколи не бачили моря взимку."
-   ],
-   [
-    "just",
-    "She's just left.",
-    "Вона щойно пішла."
-   ],
-   [
-    "gone to",
-    "He's gone to the shop.",
-    "Він пішов у магазин (ще там)."
-   ]
+  "table": {
+    "head": [
+      "Значення",
+      "Приклад",
+      "Переклад"
+    ],
+    "rows": [
+      [
+        "досвід",
+        "I've been to London.",
+        "Я бував у Лондоні."
+      ],
+      [
+        "ever?",
+        "Have you ever eaten oscypek?",
+        "Ти колись їв оскипек?"
+      ],
+      [
+        "never",
+        "We've never seen the sea in winter.",
+        "Ми ніколи не бачили моря взимку."
+      ],
+      [
+        "just",
+        "She's just left.",
+        "Вона щойно пішла."
+      ],
+      [
+        "gone to",
+        "He's gone to the shop.",
+        "Він пішов у магазин (ще там)."
+      ]
+    ]
+  },
+  "examples": [
+    {
+      "en": "I've been to Gdańsk twice.",
+      "uk": "Я двічі бував у Гданську."
+    },
+    {
+      "en": "Have you ever tried żurek?",
+      "uk": "Ти колись куштував журек?"
+    },
+    {
+      "en": "Emma has never been to Zakopane.",
+      "uk": "Емма ніколи не була в Закопаному."
+    },
+    {
+      "en": "We've just bought a new washing machine.",
+      "uk": "Ми щойно купили нову пральну машину."
+    },
+    {
+      "en": "My parents have gone to the market.",
+      "uk": "Мої батьки пішли на ринок."
+    },
+    {
+      "en": "I've lost my keys!",
+      "uk": "Я загубив ключі!"
+    }
+  ],
+  "tip": "**he's** може бути *he is* або *he has*: *He's tired* (is), але *He's been there* (has).",
+  "exercises": [
+    {
+      "type": "choice",
+      "prompt": "Have you ever ___ to Italy?",
+      "options": [
+        "been",
+        "was",
+        "went"
+      ],
+      "answer": "been",
+      "explanation": "Have + V3: been."
+    },
+    {
+      "type": "choice",
+      "prompt": "I ___ never eaten sushi.",
+      "options": [
+        "have",
+        "has",
+        "am"
+      ],
+      "answer": "have",
+      "explanation": "I → have."
+    },
+    {
+      "type": "choice",
+      "prompt": "Tom isn't here. He ___ to the shop.",
+      "options": [
+        "has gone",
+        "has been",
+        "have gone"
+      ],
+      "answer": "has gone",
+      "explanation": "Пішов і ще там — has gone."
+    },
+    {
+      "type": "choice",
+      "prompt": "We ___ finished dinner. Come in!",
+      "options": [
+        "have just",
+        "just have",
+        "has just"
+      ],
+      "answer": "have just",
+      "explanation": "just стоїть між have і V3."
+    },
+    {
+      "type": "choice",
+      "prompt": "I ___ Emma's parents yesterday.",
+      "options": [
+        "met",
+        "have met",
+        "has met"
+      ],
+      "answer": "met",
+      "explanation": "Yesterday — точний час, тому Past Simple."
+    },
+    {
+      "type": "input",
+      "prompt": "I ___ (see / never) this film.",
+      "answer": [
+        "have never seen",
+        "'ve never seen"
+      ],
+      "explanation": "have + never + V3."
+    },
+    {
+      "type": "input",
+      "prompt": "Has she ever ___ (be) to Spain?",
+      "answer": [
+        "been"
+      ],
+      "explanation": "be → been."
+    },
+    {
+      "type": "input",
+      "prompt": "Oliver ___ (just / call) his mum.",
+      "answer": [
+        "has just called",
+        "'s just called"
+      ],
+      "explanation": "He → has just + V3."
+    },
+    {
+      "type": "input",
+      "prompt": "We ___ (buy) a new car. Do you want to see it?",
+      "answer": [
+        "have bought",
+        "'ve bought",
+        "have just bought",
+        "'ve just bought"
+      ],
+      "explanation": "have + V3: bought."
+    },
+    {
+      "type": "error",
+      "sentence": "I have never went to London.",
+      "wrongIndex": 3,
+      "correction": "been",
+      "alt": [
+        "gone"
+      ],
+      "explanation": "Після have — V3: been."
+    },
+    {
+      "type": "error",
+      "sentence": "She have just arrived.",
+      "wrongIndex": 1,
+      "correction": "has",
+      "alt": [],
+      "explanation": "She → has."
+    },
+    {
+      "type": "order",
+      "prompt": "Ти колись був у Варшаві?",
+      "answer": [
+        "Have you ever been to Warsaw?"
+      ],
+      "explanation": "Have + you + ever + been."
+    },
+    {
+      "type": "transform",
+      "prompt": "I visited Paris in 2019.",
+      "instruction": "Скажіть про досвід без дати (Present Perfect)",
+      "answer": [
+        "I have been to Paris.",
+        "I've been to Paris.",
+        "I have visited Paris.",
+        "I've visited Paris."
+      ],
+      "explanation": "Без дати — have + V3."
+    },
+    {
+      "type": "translate",
+      "uk": "Я ніколи не бачив цей фільм.",
+      "answer": [
+        "I have never seen this film.",
+        "I've never seen this film.",
+        "I have never seen this movie.",
+        "I've never seen this movie.",
+        "I have never watched this film.",
+        "I've never watched this film.",
+        "I have never watched this movie.",
+        "I've never watched this movie."
+      ],
+      "explanation": "have + never + V3."
+    }
   ]
- },
- "examples": [
-  {
-   "en": "I've been to Gdańsk twice.",
-   "uk": "Я двічі бував у Гданську."
-  },
-  {
-   "en": "Have you ever tried żurek?",
-   "uk": "Ти колись куштував журек?"
-  },
-  {
-   "en": "Emma has never been to Zakopane.",
-   "uk": "Емма ніколи не була в Закопаному."
-  },
-  {
-   "en": "We've just bought a new washing machine.",
-   "uk": "Ми щойно купили нову пральну машину."
-  },
-  {
-   "en": "My parents have gone to the market.",
-   "uk": "Мої батьки пішли на ринок."
-  },
-  {
-   "en": "I've lost my keys!",
-   "uk": "Я загубив ключі!"
-  }
- ],
- "tip": "**he's** може бути *he is* або *he has*: *He's tired* (is), але *He's been there* (has).",
- "exercises": [
-  {
-   "type": "choice",
-   "prompt": "Have you ever ___ to Italy?",
-   "options": [
-    "been",
-    "was",
-    "went"
-   ],
-   "answer": "been",
-   "explanation": "Have + V3: been."
-  },
-  {
-   "type": "choice",
-   "prompt": "I ___ never eaten sushi.",
-   "options": [
-    "have",
-    "has",
-    "am"
-   ],
-   "answer": "have",
-   "explanation": "I → have."
-  },
-  {
-   "type": "choice",
-   "prompt": "Tom isn't here. He ___ to the shop.",
-   "options": [
-    "has gone",
-    "has been",
-    "have gone"
-   ],
-   "answer": "has gone",
-   "explanation": "Пішов і ще там — has gone."
-  },
-  {
-   "type": "choice",
-   "prompt": "We ___ finished dinner. Come in!",
-   "options": [
-    "have just",
-    "just have",
-    "has just"
-   ],
-   "answer": "have just",
-   "explanation": "just стоїть між have і V3."
-  },
-  {
-   "type": "choice",
-   "prompt": "I ___ Emma's parents yesterday.",
-   "options": [
-    "met",
-    "have met",
-    "has met"
-   ],
-   "answer": "met",
-   "explanation": "Yesterday — точний час, тому Past Simple."
-  },
-  {
-   "type": "input",
-   "prompt": "I ___ (see / never) this film.",
-   "answer": [
-    "have never seen",
-    "'ve never seen"
-   ],
-   "explanation": "have + never + V3."
-  },
-  {
-   "type": "input",
-   "prompt": "Has she ever ___ (be) to Spain?",
-   "answer": [
-    "been"
-   ],
-   "explanation": "be → been."
-  },
-  {
-   "type": "input",
-   "prompt": "Oliver ___ (just / call) his mum.",
-   "answer": [
-    "has just called",
-    "'s just called"
-   ],
-   "explanation": "He → has just + V3."
-  },
-  {
-   "type": "input",
-   "prompt": "We ___ (buy) a new car. Do you want to see it?",
-   "answer": [
-    "have bought",
-    "'ve bought",
-    "have just bought",
-    "'ve just bought"
-   ],
-   "explanation": "have + V3: bought."
-  },
-  {
-   "type": "error",
-   "sentence": "I have never went to London.",
-   "wrongIndex": 3,
-   "correction": "been",
-   "alt": [
-    "gone"
-   ],
-   "explanation": "Після have — V3: been."
-  },
-  {
-   "type": "error",
-   "sentence": "She have just arrived.",
-   "wrongIndex": 1,
-   "correction": "has",
-   "alt": [],
-   "explanation": "She → has."
-  },
-  {
-   "type": "order",
-   "prompt": "Ти колись був у Варшаві?",
-   "answer": [
-    "Have you ever been to Warsaw?"
-   ],
-   "explanation": "Have + you + ever + been."
-  },
-  {
-   "type": "transform",
-   "prompt": "I visited Paris in 2019.",
-   "instruction": "Скажіть про досвід без дати (Present Perfect)",
-   "answer": [
-    "I have been to Paris.",
-    "I've been to Paris.",
-    "I have visited Paris.",
-    "I've visited Paris."
-   ],
-   "explanation": "Без дати — have + V3."
-  },
-  {
-   "type": "translate",
-   "uk": "Я ніколи не бачив цей фільм.",
-   "answer": [
-    "I have never seen this film.",
-    "I've never seen this film.",
-    "I have never seen this movie.",
-    "I've never seen this movie.",
-    "I have never watched this film.",
-    "I've never watched this film.",
-    "I have never watched this movie.",
-    "I've never watched this movie."
-   ],
-   "explanation": "have + never + V3."
-  }
- ]
 }

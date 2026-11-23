@@ -1,181 +1,281 @@
 {
- "id": "past-simple-basics",
- "title": "Past Simple: основи",
- "titleEn": "Past Simple: regular and irregular verbs, was/were",
- "unit": "Минулі часи",
- "level": "A2",
- "mistakeType": "tenses",
- "explanation": "**Past Simple** — завершена дія в минулому: *yesterday, last week, in 2019, two days ago*.\n\n**to be** у минулому: *I/he/she/it **was**, we/you/they **were***: *I **was** tired. They **were** at home.*\n\nПравильні дієслова + **-ed**: *work → work**ed**, live → liv**ed**, stop → stop**ped***. Неправильні — окрема форма, її треба запам'ятати: *go → **went**, have → **had**, see → **saw**, buy → **bought**, make → **made***.\n\nЗаперечення і питання — через **did**, а дієслово в початковій формі: *I **didn't go**. **Did** you **see** it?*",
- "formula": [
-  "V**-ed** / 2-га форма (went, saw…)",
-  "**didn't** + V · **Did** + підмет + V?"
- ],
- "table": {
-  "head": [
-   "",
-   "Ствердження",
-   "Заперечення",
-   "Питання"
+  "id": "past-simple-basics",
+  "title": "Past Simple: основи",
+  "titleEn": "Past Simple: regular and irregular verbs, was/were",
+  "unit": "Минулі часи",
+  "level": "A2",
+  "mistakeType": "tenses",
+  "explanation": "**to be:** I/he/she/it **was** · we/you/they **were**\n- **−** wasn't / weren't · **?** Was she…? / Were you…?\n\n**Інші дієслова:**\n- **+** правильні + **-ed**: *worked, lived*; неправильні — 2-га форма: *go → went, see → saw, buy → bought*\n- **−** **didn't** + початкова форма: *I didn't go.*\n- **?** **Did** + підмет + початкова форма: *Did you see it?*\n\nПравопис -ed: *live → lived, stop → stopped, study → studied, play → played*.\nФорма однакова для всіх осіб: *I / she / they worked*.",
+  "guide": {
+    "idea": "Past Simple розповідає про завершене в минулому: що сталося, коли і як. Це головний час для історій — про вчора, відпустку, дитинство. Ключ: дія скінчилась, і той час уже минув.",
+    "use": [
+      {
+        "when": "Подія в минулому",
+        "note": "Є або мається на увазі час: yesterday, last week, in 2019, two days ago.",
+        "en": "I met Oliver at the station yesterday.",
+        "uk": "Учора я зустрів Олівера на вокзалі."
+      },
+      {
+        "when": "Історія крок за кроком",
+        "note": "Дії одна за одною в розповіді.",
+        "en": "We got up early, had breakfast and drove to the coast.",
+        "uk": "Ми рано встали, поснідали й поїхали на узбережжя."
+      },
+      {
+        "when": "Звичка в минулому",
+        "note": "Що бувало регулярно тоді, а тепер уже ні.",
+        "en": "When I was a child, I walked to school every day.",
+        "uk": "У дитинстві я щодня ходив до школи пішки."
+      },
+      {
+        "when": "Стан у минулому — was / were",
+        "note": "Яким або де було: настрій, погода, місце.",
+        "en": "The weather was lovely, and the hotel was near the beach.",
+        "uk": "Погода була чудова, а готель — біля пляжу."
+      },
+      {
+        "when": "Розпитати про подію",
+        "note": "When, where, what — з did.",
+        "en": "When did you arrive?",
+        "uk": "Коли ви приїхали?"
+      }
+    ],
+    "vs": [
+      {
+        "title": "Past Simple чи Present Perfect?",
+        "a": {
+          "en": "I lost my phone last week.",
+          "uk": "Минулого тижня я загубив телефон.",
+          "note": "Є час у минулому — історія завершена."
+        },
+        "b": {
+          "en": "I've lost my phone.",
+          "uk": "Я загубив телефон (і досі без нього).",
+          "note": "Важливий результат зараз, час не названо."
+        }
+      },
+      {
+        "title": "was чи did?",
+        "a": {
+          "en": "Were you tired?",
+          "uk": "Ти був утомлений?",
+          "note": "Стан (прикметник, місце) — was / were."
+        },
+        "b": {
+          "en": "Did you sleep well?",
+          "uk": "Ти добре спав?",
+          "note": "Дія (дієслово) — did."
+        }
+      }
+    ],
+    "signals": [
+      "yesterday",
+      "last night",
+      "last week",
+      "last year",
+      "ago",
+      "in 2019",
+      "when I was a child",
+      "then"
+    ],
+    "mistakes": [
+      {
+        "wrong": "Did you saw it?",
+        "right": "Did you see it?",
+        "why": "Після did — початкова форма: минуле вже показує did."
+      },
+      {
+        "wrong": "Yesterday I go to the cinema.",
+        "right": "Yesterday I went to the cinema.",
+        "why": "Українською можна розповідати теперішнім, англійською про минуле — лише минула форма."
+      },
+      {
+        "wrong": "I was go to the shop.",
+        "right": "I went to the shop.",
+        "why": "Минуле дієслово — одне слово went; was тут зайве."
+      },
+      {
+        "wrong": "I was in London two years before.",
+        "right": "I was in London two years ago.",
+        "why": "«Тому» від сьогодні — ago, після проміжку часу."
+      },
+      {
+        "wrong": "Where you were yesterday?",
+        "right": "Where were you yesterday?",
+        "why": "У питанні was / were стоїть перед підметом."
+      }
+    ]
+  },
+  "formula": [
+    "V**-ed** / 2-га форма (went, saw…)",
+    "**didn't** + V · **Did** + підмет + V?"
   ],
-  "rows": [
-   [
-    "to be",
-    "I was / they were",
-    "I wasn't / they weren't",
-    "Were you…?"
-   ],
-   [
-    "правильні",
-    "I worked",
-    "I didn't work",
-    "Did you work?"
-   ],
-   [
-    "неправильні",
-    "She went",
-    "She didn't go",
-    "Did she go?"
-   ]
+  "table": {
+    "head": [
+      "",
+      "Ствердження",
+      "Заперечення",
+      "Питання"
+    ],
+    "rows": [
+      [
+        "to be",
+        "I was / they were",
+        "I wasn't / they weren't",
+        "Were you…?"
+      ],
+      [
+        "правильні",
+        "I worked",
+        "I didn't work",
+        "Did you work?"
+      ],
+      [
+        "неправильні",
+        "She went",
+        "She didn't go",
+        "Did she go?"
+      ]
+    ]
+  },
+  "examples": [
+    {
+      "en": "We went to the sea last summer.",
+      "uk": "Минулого літа ми їздили на море."
+    },
+    {
+      "en": "I was at the doctor's yesterday.",
+      "uk": "Учора я був у лікаря."
+    },
+    {
+      "en": "Did you sleep well?",
+      "uk": "Ти добре спав?"
+    },
+    {
+      "en": "She didn't call me.",
+      "uk": "Вона мені не подзвонила."
+    },
+    {
+      "en": "They bought a new car two weeks ago.",
+      "uk": "Два тижні тому вони купили нову машину."
+    }
+  ],
+  "tip": "Після **did / didn't** — без -ed і без 2-ї форми: ~~Did you went?~~ → *Did you **go**?*",
+  "exercises": [
+    {
+      "type": "choice",
+      "prompt": "Yesterday I ___ to the cinema.",
+      "options": [
+        "go",
+        "went",
+        "goed"
+      ],
+      "answer": "went",
+      "explanation": "go → went (неправильне дієслово)."
+    },
+    {
+      "type": "choice",
+      "prompt": "They ___ at home last night.",
+      "options": [
+        "was",
+        "were",
+        "are"
+      ],
+      "answer": "were",
+      "explanation": "They → were."
+    },
+    {
+      "type": "choice",
+      "prompt": "Did you ___ my message?",
+      "options": [
+        "get",
+        "got",
+        "gets"
+      ],
+      "answer": "get",
+      "explanation": "Після did — V."
+    },
+    {
+      "type": "choice",
+      "prompt": "We went to the cinema last night, but she ___ like the film.",
+      "options": [
+        "didn't",
+        "doesn't",
+        "wasn't"
+      ],
+      "answer": "didn't",
+      "explanation": "Минуле заперечення — didn't + V."
+    },
+    {
+      "type": "input",
+      "prompt": "We ___ (stay) in a small hotel.",
+      "answer": [
+        "stayed"
+      ],
+      "explanation": "stay → stayed."
+    },
+    {
+      "type": "input",
+      "prompt": "I ___ (buy) some bread this morning.",
+      "answer": [
+        "bought"
+      ],
+      "explanation": "buy → bought (неправильне дієслово)."
+    },
+    {
+      "type": "input",
+      "prompt": "Where ___ you go on holiday last summer?",
+      "answer": [
+        "did"
+      ],
+      "explanation": "Питання в минулому — did + підмет + V."
+    },
+    {
+      "type": "input",
+      "prompt": "It ___ (be / not) cold yesterday. (скорочено)",
+      "answer": [
+        "wasn't",
+        "was not"
+      ],
+      "explanation": "It → wasn't (was not)."
+    },
+    {
+      "type": "error",
+      "sentence": "I didn't saw him yesterday.",
+      "wrongIndex": 2,
+      "correction": "see",
+      "alt": [],
+      "explanation": "Після didn't — see."
+    },
+    {
+      "type": "error",
+      "sentence": "We was very tired after the trip.",
+      "wrongIndex": 1,
+      "correction": "were",
+      "alt": [],
+      "explanation": "we → were."
+    },
+    {
+      "type": "order",
+      "prompt": "Що ти робив у вихідні?",
+      "answer": [
+        "What did you do at the weekend?",
+        "What did you do on the weekend?",
+        "What did you do over the weekend?"
+      ],
+      "explanation": ""
+    },
+    {
+      "type": "translate",
+      "uk": "Учора я працював до восьмої.",
+      "answer": [
+        "I worked until eight yesterday.",
+        "Yesterday I worked until eight.",
+        "I worked till eight yesterday.",
+        "Yesterday I worked till eight.",
+        "I worked until eight o'clock yesterday."
+      ],
+      "explanation": ""
+    }
   ]
- },
- "examples": [
-  {
-   "en": "We went to the sea last summer.",
-   "uk": "Минулого літа ми їздили на море."
-  },
-  {
-   "en": "I was at the doctor's yesterday.",
-   "uk": "Учора я був у лікаря."
-  },
-  {
-   "en": "Did you sleep well?",
-   "uk": "Ти добре спав?"
-  },
-  {
-   "en": "She didn't call me.",
-   "uk": "Вона мені не подзвонила."
-  },
-  {
-   "en": "They bought a new car two weeks ago.",
-   "uk": "Два тижні тому вони купили нову машину."
-  }
- ],
- "tip": "Після **did / didn't** — без -ed і без 2-ї форми: ~~Did you went?~~ → *Did you **go**?*",
- "exercises": [
-  {
-   "type": "choice",
-   "prompt": "Yesterday I ___ to the cinema.",
-   "options": [
-    "go",
-    "went",
-    "goed"
-   ],
-   "answer": "went",
-   "explanation": "go → went (неправильне дієслово)."
-  },
-  {
-   "type": "choice",
-   "prompt": "They ___ at home last night.",
-   "options": [
-    "was",
-    "were",
-    "are"
-   ],
-   "answer": "were",
-   "explanation": "They → were."
-  },
-  {
-   "type": "choice",
-   "prompt": "Did you ___ my message?",
-   "options": [
-    "get",
-    "got",
-    "gets"
-   ],
-   "answer": "get",
-   "explanation": "Після did — V."
-  },
-  {
-   "type": "choice",
-   "prompt": "We went to the cinema last night, but she ___ like the film.",
-   "options": [
-    "didn't",
-    "doesn't",
-    "wasn't"
-   ],
-   "answer": "didn't",
-   "explanation": "Минуле заперечення — didn't + V."
-  },
-  {
-   "type": "input",
-   "prompt": "We ___ (stay) in a small hotel.",
-   "answer": [
-    "stayed"
-   ],
-   "explanation": "stay → stayed."
-  },
-  {
-   "type": "input",
-   "prompt": "I ___ (buy) some bread this morning.",
-   "answer": [
-    "bought"
-   ],
-   "explanation": "buy → bought (неправильне дієслово)."
-  },
-  {
-   "type": "input",
-   "prompt": "Where ___ you go on holiday last summer?",
-   "answer": [
-    "did"
-   ],
-   "explanation": "Питання в минулому — did + підмет + V."
-  },
-  {
-   "type": "input",
-   "prompt": "It ___ (be / not) cold yesterday. (скорочено)",
-   "answer": [
-    "wasn't",
-    "was not"
-   ],
-   "explanation": "It → wasn't (was not)."
-  },
-  {
-   "type": "error",
-   "sentence": "I didn't saw him yesterday.",
-   "wrongIndex": 2,
-   "correction": "see",
-   "alt": [],
-   "explanation": "Після didn't — see."
-  },
-  {
-   "type": "error",
-   "sentence": "We was very tired after the trip.",
-   "wrongIndex": 1,
-   "correction": "were",
-   "alt": [],
-   "explanation": "we → were."
-  },
-  {
-   "type": "order",
-   "prompt": "Що ти робив у вихідні?",
-   "answer": [
-    "What did you do at the weekend?",
-    "What did you do on the weekend?",
-    "What did you do over the weekend?"
-   ],
-   "explanation": ""
-  },
-  {
-   "type": "translate",
-   "uk": "Учора я працював до восьмої.",
-   "answer": [
-    "I worked until eight yesterday.",
-    "Yesterday I worked until eight.",
-    "I worked till eight yesterday.",
-    "Yesterday I worked till eight.",
-    "I worked until eight o'clock yesterday."
-   ],
-   "explanation": ""
-  }
- ]
 }

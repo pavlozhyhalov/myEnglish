@@ -1,195 +1,285 @@
 {
- "id": "mixed-conditionals",
- "title": "Змішані умовні речення",
- "titleEn": "Mixed conditionals",
- "unit": "Умовні речення",
- "level": "C1",
- "mistakeType": "tenses",
- "explanation": "**Змішані умовні** поєднують різний час в умові й результаті.\n\n**Минула умова → теперішній результат**: *If I **had taken** that job, I **would be** rich now.* (Не взяв тоді — не багатий зараз.)\n\n**Теперішня (постійна) умова → минулий результат**: *If I **were** more organised, I **wouldn't have missed** the deadline.* (Я неорганізований — тому пропустив.)\n\nЧастини комбінуються залежно від того, *коли* реально відбувається умова і *коли* — наслідок.",
- "formula": [
-  "If + **had V3**, … **would + V** (тепер)",
-  "If + **Past Simple**, … **would have V3** (тоді)"
- ],
- "table": {
-  "head": [
-   "Умова",
-   "Результат",
-   "Приклад"
+  "id": "mixed-conditionals",
+  "title": "Змішані умовні речення",
+  "titleEn": "Mixed conditionals",
+  "unit": "Умовні речення",
+  "level": "C1",
+  "mistakeType": "tenses",
+  "explanation": "**Минуле → тепер** (найчастіше):\nIf + **had + V3**, … **would + V**\n*If I **had taken** that job, I **would be** rich now.*\n\n**Тепер → минуле:**\nIf + **Past Simple** (*were* для всіх осіб), … **would have + V3**\n*If I **were** more organised, I **wouldn't have missed** the deadline.*\n\n- **−** hadn't + V3 · wouldn't + V · wouldn't have + V3\n- *I'd* = I **had** (в умові) або I **would** (у наслідку)\n- замість would — **could / might**: *I **might be** married by now.*\n- кома — лише коли if-частина стоїть першою",
+  "guide": {
+    "idea": "Змішані умовні — для «якби тоді… то зараз» і «якби я був іншим… то тоді б». Їх обирають, коли причина й наслідок лежать у різному часі: у жалях, докорах і роздумах про інший сценарій життя.",
+    "use": [
+      {
+        "when": "Минуле рішення — наслідок тепер",
+        "note": "Умова — подія, яку вже не змінити; наслідок видно зараз (now, still, by now).",
+        "en": "If I'd taken that job in Dublin, I'd be living by the sea now.",
+        "uk": "Якби я тоді погодився на роботу в Дубліні, зараз жив би біля моря."
+      },
+      {
+        "when": "Риса характеру — наслідок тоді",
+        "note": "Умова — постійна правда про людину, наслідок — конкретний випадок у минулому.",
+        "en": "If Tom weren't so shy, he'd have asked her out ages ago.",
+        "uk": "Якби Том не був такий сором'язливий, давно б запросив її на побачення."
+      },
+      {
+        "when": "Жаль і докір",
+        "note": "Шкодуємо про своє чи дорікаємо іншим: тоді не зробили — тепер маємо наслідки.",
+        "en": "If you'd listened to me, we wouldn't be stuck here.",
+        "uk": "Якби ти мене послухав, ми б тут не застрягли."
+      },
+      {
+        "when": "Інший сценарій життя",
+        "note": "Роздуми «що було б, якби…» про вибір, переїзд, кар'єру.",
+        "en": "If my parents hadn't moved to Leeds, I wouldn't know any of you.",
+        "uk": "Якби батьки не переїхали до Лідса, я б жодного з вас не знав."
+      }
+    ],
+    "vs": [
+      {
+        "title": "Змішане чи третій тип?",
+        "a": {
+          "en": "If I'd left earlier, I'd be there now.",
+          "uk": "Якби я вийшов раніше, уже був би там.",
+          "note": "Наслідок — зараз: would + V."
+        },
+        "b": {
+          "en": "If I'd left earlier, I'd have caught the train.",
+          "uk": "Якби я вийшов раніше, устиг би на потяг.",
+          "note": "Наслідок теж у минулому: would have V3."
+        }
+      },
+      {
+        "title": "Змішане чи другий тип?",
+        "a": {
+          "en": "If I were braver, I'd have spoken up at the meeting.",
+          "uk": "Якби я був сміливіший, я б висловився на зборах.",
+          "note": "Риса — завжди, а наслідок — у конкретний минулий момент."
+        },
+        "b": {
+          "en": "If I were braver, I'd speak up more often.",
+          "uk": "Якби я був сміливіший, частіше висловлювався б.",
+          "note": "І умова, і наслідок — загальні, про теперішнє."
+        }
+      }
+    ],
+    "signals": [
+      "now",
+      "still",
+      "by now",
+      "today",
+      "then",
+      "at the time",
+      "yesterday",
+      "last year",
+      "ages ago"
+    ],
+    "mistakes": [
+      {
+        "wrong": "If I studied medicine, I'd be a doctor now.",
+        "right": "If I'd studied medicine, I'd be a doctor now.",
+        "why": "Навчання вже в минулому — потрібен Past Perfect, інакше це уявна теперішня ситуація."
+      },
+      {
+        "wrong": "If I had gone to bed earlier, I wouldn't have been so tired now.",
+        "right": "If I'd gone to bed earlier, I wouldn't be so tired now.",
+        "why": "Зі словом now наслідок теперішній — would + V, а не would have V3."
+      },
+      {
+        "wrong": "If I would have known, I would be there now.",
+        "right": "If I'd known, I'd be there now.",
+        "why": "В if-частині would не ставимо — лише Past Perfect."
+      },
+      {
+        "wrong": "If he wasn't so lazy, he would pass the exam last week.",
+        "right": "If he wasn't so lazy, he'd have passed the exam last week.",
+        "why": "Іспит уже був — наслідок у минулому, тому would have V3."
+      }
+    ]
+  },
+  "formula": [
+    "If + **had V3**, … **would + V** (тепер)",
+    "If + **Past Simple**, … **would have V3** (тоді)"
   ],
-  "rows": [
-   [
-    "минуле",
-    "теперішнє",
-    "If I'd studied medicine, I'd be a doctor now."
-   ],
-   [
-    "теперішнє",
-    "минуле",
-    "If she spoke English, she would have got the job."
-   ],
-   [
-    "минуле",
-    "теперішнє (−)",
-    "If we hadn't moved, we wouldn't know each other."
-   ]
+  "table": {
+    "head": [
+      "Умова",
+      "Результат",
+      "Приклад"
+    ],
+    "rows": [
+      [
+        "минуле",
+        "теперішнє",
+        "If I'd studied medicine, I'd be a doctor now."
+      ],
+      [
+        "теперішнє",
+        "минуле",
+        "If she spoke English, she would have got the job."
+      ],
+      [
+        "минуле",
+        "теперішнє (−)",
+        "If we hadn't moved, we wouldn't know each other."
+      ]
+    ]
+  },
+  "examples": [
+    {
+      "en": "If I'd gone to bed earlier, I wouldn't be so tired now.",
+      "uk": "Якби я ліг раніше, зараз не був би такий втомлений."
+    },
+    {
+      "en": "If he weren't so stubborn, he'd have apologised.",
+      "uk": "Якби він не був такий упертий, він би вибачився."
+    },
+    {
+      "en": "If we hadn't missed the train, we'd be at home by now.",
+      "uk": "Якби ми не спізнилися на потяг, уже були б удома."
+    },
+    {
+      "en": "If I knew him better, I would have invited him.",
+      "uk": "Якби я знав його краще, я б його запросив."
+    },
+    {
+      "en": "If you'd saved some money, you wouldn't be in this mess.",
+      "uk": "Якби ти відкладав гроші, не був би в такій ситуації."
+    }
+  ],
+  "tip": "Перевіряйте часову логіку: *now / today* → would + V; *yesterday / then* → would have V3.",
+  "exercises": [
+    {
+      "type": "choice",
+      "prompt": "If I had learned English as a child, I ___ fluent now.",
+      "options": [
+        "would be",
+        "would have been",
+        "will be"
+      ],
+      "answer": "would be",
+      "explanation": "Минула умова (had learned) → результат зараз (would be)."
+    },
+    {
+      "type": "choice",
+      "prompt": "If she ___ afraid of flying, she would have come with us.",
+      "options": [
+        "isn't",
+        "weren't",
+        "wouldn't be"
+      ],
+      "answer": "weren't",
+      "explanation": "Постійна риса тепер."
+    },
+    {
+      "type": "choice",
+      "prompt": "If we hadn't sold the flat, we ___ there now.",
+      "options": [
+        "would live",
+        "would have lived",
+        "lived"
+      ],
+      "answer": "would live",
+      "explanation": "Минула умова → теперішній результат: would + V."
+    },
+    {
+      "type": "choice",
+      "prompt": "If he were more careful, he ___ the accident.",
+      "options": [
+        "wouldn't have",
+        "wouldn't have had",
+        "won't have"
+      ],
+      "answer": "wouldn't have had",
+      "explanation": "Постійна риса зараз (were) → минулий результат: would have + V3."
+    },
+    {
+      "type": "input",
+      "prompt": "If I ___ (not / eat) so much, I wouldn't feel sick now.",
+      "answer": [
+        "hadn't eaten",
+        "had not eaten"
+      ],
+      "explanation": "Минула умова → If + Past Perfect: hadn't eaten."
+    },
+    {
+      "type": "input",
+      "prompt": "If they were smarter, they ___ (invest) earlier.",
+      "answer": [
+        "would have invested",
+        "'d have invested",
+        "would've invested"
+      ],
+      "explanation": "Риса зараз → минулий результат: would have + V3."
+    },
+    {
+      "type": "input",
+      "prompt": "If you ___ (take) the map, we wouldn't be lost now.",
+      "answer": [
+        "had taken",
+        "'d taken"
+      ],
+      "explanation": "Минула умова → If + Past Perfect: had taken."
+    },
+    {
+      "type": "error",
+      "sentence": "If I had took that job, I would be in London now.",
+      "wrongIndex": 3,
+      "correction": "taken",
+      "alt": [],
+      "explanation": "Умова в минулому: had + V3 (taken)."
+    },
+    {
+      "type": "error",
+      "sentence": "If he weren't so lazy, he would pass the exam last week.",
+      "wrongIndex": 7,
+      "correction": "have passed",
+      "alt": [],
+      "explanation": "Риса зараз (weren't so lazy) → минулий результат (last week): would have + V3 — would have passed."
+    },
+    {
+      "type": "transform",
+      "prompt": "I didn't get enough sleep. I'm exhausted now.",
+      "instruction": "If I had…",
+      "answer": [
+        "If I had got enough sleep, I wouldn't be exhausted now.",
+        "If I'd got enough sleep, I wouldn't be exhausted now.",
+        "If I had gotten enough sleep, I wouldn't be exhausted now.",
+        "If I'd gotten enough sleep, I wouldn't be exhausted now."
+      ],
+      "explanation": "Минуле (had got) → теперішній стан (wouldn't be)."
+    },
+    {
+      "type": "transform",
+      "prompt": "She isn't patient, so she shouted at the kids yesterday.",
+      "instruction": "If she were…",
+      "answer": [
+        "If she were more patient, she wouldn't have shouted at the kids yesterday.",
+        "If she were patient, she wouldn't have shouted at the kids yesterday."
+      ],
+      "explanation": "Риса зараз (were) → минулий результат (wouldn't have shouted)."
+    },
+    {
+      "type": "translate",
+      "uk": "Якби я тоді купив цю квартиру, зараз жив би в центрі.",
+      "answer": [
+        "If I had bought that flat, I would live in the centre now.",
+        "If I'd bought that flat, I'd be living in the centre now.",
+        "If I had bought that flat back then, I would live in the city centre now.",
+        "If I'd bought that flat, I'd live in the centre now.",
+        "If I had bought that flat then, I would live in the centre now.",
+        "If I had bought that flat back then, I would live in the centre now.",
+        "If I had bought that flat back then, I would be living in the city centre now.",
+        "If I had bought that flat, I would be living in the city centre now.",
+        "If I had bought that flat, I would live in the city centre now.",
+        "If I'd bought that flat, I would live in the centre now.",
+        "If I'd bought that flat back then, I would live in the city centre now.",
+        "If I'd bought that flat then, I would live in the centre now.",
+        "If I'd bought that flat back then, I would live in the centre now.",
+        "If I'd bought that flat back then, I would be living in the city centre now.",
+        "If I'd bought that flat, I would be living in the city centre now.",
+        "If I'd bought that flat, I would live in the city centre now."
+      ],
+      "explanation": "Минула умова (had bought) → результат зараз (would live)."
+    }
   ]
- },
- "examples": [
-  {
-   "en": "If I'd gone to bed earlier, I wouldn't be so tired now.",
-   "uk": "Якби я ліг раніше, зараз не був би такий втомлений."
-  },
-  {
-   "en": "If he weren't so stubborn, he'd have apologised.",
-   "uk": "Якби він не був такий упертий, він би вибачився."
-  },
-  {
-   "en": "If we hadn't missed the train, we'd be at home by now.",
-   "uk": "Якби ми не спізнилися на потяг, уже були б удома."
-  },
-  {
-   "en": "If I knew him better, I would have invited him.",
-   "uk": "Якби я знав його краще, я б його запросив."
-  },
-  {
-   "en": "If you'd saved some money, you wouldn't be in this mess.",
-   "uk": "Якби ти відкладав гроші, не був би в такій ситуації."
-  }
- ],
- "tip": "Перевіряйте часову логіку: *now / today* → would + V; *yesterday / then* → would have V3.",
- "exercises": [
-  {
-   "type": "choice",
-   "prompt": "If I had learned English as a child, I ___ fluent now.",
-   "options": [
-    "would be",
-    "would have been",
-    "will be"
-   ],
-   "answer": "would be",
-   "explanation": "Минула умова (had learned) → результат зараз (would be)."
-  },
-  {
-   "type": "choice",
-   "prompt": "If she ___ afraid of flying, she would have come with us.",
-   "options": [
-    "isn't",
-    "weren't",
-    "wouldn't be"
-   ],
-   "answer": "weren't",
-   "explanation": "Постійна риса тепер."
-  },
-  {
-   "type": "choice",
-   "prompt": "If we hadn't sold the flat, we ___ there now.",
-   "options": [
-    "would live",
-    "would have lived",
-    "lived"
-   ],
-   "answer": "would live",
-   "explanation": "Минула умова → теперішній результат: would + V."
-  },
-  {
-   "type": "choice",
-   "prompt": "If he were more careful, he ___ the accident.",
-   "options": [
-    "wouldn't have",
-    "wouldn't have had",
-    "won't have"
-   ],
-   "answer": "wouldn't have had",
-   "explanation": "Постійна риса зараз (were) → минулий результат: would have + V3."
-  },
-  {
-   "type": "input",
-   "prompt": "If I ___ (not / eat) so much, I wouldn't feel sick now.",
-   "answer": [
-    "hadn't eaten",
-    "had not eaten"
-   ],
-   "explanation": "Минула умова → If + Past Perfect: hadn't eaten."
-  },
-  {
-   "type": "input",
-   "prompt": "If they were smarter, they ___ (invest) earlier.",
-   "answer": [
-    "would have invested",
-    "'d have invested",
-    "would've invested"
-   ],
-   "explanation": "Риса зараз → минулий результат: would have + V3."
-  },
-  {
-   "type": "input",
-   "prompt": "If you ___ (take) the map, we wouldn't be lost now.",
-   "answer": [
-    "had taken",
-    "'d taken"
-   ],
-   "explanation": "Минула умова → If + Past Perfect: had taken."
-  },
-  {
-   "type": "error",
-   "sentence": "If I had took that job, I would be in London now.",
-   "wrongIndex": 3,
-   "correction": "taken",
-   "alt": [],
-   "explanation": "Умова в минулому: had + V3 (taken)."
-  },
-  {
-   "type": "error",
-   "sentence": "If he weren't so lazy, he would pass the exam last week.",
-   "wrongIndex": 7,
-   "correction": "have passed",
-   "alt": [],
-   "explanation": "Риса зараз (weren't so lazy) → минулий результат (last week): would have + V3 — would have passed."
-  },
-  {
-   "type": "transform",
-   "prompt": "I didn't get enough sleep. I'm exhausted now.",
-   "instruction": "If I had…",
-   "answer": [
-    "If I had got enough sleep, I wouldn't be exhausted now.",
-    "If I'd got enough sleep, I wouldn't be exhausted now.",
-    "If I had gotten enough sleep, I wouldn't be exhausted now.",
-    "If I'd gotten enough sleep, I wouldn't be exhausted now."
-   ],
-   "explanation": "Минуле (had got) → теперішній стан (wouldn't be)."
-  },
-  {
-   "type": "transform",
-   "prompt": "She isn't patient, so she shouted at the kids yesterday.",
-   "instruction": "If she were…",
-   "answer": [
-    "If she were more patient, she wouldn't have shouted at the kids yesterday.",
-    "If she were patient, she wouldn't have shouted at the kids yesterday."
-   ],
-   "explanation": "Риса зараз (were) → минулий результат (wouldn't have shouted)."
-  },
-  {
-   "type": "translate",
-   "uk": "Якби я тоді купив цю квартиру, зараз жив би в центрі.",
-   "answer": [
-    "If I had bought that flat, I would live in the centre now.",
-    "If I'd bought that flat, I'd be living in the centre now.",
-    "If I had bought that flat back then, I would live in the city centre now.",
-    "If I'd bought that flat, I'd live in the centre now.",
-    "If I had bought that flat then, I would live in the centre now.",
-    "If I had bought that flat back then, I would live in the centre now.",
-    "If I had bought that flat back then, I would be living in the city centre now.",
-    "If I had bought that flat, I would be living in the city centre now.",
-    "If I had bought that flat, I would live in the city centre now.",
-    "If I'd bought that flat, I would live in the centre now.",
-    "If I'd bought that flat back then, I would live in the city centre now.",
-    "If I'd bought that flat then, I would live in the centre now.",
-    "If I'd bought that flat back then, I would live in the centre now.",
-    "If I'd bought that flat back then, I would be living in the city centre now.",
-    "If I'd bought that flat, I would be living in the city centre now.",
-    "If I'd bought that flat, I would live in the city centre now."
-   ],
-   "explanation": "Минула умова (had bought) → результат зараз (would live)."
-  }
- ]
 }

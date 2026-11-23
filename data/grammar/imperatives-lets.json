@@ -1,225 +1,322 @@
 {
- "id": "imperatives-lets",
- "title": "Наказовий спосіб і Let's",
- "titleEn": "Imperatives, Let's, polite requests",
- "unit": "Основи речення",
- "level": "A2",
- "mistakeType": "word_order",
- "explanation": "**Наказовий спосіб** — це просто дієслово без підмета і без to: *Open the window. Sit down. Be careful!* Так даємо інструкції, поради, прохання й попередження.\n\nЗаперечення — **Don't + V**: *Don't touch it! Don't be late.* Не ~~Not touch~~ і не ~~Don't to touch~~.\n\n**Let's + V** (= let us) — пропозиція зробити щось **разом**: *Let's go for a walk.* Заперечення — **Let's not + V**: *Let's not argue.*\n\nЩоб звучало ввічливо, додаємо **please** — на початку або в кінці: *Please close the door. / Close the door, please.* Ще м'якше — питанням: *Could you close the door, please?* Голий наказ без please часто звучить різко.",
- "formula": [
-  "**V** … (please) · **Don't** + V …",
-  "**Let's** + V · **Let's not** + V",
-  "**Could you** + V …, please?"
- ],
- "table": {
-  "head": [
-   "Форма",
-   "Значення",
-   "Приклад"
+  "id": "imperatives-lets",
+  "title": "Наказовий спосіб і Let's",
+  "titleEn": "Imperatives, Let's, polite requests",
+  "unit": "Основи речення",
+  "level": "A2",
+  "mistakeType": "word_order",
+  "explanation": "- **+** дієслово без підмета й без to: *Sit down. Be careful.*\n- **−** **Don't** + дієслово: *Don't worry. Don't be late.*\n- **Let's** + дієслово (= let us): *Let's go.* · **Let's not** + дієслово: *Let's not wait.*\n\n**please** — на початку або в кінці: *Please wait. / Wait, please.*\nВвічливіше — питанням: **Could you / Can you** + дієслово*, please?*\nВідповідь на Let's: *Yes, let's! / Good idea! / I'd rather not.*",
+  "guide": {
+    "idea": "Наказовий спосіб — це дієслово без підмета: ним пояснюють дорогу, просять, радять і попереджають. **Let's** — запрошення зробити щось **разом**. Головне тут — тон: голий наказ без please звучить різко.",
+    "use": [
+      {
+        "when": "Інструкції й дорога",
+        "note": "Пояснюємо крок за кроком — маршрут, рецепт, інструкцію.",
+        "en": "Turn left at the bank and go straight on.",
+        "uk": "Поверніть ліворуч біля банку і йдіть прямо."
+      },
+      {
+        "when": "Прохання до знайомих",
+        "note": "У побуті коротко, але з please.",
+        "en": "Close the door, please.",
+        "uk": "Зачини двері, будь ласка."
+      },
+      {
+        "when": "Застереження й заборона",
+        "note": "Don't + дієслово або Be careful — щоб уберегти від проблеми.",
+        "en": "Don't touch the oven — it's hot!",
+        "uk": "Не чіпай духовку — вона гаряча!"
+      },
+      {
+        "when": "Побажання й порада",
+        "note": "Короткі формули: Have fun, Take care, Enjoy your meal.",
+        "en": "Have a good weekend!",
+        "uk": "Гарних вихідних!"
+      },
+      {
+        "when": "Let's — зробімо разом",
+        "note": "Пропонуємо те, у чому беремо участь і ми самі.",
+        "en": "Let's have lunch together.",
+        "uk": "Пообідаймо разом."
+      },
+      {
+        "when": "Ввічливо — питанням",
+        "note": "До незнайомих, у магазині, на роботі: Could you…, please?",
+        "en": "Could you tell me the way to the station, please?",
+        "uk": "Підкажіть, будь ласка, як пройти до вокзалу?"
+      }
+    ],
+    "vs": [
+      {
+        "title": "Let's чи Let me?",
+        "a": {
+          "en": "Let's carry it together.",
+          "uk": "Понесімо це разом.",
+          "note": "Пропоную робити разом — ми обоє."
+        },
+        "b": {
+          "en": "Let me carry it.",
+          "uk": "Давай я понесу.",
+          "note": "Пропоную зробити сам — «дозволь мені»."
+        }
+      },
+      {
+        "title": "Наказ чи прохання?",
+        "a": {
+          "en": "Give me the menu.",
+          "uk": "Дай меню.",
+          "note": "Звучить як наказ — так кажуть хіба дуже близьким."
+        },
+        "b": {
+          "en": "Could I have the menu, please?",
+          "uk": "Можна меню, будь ласка?",
+          "note": "Звичайна ввічлива форма в кафе й магазині."
+        }
+      }
+    ],
+    "signals": [],
+    "mistakes": [
+      {
+        "wrong": "Not touch it!",
+        "right": "Don't touch it!",
+        "why": "Заборона — завжди Don't + дієслово."
+      },
+      {
+        "wrong": "Don't to be late.",
+        "right": "Don't be late.",
+        "why": "Після Don't дієслово стоїть без to."
+      },
+      {
+        "wrong": "Let's to go home.",
+        "right": "Let's go home.",
+        "why": "Після Let's — дієслово без to."
+      },
+      {
+        "wrong": "Let's don't argue.",
+        "right": "Let's not argue.",
+        "why": "Заперечення з Let's — Let's not + дієслово."
+      },
+      {
+        "wrong": "Give me a coffee.",
+        "right": "Can I have a coffee, please?",
+        "why": "Калька «Дайте мені каву» звучить різко; у кафе просять питанням із please."
+      }
+    ]
+  },
+  "formula": [
+    "**V** … (please) · **Don't** + V …",
+    "**Let's** + V · **Let's not** + V",
+    "**Could you** + V …, please?"
   ],
-  "rows": [
-   [
-    "V",
-    "інструкція, порада",
-    "Turn left at the church."
-   ],
-   [
-    "Don't + V",
-    "заборона, застереження",
-    "Don't forget your keys."
-   ],
-   [
-    "Be + прикметник",
-    "яким бути",
-    "Be quiet, the baby's asleep."
-   ],
-   [
-    "Let's + V",
-    "пропозиція разом",
-    "Let's order pizza tonight."
-   ],
-   [
-    "Let's not + V",
-    "пропозиція не робити",
-    "Let's not tell anyone yet."
-   ],
-   [
-    "Could you + V, please?",
-    "ввічливе прохання",
-    "Could you help me, please?"
-   ]
+  "table": {
+    "head": [
+      "Форма",
+      "Значення",
+      "Приклад"
+    ],
+    "rows": [
+      [
+        "V",
+        "інструкція, порада",
+        "Turn left at the church."
+      ],
+      [
+        "Don't + V",
+        "заборона, застереження",
+        "Don't forget your keys."
+      ],
+      [
+        "Be + прикметник",
+        "яким бути",
+        "Be quiet, the baby's asleep."
+      ],
+      [
+        "Let's + V",
+        "пропозиція разом",
+        "Let's order pizza tonight."
+      ],
+      [
+        "Let's not + V",
+        "пропозиція не робити",
+        "Let's not tell anyone yet."
+      ],
+      [
+        "Could you + V, please?",
+        "ввічливе прохання",
+        "Could you help me, please?"
+      ]
+    ]
+  },
+  "examples": [
+    {
+      "en": "Take the tram and get off at the Main Square.",
+      "uk": "Сідай на трамвай і виходь на Головній площі."
+    },
+    {
+      "en": "Don't forget to buy bread.",
+      "uk": "Не забудь купити хліб."
+    },
+    {
+      "en": "Please be careful on the stairs.",
+      "uk": "Будь ласка, обережно на сходах."
+    },
+    {
+      "en": "Let's go to the cinema on Saturday.",
+      "uk": "Ходімо в кіно в суботу."
+    },
+    {
+      "en": "Let's not spend too much money.",
+      "uk": "Давай не будемо витрачати забагато грошей."
+    },
+    {
+      "en": "Could you pass the salt, please?",
+      "uk": "Передай, будь ласка, сіль."
+    }
+  ],
+  "tip": "Відповідь на *Let's…*: *Yes, let's!* / *Good idea!* / *I'd rather not.* А **let me** — «дай(те) я»: *Let me help you* — це пропозиція від себе, а не разом.",
+  "exercises": [
+    {
+      "type": "choice",
+      "prompt": "___ the window, please. It's hot in here.",
+      "options": [
+        "Open",
+        "Opens",
+        "To open",
+        "You opening"
+      ],
+      "answer": "Open",
+      "explanation": "Наказ — базова форма дієслова без підмета."
+    },
+    {
+      "type": "choice",
+      "prompt": "___ late — the film starts at seven!",
+      "options": [
+        "Not be",
+        "Don't be",
+        "Don't",
+        "No be"
+      ],
+      "answer": "Don't be",
+      "explanation": "Заперечний наказ: Don't + V (тут be)."
+    },
+    {
+      "type": "choice",
+      "prompt": "It's a lovely evening. ___ go for a walk.",
+      "options": [
+        "Let's",
+        "Let",
+        "Lets us",
+        "We let"
+      ],
+      "answer": "Let's",
+      "explanation": "Пропозиція разом: Let's + V."
+    },
+    {
+      "type": "choice",
+      "prompt": "We're both tired. ___ cook tonight — let's order something.",
+      "options": [
+        "Let's not",
+        "Let's no",
+        "Not let's"
+      ],
+      "answer": "Let's not",
+      "explanation": "Заперечення: Let's not + V."
+    },
+    {
+      "type": "choice",
+      "prompt": "___ you help me with this box, please?",
+      "options": [
+        "Could",
+        "Do",
+        "Are"
+      ],
+      "answer": "Could",
+      "explanation": "Ввічливе прохання: Could you…, please?"
+    },
+    {
+      "type": "input",
+      "prompt": "___ (not / touch) the oven — it's hot!",
+      "answer": [
+        "Don't touch",
+        "Do not touch"
+      ],
+      "explanation": "Заборона: Don't + V."
+    },
+    {
+      "type": "input",
+      "prompt": "___ (be) quiet, please. Emma is sleeping.",
+      "answer": [
+        "Be"
+      ],
+      "explanation": "Наказ із прикметником: Be + прикметник."
+    },
+    {
+      "type": "input",
+      "prompt": "It's raining. ___ (Let's + not) go out — let's watch a film instead.",
+      "answer": [
+        "Let's not",
+        "Let us not"
+      ],
+      "explanation": "Let's not + V."
+    },
+    {
+      "type": "error",
+      "sentence": "Please closes the door when you leave.",
+      "wrongIndex": 1,
+      "correction": "close",
+      "alt": [],
+      "explanation": "У наказі дієслово без -s."
+    },
+    {
+      "type": "error",
+      "sentence": "Not worry, everything will be fine.",
+      "wrongIndex": 0,
+      "correction": "Don't",
+      "alt": [
+        "Do not"
+      ],
+      "explanation": "Заперечний наказ починається з Don't."
+    },
+    {
+      "type": "order",
+      "prompt": "Давай поснідаємо в тому кафе.",
+      "answer": [
+        "Let's have breakfast in that café.",
+        "Let's have breakfast at that café."
+      ],
+      "explanation": "Let's + V."
+    },
+    {
+      "type": "transform",
+      "prompt": "We should take a taxi.",
+      "instruction": "Запропонуйте те саме з Let's",
+      "answer": [
+        "Let's take a taxi."
+      ],
+      "explanation": "Let's + V без to."
+    },
+    {
+      "type": "translate",
+      "uk": "Не відчиняй вікно, будь ласка.",
+      "answer": [
+        "Please don't open the window.",
+        "Don't open the window, please.",
+        "Please do not open the window.",
+        "Do not open the window, please."
+      ],
+      "explanation": "Don't + V і please на початку або в кінці."
+    },
+    {
+      "type": "translate",
+      "uk": "Давай не будемо поспішати.",
+      "answer": [
+        "Let's not rush.",
+        "Let's not hurry.",
+        "Let's not be in a hurry.",
+        "Let's take our time.",
+        "Let's not rush things."
+      ],
+      "explanation": "Let's not + V."
+    }
   ]
- },
- "examples": [
-  {
-   "en": "Take the tram and get off at the Main Square.",
-   "uk": "Сідай на трамвай і виходь на Головній площі."
-  },
-  {
-   "en": "Don't forget to buy bread.",
-   "uk": "Не забудь купити хліб."
-  },
-  {
-   "en": "Please be careful on the stairs.",
-   "uk": "Будь ласка, обережно на сходах."
-  },
-  {
-   "en": "Let's go to the cinema on Saturday.",
-   "uk": "Ходімо в кіно в суботу."
-  },
-  {
-   "en": "Let's not spend too much money.",
-   "uk": "Давай не будемо витрачати забагато грошей."
-  },
-  {
-   "en": "Could you pass the salt, please?",
-   "uk": "Передай, будь ласка, сіль."
-  }
- ],
- "tip": "Відповідь на *Let's…*: *Yes, let's!* / *Good idea!* / *I'd rather not.* А **let me** — «дай(те) я»: *Let me help you* — це пропозиція від себе, а не разом.",
- "exercises": [
-  {
-   "type": "choice",
-   "prompt": "___ the window, please. It's hot in here.",
-   "options": [
-    "Open",
-    "Opens",
-    "To open",
-    "You opening"
-   ],
-   "answer": "Open",
-   "explanation": "Наказ — базова форма дієслова без підмета."
-  },
-  {
-   "type": "choice",
-   "prompt": "___ late — the film starts at seven!",
-   "options": [
-    "Not be",
-    "Don't be",
-    "Don't",
-    "No be"
-   ],
-   "answer": "Don't be",
-   "explanation": "Заперечний наказ: Don't + V (тут be)."
-  },
-  {
-   "type": "choice",
-   "prompt": "It's a lovely evening. ___ go for a walk.",
-   "options": [
-    "Let's",
-    "Let",
-    "Lets us",
-    "We let"
-   ],
-   "answer": "Let's",
-   "explanation": "Пропозиція разом: Let's + V."
-  },
-  {
-   "type": "choice",
-   "prompt": "We're both tired. ___ cook tonight — let's order something.",
-   "options": [
-    "Let's not",
-    "Let's no",
-    "Not let's"
-   ],
-   "answer": "Let's not",
-   "explanation": "Заперечення: Let's not + V."
-  },
-  {
-   "type": "choice",
-   "prompt": "___ you help me with this box, please?",
-   "options": [
-    "Could",
-    "Do",
-    "Are"
-   ],
-   "answer": "Could",
-   "explanation": "Ввічливе прохання: Could you…, please?"
-  },
-  {
-   "type": "input",
-   "prompt": "___ (not / touch) the oven — it's hot!",
-   "answer": [
-    "Don't touch",
-    "Do not touch"
-   ],
-   "explanation": "Заборона: Don't + V."
-  },
-  {
-   "type": "input",
-   "prompt": "___ (be) quiet, please. Emma is sleeping.",
-   "answer": [
-    "Be"
-   ],
-   "explanation": "Наказ із прикметником: Be + прикметник."
-  },
-  {
-   "type": "input",
-   "prompt": "It's raining. ___ (Let's + not) go out — let's watch a film instead.",
-   "answer": [
-    "Let's not",
-    "Let us not"
-   ],
-   "explanation": "Let's not + V."
-  },
-  {
-   "type": "error",
-   "sentence": "Please closes the door when you leave.",
-   "wrongIndex": 1,
-   "correction": "close",
-   "alt": [],
-   "explanation": "У наказі дієслово без -s."
-  },
-  {
-   "type": "error",
-   "sentence": "Not worry, everything will be fine.",
-   "wrongIndex": 0,
-   "correction": "Don't",
-   "alt": [
-    "Do not"
-   ],
-   "explanation": "Заперечний наказ починається з Don't."
-  },
-  {
-   "type": "order",
-   "prompt": "Давай поснідаємо в тому кафе.",
-   "answer": [
-    "Let's have breakfast in that café.",
-    "Let's have breakfast at that café."
-   ],
-   "explanation": "Let's + V."
-  },
-  {
-   "type": "transform",
-   "prompt": "We should take a taxi.",
-   "instruction": "Запропонуйте те саме з Let's",
-   "answer": [
-    "Let's take a taxi."
-   ],
-   "explanation": "Let's + V без to."
-  },
-  {
-   "type": "translate",
-   "uk": "Не відчиняй вікно, будь ласка.",
-   "answer": [
-    "Please don't open the window.",
-    "Don't open the window, please.",
-    "Please do not open the window.",
-    "Do not open the window, please."
-   ],
-   "explanation": "Don't + V і please на початку або в кінці."
-  },
-  {
-   "type": "translate",
-   "uk": "Давай не будемо поспішати.",
-   "answer": [
-    "Let's not rush.",
-    "Let's not hurry.",
-    "Let's not be in a hurry.",
-    "Let's take our time.",
-    "Let's not rush things."
-   ],
-   "explanation": "Let's not + V."
-  }
- ]
 }

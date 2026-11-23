@@ -1,156 +1,236 @@
 {
- "id": "modals-deduction",
- "title": "Припущення: must, might, can't",
- "titleEn": "Modals of deduction: must, might, may, could, can't",
- "unit": "Модальні дієслова",
- "level": "B2",
- "mistakeType": "other",
- "explanation": "Модальні дієслова допомагають робити **висновки** про теперішнє:\n\n- **must** — майже впевнений, що **так**: *He must be tired — he worked 12 hours.*\n- **might / may / could** — можливо: *She might be at home.*\n- **can't** — майже впевнений, що **ні**: *That can't be Tom — he's in Spain.*\n\n**Увага:** протилежність *must* у цьому значенні — **can't**, а не *mustn't*.\n\nДля дії в процесі: *must/might be + V-ing*: *They must be sleeping.*",
- "formula": [
-  "must / might / may / could / can't + **V**",
-  "… + be + V-ing (зараз у процесі)"
- ],
- "examples": [
-  {
-   "en": "You must be hungry after the trip.",
-   "uk": "Ти, мабуть, голодний після дороги."
+  "id": "modals-deduction",
+  "title": "Припущення: must, might, can't",
+  "titleEn": "Modals of deduction: must, might, may, could, can't",
+  "unit": "Модальні дієслова",
+  "level": "B2",
+  "mistakeType": "other",
+  "explanation": "**модальне + V** (без to): *She must be tired.*\n**модальне + be + V-ing** — здогад про дію саме зараз: *They might be sleeping.*\n\n- Заперечення «можливо, ні»: *might not / may not*: *He may not know.*\n- Заперечення «точно ні»: *can't / couldn't*: *It can't be true.*\n\nШкала впевненості: **must** → **may** → **might / could** → **can't**.\nПро минуле — *must / might / can't + have + V3* (урок «Should have, could have, must have»).",
+  "guide": {
+    "idea": "Ці слова показують, наскільки ви впевнені у своєму здогаді про те, що відбувається зараз: must — майже напевно так, might / may / could — можливо, can't — майже напевно ні.",
+    "use": [
+      {
+        "when": "Майже впевнені, що так",
+        "note": "must — є докази, логічний висновок.",
+        "en": "The lights are on — they must be at home.",
+        "uk": "Світло горить — вони, мабуть, удома."
+      },
+      {
+        "when": "Просто можливо",
+        "note": "might / may / could — один з варіантів, доказів мало.",
+        "en": "I'm not sure where Anna is. She might be at the gym.",
+        "uk": "Не знаю, де Анна. Може, у спортзалі."
+      },
+      {
+        "when": "Майже впевнені, що ні",
+        "note": "can't — за логікою це неможливо.",
+        "en": "That can't be Tom's car — he sold it last month.",
+        "uk": "Це не може бути машина Тома — він продав її минулого місяця."
+      },
+      {
+        "when": "Що відбувається саме зараз",
+        "note": "must / might / can't + be + -ing — здогад про дію в процесі.",
+        "en": "Jack isn't answering. He must be driving.",
+        "uk": "Джек не відповідає. Мабуть, за кермом."
+      }
+    ],
+    "vs": [
+      {
+        "title": "must чи have to?",
+        "a": {
+          "en": "You must be tired.",
+          "uk": "Ти, мабуть, утомився.",
+          "note": "Здогад: я так думаю."
+        },
+        "b": {
+          "en": "You have to be at work by 9.",
+          "uk": "Ти маєш бути на роботі до 9-ї.",
+          "note": "Обов'язок, а не здогад."
+        }
+      },
+      {
+        "title": "can't чи mustn't?",
+        "a": {
+          "en": "He can't be at home — his car's gone.",
+          "uk": "Він не може бути вдома — машини немає.",
+          "note": "Впевнений висновок «ні»."
+        },
+        "b": {
+          "en": "You mustn't park here.",
+          "uk": "Тут не можна паркуватися.",
+          "note": "Заборона — до здогадів не має стосунку."
+        }
+      }
+    ],
+    "signals": [],
+    "mistakes": [
+      {
+        "wrong": "He mustn't be at home — the lights are off.",
+        "right": "He can't be at home — the lights are off.",
+        "why": "Протилежність must у здогадах — can't; mustn't означає заборону."
+      },
+      {
+        "wrong": "She must to be tired.",
+        "right": "She must be tired.",
+        "why": "Після модальних дієслів to не ставимо."
+      },
+      {
+        "wrong": "Maybe he can be in the office.",
+        "right": "He might be in the office.",
+        "why": "«Може, він…» про конкретну ситуацію — might / may / could, а не can."
+      },
+      {
+        "wrong": "He must work now — he isn't answering.",
+        "right": "He must be working now — he isn't answering.",
+        "why": "Здогад про дію саме зараз — must be + -ing; must work звучить як «мусить працювати»."
+      }
+    ]
   },
-  {
-   "en": "Someone's at the door. It might be the courier.",
-   "uk": "Хтось біля дверей. Можливо, кур'єр."
-  },
-  {
-   "en": "That can't be true!",
-   "uk": "Не може бути!"
-  },
-  {
-   "en": "She isn't answering. She may be driving.",
-   "uk": "Вона не відповідає. Може, за кермом."
-  },
-  {
-   "en": "This restaurant is always full. The food must be good.",
-   "uk": "Цей ресторан завжди повний. Їжа, мабуть, хороша."
-  }
- ],
- "exercises": [
-  {
-   "type": "choice",
-   "prompt": "He's been running for an hour. He ___ be exhausted.",
-   "options": [
-    "must",
-    "can't",
-    "mustn't"
-   ],
-   "answer": "must",
-   "explanation": "Впевнений, що так."
-  },
-  {
-   "type": "choice",
-   "prompt": "That ___ be Anna's car — she sold it last year.",
-   "options": [
-    "mustn't",
-    "can't",
-    "might"
-   ],
-   "answer": "can't",
-   "explanation": "Впевнений, що ні."
-  },
-  {
-   "type": "choice",
-   "prompt": "I'm not sure where Max is. He ___ be in the garden.",
-   "options": [
-    "must",
-    "might",
-    "can't"
-   ],
-   "answer": "might",
-   "explanation": "Можливо."
-  },
-  {
-   "type": "choice",
-   "prompt": "The lights are off. They ___ be sleeping.",
-   "options": [
-    "must",
-    "can't",
-    "should"
-   ],
-   "answer": "must",
-   "explanation": "Логічний висновок."
-  },
-  {
-   "type": "input",
-   "prompt": "You ___ be serious! That's crazy! (заперечення, 1 слово)",
-   "answer": [
-    "can't",
-    "cannot"
-   ],
-   "explanation": "Не може бути."
-  },
-  {
-   "type": "input",
-   "prompt": "Take an umbrella. It ___ rain later. (можливо, 1 слово)",
-   "answer": [
-    "might",
-    "may",
-    "could"
-   ],
-   "explanation": "Можливо — might / may / could + V."
-  },
-  {
-   "type": "input",
-   "prompt": "She has three kids and a full-time job. She ___ be very busy. (впевнений)",
-   "answer": [
-    "must"
-   ],
-   "explanation": "Впевнений висновок — must + V."
-  },
-  {
-   "type": "error",
-   "sentence": "It mustn't be Tom on the phone — he never calls.",
-   "wrongIndex": 1,
-   "correction": "can't",
-   "alt": [
-    "cannot",
-    "couldn't"
-   ],
-   "explanation": "Протилежність must у висновках — can't."
-  },
-  {
-   "type": "error",
-   "sentence": "They must being at home — the lights are on.",
-   "wrongIndex": 2,
-   "correction": "be",
-   "alt": [],
-   "explanation": "must + V без to: must be."
-  },
-  {
-   "type": "order",
-   "prompt": "Він, мабуть, жартує.",
-   "answer": [
-    "He must be joking."
-   ],
-   "explanation": "Впевнений висновок про теперішнє — must be + V-ing."
-  },
-  {
-   "type": "transform",
-   "prompt": "I'm sure he isn't at work today. It's Sunday.",
-   "instruction": "Перепишіть з can't",
-   "answer": [
-    "He can't be at work today. It's Sunday.",
-    "He can't be at work today."
-   ],
-   "explanation": "Впевнений, що ні — can't + V."
-  },
-  {
-   "type": "translate",
-   "uk": "Можливо, вона спізнюється через затори.",
-   "answer": [
-    "She might be late because of the traffic.",
-    "She may be late because of the traffic.",
-    "She could be late because of the traffic.",
-    "She might be running late because of the traffic."
-   ],
-   "explanation": "Припущення — might / may / could be."
-  }
- ]
+  "formula": [
+    "must / might / may / could / can't + **V**",
+    "… + be + V-ing (зараз у процесі)"
+  ],
+  "examples": [
+    {
+      "en": "You must be hungry after the trip.",
+      "uk": "Ти, мабуть, голодний після дороги."
+    },
+    {
+      "en": "Someone's at the door. It might be the courier.",
+      "uk": "Хтось біля дверей. Можливо, кур'єр."
+    },
+    {
+      "en": "That can't be true!",
+      "uk": "Не може бути!"
+    },
+    {
+      "en": "She isn't answering. She may be driving.",
+      "uk": "Вона не відповідає. Може, за кермом."
+    },
+    {
+      "en": "This restaurant is always full. The food must be good.",
+      "uk": "Цей ресторан завжди повний. Їжа, мабуть, хороша."
+    }
+  ],
+  "exercises": [
+    {
+      "type": "choice",
+      "prompt": "He's been running for an hour. He ___ be exhausted.",
+      "options": [
+        "must",
+        "can't",
+        "mustn't"
+      ],
+      "answer": "must",
+      "explanation": "Впевнений, що так."
+    },
+    {
+      "type": "choice",
+      "prompt": "That ___ be Anna's car — she sold it last year.",
+      "options": [
+        "mustn't",
+        "can't",
+        "might"
+      ],
+      "answer": "can't",
+      "explanation": "Впевнений, що ні."
+    },
+    {
+      "type": "choice",
+      "prompt": "I'm not sure where Max is. He ___ be in the garden.",
+      "options": [
+        "must",
+        "might",
+        "can't"
+      ],
+      "answer": "might",
+      "explanation": "Можливо."
+    },
+    {
+      "type": "choice",
+      "prompt": "The lights are off. They ___ be sleeping.",
+      "options": [
+        "must",
+        "can't",
+        "should"
+      ],
+      "answer": "must",
+      "explanation": "Логічний висновок."
+    },
+    {
+      "type": "input",
+      "prompt": "You ___ be serious! That's crazy! (заперечення, 1 слово)",
+      "answer": [
+        "can't",
+        "cannot"
+      ],
+      "explanation": "Не може бути."
+    },
+    {
+      "type": "input",
+      "prompt": "Take an umbrella. It ___ rain later. (можливо, 1 слово)",
+      "answer": [
+        "might",
+        "may",
+        "could"
+      ],
+      "explanation": "Можливо — might / may / could + V."
+    },
+    {
+      "type": "input",
+      "prompt": "She has three kids and a full-time job. She ___ be very busy. (впевнений)",
+      "answer": [
+        "must"
+      ],
+      "explanation": "Впевнений висновок — must + V."
+    },
+    {
+      "type": "error",
+      "sentence": "It mustn't be Tom on the phone — he never calls.",
+      "wrongIndex": 1,
+      "correction": "can't",
+      "alt": [
+        "cannot",
+        "couldn't"
+      ],
+      "explanation": "Протилежність must у висновках — can't."
+    },
+    {
+      "type": "error",
+      "sentence": "They must being at home — the lights are on.",
+      "wrongIndex": 2,
+      "correction": "be",
+      "alt": [],
+      "explanation": "must + V без to: must be."
+    },
+    {
+      "type": "order",
+      "prompt": "Він, мабуть, жартує.",
+      "answer": [
+        "He must be joking."
+      ],
+      "explanation": "Впевнений висновок про теперішнє — must be + V-ing."
+    },
+    {
+      "type": "transform",
+      "prompt": "I'm sure he isn't at work today. It's Sunday.",
+      "instruction": "Перепишіть з can't",
+      "answer": [
+        "He can't be at work today. It's Sunday.",
+        "He can't be at work today."
+      ],
+      "explanation": "Впевнений, що ні — can't + V."
+    },
+    {
+      "type": "translate",
+      "uk": "Можливо, вона спізнюється через затори.",
+      "answer": [
+        "She might be late because of the traffic.",
+        "She may be late because of the traffic.",
+        "She could be late because of the traffic.",
+        "She might be running late because of the traffic."
+      ],
+      "explanation": "Припущення — might / may / could be."
+    }
+  ]
 }

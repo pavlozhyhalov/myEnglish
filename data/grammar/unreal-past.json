@@ -1,191 +1,305 @@
 {
- "id": "unreal-past",
- "title": "It's time, would rather, as if",
- "titleEn": "Unreal past: it's time, would rather, as if, wish (review)",
- "unit": "Просунуті конструкції",
- "level": "C1",
- "mistakeType": "tenses",
- "explanation": "Після деяких виразів **Past Simple** означає не минуле, а **нереальне / бажане теперішнє**:\n\n**It's (high) time + Past**: *It's time we **left**.* (Нам уже час іти.)\n**would rather + підмет + Past**: *I'd rather you **didn't** smoke here.* (Я б волів, щоб…)\n**as if / as though + Past**: *He talks **as if** he **knew** everything.* (ніби знає — а насправді ні)\n**suppose / imagine + Past**: ***Suppose** you **lost** your job — what would you do?*\n\nПро минуле — **Past Perfect**: *He looked **as if** he **hadn't slept** for days.*",
- "formula": [
-  "It's time / I'd rather / as if + **Past Simple** (тепер)",
-  "… + **Past Perfect** (про минуле)"
- ],
- "table": {
-  "head": [
-   "Вираз",
-   "Приклад",
-   "Значення"
+  "id": "unreal-past",
+  "title": "It's time, would rather, as if",
+  "titleEn": "Unreal past: it's time, would rather, as if, wish (review)",
+  "unit": "Просунуті конструкції",
+  "level": "C1",
+  "mistakeType": "tenses",
+  "explanation": "Форма — **минулий час**, значення — **тепер або завжди**:\n\n- **It's (high / about) time** + підмет + **Past Simple**: *It's time we **left**.*\n- **It's time** + **to V** — без підмета: *It's time **to go**.*\n- **would rather** + **V** — про себе: *I'd rather **walk**.*\n- **would rather** + інший підмет + **Past Simple**: *I'd rather you **didn't**…*\n- **as if / as though** + Past (*were* для всіх осіб) — неправда; + Present — схоже на правду\n- **wish / if only** + Past — тепер · + Past Perfect — минуле\n- **suppose / supposing / imagine** + Past — уявна ситуація\n\nПро щось раніше — **Past Perfect**: *as if he **hadn't slept***, *I'd rather you **hadn't told** her.*",
+  "guide": {
+    "idea": "Після It's time, would rather, as if, wish, suppose минулий час означає не минуле, а нереальне чи бажане теперішнє. Так м'яко натякають, просять чи висловлюють невдоволення, не кажучи прямо «ти мусиш» або «ти не правий».",
+    "use": [
+      {
+        "when": "It's time — пора, вже запізно",
+        "note": "Натяк чи легкий докір: щось мало статися раніше; high time — сильніше.",
+        "en": "It's high time you got your car serviced.",
+        "uk": "Тобі давно пора віддати машину на сервіс."
+      },
+      {
+        "when": "would rather — м'яке прохання",
+        "note": "I'd rather you didn't… — ввічливо просимо когось чогось не робити.",
+        "en": "I'd rather you didn't park in front of my garage.",
+        "uk": "Я б волів, щоб ви не паркувалися перед моїм гаражем."
+      },
+      {
+        "when": "as if — оманливе враження",
+        "note": "Past показує, що враження неправдиве чи сумнівне.",
+        "en": "He talks as if he owned the place.",
+        "uk": "Він говорить так, ніби він тут хазяїн."
+      },
+      {
+        "when": "wish / if only — жаль",
+        "note": "wish + Past — шкодуємо про теперішнє; + Past Perfect — про минуле.",
+        "en": "I wish I lived closer to my family.",
+        "uk": "Шкода, що я живу не ближче до родини."
+      },
+      {
+        "when": "suppose — уявімо",
+        "note": "Пропонуємо співрозмовнику уявити ситуацію — в обговореннях і планах.",
+        "en": "Suppose you lost your phone abroad — what would you do?",
+        "uk": "Уявімо, що ти загубив телефон за кордоном, — що б ти робив?"
+      }
+    ],
+    "vs": [
+      {
+        "title": "I'd rather go чи I'd rather you went?",
+        "a": {
+          "en": "I'd rather stay in tonight.",
+          "uk": "Я б краще сьогодні лишився вдома.",
+          "note": "Про себе — базова форма без to."
+        },
+        "b": {
+          "en": "I'd rather you stayed in tonight.",
+          "uk": "Я б волів, щоб ти сьогодні лишився вдома.",
+          "note": "Про іншу людину — підмет + Past Simple."
+        }
+      },
+      {
+        "title": "as if + Present чи Past?",
+        "a": {
+          "en": "It looks as if it's going to rain.",
+          "uk": "Схоже, що буде дощ.",
+          "note": "Цілком імовірно — звичайний час."
+        },
+        "b": {
+          "en": "She acts as if she were the boss.",
+          "uk": "Вона поводиться так, ніби тут начальниця.",
+          "note": "Неправда — вона не начальниця, тому Past."
+        }
+      },
+      {
+        "title": "It's time to чи It's time we…?",
+        "a": {
+          "en": "It's time to go.",
+          "uk": "Час іти.",
+          "note": "Просто констатуємо: настав час."
+        },
+        "b": {
+          "en": "It's time we went — it's nearly midnight.",
+          "uk": "Нам уже пора йти — майже північ.",
+          "note": "Наголос, що вже трохи запізно."
+        }
+      }
+    ],
+    "signals": [
+      "It's time",
+      "It's high time",
+      "would rather",
+      "as if",
+      "as though",
+      "wish",
+      "if only",
+      "suppose",
+      "imagine"
+    ],
+    "mistakes": [
+      {
+        "wrong": "It's time we go.",
+        "right": "It's time we went.",
+        "why": "Після It's time + підмет — Past Simple, хоча мова про зараз."
+      },
+      {
+        "wrong": "I'd rather you don't smoke here.",
+        "right": "I'd rather you didn't smoke here.",
+        "why": "Бажання щодо іншої людини — Past Simple."
+      },
+      {
+        "wrong": "I'd rather to walk.",
+        "right": "I'd rather walk.",
+        "why": "Після would rather — базова форма без to."
+      },
+      {
+        "wrong": "He looked as if he didn't sleep for days.",
+        "right": "He looked as if he hadn't slept for days.",
+        "why": "Те, що було раніше за «виглядав», — Past Perfect."
+      },
+      {
+        "wrong": "I wish I would live closer to work.",
+        "right": "I wish I lived closer to work.",
+        "why": "Бажання про власний стан — wish + Past, без would."
+      }
+    ]
+  },
+  "formula": [
+    "It's time / I'd rather / as if + **Past Simple** (тепер)",
+    "… + **Past Perfect** (про минуле)"
   ],
-  "rows": [
-   [
-    "It's time",
-    "It's time you got a job.",
-    "давно пора"
-   ],
-   [
-    "would rather + підмет",
-    "I'd rather you came earlier.",
-    "я б волів, щоб ти…"
-   ],
-   [
-    "would rather + V",
-    "I'd rather stay in.",
-    "я б краще…"
-   ],
-   [
-    "as if",
-    "She acts as if she were the boss.",
-    "ніби вона бос"
-   ]
+  "table": {
+    "head": [
+      "Вираз",
+      "Приклад",
+      "Значення"
+    ],
+    "rows": [
+      [
+        "It's time",
+        "It's time you got a job.",
+        "давно пора"
+      ],
+      [
+        "would rather + підмет",
+        "I'd rather you came earlier.",
+        "я б волів, щоб ти…"
+      ],
+      [
+        "would rather + V",
+        "I'd rather stay in.",
+        "я б краще…"
+      ],
+      [
+        "as if",
+        "She acts as if she were the boss.",
+        "ніби вона бос"
+      ]
+    ]
+  },
+  "examples": [
+    {
+      "en": "It's high time we fixed the roof.",
+      "uk": "Давно пора полагодити дах."
+    },
+    {
+      "en": "I'd rather you didn't tell anyone.",
+      "uk": "Я б волів, щоб ти нікому не казав."
+    },
+    {
+      "en": "You look as if you'd seen a ghost.",
+      "uk": "У тебе такий вигляд, ніби ти побачив привида."
+    },
+    {
+      "en": "Suppose we moved to the coast — would you be happy?",
+      "uk": "Припустимо, ми переїхали б на узбережжя — ти був би щасливий?"
+    },
+    {
+      "en": "I'd rather walk than take the bus.",
+      "uk": "Я б краще пройшовся пішки, ніж їхав автобусом."
+    }
+  ],
+  "tip": "**would rather + V** (той самий підмет) vs **would rather + інший підмет + Past**: *I'd rather **go**.* / *I'd rather **you went**.*",
+  "exercises": [
+    {
+      "type": "choice",
+      "prompt": "It's time we ___ home.",
+      "options": [
+        "go",
+        "went",
+        "will go"
+      ],
+      "answer": "went",
+      "explanation": "It's time + підмет + Past Simple."
+    },
+    {
+      "type": "choice",
+      "prompt": "I'd rather you ___ me the truth.",
+      "options": [
+        "tell",
+        "told",
+        "will tell"
+      ],
+      "answer": "told",
+      "explanation": "would rather + інший підмет + Past Simple."
+    },
+    {
+      "type": "choice",
+      "prompt": "He spends money as if he ___ a millionaire.",
+      "options": [
+        "is",
+        "were",
+        "will be"
+      ],
+      "answer": "were",
+      "explanation": "as if + were — нереальне порівняння."
+    },
+    {
+      "type": "choice",
+      "prompt": "I'd rather ___ at home tonight.",
+      "options": [
+        "stay",
+        "stayed",
+        "to stay"
+      ],
+      "answer": "stay",
+      "explanation": "Той самий підмет."
+    },
+    {
+      "type": "input",
+      "prompt": "It's high time you ___ (start) looking for a flat.",
+      "answer": [
+        "started"
+      ],
+      "explanation": "It's high time + підмет + Past Simple."
+    },
+    {
+      "type": "input",
+      "prompt": "I'd rather you ___ (not / call) me so late.",
+      "answer": [
+        "didn't call",
+        "did not call"
+      ],
+      "explanation": "would rather + інший підмет + didn't + V."
+    },
+    {
+      "type": "input",
+      "prompt": "She looked as if she ___ (cry) all night. (про минуле)",
+      "answer": [
+        "had cried",
+        "had been crying",
+        "'d been crying",
+        "'d cried"
+      ],
+      "explanation": "Про минуле — as if + Past Perfect (Continuous)."
+    },
+    {
+      "type": "error",
+      "sentence": "It's time we go to bed.",
+      "wrongIndex": 3,
+      "correction": "went",
+      "alt": [],
+      "explanation": "It's time + Past."
+    },
+    {
+      "type": "error",
+      "sentence": "I'd rather you don't smoke in the car.",
+      "wrongIndex": 3,
+      "correction": "didn't",
+      "alt": [],
+      "explanation": "would rather + Past."
+    },
+    {
+      "type": "transform",
+      "prompt": "We should leave now — it's late.",
+      "instruction": "It's time…",
+      "answer": [
+        "It's time we left.",
+        "It's time we left now.",
+        "It's high time we left."
+      ],
+      "explanation": "It's time + підмет + Past Simple (left)."
+    },
+    {
+      "type": "transform",
+      "prompt": "Please don't bring your dog.",
+      "instruction": "I'd rather…",
+      "answer": [
+        "I'd rather you didn't bring your dog.",
+        "I would rather you didn't bring your dog."
+      ],
+      "explanation": "would rather + інший підмет + didn't + V."
+    },
+    {
+      "type": "translate",
+      "uk": "Він поводиться так, ніби нічого не сталося.",
+      "answer": [
+        "He behaves as if nothing happened.",
+        "He's acting as if nothing had happened.",
+        "He behaves as if nothing had happened.",
+        "He acts as if nothing happened.",
+        "He is acting as if nothing had happened.",
+        "He acts as though nothing had happened.",
+        "He's behaving as if nothing happened.",
+        "He acts as though nothing happened."
+      ],
+      "explanation": "as if + минулий час: nothing happened / had happened."
+    }
   ]
- },
- "examples": [
-  {
-   "en": "It's high time we fixed the roof.",
-   "uk": "Давно пора полагодити дах."
-  },
-  {
-   "en": "I'd rather you didn't tell anyone.",
-   "uk": "Я б волів, щоб ти нікому не казав."
-  },
-  {
-   "en": "You look as if you'd seen a ghost.",
-   "uk": "У тебе такий вигляд, ніби ти побачив привида."
-  },
-  {
-   "en": "Suppose we moved to the coast — would you be happy?",
-   "uk": "Припустимо, ми переїхали б на узбережжя — ти був би щасливий?"
-  },
-  {
-   "en": "I'd rather walk than take the bus.",
-   "uk": "Я б краще пройшовся пішки, ніж їхав автобусом."
-  }
- ],
- "tip": "**would rather + V** (той самий підмет) vs **would rather + інший підмет + Past**: *I'd rather **go**.* / *I'd rather **you went**.*",
- "exercises": [
-  {
-   "type": "choice",
-   "prompt": "It's time we ___ home.",
-   "options": [
-    "go",
-    "went",
-    "will go"
-   ],
-   "answer": "went",
-   "explanation": "It's time + підмет + Past Simple."
-  },
-  {
-   "type": "choice",
-   "prompt": "I'd rather you ___ me the truth.",
-   "options": [
-    "tell",
-    "told",
-    "will tell"
-   ],
-   "answer": "told",
-   "explanation": "would rather + інший підмет + Past Simple."
-  },
-  {
-   "type": "choice",
-   "prompt": "He spends money as if he ___ a millionaire.",
-   "options": [
-    "is",
-    "were",
-    "will be"
-   ],
-   "answer": "were",
-   "explanation": "as if + were — нереальне порівняння."
-  },
-  {
-   "type": "choice",
-   "prompt": "I'd rather ___ at home tonight.",
-   "options": [
-    "stay",
-    "stayed",
-    "to stay"
-   ],
-   "answer": "stay",
-   "explanation": "Той самий підмет."
-  },
-  {
-   "type": "input",
-   "prompt": "It's high time you ___ (start) looking for a flat.",
-   "answer": [
-    "started"
-   ],
-   "explanation": "It's high time + підмет + Past Simple."
-  },
-  {
-   "type": "input",
-   "prompt": "I'd rather you ___ (not / call) me so late.",
-   "answer": [
-    "didn't call",
-    "did not call"
-   ],
-   "explanation": "would rather + інший підмет + didn't + V."
-  },
-  {
-   "type": "input",
-   "prompt": "She looked as if she ___ (cry) all night. (про минуле)",
-   "answer": [
-    "had cried",
-    "had been crying",
-    "'d been crying",
-    "'d cried"
-   ],
-   "explanation": "Про минуле — as if + Past Perfect (Continuous)."
-  },
-  {
-   "type": "error",
-   "sentence": "It's time we go to bed.",
-   "wrongIndex": 3,
-   "correction": "went",
-   "alt": [],
-   "explanation": "It's time + Past."
-  },
-  {
-   "type": "error",
-   "sentence": "I'd rather you don't smoke in the car.",
-   "wrongIndex": 3,
-   "correction": "didn't",
-   "alt": [],
-   "explanation": "would rather + Past."
-  },
-  {
-   "type": "transform",
-   "prompt": "We should leave now — it's late.",
-   "instruction": "It's time…",
-   "answer": [
-    "It's time we left.",
-    "It's time we left now.",
-    "It's high time we left."
-   ],
-   "explanation": "It's time + підмет + Past Simple (left)."
-  },
-  {
-   "type": "transform",
-   "prompt": "Please don't bring your dog.",
-   "instruction": "I'd rather…",
-   "answer": [
-    "I'd rather you didn't bring your dog.",
-    "I would rather you didn't bring your dog."
-   ],
-   "explanation": "would rather + інший підмет + didn't + V."
-  },
-  {
-   "type": "translate",
-   "uk": "Він поводиться так, ніби нічого не сталося.",
-   "answer": [
-    "He behaves as if nothing happened.",
-    "He's acting as if nothing had happened.",
-    "He behaves as if nothing had happened.",
-    "He acts as if nothing happened.",
-    "He is acting as if nothing had happened.",
-    "He acts as though nothing had happened.",
-    "He's behaving as if nothing happened.",
-    "He acts as though nothing happened."
-   ],
-   "explanation": "as if + минулий час: nothing happened / had happened."
-  }
- ]
 }

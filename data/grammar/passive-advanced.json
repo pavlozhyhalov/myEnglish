@@ -1,155 +1,254 @@
 {
- "id": "passive-advanced",
- "title": "Пасив у різних часах і have something done",
- "titleEn": "Passive in other tenses; have something done",
- "unit": "Пасив і непряма мова",
- "level": "B2",
- "mistakeType": "tenses",
- "explanation": "Пасив можливий у будь-якому часі — змінюється лише *be*:\n- Present Continuous: *The road **is being repaired**.*\n- Present Perfect: *My bag **has been stolen**!*\n- Future: *The results **will be announced** tomorrow.*\n- Модальні: *This **must be done** today. It **can be fixed**.*\n\n**have / get something done** — коли **хтось робить послугу для нас**:\n*I **had my hair cut**.* (мене підстригли — не сам)\n*We're **getting the car repaired**.*",
- "formula": [
-  "is being + V3 · has been + V3 · will be + V3 · can/must be + V3",
-  "have/get + об'єкт + **V3**"
- ],
- "examples": [
-  {
-   "en": "Our kitchen is being renovated, so we're eating out.",
-   "uk": "У нас ремонтують кухню, тож ми їмо поза домом."
+  "id": "passive-advanced",
+  "title": "Пасив у різних часах і have something done",
+  "titleEn": "Passive in other tenses; have something done",
+  "unit": "Пасив і непряма мова",
+  "level": "B2",
+  "mistakeType": "tenses",
+  "explanation": "Пасив = **be** у потрібному часі + **V3**. Змінюється лише *be*:\n- Present Continuous: *is / are being* + V3\n- Past Continuous: *was / were being* + V3\n- Present Perfect: *has / have been* + V3\n- Future: *will be* + V3 · *is going to be* + V3\n- Модальні: *can / must / should be* + V3 · про минуле — *should have been* + V3\n\n**−** *It hasn't been done.* · **?** *Has it been sent?*\nВиконавець — через *by*, лише якщо він важливий.\n**have / get + об'єкт + V3** — послуга для нас (докладніше — урок «Have something done»).",
+  "guide": {
+    "idea": "Пасив кажемо, коли важлива дія чи результат, а не хто це зробив: виконавець невідомий, очевидний або неважливий. На B2 той самий пасив звучить у будь-якому часі й з модальними — у новинах, оголошеннях, правилах, на роботі.",
+    "use": [
+      {
+        "when": "Саме зараз щось роблять",
+        "note": "is / are being + V3 — роботу виконують у цей момент.",
+        "en": "Sorry, the lift is being repaired.",
+        "uk": "Вибачте, ліфт зараз ремонтують."
+      },
+      {
+        "when": "Результат або новина",
+        "note": "has / have been + V3 — щось уже сталося, і це важливо тепер.",
+        "en": "My bike has been stolen!",
+        "uk": "У мене вкрали велосипед!"
+      },
+      {
+        "when": "Оголошення про майбутнє",
+        "note": "will be + V3 — розклади, плани, офіційні повідомлення.",
+        "en": "The winners will be announced on Friday.",
+        "uk": "Переможців оголосять у п'ятницю."
+      },
+      {
+        "when": "Правила й можливості",
+        "note": "must / can / should be + V3 — інструкції, вимоги, таблички.",
+        "en": "Bags must not be left unattended.",
+        "uk": "Не залишайте сумки без нагляду."
+      },
+      {
+        "when": "Послуга для себе",
+        "note": "have / get + що + V3 — роботу замовили ми.",
+        "en": "We're getting the windows cleaned tomorrow.",
+        "uk": "Завтра нам миють вікна."
+      }
+    ],
+    "vs": [
+      {
+        "title": "Активний чи пасив?",
+        "a": {
+          "en": "Someone has stolen my bike.",
+          "uk": "Хтось украв мій велосипед.",
+          "note": "Ніби важливо, хто саме."
+        },
+        "b": {
+          "en": "My bike has been stolen.",
+          "uk": "Мій велосипед украли.",
+          "note": "У центрі — велосипед і подія."
+        }
+      },
+      {
+        "title": "is repaired чи is being repaired?",
+        "a": {
+          "en": "The road is repaired every summer.",
+          "uk": "Дорогу ремонтують щоліта.",
+          "note": "Регулярно, як звичка."
+        },
+        "b": {
+          "en": "The road is being repaired.",
+          "uk": "Дорогу зараз ремонтують.",
+          "note": "Саме тепер, у процесі."
+        }
+      },
+      {
+        "title": "Пасив чи have something done?",
+        "a": {
+          "en": "The car was washed.",
+          "uk": "Машину помили.",
+          "note": "Просто факт."
+        },
+        "b": {
+          "en": "I had the car washed.",
+          "uk": "Я помив машину на мийці.",
+          "note": "Я замовив послугу для себе."
+        }
+      }
+    ],
+    "signals": [],
+    "mistakes": [
+      {
+        "wrong": "The road is repairing now.",
+        "right": "The road is being repaired now.",
+        "why": "Дорога сама себе не ремонтує — потрібен пасив з being."
+      },
+      {
+        "wrong": "The package has delivered.",
+        "right": "The package has been delivered.",
+        "why": "Без been виходить «посилка доставила» — активний стан."
+      },
+      {
+        "wrong": "This must done today.",
+        "right": "This must be done today.",
+        "why": "Після модального в пасиві — be + V3."
+      },
+      {
+        "wrong": "It was happened yesterday.",
+        "right": "It happened yesterday.",
+        "why": "happen, arrive, appear не мають додатка, тому й пасиву не мають."
+      }
+    ]
   },
-  {
-   "en": "Has the package been delivered yet?",
-   "uk": "Посилку вже доставили?"
-  },
-  {
-   "en": "The concert will be held outdoors.",
-   "uk": "Концерт проходитиме просто неба."
-  },
-  {
-   "en": "This form must be signed by both parents.",
-   "uk": "Цей бланк мають підписати обоє батьків."
-  },
-  {
-   "en": "I need to have my eyes tested.",
-   "uk": "Мені треба перевірити зір."
-  },
-  {
-   "en": "We had the flat cleaned before we moved in.",
-   "uk": "Перед заселенням ми замовили прибирання квартири."
-  }
- ],
- "exercises": [
-  {
-   "type": "choice",
-   "prompt": "The road ___ at the moment, so take another way.",
-   "options": [
-    "is repaired",
-    "is being repaired",
-    "has repaired"
-   ],
-   "answer": "is being repaired",
-   "explanation": "Зараз у процесі."
-  },
-  {
-   "type": "choice",
-   "prompt": "My wallet ___! I can't find it anywhere.",
-   "options": [
-    "has been stolen",
-    "has stolen",
-    "is stealing"
-   ],
-   "answer": "has been stolen",
-   "explanation": "Present Perfect passive."
-  },
-  {
-   "type": "choice",
-   "prompt": "The winner ___ tomorrow.",
-   "options": [
-    "will announce",
-    "will be announced",
-    "is announcing"
-   ],
-   "answer": "will be announced",
-   "explanation": "Майбутнє в пасиві — will be + V3."
-  },
-  {
-   "type": "choice",
-   "prompt": "I'm going to ___ at the hairdresser's tomorrow.",
-   "options": [
-    "cut my hair",
-    "have my hair cut",
-    "have cut my hair"
-   ],
-   "answer": "have my hair cut",
-   "explanation": "Послуга → have something done."
-  },
-  {
-   "type": "input",
-   "prompt": "This medicine must ___ (keep) in the fridge. (2 слова)",
-   "answer": [
-    "be kept"
-   ],
-   "explanation": "must be + V3."
-  },
-  {
-   "type": "input",
-   "prompt": "We're ___ (get) our windows replaced next week.",
-   "answer": [
-    "getting"
-   ],
-   "explanation": "get something done."
-  },
-  {
-   "type": "input",
-   "prompt": "Two people ___ (injure) in the accident. (Present Perfect, пасив, 3 слова)",
-   "answer": [
-    "have been injured"
-   ],
-   "explanation": "Present Perfect пасив — have been + V3."
-  },
-  {
-   "type": "error",
-   "sentence": "The car is repairing now.",
-   "wrongIndex": 3,
-   "correction": "being repaired",
-   "alt": [],
-   "explanation": "Пасив у процесі: is being repaired."
-  },
-  {
-   "type": "error",
-   "sentence": "We had the kitchen paint last month.",
-   "wrongIndex": 4,
-   "correction": "painted",
-   "alt": [],
-   "explanation": "have + об'єкт + V3: We had the kitchen painted."
-  },
-  {
-   "type": "order",
-   "prompt": "Кімнату ще не прибрали.",
-   "answer": [
-    "The room hasn't been cleaned yet."
-   ],
-   "explanation": "Present Perfect пасив, заперечення — hasn't been + V3."
-  },
-  {
-   "type": "transform",
-   "prompt": "A mechanic is fixing my car.",
-   "instruction": "Перепишіть з have something done",
-   "answer": [
-    "I'm having my car fixed.",
-    "I am having my car fixed.",
-    "I'm getting my car fixed."
-   ],
-   "explanation": "Послуга — have/get + об'єкт + V3; зараз → Present Continuous."
-  },
-  {
-   "type": "translate",
-   "uk": "Тут будують новий торговий центр.",
-   "answer": [
-    "A new shopping centre is being built here.",
-    "A new shopping mall is being built here.",
-    "They are building a new shopping centre here.",
-    "A new mall is being built here."
-   ],
-   "explanation": "Процес зараз у пасиві — is being + V3."
-  }
- ]
+  "formula": [
+    "is being + V3 · has been + V3 · will be + V3 · can/must be + V3",
+    "have/get + об'єкт + **V3**"
+  ],
+  "examples": [
+    {
+      "en": "Our kitchen is being renovated, so we're eating out.",
+      "uk": "У нас ремонтують кухню, тож ми їмо поза домом."
+    },
+    {
+      "en": "Has the package been delivered yet?",
+      "uk": "Посилку вже доставили?"
+    },
+    {
+      "en": "The concert will be held outdoors.",
+      "uk": "Концерт проходитиме просто неба."
+    },
+    {
+      "en": "This form must be signed by both parents.",
+      "uk": "Цей бланк мають підписати обоє батьків."
+    },
+    {
+      "en": "I need to have my eyes tested.",
+      "uk": "Мені треба перевірити зір."
+    },
+    {
+      "en": "We had the flat cleaned before we moved in.",
+      "uk": "Перед заселенням ми замовили прибирання квартири."
+    }
+  ],
+  "exercises": [
+    {
+      "type": "choice",
+      "prompt": "The road ___ at the moment, so take another way.",
+      "options": [
+        "is repaired",
+        "is being repaired",
+        "has repaired"
+      ],
+      "answer": "is being repaired",
+      "explanation": "Зараз у процесі."
+    },
+    {
+      "type": "choice",
+      "prompt": "My wallet ___! I can't find it anywhere.",
+      "options": [
+        "has been stolen",
+        "has stolen",
+        "is stealing"
+      ],
+      "answer": "has been stolen",
+      "explanation": "Present Perfect passive."
+    },
+    {
+      "type": "choice",
+      "prompt": "The winner ___ tomorrow.",
+      "options": [
+        "will announce",
+        "will be announced",
+        "is announcing"
+      ],
+      "answer": "will be announced",
+      "explanation": "Майбутнє в пасиві — will be + V3."
+    },
+    {
+      "type": "choice",
+      "prompt": "I'm going to ___ at the hairdresser's tomorrow.",
+      "options": [
+        "cut my hair",
+        "have my hair cut",
+        "have cut my hair"
+      ],
+      "answer": "have my hair cut",
+      "explanation": "Послуга → have something done."
+    },
+    {
+      "type": "input",
+      "prompt": "This medicine must ___ (keep) in the fridge. (2 слова)",
+      "answer": [
+        "be kept"
+      ],
+      "explanation": "must be + V3."
+    },
+    {
+      "type": "input",
+      "prompt": "We're ___ (get) our windows replaced next week.",
+      "answer": [
+        "getting"
+      ],
+      "explanation": "get something done."
+    },
+    {
+      "type": "input",
+      "prompt": "Two people ___ (injure) in the accident. (Present Perfect, пасив, 3 слова)",
+      "answer": [
+        "have been injured"
+      ],
+      "explanation": "Present Perfect пасив — have been + V3."
+    },
+    {
+      "type": "error",
+      "sentence": "The car is repairing now.",
+      "wrongIndex": 3,
+      "correction": "being repaired",
+      "alt": [],
+      "explanation": "Пасив у процесі: is being repaired."
+    },
+    {
+      "type": "error",
+      "sentence": "We had the kitchen paint last month.",
+      "wrongIndex": 4,
+      "correction": "painted",
+      "alt": [],
+      "explanation": "have + об'єкт + V3: We had the kitchen painted."
+    },
+    {
+      "type": "order",
+      "prompt": "Кімнату ще не прибрали.",
+      "answer": [
+        "The room hasn't been cleaned yet."
+      ],
+      "explanation": "Present Perfect пасив, заперечення — hasn't been + V3."
+    },
+    {
+      "type": "transform",
+      "prompt": "A mechanic is fixing my car.",
+      "instruction": "Перепишіть з have something done",
+      "answer": [
+        "I'm having my car fixed.",
+        "I am having my car fixed.",
+        "I'm getting my car fixed."
+      ],
+      "explanation": "Послуга — have/get + об'єкт + V3; зараз → Present Continuous."
+    },
+    {
+      "type": "translate",
+      "uk": "Тут будують новий торговий центр.",
+      "answer": [
+        "A new shopping centre is being built here.",
+        "A new shopping mall is being built here.",
+        "They are building a new shopping centre here.",
+        "A new mall is being built here."
+      ],
+      "explanation": "Процес зараз у пасиві — is being + V3."
+    }
+  ]
 }

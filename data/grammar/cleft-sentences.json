@@ -1,182 +1,289 @@
 {
- "id": "cleft-sentences",
- "title": "Виділення: It is … that, What I need is…",
- "titleEn": "Cleft sentences for emphasis",
- "unit": "Просунуті конструкції",
- "level": "C1",
- "mistakeType": "word_order",
- "explanation": "**Cleft sentences** допомагають **наголосити** на одній частині речення — як інтонація в усній мові.\n\n**It is / was + наголошене + that/who …**: *It was **my wife** who found the solution.* (саме дружина)\n\n**What + підмет + дієслово + is/was …**: ***What I need** is a holiday. **What annoys me** is the noise.*\n\n**All (that) I want is…** — *усе, чого я хочу, —…*. **The thing is…**, **The reason (why)… is that…** — дуже поширені в розмові.",
- "formula": [
-  "**It is/was** X **that/who** …",
-  "**What** + підмет + V **is/was** X"
- ],
- "table": {
-  "head": [
-   "Звичайне",
-   "Виділене"
+  "id": "cleft-sentences",
+  "title": "Виділення: It is … that, What I need is…",
+  "titleEn": "Cleft sentences for emphasis",
+  "unit": "Просунуті конструкції",
+  "level": "C1",
+  "mistakeType": "word_order",
+  "explanation": "**It-cleft:** It + **is / was** + виділене + **who / that** + решта\n*It was **Emma** who found the keys.* · *It's **the noise** that I can't stand.*\n- про людей — **who / that**, про речі, час, місце — **that**\n- **It is / It was** не змінюються за числом: *It was my parents who…*\n\n**What-cleft:** **What** + підмет + V + **is / was** + виділене\n*What I need **is** a holiday.* · *What surprised me **was** the price.*\n- дія: *What I did **was (to) call** the police.*\n\n**Інші рамки:** All (that) I want is… · The thing is (that)… · The reason (why) … is that… · The person who… · The place where…",
+  "guide": {
+    "idea": "Cleft sentences розбивають речення на дві частини, щоб виділити одну річ — так, як українською ми робимо це голосом чи словами «саме», «що мене дратує, то це…». Ними виправляють співрозмовника, наголошують на головному або готують до важливої думки.",
+    "use": [
+      {
+        "when": "Виправити чи уточнити",
+        "note": "It was X who / that… — «саме X, а не хтось інший».",
+        "en": "It was Sophie who booked the table, not me.",
+        "uk": "Столик забронювала Софі, а не я."
+      },
+      {
+        "when": "Головне — наприкінці",
+        "note": "What I need is… — спершу інтрига, потім те, на чому наголос.",
+        "en": "What I need right now is a long holiday.",
+        "uk": "Що мені зараз потрібно, то це довга відпустка."
+      },
+      {
+        "when": "Почуття й скарги",
+        "note": "What annoys / worries / surprises me is… — емоційно, але ввічливо: критикуємо ситуацію, а не людину.",
+        "en": "What really annoys me is people talking in the cinema.",
+        "uk": "Що мене справді дратує, то це люди, які балакають у кіно."
+      },
+      {
+        "when": "Підвести до пояснення",
+        "note": "The thing is… / The reason why… is that… — часто перед незручною новиною чи відмовою.",
+        "en": "The thing is, I've already promised to help my sister.",
+        "uk": "Річ у тім, що я вже пообіцяв допомогти сестрі."
+      },
+      {
+        "when": "«Я ж лише…»",
+        "note": "All I… is / was… — применшуємо свою дію, часто виправдовуємося.",
+        "en": "All I wanted was a quiet evening at home.",
+        "uk": "Я лише хотів спокійного вечора вдома."
+      },
+      {
+        "when": "Наголос на часі чи місці",
+        "note": "It was only when / It was in… that… — у розповідях і текстах.",
+        "en": "It was only when I got home that I noticed the scratch.",
+        "uk": "Лише вдома я помітив подряпину."
+      }
+    ],
+    "vs": [
+      {
+        "title": "It … that чи What …?",
+        "a": {
+          "en": "It's the price that worries me.",
+          "uk": "Мене непокоїть саме ціна.",
+          "note": "Виділяємо одну річ на противагу іншим: ціна, а не якість."
+        },
+        "b": {
+          "en": "What worries me is the price.",
+          "uk": "Що мене непокоїть, то це ціна.",
+          "note": "Підводимо до головного: нове — наприкінці."
+        }
+      },
+      {
+        "title": "Звичайне чи виділене?",
+        "a": {
+          "en": "Emma found the keys.",
+          "uk": "Емма знайшла ключі.",
+          "note": "Нейтральне повідомлення."
+        },
+        "b": {
+          "en": "It was Emma who found the keys.",
+          "uk": "Це саме Емма знайшла ключі.",
+          "note": "Хтось думав інакше — виправляємо чи наголошуємо."
+        }
+      }
+    ],
+    "signals": [
+      "It is … that",
+      "It was … who",
+      "What I need is",
+      "What annoys me is",
+      "All I want is",
+      "The thing is",
+      "The reason why",
+      "The person who",
+      "The place where"
+    ],
+    "mistakes": [
+      {
+        "wrong": "It was Emma which called you.",
+        "right": "It was Emma who called you.",
+        "why": "Про людей — who або that, не which."
+      },
+      {
+        "wrong": "What I need, it is more time.",
+        "right": "What I need is more time.",
+        "why": "Українське «то це» не перекладаємо: після What-частини одразу is."
+      },
+      {
+        "wrong": "It were my parents who helped us.",
+        "right": "It was my parents who helped us.",
+        "why": "It is / It was не змінюються за числом."
+      },
+      {
+        "wrong": "All what I want is some sleep.",
+        "right": "All I want is some sleep.",
+        "why": "Після All не ставимо what: All (that) I want…"
+      },
+      {
+        "wrong": "What I did, I called the police.",
+        "right": "What I did was call the police.",
+        "why": "Дві частини з'єднує was / is, а не кома."
+      }
+    ]
+  },
+  "formula": [
+    "**It is/was** X **that/who** …",
+    "**What** + підмет + V **is/was** X"
   ],
-  "rows": [
-   [
-    "Anna called you.",
-    "It was Anna who called you."
-   ],
-   [
-    "I need more time.",
-    "What I need is more time."
-   ],
-   [
-    "The price surprised me.",
-    "What surprised me was the price."
-   ],
-   [
-    "I just want some peace.",
-    "All I want is some peace."
-   ]
+  "table": {
+    "head": [
+      "Звичайне",
+      "Виділене"
+    ],
+    "rows": [
+      [
+        "Anna called you.",
+        "It was Anna who called you."
+      ],
+      [
+        "I need more time.",
+        "What I need is more time."
+      ],
+      [
+        "The price surprised me.",
+        "What surprised me was the price."
+      ],
+      [
+        "I just want some peace.",
+        "All I want is some peace."
+      ]
+    ]
+  },
+  "examples": [
+    {
+      "en": "It's the noise that I can't stand.",
+      "uk": "Саме шуму я не виношу."
+    },
+    {
+      "en": "What I really like about Kraków is the atmosphere.",
+      "uk": "Що мені справді подобається в Кракові — це атмосфера."
+    },
+    {
+      "en": "It was only last year that I started learning English seriously.",
+      "uk": "Лише минулого року я почав серйозно вчити англійську."
+    },
+    {
+      "en": "All I did was ask a question.",
+      "uk": "Я лише поставив питання."
+    },
+    {
+      "en": "The thing is, we don't have enough money.",
+      "uk": "Справа в тому, що нам бракує грошей."
+    }
+  ],
+  "tip": "Після **What…** дієслово-зв'язка зазвичай в однині: *What we need **is** new ideas.*",
+  "exercises": [
+    {
+      "type": "choice",
+      "prompt": "___ was my brother who told me the news.",
+      "options": [
+        "It",
+        "That",
+        "What"
+      ],
+      "answer": "It",
+      "explanation": "It was + виділене слово + who/that…"
+    },
+    {
+      "type": "choice",
+      "prompt": "___ I don't understand is why he left.",
+      "options": [
+        "That",
+        "What",
+        "It"
+      ],
+      "answer": "What",
+      "explanation": "What + підмет + дієслово + is… — виділяємо цілу думку."
+    },
+    {
+      "type": "choice",
+      "prompt": "It was in 2015 ___ we first met.",
+      "options": [
+        "which",
+        "that",
+        "what"
+      ],
+      "answer": "that",
+      "explanation": "It was + час/місце + that…"
+    },
+    {
+      "type": "choice",
+      "prompt": "All I want ___ a quiet evening.",
+      "options": [
+        "is",
+        "are",
+        "be"
+      ],
+      "answer": "is",
+      "explanation": "All I want is… — дієслово в однині."
+    },
+    {
+      "type": "input",
+      "prompt": "What surprised me ___ (be) how friendly everyone was. (минулий час)",
+      "answer": [
+        "was"
+      ],
+      "explanation": "What-речення як підмет → дієслово в однині; минулий час → was."
+    },
+    {
+      "type": "input",
+      "prompt": "It ___ (be) the price that put me off. (минулий час)",
+      "answer": [
+        "was"
+      ],
+      "explanation": "It was + виділене слово + that…; минулий час → was."
+    },
+    {
+      "type": "input",
+      "prompt": "___ I need right now is a strong coffee.",
+      "answer": [
+        "What",
+        "All"
+      ],
+      "explanation": "What I need is… або All I need is…"
+    },
+    {
+      "type": "error",
+      "sentence": "What I need are a long holiday.",
+      "wrongIndex": 3,
+      "correction": "is",
+      "alt": [],
+      "explanation": "What I need is…"
+    },
+    {
+      "type": "error",
+      "sentence": "It was him which broke the window.",
+      "wrongIndex": 3,
+      "correction": "who",
+      "alt": [
+        "that"
+      ],
+      "explanation": "Про людину — who/that."
+    },
+    {
+      "type": "transform",
+      "prompt": "The traffic annoys me most.",
+      "instruction": "What…",
+      "answer": [
+        "What annoys me most is the traffic.",
+        "What annoys me the most is the traffic."
+      ],
+      "explanation": "What + дієслово + me most + is…"
+    },
+    {
+      "type": "transform",
+      "prompt": "Emma booked the tickets, not me.",
+      "instruction": "It was…",
+      "answer": [
+        "It was Emma who booked the tickets, not me.",
+        "It was Emma that booked the tickets, not me.",
+        "It was Emma, not me, who booked the tickets.",
+        "It was Emma, not me, that booked the tickets."
+      ],
+      "explanation": "It was + особа + who/that…"
+    },
+    {
+      "type": "translate",
+      "uk": "Справа в тому, що я забув гаманець.",
+      "answer": [
+        "The thing is, I forgot my wallet.",
+        "The thing is that I forgot my wallet.",
+        "The thing is, I've forgotten my wallet.",
+        "The thing is that I've forgotten my wallet."
+      ],
+      "explanation": "The thing is (that)… — «справа в тому, що»."
+    }
   ]
- },
- "examples": [
-  {
-   "en": "It's the noise that I can't stand.",
-   "uk": "Саме шуму я не виношу."
-  },
-  {
-   "en": "What I really like about Kraków is the atmosphere.",
-   "uk": "Що мені справді подобається в Кракові — це атмосфера."
-  },
-  {
-   "en": "It was only last year that I started learning English seriously.",
-   "uk": "Лише минулого року я почав серйозно вчити англійську."
-  },
-  {
-   "en": "All I did was ask a question.",
-   "uk": "Я лише поставив питання."
-  },
-  {
-   "en": "The thing is, we don't have enough money.",
-   "uk": "Справа в тому, що нам бракує грошей."
-  }
- ],
- "tip": "Після **What…** дієслово-зв'язка зазвичай в однині: *What we need **is** new ideas.*",
- "exercises": [
-  {
-   "type": "choice",
-   "prompt": "___ was my brother who told me the news.",
-   "options": [
-    "It",
-    "That",
-    "What"
-   ],
-   "answer": "It",
-   "explanation": "It was + виділене слово + who/that…"
-  },
-  {
-   "type": "choice",
-   "prompt": "___ I don't understand is why he left.",
-   "options": [
-    "That",
-    "What",
-    "It"
-   ],
-   "answer": "What",
-   "explanation": "What + підмет + дієслово + is… — виділяємо цілу думку."
-  },
-  {
-   "type": "choice",
-   "prompt": "It was in 2015 ___ we first met.",
-   "options": [
-    "which",
-    "that",
-    "what"
-   ],
-   "answer": "that",
-   "explanation": "It was + час/місце + that…"
-  },
-  {
-   "type": "choice",
-   "prompt": "All I want ___ a quiet evening.",
-   "options": [
-    "is",
-    "are",
-    "be"
-   ],
-   "answer": "is",
-   "explanation": "All I want is… — дієслово в однині."
-  },
-  {
-   "type": "input",
-   "prompt": "What surprised me ___ (be) how friendly everyone was. (минулий час)",
-   "answer": [
-    "was"
-   ],
-   "explanation": "What-речення як підмет → дієслово в однині; минулий час → was."
-  },
-  {
-   "type": "input",
-   "prompt": "It ___ (be) the price that put me off. (минулий час)",
-   "answer": [
-    "was"
-   ],
-   "explanation": "It was + виділене слово + that…; минулий час → was."
-  },
-  {
-   "type": "input",
-   "prompt": "___ I need right now is a strong coffee.",
-   "answer": [
-    "What",
-    "All"
-   ],
-   "explanation": "What I need is… або All I need is…"
-  },
-  {
-   "type": "error",
-   "sentence": "What I need are a long holiday.",
-   "wrongIndex": 3,
-   "correction": "is",
-   "alt": [],
-   "explanation": "What I need is…"
-  },
-  {
-   "type": "error",
-   "sentence": "It was him which broke the window.",
-   "wrongIndex": 3,
-   "correction": "who",
-   "alt": [
-    "that"
-   ],
-   "explanation": "Про людину — who/that."
-  },
-  {
-   "type": "transform",
-   "prompt": "The traffic annoys me most.",
-   "instruction": "What…",
-   "answer": [
-    "What annoys me most is the traffic.",
-    "What annoys me the most is the traffic."
-   ],
-   "explanation": "What + дієслово + me most + is…"
-  },
-  {
-   "type": "transform",
-   "prompt": "Emma booked the tickets, not me.",
-   "instruction": "It was…",
-   "answer": [
-    "It was Emma who booked the tickets, not me.",
-    "It was Emma that booked the tickets, not me.",
-    "It was Emma, not me, who booked the tickets.",
-    "It was Emma, not me, that booked the tickets."
-   ],
-   "explanation": "It was + особа + who/that…"
-  },
-  {
-   "type": "translate",
-   "uk": "Справа в тому, що я забув гаманець.",
-   "answer": [
-    "The thing is, I forgot my wallet.",
-    "The thing is that I forgot my wallet.",
-    "The thing is, I've forgotten my wallet.",
-    "The thing is that I've forgotten my wallet."
-   ],
-   "explanation": "The thing is (that)… — «справа в тому, що»."
-  }
- ]
 }

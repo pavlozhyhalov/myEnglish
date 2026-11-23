@@ -1,178 +1,288 @@
 {
- "id": "some-any-much-many",
- "title": "Some / any, much / many",
- "titleEn": "some, any, much, many, a lot of",
- "unit": "Іменник і артиклі",
- "level": "A2",
- "mistakeType": "vocabulary",
- "explanation": "**Злічувані** іменники можна порахувати (*an apple, two apples*), **незлічувані** — ні (*water, money, time, information, advice*).\n\n**some** — у ствердженнях і проханнях/пропозиціях: *I've got **some** money. Would you like **some** tea?*\n**any** — у запереченнях і питаннях: *I don't have **any** time. Have you got **any** questions?*\n\n**many** + злічувані, **much** + незлічувані (переважно в запереченнях і питаннях): *How **many** people? How **much** money?* У ствердженнях природніше **a lot of**: *There's **a lot of** traffic.*",
- "formula": [
-  "**some** (+) · **any** (− / ?)",
-  "**many** + злічувані · **much** + незлічувані"
- ],
- "table": {
-  "head": [
-   "",
-   "злічувані",
-   "незлічувані"
+  "id": "some-any-much-many",
+  "title": "Some / any, much / many",
+  "titleEn": "some, any, much, many, a lot of",
+  "unit": "Іменник і артиклі",
+  "level": "A2",
+  "mistakeType": "vocabulary",
+  "explanation": "- **some** — ствердження, прохання, пропозиції: *some bread, some friends*\n- **any** — заперечення й питання: *not any milk, any questions?*\n- **many** + злічувані в множині · **much** + незлічувані — переважно в запереченнях і питаннях\n- **a lot of** — з усіма, переважно у ствердженнях\n- **a few** + злічувані · **a little** + незлічувані — «кілька, трохи»\n\n*not any* = *no*: *I haven't got any time. = I've got no time.*\n*something / anything, somebody / anybody* — за тим самим правилом.",
+  "guide": {
+    "idea": "Ці слова кажуть про кількість, коли точне число неважливе: **some / any** — «трохи, кілька», **much / many / a lot of** — «багато». Вибір залежить від двох речей: тип речення (ствердження, заперечення, питання) і чи можна іменник порахувати.",
+    "use": [
+      {
+        "when": "some — є, але невідомо скільки",
+        "note": "Ствердження: трохи, кілька.",
+        "en": "I bought some apples and some cheese.",
+        "uk": "Я купив яблук і сиру."
+      },
+      {
+        "when": "some у проханнях і пропозиціях",
+        "note": "Чекаємо на «так»: Would you like…?, Can I have…?",
+        "en": "Would you like some more cake?",
+        "uk": "Хочете ще торта?"
+      },
+      {
+        "when": "any — заперечення й питання",
+        "note": "«Жодного» або «чи є хоч трохи?».",
+        "en": "Have we got any eggs?",
+        "uk": "У нас є яйця?"
+      },
+      {
+        "when": "a lot of — «багато» у ствердженні",
+        "note": "Природно з будь-якими іменниками.",
+        "en": "There were a lot of people at the concert.",
+        "uk": "На концерті було багато людей."
+      },
+      {
+        "when": "much / many — у − і ?",
+        "note": "How much, How many, not much, not many.",
+        "en": "We haven't got much time.",
+        "uk": "У нас не так багато часу."
+      },
+      {
+        "when": "a few / a little — «кілька, трохи»",
+        "note": "a few + злічувані, a little + незлічувані.",
+        "en": "Can you wait a few minutes?",
+        "uk": "Можете зачекати кілька хвилин?"
+      }
+    ],
+    "vs": [
+      {
+        "title": "some чи any в питанні?",
+        "a": {
+          "en": "Would you like some tea?",
+          "uk": "Хочете чаю?",
+          "note": "Пропозиція — чекаємо «так»."
+        },
+        "b": {
+          "en": "Is there any tea left?",
+          "uk": "Чай ще лишився?",
+          "note": "Справжнє питання — відповіді не знаємо."
+        }
+      },
+      {
+        "title": "much чи many?",
+        "a": {
+          "en": "How many cups of coffee do you drink?",
+          "uk": "Скільки чашок кави ви п'єте?",
+          "note": "Чашки можна порахувати — many."
+        },
+        "b": {
+          "en": "How much coffee do you drink?",
+          "uk": "Скільки кави ви п'єте?",
+          "note": "Кава як маса — much."
+        }
+      },
+      {
+        "title": "a lot of чи much?",
+        "a": {
+          "en": "She's got a lot of money.",
+          "uk": "У неї багато грошей.",
+          "note": "У ствердженні — a lot of."
+        },
+        "b": {
+          "en": "She hasn't got much money.",
+          "uk": "У неї небагато грошей.",
+          "note": "much — у запереченні й питанні; у ствердженні звучить книжно."
+        }
+      }
+    ],
+    "signals": [],
+    "mistakes": [
+      {
+        "wrong": "I don't have some money.",
+        "right": "I don't have any money.",
+        "why": "У запереченні — any."
+      },
+      {
+        "wrong": "There are much people here.",
+        "right": "There are a lot of people here.",
+        "why": "people злічуване, а у ствердженні природніше a lot of."
+      },
+      {
+        "wrong": "How much eggs do we need?",
+        "right": "How many eggs do we need?",
+        "why": "eggs злічувані — How many."
+      },
+      {
+        "wrong": "I haven't got no time.",
+        "right": "I haven't got any time.",
+        "why": "Одне заперечення в реченні: not + any (або просто no time)."
+      },
+      {
+        "wrong": "Can I have any water?",
+        "right": "Can I have some water, please?",
+        "why": "Прохання — some, бо чекаємо на «так»."
+      }
+    ]
+  },
+  "formula": [
+    "**some** (+) · **any** (− / ?)",
+    "**many** + злічувані · **much** + незлічувані"
   ],
-  "rows": [
-   [
-    "Скільки?",
-    "How many eggs?",
-    "How much milk?"
-   ],
-   [
-    "мало",
-    "a few friends",
-    "a little time"
-   ],
-   [
-    "багато",
-    "a lot of / many cars",
-    "a lot of / much money"
-   ]
+  "table": {
+    "head": [
+      "",
+      "злічувані",
+      "незлічувані"
+    ],
+    "rows": [
+      [
+        "Скільки?",
+        "How many eggs?",
+        "How much milk?"
+      ],
+      [
+        "мало",
+        "a few friends",
+        "a little time"
+      ],
+      [
+        "багато",
+        "a lot of / many cars",
+        "a lot of / much money"
+      ]
+    ]
+  },
+  "examples": [
+    {
+      "en": "Can I have some water, please?",
+      "uk": "Можна мені води?"
+    },
+    {
+      "en": "There aren't any tickets left.",
+      "uk": "Квитків не залишилось."
+    },
+    {
+      "en": "How much does it cost?",
+      "uk": "Скільки це коштує?"
+    },
+    {
+      "en": "I don't have much free time.",
+      "uk": "У мене небагато вільного часу."
+    },
+    {
+      "en": "We met a lot of nice people.",
+      "uk": "Ми зустріли багато приємних людей."
+    }
+  ],
+  "tip": "**information, advice, news, furniture** — незлічувані: *some advice*, не ~~an advice~~ чи ~~advices~~.",
+  "exercises": [
+    {
+      "type": "choice",
+      "prompt": "I can't make tea — there isn't ___ milk.",
+      "options": [
+        "some",
+        "any",
+        "many"
+      ],
+      "answer": "any",
+      "explanation": "Заперечення → any."
+    },
+    {
+      "type": "choice",
+      "prompt": "How ___ people were at the party?",
+      "options": [
+        "much",
+        "many"
+      ],
+      "answer": "many",
+      "explanation": "People — злічуване → many."
+    },
+    {
+      "type": "choice",
+      "prompt": "I'd like ___ information about the course.",
+      "options": [
+        "an",
+        "some",
+        "many"
+      ],
+      "answer": "some",
+      "explanation": "Information — незлічуване: some, не an."
+    },
+    {
+      "type": "choice",
+      "prompt": "We don't have ___ time.",
+      "options": [
+        "many",
+        "much",
+        "some"
+      ],
+      "answer": "much",
+      "explanation": "Time — незлічуване → much."
+    },
+    {
+      "type": "input",
+      "prompt": "Would you like ___ coffee? (some / any — пропозиція)",
+      "answer": [
+        "some"
+      ],
+      "explanation": "Пропозиція — some: Would you like some…?"
+    },
+    {
+      "type": "input",
+      "prompt": "How ___ money do you need?",
+      "answer": [
+        "much"
+      ],
+      "explanation": "Money — незлічуване → much."
+    },
+    {
+      "type": "input",
+      "prompt": "There aren't ___ chairs in the room. (some / any)",
+      "answer": [
+        "any"
+      ],
+      "explanation": "Заперечення → any."
+    },
+    {
+      "type": "error",
+      "sentence": "Can you give me an advice?",
+      "wrongIndex": 4,
+      "correction": "",
+      "alt": [
+        "some",
+        "any",
+        ""
+      ],
+      "explanation": "Advice — незлічуване: an зайве. Можна прибрати або сказати some / any advice."
+    },
+    {
+      "type": "error",
+      "sentence": "How much eggs do we need?",
+      "wrongIndex": 1,
+      "correction": "many",
+      "alt": [],
+      "explanation": "eggs — злічувані."
+    },
+    {
+      "type": "order",
+      "prompt": "У мене є кілька питань.",
+      "answer": [
+        "I have some questions.",
+        "I've got some questions.",
+        "I have a few questions."
+      ],
+      "explanation": ""
+    },
+    {
+      "type": "translate",
+      "uk": "Скільки коштують квитки?",
+      "answer": [
+        "How much are the tickets?",
+        "How much do the tickets cost?"
+      ],
+      "explanation": ""
+    },
+    {
+      "type": "translate",
+      "uk": "У нас немає хліба.",
+      "answer": [
+        "We don't have any bread.",
+        "We haven't got any bread.",
+        "We have no bread."
+      ],
+      "explanation": ""
+    }
   ]
- },
- "examples": [
-  {
-   "en": "Can I have some water, please?",
-   "uk": "Можна мені води?"
-  },
-  {
-   "en": "There aren't any tickets left.",
-   "uk": "Квитків не залишилось."
-  },
-  {
-   "en": "How much does it cost?",
-   "uk": "Скільки це коштує?"
-  },
-  {
-   "en": "I don't have much free time.",
-   "uk": "У мене небагато вільного часу."
-  },
-  {
-   "en": "We met a lot of nice people.",
-   "uk": "Ми зустріли багато приємних людей."
-  }
- ],
- "tip": "**information, advice, news, furniture** — незлічувані: *some advice*, не ~~an advice~~ чи ~~advices~~.",
- "exercises": [
-  {
-   "type": "choice",
-   "prompt": "I can't make tea — there isn't ___ milk.",
-   "options": [
-    "some",
-    "any",
-    "many"
-   ],
-   "answer": "any",
-   "explanation": "Заперечення → any."
-  },
-  {
-   "type": "choice",
-   "prompt": "How ___ people were at the party?",
-   "options": [
-    "much",
-    "many"
-   ],
-   "answer": "many",
-   "explanation": "People — злічуване → many."
-  },
-  {
-   "type": "choice",
-   "prompt": "I'd like ___ information about the course.",
-   "options": [
-    "an",
-    "some",
-    "many"
-   ],
-   "answer": "some",
-   "explanation": "Information — незлічуване: some, не an."
-  },
-  {
-   "type": "choice",
-   "prompt": "We don't have ___ time.",
-   "options": [
-    "many",
-    "much",
-    "some"
-   ],
-   "answer": "much",
-   "explanation": "Time — незлічуване → much."
-  },
-  {
-   "type": "input",
-   "prompt": "Would you like ___ coffee? (some / any — пропозиція)",
-   "answer": [
-    "some"
-   ],
-   "explanation": "Пропозиція — some: Would you like some…?"
-  },
-  {
-   "type": "input",
-   "prompt": "How ___ money do you need?",
-   "answer": [
-    "much"
-   ],
-   "explanation": "Money — незлічуване → much."
-  },
-  {
-   "type": "input",
-   "prompt": "There aren't ___ chairs in the room. (some / any)",
-   "answer": [
-    "any"
-   ],
-   "explanation": "Заперечення → any."
-  },
-  {
-   "type": "error",
-   "sentence": "Can you give me an advice?",
-   "wrongIndex": 4,
-   "correction": "",
-   "alt": [
-    "some",
-    "any",
-    ""
-   ],
-   "explanation": "Advice — незлічуване: an зайве. Можна прибрати або сказати some / any advice."
-  },
-  {
-   "type": "error",
-   "sentence": "How much eggs do we need?",
-   "wrongIndex": 1,
-   "correction": "many",
-   "alt": [],
-   "explanation": "eggs — злічувані."
-  },
-  {
-   "type": "order",
-   "prompt": "У мене є кілька питань.",
-   "answer": [
-    "I have some questions.",
-    "I've got some questions.",
-    "I have a few questions."
-   ],
-   "explanation": ""
-  },
-  {
-   "type": "translate",
-   "uk": "Скільки коштують квитки?",
-   "answer": [
-    "How much are the tickets?",
-    "How much do the tickets cost?"
-   ],
-   "explanation": ""
-  },
-  {
-   "type": "translate",
-   "uk": "У нас немає хліба.",
-   "answer": [
-    "We don't have any bread.",
-    "We haven't got any bread.",
-    "We have no bread."
-   ],
-   "explanation": ""
-  }
- ]
 }

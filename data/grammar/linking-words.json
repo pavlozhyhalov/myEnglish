@@ -1,163 +1,284 @@
 {
- "id": "linking-words",
- "title": "Сполучники: although, however, despite",
- "titleEn": "Linking words: although, however, despite, because, so, in case",
- "unit": "Будова речення",
- "level": "B2",
- "mistakeType": "word_order",
- "explanation": "Сполучники роблять мову зв'язною і «дорослою».\n\n**Протиставлення:**\n- *although / even though* + речення: *Although it was raining, we went out.*\n- *despite / in spite of* + **іменник або -ing**: *Despite the rain, we went out. Despite feeling tired, he went to work.*\n- *however* — на початку нового речення, з комою: *It was raining. **However**, we went out.*\n- *but* — у середині речення.\n\n**Причина і наслідок:** *because* + речення, *because of* + іменник; *so* — тому; *therefore* — офіційне «отже».\n\n**in case** — на випадок, якщо: *Take an umbrella **in case** it rains.*",
- "formula": [
-  "although + S + V · despite + noun / V-ing",
-  "because + S + V · because of + noun"
- ],
- "examples": [
-  {
-   "en": "Although the hotel was cheap, it was very clean.",
-   "uk": "Хоча готель був дешевий, він був дуже чистий."
+  "id": "linking-words",
+  "title": "Сполучники: although, however, despite",
+  "titleEn": "Linking words: although, however, despite, because, so, in case",
+  "unit": "Будова речення",
+  "level": "B2",
+  "mistakeType": "word_order",
+  "explanation": "**+ речення** (підмет + дієслово): *although, even though, because, so, in case*\n**+ іменник / -ing:** *despite, in spite of, because of*\n**Нове речення + кома:** *However, … · Therefore, …*\n**but / so** — посередині, після коми: *It was late, **so** we left.*\n\nПісля *in case* — теперішній час: *in case it **rains***.",
+  "guide": {
+    "idea": "Сполучники показують, як пов'язані думки: протиставлення, причина, наслідок чи запобіжний захід. Без них мова звучить як список окремих фраз, з ними — як зв'язна розповідь.",
+    "use": [
+      {
+        "when": "Протиставлення в одному реченні",
+        "note": "although / even though + речення; but — посередині.",
+        "en": "Although it was late, we stayed for one more coffee.",
+        "uk": "Хоча було пізно, ми лишилися ще на одну каву."
+      },
+      {
+        "when": "Протиставлення з іменником",
+        "note": "despite / in spite of + іменник або -ing.",
+        "en": "Despite the rain, the match went ahead.",
+        "uk": "Попри дощ, матч відбувся."
+      },
+      {
+        "when": "Протиставлення двох речень",
+        "note": "However, — на початку нового речення, з комою.",
+        "en": "The hotel was lovely. However, the food was terrible.",
+        "uk": "Готель був чудовий. Проте їжа була жахлива."
+      },
+      {
+        "when": "Причина",
+        "note": "because + речення, because of + іменник.",
+        "en": "We stayed in because of the storm.",
+        "uk": "Ми лишилися вдома через бурю."
+      },
+      {
+        "when": "Наслідок",
+        "note": "so — у розмові, therefore — в офіційному тексті.",
+        "en": "The shop was closed, so we went home.",
+        "uk": "Магазин був зачинений, тож ми пішли додому."
+      },
+      {
+        "when": "Про всяк випадок",
+        "note": "in case — роблю зараз, бо щось може статися.",
+        "en": "Take some cash in case they don't accept cards.",
+        "uk": "Візьми готівку — раптом там не приймають картки."
+      }
+    ],
+    "vs": [
+      {
+        "title": "in case чи if?",
+        "a": {
+          "en": "I'll take an umbrella in case it rains.",
+          "uk": "Візьму парасолю — раптом піде дощ.",
+          "note": "Беру в будь-якому разі, про всяк випадок."
+        },
+        "b": {
+          "en": "I'll take a taxi if it rains.",
+          "uk": "Візьму таксі, якщо піде дощ.",
+          "note": "Візьму, лише якщо дощ справді піде."
+        }
+      },
+      {
+        "title": "because чи because of?",
+        "a": {
+          "en": "We were late because the traffic was bad.",
+          "uk": "Ми запізнилися, бо були затори.",
+          "note": "Далі — підмет і дієслово."
+        },
+        "b": {
+          "en": "We were late because of the traffic.",
+          "uk": "Ми запізнилися через затори.",
+          "note": "Далі — лише іменник."
+        }
+      },
+      {
+        "title": "although чи however?",
+        "a": {
+          "en": "Although it was cold, we went out.",
+          "uk": "Хоча було холодно, ми вийшли.",
+          "note": "Одне речення з двох частин."
+        },
+        "b": {
+          "en": "It was cold. However, we went out.",
+          "uk": "Було холодно. Проте ми вийшли.",
+          "note": "Два окремі речення; however — на початку другого."
+        }
+      }
+    ],
+    "signals": [
+      "although",
+      "even though",
+      "despite",
+      "in spite of",
+      "however",
+      "because",
+      "because of",
+      "so",
+      "therefore",
+      "in case"
+    ],
+    "mistakes": [
+      {
+        "wrong": "Despite it was raining, we went out.",
+        "right": "Although it was raining, we went out.",
+        "why": "Після despite не буває підмета з дієсловом — лише іменник або -ing."
+      },
+      {
+        "wrong": "Despite of the rain, we went out.",
+        "right": "Despite the rain, we went out.",
+        "why": "despite — без of; of буває лише в in spite of."
+      },
+      {
+        "wrong": "We were late because the traffic.",
+        "right": "We were late because of the traffic.",
+        "why": "Перед іменником — because of."
+      },
+      {
+        "wrong": "Although it was expensive, but we bought it.",
+        "right": "Although it was expensive, we bought it.",
+        "why": "Українське «хоча…, але…» англійською — лише одне з двох слів."
+      },
+      {
+        "wrong": "Take an umbrella in case it will rain.",
+        "right": "Take an umbrella in case it rains.",
+        "why": "Після in case — теперішній час, а не will."
+      }
+    ]
   },
-  {
-   "en": "Despite the traffic, we arrived on time.",
-   "uk": "Попри затори, ми приїхали вчасно."
-  },
-  {
-   "en": "I'd love to come. However, I have to work that day.",
-   "uk": "Я б із радістю прийшов. Однак того дня мені треба працювати."
-  },
-  {
-   "en": "The flight was cancelled because of the storm.",
-   "uk": "Рейс скасували через бурю."
-  },
-  {
-   "en": "I'll take some snacks in case we get hungry.",
-   "uk": "Візьму перекус на випадок, якщо зголодніємо."
-  }
- ],
- "exercises": [
-  {
-   "type": "choice",
-   "prompt": "___ the rain, we had a great time.",
-   "options": [
-    "Although",
-    "Despite",
-    "However"
-   ],
-   "answer": "Despite",
-   "explanation": "Despite + іменник."
-  },
-  {
-   "type": "choice",
-   "prompt": "___ it was late, we kept talking.",
-   "options": [
-    "Despite",
-    "Although",
-    "In spite"
-   ],
-   "answer": "Although",
-   "explanation": "Although + речення."
-  },
-  {
-   "type": "choice",
-   "prompt": "The shop was closed ___ the holiday.",
-   "options": [
-    "because",
-    "because of",
-    "so"
-   ],
-   "answer": "because of",
-   "explanation": "because of + іменник (the holiday); because — перед реченням."
-  },
-  {
-   "type": "choice",
-   "prompt": "I'm tired. ___, I'll help you.",
-   "options": [
-    "Although",
-    "However",
-    "Despite"
-   ],
-   "answer": "However",
-   "explanation": "However з комою починає нове речення; although і despite не стоять окремо."
-  },
-  {
-   "type": "choice",
-   "prompt": "Write down my number ___ you get lost.",
-   "options": [
-    "in case",
-    "because",
-    "despite"
-   ],
-   "answer": "in case",
-   "explanation": "in case — «на випадок, якщо»."
-  },
-  {
-   "type": "input",
-   "prompt": "Despite ___ (feel) ill, she went to work.",
-   "answer": [
-    "feeling"
-   ],
-   "explanation": "despite + -ing."
-  },
-  {
-   "type": "input",
-   "prompt": "It was raining, ___ we stayed in. (1 слово)",
-   "answer": [
-    "so"
-   ],
-   "explanation": "so — «тож», вводить наслідок."
-  },
-  {
-   "type": "error",
-   "sentence": "Although the bad weather, the trip was fun.",
-   "wrongIndex": 0,
-   "correction": "Despite",
-   "alt": [
-    "In spite of"
-   ],
-   "explanation": "Перед іменником — despite / in spite of."
-  },
-  {
-   "type": "error",
-   "sentence": "We went out despite it was cold.",
-   "wrongIndex": 3,
-   "correction": "although",
-   "alt": [
-    "even though",
-    "though"
-   ],
-   "explanation": "Перед реченням — although."
-  },
-  {
-   "type": "order",
-   "prompt": "Хоча я втомився, я пішов на тренування.",
-   "answer": [
-    "Although I was tired, I went to the gym.",
-    "Although I was tired, I went to training.",
-    "I went to the gym although I was tired."
-   ],
-   "explanation": "Although + повне речення."
-  },
-  {
-   "type": "transform",
-   "prompt": "Although it was expensive, we bought it.",
-   "instruction": "Перепишіть з Despite",
-   "answer": [
-    "Despite the price, we bought it.",
-    "Despite it being expensive, we bought it.",
-    "Despite the high price, we bought it.",
-    "Despite its price, we bought it.",
-    "Despite the fact that it was expensive, we bought it.",
-    "In spite of the price, we bought it."
-   ],
-   "explanation": "Despite + іменник, -ing або the fact that + речення."
-  },
-  {
-   "type": "translate",
-   "uk": "Візьми куртку на випадок, якщо похолодає.",
-   "answer": [
-    "Take a jacket in case it gets cold.",
-    "Take your jacket in case it gets cold.",
-    "Take a jacket in case it gets colder."
-   ],
-   "explanation": "in case — «на випадок, якщо» + Present Simple."
-  }
- ]
+  "formula": [
+    "although + S + V · despite + noun / V-ing",
+    "because + S + V · because of + noun"
+  ],
+  "examples": [
+    {
+      "en": "Although the hotel was cheap, it was very clean.",
+      "uk": "Хоча готель був дешевий, він був дуже чистий."
+    },
+    {
+      "en": "Despite the traffic, we arrived on time.",
+      "uk": "Попри затори, ми приїхали вчасно."
+    },
+    {
+      "en": "I'd love to come. However, I have to work that day.",
+      "uk": "Я б із радістю прийшов. Однак того дня мені треба працювати."
+    },
+    {
+      "en": "The flight was cancelled because of the storm.",
+      "uk": "Рейс скасували через бурю."
+    },
+    {
+      "en": "I'll take some snacks in case we get hungry.",
+      "uk": "Візьму перекус на випадок, якщо зголодніємо."
+    }
+  ],
+  "exercises": [
+    {
+      "type": "choice",
+      "prompt": "___ the rain, we had a great time.",
+      "options": [
+        "Although",
+        "Despite",
+        "However"
+      ],
+      "answer": "Despite",
+      "explanation": "Despite + іменник."
+    },
+    {
+      "type": "choice",
+      "prompt": "___ it was late, we kept talking.",
+      "options": [
+        "Despite",
+        "Although",
+        "In spite"
+      ],
+      "answer": "Although",
+      "explanation": "Although + речення."
+    },
+    {
+      "type": "choice",
+      "prompt": "The shop was closed ___ the holiday.",
+      "options": [
+        "because",
+        "because of",
+        "so"
+      ],
+      "answer": "because of",
+      "explanation": "because of + іменник (the holiday); because — перед реченням."
+    },
+    {
+      "type": "choice",
+      "prompt": "I'm tired. ___, I'll help you.",
+      "options": [
+        "Although",
+        "However",
+        "Despite"
+      ],
+      "answer": "However",
+      "explanation": "However з комою починає нове речення; although і despite не стоять окремо."
+    },
+    {
+      "type": "choice",
+      "prompt": "Write down my number ___ you get lost.",
+      "options": [
+        "in case",
+        "because",
+        "despite"
+      ],
+      "answer": "in case",
+      "explanation": "in case — «на випадок, якщо»."
+    },
+    {
+      "type": "input",
+      "prompt": "Despite ___ (feel) ill, she went to work.",
+      "answer": [
+        "feeling"
+      ],
+      "explanation": "despite + -ing."
+    },
+    {
+      "type": "input",
+      "prompt": "It was raining, ___ we stayed in. (1 слово)",
+      "answer": [
+        "so"
+      ],
+      "explanation": "so — «тож», вводить наслідок."
+    },
+    {
+      "type": "error",
+      "sentence": "Although the bad weather, the trip was fun.",
+      "wrongIndex": 0,
+      "correction": "Despite",
+      "alt": [
+        "In spite of"
+      ],
+      "explanation": "Перед іменником — despite / in spite of."
+    },
+    {
+      "type": "error",
+      "sentence": "We went out despite it was cold.",
+      "wrongIndex": 3,
+      "correction": "although",
+      "alt": [
+        "even though",
+        "though"
+      ],
+      "explanation": "Перед реченням — although."
+    },
+    {
+      "type": "order",
+      "prompt": "Хоча я втомився, я пішов на тренування.",
+      "answer": [
+        "Although I was tired, I went to the gym.",
+        "Although I was tired, I went to training.",
+        "I went to the gym although I was tired."
+      ],
+      "explanation": "Although + повне речення."
+    },
+    {
+      "type": "transform",
+      "prompt": "Although it was expensive, we bought it.",
+      "instruction": "Перепишіть з Despite",
+      "answer": [
+        "Despite the price, we bought it.",
+        "Despite it being expensive, we bought it.",
+        "Despite the high price, we bought it.",
+        "Despite its price, we bought it.",
+        "Despite the fact that it was expensive, we bought it.",
+        "In spite of the price, we bought it."
+      ],
+      "explanation": "Despite + іменник, -ing або the fact that + речення."
+    },
+    {
+      "type": "translate",
+      "uk": "Візьми куртку на випадок, якщо похолодає.",
+      "answer": [
+        "Take a jacket in case it gets cold.",
+        "Take your jacket in case it gets cold.",
+        "Take a jacket in case it gets colder."
+      ],
+      "explanation": "in case — «на випадок, якщо» + Present Simple."
+    }
+  ]
 }

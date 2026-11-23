@@ -1,177 +1,268 @@
 {
- "id": "participle-clauses",
- "title": "Дієприкметникові звороти",
- "titleEn": "Participle clauses",
- "unit": "Просунуті конструкції",
- "level": "C1",
- "mistakeType": "word_order",
- "explanation": "**Participle clauses** скорочують речення і роблять мову щільнішою (листи, розповіді, новини).\n\n**V-ing** — одночасна або причинна дія (актив): ***Feeling** tired, I went to bed early.* (= Because I felt tired…)\n\n**Having + V3** — дія **раніше** за іншу: ***Having finished** the report, she went home.*\n\n**V3** — пасивне значення: ***Built** in 1890, the house needs repairs.* (= It was built…)\n\nПідмет звороту має збігатися з підметом головного речення!",
- "formula": [
-  "**V-ing**, … (одночасно / бо)",
-  "**Having V3**, … (спершу)",
-  "**V3**, … (пасив)"
- ],
- "table": {
-  "head": [
-   "Зворот",
-   "Повне речення"
+  "id": "participle-clauses",
+  "title": "Дієприкметникові звороти",
+  "titleEn": "Participle clauses",
+  "unit": "Просунуті конструкції",
+  "level": "C1",
+  "mistakeType": "word_order",
+  "explanation": "Прибираємо сполучник і підмет, дієслово — у формі дієприкметника:\n\n- **V-ing** — актив, одночасно або причина: *Feeling tired, I went to bed.*\n- **Having + V3** — актив, дія раніше: *Having finished, she went home.*\n- **V3** — пасив: *Built in 1890, the house…*\n- **Having been + V3** — пасив, раніше: *Having been warned, we…*\n- заперечення — **not** на початку: *Not knowing…, Not having…*\n\n**Підмет звороту = підмет головного речення.**\nМожна залишити сполучник: **after / before / while / when / since + V-ing**: *While waiting, I read.*\nПісля іменника — замість who / which: *the man **sitting** next to me*, *a car **made** in Japan*.",
+  "guide": {
+    "idea": "Дієприкметниковий зворот (Feeling tired… · Having finished… · Built in 1890…) стискає два речення в одне без because, when, after. Це ознака письмової, впевненої англійської — розповідей, листів, новин, есе. У розмові його вживають рідше, переважно V-ing про одночасні дії.",
+    "use": [
+      {
+        "when": "Причина коротко",
+        "note": "V-ing / Not V-ing замість because, особливо з почуттями й знанням: Knowing…, Not wanting…",
+        "en": "Not wanting to wake the baby, we whispered.",
+        "uk": "Не бажаючи розбудити дитину, ми говорили пошепки."
+      },
+      {
+        "when": "Дві дії одночасно",
+        "note": "V-ing — що людина робила в той самий час; оживляє розповідь.",
+        "en": "Walking along the beach, I found an old coin.",
+        "uk": "Ідучи пляжем, я знайшов стару монету."
+      },
+      {
+        "when": "Спершу одне, потім інше",
+        "note": "Having V3 — перша дія завершилася до другої.",
+        "en": "Having checked out of the hotel, we left our bags at reception.",
+        "uk": "Виписавшись із готелю, ми залишили валізи на рецепції."
+      },
+      {
+        "when": "Пасивне значення",
+        "note": "V3 на початку = «який був зроблений»; типово для описів і новин.",
+        "en": "Opened in 1902, the theatre is still hugely popular.",
+        "uk": "Театр, відкритий у 1902 році, досі дуже популярний."
+      },
+      {
+        "when": "Замість who / which",
+        "note": "Скорочене означення після іменника — у правилах, оголошеннях, текстах.",
+        "en": "Passengers travelling to Leeds should change at York.",
+        "uk": "Пасажирам, які їдуть до Лідса, слід пересісти в Йорку."
+      }
+    ],
+    "vs": [
+      {
+        "title": "V-ing чи Having V3?",
+        "a": {
+          "en": "Hearing the news, she burst into tears.",
+          "uk": "Почувши новину, вона розплакалася.",
+          "note": "Реакція одразу — дії майже одночасні."
+        },
+        "b": {
+          "en": "Having lived abroad for years, she found it hard to come back.",
+          "uk": "Проживши роки за кордоном, вона важко звикала вдома.",
+          "note": "Перша дія тривала й скінчилася до другої."
+        }
+      },
+      {
+        "title": "V-ing чи V3?",
+        "a": {
+          "en": "Feeling bored, Tom left the party.",
+          "uk": "Знудившись, Том пішов з вечірки.",
+          "note": "Актив: Том сам відчував нудьгу."
+        },
+        "b": {
+          "en": "Bored by the speeches, Tom left the party.",
+          "uk": "Знуджений промовами, Том пішов з вечірки.",
+          "note": "Пасив: промови нудили Тома."
+        }
+      }
+    ],
+    "signals": [],
+    "mistakes": [
+      {
+        "wrong": "Walking down the street, the rain started.",
+        "right": "Walking down the street, I got caught in the rain.",
+        "why": "Підмет звороту й речення має збігатися — дощ вулицею не йшов."
+      },
+      {
+        "wrong": "After finished the work, I went home.",
+        "right": "Having finished the work, I went home.",
+        "why": "Після after — V-ing (after finishing), а для попередньої дії — Having V3."
+      },
+      {
+        "wrong": "Having been finished the report, she left.",
+        "right": "Having finished the report, she left.",
+        "why": "Вона сама закінчила звіт — це актив; Having been V3 — лише для пасиву."
+      },
+      {
+        "wrong": "Don't knowing what to say, I kept quiet.",
+        "right": "Not knowing what to say, I kept quiet.",
+        "why": "Зворот заперечуємо словом not, без do."
+      },
+      {
+        "wrong": "Made in Italy, I bought these shoes.",
+        "right": "Made in Italy, these shoes cost a fortune.",
+        "why": "V3-зворот описує підмет речення: виготовлені в Італії черевики, а не я."
+      }
+    ]
+  },
+  "formula": [
+    "**V-ing**, … (одночасно / бо)",
+    "**Having V3**, … (спершу)",
+    "**V3**, … (пасив)"
   ],
-  "rows": [
-   [
-    "Walking home, I met Tom.",
-    "While I was walking home, I met Tom."
-   ],
-   [
-    "Having lost the key, we called a locksmith.",
-    "Because we had lost the key, we called…"
-   ],
-   [
-    "Made in Italy, these shoes are expensive.",
-    "These shoes, which are made in Italy, are…"
-   ],
-   [
-    "Not knowing what to say, I kept quiet.",
-    "Because I didn't know what to say…"
-   ]
+  "table": {
+    "head": [
+      "Зворот",
+      "Повне речення"
+    ],
+    "rows": [
+      [
+        "Walking home, I met Tom.",
+        "While I was walking home, I met Tom."
+      ],
+      [
+        "Having lost the key, we called a locksmith.",
+        "Because we had lost the key, we called…"
+      ],
+      [
+        "Made in Italy, these shoes are expensive.",
+        "These shoes, which are made in Italy, are…"
+      ],
+      [
+        "Not knowing what to say, I kept quiet.",
+        "Because I didn't know what to say…"
+      ]
+    ]
+  },
+  "examples": [
+    {
+      "en": "Looking out of the window, I saw a deer.",
+      "uk": "Визирнувши у вікно, я побачив оленя."
+    },
+    {
+      "en": "Having lived in Poland for years, he speaks Polish fluently.",
+      "uk": "Проживши в Польщі багато років, він вільно говорить польською."
+    },
+    {
+      "en": "Asked about the delay, the manager apologised.",
+      "uk": "Коли менеджера запитали про затримку, він вибачився."
+    },
+    {
+      "en": "Not having a car, we took a taxi.",
+      "uk": "Не маючи машини, ми взяли таксі."
+    },
+    {
+      "en": "Written in simple English, the book is easy to read.",
+      "uk": "Книжку написано простою англійською, тож її легко читати."
+    }
+  ],
+  "tip": "Помилка «висячого звороту»: ~~Walking down the street, the rain started~~ (дощ не йшов вулицею). Правильно: *Walking down the street, **I** got caught in the rain.*",
+  "exercises": [
+    {
+      "type": "choice",
+      "prompt": "___ the email, she closed her laptop.",
+      "options": [
+        "Sending",
+        "Having sent",
+        "Sent"
+      ],
+      "answer": "Having sent",
+      "explanation": "Спершу надіслала."
+    },
+    {
+      "type": "choice",
+      "prompt": "___ in 1920, the bridge is still in use.",
+      "options": [
+        "Building",
+        "Built",
+        "Having built"
+      ],
+      "answer": "Built",
+      "explanation": "Пасив."
+    },
+    {
+      "type": "choice",
+      "prompt": "___ what to do, I called my dad.",
+      "options": [
+        "Not knowing",
+        "Not known",
+        "Knowing not"
+      ],
+      "answer": "Not knowing",
+      "explanation": "Заперечення в звороті — not перед -ing: Not knowing."
+    },
+    {
+      "type": "choice",
+      "prompt": "___ along the beach, we found a small café.",
+      "options": [
+        "Walked",
+        "Walking",
+        "Walk"
+      ],
+      "answer": "Walking",
+      "explanation": "Дії одночасні → -ing: Walking."
+    },
+    {
+      "type": "input",
+      "prompt": "___ (have / finish) dinner, we went for a walk.",
+      "answer": [
+        "Having finished"
+      ],
+      "explanation": "Дія завершилась раніше → Having + V3."
+    },
+    {
+      "type": "input",
+      "prompt": "___ (feel) ill, he stayed at home.",
+      "answer": [
+        "Feeling"
+      ],
+      "explanation": "Причина й одночасний стан → -ing: Feeling."
+    },
+    {
+      "type": "input",
+      "prompt": "___ (surprise) by the news, she didn't say a word.",
+      "answer": [
+        "Surprised"
+      ],
+      "explanation": "Пасивне значення (її здивували) → V3: Surprised."
+    },
+    {
+      "type": "error",
+      "sentence": "Having eat breakfast, I left the house.",
+      "wrongIndex": 1,
+      "correction": "eaten",
+      "alt": [],
+      "explanation": "Having + V3."
+    },
+    {
+      "type": "error",
+      "sentence": "Having spend all our money, we went home.",
+      "wrongIndex": 1,
+      "correction": "spent",
+      "alt": [],
+      "explanation": "Having + V3."
+    },
+    {
+      "type": "transform",
+      "prompt": "Because I didn't have an umbrella, I got wet.",
+      "instruction": "Почніть з Not having…",
+      "answer": [
+        "Not having an umbrella, I got wet."
+      ],
+      "explanation": "Причина із запереченням → Not having…"
+    },
+    {
+      "type": "transform",
+      "prompt": "After she had read the letter, she started to cry.",
+      "instruction": "Почніть з Having…",
+      "answer": [
+        "Having read the letter, she started to cry.",
+        "Having read the letter, she began to cry.",
+        "Having read the letter, she started crying."
+      ],
+      "explanation": "Спершу прочитала → Having + V3."
+    },
+    {
+      "type": "translate",
+      "uk": "Не знаючи міста, ми швидко загубилися.",
+      "answer": [
+        "Not knowing the city, we quickly got lost.",
+        "Not knowing the city, we got lost quickly.",
+        "Not knowing the town, we quickly got lost."
+      ],
+      "explanation": "Причина → Not + V-ing: Not knowing."
+    }
   ]
- },
- "examples": [
-  {
-   "en": "Looking out of the window, I saw a deer.",
-   "uk": "Визирнувши у вікно, я побачив оленя."
-  },
-  {
-   "en": "Having lived in Poland for years, he speaks Polish fluently.",
-   "uk": "Проживши в Польщі багато років, він вільно говорить польською."
-  },
-  {
-   "en": "Asked about the delay, the manager apologised.",
-   "uk": "Коли менеджера запитали про затримку, він вибачився."
-  },
-  {
-   "en": "Not having a car, we took a taxi.",
-   "uk": "Не маючи машини, ми взяли таксі."
-  },
-  {
-   "en": "Written in simple English, the book is easy to read.",
-   "uk": "Книжку написано простою англійською, тож її легко читати."
-  }
- ],
- "tip": "Помилка «висячого звороту»: ~~Walking down the street, the rain started~~ (дощ не йшов вулицею). Правильно: *Walking down the street, **I** got caught in the rain.*",
- "exercises": [
-  {
-   "type": "choice",
-   "prompt": "___ the email, she closed her laptop.",
-   "options": [
-    "Sending",
-    "Having sent",
-    "Sent"
-   ],
-   "answer": "Having sent",
-   "explanation": "Спершу надіслала."
-  },
-  {
-   "type": "choice",
-   "prompt": "___ in 1920, the bridge is still in use.",
-   "options": [
-    "Building",
-    "Built",
-    "Having built"
-   ],
-   "answer": "Built",
-   "explanation": "Пасив."
-  },
-  {
-   "type": "choice",
-   "prompt": "___ what to do, I called my dad.",
-   "options": [
-    "Not knowing",
-    "Not known",
-    "Knowing not"
-   ],
-   "answer": "Not knowing",
-   "explanation": "Заперечення в звороті — not перед -ing: Not knowing."
-  },
-  {
-   "type": "choice",
-   "prompt": "___ along the beach, we found a small café.",
-   "options": [
-    "Walked",
-    "Walking",
-    "Walk"
-   ],
-   "answer": "Walking",
-   "explanation": "Дії одночасні → -ing: Walking."
-  },
-  {
-   "type": "input",
-   "prompt": "___ (have / finish) dinner, we went for a walk.",
-   "answer": [
-    "Having finished"
-   ],
-   "explanation": "Дія завершилась раніше → Having + V3."
-  },
-  {
-   "type": "input",
-   "prompt": "___ (feel) ill, he stayed at home.",
-   "answer": [
-    "Feeling"
-   ],
-   "explanation": "Причина й одночасний стан → -ing: Feeling."
-  },
-  {
-   "type": "input",
-   "prompt": "___ (surprise) by the news, she didn't say a word.",
-   "answer": [
-    "Surprised"
-   ],
-   "explanation": "Пасивне значення (її здивували) → V3: Surprised."
-  },
-  {
-   "type": "error",
-   "sentence": "Having eat breakfast, I left the house.",
-   "wrongIndex": 1,
-   "correction": "eaten",
-   "alt": [],
-   "explanation": "Having + V3."
-  },
-  {
-   "type": "error",
-   "sentence": "Having spend all our money, we went home.",
-   "wrongIndex": 1,
-   "correction": "spent",
-   "alt": [],
-   "explanation": "Having + V3."
-  },
-  {
-   "type": "transform",
-   "prompt": "Because I didn't have an umbrella, I got wet.",
-   "instruction": "Почніть з Not having…",
-   "answer": [
-    "Not having an umbrella, I got wet."
-   ],
-   "explanation": "Причина із запереченням → Not having…"
-  },
-  {
-   "type": "transform",
-   "prompt": "After she had read the letter, she started to cry.",
-   "instruction": "Почніть з Having…",
-   "answer": [
-    "Having read the letter, she started to cry.",
-    "Having read the letter, she began to cry.",
-    "Having read the letter, she started crying."
-   ],
-   "explanation": "Спершу прочитала → Having + V3."
-  },
-  {
-   "type": "translate",
-   "uk": "Не знаючи міста, ми швидко загубилися.",
-   "answer": [
-    "Not knowing the city, we quickly got lost.",
-    "Not knowing the city, we got lost quickly.",
-    "Not knowing the town, we quickly got lost."
-   ],
-   "explanation": "Причина → Not + V-ing: Not knowing."
-  }
- ]
 }

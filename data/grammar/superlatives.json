@@ -1,216 +1,313 @@
 {
- "id": "superlatives",
- "title": "Найвищий ступінь: the biggest, the most",
- "titleEn": "Superlative adjectives",
- "unit": "Будова речення",
- "level": "A2",
- "mistakeType": "other",
- "explanation": "Коли порівнюємо одне з **усією групою**, вживаємо найвищий ступінь — і завжди з **the**: *the cheapest shop, the most beautiful city*.\n\n**Короткі** прикметники (1 склад) + **-est**: *cheap → the cheapest, nice → the nicest, big → the biggest* (подвоєння). На **-y** → **-iest**: *happy → the happiest, easy → the easiest*.\n\n**Довгі** прикметники (2+ склади) — **the most**: *the most expensive, the most interesting*.\n\nВинятки: *good → **the best**, bad → **the worst**, far → **the furthest***.\n\nПісля найвищого ступеня часто йде **in** + місце (*the biggest city **in** Poland*) або **of** + група чи період (*the youngest **of** us, the best day **of** my life*).",
- "formula": [
-  "the + коротке + -est: the cheapest, the biggest",
-  "the most + довге: the most expensive",
-  "good → the best · bad → the worst · far → the furthest"
- ],
- "table": {
-  "head": [
-   "Прикметник",
-   "Найвищий ступінь",
-   "Правило"
+  "id": "superlatives",
+  "title": "Найвищий ступінь: the biggest, the most",
+  "titleEn": "Superlative adjectives",
+  "unit": "Будова речення",
+  "level": "A2",
+  "mistakeType": "other",
+  "explanation": "**the + найвищий ступінь**\n- 1 склад: **-est** — *cheap → the cheapest, nice → the nicest*\n- подвоєння: *big → the biggest, hot → the hottest*\n- -y → **-iest**: *happy → the happiest*\n- 2+ склади: **the most** — *the most expensive*\n- винятки: *good → the best · bad → the worst · far → the furthest*\n\nДалі — **in** + місце або **of** + група чи період: *the best café **in** town, the youngest **of** us*.\nЗамість the може стояти присвійне слово: *my best friend*.",
+  "guide": {
+    "idea": "Найвищий ступінь виділяє одне з цілої групи: найдешевший у місті, найкращий день у житті. Ним радять, хвалять і розповідають про рекорди — і майже завжди з **the**.",
+    "use": [
+      {
+        "when": "Одне з усієї групи",
+        "note": "Порівнюємо з трьома й більше, а не з одним.",
+        "en": "Oliver is the tallest in our family.",
+        "uk": "Олівер найвищий у нашій родині."
+      },
+      {
+        "when": "Місце — in, група — of",
+        "note": "in + місто, країна, компанія; of + період чи люди.",
+        "en": "It was the best day of my holiday.",
+        "uk": "Це був найкращий день моєї відпустки."
+      },
+      {
+        "when": "Найкраще в житті",
+        "note": "the + -est + I've ever… — досвід за все життя.",
+        "en": "It's the most beautiful place I've ever seen.",
+        "uk": "Це найкрасивіше місце, яке я коли-небудь бачив."
+      },
+      {
+        "when": "Поради й рекомендації",
+        "note": "Що найзручніше, найшвидше, найдешевше.",
+        "en": "The quickest way to the centre is by tram.",
+        "uk": "Найшвидше дістатися до центру трамваєм."
+      },
+      {
+        "when": "Один з найкращих",
+        "note": "one of the + найвищий ступінь + іменник у множині.",
+        "en": "She's one of the best teachers at the school.",
+        "uk": "Вона одна з найкращих учительок у школі."
+      }
+    ],
+    "vs": [
+      {
+        "title": "Вищий чи найвищий?",
+        "a": {
+          "en": "My flat is bigger than yours.",
+          "uk": "Моя квартира більша за твою.",
+          "note": "Порівнюємо дві речі — than."
+        },
+        "b": {
+          "en": "My flat is the biggest in the building.",
+          "uk": "Моя квартира найбільша в будинку.",
+          "note": "Одне з усієї групи — the + -est."
+        }
+      },
+      {
+        "title": "in чи of?",
+        "a": {
+          "en": "the tallest building in London",
+          "uk": "найвища будівля в Лондоні",
+          "note": "Місце — in."
+        },
+        "b": {
+          "en": "the tallest of the three brothers",
+          "uk": "найвищий з трьох братів",
+          "note": "Група чи період — of."
+        }
+      }
+    ],
+    "signals": [
+      "the",
+      "in",
+      "of",
+      "ever",
+      "one of the"
+    ],
+    "mistakes": [
+      {
+        "wrong": "She's best student in the class.",
+        "right": "She's the best student in the class.",
+        "why": "Перед найвищим ступенем — the."
+      },
+      {
+        "wrong": "It's the most cheapest shop.",
+        "right": "It's the cheapest shop.",
+        "why": "Або -est, або most — не разом."
+      },
+      {
+        "wrong": "the biggest city of the country",
+        "right": "the biggest city in the country",
+        "why": "Місце — in, а не of."
+      },
+      {
+        "wrong": "He's one of the best player.",
+        "right": "He's one of the best players.",
+        "why": "Після one of the — іменник у множині."
+      },
+      {
+        "wrong": "It's the goodest pizza.",
+        "right": "It's the best pizza.",
+        "why": "good → the best — неправильна форма."
+      }
+    ]
+  },
+  "formula": [
+    "the + коротке + -est: the cheapest, the biggest",
+    "the most + довге: the most expensive",
+    "good → the best · bad → the worst · far → the furthest"
   ],
-  "rows": [
-   [
-    "cheap",
-    "the cheapest",
-    "+ -est"
-   ],
-   [
-    "big",
-    "the biggest",
-    "подвоєння приголосної"
-   ],
-   [
-    "happy",
-    "the happiest",
-    "-y → -iest"
-   ],
-   [
-    "beautiful",
-    "the most beautiful",
-    "the most + довге"
-   ],
-   [
-    "good",
-    "the best",
-    "виняток"
-   ],
-   [
-    "bad",
-    "the worst",
-    "виняток"
-   ]
+  "table": {
+    "head": [
+      "Прикметник",
+      "Найвищий ступінь",
+      "Правило"
+    ],
+    "rows": [
+      [
+        "cheap",
+        "the cheapest",
+        "+ -est"
+      ],
+      [
+        "big",
+        "the biggest",
+        "подвоєння приголосної"
+      ],
+      [
+        "happy",
+        "the happiest",
+        "-y → -iest"
+      ],
+      [
+        "beautiful",
+        "the most beautiful",
+        "the most + довге"
+      ],
+      [
+        "good",
+        "the best",
+        "виняток"
+      ],
+      [
+        "bad",
+        "the worst",
+        "виняток"
+      ]
+    ]
+  },
+  "examples": [
+    {
+      "en": "For me, Kraków is the most beautiful city in Poland.",
+      "uk": "Як на мене, Краків — найкрасивіше місто в Польщі."
+    },
+    {
+      "en": "This is the cheapest shop in our area.",
+      "uk": "Це найдешевший магазин у нашому районі."
+    },
+    {
+      "en": "July is the hottest month of the year.",
+      "uk": "Липень — найспекотніший місяць року."
+    },
+    {
+      "en": "Emma is the best cook I know.",
+      "uk": "Емма — найкраща кухарка, яку я знаю."
+    },
+    {
+      "en": "That was the worst day of my holiday.",
+      "uk": "Це був найгірший день моєї відпустки."
+    },
+    {
+      "en": "What's the easiest way to get to the airport?",
+      "uk": "Як найпростіше дістатися до аеропорту?"
+    }
+  ],
+  "tip": "Не поєднуйте -est і most: ~~the most cheapest~~ → *the cheapest*.",
+  "exercises": [
+    {
+      "type": "choice",
+      "prompt": "This is ___ restaurant in town.",
+      "options": [
+        "the best",
+        "the goodest",
+        "the most good"
+      ],
+      "answer": "the best",
+      "explanation": "good → the best."
+    },
+    {
+      "type": "choice",
+      "prompt": "Mount Everest is ___ mountain in the world.",
+      "options": [
+        "the highest",
+        "the most high",
+        "higher"
+      ],
+      "answer": "the highest",
+      "explanation": "Короткий прикметник — -est."
+    },
+    {
+      "type": "choice",
+      "prompt": "It was ___ film I've ever seen.",
+      "options": [
+        "the most boring",
+        "the boringest",
+        "most boring"
+      ],
+      "answer": "the most boring",
+      "explanation": "Довгий прикметник — the most."
+    },
+    {
+      "type": "choice",
+      "prompt": "My brother is ___ person in our family.",
+      "options": [
+        "the funniest",
+        "the funnyest",
+        "the most funniest"
+      ],
+      "answer": "the funniest",
+      "explanation": "-y → -iest."
+    },
+    {
+      "type": "choice",
+      "prompt": "Which is the biggest city ___ Poland?",
+      "options": [
+        "in",
+        "of",
+        "from"
+      ],
+      "answer": "in",
+      "explanation": "Місце — in."
+    },
+    {
+      "type": "input",
+      "prompt": "Today is ___ (cold) day of the year.",
+      "answer": [
+        "the coldest"
+      ],
+      "explanation": "cold → the coldest."
+    },
+    {
+      "type": "input",
+      "prompt": "This is ___ (expensive) hotel in Kraków.",
+      "answer": [
+        "the most expensive"
+      ],
+      "explanation": "Довгий прикметник — the most."
+    },
+    {
+      "type": "input",
+      "prompt": "That was ___ (bad) meal I've ever had.",
+      "answer": [
+        "the worst"
+      ],
+      "explanation": "bad → the worst."
+    },
+    {
+      "type": "input",
+      "prompt": "Who is ___ (young) in your family?",
+      "answer": [
+        "the youngest"
+      ],
+      "explanation": "young → the youngest."
+    },
+    {
+      "type": "error",
+      "sentence": "This is the more interesting museum in Kraków.",
+      "wrongIndex": 3,
+      "correction": "most",
+      "alt": [],
+      "explanation": "Найвищий ступінь — the most."
+    },
+    {
+      "type": "error",
+      "sentence": "It's the bigest park in the city.",
+      "wrongIndex": 2,
+      "correction": "biggest",
+      "alt": [],
+      "explanation": "big → biggest (подвоєння g)."
+    },
+    {
+      "type": "order",
+      "prompt": "Це найкращий день у моєму житті.",
+      "answer": [
+        "This is the best day of my life."
+      ],
+      "explanation": "good → the best."
+    },
+    {
+      "type": "transform",
+      "prompt": "This sofa is very comfortable. The others are less comfortable.",
+      "instruction": "Одним реченням: This sofa is …",
+      "answer": [
+        "This sofa is the most comfortable.",
+        "This sofa is the most comfortable one.",
+        "This sofa is the most comfortable of all."
+      ],
+      "explanation": "Довгий прикметник — the most."
+    },
+    {
+      "type": "translate",
+      "uk": "Це найдешевший квиток.",
+      "answer": [
+        "This is the cheapest ticket.",
+        "It's the cheapest ticket.",
+        "It is the cheapest ticket.",
+        "That's the cheapest ticket.",
+        "That is the cheapest ticket."
+      ],
+      "explanation": "cheap → the cheapest."
+    }
   ]
- },
- "examples": [
-  {
-   "en": "For me, Kraków is the most beautiful city in Poland.",
-   "uk": "Як на мене, Краків — найкрасивіше місто в Польщі."
-  },
-  {
-   "en": "This is the cheapest shop in our area.",
-   "uk": "Це найдешевший магазин у нашому районі."
-  },
-  {
-   "en": "July is the hottest month of the year.",
-   "uk": "Липень — найспекотніший місяць року."
-  },
-  {
-   "en": "Emma is the best cook I know.",
-   "uk": "Емма — найкраща кухарка, яку я знаю."
-  },
-  {
-   "en": "That was the worst day of my holiday.",
-   "uk": "Це був найгірший день моєї відпустки."
-  },
-  {
-   "en": "What's the easiest way to get to the airport?",
-   "uk": "Як найпростіше дістатися до аеропорту?"
-  }
- ],
- "tip": "Не поєднуйте -est і most: ~~the most cheapest~~ → *the cheapest*.",
- "exercises": [
-  {
-   "type": "choice",
-   "prompt": "This is ___ restaurant in town.",
-   "options": [
-    "the best",
-    "the goodest",
-    "the most good"
-   ],
-   "answer": "the best",
-   "explanation": "good → the best."
-  },
-  {
-   "type": "choice",
-   "prompt": "Mount Everest is ___ mountain in the world.",
-   "options": [
-    "the highest",
-    "the most high",
-    "higher"
-   ],
-   "answer": "the highest",
-   "explanation": "Короткий прикметник — -est."
-  },
-  {
-   "type": "choice",
-   "prompt": "It was ___ film I've ever seen.",
-   "options": [
-    "the most boring",
-    "the boringest",
-    "most boring"
-   ],
-   "answer": "the most boring",
-   "explanation": "Довгий прикметник — the most."
-  },
-  {
-   "type": "choice",
-   "prompt": "My brother is ___ person in our family.",
-   "options": [
-    "the funniest",
-    "the funnyest",
-    "the most funniest"
-   ],
-   "answer": "the funniest",
-   "explanation": "-y → -iest."
-  },
-  {
-   "type": "choice",
-   "prompt": "Which is the biggest city ___ Poland?",
-   "options": [
-    "in",
-    "of",
-    "from"
-   ],
-   "answer": "in",
-   "explanation": "Місце — in."
-  },
-  {
-   "type": "input",
-   "prompt": "Today is ___ (cold) day of the year.",
-   "answer": [
-    "the coldest"
-   ],
-   "explanation": "cold → the coldest."
-  },
-  {
-   "type": "input",
-   "prompt": "This is ___ (expensive) hotel in Kraków.",
-   "answer": [
-    "the most expensive"
-   ],
-   "explanation": "Довгий прикметник — the most."
-  },
-  {
-   "type": "input",
-   "prompt": "That was ___ (bad) meal I've ever had.",
-   "answer": [
-    "the worst"
-   ],
-   "explanation": "bad → the worst."
-  },
-  {
-   "type": "input",
-   "prompt": "Who is ___ (young) in your family?",
-   "answer": [
-    "the youngest"
-   ],
-   "explanation": "young → the youngest."
-  },
-  {
-   "type": "error",
-   "sentence": "This is the more interesting museum in Kraków.",
-   "wrongIndex": 3,
-   "correction": "most",
-   "alt": [],
-   "explanation": "Найвищий ступінь — the most."
-  },
-  {
-   "type": "error",
-   "sentence": "It's the bigest park in the city.",
-   "wrongIndex": 2,
-   "correction": "biggest",
-   "alt": [],
-   "explanation": "big → biggest (подвоєння g)."
-  },
-  {
-   "type": "order",
-   "prompt": "Це найкращий день у моєму житті.",
-   "answer": [
-    "This is the best day of my life."
-   ],
-   "explanation": "good → the best."
-  },
-  {
-   "type": "transform",
-   "prompt": "This sofa is very comfortable. The others are less comfortable.",
-   "instruction": "Одним реченням: This sofa is …",
-   "answer": [
-    "This sofa is the most comfortable.",
-    "This sofa is the most comfortable one.",
-    "This sofa is the most comfortable of all."
-   ],
-   "explanation": "Довгий прикметник — the most."
-  },
-  {
-   "type": "translate",
-   "uk": "Це найдешевший квиток.",
-   "answer": [
-    "This is the cheapest ticket.",
-    "It's the cheapest ticket.",
-    "It is the cheapest ticket.",
-    "That's the cheapest ticket.",
-    "That is the cheapest ticket."
-   ],
-   "explanation": "cheap → the cheapest."
-  }
- ]
 }

@@ -1,184 +1,271 @@
 {
- "id": "going-to",
- "title": "Be going to",
- "titleEn": "be going to: plans and predictions",
- "unit": "Майбутнє",
- "level": "A2",
- "mistakeType": "tenses",
- "explanation": "**be going to + V** — про **плани й наміри**, які вже вирішені: *I'**m going to** visit my parents this weekend.*\n\nТакож для **прогнозу за ознаками** (бачимо зараз): *Look at those clouds — it'**s going to** rain.*\n\nФорма: **am / is / are + going to + V**. Заперечення: *I'**m not going to** buy it.* Питання: ***Are** you **going to** watch the match?*",
- "formula": [
-  "am / is / are + **going to** + V"
- ],
- "table": {
-  "head": [
-   "",
-   "Приклад",
-   "Значення"
+  "id": "going-to",
+  "title": "Be going to",
+  "titleEn": "be going to: plans and predictions",
+  "unit": "Майбутнє",
+  "level": "A2",
+  "mistakeType": "tenses",
+  "explanation": "**am / is / are + going to + дієслово**\n- **+** *I'm going to… · she's going to… · they're going to…*\n- **−** *I'm not going to… · he isn't going to… · we aren't going to…*\n- **?** *Are you going to…? · Is it going to…?* — *What are you going to do?*\n\nЗамість *going to go* часто кажуть коротше: *I'm going to the cinema tonight.*\nУ розмові звучить «gonna», але так не пишуть.",
+  "guide": {
+    "idea": "be going to — про майбутнє, яке вже «в голові» або «перед очима»: план, який ви вирішили заздалегідь, і прогноз за тим, що видно просто зараз. Українською — «збираюся», «зараз буде».",
+    "use": [
+      {
+        "when": "Вирішений план, намір",
+        "note": "Рішення ухвалене ще до розмови, навіть якщо деталей немає.",
+        "en": "I'm going to look for a new job this year.",
+        "uk": "Цього року я збираюся шукати нову роботу."
+      },
+      {
+        "when": "Прогноз за ознаками",
+        "note": "Бачимо доказ зараз — хмари, повний кошик, хиткий стілець.",
+        "en": "Look at those clouds — it's going to rain.",
+        "uk": "Подивись на ті хмари — зараз піде дощ."
+      },
+      {
+        "when": "Питання про плани",
+        "note": "Що хтось задумав: What are you going to…?",
+        "en": "What are you going to do at the weekend?",
+        "uk": "Що ти збираєшся робити на вихідних?"
+      },
+      {
+        "when": "Твердо не збираюся",
+        "note": "Намір чогось не робити.",
+        "en": "I'm not going to buy a new phone — this one's fine.",
+        "uk": "Я не збираюся купувати новий телефон — цей ще нормальний."
+      }
+    ],
+    "vs": [
+      {
+        "title": "going to чи will?",
+        "a": {
+          "en": "I'm going to paint the kitchen on Saturday.",
+          "uk": "У суботу я фарбуватиму кухню.",
+          "note": "Вирішено заздалегідь — фарбу вже куплено."
+        },
+        "b": {
+          "en": "Oh, the kitchen's a mess. I'll clean it.",
+          "uk": "Ой, на кухні безлад. Я приберу.",
+          "note": "Вирішив щойно, у момент розмови — will."
+        }
+      },
+      {
+        "title": "going to чи Present Continuous?",
+        "a": {
+          "en": "I'm going to see Emma soon.",
+          "uk": "Я збираюся скоро побачитися з Еммою.",
+          "note": "Намір; ще не домовились."
+        },
+        "b": {
+          "en": "I'm seeing Emma on Friday at 6.",
+          "uk": "Я зустрічаюся з Еммою в п'ятницю о 6-й.",
+          "note": "Домовленість з часом — природніше Continuous."
+        }
+      }
+    ],
+    "signals": [
+      "tonight",
+      "tomorrow",
+      "this weekend",
+      "next week",
+      "soon",
+      "Look!"
+    ],
+    "mistakes": [
+      {
+        "wrong": "I going to call her.",
+        "right": "I'm going to call her.",
+        "why": "Без am / is / are конструкція не працює."
+      },
+      {
+        "wrong": "We're going to visiting Tom.",
+        "right": "We're going to visit Tom.",
+        "why": "Після going to — дієслово в початковій формі, без -ing."
+      },
+      {
+        "wrong": "Are you go to watch the match?",
+        "right": "Are you going to watch the match?",
+        "why": "І в питанні потрібне going з -ing."
+      },
+      {
+        "wrong": "I'll visit my parents on Sunday — we planned it last week.",
+        "right": "I'm going to visit my parents on Sunday — we planned it last week.",
+        "why": "План, вирішений заздалегідь, — going to; will звучить як рішення щойно."
+      }
+    ]
+  },
+  "formula": [
+    "am / is / are + **going to** + V"
   ],
-  "rows": [
-   [
-    "план",
-    "We're going to move in May.",
-    "вже вирішили"
-   ],
-   [
-    "−",
-    "He isn't going to come.",
-    "не збирається"
-   ],
-   [
-    "?",
-    "What are you going to do?",
-    "що збираєшся…?"
-   ],
-   [
-    "прогноз",
-    "It's going to rain.",
-    "видно за ознаками"
-   ]
+  "table": {
+    "head": [
+      "",
+      "Приклад",
+      "Значення"
+    ],
+    "rows": [
+      [
+        "план",
+        "We're going to move in May.",
+        "вже вирішили"
+      ],
+      [
+        "−",
+        "He isn't going to come.",
+        "не збирається"
+      ],
+      [
+        "?",
+        "What are you going to do?",
+        "що збираєшся…?"
+      ],
+      [
+        "прогноз",
+        "It's going to rain.",
+        "видно за ознаками"
+      ]
+    ]
+  },
+  "examples": [
+    {
+      "en": "I'm going to learn to drive.",
+      "uk": "Я збираюся навчитися водити."
+    },
+    {
+      "en": "Are you going to cook tonight?",
+      "uk": "Ти збираєшся сьогодні готувати?"
+    },
+    {
+      "en": "She isn't going to stay long.",
+      "uk": "Вона не збирається довго залишатися."
+    },
+    {
+      "en": "Be careful — you're going to fall!",
+      "uk": "Обережно — зараз упадеш!"
+    },
+    {
+      "en": "What are you going to wear?",
+      "uk": "Що ти збираєшся вдягти?"
+    }
+  ],
+  "tip": "Не забувайте **am/is/are**: ~~I going to call~~ → *I'**m** going to call.*",
+  "exercises": [
+    {
+      "type": "choice",
+      "prompt": "We ___ going to buy a new sofa.",
+      "options": [
+        "is",
+        "are",
+        "am"
+      ],
+      "answer": "are",
+      "explanation": "We → are going to."
+    },
+    {
+      "type": "choice",
+      "prompt": "She's going ___ a cake.",
+      "options": [
+        "make",
+        "to make",
+        "making"
+      ],
+      "answer": "to make",
+      "explanation": "going to + дієслово: to make."
+    },
+    {
+      "type": "choice",
+      "prompt": "Look at the sky! It ___ rain.",
+      "options": [
+        "is going to",
+        "goes to",
+        "going"
+      ],
+      "answer": "is going to",
+      "explanation": "Прогноз за ознаками."
+    },
+    {
+      "type": "choice",
+      "prompt": "___ you going to call him?",
+      "options": [
+        "Do",
+        "Are",
+        "Will"
+      ],
+      "answer": "Are",
+      "explanation": "Питання: Are + you + going to …?"
+    },
+    {
+      "type": "input",
+      "prompt": "I ___ (going to / visit) my grandma on Sunday.",
+      "answer": [
+        "am going to visit",
+        "'m going to visit"
+      ],
+      "explanation": "I → am going to + V."
+    },
+    {
+      "type": "input",
+      "prompt": "They ___ (not / going to / sell) the house.",
+      "answer": [
+        "aren't going to sell",
+        "are not going to sell",
+        "'re not going to sell"
+      ],
+      "explanation": "Заперечення: aren't (are not) going to + V."
+    },
+    {
+      "type": "input",
+      "prompt": "What ___ you going to do after work?",
+      "answer": [
+        "are"
+      ],
+      "explanation": "You → are: What are you going to do?"
+    },
+    {
+      "type": "error",
+      "sentence": "I going to watch a film tonight.",
+      "wrongIndex": 1,
+      "correction": "am going",
+      "alt": [
+        "'m going"
+      ],
+      "explanation": "Потрібно am."
+    },
+    {
+      "type": "error",
+      "sentence": "He is going to calls you later.",
+      "wrongIndex": 4,
+      "correction": "call",
+      "alt": [],
+      "explanation": "going to + V."
+    },
+    {
+      "type": "order",
+      "prompt": "Ми збираємося поїхати в Італію.",
+      "answer": [
+        "We are going to go to Italy.",
+        "We're going to go to Italy.",
+        "We are going to travel to Italy.",
+        "We're going to travel to Italy."
+      ],
+      "explanation": ""
+    },
+    {
+      "type": "translate",
+      "uk": "Я збираюся почати бігати.",
+      "answer": [
+        "I'm going to start running.",
+        "I am going to start running.",
+        "I'm going to start jogging."
+      ],
+      "explanation": ""
+    },
+    {
+      "type": "translate",
+      "uk": "Ти збираєшся йому сказати?",
+      "answer": [
+        "Are you going to tell him?"
+      ],
+      "explanation": ""
+    }
   ]
- },
- "examples": [
-  {
-   "en": "I'm going to learn to drive.",
-   "uk": "Я збираюся навчитися водити."
-  },
-  {
-   "en": "Are you going to cook tonight?",
-   "uk": "Ти збираєшся сьогодні готувати?"
-  },
-  {
-   "en": "She isn't going to stay long.",
-   "uk": "Вона не збирається довго залишатися."
-  },
-  {
-   "en": "Be careful — you're going to fall!",
-   "uk": "Обережно — зараз упадеш!"
-  },
-  {
-   "en": "What are you going to wear?",
-   "uk": "Що ти збираєшся вдягти?"
-  }
- ],
- "tip": "Не забувайте **am/is/are**: ~~I going to call~~ → *I'**m** going to call.*",
- "exercises": [
-  {
-   "type": "choice",
-   "prompt": "We ___ going to buy a new sofa.",
-   "options": [
-    "is",
-    "are",
-    "am"
-   ],
-   "answer": "are",
-   "explanation": "We → are going to."
-  },
-  {
-   "type": "choice",
-   "prompt": "She's going ___ a cake.",
-   "options": [
-    "make",
-    "to make",
-    "making"
-   ],
-   "answer": "to make",
-   "explanation": "going to + дієслово: to make."
-  },
-  {
-   "type": "choice",
-   "prompt": "Look at the sky! It ___ rain.",
-   "options": [
-    "is going to",
-    "goes to",
-    "going"
-   ],
-   "answer": "is going to",
-   "explanation": "Прогноз за ознаками."
-  },
-  {
-   "type": "choice",
-   "prompt": "___ you going to call him?",
-   "options": [
-    "Do",
-    "Are",
-    "Will"
-   ],
-   "answer": "Are",
-   "explanation": "Питання: Are + you + going to …?"
-  },
-  {
-   "type": "input",
-   "prompt": "I ___ (going to / visit) my grandma on Sunday.",
-   "answer": [
-    "am going to visit",
-    "'m going to visit"
-   ],
-   "explanation": "I → am going to + V."
-  },
-  {
-   "type": "input",
-   "prompt": "They ___ (not / going to / sell) the house.",
-   "answer": [
-    "aren't going to sell",
-    "are not going to sell",
-    "'re not going to sell"
-   ],
-   "explanation": "Заперечення: aren't (are not) going to + V."
-  },
-  {
-   "type": "input",
-   "prompt": "What ___ you going to do after work?",
-   "answer": [
-    "are"
-   ],
-   "explanation": "You → are: What are you going to do?"
-  },
-  {
-   "type": "error",
-   "sentence": "I going to watch a film tonight.",
-   "wrongIndex": 1,
-   "correction": "am going",
-   "alt": [
-    "'m going"
-   ],
-   "explanation": "Потрібно am."
-  },
-  {
-   "type": "error",
-   "sentence": "He is going to calls you later.",
-   "wrongIndex": 4,
-   "correction": "call",
-   "alt": [],
-   "explanation": "going to + V."
-  },
-  {
-   "type": "order",
-   "prompt": "Ми збираємося поїхати в Італію.",
-   "answer": [
-    "We are going to go to Italy.",
-    "We're going to go to Italy.",
-    "We are going to travel to Italy.",
-    "We're going to travel to Italy."
-   ],
-   "explanation": ""
-  },
-  {
-   "type": "translate",
-   "uk": "Я збираюся почати бігати.",
-   "answer": [
-    "I'm going to start running.",
-    "I am going to start running.",
-    "I'm going to start jogging."
-   ],
-   "explanation": ""
-  },
-  {
-   "type": "translate",
-   "uk": "Ти збираєшся йому сказати?",
-   "answer": [
-    "Are you going to tell him?"
-   ],
-   "explanation": ""
-  }
- ]
 }

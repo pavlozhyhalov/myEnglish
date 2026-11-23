@@ -1,188 +1,298 @@
 {
- "id": "inversion",
- "title": "Інверсія для наголосу",
- "titleEn": "Inversion after negative adverbials",
- "unit": "Просунуті конструкції",
- "level": "C1",
- "mistakeType": "word_order",
- "explanation": "Після **заперечних і обмежувальних** слів на початку речення порядок слів — **як у питанні**: *Never **have I** seen such a mess.*\n\nТипові вирази: **Never / Rarely / Seldom**, **Not only … but also**, **No sooner … than**, **Hardly … when**, **Under no circumstances**, **Only then / Only after**, **Not until**, **Little** (did I know).\n\nЦе книжний, емоційний або офіційний стиль. У звичайній розмові: *I've never seen…*",
- "formula": [
-  "Never / Rarely / Not only … + **допоміжне + підмет** + V"
- ],
- "table": {
-  "head": [
-   "Вираз",
-   "Приклад",
-   "Звичайний порядок"
+  "id": "inversion",
+  "title": "Інверсія для наголосу",
+  "titleEn": "Inversion after negative adverbials",
+  "unit": "Просунуті конструкції",
+  "level": "C1",
+  "mistakeType": "word_order",
+  "explanation": "Заперечне чи обмежувальне слово — на початок, далі **порядок як у питанні**:\n**Never / Rarely / Seldom** + допоміжне + підмет + V\n\n- є допоміжне чи be — ставимо перед підметом: *Never **have I** seen…* · *Rarely **is she** late.*\n- немає — додаємо **do / does / did** + базова форма: *Seldom **does he** call.*\n- модальне — перед підметом: *Under no circumstances **should you**…*\n\n**Пари:** No sooner + **had** … V3 **than** · Hardly / Scarcely + **had** … V3 **when**\n**Only then / Only after… / Not until…** — інверсія в **головному** реченні: *Not until I moved abroad **did I understand**.*\n**Not only** + інверсія, **but (also)** — звичайний порядок.",
+  "guide": {
+    "idea": "Інверсія ставить заперечне чи обмежувальне слово на початок, а допоміжне — перед підметом, як у питанні. Так вирізняють драматичний момент або сильну думку — це стиль розповіді, промов і офіційних текстів. У побутовій розмові живуть лише кілька фраз: Not only…, Little did I know…, No way am I…",
+    "use": [
+      {
+        "when": "Драматична розповідь",
+        "note": "Hardly / No sooner — одна дія ледь почалася, як сталася інша; оживляє історію.",
+        "en": "No sooner had we sat down than the fire alarm went off.",
+        "uk": "Щойно ми сіли, як спрацювала пожежна сигналізація."
+      },
+      {
+        "when": "Сильне враження",
+        "note": "Never / Rarely / Seldom на початку роблять досвід винятковим.",
+        "en": "Never have I eaten such good fish and chips.",
+        "uk": "Ніколи в житті я не їв такої смачної риби з картоплею."
+      },
+      {
+        "when": "Офіційна заборона",
+        "note": "Правила, інструкції, оголошення: Under no circumstances / On no account.",
+        "en": "On no account should you leave your luggage unattended.",
+        "uk": "За жодних обставин не залишайте багаж без нагляду."
+      },
+      {
+        "when": "Посилити аргумент",
+        "note": "Not only … but also — у промовах, есе, презентаціях, щоб додати ще сильніший довід.",
+        "en": "Not only is the flat cheaper, but it's also closer to the station.",
+        "uk": "Ця квартира не лише дешевша, а й ближча до вокзалу."
+      },
+      {
+        "when": "Пізнє усвідомлення",
+        "note": "Only then / Not until / Little did I know — момент, коли все стало зрозуміло.",
+        "en": "Little did we know that the shop had closed for good.",
+        "uk": "Ми й гадки не мали, що магазин закрився назавжди."
+      },
+      {
+        "when": "Рішуче «нізащо» в розмові",
+        "note": "No way + інверсія — коротко й емоційно.",
+        "en": "No way am I paying twenty quid for a sandwich!",
+        "uk": "Нізащо не платитиму двадцять фунтів за сендвіч!"
+      }
+    ],
+    "vs": [
+      {
+        "title": "Інверсія чи звичайний порядок?",
+        "a": {
+          "en": "Rarely do I eat out these days.",
+          "uk": "Тепер я рідко їм поза домом.",
+          "note": "Книжно, з наголосом на «рідко» — для розповіді чи тексту."
+        },
+        "b": {
+          "en": "I rarely eat out these days.",
+          "uk": "Тепер я рідко їм поза домом.",
+          "note": "Нейтрально — так кажуть у більшості розмов."
+        }
+      },
+      {
+        "title": "Little did I know чи I didn't know?",
+        "a": {
+          "en": "Little did I know he was her brother.",
+          "uk": "Я й гадки не мав, що він її брат.",
+          "note": "Інтрига: згодом з'ясувалося щось несподіване."
+        },
+        "b": {
+          "en": "I didn't know he was her brother.",
+          "uk": "Я не знав, що він її брат.",
+          "note": "Просто факт, без драматизму."
+        }
+      }
+    ],
+    "signals": [
+      "Never",
+      "Rarely",
+      "Seldom",
+      "Hardly … when",
+      "No sooner … than",
+      "Not only",
+      "Only then",
+      "Not until",
+      "Little",
+      "Under no circumstances",
+      "On no account",
+      "At no time"
+    ],
+    "mistakes": [
+      {
+        "wrong": "Never I have seen such a mess.",
+        "right": "Never have I seen such a mess.",
+        "why": "Після заперечного слова на початку допоміжне стоїть перед підметом."
+      },
+      {
+        "wrong": "Rarely we go out these days.",
+        "right": "Rarely do we go out these days.",
+        "why": "Немає допоміжного — додаємо do / does / did, як у питанні."
+      },
+      {
+        "wrong": "Not only he forgot my birthday, but he also lied.",
+        "right": "Not only did he forget my birthday, but he also lied.",
+        "why": "Інверсія — у частині з Not only; після did — базова форма."
+      },
+      {
+        "wrong": "No sooner had I arrived when it started raining.",
+        "right": "No sooner had I arrived than it started raining.",
+        "why": "Пари сталі: No sooner … than, Hardly … when."
+      },
+      {
+        "wrong": "Only after the film I understood it.",
+        "right": "Only after the film did I understand it.",
+        "why": "Після Only after / Not until інверсія йде в головному реченні."
+      }
+    ]
+  },
+  "formula": [
+    "Never / Rarely / Not only … + **допоміжне + підмет** + V"
   ],
-  "rows": [
-   [
-    "Never",
-    "Never have I felt so tired.",
-    "I have never felt so tired."
-   ],
-   [
-    "Not only … but",
-    "Not only did he lie, but he also blamed me.",
-    "He not only lied…"
-   ],
-   [
-    "No sooner … than",
-    "No sooner had we arrived than it started to rain.",
-    "As soon as we arrived…"
-   ],
-   [
-    "Under no circumstances",
-    "Under no circumstances should you open it.",
-    "You mustn't open it under any circumstances."
-   ]
+  "table": {
+    "head": [
+      "Вираз",
+      "Приклад",
+      "Звичайний порядок"
+    ],
+    "rows": [
+      [
+        "Never",
+        "Never have I felt so tired.",
+        "I have never felt so tired."
+      ],
+      [
+        "Not only … but",
+        "Not only did he lie, but he also blamed me.",
+        "He not only lied…"
+      ],
+      [
+        "No sooner … than",
+        "No sooner had we arrived than it started to rain.",
+        "As soon as we arrived…"
+      ],
+      [
+        "Under no circumstances",
+        "Under no circumstances should you open it.",
+        "You mustn't open it under any circumstances."
+      ]
+    ]
+  },
+  "examples": [
+    {
+      "en": "Rarely do we get such good weather in November.",
+      "uk": "У листопаді рідко буває така гарна погода."
+    },
+    {
+      "en": "Little did I know what was waiting for me.",
+      "uk": "Я й гадки не мав, що на мене чекає."
+    },
+    {
+      "en": "Only then did I realise my mistake.",
+      "uk": "Лише тоді я зрозумів свою помилку."
+    },
+    {
+      "en": "Not until I moved abroad did I understand my parents.",
+      "uk": "Лише переїхавши за кордон, я зрозумів батьків."
+    },
+    {
+      "en": "Hardly had I sat down when the phone rang.",
+      "uk": "Ледве я сів, як задзвонив телефон."
+    }
+  ],
+  "tip": "Якщо в реченні немає допоміжного дієслова, додаємо **do / does / did**: *Never **did** she complain.*",
+  "exercises": [
+    {
+      "type": "choice",
+      "prompt": "Never ___ such a beautiful view.",
+      "options": [
+        "I have seen",
+        "have I seen",
+        "I saw"
+      ],
+      "answer": "have I seen",
+      "explanation": "Після Never на початку — інверсія: have + підмет + V3."
+    },
+    {
+      "type": "choice",
+      "prompt": "Not only ___ late, but he also forgot the documents.",
+      "options": [
+        "he was",
+        "was he",
+        "did he"
+      ],
+      "answer": "was he",
+      "explanation": "Not only на початку → інверсія: was he."
+    },
+    {
+      "type": "choice",
+      "prompt": "No sooner had we left ___ it started snowing.",
+      "options": [
+        "when",
+        "than",
+        "then"
+      ],
+      "answer": "than",
+      "explanation": "No sooner … than — сталий вираз."
+    },
+    {
+      "type": "choice",
+      "prompt": "Under no circumstances ___ the door to strangers.",
+      "options": [
+        "you should open",
+        "should you open",
+        "you open"
+      ],
+      "answer": "should you open",
+      "explanation": "Under no circumstances → інверсія: should you open."
+    },
+    {
+      "type": "input",
+      "prompt": "Little ___ (I / know) that he was lying. (3 слова)",
+      "answer": [
+        "did I know"
+      ],
+      "explanation": "Little на початку → did + підмет + V: did I know."
+    },
+    {
+      "type": "input",
+      "prompt": "Rarely ___ (she / complain) about anything.",
+      "answer": [
+        "does she complain",
+        "did she complain"
+      ],
+      "explanation": "Rarely на початку → does/did + підмет + V."
+    },
+    {
+      "type": "input",
+      "prompt": "Hardly ___ (we / start) when the power went out.",
+      "answer": [
+        "had we started"
+      ],
+      "explanation": "Hardly … when → had + підмет + V3: had we started."
+    },
+    {
+      "type": "error",
+      "sentence": "Only later I read the whole letter.",
+      "wrongIndex": 2,
+      "correction": "did I",
+      "alt": [],
+      "explanation": "Інверсія після Only later: Only later did I read the whole letter."
+    },
+    {
+      "type": "error",
+      "sentence": "Seldom we eat out these days.",
+      "wrongIndex": 1,
+      "correction": "do we",
+      "alt": [],
+      "explanation": "Інверсія після Seldom: Seldom do we eat out these days."
+    },
+    {
+      "type": "transform",
+      "prompt": "I have never tasted such good pizza.",
+      "instruction": "Never…",
+      "answer": [
+        "Never have I tasted such good pizza."
+      ],
+      "explanation": "Never на початку → have I + V3."
+    },
+    {
+      "type": "transform",
+      "prompt": "He didn't apologise, and he also blamed me.",
+      "instruction": "Not only…",
+      "answer": [
+        "Not only did he not apologise, but he also blamed me.",
+        "Not only didn't he apologise, but he also blamed me.",
+        "Not only did he fail to apologise, but he also blamed me.",
+        "Not only did he not apologise, he also blamed me.",
+        "Not only did he not apologize, but he also blamed me.",
+        "Not only did he fail to apologise, he also blamed me.",
+        "Not only didn't he apologise, he also blamed me."
+      ],
+      "explanation": "Not only did he…, but he also… — інверсія з did."
+    },
+    {
+      "type": "translate",
+      "uk": "Лише тоді я зрозумів, наскільки це важливо.",
+      "answer": [
+        "Only then did I understand how important it was.",
+        "Only then did I realise how important it was.",
+        "Only then did I realize how important it was.",
+        "Only then did I understand how important it is.",
+        "Only then did I realise how important it is.",
+        "Only then did I see how important it was."
+      ],
+      "explanation": "Only then → інверсія: did I + V."
+    }
   ]
- },
- "examples": [
-  {
-   "en": "Rarely do we get such good weather in November.",
-   "uk": "У листопаді рідко буває така гарна погода."
-  },
-  {
-   "en": "Little did I know what was waiting for me.",
-   "uk": "Я й гадки не мав, що на мене чекає."
-  },
-  {
-   "en": "Only then did I realise my mistake.",
-   "uk": "Лише тоді я зрозумів свою помилку."
-  },
-  {
-   "en": "Not until I moved abroad did I understand my parents.",
-   "uk": "Лише переїхавши за кордон, я зрозумів батьків."
-  },
-  {
-   "en": "Hardly had I sat down when the phone rang.",
-   "uk": "Ледве я сів, як задзвонив телефон."
-  }
- ],
- "tip": "Якщо в реченні немає допоміжного дієслова, додаємо **do / does / did**: *Never **did** she complain.*",
- "exercises": [
-  {
-   "type": "choice",
-   "prompt": "Never ___ such a beautiful view.",
-   "options": [
-    "I have seen",
-    "have I seen",
-    "I saw"
-   ],
-   "answer": "have I seen",
-   "explanation": "Після Never на початку — інверсія: have + підмет + V3."
-  },
-  {
-   "type": "choice",
-   "prompt": "Not only ___ late, but he also forgot the documents.",
-   "options": [
-    "he was",
-    "was he",
-    "did he"
-   ],
-   "answer": "was he",
-   "explanation": "Not only на початку → інверсія: was he."
-  },
-  {
-   "type": "choice",
-   "prompt": "No sooner had we left ___ it started snowing.",
-   "options": [
-    "when",
-    "than",
-    "then"
-   ],
-   "answer": "than",
-   "explanation": "No sooner … than — сталий вираз."
-  },
-  {
-   "type": "choice",
-   "prompt": "Under no circumstances ___ the door to strangers.",
-   "options": [
-    "you should open",
-    "should you open",
-    "you open"
-   ],
-   "answer": "should you open",
-   "explanation": "Under no circumstances → інверсія: should you open."
-  },
-  {
-   "type": "input",
-   "prompt": "Little ___ (I / know) that he was lying. (3 слова)",
-   "answer": [
-    "did I know"
-   ],
-   "explanation": "Little на початку → did + підмет + V: did I know."
-  },
-  {
-   "type": "input",
-   "prompt": "Rarely ___ (she / complain) about anything.",
-   "answer": [
-    "does she complain",
-    "did she complain"
-   ],
-   "explanation": "Rarely на початку → does/did + підмет + V."
-  },
-  {
-   "type": "input",
-   "prompt": "Hardly ___ (we / start) when the power went out.",
-   "answer": [
-    "had we started"
-   ],
-   "explanation": "Hardly … when → had + підмет + V3: had we started."
-  },
-  {
-   "type": "error",
-   "sentence": "Only later I read the whole letter.",
-   "wrongIndex": 2,
-   "correction": "did I",
-   "alt": [],
-   "explanation": "Інверсія після Only later: Only later did I read the whole letter."
-  },
-  {
-   "type": "error",
-   "sentence": "Seldom we eat out these days.",
-   "wrongIndex": 1,
-   "correction": "do we",
-   "alt": [],
-   "explanation": "Інверсія після Seldom: Seldom do we eat out these days."
-  },
-  {
-   "type": "transform",
-   "prompt": "I have never tasted such good pizza.",
-   "instruction": "Never…",
-   "answer": [
-    "Never have I tasted such good pizza."
-   ],
-   "explanation": "Never на початку → have I + V3."
-  },
-  {
-   "type": "transform",
-   "prompt": "He didn't apologise, and he also blamed me.",
-   "instruction": "Not only…",
-   "answer": [
-    "Not only did he not apologise, but he also blamed me.",
-    "Not only didn't he apologise, but he also blamed me.",
-    "Not only did he fail to apologise, but he also blamed me.",
-    "Not only did he not apologise, he also blamed me.",
-    "Not only did he not apologize, but he also blamed me.",
-    "Not only did he fail to apologise, he also blamed me.",
-    "Not only didn't he apologise, he also blamed me."
-   ],
-   "explanation": "Not only did he…, but he also… — інверсія з did."
-  },
-  {
-   "type": "translate",
-   "uk": "Лише тоді я зрозумів, наскільки це важливо.",
-   "answer": [
-    "Only then did I understand how important it was.",
-    "Only then did I realise how important it was.",
-    "Only then did I realize how important it was.",
-    "Only then did I understand how important it is.",
-    "Only then did I realise how important it is.",
-    "Only then did I see how important it was."
-   ],
-   "explanation": "Only then → інверсія: did I + V."
-  }
- ]
 }

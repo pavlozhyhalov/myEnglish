@@ -1,159 +1,263 @@
 {
- "id": "questions",
- "title": "Питання і порядок слів",
- "titleEn": "Question formation and word order",
- "unit": "Будова речення",
- "level": "A2",
- "mistakeType": "word_order",
- "explanation": "Схема питання: **(питальне слово) + допоміжне + підмет + основне дієслово**.\n\n*Where **do you** live? What **is she** doing? Where **did they** go? How long **have you** lived here?*\n\nДопоміжне дієслово: *do/does/did* (Simple), *am/is/are/was/were* (Continuous, be), *have/has* (Perfect), *will, can…*\n\n**Питання до підмета** (Who/What зробив?) — **без do**: *Who **called** you?* (не ~~Who did call you?~~). *What **happened**?*\n\n**Короткі питання-перепитування** (tag questions): *You're tired, **aren't you**? She lives here, **doesn't she**?*",
- "formula": [
-  "Wh- + aux + S + V?",
-  "Who/What + V (питання до підмета)",
-  "+ речення, −tag? · − речення, +tag?"
- ],
- "examples": [
-  {
-   "en": "Where did you buy that jacket?",
-   "uk": "Де ти купив цю куртку?"
+  "id": "questions",
+  "title": "Питання і порядок слів",
+  "titleEn": "Question formation and word order",
+  "unit": "Будова речення",
+  "level": "A2",
+  "mistakeType": "word_order",
+  "explanation": "**Схема:** (питальне слово) + **допоміжне** + підмет + основне дієслово …?\n- Present Simple — **do / does**: *Where does she work?*\n- Past Simple — **did**: *When did you arrive?*\n- be і Continuous — **am / is / are / was / were**: *Are you OK? What are you doing?*\n- Present Perfect — **have / has**: *Have you eaten?*\n- модальні — **can, will, should…**: *Can you swim?*\n\nПитання до підмета: **Who / What** + дієслово — *Who lives here?*\nПрийменник — у кінці: *Where are you from? Who are you talking to?*\nХвостик (tag): ствердження → заперечний, заперечення → ствердний — *You're tired, aren't you? He didn't come, did he?*",
+  "guide": {
+    "idea": "Англійське питання будується не інтонацією, а порядком слів: допоміжне дієслово стає перед підметом. Засвоївши цю схему, можна запитати про що завгодно — в магазині, у дорозі, у розмові.",
+    "use": [
+      {
+        "when": "Питання «так чи ні»",
+        "note": "Допоміжне на початку; відповідь — Yes, I do / No, I don't.",
+        "en": "Do you live near here?",
+        "uk": "Ви живете десь поруч?"
+      },
+      {
+        "when": "Питання зі словом",
+        "note": "What, where, when, why, how — перед допоміжним.",
+        "en": "Where did you park the car?",
+        "uk": "Де ти поставив машину?"
+      },
+      {
+        "when": "Питання до підмета",
+        "note": "Who / What самі є підметом — тоді без do / does / did.",
+        "en": "Who wants more tea?",
+        "uk": "Хто хоче ще чаю?"
+      },
+      {
+        "when": "Перепитати — «правда ж?»",
+        "note": "Хвостик-tag, щоб перевірити чи отримати згоду.",
+        "en": "It's a lovely day, isn't it?",
+        "uk": "Чудовий день, правда?"
+      },
+      {
+        "when": "Ввічливе питання",
+        "note": "До незнайомих: Could you tell me… / Do you know… — далі звичайний порядок.",
+        "en": "Could you tell me where the station is?",
+        "uk": "Підкажіть, будь ласка, де вокзал?"
+      }
+    ],
+    "vs": [
+      {
+        "title": "Who called? чи Who did you call?",
+        "a": {
+          "en": "Who called you?",
+          "uk": "Хто тобі дзвонив?",
+          "note": "Who — підмет (той, хто дзвонив), без did."
+        },
+        "b": {
+          "en": "Who did you call?",
+          "uk": "Кому ти дзвонив?",
+          "note": "Who — додаток (кому), потрібне did."
+        }
+      },
+      {
+        "title": "Пряме чи непряме питання?",
+        "a": {
+          "en": "Where is the bank?",
+          "uk": "Де банк?",
+          "note": "Пряме: is перед підметом."
+        },
+        "b": {
+          "en": "Do you know where the bank is?",
+          "uk": "Не знаєте, де банк?",
+          "note": "Після Do you know / Could you tell me — порядок як у ствердженні."
+        }
+      }
+    ],
+    "signals": [
+      "what",
+      "where",
+      "when",
+      "why",
+      "who",
+      "which",
+      "whose",
+      "how",
+      "how often",
+      "how long",
+      "how much",
+      "how many"
+    ],
+    "mistakes": [
+      {
+        "wrong": "You like coffee?",
+        "right": "Do you like coffee?",
+        "why": "Українською питаємо інтонацією, англійською — допоміжним дієсловом на початку."
+      },
+      {
+        "wrong": "Where you live?",
+        "right": "Where do you live?",
+        "why": "Без do питання в Present Simple не буває."
+      },
+      {
+        "wrong": "Who did call you?",
+        "right": "Who called you?",
+        "why": "Питання до підмета — без did."
+      },
+      {
+        "wrong": "What means this word?",
+        "right": "What does this word mean?",
+        "why": "Потрібне does, а дієслово після нього — без -s."
+      },
+      {
+        "wrong": "Can you tell me where is the station?",
+        "right": "Can you tell me where the station is?",
+        "why": "У непрямому питанні — порядок як у ствердженні."
+      }
+    ]
   },
-  {
-   "en": "How often do you go to the gym?",
-   "uk": "Як часто ти ходиш у спортзал?"
-  },
-  {
-   "en": "Who told you about this place?",
-   "uk": "Хто тобі розповів про це місце?"
-  },
-  {
-   "en": "What are you looking for?",
-   "uk": "Що ти шукаєш?"
-  },
-  {
-   "en": "You haven't seen my keys, have you?",
-   "uk": "Ти не бачив моїх ключів, правда?"
-  },
-  {
-   "en": "What does this word mean?",
-   "uk": "Що означає це слово?"
-  }
- ],
- "tip": "Прийменник часто йде **в кінець**: *Who are you talking **to**? What are you thinking **about**?*",
- "exercises": [
-  {
-   "type": "choice",
-   "prompt": "Where ___ you go on holiday last year?",
-   "options": [
-    "did",
-    "do",
-    "have"
-   ],
-   "answer": "did",
-   "explanation": "Минуле → did."
-  },
-  {
-   "type": "choice",
-   "prompt": "What ___ she doing right now?",
-   "options": [
-    "does",
-    "is",
-    "do"
-   ],
-   "answer": "is",
-   "explanation": "Continuous."
-  },
-  {
-   "type": "choice",
-   "prompt": "Who ___ the last piece of cake?",
-   "options": [
-    "did eat",
-    "ate",
-    "eat"
-   ],
-   "answer": "ate",
-   "explanation": "Питання до підмета — без did."
-  },
-  {
-   "type": "choice",
-   "prompt": "It's cold today, ___?",
-   "options": [
-    "is it",
-    "isn't it",
-    "doesn't it"
-   ],
-   "answer": "isn't it",
-   "explanation": "+ речення → −tag."
-  },
-  {
-   "type": "choice",
-   "prompt": "You don't eat meat, ___?",
-   "options": [
-    "do you",
-    "don't you",
-    "are you"
-   ],
-   "answer": "do you",
-   "explanation": "− речення → +tag."
-  },
-  {
-   "type": "input",
-   "prompt": "How long ___ you lived in Poland?",
-   "answer": [
-    "have"
-   ],
-   "explanation": "Present Perfect."
-  },
-  {
-   "type": "input",
-   "prompt": "What ___ (happen) at the party last night?",
-   "answer": [
-    "happened"
-   ],
-   "explanation": "Питання до підмета."
-  },
-  {
-   "type": "error",
-   "sentence": "Where you work?",
-   "wrongIndex": 1,
-   "correction": "do you",
-   "alt": [],
-   "explanation": "Потрібне допоміжне: Where do you work?"
-  },
-  {
-   "type": "error",
-   "sentence": "What time does the shop opens?",
-   "wrongIndex": 5,
-   "correction": "open",
-   "alt": [],
-   "explanation": "Після does — базова форма."
-  },
-  {
-   "type": "order",
-   "prompt": "З ким ти розмовляв?",
-   "answer": [
-    "Who were you talking to?",
-    "Who were you speaking to?"
-   ],
-   "explanation": ""
-  },
-  {
-   "type": "transform",
-   "prompt": "She lives in Gdańsk. (питання з Where)",
-   "instruction": "Поставте питання до місця",
-   "answer": [
-    "Where does she live?"
-   ],
-   "explanation": ""
-  },
-  {
-   "type": "translate",
-   "uk": "Скільки коштує квиток?",
-   "answer": [
-    "How much does the ticket cost?",
-    "How much is the ticket?",
-    "How much is a ticket?",
-    "How much does a ticket cost?"
-   ],
-   "explanation": ""
-  }
- ]
+  "formula": [
+    "Wh- + aux + S + V?",
+    "Who/What + V (питання до підмета)",
+    "+ речення, −tag? · − речення, +tag?"
+  ],
+  "examples": [
+    {
+      "en": "Where did you buy that jacket?",
+      "uk": "Де ти купив цю куртку?"
+    },
+    {
+      "en": "How often do you go to the gym?",
+      "uk": "Як часто ти ходиш у спортзал?"
+    },
+    {
+      "en": "Who told you about this place?",
+      "uk": "Хто тобі розповів про це місце?"
+    },
+    {
+      "en": "What are you looking for?",
+      "uk": "Що ти шукаєш?"
+    },
+    {
+      "en": "You haven't seen my keys, have you?",
+      "uk": "Ти не бачив моїх ключів, правда?"
+    },
+    {
+      "en": "What does this word mean?",
+      "uk": "Що означає це слово?"
+    }
+  ],
+  "tip": "Прийменник часто йде **в кінець**: *Who are you talking **to**? What are you thinking **about**?*",
+  "exercises": [
+    {
+      "type": "choice",
+      "prompt": "Where ___ you go on holiday last year?",
+      "options": [
+        "did",
+        "do",
+        "have"
+      ],
+      "answer": "did",
+      "explanation": "Минуле → did."
+    },
+    {
+      "type": "choice",
+      "prompt": "What ___ she doing right now?",
+      "options": [
+        "does",
+        "is",
+        "do"
+      ],
+      "answer": "is",
+      "explanation": "Continuous."
+    },
+    {
+      "type": "choice",
+      "prompt": "Who ___ the last piece of cake?",
+      "options": [
+        "did eat",
+        "ate",
+        "eat"
+      ],
+      "answer": "ate",
+      "explanation": "Питання до підмета — без did."
+    },
+    {
+      "type": "choice",
+      "prompt": "It's cold today, ___?",
+      "options": [
+        "is it",
+        "isn't it",
+        "doesn't it"
+      ],
+      "answer": "isn't it",
+      "explanation": "+ речення → −tag."
+    },
+    {
+      "type": "choice",
+      "prompt": "You don't eat meat, ___?",
+      "options": [
+        "do you",
+        "don't you",
+        "are you"
+      ],
+      "answer": "do you",
+      "explanation": "− речення → +tag."
+    },
+    {
+      "type": "input",
+      "prompt": "How long ___ you lived in Poland?",
+      "answer": [
+        "have"
+      ],
+      "explanation": "Present Perfect."
+    },
+    {
+      "type": "input",
+      "prompt": "What ___ (happen) at the party last night?",
+      "answer": [
+        "happened"
+      ],
+      "explanation": "Питання до підмета."
+    },
+    {
+      "type": "error",
+      "sentence": "Where you work?",
+      "wrongIndex": 1,
+      "correction": "do you",
+      "alt": [],
+      "explanation": "Потрібне допоміжне: Where do you work?"
+    },
+    {
+      "type": "error",
+      "sentence": "What time does the shop opens?",
+      "wrongIndex": 5,
+      "correction": "open",
+      "alt": [],
+      "explanation": "Після does — базова форма."
+    },
+    {
+      "type": "order",
+      "prompt": "З ким ти розмовляв?",
+      "answer": [
+        "Who were you talking to?",
+        "Who were you speaking to?"
+      ],
+      "explanation": ""
+    },
+    {
+      "type": "transform",
+      "prompt": "She lives in Gdańsk. (питання з Where)",
+      "instruction": "Поставте питання до місця",
+      "answer": [
+        "Where does she live?"
+      ],
+      "explanation": ""
+    },
+    {
+      "type": "translate",
+      "uk": "Скільки коштує квиток?",
+      "answer": [
+        "How much does the ticket cost?",
+        "How much is the ticket?",
+        "How much is a ticket?",
+        "How much does a ticket cost?"
+      ],
+      "explanation": ""
+    }
+  ]
 }

@@ -1,217 +1,327 @@
 {
- "id": "should-must-basic",
- "title": "Should, must, have to: основи",
- "titleEn": "should / must / have to (basics)",
- "unit": "Модальні дієслова",
- "level": "A2",
- "mistakeType": "other",
- "explanation": "**should** — порада («варто»): *You **should** see a doctor.* **shouldn't** — «не варто»: *You **shouldn't** eat so late.*\n\n**must** — сильна необхідність, часто так вирішив сам мовець: *I **must** call my mum today.* **mustn't** — **заборона**: *You **mustn't** smoke here.*\n\n**have to / has to** — обов'язок через обставини чи правила: *We **have to** pay the rent every month. Emma **has to** get up early.*\n\nУвага: **don't have to** — «не обов'язково», а не «не можна»: *You **don't have to** come* (можеш не приходити) ≠ *You **mustn't** come* (тобі не можна приходити).\n\nПісля should і must — дієслово **без to**: *should go, must go* (не ~~must to go~~), але *have **to** go*.",
- "formula": [
-  "should / shouldn't + V — порада",
-  "must + V — треба; mustn't + V — не можна",
-  "have to / has to + V — доводиться; don't have to — не обов'язково"
- ],
- "table": {
-  "head": [
-   "Форма",
-   "Значення",
-   "Приклад"
+  "id": "should-must-basic",
+  "title": "Should, must, have to: основи",
+  "titleEn": "should / must / have to (basics)",
+  "unit": "Модальні дієслова",
+  "level": "A2",
+  "mistakeType": "other",
+  "explanation": "- **should / shouldn't** + дієслово: *You should rest.*\n- **must / mustn't** + дієслово: *I must go. You mustn't touch it.*\n- **have to / has to** + дієслово; **don't / doesn't have to**: *She has to work. He doesn't have to pay.*\n\nПитання: *Should I…? · Do I have to…?*\nМинуле для must і have to — **had to** / **didn't have to**.\nПісля should і must — без to; після have — з **to**.",
+  "guide": {
+    "idea": "Ці слова показують, наскільки щось потрібне: **should** — порада, **must** — «обов'язково» на думку мовця, **have to** — обов'язок через правила чи обставини. У запереченні різниця величезна: **mustn't** — заборонено, **don't have to** — не обов'язково.",
+    "use": [
+      {
+        "when": "Порада й думка",
+        "note": "should / shouldn't — «варто», «раджу».",
+        "en": "You should try the fish here — it's great.",
+        "uk": "Тут варто спробувати рибу — вона чудова."
+      },
+      {
+        "when": "Сам вирішив, що треба",
+        "note": "must — внутрішня необхідність, «мушу».",
+        "en": "I must call my grandma this weekend.",
+        "uk": "Цими вихідними мушу подзвонити бабусі."
+      },
+      {
+        "when": "Правила й обставини",
+        "note": "have to — так вимагає робота, закон, ситуація.",
+        "en": "I have to wear a uniform at work.",
+        "uk": "На роботі я мушу носити форму."
+      },
+      {
+        "when": "Заборона",
+        "note": "mustn't — не можна, заборонено.",
+        "en": "You mustn't use your phone during the exam.",
+        "uk": "Під час іспиту не можна користуватися телефоном."
+      },
+      {
+        "when": "Не обов'язково",
+        "note": "don't have to — можна, але не треба.",
+        "en": "You don't have to pay — it's free.",
+        "uk": "Платити не треба — це безкоштовно."
+      },
+      {
+        "when": "Обов'язок у минулому",
+        "note": "must не має минулої форми — had to.",
+        "en": "I had to work late yesterday.",
+        "uk": "Учора мені довелося працювати допізна."
+      }
+    ],
+    "vs": [
+      {
+        "title": "mustn't чи don't have to?",
+        "a": {
+          "en": "You mustn't park here.",
+          "uk": "Тут паркуватися не можна.",
+          "note": "Заборонено."
+        },
+        "b": {
+          "en": "You don't have to come early.",
+          "uk": "Можеш не приходити рано.",
+          "note": "Не обов'язково — вирішуй сам."
+        }
+      },
+      {
+        "title": "should чи must?",
+        "a": {
+          "en": "You should see a doctor.",
+          "uk": "Тобі варто піти до лікаря.",
+          "note": "М'яка порада."
+        },
+        "b": {
+          "en": "You must see a doctor — it's serious.",
+          "uk": "Тобі обов'язково треба до лікаря — це серйозно.",
+          "note": "Сильна вимога, наполягаємо."
+        }
+      },
+      {
+        "title": "must чи have to?",
+        "a": {
+          "en": "I must go to bed earlier.",
+          "uk": "Мені треба раніше лягати.",
+          "note": "Я сам так вирішив."
+        },
+        "b": {
+          "en": "I have to get up at 6 for work.",
+          "uk": "Мені доводиться вставати о 6-й на роботу.",
+          "note": "Так вимагає робота."
+        }
+      }
+    ],
+    "signals": [],
+    "mistakes": [
+      {
+        "wrong": "You must to stay at home.",
+        "right": "You must stay at home.",
+        "why": "Після must і should — без to."
+      },
+      {
+        "wrong": "You don't must smoke here.",
+        "right": "You mustn't smoke here.",
+        "why": "Заперечення — mustn't; do з must не вживаємо."
+      },
+      {
+        "wrong": "He have to work on Saturday.",
+        "right": "He has to work on Saturday.",
+        "why": "he / she / it — has to."
+      },
+      {
+        "wrong": "Yesterday I must work late.",
+        "right": "Yesterday I had to work late.",
+        "why": "Про минуле — had to."
+      },
+      {
+        "wrong": "You mustn't bring food — we've got plenty.",
+        "right": "You don't have to bring food — we've got plenty.",
+        "why": "«Не треба» — don't have to; mustn't означає заборону."
+      }
+    ]
+  },
+  "formula": [
+    "should / shouldn't + V — порада",
+    "must + V — треба; mustn't + V — не можна",
+    "have to / has to + V — доводиться; don't have to — не обов'язково"
   ],
-  "rows": [
-   [
-    "should",
-    "варто, раджу",
-    "You should rest."
-   ],
-   [
-    "shouldn't",
-    "не варто",
-    "You shouldn't eat so late."
-   ],
-   [
-    "must",
-    "обов'язково треба",
-    "I must buy a present for Emma."
-   ],
-   [
-    "mustn't",
-    "не можна, заборонено",
-    "You mustn't park here."
-   ],
-   [
-    "have to / has to",
-    "доводиться, треба",
-    "We have to pay the rent every month."
-   ],
-   [
-    "don't have to",
-    "не обов'язково",
-    "You don't have to bring anything."
-   ]
+  "table": {
+    "head": [
+      "Форма",
+      "Значення",
+      "Приклад"
+    ],
+    "rows": [
+      [
+        "should",
+        "варто, раджу",
+        "You should rest."
+      ],
+      [
+        "shouldn't",
+        "не варто",
+        "You shouldn't eat so late."
+      ],
+      [
+        "must",
+        "обов'язково треба",
+        "I must buy a present for Emma."
+      ],
+      [
+        "mustn't",
+        "не можна, заборонено",
+        "You mustn't park here."
+      ],
+      [
+        "have to / has to",
+        "доводиться, треба",
+        "We have to pay the rent every month."
+      ],
+      [
+        "don't have to",
+        "не обов'язково",
+        "You don't have to bring anything."
+      ]
+    ]
+  },
+  "examples": [
+    {
+      "en": "You look tired. You should go to bed early.",
+      "uk": "У тебе втомлений вигляд. Тобі варто лягти раніше."
+    },
+    {
+      "en": "You shouldn't drink coffee in the evening.",
+      "uk": "Не варто пити каву ввечері."
+    },
+    {
+      "en": "I must remember Emma's birthday!",
+      "uk": "Мені обов'язково треба пам'ятати про день народження Емми!"
+    },
+    {
+      "en": "You mustn't smoke on the tram.",
+      "uk": "У трамваї курити не можна."
+    },
+    {
+      "en": "We have to renew our residence cards this year.",
+      "uk": "Цього року нам треба оновити карти побиту."
+    },
+    {
+      "en": "You don't have to take off your shoes.",
+      "uk": "Можна не знімати взуття."
+    }
+  ],
+  "tip": "**mustn't** = не можна; **don't have to** = не обов'язково. Це різні речі!",
+  "exercises": [
+    {
+      "type": "choice",
+      "prompt": "You have a fever. You ___ see a doctor.",
+      "options": [
+        "should",
+        "shouldn't",
+        "don't have to"
+      ],
+      "answer": "should",
+      "explanation": "Порада — should."
+    },
+    {
+      "type": "choice",
+      "prompt": "You ___ cross the road on a red light.",
+      "options": [
+        "mustn't",
+        "must",
+        "have to"
+      ],
+      "answer": "mustn't",
+      "explanation": "Заборона — mustn't."
+    },
+    {
+      "type": "choice",
+      "prompt": "It's Sunday, so I ___ get up early.",
+      "options": [
+        "don't have to",
+        "must",
+        "have to"
+      ],
+      "answer": "don't have to",
+      "explanation": "Не обов'язково — don't have to."
+    },
+    {
+      "type": "choice",
+      "prompt": "She ___ to wear glasses for reading.",
+      "options": [
+        "has",
+        "must",
+        "should"
+      ],
+      "answer": "has",
+      "explanation": "has to + V; після must і should to не ставимо."
+    },
+    {
+      "type": "choice",
+      "prompt": "We must ___ the tickets online.",
+      "options": [
+        "buy",
+        "to buy",
+        "buying"
+      ],
+      "answer": "buy",
+      "explanation": "Після must — дієслово без to."
+    },
+    {
+      "type": "input",
+      "prompt": "It's cold outside. You ___ (порада) take a warm jacket.",
+      "answer": [
+        "should",
+        "ought to"
+      ],
+      "explanation": "Порада — should."
+    },
+    {
+      "type": "input",
+      "prompt": "Emma ___ (have to) get up at six every day.",
+      "answer": [
+        "has to"
+      ],
+      "explanation": "She → has to."
+    },
+    {
+      "type": "input",
+      "prompt": "You ___ (заборона) use your phone while driving.",
+      "answer": [
+        "mustn't",
+        "must not"
+      ],
+      "explanation": "Заборона — mustn't."
+    },
+    {
+      "type": "input",
+      "prompt": "You ___ (не варто) eat so much sugar.",
+      "answer": [
+        "shouldn't",
+        "should not"
+      ],
+      "explanation": "Не варто — shouldn't."
+    },
+    {
+      "type": "error",
+      "sentence": "He have to cook dinner today.",
+      "wrongIndex": 1,
+      "correction": "has",
+      "alt": [],
+      "explanation": "He → has to."
+    },
+    {
+      "type": "error",
+      "sentence": "You should goes to bed.",
+      "wrongIndex": 2,
+      "correction": "go",
+      "alt": [],
+      "explanation": "Після should — базова форма дієслова."
+    },
+    {
+      "type": "order",
+      "prompt": "Тобі варто більше відпочивати.",
+      "answer": [
+        "You should rest more."
+      ],
+      "explanation": "Порада — should + V."
+    },
+    {
+      "type": "transform",
+      "prompt": "It's a good idea to drink more water.",
+      "instruction": "Дайте пораду з should: You …",
+      "answer": [
+        "You should drink more water."
+      ],
+      "explanation": "should + V без to."
+    },
+    {
+      "type": "translate",
+      "uk": "Нам не обов'язково йти туди сьогодні.",
+      "answer": [
+        "We don't have to go there today.",
+        "We do not have to go there today.",
+        "We don't need to go there today.",
+        "We do not need to go there today.",
+        "We needn't go there today."
+      ],
+      "explanation": "Не обов'язково — don't have to."
+    }
   ]
- },
- "examples": [
-  {
-   "en": "You look tired. You should go to bed early.",
-   "uk": "У тебе втомлений вигляд. Тобі варто лягти раніше."
-  },
-  {
-   "en": "You shouldn't drink coffee in the evening.",
-   "uk": "Не варто пити каву ввечері."
-  },
-  {
-   "en": "I must remember Emma's birthday!",
-   "uk": "Мені обов'язково треба пам'ятати про день народження Емми!"
-  },
-  {
-   "en": "You mustn't smoke on the tram.",
-   "uk": "У трамваї курити не можна."
-  },
-  {
-   "en": "We have to renew our residence cards this year.",
-   "uk": "Цього року нам треба оновити карти побиту."
-  },
-  {
-   "en": "You don't have to take off your shoes.",
-   "uk": "Можна не знімати взуття."
-  }
- ],
- "tip": "**mustn't** = не можна; **don't have to** = не обов'язково. Це різні речі!",
- "exercises": [
-  {
-   "type": "choice",
-   "prompt": "You have a fever. You ___ see a doctor.",
-   "options": [
-    "should",
-    "shouldn't",
-    "don't have to"
-   ],
-   "answer": "should",
-   "explanation": "Порада — should."
-  },
-  {
-   "type": "choice",
-   "prompt": "You ___ cross the road on a red light.",
-   "options": [
-    "mustn't",
-    "must",
-    "have to"
-   ],
-   "answer": "mustn't",
-   "explanation": "Заборона — mustn't."
-  },
-  {
-   "type": "choice",
-   "prompt": "It's Sunday, so I ___ get up early.",
-   "options": [
-    "don't have to",
-    "must",
-    "have to"
-   ],
-   "answer": "don't have to",
-   "explanation": "Не обов'язково — don't have to."
-  },
-  {
-   "type": "choice",
-   "prompt": "She ___ to wear glasses for reading.",
-   "options": [
-    "has",
-    "must",
-    "should"
-   ],
-   "answer": "has",
-   "explanation": "has to + V; після must і should to не ставимо."
-  },
-  {
-   "type": "choice",
-   "prompt": "We must ___ the tickets online.",
-   "options": [
-    "buy",
-    "to buy",
-    "buying"
-   ],
-   "answer": "buy",
-   "explanation": "Після must — дієслово без to."
-  },
-  {
-   "type": "input",
-   "prompt": "It's cold outside. You ___ (порада) take a warm jacket.",
-   "answer": [
-    "should",
-    "ought to"
-   ],
-   "explanation": "Порада — should."
-  },
-  {
-   "type": "input",
-   "prompt": "Emma ___ (have to) get up at six every day.",
-   "answer": [
-    "has to"
-   ],
-   "explanation": "She → has to."
-  },
-  {
-   "type": "input",
-   "prompt": "You ___ (заборона) use your phone while driving.",
-   "answer": [
-    "mustn't",
-    "must not"
-   ],
-   "explanation": "Заборона — mustn't."
-  },
-  {
-   "type": "input",
-   "prompt": "You ___ (не варто) eat so much sugar.",
-   "answer": [
-    "shouldn't",
-    "should not"
-   ],
-   "explanation": "Не варто — shouldn't."
-  },
-  {
-   "type": "error",
-   "sentence": "He have to cook dinner today.",
-   "wrongIndex": 1,
-   "correction": "has",
-   "alt": [],
-   "explanation": "He → has to."
-  },
-  {
-   "type": "error",
-   "sentence": "You should goes to bed.",
-   "wrongIndex": 2,
-   "correction": "go",
-   "alt": [],
-   "explanation": "Після should — базова форма дієслова."
-  },
-  {
-   "type": "order",
-   "prompt": "Тобі варто більше відпочивати.",
-   "answer": [
-    "You should rest more."
-   ],
-   "explanation": "Порада — should + V."
-  },
-  {
-   "type": "transform",
-   "prompt": "It's a good idea to drink more water.",
-   "instruction": "Дайте пораду з should: You …",
-   "answer": [
-    "You should drink more water."
-   ],
-   "explanation": "should + V без to."
-  },
-  {
-   "type": "translate",
-   "uk": "Нам не обов'язково йти туди сьогодні.",
-   "answer": [
-    "We don't have to go there today.",
-    "We do not have to go there today.",
-    "We don't need to go there today.",
-    "We do not need to go there today.",
-    "We needn't go there today."
-   ],
-   "explanation": "Не обов'язково — don't have to."
-  }
- ]
 }
