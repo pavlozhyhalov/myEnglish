@@ -38,7 +38,7 @@
 
 ## Як працювати
 - JSON писати скриптом Python (`json.load` → зміни → `json.dump(..., ensure_ascii=False, indent=2)` + `\n` в кінці), щоб не зламати файл. Після кожного файлу — `python3 -c "import json;json.load(open(F))"`.
-- Комміт після кожних 2–3 файлів: `git add data/grammar/<файли> && git commit -m "Граматика guide: <id>, <id>"` і `git push -u origin claude/serene-noether-50pjmr` (при відмові — `git pull --rebase origin claude/serene-noether-50pjmr` і знову push). Чужі файли не чіпати, `main` не пушити, `scripts/bump.sh` не запускати (це робить супервайзер).
+- **Не комітити й не пушити** (кілька агентів працюють в одній робочій теці; git робить супервайзер). Змінювати лише файли своєї групи; `scripts/bump.sh` не запускати.
 - Перевірка схеми свого файлу: `node scripts/check-guide.js data/grammar/<id>.json`.
 - Якщо роботу перервано (ліміт) — продовжуй з першого файлу групи без `guide`.
 - У кінці — звіт супервайзеру: які файли зроблено, що виправлено поза `guide`, сумнівні місця.
