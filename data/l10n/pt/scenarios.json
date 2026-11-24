@@ -59,7 +59,6 @@
  "Ви хочете віддати дитину в міжнародний садочок, де всі говорять англійською. Ви прийшли на зустріч із директоркою.": "Você quer colocar seu filho numa escolinha internacional, onde todos falam inglês. Você foi a uma reunião com a diretora.",
  "Ви хочете почати тренуватися і прийшли в новий спортзал біля дому. Вас цікавлять ціни, басейн і групові заняття.": "Você quer começar a treinar e foi a uma academia nova perto de casa. Quer saber dos preços, da piscina e das aulas em grupo.",
  "Ви хочете продовжити оренду квартири, але власник піднімає ціну на 15%. Ви — сумлінні орендарі вже три роки.": "Você quer renovar o aluguel do apartamento, mas o proprietário quer aumentar o preço em 15%. Vocês são inquilinos exemplares há três anos.",
- "Ви щойно виступили на вечорі в культурному центрі Кракова з розповіддю про те, як українська громада адаптується в місті. Тепер час запитань із зали, і деякі з них гострі або скептичні.": "Você acabou de fazer uma palestra num centro cultural em Dublin sobre como a comunidade brasileira se adapta à cidade. Agora é a hora das perguntas da plateia, e algumas são incisivas ou céticas.",
  "Ви щойно прилетіли до Лондона й сідаєте в таксі біля аеропорту. Вам треба до готелю в центрі.": "Você acabou de chegar a Londres e está pegando um táxi no aeroporto. Precisa ir a um hotel no centro.",
  "Вислухати, визнати його почуття, показати іншу точку зору й підвести до розмови з Касею без звинувачень.": "Ouvir, reconhecer os sentimentos dele, mostrar outro ponto de vista e levá-lo a conversar com a Ana sem acusações.",
  "Власник автомобіля": "Dono do carro",
@@ -136,7 +135,6 @@
  "Менеджер постачальника": "Gerente do fornecedor",
  "Мешканець квартири знизу": "Morador do apartamento de baixo",
  "Моя сім'я": "Minha família",
- "Місцеве англомовне радіо в Кракові проводить ефір про затори і нову платну зону паркування. Ви додзвонилися в прямий ефір.": "Uma rádio local em inglês em Dublin está fazendo um programa sobre engarrafamentos e a nova zona de estacionamento pago. Você conseguiu entrar ao vivo.",
  "Місцевий житель на вулиці": "Morador local na rua",
  "Місця, вартість, розклад, адаптація": "Vagas, mensalidade, horários, adaptação",
  "На ринку": "Na feira",
@@ -222,7 +220,6 @@
  "Стрижка, довжина, ціна": "Corte, comprimento, preço",
  "Студент курсу англійської": "Aluno do curso de inglês",
  "Студент мовних курсів": "Aluno do curso de idiomas",
- "Субота, ви на ринку в Кракові. Продавець говорить англійською. Вам потрібні яблука, банани і полуниця.": "É sábado, e você está numa feira em Dublin. O vendedor fala inglês. Você precisa de maçãs, bananas e morangos.",
  "Сусід зверху вже третій тиждень гучно вмикає музику після півночі. Ви вирішили поговорити з ним особисто.": "Há três semanas o vizinho de cima põe música alta depois da meia-noite. Você decidiu falar com ele pessoalmente.",
  "Сусід, який запрошує": "Vizinho que faz o convite",
  "Сусід, який спершу не розуміє проблеми і трохи захищається, але готовий до компромісу": "Vizinho que no começo não entende o problema e fica um pouco na defensiva, mas está aberto a um acordo",
@@ -256,5 +253,8 @@
  "I'm from Ukraine.": "I'm from Brazil.",
  "A ticket to Lviv, please.": "A ticket to Manchester, please.",
  "We live in Kyiv.": "We live in São Paulo.",
- "My parents live in Odesa.": "My parents live in Salvador."
+ "My parents live in Odesa.": "My parents live in Salvador.",
+ "Ви щойно виступили на вечорі в культурному центрі Лідса з розповіддю про те, як українська громада адаптується в місті. Тепер час запитань із зали, і деякі з них гострі або скептичні.": "Você acabou de fazer uma palestra num centro cultural em Leeds sobre como a comunidade brasileira se adapta à cidade. Agora é a hora das perguntas da plateia, e algumas são incisivas ou céticas.",
+ "Місцеве англомовне радіо в Манчестері проводить ефір про затори і нову платну зону паркування. Ви додзвонилися в прямий ефір.": "Uma rádio local de Manchester está fazendo um programa sobre engarrafamentos e a nova zona de estacionamento pago. Você conseguiu entrar ao vivo.",
+ "Субота, ви на ринку в Лондоні. Продавець говорить англійською. Вам потрібні яблука, банани і полуниця.": "É sábado, e você está numa feira em Londres. O vendedor fala inglês. Você precisa de maçãs, bananas e morangos."
 }

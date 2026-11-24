@@ -148,7 +148,6 @@
  "Дізнатися про види абонементів і ціни, години роботи, групові заняття й пробне тренування; обрати абонемент.": "Dowiedzieć się o rodzaje karnetów i ceny, godziny otwarcia, zajęcia grupowe i trening próbny; wybrać karnet.",
  "Запитання після виступу": "Pytania po wystąpieniu",
  "Гострі запитання, аргументи, дипломатія": "Trudne pytania, argumenty, dyplomacja",
- "Ви щойно виступили на вечорі в культурному центрі Кракова з розповіддю про те, як українська громада адаптується в місті. Тепер час запитань із зали, і деякі з них гострі або скептичні.": "Właśnie wystąpiłeś na wieczorze w ośrodku kultury w Manchesterze z opowieścią o tym, jak polska społeczność odnajduje się w mieście. Teraz czas na pytania z sali, a niektóre są ostre lub sceptyczne.",
  "Доповідач": "Prelegent",
  "Слухачі із зали: допитливі, часом скептичні чи провокативні (кілька ролей по черзі)": "Słuchacze z sali: dociekliwi, czasem sceptyczni lub prowokacyjni (kilka ról po kolei)",
  "Дякувати за запитання, уточнювати незрозуміле, відповідати по суті з прикладами, визнавати межі своїх знань і дипломатично реагувати на критику.": "Dziękować za pytania, doprecyzowywać niejasności, odpowiadać rzeczowo z przykładami, przyznawać się do granic swojej wiedzy i dyplomatycznie reagować na krytykę.",
@@ -175,7 +174,6 @@
  "Назвати ім'я, підтвердити бронювання на дві ночі, дізнатися про сніданок, Wi-Fi і час виїзду.": "Podać nazwisko, potwierdzić rezerwację na dwie noce, dowiedzieć się o śniadanie, Wi-Fi i godzinę wymeldowania.",
  "На ринку": "Na targu",
  "Фрукти, вага, ціна": "Owoce, waga, cena",
- "Субота, ви на ринку в Кракові. Продавець говорить англійською. Вам потрібні яблука, банани і полуниця.": "Sobota, jesteś na targu w Krakowie. Sprzedawca mówi po angielsku. Potrzebujesz jabłek, bananów i truskawek.",
  "Продавець фруктів на ринку": "Sprzedawca owoców na targu",
  "Купити три види фруктів, запитати ціну за кілограм, сказати, скільки треба, і заплатити.": "Kupić trzy rodzaje owoców, zapytać o cenę za kilogram, powiedzieć, ile potrzebujesz, i zapłacić.",
  "Моя сім'я": "Moja rodzina",
@@ -231,7 +229,6 @@
  "Вислухати, визнати його почуття, показати іншу точку зору й підвести до розмови з Касею без звинувачень.": "Wysłuchać, uznać jego uczucia, pokazać inny punkt widzenia i doprowadzić do rozmowy z Kasią bez oskarżeń.",
  "Дзвінок на радіо": "Telefon do radia",
  "Прямий ефір про проблему міста": "Audycja na żywo o problemie miasta",
- "Місцеве англомовне радіо в Кракові проводить ефір про затори і нову платну зону паркування. Ви додзвонилися в прямий ефір.": "Lokalne anglojęzyczne radio w Krakowie nadaje audycję o korkach i nowej płatnej strefie parkowania. Dodzwoniłeś się na antenę.",
  "Слухач, який телефонує в ефір": "Słuchacz, który dzwoni na antenę",
  "Ведучий радіо (radio host): ставить гострі запитання і перебиває": "Prowadzący audycję (radio host): zadaje ostre pytania i przerywa",
  "Чітко викласти позицію, навести приклад з власного досвіду, відповісти на заперечення ведучого і запропонувати рішення — коротко, бо ефірний час обмежений.": "Jasno przedstawić stanowisko, podać przykład z własnego doświadczenia, odpowiedzieć na zastrzeżenia prowadzącego i zaproponować rozwiązanie — krótko, bo czas antenowy jest ograniczony.",
@@ -256,5 +253,8 @@
  "I'm from Ukraine.": "I'm from Poland.",
  "A ticket to Lviv, please.": "A ticket to Kraków, please.",
  "We live in Kyiv.": "We live in Warsaw.",
- "My parents live in Odesa.": "My parents live in Gdańsk."
+ "My parents live in Odesa.": "My parents live in Gdańsk.",
+ "Ви щойно виступили на вечорі в культурному центрі Лідса з розповіддю про те, як українська громада адаптується в місті. Тепер час запитань із зали, і деякі з них гострі або скептичні.": "Właśnie wystąpiłeś na wieczorze w ośrodku kultury w Leeds z opowieścią o tym, jak polska społeczność odnajduje się w mieście. Teraz czas na pytania z sali, a niektóre są ostre lub sceptyczne.",
+ "Субота, ви на ринку в Лондоні. Продавець говорить англійською. Вам потрібні яблука, банани і полуниця.": "Sobota, jesteś na targu w Londynie. Sprzedawca mówi po angielsku. Potrzebujesz jabłek, bananów i truskawek.",
+ "Місцеве англомовне радіо в Манчестері проводить ефір про затори і нову платну зону паркування. Ви додзвонилися в прямий ефір.": "Lokalne anglojęzyczne radio w Manchesterze nadaje audycję o korkach i nowej płatnej strefie parkowania. Dodzwoniłeś się na antenę."
 }
