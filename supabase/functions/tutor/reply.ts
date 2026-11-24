@@ -1,7 +1,7 @@
 // Чисті функції для відповіді вчителя: відокремлення блоку ---FIX--- під час стрімінгу,
 // перевірка виправлень, очищення meta (підказки, слова, пам'ять). Без залежностей — покриті reply_test.ts.
 import { isDisputed, ruleOf, typeOfRule, type Dispute } from '../_shared/rules.ts';
-import { TOPIC_TAGS } from '../_shared/prompts.ts';
+import { TOPIC_TAGS, isUiText } from '../_shared/prompts.ts';
 const TOPIC_TAG_SET = new Set(TOPIC_TAGS);
 
 export const FIX = '---FIX---';
@@ -156,7 +156,7 @@ export function cleanMemory(list: unknown, known: string[] = [], max = 3): strin
 }
 
 /** meta від моделі → безпечний формат; порожні поля не повертаємо; null — нічого корисного */
-export function cleanMeta(r: unknown, o: { reply: string; learning?: string[]; memory?: string[]; plan?: boolean }): Meta | null {
+export function cleanMeta(r: unknown, o: { reply: string; learning?: string[]; memory?: string[]; plan?: boolean; lang?: unknown }): Meta | null {
   const j = (r && typeof r === 'object' ? r : {}) as Record<string, unknown>;
   const meta: Meta = {};
   const sug: string[] = [];
@@ -176,7 +176,7 @@ export function cleanMeta(r: unknown, o: { reply: string; learning?: string[]; m
     if (!x || typeof x !== 'object') continue;
     const en = String((x as Record<string, unknown>).en || '').replace(/\s+/g, ' ').trim().replace(/^["«“]+|["»”.!?]+$/g, '');
     const uk = String((x as Record<string, unknown>).uk || '').replace(/\s+/g, ' ').trim();
-    if (!en || en.length > 60 || CYR.test(en) || !/[a-z]/i.test(en) || !uk || uk.length > 80 || !CYR.test(uk)) continue;
+    if (!en || en.length > 60 || CYR.test(en) || !/[a-z]/i.test(en) || !uk || uk.length > 80 || !isUiText(uk, o.lang ?? 'uk', en)) continue;
     const ne = norm(en);
     if (learning.has(ne) || words.some(w => norm(w.en) === ne) || NOT_WORDS.test(en)) continue;
     // слово має бути з відповіді вчителя (допускаємо іншу форму: перші 4 літери кожного значущого слова)
