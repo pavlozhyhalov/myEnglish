@@ -10,8 +10,8 @@
   {
    "en": "a square",
    "uk": "площа",
-   "ex": "The main square in Kraków is huge.",
-   "exUk": "Головна площа в Кракові величезна."
+   "ex": "Trafalgar Square in London is huge.",
+   "exUk": "Трафальгарська площа в Лондоні величезна."
   },
   {
    "en": "a park",
@@ -70,8 +70,8 @@
   {
    "en": "a church",
    "uk": "церква, костел",
-   "ex": "There are many churches in Kraków.",
-   "exUk": "У Кракові багато костелів."
+   "ex": "There are many churches in Lviv.",
+   "exUk": "У Львові багато церков."
   },
   {
    "en": "a museum",
@@ -286,8 +286,8 @@
   {
    "en": "the underground / the metro",
    "uk": "метро",
-   "ex": "Warsaw has a metro, but Kraków doesn't.",
-   "exUk": "У Варшаві є метро, а в Кракові немає."
+   "ex": "Kyiv has a metro, but Lviv doesn't.",
+   "exUk": "У Києві є метро, а у Львові немає."
   },
   {
    "en": "a road",

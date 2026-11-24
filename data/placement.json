@@ -1082,7 +1082,7 @@
    "id": "g14",
    "skill": "grammar",
    "level": "B1",
-   "prompt": "She asked me where I ___ before I moved to Kraków.",
+   "prompt": "She asked me where I ___ before I moved to London.",
    "options": [
     "live",
     "lived",
@@ -5126,7 +5126,7 @@
    "id": "l68",
    "skill": "listening",
    "level": "B1",
-   "prompt": "How long has the speaker lived in Kraków?",
+   "prompt": "How long has the speaker lived in Edinburgh?",
    "options": [
     "Two years",
     "Five years",
@@ -5135,7 +5135,7 @@
    ],
    "answer": "Five years",
    "explanation": "",
-   "audio": "I moved to Kraków five years ago, and I still love it."
+   "audio": "I moved to Edinburgh five years ago, and I still love it."
   },
   {
    "id": "l69",

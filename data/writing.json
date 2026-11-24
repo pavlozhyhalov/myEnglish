@@ -72,7 +72,7 @@
     "items": [
      "Are you free on Saturday?",
      "We're having a barbecue at our place.",
-     "Do you fancy going hiking in the Tatras?",
+     "Do you fancy going hiking in the Carpathians?",
      "It would be great to catch up."
     ]
    },
@@ -213,12 +213,12 @@
     "group": "Запрошення",
     "items": [
      "Next time you must come to us!",
-     "You are always welcome in Kraków.",
+     "You are always welcome in Lviv.",
      "Let us know when you are free."
     ]
    }
   ],
-  "sample": "Hi Kate and Ben,\n\nThank you so much for having us last weekend! We had a wonderful time — the dinner was amazing and we loved the walk by the lake. Emma is still talking about your apple pie, so please send us the recipe.\n\nNext time you must come to us. You're always welcome in Kraków!\n\nLove,\nOliver & Emma",
+  "sample": "Hi Kate and Ben,\n\nThank you so much for having us last weekend! We had a wonderful time — the dinner was amazing and we loved the walk by the lake. Emma is still talking about your apple pie, so please send us the recipe.\n\nNext time you must come to us. You're always welcome in Lviv!\n\nLove,\nOliver & Emma",
   "level": "A2"
  },
  {
@@ -296,7 +296,7 @@
     ]
    }
   ],
-  "sample": "Dear Mr Novak,\n\nI am writing on behalf of our company, a bicycle manufacturer based in Kraków. We are looking for a reliable supplier of machined aluminium parts. Could you please send us a quote for 500 pieces of the part in the attached drawing (material 6061-T6, anodised black)? All dimensions must be within the tolerances shown, and we would need an inspection report with each delivery.\n\nOur target lead time is 4 weeks. Would it be possible to get 5 samples first?\n\nWe would appreciate your reply by Friday. Please let me know if you need any further information.\n\nBest regards,\nOleh Marchenko",
+  "sample": "Dear Mr Novak,\n\nI am writing on behalf of our company, a bicycle manufacturer based in Leeds. We are looking for a reliable supplier of machined aluminium parts. Could you please send us a quote for 500 pieces of the part in the attached drawing (material 6061-T6, anodised black)? All dimensions must be within the tolerances shown, and we would need an inspection report with each delivery.\n\nOur target lead time is 4 weeks. Would it be possible to get 5 samples first?\n\nWe would appreciate your reply by Friday. Please let me know if you need any further information.\n\nBest regards,\nOleh Marchenko",
   "level": "B2",
   "group": "work"
  },
@@ -374,7 +374,7 @@
     ]
    }
   ],
-  "sample": "Hi! My name is Oliver. I'm from Ukraine, but now I live in Kraków with my wife, Emma. I work as an engineer. I like cooking and walking in the mountains. At the weekend we often go to the cinema. What about you?\n\nOliver",
+  "sample": "Hi! My name is Taras. I'm from Ukraine. I live in Lviv with my sister, Oksana. I work as a teacher. I like cooking and walking in the mountains. At the weekend we often go to the cinema. What about you?\n\nTaras",
   "level": "A1"
  },
  {
@@ -488,7 +488,7 @@
     ]
    }
   ],
-  "sample": "Dear Sir or Madam,\n\nI am writing as a resident of Lipowa Street to propose the construction of a dedicated cycle lane along its full length.\n\nAt present, cyclists are forced to share a narrow road with heavy traffic, including delivery lorries serving the nearby industrial area. This poses a significant risk, particularly to children cycling to the two schools located on the street. Several near-misses have been reported this year alone.\n\nA separated cycle lane would not only improve safety but would also encourage more residents to leave their cars at home, thereby reducing congestion and noise. Similar lanes introduced in other districts of Kraków have proved both popular and effective. Given that the pavement on the eastern side is unusually wide, the lane could be introduced at relatively low cost, without reducing the number of parking spaces.\n\nI would be grateful if you could consider including this project in next year's budget. Many of my neighbours share this view, and we would be happy to take part in any public consultation.\n\nI look forward to your response.\n\nYours faithfully,\nOleh Marchenko",
+  "sample": "Dear Sir or Madam,\n\nI am writing as a resident of Elm Road to propose the construction of a dedicated cycle lane along its full length.\n\nAt present, cyclists are forced to share a narrow road with heavy traffic, including delivery lorries serving the nearby industrial area. This poses a significant risk, particularly to children cycling to the two schools located on the street. Several near-misses have been reported this year alone.\n\nA separated cycle lane would not only improve safety but would also encourage more residents to leave their cars at home, thereby reducing congestion and noise. Similar lanes introduced in other parts of the city have proved both popular and effective. Given that the pavement on the eastern side is unusually wide, the lane could be introduced at relatively low cost, without reducing the number of parking spaces.\n\nI would be grateful if you could consider including this project in next year's budget. Many of my neighbours share this view, and we would be happy to take part in any public consultation.\n\nI look forward to your response.\n\nYours faithfully,\nOleh Marchenko",
   "level": "C1"
  },
  {
@@ -506,7 +506,7 @@
     "items": [
      "Dear Anna,",
      "Hi Tom!",
-     "Greetings from Gdańsk!"
+     "Greetings from Odesa!"
     ]
    },
    {
@@ -534,7 +534,7 @@
     ]
    }
   ],
-  "sample": "Hi Tom!\n\nGreetings from Gdańsk! Emma and I are here for a week. The weather is sunny and warm. Our hotel is near the beach. We swim every day. In the evening we eat fish in the old town. We love it here!\n\nSee you soon,\nOliver",
+  "sample": "Hi Tom!\n\nGreetings from Odesa! Emma and I are here for a week. The weather is sunny and warm. Our hotel is near the beach. We swim every day. In the evening we eat fish in the old town. We love it here!\n\nSee you soon,\nOliver",
   "level": "A1"
  },
  {
@@ -597,7 +597,7 @@
    {
     "group": "Вступ",
     "items": [
-     "Dear Ms Nowak,",
+     "Dear Ms Hughes,",
      "I am writing to apply for the role of … advertised on …",
      "I was delighted to see that you are looking for…"
     ]
@@ -605,9 +605,9 @@
    {
     "group": "Мотивація і досвід",
     "items": [
-     "Having moved to Kraków myself, I know how…",
+     "Having moved to Leeds myself, I know how…",
      "I have some experience of…",
-     "I speak Ukrainian and Polish, and my English is improving fast.",
+     "I speak Ukrainian and German, and my English is improving fast.",
      "I would describe myself as patient and well organised."
     ]
    },
@@ -628,7 +628,7 @@
     ]
    }
   ],
-  "sample": "Dear Ms Nowak,\n\nI am writing to apply for the role of volunteer assistant at the Welcome Centre, which I saw advertised on your website.\n\nHaving moved to Kraków from Ukraine myself, I know how confusing the first few weeks in a new country can be, from registering an address to finding a doctor. I would love to help other newcomers through that process.\n\nLast year I helped several friends fill in official forms and translated at meetings with landlords and schools. I speak Ukrainian and Polish, and my English is improving fast. I would describe myself as patient, reliable and well organised, and I enjoy working with people.\n\nI am available on weekday evenings and at weekends, and I could commit to around six hours a week. I would also be happy to attend any training you provide.\n\nThank you for considering my application. I would welcome the opportunity to discuss it with you.\n\nYours sincerely,\nOliver",
+  "sample": "Dear Ms Hughes,\n\nI am writing to apply for the role of volunteer assistant at the Welcome Centre, which I saw advertised on your website.\n\nHaving moved to Leeds from Ukraine myself, I know how confusing the first few weeks in a new country can be, from registering an address to finding a doctor. I would love to help other newcomers through that process.\n\nLast year I helped several friends fill in official forms and translated at meetings with landlords and schools. I speak Ukrainian and German, and my English is improving fast. I would describe myself as patient, reliable and well organised, and I enjoy working with people.\n\nI am available on weekday evenings and at weekends, and I could commit to around six hours a week. I would also be happy to attend any training you provide.\n\nThank you for considering my application. I would welcome the opportunity to discuss it with you.\n\nYours sincerely,\nOliver",
   "level": "B2"
  },
  {
@@ -674,7 +674,7 @@
     ]
    }
   ],
-  "sample": "Night Trams in Kraków: A Resident's Report\n\nIntroduction\nThe aim of this report is to assess the night tram service introduced last spring. It is based on my own experience and on conversations with neighbours and friends who use it regularly.\n\nWhat has changed\nPreviously, public transport stopped shortly before midnight, leaving taxis as the only option. Four tram lines now run every thirty minutes until 4 am at weekends.\n\nWhat has worked well\nOn the positive side, the service has made the city centre far more accessible in the evenings. It has proved particularly popular with students and hospitality staff, many of whom finish work late and previously spent a considerable part of their wages on taxis. The trams are clean, and the presence of security staff has made passengers feel noticeably safer.\n\nWhat has not worked\nHowever, a number of issues remain. The service does not yet reach several large residential districts, so many residents still face a long walk home. In addition, timetable information at stops is often out of date, which causes unnecessary frustration.\n\nRecommendations\nIn light of the above, I would recommend extending at least one line to the outer districts and introducing live departure boards at the busiest stops. It would also be advisable to run the service on Thursday nights.\n\nConclusion\nOverall, the scheme has been a success, although it will only reach its full potential once these gaps are addressed.",
+  "sample": "Night Trams in Manchester: A Resident's Report\n\nIntroduction\nThe aim of this report is to assess the night tram service introduced last spring. It is based on my own experience and on conversations with neighbours and friends who use it regularly.\n\nWhat has changed\nPreviously, public transport stopped shortly before midnight, leaving taxis as the only option. Four tram lines now run every thirty minutes until 4 am at weekends.\n\nWhat has worked well\nOn the positive side, the service has made the city centre far more accessible in the evenings. It has proved particularly popular with students and hospitality staff, many of whom finish work late and previously spent a considerable part of their wages on taxis. The trams are clean, and the presence of security staff has made passengers feel noticeably safer.\n\nWhat has not worked\nHowever, a number of issues remain. The service does not yet reach several large residential districts, so many residents still face a long walk home. In addition, timetable information at stops is often out of date, which causes unnecessary frustration.\n\nRecommendations\nIn light of the above, I would recommend extending at least one line to the outer districts and introducing live departure boards at the busiest stops. It would also be advisable to run the service on Thursday nights.\n\nConclusion\nOverall, the scheme has been a success, although it will only reach its full potential once these gaps are addressed.",
   "level": "C1"
  },
  {
@@ -757,7 +757,7 @@
     ]
    }
   ],
-  "sample": "Our flat is in Kraków, near a big park. It is small, but it is nice. There are two rooms, a kitchen and a bathroom. The living room has a sofa, a TV and a lot of plants. I like the balcony best, because it is very sunny.",
+  "sample": "Our flat is in Kyiv, near a big park. It is small, but it is nice. There are two rooms, a kitchen and a bathroom. The living room has a sofa, a TV and a lot of plants. I like the balcony best, because it is very sunny.",
   "level": "A1"
  },
  {
@@ -845,7 +845,7 @@
   "kindLabel": "Лист · запит",
   "emoji": "key",
   "title": "Питання до готелю: сніданок і паркування",
-  "task": "Ви з дружиною забронювали готель у Гданську на три ночі й їдете автомобілем. Напишіть у готель: запитайте, чи входить сніданок у ціну і о котрій він, чи є парковка і скільки вона коштує, і чи можна заселитися пізно ввечері.",
+  "task": "Ви з дружиною забронювали готель в Единбурзі на три ночі й їдете автомобілем. Напишіть у готель: запитайте, чи входить сніданок у ціну і о котрій він, чи є парковка і скільки вона коштує, і чи можна заселитися пізно ввечері.",
   "context": "",
   "words": "50–90",
   "phrases": [
@@ -1059,7 +1059,7 @@
     ]
    }
   ],
-  "sample": "Dear Sir or Madam,\n\nI am writing to complain about the delivery of my parcel (tracking number PL4829105). The parcel was due to arrive on 3 March, but it was not delivered until 7 March, despite several messages from your company confirming the original date.\n\nWhat is more, the courier did not ring the bell or call me, even though I was at home all day. Instead, he left the parcel outside the building in the rain. By the time I found it, the box was soaked and torn, and the lamp inside was broken beyond repair. I have attached photos of the damage and a copy of the receipt.\n\nI would therefore like a full refund of the lamp (249 zł) and the delivery fee (19 zł). I would also appreciate an explanation of why your courier ignored the delivery instructions.\n\nI expect to receive a reply within 14 days. If the matter is not resolved, I will have no choice but to take it further with the consumer protection office.\n\nYours faithfully,\nOliver",
+  "sample": "Dear Sir or Madam,\n\nI am writing to complain about the delivery of my parcel (tracking number GB4829105). The parcel was due to arrive on 3 March, but it was not delivered until 7 March, despite several messages from your company confirming the original date.\n\nWhat is more, the courier did not ring the bell or call me, even though I was at home all day. Instead, he left the parcel outside the building in the rain. By the time I found it, the box was soaked and torn, and the lamp inside was broken beyond repair. I have attached photos of the damage and a copy of the receipt.\n\nI would therefore like a full refund of the lamp (£49) and the delivery fee (£4.99). I would also appreciate an explanation of why your courier ignored the delivery instructions.\n\nI expect to receive a reply within 14 days. If the matter is not resolved, I will have no choice but to take it further with the consumer protection office.\n\nYours faithfully,\nOliver",
   "level": "B2"
  },
  {
@@ -1152,7 +1152,7 @@
     ]
    }
   ],
-  "sample": "Dear Ms Nowak,\n\nI am writing to recommend Taras Melnyk as a tenant for your flat. I have known Taras for over eight years. We first met at university in Lviv, and since moving to Kraków we have remained close friends.\n\nTaras is one of the most reliable and responsible people I know. He always pays his bills on time and keeps his promises, however small. For instance, when my wife and I were away for a month last summer, Taras looked after our flat. He watered the plants, checked the post and even fixed a dripping tap without being asked.\n\nHe is also quiet, tidy and considerate. He gets on well with everyone in his current building, and his neighbours often ask him for help. In addition, he has a stable job as an accountant, so I have no doubt that he can afford the rent.\n\nI have no hesitation in recommending him, and I am confident that he would be an excellent tenant. Please do not hesitate to contact me if you need any further information.\n\nKind regards,\nOliver",
+  "sample": "Dear Ms Bondarenko,\n\nI am writing to recommend Taras Melnyk as a tenant for your flat. I have known Taras for over eight years. We first met at university in Lviv, and since moving to Kyiv we have remained close friends.\n\nTaras is one of the most reliable and responsible people I know. He always pays his bills on time and keeps his promises, however small. For instance, when my wife and I were away for a month last summer, Taras looked after our flat. He watered the plants, checked the post and even fixed a dripping tap without being asked.\n\nHe is also quiet, tidy and considerate. He gets on well with everyone in his current building, and his neighbours often ask him for help. In addition, he has a stable job as an accountant, so I have no doubt that he can afford the rent.\n\nI have no hesitation in recommending him, and I am confident that he would be an excellent tenant. Please do not hesitate to contact me if you need any further information.\n\nKind regards,\nOliver",
   "level": "B2"
  },
  {
@@ -1198,7 +1198,7 @@
     ]
    }
   ],
-  "sample": "Kraków: A City That Grows on You\n\nWhen I first arrived in Kraków with my wife three years ago, I expected to stay for a year at most. Three years on, we're still here — and, to our own surprise, we're thinking of raising a family here.\n\nWhat struck me most at the beginning was how compact the city is. You can cross the Old Town on foot in fifteen minutes, yet every street seems to hide a courtyard café, a bookshop or a tiny gallery. Locals may seem reserved at first, but once you've been invited to someone's name-day party, you'll realise how warm they really are.\n\nMuch as I love the city, I can't help being irritated by a few things. The smog in winter can be genuinely unpleasant, and the trams, while cheap, are packed at rush hour. Paperwork is another story altogether: be prepared to visit the same office more than once.\n\nIf I could give newcomers one piece of advice, it would be to learn at least some Polish. Even a few clumsy phrases will open doors that English alone cannot. It's also well worth getting out of the centre: Kazimierz and Podgórze have a character of their own, and the lake at Zakrzówek is perfect on a hot summer day. Don't be put off by the grey November weather either — that's exactly when the cafés feel cosiest.\n\nAll in all, Kraków rewards patience. Give it time, and you might just find that it stops feeling like a stopover and starts feeling like home.",
+  "sample": "Edinburgh: A City That Grows on You\n\nWhen I first arrived in Edinburgh three years ago, I expected to stay for a year at most. Three years on, I'm still here — and, to my own surprise, I'm thinking of buying a flat here.\n\nWhat struck me most at the beginning was how compact the city is. You can cross the Old Town on foot in fifteen minutes, yet every narrow close seems to hide a courtyard café, a bookshop or a tiny gallery. Locals may seem reserved at first, but once you've been invited to someone's Burns Night supper, you'll realise how warm they really are.\n\nMuch as I love the city, I can't help being irritated by a few things. The wind in winter can be genuinely brutal, and the buses, while frequent, are packed at rush hour. Renting a flat is another story altogether: be prepared to view a dozen places before you find one.\n\nIf I could give newcomers one piece of advice, it would be to get to know your neighbours. Even a few minutes of small talk on the stairs will open doors that a busy schedule alone cannot. It's also well worth getting out of the centre: Leith and Stockbridge have a character of their own, and the beach at Portobello is perfect on a sunny summer day. Don't be put off by the grey November weather either — that's exactly when the cafés feel cosiest.\n\nAll in all, Edinburgh rewards patience. Give it time, and you might just find that it stops feeling like a stopover and starts feeling like home.",
   "level": "C1"
  },
  {
@@ -1244,7 +1244,7 @@
     ]
    }
   ],
-  "sample": "Proposal: Bringing Our Courtyard Back to Life\n\nIntroduction\nThe purpose of this proposal is to suggest how the courtyard behind our building could be turned into a pleasant shared space. At present, it is used mainly as an informal car park. The playground equipment is rusty and, in places, unsafe, and there is nowhere to sit. Many residents, particularly families and older neighbours, have expressed concern about this.\n\nProposed changes\nFirstly, I would propose limiting parking to the marked spaces along the wall, which would free up the central area. Secondly, the old climbing frame should be replaced with a small, certified play area on a safe rubber surface. Finally, we could add four benches, two bike racks and a few raised flower beds that residents could look after together. This would not only make the courtyard safer, but also give neighbours a reason to meet and get to know each other.\n\nCost and possible objections\nThe estimated cost is around 45,000 zł. This could be partly funded by the city's participatory budget, with the remainder covered by our renovation fund over two years. It could be argued that drivers would lose convenient spaces; however, only three cars currently park outside the marked bays, and there are free spaces in the street nearby.\n\nNext steps\nI would therefore suggest that the proposal be put to a vote at the next residents' meeting. As a first step, I would be happy to collect quotes from contractors and prepare a simple plan.",
+  "sample": "Proposal: Bringing Our Courtyard Back to Life\n\nIntroduction\nThe purpose of this proposal is to suggest how the courtyard behind our building could be turned into a pleasant shared space. At present, it is used mainly as an informal car park. The playground equipment is rusty and, in places, unsafe, and there is nowhere to sit. Many residents, particularly families and older neighbours, have expressed concern about this.\n\nProposed changes\nFirstly, I would propose limiting parking to the marked spaces along the wall, which would free up the central area. Secondly, the old climbing frame should be replaced with a small, certified play area on a safe rubber surface. Finally, we could add four benches, two bike racks and a few raised flower beds that residents could look after together. This would not only make the courtyard safer, but also give neighbours a reason to meet and get to know each other.\n\nCost and possible objections\nThe estimated cost is around £9,000. This could be partly funded by the city's participatory budget, with the remainder covered by our renovation fund over two years. It could be argued that drivers would lose convenient spaces; however, only three cars currently park outside the marked bays, and there are free spaces in the street nearby.\n\nNext steps\nI would therefore suggest that the proposal be put to a vote at the next residents' meeting. As a first step, I would be happy to collect quotes from contractors and prepare a simple plan.",
   "level": "C1"
  },
  {

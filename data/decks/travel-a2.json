@@ -16,8 +16,8 @@
   {
    "en": "How much is a ticket to…?",
    "uk": "Скільки коштує квиток до…?",
-   "ex": "How much is a ticket to Gdańsk?",
-   "exUk": "Скільки коштує квиток до Гданська?"
+   "ex": "How much is a ticket to Odesa?",
+   "exUk": "Скільки коштує квиток до Одеси?"
   },
   {
    "en": "a timetable",
@@ -58,14 +58,14 @@
   {
    "en": "When is the next train to…?",
    "uk": "Коли наступний потяг до…?",
-   "ex": "When is the next train to Warsaw?",
-   "exUk": "Коли наступний потяг до Варшави?"
+   "ex": "When is the next train to Lviv?",
+   "exUk": "Коли наступний потяг до Львова?"
   },
   {
    "en": "Does this train stop in…?",
    "uk": "Цей потяг зупиняється в…?",
-   "ex": "Does this train stop in Katowice?",
-   "exUk": "Цей потяг зупиняється в Катовицях?"
+   "ex": "Does this train stop in Vinnytsia?",
+   "exUk": "Цей потяг зупиняється у Вінниці?"
   },
   {
    "en": "a coach",
@@ -214,8 +214,8 @@
   {
    "en": "to change trains",
    "uk": "робити пересадку",
-   "ex": "We have to change trains in Warsaw.",
-   "exUk": "У Варшаві нам треба зробити пересадку."
+   "ex": "We have to change trains in Kyiv.",
+   "exUk": "У Києві нам треба зробити пересадку."
   },
   {
    "en": "Can I leave my luggage here?",

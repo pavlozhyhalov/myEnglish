@@ -34,8 +34,8 @@
   {
    "en": "Sunday",
    "uk": "неділя",
-   "ex": "Most shops in Poland are closed on Sundays.",
-   "exUk": "У Польщі більшість магазинів по неділях зачинені."
+   "ex": "Many banks are closed on Sundays.",
+   "exUk": "Багато банків по неділях зачинені."
   },
   {
    "en": "January",
@@ -160,14 +160,14 @@
   {
    "en": "a thousand",
    "uk": "тисяча",
-   "ex": "The flat costs three thousand złoty a month.",
-   "exUk": "Квартира коштує три тисячі злотих на місяць."
+   "ex": "The flat costs a thousand pounds a month.",
+   "exUk": "Квартира коштує тисячу фунтів на місяць."
   },
   {
    "en": "a million",
    "uk": "мільйон",
-   "ex": "Almost two million people live in Warsaw.",
-   "exUk": "У Варшаві живе майже два мільйони людей."
+   "ex": "Almost three million people live in Kyiv.",
+   "exUk": "У Києві живе майже три мільйони людей."
   },
   {
    "en": "half",

@@ -32,8 +32,8 @@
   },
   {
    "level": "A2",
-   "text": "The train to Warsaw leaves at half past nine.",
-   "uk": "Потяг до Варшави відходить о пів на десяту."
+   "text": "The train to Lviv leaves at half past nine.",
+   "uk": "Потяг до Львова відходить о пів на десяту."
   },
   {
    "level": "A2",
@@ -387,8 +387,8 @@
   },
   {
    "level": "A1",
-   "text": "We live in Kraków.",
-   "uk": "Ми живемо в Кракові."
+   "text": "We live in Kyiv.",
+   "uk": "Ми живемо в Києві."
   },
   {
    "level": "A1",
@@ -467,8 +467,8 @@
   },
   {
    "level": "B1",
-   "text": "We've lived in Kraków since last spring.",
-   "uk": "Ми живемо в Кракові з минулої весни."
+   "text": "We've lived in Leeds since last spring.",
+   "uk": "Ми живемо в Лідсі з минулої весни."
   },
   {
    "level": "B1",
@@ -672,8 +672,8 @@
   },
   {
    "level": "A2",
-   "text": "My parents visited us in Kraków last month.",
-   "uk": "Минулого місяця мої батьки приїжджали до нас у Краків."
+   "text": "My parents visited us in London last month.",
+   "uk": "Минулого місяця мої батьки приїжджали до нас у Лондон."
   },
   {
    "level": "A2",
@@ -707,8 +707,8 @@
   },
   {
    "level": "B1",
-   "text": "Have you ever been to the mountains in Zakopane in winter?",
-   "uk": "Ти коли-небудь бував у горах у Закопаному взимку?"
+   "text": "Have you ever been to the Carpathians in winter?",
+   "uk": "Ти коли-небудь бував у Карпатах узимку?"
   },
   {
    "level": "B1",
@@ -777,8 +777,8 @@
   },
   {
    "level": "B2",
-   "text": "Learning Polish has been a piece of cake compared to getting my head around English spelling.",
-   "uk": "Вивчити польську було дрібницею порівняно з тим, щоб розібратися в англійському правописі."
+   "text": "Learning German has been a piece of cake compared to getting my head around English spelling.",
+   "uk": "Вивчити німецьку було дрібницею порівняно з тим, щоб розібратися в англійському правописі."
   },
   {
    "level": "B2",
@@ -1314,7 +1314,7 @@
     },
     {
      "speaker": 1,
-     "text": "We're from Ukraine. We work here in Kraków."
+     "text": "We're from Ukraine, from Lviv. We work here in Leeds."
     },
     {
      "speaker": 0,
@@ -1357,7 +1357,7 @@
     {
      "q": "Where are Oliver and Emma from?",
      "options": [
-      "Poland",
+      "Ireland",
       "Ukraine",
       "Spain"
      ],
@@ -1401,7 +1401,7 @@
     },
     {
      "speaker": 1,
-     "text": "Hi. I'd like a ticket to Warsaw, please."
+     "text": "Hi. I'd like a ticket to York, please."
     },
     {
      "speaker": 0,
@@ -1429,7 +1429,7 @@
     },
     {
      "speaker": 0,
-     "text": "That's one hundred and twenty złoty."
+     "text": "That's sixty-five pounds."
     },
     {
      "speaker": 1,
@@ -1448,12 +1448,12 @@
     {
      "q": "Where is Oliver going?",
      "options": [
-      "Warsaw",
-      "Kraków",
-      "Gdańsk"
+      "York",
+      "Leeds",
+      "Edinburgh"
      ],
      "answer": 0,
-     "explanation_uk": "a ticket to Warsaw"
+     "explanation_uk": "a ticket to York"
     },
     {
      "q": "What kind of ticket does he buy?",
@@ -1762,7 +1762,7 @@
     },
     {
      "speaker": 0,
-     "text": "The tablets are eight złoty, and the drink is twelve. That's twenty złoty."
+     "text": "The tablets are three pounds, and the drink is five. That's eight pounds."
     },
     {
      "speaker": 1,
@@ -1821,12 +1821,12 @@
     {
      "q": "How much does Oliver pay?",
      "options": [
-      "Twelve złoty",
-      "Eight złoty",
-      "Twenty złoty"
+      "Five pounds",
+      "Three pounds",
+      "Eight pounds"
      ],
      "answer": 2,
-     "explanation_uk": "That's twenty złoty."
+     "explanation_uk": "That's eight pounds."
     }
    ]
   },
@@ -1976,7 +1976,7 @@
     },
     {
      "speaker": 0,
-     "text": "I see. The first free appointment with Dr Nowak is on Thursday at a quarter past three. Is that OK?"
+     "text": "I see. The first free appointment with Dr Kovalenko is on Thursday at a quarter past three. Is that OK?"
     },
     {
      "speaker": 1,
@@ -2024,7 +2024,7 @@
      "q": "Why doesn't he take the Thursday appointment?",
      "options": [
       "It's too expensive",
-      "He doesn't like Dr Nowak",
+      "He doesn't like Dr Kovalenko",
       "Thursday is difficult for him"
      ],
      "answer": 2,
@@ -2057,7 +2057,7 @@
    "level": "B1",
    "emoji": "house",
    "speakers": [
-    "Mrs Nowak",
+    "Mrs Hughes",
     "Oliver"
    ],
    "lines": [
@@ -2067,11 +2067,11 @@
     },
     {
      "speaker": 1,
-     "text": "Of course, Mrs Nowak. Is everything all right?"
+     "text": "Of course, Mrs Hughes. Is everything all right?"
     },
     {
      "speaker": 0,
-     "text": "Not really. I'm going to visit my daughter in Gdańsk for a week, and I've just found out that my cat-sitter is ill."
+     "text": "Not really. I'm going to visit my daughter in Edinburgh for a week, and I've just found out that my cat-sitter is ill."
     },
     {
      "speaker": 1,
@@ -2115,12 +2115,12 @@
     },
     {
      "speaker": 1,
-     "text": "Thank you! Have a lovely time in Gdańsk."
+     "text": "Thank you! Have a lovely time in Edinburgh."
     }
    ],
    "questions": [
     {
-     "q": "Why does Mrs Nowak need help?",
+     "q": "Why does Mrs Hughes need help?",
      "options": [
       "Her cat is ill",
       "Her cat-sitter is ill",
@@ -2160,7 +2160,7 @@
      "explanation_uk": "The vet's number is on the fridge."
     },
     {
-     "q": "What does Mrs Nowak offer them?",
+     "q": "What does Mrs Hughes offer them?",
      "options": [
       "Some money",
       "A cake",
@@ -2309,7 +2309,7 @@
     },
     {
      "speaker": 0,
-     "text": "Sure. It's a 2018 model, I'm the second owner, and it's done just under ninety thousand kilometres."
+     "text": "Sure. It's a 2018 model, I'm the second owner, and it's done just under sixty thousand miles."
     },
     {
      "speaker": 1,
@@ -2349,15 +2349,15 @@
     },
     {
      "speaker": 0,
-     "text": "That's probably just the brake pads. They'd cost about three hundred złoty to replace."
+     "text": "That's probably just the brake pads. They'd cost about eighty pounds to replace."
     },
     {
      "speaker": 1,
-     "text": "In that case, would you accept forty-two thousand instead of forty-five?"
+     "text": "In that case, would you accept eight thousand four hundred instead of nine?"
     },
     {
      "speaker": 0,
-     "text": "Let's meet halfway. Forty-three and a half, and it's yours."
+     "text": "Let's meet halfway. Eight thousand seven hundred, and it's yours."
     },
     {
      "speaker": 1,
@@ -2408,12 +2408,12 @@
     {
      "q": "What price do they agree on?",
      "options": [
-      "43,500 złoty",
-      "42,000 złoty",
-      "45,000 złoty"
+      "£8,700",
+      "£8,400",
+      "£9,000"
      ],
      "answer": 0,
-     "explanation_uk": "Let's meet halfway. Forty-three and a half — зійдімося посередині"
+     "explanation_uk": "Let's meet halfway. Eight thousand seven hundred — зійдімося посередині"
     }
    ]
   },
@@ -2555,7 +2555,7 @@
    "lines": [
     {
      "speaker": 0,
-     "text": "Good evening and welcome back to City Talk. Tonight we're discussing the council's plan to close the Old Town to private cars. With me is Oliver, who has been cycling to work in Kraków for three years. Oliver, are you in favour?"
+     "text": "Good evening and welcome back to City Talk. Tonight we're discussing the council's plan to close the Old Town to private cars. With me is Oliver, who has been cycling to work in Edinburgh for three years. Oliver, are you in favour?"
     },
     {
      "speaker": 1,
@@ -2702,7 +2702,7 @@
     },
     {
      "speaker": 0,
-     "text": "That's twelve złoty."
+     "text": "That's four pounds fifty."
     },
     {
      "speaker": 1,
@@ -2900,7 +2900,7 @@
     },
     {
      "speaker": 0,
-     "text": "Three złoty each, or five for twelve złoty."
+     "text": "One pound each, or five for four pounds."
     },
     {
      "speaker": 1,
@@ -2916,7 +2916,7 @@
     },
     {
      "speaker": 0,
-     "text": "The bread is eight, and the cookies are twelve. That's twenty złoty, please."
+     "text": "The bread is three pounds, and the cookies are four. That's seven pounds, please."
     },
     {
      "speaker": 1,
@@ -2967,12 +2967,12 @@
     {
      "q": "How much does she pay in total?",
      "options": [
-      "Twenty złoty",
-      "Eight złoty",
-      "Twelve złoty"
+      "Seven pounds",
+      "Three pounds",
+      "Four pounds"
      ],
      "answer": 0,
-     "explanation_uk": "That's twenty złoty — разом двадцять злотих."
+     "explanation_uk": "That's seven pounds — разом сім фунтів."
     }
    ]
   },
@@ -2981,7 +2981,7 @@
    "level": "A1",
    "emoji": "wave",
    "speakers": [
-    "Kasia",
+    "Sophie",
     "Oliver"
    ],
    "lines": [
@@ -3051,7 +3051,7 @@
      "q": "Where do Oliver's parents live?",
      "options": [
       "In Ukraine",
-      "In Poland",
+      "In Canada",
       "In Germany"
      ],
      "answer": 0,
@@ -3071,7 +3071,7 @@
      "q": "Where does Olena live?",
      "options": [
       "In Berlin",
-      "In Kraków",
+      "In Lviv",
       "In Kyiv"
      ],
      "answer": 0,
@@ -3098,11 +3098,11 @@
     },
     {
      "speaker": 0,
-     "text": "It's fifteen złoty an hour, or sixty for the whole day."
+     "text": "It's five pounds an hour, or twenty for the whole day."
     },
     {
      "speaker": 1,
-     "text": "We're planning to ride along the river to Tyniec, so I think we'll take them for the day."
+     "text": "We're planning to ride along the canal to Saltaire, so I think we'll take them for the day."
     },
     {
      "speaker": 0,
@@ -3114,7 +3114,7 @@
     },
     {
      "speaker": 0,
-     "text": "Helmets are free, but a lock costs five złoty extra."
+     "text": "Helmets are free, but a lock costs two pounds extra."
     },
     {
      "speaker": 1,
@@ -3163,10 +3163,10 @@
      "options": [
       "To the city centre",
       "To the mountains",
-      "Along the river to Tyniec"
+      "Along the canal to Saltaire"
      ],
      "answer": 2,
-     "explanation_uk": "Ride along the river to Tyniec — уздовж річки до Тинця."
+     "explanation_uk": "Ride along the canal to Saltaire — уздовж каналу до Солтера."
     },
     {
      "q": "What do they pay extra for?",
@@ -3176,7 +3176,7 @@
       "A lock"
      ],
      "answer": 2,
-     "explanation_uk": "Helmets are free, but a lock costs five złoty extra — шоломи безкоштовні, замок — доплата."
+     "explanation_uk": "Helmets are free, but a lock costs two pounds extra — шоломи безкоштовні, замок — доплата."
     },
     {
      "q": "When must they return the bikes?",
@@ -3225,7 +3225,7 @@
     },
     {
      "speaker": 0,
-     "text": "Then I'd choose express. It costs ninety złoty."
+     "text": "Then I'd choose express. It costs twenty-five pounds."
     },
     {
      "speaker": 1,
@@ -3252,7 +3252,7 @@
     {
      "q": "Where is Emma sending the parcel?",
      "options": [
-      "To Poland",
+      "To Spain",
       "To Germany",
       "To Ukraine"
      ],
@@ -3431,7 +3431,7 @@
     },
     {
      "speaker": 1,
-     "text": "Actually, I have. How about going to Zakopane for a couple of days?"
+     "text": "Actually, I have. How about going to the Carpathians for a couple of days?"
     },
     {
      "speaker": 0,
@@ -3483,11 +3483,11 @@
      "q": "Where does Oliver suggest going?",
      "options": [
       "To the seaside",
-      "To Zakopane",
-      "To Warsaw"
+      "To the Carpathians",
+      "To Kyiv"
      ],
      "answer": 1,
-     "explanation_uk": "How about going to Zakopane — до Закопаного."
+     "explanation_uk": "How about going to the Carpathians — у Карпати."
     },
     {
      "q": "Why does Oliver want to leave early on Saturday?",
@@ -3782,13 +3782,13 @@
    "level": "C1",
    "emoji": "plane",
    "speakers": [
-    "Ewa",
+    "Oksana",
     "Oliver"
    ],
    "lines": [
     {
      "speaker": 0,
-     "text": "Did you see the queue outside the Cloth Hall this morning? It snaked halfway round the square."
+     "text": "Did you see the queue outside the Town Hall this morning? It snaked halfway round Market Square."
     },
     {
      "speaker": 1,
@@ -3832,7 +3832,7 @@
     },
     {
      "speaker": 1,
-     "text": "Understandably. Transparency would be key — publish exactly how every złoty is spent."
+     "text": "Understandably. Transparency would be key — publish exactly how every hryvnia is spent."
     },
     {
      "speaker": 0,
@@ -3879,7 +3879,7 @@
      "explanation_uk": "Ідіома: не викидати разом із поганим і добре — туризм підтримує місцевий бізнес."
     },
     {
-     "q": "What is Ewa's attitude to the tourist tax?",
+     "q": "What is Oksana's attitude to the tourist tax?",
      "options": [
       "Cautiously sceptical about how the money would be used",
       "Wholeheartedly enthusiastic",
@@ -3906,12 +3906,12 @@
    "emoji": "brain",
    "speakers": [
     "Host",
-    "Dr Nowak"
+    "Dr Kovalenko"
    ],
    "lines": [
     {
      "speaker": 0,
-     "text": "Welcome back to the show. Today we're tackling AI tutors — a blessing or a Trojan horse? Dr Nowak, where do you stand?"
+     "text": "Welcome back to the show. Today we're tackling AI tutors — a blessing or a Trojan horse? Dr Kovalenko, where do you stand?"
     },
     {
      "speaker": 1,
@@ -3967,7 +3967,7 @@
     },
     {
      "speaker": 0,
-     "text": "A sparring partner, not an oracle. That's a neat way of putting it. Dr Nowak, thank you."
+     "text": "A sparring partner, not an oracle. That's a neat way of putting it. Dr Kovalenko, thank you."
     },
     {
      "speaker": 1,
@@ -3976,7 +3976,7 @@
    ],
    "questions": [
     {
-     "q": "How would you describe Dr Nowak's overall position?",
+     "q": "How would you describe Dr Kovalenko's overall position?",
      "options": [
       "Wholeheartedly enthusiastic",
       "Ambivalent — she sees both benefits and risks",

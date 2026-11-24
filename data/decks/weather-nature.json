@@ -4,8 +4,8 @@
   {
    "en": "What's the weather like?",
    "uk": "Яка погода?",
-   "ex": "What's the weather like in Kraków today?",
-   "exUk": "Яка сьогодні погода в Кракові?"
+   "ex": "What's the weather like in London today?",
+   "exUk": "Яка сьогодні погода в Лондоні?"
   },
   {
    "en": "sunny",
@@ -118,8 +118,8 @@
   {
    "en": "winter",
    "uk": "зима",
-   "ex": "Winters in Poland can be cold.",
-   "exUk": "Зими в Польщі бувають холодні."
+   "ex": "Winters in Kharkiv can be cold.",
+   "exUk": "Зими в Харкові бувають холодні."
   },
   {
    "en": "mountains",

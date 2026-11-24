@@ -76,8 +76,8 @@
   {
    "en": "to owe",
    "uk": "бути винним (гроші), заборгувати",
-   "ex": "I owe you twenty złoty.",
-   "exUk": "Я винен тобі двадцять злотих."
+   "ex": "I owe you twenty pounds.",
+   "exUk": "Я винен тобі двадцять фунтів."
   },
   {
    "en": "to pay in instalments",
@@ -214,8 +214,8 @@
   {
    "en": "delivery",
    "uk": "доставка",
-   "ex": "Delivery is free over 100 złoty.",
-   "exUk": "Доставка безкоштовна від 100 злотих."
+   "ex": "Delivery is free over 30 pounds.",
+   "exUk": "Доставка безкоштовна від 30 фунтів."
   },
   {
    "en": "taxes",

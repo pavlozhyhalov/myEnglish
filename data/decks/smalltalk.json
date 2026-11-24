@@ -7,8 +7,8 @@
     {"en": "How have you been?", "uk": "Як ти поживав (весь цей час)?", "ex": "It's great to see you. How have you been?", "exUk": "Радий тебе бачити. Як ти весь цей час?"},
     {"en": "Nice to meet you.", "uk": "Приємно познайомитися.", "ex": "I'm Oleh. — Nice to meet you, Oleh.", "exUk": "Я Олег. — Приємно познайомитися, Олеже."},
     {"en": "Where are you from?", "uk": "Звідки ви?", "ex": "Where are you from originally?", "exUk": "Звідки ви родом?"},
-    {"en": "I'm originally from…", "uk": "Я родом з…", "ex": "I'm originally from Ukraine, but I live in Kraków now.", "exUk": "Я родом з України, але зараз живу в Кракові."},
-    {"en": "What do you do?", "uk": "Чим ви займаєтеся (за професією)?", "ex": "So, what do you do? — I'm an engineer.", "exUk": "То чим ви займаєтеся? — Я інженер."},
+    {"en": "I'm originally from…", "uk": "Я родом з…", "ex": "I'm originally from Kharkiv, but I live in Kyiv now.", "exUk": "Я родом з Харкова, але зараз живу в Києві."},
+    {"en": "What do you do?", "uk": "Чим ви займаєтеся (за професією)?", "ex": "So, what do you do? — I'm a teacher.", "exUk": "То чим ви займаєтеся? — Я вчитель."},
     {"en": "What do you do for fun?", "uk": "Чим ти захоплюєшся? Що робиш для душі?", "ex": "What do you do for fun when you're not working?", "exUk": "Що ти любиш робити, коли не працюєш?"},
     {"en": "I'm really into…", "uk": "Я дуже захоплююся…", "ex": "I'm really into cycling and hiking.", "exUk": "Я дуже захоплююся велоспортом і походами."},
     {"en": "Have you been here before?", "uk": "Ви тут уже бували?", "ex": "Great place! Have you been here before?", "exUk": "Гарне місце! Ви тут уже бували?"},
@@ -36,9 +36,9 @@
     {"en": "Sorry, what was your name again?", "uk": "Вибачте, як вас звати? (забув)", "ex": "Sorry, what was your name again?", "exUk": "Вибачте, нагадайте, як вас звати?"},
     {"en": "Could you say that again?", "uk": "Можете повторити?", "ex": "Sorry, it's noisy. Could you say that again?", "exUk": "Вибачте, тут шумно. Можете повторити?"},
     {"en": "What do you mean?", "uk": "Що ти маєш на увазі?", "ex": "What do you mean by 'soon'?", "exUk": "Що ти маєш на увазі під «скоро»?"},
-    {"en": "How long have you lived here?", "uk": "Скільки ви вже тут живете?", "ex": "How long have you lived in Kraków? — About three years.", "exUk": "Скільки ви вже живете в Кракові? — Близько трьох років."},
+    {"en": "How long have you lived here?", "uk": "Скільки ви вже тут живете?", "ex": "How long have you lived in Leeds? — About three years.", "exUk": "Скільки ви вже живете в Лідсі? — Близько трьох років."},
     {"en": "Do you like it here?", "uk": "Вам тут подобається?", "ex": "Do you like it here? — Yes, the city is beautiful.", "exUk": "Вам тут подобається? — Так, місто гарне."},
-    {"en": "What brings you here?", "uk": "Що привело вас сюди?", "ex": "So, what brings you to Poland?", "exUk": "То що привело вас до Польщі?"},
+    {"en": "What brings you here?", "uk": "Що привело вас сюди?", "ex": "So, what brings you to London?", "exUk": "То що привело вас до Лондона?"},
     {"en": "It's a small world!", "uk": "Світ тісний!", "ex": "You know my cousin? It's a small world!", "exUk": "Ти знаєш мого двоюрідного брата? Світ тісний!"},
     {"en": "Let's grab a coffee sometime.", "uk": "Давай якось вип'ємо кави.", "ex": "We should grab a coffee sometime next week.", "exUk": "Давай якось наступного тижня вип'ємо кави."}
   ]
