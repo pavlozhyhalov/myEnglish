@@ -63,13 +63,13 @@
       {
         "title": "Little did I know чи I didn't know?",
         "a": {
-          "en": "Little did I know he was her brother.",
-          "uk": "Я й гадки не мав, що він її брат.",
+          "en": "Little did I know Andrii was her brother.",
+          "uk": "Я й гадки не мав, що Андрій — її брат.",
           "note": "Інтрига: згодом з'ясувалося щось несподіване."
         },
         "b": {
-          "en": "I didn't know he was her brother.",
-          "uk": "Я не знав, що він її брат.",
+          "en": "I didn't know Andrii was her brother.",
+          "uk": "Я не знав, що Андрій — її брат.",
           "note": "Просто факт, без драматизму."
         }
       }
@@ -150,8 +150,8 @@
   },
   "examples": [
     {
-      "en": "Rarely do we get such good weather in November.",
-      "uk": "У листопаді рідко буває така гарна погода."
+      "en": "Rarely do we get such good weather in Lviv in November.",
+      "uk": "У Львові в листопаді рідко буває така гарна погода."
     },
     {
       "en": "Little did I know what was waiting for me.",
@@ -166,8 +166,8 @@
       "uk": "Лише коли в мене з'явилися власні діти, я зрозумів батьків."
     },
     {
-      "en": "Hardly had I sat down when the phone rang.",
-      "uk": "Ледве я сів, як задзвонив телефон."
+      "en": "Hardly had Olena sat down when the phone rang.",
+      "uk": "Ледве Олена сіла, як задзвонив телефон."
     }
   ],
   "tip": "Якщо в реченні немає допоміжного дієслова, додаємо **do / does / did**: *Never **did** she complain.*",

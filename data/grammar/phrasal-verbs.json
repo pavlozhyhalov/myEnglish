@@ -12,8 +12,8 @@
       {
         "when": "Розмовне замість книжного",
         "note": "У побуті фразове дієслово звучить природніше за «латинське» слово.",
-        "en": "Can you find out when the shop opens?",
-        "uk": "Можеш дізнатися, коли відчиняється магазин?"
+        "en": "Can you find out when the train to Odesa leaves?",
+        "uk": "Можеш дізнатися, коли відправляється потяг до Одеси?"
       },
       {
         "when": "Іменник — два варіанти",
@@ -36,8 +36,8 @@
       {
         "when": "Без додатка",
         "note": "Деякі фразові дієслова додатка не мають: get up, grow up, break down.",
-        "en": "Our car broke down on the motorway.",
-        "uk": "Наша машина зламалася на автостраді."
+        "en": "Our car broke down on the way to the Carpathians.",
+        "uk": "Наша машина зламалася дорогою в Карпати."
       }
     ],
     "vs": [
@@ -116,8 +116,8 @@
   ],
   "examples": [
     {
-      "en": "Can you pick me up at the station?",
-      "uk": "Можеш забрати мене з вокзалу?"
+      "en": "Can you pick Oksana up at the station?",
+      "uk": "Можеш забрати Оксану з вокзалу?"
     },
     {
       "en": "Put your coat on — it's cold.",

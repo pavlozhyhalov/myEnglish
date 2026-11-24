@@ -18,8 +18,8 @@
       {
         "when": "Simple: факти й постійне",
         "note": "Що правда завжди або надовго: де живу, ким працюю.",
-        "en": "My sister lives in Dublin and works as a nurse.",
-        "uk": "Моя сестра живе в Дубліні й працює медсестрою."
+        "en": "My sister lives in Kharkiv and works as a nurse.",
+        "uk": "Моя сестра живе в Харкові й працює медсестрою."
       },
       {
         "when": "Simple: розклад",
@@ -42,8 +42,8 @@
       {
         "when": "Continuous: домовленість",
         "note": "Уже домовились про майбутнє — є час, місце, люди.",
-        "en": "We're having dinner with Tom on Saturday.",
-        "uk": "У суботу ми вечеряємо з Томом."
+        "en": "We're having dinner with Taras on Saturday.",
+        "uk": "У суботу ми вечеряємо з Тарасом."
       }
     ],
     "vs": [
@@ -81,8 +81,8 @@
           "note": "Думка, стан — Simple."
         },
         "b": {
-          "en": "I'm thinking about my holiday.",
-          "uk": "Я думаю про відпустку.",
+          "en": "I'm thinking about my holiday in Odesa.",
+          "uk": "Я думаю про відпустку в Одесі.",
           "note": "Процес обмірковування — Continuous."
         }
       }
@@ -179,12 +179,12 @@
       "uk": "Ми живемо в друзів, доки не знайдемо квартиру."
     },
     {
-      "en": "The train leaves at 8:15.",
-      "uk": "Потяг відходить о 8:15."
+      "en": "The train to Kyiv leaves at 8:15.",
+      "uk": "Потяг до Києва відходить о 8:15."
     },
     {
-      "en": "I'm meeting Anna for lunch tomorrow.",
-      "uk": "Завтра я обідаю з Анною (домовилися)."
+      "en": "I'm meeting Olena for lunch tomorrow.",
+      "uk": "Завтра я обідаю з Оленою (домовилися)."
     },
     {
       "en": "He always forgets his keys!",

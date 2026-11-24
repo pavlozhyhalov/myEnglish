@@ -18,8 +18,8 @@
       {
         "when": "Переказ обіцянки чи прогнозу",
         "note": "would після said, promised, thought, knew — колишнє will з погляду минулого.",
-        "en": "Tom promised he would fix the tap at the weekend.",
-        "uk": "Том пообіцяв, що полагодить кран на вихідних."
+        "en": "Taras promised he would fix the tap at the weekend.",
+        "uk": "Тарас пообіцяв, що полагодить кран на вихідних."
       },
       {
         "when": "Як склалося потім",
@@ -142,16 +142,16 @@
   },
   "examples": [
     {
-      "en": "I was going to cook dinner, but we ended up ordering sushi.",
-      "uk": "Я збирався приготувати вечерю, але врешті ми замовили суші."
+      "en": "I was going to cook borscht, but we ended up ordering pizza.",
+      "uk": "Я збирався зварити борщ, але врешті ми замовили піцу."
     },
     {
-      "en": "Emma said she would meet me at the station.",
-      "uk": "Емма сказала, що зустріне мене на вокзалі."
+      "en": "Olena said she would meet me at the station.",
+      "uk": "Олена сказала, що зустріне мене на вокзалі."
     },
     {
-      "en": "I never imagined I would enjoy cooking so much.",
-      "uk": "Я й не уявляв, що мені так сподобається готувати."
+      "en": "I never imagined I would enjoy Lesya Ukrainka's plays so much.",
+      "uk": "Я й не уявляв, що мені так сподобаються п'єси Лесі Українки."
     },
     {
       "en": "We were just about to leave when it started pouring.",
@@ -217,7 +217,7 @@
     },
     {
       "type": "input",
-      "prompt": "We ___ (go) to Brighton last weekend, but Emma got sick. (намір, 4 слова)",
+      "prompt": "We ___ (go) to Chernivtsi last weekend, but Oksana got sick. (намір, 4 слова)",
       "answer": [
         "were going to go"
       ],

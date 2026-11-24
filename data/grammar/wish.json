@@ -44,8 +44,8 @@
       {
         "title": "wish чи hope?",
         "a": {
-          "en": "I hope you pass the exam.",
-          "uk": "Сподіваюся, ти складеш іспит.",
+          "en": "I hope Mykola passes the exam.",
+          "uk": "Сподіваюся, Микола складе іспит.",
           "note": "Реальне бажання, яке може здійснитися."
         },
         "b": {
@@ -103,12 +103,12 @@
       "uk": "Як би я хотів вільно говорити англійською."
     },
     {
-      "en": "I wish we lived closer to the sea.",
-      "uk": "Шкода, що ми не живемо ближче до моря."
+      "en": "I wish we lived closer to the Black Sea.",
+      "uk": "Шкода, що ми не живемо ближче до Чорного моря."
     },
     {
-      "en": "I wish I hadn't eaten so much.",
-      "uk": "Шкода, що я так багато з'їв."
+      "en": "I wish I hadn't eaten so many varenyky.",
+      "uk": "Шкода, що я з'їв стільки вареників."
     },
     {
       "en": "If only I had more time!",

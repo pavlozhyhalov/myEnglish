@@ -12,8 +12,8 @@
       {
         "when": "Вміння",
         "note": "Що людина вміє робити.",
-        "en": "Oliver can play the guitar.",
-        "uk": "Олівер уміє грати на гітарі."
+        "en": "Taras can play the bandura.",
+        "uk": "Тарас уміє грати на бандурі."
       },
       {
         "when": "Можливість",
@@ -131,12 +131,12 @@
       "uk": "Можна оплатити карткою?"
     },
     {
-      "en": "She can't come today.",
-      "uk": "Вона сьогодні не може прийти."
+      "en": "Olena can't come today.",
+      "uk": "Олена сьогодні не може прийти."
     },
     {
-      "en": "We can meet at six.",
-      "uk": "Ми можемо зустрітися о шостій."
+      "en": "We can meet at six in the centre of Kyiv.",
+      "uk": "Ми можемо зустрітися о шостій у центрі Києва."
     }
   ],
   "tip": "Ніякого **to** після can: ~~I can to help~~ → *I can **help**.*",

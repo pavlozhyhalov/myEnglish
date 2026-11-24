@@ -24,8 +24,8 @@
       {
         "when": "Зовнішність",
         "note": "Очі, волосся — have або have got.",
-        "en": "Anna has got green eyes.",
-        "uk": "У Анни зелені очі."
+        "en": "Oksana has got green eyes.",
+        "uk": "В Оксани зелені очі."
       },
       {
         "when": "Хвороба й самопочуття",
@@ -126,8 +126,8 @@
       "uk": "У мене двоє братів."
     },
     {
-      "en": "She's got blue eyes.",
-      "uk": "У неї блакитні очі."
+      "en": "My grandma in Poltava has got a big garden.",
+      "uk": "У моєї бабусі в Полтаві великий сад."
     },
     {
       "en": "We don't have much time.",
@@ -138,8 +138,8 @@
       "uk": "У тебе є хвилинка?"
     },
     {
-      "en": "Does he have a car?",
-      "uk": "У нього є машина?"
+      "en": "Does Taras have a car?",
+      "uk": "У Тараса є машина?"
     }
   ],
   "tip": "Не змішуйте: ~~Do you have got~~ → *Do you have…?* або *Have you got…?*",

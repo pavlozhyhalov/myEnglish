@@ -24,8 +24,8 @@
       {
         "when": "Питання до підмета",
         "note": "Who / What самі є підметом — тоді без do / does / did.",
-        "en": "Who wants more tea?",
-        "uk": "Хто хоче ще чаю?"
+        "en": "Who wants more varenyky?",
+        "uk": "Хто хоче ще вареників?"
       },
       {
         "when": "Перепитати — «правда ж?»",
@@ -117,16 +117,16 @@
   ],
   "examples": [
     {
-      "en": "Where did you buy that jacket?",
-      "uk": "Де ти купив цю куртку?"
+      "en": "When did you last visit Lviv?",
+      "uk": "Коли ти востаннє був у Львові?"
     },
     {
       "en": "How often do you go to the gym?",
       "uk": "Як часто ти ходиш у спортзал?"
     },
     {
-      "en": "Who told you about this place?",
-      "uk": "Хто тобі розповів про це місце?"
+      "en": "Who told you about this café in Odesa?",
+      "uk": "Хто тобі розповів про це кафе в Одесі?"
     },
     {
       "en": "What are you looking for?",

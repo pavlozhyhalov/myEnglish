@@ -12,8 +12,8 @@
       {
         "when": "remember / forget + -ing — спогад",
         "note": "Пам'ятати чи забути те, що вже сталося.",
-        "en": "I'll never forget seeing the sea for the first time.",
-        "uk": "Я ніколи не забуду, як уперше побачив море."
+        "en": "I'll never forget seeing the Black Sea for the first time.",
+        "uk": "Я ніколи не забуду, як уперше побачив Чорне море."
       },
       {
         "when": "remember / forget + to — завдання",
@@ -36,8 +36,8 @@
       {
         "when": "go on + to — перейти до нового",
         "note": "go on + -ing — продовжувати те саме; go on + to — наступний крок.",
-        "en": "After school, he went on to study medicine.",
-        "uk": "Після школи він пішов вивчати медицину."
+        "en": "After school, Mykola went on to study medicine.",
+        "uk": "Після школи Микола пішов вивчати медицину."
       },
       {
         "when": "need + -ing — «треба зробити»",
@@ -162,16 +162,16 @@
   },
   "examples": [
     {
-      "en": "Do you remember meeting Emma's parents for the first time?",
-      "uk": "Пам'ятаєш, як ти вперше познайомився з батьками Емми?"
+      "en": "Do you remember meeting Oksana's parents for the first time?",
+      "uk": "Пам'ятаєш, як ти вперше познайомився з батьками Оксани?"
     },
     {
       "en": "Please remember to water the plants while we're away.",
       "uk": "Будь ласка, не забудь поливати рослини, поки нас не буде."
     },
     {
-      "en": "We stopped to take some photos of the castle.",
-      "uk": "Ми зупинилися, щоб сфотографувати замок."
+      "en": "We stopped to take some photos of the castle in Kamianets-Podilskyi.",
+      "uk": "Ми зупинилися, щоб сфотографувати фортецю в Кам'янці-Подільському."
     },
     {
       "en": "If you can't sleep, try drinking some warm milk.",
@@ -201,7 +201,7 @@
     },
     {
       "type": "choice",
-      "prompt": "I'll never forget ___ London for the first time.",
+      "prompt": "I'll never forget ___ Lviv for the first time.",
       "options": [
         "seeing",
         "to see",

@@ -18,8 +18,8 @@
       {
         "when": "Можливість, якою не скористались",
         "note": "could have — могли б, проте не сталося.",
-        "en": "We could have walked — it's only ten minutes.",
-        "uk": "Ми могли б піти пішки — тут лише десять хвилин."
+        "en": "We could have walked to Shevchenko Park — it's only ten minutes.",
+        "uk": "Ми могли б піти до парку Шевченка пішки — тут лише десять хвилин."
       },
       {
         "when": "Ледь не сталося",
@@ -36,8 +36,8 @@
       {
         "when": "Можливо, сталося",
         "note": "might / may have — один з варіантів.",
-        "en": "She might have missed the train.",
-        "uk": "Можливо, вона не встигла на потяг."
+        "en": "She might have missed the train to Kyiv.",
+        "uk": "Можливо, вона не встигла на потяг до Києва."
       },
       {
         "when": "Точно не могло статися",
@@ -81,8 +81,8 @@
           "note": "Можливість, якою не скористалися."
         },
         "b": {
-          "en": "I could swim when I was five.",
-          "uk": "Я вмів плавати в п'ять років.",
+          "en": "Oksana could swim when she was five.",
+          "uk": "Оксана вміла плавати в п'ять років.",
           "note": "Загальне вміння в минулому."
         }
       }
@@ -128,8 +128,8 @@
       "uk": "Вулиці мокрі. Мабуть, був дощ."
     },
     {
-      "en": "He's not here yet. He might have got lost.",
-      "uk": "Його ще немає. Можливо, заблукав."
+      "en": "Taras isn't here yet. He might have got lost.",
+      "uk": "Тараса ще немає. Можливо, заблукав."
     },
     {
       "en": "She can't have seen us — she didn't say hello.",

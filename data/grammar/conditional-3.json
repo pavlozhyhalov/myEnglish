@@ -30,8 +30,8 @@
       {
         "when": "Минуле змінило б теперішнє",
         "note": "Змішаний тип: умова в минулому (had + V3), результат зараз (would + V).",
-        "en": "If I had taken that job, I would be living in Dublin now.",
-        "uk": "Якби я тоді погодився на ту роботу, то зараз жив би в Дубліні."
+        "en": "If I had taken that job, I would be living in Odesa now.",
+        "uk": "Якби я тоді погодився на ту роботу, то зараз жив би в Одесі."
       },
       {
         "when": "Риса характеру пояснює минуле",
@@ -102,12 +102,12 @@
       "uk": "Якби ти мені сказав, я б допоміг."
     },
     {
-      "en": "We wouldn't have got lost if we had taken a map.",
-      "uk": "Ми б не заблукали, якби взяли карту."
+      "en": "We wouldn't have got lost in the Carpathians if we had taken a map.",
+      "uk": "Ми б не заблукали в Карпатах, якби взяли карту."
     },
     {
-      "en": "If I hadn't missed the bus, I wouldn't have met my best friend.",
-      "uk": "Якби я не спізнився на автобус, я б не познайомився зі своїм найкращим другом."
+      "en": "If I hadn't missed the bus in Kharkiv, I wouldn't have met my best friend.",
+      "uk": "Якби я не спізнився на автобус у Харкові, я б не познайомився зі своїм найкращим другом."
     },
     {
       "en": "If I had saved more money, I'd have a car now.",

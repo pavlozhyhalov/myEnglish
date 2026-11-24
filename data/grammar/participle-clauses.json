@@ -18,8 +18,8 @@
       {
         "when": "Дві дії одночасно",
         "note": "V-ing — що людина робила в той самий час; оживляє розповідь.",
-        "en": "Walking along the beach, I found an old coin.",
-        "uk": "Ідучи пляжем, я знайшов стару монету."
+        "en": "Walking along the beach in Odesa, I found an old coin.",
+        "uk": "Ідучи пляжем в Одесі, я знайшов стару монету."
       },
       {
         "when": "Спершу одне, потім інше",
@@ -30,8 +30,8 @@
       {
         "when": "Пасивне значення",
         "note": "V3 на початку = «який був зроблений»; типово для описів і новин.",
-        "en": "Opened in 1902, the theatre is still hugely popular.",
-        "uk": "Театр, відкритий у 1902 році, досі дуже популярний."
+        "en": "Opened in 1900, the Lviv Opera House is still hugely popular.",
+        "uk": "Львівська опера, відкрита в 1900 році, досі дуже популярна."
       },
       {
         "when": "Замість who / which",
@@ -57,14 +57,14 @@
       {
         "title": "V-ing чи V3?",
         "a": {
-          "en": "Feeling bored, Tom left the party.",
-          "uk": "Знудившись, Том пішов з вечірки.",
-          "note": "Актив: Том сам відчував нудьгу."
+          "en": "Feeling bored, Mykola left the party.",
+          "uk": "Знудившись, Микола пішов з вечірки.",
+          "note": "Актив: Микола сам відчував нудьгу."
         },
         "b": {
-          "en": "Bored by the speeches, Tom left the party.",
-          "uk": "Знуджений промовами, Том пішов з вечірки.",
-          "note": "Пасив: промови нудили Тома."
+          "en": "Bored by the speeches, Mykola left the party.",
+          "uk": "Знуджений промовами, Микола пішов з вечірки.",
+          "note": "Пасив: промови нудили Миколу."
         }
       }
     ],

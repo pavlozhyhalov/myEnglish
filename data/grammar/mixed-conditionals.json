@@ -12,14 +12,14 @@
       {
         "when": "Минуле рішення — наслідок тепер",
         "note": "Умова — подія, яку вже не змінити; наслідок видно зараз (now, still, by now).",
-        "en": "If I'd taken that job in Dublin, I'd be living by the sea now.",
-        "uk": "Якби я тоді погодився на роботу в Дубліні, зараз жив би біля моря."
+        "en": "If I'd taken that job in Odesa, I'd be living by the sea now.",
+        "uk": "Якби я тоді погодився на роботу в Одесі, зараз жив би біля моря."
       },
       {
         "when": "Риса характеру — наслідок тоді",
         "note": "Умова — постійна правда про людину, наслідок — конкретний випадок у минулому.",
-        "en": "If Tom weren't so shy, he'd have asked her out ages ago.",
-        "uk": "Якби Том не був такий сором'язливий, давно б запросив її на побачення."
+        "en": "If Taras weren't so shy, he'd have asked her out ages ago.",
+        "uk": "Якби Тарас не був такий сором'язливий, давно б запросив її на побачення."
       },
       {
         "when": "Жаль і докір",
@@ -134,8 +134,8 @@
       "uk": "Якби він не був такий упертий, він би вибачився."
     },
     {
-      "en": "If we hadn't missed the train, we'd be at home by now.",
-      "uk": "Якби ми не спізнилися на потяг, уже були б удома."
+      "en": "If we hadn't missed the train from Lviv, we'd be at home by now.",
+      "uk": "Якби ми не спізнилися на потяг зі Львова, уже були б удома."
     },
     {
       "en": "If I knew him better, I would have invited him.",

@@ -121,8 +121,8 @@
       "uk": "Ви не проти почекати кілька хвилин?"
     },
     {
-      "en": "We're planning to visit Lisbon in spring.",
-      "uk": "Навесні ми плануємо поїхати до Лісабона."
+      "en": "We're planning to visit Kyiv in spring.",
+      "uk": "Навесні ми плануємо поїхати до Києва."
     },
     {
       "en": "I gave up trying to understand the instructions.",
@@ -133,8 +133,8 @@
       "uk": "Не забудь купити хліба."
     },
     {
-      "en": "I'm looking forward to seeing you.",
-      "uk": "Чекаю на зустріч з тобою."
+      "en": "I'm looking forward to seeing you in Odesa.",
+      "uk": "Чекаю на зустріч з тобою в Одесі."
     },
     {
       "en": "He's interested in learning Spanish.",
@@ -144,7 +144,7 @@
   "exercises": [
     {
       "type": "choice",
-      "prompt": "I enjoy ___ in the mountains.",
+      "prompt": "I enjoy ___ in the Carpathians.",
       "options": [
         "to hike",
         "hiking",

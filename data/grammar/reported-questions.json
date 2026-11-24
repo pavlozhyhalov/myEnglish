@@ -18,8 +18,8 @@
       {
         "when": "Питання «так чи ні»",
         "note": "if / whether замість do / does / did.",
-        "en": "He asked if I was coming to the party.",
-        "uk": "Він запитав, чи я прийду на вечірку."
+        "en": "Taras asked if I was coming to the party.",
+        "uk": "Тарас запитав, чи я прийду на вечірку."
       },
       {
         "when": "Ввічливе питання",
@@ -106,8 +106,8 @@
       "uk": "Вона запитала, де я працюю."
     },
     {
-      "en": "He asked if I had ever been to Japan.",
-      "uk": "Він запитав, чи був я колись у Японії."
+      "en": "He asked if I had ever been to Chernivtsi.",
+      "uk": "Він запитав, чи був я колись у Чернівцях."
     },
     {
       "en": "Could you tell me how much this costs?",
@@ -118,8 +118,8 @@
       "uk": "Ти не знаєш, коли зачиняється магазин?"
     },
     {
-      "en": "I wonder what she's doing now.",
-      "uk": "Цікаво, що вона зараз робить."
+      "en": "I wonder what Oksana's doing now.",
+      "uk": "Цікаво, що Оксана зараз робить."
     }
   ],
   "exercises": [

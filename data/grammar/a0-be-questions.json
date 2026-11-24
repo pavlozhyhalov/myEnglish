@@ -24,8 +24,8 @@
    {
     "when": "Звідки людина",
     "note": "Are you from…? — відповідаємо коротко: Yes, I am / No, I'm not.",
-    "en": "Are you from Dublin?",
-    "uk": "Ви з Дубліна?"
+    "en": "Are you from Odesa?",
+    "uk": "Ви з Одеси?"
    }
   ],
   "vs": [
@@ -135,8 +135,8 @@
    "uk": "Я запізнився?"
   },
   {
-   "en": "Is Oliver your friend?",
-   "uk": "Олівер — твій друг?"
+   "en": "Is Andrii your friend?",
+   "uk": "Андрій — твій друг?"
   }
  ],
  "tip": "Питання → відповідь тим самим словом: ***Are** you…?* — *Yes, I **am**.* ***Is** he…?* — *Yes, he **is**.*",

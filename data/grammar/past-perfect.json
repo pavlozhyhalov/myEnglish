@@ -18,8 +18,8 @@
       {
         "when": "Причина в минулому",
         "note": "Пояснюємо, чому так було, — причина сталася раніше.",
-        "en": "Sophie was upset because she had lost her phone.",
-        "uk": "Софі була засмучена, бо загубила телефон."
+        "en": "Oksana was upset because she had lost her phone.",
+        "uk": "Оксана була засмучена, бо загубила телефон."
       },
       {
         "when": "Досвід до певного моменту",
@@ -36,8 +36,8 @@
       {
         "when": "Переказ чужих слів",
         "note": "У непрямій мові Past Simple і Present Perfect зсуваються в Past Perfect.",
-        "en": "Tom said he had already seen the film.",
-        "uk": "Том сказав, що вже бачив цей фільм."
+        "en": "Taras said he had already seen the film.",
+        "uk": "Тарас сказав, що вже бачив цей фільм."
       }
     ],
     "vs": [
@@ -122,8 +122,8 @@
       "uk": "Коли я прийшов, фільм уже почався."
     },
     {
-      "en": "I had never seen the sea before that trip.",
-      "uk": "До тієї поїздки я ніколи не бачив моря."
+      "en": "I had never seen the sea before that trip to Odesa.",
+      "uk": "До тієї поїздки в Одесу я ніколи не бачив моря."
     },
     {
       "en": "She was upset because she had lost her phone.",
@@ -204,7 +204,7 @@
     },
     {
       "type": "input",
-      "prompt": "___ (you / ever / try) Thai food before last night? (Past Perfect)",
+      "prompt": "___ (you / ever / try) borscht before last night? (Past Perfect)",
       "answer": [
         "Had you ever tried"
       ],

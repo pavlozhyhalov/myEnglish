@@ -70,8 +70,8 @@
       {
         "title": "Вимога чи твердження?",
         "a": {
-          "en": "She insisted that he stay.",
-          "uk": "Вона наполягла, щоб він залишився.",
+          "en": "Oksana insisted that Taras stay.",
+          "uk": "Оксана наполягла, щоб Тарас залишився.",
           "note": "insist = вимагати: subjunctive."
         },
         "b": {
@@ -163,8 +163,8 @@
       "uk": "Орендодавець наполіг, щоб ми заплатили заставу готівкою."
     },
     {
-      "en": "The doctor recommended that Emma take more vitamin D.",
-      "uk": "Лікар порадив Еммі приймати більше вітаміну D."
+      "en": "The doctor recommended that Olena take more vitamin D.",
+      "uk": "Лікар порадив Олені приймати більше вітаміну D."
     },
     {
       "en": "It's vital that the car seat be fitted correctly.",
@@ -175,12 +175,12 @@
       "uk": "Пропоную, щоб він не згадував про це своїй мамі."
     },
     {
-      "en": "My grandma always demanded that everyone be at the table by six.",
-      "uk": "Бабуся завжди вимагала, щоб усі були за столом до шостої."
+      "en": "On Christmas Eve, my grandma always demanded that everyone be at the table by six.",
+      "uk": "На Святвечір бабуся завжди вимагала, щоб усі були за столом до шостої."
     },
     {
-      "en": "If need be, we can stay another night.",
-      "uk": "Якщо буде потреба, можемо залишитися ще на ніч."
+      "en": "If need be, we can stay another night in Chernivtsi.",
+      "uk": "Якщо буде потреба, можемо залишитися в Чернівцях ще на ніч."
     }
   ],
   "tip": "Головна ознака — **немає -s** у третій особі: *I insist that he **come***. Якщо сумніваєтеся, скажіть *that he **should** come* — це теж правильно. У розмовній британській чути й звичайний час (*I suggest he **comes***), але в листі краще subjunctive або should.",
@@ -314,17 +314,17 @@
     },
     {
       "type": "translate",
-      "uk": "Лікар порадив, щоб Емма більше відпочивала.",
+      "uk": "Лікар порадив, щоб Олена більше відпочивала.",
       "answer": [
-        "The doctor recommended that Emma rest more.",
-        "The doctor suggested that Emma rest more.",
-        "The doctor advised that Emma rest more.",
-        "The doctor recommended that Emma should rest more.",
-        "The doctor suggested that Emma should rest more.",
-        "The doctor recommended Emma rest more.",
-        "The doctor advised Emma to rest more.",
-        "The doctor recommended that Emma get more rest.",
-        "The doctor advised Emma to get more rest."
+        "The doctor recommended that Olena rest more.",
+        "The doctor suggested that Olena rest more.",
+        "The doctor advised that Olena rest more.",
+        "The doctor recommended that Olena should rest more.",
+        "The doctor suggested that Olena should rest more.",
+        "The doctor recommended Olena rest more.",
+        "The doctor advised Olena to rest more.",
+        "The doctor recommended that Olena get more rest.",
+        "The doctor advised Olena to get more rest."
       ],
       "explanation": "recommend that + базова форма."
     }

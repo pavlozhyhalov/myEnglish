@@ -30,8 +30,8 @@
       {
         "when": "Щось згадали",
         "note": "come to think of it — думка спала на гадку просто зараз.",
-        "en": "Come to think of it, I haven't heard from Jack for ages.",
-        "uk": "Якщо подумати, я вже сто років нічого не чув від Джека."
+        "en": "Come to think of it, I haven't heard from Andrii for ages.",
+        "uk": "Якщо подумати, я вже сто років нічого не чув від Андрія."
       },
       {
         "when": "Змінити чи повернути тему",
@@ -157,8 +157,8 @@
   },
   "examples": [
     {
-      "en": "The new café is a bit pricey. Mind you, the cakes are amazing.",
-      "uk": "Нове кафе трохи дороге. Утім, тістечка неймовірні."
+      "en": "The new café in Lviv is a bit pricey. Mind you, the cakes are amazing.",
+      "uk": "Нове кафе у Львові трохи дороге. Утім, тістечка неймовірні."
     },
     {
       "en": "\"Do you know anyone with a van?\" — \"As it happens, my cousin has one.\"",
@@ -173,8 +173,8 @@
       "uk": "Зрештою, головне — що ми щасливі."
     },
     {
-      "en": "I'm not a big fan of hiking. Having said that, the Scottish Highlands were stunning.",
-      "uk": "Я не великий шанувальник походів. Проте Шотландське нагір'я було приголомшливе."
+      "en": "I'm not a big fan of hiking. Having said that, the Carpathians were stunning.",
+      "uk": "Я не великий шанувальник походів. Проте Карпати були приголомшливі."
     },
     {
       "en": "Anyway, enough about me — how was your trip?",
@@ -209,7 +209,7 @@
     },
     {
       "type": "choice",
-      "prompt": "___, I haven't heard from Tom in ages. I should give him a call.",
+      "prompt": "___, I haven't heard from Mykola in ages. I should give him a call.",
       "options": [
         "Come to think of it",
         "Mind you",

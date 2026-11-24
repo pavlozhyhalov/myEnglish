@@ -151,12 +151,12 @@
   },
   "examples": [
     {
-      "en": "Edinburgh, which is my favourite city, gets very busy in summer.",
-      "uk": "Улітку в Единбурзі, моєму улюбленому місті, дуже людно."
+      "en": "Lviv, which is my favourite city, gets very busy at Christmas.",
+      "uk": "На Різдво у Львові, моєму улюбленому місті, дуже людно."
     },
     {
-      "en": "Emma found a doctor whose clinic is just around the corner.",
-      "uk": "Емма знайшла лікарку, у якої клініка зовсім поруч."
+      "en": "Olena found a doctor whose clinic is just around the corner.",
+      "uk": "Олена знайшла лікарку, у якої клініка зовсім поруч."
     },
     {
       "en": "He didn't reply to my message, which was a bit rude.",
@@ -167,8 +167,8 @@
       "uk": "Ми запросили двадцять людей, більшість із яких прийшла."
     },
     {
-      "en": "The friend with whom I travelled to Italy now lives in Berlin.",
-      "uk": "Друг, з яким я подорожував до Італії, тепер живе в Берліні."
+      "en": "The friend with whom I travelled around the Carpathians now lives in Kharkiv.",
+      "uk": "Друг, з яким я подорожував Карпатами, тепер живе в Харкові."
     },
     {
       "en": "That's the café we usually go to.",
@@ -304,14 +304,14 @@
     },
     {
       "type": "translate",
-      "uk": "Емма, яка не любить холод, хоче поїхати в Іспанію.",
+      "uk": "Ірина, яка не любить холод, хоче поїхати в Іспанію.",
       "answer": [
-        "Emma, who doesn't like the cold, wants to go to Spain.",
-        "Emma, who doesn't like cold, wants to go to Spain.",
-        "Emma, who doesn't like cold weather, wants to go to Spain.",
-        "Emma, who hates the cold, wants to go to Spain.",
-        "Emma, who doesn't like the cold, wants to travel to Spain.",
-        "Emma, who dislikes the cold, wants to go to Spain."
+        "Iryna, who doesn't like the cold, wants to go to Spain.",
+        "Iryna, who doesn't like cold, wants to go to Spain.",
+        "Iryna, who doesn't like cold weather, wants to go to Spain.",
+        "Iryna, who hates the cold, wants to go to Spain.",
+        "Iryna, who doesn't like the cold, wants to travel to Spain.",
+        "Iryna, who dislikes the cold, wants to go to Spain."
       ],
       "explanation": "Додаткова інформація про людину — у комах з who."
     }

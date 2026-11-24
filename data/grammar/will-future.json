@@ -30,8 +30,8 @@
       {
         "when": "Прогноз-думка",
         "note": "Що ми думаємо чи відчуваємо: I think, probably, I'm sure.",
-        "en": "I think Tom will be late again.",
-        "uk": "Думаю, Том знову запізниться."
+        "en": "I think Andrii will be late again.",
+        "uk": "Думаю, Андрій знову запізниться."
       },
       {
         "when": "Замовлення й вибір",
@@ -63,8 +63,8 @@
       {
         "title": "Прогноз: will чи going to?",
         "a": {
-          "en": "I think it'll rain tomorrow.",
-          "uk": "Думаю, завтра буде дощ.",
+          "en": "I think it'll snow in the Carpathians tomorrow.",
+          "uk": "Думаю, завтра в Карпатах піде сніг.",
           "note": "Моя думка, припущення."
         },
         "b": {
@@ -167,8 +167,8 @@
       "uk": "Не хвилюйся, цього разу заплачу я."
     },
     {
-      "en": "I'll have the soup, please.",
-      "uk": "Мені суп, будь ласка."
+      "en": "I'll have the borscht, please.",
+      "uk": "Мені борщ, будь ласка."
     },
     {
       "en": "I promise I won't be late again.",
@@ -179,8 +179,8 @@
       "uk": "Забронювати столик на п'ятницю?"
     },
     {
-      "en": "I'm sure you'll like Edinburgh.",
-      "uk": "Я впевнений, що тобі сподобається Единбург."
+      "en": "I'm sure you'll like Lviv.",
+      "uk": "Я впевнений, що тобі сподобається Львів."
     },
     {
       "en": "Will you be at home tonight?",

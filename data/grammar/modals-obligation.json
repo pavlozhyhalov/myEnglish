@@ -50,13 +50,13 @@
       {
         "title": "mustn't чи don't have to?",
         "a": {
-          "en": "You mustn't tell Emma.",
-          "uk": "Еммі не можна казати.",
+          "en": "You mustn't tell Taras.",
+          "uk": "Тарасові не можна казати.",
           "note": "Заборонено — це секрет."
         },
         "b": {
-          "en": "You don't have to tell Emma.",
-          "uk": "Еммі можна не казати.",
+          "en": "You don't have to tell Taras.",
+          "uk": "Тарасові можна не казати.",
           "note": "Як хочете — не обов'язково."
         }
       },
@@ -150,8 +150,8 @@
   },
   "examples": [
     {
-      "en": "You must try this cake — it's amazing!",
-      "uk": "Ти мусиш скуштувати цей торт — він неймовірний!"
+      "en": "You must try this borscht — it's amazing!",
+      "uk": "Ти мусиш скуштувати цей борщ — він неймовірний!"
     },
     {
       "en": "Do I have to bring anything?",

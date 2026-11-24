@@ -44,14 +44,14 @@
       {
         "title": "Розмова чи лист?",
         "a": {
-          "en": "They cancelled my flight, so I missed the wedding.",
-          "uk": "Мій рейс скасували, тож я пропустив весілля.",
+          "en": "They cancelled my train, so I missed the wedding in Lviv.",
+          "uk": "Мій потяг скасували, тож я пропустив весілля у Львові.",
           "note": "Живо й розмовно — так розповідають друзям."
         },
         "b": {
-          "en": "The cancellation of my flight meant I missed the wedding.",
-          "uk": "Через скасування рейсу я пропустив весілля.",
-          "note": "Офіційно — для скарги в авіакомпанію."
+          "en": "The cancellation of my train meant I missed the wedding in Lviv.",
+          "uk": "Через скасування потяга я пропустив весілля у Львові.",
+          "note": "Офіційно — для скарги перевізникові."
         }
       },
       {
@@ -151,16 +151,16 @@
       "uk": "Пишу, щоб поскаржитися на скасування мого замовлення."
     },
     {
-      "en": "Due to the closure of the main road, buses are delayed.",
-      "uk": "Через закриття головної дороги автобуси затримуються."
+      "en": "Due to the closure of the main road, buses to Chernivtsi are delayed.",
+      "uk": "Через закриття головної дороги автобуси до Чернівців затримуються."
     },
     {
       "en": "There has been a significant improvement in air quality in Manchester.",
       "uk": "Якість повітря в Манчестері значно покращилася."
     },
     {
-      "en": "The lack of parking spaces is a real problem in our area.",
-      "uk": "Брак паркувальних місць — справжня проблема в нашому районі."
+      "en": "The lack of parking spaces is a real problem in the centre of Kyiv.",
+      "uk": "Брак паркувальних місць — справжня проблема в центрі Києва."
     },
     {
       "en": "His failure to reply was rather rude.",

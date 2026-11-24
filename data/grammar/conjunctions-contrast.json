@@ -18,8 +18,8 @@
       {
         "when": "Попри щось",
         "note": "despite / in spite of + іменник або -ing — коротше, ніж ціле речення.",
-        "en": "In spite of feeling ill, Sophie went to work.",
-        "uk": "Попри те що погано почувалася, Софі пішла на роботу."
+        "en": "In spite of feeling ill, Oksana went to work.",
+        "uk": "Попри те що погано почувалася, Оксана пішла на роботу."
       },
       {
         "when": "Протиставлення двох речень",
@@ -44,13 +44,13 @@
       {
         "title": "although чи despite?",
         "a": {
-          "en": "Although it was cold, we swam.",
-          "uk": "Хоча було холодно, ми поплавали.",
+          "en": "Although it was cold, we swam in the Black Sea.",
+          "uk": "Хоча було холодно, ми поплавали в Чорному морі.",
           "note": "Далі — підмет і дієслово."
         },
         "b": {
-          "en": "Despite the cold, we swam.",
-          "uk": "Попри холод, ми поплавали.",
+          "en": "Despite the cold, we swam in the Black Sea.",
+          "uk": "Попри холод, ми поплавали в Чорному морі.",
           "note": "Далі — іменник або -ing."
         }
       },
@@ -182,8 +182,8 @@
       "uk": "Я — жайворонок, тоді як Емма — сова."
     },
     {
-      "en": "The concert was expensive. It was worth every penny, though.",
-      "uk": "Концерт був дорогий. Утім, вартий кожної копійки."
+      "en": "The concert at the Lviv Opera was expensive. It was worth every penny, though.",
+      "uk": "Концерт у Львівській опері був дорогий. Утім, вартий кожної копійки."
     }
   ],
   "tip": "Після **despite** не буває ні *of*, ні речення: ~~despite it was raining~~ → *despite **the rain*** або *despite **the fact that** it was raining*.",
@@ -202,7 +202,7 @@
     },
     {
       "type": "choice",
-      "prompt": "___ her cold, Emma went to her friend's wedding.",
+      "prompt": "___ her cold, Oksana went to her friend's wedding.",
       "options": [
         "Despite",
         "Although",

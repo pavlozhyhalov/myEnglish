@@ -18,8 +18,8 @@
       {
         "when": "Сказати комусь — told + кого",
         "note": "Якщо називаємо, кому сказали, — tell + особа, без to.",
-        "en": "Jack told me he was moving to Dublin.",
-        "uk": "Джек сказав мені, що переїжджає до Дубліна."
+        "en": "Andrii told me he was moving to Dnipro.",
+        "uk": "Андрій сказав мені, що переїжджає до Дніпра."
       },
       {
         "when": "Що сталося раніше — had + V3",
@@ -141,16 +141,16 @@
       "uk": "Вона сказала, що почувається краще."
     },
     {
-      "en": "He told me he had already booked the hotel.",
-      "uk": "Він сказав мені, що вже забронював готель."
+      "en": "He told me he had already booked the hotel in Odesa.",
+      "uk": "Він сказав мені, що вже забронював готель в Одесі."
     },
     {
       "en": "They said they would come at eight.",
       "uk": "Вони сказали, що прийдуть о восьмій."
     },
     {
-      "en": "Tom said he couldn't find his keys.",
-      "uk": "Том сказав, що не може знайти ключі."
+      "en": "Taras said he couldn't find his keys.",
+      "uk": "Тарас сказав, що не може знайти ключі."
     },
     {
       "en": "My doctor told me to drink more water.",
@@ -246,10 +246,10 @@
     },
     {
       "type": "order",
-      "prompt": "Він сказав, що живе в Лідсі.",
+      "prompt": "Він сказав, що живе у Львові.",
       "answer": [
-        "He said he lived in Leeds.",
-        "He said that he lived in Leeds."
+        "He said he lived in Lviv.",
+        "He said that he lived in Lviv."
       ],
       "explanation": "Непряма мова: Present Simple → Past Simple (lived)."
     },

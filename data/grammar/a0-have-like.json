@@ -24,8 +24,8 @@
    {
     "when": "Про нього чи неї",
     "note": "he / she → has got і likes.",
-    "en": "Anna's got a dog. She likes dogs.",
-    "uk": "В Анни є собака. Вона любить собак."
+    "en": "Oksana's got a dog. She likes dogs.",
+    "uk": "В Оксани є собака. Вона любить собак."
    }
   ],
   "vs": [
@@ -123,16 +123,16 @@
    "uk": "Він любить футбол."
   },
   {
-   "en": "My son likes pizza.",
-   "uk": "Мій син любить піцу."
+   "en": "Taras likes borscht.",
+   "uk": "Тарас любить борщ."
   },
   {
    "en": "They like music.",
    "uk": "Вони люблять музику."
   },
   {
-   "en": "I like apples.",
-   "uk": "Я люблю яблука."
+   "en": "I like varenyky.",
+   "uk": "Я люблю вареники."
   }
  ],
  "tip": "З *he / she* — **-s**: ~~She like tea~~ → *She **likes** tea.* *She's got* = *She **has** got*.",
@@ -197,11 +197,11 @@
   },
   {
    "type": "error",
-   "sentence": "Emma like coffee.",
+   "sentence": "Olena like coffee.",
    "wrongIndex": 1,
    "correction": "likes",
    "alt": [],
-   "explanation": "Emma = she → likes."
+   "explanation": "Olena = she → likes."
   },
   {
    "type": "error",

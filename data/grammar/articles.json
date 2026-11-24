@@ -12,8 +12,8 @@
       {
         "when": "Перша згадка — a / an",
         "note": "Слухач ще не знає, про який предмет ідеться.",
-        "en": "We stayed in a small hotel near the beach.",
-        "uk": "Ми зупинилися в невеликому готелі біля пляжу."
+        "en": "We stayed in a small hotel in the Carpathians.",
+        "uk": "Ми зупинилися в невеликому готелі в Карпатах."
       },
       {
         "when": "Повторна згадка — the",
@@ -24,8 +24,8 @@
       {
         "when": "Хто ви, що це — a / an",
         "note": "Професія чи «що це за річ» в однині — з a / an.",
-        "en": "Sophie's a nurse.",
-        "uk": "Софі — медсестра."
+        "en": "Iryna's a nurse.",
+        "uk": "Ірина — медсестра."
       },
       {
         "when": "Зрозуміло з ситуації — the",
@@ -42,8 +42,8 @@
       {
         "when": "Уточнено словами після — the",
         "note": "Уточнення з of, in, who, that робить предмет конкретним.",
-        "en": "The girl in the red coat is my cousin.",
-        "uk": "Дівчина в червоному пальті — моя двоюрідна сестра."
+        "en": "The girl in the embroidered blouse is my cousin.",
+        "uk": "Дівчина у вишиванці — моя двоюрідна сестра."
       }
     ],
     "vs": [

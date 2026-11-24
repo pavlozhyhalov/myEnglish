@@ -24,8 +24,8 @@
    {
     "when": "Що буде за розкладом",
     "note": "Автобус, урок, фільм — і час.",
-    "en": "There's a bus at ten.",
-    "uk": "О десятій є автобус."
+    "en": "There's a bus to Lviv at ten.",
+    "uk": "О десятій є автобус до Львова."
    }
   ],
   "vs": [
@@ -112,8 +112,8 @@
    "uk": "На столі книжки."
   },
   {
-   "en": "There's a park in my town.",
-   "uk": "У моєму місті є парк."
+   "en": "There's a big park in Kharkiv.",
+   "uk": "У Харкові є великий парк."
   }
  ],
  "tip": "Не кажіть ~~In my room is a cat~~ — почніть з *There is*: ***There is** a cat in my room.*",

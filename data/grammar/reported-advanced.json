@@ -30,8 +30,8 @@
       {
         "when": "«Давайте…»",
         "note": "suggest + -ing або that + речення — ідея для всіх.",
-        "en": "Emma suggested going for a walk.",
-        "uk": "Емма запропонувала прогулятися."
+        "en": "Iryna suggested going for a walk along the Dnipro.",
+        "uk": "Ірина запропонувала прогулятися вздовж Дніпра."
       },
       {
         "when": "Вибачення, звинувачення, подяка",
@@ -44,13 +44,13 @@
       {
         "title": "offer чи suggest?",
         "a": {
-          "en": "Tom offered to drive us home.",
-          "uk": "Том запропонував відвезти нас додому.",
+          "en": "Andrii offered to drive us home.",
+          "uk": "Андрій запропонував відвезти нас додому.",
           "note": "Сам зробить — offer + to V."
         },
         "b": {
-          "en": "Tom suggested taking a taxi.",
-          "uk": "Том запропонував узяти таксі.",
+          "en": "Andrii suggested taking a taxi.",
+          "uk": "Андрій запропонував узяти таксі.",
           "note": "Ідея для всіх — suggest + -ing."
         }
       },
@@ -159,8 +159,8 @@
       "uk": "Вона нагадала мені купити квіти для її мами."
     },
     {
-      "en": "Our neighbour insisted on paying for the coffee.",
-      "uk": "Сусід наполіг на тому, щоб заплатити за каву."
+      "en": "Mykola insisted on paying for the coffee.",
+      "uk": "Микола наполіг на тому, щоб заплатити за каву."
     },
     {
       "en": "I suggested that we meet outside the station.",
@@ -182,7 +182,7 @@
     },
     {
       "type": "choice",
-      "prompt": "Emma suggested ___ a picnic by the river.",
+      "prompt": "Emma suggested ___ a picnic by the Dnipro.",
       "options": [
         "having",
         "to have",

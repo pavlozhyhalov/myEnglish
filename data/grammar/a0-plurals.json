@@ -32,8 +32,8 @@
    {
     "title": "person чи people?",
     "a": {
-     "en": "She's a nice person.",
-     "uk": "Вона приємна людина.",
+     "en": "Oksana is a nice person.",
+     "uk": "Оксана — приємна людина.",
      "note": "Одна людина."
     },
     "b": {
@@ -112,8 +112,8 @@
    "uk": "Три яблука, будь ласка."
   },
   {
-   "en": "They are my friends.",
-   "uk": "Вони мої друзі."
+   "en": "Taras and Olena are my friends.",
+   "uk": "Тарас і Олена — мої друзі."
   },
   {
    "en": "My children are at school.",
@@ -128,8 +128,8 @@
    "uk": "Десять коробок."
   },
   {
-   "en": "We are students.",
-   "uk": "Ми студенти."
+   "en": "We are students in Kyiv.",
+   "uk": "Ми студенти в Києві."
   },
   {
    "en": "My cats are black.",

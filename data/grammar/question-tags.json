@@ -57,13 +57,13 @@
       {
         "title": "Хвостик чи right?",
         "a": {
-          "en": "You're from Leeds, aren't you?",
-          "uk": "Ви ж із Лідса, так?",
+          "en": "You're from Kharkiv, aren't you?",
+          "uk": "Ви ж із Харкова, так?",
           "note": "Повний хвостик — завжди доречний, обов'язковий у тестах і на письмі."
         },
         "b": {
-          "en": "You're from Leeds, right?",
-          "uk": "Ви з Лідса, так?",
+          "en": "You're from Kharkiv, right?",
+          "uk": "Ви з Харкова, так?",
           "note": "right — простий розмовний варіант, для листів і тестів не годиться."
         }
       }
@@ -156,8 +156,8 @@
       "uk": "Ти ж не проти, якщо я відчиню вікно?"
     },
     {
-      "en": "We met at Sophie's party, didn't we?",
-      "uk": "Ми ж познайомилися на вечірці в Софі, так?"
+      "en": "We met at Taras's party, didn't we?",
+      "uk": "Ми ж познайомилися на вечірці в Тараса, так?"
     },
     {
       "en": "Let's try that new Thai place, shall we?",
@@ -188,7 +188,7 @@
     },
     {
       "type": "choice",
-      "prompt": "Emma can't come tonight, ___?",
+      "prompt": "Oksana can't come tonight, ___?",
       "options": [
         "can she",
         "can't she",

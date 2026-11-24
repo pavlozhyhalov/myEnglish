@@ -24,8 +24,8 @@
       {
         "when": "Реальний план з умовою",
         "note": "Майбутнє, яке цілком може статися, — перший тип.",
-        "en": "If the weather's nice tomorrow, we'll have a picnic.",
-        "uk": "Якщо завтра буде гарна погода, ми влаштуємо пікнік."
+        "en": "If the weather's nice tomorrow, we'll have a picnic by the Dnipro.",
+        "uk": "Якщо завтра буде гарна погода, ми влаштуємо пікнік біля Дніпра."
       },
       {
         "when": "Попередження й обіцянка",
@@ -44,13 +44,13 @@
       {
         "title": "if чи when?",
         "a": {
-          "en": "If I see Oliver, I'll tell him.",
-          "uk": "Якщо побачу Олівера, скажу йому.",
+          "en": "If I see Mykola, I'll tell him.",
+          "uk": "Якщо побачу Миколу, скажу йому.",
           "note": "Не впевнені, що побачимо."
         },
         "b": {
-          "en": "When I see Oliver, I'll tell him.",
-          "uk": "Коли побачу Олівера, скажу йому.",
+          "en": "When I see Mykola, I'll tell him.",
+          "uk": "Коли побачу Миколу, скажу йому.",
           "note": "Точно побачимо — питання лише коли."
         }
       },
@@ -133,8 +133,8 @@
       "uk": "Якщо не буде дощу, влаштуємо барбекю."
     },
     {
-      "en": "If you're hungry, there's some soup in the fridge.",
-      "uk": "Якщо голодний, у холодильнику є суп."
+      "en": "If you're hungry, there's some borscht in the fridge.",
+      "uk": "Якщо голодний, у холодильнику є борщ."
     }
   ],
   "tip": "Кома ставиться, коли *if*-частина стоїть першою: *If it rains, …* але *We'll stay at home if it rains.*",

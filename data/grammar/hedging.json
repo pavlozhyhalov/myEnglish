@@ -63,13 +63,13 @@
       {
         "title": "may чи might well?",
         "a": {
-          "en": "It may rain later.",
-          "uk": "Пізніше може піти дощ.",
+          "en": "It may rain in the Carpathians later.",
+          "uk": "Пізніше в Карпатах може піти дощ.",
           "note": "Просто можливість."
         },
         "b": {
-          "en": "It might well rain later.",
-          "uk": "Цілком можливо, що пізніше піде дощ.",
+          "en": "It might well rain in the Carpathians later.",
+          "uk": "Цілком можливо, що пізніше в Карпатах піде дощ.",
           "note": "Можливість досить висока."
         }
       }
@@ -166,8 +166,8 @@
       "uk": "Схоже, ресторан закрився."
     },
     {
-      "en": "People in Manchester tend to be quite friendly.",
-      "uk": "Люди в Манчестері здебільшого досить привітні."
+      "en": "People in Kharkiv tend to be quite friendly.",
+      "uk": "Люди в Харкові здебільшого досить привітні."
     },
     {
       "en": "It would appear that someone has taken my bike.",
@@ -182,8 +182,8 @@
       "uk": "Певною мірою це наша власна провина."
     },
     {
-      "en": "I'd have thought Emma would prefer the window seat.",
-      "uk": "Я гадав, що Емма захоче сісти біля вікна."
+      "en": "I'd have thought Taras would prefer the window seat.",
+      "uk": "Я гадав, що Тарас захоче сісти біля вікна."
     }
   ],
   "tip": "**I'd have thought** = *I **would** have thought*, а не *I had thought*: це м'яке «мені здавалося б, що…», часто з легким подивом. **Seem** і **appear** у значенні «здаватися» не вживаються в Continuous: ~~It's seeming~~.",
@@ -226,7 +226,7 @@
     },
     {
       "type": "choice",
-      "prompt": "It ___ well be the last warm weekend of the year, so let's go to the mountains.",
+      "prompt": "It ___ well be the last warm weekend of the year, so let's go to the Carpathians.",
       "options": [
         "might",
         "must",

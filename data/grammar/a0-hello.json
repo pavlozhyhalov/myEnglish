@@ -12,20 +12,20 @@
    {
     "when": "Назвати себе",
     "note": "I'm + ім'я — найпростіше й найчастіше.",
-    "en": "Hi! I'm Anna.",
-    "uk": "Привіт! Я Анна."
+    "en": "Hi! I'm Oksana.",
+    "uk": "Привіт! Я Оксана."
    },
    {
     "when": "Запитати ім'я",
     "note": "Питаємо What's your name? — відповідь My name's…",
-    "en": "What's your name? — My name's Tom.",
-    "uk": "Як тебе звати? — Мене звати Том."
+    "en": "What's your name? — My name's Taras.",
+    "uk": "Як тебе звати? — Мене звати Тарас."
    },
    {
     "when": "Після знайомства",
     "note": "Nice to meet you — коли познайомилися вперше.",
-    "en": "Nice to meet you, Tom.",
-    "uk": "Приємно познайомитися, Томе."
+    "en": "Nice to meet you, Taras.",
+    "uk": "Приємно познайомитися, Тарасе."
    }
   ],
   "vs": [
@@ -194,10 +194,10 @@
   },
   {
    "type": "order",
-   "prompt": "Мене звати Олівер.",
+   "prompt": "Мене звати Тарас.",
    "answer": [
-    "My name is Oliver.",
-    "Oliver is my name."
+    "My name is Taras.",
+    "Taras is my name."
    ],
    "explanation": ""
   },

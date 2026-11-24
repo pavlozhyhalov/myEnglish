@@ -57,13 +57,13 @@
       {
         "title": "so чи such?",
         "a": {
-          "en": "The weather was so nice.",
-          "uk": "Погода була така гарна.",
+          "en": "The weather in Odesa was so nice.",
+          "uk": "Погода в Одесі була така гарна.",
           "note": "so + прикметник без іменника."
         },
         "b": {
-          "en": "We had such nice weather.",
-          "uk": "У нас була така гарна погода.",
+          "en": "We had such nice weather in Odesa.",
+          "uk": "В Одесі в нас була така гарна погода.",
           "note": "such + прикметник + іменник."
         }
       },
@@ -120,8 +120,8 @@
       "uk": "Фільм був такий нудний, що я заснув."
     },
     {
-      "en": "It's such a beautiful city!",
-      "uk": "Це таке гарне місто!"
+      "en": "Lviv is such a beautiful city!",
+      "uk": "Львів — таке гарне місто!"
     },
     {
       "en": "I'm too tired to go out tonight.",
@@ -150,7 +150,7 @@
     },
     {
       "type": "choice",
-      "prompt": "The soup is ___ hot to eat.",
+      "prompt": "The borscht is ___ hot to eat.",
       "options": [
         "too",
         "so",

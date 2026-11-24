@@ -18,8 +18,8 @@
       {
         "when": "Наголос на темі",
         "note": "Особова форма: The castle is said to be… — підмет одразу те, про що мова.",
-        "en": "The castle is said to be haunted.",
-        "uk": "Кажуть, що в замку живуть привиди."
+        "en": "The old castle near Lviv is said to be haunted.",
+        "uk": "Кажуть, що в старому замку під Львовом живуть привиди."
       },
       {
         "when": "Чутка про минуле",
@@ -63,13 +63,13 @@
       {
         "title": "to V чи to have V3?",
         "a": {
-          "en": "She is thought to live in Dublin.",
-          "uk": "Вважають, що вона живе в Дубліні.",
+          "en": "She is thought to live in Odesa.",
+          "uk": "Вважають, що вона живе в Одесі.",
           "note": "Зараз."
         },
         "b": {
-          "en": "She is thought to have lived in Dublin.",
-          "uk": "Вважають, що вона жила в Дубліні.",
+          "en": "She is thought to have lived in Odesa.",
+          "uk": "Вважають, що вона жила в Одесі.",
           "note": "Колись, раніше."
         }
       },
@@ -185,8 +185,8 @@
       "uk": "Вважають, що картину викрали в 1940-х роках."
     },
     {
-      "en": "We got lost on the way to the lake.",
-      "uk": "Ми заблукали дорогою до озера."
+      "en": "We got lost on the way to Lake Synevyr.",
+      "uk": "Ми заблукали дорогою до озера Синевир."
     },
     {
       "en": "Nobody likes being kept waiting.",

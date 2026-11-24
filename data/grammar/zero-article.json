@@ -24,8 +24,8 @@
       {
         "when": "Назви й імена",
         "note": "Більшість країн, міст, вулиць, мов — без артикля.",
-        "en": "Oliver speaks English, French and a bit of Spanish.",
-        "uk": "Олівер говорить англійською, французькою й трохи іспанською."
+        "en": "Oksana speaks Ukrainian, English and a bit of Spanish.",
+        "uk": "Оксана говорить українською, англійською й трохи іспанською."
       },
       {
         "when": "Сталі вирази",
@@ -57,8 +57,8 @@
       {
         "title": "go to school чи go to the school?",
         "a": {
-          "en": "Jack goes to school by bus.",
-          "uk": "Джек їздить до школи автобусом.",
+          "en": "Taras goes to school by bus.",
+          "uk": "Тарас їздить до школи автобусом.",
           "note": "Як учень — за призначенням закладу."
         },
         "b": {

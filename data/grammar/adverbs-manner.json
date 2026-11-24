@@ -18,8 +18,8 @@
       {
         "when": "Наскільки вміємо",
         "note": "Добре чи погано щось робимо — well, badly.",
-        "en": "Oliver plays the guitar really well.",
-        "uk": "Олівер дуже добре грає на гітарі."
+        "en": "Andrii plays the guitar really well.",
+        "uk": "Андрій дуже добре грає на гітарі."
       },
       {
         "when": "Інструкції й поради",
@@ -136,8 +136,8 @@
       "uk": "Говоріть, будь ласка, повільно — моя англійська не дуже добра."
     },
     {
-      "en": "Emma drives very carefully.",
-      "uk": "Емма водить дуже обережно."
+      "en": "Olena drives very carefully.",
+      "uk": "Олена водить дуже обережно."
     },
     {
       "en": "You speak French really well!",
@@ -152,8 +152,8 @@
       "uk": "Я дуже старався, але не склав тест."
     },
     {
-      "en": "This cake tastes delicious.",
-      "uk": "Цей торт дуже смачний."
+      "en": "Your borscht tastes delicious.",
+      "uk": "Твій борщ дуже смачний."
     }
   ],
   "tip": "Питання «який?» — прикметник (*a good cook*), питання «як?» — прислівник (*cooks well*).",

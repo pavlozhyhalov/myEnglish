@@ -12,8 +12,8 @@
       {
         "when": "Точний час — Past Simple",
         "note": "Якщо є «коли» (yesterday, in May, ago) — лише Past Simple.",
-        "en": "I met Oliver at a conference two years ago.",
-        "uk": "Я познайомився з Олівером на конференції два роки тому."
+        "en": "I met Andrii at a conference two years ago.",
+        "uk": "Я познайомився з Андрієм на конференції два роки тому."
       },
       {
         "when": "Досвід без дати — Present Perfect",
@@ -142,20 +142,20 @@
   },
   "examples": [
     {
-      "en": "I've been to Edinburgh many times. Last time I went there in May.",
-      "uk": "Я багато разів бував в Единбурзі. Востаннє їздив туди в травні."
+      "en": "I've been to Lviv many times. Last time I went there in May.",
+      "uk": "Я багато разів бував у Львові. Востаннє їздив туди в травні."
     },
     {
-      "en": "Have you heard the news? Tom got a new job!",
-      "uk": "Чув новину? Том отримав нову роботу!"
+      "en": "Have you heard the news? Mykola got a new job!",
+      "uk": "Чув новину? Микола отримав нову роботу!"
     },
     {
       "en": "We've lived here since 2022.",
       "uk": "Ми живемо тут з 2022 року."
     },
     {
-      "en": "We lived in Dublin when I was a child.",
-      "uk": "Коли я був дитиною, ми жили в Дубліні."
+      "en": "We lived in Chernihiv when I was a child.",
+      "uk": "Коли я був дитиною, ми жили в Чернігові."
     },
     {
       "en": "I haven't seen him this week.",
@@ -231,7 +231,7 @@
     },
     {
       "type": "input",
-      "prompt": "___ (you / ever / be) to Dublin? — Yes, I went last year.",
+      "prompt": "___ (you / ever / be) to Odesa? — Yes, I went last year.",
       "answer": [
         "Have you ever been",
         "Have you been"

@@ -24,8 +24,8 @@
       {
         "when": "Спогади про повторювані дії",
         "note": "would + V — у розповідях про дитинство, але лише про дії, не про стани.",
-        "en": "Every summer we would go camping by the lake.",
-        "uk": "Щоліта ми їздили в похід до озера."
+        "en": "Every summer we would go camping in the Carpathians.",
+        "uk": "Щоліта ми їздили в похід у Карпати."
       },
       {
         "when": "Уже звично",
@@ -151,8 +151,8 @@
   },
   "examples": [
     {
-      "en": "I used to have long hair.",
-      "uk": "Колись у мене було довге волосся."
+      "en": "My grandma used to make varenyky every Sunday.",
+      "uk": "Колись бабуся щонеділі ліпила вареники."
     },
     {
       "en": "Did you use to play any sports at school?",
@@ -175,7 +175,7 @@
   "exercises": [
     {
       "type": "choice",
-      "prompt": "I ___ live in Manchester, but now I live in London.",
+      "prompt": "I ___ live in Kharkiv, but now I live in London.",
       "options": [
         "use to",
         "used to",

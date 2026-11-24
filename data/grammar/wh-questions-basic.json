@@ -24,8 +24,8 @@
       {
         "when": "Час і розклад",
         "note": "when — коли загалом, what time — о котрій саме.",
-        "en": "What time does the film start?",
-        "uk": "О котрій починається фільм?"
+        "en": "What time does the train to Odesa leave?",
+        "uk": "О котрій відходить потяг до Одеси?"
       },
       {
         "when": "Ціна й кількість",
@@ -50,8 +50,8 @@
       {
         "title": "how much чи how many?",
         "a": {
-          "en": "How much milk do we need?",
-          "uk": "Скільки молока нам треба?",
+          "en": "How much flour do we need for the varenyky?",
+          "uk": "Скільки борошна нам треба на вареники?",
           "note": "Те, що не рахуємо поштучно, і ціна."
         },
         "b": {
@@ -161,8 +161,8 @@
       "uk": "Коли зачиняється магазин?"
     },
     {
-      "en": "Who is that woman?",
-      "uk": "Хто та жінка?"
+      "en": "Who is that woman? — It's Iryna, my teacher.",
+      "uk": "Хто та жінка? — Це Ірина, моя вчителька."
     },
     {
       "en": "How do you get to the city centre?",

@@ -51,13 +51,13 @@
       {
         "title": "going to чи Present Continuous?",
         "a": {
-          "en": "I'm going to see Emma soon.",
-          "uk": "Я збираюся скоро побачитися з Еммою.",
+          "en": "I'm going to see Oksana soon.",
+          "uk": "Я збираюся скоро побачитися з Оксаною.",
           "note": "Намір; ще не домовились."
         },
         "b": {
-          "en": "I'm seeing Emma on Friday at 6.",
-          "uk": "Я зустрічаюся з Еммою в п'ятницю о 6-й.",
+          "en": "I'm seeing Oksana on Friday at 6.",
+          "uk": "Я зустрічаюся з Оксаною в п'ятницю о 6-й.",
           "note": "Домовленість з часом — природніше Continuous."
         }
       }
@@ -131,8 +131,8 @@
       "uk": "Я збираюся навчитися водити."
     },
     {
-      "en": "Are you going to cook tonight?",
-      "uk": "Ти збираєшся сьогодні готувати?"
+      "en": "Are you going to cook borscht tonight?",
+      "uk": "Ти збираєшся сьогодні варити борщ?"
     },
     {
       "en": "She isn't going to stay long.",

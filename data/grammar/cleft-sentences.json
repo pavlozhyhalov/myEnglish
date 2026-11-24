@@ -12,14 +12,14 @@
       {
         "when": "Виправити чи уточнити",
         "note": "It was X who / that… — «саме X, а не хтось інший».",
-        "en": "It was Sophie who booked the table, not me.",
-        "uk": "Столик забронювала Софі, а не я."
+        "en": "It was Iryna who booked the table, not me.",
+        "uk": "Столик забронювала Ірина, а не я."
       },
       {
         "when": "Головне — наприкінці",
         "note": "What I need is… — спершу інтрига, потім те, на чому наголос.",
-        "en": "What I need right now is a long holiday.",
-        "uk": "Що мені зараз потрібно, то це довга відпустка."
+        "en": "What I need right now is a long holiday in the Carpathians.",
+        "uk": "Що мені зараз потрібно, то це довга відпустка в Карпатах."
       },
       {
         "when": "Почуття й скарги",
@@ -147,8 +147,8 @@
       "uk": "Саме шуму я не виношу."
     },
     {
-      "en": "What I really like about Edinburgh is the atmosphere.",
-      "uk": "Що мені справді подобається в Единбурзі, то це атмосфера."
+      "en": "What I really like about Lviv is the atmosphere.",
+      "uk": "Що мені справді подобається у Львові, то це атмосфера."
     },
     {
       "en": "It was only last year that I started learning English seriously.",
@@ -264,13 +264,13 @@
     },
     {
       "type": "transform",
-      "prompt": "Emma booked the tickets, not me.",
+      "prompt": "Taras booked the tickets, not me.",
       "instruction": "It was…",
       "answer": [
-        "It was Emma who booked the tickets, not me.",
-        "It was Emma that booked the tickets, not me.",
-        "It was Emma, not me, who booked the tickets.",
-        "It was Emma, not me, that booked the tickets."
+        "It was Taras who booked the tickets, not me.",
+        "It was Taras that booked the tickets, not me.",
+        "It was Taras, not me, who booked the tickets.",
+        "It was Taras, not me, that booked the tickets."
       ],
       "explanation": "It was + особа + who/that…"
     },

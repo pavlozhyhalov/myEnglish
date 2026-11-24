@@ -18,8 +18,8 @@
       {
         "when": "Професія",
         "note": "Хто людина за фахом — завжди з a / an.",
-        "en": "Emma is a nurse, and her husband is an engineer.",
-        "uk": "Емма — медсестра, а її чоловік — інженер."
+        "en": "Olena is a nurse, and her husband is an engineer.",
+        "uk": "Олена — медсестра, а її чоловік — інженер."
       },
       {
         "when": "Опис: що це за річ",
@@ -137,16 +137,16 @@
       "uk": "У мене є сестра і брат."
     },
     {
-      "en": "My friend is an engineer.",
-      "uk": "Мій друг — інженер."
+      "en": "My friend Taras is an engineer.",
+      "uk": "Мій друг Тарас — інженер."
     },
     {
       "en": "We live in a small flat in Leeds.",
       "uk": "Ми живемо в невеликій квартирі в Лідсі."
     },
     {
-      "en": "I'd like an apple, please.",
-      "uk": "Я б хотів яблуко, будь ласка."
+      "en": "I'd like a bowl of borscht, please.",
+      "uk": "Мені тарілку борщу, будь ласка."
     },
     {
       "en": "It takes an hour to get there.",

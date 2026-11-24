@@ -30,8 +30,8 @@
       {
         "when": "Домовленість з часом і місцем",
         "note": "Уже в календарі, інша людина теж знає — Present Continuous.",
-        "en": "I'm having lunch with Sophie on Friday.",
-        "uk": "У п'ятницю я обідаю з Софі."
+        "en": "I'm having lunch with Olena on Friday.",
+        "uk": "У п'ятницю я обідаю з Оленою."
       },
       {
         "when": "Прогноз: думка чи доказ",
@@ -42,8 +42,8 @@
       {
         "when": "Розклад",
         "note": "Потяги, фільми, уроки за розкладом — Present Simple.",
-        "en": "Our flight leaves at 6.40 tomorrow morning.",
-        "uk": "Наш рейс вилітає завтра о 6:40 ранку."
+        "en": "Our train to Lviv leaves at 6.40 tomorrow morning.",
+        "uk": "Наш потяг до Львова відправляється завтра о 6:40 ранку."
       }
     ],
     "vs": [
@@ -137,8 +137,8 @@
       "uk": "Обережно! Ти зараз упадеш!"
     },
     {
-      "en": "I'll text you as soon as I arrive.",
-      "uk": "Напишу, щойно приїду."
+      "en": "I'll text you as soon as I arrive in Odesa.",
+      "uk": "Напишу, щойно приїду в Одесу."
     }
   ],
   "tip": "*Shall I…?* — пропозиція: *Shall I open the window?* (Відкрити вікно?)",

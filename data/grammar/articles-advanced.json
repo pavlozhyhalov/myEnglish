@@ -18,8 +18,8 @@
       {
         "when": "Вид, винахід, інструмент",
         "note": "the + однина — книжно про вид; з інструментами — і в розмові.",
-        "en": "Anna plays the violin.",
-        "uk": "Анна грає на скрипці."
+        "en": "Oksana plays the bandura.",
+        "uk": "Оксана грає на бандурі."
       },
       {
         "when": "Група людей",
@@ -42,8 +42,8 @@
       {
         "when": "Географічні назви",
         "note": "the — річки, моря, гірські пасма; без артикля — окремі гори, озера, більшість країн.",
-        "en": "We had a picnic by the Thames.",
-        "uk": "Ми влаштували пікнік біля Темзи."
+        "en": "We had a picnic by the Dnipro.",
+        "uk": "Ми влаштували пікнік біля Дніпра."
       }
     ],
     "vs": [
@@ -178,8 +178,8 @@
       "uk": "Її бабуся в лікарні з понеділка."
     },
     {
-      "en": "We went hiking in the Pyrenees last summer.",
-      "uk": "Минулого літа ми ходили в похід у Піренеї."
+      "en": "We went hiking in the Carpathians last summer.",
+      "uk": "Минулого літа ми ходили в похід у Карпати."
     },
     {
       "en": "A good doctor always listens to the patient.",
@@ -235,7 +235,7 @@
     },
     {
       "type": "choice",
-      "prompt": "We spent a week by ___ in Croatia.",
+      "prompt": "We spent a week by ___ in Odesa.",
       "options": [
         "the sea",
         "sea",

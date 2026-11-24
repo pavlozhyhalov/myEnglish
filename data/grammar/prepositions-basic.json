@@ -18,8 +18,8 @@
       {
         "when": "on — на поверхні",
         "note": "Лежить чи висить на чомусь: стіл, стіна, підлога.",
-        "en": "There's a picture on the wall.",
-        "uk": "На стіні картина."
+        "en": "There's a photo of Kyiv on the wall.",
+        "uk": "На стіні фото Києва."
       },
       {
         "when": "at — звичні місця",
@@ -145,12 +145,12 @@
       "uk": "Наш кіт спить під ліжком."
     },
     {
-      "en": "The pharmacy is next to the bakery.",
-      "uk": "Аптека поруч із пекарнею."
+      "en": "The museum is next to the opera house in Lviv.",
+      "uk": "Музей поруч з оперним театром у Львові."
     },
     {
-      "en": "I'm at home now.",
-      "uk": "Я зараз удома."
+      "en": "Oksana lives in Dnipro, next to the river.",
+      "uk": "Оксана живе в Дніпрі, біля річки."
     },
     {
       "en": "We have dinner at seven o'clock.",

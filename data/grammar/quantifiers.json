@@ -12,8 +12,8 @@
       {
         "when": "Якась кількість — some",
         "note": "У ствердженнях, а також у проханнях і пропозиціях, де чекаємо «так».",
-        "en": "Would you like some more tea?",
-        "uk": "Хочеш ще чаю?"
+        "en": "Would you like some more varenyky?",
+        "uk": "Хочеш ще вареників?"
       },
       {
         "when": "Хоч якийсь — any",
@@ -30,8 +30,8 @@
       {
         "when": "Трохи, і цього досить",
         "note": "a few / a little — позитивно: є невелика кількість, і це добре.",
-        "en": "I've saved a little money, so we can go away for a few days.",
-        "uk": "Я трохи заощадив, тож ми можемо поїхати на кілька днів."
+        "en": "I've saved a little money, so we can go to the Carpathians for a few days.",
+        "uk": "Я трохи заощадив, тож ми можемо поїхати в Карпати на кілька днів."
       },
       {
         "when": "Мало, замало",
@@ -229,7 +229,7 @@
     },
     {
       "type": "input",
-      "prompt": "I've got ___ friends in Leeds — three or four. (2 слова)",
+      "prompt": "I've got ___ friends in Kharkiv — three or four. (2 слова)",
       "answer": [
         "a few"
       ],

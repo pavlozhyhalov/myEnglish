@@ -12,8 +12,8 @@
       {
         "when": "У процесі в певний момент",
         "note": "Називаємо момент (at 8 tonight, this time tomorrow) — і дія саме триватиме.",
-        "en": "This time tomorrow I'll be flying to Dublin.",
-        "uk": "Завтра в цей час я летітиму до Дубліна."
+        "en": "This time tomorrow I'll be taking the train to Lviv.",
+        "uk": "Завтра в цей час я їхатиму потягом до Львова."
       },
       {
         "when": "Ввічливо про чужі плани",
@@ -24,8 +24,8 @@
       {
         "when": "Станеться саме собою",
         "note": "Подія відбудеться за розкладом чи звичайним ходом справ, а не за рішенням зараз.",
-        "en": "I'll be seeing Tom at work tomorrow, so I can give it to him.",
-        "uk": "Я завтра й так побачу Тома на роботі, тож можу йому передати."
+        "en": "I'll be seeing Oksana at work tomorrow, so I can give it to her.",
+        "uk": "Я завтра й так побачу Оксану на роботі, тож можу їй передати."
       },
       {
         "when": "Завершиться до дедлайну",
@@ -110,12 +110,12 @@
       "uk": "Не дзвони о 7 — я буду за кермом."
     },
     {
-      "en": "This time next week we'll be lying on the beach.",
-      "uk": "Через тиждень у цей час ми лежатимемо на пляжі."
+      "en": "This time next week we'll be lying on the beach in Odesa.",
+      "uk": "Через тиждень у цей час ми лежатимемо на пляжі в Одесі."
     },
     {
-      "en": "By the time you get here, I'll have cooked dinner.",
-      "uk": "Коли ти приїдеш, я вже приготую вечерю."
+      "en": "By the time you get here, I'll have made the varenyky.",
+      "uk": "Коли ти приїдеш, я вже наліплю вареників."
     },
     {
       "en": "I'll have saved enough money by summer.",

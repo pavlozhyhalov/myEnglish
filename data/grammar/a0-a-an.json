@@ -18,8 +18,8 @@
    {
     "when": "Хто за професією",
     "note": "Професія чи хто ви: a student, a doctor.",
-    "en": "Anna is a nurse.",
-    "uk": "Анна — медсестра."
+    "en": "Oksana is a nurse.",
+    "uk": "Оксана — медсестра."
    },
    {
     "when": "Одна якась річ",
@@ -112,16 +112,16 @@
    "uk": "Вона вчителька."
   },
   {
-   "en": "He is a doctor.",
-   "uk": "Він лікар."
+   "en": "Taras is a doctor.",
+   "uk": "Тарас — лікар."
   },
   {
    "en": "It's an egg.",
    "uk": "Це яйце."
   },
   {
-   "en": "Emma is an artist.",
-   "uk": "Емма — художниця."
+   "en": "Iryna is an artist.",
+   "uk": "Ірина — художниця."
   },
   {
    "en": "Is it an orange?",

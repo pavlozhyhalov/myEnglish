@@ -64,13 +64,13 @@
       {
         "title": "Досі чи вже ні?",
         "a": {
-          "en": "I've been living in Leeds for five years.",
-          "uk": "Я живу в Лідсі п'ять років.",
+          "en": "I've been living in Kyiv for five years.",
+          "uk": "Я живу в Києві п'ять років.",
           "note": "Досі живу — Perfect Continuous (або Perfect Simple)."
         },
         "b": {
-          "en": "I lived in Leeds for five years.",
-          "uk": "Я прожив у Лідсі п'ять років.",
+          "en": "I lived in Kyiv for five years.",
+          "uk": "Я прожив у Києві п'ять років.",
           "note": "Уже не живу — Past Simple."
         }
       }
@@ -131,8 +131,8 @@
       "uk": "Дощ іде з самого ранку."
     },
     {
-      "en": "She's been working out a lot recently.",
-      "uk": "Останнім часом вона багато тренується."
+      "en": "Olena's been working out a lot recently.",
+      "uk": "Останнім часом Олена багато тренується."
     },
     {
       "en": "Your hands are dirty. — I've been fixing my bike.",
@@ -233,9 +233,9 @@
     },
     {
       "type": "order",
-      "prompt": "Скільки часу ти вже граєш на гітарі?",
+      "prompt": "Скільки часу ти вже граєш на бандурі?",
       "answer": [
-        "How long have you been playing the guitar?"
+        "How long have you been playing the bandura?"
       ],
       "explanation": "How long + PPC."
     },

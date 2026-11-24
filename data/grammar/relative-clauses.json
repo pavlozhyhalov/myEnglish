@@ -44,13 +44,13 @@
       {
         "title": "З комами чи без?",
         "a": {
-          "en": "My sister who lives in Leeds is a vet.",
-          "uk": "Та моя сестра, що живе в Лідсі, — ветеринар.",
+          "en": "My sister who lives in Kyiv is a vet.",
+          "uk": "Та моя сестра, що живе в Києві, — ветеринар.",
           "note": "Без ком: сестер кілька — уточнюю, яка саме."
         },
         "b": {
-          "en": "My sister, who lives in Leeds, is a vet.",
-          "uk": "Моя сестра (вона живе в Лідсі) — ветеринар.",
+          "en": "My sister, who lives in Kyiv, is a vet.",
+          "uk": "Моя сестра (вона живе в Києві) — ветеринар.",
           "note": "З комами: сестра одна — це просто додатковий факт."
         }
       },
@@ -132,8 +132,8 @@
       "uk": "У мене є друг, дружина якого з Бразилії."
     },
     {
-      "en": "York, which is in the north of England, is beautiful.",
-      "uk": "Йорк, що на півночі Англії, дуже гарний."
+      "en": "Lviv, which is in the west of Ukraine, is beautiful.",
+      "uk": "Львів, що на заході України, дуже гарний."
     }
   ],
   "exercises": [

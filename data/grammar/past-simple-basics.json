@@ -12,8 +12,8 @@
       {
         "when": "Подія в минулому",
         "note": "Є або мається на увазі час: yesterday, last week, in 2019, two days ago.",
-        "en": "I met Oliver at the station yesterday.",
-        "uk": "Учора я зустрів Олівера на вокзалі."
+        "en": "I met Taras at the station yesterday.",
+        "uk": "Учора я зустрів Тараса на вокзалі."
       },
       {
         "when": "Історія крок за кроком",
@@ -140,8 +140,8 @@
   },
   "examples": [
     {
-      "en": "We went to the sea last summer.",
-      "uk": "Минулого літа ми їздили на море."
+      "en": "We went to Odesa last summer.",
+      "uk": "Минулого літа ми їздили до Одеси."
     },
     {
       "en": "I was at the doctor's yesterday.",
@@ -152,8 +152,8 @@
       "uk": "Ти добре спав?"
     },
     {
-      "en": "She didn't call me.",
-      "uk": "Вона мені не подзвонила."
+      "en": "Oksana didn't call me.",
+      "uk": "Оксана мені не подзвонила."
     },
     {
       "en": "They bought a new car two weeks ago.",

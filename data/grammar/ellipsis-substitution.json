@@ -12,8 +12,8 @@
       {
         "when": "Коротка відповідь-думка",
         "note": "I think so / I hope not / I'm afraid not замість повторення всього речення.",
-        "en": "\"Is the museum open on Mondays?\" — \"I don't think so.\"",
-        "uk": "«Музей працює в понеділок?» — «Здається, ні.»"
+        "en": "\"Is the Shevchenko Museum open on Mondays?\" — \"I don't think so.\"",
+        "uk": "«Музей Шевченка працює в понеділок?» — «Здається, ні.»"
       },
       {
         "when": "Не повторювати іменник",
@@ -63,13 +63,13 @@
       {
         "title": "So do I чи Me too?",
         "a": {
-          "en": "\"I love jazz.\" — \"So do I.\"",
-          "uk": "«Я люблю джаз.» — «Я теж.»",
+          "en": "\"I love Ukrainian folk songs.\" — \"So do I.\"",
+          "uk": "«Я люблю українські народні пісні.» — «Я теж.»",
           "note": "Допоміжне має збігатися з першим реченням."
         },
         "b": {
-          "en": "\"I love jazz.\" — \"Me too.\"",
-          "uk": "«Я люблю джаз.» — «Я теж.»",
+          "en": "\"I love Ukrainian folk songs.\" — \"Me too.\"",
+          "uk": "«Я люблю українські народні пісні.» — «Я теж.»",
           "note": "Розмовно й завжди однаково; для заперечення — Me neither."
         }
       },
@@ -186,8 +186,8 @@
       "uk": "Ці окуляри затемні. У вас є світліші?"
     },
     {
-      "en": "Emma hasn't seen the film, and neither have I.",
-      "uk": "Емма не бачила цього фільму, і я теж."
+      "en": "Mykola hasn't seen the film, and neither have I.",
+      "uk": "Микола не бачив цього фільму, і я теж."
     },
     {
       "en": "\"Can you come to the barbecue?\" — \"I'd love to, but I can't.\"",
@@ -316,9 +316,9 @@
     },
     {
       "type": "order",
-      "prompt": "Емма не була в Римі, і я теж.",
+      "prompt": "Микола не був у Львові, і я теж.",
       "answer": [
-        "Emma hasn't been to Rome, and neither have I."
+        "Mykola hasn't been to Lviv, and neither have I."
       ],
       "explanation": "«І я теж ні» — neither + допоміжне + підмет."
     },

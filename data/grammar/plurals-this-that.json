@@ -30,8 +30,8 @@
       {
         "when": "По телефону",
         "note": "Про себе — this, про співрозмовника — that.",
-        "en": "Hello, this is Anna. Is that Tom?",
-        "uk": "Алло, це Анна. Це Том?"
+        "en": "Hello, this is Oksana. Is that Andrii?",
+        "uk": "Алло, це Оксана. Це Андрій?"
       },
       {
         "when": "Реакція на слова",
@@ -122,12 +122,12 @@
   },
   "examples": [
     {
-      "en": "These shoes are too small.",
-      "uk": "Ці туфлі замалі."
+      "en": "These varenyky are delicious.",
+      "uk": "Ці вареники дуже смачні."
     },
     {
-      "en": "Who is that man?",
-      "uk": "Хто той чоловік?"
+      "en": "Who is that man? — It's Mykola.",
+      "uk": "Хто той чоловік? — Це Микола."
     },
     {
       "en": "I have two children.",

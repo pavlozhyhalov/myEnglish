@@ -24,8 +24,8 @@
    {
     "when": "Знайомимо людину",
     "note": "Представляємо когось — тільки This is…",
-    "en": "Mum, this is Tom.",
-    "uk": "Мамо, це Том."
+    "en": "Mum, this is Taras.",
+    "uk": "Мамо, це Тарас."
    }
   ],
   "vs": [
@@ -112,8 +112,8 @@
    "uk": "Так."
   },
   {
-   "en": "This is Emma.",
-   "uk": "Це Емма. (знайомимо)"
+   "en": "This is Oksana.",
+   "uk": "Це Оксана. (знайомимо)"
   },
   {
    "en": "That's a nice car.",
@@ -198,13 +198,13 @@
   },
   {
    "type": "translate",
-   "uk": "Це Олівер.",
+   "uk": "Це Андрій.",
    "answer": [
-    "This is Oliver.",
-    "It's Oliver.",
-    "It is Oliver.",
-    "That's Oliver.",
-    "That is Oliver."
+    "This is Andrii.",
+    "It's Andrii.",
+    "It is Andrii.",
+    "That's Andrii.",
+    "That is Andrii."
    ],
    "explanation": ""
   },

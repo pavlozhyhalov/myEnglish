@@ -24,16 +24,16 @@
    {
     "when": "Про інших",
     "note": "his — його (чоловіка), her — її (жінки).",
-    "en": "Emma is my friend. Her cat is white.",
-    "uk": "Емма — моя подруга. Її кіт білий."
+    "en": "Oksana is my friend. Her cat is white.",
+    "uk": "Оксана — моя подруга. Її кіт білий."
    }
   ],
   "vs": [
    {
     "title": "his чи her?",
     "a": {
-     "en": "This is Tom and his dog.",
-     "uk": "Це Том і його собака.",
+     "en": "This is Taras and his dog.",
+     "uk": "Це Тарас і його собака.",
      "note": "Власник — чоловік: his."
     },
     "b": {
@@ -105,8 +105,8 @@
    "uk": "Як тебе звати?"
   },
   {
-   "en": "His name is Oliver.",
-   "uk": "Його звати Олівер."
+   "en": "His name is Andrii.",
+   "uk": "Його звати Андрій."
   },
   {
    "en": "Her name is Emma.",

@@ -18,14 +18,14 @@
       {
         "when": "Річ конкретної людини",
         "note": "Ім'я + 's — замість «кімната Емми».",
-        "en": "This is Emma's room.",
-        "uk": "Це кімната Емми."
+        "en": "This is Oksana's room.",
+        "uk": "Це кімната Оксани."
       },
       {
         "when": "Родина",
         "note": "'s показує, чия це рідня.",
-        "en": "My brother's girlfriend is from Dublin.",
-        "uk": "Дівчина мого брата з Дубліна."
+        "en": "My brother's girlfriend is from Odesa.",
+        "uk": "Дівчина мого брата з Одеси."
       },
       {
         "when": "Річ чи тварина — its",
@@ -44,9 +44,9 @@
       {
         "title": "his чи her?",
         "a": {
-          "en": "Tom loves his sister.",
-          "uk": "Том любить свою сестру.",
-          "note": "Власник — Том, тому his, хоч сестра — жінка."
+          "en": "Taras loves his sister.",
+          "uk": "Тарас любить свою сестру.",
+          "note": "Власник — Тарас, тому his, хоч сестра — жінка."
         },
         "b": {
           "en": "Anna loves her brother.",
@@ -148,8 +148,8 @@
       "uk": "Чоловік моєї сестри — пілот."
     },
     {
-      "en": "Their flat is on the fifth floor.",
-      "uk": "Їхня квартира на п'ятому поверсі."
+      "en": "Their flat in Kyiv is on the fifth floor.",
+      "uk": "Їхня квартира в Києві на п'ятому поверсі."
     },
     {
       "en": "Whose keys are these?",

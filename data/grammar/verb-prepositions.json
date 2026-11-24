@@ -24,8 +24,8 @@
       {
         "when": "Без прийменника, хоча в українській є",
         "note": "marry, enter, discuss, answer — додаток одразу після дієслова.",
-        "en": "She married a doctor from Dublin.",
-        "uk": "Вона вийшла заміж за лікаря з Дубліна."
+        "en": "She married a doctor from Lviv.",
+        "uk": "Вона вийшла заміж за лікаря зі Львова."
       },
       {
         "when": "Після прийменника — -ing",
@@ -183,8 +183,8 @@
       "uk": "Емма хвилюється через іспит."
     },
     {
-      "en": "We're really looking forward to visiting you.",
-      "uk": "Ми з нетерпінням чекаємо, коли приїдемо до вас у гості."
+      "en": "We're really looking forward to visiting you in Kyiv.",
+      "uk": "Ми з нетерпінням чекаємо, коли приїдемо до вас у гості в Київ."
     },
     {
       "en": "Can you explain this letter to me?",
@@ -195,7 +195,7 @@
   "exercises": [
     {
       "type": "choice",
-      "prompt": "Whether we go to the mountains depends ___ the weather.",
+      "prompt": "Whether we go to the Carpathians depends ___ the weather.",
       "options": [
         "from",
         "on",

@@ -24,8 +24,8 @@
       {
         "when": "Свіжа новина",
         "note": "Щойно сталося — повідомляємо вперше.",
-        "en": "Guess what? Emma has passed her driving test!",
-        "uk": "Уявляєш? Емма склала іспит з водіння!"
+        "en": "Guess what? Iryna has passed her driving test!",
+        "uk": "Уявляєш? Ірина склала іспит з водіння!"
       },
       {
         "when": "Період ще триває",
@@ -57,13 +57,13 @@
       {
         "title": "been чи gone?",
         "a": {
-          "en": "He's been to Paris.",
-          "uk": "Він бував у Парижі.",
+          "en": "He's been to Odesa.",
+          "uk": "Він бував в Одесі.",
           "note": "Їздив і повернувся."
         },
         "b": {
-          "en": "He's gone to Paris.",
-          "uk": "Він поїхав до Парижа.",
+          "en": "He's gone to Odesa.",
+          "uk": "Він поїхав до Одеси.",
           "note": "Він зараз там."
         }
       }
@@ -138,8 +138,8 @@
       "uk": "Я ніколи не був у Японії."
     },
     {
-      "en": "Have you ever tried Thai food?",
-      "uk": "Ти коли-небудь куштував тайську кухню?"
+      "en": "Have you ever tried varenyky with cherries?",
+      "uk": "Ти коли-небудь куштував вареники з вишнями?"
     },
     {
       "en": "Oh no, I've left my wallet at home!",
@@ -162,7 +162,7 @@
   "exercises": [
     {
       "type": "choice",
-      "prompt": "___ you ever ___ to Spain?",
+      "prompt": "___ you ever ___ to the Carpathians?",
       "options": [
         "Did / go",
         "Have / been",

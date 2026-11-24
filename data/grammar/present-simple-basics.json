@@ -30,8 +30,8 @@
       {
         "when": "Розклад",
         "note": "Коли відходить автобус, відчиняється магазин.",
-        "en": "The bus leaves at 8:15.",
-        "uk": "Автобус відходить о 8:15."
+        "en": "The train to Lviv leaves at 8:15.",
+        "uk": "Потяг до Львова відходить о 8:15."
       },
       {
         "when": "Загальні істини",
@@ -135,8 +135,8 @@
   },
   "examples": [
     {
-      "en": "I get up at seven.",
-      "uk": "Я встаю о сьомій."
+      "en": "Olena gets up at seven.",
+      "uk": "Олена встає о сьомій."
     },
     {
       "en": "My brother lives in Kyiv.",

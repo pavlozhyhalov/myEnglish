@@ -134,12 +134,12 @@
   },
   "examples": [
     {
-      "en": "I'm cooking dinner now.",
-      "uk": "Я зараз готую вечерю."
+      "en": "I'm cooking borscht now.",
+      "uk": "Я зараз варю борщ."
     },
     {
-      "en": "Emma is talking to her mum on the phone.",
-      "uk": "Емма говорить по телефону з мамою."
+      "en": "Oksana is talking to her mum on the phone.",
+      "uk": "Оксана говорить по телефону з мамою."
     },
     {
       "en": "Look! It's snowing!",
@@ -154,8 +154,8 @@
       "uk": "Що ти робиш?"
     },
     {
-      "en": "The kids are playing in the park.",
-      "uk": "Діти граються в парку."
+      "en": "The kids are skiing in the Carpathians.",
+      "uk": "Діти катаються на лижах у Карпатах."
     }
   ],
   "tip": "Не забувайте **be**: ~~I cooking~~ → *I **am** cooking*. Без -ing теж не можна: ~~I am cook~~.",
@@ -206,7 +206,7 @@
     },
     {
       "type": "choice",
-      "prompt": "Tom is ___ in the sea.",
+      "prompt": "Taras is ___ in the sea.",
       "options": [
         "swiming",
         "swimming",

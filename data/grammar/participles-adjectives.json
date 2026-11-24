@@ -36,8 +36,8 @@
       {
         "when": "Почуття з причиною",
         "note": "-ed + прийменник: interested in, worried about, tired of.",
-        "en": "Sophie is worried about her exam.",
-        "uk": "Софі хвилюється через іспит."
+        "en": "Taras is worried about his exam.",
+        "uk": "Тарас хвилюється через іспит."
       }
     ],
     "vs": [
@@ -143,8 +143,8 @@
   },
   "examples": [
     {
-      "en": "Emma was really excited about our trip to Portugal.",
-      "uk": "Емма з нетерпінням чекала нашої поїздки до Португалії."
+      "en": "Iryna was really excited about our trip to the Carpathians.",
+      "uk": "Ірина з нетерпінням чекала нашої поїздки в Карпати."
     },
     {
       "en": "Moving to a new country can be exhausting.",
@@ -159,8 +159,8 @@
       "uk": "Тривожно, що ціни постійно зростають."
     },
     {
-      "en": "We were amazed by the view from the top.",
-      "uk": "Нас вразив краєвид з вершини."
+      "en": "We were amazed by the view from the top of Hoverla.",
+      "uk": "Нас вразив краєвид з вершини Говерли."
     },
     {
       "en": "I'm tired of waiting for the landlord to fix the heating.",
@@ -234,11 +234,11 @@
     },
     {
       "type": "input",
-      "prompt": "Emma is ___ (excite) about her new job.",
+      "prompt": "Olena is ___ (excite) about her new job.",
       "answer": [
         "excited"
       ],
-      "explanation": "Емма відчуває радість — -ed."
+      "explanation": "Олена відчуває радість — -ed."
     },
     {
       "type": "input",

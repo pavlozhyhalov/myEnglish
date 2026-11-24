@@ -133,12 +133,12 @@
   ],
   "examples": [
     {
-      "en": "Although the hotel was cheap, it was very clean.",
-      "uk": "Хоча готель був дешевий, він був дуже чистий."
+      "en": "Although the hotel in Chernivtsi was cheap, it was very clean.",
+      "uk": "Хоча готель у Чернівцях був дешевий, він був дуже чистий."
     },
     {
-      "en": "Despite the traffic, we arrived on time.",
-      "uk": "Попри затори, ми приїхали вчасно."
+      "en": "Despite the traffic, we arrived in Dnipro on time.",
+      "uk": "Попри затори, ми приїхали до Дніпра вчасно."
     },
     {
       "en": "I'd love to come. However, I have to work that day.",
@@ -149,8 +149,8 @@
       "uk": "Рейс скасували через бурю."
     },
     {
-      "en": "I'll take some snacks in case we get hungry.",
-      "uk": "Візьму перекус на випадок, якщо зголодніємо."
+      "en": "I'll take some snacks in case we get hungry in the Carpathians.",
+      "uk": "Візьму перекус на випадок, якщо зголодніємо в Карпатах."
     }
   ],
   "exercises": [

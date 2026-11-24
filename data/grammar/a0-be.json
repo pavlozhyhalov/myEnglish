@@ -32,13 +32,13 @@
    {
     "title": "is чи are?",
     "a": {
-     "en": "Tom is at home.",
-     "uk": "Том удома.",
-     "note": "Один: he, she, it, Tom."
+     "en": "Taras is at home.",
+     "uk": "Тарас удома.",
+     "note": "Один: he, she, it, Taras."
     },
     "b": {
-     "en": "Tom and Anna are at home.",
-     "uk": "Том і Анна вдома.",
+     "en": "Taras and Olena are at home.",
+     "uk": "Тарас і Олена вдома.",
      "note": "Двоє й більше, а також you."
     }
    }
@@ -145,8 +145,8 @@
    "uk": "Вони з України."
   },
   {
-   "en": "Emma is in London.",
-   "uk": "Емма в Лондоні."
+   "en": "Olena is in Lviv.",
+   "uk": "Олена у Львові."
   },
   {
    "en": "Oliver is tired.",
@@ -217,11 +217,11 @@
   },
   {
    "type": "error",
-   "sentence": "Oliver are at home.",
+   "sentence": "Taras are at home.",
    "wrongIndex": 1,
    "correction": "is",
    "alt": [],
-   "explanation": "Oliver = he → is."
+   "explanation": "Taras = he → is."
   },
   {
    "type": "error",

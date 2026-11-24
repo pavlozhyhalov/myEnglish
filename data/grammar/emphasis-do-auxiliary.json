@@ -30,8 +30,8 @@
       {
         "when": "Гостинне запрошення",
         "note": "Do + наказ — ввічливо й наполегливо: Do sit down, Do help yourself.",
-        "en": "Do help yourself to more cake.",
-        "uk": "Пригощайтеся ще тортом, будь ласка."
+        "en": "Do help yourself to more varenyky.",
+        "uk": "Пригощайтеся ще варениками, будь ласка."
       },
       {
         "when": "Виділити дію",
@@ -63,13 +63,13 @@
       {
         "title": "I like чи I do like?",
         "a": {
-          "en": "I like your new haircut.",
-          "uk": "Мені подобається твоя нова зачіска.",
+          "en": "I like your embroidered shirt.",
+          "uk": "Мені подобається твоя вишиванка.",
           "note": "Звичайне твердження."
         },
         "b": {
-          "en": "I do like your new haircut!",
-          "uk": "Мені справді дуже подобається твоя нова зачіска!",
+          "en": "I do like your embroidered shirt!",
+          "uk": "Мені справді дуже подобається твоя вишиванка!",
           "note": "Тепліше й щиріше або у відповідь на сумнів."
         }
       }
@@ -160,16 +160,16 @@
       "uk": "Я справді розумію, що ти відчуваєш, але зараз ми не можемо собі цього дозволити."
     },
     {
-      "en": "Emma did warn me about the traffic!",
-      "uk": "Емма ж попереджала мене про затори!"
+      "en": "Iryna did warn me about the traffic in Kyiv!",
+      "uk": "Ірина ж попереджала мене про затори в Києві!"
     },
     {
       "en": "Do come in — make yourself at home.",
       "uk": "Заходьте, будь ласка, — почувайтеся як удома."
     },
     {
-      "en": "What we did was rent a car and drive along the coast.",
-      "uk": "Ми зробили так: узяли машину напрокат і поїхали вздовж узбережжя."
+      "en": "What we did was rent a car and drive along the Black Sea coast.",
+      "uk": "Ми зробили так: узяли машину напрокат і поїхали вздовж узбережжя Чорного моря."
     },
     {
       "en": "It was such a beautiful wedding that I almost cried.",

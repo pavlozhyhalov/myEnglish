@@ -36,8 +36,8 @@
       {
         "when": "Дві дії водночас",
         "note": "Обидві тривали паралельно — обидві в Past Continuous, часто з while.",
-        "en": "While I was cooking, Tom was setting the table.",
-        "uk": "Поки я готував, Том накривав на стіл."
+        "en": "While I was cooking, Taras was setting the table.",
+        "uk": "Поки я готував, Тарас накривав на стіл."
       },
       {
         "when": "Атмосфера на початку історії",
@@ -142,16 +142,16 @@
   },
   "examples": [
     {
-      "en": "We moved to Manchester in 2022.",
-      "uk": "Ми переїхали до Манчестера у 2022 році."
+      "en": "We moved to Dnipro in 2019.",
+      "uk": "Ми переїхали до Дніпра у 2019 році."
     },
     {
       "en": "I was driving home when it started to rain.",
       "uk": "Я їхав додому, коли почався дощ."
     },
     {
-      "en": "While she was sleeping, I made breakfast.",
-      "uk": "Поки вона спала, я приготував сніданок."
+      "en": "While she was sleeping, I made syrnyky for breakfast.",
+      "uk": "Поки вона спала, я насмажив сирників на сніданок."
     },
     {
       "en": "What were you doing at 9 last night?",
@@ -181,7 +181,7 @@
     },
     {
       "type": "choice",
-      "prompt": "We ___ to Italy last summer.",
+      "prompt": "We ___ to the Carpathians last summer.",
       "options": [
         "went",
         "were going",

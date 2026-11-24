@@ -24,8 +24,8 @@
       {
         "when": "Володіння",
         "note": "have (= мати), own, belong — це не дія, а факт.",
-        "en": "This umbrella belongs to Emma.",
-        "uk": "Ця парасолька належить Еммі."
+        "en": "This umbrella belongs to Oksana.",
+        "uk": "Ця парасолька належить Оксані."
       },
       {
         "when": "Враження від чуття",
@@ -70,13 +70,13 @@
       {
         "title": "It tastes чи he's tasting?",
         "a": {
-          "en": "This soup tastes salty.",
-          "uk": "Цей суп солоний на смак.",
-          "note": "Який суп на смак — стан."
+          "en": "This borscht tastes salty.",
+          "uk": "Цей борщ солоний на смак.",
+          "note": "Який борщ на смак — стан."
         },
         "b": {
-          "en": "He's tasting the soup.",
-          "uk": "Він куштує суп.",
+          "en": "He's tasting the borscht.",
+          "uk": "Він куштує борщ.",
           "note": "Людина виконує дію."
         }
       }
@@ -123,8 +123,8 @@
       "uk": "Я думаю про те, щоб змінити роботу."
     },
     {
-      "en": "This soup tastes amazing.",
-      "uk": "Цей суп дуже смачний."
+      "en": "These varenyky taste amazing.",
+      "uk": "Ці вареники дуже смачні."
     },
     {
       "en": "We're having a party on Saturday.",
@@ -172,7 +172,7 @@
     },
     {
       "type": "choice",
-      "prompt": "At the moment I ___ about moving to Edinburgh.",
+      "prompt": "At the moment I ___ about moving to Lviv.",
       "options": [
         "think",
         "am thinking",

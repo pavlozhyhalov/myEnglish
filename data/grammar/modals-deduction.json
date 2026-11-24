@@ -18,8 +18,8 @@
       {
         "when": "Просто можливо",
         "note": "might / may / could — один з варіантів, доказів мало.",
-        "en": "I'm not sure where Anna is. She might be at the gym.",
-        "uk": "Не знаю, де Анна. Може, у спортзалі."
+        "en": "I'm not sure where Iryna is. She might be at the gym.",
+        "uk": "Не знаю, де Ірина. Може, у спортзалі."
       },
       {
         "when": "Майже впевнені, що ні",
@@ -51,8 +51,8 @@
       {
         "title": "can't чи mustn't?",
         "a": {
-          "en": "That can't be Emma — she's in Spain.",
-          "uk": "Це не може бути Емма — вона в Іспанії.",
+          "en": "That can't be Andrii — he's in Odesa.",
+          "uk": "Це не може бути Андрій — він в Одесі.",
           "note": "Впевнений висновок «ні»."
         },
         "b": {
@@ -121,8 +121,8 @@
       "uk": "Вона не відповідає. Може, за кермом."
     },
     {
-      "en": "This restaurant is always full. The food must be good.",
-      "uk": "Цей ресторан завжди повний. Їжа, мабуть, хороша."
+      "en": "This restaurant in Lviv is always full. The food must be good.",
+      "uk": "Цей ресторан у Львові завжди повний. Їжа, мабуть, хороша."
     }
   ],
   "exercises": [
@@ -139,7 +139,7 @@
     },
     {
       "type": "choice",
-      "prompt": "That ___ be Anna's car — she sold it last year.",
+      "prompt": "That ___ be Taras's car — he sold it last year.",
       "options": [
         "mustn't",
         "can't",

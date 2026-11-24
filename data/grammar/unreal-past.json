@@ -62,8 +62,8 @@
           "note": "Цілком імовірно — звичайний час."
         },
         "b": {
-          "en": "She acts as if she were the boss.",
-          "uk": "Вона поводиться так, ніби тут начальниця.",
+          "en": "Oksana acts as if she were the boss.",
+          "uk": "Оксана поводиться так, ніби тут начальниця.",
           "note": "Неправда — вона не начальниця, тому Past."
         }
       },
@@ -167,12 +167,12 @@
       "uk": "У тебе такий вигляд, ніби ти побачив привида."
     },
     {
-      "en": "Suppose we moved to the coast — would you be happy?",
-      "uk": "Припустимо, ми переїхали б на узбережжя — ти був би щасливий?"
+      "en": "Suppose we moved to Odesa — would you be happy?",
+      "uk": "Припустимо, ми переїхали б до Одеси — ти був би щасливий?"
     },
     {
-      "en": "I'd rather walk than take the bus.",
-      "uk": "Я б краще пройшовся пішки, ніж їхав автобусом."
+      "en": "I'd rather take the train to Kyiv than drive.",
+      "uk": "Я б краще поїхав до Києва потягом, ніж машиною."
     }
   ],
   "tip": "**would rather + V** (той самий підмет) vs **would rather + інший підмет + Past**: *I'd rather **go**.* / *I'd rather **you went**.*",
