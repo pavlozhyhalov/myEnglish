@@ -7,12 +7,13 @@
 // Не перекладаються: [lang="en"] (англійський зміст), [data-noi18n], поля вводу, текст, що ввів учень.
 
 export const LANGS = [
-  { id: 'uk', name: 'Українська', en: 'Ukrainian' },
-  { id: 'es', name: 'Español', en: 'Spanish' },
-  { id: 'pt', name: 'Português (Brasil)', en: 'Portuguese (Brazil)' },
-  { id: 'tr', name: 'Türkçe', en: 'Turkish' },
-  { id: 'pl', name: 'Polski', en: 'Polish' },
-  { id: 'ru', name: 'Русский', en: 'Russian' },
+  // region — культурний контекст прикладів і вчителя (власник 2026-11-24: «вчитель і вправи адаптуються під регіон; російська — під Україну»)
+  { id: 'uk', name: 'Українська', en: 'Ukrainian', region: 'Ukraine' },
+  { id: 'es', name: 'Español', en: 'Spanish', region: 'Spain and Latin America' },
+  { id: 'pt', name: 'Português (Brasil)', en: 'Portuguese (Brazil)', region: 'Brazil' },
+  { id: 'tr', name: 'Türkçe', en: 'Turkish', region: 'Turkey' },
+  { id: 'pl', name: 'Polski', en: 'Polish', region: 'Poland' },
+  { id: 'ru', name: 'Русский', en: 'Russian', region: 'Ukraine' },
 ];
 // мова з'являється у виборі, коли її переклад готовий (scripts/check-i18n.js без прогалин) — до того її не видно нікому
 const READY = new Set(['uk']);
@@ -45,6 +46,7 @@ export const lang = () => current;
 export const langName = (id = current) => LANGS.find(l => l.id === id)?.name || id;
 export const langEn = (id = current) => LANGS.find(l => l.id === id)?.en || 'Ukrainian';
 export const isBase = () => current === 'uk';
+export const regionOf = (id = current) => LANGS.find(l => l.id === id)?.region || 'Ukraine';
 
 /** Змінити мову: запам'ятати й перезавантажити застосунок (словники, дані й DOM — з нуля) */
 export function setLang(id, { reload = true } = {}) {
@@ -163,8 +165,9 @@ export function localize(obj, map) {
     const v = map[core] ?? dict.get(core);
     return v ? s.replace(core, v) : s;
   };
+  // англійські рядки (реалії прикладів, 2026-11-24, власник: «вчитель і вправи адаптуються під регіон мови») — лише точний збіг у словнику змісту
   const rec = (x) => {
-    if (typeof x === 'string') return CYR.test(x) ? get(x) : x;
+    if (typeof x === 'string') return CYR.test(x) ? get(x) : (map[x.trim()] ? x.replace(x.trim(), map[x.trim()]) : x);
     if (Array.isArray(x)) return x.map(rec);
     if (x && typeof x === 'object') { const o = {}; for (const [k, v] of Object.entries(x)) o[k] = rec(v); return o; }
     return x;
