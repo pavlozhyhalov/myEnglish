@@ -1,0 +1,2994 @@
+[
+ [
+  "^\\]/g, \"'\"\\)\\.replace\\(/\\\\s\\+/g, ' '\\)\\.trim\\(\\)\\.replace\\(/\\[\\.!\\?…\\]\\+\\$/, ''\\)\\.trim\\(\\);\nconst clean = \\(s, n = 200\\) => String\\(s \\?\\? ''\\)\\.replace\\(/\\\\s\\+/g, ' '\\)\\.trim\\(\\)\\.slice\\(0, n\\);\n\nexport const isPhrase = \\(c\\) => c\\?\\.extra\\?\\.kind === 'phrase' \\|\\| \\(Array\\.isArray\\(c\\?\\.tags\\) && c\\.tags\\.includes\\('phrase'\\)\\);\nexport const phraseSituation = \\(c\\) => \\{\n  const id = c\\?\\.extra\\?\\.situation \\|\\| \\(c\\?\\.tags \\|\\| \\[\\]\\)\\.find\\(t => String\\(t\\)\\.startsWith\\('sit:'\\)\\)\\?\\.slice\\(4\\);\n  return SITUATIONS\\.some\\(s => s\\.id === id\\) \\? id : 'other';\n\\};\n\n\nexport function allPhrases\\(\\) \\{\n  return store\\.all\\('cards'\\)\\.filter\\(isPhrase\\)\\.sort\\(\\(a, b\\) => String\\(b\\.created_at \\|\\| ''\\)\\.localeCompare\\(String\\(a\\.created_at \\|\\| ''\\)\\)\\);\n\\}\n\nexport function phrasesBySituation\\(\\) \\{\n  const m = new Map\\(\\);\n  for \\(const c of allPhrases\\(\\)\\) \\{\n    const id = phraseSituation\\(c\\);\n    if \\(!m\\.has\\(id\\)\\) m\\.set\\(id, \\[\\]\\);\n    m\\.get\\(id\\)\\.push\\(c\\);\n  \\}\n  return m;\n\\}\nexport function phraseCount\\(\\) \\{ return allPhrases\\(\\)\\.length; \\}\n\n\nconst KEYS = \\{\n  doctor: \\['лікар', 'аптек', 'хвор', 'болить', 'біль', 'симптом', 'рецепт', 'ліки', 'таблет', 'стоматолог', 'зуб', 'температур', 'лікарн', 'клінік', 'медсестр', 'doctor', 'gp', 'pharma', 'chemist', 'prescription', 'medicine', 'symptom', 'pain', 'hurt', 'sore', 'dentist', 'appointment', 'hospital', 'clinic', 'nurse', 'tablet', 'pill', 'sick', 'allerg', 'temperature'\\],\n  phone: \\['телефон', 'дзвін', 'дзвон', 'зателефон', 'подзвон', 'гаряча лінія', 'оператор', 'автовідповідач', 'phone', 'call', 'ring', 'voicemail', 'hold', 'speak to', 'line', 'message'\\],\n  shop: \\['магазин', 'покуп', 'чек', 'повернен', 'обмін', 'розмір', 'знижк', 'ремонт', 'перукар', 'сервіс', 'доставк', 'гарантій', 'shop', 'store', 'receipt', 'refund', 'return', 'exchange', 'size', 'discount', 'repair', 'haircut', 'delivery', 'warranty', 'checkout', 'till', 'buy', 'price'\\],\n  cafe: \\['кафе', \"кав'ярн\", 'кава', 'каву', 'ресторан', 'замов', 'офіціант', 'меню', 'столик', 'рахунок', 'бар', 'їж', 'обід', 'вечер', 'cafe', 'café', 'coffee', 'restaurant', 'order', 'waiter', 'menu', 'table', 'bill', 'bar', 'lunch', 'dinner', 'tea', 'food', 'drink'\\],\n  travel: \\['поїзд', 'потяг', 'квиток', 'аеропорт', 'літак', 'рейс', 'готел', 'автобус', 'таксі', 'метро', 'вокзал', 'подорож', 'багаж', 'кордон', 'паспорт', 'маршрут', 'дорог', 'train', 'ticket', 'airport', 'flight', 'plane', 'hotel', 'bus', 'taxi', 'tube', 'underground', 'station', 'travel', 'trip', 'luggage', 'baggage', 'passport', 'check-in', 'platform', 'directions', 'journey', 'booking'\\],\n  home: \\['житл', 'квартир', 'сусід', 'орендодав', 'оренд', 'будинок', 'кімнат', 'ремонт квартири', 'сантехнік', 'комунальн', 'flat', 'apartment', 'neighbour', 'neighbor', 'landlord', 'rent', 'tenant', 'house', 'room', 'plumber', 'heating', 'leak', 'noise', 'bills'\\],\n  work: \\['робот', 'нарад', 'колег', 'співбесід', 'начальник', 'керівник', 'проєкт', 'офіс', 'зміна', 'зарплат', 'work', 'job', 'meeting', 'colleague', 'interview', 'manager', 'boss', 'project', 'deadline', 'shift', 'salary', 'team', 'client'\\],\n  smalltalk: \\['знайом', 'small talk', 'погод', 'вихідн', 'хобі', 'вечірк', 'друз', 'привіт', 'розмова з', 'nice to meet', 'weather', 'weekend', 'hobby', 'party', 'friend', 'introduce', 'where are you from', 'chat'\\],\n  office: \\['банк', 'пошт', 'посилк', 'документ', 'рахун', 'картк', 'переказ', 'реєстрац', 'державн', 'установ', 'анкет', 'форм', 'віз', 'дозвіл', 'bank', 'post', 'parcel', 'document', 'account', 'card', 'transfer', 'register', 'council', 'form', 'visa', 'permit', 'id', 'certificate', 'office'\\],\n\\};\n\nconst W = \"a-zа-яіїєґ'\";\nconst reCache = new Map\\(\\);\nfunction keyRe\\(w\\) \\{\n  if \\(!reCache\\.has\\(w\\)\\) \\{\n    const e = w\\.replace\\(/\\[\\.\\*\\+\\?\\^(.+?)\\(\\)\\|\\[\\\\\\]\\\\\\]/g, '\\\\\\$&'\\);\n    const tail = w\\.length <= 4 \\?$",
+  "$1"
+ ],
+ [
+  "^Почати: (.+?) питань\\. Питання з'явиться на екрані — за (.+?) секунди почніть відповідь фразою і говоріть близько 10 секунд\\. Мікрофон увімкнеться одразу\\.$",
+  "Zacznij: $1 pytań. Pytanie pojawi się na ekranie — w $2 sekundy zacznij odpowiedź od frazy i mów około 10 sekund. Mikrofon włączy się od razu."
+ ],
+ [
+  "^\\^\\[\\\\s\"«'\\(\\]\\*\\(\\?:\\(\\?:hi\\|hey\\|hello\\|dear\\|ok\\|okay\\|so\\|and\\|please\\|sorry\\|thanks\\|thank you\\|well\\|excuse me\\|good \\(\\?:morning\\|afternoon\\|evening\\)\\|привіт\\|вітаю\\|добрий день\\|шановний\\|пане\\)\\[\\\\s,!\\.\\]\\+\\)\\*@\\?(.+?)(.+?)$",
+  "^[\\s\"«'(]*(?:(?:hi|hey|hello|dear|ok|okay|so|and|please|sorry|thanks|thank you|well|excuse me|good (?:morning|afternoon|evening)|cześć|witam|dzień dobry|szanowny|panie)[\\s,!.]+)*@?$1$2"
+ ],
+ [
+  "^Якщо акаунт (.+?) існує, на нього надіслано лист із посиланням для зміни пароля\\. Перевірте також «Спам»\\. Посилання діє 1 годину\\.$",
+  "Jeśli konto $1 istnieje, wysłano na nie e-mail z linkiem do zmiany hasła. Sprawdź też «Spam». Link działa 1 godzinę."
+ ],
+ [
+  "^Розмов із вчителем: (.+?), але в жодній не було достатньо мовлення для оцінки\\. Говоріть довше — хоча б 40–50 слів за розмову\\.$",
+  "Rozmów z nauczycielem: $1, ale w żadnej nie było dość mówienia do oceny. Mów dłużej — choć 40–50 słów na rozmowę."
+ ],
+ [
+  "^Займатися щодня по (.+?) хвилин замість рідких довгих занять — «Мій день» на головній складає готовий план на 15 хвилин\\.$",
+  "Ucz się codziennie po $1 minut zamiast rzadkich długich zajęć — «Mój dzień» na stronie głównej układa gotowy plan na 15 minut."
+ ],
+ [
+  "^(.+?) більше не бачитиме ваш стрік і хвилини, а ви — його; переписка 1:1 зупиниться\\. Додати знову можна за кодом\\.$",
+  "$1 nie będzie już widzieć twojej serii i minut, a ty — jej; czat 1:1 się zatrzyma. Dodać ponownie można kodem."
+ ],
+ [
+  "^Тест від (.+?)\\. Говоріння в тесті — з короткої розмови; оцінку з довших розмов дивіться в розділі «Говоріння»\\.$",
+  "Test z $1. Mówienie w teście — z krótkiej rozmowy; ocenę z dłuższych rozmów zobaczysz w dziale «Mówienie»."
+ ],
+ [
+  "^Є одна виміряна голосова розмова: (.+?) слів/хв\\. Поговоріть голосом ще 1–2 рази, щоб побачити динаміку\\.$",
+  "Jest jedna zmierzona rozmowa głosowa: $1 słów/min. Porozmawiaj głosem jeszcze 1–2 razy, żeby zobaczyć dynamikę."
+ ],
+ [
+  "^За місяць нових — (.+?), закрито — (.+?) \\(закрита помилка — правильне вживання кілька разів у різні дні\\)\\. (.+?)$",
+  "W miesiącu nowych — $1, zamkniętych — $2 (zamknięty błąd — poprawne użycie kilka razy w różne dni). $3"
+ ],
+ [
+  "^Пароль — щонайменше (.+?) символів\\. Краще — фраза з кількох слів або літери, цифри й знаки\\.$",
+  "Hasło — co najmniej $1 znaków. Najlepiej fraza z kilku słów albo litery, cyfry i znaki."
+ ],
+ [
+  "^Текст: (.+?)\\. Торкніться слова, щоб побачити переклад; стрілки — перехід між словами\\.$",
+  "Tekst: $1. Dotknij słowa, żeby zobaczyć tłumaczenie; strzałki — przejście między słowami."
+ ],
+ [
+  "^Різних слів менше: (.+?)% → (.+?)%\\. Пробуйте синоніми замість повторів того самого слова\\.$",
+  "Mniej różnych słów: $1% → $2%. Próbuj synonimów zamiast powtarzania tego samego słowa."
+ ],
+ [
+  "^За (.+?) занять не було\\. Найважливіше зараз — повернути звичку: 10–15 хвилин щодня\\.$",
+  "W $1 nie było zajęć. Najważniejsze teraz — wrócić do nawyku: 10–15 minut dziennie."
+ ],
+ [
+  "^Повторів більше: (.+?) → (.+?) на 100 слів\\. Говоріть трохи повільніше, але без зупинок\\.$",
+  "Więcej powtórzeń: $1 → $2 na 100 słów. Mów trochę wolniej, ale bez zatrzymywania się."
+ ],
+ [
+  "^Найсильніша навичка — (.+?) \\((.+?)\\), найслабша — (.+?) \\((.+?)\\): саме вона стримує загальний рівень\\.(.+?)$",
+  "Najmocniejsza umiejętność — $1 ($2), najsłabsza — $3 ($4): to ona hamuje ogólny poziom.$5"
+ ],
+ [
+  "^Темп знизився з (.+?) до (.+?) слів/хв — це нормально, коли теми стають складнішими\\.$",
+  "Tempo spadło z $1 do $2 słów/min — to normalne, gdy tematy stają się trudniejsze."
+ ],
+ [
+  "^Репліки коротшають: з (.+?) до (.+?) (.+?)\\. Спробуйте додавати «because…», «for example…»\\.$",
+  "Wypowiedzi się skracają: z $1 do {$2|słowa|słów|słów|słowa}. Spróbuj dodawać «because…», «for example…»."
+ ],
+ [
+  "^Записів у щоденнику: (.+?) — замало тексту, щоб рахувати помилки на 100 слів\\.$",
+  "Wpisów w dzienniku: $1 — za mało tekstu, by liczyć błędy na 100 słów."
+ ],
+ [
+  "^Активний — мав заняття \\(синхронізовані сесії\\) або виклики AI\\. За 30 днів: (.+?)\\.$",
+  "Aktywny — miał zajęcia (zsynchronizowane sesje) lub wywołania AI. Za 30 dni: $1."
+ ],
+ [
+  "^Тримати теперішній ритм: (.+?) хвилин на день, щонайменше 5 днів на тиждень\\.$",
+  "Utrzymać obecny rytm: $1 minut dziennie, co najmniej 5 dni w tygodniu."
+ ],
+ [
+  "^Кожна клітинка — день; цифра в кутку — хвилини занять\\. Денна мета — (.+?) хв\\.$",
+  "Każda kratka to dzień; liczba w rogu — minuty zajęć. Cel dzienny — $1 min."
+ ],
+ [
+  "^Повторів і самовиправлень менше: (.+?) → (.+?) на 100 слів — мовлення плавніше\\.$",
+  "Mniej powtórzeń i autopoprawek: $1 → $2 na 100 słów — mowa jest płynniejsza."
+ ],
+ [
+  "^До іспиту (.+?): лишилось (.+?) (?:урок|уроки|уроків) і (.+?) (?:слово|слова|слів); темп (.+?) (?:урок|уроки|уроків) на тиждень і (.+?) нових слів на день\\.$",
+  "Do egzaminu $1: zostało {$2|lekcja|lekcje|lekcji|lekcji} i {$3|słowo|słowa|słów|słowa}; tempo {$4|lekcja|lekcje|lekcji|lekcji} w tygodniu i $5 nowych słów dziennie."
+ ],
+ [
+  "^Приєднуйся до нашої групи «(.+?)» у myEnglish — вчимо англійську разом:$",
+  "Dołącz do naszej grupy «$1» w myEnglish — uczymy się angielskiego razem:"
+ ],
+ [
+  "^«(.+?)» — вивчено\\. Повтор для перевірки — приблизно через півтора місяця$",
+  "«$1» — nauczone. Powtórka kontrolna — mniej więcej za półtora miesiąca"
+ ],
+ [
+  "^Репліки довшають: з (.+?) до (.+?) (.+?) в середньому — ви говорите розгорнутіше\\.$",
+  "Wypowiedzi się wydłużają: z $1 do {$2|słowa|słów|słów|słowa} średnio — mówisz bardziej rozbudowanie."
+ ],
+ [
+  "^Ті самі завдання для всіх · рівень (.+?) · зараховується перша спроба$",
+  "Te same zadania dla wszystkich · poziom $1 · liczy się pierwsza próba"
+ ],
+ [
+  "^Вивчене слово — інтервал повтору ≥ 21 дн\\. · (.+?) (?:оцінка|оцінки|оцінок) карток на пристрої$",
+  "Nauczone słowo — interwał powtórki ≥ 21 dni · {$1|ocena|oceny|ocen|oceny} fiszek na urządzeniu"
+ ],
+ [
+  "^Вчитель позначив вивченими (.+?) (?:слово|слова|слів), які ви вже вживаєте в розмовах: (.+?)(.+?)$",
+  "Nauczyciel oznaczył jako nauczone {$1|słowo|słowa|słów|słowa}, których już używasz w rozmowach: $2$3"
+ ],
+ [
+  "^Закрити чергу повторень \\(зараз (.+?) (?:слово|слова|слів) чекають\\) до того, як брати нові\\.$",
+  "Zamknąć kolejkę powtórek (teraz czeka {$1|słowo|słowa|słów|słowa}), zanim weźmiesz nowe."
+ ],
+ [
+  "^Для рівня (.+?) тут ще немає завдань — показано найближчий рівень (.+?)\\.$",
+  "Dla poziomu $1 nie ma tu jeszcze zadań — pokazano najbliższy poziom $2."
+ ],
+ [
+  "^Уроків граматики ще не пройдено\\. Почніть з уроку свого рівня(.+?)$",
+  "Nie ukończono jeszcze lekcji gramatyki. Zacznij od lekcji swojego poziomu$1"
+ ],
+ [
+  "^Не зовсім: помилка у слові (.+?)\\. Поверніть слова й спробуйте ще\\.$",
+  "Nie całkiem: błąd w słowie $1. Cofnij słowa i spróbuj ponownie."
+ ],
+ [
+  "^Нагадування ввімкнено · (.+?)\\. Час можна змінити в Налаштуваннях$",
+  "Przypomnienia włączone · $1. Godzinę możesz zmienić w Ustawieniach"
+ ],
+ [
+  "^Говоріть усі (.+?) секунд, не зупиняючись\\. Помилки — не страшно\\.$",
+  "Mów przez całe $1 sekund bez zatrzymywania. Błędy — nie szkodzi."
+ ],
+ [
+  "^лишилось (.+?) (?:урок|уроки|уроків) і (.+?) (?:слово|слова|слів) · темп: (.+?) (?:урок|уроки|уроків) на тиждень, (.+?) нових слів на день$",
+  "zostało {$1|lekcja|lekcje|lekcji|lekcji} i {$2|słowo|słowa|słów|słowa} · tempo: {$3|lekcja|lekcje|lekcji|lekcji} w tygodniu, $4 nowych słów dziennie"
+ ],
+ [
+  "^Скласти іспит рівня (.+?) \\(Тести → «Іспит рівня»\\) і перейти на (.+?)\\.$",
+  "Zdać egzamin poziomu $1 (Testy → «Egzamin poziomu») i przejść na $2."
+ ],
+ [
+  "^(.+?) (?:слово|слова|слів) повернуто до вивчення — з'являться в картках сьогодні\\.$",
+  "{$1|słowo wróciło|słowa wróciły|słów wróciło|słowa wróciło} do nauki — pojawią się dziś w fiszkach."
+ ],
+ [
+  "^«(.+?)» повернуто до вивчення — з'явиться в картках сьогодні$",
+  "«$1» wróciło do nauki — pojawi się dziś w fiszkach"
+ ],
+ [
+  "^Раунд 2: та сама тема, (.+?) секунд — ті самі думки, швидше\\.$",
+  "Runda 2: ten sam temat, $1 sekund — te same myśli, szybciej."
+ ],
+ [
+  "^Це слово вже є в колоді «(.+?)» — додано першим серед нових$",
+  "To słowo jest już w talii «$1» — dodano jako pierwsze wśród nowych"
+ ],
+ [
+  "^(.+?) (?:урок чекає|уроки чекають|уроків чекають) на планове повторення — набір «Повторення» у вправах\\.$",
+  "{$1|lekcja czeka|lekcje czekają|lekcji czeka|lekcji czeka} na planową powtórkę — zestaw «Powtórki» w ćwiczeniach."
+ ],
+ [
+  "^Ваша слабка зона — (.+?): (.+?) (?:невиправлена помилка|невиправлені помилки|невиправлених помилок) \\(з повторами\\), (.+?) нових за 2 тижні(.+?)$",
+  "Twoja słaba strefa — $1: {$2|niepoprawiony błąd|niepoprawione błędy|niepoprawionych błędów|niepoprawionego błędu} (z powtórzeniami), $3 nowych w 2 tygodnie$4"
+ ],
+ [
+  "^щодня о (.+?) — якщо є що повторити або стрік під загрозою$",
+  "codziennie o $1 — jeśli jest co powtórzyć lub seria jest zagrożona"
+ ],
+ [
+  "^Відпрацювати правила з найбільшою кількістю помилок: (.+?)$",
+  "Przećwiczyć reguły z największą liczbą błędów: $1"
+ ],
+ [
+  "^Для оцінки утримання замало повторів \\((.+?) з потрібних 20\\)\\.$",
+  "Za mało powtórek do oceny retencji ($1 z potrzebnych 20)."
+ ],
+ [
+  "^Ту саму історію за (.+?) секунд\\. Ті самі думки, менше пауз\\.$",
+  "Tę samą historię w $1 sekund. Te same myśli, mniej pauz."
+ ],
+ [
+  "^(.+?) розблоковано\\. Щоб знову дружити — обміняйтеся кодами\\.$",
+  "$1 odblokowano. Żeby znów być znajomymi — wymieńcie się kodami."
+ ],
+ [
+  "^Правильно! Сьогодні вже зараховано — ще раз завтра \\((.+?)/(.+?)\\)$",
+  "Poprawnie! Dziś już zaliczone — jeszcze raz jutro ($1/$2)"
+ ],
+ [
+  "^У роботі (.+?) (?:слово|слова|слів), міцно запам'ятовано \\(інтервал ≥ 21 дн\\.\\) — (.+?)\\.$",
+  "W nauce {$1|słowo|słowa|słów|słowa}, dobrze zapamiętane (interwał ≥ 21 dni) — $2."
+ ],
+ [
+  "^token ok · model (.+?) · voice (.+?) · pause (.+?) ms · (.+?) хв ліміту$",
+  "token ok · model $1 · voice $2 · pause $3 ms · $4 min limitu"
+ ],
+ [
+  "^Спробуйте говорити всі (.+?) — навіть простими реченнями\\.$",
+  "Spróbuj mówić przez całe $1 — nawet prostymi zdaniami."
+ ],
+ [
+  "^(.+?) секунд — лише головне\\. Почніть з фрази, а не з «uh»\\.$",
+  "$1 sekund — tylko najważniejsze. Zacznij od frazy, nie od «uh»."
+ ],
+ [
+  "^(.+?) (?:активний день|активні дні|активних днів) із (.+?) \\(у середньому (.+?) на тиждень\\), найдовша серія — (.+?) (?:день|дні|днів)\\. (.+?)$",
+  "{$1|aktywny dzień|aktywne dni|aktywnych dni|aktywnego dnia} z $2 (średnio $3 w tygodniu), najdłuższa seria — {$4|dzień|dni|dni|dnia}. $5"
+ ],
+ [
+  "^сильні (.+?) з ≈(.+?) · текст (.+?) · голос (.+?) · озвучення (.+?) · Live (.+?)$",
+  "silne $1 z ≈$2 · tekst $3 · głos $4 · lektor $5 · Live $6"
+ ],
+ [
+  "^Вільних місць: (.+?)\\. Людина приєднається одним дотиком\\.$",
+  "Wolnych miejsc: $1. Osoba dołączy jednym dotknięciem."
+ ],
+ [
+  "^Заповнювачів пауз \\(um, uh\\) більше: (.+?) → (.+?) на 100 слів\\.$",
+  "Więcej wypełniaczy pauz (um, uh): $1 → $2 na 100 słów."
+ ],
+ [
+  "^Рівень (.+?) · ті самі завдання для всіх · до (.+?) завтра$",
+  "Poziom $1 · te same zadania dla wszystkich · do $2 jutro"
+ ],
+ [
+  "^Заповнювачів пауз \\(um, uh\\) менше: (.+?) → (.+?) на 100 слів\\.$",
+  "Mniej wypełniaczy pauz (um, uh): $1 → $2 na 100 słów."
+ ],
+ [
+  "^Тест був (.+?) (?:день|дні|днів) тому — варто перевірити рівень знову\\.$",
+  "Test był {$1|dzień|dni|dni|dnia} temu — warto znów sprawdzić poziom."
+ ],
+ [
+  "^Раунд 3: (.+?) секунд — найщільніше, без пауз і «uh»\\.$",
+  "Runda 3: $1 sekund — najgęściej, bez pauz i «uh»."
+ ],
+ [
+  "^Замінити правило: (.+?)\\. Лишилось замін цього тижня: (.+?)$",
+  "Zamień regułę: $1. Zostało zamian w tym tygodniu: $2"
+ ],
+ [
+  "^5–7 хвилин голосом: вчитель вплете «(.+?)» у розмову\\.$",
+  "5–7 minut głosem: nauczyciel wplecie «$1» w rozmowę."
+ ],
+ [
+  "^Слово є в колоді «(.+?)» — додано першим серед нових$",
+  "Słowo jest w talii «$1» — dodano jako pierwsze wśród nowych"
+ ],
+ [
+  "^За оцінками (.+?) (?:розмови|розмов|розмов) ваше говоріння зараз — близько (.+?)\\.$",
+  "Według ocen z {$1|rozmowy|rozmów|rozmów|rozmowy} twoje mówienie jest teraz na poziomie około $2."
+ ],
+ [
+  "^Повторити уроки граматики з балом нижче 80%: (.+?)$",
+  "Powtórzyć lekcje gramatyki z wynikiem poniżej 80%: $1"
+ ],
+ [
+  "^У перевірених текстах найнижча оцінка — (.+?) \\((.+?)/10\\)\\.$",
+  "W sprawdzonych tekstach najniższa ocena — $1 ($2/10)."
+ ],
+ [
+  "^(.+?) секунд — поки читаєте пояснення, час стоїть$",
+  "$1 sekund — gdy czytasz wyjaśnienie, czas stoi"
+ ],
+ [
+  "^реєстрація (.+?) · вхід (.+?) · активність (.+?) · (.+?) за 7 дн\\.$",
+  "rejestracja $1 · logowanie $2 · aktywność $3 · $4 w 7 dni"
+ ],
+ [
+  "^Текстових викликів: (.+?)/(.+?) · голос: (.+?)/(.+?) хв · TTS: (.+?)/(.+?)$",
+  "Wywołań tekstowych: $1/$2 · głos: $3/$4 min · TTS: $5/$6"
+ ],
+ [
+  "^«(.+?)» почекає наступного тижня, натомість — «(.+?)»\\. (.+?)$",
+  "«$1» poczeka do następnego tygodnia, zamiast niej — «$2». $3"
+ ],
+ [
+  "^(.+?)–(.+?) слів · без перекладача й словника · ≈ (.+?) хв$",
+  "$1–$2 słów · bez tłumacza i słownika · ≈ $3 min"
+ ],
+ [
+  "^Словник різноманітніший: (.+?)% → (.+?)% різних слів\\.$",
+  "Słownictwo bardziej zróżnicowane: $1% → $2% różnych słów."
+ ],
+ [
+  "^≈ (.+?) хв · прохідний бал — (.+?)% у кожній частині$",
+  "≈ $1 min · próg zaliczenia — $2% w każdej części"
+ ],
+ [
+  "^(.+?) (?:урок чекає|уроки чекають|уроків чекають) повтору · слабкі місця й пройдені рівні$",
+  "{$1|lekcja czeka|lekcje czekają|lekcji czeka|lekcji czeka} na powtórkę · słabe punkty i ukończone poziomy"
+ ],
+ [
+  "^у середньому (.+?) за активний день · мета (.+?) хв$",
+  "średnio $1 na aktywny dzień · cel $2 min"
+ ],
+ [
+  "^(.+?) · до 5, утримуйте рядок, щоб перетягнути$",
+  "$1 · do 5, przytrzymaj wiersz, żeby przeciągnąć"
+ ],
+ [
+  "^: ''\\}\\. Середній найкращий бал у вправах — (.+?)%\\.(.+?)$",
+  ": ''}. Średni najlepszy wynik w ćwiczeniach — $1%.$2"
+ ],
+ [
+  "^14 днів: (.+?) · попередні 14: (.+?) · відкритих: (.+?)$",
+  "14 dni: $1 · poprzednie 14: $2 · otwartych: $3"
+ ],
+ [
+  "^Заповнено: (.+?) з 4 · мови, сім'я, побажання$",
+  "Wypełniono: $1 z 4 · języki, rodzina, życzenia"
+ ],
+ [
+  "^(.+?) хв практики · кроки нижче — за бажанням$",
+  "$1 min praktyki · kroki poniżej — opcjonalnie"
+ ],
+ [
+  "^Накопичилось (.+?) повторів — почніть із них\\.$",
+  "Nazbierało się $1 powtórek — zacznij od nich."
+ ],
+ [
+  "^Слово (.+?) з (.+?): (.+?)(.+?)\\. Поясніть його, не називаючи\\.$",
+  "Słowo $1 z $2: $3$4. Wyjaśnij je, nie wymawiając go."
+ ],
+ [
+  "^текстових викликів \\(ліміт (.+?)/день на особу\\)$",
+  "wywołań tekstowych (limit $1/dzień na osobę)"
+ ],
+ [
+  "^Помилки клієнтів за 7 днів · (.+?) \\(сьогодні (.+?)\\)$",
+  "Błędy klientów z 7 dni · $1 (dziś $2)"
+ ],
+ [
+  "^Пароль має містити щонайменше (.+?) символів\\.$",
+  "Hasło musi mieć co najmniej $1 znaków."
+ ],
+ [
+  "^За (.+?) с почніть із фрази й говоріть ~10 с$",
+  "W $1 s zacznij od frazy i mów ~10 s"
+ ],
+ [
+  "^Усі навички на рівні (.+?) — профіль рівний\\.(.+?)$",
+  "Wszystkie umiejętności na poziomie $1 — profil równy.$2"
+ ],
+ [
+  "^У щоденнику в середньому (.+?) (.+?) на 100 слів(.+?)$",
+  "W dzienniku średnio {$1|błąd|błędy|błędów|błędu} na 100 słów$3"
+ ],
+ [
+  "^Розмови показують (.+?) — закрийте (.+?) іспитом$",
+  "Rozmowy pokazują $1 — zamknij $2 egzaminem"
+ ],
+ [
+  "^(.+?) без перекладу — додасться після входу$",
+  "$1 bez tłumaczenia — doda się po zalogowaniu"
+ ],
+ [
+  "^Перевірені тексти \\(останні (.+?)\\), бали з 10$",
+  "Sprawdzone teksty (ostatnie $1), punkty na 10"
+ ],
+ [
+  "^Щонайменше (.+?) символів — двічі однаково$",
+  "Co najmniej $1 znaków — dwa razy tak samo"
+ ],
+ [
+  "^Запит надіслано — (.+?) отримає сповіщення$",
+  "Zaproszenie wysłane — $1 dostanie powiadomienie"
+ ],
+ [
+  "^Почати 4-3-2\\. Одна тема — три раунди: (.+?)$",
+  "Zacznij 4-3-2. Jeden temat — trzy rundy: $1"
+ ],
+ [
+  "^(.+?) (?:книга|книги|книг) і (.+?) (?:оповідання|оповідання|оповідань) — оригінали, суспільне надбання$",
+  "{$1|książka|książki|książek|książki} i {$2|opowiadanie|opowiadania|opowiadań|opowiadania} — oryginały, domena publiczna"
+ ],
+ [
+  "^(.+?) різних — повтори по колу закріплюють$",
+  "$1 różnych — powtórki w pętli utrwalają"
+ ],
+ [
+  "^• (.+?) хв практики, (.+?) (?:активний день|активні дні|активних днів), найдовша серія — (.+?) (?:день|дні|днів)$",
+  "• $1 min praktyki, {$2|aktywny dzień|aktywne dni|aktywnych dni|aktywnego dnia}, najdłuższa seria — {$3|dzień|dni|dni|dnia}"
+ ],
+ [
+  "^: ''\\) : ''\\}; у середньому (.+?) (.+?) на тиждень\\.$",
+  ": '') : ''}; średnio {$1|aktywny dzień|aktywne dni|aktywnych dni|aktywnego dnia} w tygodniu."
+ ],
+ [
+  "^(.+?) (?:помилка|помилки|помилок) з ваших розмов — закріпити правило$",
+  "{$1|błąd|błędy|błędów|błędu} z twoich rozmów — utrwal regułę"
+ ],
+ [
+  "^текст (.+?) · озвучення (.+?) · Live (.+?) · голос (.+?)$",
+  "tekst $1 · lektor $2 · Live $3 · głos $4"
+ ],
+ [
+  "^перехід від (.+?)% · уроки й слова рівня (.+?)$",
+  "przejście od $1% · lekcje i słowa poziomu $2"
+ ],
+ [
+  "^Замало для оцінки: потрібно хоча б (.+?) (?:слово|слова|слів)\\.$",
+  "Za mało do oceny: potrzeba co najmniej {$1|słowa|słów|słów|słowa}."
+ ],
+ [
+  "^(.+?) (?:помилку|помилки|помилок) з граматики додано в «Мої помилки»\\.$",
+  "{$1|błąd|błędy|błędów|błędu} z gramatyki dodano do «Moich błędów»."
+ ],
+ [
+  "^Ви майже опанували (.+?) — скласти іспит\\?$",
+  "Prawie opanowałeś $1 — zdajesz egzamin?"
+ ],
+ [
+  "^(.+?) (?:вираз|вирази|виразів) з тексту · торкніться, щоб почути$",
+  "{$1|wyrażenie|wyrażenia|wyrażeń|wyrażenia} z tekstu · dotknij, żeby usłyszeć"
+ ],
+ [
+  "^Темп стабільний — близько (.+?) слів/хв\\.$",
+  "Tempo stabilne — około $1 słów/min."
+ ],
+ [
+  "^Прохідний бал — (.+?)% у кожній частині$",
+  "Próg zaliczenia — $1% w każdej części"
+ ],
+ [
+  "^разом із повторами: (.+?) · відкритих: (.+?)$",
+  "razem z powtórzeniami: $1 · otwartych: $2"
+ ],
+ [
+  "^(.+?) (?:книга|книги|книг) · (.+?) (?:оповідання|оповідання|оповідань) · фільтр за автором і рівнем$",
+  "{$1|książka|książki|książek|książki} · {$2|opowiadanie|opowiadania|opowiadań|opowiadania} · filtr wg autora i poziomu"
+ ],
+ [
+  "^Гру завершено\\. Очки: (.+?)\\. Знайдено (.+?) з (.+?)\\.$",
+  "Gra zakończona. Punkty: $1. Znaleziono $2 z $3."
+ ],
+ [
+  "^Ще (.+?) (?:розмова|розмови|розмов) без оцінки — замало мовлення\\.$",
+  "Jeszcze {$1|rozmowa|rozmowy|rozmów|rozmowy} bez oceny — za mało mówienia."
+ ],
+ [
+  "^(.+?) більше не бачитиме вашого запиту\\.$",
+  "$1 nie zobaczy już twojego zaproszenia."
+ ],
+ [
+  "^Рівень (.+?): план і завдання оновлено$",
+  "Poziom $1: plan i zadania zaktualizowane"
+ ],
+ [
+  "^≈ 10 хв · склали — переходите на (.+?)$",
+  "≈ 10 min · zdasz — przechodzisz na $1"
+ ],
+ [
+  "^відкритих: (.+?) · динаміка за тиждень$",
+  "otwartych: $1 · dynamika w tygodniu"
+ ],
+ [
+  "^Правильно розпізнано на слух: (.+?) з (.+?)$",
+  "Poprawnie rozpoznane ze słuchu: $1 z $2"
+ ],
+ [
+  "^(.+?) (?:слово|слова|слів) без оцінок — розклад не змінено$",
+  "{$1|słowo|słowa|słów|słowa} bez ocen — harmonogram bez zmian"
+ ],
+ [
+  "^(.+?)× · (.+?) (.+?) · останнє (.+?) · (.+?) · (.+?) · збірка (.+?)$",
+  "$1× · {$2|użytkownik|użytkowników|użytkowników|użytkownika} · ostatnio $4 · $5 · $6 · wersja $7"
+ ],
+ [
+  "^Питання — і за (.+?) с почати з фрази$",
+  "Pytanie — i w $1 s zacznij od frazy"
+ ],
+ [
+  "^Голосом — (.+?) хв розмови з вчителем\\.$",
+  "Głosem — $1 min rozmowy z nauczycielem."
+ ],
+ [
+  "^(.+?) (.+?) — повторюватимете в «Фразнику»$",
+  "$1 $2 — będziesz powtarzać w «Rozmówkach»"
+ ],
+ [
+  "^Щодня о (.+?), якщо є про що нагадати$",
+  "Codziennie o $1, jeśli jest o czym przypomnieć"
+ ],
+ [
+  "^(.+?)\\. Утримайте для голосового режиму$",
+  "$1. Przytrzymaj, aby włączyć tryb głosowy"
+ ],
+ [
+  "^Час вийшов\\. Очки: (.+?)\\. Правильно (.+?) з (.+?)\\.$",
+  "Czas minął. Punkty: $1. Poprawnie $2 z $3."
+ ],
+ [
+  "^текст (.+?)/(.+?) · сильні (.+?)/(.+?) · голос (.+?)/(.+?) хв$",
+  "tekst $1/$2 · silne $3/$4 · głos $5/$6 min"
+ ],
+ [
+  "^(.+?) фраз · можна вчити й без входу$",
+  "$1 fraz · można się uczyć bez logowania"
+ ],
+ [
+  "^щодня о (.+?) — тема з вашої розмови$",
+  "codziennie o $1 — temat z twojej rozmowy"
+ ],
+ [
+  "^(.+?): вивчено\\. Повернути до вивчення$",
+  "$1: nauczone. Przywróć do nauki"
+ ],
+ [
+  "^Виправлень: (.+?)\\. Показати субтитри$",
+  "Poprawek: $1. Pokaż napisy"
+ ],
+ [
+  "^Запитати вчителя про розділ «(.+?)»$",
+  "Zapytaj nauczyciela o dział «$1»"
+ ],
+ [
+  "^У кожного своє · ви: (.+?) з (.+?) · до (.+?)$",
+  "Każdy ma swoje · ty: $1 z $2 · do $3"
+ ],
+ [
+  "^(.+?) фраз · торкніться, щоб почути$",
+  "$1 fraz · dotknij, żeby usłyszeć"
+ ],
+ [
+  "^Нові звернення користувачів · (.+?)$",
+  "Nowe zgłoszenia użytkowników · $1"
+ ],
+ [
+  "^востаннє в мережі сьогодні о (.+?)$",
+  "ostatnio online dziś o $1"
+ ],
+ [
+  "^(.+?)\\. Слів: (.+?)\\. Заминок на 100 слів: (.+?)\\.$",
+  "$1. Słów: $2. Zająknięć na 100 słów: $3."
+ ],
+ [
+  "^(.+?) (?:слово|слова|слів) · оцінку ставить застосунок$",
+  "{$1|słowo|słowa|słów|słowa} · ocenę wystawia aplikacja"
+ ],
+ [
+  "^Зміна темпу: (.+?)(.+?) слів за хвилину$",
+  "Zmiana tempa: $1$2 słów na minutę"
+ ],
+ [
+  "^Ви почали з «(.+?)…»\\. Спробуйте: «(.+?)»$",
+  "Zacząłeś od «$1…». Spróbuj: «$2»"
+ ],
+ [
+  "^(.+?) з (.+?) відповідей почато з фрази$",
+  "$1 z $2 odpowiedzi zaczęto od frazy"
+ ],
+ [
+  "^Іспит (.+?) складено — перейти на (.+?)\\?$",
+  "Egzamin $1 zdany — przejść na $2?"
+ ],
+ [
+  "^(.+?) (?:помилка|помилки|помилок), що повторюються найчастіше$",
+  "{$1|błąd, który powtarza|błędy, które powtarzają|błędów, które powtarzają|błędu, który powtarza} się najczęściej"
+ ],
+ [
+  "^Хвилини по днях цього тижня: (.+?)$",
+  "Minuty wg dni w tym tygodniu: $1"
+ ],
+ [
+  "^Мій (.+?) в англійській \\(myEnglish\\):$",
+  "Mój $1 z angielskim (myEnglish):"
+ ],
+ [
+  "^Позначено вчителем: вжито в (.+?) (?:розмові|розмовах|розмовах)$",
+  "Oznaczone przez nauczyciela: użyte w {$1|rozmowie|rozmowach|rozmowach|rozmowie}"
+ ],
+ [
+  "^Рівень (.+?): пройдено (.+?) з (.+?) уроків\\.$",
+  "Poziom $1: ukończono $2 z $3 lekcji."
+ ],
+ [
+  "^(.+?) секунд, за кожне речення \\+(.+?) с$",
+  "$1 sekund, za każde zdanie +$2 s"
+ ],
+ [
+  "^(.+?) речень, на кожне — 5 секунд$",
+  "{$1|zdanie|zdania|zdań|zdania}, na każde — 5 sekund"
+ ],
+ [
+  "^До (.+?) секунд мовлення про тему$",
+  "Do $1 sekund mówienia na temat"
+ ],
+ [
+  "^Вивчено \\(ви їх уже вживаєте\\): (.+?)(.+?)$",
+  "Nauczone (już ich używasz): $1$2"
+ ],
+ [
+  "^Заминок на 100 слів: (.+?), було (.+?)$",
+  "Zająknięć na 100 słów: $1, było $2"
+ ],
+ [
+  "^Тренування · (.+?) питань · ~3 хв$",
+  "Trening · $1 pytań · ~3 min"
+ ],
+ [
+  "^(.+?) з (.+?) · запис почнеться одразу$",
+  "$1 z $2 · nagrywanie zacznie się od razu"
+ ],
+ [
+  "^Правило (.+?): (.+?), (.+?), засвоєння (.+?) з 3$",
+  "Reguła $1: $2, $3, przyswojenie $4 z 3"
+ ],
+ [
+  "^Прогноз повторів на 7 днів: (.+?)$",
+  "Prognoza powtórek na 7 dni: $1"
+ ],
+ [
+  "^«(.+?)» — першим серед нових слів$",
+  "«$1» — jako pierwsze wśród nowych słów"
+ ],
+ [
+  "^(.+?)% · граматика (.+?)% · слова (.+?)% · (.+?)$",
+  "$1% · gramatyka $2% · słowa $3% · $4"
+ ],
+ [
+  "^myEnglish · звіт вчителя за (.+?)(.+?)$",
+  "myEnglish · raport nauczyciela za $1$2"
+ ],
+ [
+  "^myEnglish — звіт вчителя за (.+?)$",
+  "myEnglish — raport nauczyciela za $1"
+ ],
+ [
+  "^Нові повідомлення в групі «(.+?)»$",
+  "Nowe wiadomości w grupie «$1»"
+ ],
+ [
+  "^Час вийшов\\. Речень: (.+?), очки: (.+?)\\.$",
+  "Czas minął. Zdań: $1, punkty: $2."
+ ],
+ [
+  "^ще без занять · реєстрація (.+?)$",
+  "jeszcze bez zajęć · rejestracja $1"
+ ],
+ [
+  "^ще (.+?) · інші рівні й «Робота»$",
+  "jeszcze $1 · inne poziomy i «Praca»"
+ ],
+ [
+  "^У групі може бути до (.+?) людей$",
+  "W grupie może być do $1 osób"
+ ],
+ [
+  "^До (.+?) людей · спільні виклики$",
+  "Do $1 osób · wspólne wyzwania"
+ ],
+ [
+  "^Завдання рівня (.+?) на сьогодні$",
+  "Zadania poziomu $1 na dziś"
+ ],
+ [
+  "^Діалог дня · пройдено · (.+?) з (.+?)$",
+  "Dialog dnia · ukończony · $1 z $2"
+ ],
+ [
+  "^(.+?) Ось вправи з самих помилок\\.$",
+  "$1 Oto ćwiczenia tylko z błędów."
+ ],
+ [
+  "^(.+?) · скажіть і перевірте себе$",
+  "$1 · powiedz i sprawdź się"
+ ],
+ [
+  "^(.+?) (?:урок|уроки|уроків) граматики — на повторення\\.$",
+  "{$1|lekcja|lekcje|lekcji|lekcji} gramatyki — do powtórki."
+ ],
+ [
+  "^востаннє в мережі (.+?) хв тому$",
+  "ostatnio online $1 min temu"
+ ],
+ [
+  "^востаннє в мережі вчора о (.+?)$",
+  "ostatnio online wczoraj o $1"
+ ],
+ [
+  "^(.+?) (?:слово|слова|слів): повтор і нові за рівнем$",
+  "{$1|słowo|słowa|słów|słowa}: powtórka i nowe wg poziomu"
+ ],
+ [
+  "^(.+?): новий рекорд у грі «(.+?)» — (.+?)$",
+  "$1: nowy rekord w grze «$2» — $3"
+ ],
+ [
+  "^Завершено · переміг\\(-ла\\) (.+?) · (.+?)$",
+  "Zakończono · wygrywa $1 · $2"
+ ],
+ [
+  "^Одна тема — три раунди: (.+?) с$",
+  "Jeden temat — trzy rundy: $1 s"
+ ],
+ [
+  "^(.+?) (?:правило|правила|правил) · вправи на ваші помилки$",
+  "{$1|reguła|reguły|reguł|reguły} · ćwiczenia na twoje błędy"
+ ],
+ [
+  "^Останній результат тесту (.+?)%$",
+  "Ostatni wynik testu $1%"
+ ],
+ [
+  "^Це слово вже є в колоді «(.+?)»$",
+  "To słowo jest już w talii «$1»"
+ ],
+ [
+  "^Рівень (.+?): план підлаштовано$",
+  "Poziom $1: plan dopasowany"
+ ],
+ [
+  "^Правильних відповідей: (.+?) з (.+?)$",
+  "Poprawnych odpowiedzi: $1 z $2"
+ ],
+ [
+  "^Глибокий аналіз вчителя · (.+?)$",
+  "Dogłębna analiza nauczyciela · $1"
+ ],
+ [
+  "^останні розмови з вчителем(.+?)$",
+  "ostatnie rozmowy z nauczycielem$1"
+ ],
+ [
+  "^(.+?) секунд · a, an, the чи —$",
+  "$1 sekund · a, an, the czy —"
+ ],
+ [
+  "^myEnglish · Слово дня (.+?) · (.+?)$",
+  "myEnglish · Słowo dnia $1 · $2"
+ ],
+ [
+  "^(.+?) відкритих · (.+?)% виправлено$",
+  "$1 otwartych · $2% poprawiono"
+ ],
+ [
+  "^Надіслати ще раз через (.+?) с$",
+  "Wyślij ponownie za $1 s"
+ ],
+ [
+  "^Відхилити запрошення в «(.+?)»$",
+  "Odrzuć zaproszenie do «$1»"
+ ],
+ [
+  "^(.+?) · бачить лише AI-вчитель$",
+  "$1 · widzi tylko nauczyciel AI"
+ ],
+ [
+  "^(.+?) з (.+?) правильних відповідей$",
+  "$1 z $2 poprawnych odpowiedzi"
+ ],
+ [
+  "^рівень (.+?) · (.+?) (?:слово|слова|слів) · 3 запитання$",
+  "poziom $1 · {$2|słowo|słowa|słów|słowa} · 3 pytania"
+ ],
+ [
+  "^(.+?) (?:голосова розмова|голосові розмови|голосових розмов) і (.+?) текстових за місяць\\. (.+?)$",
+  "{$1|rozmowa głosowa|rozmowy głosowe|rozmów głosowych|rozmowy głosowej} i $2 tekstowych w miesiącu. $3"
+ ],
+ [
+  "^Рівень (.+?) \\(«(.+?)»\\) опановано на (.+?)%(.+?)$",
+  "Poziom $1 («$2») opanowany w $3%$4"
+ ],
+ [
+  "^Друзі: (.+?) нових повідомлень$",
+  "Znajomi: $1 nowych wiadomości"
+ ],
+ [
+  "^Темп зріс з (.+?) до (.+?) слів/хв\\.$",
+  "Tempo wzrosło z $1 do $2 słów/min."
+ ],
+ [
+  "^Утримання за 30 днів — (.+?)%(.+?)\\.$",
+  "Retencja z 30 dni — $1%$2."
+ ],
+ [
+  "^(.+?) секунд · речення рівня (.+?)$",
+  "$1 sekund · zdania poziomu $2"
+ ],
+ [
+  "^Рівень у застосунку: (.+?) · (.+?)$",
+  "Poziom w aplikacji: $1 · $2"
+ ],
+ [
+  "^(.+?) відкріплює повідомлення$",
+  "$1 odpina wiadomość"
+ ],
+ [
+  "^Нагадування ввімкнено · (.+?)$",
+  "Przypomnienia włączone · $1"
+ ],
+ [
+  "^(.+?) · граматика (.+?)% · слова (.+?)%$",
+  "$1 · gramatyka $2% · słowa $3%"
+ ],
+ [
+  "^(.+?) (?:слово|слова|слів) — першими в тренуванні$",
+  "{$1|słowo|słowa|słów|słowa} — jako pierwsze w treningu"
+ ],
+ [
+  "^8 нових речень · рівень (.+?)$",
+  "8 nowych zdań · poziom $1"
+ ],
+ [
+  "^Замінити \\(ще (.+?) цього тижня\\)$",
+  "Zamień (jeszcze $1 w tym tygodniu)"
+ ],
+ [
+  "^План дня вже під рівень (.+?)$",
+  "Plan dnia już pod poziom $1"
+ ],
+ [
+  "^(.+?) хв практики сьогодні · (.+?)$",
+  "$1 min praktyki dziś · $2"
+ ],
+ [
+  "^Рівень (.+?): почнемо з основ$",
+  "Poziom $1: zaczniemy od podstaw"
+ ],
+ [
+  "^У роботі (.+?) (?:слово|слова|слів), закріплено (.+?)\\. (.+?)$",
+  "W nauce {$1|słowo|słowa|słów|słowa}, utrwalono $2. $3"
+ ],
+ [
+  "^(.+?) запрошує вас у групу «(.+?)»$",
+  "$1 zaprasza cię do grupy «$2»"
+ ],
+ [
+  "^(.+?) хоче додати вас у друзі$",
+  "$1 chce dodać cię do znajomych"
+ ],
+ [
+  "^Найслабший критерій — (.+?) \\((.+?)\\)\\.$",
+  "Najsłabsze kryterium — $1 ($2)."
+ ],
+ [
+  "^До (.+?) секунд на пояснення$",
+  "Do $1 sekund na wyjaśnienie"
+ ],
+ [
+  "^Гру завершено\\. Очки: (.+?) з (.+?)\\.$",
+  "Gra zakończona. Punkty: $1 z $2."
+ ],
+ [
+  "^Третя заминка — на ≈ (.+?) с$",
+  "Trzecie zająknięcie — po ≈ $1 s"
+ ],
+ [
+  "^утримання: (.+?)/20 повторів$",
+  "retencja: $1/20 powtórek"
+ ],
+ [
+  "^Активні дні по тижнях: (.+?)$",
+  "Aktywne dni wg tygodni: $1"
+ ],
+ [
+  "^Ще (.+?) — мінімум (.+?) символів$",
+  "Jeszcze $1 — minimum $2 znaków"
+ ],
+ [
+  "^(.+?) закріплює повідомлення$",
+  "$1 przypina wiadomość"
+ ],
+ [
+  "^(.+?): іспит рівня (.+?) складено$",
+  "$1: egzamin poziomu $2 zdany"
+ ],
+ [
+  "^Тема дня від вчителя · (.+?)$",
+  "Temat dnia od nauczyciela · $1"
+ ],
+ [
+  "^Для (.+?) — приблизно (.+?)–(.+?) слів$",
+  "Dla $1 — około $2–$3 słów"
+ ],
+ [
+  "^Можна переходити на (.+?) · (.+?)$",
+  "Możesz przejść na $1 · $2"
+ ],
+ [
+  "^Прослухати: (.+?)\\. Точність (.+?)%$",
+  "Posłuchaj: $1. Dokładność $2%"
+ ],
+ [
+  "^Питання на розуміння · (.+?)$",
+  "Pytania sprawdzające · $1"
+ ],
+ [
+  "^склали — переходите на (.+?)$",
+  "zdasz — przechodzisz na $1"
+ ],
+ [
+  "^Завдання дня · (.+?) · (.+?) слів$",
+  "Zadanie dnia · $1 · $2 słów"
+ ],
+ [
+  "^Далі за планом дня: (.+?), (.+?) (.+?)$",
+  "Dalej wg planu dnia: $1, $2 $3"
+ ],
+ [
+  "^«(.+?)» · виконано (.+?) з (.+?) · до (.+?)$",
+  "«$1» · zrobiono $2 z $3 · do $4"
+ ],
+ [
+  "^Найслабший урок — «(.+?)» \\((.+?)%\\)\\.$",
+  "Najsłabsza lekcja — «$1» ($2%)."
+ ],
+ [
+  "^Найчастіше ви вчитеся (.+?)\\.$",
+  "Najczęściej uczysz się $1."
+ ],
+ [
+  "^(.+?) слів · до (.+?) с на кожне$",
+  "{$1|słowo|słowa|słów|słowa} · do $2 s na każde"
+ ],
+ [
+  "^активні за 7 днів · з (.+?)$",
+  "aktywni w 7 dni · z $1"
+ ],
+ [
+  "^Друзі бачать вас як «(.+?)»$",
+  "Znajomi widzą cię jako «$1»"
+ ],
+ [
+  "^Закрити (.+?) і перейти на (.+?)$",
+  "Zamknij $1 i przejdź na $2"
+ ],
+ [
+  "^(.+?) (?:урок|уроки|уроків) рівня (.+?) · по (.+?) питання$",
+  "{$1|lekcja|lekcje|lekcji|lekcji} poziomu $2 · po $3 pytania"
+ ],
+ [
+  "^Тренувати з вчителем: (.+?)$",
+  "Ćwicz z nauczycielem: $1"
+ ],
+ [
+  "^Тексти · прочитано (.+?) з (.+?)$",
+  "Teksty · przeczytano $1 z $2"
+ ],
+ [
+  "^• Розмов із вчителем: (.+?)(.+?)$",
+  "• Rozmowy z nauczycielem: $1$2"
+ ],
+ [
+  "^тестів: (.+?) · найкращий (.+?)%$",
+  "testów: $1 · najlepszy $2%"
+ ],
+ [
+  "^План дня виконано на (.+?)%$",
+  "Plan dnia zrobiony w $1%"
+ ],
+ [
+  "^За місяць зараховано (.+?) (?:урок|уроки|уроків)(.+?)$",
+  "W miesiącu zaliczono {$1|lekcję|lekcje|lekcji|lekcji}$2"
+ ],
+ [
+  "^місяць триває \\((.+?) з (.+?) днів\\)$",
+  "miesiąc trwa ($1 z $2 dni)"
+ ],
+ [
+  "^Повторюються (.+?) (?:помилка|помилки|помилок) \\(3\\+ рази\\)\\.$",
+  "Powtarza się {$1|błąd|błędy|błędów|błędu} (3+ razy)."
+ ],
+ [
+  "^(.+?) (?:слово|слова|слів): до (.+?) нових і повтор$",
+  "{$1|słowo|słowa|słów|słowa}: do $2 nowych i powtórka"
+ ],
+ [
+  "^(.+?) секунд, нові речення$",
+  "$1 sekund, nowe zdania"
+ ],
+ [
+  "^Перекладіть: (.+?)\\. Слова: (.+?)$",
+  "Przetłumacz: $1. Słowa: $2"
+ ],
+ [
+  "^Додати «(.+?)» в мої слова$",
+  "Dodaj «$1» do moich słów"
+ ],
+ [
+  "^(.+?) речень · по 5 секунд$",
+  "{$1|zdanie|zdania|zdań|zdania} · po 5 sekund"
+ ],
+ [
+  "^(.+?) тепер у ваших друзях$",
+  "$1 jest teraz w twoich znajomych"
+ ],
+ [
+  "^(.+?) запрошує вас у друзі$",
+  "$1 zaprasza cię do znajomych"
+ ],
+ [
+  "^\\)\\} · тиждень (.+?) · усього (.+?)(.+?)$",
+  ")} · tydzień $1 · łącznie $2$3"
+ ],
+ [
+  "^(.+?): (.+?) хв, активних днів (.+?)$",
+  "$1: $2 min, aktywnych dni $3"
+ ],
+ [
+  "^Питання дня · рівень (.+?)$",
+  "Pytanie dnia · poziom $1"
+ ],
+ [
+  "^Запрошення в групи · (.+?)$",
+  "Zaproszenia do grup · $1"
+ ],
+ [
+  "^Модель: (.+?) → (.+?) · збірка (.+?)$",
+  "Model: $1 → $2 · wersja $3"
+ ],
+ [
+  "^Рівень (.+?) ще не закрито$",
+  "Poziom $1 jeszcze niezamknięty"
+ ],
+ [
+  "^Швидкість (.+?)× · вимова (.+?)$",
+  "Szybkość $1× · wymowa $2"
+ ],
+ [
+  "^(.+?) хв · та сама добірка$",
+  "$1 min · ten sam zestaw"
+ ],
+ [
+  "^• Рівень у розмовах: (.+?)$",
+  "• Poziom w rozmowach: $1"
+ ],
+ [
+  "^(.+?) (?:частина|частини|частин) з вибором відповіді$",
+  "{$1|część|części|części|części} z wyborem odpowiedzi"
+ ],
+ [
+  "^\\} — (.+?) (?:хвилина|хвилини|хвилин) англійської за (.+?) (?:день|дні|днів)\\.$",
+  "} — {$1|minuta|minuty|minut|minuty} angielskiego w {$2|dzień|dni|dni|dnia}."
+ ],
+ [
+  "^До наступного рівня: (.+?)$",
+  "Do następnego poziomu: $1"
+ ],
+ [
+  "^згадує при повторенні(.+?)$",
+  "przypomina sobie przy powtórce$1"
+ ],
+ [
+  "^Перекласти фрагмент: (.+?)$",
+  "Przetłumacz fragment: $1"
+ ],
+ [
+  "^Останні 7 днів — (.+?) хв(.+?)$",
+  "Ostatnie 7 dni — $1 min$2"
+ ],
+ [
+  "^(.+?): уже у ваших словах$",
+  "$1: już w twoich słowach"
+ ],
+ [
+  "^Без трьох заминок — (.+?)$",
+  "Bez trzech zająknięć — $1"
+ ],
+ [
+  "^Правильно! Множник ×(.+?)$",
+  "Poprawnie! Mnożnik ×$1"
+ ],
+ [
+  "^Гру завершено\\. Очки: (.+?)\\.$",
+  "Gra zakończona. Punkty: $1."
+ ],
+ [
+  "^У кожного своє · до (.+?)$",
+  "Każdy ma swoje · do $1"
+ ],
+ [
+  "^Тренування · (.+?) питань$",
+  "Trening · $1 pytań"
+ ],
+ [
+  "^Почніть з фрази · (.+?) с$",
+  "Zacznij od frazy · $1 s"
+ ],
+ [
+  "^Відхилити запит від (.+?)$",
+  "Odrzuć zaproszenie od: $1"
+ ],
+ [
+  "^Сьогодні (.+?) · тиждень (.+?)$",
+  "Dziś $1 · tydzień $2"
+ ],
+ [
+  "^Ваш звіт за (.+?) готовий$",
+  "Twój raport za $1 jest gotowy"
+ ],
+ [
+  "^Рівень (.+?) підтверджено$",
+  "Poziom $1 potwierdzony"
+ ],
+ [
+  "^Слова до вивчення · (.+?)$",
+  "Słowa do nauki · $1"
+ ],
+ [
+  "^Продовжити · розділ (.+?)$",
+  "Kontynuuj · rozdział $1"
+ ],
+ [
+  "^Закрито за тиждень: (.+?)$",
+  "Zamknięte w tygodniu: $1"
+ ],
+ [
+  "^(.+?) чекають своєї черги$",
+  "$1 czeka na swoją kolej"
+ ],
+ [
+  "^Нове правило тижня: (.+?)$",
+  "Nowa reguła tygodnia: $1"
+ ],
+ [
+  "^Правильно! Прогрес (.+?)/(.+?)$",
+  "Poprawnie! Postęp $1/$2"
+ ],
+ [
+  "^План (.+?): ≈ (.+?) (?:тиждень|тижні|тижнів) · іспит ~(.+?)$",
+  "Plan $1: ≈ {$2|tydzień|tygodnie|tygodni|tygodnia} · egzamin ~$3"
+ ],
+ [
+  "^План уже під рівень (.+?)$",
+  "Plan już pod poziom $1"
+ ],
+ [
+  "^Додати в картки: (.+?) — (.+?)$",
+  "Dodaj do fiszek: $1 — $2"
+ ],
+ [
+  "^(.+?): позначити вивченим$",
+  "$1: oznacz jako nauczone"
+ ],
+ [
+  "^Це на (.+?)% більше, ніж (.+?)\\.$",
+  "To o $1% więcej niż $2."
+ ],
+ [
+  "^(.+?) (?:речення|речення|речень) — з ваших помилок$",
+  "{$1|zdanie|zdania|zdań|zdania} — z twoich błędów"
+ ],
+ [
+  "^до (.+?) секунд · (.+?) життя$",
+  "do $1 sekund · {$2|życie|życia|żyć|życia}"
+ ],
+ [
+  "^(.+?) уже у ваших друзях$",
+  "$1 jest już w twoich znajomych"
+ ],
+ [
+  "^(.+?) з 10 місць зайнято$",
+  "$1 z 10 miejsc zajętych"
+ ],
+ [
+  "^Хвилини за 7 днів: (.+?)$",
+  "Minuty w 7 dni: $1"
+ ],
+ [
+  "^токенів Live \\(ліміт (.+?)\\)$",
+  "tokenów Live (limit $1)"
+ ],
+ [
+  "^Рівень у розмовах: (.+?)$",
+  "Poziom w rozmowach: $1"
+ ],
+ [
+  "^Хвилини по тижнях: (.+?)$",
+  "Minuty wg tygodni: $1"
+ ],
+ [
+  "^(.+?) змінює назву на «(.+?)»$",
+  "$1 zmienia nazwę na «$2»"
+ ],
+ [
+  "^(.+?) отримає запрошення$",
+  "$1 dostanie zaproszenie"
+ ],
+ [
+  "^\\} на дуель · рівень (.+?)(.+?)$",
+  "} na pojedynek · poziom $1$2"
+ ],
+ [
+  "^«(.+?)» — але після «uh»$",
+  "«$1» — ale po «uh»"
+ ],
+ [
+  "^Надіслані запити · (.+?)$",
+  "Wysłane zaproszenia · $1"
+ ],
+ [
+  "^Разом без перерви: (.+?)$",
+  "Razem bez przerwy: $1"
+ ],
+ [
+  "^Виконано днів: (.+?) з 7$",
+  "Zaliczone dni: $1 z 7"
+ ],
+ [
+  "^Правило (.+?): (.+?), закрито$",
+  "Reguła $1: $2, zamknięte"
+ ],
+ [
+  "^Підтвердити рівень (.+?)$",
+  "Potwierdź poziom $1"
+ ],
+ [
+  "^граматика (.+?) · слова (.+?)$",
+  "gramatyka $1 · słowa $2"
+ ],
+ [
+  "^(.+?) на повтор сьогодні$",
+  "$1 do powtórki dziś"
+ ],
+ [
+  "^Наступний повтор — (.+?)\\.$",
+  "Następna powtórka — $1."
+ ],
+ [
+  "^Що вчитель пам'ятає(.+?)$",
+  "Co pamięta nauczyciel$1"
+ ],
+ [
+  "^Текст дня · (.+?) · ~(.+?) хв(.+?)$",
+  "Tekst dnia · $1 · ~$2 min$3"
+ ],
+ [
+  "^• Закрито помилок: (.+?)$",
+  "• Zamknięte błędy: $1"
+ ],
+ [
+  "^myEnglish · збірка (.+?)$",
+  "myEnglish · wersja $1"
+ ],
+ [
+  "^(.+?) (?:частина|частини|частин), письмо й розмова$",
+  "{$1|część|części|części|części}, pisanie i rozmowa"
+ ],
+ [
+  "^(.+?) (?:помилку|помилки|помилок) — у «Мої помилки»\\.$",
+  "{$1|błąd|błędy|błędów|błędu} — w «Moich błędach»."
+ ],
+ [
+  "^Це на (.+?)% менше, ніж (.+?)\\.$",
+  "To o $1% mniej niż $2."
+ ],
+ [
+  "^Немає в словнику · (.+?)$",
+  "Brak w słowniku · $1"
+ ],
+ [
+  "^востаннє в мережі (.+?)$",
+  "ostatnio online $1"
+ ],
+ [
+  "^(.+?) поспіль, множник (.+?)$",
+  "$1 z rzędu, mnożnik $2"
+ ],
+ [
+  "^до (.+?) с, англійською$",
+  "do $1 s, po angielsku"
+ ],
+ [
+  "^Вгадано з (.+?) спроби!$",
+  "Zgadnięte za $1 razem!"
+ ],
+ [
+  "^Алфавіт і звуки · (.+?)$",
+  "Alfabet i dźwięki · $1"
+ ],
+ [
+  "^(.+?) за 7 дн\\. · (.+?) усього$",
+  "$1 w 7 dni · $2 łącznie"
+ ],
+ [
+  "^(.+?) у роботі · (.+?) міцно$",
+  "$1 w nauce · $2 dobrze"
+ ],
+ [
+  "^утримання за 30 дн\\.(.+?)$",
+  "retencja z 30 dni$1"
+ ],
+ [
+  "^(.+?): домашнє виконано$",
+  "$1: zadanie domowe zrobione"
+ ],
+ [
+  "^Виконано (.+?) з (.+?) · до (.+?)$",
+  "Zrobiono $1 z $2 · do $3"
+ ],
+ [
+  "^(.+?) – (.+?) · лишилось (.+?) дн\\.$",
+  "$1 – $2 · zostało $3 dni"
+ ],
+ [
+  "^Видалити запис за (.+?)$",
+  "Usuń wpis z $1"
+ ],
+ [
+  "^Раунд (.+?) · (.+?) · (.+?) за (.+?) с$",
+  "Runda $1 · $2 · $3 w $4 s"
+ ],
+ [
+  "^4-3-2 · готово (.+?) з (.+?)$",
+  "4-3-2 · gotowe $1 z $2"
+ ],
+ [
+  "^(.+?) (?:слово|слова|слів) ще не закріплено(.+?)$",
+  "{$1|słowo jeszcze nieutrwalone|słowa jeszcze nieutrwalone|słów jeszcze nieutrwalonych|słowa jeszcze nieutrwalonego}$2"
+ ],
+ [
+  "^Іспит (.+?) · граматика$",
+  "Egzamin $1 · gramatyka"
+ ],
+ [
+  "^Варто повторити · (.+?)$",
+  "Warto powtórzyć · $1"
+ ],
+ [
+  "^8 речень · рівень (.+?)$",
+  "8 zdań · poziom $1"
+ ],
+ [
+  "^(.+?) (?:помилка|помилки|помилок) · (.+?) (?:правило|правила|правил) за розкладом$",
+  "{$1|błąd|błędy|błędów|błędu} · {$2|reguła|reguły|reguł|reguły} wg harmonogramu"
+ ],
+ [
+  "^Додано у фразник: (.+?)$",
+  "Dodano do rozmówek: $1"
+ ],
+ [
+  "^Голосів браузера: (.+?)$",
+  "Głosy przeglądarki: $1"
+ ],
+ [
+  "^Фільтри: активних (.+?)$",
+  "Filtry: aktywnych $1"
+ ],
+ [
+  "^Прогалини нижче: (.+?)$",
+  "Luki niżej: $1"
+ ],
+ [
+  "^Прослухати слово (.+?)$",
+  "Posłuchaj słowa $1"
+ ],
+ [
+  "^(.+?) — у ваших друзях$",
+  "$1 — w twoich znajomych"
+ ],
+ [
+  "^ще (.+?) з «Моїх слів»$",
+  "jeszcze $1 z «Moich słów»"
+ ],
+ [
+  "^(.+?) створює групу «(.+?)»$",
+  "$1 tworzy grupę «$2»"
+ ],
+ [
+  "^(.+?) виходить з групи$",
+  "$1 opuszcza grupę"
+ ],
+ [
+  "^\\} виклик на 7 днів(.+?)$",
+  "} wyzwanie na 7 dni$1"
+ ],
+ [
+  "^Додано в картки: (.+?)$",
+  "Dodano do fiszek: $1"
+ ],
+ [
+  "^Додати в картки: (.+?)$",
+  "Dodaj do fiszek: $1"
+ ],
+ [
+  "^Минулого разу (.+?) з (.+?)$",
+  "Ostatnim razem $1 z $2"
+ ],
+ [
+  "^Запити в друзі · (.+?)$",
+  "Zaproszenia do znajomych · $1"
+ ],
+ [
+  "^розгадано за (.+?) з 6$",
+  "odgadnięte w $1 z 6"
+ ],
+ [
+  "^Почати день · (.+?) хв$",
+  "Zacznij dzień · $1 min"
+ ],
+ [
+  "^Уроки (.+?)/(.+?) · слова (.+?)/(.+?)(.+?)$",
+  "Lekcje $1/$2 · słowa $3/$4$5"
+ ],
+ [
+  "^1 з (.+?) — з помилкою$",
+  "1 z $1 — z błędem"
+ ],
+ [
+  "^Диктант · рівень (.+?)$",
+  "Dyktando · poziom $1"
+ ],
+ [
+  "^Діалог дня · (.+?) · (.+?) (?:репліка|репліки|реплік)$",
+  "Dialog dnia · $1 · {$2|kwestia|kwestie|kwestii|kwestii}"
+ ],
+ [
+  "^Активні помилки: (.+?)$",
+  "Aktywne błędy: $1"
+ ],
+ [
+  "^Перевірити себе: (.+?)$",
+  "Sprawdź się: $1"
+ ],
+ [
+  "^уроків граматики (.+?)$",
+  "lekcji gramatyki $1"
+ ],
+ [
+  "^Мінімальна пара (.+?)/(.+?)(.+?)$",
+  "Para minimalna $1/$2$3"
+ ],
+ [
+  "^Розбір помилок · (.+?)$",
+  "Analiza błędów · $1"
+ ],
+ [
+  "^На (.+?)% більше, ніж (.+?)$",
+  "O $1% więcej niż $2"
+ ],
+ [
+  "^У (.+?) занять не було$",
+  "W $1 nie było zajęć"
+ ],
+ [
+  "^(?:день|дні|днів) — найдовша серія$",
+  "dni — najdłuższa seria"
+ ],
+ [
+  "^Хвилини по днях: (.+?)$",
+  "Minuty wg dni: $1"
+ ],
+ [
+  "^(.+?) · ваш AI-вчитель$",
+  "$1 · twój nauczyciel AI"
+ ],
+ [
+  "^Видалено розмов: (.+?)$",
+  "Usunięto rozmów: $1"
+ ],
+ [
+  "^мета (.+?) хв і більше$",
+  "cel $1 min i więcej"
+ ],
+ [
+  "^опановано рівень (.+?)$",
+  "opanowano poziom $1"
+ ],
+ [
+  "^(.+?): (.+?) Як виправити: (.+?)$",
+  "$1: $2 Jak poprawić: $3"
+ ],
+ [
+  "^Опанування рівня (.+?)$",
+  "Opanowanie poziomu $1"
+ ],
+ [
+  "^тести за уроками \\((.+?)\\)$",
+  "testy z lekcji ($1)"
+ ],
+ [
+  "^Виправлено (.+?)% \\((.+?) з (.+?)\\)\\.$",
+  "Poprawiono $1% ($2 z $3)."
+ ],
+ [
+  "^(.+?) секунд і (.+?) життя$",
+  "$1 sekund i {$2|życie|życia|żyć|życia}"
+ ],
+ [
+  "^Ваша відповідь: (.+?)$",
+  "Twoja odpowiedź: $1"
+ ],
+ [
+  "^Оцінка вчителя: (.+?)(.+?)$",
+  "Ocena nauczyciela: $1$2"
+ ],
+ [
+  "^(.+?) з робочих колод$",
+  "$1 z talii zawodowych"
+ ],
+ [
+  "^Наступний урок: (.+?)$",
+  "Następna lekcja: $1"
+ ],
+ [
+  "^(.+?) (?:виправлення|виправлення|виправлень) — розбір нижче$",
+  "{$1|poprawka|poprawki|poprawek|poprawki} — analiza poniżej"
+ ],
+ [
+  "^Корисні слова · (.+?)$",
+  "Przydatne słowa · $1"
+ ],
+ [
+  "^Мої звернення · (.+?)$",
+  "Moje zgłoszenia · $1"
+ ],
+ [
+  "^було (.+?) на початку$",
+  "było $1 na początku"
+ ],
+ [
+  "^Далі · раунд (.+?) · (.+?)$",
+  "Dalej · runda $1 · $2"
+ ],
+ [
+  "^(.+?) фраз за групами$",
+  "$1 fraz w grupach"
+ ],
+ [
+  "^Старт, день (.+?) з 7$",
+  "Start, dzień $1 z 7"
+ ],
+ [
+  "^Усього закрито: (.+?)$",
+  "Łącznie zamknięte: $1"
+ ],
+ [
+  "^Правила тижня · (.+?)$",
+  "Reguły tygodnia · $1"
+ ],
+ [
+  "^Зараховано: (.+?) з (.+?) (?:помилки|помилок|помилок)$",
+  "Zaliczono: $1 z $2 błędów"
+ ],
+ [
+  "^Стрік: (.+?) (?:день|дні|днів) поспіль$",
+  "Seria: {$1|dzień|dni|dni|dnia} z rzędu"
+ ],
+ [
+  "^слів (.+?) закріплено$",
+  "słów $1 utrwalono"
+ ],
+ [
+  "^На (.+?)% менше, ніж (.+?)$",
+  "O $1% mniej niż $2"
+ ],
+ [
+  "^Ключові фрази · (.+?)$",
+  "Kluczowe frazy · $1"
+ ],
+ [
+  "^Протестовано (.+?) з (.+?)$",
+  "Przetestowano $1 z $2"
+ ],
+ [
+  "^Корисні фрази · (.+?)$",
+  "Przydatne frazy · $1"
+ ],
+ [
+  "^(.+?) — уже в картках$",
+  "$1 — już w fiszkach"
+ ],
+ [
+  "^Чудово! (.+?) поспіль$",
+  "Świetnie! $1 z rzędu"
+ ],
+ [
+  "^Потребує уваги: (.+?)\\.$",
+  "Wymaga uwagi: $1."
+ ],
+ [
+  "^На повторення: (.+?)\\.$",
+  "Do powtórki: $1."
+ ],
+ [
+  "^Правило тижня: (.+?)$",
+  "Reguła tygodnia: $1"
+ ],
+ [
+  "^Відпрацьовано (.+?) (?:помилку|помилки|помилок)$",
+  "Przećwiczono {$1|błąd|błędy|błędów|błędu}"
+ ],
+ [
+  "^Правила тижня: (.+?)$",
+  "Reguły tygodnia: $1"
+ ],
+ [
+  "^Ні\\. Правильно: (.+?)\\. (.+?)$",
+  "Nie. Poprawnie: $1. $2"
+ ],
+ [
+  "^Рекорд рівня (.+?): (.+?)$",
+  "Rekord poziomu $1: $2"
+ ],
+ [
+  "^Показати всі · (.+?)$",
+  "Pokaż wszystkie · $1"
+ ],
+ [
+  "^Прослухати: (.+?) — (.+?)$",
+  "Posłuchaj: $1 — $2"
+ ],
+ [
+  "^Розгадано за (.+?) (.+?)!$",
+  "Odgadnięte w {$1|próbie|próbach|próbach|próby}!"
+ ],
+ [
+  "^Найкраще: (.+?) з 10$",
+  "Najlepiej: $1 z 10"
+ ],
+ [
+  "^озвучень \\(ліміт (.+?)\\)$",
+  "lektor (limit $1)"
+ ],
+ [
+  "^Ваш прогрес · (.+?) (?:сесія|сесії|сесій)$",
+  "Twoje postępy · {$1|sesja|sesje|sesji|sesji}"
+ ],
+ [
+  "^Також закрито: (.+?)$",
+  "Zamknięto też: $1"
+ ],
+ [
+  "^Рівень (.+?) закрито$",
+  "Poziom $1 zamknięty"
+ ],
+ [
+  "^(.+?) хв · (.+?) (?:пункт|пункти|пунктів) по колу$",
+  "$1 min · {$2|punkt|punkty|punktów|punktu} w pętli"
+ ],
+ [
+  "^(.+?) · ×(.+?) · закрито (.+?)$",
+  "$1 · ×$2 · zamknięte $3"
+ ],
+ [
+  "^Інші правила · (.+?)$",
+  "Inne reguły · $1"
+ ],
+ [
+  "^(.+?) (?:помилка|помилки|помилок) · засвоєння (.+?)/(.+?)$",
+  "{$1|błąd|błędy|błędów|błędu} · przyswojenie $2/$3"
+ ],
+ [
+  "^Підготуватися: (.+?)$",
+  "Przygotuj się: $1"
+ ],
+ [
+  "^Мої ситуації · (.+?)$",
+  "Moje sytuacje · $1"
+ ],
+ [
+  "^Сценарій дня · (.+?)$",
+  "Scenariusz dnia · $1"
+ ],
+ [
+  "^У фразнику: \\+(.+?) · (.+?)$",
+  "W rozmówkach: +$1 · $2"
+ ],
+ [
+  "^Комбо: (.+?) поспіль$",
+  "Kombo: $1 z rzędu"
+ ],
+ [
+  "^Іспит рівня (.+?) · (.+?)$",
+  "Egzamin poziomu $1 · $2"
+ ],
+ [
+  "^(.+?) (?:картка чекає|картки чекають|карток чекають) на повторення$",
+  "{$1|fiszka czeka|fiszki czekają|fiszek czeka|fiszki czeka} na powtórkę"
+ ],
+ [
+  "^Поговорили (.+?) хв$",
+  "Rozmowa: $1 min"
+ ],
+ [
+  "^(.+?) — правильно: (.+?)(.+?)$",
+  "$1 — poprawnie: $2$3"
+ ],
+ [
+  "^Користувачі · (.+?)$",
+  "Użytkownicy · $1"
+ ],
+ [
+  "^(.+?) хв за 4 тижні$",
+  "$1 min w 4 tygodnie"
+ ],
+ [
+  "^нових за 14 дн\\.(.+?)$",
+  "nowych w 14 dni$1"
+ ],
+ [
+  "^4-3-2 · раунд (.+?)$",
+  "4-3-2 · runda $1"
+ ],
+ [
+  "^Заблоковані · (.+?)$",
+  "Zablokowani · $1"
+ ],
+ [
+  "^\\} · закрито (.+?) з (.+?)$",
+  "} · zamknięte $1 z $2"
+ ],
+ [
+  "^з (.+?) без помилок$",
+  "z $1 bez błędów"
+ ],
+ [
+  "^(.+?) (?:репліка|репліки|реплік) · два голоси$",
+  "{$1|kwestia|kwestie|kwestii|kwestii} · dwa głosy"
+ ],
+ [
+  "^Розуміння: (.+?) з (.+?)$",
+  "Rozumienie: $1 z $2"
+ ],
+ [
+  "^Засвоєння: (.+?) з (.+?)$",
+  "Przyswojenie: $1 z $2"
+ ],
+ [
+  "^Оцінка (.+?) зі 100$",
+  "Ocena $1 na 100"
+ ],
+ [
+  "^Продовжити · (.+?)%$",
+  "Kontynuuj · $1%"
+ ],
+ [
+  "^• Нових слів: (.+?)$",
+  "• Nowe słowa: $1"
+ ],
+ [
+  "^Рольова гра · (.+?)$",
+  "Scenka · $1"
+ ],
+ [
+  "^(.+?) · 8–20 питань$",
+  "$1 · 8–20 pytań"
+ ],
+ [
+  "^(.+?) (?:частина|частини|частин) · до (.+?) питань$",
+  "{$1|część|części|części|części} · do $2 pytań"
+ ],
+ [
+  "^Не враховано: (.+?)\\.$",
+  "Nie uwzględniono: $1."
+ ],
+ [
+  "^повтор · стаб\\. (.+?)$",
+  "powtórka · stab. $1"
+ ],
+ [
+  "^Найкраще йде: (.+?)\\.$",
+  "Najlepiej idzie: $1."
+ ],
+ [
+  "^тижневі тести \\((.+?)\\)$",
+  "testy tygodniowe ($1)"
+ ],
+ [
+  "^Правильно: (.+?) з (.+?)$",
+  "Poprawnie: $1 z $2"
+ ],
+ [
+  "^Діалоги рівня (.+?)$",
+  "Dialogi poziomu $1"
+ ],
+ [
+  "^Покращилось: (.+?)\\.$",
+  "Poprawiło się: $1."
+ ],
+ [
+  "^Мої помилки: (.+?)$",
+  "Moje błędy: $1"
+ ],
+ [
+  "^Рекорд рівня (.+?)$",
+  "Rekord poziomu $1"
+ ],
+ [
+  "^(.+?): без артикля$",
+  "$1: bez przedimka"
+ ],
+ [
+  "^Ваш варіант: (.+?)$",
+  "Twoja wersja: $1"
+ ],
+ [
+  "^ваш варіант: (.+?)$",
+  "twoja wersja: $1"
+ ],
+ [
+  "^(.+?) нових речень$",
+  "{$1|nowe zdanie|nowe zdania|nowych zdań|nowego zdania}"
+ ],
+ [
+  "^(.+?) — (.+?)\\. Правильно\\?$",
+  "$1 — $2. Poprawnie?"
+ ],
+ [
+  "^серія · макс\\. (.+?)$",
+  "seria · maks. $1"
+ ],
+ [
+  "^Ви в групі «(.+?)»$",
+  "Jesteś w grupie «$1»"
+ ],
+ [
+  "^(.+?) (?:запис|записи|записів) у щоденнику(.+?)$",
+  "{$1|wpis|wpisy|wpisów|wpisu} w dzienniku$2"
+ ],
+ [
+  "^(.+?) · ваш рівень$",
+  "$1 · twój poziom"
+ ],
+ [
+  "^Колоди рівня (.+?)$",
+  "Talie poziomu $1"
+ ],
+ [
+  "^(.+?) приєднується$",
+  "$1 dołącza"
+ ],
+ [
+  "^(.+?): (.+?) у дуелі «(.+?)»$",
+  "$1: $2 w pojedynku «$3»"
+ ],
+ [
+  "^Закріплено · (.+?)$",
+  "Przypięte · $1"
+ ],
+ [
+  "^Переглянули: (.+?)$",
+  "Wyświetlili: $1"
+ ],
+ [
+  "^(.+?) · привітайте$",
+  "$1 · pogratuluj"
+ ],
+ [
+  "^Мої записи · (.+?)$",
+  "Moje wpisy · $1"
+ ],
+ [
+  "^Ваш запис · (.+?) (?:слово|слова|слів)$",
+  "Twój wpis · {$1|słowo|słowa|słów|słowa}"
+ ],
+ [
+  "^Вперемішку · (.+?)$",
+  "Na przemian · $1"
+ ],
+ [
+  "^Раунд (.+?) ще раз$",
+  "Runda $1 jeszcze raz"
+ ],
+ [
+  "^Почати раунд (.+?)(.+?)$",
+  "Zacznij rundę $1$2"
+ ],
+ [
+  "^(.+?) запрошує · (.+?) (?:учасник|учасники|учасників)(.+?)$",
+  "$1 zaprasza · {$2|uczestnik|uczestników|uczestników|uczestnika}$3"
+ ],
+ [
+  "^Рекорд: (.+?) з 15$",
+  "Rekord: $1 z 15"
+ ],
+ [
+  "^Старт · день (.+?)$",
+  "Start · dzień $1"
+ ],
+ [
+  "^· у розмовах (.+?)(.+?)$",
+  "· w rozmowach $1$2"
+ ],
+ [
+  "^Оповідання · (.+?)$",
+  "Opowiadania · $1"
+ ],
+ [
+  "^Прочитано (.+?) з (.+?)$",
+  "Przeczytano $1 z $2"
+ ],
+ [
+  "^(.+?) з (.+?) правильно$",
+  "$1 z $2 poprawnie"
+ ],
+ [
+  "^найслабша — (.+?) (.+?)$",
+  "najsłabsza — $1 $2"
+ ],
+ [
+  "^(.+?) · розділ (.+?) з (.+?)$",
+  "$1 · rozdział $2 z $3"
+ ],
+ [
+  "^Приблизно як (.+?)$",
+  "Mniej więcej jak $1"
+ ],
+ [
+  "^Тренування: (.+?) (?:слово|слова|слів)$",
+  "Trening: {$1|słowo|słowa|słów|słowa}"
+ ],
+ [
+  "^(.+?) (?:крок|кроки|кроків) на сьогодні$",
+  "{$1|krok|kroki|kroków|kroku} na dziś"
+ ],
+ [
+  "^Залишилось ≈(.+?) (?:хвилина|хвилини|хвилин)$",
+  "Zostało ≈{$1|minuta|minuty|minut|minuty}"
+ ],
+ [
+  "^Перший крок: (.+?)$",
+  "Pierwszy krok: $1"
+ ],
+ [
+  "^Правильно (.+?) з (.+?)$",
+  "Poprawnie $1 z $2"
+ ],
+ [
+  "^Сповіщення: (.+?) (?:нове|нові|нових)$",
+  "Powiadomienia: {$1|nowe|nowe|nowych|nowego}"
+ ],
+ [
+  "^Порівняння: (.+?)$",
+  "Porównanie: $1"
+ ],
+ [
+  "^(.+?) (?:слово|слова|слів) за тиждень$",
+  "{$1|słowo|słowa|słów|słowa} w tydzień"
+ ],
+ [
+  "^(.+?) (?:розмова|розмови|розмов) з вчителем$",
+  "{$1|rozmowa|rozmowy|rozmów|rozmowy} z nauczycielem"
+ ],
+ [
+  "^Готово · (.+?) хв$",
+  "Gotowe · $1 min"
+ ],
+ [
+  "^Виправлень: (.+?)$",
+  "Poprawek: $1"
+ ],
+ [
+  "^виправлень: (.+?)$",
+  "poprawek: $1"
+ ],
+ [
+  "^Вправи · (.+?) з (.+?)$",
+  "Ćwiczenia · $1 z $2"
+ ],
+ [
+  "^Відповісти: (.+?)$",
+  "Odpowiedz: $1"
+ ],
+ [
+  "^близько (.+?) · (.+?) (?:оцінка|оцінки|оцінок)$",
+  "około $1 · {$2|ocena|oceny|ocen|oceny}"
+ ],
+ [
+  "^(.+?) слів/хв · (.+?) (?:голосова розмова|голосові розмови|голосових розмов)$",
+  "$1 słów/min · {$2|rozmowa głosowa|rozmowy głosowe|rozmów głosowych|rozmowy głosowej}"
+ ],
+ [
+  "^тест, (.+?) (?:день|дні|днів) тому$",
+  "test, {$1|dzień|dni|dni|dnia} temu"
+ ],
+ [
+  "^говоріння, (.+?) (?:оцінка|оцінки|оцінок)$",
+  "mówienie, {$1|ocena|oceny|ocen|oceny}"
+ ],
+ [
+  "^що стримує: (.+?)$",
+  "co hamuje: $1"
+ ],
+ [
+  "^До повтору: (.+?)$",
+  "Do powtórki: $1"
+ ],
+ [
+  "^«(.+?)» — вивчено$",
+  "«$1» — nauczone"
+ ],
+ [
+  "^· почуто: «(.+?)»$",
+  "· usłyszano: «$1»"
+ ],
+ [
+  "^Заблокувати (.+?)\\?$",
+  "Zablokować: $1?"
+ ],
+ [
+  "^Прослухати: (.+?)$",
+  "Posłuchaj: $1"
+ ],
+ [
+  "^Одна тема · (.+?)$",
+  "Jeden temat · $1"
+ ],
+ [
+  "^Раунд (.+?) з (.+?) · (.+?)$",
+  "Runda $1 z $2 · $3"
+ ],
+ [
+  "^(.+?) на 100 слів$",
+  "$1 na 100 słów"
+ ],
+ [
+  "^Пройдено (.+?) з (.+?)$",
+  "Ukończono $1 z $2"
+ ],
+ [
+  "^Продовжити: (.+?)$",
+  "Kontynuuj: $1"
+ ],
+ [
+  "^Іспит рівня (.+?)$",
+  "Egzamin poziomu $1"
+ ],
+ [
+  "^Засвоєння: (.+?)/(.+?)$",
+  "Przyswojenie: $1/$2"
+ ],
+ [
+  "^(.+?) найчастіших$",
+  "$1 najczęstszych"
+ ],
+ [
+  "^(.+?) без помилок$",
+  "$1 bez błędów"
+ ],
+ [
+  "^пройдено (.+?) з (.+?)$",
+  "ukończono $1 z $2"
+ ],
+ [
+  "^на 7 днів: (.+?) (.+?)$",
+  "na 7 dni: $1 $2"
+ ],
+ [
+  "^Згенеровано (.+?)$",
+  "Wygenerowano $1"
+ ],
+ [
+  "^(.+?) у щоденнику$",
+  "$1 w dzienniku"
+ ],
+ [
+  "^(.+?) слів/хв · (.+?) (?:розмова|розмови|розмов)$",
+  "$1 słów/min · {$2|rozmowa|rozmowy|rozmów|rozmowy}"
+ ],
+ [
+  "^(.+?) хв практики$",
+  "$1 min praktyki"
+ ],
+ [
+  "^Іспит рівня (.+?)(.+?)$",
+  "Egzamin poziomu $1$2"
+ ],
+ [
+  "^Почати · (.+?) хв$",
+  "Zacznij · $1 min"
+ ],
+ [
+  "^У фразник · (.+?)$",
+  "Do rozmówek · $1"
+ ],
+ [
+  "^близько (.+?) (?:тижня|тижнів|тижнів) · (.+?)$",
+  "około {$1|tygodnia|tygodni|tygodni|tygodnia} · $2"
+ ],
+ [
+  "^тест рівня, (.+?)(.+?)$",
+  "test poziomu, $1$2"
+ ],
+ [
+  "^Уроки рівня (.+?)$",
+  "Lekcje poziomu $1"
+ ],
+ [
+  "^Повторено (.+?) (?:слово|слова|слів)$",
+  "Powtórzono {$1|słowo|słowa|słów|słowa}"
+ ],
+ [
+  "^(.+?), повернути$",
+  "$1, cofnij"
+ ],
+ [
+  "^Правильно! (.+?)$",
+  "Poprawnie! $1"
+ ],
+ [
+  "^Правильно: (.+?)$",
+  "Poprawnie: $1"
+ ],
+ [
+  "^Прослухати (.+?)$",
+  "Posłuchaj $1"
+ ],
+ [
+  "^(.+?) нових слів$",
+  "{$1|nowe słowo|nowe słowa|nowych słów|nowego słowa}"
+ ],
+ [
+  "^(.+?)\\. Варіанти: (.+?)$",
+  "$1. Warianty: $2"
+ ],
+ [
+  "^Слово було (.+?)\\.$",
+  "Słowo to $1."
+ ],
+ [
+  "^\\. Спроба (.+?) з (.+?)\\.$",
+  ". Próba $1 z $2."
+ ],
+ [
+  "^Ваша роль: (.+?)$",
+  "Twoja rola: $1"
+ ],
+ [
+  "^(.+?) з (.+?) уроків (.+?)$",
+  "$1 z $2 lekcji $3"
+ ],
+ [
+  "^Міні-урок: (.+?)$",
+  "Minilekcja: $1"
+ ],
+ [
+  "^(.+?): (.+?) (.+?) поспіль$",
+  "$1: $2 $3 z rzędu"
+ ],
+ [
+  "^Зіграли (.+?) з (.+?)$",
+  "Zagrali: $1 z $2"
+ ],
+ [
+  "^Відповідь: (.+?)$",
+  "Odpowiedź: $1"
+ ],
+ [
+  "^Учасники · (.+?)$",
+  "Uczestnicy · $1"
+ ],
+ [
+  "^Як краще · (.+?)$",
+  "Jak lepiej · $1"
+ ],
+ [
+  "^Щоденник · (.+?)$",
+  "Dziennik · $1"
+ ],
+ [
+  "^за 7 днів: (.+?)$",
+  "w 7 dni: $1"
+ ],
+ [
+  "^Питання (.+?) з (.+?)$",
+  "Pytanie $1 z $2"
+ ],
+ [
+  "^Почали з «(.+?)»$",
+  "Zaczęto od «$1»"
+ ],
+ [
+  "^Ваш стрік: (.+?)$",
+  "Twoja seria: $1"
+ ],
+ [
+  "^спроба (.+?) з 6$",
+  "próba $1 z 6"
+ ],
+ [
+  "^Перейти на (.+?)$",
+  "Przejdź na $1"
+ ],
+ [
+  "^Розділ 1 · (.+?)$",
+  "Rozdział 1 · $1"
+ ],
+ [
+  "^Речення (.+?) з (.+?)$",
+  "Zdanie $1 z $2"
+ ],
+ [
+  "^сьогодні о (.+?)$",
+  "dziś o $1"
+ ],
+ [
+  "^(.+?) (?:помилка|помилки|помилок) · (.+?) (?:правило|правила|правил) тижня$",
+  "{$1|błąd|błędy|błędów|błędu} · {$2|reguła|reguły|reguł|reguły} tygodnia"
+ ],
+ [
+  "^Опановано (.+?)%$",
+  "Opanowano $1%"
+ ],
+ [
+  "^(.+?) (?:питання|питання|питань) до тексту(.+?)$",
+  "{$1|pytanie|pytania|pytań|pytania} do tekstu$2"
+ ],
+ [
+  "^закріплено (.+?)$",
+  "utrwalono $1"
+ ],
+ [
+  "^(.+?) хв голосом$",
+  "$1 min głosem"
+ ],
+ [
+  "^(.+?) хв на день$",
+  "$1 min dziennie"
+ ],
+ [
+  "^Прогрес за (.+?)$",
+  "Postępy za $1"
+ ],
+ [
+  "^сформовано (.+?)$",
+  "utworzono $1"
+ ],
+ [
+  "^Урок рівня (.+?)$",
+  "Lekcja poziomu $1"
+ ],
+ [
+  "^Речення (.+?): (.+?)$",
+  "Zdanie $1: $2"
+ ],
+ [
+  "^Промахів: (.+?)$",
+  "Pudła: $1"
+ ],
+ [
+  "^Життя: (.+?) з (.+?)$",
+  "Życia: $1 z $2"
+ ],
+ [
+  "^(.+?) · (.+?) секунд$",
+  "$1 · $2 sekund"
+ ],
+ [
+  "^опановано (.+?)$",
+  "opanowano $1"
+ ],
+ [
+  "^Повторити (.+?)$",
+  "Powtórz $1"
+ ],
+ [
+  "^(.+?) · спроб: (.+?)$",
+  "$1 · prób: $2"
+ ],
+ [
+  "^Тема дня: (.+?)$",
+  "Temat dnia: $1"
+ ],
+ [
+  "^Голосове: (.+?)$",
+  "Wiadomość głosowa: $1"
+ ],
+ [
+  "^(.+?) · рівень (.+?)$",
+  "$1 · poziom $2"
+ ],
+ [
+  "^Помилки · (.+?)$",
+  "Błędy · $1"
+ ],
+ [
+  "^Ще теми · (.+?)$",
+  "Więcej tematów · $1"
+ ],
+ [
+  "^Готово (.+?) з (.+?)$",
+  "Gotowe $1 z $2"
+ ],
+ [
+  "^(.+?) (?:питання|питання|питань) пройдено$",
+  "{$1|pytanie ukończone|pytania ukończone|pytań ukończonych|pytania ukończonego}"
+ ],
+ [
+  "^Ще (.+?) питань$",
+  "Jeszcze $1 pytań"
+ ],
+ [
+  "^Надіслано (.+?)$",
+  "Wysłano $1"
+ ],
+ [
+  "^Рекорд: (.+?) с$",
+  "Rekord: $1 s"
+ ],
+ [
+  "^Рівень (.+?) → (.+?)$",
+  "Poziom $1 → $2"
+ ],
+ [
+  "^закрито · (.+?)$",
+  "zamknięte · $1"
+ ],
+ [
+  "^(.+?), (.+?) · (.+?) слів(.+?)$",
+  "$1, $2 · $3 słów$4"
+ ],
+ [
+  "^(.+?), (.+?) · (.+?) слів$",
+  "$1, $2 · $3 słów"
+ ],
+ [
+  "^Фразник · (.+?)$",
+  "Rozmówki · $1"
+ ],
+ [
+  "^Видалити: (.+?)$",
+  "Usuń: $1"
+ ],
+ [
+  "^Рівень (.+?) · (.+?)$",
+  "Poziom $1 · $2"
+ ],
+ [
+  "^тиждень: (.+?) (.+?)$",
+  "tydzień: $1 $2"
+ ],
+ [
+  "^почуто: «(.+?)»$",
+  "usłyszano: «$1»"
+ ],
+ [
+  "^Розділ (.+?) з (.+?)$",
+  "Rozdział $1 z $2"
+ ],
+ [
+  "^відкритих (.+?)$",
+  "otwartych $1"
+ ],
+ [
+  "^швидкий · (.+?)$",
+  "szybki · $1"
+ ],
+ [
+  "^Пройдено (.+?) (?:питання|питання|питань)$",
+  "Ukończono {$1|pytanie|pytania|pytań|pytania}"
+ ],
+ [
+  "^(.+?): виконано$",
+  "$1: zrobione"
+ ],
+ [
+  "^Видалити (.+?) (?:розмову|розмови|розмов)\\?$",
+  "Usunąć {$1|rozmowę|rozmowy|rozmów|rozmowy}?"
+ ],
+ [
+  "^(.+?) слів/хв ·$",
+  "$1 słów/min ·"
+ ],
+ [
+  "^Заповнюю (.+?)…$",
+  "Uzupełniam $1…"
+ ],
+ [
+  "^Зараз: (.+?) · (.+?)$",
+  "Teraz: $1 · $2"
+ ],
+ [
+  "^рівень (.+?) · (.+?)$",
+  "poziom $1 · $2"
+ ],
+ [
+  "^Уроки: (.+?) з (.+?)$",
+  "Lekcje: $1 z $2"
+ ],
+ [
+  "^Слова: (.+?) з (.+?)$",
+  "Słowa: $1 z $2"
+ ],
+ [
+  "^знизилось \\((.+?)\\)$",
+  "spadło ($1)"
+ ],
+ [
+  "^Сценарій: (.+?)$",
+  "Scenariusz: $1"
+ ],
+ [
+  "^Переклад: (.+?)$",
+  "Tłumaczenie: $1"
+ ],
+ [
+  "^Просіло: (.+?)\\.$",
+  "Pogorszyło się: $1."
+ ],
+ [
+  "^15 хв · (.+?) (?:день|дні|днів)$",
+  "15 min · {$1|dzień|dni|dni|dnia}"
+ ],
+ [
+  "^Множник ×(.+?)$",
+  "Mnożnik ×$1"
+ ],
+ [
+  "^слово (.+?) з (.+?)$",
+  "słowo $1 z $2"
+ ],
+ [
+  "^Помилок: (.+?)\\.$",
+  "Błędów: $1."
+ ],
+ [
+  "^Написати (.+?)$",
+  "Napisz: $1"
+ ],
+ [
+  "^Звернення(.+?)$",
+  "Zgłoszenia$1"
+ ],
+ [
+  "^Оновлено (.+?)$",
+  "Zaktualizowano $1"
+ ],
+ [
+  "^тест: (.+?) · (.+?)$",
+  "test: $1 · $2"
+ ],
+ [
+  "^(.+?) (?:день|дні|днів) поспіль$",
+  "{$1|dzień|dni|dni|dnia} z rzędu"
+ ],
+ [
+  "^сильних: (.+?)$",
+  "mocnych: $1"
+ ],
+ [
+  "^Вчитель: (.+?)$",
+  "Nauczyciel: $1"
+ ],
+ [
+  "^(.+?) лишилось$",
+  "Zostało: $1"
+ ],
+ [
+  "^(.+?) (.+?) у групі(.+?)$",
+  "$1 $2 w grupie$3"
+ ],
+ [
+  "^(.+?) (.+?) поспіль$",
+  "$1 $2 z rzędu"
+ ],
+ [
+  "^(.+?) з (.+?)–(.+?) слів$",
+  "$1 z $2–$3 słów"
+ ],
+ [
+  "^Почати · (.+?)$",
+  "Zacznij · $1"
+ ],
+ [
+  "^Раунд (.+?) з (.+?)$",
+  "Runda $1 z $2"
+ ],
+ [
+  "^Ваш код: (.+?)$",
+  "Twój kod: $1"
+ ],
+ [
+  "^(.+?) · готово$",
+  "$1 · gotowe"
+ ],
+ [
+  "^(.+?) · Діалог$",
+  "$1 · Dialog"
+ ],
+ [
+  "^(.+?) сьогодні$",
+  "$1 dziś"
+ ],
+ [
+  "^Знали (.+?) з (.+?)$",
+  "Znane: $1 z $2"
+ ],
+ [
+  "^Звучало: (.+?)$",
+  "Brzmiało: $1"
+ ],
+ [
+  "^повторів (.+?)$",
+  "powtórek $1"
+ ],
+ [
+  "^Прибрати (.+?)$",
+  "Usuń $1"
+ ],
+ [
+  "^Вибрати: (.+?)$",
+  "Wybierz: $1"
+ ],
+ [
+  "^Видалити \\((.+?)\\)$",
+  "Usuń ($1)"
+ ],
+ [
+  "^Розмова: (.+?)$",
+  "Rozmowa: $1"
+ ],
+ [
+  "^· «е-е»: (.+?)$",
+  "· «yyy»: $1"
+ ],
+ [
+  "^Переклад (.+?)$",
+  "Tłumaczenie $1"
+ ],
+ [
+  "^Помилок: (.+?)$",
+  "Błędów: $1"
+ ],
+ [
+  "^(?:хвилина|хвилини|хвилин) практики$",
+  "minut praktyki"
+ ],
+ [
+  "^Вам пише (.+?)$",
+  "Pisze do ciebie: $1"
+ ],
+ [
+  "^Колода «(.+?)»$",
+  "Talia «$1»"
+ ],
+ [
+  "^(.+?) поспіль$",
+  "$1 z rzędu"
+ ],
+ [
+  "^Група «(.+?)»$",
+  "Grupa «$1»"
+ ],
+ [
+  "^Місія · (.+?)$",
+  "Misja · $1"
+ ],
+ [
+  "^Звуки · (.+?)$",
+  "Dźwięki · $1"
+ ],
+ [
+  "^(.+?) дн\\. тому$",
+  "$1 dni temu"
+ ],
+ [
+  "^(.+?) (.+?) усього$",
+  "$1 $2 łącznie"
+ ],
+ [
+  "^(?:день|дні|днів) поспіль$",
+  "dni z rzędu"
+ ],
+ [
+  "^Голосове(.+?)$",
+  "Wiadomość głosowa$1"
+ ],
+ [
+  "^Виклик: (.+?)$",
+  "Wyzwanie: $1"
+ ],
+ [
+  "^Дуель · (.+?)$",
+  "Pojedynek · $1"
+ ],
+ [
+  "^Рекорд: (.+?)$",
+  "Rekord: $1"
+ ],
+ [
+  "^(.+?)\\. (.+?), урок (.+?)$",
+  "$1. $2, lekcja $3"
+ ],
+ [
+  "^(.+?) · урок (.+?)$",
+  "$1 · lekcja $2"
+ ],
+ [
+  "^Книги · (.+?)$",
+  "Książki · $1"
+ ],
+ [
+  "^Архів · (.+?)$",
+  "Archiwum · $1"
+ ],
+ [
+  "^Забути: (.+?)$",
+  "Zapomnij: $1"
+ ],
+ [
+  "^↑ на (.+?) хв$",
+  "↑ o $1 min"
+ ],
+ [
+  "^↓ на (.+?) хв$",
+  "↓ o $1 min"
+ ],
+ [
+  "^закрито (.+?)$",
+  "zamknięto $1"
+ ],
+ [
+  "^Звіт за (.+?)$",
+  "Raport za $1"
+ ],
+ [
+  "^Етап (.+?) з (.+?)$",
+  "Etap $1 z $2"
+ ],
+ [
+  "^бонус · (.+?)$",
+  "bonus · $1"
+ ],
+ [
+  "^Додано: (.+?)$",
+  "Dodano: $1"
+ ],
+ [
+  "^Крок (.+?) з (.+?)$",
+  "Krok $1 z $2"
+ ],
+ [
+  "^(.+?) · (.+?) слів$",
+  "$1 · $2 słów"
+ ],
+ [
+  "^мета (.+?) хв$",
+  "cel $1 min"
+ ],
+ [
+  "^(.+?) слів/хв$",
+  "$1 słów/min"
+ ],
+ [
+  "^(.+?) (?:речення|речення|речень) · ~(.+?) хв$",
+  "{$1|zdanie|zdania|zdań|zdania} · ~$2 min"
+ ],
+ [
+  "^Голос: (.+?)$",
+  "Głos: $1"
+ ],
+ [
+  "^(.+?) секунд$",
+  "$1 sekund"
+ ],
+ [
+  "^рекорд (.+?)$",
+  "rekord $1"
+ ],
+ [
+  "^Спроба (.+?)$",
+  "Próba $1"
+ ],
+ [
+  "^Місія: (.+?)$",
+  "Misja: $1"
+ ],
+ [
+  "^з AI: (.+?) (.+?)$",
+  "z AI: {$1|osoba|osoby|osób|osoby}"
+ ],
+ [
+  "^раніше (.+?)$",
+  "wcześniej $1"
+ ],
+ [
+  "^Колода (.+?)$",
+  "Talia $1"
+ ],
+ [
+  "^Нових: (.+?)$",
+  "Nowe: $1"
+ ],
+ [
+  "^(.+?) додає (.+?)$",
+  "$1 dodaje: $2"
+ ],
+ [
+  "^Дуель: (.+?)$",
+  "Pojedynek: $1"
+ ],
+ [
+  "^Ви: (.+?) з (.+?)(.+?)$",
+  "Ty: $1 z $2$3"
+ ],
+ [
+  "^стало: (.+?)$",
+  "jest: $1"
+ ],
+ [
+  "^Рівень (.+?)$",
+  "Poziom $1"
+ ],
+ [
+  "^(.+?) питань$",
+  "$1 pytań"
+ ],
+ [
+  "^(.+?)\\\\u00a0хв$",
+  "$1 min"
+ ],
+ [
+  "^Стрік: (.+?)$",
+  "Seria: $1"
+ ],
+ [
+  "^Вправи \\((.+?)\\)$",
+  "Ćwiczenia ($1)"
+ ],
+ [
+  "^Формула(.+?)$",
+  "Wzór$1"
+ ],
+ [
+  "^· коло (.+?)$",
+  "· okrążenie $1"
+ ],
+ [
+  "^(.+?) частих$",
+  "$1 częstych"
+ ],
+ [
+  "^далі — (.+?)$",
+  "dalej — $1"
+ ],
+ [
+  "^(.+?) · ~(.+?) хв$",
+  "$1 · ~$2 min"
+ ],
+ [
+  "^почато (.+?)$",
+  "rozpoczęto $1"
+ ],
+ [
+  "^Вгору: (.+?)$",
+  "W górę: $1"
+ ],
+ [
+  "^Додати (.+?)$",
+  "Dodaj $1"
+ ],
+ [
+  "^Ще раз \\((.+?)\\)$",
+  "Jeszcze raz ($1)"
+ ],
+ [
+  "^Далі · (.+?)$",
+  "Dalej · $1"
+ ],
+ [
+  "^стрік (.+?) (?:день|дні|днів)$",
+  "seria {$1|dzień|dni|dni|dnia}"
+ ],
+ [
+  "^Історія(.+?)$",
+  "Historia$1"
+ ],
+ [
+  "^Лишити (.+?)$",
+  "Zostań na $1"
+ ],
+ [
+  "^Літер: (.+?)$",
+  "Liter: $1"
+ ],
+ [
+  "^(.+?) (?:пара|пари|пар) за (.+?) с$",
+  "{$1|para|pary|par|pary} w $2 s"
+ ],
+ [
+  "^Учень: (.+?)$",
+  "Uczeń: $1"
+ ],
+ [
+  "^забув (.+?) (?:раз|рази|разів)$",
+  "zapomniał {$1|raz|razy|razy|razy}"
+ ],
+ [
+  "^між (.+?) і (.+?)$",
+  "między $1 a $2"
+ ],
+ [
+  "^Тема: (.+?)$",
+  "Temat: $1"
+ ],
+ [
+  "^Мій · (.+?)$",
+  "Mój · $1"
+ ],
+ [
+  "^Далі: (.+?)$",
+  "Dalej: $1"
+ ],
+ [
+  "^(.+?): (.+?) з 7$",
+  "$1: $2 z 7"
+ ],
+ [
+  "^(.+?) нових$",
+  "$1 nowych"
+ ],
+ [
+  "^було: (.+?)$",
+  "było: $1"
+ ],
+ [
+  "^Серія (.+?)$",
+  "Seria $1"
+ ],
+ [
+  "^(.+?) · мій$",
+  "$1 · mój"
+ ],
+ [
+  "^Урок: (.+?)$",
+  "Lekcja: $1"
+ ],
+ [
+  "^(.+?) хв · (.+?)$",
+  "$1 min · $2"
+ ],
+ [
+  "^Звук: (.+?)$",
+  "Dźwięk: $1"
+ ],
+ [
+  "^(.+?) · (.+?) з (.+?)$",
+  "$1 · $2 z $3"
+ ],
+ [
+  "^нових (.+?)$",
+  "nowych $1"
+ ],
+ [
+  "^Тест: (.+?)$",
+  "Test: $1"
+ ],
+ [
+  "^(.+?) з (.+?) хв$",
+  "$1 z $2 min"
+ ],
+ [
+  "^до (.+?) хв$",
+  "do $1 min"
+ ],
+ [
+  "^росте \\(\\+(.+?)\\)$",
+  "rośnie (+$1)"
+ ],
+ [
+  "^Мета: (.+?)$",
+  "Cel: $1"
+ ],
+ [
+  "^(.+?), нове$",
+  "$1, nowe"
+ ],
+ [
+  "^(.+?) учасн\\.$",
+  "$1 uczestn."
+ ],
+ [
+  "^(.+?) з 20$",
+  "$1 z 20"
+ ],
+ [
+  "^(.+?): (.+?) хв$",
+  "$1: $2 min"
+ ],
+ [
+  "^(.+?) фраз$",
+  "$1 fraz"
+ ],
+ [
+  "^(.+?): дії$",
+  "$1: działania"
+ ],
+ [
+  "^з (.+?) хв$",
+  "z $1 min"
+ ],
+ [
+  "^/ (.+?) хв$",
+  "/ $1 min"
+ ],
+ [
+  "^✓ (.+?) з (.+?)$",
+  "✓ $1 z $2"
+ ],
+ [
+  "^сьог\\. (.+?)$",
+  "dziś $1"
+ ],
+ [
+  "^(.+?) год (.+?)$",
+  "$1 godz. $2"
+ ],
+ [
+  "^· (.+?) хв$",
+  "· $1 min"
+ ],
+ [
+  "^Так\\. (.+?)$",
+  "Tak. $1"
+ ],
+ [
+  "^(.+?) год(.+?)$",
+  "$1 godz.$2"
+ ],
+ [
+  "^(.+?) на (.+?)(.+?)$",
+  "$1 na $2$3"
+ ],
+ [
+  "^(.+?) год$",
+  "$1 godz."
+ ],
+ [
+  "^за (.+?) (?:репліку|репліки|реплік)$",
+  "w {$1|wypowiedzi|wypowiedziach|wypowiedziach|wypowiedzi}"
+ ],
+ [
+  "^(.+?) міс\\.$",
+  "$1 mies."
+ ],
+ [
+  "^(.+?) \\(ви\\)$",
+  "$1 (ty)"
+ ],
+ [
+  "^(.+?) з (.+?)$",
+  "$1 z $2"
+ ],
+ [
+  "^(.+?) хв$",
+  "$1 min"
+ ],
+ [
+  "^(.+?) дн\\.$",
+  "$1 dni"
+ ],
+ [
+  "^на (.+?)$",
+  "na $1"
+ ],
+ [
+  "^ще (.+?)$",
+  "jeszcze $1"
+ ],
+ [
+  "^(.+?) с$",
+  "$1 s"
+ ],
+ [
+  "^(.+?): (.+?)$",
+  "$1: $2"
+ ],
+ [
+  "^у (.+?)$",
+  "w $1"
+ ],
+ [
+  "^з (.+?)$",
+  "z $1"
+ ],
+ [
+  "^(.+?) р\\.$",
+  "$1 r."
+ ],
+ [
+  "^(.+?)$",
+  "$1"
+ ],
+ [
+  "^(.+?)(.+?)$",
+  "$1$2"
+ ]
+]

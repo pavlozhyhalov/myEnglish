@@ -1,4 +1,8 @@
 // Чиста логіка нагадувань (без мережі й бази) — покрита тестами в logic_test.ts
+// Тексти — мовою одержувача (push/i18n.ts; lang — profiles.data.settings.lang, за замовчуванням українська)
+import { pushText, plural } from './i18n.ts';
+import { ADDRESS, UI_LANGS, cyrUi, langStyle, readUiLang } from '../_shared/prompts.ts';
+export { plural };
 
 export const ACTIVE_DAY_SEC = 5 * 60;     // день зараховується в стрік від 5 хв (як js/stats.js)
 export const WINDOW_MIN = 120;            // нагадування надсилається протягом 2 год після обраного часу (cron — кожні 15 хв)
@@ -42,36 +46,29 @@ export function streakFrom(secByDay: Map<string, number>, today: string): number
   return streak;
 }
 
-export function plural(n: number, one: string, few: string, many: string) {
-  const a = Math.abs(n) % 100, b = a % 10;
-  if (a > 10 && a < 20) return many;
-  if (b === 1) return one;
-  if (b >= 2 && b <= 4) return few;
-  return many;
-}
-
 export type Kinds = { cards?: boolean; streak?: boolean };
 export type Message = { title: string; body: string; url: string; tag: string };
 
 /** Текст нагадування або null, якщо нагадувати нема про що */
-export function buildMessage({ due, todaySec, streak, kinds }: { due: number; todaySec: number; streak: number; kinds: Kinds }): Message | null {
+export function buildMessage({ due, todaySec, streak, kinds, lang }: { due: number; todaySec: number; streak: number; kinds: Kinds; lang?: unknown }): Message | null {
   const wantCards = kinds.cards !== false && due > 0;
   const wantStreak = kinds.streak !== false && todaySec < ACTIVE_DAY_SEC;
   if (!wantCards && !wantStreak) return null;
-  const cardsLine = `${due} ${plural(due, 'картка чекає', 'картки чекають', 'карток чекають')} на повторення.`;
+  const T = pushText(lang);
+  const cardsLine = T.cards(due);
   const left = Math.max(1, Math.ceil((ACTIVE_DAY_SEC - todaySec) / 60));
-  const leftTxt = `${left} ${plural(left, 'хвилину', 'хвилини', 'хвилин')}`;
+  const leftTxt = T.minutes(left);
   let title: string, body: string;
   if (wantStreak && streak > 0) {
-    title = 'Стрік під загрозою';
-    body = `Ваш стрік — ${streak} ${plural(streak, 'день', 'дні', 'днів')}. Позаймайтеся ще ${leftTxt}, щоб його зберегти.`;
+    title = T.streakTitle;
+    body = T.streakBody(streak, leftTxt);
     if (wantCards) body += ' ' + cardsLine;
   } else if (wantCards) {
-    title = 'Час повторити картки';
-    body = cardsLine + (wantStreak ? ` Ще ${leftTxt} практики — і день зарахується в стрік.` : '');
+    title = T.cardsTitle;
+    body = cardsLine + (wantStreak ? T.cardsExtra(leftTxt) : '');
   } else {
-    title = 'Час для англійської';
-    body = `Ще ${leftTxt} практики — і сьогоднішній день зарахується в стрік.`;
+    title = T.anyTitle;
+    body = T.anyBody(leftTxt);
   }
   return { title, body, url: wantCards ? '#/cards/review' : '#/', tag: 'myenglish-reminder' };
 }
@@ -105,11 +102,25 @@ Return JSON:
 - topic_en: one English sentence (max 200 characters) telling the tutor what to talk about, e.g. "Ask how the student's trip to Gdańsk on 1 Nov 2026 went." Never use topics listed in avoid. Never mention health, money or family conflicts.
 - If level is A0 (an absolute beginner who knows almost no English): invite them to a short, easy lesson «з нуля» (title and body), and topic_en is one simple beginner topic, e.g. "Teach greetings and how to say your name." or "Teach colours and simple likes.".`;
 
+/** Промпт персонального нагадування мовою одержувача (для 'uk' — NUDGE_PROMPT без змін) */
+export function nudgePrompt(lang: unknown = 'uk') {
+  const l = readUiLang(lang);
+  if (l === 'uk') return NUDGE_PROMPT;
+  const L = UI_LANGS[l];
+  return NUDGE_PROMPT
+    .replace('- title: max 40 characters, in Ukrainian.', `- title: max 40 characters, in ${L}.`)
+    .replace('in modern literary Ukrainian, address with «ви», no russianisms, no emoji;', `in natural modern ${L}, address with «${ADDRESS[l]}», no emoji;`)
+    .replace('a short, easy lesson «з нуля» (title and body)', 'a short, easy lesson from zero (title and body)')
+    + `\n${langStyle(l)}`;
+}
+// англійський текст замість мови учня (латинські мови: перевіряємо службові слова англійської)
+const EN_WORDS = /\b(the|your|you|and|today|with|let's|how|what|about)\b/i;
 /** Відповідь моделі → повідомлення; биті поля — запасний текст */
-export function cleanNudge(r: unknown, fallback: Message): Message {
+export function cleanNudge(r: unknown, fallback: Message, lang: unknown = 'uk'): Message {
   const o = (r && typeof r === 'object' ? r : {}) as Record<string, unknown>;
   const title = cutS(o.title, 60), body = cutS(o.body, 160), topic = cutS(o.topic_en, 200);
-  if (!title || !body || /[a-z]{4,}/i.test(title + body.replace(/[A-Z][a-z]+/g, ''))) return fallback;
+  if (!title || !body) return fallback;
+  if (cyrUi(lang) ? /[a-z]{4,}/i.test(title + body.replace(/[A-Z][a-z]+/g, '')) : (EN_WORDS.test(title + ' ' + body) || /[\u0400-\u04FF]/.test(title + body))) return fallback;
   return { title, body, url: topic ? `#/tutor?mode=voice&topic=${encodeURIComponent(topic)}` : fallback.url, tag: fallback.tag };
 }
 
@@ -130,28 +141,27 @@ export function chatNotifyDue(now: number, m: { last_read_at: string; notified_a
   return !notified || notified < read || now - notified > CHAT_RENOTIFY_MS;
 }
 
-export const GAME_LABEL: Record<string, string> = { detective: 'Детектив помилок', rush: 'Швидкий переклад' };
-const CH_LABEL: Record<string, string> = { daily15: '15 хв щодня', words: 'Слова за тиждень', talks: 'Розмови з вчителем' };
-export const challengeLabel = (kind: string, target: number) =>
-  kind === 'daily15' ? (target >= 7 ? '15 хв щодня' : `15 хв · ${target} ${plural(target, 'день', 'дні', 'днів')}`)
-    : kind === 'words' ? `${target} слів за тиждень` : kind === 'talks' ? `${target} ${plural(target, 'розмова', 'розмови', 'розмов')} з вчителем` : (CH_LABEL[kind] || 'Виклик');
+export const GAME_LABEL: Record<string, string> = pushText('uk').games;
+export const challengeLabel = (kind: string, target: number, lang: unknown = 'uk') => pushText(lang).challengeLabel(kind, target);
 
 /** Текст push про нове повідомлення: назва чату й «Ім'я: текст» (для 1:1 — без імені) */
-export function chatMessageText(o: { kind: string; body: string; sender: string; room: { kind: string; title: string | null }; meta?: Record<string, unknown> }): { title: string; body: string } {
+export function chatMessageText(o: { kind: string; body: string; sender: string; room: { kind: string; title: string | null }; meta?: Record<string, unknown> }, lang: unknown = 'uk'): { title: string; body: string } {
+  const T = pushText(lang);
+  const sender = o.sender || T.student;
   // однакові формулювання з дзвіночком у застосунку (js/ui/inbox.js): «Вам пише …», «Нові повідомлення в групі «…»», «Вас кличуть на дуель»
   const cut = (s: string, n: number) => (s.length > n ? s.slice(0, n - 1).trimEnd() + '…' : s);
   const dm = o.room.kind === 'dm';
-  const group = `«${cut(o.room.title || 'Група', 40)}»`;
+  const group = `«${cut(o.room.title || T.group, 40)}»`;
   if (o.kind === 'challenge' && o.meta?.duel_id) {
-    return { title: 'Вас кличуть на дуель', body: cut(`${o.sender} · ${GAME_LABEL[String(o.meta?.game)] || 'гра'}${dm ? '' : ` · група ${group}`} — хто більше?`, 160) };
+    return { title: T.duelTitle, body: cut(T.duelBody(sender, T.games[String(o.meta?.game)] || T.game, dm ? null : group), 160) };
   }
   if (o.kind === 'challenge') {
-    return { title: dm ? `${o.sender} пропонує виклик` : `Новий виклик у групі ${group}`, body: cut(`${dm ? '' : `${o.sender}: `}${challengeLabel(String(o.meta?.kind || ''), Number(o.meta?.target) || 0)} — 7 днів`, 160) };
+    return { title: dm ? T.challengeDm(sender) : T.challengeGroup(group), body: cut(`${dm ? '' : `${sender}: `}${T.challengeLabel(String(o.meta?.kind || ''), Number(o.meta?.target) || 0)} — ${T.sevenDays}`, 160) };
   }
-  const body = o.kind === 'voice' ? (o.body ? `голосове: ${o.body}` : 'голосове повідомлення') : o.body;
+  const body = o.kind === 'voice' ? T.voice(o.body) : o.body;
   return dm
-    ? { title: cut(`Вам пише ${o.sender}`, 60), body: cut(body.charAt(0).toUpperCase() + body.slice(1), 160) }
-    : { title: cut(`Нові повідомлення в групі ${group}`, 70), body: cut(`${o.sender}: ${body}`, 160) };
+    ? { title: cut(T.dmTitle(sender), 60), body: cut(body.charAt(0).toUpperCase() + body.slice(1), 160) }
+    : { title: cut(T.groupTitle(group), 70), body: cut(`${sender}: ${body}`, 160) };
 }
 
 /** Нагадування про виклик — раз на добу: перший запуск cron після 16:00 UTC (вечір у Європі) */
@@ -159,13 +169,11 @@ export function challengeDue(now: Date) {
   return now.getUTCHours() === 16 && now.getUTCMinutes() < 15;
 }
 
-export function challengeNudge(o: { room_title: string; kind: string; target: number; value: number; days_left: number }): { title: string; body: string } {
-  const left = o.days_left;
-  const unit = o.kind === 'daily15' ? 'днів' : o.kind === 'words' ? 'слів' : 'розмов';
-  const tail = left > 0 ? `Лишилось ${left} ${plural(left, 'день', 'дні', 'днів')}.` : 'Сьогодні останній день!';
+export function challengeNudge(o: { room_title: string; kind: string; target: number; value: number; days_left: number }, lang: unknown = 'uk'): { title: string; body: string } {
+  const T = pushText(lang);
   return {
-    title: `Наздоганяйте у виклику «${challengeLabel(o.kind, o.target)}»`.slice(0, 70),
-    body: `${o.room_title ? `${o.room_title}: ` : ''}у вас ${o.value} з ${o.target} ${unit}. ${tail}`.slice(0, 170),
+    title: T.nudgeTitle(T.challengeLabel(o.kind, o.target)).slice(0, 70),
+    body: T.nudgeBody(o.room_title, o.value, o.target, o.kind, o.days_left).slice(0, 170),
   };
 }
 

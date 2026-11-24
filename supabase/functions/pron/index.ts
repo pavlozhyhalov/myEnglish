@@ -29,9 +29,11 @@ Deno.serve(handler(async (req) => {
   if (!AUDIO_MIME.test(mime)) throw new HttpError(400, 'bad_request', 'Unsupported audio type');
   const accent = p.accent === 'US' ? 'US' : 'UK';
 
-  await charge(ctx, 'text');
+  // мова пояснень — мова інтерфейсу учня (profiles.data.settings.lang; немає — українська)
+  const [, prof] = await Promise.all([charge(ctx, 'text'), ctx.db.from('profiles').select('data').maybeSingle().then(r => r, () => ({ data: null }))]);
+  const lang = ((prof?.data?.data || {}) as { settings?: { lang?: unknown } }).settings?.lang;
   const raw = await generateJson(TEXT_MODELS, {
-    contents: [{ role: 'user', parts: [{ inlineData: { mimeType: mime.split(';')[0], data: audio } }, { text: pronPrompt(text, accent) }] }],
+    contents: [{ role: 'user', parts: [{ inlineData: { mimeType: mime.split(';')[0], data: audio } }, { text: pronPrompt(text, accent, lang) }] }],
     schema: PRON_SCHEMA,
     temperature: 0.1,
   });

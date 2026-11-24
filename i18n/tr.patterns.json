@@ -1,0 +1,2990 @@
+[
+ [
+  "^\\]/g, \"'\"\\)\\.replace\\(/\\\\s\\+/g, ' '\\)\\.trim\\(\\)\\.replace\\(/\\[\\.!\\?…\\]\\+\\$/, ''\\)\\.trim\\(\\);\nconst clean = \\(s, n = 200\\) => String\\(s \\?\\? ''\\)\\.replace\\(/\\\\s\\+/g, ' '\\)\\.trim\\(\\)\\.slice\\(0, n\\);\n\nexport const isPhrase = \\(c\\) => c\\?\\.extra\\?\\.kind === 'phrase' \\|\\| \\(Array\\.isArray\\(c\\?\\.tags\\) && c\\.tags\\.includes\\('phrase'\\)\\);\nexport const phraseSituation = \\(c\\) => \\{\n  const id = c\\?\\.extra\\?\\.situation \\|\\| \\(c\\?\\.tags \\|\\| \\[\\]\\)\\.find\\(t => String\\(t\\)\\.startsWith\\('sit:'\\)\\)\\?\\.slice\\(4\\);\n  return SITUATIONS\\.some\\(s => s\\.id === id\\) \\? id : 'other';\n\\};\n\n\nexport function allPhrases\\(\\) \\{\n  return store\\.all\\('cards'\\)\\.filter\\(isPhrase\\)\\.sort\\(\\(a, b\\) => String\\(b\\.created_at \\|\\| ''\\)\\.localeCompare\\(String\\(a\\.created_at \\|\\| ''\\)\\)\\);\n\\}\n\nexport function phrasesBySituation\\(\\) \\{\n  const m = new Map\\(\\);\n  for \\(const c of allPhrases\\(\\)\\) \\{\n    const id = phraseSituation\\(c\\);\n    if \\(!m\\.has\\(id\\)\\) m\\.set\\(id, \\[\\]\\);\n    m\\.get\\(id\\)\\.push\\(c\\);\n  \\}\n  return m;\n\\}\nexport function phraseCount\\(\\) \\{ return allPhrases\\(\\)\\.length; \\}\n\n\nconst KEYS = \\{\n  doctor: \\['лікар', 'аптек', 'хвор', 'болить', 'біль', 'симптом', 'рецепт', 'ліки', 'таблет', 'стоматолог', 'зуб', 'температур', 'лікарн', 'клінік', 'медсестр', 'doctor', 'gp', 'pharma', 'chemist', 'prescription', 'medicine', 'symptom', 'pain', 'hurt', 'sore', 'dentist', 'appointment', 'hospital', 'clinic', 'nurse', 'tablet', 'pill', 'sick', 'allerg', 'temperature'\\],\n  phone: \\['телефон', 'дзвін', 'дзвон', 'зателефон', 'подзвон', 'гаряча лінія', 'оператор', 'автовідповідач', 'phone', 'call', 'ring', 'voicemail', 'hold', 'speak to', 'line', 'message'\\],\n  shop: \\['магазин', 'покуп', 'чек', 'повернен', 'обмін', 'розмір', 'знижк', 'ремонт', 'перукар', 'сервіс', 'доставк', 'гарантій', 'shop', 'store', 'receipt', 'refund', 'return', 'exchange', 'size', 'discount', 'repair', 'haircut', 'delivery', 'warranty', 'checkout', 'till', 'buy', 'price'\\],\n  cafe: \\['кафе', \"кав'ярн\", 'кава', 'каву', 'ресторан', 'замов', 'офіціант', 'меню', 'столик', 'рахунок', 'бар', 'їж', 'обід', 'вечер', 'cafe', 'café', 'coffee', 'restaurant', 'order', 'waiter', 'menu', 'table', 'bill', 'bar', 'lunch', 'dinner', 'tea', 'food', 'drink'\\],\n  travel: \\['поїзд', 'потяг', 'квиток', 'аеропорт', 'літак', 'рейс', 'готел', 'автобус', 'таксі', 'метро', 'вокзал', 'подорож', 'багаж', 'кордон', 'паспорт', 'маршрут', 'дорог', 'train', 'ticket', 'airport', 'flight', 'plane', 'hotel', 'bus', 'taxi', 'tube', 'underground', 'station', 'travel', 'trip', 'luggage', 'baggage', 'passport', 'check-in', 'platform', 'directions', 'journey', 'booking'\\],\n  home: \\['житл', 'квартир', 'сусід', 'орендодав', 'оренд', 'будинок', 'кімнат', 'ремонт квартири', 'сантехнік', 'комунальн', 'flat', 'apartment', 'neighbour', 'neighbor', 'landlord', 'rent', 'tenant', 'house', 'room', 'plumber', 'heating', 'leak', 'noise', 'bills'\\],\n  work: \\['робот', 'нарад', 'колег', 'співбесід', 'начальник', 'керівник', 'проєкт', 'офіс', 'зміна', 'зарплат', 'work', 'job', 'meeting', 'colleague', 'interview', 'manager', 'boss', 'project', 'deadline', 'shift', 'salary', 'team', 'client'\\],\n  smalltalk: \\['знайом', 'small talk', 'погод', 'вихідн', 'хобі', 'вечірк', 'друз', 'привіт', 'розмова з', 'nice to meet', 'weather', 'weekend', 'hobby', 'party', 'friend', 'introduce', 'where are you from', 'chat'\\],\n  office: \\['банк', 'пошт', 'посилк', 'документ', 'рахун', 'картк', 'переказ', 'реєстрац', 'державн', 'установ', 'анкет', 'форм', 'віз', 'дозвіл', 'bank', 'post', 'parcel', 'document', 'account', 'card', 'transfer', 'register', 'council', 'form', 'visa', 'permit', 'id', 'certificate', 'office'\\],\n\\};\n\nconst W = \"a-zа-яіїєґ'\";\nconst reCache = new Map\\(\\);\nfunction keyRe\\(w\\) \\{\n  if \\(!reCache\\.has\\(w\\)\\) \\{\n    const e = w\\.replace\\(/\\[\\.\\*\\+\\?\\^(.+?)\\(\\)\\|\\[\\\\\\]\\\\\\]/g, '\\\\\\$&'\\);\n    const tail = w\\.length <= 4 \\?$",
+  "$1"
+ ],
+ [
+  "^\\^\\[\\\\s\"«'\\(\\]\\*\\(\\?:\\(\\?:hi\\|hey\\|hello\\|dear\\|ok\\|okay\\|so\\|and\\|please\\|sorry\\|thanks\\|thank you\\|well\\|excuse me\\|good \\(\\?:morning\\|afternoon\\|evening\\)\\|привіт\\|вітаю\\|добрий день\\|шановний\\|пане\\)\\[\\\\s,!\\.\\]\\+\\)\\*@\\?(.+?)(.+?)$",
+  "^[\\s\"«'(]*(?:(?:hi|hey|hello|dear|ok|okay|so|and|please|sorry|thanks|thank you|well|excuse me|good (?:morning|afternoon|evening)|merhaba|selam|iyi günler|sayın|hocam)[\\s,!.]+)*@?$1$2"
+ ],
+ [
+  "^Почати: (.+?) питань\\. Питання з'явиться на екрані — за (.+?) секунди почніть відповідь фразою і говоріть близько 10 секунд\\. Мікрофон увімкнеться одразу\\.$",
+  "Başla: $1 soru. Soru ekranda görünecek — $2 saniye içinde cevaba bir ifadeyle başlayın ve yaklaşık 10 saniye konuşun. Mikrofon hemen açılacak."
+ ],
+ [
+  "^Якщо акаунт (.+?) існує, на нього надіслано лист із посиланням для зміни пароля\\. Перевірте також «Спам»\\. Посилання діє 1 годину\\.$",
+  "$1 hesabı varsa, şifre değiştirme bağlantısı içeren bir e-posta gönderildi. “Spam” klasörünü de kontrol edin. Bağlantı 1 saat geçerli."
+ ],
+ [
+  "^Розмов із вчителем: (.+?), але в жодній не було достатньо мовлення для оцінки\\. Говоріть довше — хоча б 40–50 слів за розмову\\.$",
+  "Öğretmenle konuşma: $1, ama hiçbirinde değerlendirme için yeterli konuşma yoktu. Daha uzun konuşun — konuşma başına en az 40–50 kelime."
+ ],
+ [
+  "^Займатися щодня по (.+?) хвилин замість рідких довгих занять — «Мій день» на головній складає готовий план на 15 хвилин\\.$",
+  "Seyrek ve uzun dersler yerine her gün $1 dakika çalışın — ana sayfadaki “Günüm” 15 dakikalık hazır bir plan sunar."
+ ],
+ [
+  "^(.+?) більше не бачитиме ваш стрік і хвилини, а ви — його; переписка 1:1 зупиниться\\. Додати знову можна за кодом\\.$",
+  "$1 artık serinizi ve dakikalarınızı görmeyecek, siz de onunkileri; birebir yazışma duracak. Kodla yeniden ekleyebilirsiniz."
+ ],
+ [
+  "^Тест від (.+?)\\. Говоріння в тесті — з короткої розмови; оцінку з довших розмов дивіться в розділі «Говоріння»\\.$",
+  "Test tarihi: $1. Testteki konuşma kısa bir sohbetten; daha uzun konuşmaların değerlendirmesi için “Konuşma” bölümüne bakın."
+ ],
+ [
+  "^Є одна виміряна голосова розмова: (.+?) слів/хв\\. Поговоріть голосом ще 1–2 рази, щоб побачити динаміку\\.$",
+  "Ölçülen bir sesli konuşma var: $1 kelime/dk. Gelişimi görmek için 1–2 kez daha sesli konuşun."
+ ],
+ [
+  "^За місяць нових — (.+?), закрито — (.+?) \\(закрита помилка — правильне вживання кілька разів у різні дні\\)\\. (.+?)$",
+  "Bu ay yeni — $1, kapanan — $2 (kapanan hata — farklı günlerde birkaç kez doğru kullanım). $3"
+ ],
+ [
+  "^Пароль — щонайменше (.+?) символів\\. Краще — фраза з кількох слів або літери, цифри й знаки\\.$",
+  "Şifre — en az $1 karakter. Daha iyisi — birkaç kelimelik bir ifade ya da harf, rakam ve işaretler."
+ ],
+ [
+  "^Текст: (.+?)\\. Торкніться слова, щоб побачити переклад; стрілки — перехід між словами\\.$",
+  "Metin: $1. Çevirisini görmek için kelimeye dokunun; oklar — kelimeler arasında geçiş."
+ ],
+ [
+  "^Різних слів менше: (.+?)% → (.+?)%\\. Пробуйте синоніми замість повторів того самого слова\\.$",
+  "Farklı kelimeler azaldı: %$1 → %$2. Aynı kelimeyi tekrarlamak yerine eş anlamlıları deneyin."
+ ],
+ [
+  "^Найсильніша навичка — (.+?) \\((.+?)\\), найслабша — (.+?) \\((.+?)\\): саме вона стримує загальний рівень\\.(.+?)$",
+  "En güçlü beceri — $1 ($2), en zayıf — $3 ($4): genel seviyeyi geride tutan o.$5"
+ ],
+ [
+  "^За (.+?) занять не було\\. Найважливіше зараз — повернути звичку: 10–15 хвилин щодня\\.$",
+  "$1 ders olmadı. Şu an en önemlisi alışkanlığı geri kazanmak: her gün 10–15 dakika."
+ ],
+ [
+  "^Повторів більше: (.+?) → (.+?) на 100 слів\\. Говоріть трохи повільніше, але без зупинок\\.$",
+  "Tekrar arttı: 100 kelimede $1 → $2. Biraz daha yavaş ama durmadan konuşun."
+ ],
+ [
+  "^Репліки коротшають: з (.+?) до (.+?) (.+?)\\. Спробуйте додавати «because…», «for example…»\\.$",
+  "Replikler kısalıyor: ortalama $1 → $2 kelime. “because…”, “for example…” eklemeyi deneyin."
+ ],
+ [
+  "^Активний — мав заняття \\(синхронізовані сесії\\) або виклики AI\\. За 30 днів: (.+?)\\.$",
+  "Aktif — dersi (senkronize oturumlar) ya da AI çağrısı olan. 30 günde: $1."
+ ],
+ [
+  "^Темп знизився з (.+?) до (.+?) слів/хв — це нормально, коли теми стають складнішими\\.$",
+  "Tempo düştü: $1 → $2 kelime/dk — konular zorlaştıkça bu normaldir."
+ ],
+ [
+  "^Записів у щоденнику: (.+?) — замало тексту, щоб рахувати помилки на 100 слів\\.$",
+  "Günlük kayıtları: $1 — 100 kelimedeki hatayı saymak için metin çok az."
+ ],
+ [
+  "^Кожна клітинка — день; цифра в кутку — хвилини занять\\. Денна мета — (.+?) хв\\.$",
+  "Her hücre — bir gün; köşedeki sayı — ders dakikaları. Günlük hedef — $1 dk."
+ ],
+ [
+  "^Тримати теперішній ритм: (.+?) хвилин на день, щонайменше 5 днів на тиждень\\.$",
+  "Mevcut tempoyu koruyun: günde $1 dakika, haftada en az 5 gün."
+ ],
+ [
+  "^Повторів і самовиправлень менше: (.+?) → (.+?) на 100 слів — мовлення плавніше\\.$",
+  "Tekrar ve kendini düzeltme azaldı: 100 kelimede $1 → $2 — konuşma daha akıcı."
+ ],
+ [
+  "^До іспиту (.+?): лишилось (.+?) (?:урок|уроки|уроків) і (.+?) (?:слово|слова|слів); темп (.+?) (?:урок|уроки|уроків) на тиждень і (.+?) нових слів на день\\.$",
+  "$1 sınavına kadar: {$2|ders} ve {$3|kelime} kaldı; tempo: haftada {$4|ders} ve günde $5 yeni kelime."
+ ],
+ [
+  "^«(.+?)» — вивчено\\. Повтор для перевірки — приблизно через півтора місяця$",
+  "“$1” — öğrenildi. Kontrol tekrarı — yaklaşık bir buçuk ay sonra"
+ ],
+ [
+  "^Репліки довшають: з (.+?) до (.+?) (.+?) в середньому — ви говорите розгорнутіше\\.$",
+  "Replikler uzuyor: ortalama $1 → $2 kelime — daha ayrıntılı konuşuyorsunuz."
+ ],
+ [
+  "^Приєднуйся до нашої групи «(.+?)» у myEnglish — вчимо англійську разом:$",
+  "myEnglish'teki “$1” grubumuza katıl — birlikte İngilizce öğreniyoruz:"
+ ],
+ [
+  "^Закрити чергу повторень \\(зараз (.+?) (?:слово|слова|слів) чекають\\) до того, як брати нові\\.$",
+  "Yenilerini almadan önce tekrar kuyruğunu bitirin (şu an {$1|kelime} bekliyor)."
+ ],
+ [
+  "^Ті самі завдання для всіх · рівень (.+?) · зараховується перша спроба$",
+  "Herkes için aynı görevler · seviye $1 · ilk deneme sayılır"
+ ],
+ [
+  "^Вивчене слово — інтервал повтору ≥ 21 дн\\. · (.+?) (?:оцінка|оцінки|оцінок) карток на пристрої$",
+  "Öğrenilmiş kelime — tekrar aralığı ≥ 21 gün · cihazda {$1|kart değerlendirmesi}"
+ ],
+ [
+  "^Вчитель позначив вивченими (.+?) (?:слово|слова|слів), які ви вже вживаєте в розмовах: (.+?)(.+?)$",
+  "Öğretmen, konuşmalarda zaten kullandığınız {$1|kelimeyi} öğrenildi olarak işaretledi: $2$3"
+ ],
+ [
+  "^Для рівня (.+?) тут ще немає завдань — показано найближчий рівень (.+?)\\.$",
+  "$1 seviyesi için burada henüz görev yok — en yakın seviye gösteriliyor: $2."
+ ],
+ [
+  "^Уроків граматики ще не пройдено\\. Почніть з уроку свого рівня(.+?)$",
+  "Henüz dilbilgisi dersi tamamlanmadı. Kendi seviyenizden bir dersle başlayın$1"
+ ],
+ [
+  "^Не зовсім: помилка у слові (.+?)\\. Поверніть слова й спробуйте ще\\.$",
+  "Tam değil: $1. kelimede hata var. Kelimeleri geri alıp tekrar deneyin."
+ ],
+ [
+  "^Говоріть усі (.+?) секунд, не зупиняючись\\. Помилки — не страшно\\.$",
+  "$1 saniyenin tamamında durmadan konuşun. Hata yapmak sorun değil."
+ ],
+ [
+  "^Нагадування ввімкнено · (.+?)\\. Час можна змінити в Налаштуваннях$",
+  "Hatırlatıcılar açık · $1. Saati Ayarlar'dan değiştirebilirsiniz"
+ ],
+ [
+  "^Скласти іспит рівня (.+?) \\(Тести → «Іспит рівня»\\) і перейти на (.+?)\\.$",
+  "$1 seviye sınavını geçin (Testler → “Seviye sınavı”) ve $2 seviyesine geçin."
+ ],
+ [
+  "^лишилось (.+?) (?:урок|уроки|уроків) і (.+?) (?:слово|слова|слів) · темп: (.+?) (?:урок|уроки|уроків) на тиждень, (.+?) нових слів на день$",
+  "{$1|ders} ve {$2|kelime} kaldı · tempo: haftada {$3|ders}, günde $4 yeni kelime"
+ ],
+ [
+  "^(.+?) (?:слово|слова|слів) повернуто до вивчення — з'являться в картках сьогодні\\.$",
+  "{$1|kelime} öğrenmeye geri döndü — bugün kartlarda çıkacak."
+ ],
+ [
+  "^У роботі (.+?) (?:слово|слова|слів), міцно запам'ятовано \\(інтервал ≥ 21 дн\\.\\) — (.+?)\\.$",
+  "Çalışılan kelime: $1, sağlam ezberlenen (aralık ≥ 21 gün) — $2."
+ ],
+ [
+  "^Для оцінки утримання замало повторів \\((.+?) з потрібних 20\\)\\.$",
+  "Hatırlamayı değerlendirmek için tekrar az (gereken 20 tekrardan $1)."
+ ],
+ [
+  "^Ваша слабка зона — (.+?): (.+?) (?:невиправлена помилка|невиправлені помилки|невиправлених помилок) \\(з повторами\\), (.+?) нових за 2 тижні(.+?)$",
+  "Zayıf alanınız — $1: {$2|düzeltilmemiş hata} (tekrarlarla), son 2 haftada $3 yeni$4"
+ ],
+ [
+  "^Раунд 2: та сама тема, (.+?) секунд — ті самі думки, швидше\\.$",
+  "2. tur: aynı konu, $1 saniye — aynı düşünceler, daha hızlı."
+ ],
+ [
+  "^«(.+?)» повернуто до вивчення — з'явиться в картках сьогодні$",
+  "“$1” öğrenmeye geri döndü — bugün kartlarda çıkacak"
+ ],
+ [
+  "^(.+?) (?:урок чекає|уроки чекають|уроків чекають) на планове повторення — набір «Повторення» у вправах\\.$",
+  "Planlı tekrar bekleyen {$1|ders} — alıştırmalardaki “Tekrar” seti."
+ ],
+ [
+  "^Ту саму історію за (.+?) секунд\\. Ті самі думки, менше пауз\\.$",
+  "Aynı hikâye $1 saniyede. Aynı düşünceler, daha az duraksama."
+ ],
+ [
+  "^(.+?) розблоковано\\. Щоб знову дружити — обміняйтеся кодами\\.$",
+  "$1 için engel kaldırıldı. Yeniden arkadaş olmak için kod paylaşın."
+ ],
+ [
+  "^Правильно! Сьогодні вже зараховано — ще раз завтра \\((.+?)/(.+?)\\)$",
+  "Doğru! Bugün zaten sayıldı — yarın bir daha ($1/$2)"
+ ],
+ [
+  "^Це слово вже є в колоді «(.+?)» — додано першим серед нових$",
+  "Bu kelime “$1” destesinde zaten var — yeniler arasında ilk sıraya eklendi"
+ ],
+ [
+  "^(.+?) (?:активний день|активні дні|активних днів) із (.+?) \\(у середньому (.+?) на тиждень\\), найдовша серія — (.+?) (?:день|дні|днів)\\. (.+?)$",
+  "$2 günün {$1|aktif gün} (haftada ortalama $3), en uzun seri — {$4|gün}. $5"
+ ],
+ [
+  "^(.+?) секунд — лише головне\\. Почніть з фрази, а не з «uh»\\.$",
+  "$1 saniye — yalnızca ana fikir. “uh” ile değil, bir ifadeyle başlayın."
+ ],
+ [
+  "^щодня о (.+?) — якщо є що повторити або стрік під загрозою$",
+  "her gün $1 — tekrar edilecek bir şey varsa ya da seri tehlikedeyse"
+ ],
+ [
+  "^Відпрацювати правила з найбільшою кількістю помилок: (.+?)$",
+  "En çok hata yapılan kuralları çalışın: $1"
+ ],
+ [
+  "^Спробуйте говорити всі (.+?) — навіть простими реченнями\\.$",
+  "$1 boyunca konuşmayı deneyin — basit cümlelerle bile."
+ ],
+ [
+  "^Заповнювачів пауз \\(um, uh\\) більше: (.+?) → (.+?) на 100 слів\\.$",
+  "Dolgu sözcükleri (um, uh) arttı: 100 kelimede $1 → $2."
+ ],
+ [
+  "^token ok · model (.+?) · voice (.+?) · pause (.+?) ms · (.+?) хв ліміту$",
+  "token ok · model $1 · voice $2 · pause $3 ms · $4 dk sınır"
+ ],
+ [
+  "^Вільних місць: (.+?)\\. Людина приєднається одним дотиком\\.$",
+  "Boş yer: $1. Kişi tek dokunuşla katılacak."
+ ],
+ [
+  "^Заповнювачів пауз \\(um, uh\\) менше: (.+?) → (.+?) на 100 слів\\.$",
+  "Dolgu sözcükleri (um, uh) azaldı: 100 kelimede $1 → $2."
+ ],
+ [
+  "^сильні (.+?) з ≈(.+?) · текст (.+?) · голос (.+?) · озвучення (.+?) · Live (.+?)$",
+  "güçlü $1 / ≈$2 · metin $3 · ses $4 · seslendirme $5 · Live $6"
+ ],
+ [
+  "^Тест був (.+?) (?:день|дні|днів) тому — варто перевірити рівень знову\\.$",
+  "Test {$1|gün} önceydi — seviyeyi yeniden kontrol etmekte fayda var."
+ ],
+ [
+  "^Рівень (.+?) · ті самі завдання для всіх · до (.+?) завтра$",
+  "Seviye $1 · herkes için aynı görevler · son: yarın $2"
+ ],
+ [
+  "^Раунд 3: (.+?) секунд — найщільніше, без пауз і «uh»\\.$",
+  "3. tur: $1 saniye — en yoğun hâli, duraksamadan ve “uh” olmadan."
+ ],
+ [
+  "^Замінити правило: (.+?)\\. Лишилось замін цього тижня: (.+?)$",
+  "Kuralı değiştir: $1. Bu haftaki kalan değişiklik hakkı: $2"
+ ],
+ [
+  "^5–7 хвилин голосом: вчитель вплете «(.+?)» у розмову\\.$",
+  "5–7 dakika sesli: öğretmen “$1” konusunu konuşmaya katacak."
+ ],
+ [
+  "^У перевірених текстах найнижча оцінка — (.+?) \\((.+?)/10\\)\\.$",
+  "Kontrol edilen metinlerde en düşük puan — $1 ($2/10)."
+ ],
+ [
+  "^Слово є в колоді «(.+?)» — додано першим серед нових$",
+  "Kelime “$1” destesinde var — yeniler arasında ilk sıraya eklendi"
+ ],
+ [
+  "^За оцінками (.+?) (?:розмови|розмов|розмов) ваше говоріння зараз — близько (.+?)\\.$",
+  "{$1|konuşmanın} değerlendirmesine göre konuşmanız şu an yaklaşık $2 düzeyinde."
+ ],
+ [
+  "^реєстрація (.+?) · вхід (.+?) · активність (.+?) · (.+?) за 7 дн\\.$",
+  "kayıt $1 · giriş $2 · etkinlik $3 · 7 günde $4"
+ ],
+ [
+  "^«(.+?)» почекає наступного тижня, натомість — «(.+?)»\\. (.+?)$",
+  "“$1” gelecek haftayı bekleyecek, onun yerine — “$2”. $3"
+ ],
+ [
+  "^Повторити уроки граматики з балом нижче 80%: (.+?)$",
+  "Puanı %80'in altındaki dilbilgisi derslerini tekrarlayın: $1"
+ ],
+ [
+  "^(.+?) секунд — поки читаєте пояснення, час стоїть$",
+  "$1 saniye — açıklamayı okurken süre durur"
+ ],
+ [
+  "^Текстових викликів: (.+?)/(.+?) · голос: (.+?)/(.+?) хв · TTS: (.+?)/(.+?)$",
+  "Metin çağrıları: $1/$2 · ses: $3/$4 dk · TTS: $5/$6"
+ ],
+ [
+  "^: ''\\}\\. Середній найкращий бал у вправах — (.+?)%\\.(.+?)$",
+  ": ''}. Alıştırmalardaki ortalama en iyi puan — %$1.$2"
+ ],
+ [
+  "^Словник різноманітніший: (.+?)% → (.+?)% різних слів\\.$",
+  "Kelime dağarcığı çeşitlendi: farklı kelimeler %$1 → %$2."
+ ],
+ [
+  "^(.+?)–(.+?) слів · без перекладача й словника · ≈ (.+?) хв$",
+  "$1–$2 kelime · çevirmen ve sözlük olmadan · ≈ $3 dk"
+ ],
+ [
+  "^≈ (.+?) хв · прохідний бал — (.+?)% у кожній частині$",
+  "≈ $1 dk · geçme notu — her bölümde %$2"
+ ],
+ [
+  "^Слово (.+?) з (.+?): (.+?)(.+?)\\. Поясніть його, не називаючи\\.$",
+  "Kelime $1 / $2: $3$4. Söylemeden anlatın."
+ ],
+ [
+  "^текстових викликів \\(ліміт (.+?)/день на особу\\)$",
+  "metin çağrısı (kişi başına günde $1 sınır)"
+ ],
+ [
+  "^Помилки клієнтів за 7 днів · (.+?) \\(сьогодні (.+?)\\)$",
+  "7 günde istemci hataları · $1 (bugün $2)"
+ ],
+ [
+  "^(.+?) (?:урок чекає|уроки чекають|уроків чекають) повтору · слабкі місця й пройдені рівні$",
+  "Tekrar bekleyen {$1|ders} · zayıf noktalar ve geçilen seviyeler"
+ ],
+ [
+  "^у середньому (.+?) за активний день · мета (.+?) хв$",
+  "aktif gün başına ortalama $1 · hedef $2 dk"
+ ],
+ [
+  "^(.+?) · до 5, утримуйте рядок, щоб перетягнути$",
+  "$1 · en fazla 5, sürüklemek için satırı basılı tutun"
+ ],
+ [
+  "^Накопичилось (.+?) повторів — почніть із них\\.$",
+  "Biriken tekrar: $1 — onlarla başlayın."
+ ],
+ [
+  "^14 днів: (.+?) · попередні 14: (.+?) · відкритих: (.+?)$",
+  "14 gün: $1 · önceki 14: $2 · açık: $3"
+ ],
+ [
+  "^Пароль має містити щонайменше (.+?) символів\\.$",
+  "Şifre en az $1 karakter olmalı."
+ ],
+ [
+  "^Заповнено: (.+?) з 4 · мови, сім'я, побажання$",
+  "Doldurulan: $1 / 4 · diller, aile, istekler"
+ ],
+ [
+  "^(.+?) хв практики · кроки нижче — за бажанням$",
+  "$1 dk pratik · aşağıdaki adımlar — isteğe bağlı"
+ ],
+ [
+  "^Усі навички на рівні (.+?) — профіль рівний\\.(.+?)$",
+  "Tüm beceriler $1 seviyesinde — profil dengeli.$2"
+ ],
+ [
+  "^: ''\\) : ''\\}; у середньому (.+?) (.+?) на тиждень\\.$",
+  ": '') : ''}; haftada ortalama $1 aktif gün."
+ ],
+ [
+  "^Перевірені тексти \\(останні (.+?)\\), бали з 10$",
+  "Kontrol edilen metinler (son $1), 10 üzerinden puan"
+ ],
+ [
+  "^За (.+?) с почніть із фрази й говоріть ~10 с$",
+  "$1 sn içinde bir ifadeyle başlayıp ~10 sn konuşun"
+ ],
+ [
+  "^У щоденнику в середньому (.+?) (.+?) на 100 слів(.+?)$",
+  "Günlükte 100 kelimede ortalama $1 hata$3"
+ ],
+ [
+  "^Почати 4-3-2\\. Одна тема — три раунди: (.+?)$",
+  "4-3-2'ye başla. Tek konu — üç tur: $1"
+ ],
+ [
+  "^Розмови показують (.+?) — закрийте (.+?) іспитом$",
+  "Konuşmalar $1 gösteriyor — $2 seviyesini sınavla kapatın"
+ ],
+ [
+  "^(.+?) без перекладу — додасться після входу$",
+  "Çevirisiz $1 — giriş yaptıktan sonra eklenecek"
+ ],
+ [
+  "^Щонайменше (.+?) символів — двічі однаково$",
+  "En az $1 karakter — iki kez aynı"
+ ],
+ [
+  "^Запит надіслано — (.+?) отримає сповіщення$",
+  "İstek gönderildi — $1 bildirim alacak"
+ ],
+ [
+  "^(.+?) (?:книга|книги|книг) і (.+?) (?:оповідання|оповідання|оповідань) — оригінали, суспільне надбання$",
+  "{$1|kitap} ve {$2|öykü} — orijinaller, kamu malı"
+ ],
+ [
+  "^(.+?) різних — повтори по колу закріплюють$",
+  "$1 farklı — döngüdeki tekrarlar pekiştirir"
+ ],
+ [
+  "^• (.+?) хв практики, (.+?) (?:активний день|активні дні|активних днів), найдовша серія — (.+?) (?:день|дні|днів)$",
+  "• $1 dk pratik, {$2|aktif gün}, en uzun seri — {$3|gün}"
+ ],
+ [
+  "^Замало для оцінки: потрібно хоча б (.+?) (?:слово|слова|слів)\\.$",
+  "Değerlendirme için az: en az {$1|kelime} gerekli."
+ ],
+ [
+  "^(.+?) (?:помилку|помилки|помилок) з граматики додано в «Мої помилки»\\.$",
+  "{$1|dilbilgisi hatası} “Hatalarım”a eklendi."
+ ],
+ [
+  "^(.+?) (?:помилка|помилки|помилок) з ваших розмов — закріпити правило$",
+  "Konuşmalarınızdan {$1|hata} — kuralı pekiştirin"
+ ],
+ [
+  "^Гру завершено\\. Очки: (.+?)\\. Знайдено (.+?) з (.+?)\\.$",
+  "Oyun bitti. Puan: $1. Bulunan: $2 / $3."
+ ],
+ [
+  "^текст (.+?) · озвучення (.+?) · Live (.+?) · голос (.+?)$",
+  "metin $1 · seslendirme $2 · Live $3 · ses $4"
+ ],
+ [
+  "^Ви майже опанували (.+?) — скласти іспит\\?$",
+  "$1 seviyesine neredeyse hâkimsiniz — sınava girilsin mi?"
+ ],
+ [
+  "^перехід від (.+?)% · уроки й слова рівня (.+?)$",
+  "%$1'den itibaren geçiş · $2 seviyesinin dersleri ve kelimeleri"
+ ],
+ [
+  "^Темп стабільний — близько (.+?) слів/хв\\.$",
+  "Tempo sabit — yaklaşık $1 kelime/dk."
+ ],
+ [
+  "^(.+?) (?:вираз|вирази|виразів) з тексту · торкніться, щоб почути$",
+  "Metinden {$1|ifade} · duymak için dokunun"
+ ],
+ [
+  "^Час вийшов\\. Очки: (.+?)\\. Правильно (.+?) з (.+?)\\.$",
+  "Süre doldu. Puan: $1. Doğru: $2 / $3."
+ ],
+ [
+  "^Ще (.+?) (?:розмова|розмови|розмов) без оцінки — замало мовлення\\.$",
+  "Konuşma az olduğu için değerlendirilmeyen {$1|konuşma} daha var."
+ ],
+ [
+  "^(.+?) більше не бачитиме вашого запиту\\.$",
+  "$1 artık isteğinizi görmeyecek."
+ ],
+ [
+  "^Прохідний бал — (.+?)% у кожній частині$",
+  "Geçme notu — her bölümde %$1"
+ ],
+ [
+  "^разом із повторами: (.+?) · відкритих: (.+?)$",
+  "tekrarlarla birlikte: $1 · açık: $2"
+ ],
+ [
+  "^(.+?) (?:книга|книги|книг) · (.+?) (?:оповідання|оповідання|оповідань) · фільтр за автором і рівнем$",
+  "{$1|kitap} · {$2|öykü} · yazara ve seviyeye göre filtre"
+ ],
+ [
+  "^Рівень (.+?): план і завдання оновлено$",
+  "Seviye $1: plan ve görevler güncellendi"
+ ],
+ [
+  "^≈ 10 хв · склали — переходите на (.+?)$",
+  "≈ 10 dk · geçerseniz — $1 seviyesine geçersiniz"
+ ],
+ [
+  "^відкритих: (.+?) · динаміка за тиждень$",
+  "açık: $1 · haftalık değişim"
+ ],
+ [
+  "^Правильно розпізнано на слух: (.+?) з (.+?)$",
+  "Dinleyerek doğru tanınan: $1 / $2"
+ ],
+ [
+  "^Голосом — (.+?) хв розмови з вчителем\\.$",
+  "Sesli — öğretmenle $1 dk konuşma."
+ ],
+ [
+  "^(.+?) (?:слово|слова|слів) без оцінок — розклад не змінено$",
+  "Puansız {$1|kelime} — plan değişmedi"
+ ],
+ [
+  "^(.+?)\\. Утримайте для голосового режиму$",
+  "$1. Sesli mod için basılı tutun"
+ ],
+ [
+  "^(.+?)\\. Слів: (.+?)\\. Заминок на 100 слів: (.+?)\\.$",
+  "$1. Kelime: $2. 100 kelimede duraksama: $3."
+ ],
+ [
+  "^(.+?)× · (.+?) (.+?) · останнє (.+?) · (.+?) · (.+?) · збірка (.+?)$",
+  "$1× · $2 kullanıcı · son $4 · $5 · $6 · sürüm $7"
+ ],
+ [
+  "^Питання — і за (.+?) с почати з фрази$",
+  "Soru — ve $1 sn içinde bir ifadeyle başlayın"
+ ],
+ [
+  "^(.+?) (.+?) — повторюватимете в «Фразнику»$",
+  "$1 ifade — “İfadeler”de tekrar edeceksiniz"
+ ],
+ [
+  "^Щодня о (.+?), якщо є про що нагадати$",
+  "Her gün $1, hatırlatacak bir şey varsa"
+ ],
+ [
+  "^(.+?): вивчено\\. Повернути до вивчення$",
+  "$1: öğrenildi. Öğrenmeye geri döndür"
+ ],
+ [
+  "^Виправлень: (.+?)\\. Показати субтитри$",
+  "Düzeltme: $1. Altyazıları göster"
+ ],
+ [
+  "^текст (.+?)/(.+?) · сильні (.+?)/(.+?) · голос (.+?)/(.+?) хв$",
+  "metin $1/$2 · güçlü $3/$4 · ses $5/$6 dk"
+ ],
+ [
+  "^(.+?) фраз · можна вчити й без входу$",
+  "$1 ifade · giriş yapmadan da öğrenebilirsiniz"
+ ],
+ [
+  "^щодня о (.+?) — тема з вашої розмови$",
+  "her gün $1 — konuşmanızdan bir konu"
+ ],
+ [
+  "^Мій (.+?) в англійській \\(myEnglish\\):$",
+  "İngilizcede geçen ayım: $1 (myEnglish):"
+ ],
+ [
+  "^Запитати вчителя про розділ «(.+?)»$",
+  "Öğretmene “$1” bölümünü sor"
+ ],
+ [
+  "^У кожного своє · ви: (.+?) з (.+?) · до (.+?)$",
+  "Herkese kendine özel · siz: $1 / $2 · son tarih $3"
+ ],
+ [
+  "^Вивчено \\(ви їх уже вживаєте\\): (.+?)(.+?)$",
+  "Öğrenildi (zaten kullanıyorsunuz): $1$2"
+ ],
+ [
+  "^(.+?) фраз · торкніться, щоб почути$",
+  "$1 ifade · duymak için dokunun"
+ ],
+ [
+  "^Ви почали з «(.+?)…»\\. Спробуйте: «(.+?)»$",
+  "“$1…” ile başladınız. Şunu deneyin: “$2”"
+ ],
+ [
+  "^Іспит (.+?) складено — перейти на (.+?)\\?$",
+  "$1 sınavı geçildi — $2 seviyesine geçilsin mi?"
+ ],
+ [
+  "^Нові звернення користувачів · (.+?)$",
+  "Kullanıcılardan yeni mesajlar · $1"
+ ],
+ [
+  "^Рівень (.+?): пройдено (.+?) з (.+?) уроків\\.$",
+  "Seviye $1: $3 dersten $2 tamamlandı."
+ ],
+ [
+  "^востаннє в мережі сьогодні о (.+?)$",
+  "son görülme bugün $1"
+ ],
+ [
+  "^(.+?) секунд, за кожне речення \\+(.+?) с$",
+  "$1 saniye, her cümle için +$2 sn"
+ ],
+ [
+  "^Час вийшов\\. Речень: (.+?), очки: (.+?)\\.$",
+  "Süre doldu. Cümle: $1, puan: $2."
+ ],
+ [
+  "^(.+?) (?:слово|слова|слів) · оцінку ставить застосунок$",
+  "{$1|kelime} · puanı uygulama verir"
+ ],
+ [
+  "^Зміна темпу: (.+?)(.+?) слів за хвилину$",
+  "Tempo değişimi: dakikada $1$2 kelime"
+ ],
+ [
+  "^(.+?) з (.+?) відповідей почато з фрази$",
+  "$2 cevaptan $1 tanesi bir ifadeyle başladı"
+ ],
+ [
+  "^(.+?) (?:помилка|помилки|помилок), що повторюються найчастіше$",
+  "En sık tekrarlanan {$1|hata}"
+ ],
+ [
+  "^Хвилини по днях цього тижня: (.+?)$",
+  "Bu hafta günlere göre dakikalar: $1"
+ ],
+ [
+  "^Позначено вчителем: вжито в (.+?) (?:розмові|розмовах|розмовах)$",
+  "Öğretmen işaretledi: {$1|konuşmada} kullanıldı"
+ ],
+ [
+  "^(.+?) речень, на кожне — 5 секунд$",
+  "$1 cümle, her biri için 5 saniye"
+ ],
+ [
+  "^До (.+?) секунд мовлення про тему$",
+  "Konu hakkında en fazla $1 saniye konuşma"
+ ],
+ [
+  "^Завершено · переміг\\(-ла\\) (.+?) · (.+?)$",
+  "Bitti · kazanan: $1 · $2"
+ ],
+ [
+  "^Заминок на 100 слів: (.+?), було (.+?)$",
+  "100 kelimede duraksama: $1, önceden $2"
+ ],
+ [
+  "^Тренування · (.+?) питань · ~3 хв$",
+  "Antrenman · $1 soru · ~3 dk"
+ ],
+ [
+  "^(.+?) з (.+?) · запис почнеться одразу$",
+  "$1 / $2 · kayıt hemen başlayacak"
+ ],
+ [
+  "^Правило (.+?): (.+?), (.+?), засвоєння (.+?) з 3$",
+  "Kural $1: $2, $3, pekiştirme $4 / 3"
+ ],
+ [
+  "^(.+?) Ось вправи з самих помилок\\.$",
+  "$1 İşte yalnızca hatalardan alıştırmalar."
+ ],
+ [
+  "^Прогноз повторів на 7 днів: (.+?)$",
+  "7 günlük tekrar tahmini: $1"
+ ],
+ [
+  "^(.+?) (?:урок|уроки|уроків) граматики — на повторення\\.$",
+  "{$1|dilbilgisi dersi} — tekrara alındı."
+ ],
+ [
+  "^«(.+?)» — першим серед нових слів$",
+  "“$1” — yeni kelimeler arasında ilk sırada"
+ ],
+ [
+  "^(.+?)% · граматика (.+?)% · слова (.+?)% · (.+?)$",
+  "%$1 · dilbilgisi %$2 · kelimeler %$3 · $4"
+ ],
+ [
+  "^myEnglish · звіт вчителя за (.+?)(.+?)$",
+  "myEnglish · öğretmen raporu: $1$2"
+ ],
+ [
+  "^myEnglish — звіт вчителя за (.+?)$",
+  "myEnglish — öğretmen raporu: $1"
+ ],
+ [
+  "^Нові повідомлення в групі «(.+?)»$",
+  "“$1” grubunda yeni mesajlar"
+ ],
+ [
+  "^ще без занять · реєстрація (.+?)$",
+  "henüz ders yok · kayıt $1"
+ ],
+ [
+  "^ще (.+?) · інші рівні й «Робота»$",
+  "$1 tane daha · diğer seviyeler ve “İş”"
+ ],
+ [
+  "^У групі може бути до (.+?) людей$",
+  "Grupta en fazla $1 kişi olabilir"
+ ],
+ [
+  "^До (.+?) людей · спільні виклики$",
+  "En fazla $1 kişi · ortak meydan okumalar"
+ ],
+ [
+  "^Завдання рівня (.+?) на сьогодні$",
+  "Bugün için $1 seviyesi görevleri"
+ ],
+ [
+  "^Діалог дня · пройдено · (.+?) з (.+?)$",
+  "Günün diyaloğu · tamamlandı · $1 / $2"
+ ],
+ [
+  "^(.+?) · скажіть і перевірте себе$",
+  "$1 · söyleyin ve kendinizi sınayın"
+ ],
+ [
+  "^Рівень (.+?) \\(«(.+?)»\\) опановано на (.+?)%(.+?)$",
+  "$1 seviyesine (“$2”) hâkimiyet %$3$4"
+ ],
+ [
+  "^Найслабший критерій — (.+?) \\((.+?)\\)\\.$",
+  "En zayıf ölçüt — $1 ($2)."
+ ],
+ [
+  "^востаннє в мережі (.+?) хв тому$",
+  "son görülme $1 dk önce"
+ ],
+ [
+  "^востаннє в мережі вчора о (.+?)$",
+  "son görülme dün $1"
+ ],
+ [
+  "^(.+?) (?:слово|слова|слів): повтор і нові за рівнем$",
+  "{$1|kelime}: tekrar ve seviyeye göre yeniler"
+ ],
+ [
+  "^(.+?): новий рекорд у грі «(.+?)» — (.+?)$",
+  "$1: “$2” oyununda yeni rekor — $3"
+ ],
+ [
+  "^Одна тема — три раунди: (.+?) с$",
+  "Tek konu — üç tur: $1 sn"
+ ],
+ [
+  "^(.+?) (?:правило|правила|правил) · вправи на ваші помилки$",
+  "{$1|kural} · hatalarınız için alıştırmalar"
+ ],
+ [
+  "^Замінити \\(ще (.+?) цього тижня\\)$",
+  "Değiştir (bu hafta $1 hak daha)"
+ ],
+ [
+  "^Останній результат тесту (.+?)%$",
+  "Son test sonucu %$1"
+ ],
+ [
+  "^Це слово вже є в колоді «(.+?)»$",
+  "Bu kelime “$1” destesinde zaten var"
+ ],
+ [
+  "^Рівень (.+?): план підлаштовано$",
+  "Seviye $1: plan ayarlandı"
+ ],
+ [
+  "^Правильних відповідей: (.+?) з (.+?)$",
+  "Doğru cevap: $1 / $2"
+ ],
+ [
+  "^(.+?) (?:голосова розмова|голосові розмови|голосових розмов) і (.+?) текстових за місяць\\. (.+?)$",
+  "Bu ay {$1|sesli konuşma} ve $2 yazılı konuşma. $3"
+ ],
+ [
+  "^Глибокий аналіз вчителя · (.+?)$",
+  "Öğretmenin derin analizi · $1"
+ ],
+ [
+  "^останні розмови з вчителем(.+?)$",
+  "öğretmenle son konuşmalar$1"
+ ],
+ [
+  "^Темп зріс з (.+?) до (.+?) слів/хв\\.$",
+  "Tempo arttı: $1 → $2 kelime/dk."
+ ],
+ [
+  "^Утримання за 30 днів — (.+?)%(.+?)\\.$",
+  "30 günlük hatırlama — %$1$2."
+ ],
+ [
+  "^Найслабший урок — «(.+?)» \\((.+?)%\\)\\.$",
+  "En zayıf ders — “$1” (%$2)."
+ ],
+ [
+  "^Повторюються (.+?) (?:помилка|помилки|помилок) \\(3\\+ рази\\)\\.$",
+  "Tekrarlanan {$1|hata} (3+ kez)."
+ ],
+ [
+  "^(.+?) секунд · a, an, the чи —$",
+  "$1 saniye · a, an, the ya da —"
+ ],
+ [
+  "^Гру завершено\\. Очки: (.+?) з (.+?)\\.$",
+  "Oyun bitti. Puan: $1 / $2."
+ ],
+ [
+  "^myEnglish · Слово дня (.+?) · (.+?)$",
+  "myEnglish · Günün kelimesi $1 · $2"
+ ],
+ [
+  "^(.+?) відкритих · (.+?)% виправлено$",
+  "$1 açık · %$2 düzeltildi"
+ ],
+ [
+  "^Надіслати ще раз через (.+?) с$",
+  "$1 sn sonra yeniden gönder"
+ ],
+ [
+  "^Відхилити запрошення в «(.+?)»$",
+  "Daveti reddet: “$1”"
+ ],
+ [
+  "^(.+?) · бачить лише AI-вчитель$",
+  "$1 · yalnızca AI öğretmen görür"
+ ],
+ [
+  "^(.+?) з (.+?) правильних відповідей$",
+  "$2 sorudan $1 doğru cevap"
+ ],
+ [
+  "^рівень (.+?) · (.+?) (?:слово|слова|слів) · 3 запитання$",
+  "seviye $1 · {$2|kelime} · 3 soru"
+ ],
+ [
+  "^У роботі (.+?) (?:слово|слова|слів), закріплено (.+?)\\. (.+?)$",
+  "Çalışılan {$1|kelime}, pekişen $2. $3"
+ ],
+ [
+  "^Друзі: (.+?) нових повідомлень$",
+  "Arkadaşlar: $1 yeni mesaj"
+ ],
+ [
+  "^(.+?) секунд · речення рівня (.+?)$",
+  "$1 saniye · seviye cümleleri: $2"
+ ],
+ [
+  "^Рівень у застосунку: (.+?) · (.+?)$",
+  "Uygulamadaki seviye: $1 · $2"
+ ],
+ [
+  "^(.+?) відкріплює повідомлення$",
+  "$1 bir mesajın sabitlemesini kaldırdı"
+ ],
+ [
+  "^Нагадування ввімкнено · (.+?)$",
+  "Hatırlatıcılar açık · $1"
+ ],
+ [
+  "^(.+?) · граматика (.+?)% · слова (.+?)%$",
+  "$1 · dilbilgisi %$2 · kelimeler %$3"
+ ],
+ [
+  "^(.+?) (?:слово|слова|слів) — першими в тренуванні$",
+  "{$1|kelime} — antrenmanda ilk sırada"
+ ],
+ [
+  "^Прослухати: (.+?)\\. Точність (.+?)%$",
+  "Dinle: $1. Doğruluk %$2"
+ ],
+ [
+  "^8 нових речень · рівень (.+?)$",
+  "8 yeni cümle · seviye $1"
+ ],
+ [
+  "^План дня вже під рівень (.+?)$",
+  "Günün planı zaten $1 seviyesine göre"
+ ],
+ [
+  "^(.+?) хв практики сьогодні · (.+?)$",
+  "Bugün $1 dk pratik · $2"
+ ],
+ [
+  "^Рівень (.+?): почнемо з основ$",
+  "Seviye $1: temellerden başlayalım"
+ ],
+ [
+  "^місяць триває \\((.+?) з (.+?) днів\\)$",
+  "ay devam ediyor ($2 günün $1'i)"
+ ],
+ [
+  "^(.+?) запрошує вас у групу «(.+?)»$",
+  "$1 sizi “$2” grubuna davet ediyor"
+ ],
+ [
+  "^(.+?) хоче додати вас у друзі$",
+  "$1 sizi arkadaş olarak eklemek istiyor"
+ ],
+ [
+  "^Найчастіше ви вчитеся (.+?)\\.$",
+  "En sık $1 çalışıyorsunuz."
+ ],
+ [
+  "^До (.+?) секунд на пояснення$",
+  "Açıklama için en fazla $1 saniye"
+ ],
+ [
+  "^Третя заминка — на ≈ (.+?) с$",
+  "Üçüncü duraksama — ≈ $1. saniyede"
+ ],
+ [
+  "^\\)\\} · тиждень (.+?) · усього (.+?)(.+?)$",
+  ")} · hafta $1 · toplam $2$3"
+ ],
+ [
+  "^утримання: (.+?)/20 повторів$",
+  "hatırlama: $1/20 tekrar"
+ ],
+ [
+  "^Активні дні по тижнях: (.+?)$",
+  "Haftalara göre aktif günler: $1"
+ ],
+ [
+  "^Ще (.+?) — мінімум (.+?) символів$",
+  "$1 karakter daha — en az $2 karakter"
+ ],
+ [
+  "^(.+?) закріплює повідомлення$",
+  "$1 bir mesajı sabitledi"
+ ],
+ [
+  "^(.+?): іспит рівня (.+?) складено$",
+  "$1: seviye sınavı geçildi — $2"
+ ],
+ [
+  "^Тема дня від вчителя · (.+?)$",
+  "Öğretmenden günün konusu · $1"
+ ],
+ [
+  "^Для (.+?) — приблизно (.+?)–(.+?) слів$",
+  "$1 için — yaklaşık $2–$3 kelime"
+ ],
+ [
+  "^Можна переходити на (.+?) · (.+?)$",
+  "$1 seviyesine geçebilirsiniz · $2"
+ ],
+ [
+  "^Питання на розуміння · (.+?)$",
+  "Anlama soruları · $1"
+ ],
+ [
+  "^склали — переходите на (.+?)$",
+  "geçerseniz — $1 seviyesine geçersiniz"
+ ],
+ [
+  "^Завдання дня · (.+?) · (.+?) слів$",
+  "Günün görevi · $1 · $2 kelime"
+ ],
+ [
+  "^\\} — (.+?) (?:хвилина|хвилини|хвилин) англійської за (.+?) (?:день|дні|днів)\\.$",
+  "} — {$2|günde} {$1|dakika} İngilizce."
+ ],
+ [
+  "^Далі за планом дня: (.+?), (.+?) (.+?)$",
+  "Günün planında sıradaki: $1, $2 dakika"
+ ],
+ [
+  "^«(.+?)» · виконано (.+?) з (.+?) · до (.+?)$",
+  "“$1” · tamamlanan: $2 / $3 · son tarih $4"
+ ],
+ [
+  "^Перекладіть: (.+?)\\. Слова: (.+?)$",
+  "Çevirin: $1. Kelimeler: $2"
+ ],
+ [
+  "^(.+?) слів · до (.+?) с на кожне$",
+  "$1 kelime · her biri için en fazla $2 sn"
+ ],
+ [
+  "^Гру завершено\\. Очки: (.+?)\\.$",
+  "Oyun bitti. Puan: $1."
+ ],
+ [
+  "^активні за 7 днів · з (.+?)$",
+  "7 günde aktif · toplam $1"
+ ],
+ [
+  "^Друзі бачать вас як «(.+?)»$",
+  "Arkadaşlarınız sizi “$1” olarak görüyor"
+ ],
+ [
+  "^Закрити (.+?) і перейти на (.+?)$",
+  "$1 seviyesini kapat ve $2 seviyesine geç"
+ ],
+ [
+  "^(.+?) (?:урок|уроки|уроків) рівня (.+?) · по (.+?) питання$",
+  "$2 seviyesinde {$1|ders} · her birinden $3 soru"
+ ],
+ [
+  "^Тренувати з вчителем: (.+?)$",
+  "Öğretmenle çalış: $1"
+ ],
+ [
+  "^Тексти · прочитано (.+?) з (.+?)$",
+  "Metinler · okunan: $1 / $2"
+ ],
+ [
+  "^• Розмов із вчителем: (.+?)(.+?)$",
+  "• Öğretmenle konuşma: $1$2"
+ ],
+ [
+  "^тестів: (.+?) · найкращий (.+?)%$",
+  "test: $1 · en iyi %$2"
+ ],
+ [
+  "^План дня виконано на (.+?)%$",
+  "Günün planı %$1 tamamlandı"
+ ],
+ [
+  "^За місяць зараховано (.+?) (?:урок|уроки|уроків)(.+?)$",
+  "Bu ay geçilen: {$1|ders}$2"
+ ],
+ [
+  "^(.+?) (?:слово|слова|слів): до (.+?) нових і повтор$",
+  "{$1|kelime}: en fazla $2 yeni ve tekrar"
+ ],
+ [
+  "^(.+?) секунд, нові речення$",
+  "$1 saniye, yeni cümleler"
+ ],
+ [
+  "^Додати «(.+?)» в мої слова$",
+  "“$1” kelimelerime ekle"
+ ],
+ [
+  "^(.+?) речень · по 5 секунд$",
+  "$1 cümle · 5'er saniye"
+ ],
+ [
+  "^(.+?) тепер у ваших друзях$",
+  "$1 artık arkadaşlarınızda"
+ ],
+ [
+  "^(.+?) запрошує вас у друзі$",
+  "$1 sizi arkadaş olarak eklemek istiyor"
+ ],
+ [
+  "^токенів Live \\(ліміт (.+?)\\)$",
+  "Live token (sınır $1)"
+ ],
+ [
+  "^(.+?): (.+?) хв, активних днів (.+?)$",
+  "$1: $2 dk, aktif gün $3"
+ ],
+ [
+  "^Питання дня · рівень (.+?)$",
+  "Günün sorusu · seviye $1"
+ ],
+ [
+  "^Запрошення в групи · (.+?)$",
+  "Grup davetleri · $1"
+ ],
+ [
+  "^Модель: (.+?) → (.+?) · збірка (.+?)$",
+  "Model: $1 → $2 · sürüm $3"
+ ],
+ [
+  "^Рівень (.+?) ще не закрито$",
+  "$1 seviyesi henüz kapanmadı"
+ ],
+ [
+  "^Швидкість (.+?)× · вимова (.+?)$",
+  "Hız $1× · telaffuz $2"
+ ],
+ [
+  "^(.+?) хв · та сама добірка$",
+  "$1 dk · aynı seçki"
+ ],
+ [
+  "^• Рівень у розмовах: (.+?)$",
+  "• Konuşmalardaki seviye: $1"
+ ],
+ [
+  "^(.+?) (?:частина|частини|частин) з вибором відповіді$",
+  "Çoktan seçmeli {$1|bölüm}"
+ ],
+ [
+  "^Це на (.+?)% більше, ніж (.+?)\\.$",
+  "Bu, $2 göre %$1 daha fazla."
+ ],
+ [
+  "^До наступного рівня: (.+?)$",
+  "Sonraki seviyeye: $1"
+ ],
+ [
+  "^згадує при повторенні(.+?)$",
+  "tekrarda hatırlıyor$1"
+ ],
+ [
+  "^Перекласти фрагмент: (.+?)$",
+  "Parçayı çevir: $1"
+ ],
+ [
+  "^Останні 7 днів — (.+?) хв(.+?)$",
+  "Son 7 gün — $1 dk$2"
+ ],
+ [
+  "^(.+?): уже у ваших словах$",
+  "$1: zaten kelimelerinizde"
+ ],
+ [
+  "^Без трьох заминок — (.+?)$",
+  "Üç duraksama olmadan — $1"
+ ],
+ [
+  "^Правильно! Множник ×(.+?)$",
+  "Doğru! Çarpan ×$1"
+ ],
+ [
+  "^У кожного своє · до (.+?)$",
+  "Herkese kendine özel · son tarih $1"
+ ],
+ [
+  "^\\} на дуель · рівень (.+?)(.+?)$",
+  "} düelloya · seviye $1$2"
+ ],
+ [
+  "^Тренування · (.+?) питань$",
+  "Antrenman · $1 soru"
+ ],
+ [
+  "^Почніть з фрази · (.+?) с$",
+  "Bir ifadeyle başlayın · $1 sn"
+ ],
+ [
+  "^Відхилити запит від (.+?)$",
+  "İsteği reddet: $1"
+ ],
+ [
+  "^Сьогодні (.+?) · тиждень (.+?)$",
+  "Bugün $1 · hafta $2"
+ ],
+ [
+  "^Ваш звіт за (.+?) готовий$",
+  "Raporunuz hazır: $1"
+ ],
+ [
+  "^Рівень (.+?) підтверджено$",
+  "$1 seviyesi onaylandı"
+ ],
+ [
+  "^Слова до вивчення · (.+?)$",
+  "Öğrenilecek kelimeler · $1"
+ ],
+ [
+  "^Продовжити · розділ (.+?)$",
+  "Devam et · bölüm $1"
+ ],
+ [
+  "^Закрито за тиждень: (.+?)$",
+  "Bu hafta kapanan: $1"
+ ],
+ [
+  "^(.+?) чекають своєї черги$",
+  "$1 sırasını bekliyor"
+ ],
+ [
+  "^Нове правило тижня: (.+?)$",
+  "Haftanın yeni kuralı: $1"
+ ],
+ [
+  "^Правильно! Прогрес (.+?)/(.+?)$",
+  "Doğru! İlerleme $1/$2"
+ ],
+ [
+  "^Наступний повтор — (.+?)\\.$",
+  "Sonraki tekrar — $1."
+ ],
+ [
+  "^План (.+?): ≈ (.+?) (?:тиждень|тижні|тижнів) · іспит ~(.+?)$",
+  "$1 planı: ≈ {$2|hafta} · sınav ~$3"
+ ],
+ [
+  "^План уже під рівень (.+?)$",
+  "Plan zaten $1 seviyesine göre"
+ ],
+ [
+  "^(.+?) (?:помилку|помилки|помилок) — у «Мої помилки»\\.$",
+  "{$1|hata} — “Hatalarım”da."
+ ],
+ [
+  "^Додати в картки: (.+?) — (.+?)$",
+  "Kartlara ekle: $1 — $2"
+ ],
+ [
+  "^(.+?): позначити вивченим$",
+  "$1: öğrenildi olarak işaretle"
+ ],
+ [
+  "^Це на (.+?)% менше, ніж (.+?)\\.$",
+  "Bu, $2 göre %$1 daha az."
+ ],
+ [
+  "^Виправлено (.+?)% \\((.+?) з (.+?)\\)\\.$",
+  "Düzeltilen: %$1 ($3 hatadan $2)."
+ ],
+ [
+  "^(.+?) (?:речення|речення|речень) — з ваших помилок$",
+  "{$1|cümle} — hatalarınızdan"
+ ],
+ [
+  "^до (.+?) секунд · (.+?) життя$",
+  "en fazla $1 saniye · $2 can"
+ ],
+ [
+  "^(.+?) уже у ваших друзях$",
+  "$1 zaten arkadaşlarınızda"
+ ],
+ [
+  "^(.+?) з 10 місць зайнято$",
+  "10 yerden $1 dolu"
+ ],
+ [
+  "^Хвилини за 7 днів: (.+?)$",
+  "7 günde dakikalar: $1"
+ ],
+ [
+  "^(.+?) за 7 дн\\. · (.+?) усього$",
+  "7 günde $1 · toplam $2"
+ ],
+ [
+  "^Рівень у розмовах: (.+?)$",
+  "Konuşmalardaki seviye: $1"
+ ],
+ [
+  "^утримання за 30 дн\\.(.+?)$",
+  "30 günlük hatırlama$1"
+ ],
+ [
+  "^Хвилини по тижнях: (.+?)$",
+  "Haftalara göre dakikalar: $1"
+ ],
+ [
+  "^(.+?) змінює назву на «(.+?)»$",
+  "$1 grubun adını “$2” olarak değiştirdi"
+ ],
+ [
+  "^(.+?) отримає запрошення$",
+  "$1 davet alacak"
+ ],
+ [
+  "^(.+?) – (.+?) · лишилось (.+?) дн\\.$",
+  "$1 – $2 · $3 gün kaldı"
+ ],
+ [
+  "^«(.+?)» — але після «uh»$",
+  "“$1” — ama “uh”dan sonra"
+ ],
+ [
+  "^Надіслані запити · (.+?)$",
+  "Gönderilen istekler · $1"
+ ],
+ [
+  "^Разом без перерви: (.+?)$",
+  "Birlikte kesintisiz: $1"
+ ],
+ [
+  "^Виконано днів: (.+?) з 7$",
+  "Tamamlanan gün: $1 / 7"
+ ],
+ [
+  "^Правило (.+?): (.+?), закрито$",
+  "Kural $1: $2, kapandı"
+ ],
+ [
+  "^Підтвердити рівень (.+?)$",
+  "$1 seviyesini onayla"
+ ],
+ [
+  "^граматика (.+?) · слова (.+?)$",
+  "dilbilgisi $1 · kelimeler $2"
+ ],
+ [
+  "^(.+?) на повтор сьогодні$",
+  "bugün tekrar edilecek: $1"
+ ],
+ [
+  "^Що вчитель пам'ятає(.+?)$",
+  "Öğretmenin hatırladıkları$1"
+ ],
+ [
+  "^Текст дня · (.+?) · ~(.+?) хв(.+?)$",
+  "Günün metni · $1 · ~$2 dk$3"
+ ],
+ [
+  "^• Закрито помилок: (.+?)$",
+  "• Kapanan hata: $1"
+ ],
+ [
+  "^myEnglish · збірка (.+?)$",
+  "myEnglish · sürüm $1"
+ ],
+ [
+  "^(.+?) (?:частина|частини|частин), письмо й розмова$",
+  "{$1|bölüm}, yazma ve konuşma"
+ ],
+ [
+  "^тести за уроками \\((.+?)\\)$",
+  "ders testleri ($1)"
+ ],
+ [
+  "^Немає в словнику · (.+?)$",
+  "Sözlükte yok · $1"
+ ],
+ [
+  "^востаннє в мережі (.+?)$",
+  "son görülme $1"
+ ],
+ [
+  "^(.+?) поспіль, множник (.+?)$",
+  "Üst üste $1, çarpan $2"
+ ],
+ [
+  "^до (.+?) с, англійською$",
+  "en fazla $1 sn, İngilizce"
+ ],
+ [
+  "^Вгадано з (.+?) спроби!$",
+  "$1 denemede bilindi!"
+ ],
+ [
+  "^Алфавіт і звуки · (.+?)$",
+  "Alfabe ve sesler · $1"
+ ],
+ [
+  "^(.+?) у роботі · (.+?) міцно$",
+  "$1 çalışılıyor · $2 sağlam"
+ ],
+ [
+  "^(.+?): домашнє виконано$",
+  "$1: ödev tamamlandı"
+ ],
+ [
+  "^Виконано (.+?) з (.+?) · до (.+?)$",
+  "Tamamlanan: $1 / $2 · son tarih $3"
+ ],
+ [
+  "^\\} виклик на 7 днів(.+?)$",
+  "} 7 günlük meydan okuma$1"
+ ],
+ [
+  "^Видалити запис за (.+?)$",
+  "Kaydı sil: $1"
+ ],
+ [
+  "^Раунд (.+?) · (.+?) · (.+?) за (.+?) с$",
+  "Tur $1 · $2 · $4 sn'de $3"
+ ],
+ [
+  "^4-3-2 · готово (.+?) з (.+?)$",
+  "4-3-2 · bitti: $1 / $2"
+ ],
+ [
+  "^(.+?) (?:слово|слова|слів) ще не закріплено(.+?)$",
+  "Henüz pekişmemiş {$1|kelime}$2"
+ ],
+ [
+  "^Іспит (.+?) · граматика$",
+  "$1 sınavı · dilbilgisi"
+ ],
+ [
+  "^Варто повторити · (.+?)$",
+  "Tekrar etmekte fayda var · $1"
+ ],
+ [
+  "^8 речень · рівень (.+?)$",
+  "8 cümle · seviye $1"
+ ],
+ [
+  "^(.+?) (?:помилка|помилки|помилок) · (.+?) (?:правило|правила|правил) за розкладом$",
+  "{$1|hata} · plana göre {$2|kural}"
+ ],
+ [
+  "^Додано у фразник: (.+?)$",
+  "İfadelere eklendi: $1"
+ ],
+ [
+  "^Голосів браузера: (.+?)$",
+  "Tarayıcı sesleri: $1"
+ ],
+ [
+  "^Фільтри: активних (.+?)$",
+  "Filtreler: $1 aktif"
+ ],
+ [
+  "^Прогалини нижче: (.+?)$",
+  "Alttaki eksikler: $1"
+ ],
+ [
+  "^Ні\\. Правильно: (.+?)\\. (.+?)$",
+  "Hayır. Doğrusu: $1. $2"
+ ],
+ [
+  "^Прослухати слово (.+?)$",
+  "Kelimeyi dinle: $1"
+ ],
+ [
+  "^(.+?) — у ваших друзях$",
+  "$1 — arkadaşlarınızda"
+ ],
+ [
+  "^озвучень \\(ліміт (.+?)\\)$",
+  "seslendirme (sınır $1)"
+ ],
+ [
+  "^ще (.+?) з «Моїх слів»$",
+  "“Kelimelerim”den $1 tane daha"
+ ],
+ [
+  "^(.+?) створює групу «(.+?)»$",
+  "$1 “$2” grubunu kurdu"
+ ],
+ [
+  "^(.+?) виходить з групи$",
+  "$1 gruptan ayrıldı"
+ ],
+ [
+  "^Додано в картки: (.+?)$",
+  "Kartlara eklendi: $1"
+ ],
+ [
+  "^Додати в картки: (.+?)$",
+  "Kartlara ekle: $1"
+ ],
+ [
+  "^Минулого разу (.+?) з (.+?)$",
+  "Geçen sefer: $1 / $2"
+ ],
+ [
+  "^Запити в друзі · (.+?)$",
+  "Arkadaşlık istekleri · $1"
+ ],
+ [
+  "^розгадано за (.+?) з 6$",
+  "6 denemeden $1 denemede bulundu"
+ ],
+ [
+  "^Почати день · (.+?) хв$",
+  "Güne başla · $1 dk"
+ ],
+ [
+  "^Уроки (.+?)/(.+?) · слова (.+?)/(.+?)(.+?)$",
+  "Dersler $1/$2 · kelimeler $3/$4$5"
+ ],
+ [
+  "^1 з (.+?) — з помилкою$",
+  "$1 sorudan 1'i hatalı"
+ ],
+ [
+  "^Диктант · рівень (.+?)$",
+  "Dikte · seviye $1"
+ ],
+ [
+  "^Діалог дня · (.+?) · (.+?) (?:репліка|репліки|реплік)$",
+  "Günün diyaloğu · $1 · {$2|replik}"
+ ],
+ [
+  "^Активні помилки: (.+?)$",
+  "Aktif hatalar: $1"
+ ],
+ [
+  "^Перевірити себе: (.+?)$",
+  "Kendini sına: $1"
+ ],
+ [
+  "^уроків граматики (.+?)$",
+  "$1 dilbilgisi dersleri"
+ ],
+ [
+  "^Мінімальна пара (.+?)/(.+?)(.+?)$",
+  "Minimal çift $1/$2$3"
+ ],
+ [
+  "^Розбір помилок · (.+?)$",
+  "Hataların değerlendirmesi · $1"
+ ],
+ [
+  "^На (.+?)% більше, ніж (.+?)$",
+  "$2 göre %$1 daha fazla"
+ ],
+ [
+  "^У (.+?) занять не було$",
+  "$1 ders olmadı"
+ ],
+ [
+  "^(?:день|дні|днів) — найдовша серія$",
+  "gün — en uzun seri"
+ ],
+ [
+  "^Хвилини по днях: (.+?)$",
+  "Günlere göre dakikalar: $1"
+ ],
+ [
+  "^(.+?) · ваш AI-вчитель$",
+  "$1 · AI öğretmeniniz"
+ ],
+ [
+  "^Видалено розмов: (.+?)$",
+  "Silinen konuşma: $1"
+ ],
+ [
+  "^мета (.+?) хв і більше$",
+  "hedef: $1 dk ve üstü"
+ ],
+ [
+  "^Потребує уваги: (.+?)\\.$",
+  "Dikkat gerekenler: $1."
+ ],
+ [
+  "^опановано рівень (.+?)$",
+  "hâkim olunan seviye: $1"
+ ],
+ [
+  "^(.+?): (.+?) Як виправити: (.+?)$",
+  "$1: $2 Nasıl düzeltilir: $3"
+ ],
+ [
+  "^Опанування рівня (.+?)$",
+  "Seviyeye hâkimiyet: $1"
+ ],
+ [
+  "^На повторення: (.+?)\\.$",
+  "Tekrar edilecek: $1."
+ ],
+ [
+  "^(.+?) секунд і (.+?) життя$",
+  "$1 saniye ve $2 can"
+ ],
+ [
+  "^Ваша відповідь: (.+?)$",
+  "Cevabınız: $1"
+ ],
+ [
+  "^Оцінка вчителя: (.+?)(.+?)$",
+  "Öğretmenin değerlendirmesi: $1$2"
+ ],
+ [
+  "^(.+?) з робочих колод$",
+  "İş destelerinden $1"
+ ],
+ [
+  "^Наступний урок: (.+?)$",
+  "Sonraki ders: $1"
+ ],
+ [
+  "^(.+?) (?:виправлення|виправлення|виправлень) — розбір нижче$",
+  "{$1|düzeltme} — değerlendirme aşağıda"
+ ],
+ [
+  "^Корисні слова · (.+?)$",
+  "Faydalı kelimeler · $1"
+ ],
+ [
+  "^Мої звернення · (.+?)$",
+  "Mesajlarım · $1"
+ ],
+ [
+  "^було (.+?) на початку$",
+  "başta $1 idi"
+ ],
+ [
+  "^Далі · раунд (.+?) · (.+?)$",
+  "Sıradaki · tur $1 · $2"
+ ],
+ [
+  "^(.+?) фраз за групами$",
+  "Gruplara göre $1 ifade"
+ ],
+ [
+  "^Старт, день (.+?) з 7$",
+  "Başlangıç, gün $1 / 7"
+ ],
+ [
+  "^Усього закрито: (.+?)$",
+  "Toplam kapanan: $1"
+ ],
+ [
+  "^Правила тижня · (.+?)$",
+  "Haftanın kuralları · $1"
+ ],
+ [
+  "^Зараховано: (.+?) з (.+?) (?:помилки|помилок|помилок)$",
+  "Sayıldı: $2 hatadan $1"
+ ],
+ [
+  "^Стрік: (.+?) (?:день|дні|днів) поспіль$",
+  "Seri: {$1|gün} üst üste"
+ ],
+ [
+  "^слів (.+?) закріплено$",
+  "$1 kelimeleri pekişti"
+ ],
+ [
+  "^На (.+?)% менше, ніж (.+?)$",
+  "$2 göre %$1 daha az"
+ ],
+ [
+  "^Ключові фрази · (.+?)$",
+  "Anahtar ifadeler · $1"
+ ],
+ [
+  "^У фразнику: \\+(.+?) · (.+?)$",
+  "İfadelerde: +$1 · $2"
+ ],
+ [
+  "^Протестовано (.+?) з (.+?)$",
+  "Test edilen: $1 / $2"
+ ],
+ [
+  "^Корисні фрази · (.+?)$",
+  "Faydalı ifadeler · $1"
+ ],
+ [
+  "^(.+?) — уже в картках$",
+  "$1 — zaten kartlarda"
+ ],
+ [
+  "^Чудово! (.+?) поспіль$",
+  "Harika! Üst üste $1"
+ ],
+ [
+  "^тижневі тести \\((.+?)\\)$",
+  "haftalık testler ($1)"
+ ],
+ [
+  "^Правило тижня: (.+?)$",
+  "Haftanın kuralı: $1"
+ ],
+ [
+  "^Відпрацьовано (.+?) (?:помилку|помилки|помилок)$",
+  "{$1|hata} çalışıldı"
+ ],
+ [
+  "^Правила тижня: (.+?)$",
+  "Haftanın kuralları: $1"
+ ],
+ [
+  "^Рекорд рівня (.+?): (.+?)$",
+  "Seviye rekoru: $1 — $2"
+ ],
+ [
+  "^Показати всі · (.+?)$",
+  "Tümünü göster · $1"
+ ],
+ [
+  "^Прослухати: (.+?) — (.+?)$",
+  "Dinle: $1 — $2"
+ ],
+ [
+  "^(.+?) — (.+?)\\. Правильно\\?$",
+  "$1 — $2. Doğru mu?"
+ ],
+ [
+  "^Розгадано за (.+?) (.+?)!$",
+  "{$1|denemede} bulundu!"
+ ],
+ [
+  "^Найкраще: (.+?) з 10$",
+  "En iyi: $1 / 10"
+ ],
+ [
+  "^нових за 14 дн\\.(.+?)$",
+  "14 günde yeni$1"
+ ],
+ [
+  "^Ваш прогрес · (.+?) (?:сесія|сесії|сесій)$",
+  "İlerlemeniz · {$1|oturum}"
+ ],
+ [
+  "^\\} · закрито (.+?) з (.+?)$",
+  "} · kapandı: $1 / $2"
+ ],
+ [
+  "^Також закрито: (.+?)$",
+  "Ayrıca kapandı: $1"
+ ],
+ [
+  "^Рівень (.+?) закрито$",
+  "$1 seviyesi kapandı"
+ ],
+ [
+  "^(.+?) хв · (.+?) (?:пункт|пункти|пунктів) по колу$",
+  "$1 dk · döngüde {$2|madde}"
+ ],
+ [
+  "^(.+?) · ×(.+?) · закрито (.+?)$",
+  "$1 · ×$2 · kapandı $3"
+ ],
+ [
+  "^Інші правила · (.+?)$",
+  "Diğer kurallar · $1"
+ ],
+ [
+  "^(.+?) (?:помилка|помилки|помилок) · засвоєння (.+?)/(.+?)$",
+  "{$1|hata} · pekiştirme $2/$3"
+ ],
+ [
+  "^Підготуватися: (.+?)$",
+  "Hazırlan: $1"
+ ],
+ [
+  "^Мої ситуації · (.+?)$",
+  "Durumlarım · $1"
+ ],
+ [
+  "^Сценарій дня · (.+?)$",
+  "Günün senaryosu · $1"
+ ],
+ [
+  "^Не враховано: (.+?)\\.$",
+  "Dahil edilmedi: $1."
+ ],
+ [
+  "^повтор · стаб\\. (.+?)$",
+  "tekrar · stab. $1"
+ ],
+ [
+  "^Комбо: (.+?) поспіль$",
+  "Kombo: üst üste $1"
+ ],
+ [
+  "^Найкраще йде: (.+?)\\.$",
+  "En iyi gidenler: $1."
+ ],
+ [
+  "^Іспит рівня (.+?) · (.+?)$",
+  "Seviye sınavı $1 · $2"
+ ],
+ [
+  "^(.+?) (?:картка чекає|картки чекають|карток чекають) на повторення$",
+  "Tekrar bekleyen {$1|kart}"
+ ],
+ [
+  "^Покращилось: (.+?)\\.$",
+  "Gelişenler: $1."
+ ],
+ [
+  "^Поговорили (.+?) хв$",
+  "$1 dk konuşuldu"
+ ],
+ [
+  "^серія · макс\\. (.+?)$",
+  "seri · en fazla $1"
+ ],
+ [
+  "^(.+?) — правильно: (.+?)(.+?)$",
+  "$1 — doğrusu: $2$3"
+ ],
+ [
+  "^Користувачі · (.+?)$",
+  "Kullanıcılar · $1"
+ ],
+ [
+  "^(.+?) хв за 4 тижні$",
+  "4 haftada $1 dk"
+ ],
+ [
+  "^4-3-2 · раунд (.+?)$",
+  "4-3-2 · tur $1"
+ ],
+ [
+  "^Заблоковані · (.+?)$",
+  "Engellenenler · $1"
+ ],
+ [
+  "^з (.+?) без помилок$",
+  "$1 içinden hatasız"
+ ],
+ [
+  "^(.+?) (?:репліка|репліки|реплік) · два голоси$",
+  "{$1|replik} · iki ses"
+ ],
+ [
+  "^Розуміння: (.+?) з (.+?)$",
+  "Anlama: $1 / $2"
+ ],
+ [
+  "^Засвоєння: (.+?) з (.+?)$",
+  "Pekiştirme: $1 / $2"
+ ],
+ [
+  "^Оцінка (.+?) зі 100$",
+  "Puan: 100 üzerinden $1"
+ ],
+ [
+  "^Продовжити · (.+?)%$",
+  "Devam et · %$1"
+ ],
+ [
+  "^• Нових слів: (.+?)$",
+  "• Yeni kelime: $1"
+ ],
+ [
+  "^Рольова гра · (.+?)$",
+  "Rol oyunu · $1"
+ ],
+ [
+  "^(.+?) · 8–20 питань$",
+  "$1 · 8–20 soru"
+ ],
+ [
+  "^(.+?) (?:частина|частини|частин) · до (.+?) питань$",
+  "{$1|bölüm} · en fazla $2 soru"
+ ],
+ [
+  "^Правильно: (.+?) з (.+?)$",
+  "Doğru: $1 / $2"
+ ],
+ [
+  "^Діалоги рівня (.+?)$",
+  "Seviye diyalogları: $1"
+ ],
+ [
+  "^Мої помилки: (.+?)$",
+  "Hatalarım: $1"
+ ],
+ [
+  "^Рекорд рівня (.+?)$",
+  "Seviye rekoru: $1"
+ ],
+ [
+  "^(.+?): без артикля$",
+  "$1: artikelsiz"
+ ],
+ [
+  "^Ваш варіант: (.+?)$",
+  "Sizin cevabınız: $1"
+ ],
+ [
+  "^ваш варіант: (.+?)$",
+  "cevabınız: $1"
+ ],
+ [
+  "^(.+?) нових речень$",
+  "$1 yeni cümle"
+ ],
+ [
+  "^\\. Спроба (.+?) з (.+?)\\.$",
+  ". Deneme $1 / $2."
+ ],
+ [
+  "^Ви в групі «(.+?)»$",
+  "“$1” grubundasınız"
+ ],
+ [
+  "^(.+?) (?:запис|записи|записів) у щоденнику(.+?)$",
+  "Günlükte {$1|kayıt}$2"
+ ],
+ [
+  "^(.+?) · ваш рівень$",
+  "$1 · seviyeniz"
+ ],
+ [
+  "^Колоди рівня (.+?)$",
+  "Seviye desteleri: $1"
+ ],
+ [
+  "^(.+?) приєднується$",
+  "$1 katıldı"
+ ],
+ [
+  "^(.+?): (.+?) у дуелі «(.+?)»$",
+  "$1: “$3” düellosunda $2"
+ ],
+ [
+  "^Закріплено · (.+?)$",
+  "Sabitlendi · $1"
+ ],
+ [
+  "^Переглянули: (.+?)$",
+  "Görenler: $1"
+ ],
+ [
+  "^(.+?) · привітайте$",
+  "$1 · tebrik edin"
+ ],
+ [
+  "^Заблокувати (.+?)\\?$",
+  "$1 engellensin mi?"
+ ],
+ [
+  "^Мої записи · (.+?)$",
+  "Kayıtlarım · $1"
+ ],
+ [
+  "^Ваш запис · (.+?) (?:слово|слова|слів)$",
+  "Kaydınız · {$1|kelime}"
+ ],
+ [
+  "^Вперемішку · (.+?)$",
+  "Karışık · $1"
+ ],
+ [
+  "^Раунд (.+?) ще раз$",
+  "Tur $1 bir daha"
+ ],
+ [
+  "^Почати раунд (.+?)(.+?)$",
+  "$1. turu başlat$2"
+ ],
+ [
+  "^(.+?) запрошує · (.+?) (?:учасник|учасники|учасників)(.+?)$",
+  "$1 davet ediyor · {$2|üye}$3"
+ ],
+ [
+  "^Рекорд: (.+?) з 15$",
+  "Rekor: $1 / 15"
+ ],
+ [
+  "^Старт · день (.+?)$",
+  "Başlangıç · gün $1"
+ ],
+ [
+  "^· у розмовах (.+?)(.+?)$",
+  "· konuşmalarda $1$2"
+ ],
+ [
+  "^Оповідання · (.+?)$",
+  "Öyküler · $1"
+ ],
+ [
+  "^Прочитано (.+?) з (.+?)$",
+  "Okunan: $1 / $2"
+ ],
+ [
+  "^(.+?) з (.+?) правильно$",
+  "$2 içinden $1 doğru"
+ ],
+ [
+  "^найслабша — (.+?) (.+?)$",
+  "en zayıf — $1 $2"
+ ],
+ [
+  "^(.+?) · розділ (.+?) з (.+?)$",
+  "$1 · bölüm $2 / $3"
+ ],
+ [
+  "^Приблизно як (.+?)$",
+  "Yaklaşık $1 kadar"
+ ],
+ [
+  "^Тренування: (.+?) (?:слово|слова|слів)$",
+  "Antrenman: {$1|kelime}"
+ ],
+ [
+  "^(.+?) (?:крок|кроки|кроків) на сьогодні$",
+  "Bugün için {$1|adım}"
+ ],
+ [
+  "^Залишилось ≈(.+?) (?:хвилина|хвилини|хвилин)$",
+  "Kalan ≈{$1|dakika}"
+ ],
+ [
+  "^Перший крок: (.+?)$",
+  "İlk adım: $1"
+ ],
+ [
+  "^Правильно (.+?) з (.+?)$",
+  "Doğru: $1 / $2"
+ ],
+ [
+  "^Сповіщення: (.+?) (?:нове|нові|нових)$",
+  "Bildirimler: {$1|yeni}"
+ ],
+ [
+  "^Порівняння: (.+?)$",
+  "Karşılaştırma: $1"
+ ],
+ [
+  "^(.+?) (?:слово|слова|слів) за тиждень$",
+  "Haftada {$1|kelime}"
+ ],
+ [
+  "^(.+?) (?:розмова|розмови|розмов) з вчителем$",
+  "Öğretmenle {$1|konuşma}"
+ ],
+ [
+  "^Готово · (.+?) хв$",
+  "Bitti · $1 dk"
+ ],
+ [
+  "^(.+?)\\. Варіанти: (.+?)$",
+  "$1. Seçenekler: $2"
+ ],
+ [
+  "^Слово було (.+?)\\.$",
+  "Kelime şuydu: $1."
+ ],
+ [
+  "^Виправлень: (.+?)$",
+  "Düzeltme: $1"
+ ],
+ [
+  "^виправлень: (.+?)$",
+  "düzeltme: $1"
+ ],
+ [
+  "^Вправи · (.+?) з (.+?)$",
+  "Alıştırmalar · $1 / $2"
+ ],
+ [
+  "^Відповісти: (.+?)$",
+  "Cevapla: $1"
+ ],
+ [
+  "^близько (.+?) · (.+?) (?:оцінка|оцінки|оцінок)$",
+  "yaklaşık $1 · {$2|değerlendirme}"
+ ],
+ [
+  "^(.+?) слів/хв · (.+?) (?:голосова розмова|голосові розмови|голосових розмов)$",
+  "$1 kelime/dk · {$2|sesli konuşma}"
+ ],
+ [
+  "^тест, (.+?) (?:день|дні|днів) тому$",
+  "test, {$1|gün} önce"
+ ],
+ [
+  "^говоріння, (.+?) (?:оцінка|оцінки|оцінок)$",
+  "konuşma, {$1|değerlendirme}"
+ ],
+ [
+  "^що стримує: (.+?)$",
+  "engelleyen: $1"
+ ],
+ [
+  "^До повтору: (.+?)$",
+  "Tekrara kadar: $1"
+ ],
+ [
+  "^«(.+?)» — вивчено$",
+  "“$1” — öğrenildi"
+ ],
+ [
+  "^· почуто: «(.+?)»$",
+  "· duyulan: “$1”"
+ ],
+ [
+  "^Прослухати: (.+?)$",
+  "Dinle: $1"
+ ],
+ [
+  "^Одна тема · (.+?)$",
+  "Tek konu · $1"
+ ],
+ [
+  "^Раунд (.+?) з (.+?) · (.+?)$",
+  "Tur $1 / $2 · $3"
+ ],
+ [
+  "^(.+?) на 100 слів$",
+  "100 kelimede $1"
+ ],
+ [
+  "^Пройдено (.+?) з (.+?)$",
+  "Tamamlanan: $1 / $2"
+ ],
+ [
+  "^Продовжити: (.+?)$",
+  "Devam et: $1"
+ ],
+ [
+  "^Іспит рівня (.+?)$",
+  "Seviye sınavı: $1"
+ ],
+ [
+  "^Засвоєння: (.+?)/(.+?)$",
+  "Pekiştirme: $1/$2"
+ ],
+ [
+  "^(.+?) найчастіших$",
+  "en sık $1 hata"
+ ],
+ [
+  "^(.+?) без помилок$",
+  "$1 hatasız"
+ ],
+ [
+  "^пройдено (.+?) з (.+?)$",
+  "tamamlanan: $1 / $2"
+ ],
+ [
+  "^на 7 днів: (.+?) (.+?)$",
+  "7 gün için: $1 kart"
+ ],
+ [
+  "^Згенеровано (.+?)$",
+  "Oluşturuldu: $1"
+ ],
+ [
+  "^(.+?) у щоденнику$",
+  "Günlükte: $1"
+ ],
+ [
+  "^(.+?) слів/хв · (.+?) (?:розмова|розмови|розмов)$",
+  "$1 kelime/dk · {$2|konuşma}"
+ ],
+ [
+  "^(.+?) хв практики$",
+  "$1 dk pratik"
+ ],
+ [
+  "^Іспит рівня (.+?)(.+?)$",
+  "Seviye sınavı $1$2"
+ ],
+ [
+  "^Почати · (.+?) хв$",
+  "Başla · $1 dk"
+ ],
+ [
+  "^У фразник · (.+?)$",
+  "İfadelere · $1"
+ ],
+ [
+  "^близько (.+?) (?:тижня|тижнів|тижнів) · (.+?)$",
+  "yaklaşık {$1|hafta} · $2"
+ ],
+ [
+  "^тест рівня, (.+?)(.+?)$",
+  "seviye testi, $1$2"
+ ],
+ [
+  "^знизилось \\((.+?)\\)$",
+  "düştü ($1)"
+ ],
+ [
+  "^Уроки рівня (.+?)$",
+  "Seviye dersleri: $1"
+ ],
+ [
+  "^Повторено (.+?) (?:слово|слова|слів)$",
+  "{$1|kelime} tekrarlandı"
+ ],
+ [
+  "^(.+?), повернути$",
+  "$1, geri al"
+ ],
+ [
+  "^Правильно! (.+?)$",
+  "Doğru! $1"
+ ],
+ [
+  "^Правильно: (.+?)$",
+  "Doğrusu: $1"
+ ],
+ [
+  "^Прослухати (.+?)$",
+  "Dinle: $1"
+ ],
+ [
+  "^(.+?) нових слів$",
+  "$1 yeni kelime"
+ ],
+ [
+  "^Ваша роль: (.+?)$",
+  "Rolünüz: $1"
+ ],
+ [
+  "^(.+?) з (.+?) уроків (.+?)$",
+  "$2 dersten $1 · $3"
+ ],
+ [
+  "^Міні-урок: (.+?)$",
+  "Mini ders: $1"
+ ],
+ [
+  "^(.+?): (.+?) (.+?) поспіль$",
+  "$1: $2 gün üst üste"
+ ],
+ [
+  "^Зіграли (.+?) з (.+?)$",
+  "Oynayan: $1 / $2"
+ ],
+ [
+  "^Відповідь: (.+?)$",
+  "Cevap: $1"
+ ],
+ [
+  "^Учасники · (.+?)$",
+  "Üyeler · $1"
+ ],
+ [
+  "^Як краще · (.+?)$",
+  "Nasıl daha iyi · $1"
+ ],
+ [
+  "^Щоденник · (.+?)$",
+  "Günlük · $1"
+ ],
+ [
+  "^за 7 днів: (.+?)$",
+  "7 günde: $1"
+ ],
+ [
+  "^Питання (.+?) з (.+?)$",
+  "Soru $1 / $2"
+ ],
+ [
+  "^Почали з «(.+?)»$",
+  "“$1” ile başladınız"
+ ],
+ [
+  "^Ваш стрік: (.+?)$",
+  "Seriniz: $1"
+ ],
+ [
+  "^спроба (.+?) з 6$",
+  "deneme $1 / 6"
+ ],
+ [
+  "^Перейти на (.+?)$",
+  "$1 seviyesine geç"
+ ],
+ [
+  "^Розділ 1 · (.+?)$",
+  "1. bölüm · $1"
+ ],
+ [
+  "^Речення (.+?) з (.+?)$",
+  "Cümle $1 / $2"
+ ],
+ [
+  "^сьогодні о (.+?)$",
+  "bugün $1"
+ ],
+ [
+  "^(.+?) (?:помилка|помилки|помилок) · (.+?) (?:правило|правила|правил) тижня$",
+  "{$1|hata} · haftanın {$2|kuralı}"
+ ],
+ [
+  "^Опановано (.+?)%$",
+  "Hâkimiyet %$1"
+ ],
+ [
+  "^(.+?) (?:питання|питання|питань) до тексту(.+?)$",
+  "Metinle ilgili {$1|soru}$2"
+ ],
+ [
+  "^закріплено (.+?)$",
+  "pekişen: $1"
+ ],
+ [
+  "^(.+?) хв голосом$",
+  "$1 dk sesli"
+ ],
+ [
+  "^(.+?) хв на день$",
+  "Günde $1 dk"
+ ],
+ [
+  "^Видалити \\((.+?)\\)$",
+  "Sil ($1)"
+ ],
+ [
+  "^Видалити (.+?) (?:розмову|розмови|розмов)\\?$",
+  "{$1|konuşma} silinsin mi?"
+ ],
+ [
+  "^Прогрес за (.+?)$",
+  "İlerleme: $1"
+ ],
+ [
+  "^сформовано (.+?)$",
+  "oluşturuldu: $1"
+ ],
+ [
+  "^Урок рівня (.+?)$",
+  "Seviye dersi: $1"
+ ],
+ [
+  "^Просіло: (.+?)\\.$",
+  "Gerileyenler: $1."
+ ],
+ [
+  "^Речення (.+?): (.+?)$",
+  "Cümle $1: $2"
+ ],
+ [
+  "^Промахів: (.+?)$",
+  "Iska: $1"
+ ],
+ [
+  "^Життя: (.+?) з (.+?)$",
+  "Can: $1 / $2"
+ ],
+ [
+  "^(.+?) · (.+?) секунд$",
+  "$1 · $2 saniye"
+ ],
+ [
+  "^Помилок: (.+?)\\.$",
+  "Hata: $1."
+ ],
+ [
+  "^опановано (.+?)$",
+  "$1 tamamlandı"
+ ],
+ [
+  "^Повторити (.+?)$",
+  "Tekrarla: $1"
+ ],
+ [
+  "^(.+?) · спроб: (.+?)$",
+  "$1 · deneme: $2"
+ ],
+ [
+  "^Тема дня: (.+?)$",
+  "Günün konusu: $1"
+ ],
+ [
+  "^Голосове: (.+?)$",
+  "Sesli mesaj: $1"
+ ],
+ [
+  "^(.+?) · рівень (.+?)$",
+  "$1 · seviye $2"
+ ],
+ [
+  "^Помилки · (.+?)$",
+  "Hatalar · $1"
+ ],
+ [
+  "^Ще теми · (.+?)$",
+  "Diğer konular · $1"
+ ],
+ [
+  "^Готово (.+?) з (.+?)$",
+  "Bitti: $1 / $2"
+ ],
+ [
+  "^(.+?) (?:питання|питання|питань) пройдено$",
+  "{$1|soru} tamamlandı"
+ ],
+ [
+  "^Ще (.+?) питань$",
+  "$1 soru daha"
+ ],
+ [
+  "^Надіслано (.+?)$",
+  "Gönderildi: $1"
+ ],
+ [
+  "^Рекорд: (.+?) с$",
+  "Rekor: $1 sn"
+ ],
+ [
+  "^Рівень (.+?) → (.+?)$",
+  "Seviye $1 → $2"
+ ],
+ [
+  "^закрито · (.+?)$",
+  "kapandı · $1"
+ ],
+ [
+  "^(.+?), (.+?) · (.+?) слів(.+?)$",
+  "$1, $2 · $3 kelime$4"
+ ],
+ [
+  "^(.+?), (.+?) · (.+?) слів$",
+  "$1, $2 · $3 kelime"
+ ],
+ [
+  "^Фразник · (.+?)$",
+  "İfadeler · $1"
+ ],
+ [
+  "^Видалити: (.+?)$",
+  "Sil: $1"
+ ],
+ [
+  "^Рівень (.+?) · (.+?)$",
+  "Seviye $1 · $2"
+ ],
+ [
+  "^тиждень: (.+?) (.+?)$",
+  "hafta: $1 $2"
+ ],
+ [
+  "^почуто: «(.+?)»$",
+  "duyulan: “$1”"
+ ],
+ [
+  "^Розділ (.+?) з (.+?)$",
+  "Bölüm $1 / $2"
+ ],
+ [
+  "^відкритих (.+?)$",
+  "açık: $1"
+ ],
+ [
+  "^швидкий · (.+?)$",
+  "hızlı · $1"
+ ],
+ [
+  "^Пройдено (.+?) (?:питання|питання|питань)$",
+  "{$1|soru} tamamlandı"
+ ],
+ [
+  "^(.+?): виконано$",
+  "$1: tamamlandı"
+ ],
+ [
+  "^(.+?) слів/хв ·$",
+  "$1 kelime/dk ·"
+ ],
+ [
+  "^Заповнюю (.+?)…$",
+  "Dolduruluyor: $1…"
+ ],
+ [
+  "^Зараз: (.+?) · (.+?)$",
+  "Şu an: $1 · $2"
+ ],
+ [
+  "^рівень (.+?) · (.+?)$",
+  "seviye $1 · $2"
+ ],
+ [
+  "^Уроки: (.+?) з (.+?)$",
+  "Dersler: $1 / $2"
+ ],
+ [
+  "^Слова: (.+?) з (.+?)$",
+  "Kelimeler: $1 / $2"
+ ],
+ [
+  "^Сценарій: (.+?)$",
+  "Senaryo: $1"
+ ],
+ [
+  "^Переклад: (.+?)$",
+  "Çeviri: $1"
+ ],
+ [
+  "^15 хв · (.+?) (?:день|дні|днів)$",
+  "15 dk · {$1|gün}"
+ ],
+ [
+  "^Множник ×(.+?)$",
+  "Çarpan ×$1"
+ ],
+ [
+  "^слово (.+?) з (.+?)$",
+  "kelime $1 / $2"
+ ],
+ [
+  "^Написати (.+?)$",
+  "Yaz: $1"
+ ],
+ [
+  "^(.+?) дн\\. тому$",
+  "$1 gün önce"
+ ],
+ [
+  "^Звернення(.+?)$",
+  "Mesajlar$1"
+ ],
+ [
+  "^Оновлено (.+?)$",
+  "Güncellendi: $1"
+ ],
+ [
+  "^тест: (.+?) · (.+?)$",
+  "test: $1 · $2"
+ ],
+ [
+  "^(.+?) (?:день|дні|днів) поспіль$",
+  "{$1|gün} üst üste"
+ ],
+ [
+  "^сильних: (.+?)$",
+  "güçlü: $1"
+ ],
+ [
+  "^Вчитель: (.+?)$",
+  "Öğretmen: $1"
+ ],
+ [
+  "^(.+?) лишилось$",
+  "$1 kaldı"
+ ],
+ [
+  "^(.+?) (.+?) у групі(.+?)$",
+  "Grupta $1 mesaj$3"
+ ],
+ [
+  "^(.+?) (.+?) поспіль$",
+  "$1 gün üst üste"
+ ],
+ [
+  "^(.+?) з (.+?)–(.+?) слів$",
+  "$1 / $2–$3 kelime"
+ ],
+ [
+  "^Почати · (.+?)$",
+  "Başla · $1"
+ ],
+ [
+  "^Раунд (.+?) з (.+?)$",
+  "Tur $1 / $2"
+ ],
+ [
+  "^Ваш код: (.+?)$",
+  "Kodunuz: $1"
+ ],
+ [
+  "^Вправи \\((.+?)\\)$",
+  "Alıştırmalar ($1)"
+ ],
+ [
+  "^(.+?)\\. (.+?), урок (.+?)$",
+  "$1. $2, ders $3"
+ ],
+ [
+  "^(.+?) · готово$",
+  "$1 · bitti"
+ ],
+ [
+  "^(.+?) · Діалог$",
+  "$1 · Diyalog"
+ ],
+ [
+  "^(.+?) сьогодні$",
+  "bugün $1"
+ ],
+ [
+  "^Знали (.+?) з (.+?)$",
+  "Bilinen: $1 / $2"
+ ],
+ [
+  "^Звучало: (.+?)$",
+  "Duyulan: $1"
+ ],
+ [
+  "^повторів (.+?)$",
+  "tekrar: $1"
+ ],
+ [
+  "^Прибрати (.+?)$",
+  "Kaldır: $1"
+ ],
+ [
+  "^Ще раз \\((.+?)\\)$",
+  "Bir daha ($1)"
+ ],
+ [
+  "^Вибрати: (.+?)$",
+  "Seç: $1"
+ ],
+ [
+  "^Розмова: (.+?)$",
+  "Konuşma: $1"
+ ],
+ [
+  "^· «е-е»: (.+?)$",
+  "· “ee”: $1"
+ ],
+ [
+  "^Переклад (.+?)$",
+  "Çeviri: $1"
+ ],
+ [
+  "^Помилок: (.+?)$",
+  "Hata: $1"
+ ],
+ [
+  "^(?:хвилина|хвилини|хвилин) практики$",
+  "pratik dakikası"
+ ],
+ [
+  "^росте \\(\\+(.+?)\\)$",
+  "artıyor (+$1)"
+ ],
+ [
+  "^Вам пише (.+?)$",
+  "$1 size yazıyor"
+ ],
+ [
+  "^Колода «(.+?)»$",
+  "Deste: “$1”"
+ ],
+ [
+  "^(.+?) поспіль$",
+  "Üst üste $1"
+ ],
+ [
+  "^Група «(.+?)»$",
+  "Grup: “$1”"
+ ],
+ [
+  "^Місія · (.+?)$",
+  "Görev · $1"
+ ],
+ [
+  "^Звуки · (.+?)$",
+  "Sesler · $1"
+ ],
+ [
+  "^(.+?) (.+?) усього$",
+  "$1 toplam $2"
+ ],
+ [
+  "^(?:день|дні|днів) поспіль$",
+  "gün üst üste"
+ ],
+ [
+  "^Голосове(.+?)$",
+  "Sesli mesaj$1"
+ ],
+ [
+  "^Виклик: (.+?)$",
+  "Meydan okuma: $1"
+ ],
+ [
+  "^Дуель · (.+?)$",
+  "Düello · $1"
+ ],
+ [
+  "^Рекорд: (.+?)$",
+  "Rekor: $1"
+ ],
+ [
+  "^(.+?) · урок (.+?)$",
+  "$1 · ders $2"
+ ],
+ [
+  "^Книги · (.+?)$",
+  "Kitaplar · $1"
+ ],
+ [
+  "^Архів · (.+?)$",
+  "Arşiv · $1"
+ ],
+ [
+  "^Забути: (.+?)$",
+  "Unut: $1"
+ ],
+ [
+  "^↑ на (.+?) хв$",
+  "↑ $1 dk"
+ ],
+ [
+  "^↓ на (.+?) хв$",
+  "↓ $1 dk"
+ ],
+ [
+  "^закрито (.+?)$",
+  "kapanan: $1"
+ ],
+ [
+  "^Звіт за (.+?)$",
+  "Rapor: $1"
+ ],
+ [
+  "^Етап (.+?) з (.+?)$",
+  "Aşama $1 / $2"
+ ],
+ [
+  "^бонус · (.+?)$",
+  "bonus · $1"
+ ],
+ [
+  "^Додано: (.+?)$",
+  "Eklendi: $1"
+ ],
+ [
+  "^Крок (.+?) з (.+?)$",
+  "Adım $1 / $2"
+ ],
+ [
+  "^(.+?) · (.+?) слів$",
+  "$1 · $2 kelime"
+ ],
+ [
+  "^мета (.+?) хв$",
+  "hedef $1 dk"
+ ],
+ [
+  "^(.+?) слів/хв$",
+  "$1 kelime/dk"
+ ],
+ [
+  "^(.+?) (?:речення|речення|речень) · ~(.+?) хв$",
+  "{$1|cümle} · ~$2 dk"
+ ],
+ [
+  "^Голос: (.+?)$",
+  "Ses: $1"
+ ],
+ [
+  "^(.+?) секунд$",
+  "$1 saniye"
+ ],
+ [
+  "^рекорд (.+?)$",
+  "rekor $1"
+ ],
+ [
+  "^Спроба (.+?)$",
+  "Deneme $1"
+ ],
+ [
+  "^Місія: (.+?)$",
+  "Görev: $1"
+ ],
+ [
+  "^з AI: (.+?) (.+?)$",
+  "AI ile: $1 kişi"
+ ],
+ [
+  "^раніше (.+?)$",
+  "önce $1"
+ ],
+ [
+  "^Колода (.+?)$",
+  "Deste: $1"
+ ],
+ [
+  "^Нових: (.+?)$",
+  "Yeni: $1"
+ ],
+ [
+  "^(.+?) додає (.+?)$",
+  "$1, $2 kişisini ekledi"
+ ],
+ [
+  "^Дуель: (.+?)$",
+  "Düello: $1"
+ ],
+ [
+  "^Ви: (.+?) з (.+?)(.+?)$",
+  "Siz: $1 / $2$3"
+ ],
+ [
+  "^стало: (.+?)$",
+  "sonra: $1"
+ ],
+ [
+  "^Рівень (.+?)$",
+  "Seviye $1"
+ ],
+ [
+  "^(.+?) питань$",
+  "$1 soru"
+ ],
+ [
+  "^(.+?)\\\\u00a0хв$",
+  "$1 dk"
+ ],
+ [
+  "^Стрік: (.+?)$",
+  "Seri: $1"
+ ],
+ [
+  "^Формула(.+?)$",
+  "Formül$1"
+ ],
+ [
+  "^· коло (.+?)$",
+  "· tur $1"
+ ],
+ [
+  "^(.+?) частих$",
+  "$1 sık hata"
+ ],
+ [
+  "^далі — (.+?)$",
+  "sonraki — $1"
+ ],
+ [
+  "^(.+?) · ~(.+?) хв$",
+  "$1 · ~$2 dk"
+ ],
+ [
+  "^почато (.+?)$",
+  "başlanan: $1"
+ ],
+ [
+  "^Вгору: (.+?)$",
+  "Yukarı: $1"
+ ],
+ [
+  "^Додати (.+?)$",
+  "Ekle: $1"
+ ],
+ [
+  "^Далі · (.+?)$",
+  "Sıradaki · $1"
+ ],
+ [
+  "^стрік (.+?) (?:день|дні|днів)$",
+  "seri {$1|gün}"
+ ],
+ [
+  "^Історія(.+?)$",
+  "Geçmiş$1"
+ ],
+ [
+  "^Лишити (.+?)$",
+  "$1 seviyesinde kal"
+ ],
+ [
+  "^Літер: (.+?)$",
+  "Harf: $1"
+ ],
+ [
+  "^(.+?) (?:пара|пари|пар) за (.+?) с$",
+  "$2 sn'de {$1|çift}"
+ ],
+ [
+  "^Учень: (.+?)$",
+  "Öğrenci: $1"
+ ],
+ [
+  "^забув (.+?) (?:раз|рази|разів)$",
+  "{$1|kez} unuttu"
+ ],
+ [
+  "^між (.+?) і (.+?)$",
+  "$1 ile $2 arası"
+ ],
+ [
+  "^(.+?) учасн\\.$",
+  "$1 üye"
+ ],
+ [
+  "^Тема: (.+?)$",
+  "Konu: $1"
+ ],
+ [
+  "^Мій · (.+?)$",
+  "Benim · $1"
+ ],
+ [
+  "^Далі: (.+?)$",
+  "Sıradaki: $1"
+ ],
+ [
+  "^(.+?): (.+?) з 7$",
+  "$1: $2 / 7"
+ ],
+ [
+  "^(.+?) нових$",
+  "$1 yeni"
+ ],
+ [
+  "^було: (.+?)$",
+  "önce: $1"
+ ],
+ [
+  "^Серія (.+?)$",
+  "Seri: $1"
+ ],
+ [
+  "^(.+?) · мій$",
+  "$1 · benim"
+ ],
+ [
+  "^Урок: (.+?)$",
+  "Ders: $1"
+ ],
+ [
+  "^сьог\\. (.+?)$",
+  "bugün $1"
+ ],
+ [
+  "^(.+?) хв · (.+?)$",
+  "$1 dk · $2"
+ ],
+ [
+  "^Звук: (.+?)$",
+  "Ses: $1"
+ ],
+ [
+  "^(.+?) · (.+?) з (.+?)$",
+  "$1 · $2 / $3"
+ ],
+ [
+  "^нових (.+?)$",
+  "yeni: $1"
+ ],
+ [
+  "^Тест: (.+?)$",
+  "Test: $1"
+ ],
+ [
+  "^(.+?) з (.+?) хв$",
+  "$1 / $2 dk"
+ ],
+ [
+  "^до (.+?) хв$",
+  "en fazla $1 dk"
+ ],
+ [
+  "^Мета: (.+?)$",
+  "Hedef: $1"
+ ],
+ [
+  "^(.+?), нове$",
+  "$1, yeni"
+ ],
+ [
+  "^(.+?) \\(ви\\)$",
+  "$1 (siz)"
+ ],
+ [
+  "^Так\\. (.+?)$",
+  "Evet. $1"
+ ],
+ [
+  "^(.+?) з 20$",
+  "$1 / 20"
+ ],
+ [
+  "^(.+?): (.+?) хв$",
+  "$1: $2 dk"
+ ],
+ [
+  "^(.+?) фраз$",
+  "$1 ifade"
+ ],
+ [
+  "^(.+?): дії$",
+  "$1: işlemler"
+ ],
+ [
+  "^з (.+?) хв$",
+  "/ $1 dk"
+ ],
+ [
+  "^/ (.+?) хв$",
+  "/ $1 dk"
+ ],
+ [
+  "^✓ (.+?) з (.+?)$",
+  "✓ $1 / $2"
+ ],
+ [
+  "^(.+?) год (.+?)$",
+  "$1 sa $2"
+ ],
+ [
+  "^· (.+?) хв$",
+  "· $1 dk"
+ ],
+ [
+  "^(.+?) міс\\.$",
+  "$1 ay"
+ ],
+ [
+  "^(.+?) год(.+?)$",
+  "$1 sa$2"
+ ],
+ [
+  "^(.+?) дн\\.$",
+  "$1 gün"
+ ],
+ [
+  "^(.+?) на (.+?)(.+?)$",
+  "$1: $2$3"
+ ],
+ [
+  "^(.+?) год$",
+  "$1 sa"
+ ],
+ [
+  "^за (.+?) (?:репліку|репліки|реплік)$",
+  "{$1|replikte}"
+ ],
+ [
+  "^(.+?) з (.+?)$",
+  "$1 / $2"
+ ],
+ [
+  "^(.+?) хв$",
+  "$1 dk"
+ ],
+ [
+  "^на (.+?)$",
+  "$1 boyunca"
+ ],
+ [
+  "^ще (.+?)$",
+  "$1 tane daha"
+ ],
+ [
+  "^(.+?) р\\.$",
+  "$1 yıl"
+ ],
+ [
+  "^(.+?) с$",
+  "$1 sn"
+ ],
+ [
+  "^(.+?): (.+?)$",
+  "$1: $2"
+ ],
+ [
+  "^у (.+?)$",
+  "$1"
+ ],
+ [
+  "^з (.+?)$",
+  "/ $1"
+ ],
+ [
+  "^(.+?)(.+?)$",
+  "$1$2"
+ ]
+]

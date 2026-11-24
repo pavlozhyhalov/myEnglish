@@ -87,7 +87,7 @@ export const regionOf = (st: LangCtx) => st.about?.location || st.region || UI_R
 export function regionRule(st: LangCtx) {
   const lang = readUiLang(st.uiLang);
   const where = st.about?.location ? `${st.about.location} (the student's city) and ${UI_REGION[lang]}` : UI_REGION[lang];
-  return `Local colour: the student is from ${where}. In examples, topics, role-plays, missions and exercises use realia of that region now and then — about one example in four (its cities, food, holidays, typical names, everyday life${lang === 'ru' ? '; Ukrainian cities and realia only, never Russia' : ''}), mixed with neutral and British ones; never politics or war.`;
+  return `Local colour: the student is from ${where}. In examples, topics, role-plays, missions and exercises use realia of that region now and then — about one example in four (its cities, food, holidays, typical names, everyday life${lang === 'ru' ? '; cities and realia of Ukraine only, never Russia' : ''}), mixed with neutral and British ones; never politics or war.`;
 }
 
 /** Категорії тем (дзеркало CATS у js/topics.js) — topic_tags у підсумку розмови */
