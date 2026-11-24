@@ -77,9 +77,11 @@ export async function initI18n(build = '') {
   const v = build ? `?v=${build}` : '';
   const [ui, pats] = await Promise.all([getJson(`i18n/${current}.json${v}`), getJson(`i18n/${current}.patterns.json${v}`)]);
   if (ui) for (const [k, val] of Object.entries(ui)) if (val) dict.set(k, val);
-  if (Array.isArray(pats)) patterns = pats.filter(p => Array.isArray(p) && p[0] && p[1]).map(([re, rep]) => {
-    try { return [new RegExp(re, 'u'), rep]; } catch { return null; }
-  }).filter(Boolean);
+  // від конкретних до загальних: більше буквального тексту — раніше (інакше ^(.+?)$ перехоплював би все)
+  const literal = (re) => re.replace(/\(\?:[^)]*\)|\(\.\+\?\)|\\./g, '').replace(/[\^$]/g, '').length;
+  if (Array.isArray(pats)) patterns = pats.filter(p => Array.isArray(p) && p[0] && p[1] && literal(p[0]) >= 2)
+    .sort((x, y) => literal(y[0]) - literal(x[0]))
+    .map(([re, rep]) => { try { return [new RegExp(re, 'u'), rep]; } catch { return null; } }).filter(Boolean);
   observe();
 }
 
@@ -89,7 +91,8 @@ export function addDict(obj) { if (obj && current !== 'uk') for (const [k, v] of
 /** Підстановка у шаблон: $1… і {$1|one|few|many|other} — форма множини за правилами мови */
 function fill(rep, m) {
   return rep.replace(/\{\$(\d)\|([^}]*)\}/g, (_, i, forms) => {
-    const n = Number(String(m[i] || '').replace(/[^\d.]/g, ''));
+    // «7,5» / «7.5» — дробове (форма «other»/«few» за CLDR), пробіли тисяч прибираємо
+    const n = Number(String(m[i] || '').replace(/[\s\u00a0]/g, '').replace(',', '.').replace(/[^\d.]/g, ''));
     const f = forms.split('|');
     const cat = plural ? plural.select(n) : 'other';
     const byCat = { one: f[0], few: f[1] ?? f[f.length - 1], many: f[2] ?? f[f.length - 1], other: f[3] ?? f[f.length - 1] };

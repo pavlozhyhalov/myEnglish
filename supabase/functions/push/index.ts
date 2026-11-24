@@ -1,6 +1,6 @@
 // Edge Function `push`: нагадування Web Push. Викликає pg_cron кожні 15 хв (міграція 0011) із заголовком x-cron-secret.
 // Для кожної увімкненої підписки, чий локальний час (tz) щойно минув remind_at і якій сьогодні ще не надсилали:
-// рахує картки до повторення і сьогоднішній час, складає текст українською, шле Web Push (VAPID), позначає last_sent_day.
+// рахує картки до повторення і сьогоднішній час, складає текст мовою інтерфейсу учня (push/i18n.ts), шле Web Push (VAPID), позначає last_sent_day.
 // Недійсні підписки (404/410) видаляє.
 // Ручних секретів не потрібно (міграція 0014): ключі VAPID функція створює сама й зберігає в public.app_keys
 // (RLS без політик — лише service role); секрет x-cron-secret — у Vault, читається через push_cron_secret().
@@ -15,7 +15,9 @@ import { readMemory } from '../_shared/prompts.ts';
 import { createHomework } from '../_shared/homework.ts';
 import { buildDialogue, renderDialogue } from '../_shared/ttsdlg.ts';
 import { tutorNudge, tutorCount, postTutor, tutorWeekly, weeklyDue } from '../_shared/grouptutor.ts';
-import { nudgeInput, cleanNudge, monitorDue, NUDGE_SCHEMA, NUDGE_PROMPT, chatNotifyDue, chatMessageText, challengeDue, challengeNudge, topicDue, groupLevel, pickTopic, type Topic } from './logic.ts';
+import { pushText, type PushText } from './i18n.ts';
+import { readUiLang, type UiLang } from '../_shared/prompts.ts';
+import { nudgeInput, cleanNudge, monitorDue, NUDGE_SCHEMA, nudgePrompt, chatNotifyDue, chatMessageText, challengeDue, challengeNudge, topicDue, groupLevel, pickTopic, type Topic } from './logic.ts';
 
 type SubRow = {
   id: string; user_id: string; endpoint: string; keys: PushKeys; tz: string;
@@ -75,15 +77,15 @@ function isoDaysBefore(day: string, n: number) {
 /** Персональне нагадування з пам'яті вчителя (швидка модель, до 6 с); будь-який збій — звичайний текст */
 async function personalize(db: SupabaseClient, userId: string, msg: Message, st: { due: number; todaySec: number; streak: number }): Promise<Message> {
   try {
-    const { data } = await db.from('profiles').select('data').eq('user_id', userId).maybeSingle();
-    const d = (data?.data || {}) as Record<string, any>;
+    const d = await profileData(db, userId);
+    const lang = readUiLang(d.settings?.lang);
     const input = nudgeInput({ memory: readMemory(d.memory), lastFocus: d.lastFocus, level: d.level || d.settings?.level, interests: d.about?.interests, avoid: d.about?.avoid, ...st });
     if (!input) return msg;
     const r = await Promise.race([
-      generateJson(FAST_MODELS, { system: NUDGE_PROMPT, contents: [{ role: 'user', parts: [{ text: input }] }], schema: NUDGE_SCHEMA, temperature: 0.8, thinking: 'off', maxTokens: 400, timeoutMs: 6000 }),
+      generateJson(FAST_MODELS, { system: nudgePrompt(lang), contents: [{ role: 'user', parts: [{ text: input }] }], schema: NUDGE_SCHEMA, temperature: 0.8, thinking: 'off', maxTokens: 400, timeoutMs: 6000 }),
       new Promise<null>(res => setTimeout(() => res(null), 7000)),
     ]);
-    return cleanNudge(r, msg);
+    return cleanNudge(r, msg, lang);
   } catch (e) { console.error('nudge', (e as Error).message?.slice(0, 120)); return msg; }
 }
 
@@ -113,9 +115,29 @@ async function monitor(db: SupabaseClient, secret: string, vapid: Vapid) {
 }
 
 
+/** profiles.data людини (кеш на 5 хв у теплому екземплярі): мова сповіщень і персональне нагадування */
+const profCache = new Map<string, { at: number; p: Promise<Record<string, any>> }>();
+function profileData(db: SupabaseClient, userId: string): Promise<Record<string, any>> {
+  const c = profCache.get(userId);
+  if (c && Date.now() - c.at < 5 * 60_000) return c.p;
+  const p = Promise.resolve(db.from('profiles').select('data').eq('user_id', userId).maybeSingle())
+    .then(r => (r.data?.data || {}) as Record<string, any>, () => ({} as Record<string, any>));
+  profCache.set(userId, { at: Date.now(), p });
+  if (profCache.size > 2000) profCache.clear();
+  return p;
+}
+/** Мова інтерфейсу одержувача (settings.lang; немає — 'uk') */
+async function userLang(db: SupabaseClient, userId: string): Promise<UiLang> {
+  return readUiLang((await profileData(db, userId)).settings?.lang);
+}
+
 /** Надіслати push усім увімкненим підпискам людини (kinds.chat не вимкнено); недійсні — видалити. Повертає кількість доставлених */
-async function sendToUser(db: SupabaseClient, userId: string, msg: Message, vapid: Vapid, opts: { ttl?: number; urgency?: string } = {}) {
+// msg — готовий текст або функція від текстів мови одержувача (тоді мова береться з його профілю)
+async function sendToUser(db: SupabaseClient, userId: string, msg0: Message | ((T: PushText, lang: UiLang) => Message), vapid: Vapid, opts: { ttl?: number; urgency?: string } = {}) {
   const { data: subs } = await db.from('push_subscriptions').select('id, endpoint, keys, kinds').eq('user_id', userId).eq('enabled', true).limit(10);
+  if (!subs?.length) return 0;
+  let msg: Message;
+  if (typeof msg0 === 'function') { const lang = await userLang(db, userId); msg = msg0(pushText(lang), lang); } else msg = msg0;
   let sent = 0;
   for (const s of subs || []) {
     if ((s.kinds as Record<string, unknown>)?.chat === false) continue;
@@ -133,7 +155,8 @@ async function friendName(db: SupabaseClient, userId: string) {
     db.from('friend_profiles').select('display_name').eq('user_id', userId).maybeSingle(),
     db.from('profiles').select('data').eq('user_id', userId).maybeSingle(),
   ]);
-  const n = String(fp?.display_name || '').trim() || String((pr?.data as any)?.about?.name || '').trim() || 'Учень';
+  // без імені — '' : «Учень» підставляється мовою одержувача (pushText(lang).student)
+  const n = String(fp?.display_name || '').trim() || String((pr?.data as any)?.about?.name || '').trim();
   return { data: n.slice(0, 40) };
 }
 
@@ -150,11 +173,10 @@ async function chatPush(db: SupabaseClient, id: string, vapid: Vapid) {
   const { data: blocks } = await db.from('chat_blocks').select('user_id').eq('blocked_id', m.user_id).is('removed_at', null);
   const blockedBy = new Set((blocks || []).map(b => b.user_id));
   const now = Date.now();
-  const text = chatMessageText({ kind: m.kind, body: m.body || '', sender, room, meta: m.meta || {} });
   let sent = 0;
   for (const r of members || []) {
     if (r.user_id === m.user_id || blockedBy.has(r.user_id) || !chatNotifyDue(now, r)) continue;
-    const n = await sendToUser(db, r.user_id, { ...text, url: `#/friends/chat/${m.room_id}`, tag: `myenglish-chat-${m.room_id}` }, vapid, { urgency: 'high' });
+    const n = await sendToUser(db, r.user_id, (_T, lang) => ({ ...chatMessageText({ kind: m.kind, body: m.body || '', sender, room, meta: m.meta || {} }, lang), url: `#/friends/chat/${m.room_id}`, tag: `myenglish-chat-${m.room_id}` }), vapid, { urgency: 'high' });
     if (n) { sent += n; await db.from('chat_members').update({ notified_at: new Date().toISOString() }).eq('room_id', m.room_id).eq('user_id', r.user_id); }
   }
   return { sent };
@@ -216,8 +238,8 @@ async function topicOfDay(db: SupabaseClient, vapid: Vapid) {
     }
     for (const m of members) {
       if (m.muted) continue;
-      await sendToUser(db, m.user_id, { title: (hw ? `Нове домашнє завдання · «${room.title || 'Група'}»` : `Тема дня в групі «${room.title || 'Група'}»`).slice(0, 70),
-        body: (hw ? `У кожного своє — відкрийте й подивіться. Тема дня: ${t.q}` : t.q).slice(0, 170), url: `#/friends/chat/${room.id}`, tag: `myenglish-topic-${room.id}` }, vapid);
+      await sendToUser(db, m.user_id, T => ({ title: (hw ? T.hwNewTitle(room.title || T.group) : T.topicTitle(room.title || T.group)).slice(0, 70),
+        body: (hw ? T.hwNewBody(t.q) : t.q).slice(0, 170), url: `#/friends/chat/${room.id}`, tag: `myenglish-topic-${room.id}` }), vapid);
     }
   }
   console.info('topic of day', posted);
@@ -240,7 +262,7 @@ async function weeklyPush(db: SupabaseClient, vapid: Vapid) {
       if (!members?.length) continue;
       await db.from('chat_messages').insert({ room_id: room.id, user_id: members[0].user_id, kind: 'system', body: '', meta: { event: 'weekly', text: w.text, stars: w.stars, mistakes: w.mistakes } });
       posted++;
-      for (const m of members) if (!m.muted) await sendToUser(db, m.user_id, { title: `Підсумок тижня в групі «${room.title || 'Група'}»`.slice(0, 70), body: w.text.slice(0, 170), url: `#/friends/chat/${room.id}`, tag: `myenglish-weekly-${room.id}` }, vapid);
+      for (const m of members) if (!m.muted) await sendToUser(db, m.user_id, T => ({ title: T.weeklyTitle(room.title || T.group).slice(0, 70), body: w.text.slice(0, 170), url: `#/friends/chat/${room.id}`, tag: `myenglish-weekly-${room.id}` }), vapid);
     } catch (e) { console.error('weekly', (e as Error).message?.slice(0, 120)); }
   }
   console.info('weekly summary', posted);
@@ -256,7 +278,7 @@ async function challengePush(db: SupabaseClient, vapid: Vapid) {
     if (!byUser.has(r.user_id) || gap > byUser.get(r.user_id).gap) byUser.set(r.user_id, { ...r, gap });
   }
   let sent = 0;
-  for (const r of byUser.values()) sent += await sendToUser(db, r.user_id, { ...challengeNudge(r), url: `#/friends/chat/${r.room_id}`, tag: `myenglish-challenge-${r.room_id}` }, vapid);
+  for (const r of byUser.values()) sent += await sendToUser(db, r.user_id, (_T, lang) => ({ ...challengeNudge(r, lang), url: `#/friends/chat/${r.room_id}`, tag: `myenglish-challenge-${r.room_id}` }), vapid);
   // вчитель у групах: раз на день — перевірка домашнього (хвалить, жартома сварить); не в перший день після видачі
   const { data: hwRooms } = await db.from('chat_homework').select('room_id, created_at').gt('due_at', new Date().toISOString())
     .lt('created_at', new Date(Date.now() - 20 * 3600e3).toISOString()).limit(200);
@@ -271,7 +293,7 @@ async function challengePush(db: SupabaseClient, vapid: Vapid) {
       await postTutor(db, room, author.user_id, n.text, { mode: 'nudge' });
       const { data: muted } = await db.from('chat_members').select('user_id').eq('room_id', room).eq('muted', true);
       const skip = new Set((muted || []).map(m => m.user_id));
-      for (const uid of n.lazy) if (!skip.has(uid)) sent += await sendToUser(db, uid, { title: `Вчитель у групі «${rm?.title || 'Група'}»`.slice(0, 70), body: n.text.slice(0, 170), url: `#/friends/chat/${room}`, tag: `myenglish-tutor-${room}` }, vapid);
+      for (const uid of n.lazy) if (!skip.has(uid)) sent += await sendToUser(db, uid, T => ({ title: T.tutorTitle(rm?.title || T.group).slice(0, 70), body: n.text.slice(0, 170), url: `#/friends/chat/${room}`, tag: `myenglish-tutor-${room}` }), vapid);
     } catch (e) { console.error('tutor nudge', (e as Error).message?.slice(0, 120)); }
   }
   // домашнє: термін спливає протягом доби, а завдання ще лишились
@@ -279,8 +301,8 @@ async function challengePush(db: SupabaseClient, vapid: Vapid) {
   if (he) console.error('hw laggards', he.message);
   for (const r of (hw || []) as Array<{ user_id: string; room_id: string; room_title: string | null; left_tasks: number }>) {
     if (!r.left_tasks) continue;
-    sent += await sendToUser(db, r.user_id, { title: `Виконайте домашнє завдання${r.room_title ? ` · «${r.room_title}»` : ''}`.slice(0, 70), body: `Лишилось ${r.left_tasks} з 3 — термін завтра. Встигнете!`,
-      url: `#/friends/chat/${r.room_id}`, tag: `myenglish-hw-${r.room_id}` }, vapid);
+    sent += await sendToUser(db, r.user_id, T => ({ title: T.hwDoTitle(r.room_title).slice(0, 70), body: T.hwDoBody(r.left_tasks),
+      url: `#/friends/chat/${r.room_id}`, tag: `myenglish-hw-${r.room_id}` }), vapid);
   }
   console.info('challenge push', byUser.size, sent);
 }
@@ -327,11 +349,11 @@ Deno.serve(async (req) => {
     try {
       if (b.status === 'pending') {
         const { data: name } = await friendName(db, String(b.from));
-        return json({ sent: await sendToUser(db, String(b.to), { title: 'Запит у друзі', body: `${name} хоче додати вас у друзі`, url: '#/friends', tag: `myenglish-req-${b.from}` }, vapid, { urgency: 'high', ttl: 7 * 86400 }) });
+        return json({ sent: await sendToUser(db, String(b.to), T => ({ title: T.friendReqTitle, body: T.friendReqBody(name || T.student), url: '#/friends', tag: `myenglish-req-${b.from}` }), vapid, { urgency: 'high', ttl: 7 * 86400 }) });
       }
       if (b.status === 'accepted') {
         const { data: name } = await friendName(db, String(b.to));
-        return json({ sent: await sendToUser(db, String(b.from), { title: 'Запит прийнято', body: `${name} тепер у ваших друзях — напишіть англійською!`, url: '#/friends', tag: `myenglish-req-${b.to}` }, vapid, { urgency: 'high', ttl: 3 * 86400 }) });
+        return json({ sent: await sendToUser(db, String(b.from), T => ({ title: T.friendOkTitle, body: T.friendOkBody(name || T.student), url: '#/friends', tag: `myenglish-req-${b.to}` }), vapid, { urgency: 'high', ttl: 3 * 86400 }) });
       }
       return json({ sent: 0 });
     } catch (e) { console.error('friend push', (e as Error).message?.slice(0, 120)); return json({ error: 'failed' }, 500); }
@@ -344,14 +366,14 @@ Deno.serve(async (req) => {
       const { data: f } = await db.from('feedback').select('id, user_id, kind, body, reply').eq('id', String(b.id)).maybeSingle();
       if (!f) return json({ sent: 0 });
       if (b.action === 'feedback_reply') {
-        return json({ sent: await sendToUser(db, f.user_id, { title: 'Відповідь розробника', body: String(f.reply || '').slice(0, 160), url: '#/feedback', tag: `myenglish-fb-${f.id}` }, vapid, { urgency: 'high', ttl: 7 * 86400 }) });
+        return json({ sent: await sendToUser(db, f.user_id, T => ({ title: T.devReplyTitle, body: String(f.reply || '').slice(0, 160), url: '#/feedback', tag: `myenglish-fb-${f.id}` }), vapid, { urgency: 'high', ttl: 7 * 86400 }) });
       }
       const [{ data: name }, { data: admins }] = await Promise.all([friendName(db, f.user_id), db.from('app_admins').select('user_id')]);
       const label = f.kind === 'idea' ? 'Ідея' : f.kind === 'bug' ? 'Помилка' : 'Звернення';
       let sent = 0;
       for (const a of admins || []) {
         if (a.user_id === f.user_id) continue;
-        sent += await sendToUser(db, a.user_id, { title: `${label} від ${name}`, body: String(f.body).slice(0, 160), url: '#/admin', tag: `myenglish-fb-${f.id}` }, vapid, { urgency: 'high', ttl: 7 * 86400 });
+        sent += await sendToUser(db, a.user_id, { title: `${label} від ${name || 'Учень'}`, body: String(f.body).slice(0, 160), url: '#/admin', tag: `myenglish-fb-${f.id}` }, vapid, { urgency: 'high', ttl: 7 * 86400 });
       }
       return json({ sent });
     } catch (e) { console.error('feedback push', (e as Error).message?.slice(0, 120)); return json({ error: 'failed' }, 500); }
@@ -363,8 +385,8 @@ Deno.serve(async (req) => {
     if (!uuid.test(String(b.room)) || !uuid.test(String(b.from)) || !uuid.test(String(b.to))) return json({ error: 'bad_request' }, 400);
     try {
       const [{ data: name }, { data: room }] = await Promise.all([friendName(db, String(b.from)), db.from('chat_rooms').select('title').eq('id', String(b.room)).maybeSingle()]);
-      return json({ sent: await sendToUser(db, String(b.to), { title: 'Запрошення в групу', body: `${name} запрошує вас у групу «${room?.title || 'Група'}»`, url: '#/friends',
-        tag: `myenglish-ginv-${b.room}` }, vapid, { urgency: 'high', ttl: 7 * 86400 }) });
+      return json({ sent: await sendToUser(db, String(b.to), T => ({ title: T.groupInviteTitle, body: T.groupInviteBody(name || T.student, room?.title || T.group), url: '#/friends',
+        tag: `myenglish-ginv-${b.room}` }), vapid, { urgency: 'high', ttl: 7 * 86400 }) });
     } catch (e) { console.error('group invite push', (e as Error).message?.slice(0, 120)); return json({ error: 'failed' }, 500); }
   }
   // нове повідомлення в чаті друзів (тригер бази)
@@ -421,7 +443,7 @@ Deno.serve(async (req) => {
       const key = `${s.user_id}|${day}`;
       if (!statsCache.has(key)) statsCache.set(key, userStats(db, s.user_id, day));
       const st = await statsCache.get(key)!;
-      const base = buildMessage({ ...st, kinds: s.kinds || {} });
+      const base = buildMessage({ ...st, kinds: s.kinds || {}, lang: await userLang(db, s.user_id) });
       if (!base) { out.skipped++; continue; }
       const msg = await personalize(db, s.user_id, base, st);
       const r = await sendPush({ endpoint: s.endpoint, keys: s.keys }, msg, vapid);
