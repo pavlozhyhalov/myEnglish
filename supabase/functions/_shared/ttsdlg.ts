@@ -4,8 +4,8 @@
 import { tts, wav } from './gemini.ts';
 import { TTS_MODELS } from './config.ts';
 
-const FEMALE = /^(mrs|ms|miss|woman|girl|anna|emma|ewa|kasia|kate|sophie|olga|maria|marta|julia|lucy|sarah|alice|vita|tetiana|natalia|ola|zosia)\b/i;
-const MALE = /^(mr|man|boy|oliver|tom|marek|john|james|jack|david|peter|piotr|adam|max|sam|paul|mark|taras|ivan)\b/i;
+const FEMALE = /^(mrs|ms|miss|woman|girl|anna|emma|ewa|kasia|kate|sophie|olga|maria|marta|julia|lucy|sarah|alice|tetiana|natalia|ola|zosia|oksana|olena|iryna|halyna|nataliia|sofiia)\b/i;
+const MALE = /^(mr|man|boy|oliver|tom|marek|john|james|jack|david|peter|piotr|adam|max|sam|paul|mark|taras|ivan|andrii|mykola|dmytro|oleh|bohdan)\b/i;
 export function dialogueVoices(names: string[]) {
   let g = [0, 1].map(i => FEMALE.test(names[i] || '') ? 'f' : MALE.test(names[i] || '') ? 'm' : '');
   if (!g[0] && !g[1]) g = ['f', 'm'];

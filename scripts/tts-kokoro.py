@@ -12,8 +12,8 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = os.path.join(ROOT, 'audio')
 VOICE = {'us': ('af_heart', 'en-us'), 'uk': ('bf_emma', 'en-gb')}
 DLG = {'us': {'f': ['af_heart', 'af_bella'], 'm': ['am_michael', 'am_fenrir']}, 'uk': {'f': ['bf_emma', 'bf_isabella'], 'm': ['bm_george', 'bm_lewis']}}
-FEMALE = re.compile(r'^(mrs|ms|miss|woman|girl|anna|emma|ewa|kasia|kate|sophie|olga|maria|marta|julia|lucy|sarah|alice|vita|tetiana|natalia|ola|zosia)\b', re.I)
-MALE = re.compile(r'^(mr|man|boy|oliver|tom|marek|john|james|jack|david|peter|piotr|adam|max|sam|paul|mark|taras|ivan)\b', re.I)
+FEMALE = re.compile(r'^(mrs|ms|miss|woman|girl|anna|emma|ewa|kasia|kate|sophie|olga|maria|marta|julia|lucy|sarah|alice|tetiana|natalia|ola|zosia|oksana|olena|iryna|halyna|nataliia|sofiia)\b', re.I)
+MALE = re.compile(r'^(mr|man|boy|oliver|tom|marek|john|james|jack|david|peter|piotr|adam|max|sam|paul|mark|taras|ivan|andrii|mykola|dmytro|oleh|bohdan)\b', re.I)
 
 def norm(t):
     t = re.sub(r'\([^)]*\)', ' ', str(t))
