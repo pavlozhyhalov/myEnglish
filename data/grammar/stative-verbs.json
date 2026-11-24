@@ -131,8 +131,8 @@
       "uk": "У суботу в нас вечірка."
     },
     {
-      "en": "This bike belongs to my wife.",
-      "uk": "Цей велосипед належить моїй дружині."
+      "en": "This bike belongs to my sister.",
+      "uk": "Цей велосипед належить моїй сестрі."
     }
   ],
   "tip": "*I'm loving it* — рекламний виняток, у звичайній мові краще *I love it*.",
@@ -172,7 +172,7 @@
     },
     {
       "type": "choice",
-      "prompt": "At the moment I ___ about moving to Gdańsk.",
+      "prompt": "At the moment I ___ about moving to Edinburgh.",
       "options": [
         "think",
         "am thinking",

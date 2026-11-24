@@ -7,7 +7,7 @@
   "mistakeType": "tenses",
   "explanation": "**be + V3** — час показує *be*, а V3 не змінюється:\n- Present Simple: **am / is / are** + V3 — *It's made in Italy.*\n- Past Simple: **was / were** + V3 — *They were invited.*\n- **−** isn't / wasn't + V3 · **?** Is / Was + підмет + V3: ***Was** it **built** long ago?*\n\nДодаток активного речення стає підметом: *They **repaired** the road. → **The road** was repaired.*\n\nВиконавець — через **by**, лише якщо він важливий: *…painted **by** Van Gogh.*",
   "guide": {
-    "idea": "Пасив переносить увагу з того, хто діє, на те, що відбувається з предметом. Його обирають, коли виконавець невідомий, неважливий чи очевидний. Так англійською говорять про виробництво, послуги, новини й події: «Мій велосипед вкрали», «Сніданок подають о сьомій».",
+    "idea": "Пасив переносить увагу з того, хто діє, на те, що відбувається з предметом. Його обирають, коли виконавець невідомий, неважливий чи очевидний. Так англійською говорять про товари, послуги, новини й події: «Мій велосипед вкрали», «Сніданок подають о сьомій».",
     "use": [
       {
         "when": "Хто зробив — невідомо",
@@ -162,7 +162,7 @@
     },
     {
       "type": "choice",
-      "prompt": "Polish ___ in Poland.",
+      "prompt": "Portuguese ___ in Brazil.",
       "options": [
         "speaks",
         "is spoken",
@@ -220,7 +220,7 @@
     },
     {
       "type": "error",
-      "sentence": "I born in Kyiv.",
+      "sentence": "I born in London.",
       "wrongIndex": 1,
       "correction": "was born",
       "alt": [],

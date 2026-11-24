@@ -132,8 +132,8 @@
       "uk": "У мене є друг, дружина якого з Бразилії."
     },
     {
-      "en": "Kraków, which is in the south of Poland, is beautiful.",
-      "uk": "Краків, що на півдні Польщі, дуже гарний."
+      "en": "York, which is in the north of England, is beautiful.",
+      "uk": "Йорк, що на півночі Англії, дуже гарний."
     }
   ],
   "exercises": [
@@ -172,7 +172,7 @@
     },
     {
       "type": "choice",
-      "prompt": "She's the girl ___ brother plays for Cracovia.",
+      "prompt": "She's the girl ___ brother plays for Arsenal.",
       "options": [
         "who",
         "whose",

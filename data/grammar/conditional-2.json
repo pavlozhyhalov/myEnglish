@@ -230,13 +230,13 @@
     },
     {
       "type": "translate",
-      "uk": "Якби я знав польську краще, я б знайшов роботу легше.",
+      "uk": "Якби я знав англійську краще, я б знайшов роботу легше.",
       "answer": [
-        "If I knew Polish better, I would find a job more easily.",
-        "If I knew Polish better, I'd find a job more easily.",
-        "If I spoke Polish better, I would find a job more easily.",
-        "If I knew Polish better, I would find a job easier.",
-        "I would find a job more easily if I knew Polish better."
+        "If I knew English better, I would find a job more easily.",
+        "If I knew English better, I'd find a job more easily.",
+        "If I spoke English better, I would find a job more easily.",
+        "If I knew English better, I would find a job easier.",
+        "I would find a job more easily if I knew English better."
       ],
       "explanation": "If + Past Simple (knew), would + V (would find)."
     }

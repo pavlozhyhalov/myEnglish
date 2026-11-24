@@ -23,7 +23,7 @@
       },
       {
         "when": "Вдалося одного разу",
-        "note": "Конкретний успіх у минулому — was / were able to або managed to, не could.",
+        "note": "Конкретний успіх у минулому — was / were able to або managed to, не could (але couldn't — можна: I couldn't find it).",
         "en": "The shop was closed, but we were able to buy milk at the petrol station.",
         "uk": "Магазин був зачинений, але нам вдалося купити молоко на заправці."
       },
@@ -122,8 +122,8 @@
   ],
   "examples": [
     {
-      "en": "Can you speak Polish? — A little.",
-      "uk": "Ти розмовляєш польською? — Трохи."
+      "en": "Can you speak Spanish? — A little.",
+      "uk": "Ти розмовляєш іспанською? — Трохи."
     },
     {
       "en": "Could you pass the salt, please?",

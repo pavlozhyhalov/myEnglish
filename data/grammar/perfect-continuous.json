@@ -123,8 +123,8 @@
       "uk": "Я чекаю вже двадцять хвилин!"
     },
     {
-      "en": "How long have you been living in Kraków?",
-      "uk": "Скільки ти вже живеш у Кракові?"
+      "en": "How long have you been living in Leeds?",
+      "uk": "Скільки ти вже живеш у Лідсі?"
     },
     {
       "en": "It's been raining since morning.",
@@ -213,7 +213,7 @@
     },
     {
       "type": "error",
-      "sentence": "I live in Poland for three years.",
+      "sentence": "I live in London for three years.",
       "wrongIndex": 1,
       "correction": "have lived",
       "alt": [

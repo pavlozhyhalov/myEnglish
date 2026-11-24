@@ -19,7 +19,7 @@
         "when": "Повторна згадка — the",
         "note": "Про цей предмет уже говорили — тепер він відомий.",
         "en": "The hotel had a lovely garden.",
-        "uk": "У готелю був чудовий сад."
+        "uk": "У готелі був чудовий сад."
       },
       {
         "when": "Хто ви, що це — a / an",
@@ -123,7 +123,7 @@
       ],
       [
         "Професія",
-        "My wife is a teacher."
+        "My sister is a teacher."
       ],
       [
         "Єдине",
@@ -244,7 +244,7 @@
     },
     {
       "type": "error",
-      "sentence": "My wife is teacher.",
+      "sentence": "My sister is teacher.",
       "wrongIndex": 3,
       "correction": "a teacher",
       "alt": [],

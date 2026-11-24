@@ -229,7 +229,7 @@
     },
     {
       "type": "input",
-      "prompt": "I've got ___ friends in Warsaw — three or four. (2 слова)",
+      "prompt": "I've got ___ friends in Leeds — three or four. (2 слова)",
       "answer": [
         "a few"
       ],

@@ -175,8 +175,8 @@
       "uk": "Кого ти чекаєш?"
     },
     {
-      "en": "I'm looking for a cheap flat near Kazimierz.",
-      "uk": "Я шукаю недорогу квартиру біля Казімежа."
+      "en": "I'm looking for a cheap flat near the city centre.",
+      "uk": "Я шукаю недорогу квартиру біля центру міста."
     },
     {
       "en": "Emma is worried about her exam.",
@@ -184,7 +184,7 @@
     },
     {
       "en": "We're really looking forward to visiting you.",
-      "uk": "Ми дуже чекаємо, коли приїдемо до вас у гості."
+      "uk": "Ми з нетерпінням чекаємо, коли приїдемо до вас у гості."
     },
     {
       "en": "Can you explain this letter to me?",
@@ -229,7 +229,7 @@
     },
     {
       "type": "choice",
-      "prompt": "I'm looking forward to ___ you in Kraków.",
+      "prompt": "I'm looking forward to ___ you in London.",
       "options": [
         "see",
         "seeing",
@@ -272,7 +272,7 @@
     },
     {
       "type": "error",
-      "sentence": "My sister is married with a Polish guy.",
+      "sentence": "My sister is married with an Irish guy.",
       "wrongIndex": 4,
       "correction": "to",
       "alt": [],

@@ -87,13 +87,12 @@
       "never … before",
       "by the time",
       "before",
-      "after",
-      "because"
+      "after"
     ],
     "mistakes": [
       {
-        "wrong": "When I came, the film already started.",
-        "right": "When I came, the film had already started.",
+        "wrong": "When I arrived, the film already started.",
+        "right": "When I arrived, the film had already started.",
         "why": "Фільм почався раніше за мій прихід — для ранішої дії Past Perfect."
       },
       {
@@ -154,7 +153,7 @@
     },
     {
       "type": "choice",
-      "prompt": "I ___ never ___ snow before I came to Poland.",
+      "prompt": "I ___ never ___ snow before I moved to Scotland.",
       "options": [
         "have / seen",
         "had / seen",
@@ -213,7 +212,7 @@
     },
     {
       "type": "error",
-      "sentence": "When I got home, my wife has cooked dinner.",
+      "sentence": "When I got home, my sister has cooked dinner.",
       "wrongIndex": 6,
       "correction": "had",
       "alt": [],

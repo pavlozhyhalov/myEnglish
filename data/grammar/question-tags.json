@@ -5,19 +5,19 @@
   "unit": "Будова речення",
   "level": "B1",
   "mistakeType": "word_order",
-  "explanation": "Хвостик = **допоміжне дієслово + займенник**:\n- є *be, have, can, will, should…* → беремо його: *She **can** drive, **can't** she?*\n- немає допоміжного → **do / does / did**: *You **live** here, **don't** you? · He **called**, **didn't** he?*\n\nСтвердження → **заперечний** хвостик (скорочено: *isn't, don't, haven't*); заперечення → **стверджувальний**.\nЗаперечними вважаються й речення з *never, nobody, nothing*: *You **never** call, **do** you?*\nУ хвостику — займенник: *Emma → she, the kids → they, nobody → they, this / that → it, there is → there*.\n\nВинятки: *I'm…, **aren't I**? · Let's…, **shall we**? · наказ…, **will you**?*\n\nІнтонація: голос **униз** — упевнені, чекаєте згоди; голос **угору** — справді питаєте.",
+  "explanation": "Хвостик = **допоміжне дієслово + займенник**:\n- є *be, have, can, will, should…* → беремо його: *She **can** drive, **can't** she?*\n- немає допоміжного → **do / does / did**: *You **live** here, **don't** you? · He **called**, **didn't** he?*\n\nСтвердження → **заперечний** хвостик (скорочено: *isn't, don't, haven't*); заперечення → **стверджувальний**.\nЗаперечними вважаються й речення з *never, nobody, nothing*: *You **never** call, **do** you?*\nУ хвостику — займенник: *Emma → she, the kids → they, nobody → they, this / that → it, there is → there*.\n\nВинятки: *I'm…, **aren't I**? · Let's…, **shall we**? · наказ…, **will you**?*\n\nІнтонація: голос **униз ↘** — упевнені, чекаєте згоди; голос **угору ↗** — справді питаєте.",
   "guide": {
     "idea": "Розділове питання — короткий «хвостик» у кінці, як наше «так?», «правда ж?», «чи не так?». Ним не стільки питають, скільки шукають згоди, перевіряють те, у чому майже впевнені, або м'якше просять. Без хвостиків англійська розмова звучить різкувато.",
     "use": [
       {
         "when": "Шукаємо згоди",
-        "note": "Голос униз: ви впевнені й чекаєте «так» — часто про погоду, враження.",
+        "note": "↘ Голос униз: ви впевнені й чекаєте «так» — часто про погоду, враження.",
         "en": "It's a lovely day, isn't it?",
         "uk": "Чудовий день, правда?"
       },
       {
         "when": "Перевіряємо інформацію",
-        "note": "Голос угору: майже впевнені, але хочемо підтвердження.",
+        "note": "↗ Голос угору: майже впевнені, але хочемо підтвердження.",
         "en": "The meeting starts at ten, doesn't it?",
         "uk": "Зустріч же о десятій, так?"
       },
@@ -44,14 +44,14 @@
       {
         "title": "Голос униз чи вгору?",
         "a": {
-          "en": "You're coming on Saturday, aren't you?",
-          "uk": "Ти ж прийдеш у суботу, правда?",
-          "note": "Голос униз: упевнені, просто чекаємо згоди."
+          "en": "It's really cold today, isn't it?",
+          "uk": "Сьогодні справді холодно, правда?",
+          "note": "↘ Голос униз на *isn't it*: ви впевнені й просто чекаєте згоди."
         },
         "b": {
-          "en": "You're coming on Saturday, aren't you?",
-          "uk": "Ти прийдеш у суботу, чи не так?",
-          "note": "Голос угору: справді не знаємо — питаємо."
+          "en": "The shop opens at nine, doesn't it?",
+          "uk": "Магазин відчиняється о дев'ятій, так?",
+          "note": "↗ Голос угору на *doesn't it*: ви не впевнені й справді питаєте."
         }
       },
       {
@@ -110,12 +110,12 @@
     ],
     "rows": [
       [
-        "She's from Lviv,",
+        "She's from Dublin,",
         "isn't she?",
         "be → be"
       ],
       [
-        "They've been to Gdańsk,",
+        "They've been to Rome,",
         "haven't they?",
         "have → have"
       ],
@@ -156,12 +156,12 @@
       "uk": "Ти ж не проти, якщо я відчиню вікно?"
     },
     {
-      "en": "We met at Ania's party, didn't we?",
-      "uk": "Ми ж познайомилися на вечірці в Ані, так?"
+      "en": "We met at Sophie's party, didn't we?",
+      "uk": "Ми ж познайомилися на вечірці в Софі, так?"
     },
     {
-      "en": "Let's try that new pierogi place, shall we?",
-      "uk": "Спробуймо той новий заклад з варениками, гаразд?"
+      "en": "Let's try that new Thai place, shall we?",
+      "uk": "Спробуймо той новий тайський ресторанчик, гаразд?"
     },
     {
       "en": "You haven't seen my keys, have you?",
@@ -234,7 +234,7 @@
     },
     {
       "type": "input",
-      "prompt": "Your brother works in Warsaw, ___? (хвостик)",
+      "prompt": "Your brother works in London, ___? (хвостик)",
       "answer": [
         "doesn't he",
         "does he not"
@@ -243,7 +243,7 @@
     },
     {
       "type": "input",
-      "prompt": "You've been to Zakopane, ___? (хвостик)",
+      "prompt": "You've been to Scotland, ___? (хвостик)",
       "answer": [
         "haven't you",
         "have you not"

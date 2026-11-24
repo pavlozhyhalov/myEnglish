@@ -130,7 +130,7 @@
       [
         "used to + V",
         "раніше, тепер ні",
-        "I used to live in Kyiv."
+        "I used to live in Manchester."
       ],
       [
         "would + V",
@@ -175,7 +175,7 @@
   "exercises": [
     {
       "type": "choice",
-      "prompt": "I ___ live in Kyiv, but now I live in Kraków.",
+      "prompt": "I ___ live in Manchester, but now I live in London.",
       "options": [
         "use to",
         "used to",

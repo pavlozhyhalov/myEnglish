@@ -114,8 +114,8 @@
     ],
     "rows": [
       [
-        "\"I live in Kraków.\"",
-        "He said he lived in Kraków."
+        "\"I live in Leeds.\"",
+        "He said he lived in Leeds."
       ],
       [
         "\"I'm working.\"",
@@ -246,11 +246,10 @@
     },
     {
       "type": "order",
-      "prompt": "Він сказав, що живе в Кракові.",
+      "prompt": "Він сказав, що живе в Лідсі.",
       "answer": [
-        "He said he lived in Kraków.",
-        "He said that he lived in Kraków.",
-        "He said he lived in Krakow."
+        "He said he lived in Leeds.",
+        "He said that he lived in Leeds."
       ],
       "explanation": "Непряма мова: Present Simple → Past Simple (lived)."
     },
