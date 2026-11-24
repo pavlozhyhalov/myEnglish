@@ -18,8 +18,8 @@
       {
         "when": "some у проханнях і пропозиціях",
         "note": "Чекаємо на «так»: Would you like…?, Can I have…?",
-        "en": "Would you like some more cake?",
-        "uk": "Хочете ще торта?"
+        "en": "Would you like some more borscht?",
+        "uk": "Хочете ще борщу?"
       },
       {
         "when": "any — заперечення й питання",
@@ -150,8 +150,8 @@
       "uk": "Можна мені води?"
     },
     {
-      "en": "There aren't any tickets left.",
-      "uk": "Квитків не залишилось."
+      "en": "There aren't any tickets to Odesa left.",
+      "uk": "Квитків до Одеси не залишилось."
     },
     {
       "en": "How much does it cost?",
@@ -162,8 +162,8 @@
       "uk": "У мене небагато вільного часу."
     },
     {
-      "en": "We met a lot of nice people.",
-      "uk": "Ми зустріли багато приємних людей."
+      "en": "We met a lot of nice people in Lviv.",
+      "uk": "У Львові ми зустріли багато приємних людей."
     }
   ],
   "tip": "**information, advice, news, furniture** — незлічувані: *some advice*, не ~~an advice~~ чи ~~advices~~.",

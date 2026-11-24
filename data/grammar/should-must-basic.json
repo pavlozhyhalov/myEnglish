@@ -12,8 +12,8 @@
       {
         "when": "Порада й думка",
         "note": "should / shouldn't — «варто», «раджу».",
-        "en": "You should try the fish here — it's great.",
-        "uk": "Тут варто спробувати рибу — вона чудова."
+        "en": "You should try the varenyky here — they're great.",
+        "uk": "Тут варто спробувати вареники — вони чудові."
       },
       {
         "when": "Сам вирішив, що треба",
@@ -162,20 +162,20 @@
   },
   "examples": [
     {
-      "en": "You look tired. You should go to bed early.",
-      "uk": "У тебе втомлений вигляд. Тобі варто лягти раніше."
+      "en": "You should visit the Carpathians in autumn.",
+      "uk": "Варто побувати в Карпатах восени."
     },
     {
       "en": "You shouldn't drink coffee in the evening.",
       "uk": "Не варто пити каву ввечері."
     },
     {
-      "en": "I must remember Emma's birthday!",
-      "uk": "Мені обов'язково треба пам'ятати про день народження Емми!"
+      "en": "I must remember Oksana's birthday!",
+      "uk": "Мені обов'язково треба пам'ятати про день народження Оксани!"
     },
     {
-      "en": "You mustn't smoke on the tram.",
-      "uk": "У трамваї курити не можна."
+      "en": "You mustn't smoke on the train to Kyiv.",
+      "uk": "У потязі до Києва курити не можна."
     },
     {
       "en": "We have to renew our passports this year.",

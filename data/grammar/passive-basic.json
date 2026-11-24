@@ -245,12 +245,12 @@
     },
     {
       "type": "transform",
-      "prompt": "They grow coffee in Brazil.",
+      "prompt": "They grow sunflowers in Ukraine.",
       "instruction": "Перепишіть у пасиві",
       "answer": [
-        "Coffee is grown in Brazil."
+        "Sunflowers are grown in Ukraine."
       ],
-      "explanation": "Хто вирощує — неважливо → пасив: is grown."
+      "explanation": "Хто вирощує — неважливо → пасив: are grown (sunflowers — множина)."
     },
     {
       "type": "translate",

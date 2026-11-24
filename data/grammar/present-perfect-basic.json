@@ -24,8 +24,8 @@
       {
         "when": "Щойно",
         "note": "just — сталося хвилину тому, свіжа новина.",
-        "en": "Sorry, Emma has just left.",
-        "uk": "Вибачте, Емма щойно пішла."
+        "en": "Sorry, Olena has just left.",
+        "uk": "Вибачте, Олена щойно пішла."
       },
       {
         "when": "Результат видно зараз",
@@ -154,8 +154,8 @@
       "uk": "Ти колись куштував фіш-енд-чіпс?"
     },
     {
-      "en": "Emma has never been to Wales.",
-      "uk": "Емма ніколи не була в Уельсі."
+      "en": "Taras has never been to Odesa.",
+      "uk": "Тарас ніколи не був в Одесі."
     },
     {
       "en": "We've just bought a new washing machine.",
@@ -166,8 +166,8 @@
       "uk": "Мої батьки пішли на ринок."
     },
     {
-      "en": "I've lost my keys!",
-      "uk": "Я загубив ключі!"
+      "en": "Have you ever tried varenyky with cherries?",
+      "uk": "Ти колись куштував вареники з вишнями?"
     }
   ],
   "tip": "**he's** може бути *he is* або *he has*: *He's tired* (is), але *He's been there* (has).",

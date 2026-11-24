@@ -57,13 +57,13 @@
       {
         "title": "than чи as … as?",
         "a": {
-          "en": "Tom is taller than me.",
-          "uk": "Том вищий за мене.",
+          "en": "Taras is taller than me.",
+          "uk": "Тарас вищий за мене.",
           "note": "Є різниця — than."
         },
         "b": {
-          "en": "Tom is as tall as me.",
-          "uk": "Том такого самого зросту, як я.",
+          "en": "Taras is as tall as me.",
+          "uk": "Тарас такого самого зросту, як я.",
           "note": "Рівність — as … as."
         }
       }
@@ -159,8 +159,8 @@
       "uk": "Сьогодні не так тепло, як учора."
     },
     {
-      "en": "The train is much faster than the bus.",
-      "uk": "Потяг набагато швидший за автобус."
+      "en": "The train to Kyiv is much faster than the bus.",
+      "uk": "Потяг до Києва набагато швидший за автобус."
     },
     {
       "en": "The more I learn, the more I want to know.",

@@ -18,8 +18,8 @@
       {
         "when": "Речовини й продукти",
         "note": "Рідини, їжа, матеріали: water, rice, cheese.",
-        "en": "There's cheese and bread for breakfast.",
-        "uk": "На сніданок є сир і хліб."
+        "en": "There's borscht and bread for lunch.",
+        "uk": "На обід є борщ і хліб."
       },
       {
         "when": "Абстрактні поняття",
@@ -159,12 +159,12 @@
       "uk": "Нам потрібні нові меблі для спальні."
     },
     {
-      "en": "How much money do we have left?",
-      "uk": "Скільки в нас лишилося грошей?"
+      "en": "How much money do we need for the trip to Lviv?",
+      "uk": "Скільки грошей нам треба на поїздку до Львова?"
     },
     {
-      "en": "How many eggs do we need for the cake?",
-      "uk": "Скільки яєць потрібно для торта?"
+      "en": "How many eggs do we need for the varenyky?",
+      "uk": "Скільки яєць потрібно для вареників?"
     },
     {
       "en": "Can I give you a piece of advice?",
@@ -223,7 +223,7 @@
     },
     {
       "type": "choice",
-      "prompt": "There ___ a lot of traffic in London today.",
+      "prompt": "There ___ a lot of traffic in Kyiv today.",
       "options": [
         "is",
         "are",

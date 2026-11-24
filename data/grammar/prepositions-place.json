@@ -24,8 +24,8 @@
       {
         "when": "at — точка чи заклад",
         "note": "Де ми є з певною метою: at home, at work, at the station, at a party.",
-        "en": "I'll meet you at the station.",
-        "uk": "Зустрінемося на вокзалі."
+        "en": "I'll meet you at the station in Kharkiv.",
+        "uk": "Зустрінемося на вокзалі в Харкові."
       },
       {
         "when": "to — куди",
@@ -81,8 +81,8 @@
           "note": "Невелика машина — in."
         },
         "b": {
-          "en": "I'm on the train.",
-          "uk": "Я в потязі.",
+          "en": "I'm on the train to Kyiv.",
+          "uk": "Я в потязі до Києва.",
           "note": "Громадський транспорт, де можна ходити, — on."
         }
       }
@@ -130,12 +130,12 @@
       "uk": "Вона в лікаря."
     },
     {
-      "en": "Our flat is on the fifth floor.",
-      "uk": "Наша квартира на п'ятому поверсі."
+      "en": "The Opera House is in the centre of Odesa.",
+      "uk": "Оперний театр — у центрі Одеси."
     },
     {
-      "en": "Walk along the river and cross the bridge.",
-      "uk": "Ідіть уздовж річки й перейдіть міст."
+      "en": "Walk along the Dnipro and cross the bridge.",
+      "uk": "Ідіть уздовж Дніпра й перейдіть міст."
     },
     {
       "en": "Let's go home.",
