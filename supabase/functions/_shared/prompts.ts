@@ -29,7 +29,58 @@ export type Student = {
   voicePauseMs: number;
   /** Журнал тем (profiles.data.topicLog): про що були останні розмови і чи можна почати з пам'яті */
   topics?: TopicInfo;
+  /** Мова інтерфейсу учня (profiles.data.settings.lang): мова всіх текстів від AI для учня; немає — 'uk' */
+  uiLang?: UiLang;
+  /** Регіон мови інтерфейсу (місто з профілю about.location важливіше) — реалії в прикладах, темах, сценаріях */
+  region?: string;
 };
+
+// ---------- Мова й регіон учня (2026-11-24: застосунок багатомовний — uk, es, pt, tr, pl, ru) ----------
+export type UiLang = 'uk' | 'es' | 'pt' | 'tr' | 'pl' | 'ru';
+/** Англійські назви мов інтерфейсу (дзеркало LANGS у js/i18n.js) */
+export const UI_LANGS: Record<UiLang, string> = { uk: 'Ukrainian', es: 'Spanish', pt: 'Portuguese (Brazil)', tr: 'Turkish', pl: 'Polish', ru: 'Russian' };
+/** Регіон мови: реалії для прикладів і тем. ru — російськомовні українці й усі, крім Росії (правило власника) */
+export const UI_REGION: Record<UiLang, string> = {
+  uk: 'Ukraine', ru: 'Ukraine (Russian-speaking Ukrainians)', es: 'Spain and Latin America', pt: 'Brazil', tr: 'Turkey', pl: 'Poland',
+};
+/** Як назвати учня за мовою: «a Ukrainian learner», «a Spanish-speaking learner» */
+const LEARNER: Record<UiLang, string> = { uk: 'Ukrainian', es: 'Spanish-speaking', pt: 'Brazilian', tr: 'Turkish', pl: 'Polish', ru: 'Russian-speaking' };
+export const readUiLang = (v: unknown): UiLang => (typeof v === 'string' && v in UI_LANGS ? v as UiLang : 'uk');
+type LangCtx = { uiLang?: unknown; explainLang?: unknown; level?: string; region?: string; about?: { location?: string; nativeLang?: string } };
+/** Мова інтерфейсу (англійська назва) — мова всіх текстів застосунку від AI: підсумки, назви, поради, пояснення у вправах */
+export const uiOf = (st: LangCtx | UiLang | string | undefined) => UI_LANGS[readUiLang(typeof st === 'object' && st ? st.uiLang : st)];
+/**
+ * Мова пояснень вчителя (з урахуванням settings.explainLang): 'en' → проста англійська; 'mix' → мова інтерфейсу з ключовими термінами англійською;
+ * інакше — мова інтерфейсу. Для українців дає рівно ті самі рядки, що й раніше (Ukrainian / simple English / Ukrainian with key terms in English).
+ */
+export function langOf(st: LangCtx) {
+  const L = uiOf(st);
+  return st.explainLang === 'en' ? 'simple English' : st.explainLang === 'mix' ? `${L} with key terms in English` : L;
+}
+/** «Ukrainian learner», «Spanish-speaking learner»… */
+export const learnerOf = (lang: unknown) => `${LEARNER[readUiLang(lang)]} learner`;
+/** Мова з кирилицею (перевірки відповіді моделі «написано мовою учня») */
+export const cyrUi = (lang: unknown) => ['uk', 'ru'].includes(readUiLang(lang));
+const CYR_RE = /[\u0400-\u04FF]/;
+/** Текст справді мовою учня (а не англійською): uk/ru — є кирилиця; інші — без кирилиці, є літери й не збігається з англійським en */
+export function isUiText(s: unknown, lang: unknown, en = '') {
+  const t = String(s ?? '').trim();
+  if (!t) return false;
+  if (cyrUi(lang)) return CYR_RE.test(t);
+  const k = (x: string) => x.toLowerCase().replace(/[^\p{L}\p{N}]+/gu, ' ').trim();
+  return !CYR_RE.test(t) && /\p{L}/u.test(t) && (!en || k(t) !== k(en));
+}
+/** Типові помилки-кальки в промптах — українські; вони ж годяться для російськомовних (та сама граматична база) */
+export const slavicNative = (st: LangCtx) => /ukrain|russian|belarus/i.test(st.about?.nativeLang || '') || cyrUi(st.uiLang);
+/** Регіон: місто з профілю важливіше за регіон мови */
+export const regionOf = (st: LangCtx) => st.about?.location || st.region || UI_REGION[readUiLang(st.uiLang)];
+/** Реалії регіону в прикладах, темах, сценаріях і вправах — одним правилом для всіх промптів */
+export function regionRule(st: LangCtx) {
+  const lang = readUiLang(st.uiLang);
+  const where = st.about?.location ? `${st.about.location} (the student's city) and ${UI_REGION[lang]}` : UI_REGION[lang];
+  return `Local colour: the student is from ${where}. In examples, topics, role-plays, missions and exercises use realia of that region now and then — about one example in four (its cities, food, holidays, typical names, everyday life${lang === 'ru' ? '; Ukrainian cities and realia only, never Russia' : ''}), mixed with neutral and British ones; never politics or war.`;
+}
+
 /** Категорії тем (дзеркало CATS у js/topics.js) — topic_tags у підсумку розмови */
 export const TOPIC_TAGS = ['daily', 'home', 'food', 'shopping', 'travel', 'city', 'nature', 'sport', 'hobbies', 'media', 'tech', 'people', 'culture', 'learning', 'health', 'work', 'future', 'opinion', 'wyr', 'story', 'problem', 'news', 'mistakes', 'memory'];
 export type TopicInfo = { recent: string[]; memLast: string | null; memOk: boolean };
