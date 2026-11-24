@@ -18,6 +18,7 @@ import { initSelectLookup } from './ui/selectlookup.js';
 import { initDailyBar } from './ui/dailybar.js';
 import { initSubnav, updateSubnav } from './ui/subnav.js';
 import { initFit } from './ui/fit.js';
+import { langMenu } from './ui/langmenu.js';
 import { initInbox } from './ui/inbox.js';
 import { deckIndex, grammarIndex, scenarios, listening, json } from './data.js';
 import * as srs from './srs.js';
@@ -99,6 +100,8 @@ function header() {
       bellBtn),
     h('div.title#page-title', S.app),
     h('div.right',
+      // мова (js/ui/langmenu.js) — лише коли готових мов кілька
+      langMenu(),
       // тема одним дотиком (власник 2026-11-13): світла ↔ темна; «Авто» — у «Налаштуваннях»
       h('button.icon-btn.btn-theme', { type: 'button', 'aria-label': 'Змінити тему: світла або темна', onclick: () => {
         const next = isDark() ? 'light' : 'dark';
