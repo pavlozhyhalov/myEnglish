@@ -14,7 +14,15 @@ export const LANGS = [
   { id: 'pl', name: 'Polski', en: 'Polish' },
   { id: 'ru', name: 'Русский', en: 'Russian' },
 ];
-const IDS = new Set(LANGS.map(l => l.id));
+// мова з'являється у виборі, коли її переклад готовий (scripts/check-i18n.js без прогалин) — до того її не видно нікому
+const READY = new Set(['uk']);
+// перегляд неготових мов (перевірка перекладу до запуску): localStorage['me:lang-preview'] = '1' або адреса з ?langpreview=1
+try {
+  if (typeof location !== 'undefined' && /[?&]langpreview=1/.test(location.search)) localStorage.setItem('me:lang-preview', '1');
+  if (localStorage.getItem('me:lang-preview') === '1') LANGS.forEach(l => READY.add(l.id));
+} catch { /* */ }
+export const readyLangs = () => LANGS.filter(l => READY.has(l.id));
+const IDS = new Set(LANGS.filter(l => READY.has(l.id)).map(l => l.id));
 const KEY = 'me:lang';
 
 /** Мова за налаштуваннями браузера (перший запуск) */

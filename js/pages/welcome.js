@@ -7,12 +7,12 @@ import { user } from '../supa.js';
 import { toast } from '../ui/toast.js';
 import { setTitle, setFocus } from '../ui/shell.js';
 import { tx, txGrid, txRow, txRows } from '../ui/tiles.js';
-import { LANGS, lang, setLang } from '../i18n.js';
+import { readyLangs, lang, setLang } from '../i18n.js';
 import { LEVELS, LEVEL_NAME, LEVEL_DESC, myLevel, setLevel, lvLabel } from '../level.js';
 import { GOAL_OPTIONS, goalTags, saveGoals, markOnboarded, beginStart, firstTalkHref, hasActivity } from '../start.js';
 
 // перший крок — мова (2026-11-24): назви мов власними мовами, щоб людина з будь-якої країни зрозуміла, куди натиснути
-const FULL = ['lang', 'name', 'goals', 'time', 'level', 'talk'];
+const FULL = [...(readyLangs().length > 1 ? ['lang'] : []), 'name', 'goals', 'time', 'level', 'talk'];
 const SHORT = ['name', 'goals'];
 const TIMES = [
   { v: 5, sub: 'Легкий старт' },
@@ -113,7 +113,7 @@ export default function welcome(view, r) {
   // ---------- в) час на день ----------
   function stepLang() {
     const cur = lang();
-    const tiles = LANGS.map(l => tx({ label: l.name, sub: l.id === cur ? '✓' : '', cls: 'wl-opt wl-lang', on: l.id === cur, attrs: { 'aria-pressed': String(l.id === cur), lang: l.id, 'data-noi18n': '' }, onclick: () => {
+    const tiles = readyLangs().map(l => tx({ label: l.name, sub: l.id === cur ? '✓' : '', cls: 'wl-opt wl-lang', on: l.id === cur, attrs: { 'aria-pressed': String(l.id === cur), lang: l.id, 'data-noi18n': '' }, onclick: () => {
       store.setSetting('lang', l.id);
       if (l.id === cur) { next(); return; }
       // нова мова: запам'ятати й одразу на наступний крок уже новою мовою
