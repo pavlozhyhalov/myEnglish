@@ -1,5 +1,6 @@
 // Старт застосунку: тема, авторизація, шапка, маршрути, синхронізація, service worker
 import { BUILD } from './config.js';
+import { initI18n, lang, setLang } from './i18n.js';
 import { S, plural } from './strings.js';
 import * as store from './store.js';
 import { h, ic, emo } from './ui/dom.js';
@@ -193,7 +194,10 @@ initErrlog();
 async function boot() {
   const first = parse().name;
   warmRoute(first);
-  await store.load();
+  // мова (js/i18n.js): словники інтерфейсу — паралельно з IndexedDB, до першого рендера (українська — без завантаження)
+  await Promise.all([store.load(), initI18n(BUILD)]);
+  // мова з профілю (інший пристрій, новий браузер) — головніша за браузерну: перезавантаження один раз
+  { const want = store.settings().lang; if (want && want !== lang()) { setLang(want); return; } }
   try { warmData(first); } catch (e) { console.warn('warm', e); }
   applyTheme();
   matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => applyTheme());

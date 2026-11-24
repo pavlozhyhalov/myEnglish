@@ -1,13 +1,19 @@
 // Статичний контент (працює офлайн через service worker)
 import { BUILD } from './config.js';
+import { lang, isBase, localize, addDict } from './i18n.js';
 
 const cache = new Map();
+/** Переклад змісту для мови учня: data/l10n/<lang>/<шлях без data/> — словник «укр. рядок → переклад» (js/i18n.js); немає — базовий текст */
+function overlay(path) {
+  if (isBase() || !path.startsWith('data/')) return Promise.resolve(null);
+  return fetch(`data/l10n/${lang()}/${path.slice(5)}?v=${BUILD}`).then(r => r.ok ? r.json() : null).catch(() => null);
+}
 export async function json(path) {
   if (cache.has(path)) return cache.get(path);
-  const p = fetch(`${path}?v=${BUILD}`).then(r => {
+  const p = Promise.all([fetch(`${path}?v=${BUILD}`).then(r => {
     if (!r.ok) throw new Error(`${path}: ${r.status}`);
     return r.json();
-  });
+  }), overlay(path)]).then(([data, map]) => { if (!map) return data; addDict(map); return localize(data, map); });
   cache.set(path, p);
   p.catch(() => cache.delete(path));
   return p;

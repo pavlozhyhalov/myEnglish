@@ -7,10 +7,12 @@ import { user } from '../supa.js';
 import { toast } from '../ui/toast.js';
 import { setTitle, setFocus } from '../ui/shell.js';
 import { tx, txGrid, txRow, txRows } from '../ui/tiles.js';
+import { LANGS, lang, setLang } from '../i18n.js';
 import { LEVELS, LEVEL_NAME, LEVEL_DESC, myLevel, setLevel, lvLabel } from '../level.js';
 import { GOAL_OPTIONS, goalTags, saveGoals, markOnboarded, beginStart, firstTalkHref, hasActivity } from '../start.js';
 
-const FULL = ['name', 'goals', 'time', 'level', 'talk'];
+// перший крок — мова (2026-11-24): назви мов власними мовами, щоб людина з будь-якої країни зрозуміла, куди натиснути
+const FULL = ['lang', 'name', 'goals', 'time', 'level', 'talk'];
 const SHORT = ['name', 'goals'];
 const TIMES = [
   { v: 5, sub: 'Легкий старт' },
@@ -49,7 +51,7 @@ export default function welcome(view, r) {
     h('span.wl-ic', { 'aria-hidden': 'true' }, ic(icon, { size: 28 })),
     h('h1.wl-h', title), sub ? h('p.wl-sub', sub) : null);
 
-  const body = ({ name: stepName, goals: stepGoals, time: stepTime, level: stepLevel, talk: stepTalk })[step]();
+  const body = ({ lang: stepLang, name: stepName, goals: stepGoals, time: stepTime, level: stepLevel, talk: stepTalk })[step]();
   view.replaceChildren(h('div.wl', top, body));
   // фокус на першому полі — лише на комп'ютері (на телефоні клавіатура закрила б половину екрана)
   const first = view.querySelector('input');
@@ -109,6 +111,20 @@ export default function welcome(view, r) {
   }
 
   // ---------- в) час на день ----------
+  function stepLang() {
+    const cur = lang();
+    const tiles = LANGS.map(l => tx({ label: l.name, sub: l.id === cur ? '✓' : '', cls: 'wl-opt wl-lang', on: l.id === cur, attrs: { 'aria-pressed': String(l.id === cur), lang: l.id, 'data-noi18n': '' }, onclick: () => {
+      store.setSetting('lang', l.id);
+      if (l.id === cur) { next(); return; }
+      // нова мова: запам'ятати й одразу на наступний крок уже новою мовою
+      try { history.replaceState(null, '', q(steps[i + 1])); } catch { /* */ }
+      setLang(l.id);
+    } }));
+    return h('div.wl-form',
+      head('translate', 'Мова · Language · Idioma', 'Мова застосунку й перекладів — її можна змінити в «Налаштуваннях»'),
+      h('div.wl-grid', { role: 'group', 'aria-label': 'Мова' }, txGrid(tiles, 2)));
+  }
+
   function stepTime() {
     const own = store.prof().settings?.dailyGoal;
     const tiles = TIMES.map(t => tx({ label: `${t.v} хв`, sub: t.sub, cls: 'wl-opt wl-time', on: own === t.v, attrs: { 'aria-pressed': String(own === t.v) }, onclick: () => {

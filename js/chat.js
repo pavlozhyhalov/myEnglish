@@ -316,7 +316,7 @@ export function seenLabel(iso) {
 /** «Про що поговорити?» — 3 теми з банку вчителя (data/topics.json) за рівнем; щоразу інші */
 let topicsP = null;
 export async function starters(level, n = 3) {
-  topicsP ||= fetch('data/topics.json').then(r => r.json()).catch(() => { topicsP = null; return { topics: [] }; });
+  topicsP ||= import('./data.js').then(d => d.json('data/topics.json')).catch(() => { topicsP = null; return { topics: [] }; });
   const all = (await topicsP).topics || [];
   const LV = ['A0', 'A1', 'A2', 'B1', 'B2', 'C1'];
   const i = Math.max(0, LV.indexOf(level === 'A0' ? 'A1' : level));

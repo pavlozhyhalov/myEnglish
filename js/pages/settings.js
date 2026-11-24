@@ -1,4 +1,5 @@
 // Налаштування
+import { LANGS, lang, setLang, isBase, langName } from '../i18n.js';
 import { plural } from '../strings.js';
 import { h, ic, seg, toggle, clear } from '../ui/dom.js';
 import * as store from '../store.js';
@@ -93,13 +94,15 @@ export default function settings(view) {
         ['friendly but demanding', 'Доброзичливий, вимогливий', 'Вимогливий'], ['warm and patient', 'Теплий, терплячий', 'Терплячий'],
         ['strict and concise', 'Строгий, лаконічний', 'Строгий'], ['humorous and relaxed', 'З гумором', 'З гумором'],
       ], 'Тон вчителя')),
-      block('translate', 'Мова пояснень', segOf('explainLang', [['uk', 'Українська'], ['en', 'English'], ['mix', 'Змішано']])),
+      block('translate', 'Мова пояснень', segOf('explainLang', [['uk', isBase() ? 'Українська' : langName()], ['en', 'English'], ['mix', 'Змішано']])),
       block('check-circle', 'Виправлення', segOf('strictness', [['important', 'Лише важливе'], ['all', 'Усе']])),
       row('microphone', 'Голос вчителя', pick('voice', LIVE_VOICES.map(v => [v, v]), 'Голос вчителя'), 'Gemini Live'),
       block('hourglass', 'Пауза в голосі', segOf('voicePause', [['auto', 'Авто'], ['normal', 'Звичайна'], ['long', 'Довга']]), 'Перебиває — оберіть «Довга»'),
       row('briefcase', 'Професійний контекст', toggle(!!st.workFocus, set('workFocus'), 'Професійний контекст'), 'Розмови про вашу роботу'),
     ]),
     group('Вигляд і звук', [
+      // мова застосунку (js/i18n.js): назви мов — власними мовами, щоб кожен знайшов свою; зміна — перезавантаження
+      row('translate', 'Мова застосунку', pickerBtn('Мова застосунку', LANGS.map(l => [l.id, l.name]), lang(), (v) => { store.setSetting('lang', v); setLang(v); }), 'Інтерфейс і переклади'),
       block('circle-half', 'Тема', (() => { const sg = seg([['auto', 'Авто'], ['light', 'Світла'], ['dark', 'Темна']], st.theme, (v) => { store.setSetting('theme', v); applyTheme(v); }); sg.classList.add('set-theme-seg'); return sg; })()),
       block('flag', 'Акцент', seg([['US', 'Акцент US'], ['UK', 'Акцент UK']], st.accent, set('accent'))),
       range('rate', 0.6, 1.3, 0.05, v => `${Number(v).toFixed(2)}×`, 'timer', 'Швидкість озвучення'),
