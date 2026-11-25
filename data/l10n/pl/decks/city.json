@@ -13,8 +13,8 @@
  "У мене болить голова з самого ранку.": "Boli mnie głowa od samego rana.",
  "температура (підвищена)": "gorączka (podwyższona temperatura)",
  "У неї температура 38,5.": "Ona ma 38,5 stopnia gorączki.",
- "Скільки часу у вас ці симптоми?": "Od jak dawna ma pan/pani te objawy?",
- "Скільки часу у вас ці симптоми? — Близько трьох днів.": "Od jak dawna ma pan/pani te objawy? — Od mniej więcej trzech dni.",
+ "Скільки часу у вас ці симптоми?": "Od jak dawna masz te objawy?",
+ "Скільки часу у вас ці симптоми? — Близько трьох днів.": "Od jak dawna masz te objawy? — Od mniej więcej trzech dni.",
  "рецепт (на ліки)": "recepta (na leki)",
  "На ці антибіотики потрібен рецепт.": "Na te antybiotyki potrzebna jest recepta.",
  "знеболювальні": "leki przeciwbólowe",
@@ -97,6 +97,6 @@
  "Місячний проїзний дешевший, якщо їздиш щодня.": "Bilet miesięczny jest tańszy, jeśli jeździsz codziennie.",
  "викликати швидку": "wezwać karetkę",
  "Викличте швидку! Людина знепритомніла.": "Wezwijcie karetkę! Ktoś zemdlał.",
- "Чи не могли б ви мені допомогти?": "Czy mógłby mi pan / mogłaby mi pani pomóc?",
- "Вибачте, що турбую. Чи не могли б ви мені допомогти?": "Przepraszam, że przeszkadzam. Czy mógłby pan mi pomóc?"
+ "Чи не могли б ви мені допомогти?": "Czy mógłbyś mi pomóc?",
+ "Вибачте, що турбую. Чи не могли б ви мені допомогти?": "Przepraszam, że przeszkadzam. Czy mógłbyś mi pomóc?"
 }
