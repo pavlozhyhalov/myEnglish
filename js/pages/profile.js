@@ -7,6 +7,7 @@ import { toast } from '../ui/toast.js';
 import { confirmSheet } from '../ui/sheet.js';
 import { myLevel, LEVEL_NAME, lvLabel } from '../level.js';
 import { tx, txGroup, txRow, txRows, txLogin } from '../ui/tiles.js';
+import { loc } from '../i18n.js';
 
 export const GOALS = [
   ['people', 'Спілкування з людьми'], ['travel', 'Подорожі'], ['work', 'Робота й кар\'єра'], ['moving', 'Життя за кордоном'],
@@ -115,7 +116,7 @@ function memorySection() {
     box.replaceChildren(head,
       txRows([...sorted.slice(0, open ? MEM_CAP : 6).map(f => h('div.tx-row.mem-row',
         h('span.tx-sq', ic('lightbulb', { size: 18 })),
-        h('span.tx-body', h('span.tx-l.mem-t', f.text), f.at ? h('span.tx-s', new Date(f.at).toLocaleDateString('uk-UA', { day: 'numeric', month: 'short' })) : null),
+        h('span.tx-body', h('span.tx-l.mem-t', f.text), f.at ? h('span.tx-s', new Date(f.at).toLocaleDateString(loc(), { day: 'numeric', month: 'short' })) : null),
         h('button.icon-btn', { type: 'button', 'aria-label': `Забути: ${f.text}`, onclick: () => { forgetFacts([f.id]); toast('Вчитель це забув'); draw(); } }, ic('trash', { size: 20 })))),
         !open && sorted.length > 6 ? txRow({ icon: 'caret-down', label: `Показати всі · ${sorted.length}`, chevron: false, cls: 'tx-showall', onclick: () => { open = true; draw(); } }) : null]));
   };

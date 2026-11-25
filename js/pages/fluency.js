@@ -10,6 +10,7 @@ import { skelLines } from '../ui/skeleton.js';
 import { activityTimer } from '../stats.js';
 import { user } from '../supa.js';
 import { onLeave } from '../router.js';
+import { loc } from '../i18n.js';
 import {
   ROUNDS, TOPICS, interestTopics, GAMBIT_GROUPS, GAMBITS, pickQuestions, DRILL_LEN, DRILL_START_SEC, DRILL_SPEAK_SEC,
   markup, analyze, sessionTotals, gambitStart, history, drills, saveSession, saveDrill,
@@ -19,7 +20,7 @@ import {
 const NS = 'http://www.w3.org/2000/svg';
 /** replaceChildren без null/false/'' */
 const fill = (el, ...kids) => { el.replaceChildren(...kids.flat(Infinity).filter(k => k != null && k !== false && k !== '')); return el; };
-const num = (x, d = 1) => (Math.round(x * 10 ** d) / 10 ** d).toLocaleString('uk-UA');
+const num = (x, d = 1) => (Math.round(x * 10 ** d) / 10 ** d).toLocaleString(loc());
 const nWords = (n) => `${n} ${plural(n, 'слово', 'слова', 'слів')}`;
 const nSec = (s) => `${Math.round(s)} с`;
 const reduceMotion = () => matchMedia('(prefers-reduced-motion: reduce)').matches;

@@ -16,6 +16,7 @@ import { tx, txGrid, txGroup, txBar, txDots } from '../ui/tiles.js';
 import { startDay, startPlan, finishStart, goalPicks, goalTags } from '../start.js';
 import { scenarioOfDay, scenarioDoneToday } from '../done.js';
 import { myLevel, LEVEL_NAME, nextLessonByLevel, byFit, diff, levelProgress, nextLevel, filterByLevel, pickOfDay, setLevel, LEVELS as LEVEL_ORDER, levelPlan, lvLabel } from '../level.js';
+import { loc } from '../i18n.js';
 
 const nMistakes = (n) => `${n} ${plural(n, 'помилка', 'помилки', 'помилок')}`;
 
@@ -121,7 +122,7 @@ export default async function home(view) {
 }
 
 function greeting() {
-  const date = new Date().toLocaleDateString('uk-UA', { weekday: 'long', day: 'numeric', month: 'long' });
+  const date = new Date().toLocaleDateString(loc(), { weekday: 'long', day: 'numeric', month: 'long' });
   const name = greetName();
   const hour = new Date().getHours();
   return h('div.greet',

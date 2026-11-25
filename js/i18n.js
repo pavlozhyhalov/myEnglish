@@ -46,6 +46,9 @@ export const lang = () => current;
 export const langName = (id = current) => LANGS.find(l => l.id === id)?.name || id;
 export const langEn = (id = current) => LANGS.find(l => l.id === id)?.en || 'Ukrainian';
 export const isBase = () => current === 'uk';
+/** Локаль дат і чисел мови інтерфейсу (ru — Україна) */
+const LOCALES = { uk: 'uk-UA', es: 'es', pt: 'pt-BR', tr: 'tr-TR', pl: 'pl-PL', ru: 'ru-UA' };
+export const loc = () => LOCALES[current] || 'uk-UA';
 export const regionOf = (id = current) => LANGS.find(l => l.id === id)?.region || 'Ukraine';
 
 /** Змінити мову: запам'ятати й перезавантажити застосунок (словники, дані й DOM — з нуля) */
@@ -141,6 +144,11 @@ function tr(core) {
   if (out == null) {
     const m = core.match(/^([~≈+−-]?\d[\d\s\u00a0.,–-]*)\s*(\S.*)$/u);
     if (m && CYR.test(m[2])) { const v = tr(m[2]); if (v != null) out = `${m[1].trimEnd()}${/\s/.test(core.slice(m[1].trimEnd().length, m[1].trimEnd().length + 1)) ? ' ' : ''}${v}`; }
+  }
+  // «Листопад 2026» — слово й число в кінці
+  if (out == null) {
+    const m = core.match(/^(.*\S)\s+(\d[\d\s\u00a0.,–-]*)$/u);
+    if (m && CYR.test(m[1])) { const v = tr(m[1]); if (v != null) out = `${v} ${m[2]}`; }
   }
   return out;
 }

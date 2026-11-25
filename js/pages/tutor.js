@@ -24,6 +24,7 @@ import { markUsedWords, MIN_CHATS } from '../usage.js';
 import { redoItems, redoSub, redoPage } from '../redo.js';
 import { loadTopics, topicChips, defaultPick, logTopic, parsePickParam, pickById } from '../topics.js';
 import { lvLabel } from '../level.js';
+import { loc } from '../i18n.js';
 
 export const MODES = [
   { id: 'chat', emoji: 'speech', icon: 'chat-circle-dots', title: 'Вільна розмова', desc: 'Текстом, на будь-яку тему' },
@@ -232,7 +233,7 @@ function history(view, chats) {
     const shown = selecting || all ? list.slice(0, 60) : list.slice(0, SHOW);
     const rows = shown.map(c => {
       const title = c.title || 'Розмова';
-      const sub = `${new Date(c.created_at).toLocaleDateString('uk-UA', { day: 'numeric', month: 'short' })}${c.mode === 'coach' ? ' · консультація' : ` · ${fmtMin(c.seconds || 0)}${c.summary && !c.summary.partial ? '' : ' · без підсумку'}`}`;
+      const sub = `${new Date(c.created_at).toLocaleDateString(loc(), { day: 'numeric', month: 'short' })}${c.mode === 'coach' ? ' · консультація' : ` · ${fmtMin(c.seconds || 0)}${c.summary && !c.summary.partial ? '' : ' · без підсумку'}`}`;
       const sq = h('span.tx-sq', ic(modeIcon(c), { size: 18 }));
       const body = h('span.tx-body', h('span.tx-l', title), h('span.tx-s', sub));
       if (selecting) {
@@ -531,7 +532,7 @@ async function openChat(view, id) {
 }
 
 const mkey = (m) => `${m.wrong}|${m.right}`.toLowerCase().replace(/\s+/g, ' ').trim();
-const fmtDay = (iso) => new Date(iso).toLocaleDateString('uk-UA', { day: 'numeric', month: 'short' });
+const fmtDay = (iso) => new Date(iso).toLocaleDateString(loc(), { day: 'numeric', month: 'short' });
 
 function chatUI(view, row, { scenario, ask, topic, resumed } = {}) {
   setTitle(row.title);

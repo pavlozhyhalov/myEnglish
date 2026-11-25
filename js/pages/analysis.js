@@ -11,6 +11,7 @@ import { grammarIndex, json, scenarios as loadScenarios } from '../data.js';
 import { LEVELS, LEVEL_NAME, lvLabel } from '../level.js';
 import { fold } from './progress.js';
 import { compute, insight, digest, digestHash, activityHref, ACTIVITY, CRIT, CRIT_UK, SKILL_UK, speechLines } from '../analysis.js';
+import { loc } from '../i18n.js';
 
 const DAY = 864e5;
 const rk = (l) => LEVELS.indexOf(l);
@@ -18,7 +19,7 @@ const num = (x) => String(x).replace('.', ',');
 const coachHref = (sec) => `#/tutor?mode=coach&section=${encodeURIComponent(sec)}`;
 /** Показник-плитка: значення, підпис, тон (лише для стану) */
 const stat = (value, label, tone = '') => ({ value, label, tone });
-const fmtDate = (iso) => new Date(iso).toLocaleDateString('uk-UA', { day: 'numeric', month: 'short' });
+const fmtDate = (iso) => new Date(iso).toLocaleDateString(loc(), { day: 'numeric', month: 'short' });
 
 export default async function analysisPage(view) {
   const A = await compute();
@@ -375,7 +376,7 @@ function mistakesBody(A) {
 function habitsBody(A) {
   const hb = A.habits;
   const max = Math.max(30, ...hb.weeks.map(w => w.min));
-  const lbl = (w) => new Date(w.to + 'T12:00').toLocaleDateString('uk-UA', { day: 'numeric', month: 'short' });
+  const lbl = (w) => new Date(w.to + 'T12:00').toLocaleDateString(loc(), { day: 'numeric', month: 'short' });
   const TOD = { morning: 'Ранок', day: 'День', evening: 'Вечір', night: 'Ніч' };
   const todMax = Math.max(1, ...Object.values(hb.timeOfDay));
   return h('div.stack', { style: { gap: '12px' } },

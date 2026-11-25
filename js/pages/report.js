@@ -11,10 +11,11 @@ import { monthPart, reportMonths, voiceClips, speechLines, monthKey, isMonthKey,
 import { SPEECH_META, speechRow, metricChart } from './analysis.js';
 import { masteryDots, TALK_HREF } from './mistakes.js';
 import { fold } from './progress.js';
+import { loc } from '../i18n.js';
 
 const rk = (l) => LEVELS.indexOf(l);
 const lvTxt = (x) => (x ? `${lvLabel(x.level)}${x.sublevel === 'high' ? '+' : x.sublevel === 'low' ? '−' : ''}` : '—');
-const fmtDate = (iso) => new Date(iso).toLocaleDateString('uk-UA', { day: 'numeric', month: 'long', year: 'numeric' });
+const fmtDate = (iso) => new Date(iso).toLocaleDateString(loc(), { day: 'numeric', month: 'long', year: 'numeric' });
 const stat = (value, label, tone = '') => ({ value, label, tone });
 /** Розділ звіту: згорнута плитка (назва, коротка цифра) з вмістом */
 const block = (icon, title, sub, ...kids) => fold({ icon, label: title, sub }, ...kids);

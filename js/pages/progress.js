@@ -11,6 +11,7 @@ import { md } from '../ui/md.js';
 import { tutor, aiErrorText } from '../ai.js';
 import { user } from '../supa.js';
 import { streak, lastNDays, totalSeconds, weekSeconds, todaySeconds, skillLevels, MISTAKE_TYPES, week as weekDays, secondsByDay, dayKey } from '../stats.js';
+import { loc } from '../i18n.js';
 
 export default async function progressPage(view) {
   // лічильники карток і опанування рівня вантажать лише колоди потрібних рівнів (спільний кеш data.js)
@@ -40,7 +41,7 @@ export default async function progressPage(view) {
 
   // «Запитати вчителя про це» → консультація (режим coach) про відповідний розділ
   const ask = (sec) => h('a.tx-row.tx-ask', { href: `#/tutor?mode=coach&section=${sec}` }, h('span.tx-sq', ic('chat-circle-dots', { size: 18 })), h('span.tx-body', h('span.tx-l', 'Запитати вчителя про це')), ic('caret-right', { size: 16 }));
-  const dayLbl = (d) => d.date.toLocaleDateString('uk-UA', { day: 'numeric', month: 'short' });
+  const dayLbl = (d) => d.date.toLocaleDateString(loc(), { day: 'numeric', month: 'short' });
   const card = (...kids) => h('section.card.stack.tx-card', ...kids);
   const st = streak();
   const avg = Math.round(days.reduce((a, d) => a + d.seconds, 0) / Math.max(1, days.filter(d => d.seconds).length));
@@ -102,7 +103,7 @@ export default async function progressPage(view) {
         tx({ icon: 'exam', label: 'Перевірити рівень тестом', sub: 'граматика, лексика, читання, аудіювання, письмо', href: '#/tests/placement', wide: true }),
         ask('placement')),
       tests.length ? fold({ icon: 'exam', label: 'Останні тести', sub: `${testLabel(tests[0])} · ${tests[0].type === 'placement' ? tests[0].scores.overall : `${tests[0].scores.score}%`}` },
-        txRows(tests.map(t => txRow({ icon: t.type === 'placement' ? 'target' : t.type === 'weekly' ? 'calendar-blank' : 'exam', label: testLabel(t), sub: new Date(t.created_at).toLocaleDateString('uk-UA'),
+        txRows(tests.map(t => txRow({ icon: t.type === 'placement' ? 'target' : t.type === 'weekly' ? 'calendar-blank' : 'exam', label: testLabel(t), sub: new Date(t.created_at).toLocaleDateString(loc()),
           pill: { text: t.type === 'placement' ? t.scores.overall : `${t.scores.score}%`, tone: testTone(t) } }))),
         ask('grammar')) : null,
       dyn.length ? fold({ icon: 'warning-circle', label: 'Помилки за типами', sub: `відкритих: ${openMk} · динаміка за тиждень` },
@@ -192,7 +193,7 @@ function weeklyCard() {
   const sec = days.map(d => p.byDay.get(d.key) || 0);
   const max = Math.max(60, ...sec);
   const min = Math.round(p.seconds / 60), prevMin = Math.round(prev.seconds / 60);
-  const range = `${new Date(days[0].key + 'T12:00').toLocaleDateString('uk-UA', { day: 'numeric', month: 'short' })} – ${new Date(days[6].key + 'T12:00').toLocaleDateString('uk-UA', { day: 'numeric', month: 'short' })}`;
+  const range = `${new Date(days[0].key + 'T12:00').toLocaleDateString(loc(), { day: 'numeric', month: 'short' })} – ${new Date(days[6].key + 'T12:00').toLocaleDateString(loc(), { day: 'numeric', month: 'short' })}`;
   const trend = prevMin || min ? (min > prevMin ? `↑ на ${min - prevMin} хв` : min < prevMin ? `↓ на ${prevMin - min} хв` : 'як минулого тижня') : '';
   const advice = h('div.stack.pg-adv');
   const empty = !sec.some(Boolean);
@@ -226,7 +227,7 @@ function weeklyCard() {
       d.goal_uk ? h('div.feedback.ok', h('b', 'Мета: '), d.goal_uk) : null,
       d.focus_en ? h('div.small', h('span.dim', 'Приклад: '), h('i', { lang: 'en' }, d.focus_en)) : null,
       state ? h('div.xs.bad', state) : null,
-      h('div.row', h('span.xs.dim.grow', `Згенеровано ${new Date(c.at).toLocaleDateString('uk-UA', { weekday: 'short', day: 'numeric', month: 'short' })}`),
+      h('div.row', h('span.xs.dim.grow', `Згенеровано ${new Date(c.at).toLocaleDateString(loc(), { weekday: 'short', day: 'numeric', month: 'short' })}`),
         h('button.btn.sm.ghost', { type: 'button', onclick: () => generate() }, ic('arrow-clockwise', { size: 16 }), 'Оновити'))));
   };
   async function generate() {

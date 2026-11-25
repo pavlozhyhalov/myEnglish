@@ -13,6 +13,7 @@ import { setFocus } from '../ui/shell.js';
 import { keepAwake } from '../ui/wakelock.js';
 import { onLeave } from '../router.js';
 import { tx, txPrimary, txGroup, txGrid, txKpis, txRow, txRows, txBar, txPill, txResult } from '../ui/tiles.js';
+import { loc } from '../i18n.js';
 
 const PREFS_KEY = 'me:listengo';
 const SOURCES = [
@@ -123,7 +124,7 @@ function speakUk(text, rate) {
   try { synth.cancel(); } catch { /* */ }
   const p = new Promise((resolve) => {
     const u = new SpeechSynthesisUtterance(text);
-    u.lang = ukVoice.lang || 'uk-UA';
+    u.lang = ukVoice.lang || loc();
     try { u.voice = ukVoice; } catch { /* */ }
     u.rate = rate;
     u.onend = u.onerror = () => resolve();

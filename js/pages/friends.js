@@ -13,6 +13,7 @@ import * as chat from '../chat.js';
 import { friendInvite, groupInvite, friendLink, shareLink } from '../invite.js';
 import { notifyPrompt } from '../ui/notifyprompt.js';
 import { go } from '../router.js';
+import { loc } from '../i18n.js';
 
 const days = (n) => `${n} ${plural(n, 'день', 'дні', 'днів')}`;
 const mins = (sec) => `${Math.round((sec || 0) / 60)}\u00a0хв`;
@@ -173,7 +174,7 @@ function friendsPage(view, r) {
         let s = null;
         s = sheet('Надіслані запити', h('div.stack', txRows(out.map(p => {
           const nm = p.name === 'Учень' ? 'Учень (без імені)' : p.name;
-          return h('div.tx-row.friend-row', ava(p.name), h('span.tx-body', h('span.tx-l', nm), h('span.tx-s', `Надіслано ${new Date(p.at).toLocaleDateString('uk-UA', { day: 'numeric', month: 'long' })}`)),
+          return h('div.tx-row.friend-row', ava(p.name), h('span.tx-body', h('span.tx-l', nm), h('span.tx-s', `Надіслано ${new Date(p.at).toLocaleDateString(loc(), { day: 'numeric', month: 'long' })}`)),
             h('button.btn.sm.ghost', { type: 'button', onclick: async () => {
               try { await rpc('friend_request_cancel', { p_to: p.user_id }); toast('Запит скасовано'); s.close(); refreshAll(); } catch { toast('Не вдалося', { kind: 'bad' }); }
             } }, 'Скасувати'));

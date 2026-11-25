@@ -8,6 +8,7 @@ import * as store from './store.js';
 import { tutor } from './ai.js';
 import { addMistake, isDisputed } from './stats.js';
 import { getMic, micAvailable } from './speech.js';
+import { loc } from './i18n.js';
 
 const COLS = 'id, room_id, user_id, kind, body, audio_path, meta, created_at, deleted_at, reply_to';
 export const PAGE = 50;
@@ -309,7 +310,7 @@ export function seenLabel(iso) {
   const hm = `${String(dt.getHours()).padStart(2, '0')}:${String(dt.getMinutes()).padStart(2, '0')}`;
   if (dt.toDateString() === now.toDateString()) return `востаннє в мережі сьогодні о ${hm}`;
   if (new Date(now - 864e5).toDateString() === dt.toDateString()) return `востаннє в мережі вчора о ${hm}`;
-  if (d < 30 * 864e5) return `востаннє в мережі ${dt.toLocaleDateString('uk-UA', { day: 'numeric', month: 'short' })}`;
+  if (d < 30 * 864e5) return `востаннє в мережі ${dt.toLocaleDateString(loc(), { day: 'numeric', month: 'short' })}`;
   return 'давно не заходили';
 }
 

@@ -16,6 +16,7 @@ import { tappable } from '../ui/wordtap.js';
 import { notifyPrompt } from '../ui/notifyprompt.js';
 import { shareGroup, shareLink, friendLink } from '../invite.js';
 import { myLevel, lvLabel } from '../level.js';
+import { loc } from '../i18n.js';
 
 const initial = (s) => (String(s || '?').trim().charAt(0) || '?').toUpperCase();
 const ava = (name, group = false) => h('span.friend-ava.ch-ava', { 'aria-hidden': 'true' }, group ? ic('users-three', { size: 18 }) : initial(name));
@@ -26,13 +27,13 @@ function dayLabel(iso) {
   const diff = Math.round((t - new Date(d.getFullYear(), d.getMonth(), d.getDate())) / 864e5);
   if (diff === 0) return 'Сьогодні';
   if (diff === 1) return 'Учора';
-  return d.toLocaleDateString('uk-UA', { day: 'numeric', month: 'long', ...(d.getFullYear() !== t.getFullYear() ? { year: 'numeric' } : {}) });
+  return d.toLocaleDateString(loc(), { day: 'numeric', month: 'long', ...(d.getFullYear() !== t.getFullYear() ? { year: 'numeric' } : {}) });
 }
 function whenShort(iso) {
   const d = new Date(iso), now = new Date();
   if (dayKey(iso) === dayKey(now.toISOString())) return hhmm(iso);
-  if (now - d < 6 * 864e5) return d.toLocaleDateString('uk-UA', { weekday: 'short' });
-  return d.toLocaleDateString('uk-UA', { day: 'numeric', month: 'short' });
+  if (now - d < 6 * 864e5) return d.toLocaleDateString(loc(), { weekday: 'short' });
+  return d.toLocaleDateString(loc(), { day: 'numeric', month: 'short' });
 }
 const fmtDur = (s) => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
 const lsGet = (k) => { try { return localStorage.getItem(k) || ''; } catch { return ''; } };
@@ -329,7 +330,7 @@ export function chatRoom(view, roomId) {
       if (alive) { renderStrip(); refreshCards(); }
     } catch (e) { console.warn('challenges', e); }
   }
-  const dueLabel = (iso) => new Date(iso).toLocaleDateString('uk-UA', { weekday: 'short', day: 'numeric', month: 'numeric' });
+  const dueLabel = (iso) => new Date(iso).toLocaleDateString(loc(), { weekday: 'short', day: 'numeric', month: 'numeric' });
   async function askHomework(btn) {
     if (btn) btn.disabled = true;
     try {
@@ -628,7 +629,7 @@ export function chatRoom(view, roomId) {
     const meDone = d.results.some(p => p.me && p.score != null);
     let s = null;
     s = sheet(`Дуель · ${g.label}`, h('div.stack.ch-sheet',
-      h('div.tx-s', d.over ? 'Дуель завершено' : `Рівень ${lvLabel(d.level)} · ті самі завдання для всіх · до ${new Date(d.ends_at).toLocaleTimeString('uk-UA', { hour: '2-digit', minute: '2-digit' })} завтра`),
+      h('div.tx-s', d.over ? 'Дуель завершено' : `Рівень ${lvLabel(d.level)} · ті самі завдання для всіх · до ${new Date(d.ends_at).toLocaleTimeString(loc(), { hour: '2-digit', minute: '2-digit' })} завтра`),
       duel.duelTable(d.results),
       !d.over && !meDone ? txPrimary({ icon: g.icon, label: 'Грати', sub: g.sub, href: duel.duelHref(d.game, d, roomId), onclick: () => s.close() }) : null));
   }

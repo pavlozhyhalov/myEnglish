@@ -6,11 +6,12 @@ import { user, getSupa } from '../supa.js';
 import { toast } from '../ui/toast.js';
 import { txGroup, txRow, txRows, txLogin, txPill } from '../ui/tiles.js';
 import { BUILD } from '../config.js';
+import { loc } from '../i18n.js';
 
 const KINDS = [['bug', 'Помилка'], ['idea', 'Ідея'], ['other', 'Інше']];
 const PH = { bug: 'Що сталося й де? Наприклад: «У чаті не надсилається голосове — крутиться й зникає»', idea: 'Що додати чи змінити, щоб було зручніше?', other: 'Напишіть що завгодно — прочитаю особисто' };
 const LAST = 'me:last-route';
-const when = (iso) => new Date(iso).toLocaleDateString('uk-UA', { day: 'numeric', month: 'long' });
+const when = (iso) => new Date(iso).toLocaleDateString(loc(), { day: 'numeric', month: 'long' });
 
 
 /** Зменшити знімок до 1440 px і стиснути в JPEG (≈ 150–400 КБ) */

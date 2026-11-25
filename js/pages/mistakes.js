@@ -12,13 +12,14 @@ import { tutor, aiErrorText } from '../ai.js';
 import { user } from '../supa.js';
 import { tx, txPrimary, txKpis, txGrid, txGroup, txRows, txRow, txDots, txPill, txResult } from '../ui/tiles.js';
 import { moreRows } from './grammar.js';
+import { loc } from '../i18n.js';
 
 const SRC = { tutor: 'вчитель', test: 'тест', exercise: 'вправа', diary: 'щоденник', voice: 'голос', pronunciation: 'вимова' };
 
 const DAY = 864e5;
 /** Голосова розмова на власні помилки учня (тема для вчителя — англійською) */
 export const TALK_HREF = '#/tutor?mode=voice&topic=' + encodeURIComponent('Work on the student\'s own mistakes: name 2 of their most frequent recent mistakes (wrong → right), then keep a natural conversation that makes them use the correct forms; notice when they get it right.');
-const fmtDay = (iso) => new Date(iso).toLocaleDateString('uk-UA', { day: 'numeric', month: 'short', year: new Date(iso).getFullYear() === new Date().getFullYear() ? undefined : 'numeric' });
+const fmtDay = (iso) => new Date(iso).toLocaleDateString(loc(), { day: 'numeric', month: 'short', year: new Date(iso).getFullYear() === new Date().getFullYear() ? undefined : 'numeric' });
 
 /** Засвоєння помилки: крапки (правильні вживання поспіль); max — mistakeGoal() = 2 */
 export function masteryDots(streakN, label = true, max = 3) {
@@ -338,10 +339,10 @@ function nextNote(total, ok) {
 const fmtWhen = (t) => {
   const d = new Date(t), now = new Date();
   const tomorrow = new Date(now); tomorrow.setDate(now.getDate() + 1);
-  const hm = d.toLocaleTimeString('uk-UA', { hour: '2-digit', minute: '2-digit' });
+  const hm = d.toLocaleTimeString(loc(), { hour: '2-digit', minute: '2-digit' });
   if (d.toDateString() === now.toDateString()) return `сьогодні о ${hm}`;
   if (d.toDateString() === tomorrow.toDateString()) return 'завтра';
-  return d.toLocaleDateString('uk-UA', { weekday: 'long', day: 'numeric', month: 'long' });
+  return d.toLocaleDateString(loc(), { weekday: 'long', day: 'numeric', month: 'long' });
 };
 
 /** Повтор правил: набір із 8 помилок, яким настав час; порожньо — дружній екран */

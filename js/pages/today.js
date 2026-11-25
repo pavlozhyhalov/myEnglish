@@ -7,6 +7,7 @@ import { streak, todaySeconds } from '../stats.js';
 import { buildPlan, markStarted } from '../daily.js';
 import { skel, skelLines } from '../ui/skeleton.js';
 import { setTitle } from '../ui/shell.js';
+import { loc } from '../i18n.js';
 
 const reduced = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -62,7 +63,7 @@ export default async function today(view) {
 }
 
 function header() {
-  const date = new Date().toLocaleDateString('uk-UA', { weekday: 'long', day: 'numeric', month: 'long' });
+  const date = new Date().toLocaleDateString(loc(), { weekday: 'long', day: 'numeric', month: 'long' });
   // назва сторінки вже в шапці — тут лише дата (заголовок — для читачів екрана)
   return h('header.td-head',
     h('h1.sr-only', 'Мій день'),

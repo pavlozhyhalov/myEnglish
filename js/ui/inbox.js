@@ -9,10 +9,11 @@ import { user, getSupa, onAuth } from '../supa.js';
 import * as store from '../store.js';
 import { plural } from '../strings.js';
 import { notifyPrompt } from './notifyprompt.js';
+import { loc } from '../i18n.js';
 
 let btn = null, data = null, timer = 0, busy = false;
 const GAMES = { detective: 'Детектив помилок', rush: 'Швидкий переклад' };
-const due = (iso) => new Date(iso).toLocaleDateString('uk-UA', { weekday: 'short', day: 'numeric', month: 'numeric' });
+const due = (iso) => new Date(iso).toLocaleDateString(loc(), { weekday: 'short', day: 'numeric', month: 'numeric' });
 
 function count(d) {
   if (!d) return 0;

@@ -8,6 +8,7 @@ import { S } from '../strings.js';
 import { go } from '../router.js';
 import { setTitle } from '../ui/shell.js';
 import { lvLabel } from '../level.js';
+import { loc } from '../i18n.js';
 
 const CACHE = 'me:admin';
 const RECHECK_MS = 12 * 3600e3;
@@ -46,8 +47,8 @@ const mask = (email) => {
   const [n, d = ''] = String(email).split('@');
   return `${n.slice(0, 2)}${'•'.repeat(Math.max(1, Math.min(6, n.length - 2)))}@${d}`;
 };
-const dShort = (d) => d ? new Date(d).toLocaleDateString('uk-UA', { day: 'numeric', month: 'short' }) : '—';
-const dtShort = (d) => d ? new Date(d).toLocaleString('uk-UA', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }) : '—';
+const dShort = (d) => d ? new Date(d).toLocaleDateString(loc(), { day: 'numeric', month: 'short' }) : '—';
+const dtShort = (d) => d ? new Date(d).toLocaleString(loc(), { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }) : '—';
 const mins = (sec) => `${Math.round((sec || 0) / 60)} хв`;
 /** 75 хв → «1 год 15 хв» */
 const dur = (sec) => {

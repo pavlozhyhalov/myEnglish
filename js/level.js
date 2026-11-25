@@ -3,6 +3,7 @@
 import * as store from './store.js';
 import { h } from './ui/dom.js';
 import { deckIndex, withCards, slug } from './data.js';
+import { loc } from './i18n.js';
 
 // A0 — «Старт (з нуля)», Pre-A1 за CEFR (2026-11-15, власник: рівень для тих, хто зовсім не знає англійської).
 // Внутрішній код 'A0', учню показується «Pre-A1» (`lvLabel`).
@@ -161,5 +162,5 @@ export function levelPlan(lp) {
   const wWords = wordsLeft ? wordsLeft / (perDay * 7) + 1 : 0;
   const weeks = Math.max(1, Math.ceil(Math.max(wGrammar, wWords)));
   const date = new Date(now + weeks * 7 * 864e5);
-  return { weeks, lessonsLeft, wordsLeft, lessonsPerWeek, perDay, date, dateText: date.toLocaleDateString('uk-UA', { day: 'numeric', month: 'long' }) };
+  return { weeks, lessonsLeft, wordsLeft, lessonsPerWeek, perDay, date, dateText: date.toLocaleDateString(loc(), { day: 'numeric', month: 'long' }) };
 }

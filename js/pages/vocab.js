@@ -13,6 +13,7 @@ import { fmtInterval } from '../ui/dom.js';
 import { activityTimer } from '../stats.js';
 import { onLeave } from '../router.js';
 import { tx, txGrid, txPill, txRow, txRows } from '../ui/tiles.js';
+import { loc } from '../i18n.js';
 
 const STATUS = [['all', 'Усі'], ['new', 'Нові'], ['learning', 'Вчу'], ['review', 'Повторюю'], ['learned', 'Вивчені']];
 const SORTS = [['recent', 'Нещодавні'], ['az', 'A–Z'], ['due', 'До повтору']];
@@ -163,7 +164,7 @@ function detail(c, deckName, onChange) {
     c.reps ? h('div.tx-grid.vw-sh-kpis',
       h('div.tx.tx-kpi', h('span.tx-n', String(c.reps)), h('span.tx-s', plural(c.reps, 'повтор', 'повтори', 'повторів'))),
       h('div.tx.tx-kpi', h('span.tx-n' + (c.lapses ? '.warn' : ''), String(c.lapses || 0)), h('span.tx-s', 'помилок')),
-      h('div.tx.tx-kpi', h('span.tx-n.vw-sh-due', c.due ? new Date(c.due).toLocaleDateString('uk-UA', { day: 'numeric', month: 'short' }) : '—'), h('span.tx-s', `повтор · стаб. ${fmtInterval(c.stability)}`))) : null,
+      h('div.tx.tx-kpi', h('span.tx-n.vw-sh-due', c.due ? new Date(c.due).toLocaleDateString(loc(), { day: 'numeric', month: 'short' }) : '—'), h('span.tx-s', `повтор · стаб. ${fmtInterval(c.stability)}`))) : null,
     txRows([
       learned
         ? act({ icon: 'arrow-clockwise', label: 'Повернути до вивчення', sub: 'з\'явиться в картках сьогодні', onclick: () => { s.close(); setKnown(c, false, onChange); } })

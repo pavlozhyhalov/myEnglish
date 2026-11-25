@@ -15,6 +15,7 @@ import { user } from '../supa.js';
 import { setTitle, setFocus } from '../ui/shell.js';
 import { tx, txPrimary, txGrid, txGroup, txKpis, txRow, txRows, txPill } from '../ui/tiles.js';
 import { levelSection, moreRows, nearRows } from './grammar.js';
+import { loc } from '../i18n.js';
 
 // Щоб тести не повторювались: що бачили в останніх спробах (зберігається в історії тестів і синхронізується)
 const exKey = (ex) => String(ex.id || ex.prompt || ex.sentence || ex.uk || ex.answer || '').toLowerCase().replace(/\s+/g, ' ').slice(0, 120);
@@ -68,7 +69,7 @@ async function overview(view) {
     // останні 6 результатів на виду, решта (до 30) — «Показати всі»
     txGroup('Результати', hist.length ? moreRows(hist.slice(0, 30).map(t => {
       const lessonRow = t.type === 'lesson' && t.ref;
-      const sub = [new Date(t.created_at).toLocaleDateString('uk-UA'),
+      const sub = [new Date(t.created_at).toLocaleDateString(loc()),
         t.type === 'placement' ? Object.entries(t.scores).filter(([k]) => SKILL_UK[k]).map(([k, v]) => `${SKILL_UK[k] || k}: ${v}`).join(', ') : '',
         t.details?.length && t.type !== 'placement' ? `${t.details.filter(d => d.ok).length} з ${t.details.length}` : ''].filter(Boolean).join(' · ');
       // тест за уроком — перехід до уроку (повторити правило або пройти тест ще раз)

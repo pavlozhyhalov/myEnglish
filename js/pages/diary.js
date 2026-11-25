@@ -16,6 +16,7 @@ import { setTitle } from '../ui/shell.js';
 import { go } from '../router.js';
 import { myLevel, pickOfDay, lvLabel } from '../level.js';
 import { tx, txPrimary, txGroup, txRow, txRows, txKpis, txPill, txLogin, txResult } from '../ui/tiles.js';
+import { loc } from '../i18n.js';
 
 const DRAFT_KEY = 'me:diary:draft';
 /** Орієнтовна довжина запису (слів) — так само в _shared/prompts.ts (DIARY_WORDS) */
@@ -68,7 +69,7 @@ export const PROMPTS = {
 
 const entries = () => store.all('tutor_chats').filter(c => c.mode === 'diary').sort((a, b) => b.created_at.localeCompare(a.created_at));
 const wordCount = (t) => (t.trim() ? t.trim().split(/\s+/).length : 0);
-const fmtDate = (iso, opts = { day: 'numeric', month: 'long' }) => new Date(iso).toLocaleDateString('uk-UA', opts);
+const fmtDate = (iso, opts = { day: 'numeric', month: 'long' }) => new Date(iso).toLocaleDateString(loc(), opts);
 const mmss = (s) => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
 
 export default function diary(view, r) {

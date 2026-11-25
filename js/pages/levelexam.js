@@ -18,6 +18,7 @@ import { onLeave } from '../router.js';
 import { setFocus } from '../ui/shell.js';
 import { toast } from '../ui/toast.js';
 import { tx, txPrimary, txGroup, txKpis, txRow, txRows, txResult, txPill } from '../ui/tiles.js';
+import { loc } from '../i18n.js';
 
 export const PASS = 80;
 const PER_LESSON = 2;
@@ -67,7 +68,7 @@ export default async function levelExam(view) {
         : 'усі слова рівня вже закріплено' }),
     ])),
     prev ? txGroup('Минулого разу', txRows([txRow({ icon: prev.scores?.passed ? 'seal-check' : 'exam', label: prev.scores?.passed ? 'Склали' : 'Не склали',
-      sub: `${new Date(prev.created_at).toLocaleDateString('uk-UA')} · граматика ${prev.scores?.grammar ?? '—'}% · слова ${prev.scores?.words ?? '—'}%`,
+      sub: `${new Date(prev.created_at).toLocaleDateString(loc())} · граматика ${prev.scores?.grammar ?? '—'}% · слова ${prev.scores?.words ?? '—'}%`,
       pill: { text: `${prev.scores?.score ?? 0}%`, tone: prev.scores?.passed ? 'good' : 'warn' } })])) : null));
 }
 
