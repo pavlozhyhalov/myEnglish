@@ -62,6 +62,8 @@ for (const f of jsFiles) {
   // коментарі не беремо
   scan(src, f);   // коментарі й /regex/ пропускає сам токенізатор
 }
+// рядок-джерело регулярного виразу (new RegExp('…')) — не текст інтерфейсу
+const REGEXY = /\(\?[:!=]|\[\^|\\\\[sbdw]|\\[sbdw]|[a-zа-я]-[a-zа-я]/;
 /** Рядки в коді — токенізатор: '…', "…", `…${…}…` з вкладеними шаблонами; вирази ${…} скануються теж
  *  (plural(n, 'урок', …), умовні підписи). Регулярні вирази /…/ пропускаються грубо — у них кирилиці немає. */
 function scan(code, f) {
@@ -112,7 +114,7 @@ function scan(code, f) {
     if (!/\s/.test(c)) prev = c;
     if (c === "'" || c === '"') {
       const raw = readQuoted(c);
-      if (CYR.test(raw)) { const s = unescapeJs(raw).trim(); if (s) keys.add(s); }
+      if (CYR.test(raw) && !REGEXY.test(raw)) { const s = unescapeJs(raw).trim(); if (s) keys.add(s); }
     } else if (c === '`') {
       const { raw, ex } = readTemplate();
       if (!CYR.test(raw)) continue;
