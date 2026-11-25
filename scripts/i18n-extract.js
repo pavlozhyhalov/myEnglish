@@ -118,7 +118,7 @@ function scan(code, f) {
     } else if (c === '`') {
       const { raw, ex } = readTemplate();
       if (!CYR.test(raw)) continue;
-      if (!ex.length) { const s = unescapeJs(raw).trim(); if (s) keys.add(s); continue; }
+      if (!ex.length) { if (!REGEXY.test(raw)) { const s = unescapeJs(raw).trim(); if (s) keys.add(s); } continue; }
       const body = unescapeJs(raw).trim();
       const textOnly = body.replace(/\$\{[\s\S]*?\}/g, '');
       // `Історія${n ? ` · ${n}` : ''}` — без умовної частини лишається сам текст до першого ${
