@@ -25,7 +25,7 @@ function walk(dir, ext, skip = []) {
 const keys = new Set();
 const pats = new Map();
 const esc = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-function unescapeJs(s) { return s.replace(/\\n/g, '\n').replace(/\\'/g, "'").replace(/\\"/g, '"').replace(/\\`/g, '`').replace(/\\\\/g, '\\'); }
+function unescapeJs(s) { return s.replace(/\\u\{?([0-9a-fA-F]{4,5})\}?/g, (_, h) => String.fromCodePoint(parseInt(h, 16))).replace(/\\n/g, '\n').replace(/\\'/g, "'").replace(/\\"/g, '"').replace(/\\`/g, '`').replace(/\\\\/g, '\\'); }
 
 /** Шаблонний рядок → регулярний вираз: plural(n,'a','b','c') → (?:a|b|c), інше ${…} → (.+?) */
 function templateToRe(body) {
@@ -119,6 +119,9 @@ function scan(code, f) {
       if (!ex.length) { const s = unescapeJs(raw).trim(); if (s) keys.add(s); continue; }
       const body = unescapeJs(raw).trim();
       const textOnly = body.replace(/\$\{[\s\S]*?\}/g, '');
+      // `Історія${n ? ` · ${n}` : ''}` — без умовної частини лишається сам текст до першого ${
+      const head = body.split('${')[0].trim();
+      if (head && CYR.test(head) && body.trimEnd().endsWith('}')) keys.add(head);
       if (CYR.test(textOnly)) { const { re: rx } = templateToRe(body); if (!pats.has(rx)) pats.set(rx, { re: rx, src: body, file: path.relative(ROOT, f) }); }
       for (const e of ex) scan(e, f);
     } else i++;
@@ -135,7 +138,12 @@ fs.writeFileSync(path.join(ROOT, 'i18n/_keys.json'), JSON.stringify(sortedKeys, 
 fs.writeFileSync(path.join(ROOT, 'i18n/_patterns.json'), JSON.stringify([...pats.values()], null, 1) + '\n');
 
 // ---------- зміст ----------
-const dataFiles = walk(path.join(ROOT, 'data'), '.json', [path.join('data', 'books'), path.join('data', 'stories'), path.join('data', 'l10n')]);
+// книги й оповідання — англійський текст; з них беремо лише каталоги (назви й автори українською)
+const dataFiles = walk(path.join(ROOT, 'data'), '.json', [path.join('data', 'books'), path.join('data', 'stories'), path.join('data', 'l10n')])
+  .concat(['data/books/index.json'].map(p => path.join(ROOT, p)))
+  .concat(walk(path.join(ROOT, 'data', 'stories'), '.json'))                                    // словнички й питання оповідань
+  .concat(fs.readdirSync(path.join(ROOT, 'data', 'books'), { withFileTypes: true }).filter(e => e.isDirectory())
+    .map(e => path.join(ROOT, 'data', 'books', e.name, 'glossary.json')).filter(p => fs.existsSync(p)));   // словнички книг (розділи — англійською)
 let total = 0;
 for (const f of dataFiles) {
   const set = new Set();

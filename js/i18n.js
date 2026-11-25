@@ -146,6 +146,8 @@ function tr(core) {
 }
 function one(core) {
   let out = dict.get(core);
+  // «Середній.» — ключ без кінцевої крапки
+  if (out == null && /[.!?:]$/.test(core) && core.length > 2) { const v = dict.get(core.slice(0, -1)); if (v != null) return v + core.slice(-1); }
   if (out == null) {
     for (const [re, rep] of patterns) { const m = core.match(re); if (m) { out = fill(rep, m); break; } }
   }

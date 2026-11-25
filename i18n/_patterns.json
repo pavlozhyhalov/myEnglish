@@ -1940,8 +1940,8 @@
   "file": "js/pages/fluency.js"
  },
  {
-  "re": "^(.+?)\\\\u00a0хв$",
-  "src": "${Math.round((sec || 0) / 60)}\\u00a0хв",
+  "re": "^(.+?) хв$",
+  "src": "${Math.round((sec || 0) / 60)} хв",
   "file": "js/pages/friends.js"
  },
  {
