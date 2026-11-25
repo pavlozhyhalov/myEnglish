@@ -251,7 +251,7 @@
  },
  {
   "re": "^востаннє в мережі (.+?)$",
-  "src": "востаннє в мережі ${dt.toLocaleDateString('uk-UA', { day: 'numeric', month: 'short' })}",
+  "src": "востаннє в мережі ${dt.toLocaleDateString(loc(), { day: 'numeric', month: 'short' })}",
   "file": "js/chat.js"
  },
  {
@@ -701,7 +701,7 @@
  },
  {
   "re": "^myEnglish · Слово дня (.+?) · (.+?)$",
-  "src": "myEnglish · Слово дня ${new Date().toLocaleDateString('uk-UA', { day: '2-digit', month: '2-digit' })} · ${lvLabel(lv)}",
+  "src": "myEnglish · Слово дня ${new Date().toLocaleDateString(loc(), { day: '2-digit', month: '2-digit' })} · ${lvLabel(lv)}",
   "file": "js/games/wordle.js"
  },
  {
@@ -1516,7 +1516,7 @@
  },
  {
   "re": "^Рівень (.+?) · ті самі завдання для всіх · до (.+?) завтра$",
-  "src": "Рівень ${lvLabel(d.level)} · ті самі завдання для всіх · до ${new Date(d.ends_at).toLocaleTimeString('uk-UA', { hour: '2-digit', minute: '2-digit' })} завтра",
+  "src": "Рівень ${lvLabel(d.level)} · ті самі завдання для всіх · до ${new Date(d.ends_at).toLocaleTimeString(loc(), { hour: '2-digit', minute: '2-digit' })} завтра",
   "file": "js/pages/chats.js"
  },
  {
@@ -1961,7 +1961,7 @@
  },
  {
   "re": "^Надіслано (.+?)$",
-  "src": "Надіслано ${new Date(p.at).toLocaleDateString('uk-UA', { day: 'numeric', month: 'long' })}",
+  "src": "Надіслано ${new Date(p.at).toLocaleDateString(loc(), { day: 'numeric', month: 'long' })}",
   "file": "js/pages/friends.js"
  },
  {
@@ -2296,7 +2296,7 @@
  },
  {
   "re": "^(.+?) · граматика (.+?)% · слова (.+?)%$",
-  "src": "${new Date(prev.created_at).toLocaleDateString('uk-UA')} · граматика ${prev.scores?.grammar ?? '—'}% · слова ${prev.scores?.words ?? '—'}%",
+  "src": "${new Date(prev.created_at).toLocaleDateString(loc())} · граматика ${prev.scores?.grammar ?? '—'}% · слова ${prev.scores?.words ?? '—'}%",
   "file": "js/pages/levelexam.js"
  },
  {
@@ -2871,7 +2871,7 @@
  },
  {
   "re": "^Згенеровано (.+?)$",
-  "src": "Згенеровано ${new Date(c.at).toLocaleDateString('uk-UA', { weekday: 'short', day: 'numeric', month: 'short' })}",
+  "src": "Згенеровано ${new Date(c.at).toLocaleDateString(loc(), { weekday: 'short', day: 'numeric', month: 'short' })}",
   "file": "js/pages/progress.js"
  },
  {
