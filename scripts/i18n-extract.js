@@ -122,7 +122,8 @@ function scan(code, f) {
       // `Історія${n ? ` · ${n}` : ''}` — без умовної частини лишається сам текст до першого ${
       const head = body.split('${')[0].trim();
       if (head && CYR.test(head) && body.trimEnd().endsWith('}')) keys.add(head);
-      if (CYR.test(textOnly)) { const { re: rx } = templateToRe(body); if (!pats.has(rx)) pats.set(rx, { re: rx, src: body, file: path.relative(ROOT, f) }); }
+      const isRegex = /\(\?[:!=]|\[\^|\\[sbdw]/.test(textOnly);    // new RegExp(`…${x}…`) — не текст інтерфейсу
+      if (CYR.test(textOnly) && !isRegex) { const { re: rx } = templateToRe(body); if (!pats.has(rx)) pats.set(rx, { re: rx, src: body, file: path.relative(ROOT, f) }); }
       for (const e of ex) scan(e, f);
     } else i++;
   }
