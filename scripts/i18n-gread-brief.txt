@@ -1,0 +1,5 @@
+Full read of grammar translations (myEnglish). Scripts already passed; now a HUMAN-STYLE full read is required, because shifted/swapped rows without numbers or Latin words slip past heuristics.
+Your language and half are given below. Lesson order = data/grammar/index.json; half 1 = lessons 1–50, half 2 = lessons 51–99.
+For EVERY lesson of your half: print data/l10n/<lang>/grammar/<id>.json as numbered «Ukrainian key ⇒ translation» lines (skip exact-English keys, but glance that they match the lesson), in chunks of ~60 lines, and READ each pair: does the value translate THIS key (meaning; exercise answers/options/explanations consistent)? Do not rely on scripts for the decision.
+Fix wrong pairs in place (re-translate from the key; same regional realia and glossary as the file; scripts/i18n-guide.md). Python json.dump(ensure_ascii=False, indent=1)+"\n", json.load after; never change keys; don't commit.
+Report in Ukrainian: lessons read (count), fixed pairs per lesson with 1–2 examples.
