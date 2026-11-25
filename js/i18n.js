@@ -86,7 +86,8 @@ export async function initI18n(build = '') {
     .replace(/\(\.\+\?\)|\\./g, '').replace(/[\^$]/g, '').length;
   if (Array.isArray(pats)) patterns = pats.filter(p => Array.isArray(p) && p[0] && p[1] && literal(p[0]) >= 2)
     .sort((x, y) => literal(y[0]) - literal(x[0]))
-    .map(([re, rep]) => { try { return [new RegExp(re, 'u'), rep]; } catch { return null; } }).filter(Boolean);
+    .map(([re, rep]) => { try { return [new RegExp(re.replace(/\(\.\+\?\)\$$/, '(.*?)$'), 'u'), rep]; } catch { return null; } }).filter(Boolean);
+  // ↑ хвіст `${cond ? ' · прочитано' : ''}` буває порожнім — остання група може бути порожньою
   observe();
 }
 
