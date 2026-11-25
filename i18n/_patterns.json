@@ -95,8 +95,18 @@
   "file": "js/analysis.js"
  },
  {
-  "re": "^У щоденнику в середньому (.+?) (.+?) на 100 слів(.+?)$",
-  "src": "У щоденнику в середньому ${String(w.errPer100).replace('.', ',')} ${pluralF(w.errPer100, 'помилка', 'помилки', 'помилок', 'помилки')} на 100 слів${w.errPer100Prev != null ? (w.errPer100 < w.errPer100Prev ?",
+  "re": "^У щоденнику в середньому (.+?) (.+?) на 100 слів(.+?)\\.$",
+  "src": "У щоденнику в середньому ${String(w.errPer100).replace('.', ',')} ${pluralF(w.errPer100, 'помилка', 'помилки', 'помилок', 'помилки')} на 100 слів${w.errPer100Prev != null ? (w.errPer100 < w.errPer100Prev ? ` — менше, ніж раніше (${String(w.errPer100Prev).replace('.', ',')})` : w.errPer100 > w.errPer100Prev ? ` — більше, ніж раніше (${String(w.errPer100Prev).replace('.', ',')})` : '') : ''}.",
+  "file": "js/analysis.js"
+ },
+ {
+  "re": "^— менше, ніж раніше \\((.+?)\\)$",
+  "src": "— менше, ніж раніше (${String(w.errPer100Prev).replace('.', ',')})",
+  "file": "js/analysis.js"
+ },
+ {
+  "re": "^— більше, ніж раніше \\((.+?)\\)$",
+  "src": "— більше, ніж раніше (${String(w.errPer100Prev).replace('.', ',')})",
   "file": "js/analysis.js"
  },
  {
@@ -130,8 +140,8 @@
   "file": "js/analysis.js"
  },
  {
-  "re": "^Уроків граматики ще не пройдено\\. Почніть з уроку свого рівня(.+?)$",
-  "src": "Уроків граматики ще не пройдено. Почніть з уроку свого рівня${g.next ?",
+  "re": "^Уроків граматики ще не пройдено\\. Почніть з уроку свого рівня(.+?)\\.$",
+  "src": "Уроків граматики ще не пройдено. Почніть з уроку свого рівня${g.next ? ` — «${g.next.title}»` : ''}.",
   "file": "js/analysis.js"
  },
  {
@@ -140,8 +150,8 @@
   "file": "js/analysis.js"
  },
  {
-  "re": "^Прогалини нижче: (.+?)$",
-  "src": "Прогалини нижче: ${gaps.map(x =>",
+  "re": "^Прогалини нижче: (.+?)\\.$",
+  "src": "Прогалини нижче: ${gaps.map(x => `${lvLabel(x.level)} — ${x.total - x.done}`).join(', ')}.",
   "file": "js/analysis.js"
  },
  {
@@ -155,8 +165,8 @@
   "file": "js/analysis.js"
  },
  {
-  "re": "^Ваша слабка зона — (.+?): (.+?) (?:невиправлена помилка|невиправлені помилки|невиправлених помилок) \\(з повторами\\), (.+?) нових за 2 тижні(.+?)$",
-  "src": "Ваша слабка зона — ${TYPE_UK[top.type]}: ${top.openTotal} ${plural(top.openTotal, 'невиправлена помилка', 'невиправлені помилки', 'невиправлених помилок')} (з повторами), ${top.last14} нових за 2 тижні${tr ?",
+  "re": "^Ваша слабка зона — (.+?): (.+?) (?:невиправлена помилка|невиправлені помилки|невиправлених помилок) \\(з повторами\\), (.+?) нових за 2 тижні(.+?)\\.$",
+  "src": "Ваша слабка зона — ${TYPE_UK[top.type]}: ${top.openTotal} ${plural(top.openTotal, 'невиправлена помилка', 'невиправлені помилки', 'невиправлених помилок')} (з повторами), ${top.last14} нових за 2 тижні${tr ? ` — ${tr}` : ''}.",
   "file": "js/analysis.js"
  },
  {
@@ -175,18 +185,28 @@
   "file": "js/analysis.js"
  },
  {
-  "re": "^Порівняння: (.+?)$",
-  "src": "Порівняння: ${sp.firstN === 1 ? 'перша розмова' :",
+  "re": "^Порівняння: (.+?) проти останньої\\.$",
+  "src": "Порівняння: ${sp.firstN === 1 ? 'перша розмова' : `перші ${sp.firstN} розмови`} проти останньої.",
   "file": "js/analysis.js"
  },
  {
-  "re": "^Останні 7 днів — (.+?) хв(.+?)$",
-  "src": "Останні 7 днів — ${cur} хв${prev || cur ? (cur > prev ?",
+  "re": "^перші (.+?) розмови$",
+  "src": "перші ${sp.firstN} розмови",
   "file": "js/analysis.js"
  },
  {
-  "re": "^: ''\\) : ''\\}; у середньому (.+?) (.+?) на тиждень\\.$",
-  "src": ": '') : ''}; у середньому ${String(hb.activePerWeek).replace('.', ',')} ${pluralF(hb.activePerWeek, 'активний день', 'активні дні', 'активних днів', 'активного дня')} на тиждень.",
+  "re": "^Останні 7 днів — (.+?) хв(.+?); у середньому (.+?) (.+?) на тиждень\\.$",
+  "src": "Останні 7 днів — ${cur} хв${prev || cur ? (cur > prev ? `, більше ніж тижнем раніше (${prev})` : cur < prev ? `, менше ніж тижнем раніше (${prev})` : '') : ''}; у середньому ${String(hb.activePerWeek).replace('.', ',')} ${pluralF(hb.activePerWeek, 'активний день', 'активні дні', 'активних днів', 'активного дня')} на тиждень.",
+  "file": "js/analysis.js"
+ },
+ {
+  "re": "^, більше ніж тижнем раніше \\((.+?)\\)$",
+  "src": ", більше ніж тижнем раніше (${prev})",
+  "file": "js/analysis.js"
+ },
+ {
+  "re": "^, менше ніж тижнем раніше \\((.+?)\\)$",
+  "src": ", менше ніж тижнем раніше (${prev})",
   "file": "js/analysis.js"
  },
  {
@@ -470,6 +490,11 @@
   "file": "js/games/detective.js"
  },
  {
+  "re": "^Правильно: (.+?)\\.$",
+  "src": "Правильно: ${cur.fix}.",
+  "file": "js/games/detective.js"
+ },
+ {
   "re": "^Промахів: (.+?)$",
   "src": "Промахів: ${e.n}",
   "file": "js/games/detective.js"
@@ -581,7 +606,7 @@
  },
  {
   "re": "^(.+?)\\. Варіанти: (.+?)$",
-  "src": "${card.en}. Варіанти: ${opts.map((o, i) =>",
+  "src": "${card.en}. Варіанти: ${opts.map((o, i) => `${i + 1} — ${o.uk}`).join('; ')}",
   "file": "js/games/rush.js"
  },
  {
@@ -603,6 +628,61 @@
   "re": "^Помилок: (.+?)\\.$",
   "src": "Помилок: ${missed.length}.",
   "file": "js/games/rush.js"
+ },
+ {
+  "re": "^(.+?) речень · на час$",
+  "src": "${ROUNDS} речень · на час",
+  "file": "js/games/samewords.js"
+ },
+ {
+  "re": "^(.+?) речень, час іде, поки ви обираєте$",
+  "src": "${ROUNDS} речень, час іде, поки ви обираєте",
+  "file": "js/games/samewords.js"
+ },
+ {
+  "re": "^Рекорд часу — за гру з (.+?)\\+ правильними$",
+  "src": "Рекорд часу — за гру з ${FAST_MIN_HITS}+ правильними",
+  "file": "js/games/samewords.js"
+ },
+ {
+  "re": "^(.+?) (?:набір|набори|наборів) — з ваших помилок$",
+  "src": "${ownN} ${plural(ownN, 'набір', 'набори', 'наборів')} — з ваших помилок",
+  "file": "js/games/samewords.js"
+ },
+ {
+  "re": "^Речення (.+?) з (.+?)$",
+  "src": "Речення ${k} з ${rounds.length}",
+  "file": "js/games/samewords.js"
+ },
+ {
+  "re": "^(.+?) Варіанти: (.+?)$",
+  "src": "${cur.en.replace('___', 'пропуск')} Варіанти: ${cur.options.join(', ')}",
+  "file": "js/games/samewords.js"
+ },
+ {
+  "re": "^Так, (.+?)\\. (.+?)$",
+  "src": "Так, ${cur.answer}. ${cur.why_uk}",
+  "file": "js/games/samewords.js"
+ },
+ {
+  "re": "^Новий рекорд часу! Попередній — (.+?)$",
+  "src": "Новий рекорд часу! Попередній — ${clock(fast.prev)}",
+  "file": "js/games/samewords.js"
+ },
+ {
+  "re": "^Рекорд часу — за (.+?)\\+ правильних$",
+  "src": "Рекорд часу — за ${FAST_MIN_HITS}+ правильних",
+  "file": "js/games/samewords.js"
+ },
+ {
+  "re": "^Рекорд часу: (.+?)$",
+  "src": "Рекорд часу: ${clock(fastPrev)}",
+  "file": "js/games/samewords.js"
+ },
+ {
+  "re": "^Гру завершено\\. Очки: (.+?)\\. Правильно (.+?) з (.+?)\\. Час (.+?)\\.$",
+  "src": "Гру завершено. Очки: ${score}. Правильно ${hits} з ${rounds.length}. Час ${clock(elapsed)}.",
+  "file": "js/games/samewords.js"
  },
  {
   "re": "^Спроба (.+?)$",
@@ -685,6 +765,16 @@
   "file": "js/invite.js"
  },
  {
+  "re": "^(.+?)(.+?) · переписка англійською, виклики й домашнє від вчителя$",
+  "src": "${names}${more > 0 ? ` і ще ${more}` : ''} · переписка англійською, виклики й домашнє від вчителя",
+  "file": "js/invite.js"
+ },
+ {
+  "re": "^і ще (.+?)$",
+  "src": "і ще ${more}",
+  "file": "js/invite.js"
+ },
+ {
   "re": "^Мій · (.+?)$",
   "src": "Мій · ${lvLabel(myLevel())}",
   "file": "js/level.js"
@@ -730,8 +820,23 @@
   "file": "js/live/voice.js"
  },
  {
-  "re": "^(.+?) — правильно: (.+?)(.+?)$",
-  "src": "${f.wrong} — правильно: ${f.right}${f.why_uk ?",
+  "re": "^(.+?) — правильно: (.+?)(.+?)\\. Прослухати$",
+  "src": "${f.wrong} — правильно: ${f.right}${f.why_uk ? `. ${f.why_uk}` : ''}. Прослухати",
+  "file": "js/live/voice.js"
+ },
+ {
+  "re": "^Говорить (.+?)$",
+  "src": "Говорить ${st.tutorName}",
+  "file": "js/live/voice.js"
+ },
+ {
+  "re": "^Live недоступний(.+?) — перемкнулись на режим «рація»\\.$",
+  "src": "Live недоступний${err?.message ? ` (${String(err.message).slice(0, 80)})` : ''} — перемкнулись на режим «рація».",
+  "file": "js/live/voice.js"
+ },
+ {
+  "re": "^(.+?) думає…$",
+  "src": "${st.tutorName} думає…",
   "file": "js/live/voice.js"
  },
  {
@@ -771,7 +876,7 @@
  },
  {
   "re": "^(.+?) год(.+?)$",
-  "src": "${Math.floor(m / 60)} год${m % 60 ?",
+  "src": "${Math.floor(m / 60)} год${m % 60 ? ` ${m % 60} хв` : ''}",
   "file": "js/pages/admin.js"
  },
  {
@@ -815,8 +920,23 @@
   "file": "js/pages/admin.js"
  },
  {
-  "re": "^\\)\\} · тиждень (.+?) · усього (.+?)(.+?)$",
-  "src": ")} · тиждень ${dur(u.sec7)} · усього ${dur(u.sec_total)}${u.voice7 ?",
+  "re": "^(.+?) · тиждень (.+?) · усього (.+?)(.+?)$",
+  "src": "${todaySec(u) >= 60 ? `сьогодні ${dur(todaySec(u))}` : (ago(u.last_active, today) === 'сьогодні' ? 'сьогодні < 1 хв' : `був ${ago(u.last_active, today)}`)} · тиждень ${dur(u.sec7)} · усього ${dur(u.sec_total)}${u.voice7 ? ` · голос ×${u.voice7}` : ''}",
+  "file": "js/pages/admin.js"
+ },
+ {
+  "re": "^сьогодні (.+?)$",
+  "src": "сьогодні ${dur(todaySec(u))}",
+  "file": "js/pages/admin.js"
+ },
+ {
+  "re": "^був (.+?)$",
+  "src": "був ${ago(u.last_active, today)}",
+  "file": "js/pages/admin.js"
+ },
+ {
+  "re": "^· голос ×(.+?)$",
+  "src": "· голос ×${u.voice7}",
   "file": "js/pages/admin.js"
  },
  {
@@ -841,7 +961,12 @@
  },
  {
   "re": "^Звернення(.+?)$",
-  "src": "Звернення${fresh.length ?",
+  "src": "Звернення${fresh.length ? ` · ${fresh.length} нових` : ` · ${list.length}`}",
+  "file": "js/pages/admin.js"
+ },
+ {
+  "re": "^· (.+?) нових$",
+  "src": "· ${fresh.length} нових",
   "file": "js/pages/admin.js"
  },
  {
@@ -896,7 +1021,12 @@
  },
  {
   "re": "^тест: (.+?) · (.+?)$",
-  "src": "тест: ${p.overall || '—'} · ${p.days > 0 ?",
+  "src": "тест: ${p.overall || '—'} · ${p.days > 0 ? `${p.days} ${plural(p.days, 'день', 'дні', 'днів')} тому` : 'сьогодні'}",
+  "file": "js/pages/analysis.js"
+ },
+ {
+  "re": "^(.+?) (?:день|дні|днів) тому$",
+  "src": "${p.days} ${plural(p.days, 'день', 'дні', 'днів')} тому",
   "file": "js/pages/analysis.js"
  },
  {
@@ -911,7 +1041,12 @@
  },
  {
   "re": "^(.+?) (?:запис|записи|записів) у щоденнику(.+?)$",
-  "src": "${w.diary} ${plural(w.diary, 'запис', 'записи', 'записів')} у щоденнику${w.errPer100 != null ?",
+  "src": "${w.diary} ${plural(w.diary, 'запис', 'записи', 'записів')} у щоденнику${w.errPer100 != null ? ` · ${num(w.errPer100)} помилок на 100 слів` : ''}",
+  "file": "js/pages/analysis.js"
+ },
+ {
+  "re": "^· (.+?) помилок на 100 слів$",
+  "src": "· ${num(w.errPer100)} помилок на 100 слів",
   "file": "js/pages/analysis.js"
  },
  {
@@ -965,8 +1100,13 @@
   "file": "js/pages/analysis.js"
  },
  {
-  "re": "^(.+?)$",
-  "src": "${d === 0 ? 'Оновлено сьогодні' :",
+  "re": "^(.+?)(.+?)$",
+  "src": "${d === 0 ? 'Оновлено сьогодні' : `Оновлено ${d} ${plural(d, 'день', 'дні', 'днів')} тому`}${changed && d > 0 ? ' · відтоді дані змінилися' : ''}",
+  "file": "js/pages/analysis.js"
+ },
+ {
+  "re": "^Оновлено (.+?) (?:день|дні|днів) тому$",
+  "src": "Оновлено ${d} ${plural(d, 'день', 'дні', 'днів')} тому",
   "file": "js/pages/analysis.js"
  },
  {
@@ -1000,6 +1140,16 @@
   "file": "js/pages/analysis.js"
  },
  {
+  "re": "^(.+?) → остання$",
+  "src": "${sp.firstN === 1 ? 'Перша розмова' : `Середнє перших ${sp.firstN}`} → остання",
+  "file": "js/pages/analysis.js"
+ },
+ {
+  "re": "^Середнє перших (.+?)$",
+  "src": "Середнє перших ${sp.firstN}",
+  "file": "js/pages/analysis.js"
+ },
+ {
   "re": "^Перевірені тексти \\(останні (.+?)\\), бали з 10$",
   "src": "Перевірені тексти (останні ${Math.min(5, w.checks)}), бали з 10",
   "file": "js/pages/analysis.js"
@@ -1011,7 +1161,12 @@
  },
  {
   "re": "^утримання за 30 дн\\.(.+?)$",
-  "src": "утримання за 30 дн.${v.retPrev.pct != null && v.retPrev.n >= 20 ?",
+  "src": "утримання за 30 дн.${v.retPrev.pct != null && v.retPrev.n >= 20 ? ` (було ${v.retPrev.pct}%)` : ''}",
+  "file": "js/pages/analysis.js"
+ },
+ {
+  "re": "^\\(було (.+?)%\\)$",
+  "src": "(було ${v.retPrev.pct}%)",
   "file": "js/pages/analysis.js"
  },
  {
@@ -1051,7 +1206,12 @@
  },
  {
   "re": "^нових за 14 дн\\.(.+?)$",
-  "src": "нових за 14 дн.${m.newPrev14 || m.new14 ?",
+  "src": "нових за 14 дн.${m.newPrev14 || m.new14 ? ` (було ${m.newPrev14})` : ''}",
+  "file": "js/pages/analysis.js"
+ },
+ {
+  "re": "^\\(було (.+?)\\)$",
+  "src": "(було ${m.newPrev14})",
   "file": "js/pages/analysis.js"
  },
  {
@@ -1123,6 +1283,11 @@
   "re": "^Щонайменше (.+?) символів — двічі однаково$",
   "src": "Щонайменше ${MIN_LEN} символів — двічі однаково",
   "file": "js/pages/auth.js"
+ },
+ {
+  "re": "^· вивчено (.+?)$",
+  "src": "· вивчено ${got}",
+  "file": "js/pages/cards.js"
  },
  {
   "re": "^Колода (.+?)$",
@@ -1265,8 +1430,18 @@
   "file": "js/pages/chats.js"
  },
  {
+  "re": "^(.+?) (.+?)(.+?)$",
+  "src": "${members.size} ${members.size < 5 ? 'учасники' : 'учасників'}${online.length ? ` · ${online.length} у мережі` : ` · ${others.slice(0, 3).map(m => m.name).join(', ')}${others.length > 3 ? '…' : ''}`}",
+  "file": "js/pages/chats.js"
+ },
+ {
+  "re": "^· (.+?) у мережі$",
+  "src": "· ${online.length} у мережі",
+  "file": "js/pages/chats.js"
+ },
+ {
   "re": "^Ви: (.+?) з (.+?)(.+?)$",
-  "src": "Ви: ${mine?.value ?? 0} з ${c.target}${leader && !leader.me && leader.value > 0 ?",
+  "src": "Ви: ${mine?.value ?? 0} з ${c.target}${leader && !leader.me && leader.value > 0 ? ` · ${leader.name}: ${leader.value}` : ''}",
   "file": "js/pages/chats.js"
  },
  {
@@ -1380,8 +1555,18 @@
   "file": "js/pages/chats.js"
  },
  {
-  "re": "^\\} на дуель · рівень (.+?)(.+?)$",
-  "src": "} на дуель · рівень ${lvLabel(m.meta?.level)}${played.length ?",
+  "re": "^(.+?) на дуель · рівень (.+?)(.+?)$",
+  "src": "${mine ? 'Ви кличете' : `${m.meta?.name || nameOf(m.user_id)} кличе`} на дуель · рівень ${lvLabel(m.meta?.level)}${played.length ? ` · зіграли ${played.length}` : ''}",
+  "file": "js/pages/chats.js"
+ },
+ {
+  "re": "^(.+?) кличе$",
+  "src": "${m.meta?.name || nameOf(m.user_id)} кличе",
+  "file": "js/pages/chats.js"
+ },
+ {
+  "re": "^· зіграли (.+?)$",
+  "src": "· зіграли ${played.length}",
   "file": "js/pages/chats.js"
  },
  {
@@ -1390,8 +1575,18 @@
   "file": "js/pages/chats.js"
  },
  {
-  "re": "^\\} виклик на 7 днів(.+?)$",
-  "src": "} виклик на 7 днів${c ?",
+  "re": "^(.+?) виклик на 7 днів(.+?)$",
+  "src": "${mine ? 'Ви почали' : `${m.meta?.name || nameOf(m.user_id)} пропонує`} виклик на 7 днів${c ? ` · ${c.people.filter(p => p.value >= c.target).length} з ${c.people.length} виконали` : ''}",
+  "file": "js/pages/chats.js"
+ },
+ {
+  "re": "^(.+?) пропонує$",
+  "src": "${m.meta?.name || nameOf(m.user_id)} пропонує",
+  "file": "js/pages/chats.js"
+ },
+ {
+  "re": "^· (.+?) з (.+?) виконали$",
+  "src": "· ${c.people.filter(p => p.value >= c.target).length} з ${c.people.length} виконали",
   "file": "js/pages/chats.js"
  },
  {
@@ -1411,7 +1606,7 @@
  },
  {
   "re": "^Вивчено \\(ви їх уже вживаєте\\): (.+?)(.+?)$",
-  "src": "Вивчено (ви їх уже вживаєте): ${list.slice(0, 4).map(u => u.en).join(', ')}${list.length > 4 ?",
+  "src": "Вивчено (ви їх уже вживаєте): ${list.slice(0, 4).map(u => u.en).join(', ')}${list.length > 4 ? ` і ще ${list.length - 4}` : ''}",
   "file": "js/pages/diary.js"
  },
  {
@@ -1497,6 +1692,11 @@
  {
   "re": "^Рівень (.+?)$",
   "src": "Рівень ${lvLabel(myLevel())}",
+  "file": "js/pages/exercises.js"
+ },
+ {
+  "re": "^слабке місце: (.+?)$",
+  "src": "слабке місце: ${l.ruleLabel}",
   "file": "js/pages/exercises.js"
  },
  {
@@ -1786,7 +1986,7 @@
  },
  {
   "re": "^(.+?) запрошує · (.+?) (?:учасник|учасники|учасників)(.+?)$",
-  "src": "${g.from} запрошує · ${g.members} ${plural(g.members, 'учасник', 'учасники', 'учасників')}${names ?",
+  "src": "${g.from} запрошує · ${g.members} ${plural(g.members, 'учасник', 'учасники', 'учасників')}${names ? `: ${names}` : ''}",
   "file": "js/pages/friends.js"
  },
  {
@@ -1910,8 +2110,8 @@
   "file": "js/pages/home.js"
  },
  {
-  "re": "^(.+?): (.+?)$",
-  "src": "${s.title}: ${state === 'done' ? 'готово' : state === 'skipped' ? 'після входу' : state === 'next' ?",
+  "re": "^далі, (.+?)$",
+  "src": "далі, ${meta}",
   "file": "js/pages/home.js"
  },
  {
@@ -1932,6 +2132,11 @@
  {
   "re": "^Виконано днів: (.+?) з 7$",
   "src": "Виконано днів: ${sp.days.filter(Boolean).length} з 7",
+  "file": "js/pages/home.js"
+ },
+ {
+  "re": "^· (.+?) хв$",
+  "src": "· ${sp.next.minutes} хв",
   "file": "js/pages/home.js"
  },
  {
@@ -1971,7 +2176,12 @@
  },
  {
   "re": "^Уроки (.+?)/(.+?) · слова (.+?)/(.+?)(.+?)$",
-  "src": "Уроки ${lp.grammar.done}/${lp.grammar.total} · слова ${lp.words.done}/${lp.words.total}${!lp.ready && lvl !== nxt ?",
+  "src": "Уроки ${lp.grammar.done}/${lp.grammar.total} · слова ${lp.words.done}/${lp.words.total}${!lp.ready && lvl !== nxt ? ` · ≈ ${levelPlan(lp).weeks} тиж.` : ''}",
+  "file": "js/pages/home.js"
+ },
+ {
+  "re": "^· ≈ (.+?) тиж\\.$",
+  "src": "· ≈ ${levelPlan(lp).weeks} тиж.",
   "file": "js/pages/home.js"
  },
  {
@@ -1995,13 +2205,23 @@
   "file": "js/pages/home.js"
  },
  {
+  "re": "^· закрито (.+?)$",
+  "src": "· закрито ${p.closedThisWeek}",
+  "file": "js/pages/home.js"
+ },
+ {
   "re": "^Правило (.+?): (.+?), (.+?), засвоєння (.+?) з 3$",
   "src": "Правило ${i + 1}: ${p.label}, ${nMistakes(p.openNow)}, засвоєння ${p.streakMin} з 3",
   "file": "js/pages/home.js"
  },
  {
-  "re": "^\\} · закрито (.+?) з (.+?)$",
-  "src": "} · закрито ${doneN} з ${pr.length}",
+  "re": "^(.+?) · закрито (.+?) з (.+?)$",
+  "src": "${left === 1 ? 'Останній день тижня' : `Ще ${left} ${plural(left, 'день', 'дні', 'днів')}`} · закрито ${doneN} з ${pr.length}",
+  "file": "js/pages/home.js"
+ },
+ {
+  "re": "^Ще (.+?) (?:день|дні|днів)$",
+  "src": "Ще ${left} ${plural(left, 'день', 'дні', 'днів')}",
   "file": "js/pages/home.js"
  },
  {
@@ -2070,8 +2290,13 @@
   "file": "js/pages/levelexam.js"
  },
  {
-  "re": "^(.+?) (?:слово|слова|слів) ще не закріплено(.+?)$",
-  "src": "${words.open.length} ${plural(words.open.length, 'слово', 'слова', 'слів')} ще не закріплено${words.open.length > MAX_WORDS ?",
+  "re": "^(.+?) (?:слово|слова|слів) ще не закріплено(.+?) · правильні — одразу вивчені$",
+  "src": "${words.open.length} ${plural(words.open.length, 'слово', 'слова', 'слів')} ще не закріплено${words.open.length > MAX_WORDS ? ` · у тесті ${MAX_WORDS}` : ''} · правильні — одразу вивчені",
+  "file": "js/pages/levelexam.js"
+ },
+ {
+  "re": "^· у тесті (.+?)$",
+  "src": "· у тесті ${MAX_WORDS}",
   "file": "js/pages/levelexam.js"
  },
  {
@@ -2141,7 +2366,12 @@
  },
  {
   "re": "^(.+?), (.+?) · (.+?) слів(.+?)$",
-  "src": "${b.author}, ${b.year} · ${b.words} слів${done ?",
+  "src": "${b.author}, ${b.year} · ${b.words} слів${done ? ` · прочитано ${done} з ${n} розділів` : ''}",
+  "file": "js/pages/library.js"
+ },
+ {
+  "re": "^· прочитано (.+?) з (.+?) розділів$",
+  "src": "· прочитано ${done} з ${n} розділів",
   "file": "js/pages/library.js"
  },
  {
@@ -2182,6 +2412,11 @@
  {
   "re": "^Прочитано (.+?) з (.+?)$",
   "src": "Прочитано ${done} з ${n}",
+  "file": "js/pages/library.js"
+ },
+ {
+  "re": "^(.+?), (.+?)(.+?)\\. Текст — суспільне надбання; видання Standard Ebooks\\.$",
+  "src": "${b.author}, ${b.year}${b.note ? ` · ${b.note}` : ''}. Текст — суспільне надбання; видання Standard Ebooks.",
   "file": "js/pages/library.js"
  },
  {
@@ -2232,11 +2467,6 @@
  {
   "re": "^8 нових речень · рівень (.+?)$",
   "src": "8 нових речень · рівень ${lvLabel(level)}",
-  "file": "js/pages/listening.js"
- },
- {
-  "re": "^Речення (.+?) з (.+?)$",
-  "src": "Речення ${i + 1} з ${items.length}",
   "file": "js/pages/listening.js"
  },
  {
@@ -2351,7 +2581,12 @@
  },
  {
   "re": "^«(.+?)» почекає наступного тижня, натомість — «(.+?)»\\. (.+?)$",
-  "src": "«${p.label}» почекає наступного тижня, натомість — «${ruleLabel(nx.rule)}». ${left ?",
+  "src": "«${p.label}» почекає наступного тижня, натомість — «${ruleLabel(nx.rule)}». ${left ? `Після цього лишиться ще ${left} ${plural(left, 'заміна', 'заміни', 'замін')}.` : 'Це остання заміна цього тижня.'}",
+  "file": "js/pages/mistakes.js"
+ },
+ {
+  "re": "^Після цього лишиться ще (.+?) (?:заміна|заміни|замін)\\.$",
+  "src": "Після цього лишиться ще ${left} ${plural(left, 'заміна', 'заміни', 'замін')}.",
   "file": "js/pages/mistakes.js"
  },
  {
@@ -2496,7 +2731,12 @@
  },
  {
   "re": "^Що вчитель пам'ятає(.+?)$",
-  "src": "Що вчитель пам'ятає${facts.length ?",
+  "src": "Що вчитель пам'ятає${facts.length ? ` · ${facts.length} з ${MEM_CAP}` : ''}",
+  "file": "js/pages/profile.js"
+ },
+ {
+  "re": "^· (.+?) з (.+?)$",
+  "src": "· ${facts.length} з ${MEM_CAP}",
   "file": "js/pages/profile.js"
  },
  {
@@ -2631,7 +2871,7 @@
  },
  {
   "re": "^Хвилини по днях цього тижня: (.+?)$",
-  "src": "Хвилини по днях цього тижня: ${days.map((d, i) =>",
+  "src": "Хвилини по днях цього тижня: ${days.map((d, i) => `${d.name} ${Math.round(sec[i] / 60)}`).join(', ')}",
   "file": "js/pages/progress.js"
  },
  {
@@ -2656,7 +2896,7 @@
  },
  {
   "re": "^Мінімальна пара (.+?)/(.+?)(.+?)$",
-  "src": "Мінімальна пара ${p.a}/${p.b}${p.tip ?",
+  "src": "Мінімальна пара ${p.a}/${p.b}${p.tip ? `: ${p.tip}` : ''}",
   "file": "js/pages/pronunciation.js"
  },
  {
@@ -2671,7 +2911,12 @@
  },
  {
   "re": "^(.+?) год (.+?)$",
-  "src": "${Math.floor(m / 60)} год ${m % 60 ?",
+  "src": "${Math.floor(m / 60)} год ${m % 60 ? `${m % 60} хв` : ''}",
+  "file": "js/pages/reading.js"
+ },
+ {
+  "re": "^· прочитано, найкращий результат (.+?)%$",
+  "src": "· прочитано, найкращий результат ${p.best}%",
   "file": "js/pages/reading.js"
  },
  {
@@ -2701,7 +2946,12 @@
  },
  {
   "re": "^(.+?) (?:питання|питання|питань) до тексту(.+?)$",
-  "src": "${nQ} ${plural(nQ, 'питання', 'питання', 'питань')} до тексту${progressOf(t.id) ?",
+  "src": "${nQ} ${plural(nQ, 'питання', 'питання', 'питань')} до тексту${progressOf(t.id) ? ` · найкраще: ${progressOf(t.id).best}%` : ''}",
+  "file": "js/pages/reading.js"
+ },
+ {
+  "re": "^· найкраще: (.+?)%$",
+  "src": "· найкраще: ${progressOf(t.id).best}%",
   "file": "js/pages/reading.js"
  },
  {
@@ -2761,7 +3011,7 @@
  },
  {
   "re": "^Хвилини по днях: (.+?)$",
-  "src": "Хвилини по днях: ${M.days.filter(d => !d.future).map(d =>",
+  "src": "Хвилини по днях: ${M.days.filter(d => !d.future).map(d => `${d.day} — ${Math.round(d.sec / 60)}`).join(', ')}",
   "file": "js/pages/report.js"
  },
  {
@@ -2777,6 +3027,11 @@
  {
   "re": "^(.+?) слів/хв · (.+?) (?:розмова|розмови|розмов)$",
   "src": "${sp.latest?.wpm ?? '—'} слів/хв · ${sp.n} ${plural(sp.n, 'розмова', 'розмови', 'розмов')}",
+  "file": "js/pages/report.js"
+ },
+ {
+  "re": "^Середнє перших (.+?) розмов місяця$",
+  "src": "Середнє перших ${sp.firstN} розмов місяця",
   "file": "js/pages/report.js"
  },
  {
@@ -2821,12 +3076,17 @@
  },
  {
   "re": "^• Розмов із вчителем: (.+?)(.+?)$",
-  "src": "• Розмов із вчителем: ${M.voice + M.text}${M.voice ?",
+  "src": "• Розмов із вчителем: ${M.voice + M.text}${M.voice ? ` (голосом — ${M.voice})` : ''}",
+  "file": "js/pages/report.js"
+ },
+ {
+  "re": "^\\(голосом — (.+?)\\)$",
+  "src": "(голосом — ${M.voice})",
   "file": "js/pages/report.js"
  },
  {
   "re": "^• Рівень у розмовах: (.+?)$",
-  "src": "• Рівень у розмовах: ${M.level.last ?",
+  "src": "• Рівень у розмовах: ${M.level.last ? `${lvTxt(M.level.first)} → ${lvTxt(M.level.last)}` : lvTxt(M.level.first)}",
   "file": "js/pages/report.js"
  },
  {
@@ -2846,7 +3106,12 @@
  },
  {
   "re": "^Сценарій дня · (.+?)$",
-  "src": "Сценарій дня · ${day.short ||",
+  "src": "Сценарій дня · ${day.short || `рівень ${day.level}`}",
+  "file": "js/pages/scenarios.js"
+ },
+ {
+  "re": "^рівень (.+?)$",
+  "src": "рівень ${day.level}",
   "file": "js/pages/scenarios.js"
  },
  {
@@ -3121,12 +3386,7 @@
  },
  {
   "re": "^Історія(.+?)$",
-  "src": "Історія${list.length ?",
-  "file": "js/pages/tutor.js"
- },
- {
-  "re": "^(.+?)(.+?)$",
-  "src": "${new Date(c.created_at).toLocaleDateString('uk-UA', { day: 'numeric', month: 'short' })}${c.mode === 'coach' ? ' · консультація' :",
+  "src": "Історія${list.length ? ` · ${list.length}` : ''}",
   "file": "js/pages/tutor.js"
  },
  {
@@ -3160,8 +3420,158 @@
   "file": "js/pages/tutor.js"
  },
  {
+  "re": "^Консультація: (.+?)$",
+  "src": "Консультація: ${COACH_SECTIONS[section]}",
+  "file": "js/pages/tutor.js"
+ },
+ {
+  "re": "^Консультація · (.+?)$",
+  "src": "Консультація · ${COACH_SECTIONS[section]}",
+  "file": "js/pages/tutor.js"
+ },
+ {
+  "re": "^Тренування: (.+?)$",
+  "src": "Тренування: ${typeLabel || 'слабке місце'}",
+  "file": "js/pages/tutor.js"
+ },
+ {
+  "re": "^Слово: (.+?)$",
+  "src": "Слово: ${opts.ask}",
+  "file": "js/pages/tutor.js"
+ },
+ {
+  "re": "^Виправлення(.+?)$",
+  "src": "Виправлення${m.fixes.length > 1 ? ` · ${m.fixes.length}` : ''}",
+  "file": "js/pages/tutor.js"
+ },
+ {
+  "re": "^Підставити питання: (.+?)$",
+  "src": "Підставити питання: ${s}",
+  "file": "js/pages/tutor.js"
+ },
+ {
+  "re": "^Підставити відповідь: (.+?)$",
+  "src": "Підставити відповідь: ${s}",
+  "file": "js/pages/tutor.js"
+ },
+ {
   "re": "^Розмова: (.+?)$",
   "src": "Розмова: ${t.label}",
+  "file": "js/pages/tutor.js"
+ },
+ {
+  "re": "^(.+?) — вивчено\\. Повернути до вивчення$",
+  "src": "${u.en} — вивчено. Повернути до вивчення",
+  "file": "js/pages/tutor.js"
+ },
+ {
+  "re": "^(.+?) — повернуто до вивчення$",
+  "src": "${u.en} — повернуто до вивчення",
+  "file": "js/pages/tutor.js"
+ },
+ {
+  "re": "^«(.+?)» повернуто до вивчення$",
+  "src": "«${u.en}» повернуто до вивчення",
+  "file": "js/pages/tutor.js"
+ },
+ {
+  "re": "^«(.+?)» — знову вивчено$",
+  "src": "«${u.en}» — знову вивчено",
+  "file": "js/pages/tutor.js"
+ },
+ {
+  "re": "^Ви вже вживаєте ці слова · (.+?)$",
+  "src": "Ви вже вживаєте ці слова · ${list.length}",
+  "file": "js/pages/tutor.js"
+ },
+ {
+  "re": "^Додати всі в картки \\((.+?)\\)$",
+  "src": "Додати всі в картки (${left})",
+  "file": "js/pages/tutor.js"
+ },
+ {
+  "re": "^Додати решту в картки \\((.+?)\\)$",
+  "src": "Додати решту в картки (${left})",
+  "file": "js/pages/tutor.js"
+ },
+ {
+  "re": "^Додано в картки автоматично: (.+?)$",
+  "src": "Додано в картки автоматично: ${nAuto}",
+  "file": "js/pages/tutor.js"
+ },
+ {
+  "re": "^Прибрано з карток: (.+?)$",
+  "src": "Прибрано з карток: ${w.en}",
+  "file": "js/pages/tutor.js"
+ },
+ {
+  "re": "^Прибрати з карток: (.+?)$",
+  "src": "Прибрати з карток: ${w.en}",
+  "file": "js/pages/tutor.js"
+ },
+ {
+  "re": "^Ще (.+?) (?:слово|слова|слів)$",
+  "src": "Ще ${words.length - SHOW} ${plural(words.length - SHOW, 'слово', 'слова', 'слів')}",
+  "file": "js/pages/tutor.js"
+ },
+ {
+  "re": "^Тривалість: (.+?)$",
+  "src": "Тривалість: ${fmtMin(row.seconds || 0)}",
+  "file": "js/pages/tutor.js"
+ },
+ {
+  "re": "^Ще (.+?) (?:помилка|помилки|помилок)$",
+  "src": "Ще ${mistakes.length - M_SHOW} ${plural(mistakes.length - M_SHOW, 'помилка', 'помилки', 'помилок')}",
+  "file": "js/pages/tutor.js"
+ },
+ {
+  "re": "^Нові слова · (.+?)$",
+  "src": "Нові слова · ${words.length}",
+  "file": "js/pages/tutor.js"
+ },
+ {
+  "re": "^Сьогодні вже додано (.+?) слів автоматично — решту можна додати вручну\\.$",
+  "src": "Сьогодні вже додано ${AUTO_PER_DAY} слів автоматично — решту можна додати вручну.",
+  "file": "js/pages/tutor.js"
+ },
+ {
+  "re": "^(.+?) (?:слово|слова|слів) з карток у розмові$",
+  "src": "${s.practised_words.length} ${plural(s.practised_words.length, 'слово', 'слова', 'слів')} з карток у розмові",
+  "file": "js/pages/tutor.js"
+ },
+ {
+  "re": "^Зберегти всі(.+?) \\((.+?)\\)$",
+  "src": "Зберегти всі${left < items.length ? ' решту' : ''} (${left})",
+  "file": "js/pages/tutor.js"
+ },
+ {
+  "re": "^(.+?) — уже у фразнику$",
+  "src": "${x.en} — уже у фразнику",
+  "file": "js/pages/tutor.js"
+ },
+ {
+  "re": "^У фразник: (.+?)$",
+  "src": "У фразник: ${x.en}",
+  "file": "js/pages/tutor.js"
+ },
+ {
+  "re": "^Фрази з розмови · (.+?)$",
+  "src": "Фрази з розмови · ${items.length}",
+  "file": "js/pages/tutor.js"
+ },
+ {
+  "re": "^у фразник · (.+?)$",
+  "src": "у фразник · ${phraseSit(sit).uk}",
+  "file": "js/pages/tutor.js"
+ },
+ {
+  "re": "^Засвоєно · (.+?)$",
+  "src": "Засвоєно · ${items.length}",
+  "file": "js/pages/tutor.js"
+ },
+ {
+  "re": "^Правильно поспіль: (.+?) з 3$",
+  "src": "Правильно поспіль: ${n} з 3",
   "file": "js/pages/tutor.js"
  },
  {
@@ -3175,8 +3585,63 @@
   "file": "js/pages/tutor.js"
  },
  {
+  "re": "^(.+?)(.+?) (?:слово|слова|слів)$",
+  "src": "${wpm > 0 ? `${Math.round(wpm)} слів/хв · ` : ''}${words} ${plural(words, 'слово', 'слова', 'слів')}",
+  "file": "js/pages/tutor.js"
+ },
+ {
   "re": "^(.+?) слів/хв ·$",
   "src": "${Math.round(wpm)} слів/хв ·",
+  "file": "js/pages/tutor.js"
+ },
+ {
+  "re": "^(.+?)Типово для тих, хто вчить мову, — 60–110 слів/хв\\.$",
+  "src": "${told}Типово для тих, хто вчить мову, — 60–110 слів/хв.",
+  "file": "js/pages/tutor.js"
+ },
+ {
+  "re": "^Перевірити вимову \\((.+?) (?:репліка|репліки|реплік)\\)$",
+  "src": "Перевірити вимову (${turns.length} ${plural(turns.length, 'репліка', 'репліки', 'реплік')})",
+  "file": "js/pages/tutor.js"
+ },
+ {
+  "re": "^· слова: (.+?)$",
+  "src": "· слова: ${(res.words || []).filter(w => w.status !== 'ok').map(w => w.word).join(', ')}",
+  "file": "js/pages/tutor.js"
+ },
+ {
+  "re": "^(.+?) (?:репліка|репліки|реплік) · AI оцінить кожне слово$",
+  "src": "${turns.length} ${plural(turns.length, 'репліка', 'репліки', 'реплік')} · AI оцінить кожне слово",
+  "file": "js/pages/tutor.js"
+ },
+ {
+  "re": "^за останніми (.+?) (?:розмовою|розмовами|розмовами) · (.+?), (.+?)$",
+  "src": "за останніми ${r.sessions} ${plural(r.sessions, 'розмовою', 'розмовами', 'розмовами')} · ${SUB_UK[r.sublevel]}, ${CONF_UK[r.confidence]}",
+  "file": "js/pages/tutor.js"
+ },
+ {
+  "re": "^Оцінка рівня · (.+?)$",
+  "src": "Оцінка рівня · ${levelLabel(s)}",
+  "file": "js/pages/tutor.js"
+ },
+ {
+  "re": "^Завдання: (.+?)$",
+  "src": "Завдання: ${q.task}",
+  "file": "js/pages/tutor.js"
+ },
+ {
+  "re": "^Перевірка: (.+?)…$",
+  "src": "Перевірка: ${text.slice(0, 40)}…",
+  "file": "js/pages/tutor.js"
+ },
+ {
+  "re": "^(.+?) (?:виправлення|виправлення|виправлень) — уже в «Моїх помилках»$",
+  "src": "${fixes.length} ${plural(fixes.length, 'виправлення', 'виправлення', 'виправлень')} — уже в «Моїх помилках»",
+  "file": "js/pages/tutor.js"
+ },
+ {
+  "re": "^Виправлення · (.+?)$",
+  "src": "Виправлення · ${fixes.length}",
   "file": "js/pages/tutor.js"
  },
  {
@@ -3300,6 +3765,11 @@
   "file": "js/pages/wordtrain.js"
  },
  {
+  "re": "^· комбо ×(.+?)$",
+  "src": "· комбо ×${maxCombo}",
+  "file": "js/pages/wordtrain.js"
+ },
+ {
   "re": "^рівень (.+?) · (.+?) (?:слово|слова|слів) · 3 запитання$",
   "src": "рівень ${lvLabel(myLevel())} · ${words.length} ${plural(words.length, 'слово', 'слова', 'слів')} · 3 запитання",
   "file": "js/pages/wordtrain.js"
@@ -3317,6 +3787,11 @@
  {
   "re": "^Завдання дня · (.+?) · (.+?) слів$",
   "src": "Завдання дня · ${day.kindLabel} · ${day.words} слів",
+  "file": "js/pages/writing.js"
+ },
+ {
+  "re": "^· треба (.+?)$",
+  "src": "· треба ${t.words}",
   "file": "js/pages/writing.js"
  },
  {
@@ -3340,33 +3815,73 @@
   "file": "js/pdfreport.js"
  },
  {
-  "re": "^(.+?) (?:голосова розмова|голосові розмови|голосових розмов) і (.+?) текстових за місяць\\. (.+?)$",
-  "src": "${R.voice} ${plural(R.voice, 'голосова розмова', 'голосові розмови', 'голосових розмов')} і ${R.text} текстових за місяць. ${conv ?",
+  "re": "^(.+?) (?:голосова розмова|голосові розмови|голосових розмов) і (.+?) текстових за місяць\\. (.+?) (.+?)$",
+  "src": "${R.voice} ${plural(R.voice, 'голосова розмова', 'голосові розмови', 'голосових розмов')} і ${R.text} текстових за місяць. ${conv ? `Вчитель оцінює мовлення на ${lvTxt(conv)}${conv.confidence === 'low' ? ' (оцінка поки непевна — замало мовлення)' : ''}.` : ''} ${SP.n >= 2 && SP.latest?.wpm ? `Темп — близько ${SP.latest.wpm} слів за хвилину.` : ''}",
   "file": "js/pdfreport.js"
  },
  {
-  "re": "^У роботі (.+?) (?:слово|слова|слів), закріплено (.+?)\\. (.+?)$",
-  "src": "У роботі ${V.inWork} ${plural(V.inWork, 'слово', 'слова', 'слів')}, закріплено ${V.solid}. ${R.words.started ?",
+  "re": "^Вчитель оцінює мовлення на (.+?)(.+?)\\.$",
+  "src": "Вчитель оцінює мовлення на ${lvTxt(conv)}${conv.confidence === 'low' ? ' (оцінка поки непевна — замало мовлення)' : ''}.",
   "file": "js/pdfreport.js"
  },
  {
-  "re": "^За місяць зараховано (.+?) (?:урок|уроки|уроків)(.+?)$",
-  "src": "За місяць зараховано ${doneMonth} ${plural(doneMonth, 'урок', 'уроки', 'уроків')}${lp ?",
+  "re": "^Темп — близько (.+?) слів за хвилину\\.$",
+  "src": "Темп — близько ${SP.latest.wpm} слів за хвилину.",
   "file": "js/pdfreport.js"
  },
  {
-  "re": "^: ''\\}\\. Середній найкращий бал у вправах — (.+?)%\\.(.+?)$",
-  "src": ": ''}. Середній найкращий бал у вправах — ${G.avgBest}%.${G.low.length ?",
+  "re": "^У роботі (.+?) (?:слово|слова|слів), закріплено (.+?)\\. (.+?)(.+?)$",
+  "src": "У роботі ${V.inWork} ${plural(V.inWork, 'слово', 'слова', 'слів')}, закріплено ${V.solid}. ${R.words.started ? `За місяць почато ${R.words.started} нових. ` : ''}${ret != null ? `Під час повторення згадує ${ret}% вивчених слів${ret < 75 ? ' — варто брати менше нових і частіше повторювати' : ''}.` : ''}",
+  "file": "js/pdfreport.js"
+ },
+ {
+  "re": "^За місяць почато (.+?) нових\\.$",
+  "src": "За місяць почато ${R.words.started} нових.",
+  "file": "js/pdfreport.js"
+ },
+ {
+  "re": "^Під час повторення згадує (.+?)% вивчених слів(.+?)\\.$",
+  "src": "Під час повторення згадує ${ret}% вивчених слів${ret < 75 ? ' — варто брати менше нових і частіше повторювати' : ''}.",
+  "file": "js/pdfreport.js"
+ },
+ {
+  "re": "^За місяць зараховано (.+?) (?:урок|уроки|уроків)(.+?)\\. Середній найкращий бал у вправах — (.+?)%\\.(.+?)$",
+  "src": "За місяць зараховано ${doneMonth} ${plural(doneMonth, 'урок', 'уроки', 'уроків')}${lp ? `; рівень ${lvLabel(lp.level)}: ${lp.grammar.done} з ${lp.grammar.total}` : ''}. Середній найкращий бал у вправах — ${G.avgBest}%.${G.low.length ? ` Слабкі уроки: ${G.low.slice(0, 2).map(x => `«${x.title}»`).join(', ')}.` : ''}",
+  "file": "js/pdfreport.js"
+ },
+ {
+  "re": "^; рівень (.+?): (.+?) з (.+?)$",
+  "src": "; рівень ${lvLabel(lp.level)}: ${lp.grammar.done} з ${lp.grammar.total}",
+  "file": "js/pdfreport.js"
+ },
+ {
+  "re": "^Слабкі уроки: (.+?)\\.$",
+  "src": "Слабкі уроки: ${G.low.slice(0, 2).map(x => `«${x.title}»`).join(', ')}.",
   "file": "js/pdfreport.js"
  },
  {
   "re": "^За місяць нових — (.+?), закрито — (.+?) \\(закрита помилка — правильне вживання кілька разів у різні дні\\)\\. (.+?)$",
-  "src": "За місяць нових — ${a}, закрито — ${c} (закрита помилка — правильне вживання кілька разів у різні дні). ${MK.recurring.length ?",
+  "src": "За місяць нових — ${a}, закрито — ${c} (закрита помилка — правильне вживання кілька разів у різні дні). ${MK.recurring.length ? `Найстійкіша: «${clean(MK.recurring[0].wrong)}» → «${clean(MK.recurring[0].right)}».` : ''}",
   "file": "js/pdfreport.js"
  },
  {
-  "re": "^\\} — (.+?) (?:хвилина|хвилини|хвилин) англійської за (.+?) (?:день|дні|днів)\\.$",
-  "src": "} — ${min} ${plural(min, 'хвилина', 'хвилини', 'хвилин')} англійської за ${R.activeDays} ${plural(R.activeDays, 'день', 'дні', 'днів')}.",
+  "re": "^Найстійкіша: «(.+?)» → «(.+?)»\\.$",
+  "src": "Найстійкіша: «${clean(MK.recurring[0].wrong)}» → «${clean(MK.recurring[0].right)}».",
+  "file": "js/pdfreport.js"
+ },
+ {
+  "re": "^(.+?) занять не було\\.$",
+  "src": "${R.cur ? 'Цього місяця' : `У ${MONTH_IN[R.monthIdx]}`} занять не було.",
+  "file": "js/pdfreport.js"
+ },
+ {
+  "re": "^У (.+?)$",
+  "src": "У ${MONTH_IN[R.monthIdx]}",
+  "file": "js/pdfreport.js"
+ },
+ {
+  "re": "^(.+?) — (.+?) (?:хвилина|хвилини|хвилин) англійської за (.+?) (?:день|дні|днів)\\.$",
+  "src": "${R.cur ? 'Цього місяця' : `У ${MONTH_IN[R.monthIdx]}`} — ${min} ${plural(min, 'хвилина', 'хвилини', 'хвилин')} англійської за ${R.activeDays} ${plural(R.activeDays, 'день', 'дні', 'днів')}.",
   "file": "js/pdfreport.js"
  },
  {
@@ -3380,8 +3895,13 @@
   "file": "js/pdfreport.js"
  },
  {
-  "re": "^Рівень (.+?) \\(«(.+?)»\\) опановано на (.+?)%(.+?)$",
-  "src": "Рівень ${lvLabel(lvl)} («${LEVEL_NAME[lvl]}») опановано на ${lp.pct}%${lp.pct >= 80 ? ' — можна складати іспит рівня' : plan ?",
+  "re": "^Рівень (.+?) \\(«(.+?)»\\) опановано на (.+?)%(.+?)\\.$",
+  "src": "Рівень ${lvLabel(lvl)} («${LEVEL_NAME[lvl]}») опановано на ${lp.pct}%${lp.pct >= 80 ? ' — можна складати іспит рівня' : plan ? `; у теперішньому темпі до іспиту — близько ${plan.weeks} ${plural(plan.weeks, 'тижня', 'тижнів', 'тижнів')}` : ''}.",
+  "file": "js/pdfreport.js"
+ },
+ {
+  "re": "^; у теперішньому темпі до іспиту — близько (.+?) (?:тижня|тижнів|тижнів)$",
+  "src": "; у теперішньому темпі до іспиту — близько ${plan.weeks} ${plural(plan.weeks, 'тижня', 'тижнів', 'тижнів')}",
   "file": "js/pdfreport.js"
  },
  {
@@ -3410,8 +3930,8 @@
   "file": "js/pdfreport.js"
  },
  {
-  "re": "^Повторити уроки граматики з балом нижче 80%: (.+?)$",
-  "src": "Повторити уроки граматики з балом нижче 80%: ${G.low.slice(0, 3).map(x =>",
+  "re": "^Повторити уроки граматики з балом нижче 80%: (.+?)\\.$",
+  "src": "Повторити уроки граматики з балом нижче 80%: ${G.low.slice(0, 3).map(x => `«${x.title}»`).join(', ')}.",
   "file": "js/pdfreport.js"
  },
  {
@@ -3420,8 +3940,8 @@
   "file": "js/pdfreport.js"
  },
  {
-  "re": "^Відпрацювати правила з найбільшою кількістю помилок: (.+?)$",
-  "src": "Відпрацювати правила з найбільшою кількістю помилок: ${rules.map(g =>",
+  "re": "^Відпрацювати правила з найбільшою кількістю помилок: (.+?) \\(у «Моїх помилках» — кнопка практики\\)\\.$",
+  "src": "Відпрацювати правила з найбільшою кількістю помилок: ${rules.map(g => `«${g.label}»`).join(' і ')} (у «Моїх помилках» — кнопка практики).",
   "file": "js/pdfreport.js"
  },
  {
@@ -3521,7 +4041,7 @@
  },
  {
   "re": "^тест рівня, (.+?)(.+?)$",
-  "src": "тест рівня, ${dShort(PL.at)}${s.conf ?",
+  "src": "тест рівня, ${dShort(PL.at)}${s.conf ? ` · ${s.conf}` : ''}",
   "file": "js/pdfreport.js"
  },
  {
@@ -3556,12 +4076,17 @@
  },
  {
   "re": "^згадує при повторенні(.+?)$",
-  "src": "згадує при повторенні${V.retPrev.pct != null ?",
+  "src": "згадує при повторенні${V.retPrev.pct != null ? ` (було ${V.retPrev.pct}%)` : ''}",
   "file": "js/pdfreport.js"
  },
  {
   "re": "^забув (.+?) (?:раз|рази|разів)$",
   "src": "забув ${w.lapses} ${plural(w.lapses, 'раз', 'рази', 'разів')}",
+  "file": "js/pdfreport.js"
+ },
+ {
+  "re": "^· у середньому (.+?) слів$",
+  "src": "· у середньому ${WR.diaryWords} слів",
   "file": "js/pdfreport.js"
  },
  {
@@ -3576,7 +4101,7 @@
  },
  {
   "re": "^myEnglish · звіт вчителя за (.+?)(.+?)$",
-  "src": "myEnglish · звіт вчителя за ${R.title.toLowerCase()}${name ?",
+  "src": "myEnglish · звіт вчителя за ${R.title.toLowerCase()}${name ? ` · ${name}` : ''}",
   "file": "js/pdfreport.js"
  },
  {
@@ -3585,8 +4110,8 @@
   "file": "js/pdfreport.js"
  },
  {
-  "re": "^\\]/g, \"'\"\\)\\.replace\\(/\\\\s\\+/g, ' '\\)\\.trim\\(\\)\\.replace\\(/\\[\\.!\\?…\\]\\+\\$/, ''\\)\\.trim\\(\\);\nconst clean = \\(s, n = 200\\) => String\\(s \\?\\? ''\\)\\.replace\\(/\\\\s\\+/g, ' '\\)\\.trim\\(\\)\\.slice\\(0, n\\);\n\nexport const isPhrase = \\(c\\) => c\\?\\.extra\\?\\.kind === 'phrase' \\|\\| \\(Array\\.isArray\\(c\\?\\.tags\\) && c\\.tags\\.includes\\('phrase'\\)\\);\nexport const phraseSituation = \\(c\\) => \\{\n  const id = c\\?\\.extra\\?\\.situation \\|\\| \\(c\\?\\.tags \\|\\| \\[\\]\\)\\.find\\(t => String\\(t\\)\\.startsWith\\('sit:'\\)\\)\\?\\.slice\\(4\\);\n  return SITUATIONS\\.some\\(s => s\\.id === id\\) \\? id : 'other';\n\\};\n\n\nexport function allPhrases\\(\\) \\{\n  return store\\.all\\('cards'\\)\\.filter\\(isPhrase\\)\\.sort\\(\\(a, b\\) => String\\(b\\.created_at \\|\\| ''\\)\\.localeCompare\\(String\\(a\\.created_at \\|\\| ''\\)\\)\\);\n\\}\n\nexport function phrasesBySituation\\(\\) \\{\n  const m = new Map\\(\\);\n  for \\(const c of allPhrases\\(\\)\\) \\{\n    const id = phraseSituation\\(c\\);\n    if \\(!m\\.has\\(id\\)\\) m\\.set\\(id, \\[\\]\\);\n    m\\.get\\(id\\)\\.push\\(c\\);\n  \\}\n  return m;\n\\}\nexport function phraseCount\\(\\) \\{ return allPhrases\\(\\)\\.length; \\}\n\n\nconst KEYS = \\{\n  doctor: \\['лікар', 'аптек', 'хвор', 'болить', 'біль', 'симптом', 'рецепт', 'ліки', 'таблет', 'стоматолог', 'зуб', 'температур', 'лікарн', 'клінік', 'медсестр', 'doctor', 'gp', 'pharma', 'chemist', 'prescription', 'medicine', 'symptom', 'pain', 'hurt', 'sore', 'dentist', 'appointment', 'hospital', 'clinic', 'nurse', 'tablet', 'pill', 'sick', 'allerg', 'temperature'\\],\n  phone: \\['телефон', 'дзвін', 'дзвон', 'зателефон', 'подзвон', 'гаряча лінія', 'оператор', 'автовідповідач', 'phone', 'call', 'ring', 'voicemail', 'hold', 'speak to', 'line', 'message'\\],\n  shop: \\['магазин', 'покуп', 'чек', 'повернен', 'обмін', 'розмір', 'знижк', 'ремонт', 'перукар', 'сервіс', 'доставк', 'гарантій', 'shop', 'store', 'receipt', 'refund', 'return', 'exchange', 'size', 'discount', 'repair', 'haircut', 'delivery', 'warranty', 'checkout', 'till', 'buy', 'price'\\],\n  cafe: \\['кафе', \"кав'ярн\", 'кава', 'каву', 'ресторан', 'замов', 'офіціант', 'меню', 'столик', 'рахунок', 'бар', 'їж', 'обід', 'вечер', 'cafe', 'café', 'coffee', 'restaurant', 'order', 'waiter', 'menu', 'table', 'bill', 'bar', 'lunch', 'dinner', 'tea', 'food', 'drink'\\],\n  travel: \\['поїзд', 'потяг', 'квиток', 'аеропорт', 'літак', 'рейс', 'готел', 'автобус', 'таксі', 'метро', 'вокзал', 'подорож', 'багаж', 'кордон', 'паспорт', 'маршрут', 'дорог', 'train', 'ticket', 'airport', 'flight', 'plane', 'hotel', 'bus', 'taxi', 'tube', 'underground', 'station', 'travel', 'trip', 'luggage', 'baggage', 'passport', 'check-in', 'platform', 'directions', 'journey', 'booking'\\],\n  home: \\['житл', 'квартир', 'сусід', 'орендодав', 'оренд', 'будинок', 'кімнат', 'ремонт квартири', 'сантехнік', 'комунальн', 'flat', 'apartment', 'neighbour', 'neighbor', 'landlord', 'rent', 'tenant', 'house', 'room', 'plumber', 'heating', 'leak', 'noise', 'bills'\\],\n  work: \\['робот', 'нарад', 'колег', 'співбесід', 'начальник', 'керівник', 'проєкт', 'офіс', 'зміна', 'зарплат', 'work', 'job', 'meeting', 'colleague', 'interview', 'manager', 'boss', 'project', 'deadline', 'shift', 'salary', 'team', 'client'\\],\n  smalltalk: \\['знайом', 'small talk', 'погод', 'вихідн', 'хобі', 'вечірк', 'друз', 'привіт', 'розмова з', 'nice to meet', 'weather', 'weekend', 'hobby', 'party', 'friend', 'introduce', 'where are you from', 'chat'\\],\n  office: \\['банк', 'пошт', 'посилк', 'документ', 'рахун', 'картк', 'переказ', 'реєстрац', 'державн', 'установ', 'анкет', 'форм', 'віз', 'дозвіл', 'bank', 'post', 'parcel', 'document', 'account', 'card', 'transfer', 'register', 'council', 'form', 'visa', 'permit', 'id', 'certificate', 'office'\\],\n\\};\n\nconst W = \"a-zа-яіїєґ'\";\nconst reCache = new Map\\(\\);\nfunction keyRe\\(w\\) \\{\n  if \\(!reCache\\.has\\(w\\)\\) \\{\n    const e = w\\.replace\\(/\\[\\.\\*\\+\\?\\^(.+?)\\(\\)\\|\\[\\\\\\]\\\\\\]/g, '\\\\\\$&'\\);\n    const tail = w\\.length <= 4 \\?$",
-  "src": "]/g, \"'\").replace(/\\s+/g, ' ').trim().replace(/[.!?…]+$/, '').trim();\nconst clean = (s, n = 200) => String(s ?? '').replace(/\\s+/g, ' ').trim().slice(0, n);\n\nexport const isPhrase = (c) => c?.extra?.kind === 'phrase' || (Array.isArray(c?.tags) && c.tags.includes('phrase'));\nexport const phraseSituation = (c) => {\n  const id = c?.extra?.situation || (c?.tags || []).find(t => String(t).startsWith('sit:'))?.slice(4);\n  return SITUATIONS.some(s => s.id === id) ? id : 'other';\n};\n\n\nexport function allPhrases() {\n  return store.all('cards').filter(isPhrase).sort((a, b) => String(b.created_at || '').localeCompare(String(a.created_at || '')));\n}\n\nexport function phrasesBySituation() {\n  const m = new Map();\n  for (const c of allPhrases()) {\n    const id = phraseSituation(c);\n    if (!m.has(id)) m.set(id, []);\n    m.get(id).push(c);\n  }\n  return m;\n}\nexport function phraseCount() { return allPhrases().length; }\n\n\nconst KEYS = {\n  doctor: ['лікар', 'аптек', 'хвор', 'болить', 'біль', 'симптом', 'рецепт', 'ліки', 'таблет', 'стоматолог', 'зуб', 'температур', 'лікарн', 'клінік', 'медсестр', 'doctor', 'gp', 'pharma', 'chemist', 'prescription', 'medicine', 'symptom', 'pain', 'hurt', 'sore', 'dentist', 'appointment', 'hospital', 'clinic', 'nurse', 'tablet', 'pill', 'sick', 'allerg', 'temperature'],\n  phone: ['телефон', 'дзвін', 'дзвон', 'зателефон', 'подзвон', 'гаряча лінія', 'оператор', 'автовідповідач', 'phone', 'call', 'ring', 'voicemail', 'hold', 'speak to', 'line', 'message'],\n  shop: ['магазин', 'покуп', 'чек', 'повернен', 'обмін', 'розмір', 'знижк', 'ремонт', 'перукар', 'сервіс', 'доставк', 'гарантій', 'shop', 'store', 'receipt', 'refund', 'return', 'exchange', 'size', 'discount', 'repair', 'haircut', 'delivery', 'warranty', 'checkout', 'till', 'buy', 'price'],\n  cafe: ['кафе', \"кав'ярн\", 'кава', 'каву', 'ресторан', 'замов', 'офіціант', 'меню', 'столик', 'рахунок', 'бар', 'їж', 'обід', 'вечер', 'cafe', 'café', 'coffee', 'restaurant', 'order', 'waiter', 'menu', 'table', 'bill', 'bar', 'lunch', 'dinner', 'tea', 'food', 'drink'],\n  travel: ['поїзд', 'потяг', 'квиток', 'аеропорт', 'літак', 'рейс', 'готел', 'автобус', 'таксі', 'метро', 'вокзал', 'подорож', 'багаж', 'кордон', 'паспорт', 'маршрут', 'дорог', 'train', 'ticket', 'airport', 'flight', 'plane', 'hotel', 'bus', 'taxi', 'tube', 'underground', 'station', 'travel', 'trip', 'luggage', 'baggage', 'passport', 'check-in', 'platform', 'directions', 'journey', 'booking'],\n  home: ['житл', 'квартир', 'сусід', 'орендодав', 'оренд', 'будинок', 'кімнат', 'ремонт квартири', 'сантехнік', 'комунальн', 'flat', 'apartment', 'neighbour', 'neighbor', 'landlord', 'rent', 'tenant', 'house', 'room', 'plumber', 'heating', 'leak', 'noise', 'bills'],\n  work: ['робот', 'нарад', 'колег', 'співбесід', 'начальник', 'керівник', 'проєкт', 'офіс', 'зміна', 'зарплат', 'work', 'job', 'meeting', 'colleague', 'interview', 'manager', 'boss', 'project', 'deadline', 'shift', 'salary', 'team', 'client'],\n  smalltalk: ['знайом', 'small talk', 'погод', 'вихідн', 'хобі', 'вечірк', 'друз', 'привіт', 'розмова з', 'nice to meet', 'weather', 'weekend', 'hobby', 'party', 'friend', 'introduce', 'where are you from', 'chat'],\n  office: ['банк', 'пошт', 'посилк', 'документ', 'рахун', 'картк', 'переказ', 'реєстрац', 'державн', 'установ', 'анкет', 'форм', 'віз', 'дозвіл', 'bank', 'post', 'parcel', 'document', 'account', 'card', 'transfer', 'register', 'council', 'form', 'visa', 'permit', 'id', 'certificate', 'office'],\n};\n\nconst W = \"a-zа-яіїєґ'\";\nconst reCache = new Map();\nfunction keyRe(w) {\n  if (!reCache.has(w)) {\n    const e = w.replace(/[.*+?^${}()|[\\]\\]/g, '\\$&');\n    const tail = w.length <= 4 ?",
+  "re": "^\\(\\?:s\\|es\\|ed\\|ing\\|\\[аиуіяюоеєї\\]\\)\\?\\(\\?!\\[(.+?)\\]\\)$",
+  "src": "(?:s|es|ed|ing|[аиуіяюоеєї])?(?![${W}])",
   "file": "js/phrases.js"
  },
  {
@@ -3640,11 +4165,6 @@
   "file": "js/ui/dailybar.js"
  },
  {
-  "re": "^· (.+?) хв$",
-  "src": "· ${min} хв",
-  "file": "js/ui/dailybar.js"
- },
- {
   "re": "^(.+?) міс\\.$",
   "src": "${Math.round(days / 30)} міс.",
   "file": "js/ui/dom.js"
@@ -3665,8 +4185,28 @@
   "file": "js/ui/drawer.js"
  },
  {
+  "re": "^Підказка: (.+?)$",
+  "src": "Підказка: ${ex.hint}",
+  "file": "js/ui/exercises.js"
+ },
+ {
+  "re": "^Краще: (.+?)$",
+  "src": "Краще: ${r.better}",
+  "file": "js/ui/exercises.js"
+ },
+ {
   "re": "^Сповіщення: (.+?) (?:нове|нові|нових)$",
   "src": "Сповіщення: ${n} ${plural(n, 'нове', 'нові', 'нових')}",
+  "file": "js/ui/inbox.js"
+ },
+ {
+  "re": "^(.+?): (.+?)$",
+  "src": "${c.last_meta.name || 'Друг'}: ${c.last_meta.kind === 'streak' ? `серія ${c.last_meta.value} дн. поспіль` : c.last_meta.kind === 'exam' ? 'іспит рівня складено' : 'новий рекорд у грі'}",
+  "file": "js/ui/inbox.js"
+ },
+ {
+  "re": "^серія (.+?) дн\\. поспіль$",
+  "src": "серія ${c.last_meta.value} дн. поспіль",
   "file": "js/ui/inbox.js"
  },
  {

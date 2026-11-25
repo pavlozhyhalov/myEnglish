@@ -44,27 +44,84 @@ function templateToRe(body) {
   return { re: `^${re.trim()}$`, groups };
 }
 
+/** Вирази ${…} шаблонного рядка (з урахуванням вкладених дужок) */
+function exprs(raw) {
+  const out = [];
+  for (let i = 0; i < raw.length; i++) {
+    if (raw.startsWith('${', i)) {
+      let depth = 1, j = i + 2;
+      while (j < raw.length && depth) { if (raw[j] === '{') depth++; else if (raw[j] === '}') depth--; j++; }
+      out.push(raw.slice(i + 2, j - 1)); i = j - 1;
+    }
+  }
+  return out;
+}
 const jsFiles = walk(path.join(ROOT, 'js'), '.js');
 for (const f of jsFiles) {
   const src = fs.readFileSync(f, 'utf8');
   // коментарі не беремо
-  const code = src.replace(/\/\*[\s\S]*?\*\//g, '').replace(/(^|[^:'"`\\])\/\/[^\n]*/g, '$1');
-  const re = /'((?:[^'\\\n]|\\.)*)'|"((?:[^"\\\n]|\\.)*)"|`((?:[^`\\]|\\.)*)`/g;
-  let m;
-  while ((m = re.exec(code))) {
-    const raw = m[1] ?? m[2] ?? m[3];
-    if (!raw || !CYR.test(raw)) continue;
-    if (m[3] != null && raw.includes('${')) {
-      const body = unescapeJs(raw).trim();
-      // шаблон, весь вміст якого — вирази, без власного тексту — не шаблон
-      const textOnly = body.replace(/\$\{[\s\S]*?\}/g, '');
-      if (!CYR.test(textOnly)) continue;
-      const { re: rx } = templateToRe(body);
-      if (!pats.has(rx)) pats.set(rx, { re: rx, src: body, file: path.relative(ROOT, f) });
-      continue;
+  scan(src, f);   // коментарі й /regex/ пропускає сам токенізатор
+}
+/** Рядки в коді — токенізатор: '…', "…", `…${…}…` з вкладеними шаблонами; вирази ${…} скануються теж
+ *  (plural(n, 'урок', …), умовні підписи). Регулярні вирази /…/ пропускаються грубо — у них кирилиці немає. */
+function scan(code, f) {
+  let i = 0;
+  const n = code.length;
+  function skipRe(at) {                  // at — на «/» регулярного виразу; повертає індекс після прапорців
+    let j = at + 1, cls = false;
+    while (j < n && code[j] !== '\n') { const d = code[j]; if (d === '\\') { j += 2; continue; } if (d === '[') cls = true; else if (d === ']') cls = false; else if (d === '/' && !cls) break; j++; }
+    j++; while (j < n && /[a-z]/.test(code[j])) j++;
+    return j;
+  }
+  function readQuoted(q) {               // i — на відкривній лапці
+    let j = i + 1, out = '';
+    while (j < n && code[j] !== q && code[j] !== '\n') { if (code[j] === '\\') { out += code[j] + code[j + 1]; j += 2; } else out += code[j++]; }
+    i = j + 1; return out;
+  }
+  function readTemplate() {              // i — на `; повертає { raw, exprs }
+    let j = i + 1, raw = '';
+    const ex = [];
+    while (j < n && code[j] !== '`') {
+      if (code[j] === '\\') { raw += code[j] + code[j + 1]; j += 2; continue; }
+      if (code[j] === '$' && code[j + 1] === '{') {
+        let depth = 1, k = j + 2, pv = '{';
+        while (k < n && depth) {
+          const c = code[k];
+          if (c === '/' && /[(,=:[!&|?{};+\-*%<>~^]/.test(pv)) { k = skipRe(k); pv = 'x'; continue; }
+          if (!/\s/.test(c)) pv = c;
+          if (c === "'" || c === '"') { const save = i; i = k; readQuoted(c); k = i; i = save; continue; }
+          if (c === '`') { const save = i; i = k; readTemplate(); k = i; i = save; continue; }
+          if (c === '{') depth++; else if (c === '}') depth--;
+          k++;
+        }
+        const e = code.slice(j + 2, k - 1);
+        ex.push(e); raw += '${' + e + '}'; j = k; continue;
+      }
+      raw += code[j++];
     }
-    const s = unescapeJs(raw).trim();
-    if (s) keys.add(s);
+    i = j + 1; return { raw, ex };
+  }
+  let prev = '';                         // останній значущий символ — щоб відрізнити /regex/ від ділення
+  while (i < n) {
+    const c = code[i];
+    if (c === '/' && code[i + 1] === '/') { while (i < n && code[i] !== '\n') i++; continue; }
+    if (c === '/' && code[i + 1] === '*') { const e = code.indexOf('*/', i + 2); i = e < 0 ? n : e + 2; continue; }
+    if (c === '/' && (!prev || /[(,=:[!&|?{};+\-*%<>~^]/.test(prev) || /\b(return|typeof|case|of|in)$/.test(code.slice(Math.max(0, i - 8), i).trimEnd()))) {
+      i = skipRe(i); prev = 'x'; continue;
+    }
+    if (!/\s/.test(c)) prev = c;
+    if (c === "'" || c === '"') {
+      const raw = readQuoted(c);
+      if (CYR.test(raw)) { const s = unescapeJs(raw).trim(); if (s) keys.add(s); }
+    } else if (c === '`') {
+      const { raw, ex } = readTemplate();
+      if (!CYR.test(raw)) continue;
+      if (!ex.length) { const s = unescapeJs(raw).trim(); if (s) keys.add(s); continue; }
+      const body = unescapeJs(raw).trim();
+      const textOnly = body.replace(/\$\{[\s\S]*?\}/g, '');
+      if (CYR.test(textOnly)) { const { re: rx } = templateToRe(body); if (!pats.has(rx)) pats.set(rx, { re: rx, src: body, file: path.relative(ROOT, f) }); }
+      for (const e of ex) scan(e, f);
+    } else i++;
   }
 }
 // index.html — видимий текст

@@ -78,7 +78,9 @@ export async function initI18n(build = '') {
   const [ui, pats] = await Promise.all([getJson(`i18n/${current}.json${v}`), getJson(`i18n/${current}.patterns.json${v}`)]);
   if (ui) for (const [k, val] of Object.entries(ui)) if (val) dict.set(k, val);
   // від конкретних до загальних: більше буквального тексту — раніше (інакше ^(.+?)$ перехоплював би все)
-  const literal = (re) => re.replace(/\(\?:[^)]*\)|\(\.\+\?\)|\\./g, '').replace(/[\^$]/g, '').length;
+  // форма множини (?:урок|уроки|уроків) — теж буквальний текст (найкоротша форма), інакше «${n} уроків» відкидався б
+  const literal = (re) => re.replace(/\(\?:([^)]*)\)/g, (_, a) => a.split('|').sort((x, y) => x.length - y.length)[0].replace(/\\./g, 'x'))
+    .replace(/\(\.\+\?\)|\\./g, '').replace(/[\^$]/g, '').length;
   if (Array.isArray(pats)) patterns = pats.filter(p => Array.isArray(p) && p[0] && p[1] && literal(p[0]) >= 2)
     .sort((x, y) => literal(y[0]) - literal(x[0]))
     .map(([re, rep]) => { try { return [new RegExp(re, 'u'), rep]; } catch { return null; } }).filter(Boolean);
@@ -98,7 +100,15 @@ function fill(rep, m) {
     const byCat = { one: f[0], few: f[1] ?? f[f.length - 1], many: f[2] ?? f[f.length - 1], other: f[3] ?? f[f.length - 1] };
     const word = byCat[cat] ?? f[f.length - 1];
     return `${m[i]} ${word}`;
-  }).replace(/\$(\d)/g, (_, i) => m[i] ?? '');
+  }).replace(/\$(\d)/g, (_, i) => sub(m[i]));
+}
+/** Значення групи шаблону: український текст усередині теж перекладаємо («$1: …» з назвою розділу) */
+function sub(v) {
+  if (v == null) return '';
+  const c = String(v).trim();
+  if (!c || !CYR.test(c)) return v;
+  const o = tr(c);
+  return o == null ? v : String(v).replace(c, o);
 }
 
 /** Переклад рядка: точний збіг → шаблон → як є. Пробіли по краях зберігаються. */
@@ -107,12 +117,39 @@ export function t(s) {
   const str = String(s);
   const core = str.trim();
   if (!core || !/[А-ЯІЇЄҐа-яіїєґ]/.test(core)) return str;
+  const out = tr(core);
+  if (out == null) return str;
+  return str.replace(core, out);
+}
+function tr(core) {
+  let out = one(core);
+  // рядок, складений у коді з частин (`${a} · ${b}`, `${S.x}: ${n}`) — перекладаємо частини окремо
+  if (out == null && /( · |: |, | — )/.test(core)) {
+    const parts = core.split(/( · |: |, | — )/);
+    let hit = false;
+    const res = parts.map((p, i) => {
+      if (i % 2) return p;
+      const lead = p.match(/^\s*/)[0], c = p.trim();
+      if (!c || !CYR.test(c)) return p;
+      const v = tr(c);
+      if (v != null) { hit = true; return lead + v; }
+      return p;
+    });
+    if (hit) out = res.join('');
+  }
+  // «7 рядків», «~5 год» — число окремим виразом, слово — plural(n, …) у коді
+  if (out == null) {
+    const m = core.match(/^([~≈+−-]?\d[\d\s\u00a0.,–-]*)\s*(\S.*)$/u);
+    if (m && CYR.test(m[2])) { const v = tr(m[2]); if (v != null) out = `${m[1].trimEnd()}${/\s/.test(core.slice(m[1].trimEnd().length, m[1].trimEnd().length + 1)) ? ' ' : ''}${v}`; }
+  }
+  return out;
+}
+function one(core) {
   let out = dict.get(core);
   if (out == null) {
     for (const [re, rep] of patterns) { const m = core.match(re); if (m) { out = fill(rep, m); break; } }
   }
-  if (out == null) return str;
-  return str.replace(core, out);
+  return out;
 }
 
 // ---------- переклад DOM на льоту ----------
