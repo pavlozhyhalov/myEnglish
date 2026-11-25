@@ -1,15 +1,7 @@
 [
  [
-  "^\\]/g, \"'\"\\)\\.replace\\(/\\\\s\\+/g, ' '\\)\\.trim\\(\\)\\.replace\\(/\\[\\.!\\?…\\]\\+\\$/, ''\\)\\.trim\\(\\);\nconst clean = \\(s, n = 200\\) => String\\(s \\?\\? ''\\)\\.replace\\(/\\\\s\\+/g, ' '\\)\\.trim\\(\\)\\.slice\\(0, n\\);\n\nexport const isPhrase = \\(c\\) => c\\?\\.extra\\?\\.kind === 'phrase' \\|\\| \\(Array\\.isArray\\(c\\?\\.tags\\) && c\\.tags\\.includes\\('phrase'\\)\\);\nexport const phraseSituation = \\(c\\) => \\{\n  const id = c\\?\\.extra\\?\\.situation \\|\\| \\(c\\?\\.tags \\|\\| \\[\\]\\)\\.find\\(t => String\\(t\\)\\.startsWith\\('sit:'\\)\\)\\?\\.slice\\(4\\);\n  return SITUATIONS\\.some\\(s => s\\.id === id\\) \\? id : 'other';\n\\};\n\n\nexport function allPhrases\\(\\) \\{\n  return store\\.all\\('cards'\\)\\.filter\\(isPhrase\\)\\.sort\\(\\(a, b\\) => String\\(b\\.created_at \\|\\| ''\\)\\.localeCompare\\(String\\(a\\.created_at \\|\\| ''\\)\\)\\);\n\\}\n\nexport function phrasesBySituation\\(\\) \\{\n  const m = new Map\\(\\);\n  for \\(const c of allPhrases\\(\\)\\) \\{\n    const id = phraseSituation\\(c\\);\n    if \\(!m\\.has\\(id\\)\\) m\\.set\\(id, \\[\\]\\);\n    m\\.get\\(id\\)\\.push\\(c\\);\n  \\}\n  return m;\n\\}\nexport function phraseCount\\(\\) \\{ return allPhrases\\(\\)\\.length; \\}\n\n\nconst KEYS = \\{\n  doctor: \\['лікар', 'аптек', 'хвор', 'болить', 'біль', 'симптом', 'рецепт', 'ліки', 'таблет', 'стоматолог', 'зуб', 'температур', 'лікарн', 'клінік', 'медсестр', 'doctor', 'gp', 'pharma', 'chemist', 'prescription', 'medicine', 'symptom', 'pain', 'hurt', 'sore', 'dentist', 'appointment', 'hospital', 'clinic', 'nurse', 'tablet', 'pill', 'sick', 'allerg', 'temperature'\\],\n  phone: \\['телефон', 'дзвін', 'дзвон', 'зателефон', 'подзвон', 'гаряча лінія', 'оператор', 'автовідповідач', 'phone', 'call', 'ring', 'voicemail', 'hold', 'speak to', 'line', 'message'\\],\n  shop: \\['магазин', 'покуп', 'чек', 'повернен', 'обмін', 'розмір', 'знижк', 'ремонт', 'перукар', 'сервіс', 'доставк', 'гарантій', 'shop', 'store', 'receipt', 'refund', 'return', 'exchange', 'size', 'discount', 'repair', 'haircut', 'delivery', 'warranty', 'checkout', 'till', 'buy', 'price'\\],\n  cafe: \\['кафе', \"кав'ярн\", 'кава', 'каву', 'ресторан', 'замов', 'офіціант', 'меню', 'столик', 'рахунок', 'бар', 'їж', 'обід', 'вечер', 'cafe', 'café', 'coffee', 'restaurant', 'order', 'waiter', 'menu', 'table', 'bill', 'bar', 'lunch', 'dinner', 'tea', 'food', 'drink'\\],\n  travel: \\['поїзд', 'потяг', 'квиток', 'аеропорт', 'літак', 'рейс', 'готел', 'автобус', 'таксі', 'метро', 'вокзал', 'подорож', 'багаж', 'кордон', 'паспорт', 'маршрут', 'дорог', 'train', 'ticket', 'airport', 'flight', 'plane', 'hotel', 'bus', 'taxi', 'tube', 'underground', 'station', 'travel', 'trip', 'luggage', 'baggage', 'passport', 'check-in', 'platform', 'directions', 'journey', 'booking'\\],\n  home: \\['житл', 'квартир', 'сусід', 'орендодав', 'оренд', 'будинок', 'кімнат', 'ремонт квартири', 'сантехнік', 'комунальн', 'flat', 'apartment', 'neighbour', 'neighbor', 'landlord', 'rent', 'tenant', 'house', 'room', 'plumber', 'heating', 'leak', 'noise', 'bills'\\],\n  work: \\['робот', 'нарад', 'колег', 'співбесід', 'начальник', 'керівник', 'проєкт', 'офіс', 'зміна', 'зарплат', 'work', 'job', 'meeting', 'colleague', 'interview', 'manager', 'boss', 'project', 'deadline', 'shift', 'salary', 'team', 'client'\\],\n  smalltalk: \\['знайом', 'small talk', 'погод', 'вихідн', 'хобі', 'вечірк', 'друз', 'привіт', 'розмова з', 'nice to meet', 'weather', 'weekend', 'hobby', 'party', 'friend', 'introduce', 'where are you from', 'chat'\\],\n  office: \\['банк', 'пошт', 'посилк', 'документ', 'рахун', 'картк', 'переказ', 'реєстрац', 'державн', 'установ', 'анкет', 'форм', 'віз', 'дозвіл', 'bank', 'post', 'parcel', 'document', 'account', 'card', 'transfer', 'register', 'council', 'form', 'visa', 'permit', 'id', 'certificate', 'office'\\],\n\\};\n\nconst W = \"a-zа-яіїєґ'\";\nconst reCache = new Map\\(\\);\nfunction keyRe\\(w\\) \\{\n  if \\(!reCache\\.has\\(w\\)\\) \\{\n    const e = w\\.replace\\(/\\[\\.\\*\\+\\?\\^(.+?)\\(\\)\\|\\[\\\\\\]\\\\\\]/g, '\\\\\\$&'\\);\n    const tail = w\\.length <= 4 \\?$",
-  "$1"
- ],
- [
   "^Почати: (.+?) питань\\. Питання з'явиться на екрані — за (.+?) секунди почніть відповідь фразою і говоріть близько 10 секунд\\. Мікрофон увімкнеться одразу\\.$",
   "Zacznij: $1 pytań. Pytanie pojawi się na ekranie — w $2 sekundy zacznij odpowiedź od frazy i mów około 10 sekund. Mikrofon włączy się od razu."
- ],
- [
-  "^\\^\\[\\\\s\"«'\\(\\]\\*\\(\\?:\\(\\?:hi\\|hey\\|hello\\|dear\\|ok\\|okay\\|so\\|and\\|please\\|sorry\\|thanks\\|thank you\\|well\\|excuse me\\|good \\(\\?:morning\\|afternoon\\|evening\\)\\|привіт\\|вітаю\\|добрий день\\|шановний\\|пане\\)\\[\\\\s,!\\.\\]\\+\\)\\*@\\?(.+?)(.+?)$",
-  "^[\\s\"«'(]*(?:(?:hi|hey|hello|dear|ok|okay|so|and|please|sorry|thanks|thank you|well|excuse me|good (?:morning|afternoon|evening)|cześć|witam|dzień dobry|szanowny|panie)[\\s,!.]+)*@?$1$2"
  ],
  [
   "^Якщо акаунт (.+?) існує, на нього надіслано лист із посиланням для зміни пароля\\. Перевірте також «Спам»\\. Посилання діє 1 годину\\.$",
@@ -128,10 +120,6 @@
   "Dla poziomu $1 nie ma tu jeszcze zadań — pokazano najbliższy poziom $2."
  ],
  [
-  "^Уроків граматики ще не пройдено\\. Почніть з уроку свого рівня(.+?)$",
-  "Nie ukończono jeszcze lekcji gramatyki. Zacznij od lekcji swojego poziomu$1"
- ],
- [
   "^Не зовсім: помилка у слові (.+?)\\. Поверніть слова й спробуйте ще\\.$",
   "Nie całkiem: błąd w słowie $1. Cofnij słowa i spróbuj ponownie."
  ],
@@ -172,16 +160,8 @@
   "{$1|lekcja czeka|lekcje czekają|lekcji czeka|lekcji czeka} na planową powtórkę — zestaw «Powtórki» w ćwiczeniach."
  ],
  [
-  "^Ваша слабка зона — (.+?): (.+?) (?:невиправлена помилка|невиправлені помилки|невиправлених помилок) \\(з повторами\\), (.+?) нових за 2 тижні(.+?)$",
-  "Twoja słaba strefa — $1: {$2|niepoprawiony błąd|niepoprawione błędy|niepoprawionych błędów|niepoprawionego błędu} (z powtórzeniami), $3 nowych w 2 tygodnie$4"
- ],
- [
   "^щодня о (.+?) — якщо є що повторити або стрік під загрозою$",
   "codziennie o $1 — jeśli jest co powtórzyć lub seria jest zagrożona"
- ],
- [
-  "^Відпрацювати правила з найбільшою кількістю помилок: (.+?)$",
-  "Przećwiczyć reguły z największą liczbą błędów: $1"
  ],
  [
   "^Для оцінки утримання замало повторів \\((.+?) з потрібних 20\\)\\.$",
@@ -264,10 +244,6 @@
   "Według ocen z {$1|rozmowy|rozmów|rozmów|rozmowy} twoje mówienie jest teraz na poziomie około $2."
  ],
  [
-  "^Повторити уроки граматики з балом нижче 80%: (.+?)$",
-  "Powtórzyć lekcje gramatyki z wynikiem poniżej 80%: $1"
- ],
- [
   "^У перевірених текстах найнижча оцінка — (.+?) \\((.+?)/10\\)\\.$",
   "W sprawdzonych tekstach najniższa ocena — $1 ($2/10)."
  ],
@@ -312,10 +288,6 @@
   "$1 · do 5, przytrzymaj wiersz, żeby przeciągnąć"
  ],
  [
-  "^: ''\\}\\. Середній найкращий бал у вправах — (.+?)%\\.(.+?)$",
-  ": ''}. Średni najlepszy wynik w ćwiczeniach — $1%.$2"
- ],
- [
   "^14 днів: (.+?) · попередні 14: (.+?) · відкритих: (.+?)$",
   "14 dni: $1 · poprzednie 14: $2 · otwartych: $3"
  ],
@@ -356,10 +328,6 @@
   "Wszystkie umiejętności na poziomie $1 — profil równy.$2"
  ],
  [
-  "^У щоденнику в середньому (.+?) (.+?) на 100 слів(.+?)$",
-  "W dzienniku średnio {$1|błąd|błędy|błędów|błędu} na 100 słów$3"
- ],
- [
   "^Розмови показують (.+?) — закрийте (.+?) іспитом$",
   "Rozmowy pokazują $1 — zamknij $2 egzaminem"
  ],
@@ -394,10 +362,6 @@
  [
   "^• (.+?) хв практики, (.+?) (?:активний день|активні дні|активних днів), найдовша серія — (.+?) (?:день|дні|днів)$",
   "• $1 min praktyki, {$2|aktywny dzień|aktywne dni|aktywnych dni|aktywnego dnia}, najdłuższa seria — {$3|dzień|dni|dni|dnia}"
- ],
- [
-  "^: ''\\) : ''\\}; у середньому (.+?) (.+?) на тиждень\\.$",
-  ": '') : ''}; średnio {$1|aktywny dzień|aktywne dni|aktywnych dni|aktywnego dnia} w tygodniu."
  ],
  [
   "^(.+?) (?:помилка|помилки|помилок) з ваших розмов — закріпити правило$",
@@ -768,14 +732,6 @@
   "poziom $1 · {$2|słowo|słowa|słów|słowa} · 3 pytania"
  ],
  [
-  "^(.+?) (?:голосова розмова|голосові розмови|голосових розмов) і (.+?) текстових за місяць\\. (.+?)$",
-  "{$1|rozmowa głosowa|rozmowy głosowe|rozmów głosowych|rozmowy głosowej} i $2 tekstowych w miesiącu. $3"
- ],
- [
-  "^Рівень (.+?) \\(«(.+?)»\\) опановано на (.+?)%(.+?)$",
-  "Poziom $1 («$2») opanowany w $3%$4"
- ],
- [
   "^Друзі: (.+?) нових повідомлень$",
   "Znajomi: $1 nowych wiadomości"
  ],
@@ -830,10 +786,6 @@
  [
   "^Рівень (.+?): почнемо з основ$",
   "Poziom $1: zaczniemy od podstaw"
- ],
- [
-  "^У роботі (.+?) (?:слово|слова|слів), закріплено (.+?)\\. (.+?)$",
-  "W nauce {$1|słowo|słowa|słów|słowa}, utrwalono $2. $3"
  ],
  [
   "^(.+?) запрошує вас у групу «(.+?)»$",
@@ -964,10 +916,6 @@
   "Plan dnia zrobiony w $1%"
  ],
  [
-  "^За місяць зараховано (.+?) (?:урок|уроки|уроків)(.+?)$",
-  "W miesiącu zaliczono {$1|lekcję|lekcje|lekcji|lekcji}$2"
- ],
- [
   "^місяць триває \\((.+?) з (.+?) днів\\)$",
   "miesiąc trwa ($1 z $2 dni)"
  ],
@@ -1002,10 +950,6 @@
  [
   "^(.+?) запрошує вас у друзі$",
   "$1 zaprasza cię do znajomych"
- ],
- [
-  "^\\)\\} · тиждень (.+?) · усього (.+?)(.+?)$",
-  ")} · tydzień $1 · łącznie $2$3"
  ],
  [
   "^(.+?): (.+?) хв, активних днів (.+?)$",
@@ -1044,10 +988,6 @@
   "{$1|część|części|części|części} z wyborem odpowiedzi"
  ],
  [
-  "^\\} — (.+?) (?:хвилина|хвилини|хвилин) англійської за (.+?) (?:день|дні|днів)\\.$",
-  "} — {$1|minuta|minuty|minut|minuty} angielskiego w {$2|dzień|dni|dni|dnia}."
- ],
- [
   "^До наступного рівня: (.+?)$",
   "Do następnego poziomu: $1"
  ],
@@ -1058,10 +998,6 @@
  [
   "^Перекласти фрагмент: (.+?)$",
   "Przetłumacz fragment: $1"
- ],
- [
-  "^Останні 7 днів — (.+?) хв(.+?)$",
-  "Ostatnie 7 dni — $1 min$2"
  ],
  [
   "^(.+?): уже у ваших словах$",
@@ -1192,10 +1128,6 @@
   "$1 dostanie zaproszenie"
  ],
  [
-  "^\\} на дуель · рівень (.+?)(.+?)$",
-  "} na pojedynek · poziom $1$2"
- ],
- [
   "^«(.+?)» — але після «uh»$",
   "«$1» — ale po «uh»"
  ],
@@ -1320,10 +1252,6 @@
   "4-3-2 · gotowe $1 z $2"
  ],
  [
-  "^(.+?) (?:слово|слова|слів) ще не закріплено(.+?)$",
-  "{$1|słowo jeszcze nieutrwalone|słowa jeszcze nieutrwalone|słów jeszcze nieutrwalonych|słowa jeszcze nieutrwalonego}$2"
- ],
- [
   "^Іспит (.+?) · граматика$",
   "Egzamin $1 · gramatyka"
  ],
@@ -1352,10 +1280,6 @@
   "Filtry: aktywnych $1"
  ],
  [
-  "^Прогалини нижче: (.+?)$",
-  "Luki niżej: $1"
- ],
- [
   "^Прослухати слово (.+?)$",
   "Posłuchaj słowa $1"
  ],
@@ -1374,10 +1298,6 @@
  [
   "^(.+?) виходить з групи$",
   "$1 opuszcza grupę"
- ],
- [
-  "^\\} виклик на 7 днів(.+?)$",
-  "} wyzwanie na 7 dni$1"
  ],
  [
   "^Додано в картки: (.+?)$",
@@ -1688,10 +1608,6 @@
   "Rozmowa: $1 min"
  ],
  [
-  "^(.+?) — правильно: (.+?)(.+?)$",
-  "$1 — poprawnie: $2$3"
- ],
- [
   "^Користувачі · (.+?)$",
   "Użytkownicy · $1"
  ],
@@ -1710,10 +1626,6 @@
  [
   "^Заблоковані · (.+?)$",
   "Zablokowani · $1"
- ],
- [
-  "^\\} · закрито (.+?) з (.+?)$",
-  "} · zamknięte $1 z $2"
  ],
  [
   "^з (.+?) без помилок$",
@@ -1934,10 +1846,6 @@
  [
   "^Сповіщення: (.+?) (?:нове|нові|нових)$",
   "Powiadomienia: {$1|nowe|nowe|nowych|nowego}"
- ],
- [
-  "^Порівняння: (.+?)$",
-  "Porównanie: $1"
  ],
  [
   "^(.+?) (?:слово|слова|слів) за тиждень$",
@@ -2712,10 +2620,6 @@
   "$1 pytań"
  ],
  [
-  "^(.+?)\\\\u00a0хв$",
-  "$1 min"
- ],
- [
   "^Стрік: (.+?)$",
   "Seria: $1"
  ],
@@ -2982,10 +2886,6 @@
  [
   "^(.+?) р\\.$",
   "$1 r."
- ],
- [
-  "^(.+?)$",
-  "$1"
  ],
  [
   "^(.+?)(.+?)$",
