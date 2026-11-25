@@ -16,7 +16,7 @@ export const LANGS = [
   { id: 'ru', name: 'Русский', en: 'Russian', region: 'Ukraine' },
 ];
 // мова з'являється у виборі, коли її переклад готовий (scripts/check-i18n.js без прогалин) — до того її не видно нікому
-const READY = new Set(['uk']);
+const READY = new Set(['uk', 'es', 'pt', 'tr', 'pl', 'ru']);
 // перегляд неготових мов (перевірка перекладу до запуску): localStorage['me:lang-preview'] = '1' або адреса з ?langpreview=1
 try {
   if (typeof location !== 'undefined' && /[?&]langpreview=1/.test(location.search)) localStorage.setItem('me:lang-preview', '1');
@@ -28,6 +28,13 @@ const KEY = 'me:lang';
 
 /** Мова за налаштуваннями браузера (перший запуск) */
 function detect() {
+  // учні, що вже займалися на цьому пристрої (до появи мов), лишаються з українською — мову змінюють самі
+  try {
+    for (let i = 0; i < localStorage.length; i++) {
+      const k = localStorage.key(i);
+      if (k && k.startsWith('me:') && k !== KEY && k !== 'me:lang-preview') return 'uk';
+    }
+  } catch { /* */ }
   const list = (typeof navigator !== 'undefined' && (navigator.languages?.length ? navigator.languages : [navigator.language])) || [];
   for (const raw of list) {
     const l = String(raw || '').toLowerCase().split('-')[0];
