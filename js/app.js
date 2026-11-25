@@ -97,11 +97,11 @@ function header() {
     h('div.left',
       h('button.icon-btn.btn-menu', { type: 'button', 'aria-label': S.menu, 'aria-controls': 'drawer', onclick: toggleDrawer }, ic('list')),
       // дзвіночок: сповіщення й швидкий вхід у групи та чати (js/ui/inbox.js)
-      bellBtn),
+      bellBtn,
+      // мова (js/ui/langmenu.js) — лише коли готових мов кілька; зліва, бо справа тема й стрік (власник 2026-11-25: «справа не влазить»)
+      langMenu()),
     h('div.title#page-title', S.app),
     h('div.right',
-      // мова (js/ui/langmenu.js) — лише коли готових мов кілька
-      langMenu(),
       // тема одним дотиком (власник 2026-11-13): світла ↔ темна; «Авто» — у «Налаштуваннях»
       h('button.icon-btn.btn-theme', { type: 'button', 'aria-label': 'Змінити тему: світла або темна', onclick: () => {
         const next = isDark() ? 'light' : 'dark';
