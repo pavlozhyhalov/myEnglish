@@ -1,0 +1,5 @@
+Full read of NON-grammar content translations (myEnglish). Scripts already passed; now a HUMAN-STYLE full read is required, because shifted/swapped rows without numbers or Latin words slip past heuristics.
+Your language and half are given below. Files: every data/l10n/<lang>/**/*.json EXCEPT grammar/* and books/*/glossary.json (decks, scenarios, writing, listening, reading, placement, pronunciation, detective, articles, samewords, words5, abc, topics, stories, books/index). Ignore "half".
+For EVERY file: print it as numbered «Ukrainian key ⇒ translation» lines (skip exact-English keys, but glance that they match the lesson), in chunks of ~60 lines, and READ each pair: does the value translate THIS key (meaning; exercise answers/options/explanations consistent)? Do not rely on scripts for the decision.
+Fix wrong pairs in place (re-translate from the key; same regional realia and glossary as the file; scripts/i18n-guide.md). Python json.dump(ensure_ascii=False, indent=1)+"\n", json.load after; never change keys; don't commit.
+Report in Ukrainian: files read, fixed pairs per file with 1–2 examples.
