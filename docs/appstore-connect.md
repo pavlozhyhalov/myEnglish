@@ -70,6 +70,10 @@ Do you or your third-party partners collect data from this app? → **Yes**.
 - Збірку робить GitHub Actions автоматично після секретів `ASC_KEY_ID`, `ASC_ISSUER_ID`, `ASC_KEY_P8`, `APPLE_TEAM_ID` (Settings → Secrets and variables → Actions у репозиторії). Ключ: App Store Connect → Users and Access → Integrations → App Store Connect API → «+» → роль **App Manager** → завантажити `.p8` (один раз!).
 - `APPLE_TEAM_ID` — developer.apple.com → Account → Membership details → Team ID.
 
+## 7a. Сповіщення про чати в застосунку (APNs)
+developer.apple.com → Certificates, Identifiers & Profiles → **Keys** → «+» → назва «myEnglish push», галочка **Apple Push Notifications service (APNs)** → Continue → Register → **Download** `.p8` (один раз!). Запишіть Key ID.
+Потім скажіть Claude «ключ APNs готовий» і передайте файл — Claude додасть секрети функції `push`: `APNS_KEY_P8` (вміст файлу), `APNS_KEY_ID`, `APNS_TEAM_ID` (той самий Team ID). Без них у застосунку працюють лише локальні щоденні нагадування.
+
 ## 8. Перед натисканням «Submit for Review»
 1. TestFlight: встановити на свій iPhone, пройти: вхід, згода на AI, голосовий вчитель, картки, чат, скарга, видалення тестового акаунта.
 2. Вписати в Політику приватності ваше ім'я й email як адміністратора даних (скажіть Claude — оновить усі 6 мов).
