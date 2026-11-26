@@ -101,3 +101,7 @@
 2. Claude читає `CLAUDE.md` (правила коду й рішення), `PROGRESS.md` (незавершене) і за потреби `SPEC.md`.
 3. Доступ: репозиторій `pavlozhyhalov/myEnglish`, Supabase-проєкт `uxqdklwnxdtyifksphoz` (Supabase MCP), сайт — GitHub Pages.
 4. Працюй до повного закриття задачі; ліміти й перезапуски — не привід зупинятись і чекати мене (див. розділ 2).
+
+
+## Мови інтерфейсу (2026-11-25)
+Українська (база в коді) + Español, Português (Brasil), Türkçe, Polski, Русский (для російськомовних українців: реалії українські, «в Украине», без Росії). Словники `i18n/<lang>.json` і `.patterns.json`, зміст `data/l10n/<lang>/…`, логіка `js/i18n.js`, вибір — меню мови зліва в шапці. Будь-яка зміна тексту — одразу всіма мовами: `node scripts/i18n-extract.js && node scripts/check-i18n.js`, брифи `scripts/i18n-*-brief.txt`, перевірка сторінок `scripts/l10n-pages-check.js <lang>`.

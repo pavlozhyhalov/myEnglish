@@ -10,7 +10,7 @@ const path = require('path');
 const ROOT = path.join(__dirname, '..');
 const CYR = /[А-ЯІЇЄҐа-яіїєґ]/;
 // рядок-джерело регулярного виразу (new RegExp('…')) — не текст інтерфейсу
-const REGEXY = /\(\?[:!=]|\[\^|\\\\[sbdw]|\\[sbdw]|[a-zа-я]-[a-zа-я]/;
+const REGEXY = /\(\?[:!=]|\[\^|\\\\[sbdw]|\\[sbdw]|\[[^\]]*[a-zа-я]-[a-zа-я]|^a-z/;
 
 function walk(dir, ext, skip = []) {
   const out = [];
