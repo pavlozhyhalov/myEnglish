@@ -270,7 +270,7 @@ async function boot() {
   try { welcomeRedirect(!!authUser()); } catch (e) { console.warn('welcome', e); }
   start();
 
-  if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) {
+  if ('serviceWorker' in navigator && !globalThis.Capacitor?.isNativePlatform?.() && (location.protocol === 'https:' || location.hostname === 'localhost')) {
     // коли активується нова версія — перезавантажуємо сторінку один раз, щоб показати її
     const hadController = !!navigator.serviceWorker.controller;
     // реєстрація (і встановлення: ~280 файлів у кеш) — після першого екрана, щоб не забирати в нього канал

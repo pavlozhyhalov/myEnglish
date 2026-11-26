@@ -1,0 +1,15 @@
+{
+  "name": "myenglish-native",
+  "private": true,
+  "description": "Оболонка iOS (Capacitor) для myEnglish: файли сайту — у www (копіює scripts/native-sync.sh)",
+  "scripts": {
+    "sync": "bash ../scripts/native-sync.sh"
+  },
+  "dependencies": {
+    "@capacitor/core": "8.6.3",
+    "@capacitor/ios": "8.6.3"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "8.6.3"
+  }
+}

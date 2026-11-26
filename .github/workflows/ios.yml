@@ -1,0 +1,87 @@
+# Збірка застосунку iOS (Capacitor, native/) — 2026-11-26, підготовка до App Store.
+# 1) build: завжди — збірка для симулятора без підпису (перевірка, що проєкт компілюється; Mac не потрібен).
+# 2) testflight: лише коли в секретах репозиторію є ключ App Store Connect API (ASC_KEY_ID, ASC_ISSUER_ID, ASC_KEY_P8)
+#    і команда Apple (APPLE_TEAM_ID) — архів з автоматичним підписом і завантаження в TestFlight.
+name: iOS
+on:
+  push:
+    branches: [main, 'claude/**']
+    paths: ['native/**', 'js/**', 'css/**', 'index.html', 'data/**', 'i18n/**', '.github/workflows/ios.yml', 'scripts/native-sync.sh']
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: ios-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  build:
+    runs-on: macos-15
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Залежності
+        working-directory: native
+        run: npm ci --no-audit --no-fund
+      - name: Копія сайту в пакет і cap sync
+        run: bash scripts/native-sync.sh
+      - name: Збірка для симулятора (без підпису)
+        working-directory: native/ios/App
+        run: |
+          xcodebuild -project App.xcodeproj -scheme App -configuration Debug \
+            -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' \
+            CODE_SIGNING_ALLOWED=NO build | tail -40
+          test ${PIPESTATUS[0]} -eq 0
+
+  testflight:
+    needs: build
+    if: github.ref == 'refs/heads/main'
+    runs-on: macos-15
+    timeout-minutes: 60
+    env:
+      ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+      ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+      ASC_KEY_P8: ${{ secrets.ASC_KEY_P8 }}
+      APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+    steps:
+      - name: Чи є ключі Apple
+        id: keys
+        run: |
+          if [ -n "$ASC_KEY_ID" ] && [ -n "$ASC_ISSUER_ID" ] && [ -n "$ASC_KEY_P8" ] && [ -n "$APPLE_TEAM_ID" ]; then echo "ok=1" >> "$GITHUB_OUTPUT"; else echo "Ключів Apple ще немає — TestFlight пропущено"; fi
+      - if: steps.keys.outputs.ok == '1'
+        uses: actions/checkout@v4
+      - if: steps.keys.outputs.ok == '1'
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - if: steps.keys.outputs.ok == '1'
+        name: Залежності й копія сайту
+        run: cd native && npm ci --no-audit --no-fund && cd .. && bash scripts/native-sync.sh
+      - if: steps.keys.outputs.ok == '1'
+        name: Архів і завантаження в TestFlight
+        working-directory: native/ios/App
+        run: |
+          mkdir -p ~/.appstoreconnect/private_keys
+          echo "$ASC_KEY_P8" > ~/.appstoreconnect/private_keys/AuthKey_$ASC_KEY_ID.p8
+          BUILD_NO=$(date -u +%Y%m%d%H%M)
+          xcodebuild -project App.xcodeproj -scheme App -configuration Release -sdk iphoneos \
+            -destination 'generic/platform=iOS' -archivePath $RUNNER_TEMP/App.xcarchive \
+            DEVELOPMENT_TEAM=$APPLE_TEAM_ID CODE_SIGN_STYLE=Automatic CURRENT_PROJECT_VERSION=$BUILD_NO \
+            -allowProvisioningUpdates -authenticationKeyPath ~/.appstoreconnect/private_keys/AuthKey_$ASC_KEY_ID.p8 \
+            -authenticationKeyID $ASC_KEY_ID -authenticationKeyIssuerID $ASC_ISSUER_ID archive | tail -30
+          cat > $RUNNER_TEMP/export.plist <<PLIST
+          <?xml version="1.0" encoding="UTF-8"?>
+          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+          <plist version="1.0"><dict>
+            <key>method</key><string>app-store-connect</string>
+            <key>destination</key><string>upload</string>
+            <key>teamID</key><string>$APPLE_TEAM_ID</string>
+            <key>signingStyle</key><string>automatic</string>
+          </dict></plist>
+          PLIST
+          xcodebuild -exportArchive -archivePath $RUNNER_TEMP/App.xcarchive -exportOptionsPlist $RUNNER_TEMP/export.plist \
+            -exportPath $RUNNER_TEMP/export -allowProvisioningUpdates \
+            -authenticationKeyPath ~/.appstoreconnect/private_keys/AuthKey_$ASC_KEY_ID.p8 \
+            -authenticationKeyID $ASC_KEY_ID -authenticationKeyIssuerID $ASC_ISSUER_ID | tail -30

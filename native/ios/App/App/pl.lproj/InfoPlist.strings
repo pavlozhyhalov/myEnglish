@@ -1,0 +1,5 @@
+"CFBundleDisplayName" = "myEnglish";
+"NSMicrophoneUsageDescription" = "Mikrofon pozwala rozmawiać z nauczycielem AI i ćwiczyć wymowę.";
+"NSSpeechRecognitionUsageDescription" = "Rozpoznawanie mowy zamienia Twój mówiony angielski na tekst, żeby nauczyciel mógł go sprawdzić.";
+"NSCameraUsageDescription" = "Aparat jest używany tylko wtedy, gdy dołączasz zdjęcie do wiadomości dla dewelopera.";
+"NSPhotoLibraryUsageDescription" = "Zdjęcia są używane tylko wtedy, gdy dołączasz zrzut ekranu do wiadomości dla dewelopera.";

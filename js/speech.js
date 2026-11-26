@@ -1,5 +1,6 @@
 // Озвучення (TTS браузера / Gemini TTS) і розпізнавання мови
 import * as store from './store.js';
+import { remote } from './native.js';
 import { ttsAudio, tutor } from './ai.js';
 import { user } from './supa.js';
 import { BUILD } from './config.js';
@@ -67,7 +68,7 @@ async function staticUrl(text, accent) {
   const idx = await staticIndex();
   const k = staticKey(text);
   const acc = accDir(accent);
-  return idx?.keys[acc]?.has(k) ? `audio/${acc}/${k}.m4a` : null;
+  return idx?.keys[acc]?.has(k) ? remote(`audio/${acc}/${k}.m4a`) : null;
 }
 
 export async function speak(text, opts = {}) {
@@ -224,7 +225,7 @@ async function staticDialogue(d) {
   const k = 'd' + staticKey(d.lines.map(l => l.text).join('\n'));
   const acc = accDir(store.settings().accent);
   const offs = idx?.dlg?.[k]?.[acc];
-  return offs ? { url: `audio/${acc}/${k}.m4a`, offs } : null;
+  return offs ? { url: remote(`audio/${acc}/${k}.m4a`), offs } : null;
 }
 export function prefetchDialogue(d) {
   if (!d?.lines?.length) return;

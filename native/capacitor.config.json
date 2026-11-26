@@ -1,0 +1,11 @@
+{
+  "appId": "io.github.pavlozhyhalov.myenglish",
+  "appName": "myEnglish",
+  "webDir": "www",
+  "ios": {
+    "contentInset": "never",
+    "scheme": "myEnglish",
+    "backgroundColor": "#070B15",
+    "limitsNavigationsToAppBoundDomains": false
+  }
+}

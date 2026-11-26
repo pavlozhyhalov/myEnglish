@@ -44,6 +44,7 @@ async function vapidKey() {
  * ok | ios-install (iPhone: спершу додати на екран «Додому») | ios-old | unsupported | denied | no-key
  */
 export function pushSupport() {
+  if (globalThis.Capacitor?.isNativePlatform?.()) return 'unsupported';   // застосунок iOS: сповіщення — через APNs (етап 3), не Web Push
   if (isIOS() && !isStandalone()) return iosVersion() && iosVersion() < 16.04 ? 'ios-old' : 'ios-install';
   if (isIOS() && iosVersion() && iosVersion() < 16.04) return 'ios-old';
   if (!('serviceWorker' in navigator) || !('PushManager' in window) || !('Notification' in window) || !window.isSecureContext) return 'unsupported';

@@ -76,7 +76,7 @@ export default function settings(view) {
     ]),
     txGroup('Службове', [
       txRows([txRow({ icon: 'info', label: 'Про застосунок', sub: 'Приватність, умови, ліцензії', href: '#/about' }),
-        txRow({ icon: 'flask', label: 'Лабораторія Live', sub: 'Діагностика голосу', href: '#/lab/live' })]),
+        globalThis.Capacitor?.isNativePlatform?.() ? null : txRow({ icon: 'flask', label: 'Лабораторія Live', sub: 'Діагностика голосу', href: '#/lab/live' })]),
       h('p.xs.dim.center.set-build', `myEnglish · збірка ${BUILD}`)]));
   const moreRow = txRow({ icon: 'gear-six', label: 'Ще', sub: 'Автоматика, панель, озвучення, дані', chevron: false, cls: 'set-more-row',
     end: ic('caret-down', { size: 16 }), attrs: { 'aria-expanded': 'false', 'aria-controls': 'set-more' },

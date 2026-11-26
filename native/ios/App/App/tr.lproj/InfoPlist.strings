@@ -1,0 +1,5 @@
+"CFBundleDisplayName" = "myEnglish";
+"NSMicrophoneUsageDescription" = "Mikrofon, yapay zekâ öğretmeniyle konuşmanız ve telaffuz çalışmanız için kullanılır.";
+"NSSpeechRecognitionUsageDescription" = "Konuşma tanıma, öğretmenin kontrol edebilmesi için konuştuğunuz İngilizceyi metne dönüştürür.";
+"NSCameraUsageDescription" = "Kamera yalnızca geliştiriciye gönderdiğiniz mesaja fotoğraf eklerseniz kullanılır.";
+"NSPhotoLibraryUsageDescription" = "Fotoğraflar yalnızca geliştiriciye gönderdiğiniz mesaja ekran görüntüsü eklerseniz kullanılır.";

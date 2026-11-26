@@ -1,0 +1,5 @@
+"CFBundleDisplayName" = "myEnglish";
+"NSMicrophoneUsageDescription" = "Мікрофон потрібен, щоб говорити з AI-вчителем і тренувати вимову.";
+"NSSpeechRecognitionUsageDescription" = "Розпізнавання мовлення перетворює вашу англійську на текст, щоб вчитель міг її перевірити.";
+"NSCameraUsageDescription" = "Камера потрібна, лише якщо ви додаєте фото до повідомлення розробнику.";
+"NSPhotoLibraryUsageDescription" = "Фото потрібні, лише якщо ви додаєте скріншот до повідомлення розробнику.";

@@ -1,0 +1,5 @@
+"CFBundleDisplayName" = "myEnglish";
+"NSMicrophoneUsageDescription" = "O microfone é usado para você conversar com o professor de IA e praticar a pronúncia.";
+"NSSpeechRecognitionUsageDescription" = "O reconhecimento de fala transforma seu inglês falado em texto para o professor conferir.";
+"NSCameraUsageDescription" = "A câmera só é usada se você anexar uma foto a uma mensagem para o desenvolvedor.";
+"NSPhotoLibraryUsageDescription" = "As fotos só são usadas se você anexar uma captura de tela a uma mensagem para o desenvolvedor.";
