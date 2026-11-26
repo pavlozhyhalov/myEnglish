@@ -177,7 +177,8 @@ export function tLines(text) { return current === 'uk' || text == null ? text : 
 
 // ---------- переклад DOM на льоту ----------
 const ATTRS = ['aria-label', 'placeholder', 'title', 'alt'];
-const skip = (el) => !el || el.closest?.('[lang="en"],[data-noi18n],textarea,[contenteditable="true"],script,style') != null;
+// [lang="en"] — англійський навчальний зміст; сам <html lang="en"> (англійський інтерфейс) не рахується
+const skip = (el) => !el || el.closest?.('body [lang="en"],[data-noi18n],textarea,[contenteditable="true"],script,style') != null;
 
 function doText(node) {
   const p = node.parentElement;
