@@ -201,6 +201,18 @@ async function boot() {
   await Promise.all([store.load(), initI18n(BUILD)]);
   // мова з профілю (інший пристрій, новий браузер) — головніша за браузерну: перезавантаження один раз
   { const want = store.settings().lang; if (want && want !== lang()) { setLang(want); return; } }
+  // після першої синхронізації: мова з профілю (сервер) головніша; якщо в профілі мови ще немає, а її підібрано за телефоном —
+  // записати, щоб вчитель і AI знали рідну мову учня (сервер бере settings.lang; 2026-11-26)
+  store.on(t => {
+    if (t !== 'synced') return;
+    const want = store.settings().lang;
+    if (want) { if (want !== lang()) setLang(want); return; }
+    // у профілі вже є історія (займався до появи мов) — це україномовний учень: українська, хоч би якою була мова телефону
+    const p = store.prof() || {};
+    const veteran = !!(p.onboarded || p.settings?.level || p.memory || p.weeklyFocus);
+    if (veteran) { store.setSetting('lang', 'uk'); if (lang() !== 'uk') setLang('uk'); }
+    else if (lang() !== 'uk') store.setSetting('lang', lang());
+  });
   try { warmData(first); } catch (e) { console.warn('warm', e); }
   applyTheme();
   matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => applyTheme());
