@@ -6,6 +6,7 @@
 // Будова: 1 — підсумок (оцінки за напрямами, висновок, сильне/увага); 2 — регулярність (календар, тижні, види занять, час доби);
 // 3 — рівень і говоріння; 4 — граматика й слова; 5 — помилки; 6 — письмо, читання, мовлення; 7 — план і як читати звіт.
 import * as store from './store.js';
+import { t as tt, loc, lang, isBase } from './i18n.js';
 import { S, plural } from './strings.js';
 import { deckIndex, grammarIndex } from './data.js';
 import {
@@ -33,7 +34,7 @@ const SUB = { low: -0.3, mid: 0, high: 0.3 };
 const lvTxt = (x) => (x ? `${lvLabel(x.level)}${x.sublevel === 'high' ? '+' : x.sublevel === 'low' ? '−' : ''}` : '—');
 const clean = (s) => String(s ?? '').replace(/\*+|~~|`/g, '').replace(/\s+/g, ' ').trim();
 const fmt = (x) => String(x).replace('.', ',');
-const dShort = (iso) => new Date(iso).toLocaleDateString('uk-UA', { day: 'numeric', month: 'short' }).replace('.', '');
+const dShort = (iso) => new Date(iso).toLocaleDateString(loc(), { day: 'numeric', month: 'short' }).replace('.', '');
 const mins = (n) => `${n} хв`;
 
 async function b64(url) {
@@ -50,6 +51,14 @@ async function newDoc() {
   doc.addFileToVFS('Onest-400.ttf', r400); doc.addFont('Onest-400.ttf', 'Onest', 'normal');
   doc.addFileToVFS('Onest-600.ttf', r600); doc.addFont('Onest-600.ttf', 'Onest', 'bold');
   doc.addFileToVFS('DaysOne.ttf', head); doc.addFont('DaysOne.ttf', 'DaysOne', 'normal');
+  // мова учня (2026-11-26): увесь текст звіту — через словник інтерфейсу (t), як DOM; у Days One немає ą ę ł ś ż ğ ş İ — для pl/tr заголовки напівжирним Onest
+  if (!isBase()) {
+    const tr = (x) => Array.isArray(x) ? x.map(tr) : (typeof x === 'string' ? tt(x) : x);
+    const text = doc.text.bind(doc), split = doc.splitTextToSize.bind(doc), setFont = doc.setFont.bind(doc);
+    doc.text = (str, ...rest) => text(tr(str), ...rest);
+    doc.splitTextToSize = (str, ...rest) => split(tr(String(str)), ...rest);
+    if (['pl', 'tr'].includes(lang())) doc.setFont = (name, style, ...rest) => name === 'DaysOne' ? setFont('Onest', 'bold', ...rest) : setFont(name, style, ...rest);
+  }
   return doc;
 }
 
@@ -87,7 +96,7 @@ function layout(doc) {
     /** Розділ: великими літерами + пояснення для читача («що це означає») */
     section(title, hint, keep = 0) {
       L.need((hint ? 26 : 18) + keep); y += 5;
-      L.font('head', 11, C.accent); doc.text(title.toUpperCase(), M, y + 4);
+      L.font('head', 11, C.accent); doc.text(tt(title).toUpperCase(), M, y + 4);
       doc.setDrawColor(...C.line); doc.setLineWidth(0.3); doc.line(M, y + 6.5, A4.w - M, y + 6.5);
       y += 10;
       if (hint) L.para(hint, { size: 8.5, color: C.dim, gap: 2.4 });
@@ -372,8 +381,8 @@ function grades(D) {
 
 function verdict(D, gs) {
   const { R, lp, lvl, plan } = D;
-  const good = gs.filter(g => g.tone === 'good').map(g => g.area.toLowerCase());
-  const weak = gs.filter(g => g.tone === 'warn' || g.tone === 'bad').map(g => g.area.toLowerCase());
+  const good = gs.filter(g => g.tone === 'good').map(g => tt(g.area).toLowerCase());
+  const weak = gs.filter(g => g.tone === 'warn' || g.tone === 'bad').map(g => tt(g.area).toLowerCase());
   const min = Math.round(R.seconds / 60);
   const parts = [];
   if (!R.seconds) parts.push(`${R.cur ? 'Цього місяця' : `У ${MONTH_IN[R.monthIdx]}`} занять не було.`);
@@ -385,7 +394,7 @@ function verdict(D, gs) {
   if (lp) parts.push(`Рівень ${lvLabel(lvl)} («${LEVEL_NAME[lvl]}») опановано на ${lp.pct}%${lp.pct >= 80 ? ' — можна складати іспит рівня' : plan ? `; у теперішньому темпі до іспиту — близько ${plan.weeks} ${plural(plan.weeks, 'тижня', 'тижнів', 'тижнів')}` : ''}.`);
   if (good.length) parts.push(`Найкраще йде: ${good.join(', ')}.`);
   if (weak.length) parts.push(`Потребує уваги: ${weak.join(', ')}.`);
-  return parts.join(' ');
+  return parts.map(p => tt(p)).join(' ');
 }
 
 function recommendations(D, gs) {
@@ -427,16 +436,16 @@ export async function buildMonthPdf(ym) {
   const name = clean(about.name || '');
   const doc = await newDoc();
   const L = layout(doc);
-  const today = now.toLocaleDateString('uk-UA', { day: 'numeric', month: 'long', year: 'numeric' });
+  const today = now.toLocaleDateString(loc(), { day: 'numeric', month: 'long', year: 'numeric' });
   const gs = grades(D);
 
   // ================= 1. Підсумок =================
   doc.setFillColor(...C.accent); doc.rect(0, 0, A4.w, 50, 'F');
   L.font('head', 11, [199, 211, 245]); doc.text('myEnglish · звіт вчителя', M, 14);
-  L.font('head', 24, C.white); doc.text(`Прогрес за ${R.title.toLowerCase()}`, M, 29);
+  L.font('head', 24, C.white); doc.text(`Прогрес за ${tt(R.title).toLowerCase()}`, M, 29);
   L.font('body', 10, [199, 211, 245]);
   doc.text([name ? `Учень: ${name}` : null, `рівень ${lvLabel(lvl)} · ${LEVEL_NAME[lvl] || ''}`].filter(Boolean).join(' · '), M, 38);
-  doc.text([R.cur ? `місяць триває (${elapsed} з ${R.nDays} днів)` : null, `сформовано ${today}`].filter(Boolean).join(' · '), M, 44);
+  doc.text([R.cur ? `місяць триває (${elapsed} з ${R.nDays} днів)` : null, `сформовано ${today}`].filter(Boolean).map(s => tt(s)).join(' · '), M, 44);
   L.y = 58;
 
   const min = Math.round(R.seconds / 60);
@@ -715,11 +724,11 @@ export async function buildMonthPdf(ym) {
   for (let p = 1; p <= pages; p++) {
     doc.setPage(p);
     doc.setFont('Onest', 'normal'); doc.setFontSize(8); doc.setTextColor(...C.dim);
-    doc.text(`myEnglish · звіт вчителя за ${R.title.toLowerCase()}${name ? ` · ${name}` : ''}`, M, A4.h - 8);
+    doc.text(`myEnglish · звіт вчителя за ${tt(R.title).toLowerCase()}${name ? ` · ${name}` : ''}`, M, A4.h - 8);
     doc.text(`${p} / ${pages}`, A4.w - M, A4.h - 8, { align: 'right' });
   }
   doc.setProperties({ title: `myEnglish — звіт вчителя за ${R.title}`, subject: 'Прогрес в англійській', creator: 'myEnglish' });
-  return { blob: doc.output('blob'), name: `myEnglish-${ym}.pdf`, title: `Звіт за ${R.title}` };
+  return { blob: doc.output('blob'), name: `myEnglish-${ym}.pdf`, title: tt(`Звіт за ${R.title}`) };
 }
 
 /** Сформувати й віддати користувачу: «Поділитися» (iPhone — «Зберегти у Файли») або завантаження */
