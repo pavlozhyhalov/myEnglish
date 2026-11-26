@@ -11,7 +11,7 @@ import { go } from '../router.js';
 import { scoreGuess, keyStates, isWon, shareText, validSet, answersFor, pickBy, bareWord, updateWordleStats } from './logic.js';
 import { tx, txPrimary, txKpis, txGrid, txGroup } from '../ui/tiles.js';
 import { words5, gameState, saveGameState, beep, buzz, reducedMotion, addWordTile, gameHead, learningCards, wordRow } from './common.js';
-import { loc } from '../i18n.js';
+import { loc, tLines } from '../i18n.js';
 
 const MAX = 6, LEN = 5;
 const ROWS = ['qwertyuiop', 'asdfghjkl', '+zxcvbnm-'];
@@ -174,7 +174,7 @@ export default async function wordle(view, r) {
     kb.hidden = true;
     const w = { en: info.en, uk: info.uk, ipa: info.ipa, ex: info.ex, exUk: info.exUk };
     const title = practice ? 'myEnglish · Тренування' : `myEnglish · Слово дня ${new Date().toLocaleDateString(loc(), { day: '2-digit', month: '2-digit' })} · ${lvLabel(lv)}`;
-    const text = shareText({ title, rows, won, hint });
+    const text = tLines(shareText({ title, rows, won, hint }));
     const share = async () => {
       try {
         if (navigator.share) { await navigator.share({ text }); return; }

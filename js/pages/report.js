@@ -11,7 +11,7 @@ import { monthPart, reportMonths, voiceClips, speechLines, monthKey, isMonthKey,
 import { SPEECH_META, speechRow, metricChart } from './analysis.js';
 import { masteryDots, TALK_HREF } from './mistakes.js';
 import { fold } from './progress.js';
-import { loc } from '../i18n.js';
+import { loc, tLines, t as tt } from '../i18n.js';
 
 const rk = (l) => LEVELS.indexOf(l);
 const lvTxt = (x) => (x ? `${lvLabel(x.level)}${x.sublevel === 'high' ? '+' : x.sublevel === 'low' ? '−' : ''}` : '—');
@@ -249,9 +249,9 @@ async function share(M) {
   if (sl) parts.push(`• ${sl}`);
   if (M.mistakes.closed) parts.push(`• Закрито помилок: ${M.mistakes.closed}`);
   if (M.words.started) parts.push(`• Нових слів: ${M.words.started}`);
-  const text = parts.join('\n');
+  const text = tLines(parts.join('\n'));
   try {
-    if (navigator.share) { await navigator.share({ title: `Звіт за ${MONTH_ACC[M.monthIdx]}`, text }); return; }
+    if (navigator.share) { await navigator.share({ title: tt(`Звіт за ${MONTH_ACC[M.monthIdx]}`), text }); return; }
     await navigator.clipboard.writeText(text);
     toast('Підсумок скопійовано');
   } catch (e) {

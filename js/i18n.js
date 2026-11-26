@@ -170,6 +170,9 @@ function one(core) {
   return out;
 }
 
+/** Багаторядковий текст поза DOM (поділитися, буфер обміну) — кожен рядок окремо */
+export function tLines(text) { return current === 'uk' || text == null ? text : String(text).split('\n').map(l => t(l)).join('\n'); }
+
 // ---------- переклад DOM на льоту ----------
 const ATTRS = ['aria-label', 'placeholder', 'title', 'alt'];
 const skip = (el) => !el || el.closest?.('[lang="en"],[data-noi18n],textarea,[contenteditable="true"],script,style') != null;

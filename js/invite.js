@@ -7,6 +7,7 @@ import { getSupa, user } from './supa.js';
 import { go } from './router.js';
 import { toast } from './ui/toast.js';
 import { tx, txPrimary, txResult, txRow, txRows } from './ui/tiles.js';
+import { tLines } from './i18n.js';
 
 const PENDING = 'me:pending-invite';
 const base = () => `${location.origin}${location.pathname}`;
@@ -32,6 +33,7 @@ async function rpc(name, args) {
 
 /** Поділитися посиланням: системне меню (Telegram, Viber, повідомлення…) або копіювання */
 export async function shareLink(url, text) {
+  text = tLines(text);
   if (navigator.share) {
     try { await navigator.share({ title: 'myEnglish', text, url }); return; }
     catch (e) { if (e?.name === 'AbortError') return; }

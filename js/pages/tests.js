@@ -15,7 +15,7 @@ import { user } from '../supa.js';
 import { setTitle, setFocus } from '../ui/shell.js';
 import { tx, txPrimary, txGrid, txGroup, txKpis, txRow, txRows, txPill } from '../ui/tiles.js';
 import { levelSection, moreRows, nearRows } from './grammar.js';
-import { loc } from '../i18n.js';
+import { loc, t as tt } from '../i18n.js';
 
 // Щоб тести не повторювались: що бачили в останніх спробах (зберігається в історії тестів і синхронізується)
 const exKey = (ex) => String(ex.id || ex.prompt || ex.sentence || ex.uk || ex.answer || '').toLowerCase().replace(/\s+/g, ' ').slice(0, 120);
@@ -344,7 +344,7 @@ async function placementTest(view, { quick = false, from = '' } = {}) {
     } }, ic('speaker-high', { size: 18 }), h('span', 'Прослухати')) : null;
     const instr = s === 'listening' ? 'Прослухайте і оберіть відповідь (не більше трьох разів)' : s === 'reading' ? 'Прочитайте текст і оберіть відповідь' : s === 'vocabulary' ? 'Оберіть слово, що підходить' : 'Оберіть правильний варіант';
     const noSound = s === 'listening' ? h('button.btn.ghost.sm', { type: 'button', onclick: () => {
-      if (!confirm('Пропустити аудіювання? Ця частина не врахується в рівні.')) return;
+      if (!confirm(tt('Пропустити аудіювання? Ця частина не врахується в рівні.'))) return;
       stopSpeech(); run.resp[s] = []; run.noSound = true; run.skill++; run.cur = null; saveRun(run); ask();
     } }, 'Немає звуку — пропустити частину') : null;
     const pairNote = q.group != null && resp.length && resp[resp.length - 1].group === q.group ? txPill('Той самий текст, друге питання') : null;
