@@ -4,3 +4,10 @@
 Після перезапуску чи ліміту продовжувати з першого невідміченого пункту. Завершену задачу звідси прибрати.
 
 _Зараз відкритих задач немає._
+
+## App Store, етап 2 — оболонка iOS (2026-11-26, власник: «Продовжуй йти по плану»; план `docs/appstore-plan.pdf`)
+Критерій: проєкт `native/` (Capacitor) збирається на macOS у GitHub Actions (симулятор, без підпису); сайт не зламано; підписана збірка в TestFlight — після акаунта Apple (власник).
+- [ ] Код: `js/native.js` (isNative), аудіо з сайту в застосунку, без SW і Web Push, сховати службове
+- [ ] `native/`: package.json, capacitor.config.json, `scripts/native-sync.sh` (копія сайту в native/www без аудіо), `npx cap add ios`
+- [ ] iOS: Info.plist (мікрофон, розпізнавання, шифрування — 6 мов), PrivacyInfo.xcprivacy, іконка й заставка
+- [ ] GitHub Actions: збірка для симулятора на macOS (перевірка), заготовка TestFlight-збірки (вмикається секретами Apple)
