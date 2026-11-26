@@ -44,10 +44,40 @@ async function localSchedule() {
   const [hour, minute] = reminderPrefs().time.split(':').map(Number);
   const { t } = await import('./i18n.js');
   await L.cancel({ notifications: [{ id: LOCAL_ID }] }).catch(() => {});
+  apnsRegister({ ask: true }).catch(() => {});   // той самий дотик — і сповіщення від друзів і вчителя (APNs)
   await L.schedule({ notifications: [{ id: LOCAL_ID, title: 'myEnglish', body: t('Кілька хвилин англійської сьогодні — і серія днів триває'),
     schedule: { on: { hour, minute }, allowWhileIdle: true }, extra: { url: '#/today' } }] });
   return true;
 }
+// APNs (сповіщення про чати, запити, домашнє — сервер push, supabase/functions/push/apns.ts): токен пристрою → рядок push_subscriptions
+// з endpoint api.push.apple.com і keys { type: 'apns' }; щоденні нагадування з сервера для нього вимкнені (kinds.cards/streak = false) — вони локальні
+const PN = () => globalThis.Capacitor?.Plugins?.PushNotifications;
+let apnsListening = false;
+export async function apnsRegister({ ask = false } = {}) {
+  const P = PN(); const uid = user()?.id;
+  if (!nativeApp() || !P || !uid) return false;
+  try {
+    let perm = await P.checkPermissions();
+    if (perm?.receive !== 'granted' && ask) perm = await P.requestPermissions();
+    if (perm?.receive !== 'granted') return false;
+    if (!apnsListening) {
+      apnsListening = true;
+      P.addListener('registration', async (t) => {
+        const token = String(t?.value || '');
+        if (!/^[0-9a-f]{32,200}$/i.test(token) || !user()) return;
+        let tz = 'Europe/Kyiv'; try { tz = Intl.DateTimeFormat().resolvedOptions().timeZone || tz; } catch { /* */ }
+        const c = await getSupa();
+        const { error } = await c.from('push_subscriptions').upsert({ user_id: user().id, endpoint: `https://api.push.apple.com/3/device/${token}`, keys: { type: 'apns' },
+          tz, remind_at: reminderPrefs().time, kinds: { cards: false, streak: false, chat: reminderPrefs().chat }, enabled: true }, { onConflict: 'endpoint', defaultToNull: false });
+        if (error) console.warn('apns save', error.message);
+      });
+      P.addListener('registrationError', (e) => console.warn('apns', e?.error));
+    }
+    await P.register();
+    return true;
+  } catch (e) { console.warn('apns', e?.message || e); return false; }
+}
+
 async function localCancel() { try { await LN()?.cancel({ notifications: [{ id: LOCAL_ID }] }); } catch { /* */ } }
 async function vapidKey() {
   try {

@@ -31,6 +31,15 @@ export function initNative() {
       if (typeof url === 'string' && url.startsWith('#/')) location.hash = url.slice(1);
     });
   } catch { /* плагіна немає */ }
+  // дотик по push (APNs): data.url з сервера
+  try {
+    plugin('PushNotifications')?.addListener('pushNotificationActionPerformed', (e) => {
+      const url = e?.notification?.data?.url;
+      if (typeof url === 'string' && url.startsWith('#/')) location.hash = url.slice(1);
+    });
+  } catch { /* */ }
+  // дозвіл уже є — оновити токен на сервері (Apple інколи міняє його)
+  setTimeout(() => import('./push.js').then(m => m.apnsRegister()).catch(() => {}), 4000);
 }
 
 /** Адреса сайту для посилань назовні (запрошення, листи відновлення пароля): у застосунку location — capacitor://localhost */

@@ -1,6 +1,7 @@
 // Мінімальний Web Push на Web Crypto (без node-залежностей):
 //  * шифрування вмісту — RFC 8291 (aes128gcm, RFC 8188), один запис;
 //  * VAPID — RFC 8292 (JWT ES256, заголовок `Authorization: vapid t=…, k=…`).
+import { sendApns } from './apns.ts';
 
 const enc = new TextEncoder();
 
@@ -93,6 +94,8 @@ export type Sub = { endpoint: string; keys: PushKeys };
 
 /** Надіслати повідомлення. Повертає HTTP-статус служби push (201 — прийнято; 404/410 — підписка недійсна). */
 export async function sendPush(sub: Sub, data: unknown, v: Vapid, { ttl = 4 * 3600, urgency = 'normal' } = {}) {
+  // застосунок iOS (APNs): той самий рядок push_subscriptions, keys { type: 'apns' } — apns.ts
+  if ((sub.keys as unknown as { type?: string })?.type === 'apns') return sendApns(sub.endpoint, data, { ttl, urgency });
   const body = await encrypt(enc.encode(JSON.stringify(data)), sub.keys);
   const res = await fetch(sub.endpoint, {
     method: 'POST',

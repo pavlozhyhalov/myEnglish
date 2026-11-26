@@ -1,7 +1,7 @@
 // Згенеровано scripts/bump.sh — не редагувати вручну
 // шлях → хеш вмісту (sha256, 12 символів)
 self.PRECACHE = {
-  './': 'ddee74a1af76', './index.html': 'ddee74a1af76', './manifest.webmanifest': 'd94fd1b79b2a',
+  './': 'af9c5b3e2517', './index.html': 'af9c5b3e2517', './manifest.webmanifest': 'd94fd1b79b2a',
   './assets/icons/apple-touch-icon.png': '49e9cb2a0d59',
   './assets/icons/badge-96.png': '05f32f54be9f',
   './assets/icons/icon-192.png': '8f448517285d',
@@ -267,7 +267,7 @@ self.PRECACHE = {
   './js/app.js': '4e5cfd75885b',
   './js/audiosession.js': '559af3ef813b',
   './js/chat.js': 'f1d3b6f31f97',
-  './js/config.js': '0b12bc82ff0e',
+  './js/config.js': '56c64fcae85d',
   './js/daily.js': 'f128a7bf9190',
   './js/data.js': '47e796f9621f',
   './js/done.js': 'ac9083f63e8b',
@@ -292,7 +292,7 @@ self.PRECACHE = {
   './js/live/client.js': '81b3a9f73ec6',
   './js/live/player-worklet.js': 'ae3dbb0da02d',
   './js/live/voice.js': '0e047d1b8cd9',
-  './js/native.js': '33e013954634',
+  './js/native.js': '0101324d6e87',
   './js/nav.js': 'e394ce33ee6f',
   './js/pages/abc.js': 'c9b1709c0a28',
   './js/pages/about.js': '163490612a1d',
@@ -334,7 +334,7 @@ self.PRECACHE = {
   './js/pdfreport.js': 'eef49461ad4c',
   './js/phrases.js': '4350ec633fed',
   './js/placement.js': '38b20c0a1013',
-  './js/push.js': '77f5269ed3b0',
+  './js/push.js': '08ec1dc58920',
   './js/redo.js': '9460b644cc45',
   './js/review.js': '01f50eb56c6c',
   './js/router.js': 'aaa050c58add',
