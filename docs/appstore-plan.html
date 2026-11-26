@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<title>myEnglish — план виходу в App Store</title>
+<style>
+@font-face{font-family:Onest;font-weight:400;src:url(../fonts/onest-cyrillic-400-normal.woff2) format('woff2');unicode-range:U+0400-04FF,U+2116}
+@font-face{font-family:Onest;font-weight:400;src:url(../fonts/onest-latin-400-normal.woff2) format('woff2')}
+@font-face{font-family:Onest;font-weight:600;src:url(../fonts/onest-cyrillic-600-normal.woff2) format('woff2');unicode-range:U+0400-04FF,U+2116}
+@font-face{font-family:Onest;font-weight:600;src:url(../fonts/onest-latin-600-normal.woff2) format('woff2')}
+@font-face{font-family:Head;src:url(../fonts/days-one-cyrillic-400-normal.woff2) format('woff2');unicode-range:U+0400-04FF}
+@font-face{font-family:Head;src:url(../fonts/days-one-latin-400-normal.woff2) format('woff2')}
+@page{size:A4;margin:16mm 15mm 16mm 15mm}
+:root{--ink:#0F1A2E;--dim:#55617A;--acc:#1E40AF;--line:#DCE1EA;--tile:#F1F4F9;--red:#B42318;--redbg:#FDECEA;--amb:#8A5A00;--ambbg:#FFF4DB;--grn:#11683A;--grnbg:#E6F5EC}
+*{box-sizing:border-box}
+body{font-family:Onest,sans-serif;color:var(--ink);font-size:10pt;line-height:1.45;margin:0}
+h1,h2,h3{font-family:Head,Onest,sans-serif;font-weight:400;letter-spacing:.01em}
+h1{font-size:22pt;margin:0 0 4mm;color:var(--acc)}
+h2{font-size:14pt;margin:8mm 0 3mm;padding-bottom:1.5mm;border-bottom:2px solid var(--acc);break-after:avoid}
+h3{font-size:11pt;margin:5mm 0 2mm;break-after:avoid}
+p{margin:0 0 2mm}
+.sub{color:var(--dim);font-size:10.5pt;margin-bottom:6mm}
+.box{border-radius:3mm;padding:3mm 4mm;margin:2mm 0 3mm;break-inside:avoid}
+.red{background:var(--redbg);border-left:3px solid var(--red)}
+.amb{background:var(--ambbg);border-left:3px solid var(--amb)}
+.grn{background:var(--grnbg);border-left:3px solid var(--grn)}
+.tile{background:var(--tile)}
+.box b.t{display:block;margin-bottom:1mm}
+table{width:100%;border-collapse:collapse;margin:2mm 0 4mm;font-size:9pt;break-inside:auto}
+tr{break-inside:avoid}
+th{text-align:left;background:var(--tile);font-weight:600;padding:1.6mm 2mm;border-bottom:1px solid var(--line)}
+td{padding:1.6mm 2mm;border-bottom:1px solid var(--line);vertical-align:top}
+.pill{display:inline-block;font-size:7.5pt;font-weight:600;padding:.3mm 1.8mm;border-radius:2mm;white-space:nowrap}
+.p-no{background:var(--redbg);color:var(--red)}
+.p-part{background:var(--ambbg);color:var(--amb)}
+.p-ok{background:var(--grnbg);color:var(--grn)}
+.p-me{background:#E3E9FB;color:var(--acc)}
+.p-you{background:#F3E8FF;color:#6B21A8}
+ul{margin:0 0 2mm;padding-left:5mm}
+li{margin:.6mm 0}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:3mm}
+.small{font-size:8.5pt;color:var(--dim)}
+.kpi{display:grid;grid-template-columns:repeat(4,1fr);gap:2.5mm;margin:3mm 0 5mm}
+.kpi div{background:var(--tile);border-radius:3mm;padding:3mm}
+.kpi b{font-family:Head,Onest;font-weight:400;font-size:15pt;color:var(--acc);display:block}
+.kpi span{font-size:8.5pt;color:var(--dim)}
+.pb{break-before:page}
+code{font-family:Onest;background:var(--tile);padding:0 1mm;border-radius:1mm;font-size:9pt}
+</style>
+</head>
+<body>
+
+<h1>myEnglish → App Store</h1>
+<div class="sub">Повний план: вимоги Apple, ЄС і Google, блокери, задачі за етапами, хто що робить, витрати. Складено 26.11.2026 за станом коду (збірка 26.11) і чинними правилами App Review Guidelines.</div>
+
+<div class="kpi">
+  <div><b>4</b><span>рішення потрібні від вас до старту</span></div>
+  <div><b>7</b><span>етапів від PWA до App Store</span></div>
+  <div><b>6–8 тиж.</b><span>реалістичний термін до публікації</span></div>
+  <div><b>$99/рік</b><span>мінімальна неминуча витрата (Apple)</span></div>
+</div>
+
+<h2>0. Блокери — без них далі не йти</h2>
+
+<div class="box red"><b class="t">0.1. Безкоштовний ключ Gemini не можна використовувати для учнів у ЄС — і це стосується вже нинішнього сайту</b>
+Умови Gemini API (редакція березня 2026): застосунок, що обслуговує користувачів з ЄЕЗ, Швейцарії чи Великої Британії, має працювати лише через <b>платні сервіси</b> (Cloud-проєкт з білінгом). Безкоштовна квота для них заборонена. Ви з учнями — у Польщі/ЄС, тож сайт уже зараз формально порушує ці умови. App Store лише робить це помітним: Apple перевіряє ліцензійну чистоту сторонніх сервісів (5.2, 5.1.2).<br>
+<b>Рішення:</b> увімкнути білінг у Google Cloud (Tier 1) з лімітом бюджету й сповіщенням. Код міняти майже не треба: моделі й ліміти на людину вже є в <code>_shared/config.ts</code>.</div>
+
+<div class="box red"><b class="t">0.2. Масштаб: AI розраховано на 10 людей</b>
+У App Store прийдуть сотні незнайомих людей. Безкоштовних лімітів не вистачить уже на 15–20 активних учнів, а платні виклики без обмежень — це необмежений рахунок. Потрібні денні ліміти на людину (вже є), загальний місячний бюджет із «запобіжником» і модель доходу (розділ 6), щоб AI окупався.</div>
+
+<div class="box red"><b class="t">0.3. Обліковий запис розробника Apple — $99 на рік</b>
+Без Apple Developer Program публікація неможлива. Рекомендую реєструватися як фізособа (Individual): D-U-N-S не потрібен, у магазині продавцем значиться ваше ім'я. Mac <b>не потрібен</b>: збирати застосунок і завантажувати в TestFlight буде GitHub Actions на macOS (для публічного репозиторію безкоштовно).</div>
+
+<div class="box amb"><b class="t">0.4. Статус «трейдера» за DSA (ЄС)</b>
+Для продажу в ЄС App Store Connect вимагає вказати, чи ви трейдер. Якщо застосунок платний або з підпискою — так, і тоді в картці застосунку <b>публічно</b> показуються адреса, телефон і e-mail (для фізособи — ваші). Для безкоштовного некомерційного застосунку можна вказати «не трейдер». Варіант з JDG і рахунком для доходів — окреме рішення разом із моделлю доходу.</div>
+
+<h2 class="pb">1. Рішення, які потрібні від вас</h2>
+<table>
+<tr><th style="width:30%">Питання</th><th>Варіанти</th><th style="width:30%">Моя рекомендація</th></tr>
+<tr><td><b>Модель доходу</b></td><td>а) безкоштовно назавжди (ви платите за AI);<br>б) freemium: картки, граматика, читання — безкоштовно; AI-вчитель і голос — підписка через In-App Purchase;<br>в) платний застосунок</td><td><b>б) freemium</b> — 7 днів пробного періоду, близько 29–39 zł/міс або 199–249 zł/рік. Apple Small Business Program бере 15%.</td></tr>
+<tr><td><b>Білінг Gemini</b></td><td>увімкнути / лишити безкоштовний ключ і закрити AI для ЄС</td><td>Увімкнути, бюджет $30–50/міс на старт, сповіщення на 50/90%.</td></tr>
+<tr><td><b>Домен</b></td><td>лишити <code>pavlozhyhalov.github.io/myEnglish</code> / власний домен (~50–80 zł/рік)</td><td><b>Власний домен.</b> Посилання-запрошення мають відкривати застосунок (Universal Links), а для цього потрібен файл у корені домену — на сторінці проєкту GitHub Pages його не покласти. Ще й назва без вашого логіна.</td></tr>
+<tr><td><b>Назва в магазині</b></td><td>«myEnglish» може бути зайнята або схожа на чужі</td><td>Перевірити в App Store Connect. Запасні: «myEnglish: AI Tutor», «Speakly UA»… Назва ≤ 30 символів.</td></tr>
+<tr><td><b>Країни</b></td><td>усі / вибрані</td><td>Усі, крім Росії й Білорусі. Окремо вирішити щодо Китаю: там для AI-застосунків потрібна ліцензія — не публікувати.</td></tr>
+<tr><td><b>Android</b></td><td>одночасно / пізніше</td><td>Пізніше, з тим самим кодом. Google Play — $25 один раз, але новий особистий акаунт мусить спершу провести закритий тест: 12 тестувальників упродовж 14 днів.</td></tr>
+</table>
+
+<h2 class="pb">2. Технічний шлях: PWA → нативний застосунок</h2>
+<div class="box tile"><b class="t">Обраний підхід: Capacitor (оболонка iOS) + файли застосунку в самому пакеті</b>
+Той самий HTML/CSS/JS, що й на сайті, без переписування. Файли застосунку кладемо в пакет, а не вантажимо з сайту: так менше ризику відмови за правилом 4.2 («просто сайт в обгортці»), і застосунок працює офлайн. Великий зміст — книги, аудіо Kokoro (~104 МБ), словники — вантажимо з сайту за потреби, як зараз. Сайт-PWA лишається для Android і комп'ютерів.</div>
+
+<h3>Що в оболонці iOS працює інакше, ніж у Safari-PWA</h3>
+<table>
+<tr><th style="width:24%">Механізм</th><th>Проблема в оболонці</th><th style="width:34%">Що зробити</th></tr>
+<tr><td>Service Worker</td><td>У WKWebView не працює</td><td>У нативній збірці не реєструвати SW (файли й так у пакеті); прапорець <code>isNative()</code> у <code>js/app.js</code>.</td></tr>
+<tr><td>Push-сповіщення</td><td>Web Push у застосунку недоступний</td><td>APNs: плагін Push Notifications, таблиця токенів (тип <code>apns</code> у <code>push_subscriptions</code>), відправка з функції <code>push</code> через ключ .p8 (JWT). Тексти — ті самі.</td></tr>
+<tr><td>Цифра на іконці</td><td>Badging API немає</td><td>Цифра в payload APNs (<code>badge</code>) + плагін для локального оновлення.</td></tr>
+<tr><td>Розпізнавання мовлення</td><td><code>webkitSpeechRecognition</code> у WKWebView немає</td><td>Нативне розпізнавання (SFSpeechRecognizer, на пристрої) — плагін; запасний — уже наявне розпізнавання вчителем (<code>recordAndTranscribe</code>).</td></tr>
+<tr><td>Мікрофон, гучність</td><td>Потрібні опис дозволу й керування аудіосесією</td><td><code>NSMicrophoneUsageDescription</code> 6 мовами; AVAudioSession (playback ↔ playAndRecord) — нативний плагін замість <code>navigator.audioSession</code>.</td></tr>
+<tr><td>Gemini Live (WebSocket, AudioWorklet)</td><td>Працює в WKWebView з iOS 14.5+</td><td>Перевірити на пристрої: відлуння, фон, дзвінки, AirPods.</td></tr>
+<tr><td>PDF-звіт, «Поділитися»</td><td><code>navigator.share({files})</code> ненадійний</td><td>Плагіни Filesystem + Share.</td></tr>
+<tr><td>Посилання-запрошення, відновлення пароля</td><td>Мають відкривати застосунок, а не Safari</td><td>Universal Links (<code>apple-app-site-association</code> на власному домені) + обробник <code>appUrlOpen</code> → hash-маршрут.</td></tr>
+<tr><td>Вхід</td><td>Supabase-сесія в WKWebView зберігається</td><td>Сховище сесії — Preferences (Keychain); redirect URL застосунку — у налаштуваннях Supabase Auth.</td></tr>
+<tr><td>Безпечні зони, клавіатура</td><td>«Чубчик», Dynamic Island, клавіатура над полем чату</td><td>Плагіни Keyboard і StatusBar, <code>env(safe-area-inset-*)</code> — перевірити на всіх екранах.</td></tr>
+<tr><td>Оновлення змісту</td><td>Код оновлюється лише через App Store</td><td>Дані (<code>data/*.json</code>) підтягувати з сайту з кешем. Логіка — новими версіями застосунку (раз на 1–2 тижні).</td></tr>
+</table>
+
+<h3>Нативні можливості — і для правила 4.2, і для користувачів</h3>
+<ul>
+<li><b>Віджет на екрані «Додому»</b> (WidgetKit, Swift): стрік, «Мій день», слова на сьогодні — головний аргумент «це не сайт».</li>
+<li><b>Локальні нагадування</b> в обраний час без сервера + push від вчителя й друзів (APNs).</li>
+<li><b>Нативне розпізнавання мовлення</b> на пристрої (швидше, без ліміту Gemini).</li>
+<li><b>Тактильний відгук</b> на правильну/неправильну відповідь, нативний лист «Поділитися», меню на іконці (Quick Actions: «Картки», «Голосовий вчитель»).</li>
+<li>Офлайн-режим карток, граматики й читання (уже є — показати в описі для перевірки).</li>
+<li>Пізніше: «Слухати в дорозі» у фоні із заблокованим екраном (нативне аудіо + записи Kokoro) — розв'язує нинішнє обмеження iOS.</li>
+</ul>
+
+<h3>Збірка без Mac</h3>
+<ul>
+<li>GitHub Actions <code>macos-latest</code>: <code>npx cap sync ios</code> → <code>xcodebuild archive</code> → завантаження в TestFlight (fastlane + ключ App Store Connect API).</li>
+<li>Підписування: сертифікат і профіль через <code>fastlane match</code> або автоматичне підписування з API-ключем; секрети — у GitHub Secrets (репозиторій публічний — у код нічого не кладемо).</li>
+<li>Версія застосунку = BUILD з <code>scripts/bump.sh</code>; окрема команда <code>scripts/ios-release.sh</code>.</li>
+</ul>
+
+<h2 class="pb">3. Відповідність App Review Guidelines — чекліст</h2>
+<table>
+<tr><th style="width:13%">Правило</th><th style="width:33%">Вимога</th><th style="width:13%">Зараз</th><th>Задача</th></tr>
+<tr><td><b>5.1.1(v)</b></td><td>Видалення акаунта в самому застосунку (не лише листом)</td><td><span class="pill p-no">немає</span></td><td>«Видалити акаунт» в акаунті: підтвердження паролем, RPC + функція — видалення профілю, карток, розмов, чатів (повідомлення → «видалений користувач»), голосових і файлів у бакетах, підписок, потім <code>auth.users</code>. Результат — одразу.</td></tr>
+<tr><td><b>5.1.1(i)</b></td><td>Політика приватності: посилання в App Store Connect і в застосунку</td><td><span class="pill p-no">немає</span></td><td>Сторінки <code>privacy.html</code> і <code>terms.html</code> 6 мовами на сайті, посилання на вході, в «Налаштуваннях» і в «Про застосунок».</td></tr>
+<tr><td><b>5.1.2(i)</b> (лист. 2025)</td><td>Явно сказати й отримати дозвіл, перш ніж слати персональні дані сторонньому AI</td><td><span class="pill p-no">немає</span></td><td>Екран згоди перед першим AI: що йде в Google Gemini (тексти, голос, профіль «Про вас», пам'ять вчителя), навіщо, що Google не тренує на платному тарифі. Згода — <code>profiles.data.aiConsent</code> з датою й версією; без згоди AI вимкнено, решта працює.</td></tr>
+<tr><td><b>1.2</b> UGC</td><td>Чати й групи: фільтр образливого, «Поскаржитися» на повідомлення й людину, блокування, реакція на скарги ≤ 24 год, правила з нульовою толерантністю</td><td><span class="pill p-part">частково</span><br><span class="small">блокування є</span></td><td>Дія «Поскаржитися» (повідомлення, людина, група) → таблиця <code>reports</code> → push адміністратору + розділ на <code>#/admin</code> (приховати повідомлення, заблокувати акаунт). Фільтр образливих слів до відправки (словник 6 мов). Прийняття правил спільноти перед першим чатом.</td></tr>
+<tr><td><b>1.2.1(a), 4.7.5</b>, вікова категорія</td><td>Нова анкета віку (13+/16+/18+); вік, оголошений користувачем, для функцій з UGC</td><td><span class="pill p-no">немає</span></td><td>Рік народження під час реєстрації. До 16 років — без чатів з незнайомими й пошуку людей (у Польщі цифрова згода — з 16). Категорія в анкеті — швидше за все 13+/16+ (AI-чат, UGC, грубі слова в словнику).</td></tr>
+<tr><td><b>4.2</b></td><td>Не «сайт в обгортці»</td><td><span class="pill p-part">ризик</span></td><td>Розділ 2: файли в пакеті, віджет, APNs, нативне мовлення, тактильний відгук, офлайн.</td></tr>
+<tr><td><b>2.1</b></td><td>Повністю робочий застосунок, демо-акаунт для перевірки</td><td><span class="pill p-part">частково</span></td><td>Демо-акаунт з наповненими даними (рівень, картки, історія розмов, група з учасниками). Сховати <code>#/lab/*</code>, <code>#/admin</code> у нативній збірці. Перевірити кожен екран без мережі й при вичерпаному ліміті AI.</td></tr>
+<tr><td><b>2.3</b></td><td>Точні метадані: скріншоти, опис, без цін чи згадок конкурентів</td><td><span class="pill p-no">немає</span></td><td>Скріншоти 6,9" (1320×2868) 6 мовами — Playwright; опис, ключові слова, «Що нового». Не порівнювати з Duolingo.</td></tr>
+<tr><td><b>2.5.2</b></td><td>Не завантажувати код, що змінює функції</td><td><span class="pill p-ok">ок</span></td><td>Код — у пакеті; з мережі — лише дані (JSON, аудіо, тексти).</td></tr>
+<tr><td><b>3.1.1</b></td><td>Цифрові підписки — лише через In-App Purchase</td><td><span class="pill p-ok">н/д</span></td><td>Якщо обрано freemium: StoreKit 2 через RevenueCat (безкоштовно до $2,5 тис./міс); перевірка права доступу на сервері (функції AI), «Відновити покупки», умови підписки на екрані оплати.</td></tr>
+<tr><td><b>4.8</b></td><td>Сторонній вхід → обов'язково «Увійти з Apple»</td><td><span class="pill p-ok">ок</span></td><td>Зараз лише e-mail — не вимагається. Рекомендую все одно додати «Увійти з Apple» (Supabase підтримує): реєстрація в один дотик, конверсія вища.</td></tr>
+<tr><td><b>5.1.1</b>, дозволи</td><td>Зрозумілі пояснення дозволів, запит у момент потреби</td><td><span class="pill p-part">частково</span></td><td>Тексти дозволів (мікрофон, розпізнавання, сповіщення, фото для скріншота у «Написати розробнику») 6 мовами в <code>InfoPlist.strings</code>.</td></tr>
+<tr><td><b>Privacy manifest</b></td><td><code>PrivacyInfo.xcprivacy</code>: API з обов'язковим поясненням причини, види даних</td><td><span class="pill p-no">немає</span></td><td>Файл у проєкті iOS; плагіни Capacitor мають свої.</td></tr>
+<tr><td><b>Мітки приватності</b></td><td>Анкета даних в App Store Connect</td><td><span class="pill p-no">немає</span></td><td>Контакти (e-mail, ім'я), вміст користувача (повідомлення, аудіо, тексти), використання, діагностика (<code>client_errors</code>), ідентифікатор. Пов'язані з людиною, <b>без трекінгу</b> → ATT не потрібен.</td></tr>
+<tr><td><b>5.2</b>, ліцензії</td><td>Права на весь зміст</td><td><span class="pill p-ok">ок</span></td><td>Книги — Standard Ebooks (CC0), шрифти OFL, Phosphor MIT, Kokoro Apache-2.0, jsPDF MIT. Додати екран «Ліцензії» в «Про застосунок».</td></tr>
+<tr><td><b>Експорт</b></td><td>Шифрування</td><td><span class="pill p-ok">ок</span></td><td><code>ITSAppUsesNonExemptEncryption = NO</code> (лише HTTPS).</td></tr>
+</table>
+
+<h2 class="pb">4. Право ЄС (GDPR, DSA, AI Act)</h2>
+<table>
+<tr><th style="width:24%">Вимога</th><th>Що зробити</th></tr>
+<tr><td><b>GDPR — інформування</b></td><td>Політика приватності: хто відповідає за дані (ви), які дані й навіщо, правові підстави (договір; згода — голос і AI), обробники: Supabase (ЄС, Франкфурт), Google Gemini (США — стандартні договірні положення / DPF), GitHub Pages, Apple APNs; строки зберігання; права й контакт.</td></tr>
+<tr><td><b>GDPR — права людини</b></td><td>«Завантажити мої дані» (JSON-архів: профіль, картки, помилки, розмови, повідомлення) і «Видалити акаунт» — в акаунті. Голосові записи «тоді й зараз» — окрема згода й перемикач.</td></tr>
+<tr><td><b>GDPR — договори з обробниками</b></td><td>Прийняти DPA Supabase і Google Cloud (у їхніх панелях, безкоштовно) — <span class="pill p-you">ви</span>.</td></tr>
+<tr><td><b>Вік</b></td><td>У Польщі згода на обробку даних — з 16 років. Молодшим — лише зі згодою батьків або без соціальних функцій (див. 1.2.1).</td></tr>
+<tr><td><b>DSA (хостинг вмісту)</b></td><td>Механізм повідомлення про незаконний вміст (= «Поскаржитися»), правила спільноти в «Умовах», пояснення причини, якщо вміст прибрано. Малі платформи звільнені від більшості звітів.</td></tr>
+<tr><td><b>AI Act, ст. 50</b> (з 08.2026)</td><td>Людина має знати, що говорить з AI: підпис «AI-вчитель» у чаті, голосі й групах. Синтетичний голос — позначка в «Про застосунок».</td></tr>
+<tr><td><b>Пошта</b></td><td>Власний SMTP (Resend / Brevo — безкоштовно до кількох тисяч листів) — без нього незнайомі люди не відновлять пароль.</td></tr>
+</table>
+
+<h2>5. Бекенд і масштаб</h2>
+<ul>
+<li><b>Gemini платний тариф:</b> загальний денний/місячний ліміт у <code>_shared/config.ts</code> + запобіжник: бюджет вичерпано → AI для безкоштовних учнів на паузі до завтра, решта застосунку працює. Звіт витрат на <code>#/admin</code>.</li>
+<li><b>Ліміт реєстрацій</b> 10 на добу → 200, + захист від ботів (Cloudflare Turnstile у Supabase Auth, безкоштовно).</li>
+<li><b>Supabase Free:</b> 500 МБ бази, 1 ГБ файлів, 5 ГБ трафіку на місяць. Голосові чатів і «тоді й зараз» ростуть першими — стиснення, строк зберігання. Перехід на Pro ($25/міс) — орієнтовно від ~300–500 активних учнів або коли потрібні резервні копії.</li>
+<li><b>Аудіо й книги</b> на GitHub Pages (ліміти 1 ГБ сайту, ~100 ГБ трафіку на місяць) — зараз ~110 МБ; при зростанні — Cloudflare R2 (безкоштовний вихідний трафік).</li>
+<li><b>Моніторинг:</b> журнал помилок і голосові журнали вже є; додати збої нативної оболонки й щоденний звіт «помилки / витрати / нові люди» вам.</li>
+<li><b>Функції лише для вас</b> (Resonance, адмінка, «лабораторія») — сховати від усіх інших і з нативної збірки.</li>
+</ul>
+
+<h2 class="pb">6. Гроші: витрати й дохід</h2>
+<table>
+<tr><th>Стаття</th><th>Скільки</th><th>Коли</th></tr>
+<tr><td>Apple Developer Program</td><td>$99/рік (~400 zł)</td><td>етап 2</td></tr>
+<tr><td>Gemini API (платний)</td><td>орієнтовно $0,01–0,05 на активного учня на день у тексті; голос Live — найдорожчий, до ~$0,3–0,5 за 45 хв. 100 активних ≈ $50–300/міс залежно від голосу. <span class="small">Ціни перевірити на ai.google.dev перед стартом.</span></td><td>одразу (блокер 0.1)</td></tr>
+<tr><td>Домен</td><td>50–80 zł/рік</td><td>етап 1</td></tr>
+<tr><td>SMTP, RevenueCat, Turnstile, GitHub Actions</td><td>$0 на старті</td><td>—</td></tr>
+<tr><td>Supabase Pro</td><td>$25/міс</td><td>при зростанні</td></tr>
+<tr><td>Google Play (пізніше)</td><td>$25 один раз</td><td>після iOS</td></tr>
+</table>
+<div class="box grn"><b class="t">Як окупити (freemium)</b>
+Безкоштовно: картки, граматика, читання, аудіювання, ігри, 1 коротка розмова з вчителем на день. Підписка «Pro»: необмежений чат, голос до 45 хв/день, підсумки й аналіз, перевірка письма, PDF-звіт, домашнє в групах. При ціні ~29 zł/міс і витратах на AI ~10–15 zł на активного платника маржа — ~50% (з урахуванням 15% Apple). Поріг окупності витрат на Apple й домен — 2–3 платники.</div>
+
+<h2>7. Магазин: сторінка застосунку</h2>
+<ul>
+<li>Назва (≤ 30), підзаголовок (≤ 30), ключові слова (≤ 100), опис, «Що нового» — 6 мовами (uk, es, pt-BR, tr, pl, ru; ru — без згадок Росії, реалії українські) + англійська як основна мова сторінки.</li>
+<li>Скріншоти iPhone 6,9": головна, «Мій день», голосовий вчитель із виправленнями, картки, граматика, переписка з вчителем у групі, прогрес — 6 мов × 6–8 кадрів, автоматично через Playwright з демо-акаунта.</li>
+<li>Іконка 1024×1024 без прозорості; категорія «Освіта», додаткова — «Довідники».</li>
+<li>Посилання: підтримка (сторінка + e-mail), політика приватності, маркетингова сторінка (опційно).</li>
+<li>Нотатки для перевірки: демо-логін, що AI — Google Gemini, як увімкнути голос, що чати модеруються, де видалити акаунт.</li>
+</ul>
+
+<h2>8. Етапи й задачі</h2>
+<table>
+<tr><th style="width:5%">#</th><th style="width:22%">Етап</th><th>Задачі</th><th style="width:10%">Хто</th><th style="width:9%">Термін</th></tr>
+<tr><td>0</td><td><b>Рішення</b></td><td>Модель доходу, білінг Gemini, домен, назва, країни (розділ 1).</td><td><span class="pill p-you">ви</span></td><td>1–3 дні</td></tr>
+<tr><td>1</td><td><b>Відповідність у PWA</b><br><span class="small">корисно й сайту</span></td><td>
+• Видалення акаунта + «Завантажити мої дані»<br>
+• Політика приватності, Умови, правила спільноти — 6 мов<br>
+• Згода на AI (5.1.2(i)), позначки «AI» (AI Act)<br>
+• Рік народження, обмеження до 16 років<br>
+• «Поскаржитися», фільтр образливого, модерація на <code>#/admin</code><br>
+• Екран «Про застосунок» + ліцензії<br>
+• Запобіжник бюджету Gemini, ліміт реєстрацій, Turnstile<br>
+• Сховати особисте й службове від інших<br>
+• Перевірка Playwright, рецензент-агент, усі мови</td><td><span class="pill p-me">Claude</span></td><td>1,5–2 тиж.</td></tr>
+<tr><td>2</td><td><b>Оболонка iOS</b></td><td>
+• Capacitor-проєкт <code>ios/</code>, ідентифікатор пакета, іконки, заставка<br>
+• <code>isNative()</code>: без SW, Preferences для сесії, безпечні зони, клавіатура<br>
+• Збірка GitHub Actions → TestFlight</td><td><span class="pill p-me">Claude</span> + <span class="pill p-you">ви</span>: акаунт Apple, API-ключ</td><td>1 тиж.</td></tr>
+<tr><td>3</td><td><b>Нативні функції</b></td><td>
+• APNs: токени, відправка з <code>push</code>, цифра на іконці<br>
+• Локальні нагадування, Quick Actions, тактильний відгук<br>
+• Нативне розпізнавання мовлення, аудіосесія<br>
+• Universal Links (домен), відновлення пароля в застосунку<br>
+• Віджет WidgetKit (стрік, «Мій день»)<br>
+• «Поділитися» / PDF через нативний лист</td><td><span class="pill p-me">Claude</span></td><td>1,5–2 тиж.</td></tr>
+<tr><td>4</td><td><b>Підписка</b> (якщо freemium)</td><td>Продукти в App Store Connect, RevenueCat, екран «Pro», перевірка права на сервері, «Відновити покупки», безкоштовний ліміт.</td><td><span class="pill p-me">Claude</span> + <span class="pill p-you">ви</span>: податки й банк</td><td>1 тиж.</td></tr>
+<tr><td>5</td><td><b>Сторінка в магазині</b></td><td>Тексти 6 мовами, скріншоти, анкета віку, мітки приватності, DSA-статус, демо-акаунт, нотатки для перевірки.</td><td><span class="pill p-me">Claude</span> готує, <span class="pill p-you">ви</span> вставляєте</td><td>3–4 дні</td></tr>
+<tr><td>6</td><td><b>TestFlight-бета</b></td><td>Нинішні 6–8 учнів на iPhone, 1–2 тижні: голос, push, вхід, чати, підписка в пісочниці. Виправлення за журналом помилок.</td><td>усі</td><td>1–2 тиж.</td></tr>
+<tr><td>7</td><td><b>Перевірка Apple й запуск</b></td><td>Подання; відповіді на відмови (типові: 4.2, 5.1.1(v), 2.1, 1.2) — виправлення й повторне подання за 1–3 дні. Поступовий реліз на 7 днів.</td><td><span class="pill p-me">Claude</span> + <span class="pill p-you">ви</span></td><td>1–2 тиж.</td></tr>
+<tr><td>8</td><td><b>Після запуску</b></td><td>Відгуки й рейтинги (запит оцінки після 7 днів занять), звіт витрат, Android (Google Play), фонове «Слухати в дорозі».</td><td><span class="pill p-me">Claude</span></td><td>далі</td></tr>
+</table>
+
+<h2 class="pb">9. Що робите лише ви (у Claude немає доступу)</h2>
+<table>
+<tr><th style="width:5%">#</th><th>Дія</th><th style="width:20%">Коли</th></tr>
+<tr><td>1</td><td>Рішення з розділу 1</td><td>зараз</td></tr>
+<tr><td>2</td><td>Google Cloud: білінг для ключа Gemini, бюджет і сповіщення; прийняти DPA</td><td>зараз (блокер)</td></tr>
+<tr><td>3</td><td>Apple ID з 2FA → Apple Developer Program (Individual), $99</td><td>етап 2</td></tr>
+<tr><td>4</td><td>App Store Connect: створити ключ API (роль App Manager) і передати через секрети GitHub; створити застосунок (назва, ідентифікатор пакета)</td><td>етап 2</td></tr>
+<tr><td>5</td><td>Домен: купити, вказати DNS на GitHub Pages (покроково підкажу)</td><td>етап 1–3</td></tr>
+<tr><td>6</td><td>SMTP у панелі Supabase (Resend/Brevo)</td><td>етап 1</td></tr>
+<tr><td>7</td><td>Paid Apps Agreement, податкові форми, банк — лише для підписки; DSA-статус</td><td>етап 4–5</td></tr>
+<tr><td>8</td><td>Встановити TestFlight, запросити учнів, перевірити на своєму iPhone</td><td>етап 6</td></tr>
+<tr><td>9</td><td>Носії мов: хоча б по одному на мову — вичитка сторінки в магазині й ключових екранів</td><td>етап 5</td></tr>
+</table>
+
+<h2>10. Інші відкриті питання сайту (поза App Store)</h2>
+<ul>
+<li><b>Голос:</b> офіційно зафіксувати Gemini Live основним режимом, «рацію» — запасним (рекомендую так).</li>
+<li><b>Мови:</b> типові помилки під кожну рідну мову — після появи учнів з тих країн; неадаптовані діалоги, диктант і читання з українськими реаліями — лишити (колорит, прогрес і озвучка прив'язані до тексту); грубі слова в словнику — лишити з позначкою, але врахувати в анкеті віку.</li>
+<li><b>Перевірити наживо:</b> вчитель іншими 5 мовами, шрифт заголовків для pl/tr.</li>
+<li><b>Зміст:</b> тексти читання й аудіювання для Pre-A1, більше C1, підготовка до співбесіди; британська озвучка книг (~500 тис. знаків).</li>
+<li><b>Прибрати</b> (нешкідливо): гілки <code>wip/*</code>, функцію-заглушку <code>ai-probe</code>.</li>
+<li><b>Зроблено 26.11:</b> голос більше не «зависає» після обриву зв'язку (повторні відмови «already connected» → нова сесія зі стенограмою); озвучку перевірено — усе озвучено.</li>
+</ul>
+
+<p class="small" style="margin-top:6mm">Джерела: App Review Guidelines (developer.apple.com/app-store/review/guidelines, оновлення від 13.11.2025: 5.1.2(i), 1.2.1(a), 4.7.5); Gemini API Additional Terms (ai.google.dev/gemini-api/terms, редакція 23.03.2026); досвід відмов за 4.2 для Capacitor/PWA (форуми Apple Developer). Формулювання правил перевіряти за чинним текстом перед поданням.</p>
+
+</body>
+</html>
