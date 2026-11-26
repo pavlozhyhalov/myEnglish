@@ -1,0 +1,4 @@
+Full read of BOOK GLOSSARY translations (myEnglish). Files: data/l10n/<lang>/books/<book>/glossary.json (15 books) = { "<Ukrainian gloss>": "<translation>" }. Source: data/books/<book>/glossary.json ([{w, uk}] — English rare word from the book + Ukrainian meaning in context).
+For EVERY pair: print «English w | Ukrainian uk | your translation» (join source by uk; one uk may serve several w), in chunks of ~80 lines, and READ each: the translation must give the MEANING of the English word w in your language (short dictionary gloss, as in the Ukrainian), not a shifted/neighbour value, not a mistranslation of a homonym. Dialect/archaic notes like «(заст.)», «(діал.)» → your language's equivalent marks.
+Fix wrong values in place (Python json.dump(ensure_ascii=False, indent=1)+"\n", json.load after; never change keys; don't commit). Keep scripts in scratchpad/gl-<lang>.
+Report in Ukrainian: books read, fixed pairs per book with 1–2 examples.
