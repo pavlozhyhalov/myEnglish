@@ -219,6 +219,7 @@ async function boot() {
   matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => applyTheme());
 
   header();
+  import('./native.js').then(m => m.initNative()).catch(() => {});
   initDrawer();
   initQuickbar();
   initSelectLookup();   // виділення англійських слів → «Що це?»

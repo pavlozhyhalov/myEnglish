@@ -28,6 +28,27 @@ function iosVersion() {
 }
 // Публічний ключ VAPID видає функція push (ключі вона створює сама); кеш — на випадок збою мережі
 const KEY_CACHE = 'me:vapid';
+
+// ---------- Застосунок iOS (Capacitor): локальне щоденне нагадування — без сервера (2026-11-26; APNs — після ключа Apple) ----------
+const nativeApp = () => !!globalThis.Capacitor?.isNativePlatform?.();
+const LN = () => globalThis.Capacitor?.Plugins?.LocalNotifications;
+const LOCAL_ID = 7001;
+async function localOn() {
+  try { const r = await LN()?.getPending(); return !!r?.notifications?.some(n => n.id === LOCAL_ID); } catch { return false; }
+}
+async function localSchedule() {
+  const L = LN();
+  if (!L) throw Object.assign(new Error('unsupported'), { code: 'unsupported' });
+  const perm = await L.requestPermissions();
+  if (perm?.display !== 'granted') throw Object.assign(new Error('denied'), { code: 'denied' });
+  const [hour, minute] = reminderPrefs().time.split(':').map(Number);
+  const { t } = await import('./i18n.js');
+  await L.cancel({ notifications: [{ id: LOCAL_ID }] }).catch(() => {});
+  await L.schedule({ notifications: [{ id: LOCAL_ID, title: 'myEnglish', body: t('Кілька хвилин англійської сьогодні — і серія днів триває'),
+    schedule: { on: { hour, minute }, allowWhileIdle: true }, extra: { url: '#/today' } }] });
+  return true;
+}
+async function localCancel() { try { await LN()?.cancel({ notifications: [{ id: LOCAL_ID }] }); } catch { /* */ } }
 async function vapidKey() {
   try {
     const r = await fetch(`${FUNCTIONS_URL}/push`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'vapid' }) });
@@ -44,7 +65,7 @@ async function vapidKey() {
  * ok | ios-install (iPhone: спершу додати на екран «Додому») | ios-old | unsupported | denied | no-key
  */
 export function pushSupport() {
-  if (globalThis.Capacitor?.isNativePlatform?.()) return 'unsupported';   // застосунок iOS: сповіщення — через APNs (етап 3), не Web Push
+  if (nativeApp()) return 'ok';   // застосунок iOS: щоденне нагадування — локальне сповіщення пристрою (LocalNotifications), не Web Push
   if (isIOS() && !isStandalone()) return iosVersion() && iosVersion() < 16.04 ? 'ios-old' : 'ios-install';
   if (isIOS() && iosVersion() && iosVersion() < 16.04) return 'ios-old';
   if (!('serviceWorker' in navigator) || !('PushManager' in window) || !('Notification' in window) || !window.isSecureContext) return 'unsupported';
@@ -86,6 +107,7 @@ export async function currentSubscription() {
 
 /** Чи ввімкнено нагадування на цьому пристрої (є підписка й дозвіл) */
 export async function remindersOn() {
+  if (nativeApp()) return localOn();
   if (!('Notification' in window) || Notification.permission !== 'granted') return false;
   return !!(await currentSubscription());
 }
@@ -111,6 +133,7 @@ async function save(sub) {
 
 /** Увімкнути: дозвіл (лише по натисканню) → підписка → збереження на сервері */
 export async function enable() {
+  if (nativeApp()) return localSchedule();
   const st = pushSupport();
   if (st !== 'ok') throw Object.assign(new Error(st), { code: st });
   if (!user()) throw Object.assign(new Error('need_login'), { code: 'need_login' });
@@ -135,6 +158,7 @@ export async function enable() {
 
 /** Вимкнути на цьому пристрої: прибрати рядок на сервері й скасувати підписку */
 export async function disable() {
+  if (nativeApp()) return localCancel();
   const sub = await currentSubscription();
   if (!sub) return;
   if (user()) {
@@ -149,12 +173,14 @@ export async function disable() {
 /** Після виходу з акаунта: скасувати підписку пристрою локально (рядок на сервері вже не видалити — RLS;
  *  функція push отримає 410 і прибере його сама). Інакше нагадування попереднього акаунта приходили б далі. */
 export async function forgetDevice() {
+  if (nativeApp()) return localCancel();
   const sub = await currentSubscription();
   if (sub) await sub.unsubscribe().catch(() => {});
 }
 
 /** Оновити час/види на сервері, якщо пристрій підписаний */
 export async function syncPrefs() {
+  if (nativeApp()) { if (await localOn()) { await localSchedule(); return true; } return false; }
   const sub = await currentSubscription();
   if (!sub || !user()) return false;
   await save(sub);

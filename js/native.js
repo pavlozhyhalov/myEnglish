@@ -20,3 +20,15 @@ export function haptic(kind = 'ok') {
     else H.impact({ style: 'LIGHT' });
   } catch { /* плагіна немає в цій збірці */ }
 }
+
+/** Старт у застосунку: дотик по локальному нагадуванню відкриває його сторінку (extra.url, лише «#/…») */
+export function initNative() {
+  if (!isNative()) return;
+  document.documentElement.classList.add('native');
+  try {
+    plugin('LocalNotifications')?.addListener('localNotificationActionPerformed', (e) => {
+      const url = e?.notification?.extra?.url;
+      if (typeof url === 'string' && url.startsWith('#/')) location.hash = url.slice(1);
+    });
+  } catch { /* плагіна немає */ }
+}
