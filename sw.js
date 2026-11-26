@@ -1,5 +1,5 @@
 // Service worker: офлайн-кеш оболонки й контенту. AI і Supabase — завжди мережа.
-const BUILD = '20261126203744';
+const BUILD = '20261126204543';
 const CACHE = `myenglish-${BUILD}`;
 importScripts(`precache-list.js?v=${BUILD}`);
 
@@ -160,7 +160,8 @@ async function badgeBase() {
 }
 async function syncBadge() {
   try {
-    if (!self.navigator.setAppBadge) return;
+    // цифра на іконці без дозволу сповіщень не показується (iOS, Android) — не чіпаємо (безголовий Chromium на цьому падав)
+    if (!self.navigator.setAppBadge || (self.Notification && self.Notification.permission !== 'granted')) return;
     const n = (await badgeBase()) + (await self.registration.getNotifications()).length;
     n ? await self.navigator.setAppBadge(n) : await self.navigator.clearAppBadge();
   } catch { /* без підтримки — нічого */ }

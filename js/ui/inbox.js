@@ -37,7 +37,8 @@ async function syncSw(n) {
   try {
     const reg = await navigator.serviceWorker?.getRegistration();
     if (!reg) return;
-    (await reg.getNotifications()).forEach(x => x.close());
+    // без дозволу сповіщень у Центрі сповіщень нічого немає (і безголовий Chromium падає на getNotifications)
+    if (globalThis.Notification?.permission === 'granted') (await reg.getNotifications()).forEach(x => x.close());
     (reg.active || navigator.serviceWorker.controller)?.postMessage({ type: 'badge', n });
   } catch { /* без SW — нічого */ }
 }

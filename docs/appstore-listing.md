@@ -93,7 +93,9 @@ myEnglish — повний курс англійської, побудовани
 
 ## Нотатки для перевірки Apple (App Review Information → Notes)
 
-myEnglish is an English-learning app. Demo account: <email> / <password> (filled with sample progress, conversations and a group chat).
+myEnglish is an English-learning app. Demo account: <email> / <password> (sample progress, lessons, mistakes and a chat with another demo learner, Oliver).
+• Interface language: the app follows the device language (Ukrainian, Spanish, Portuguese, Turkish, Polish, Russian). To switch, tap the language code at the top-left of the header (e.g. “UA”).
+• Chat to test reporting/blocking: menu → Me → Friends → Chats → Oliver.
 • AI features (tutor chat, voice tutor, corrections) use Google Gemini; the app asks for consent before the first AI request (Settings → More → Data → “Allow the AI tutor” to revoke).
 • Voice tutor: Tutor → Voice → “Start conversation” (microphone permission is requested on tap).
 • User-generated content: chats with friends/groups. Report a message: long-press a message → Report; report a person: group info → member → Report; block is available in the same places. Reports reach the moderator within 24 h; offensive words are filtered before sending; community rules: About → Terms.
