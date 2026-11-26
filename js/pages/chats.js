@@ -719,9 +719,29 @@ export function chatRoom(view, roomId) {
         close();
         if (!await confirmSheet('Вийти з групи?', 'Ви більше не бачитимете повідомлень. Повернутися можна, якщо друг запросить знову.', 'Вийти', { danger: true })) return;
         try { await chat.leave(roomId); toast('Ви вийшли з групи'); go('/friends/chats', { replace: true }); } catch (e) { toast(chat.chatErrText(e), { kind: 'bad' }); }
-      } }) : txRow({ icon: 'x-circle', label: 'Заблокувати', sub: 'Дружба припиниться, писати не зможете', cls: 'ch-danger', onclick: () => { close(); blockUser(info.other_id, info.title); } }),
+      } }) : txRow({ icon: 'flag', label: 'Поскаржитися', sub: 'Образи, спам, неприйнятне — розглянемо протягом доби', onclick: () => { close(); reportSheet({ target: 'user', id: info.other_id, name: info.title, userId: info.other_id }); } }),
+      group ? null : txRow({ icon: 'x-circle', label: 'Заблокувати', sub: 'Дружба припиниться, писати не зможете', cls: 'ch-danger', onclick: () => { close(); blockUser(info.other_id, info.title); } }),
     ]));
     s = sheet(info.title || 'Чат', h('div.stack.ch-sheet', items));
+  }
+  // скарга (App Store 1.2): причина + коментар → адміністратору; після — запропонувати заблокувати
+  function reportSheet({ target, id, text = '', name = '', userId = null }) {
+    let reason = 'abuse', s = null;
+    const note = h('textarea.input', { rows: 3, maxlength: 600, placeholder: 'Що сталося? (за бажанням)', 'aria-label': 'Коментар до скарги' });
+    const opts = h('div.tx-rows', { role: 'radiogroup', 'aria-label': 'Причина' });
+    const paint = () => opts.replaceChildren(...chat.REPORT_REASONS.map(([v, t]) => h('button.tx-row' + (v === reason ? '.on' : ''), { type: 'button', role: 'radio', 'aria-checked': String(v === reason),
+      onclick: () => { reason = v; paint(); } }, h('span.tx-body', h('span.tx-l', t)), v === reason ? ic('check', { size: 18 }) : null)));
+    paint();
+    const send = h('button.btn.primary.block', { type: 'button', onclick: async () => {
+      send.disabled = true;
+      try {
+        await chat.report({ target, id, text, name, reason, note: note.value.trim() });
+        s.close();
+        toast('Скаргу надіслано — розглянемо протягом доби');
+        if (userId && userId !== me && userId !== '__tutor__' && await confirmSheet(`Заблокувати ${name || 'людину'}?`, 'Ви не бачитимете її повідомлень.', 'Заблокувати', { danger: true })) blockUser(userId, name);
+      } catch { send.disabled = false; toast('Не вдалося надіслати скаргу', { kind: 'bad' }); }
+    } }, 'Надіслати скаргу');
+    s = sheet('Поскаржитися', h('div.stack.ch-sheet', h('p.small.dim', 'Скаргу бачить лише адміністратор. Порушення прибираємо протягом доби.'), opts, note, send));
   }
   function memberMenu(m) {
     let s = null;
@@ -735,6 +755,7 @@ export function chatRoom(view, roomId) {
             if (st === 'accepted') loadMembers().then(renderHead).catch(() => {});
           } catch { toast('Не вдалося надіслати запит', { kind: 'bad' }); }
         } }),
+      txRow({ icon: 'flag', label: 'Поскаржитися', sub: 'Образи, спам, неприйнятне — розглянемо протягом доби', onclick: () => { s.close(); reportSheet({ target: 'user', id: m.user_id, name: m.name, userId: m.user_id }); } }),
       txRow({ icon: 'x-circle', label: m.blocked ? 'Розблокувати' : 'Заблокувати', sub: m.blocked ? 'Знову бачитимете повідомлення' : 'Не бачитимете повідомлень цієї людини', cls: m.blocked ? null : 'ch-danger',
         onclick: async () => {
           s.close();
@@ -944,6 +965,7 @@ export function chatRoom(view, roomId) {
     if (pinInfo?.can_pin && pinnable) rows.push(pinInfo.id === real.id
       ? txRow({ icon: 'push-pin', label: 'Відкріпити', onclick: () => { s.close(); setPin(null); } })
       : txRow({ icon: 'push-pin', label: 'Закріпити', sub: 'Зверху чату для всіх', onclick: () => { s.close(); setPin(real.id); } }));
+    if (!mine && !real.deleted_at && ['text', 'voice'].includes(real.kind) && m.user_id !== '__tutor__') rows.push(txRow({ icon: 'flag', label: 'Поскаржитися', sub: 'Образи, спам, неприйнятне', cls: 'ch-danger', onclick: () => { s.close(); reportSheet({ target: 'msg', id: real.id, text: real.body || '(голосове)', name: nameOf(real.user_id), userId: real.user_id }); } }));
     if (mine) rows.push(txRow({ icon: 'trash', label: 'Видалити', sub: 'Зникне в усіх', cls: 'ch-danger', onclick: async () => {
       s.close();
       if (!await confirmSheet('Видалити повідомлення?', 'Воно зникне в усіх учасників чату.', 'Видалити', { danger: true })) return;
@@ -1039,6 +1061,7 @@ export function chatRoom(view, roomId) {
     const body = ta.value.trim();
     if (!body || sending) return;
     if (info?.kind === 'dm' && info.is_friend === false) { toast(chat.chatErrText({ code: 'not_friends' }), { kind: 'bad' }); return; }
+    if (chat.offensive(body)) { toast('Повідомлення містить образливі слова — приберіть їх, будь ласка', { kind: 'bad' }); return; }
     sending = true; sendBtn.disabled = true;
     try {
       const rep = replyTo;

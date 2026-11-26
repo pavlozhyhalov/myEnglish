@@ -9,6 +9,7 @@ import { tutor } from './ai.js';
 import { addMistake, isDisputed } from './stats.js';
 import { getMic, micAvailable } from './speech.js';
 import { loc } from './i18n.js';
+import { BUILD } from './config.js';
 
 const COLS = 'id, room_id, user_id, kind, body, audio_path, meta, created_at, deleted_at, reply_to';
 export const PAGE = 50;
@@ -360,3 +361,21 @@ export function needsDecode(path) {
   const ua = navigator.userAgent;
   return /iPhone|iPad|iPod/.test(ua) || (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1) || (/Safari\//.test(ua) && !/Chrome|Chromium|CriOS|Edg|Android/.test(ua));
 }
+
+// ---------- Скарги (2026-11-26, App Store 1.2 / DSA; міграція 0039) ----------
+// Скарга — звернення kind 'report' у feedback: адміністратор отримує push і бачить її на #/admin (там же — «Сховати повідомлення»)
+export const REPORT_REASONS = [['abuse', 'Образи чи погрози'], ['spam', 'Спам або реклама'], ['sexual', 'Неприйнятний вміст'], ['other', 'Інше']];
+export async function report({ target, id, text = '', name = '', reason = 'other', note = '' }) {
+  const c = await getSupa();
+  const uid = user()?.id;
+  if (!c || !uid) throw new Error('need_login');
+  const why = (REPORT_REASONS.find(r => r[0] === reason) || REPORT_REASONS[3])[1];
+  const body = [`Скарга: ${why}`, name ? `Хто: ${name}` : '', text ? `Повідомлення: «${String(text).slice(0, 600)}»` : '', note ? `Коментар: ${note.slice(0, 600)}` : ''].filter(Boolean).join('\n');
+  const { error } = await c.from('feedback').insert({ user_id: uid, kind: 'report', body, route: `report:${target}:${id}`, build: BUILD, ua: navigator.userAgent });
+  if (error) throw error;
+}
+
+// ---------- Фільтр образливого (App Store 1.2): грубі лайки й образи 7 мовами — надіслати не можна ----------
+// Основи слів (корені), межа — початок слова; навмисно короткий список найгрубішого, щоб не чіпати звичайних слів
+const BAD = /(?:^|[^\p{L}])(fuck|motherf|cunt|nigg|fagg?ot|retard|whore|slut|bitch|dickhead|asshole|хуй|хуя|хує|хуї|пизд|єба|еба|ёба|їба|блядь|бляд|сука|сучк|підор|пидор|педик(?!ю)|мудак|залуп|kurw|chuj|huj|pierdol|jeban|pizd|skurwy|cipa(?!b)|puta(?!ti)|puto|coño|gilipoll|maricón|caralh|porra|buceta|viado|filho da puta|orospu|siktir|amına|amina koy|yarrak|piç)/iu;
+export function offensive(text) { return BAD.test(String(text || '')); }

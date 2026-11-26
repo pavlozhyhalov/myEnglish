@@ -227,7 +227,14 @@ export default async function adminPage(view) {
 
   // ---------- Звернення користувачів (#/feedback, міграція 0036) ----------
   let fdata = null, fbAll = false;
-  const KIND = { bug: 'Помилка', idea: 'Ідея', other: 'Інше' };
+  const KIND = { bug: 'Помилка', idea: 'Ідея', other: 'Інше', report: 'Скарга' };
+  // скарга на повідомлення (міграція 0039): route = 'report:msg:<uuid>' → «Сховати повідомлення» (admin_hide_message)
+  const reportMsg = (f) => f.kind === 'report' && /^report:msg:([0-9a-f-]{36})$/.exec(f.route || '')?.[1];
+  const hideMsg = async (f, id) => {
+    try { const { getSupa } = await import('../supa.js'); const c = await getSupa(); const { error } = await c.rpc('admin_hide_message', { p_id: id }); if (error) throw error;
+      f.hidden = true; await fbSet(f, { status: 'done' }); }
+    catch (e) { alert('Не вдалося сховати: ' + (e?.message || e)); }
+  };
   const fbSet = async (f, patch) => {
     try { await ai('admin', 'feedback_update', { id: f.id, ...patch }); Object.assign(f, patch, patch.reply ? { status: 'done', replied_at: new Date().toISOString() } : {}); render(); }
     catch (e) { alert(aiErrorText(e) || 'Не вдалося'); }
@@ -256,6 +263,7 @@ export default async function adminPage(view) {
         f.reply ? h('span.tx-s', { style: wrap }, `Ваша відповідь: ${f.reply}`) : null,
         h('span.row', { style: { gap: '6px', flexWrap: 'wrap' } },
           h('button.btn.sm.primary', { type: 'button', onclick: () => replySheet(f) }, f.reply ? 'Змінити відповідь' : 'Відповісти'),
+          reportMsg(f) && !f.hidden ? h('button.btn.sm.danger', { type: 'button', onclick: () => hideMsg(f, reportMsg(f)) }, 'Сховати повідомлення') : null,
           f.status !== 'done' ? h('button.btn.sm.soft', { type: 'button', onclick: () => fbSet(f, { status: 'done' }) }, 'Зроблено') : null)),
       txPill(f.status === 'done' ? 'Зроблено' : f.status === 'seen' ? 'Переглянуто' : 'Нове', f.status === 'done' ? 'good' : f.status === 'new' ? 'accent' : ''));
     return txGroup(`Звернення${fresh.length ? ` · ${fresh.length} нових` : ` · ${list.length}`}`, list.length
