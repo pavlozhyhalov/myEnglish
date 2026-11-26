@@ -79,7 +79,7 @@ export function beep(kind) {
     o.start(t0 + at); o.stop(t0 + at + dur + 0.02);
   }
 }
-export function buzz(pattern) { try { navigator.vibrate?.(pattern); } catch { /* */ } }
+export function buzz(pattern) { try { if (globalThis.Capacitor?.isNativePlatform?.()) { globalThis.Capacitor.Plugins?.Haptics?.impact({ style: Array.isArray(pattern) ? 'HEAVY' : 'LIGHT' }); return; } navigator.vibrate?.(pattern); } catch { /* */ } }
 
 /** Кнопка «звук увімк./вимк.» */
 export function muteButton() {

@@ -2,6 +2,7 @@
 import { h, ic, progress } from './dom.js';
 import { speak } from '../speech.js';
 import { plural } from '../strings.js';
+import { haptic } from '../native.js';
 import { txKpis, txGroup, txPill, txRow, txRows } from './tiles.js';
 import { tutor, aiErrorText } from '../ai.js';
 import { user } from '../supa.js';
@@ -310,6 +311,7 @@ export function render(ex, report, next) {
   const done = (ok, given, extraText) => {
     if (reported) return; reported = true;
     report(ok, given);
+    haptic(ok ? 'ok' : 'bad');
     fb.replaceChildren(h('div.feedback.ex-fb.' + (ok ? 'ok' : 'no'),
       h('span.ex-fb-ic', ic(ok ? 'check-circle' : 'x-circle', { size: 20, fill: true })),
       h('div.ex-fb-t',

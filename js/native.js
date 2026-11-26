@@ -6,3 +6,17 @@ export const platform = () => globalThis.Capacitor?.getPlatform?.() || 'web';
 // звідки брати великі файли, яких немає в пакеті застосунку
 export const SITE = 'https://pavlozhyhalov.github.io/myEnglish/';
 export const remote = (path) => (isNative() ? SITE + path : path);
+
+// Плагіни Capacitor — через глобальний міст (без окремих JS-пакетів у сайті): у браузері їх немає, виклики тихо нічого не роблять
+const plugin = (name) => (isNative() ? globalThis.Capacitor?.Plugins?.[name] : null);
+
+/** Тактильний відгук на відповідь (App Store 4.2 — нативна поведінка): правильно — легкий успіх, помилка — подвійний сигнал */
+export function haptic(kind = 'ok') {
+  const H = plugin('Haptics');
+  if (!H) return;
+  try {
+    if (kind === 'ok') H.notification({ type: 'SUCCESS' });
+    else if (kind === 'bad') H.notification({ type: 'ERROR' });
+    else H.impact({ style: 'LIGHT' });
+  } catch { /* плагіна немає в цій збірці */ }
+}

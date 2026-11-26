@@ -7,7 +7,13 @@ _Зараз відкритих задач немає._
 
 ## App Store, етап 2 — оболонка iOS (2026-11-26, власник: «Продовжуй йти по плану»; план `docs/appstore-plan.pdf`)
 Критерій: проєкт `native/` (Capacitor) збирається на macOS у GitHub Actions (симулятор, без підпису); сайт не зламано; підписана збірка в TestFlight — після акаунта Apple (власник).
-- [ ] Код: `js/native.js` (isNative), аудіо з сайту в застосунку, без SW і Web Push, сховати службове
-- [ ] `native/`: package.json, capacitor.config.json, `scripts/native-sync.sh` (копія сайту в native/www без аудіо), `npx cap add ios`
-- [ ] iOS: Info.plist (мікрофон, розпізнавання, шифрування — 6 мов), PrivacyInfo.xcprivacy, іконка й заставка
+- [x] Код: `js/native.js` (isNative), аудіо з сайту в застосунку, без SW і Web Push, сховати службове
+- [x] `native/`: package.json, capacitor.config.json, `scripts/native-sync.sh` (копія сайту в native/www без аудіо), `npx cap add ios`
+- [x] iOS: Info.plist (мікрофон, розпізнавання, шифрування — 6 мов), PrivacyInfo.xcprivacy, іконка й заставка
 - [ ] GitHub Actions: збірка для симулятора на macOS (перевірка), заготовка TestFlight-збірки (вмикається секретами Apple)
+
+## App Store, етап 3 — нативні функції (2026-11-26)
+- [ ] Тактильний відгук (Haptics) — вправи, ігри, тренування слів
+- [ ] Локальні нагадування в застосунку (без сервера) замість Web Push — щодня в обраний час
+- [ ] APNs: реєстрація токена в застосунку + `push_subscriptions` (тип apns); відправка з функції `push` — після ключа .p8 від Apple (власник)
+- [ ] Віджет, Universal Links — після акаунта Apple й домену

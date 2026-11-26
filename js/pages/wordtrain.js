@@ -53,7 +53,7 @@ function beep(kind) {
     }
   } catch { /* без звуку */ }
 }
-function buzz(pattern) { try { navigator.vibrate?.(pattern); } catch { /* */ } }
+function buzz(pattern) { try { if (globalThis.Capacitor?.isNativePlatform?.()) { globalThis.Capacitor.Plugins?.Haptics?.impact({ style: Array.isArray(pattern) ? 'HEAVY' : 'LIGHT' }); return; } navigator.vibrate?.(pattern); } catch { /* */ } }
 const reducedMotion = () => matchMedia?.('(prefers-reduced-motion: reduce)').matches;
 
 /** Пул для дистракторів: колоди слів сесії + «Мої слова»; замало — додаємо колоди мого рівня */
