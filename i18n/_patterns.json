@@ -255,6 +255,26 @@
   "file": "js/chat.js"
  },
  {
+  "re": "^Скарга: (.+?)$",
+  "src": "Скарга: ${why}",
+  "file": "js/chat.js"
+ },
+ {
+  "re": "^Хто: (.+?)$",
+  "src": "Хто: ${name}",
+  "file": "js/chat.js"
+ },
+ {
+  "re": "^Повідомлення: «(.+?)»$",
+  "src": "Повідомлення: «${String(text).slice(0, 600)}»",
+  "file": "js/chat.js"
+ },
+ {
+  "re": "^Коментар: (.+?)$",
+  "src": "Коментар: ${note.slice(0, 600)}",
+  "file": "js/chat.js"
+ },
+ {
   "re": "^Тема: (.+?)$",
   "src": "Тема: ${p.label}",
   "file": "js/daily.js"
@@ -863,6 +883,11 @@
   "re": "^Найкраще: (.+?) з 10$",
   "src": "Найкраще: ${best.ear} з 10",
   "file": "js/pages/abc.js"
+ },
+ {
+  "re": "^Редакція від (.+?)$",
+  "src": "Редакція від ${new Date(DOCS_VERSION).toLocaleDateString(document.documentElement.lang || 'uk', { day: 'numeric', month: 'long', year: 'numeric' })}",
+  "file": "js/pages/about.js"
  },
  {
   "re": "^(.+?) хв$",
@@ -1535,13 +1560,13 @@
   "file": "js/pages/chats.js"
  },
  {
-  "re": "^Запит надіслано — (.+?) отримає сповіщення$",
-  "src": "Запит надіслано — ${m.name} отримає сповіщення",
+  "re": "^Заблокувати (.+?)\\?$",
+  "src": "Заблокувати ${name || 'людину'}?",
   "file": "js/pages/chats.js"
  },
  {
-  "re": "^Заблокувати (.+?)\\?$",
-  "src": "Заблокувати ${name || 'людину'}?",
+  "re": "^Запит надіслано — (.+?) отримає сповіщення$",
+  "src": "Запит надіслано — ${m.name} отримає сповіщення",
   "file": "js/pages/chats.js"
  },
  {

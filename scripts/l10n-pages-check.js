@@ -1,7 +1,7 @@
 // Перевірка сторінок мовою (Playwright): node scripts/l10n-pages-check.js <lang> — потрібен сервер на :8765 (python3 -m http.server 8765).
 const { chromium } = require('playwright');
 const lang = process.argv[2] || 'ru';
-const routes = ['#/home','#/today','#/tutor','#/cards','#/vocab','#/phrases','#/grammar','#/grammar/present-perfect','#/grammar/a0-be','#/exercises/grammar','#/pronunciation','#/pronunciation/sounds','#/abc','#/games','#/fluency','#/scenarios','#/listening','#/reading','#/reading/library','#/writing','#/diary','#/mistakes','#/tests','#/tests/placement','#/progress','#/analysis','#/report','#/settings','#/profile','#/friends','#/feedback','#/auth','#/welcome','#/listen-go','#/cards/train'];
+const routes = ['#/home','#/today','#/tutor','#/cards','#/vocab','#/phrases','#/grammar','#/grammar/present-perfect','#/grammar/a0-be','#/exercises/grammar','#/pronunciation','#/pronunciation/sounds','#/abc','#/games','#/fluency','#/scenarios','#/listening','#/reading','#/reading/library','#/writing','#/diary','#/mistakes','#/tests','#/tests/placement','#/progress','#/analysis','#/report','#/settings','#/profile','#/friends','#/feedback','#/auth','#/auth?tab=up','#/about','#/about/privacy','#/about/terms','#/about/licenses','#/welcome','#/listen-go','#/cards/train'];
 (async () => {
   const b = await chromium.launch();
   const out = {};
