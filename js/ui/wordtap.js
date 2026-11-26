@@ -10,6 +10,7 @@ import * as store from '../store.js';
 import * as srs from '../srs.js';
 import { allDecks } from '../data.js';
 import { user } from '../supa.js';
+import { lang } from '../i18n.js';
 
 export const WORD = /[A-Za-z]+(?:['’][A-Za-z]+)*(?:-[A-Za-z]+)*/g;
 const SKIP = 'code,pre,a,button,input,textarea,select,summary,svg,.w,[data-notap]';
@@ -365,6 +366,18 @@ function aiLookup(text, sentence) {
   return aiCache.get(k);
 }
 
+// ---------- офлайн-словник (2026-11-26, власник: «Gemini обмежив запити»): ~6000 частих слів → data/dict/<мова учня>.json ----------
+let dictP = null;
+const dictMap = () => (dictP ??= fetch(`data/dict/${lang()}.json`).then(r => (r.ok ? r.json() : {})).then(o => new Map(Object.entries(o))).catch(() => new Map()));
+/** Одне слово → { en, uk } зі словника (словникова форма через lemmaForms) або null */
+export async function dictLookup(word) {
+  const m = await dictMap();
+  const w = norm(word);
+  if (m.has(w)) return { en: w, uk: m.get(w), ipa: null };
+  for (const { f } of lemmaForms(word)) if (m.has(f)) return { en: f, uk: m.get(f), ipa: null };
+  return null;
+}
+
 /** Фраза з кількох слів у колодах: ціла, з початковою формою першого або останнього слова */
 async function lookupPhrase(words) {
   const m = await deckIndexMap();
@@ -389,6 +402,7 @@ export async function quickLookup({ text, sentence = '', next = [], gl = null } 
     const v = r.phrase || r.hit;
     if (v) return { en: v.en, uk: v.uk, ipa: v.ipa || null, source: 'deck' };
   } catch { /* колоди недоступні — далі AI */ }
+  if (words.length === 1) { const d = await dictLookup(words[0]).catch(() => null); if (d) return { ...d, source: 'dict' }; }
   if (!canAi()) return { none: true, reason: user() ? 'offline' : 'login' };
   const e = await aiLookup(surface, sentence);
   if (!e) throw new Error('empty');
@@ -465,8 +479,19 @@ export async function lookupText({ text, sentence = '', next = [], gl = null, on
     return s;
   }
 
-  // 3) AI-переклад у контексті
-  const runAi = async () => {
+  // 3) офлайн-словник частих слів (без AI)
+  if (words.length === 1) {
+    const d = await dictLookup(words[0]).catch(() => null);
+    if (d && body.isConnected) {
+      const more = canAi() ? h('button.btn.ghost', { type: 'button', onclick: () => runAi() }, ic('translate'), 'Переклад у цьому реченні') : null;
+      show(entryBlock(d, sentence, 'Словник', refresh), ctx, more, actions(surface, d));
+      return s;
+    }
+  }
+
+  // 4) AI-переклад у контексті
+  async function runAi() { return runAiImpl(); }
+  const runAiImpl = async () => {
     show(headCard('Перекладаю з урахуванням речення…', true), ctx);
     try {
       const entry = await aiLookup(surface, sentence);
