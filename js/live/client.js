@@ -57,6 +57,7 @@ export class LiveClient extends EventTarget {
     this.heardAt = 0;
     this.failStart = 0;          // початок поточної серії невдалих перепідключень
     this.handleFails = 0;        // невдалі спроби з handle поспіль
+    this.busyFails = 0;          // відмови «already connected» поспіль
     this.expectAt = 0;           // коли надіслано текст, на який сервер зобов'язаний відповісти
     this.streamEndAt = 0;        // коли закрито репліку учня (audioStreamEnd)
     this.stallAt = 0;            // останнє спрацювання сторожа
@@ -141,7 +142,7 @@ export class LiveClient extends EventTarget {
         let msg; try { msg = JSON.parse(text); } catch { return; }
         if (msg.setupComplete) {
           clearTimeout(connTimer);
-          this.ready = true; this.retries = 0; this.failStart = 0; this.handleFails = 0;
+          this.ready = true; this.retries = 0; this.failStart = 0; this.handleFails = 0; this.busyFails = 0;
           this.log('setup complete' + (restoring ? ' · new session, restoring context' : ''));
           // нова сесія замість втраченої — стенограма; відновлення за handle пам'ятає розмову саме (2026-11-17: токен більше не ігнорує handle —
           // fieldMask у live-token), тож тихе «нагадування» прибрано: воно залишало відкриту репліку й могло глушити наступну відповідь
@@ -210,6 +211,9 @@ export class LiveClient extends EventTarget {
       // handle тримаємо кілька спроб: обрив мережі — не причина втрачати пам'ять розмови; токен — оновити
       if (e?.code === 'live_denied') this.token = null;
       if (this.handle && !/already connected/i.test(e?.message || '') && ++this.handleFails >= 3) { this.log('resume failed 3×, new session'); this.handle = null; }
+      // 2026-11-26 (журнал): після обриву 1006 сервер тримає стару сесію за handle — «already connected» по колу 40+ с, вчитель мовчить.
+      // 3 такі відмови поспіль (~10 с) — нова сесія зі стенограмою (restoreContext), а не чекати до «рації»
+      if (this.handle && /already connected/i.test(e?.message || '') && ++this.busyFails >= 3) { this.log('handle busy 3×, new session'); this.handle = null; this.busyFails = 0; }
       this.reconnect(ev);
     }
   }

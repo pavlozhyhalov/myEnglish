@@ -1,7 +1,7 @@
 // Згенеровано scripts/bump.sh — не редагувати вручну
 // шлях → хеш вмісту (sha256, 12 символів)
 self.PRECACHE = {
-  './': '16f814c41841', './index.html': '16f814c41841', './manifest.webmanifest': 'd94fd1b79b2a',
+  './': '8fa192a80863', './index.html': '8fa192a80863', './manifest.webmanifest': 'd94fd1b79b2a',
   './assets/icons/apple-touch-icon.png': '49e9cb2a0d59',
   './assets/icons/badge-96.png': '05f32f54be9f',
   './assets/icons/icon-192.png': '8f448517285d',
@@ -265,7 +265,7 @@ self.PRECACHE = {
   './js/app.js': 'c5bcf7442e11',
   './js/audiosession.js': '559af3ef813b',
   './js/chat.js': '73989a26b6ac',
-  './js/config.js': '94169fd58e35',
+  './js/config.js': '3c0834fc3f07',
   './js/daily.js': 'f128a7bf9190',
   './js/data.js': '47e796f9621f',
   './js/done.js': 'ac9083f63e8b',
@@ -287,7 +287,7 @@ self.PRECACHE = {
   './js/invite.js': 'eb6b2d8300cf',
   './js/level.js': 'ee4efea03e27',
   './js/live/capture-worklet.js': '3297c8f07a4b',
-  './js/live/client.js': 'a1fcfc25766b',
+  './js/live/client.js': '81b3a9f73ec6',
   './js/live/player-worklet.js': 'ae3dbb0da02d',
   './js/live/voice.js': '0e047d1b8cd9',
   './js/nav.js': 'e394ce33ee6f',
