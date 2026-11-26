@@ -147,17 +147,18 @@ function remindersGroup() {
       onchange: (e) => { if (/^\d{2}:\d{2}$/.test(e.target.value)) { setReminderPrefs({ time: e.target.value }); pushPrefs(); } },
     });
     const master = toggle(on, flip, 'Нагадування на цьому пристрої');
-    const canToggle = st === 'ok' && !!user();
+    const nat = !!globalThis.Capacitor?.isNativePlatform?.();   // застосунок iOS: локальне нагадування без сервера — вхід не потрібен, видів немає
+    const canToggle = st === 'ok' && (nat || !!user());
     if (!canToggle && !on) master.querySelector('input').disabled = true;
-    const status = on ? `Щодня о ${p.time}, якщо є про що нагадати`
-      : st === 'ok' ? (user() ? 'Вимкнено' : 'Після входу в акаунт') : pushErrorText({ code: st });
+    const status = on ? (nat ? `Щодня о ${p.time}` : `Щодня о ${p.time}, якщо є про що нагадати`)
+      : st === 'ok' ? (nat || user() ? 'Вимкнено' : 'Після входу в акаунт') : pushErrorText({ code: st });
     // час і види — лише коли нагадування ввімкнені
     const rows = [
       row('bell', 'Нагадування на цьому пристрої', master, status),
       on ? row('clock', 'Час', time, 'Місцевий час') : null,
-      on ? kindToggle('cards', 'cards', 'Повторити картки', 'Якщо пора повторити') : null,
-      on ? kindToggle('fire', 'streak', 'Стрік під загрозою', 'Якщо сьогодні < 5 хв') : null,
-      on ? kindToggle('chat-circle-dots', 'chat', 'Повідомлення друзів', 'Нові повідомлення й виклики') : null,
+      on && !nat ? kindToggle('cards', 'cards', 'Повторити картки', 'Якщо пора повторити') : null,
+      on && !nat ? kindToggle('fire', 'streak', 'Стрік під загрозою', 'Якщо сьогодні < 5 хв') : null,
+      on && !nat ? kindToggle('chat-circle-dots', 'chat', 'Повідомлення друзів', 'Нові повідомлення й виклики') : null,
     ].filter(Boolean);
     const notes = [];
     if (st === 'ios-install') {

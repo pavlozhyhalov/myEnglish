@@ -2,6 +2,7 @@
 // на сторінці входу, у посиланні з токеном (підтвердження пошти) або коли потрібні вхід, AI чи синхронізація.
 // user() синхронний: до завантаження клієнта сесію читаємо з localStorage (той самий storageKey), потім клієнт її підтверджує.
 import { SUPABASE_URL, SUPABASE_KEY } from './config.js';
+import { siteBase } from './native.js';
 
 const STORAGE_KEY = 'me-auth';
 
@@ -107,7 +108,7 @@ export async function signIn(email, password) {
 export async function signUp(email, password) {
   const c = await getSupa();
   const { data, error } = await c.auth.signUp({
-    email, password, options: { emailRedirectTo: location.origin + location.pathname },
+    email, password, options: { emailRedirectTo: siteBase() },
   });
   if (error) throw error;
   return data;
@@ -115,7 +116,7 @@ export async function signUp(email, password) {
 /** Лист зі посиланням для зміни пароля (Supabase Auth). Посилання веде назад у застосунок з позначкою відновлення */
 export async function resetPassword(email) {
   const c = await getSupa();
-  const { error } = await c.auth.resetPasswordForEmail(email, { redirectTo: location.origin + location.pathname + '?recovery=1' });
+  const { error } = await c.auth.resetPasswordForEmail(email, { redirectTo: siteBase() + '?recovery=1' });
   if (error) throw error;
 }
 /** Новий пароль для поточного акаунта (після входу або переходу з листа) */

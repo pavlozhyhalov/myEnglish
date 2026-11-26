@@ -32,3 +32,6 @@ export function initNative() {
     });
   } catch { /* плагіна немає */ }
 }
+
+/** Адреса сайту для посилань назовні (запрошення, листи відновлення пароля): у застосунку location — capacitor://localhost */
+export const siteBase = () => (isNative() ? SITE : `${location.origin}${location.pathname}`);

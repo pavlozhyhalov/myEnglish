@@ -3195,6 +3195,11 @@
   "file": "js/pages/settings.js"
  },
  {
+  "re": "^Щодня о (.+?)$",
+  "src": "Щодня о ${p.time}",
+  "file": "js/pages/settings.js"
+ },
+ {
   "re": "^Щодня о (.+?), якщо є про що нагадати$",
   "src": "Щодня о ${p.time}, якщо є про що нагадати",
   "file": "js/pages/settings.js"

@@ -190,6 +190,7 @@ export async function syncPrefs() {
 /** Зрозумілий текст помилки */
 export function pushErrorText(e) {
   const code = e?.code || e?.message;
+  if (nativeApp() && (code === 'denied' || code === 'dismissed')) return 'Сповіщення вимкнено. Налаштування iPhone → myEnglish → Сповіщення → «Дозволити сповіщення».';
   return ({
     need_login: 'Нагадування надсилає сервер — спершу увійдіть в акаунт.',
     denied: 'Сповіщення заборонено в налаштуваннях браузера. Дозвольте їх для цього сайту й спробуйте ще раз.',

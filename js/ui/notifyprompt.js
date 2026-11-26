@@ -33,7 +33,8 @@ function deniedSheet() {
 /** Плитка-запрошення (порожній вузол, якщо сповіщення вже працюють або відкладено) */
 export function notifyPrompt({ label = 'Увімкніть сповіщення', sub = 'Повідомлення друзів, запити й домашнє — навіть коли застосунок закрито' } = {}) {
   const slot = h('div.np', { hidden: true });
-  if (!user() || snoozed()) return slot;
+  // застосунок iOS: сповіщення про чати прийдуть через APNs (після ключа Apple); до того картку не показуємо — щоденне нагадування є на головній
+  if (!user() || snoozed() || globalThis.Capacitor?.isNativePlatform?.()) return slot;
   import('../push.js').then(async (P) => {
     const st = P.pushSupport();
     if (st === 'unsupported' || st === 'ios-old') return;

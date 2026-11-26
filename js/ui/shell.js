@@ -35,6 +35,8 @@ export function applyTheme(theme = store.settings().theme) {
   else delete root.dataset.theme;
   const dark = isDark();
   document.querySelector('meta[name="theme-color"]')?.setAttribute('content', dark ? '#070B15' : '#E1E6EF');
+  // застосунок iOS: світлий/темний текст рядка стану під тему (плагін StatusBar; у браузері його немає)
+  try { if (globalThis.Capacitor?.isNativePlatform?.()) globalThis.Capacitor.Plugins?.StatusBar?.setStyle({ style: dark ? 'DARK' : 'LIGHT' }); } catch { /* */ }
   // іконка показує тему, на яку перемкне кнопка
   const btn = document.querySelector('.btn-theme');
   if (btn) btn.replaceChildren(ic(dark ? 'sun' : 'moon'));

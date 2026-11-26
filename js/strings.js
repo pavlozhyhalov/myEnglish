@@ -5,6 +5,8 @@ const UA = typeof navigator !== 'undefined' ? navigator.userAgent || '' : '';
 /** Вбудований браузер месенджера чи соцмережі (WebView) — мікрофон там зазвичай недоступний */
 export function inApp() { return /FBAN|FBAV|Instagram|Viber|Line\/|MicroMessenger|; wv\)|Snapchat|TikTok/i.test(UA); }
 function micHelp() {
+  // застосунок iOS (Capacitor): дозвіл — у налаштуваннях самого застосунку
+  if (globalThis.Capacitor?.isNativePlatform?.()) return 'Немає доступу до мікрофона. Налаштування iPhone → myEnglish → Мікрофон → увімкнути, і спробуйте ще раз.';
   if (inApp()) return 'Цей вбудований браузер не дає доступу до мікрофона. Відкрийте сайт у Chrome або Safari: меню ⋮ → «Відкрити в браузері».';
   if (/Android/i.test(UA)) return /SamsungBrowser/i.test(UA)
     ? 'Немає доступу до мікрофона. Samsung Internet: ☰ → Налаштування → Сайти й завантаження → Дозволи сайтів → Мікрофон. Або Налаштування телефону → Програми → Samsung Internet → Дозволи → Мікрофон.'

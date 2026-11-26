@@ -3,6 +3,7 @@
 // Група: посилання #/friends/join/<код групи> → «Приєднатися до групи» одним дотиком (дружба не потрібна).
 // Без входу: «Зареєструватися й приєднатися» — запрошення пам'ятається (localStorage) і відкривається одразу після входу (js/pages/auth.js).
 import { h, ic } from './ui/dom.js';
+import { siteBase } from './native.js';
 import { getSupa, user } from './supa.js';
 import { go } from './router.js';
 import { toast } from './ui/toast.js';
@@ -10,7 +11,7 @@ import { tx, txPrimary, txResult, txRow, txRows } from './ui/tiles.js';
 import { tLines } from './i18n.js';
 
 const PENDING = 'me:pending-invite';
-const base = () => `${location.origin}${location.pathname}`;
+const base = () => siteBase();
 export const friendLink = (code) => `${base()}#/friends?code=${code}`;
 export const groupLink = (code) => `${base()}#/friends/join/${code}`;
 
