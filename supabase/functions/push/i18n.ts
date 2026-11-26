@@ -182,6 +182,30 @@ const pl: PushText = {
   devReplyTitle: 'Odpowiedź dewelopera', groupInviteTitle: 'Zaproszenie do grupy', groupInviteBody: (n, r) => `${n} zaprasza cię do grupy «${r}»`,
 };
 
-export const PUSH_TEXT: Record<UiLang, PushText> = { uk, ru, es, pt, tr, pl };
+const en: PushText = {
+  group: 'Group', student: 'Learner',
+  cards: n => `${n} ${pl2(n, 'card is', 'cards are')} waiting for review.`,
+  minutes: n => `${n} ${pl2(n, 'minute', 'minutes')}`,
+  streakTitle: 'Your streak is at risk',
+  streakBody: (s, left) => `Your streak: ${s} ${pl2(s, 'day', 'days')}. Practise ${left} more to keep it.`,
+  cardsTitle: 'Time to review your cards', cardsExtra: left => ` ${left} more and today counts for your streak.`,
+  anyTitle: 'Time for English', anyBody: left => `${left} more and today counts for your streak.`,
+  duelTitle: 'You are challenged to a duel', duelBody: (s, g, gr) => `${s} · ${g}${gr ? ` · group ${gr}` : ''}: who scores more?`, game: 'game',
+  games: { detective: 'Error detective', rush: 'Quick translate' },
+  challengeDm: s => `${s} suggests a challenge`, challengeGroup: g => `New challenge in the group ${g}`, sevenDays: '7 days',
+  voice: b => (b ? `voice message: ${b}` : 'voice message'), dmTitle: s => `${s} wrote to you`, groupTitle: g => `New messages in the group ${g}`,
+  challengeLabel: (kind, t) => kind === 'daily15' ? (t >= 7 ? '15 min a day' : `15 min · ${t} ${pl2(t, 'day', 'days')}`)
+    : kind === 'words' ? `${t} words in a week` : kind === 'talks' ? `${t} ${pl2(t, 'talk', 'talks')} with the tutor` : 'Challenge',
+  nudgeTitle: l => `Catch up in the challenge “${l}”`,
+  nudgeBody: (room, v, t, kind, left) => `${room ? `${room}: ` : ''}${v} of ${t} ${kind === 'daily15' ? 'days' : kind === 'words' ? 'words' : 'talks'} done. ${left > 0 ? `${left} ${pl2(left, 'day', 'days')} left.` : 'Today is the last day!'}`,
+  hwNewTitle: r => `New homework · “${r}”`, topicTitle: r => `Topic of the day in “${r}”`, hwNewBody: q => `Everyone has their own tasks — open and see. Topic of the day: ${q}`,
+  weeklyTitle: r => `Week summary in “${r}”`, tutorTitle: r => `The tutor in “${r}”`,
+  hwDoTitle: r => `Do your homework${r ? ` · “${r}”` : ''}`, hwDoBody: n => `${n} of 3 tasks left — the deadline is tomorrow. You can do it!`,
+  friendReqTitle: 'Friend request', friendReqBody: n => `${n} wants to add you as a friend`,
+  friendOkTitle: 'Request accepted', friendOkBody: n => `${n} is now your friend — write to them in English!`,
+  devReplyTitle: 'Reply from the developer', groupInviteTitle: 'Group invitation', groupInviteBody: (n, r) => `${n} invites you to the group “${r}”`,
+};
+
+export const PUSH_TEXT: Record<UiLang, PushText> = { uk, ru, es, pt, tr, pl, en };
 /** Тексти мовою одержувача: будь-яке невідоме значення — українська */
 export const pushText = (lang: unknown): PushText => PUSH_TEXT[readUiLang(lang)];

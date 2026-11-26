@@ -31,6 +31,7 @@ const ISSUES: Record<string, string> = {
   es: 'th /θ ð/ → t, d, s; b vs v; short vs long vowels (ship/sheep, full/fool) and schwa in unstressed syllables; adding /e/ before s + consonant (estudent); final consonants dropped; /h/ too harsh like Spanish «j»; /dʒ/ and /j/ confused (yes/jes); word stress and sentence rhythm (weak forms)',
   pt: 'th /θ ð/ → f, t, d; final -s / -ed endings; vowel length (ship/sheep, full/fool) and schwa; an extra /i/ after final consonants (big → bigi, Facebook → Facebooki); initial r as /h/; t/d before /i/ as /tʃ dʒ/ (party → parchy); nasalised vowels; word stress and rhythm',
   tr: 'th /θ ð/ → t, d, s; w vs v; short vs long vowels (ship/sheep) and schwa; an extra vowel in consonant clusters (sipor for sport); /æ/ vs /e/ (bad/bed); dark l; word stress and sentence rhythm (weak forms)',
+  en: 'whatever you actually hear: th /θ ð/, vowel length (ship/sheep) and schwa, final consonants and endings (-s, -ed), w/v, h, the "ng" /ŋ/, consonant clusters, word stress and sentence rhythm (weak forms)',
   pl: 'th /θ ð/ → f, t, d, s; w vs v; devoicing of final voiced consonants (bed → bet, dog → dok); vowel length and quality (ship/sheep, bad/bed, schwa in unstressed syllables); the "ng" /ŋ/ without a /g/; aspiration of p/t/k; word stress and sentence rhythm (weak forms)',
 };
 export function pronPrompt(target: string, accent: 'UK' | 'US', lang: unknown = 'uk'): string {
@@ -42,7 +43,8 @@ export function pronPrompt(target: string, accent: 'UK' | 'US', lang: unknown = 
       .replace('tips in literary Ukrainian («ви»-form)', `tips in ${L} (address with «${ADDRESS[l]}»)`)
       .replace('All Ukrainian text: natural literary Ukrainian, no russianisms, IPA in slashes where helpful.', `All ${L} text: natural ${L}, IPA in slashes where helpful. ${langStyle(l)}`)
       .replace('«/θ/ вимовлено як /s/»', `"/θ/ pronounced as /s/" written in ${L}`);
-    if (l !== 'ru') out = out.replace(/Focus on typical Ukrainian-speaker issues where you actually hear them: [^.]*?\(no trill\), aspiration of p\/t\/k, the "ng" \/ŋ\/ without a \/g\/\./, `Focus on typical ${L}-speaker issues where you actually hear them: ${ISSUES[l]}.`);
+    if (l === 'en') out = out.replace(/Focus on typical Ukrainian-speaker issues where you actually hear them: [^.]*?\(no trill\), aspiration of p\/t\/k, the "ng" \/ŋ\/ without a \/g\/\./, `Focus on ${ISSUES.en}.`);
+    else if (l !== 'ru') out = out.replace(/Focus on typical Ukrainian-speaker issues where you actually hear them: [^.]*?\(no trill\), aspiration of p\/t\/k, the "ng" \/ŋ\/ without a \/g\/\./, `Focus on typical ${L}-speaker issues where you actually hear them: ${ISSUES[l]}.`);
     else out = out.replace('Focus on typical Ukrainian-speaker issues', 'Focus on typical Russian- and Ukrainian-speaker issues').replace('(not the Ukrainian «г»)', '(not a guttural «г» or «х»)');
     return out;
   }

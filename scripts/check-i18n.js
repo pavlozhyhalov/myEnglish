@@ -5,7 +5,7 @@
 const fs = require('fs');
 const path = require('path');
 const ROOT = path.join(__dirname, '..');
-const LANGS = ['es', 'pt', 'tr', 'pl', 'ru'];
+const LANGS = ['es', 'pt', 'tr', 'pl', 'ru', 'en'];
 const read = (p, d) => { try { return JSON.parse(fs.readFileSync(path.join(ROOT, p), 'utf8')); } catch { return d; } };
 const UKR_ONLY = /[ІіЇїЄєҐґ]/;   // українські літери, яких немає в російській
 const args = process.argv.slice(2);

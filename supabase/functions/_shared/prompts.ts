@@ -36,15 +36,16 @@ export type Student = {
 };
 
 // ---------- Мова й регіон учня (2026-11-24: застосунок багатомовний — uk, es, pt, tr, pl, ru) ----------
-export type UiLang = 'uk' | 'es' | 'pt' | 'tr' | 'pl' | 'ru';
+export type UiLang = 'uk' | 'es' | 'pt' | 'tr' | 'pl' | 'ru' | 'en';
 /** Англійські назви мов інтерфейсу (дзеркало LANGS у js/i18n.js) */
-export const UI_LANGS: Record<UiLang, string> = { uk: 'Ukrainian', es: 'Spanish', pt: 'Portuguese (Brazil)', tr: 'Turkish', pl: 'Polish', ru: 'Russian' };
+export const UI_LANGS: Record<UiLang, string> = { uk: 'Ukrainian', es: 'Spanish', pt: 'Portuguese (Brazil)', tr: 'Turkish', pl: 'Polish', ru: 'Russian', en: 'English' };
 /** Регіон мови: реалії для прикладів і тем. ru — російськомовні українці й усі, крім Росії (правило власника) */
 export const UI_REGION: Record<UiLang, string> = {
   uk: 'Ukraine', ru: 'Ukraine (Russian-speaking Ukrainians)', es: 'Spain and Latin America', pt: 'Brazil', tr: 'Turkey', pl: 'Poland',
+  en: 'an international setting (neutral British realia)',
 };
 /** Як назвати учня за мовою: «a Ukrainian learner», «a Spanish-speaking learner» */
-const LEARNER: Record<UiLang, string> = { uk: 'Ukrainian', es: 'Spanish-speaking', pt: 'Brazilian', tr: 'Turkish', pl: 'Polish', ru: 'Russian-speaking' };
+const LEARNER: Record<UiLang, string> = { uk: 'Ukrainian', es: 'Spanish-speaking', pt: 'Brazilian', tr: 'Turkish', pl: 'Polish', ru: 'Russian-speaking', en: 'international' };
 export const readUiLang = (v: unknown): UiLang => (typeof v === 'string' && v in UI_LANGS ? v as UiLang : 'uk');
 type LangCtx = { uiLang?: unknown; explainLang?: unknown; level?: string; region?: string; about?: { location?: string; nativeLang?: string } };
 /** Мова інтерфейсу (англійська назва) — мова всіх текстів застосунку від AI: підсумки, назви, поради, пояснення у вправах */
@@ -58,7 +59,7 @@ export function langOf(st: LangCtx) {
   return st.explainLang === 'en' ? 'simple English' : st.explainLang === 'mix' ? `${L} with key terms in English` : L;
 }
 /** Звертання до учня в кожній мові (рішення власника: «ви» — uk, «вы» — ru, tú, você, siz, ty) */
-export const ADDRESS: Record<UiLang, string> = { uk: 'ви', ru: 'вы', es: 'tú', pt: 'você', tr: 'siz', pl: 'ty' };
+export const ADDRESS: Record<UiLang, string> = { uk: 'ви', ru: 'вы', es: 'tú', pt: 'você', tr: 'siz', pl: 'ty', en: 'you' };
 /** «Ukrainian learner», «Spanish-speaking learner»… */
 export const learnerOf = (lang: unknown) => `${LEARNER[readUiLang(lang)]} learner`;
 /** Розпізнавання: як записати слово рідною мовою учня. it — «it»/«that word» (дослівно як було в промптах) */
@@ -66,6 +67,7 @@ export function nativeWordRule(lang: unknown, it = 'it') {
   const l = readUiLang(lang);
   if (l === 'uk') return `If they say a Ukrainian word, write ${it} in Ukrainian Cyrillic.`;
   if (l === 'ru') return `If they say a Russian or Ukrainian word, write ${it} in Cyrillic.`;
+  if (l === 'en') return `If they say a word in their own language, write ${it} as they said it.`;
   return `If they say a ${UI_LANGS[l]} word, write ${it} as it is spelt in ${UI_LANGS[l]}.`;
 }
 /** Мова з кирилицею (перевірки відповіді моделі «написано мовою учня») */
@@ -411,12 +413,14 @@ const STYLE_BY: Record<Exclude<UiLang, 'uk'>, string> = {
   pt: 'natural, modern Brazilian Portuguese; address the student with «você»; concise; name grammar the way Brazilian textbooks do, with the English term in brackets once, e.g. «presente perfeito (Present Perfect)».',
   tr: 'natural, modern Turkish; address the student politely with «siz»; concise; name grammar the way Turkish textbooks do, with the English term in brackets once, e.g. «geniş zaman (Present Simple)».',
   pl: 'natural, modern Polish; address the student informally with «ty»; concise; name grammar the way Polish textbooks do, with the English term in brackets once, e.g. «czas teraźniejszy prosty (Present Simple)».',
+  en: 'simple, clear English at the student\'s level (B1 words for explanations even for higher levels); friendly, concise; use the English grammar names (Present Perfect).',
   ru: 'natural, modern Russian; address the student formally with «вы»; concise; name grammar the way textbooks do, with the English term in brackets once, e.g. «настоящее совершенное время (Present Perfect)». The reader is a Russian-speaking person from Ukraine or from any country except Russia: write «в Украине» / «из Украины» (never «на Украине»), Ukrainian place names the way Ukrainian Russian-language media write them (Киев, Харьков, Днепр, Николаев, Кропивницкий), and never refer to Russia — no Russian cities, roubles, holidays or other Russian realities in examples or advice, and never treat Russia as "our country".',
 };
 /** Правила мови пояснень: для українців — UK_STYLE без змін; для інших — стиль мови, примітка про українські приклади в інструкціях */
 export function langStyle(st: LangCtx | string) {
   const l = readUiLang(typeof st === 'object' && st ? st.uiLang : st);
   if (l === 'uk') return UK_STYLE;
+  if (l === 'en') return `When you write explanations: ${STYLE_BY.en} Quoted examples in «» in these instructions are in Ukrainian only to show tone and content — never copy them in Ukrainian; write every student-facing text in English. Never answer in Russian or Ukrainian.`;
   const L = UI_LANGS[l];
   return `When you write in ${L}: ${STYLE_BY[l]} Quoted examples in «» in these instructions are in Ukrainian only to show tone and content — never copy them in Ukrainian; write every student-facing text in ${L}.${l === 'ru' ? '' : ' Never answer in Russian or Ukrainian.'}`;
 }

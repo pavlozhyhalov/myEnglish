@@ -14,6 +14,8 @@ export const LANGS = [
   { id: 'tr', name: 'Türkçe', en: 'Turkish', region: 'Turkey' },
   { id: 'pl', name: 'Polski', en: 'Polish', region: 'Poland' },
   { id: 'ru', name: 'Русский', en: 'Russian', region: 'Ukraine' },
+  // англійська (2026-11-26): для учнів, чиєї мови немає, і перевірки App Store — пояснення простою англійською, реалії не адаптуються
+  { id: 'en', name: 'English', en: 'English', region: 'international' },
 ];
 // мова з'являється у виборі, коли її переклад готовий (scripts/check-i18n.js без прогалин) — до того її не видно нікому
 const READY = new Set(['uk', 'es', 'pt', 'tr', 'pl', 'ru']);
@@ -54,7 +56,7 @@ export const langName = (id = current) => LANGS.find(l => l.id === id)?.name || 
 export const langEn = (id = current) => LANGS.find(l => l.id === id)?.en || 'Ukrainian';
 export const isBase = () => current === 'uk';
 /** Локаль дат і чисел мови інтерфейсу (ru — Україна) */
-const LOCALES = { uk: 'uk-UA', es: 'es', pt: 'pt-BR', tr: 'tr-TR', pl: 'pl-PL', ru: 'ru-UA' };
+const LOCALES = { uk: 'uk-UA', es: 'es', pt: 'pt-BR', tr: 'tr-TR', pl: 'pl-PL', ru: 'ru-UA', en: 'en-GB' };
 export const loc = () => LOCALES[current] || 'uk-UA';
 export const regionOf = (id = current) => LANGS.find(l => l.id === id)?.region || 'Ukraine';
 

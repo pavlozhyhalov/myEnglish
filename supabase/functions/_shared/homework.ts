@@ -117,6 +117,7 @@ const FALLBACK_NOTE: Record<Exclude<UiLang, 'uk'>, string> = {
   pt: 'Nesta semana: um pouco de escrita ou fala, uma lição do seu nível e revisão de palavras.',
   tr: 'Bu hafta: biraz yazma veya konuşma, seviyenize uygun bir ders ve kelime tekrarı.',
   pl: 'W tym tygodniu: trochę pisania lub mówienia, lekcja na twoim poziomie i powtórka słówek.',
+  en: 'This week: a little writing or speaking, a lesson at your level and some word review.',
 };
 export function fallbackNote(m: Pick<MemberIn, 'lang'>, rule: string | null) {
   const l = readUiLang(m.lang);
