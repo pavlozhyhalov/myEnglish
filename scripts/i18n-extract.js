@@ -142,7 +142,7 @@ fs.writeFileSync(path.join(ROOT, 'i18n/_patterns.json'), JSON.stringify([...pats
 
 // ---------- зміст ----------
 // книги й оповідання — англійський текст; з них беремо лише каталоги (назви й автори українською)
-const dataFiles = walk(path.join(ROOT, 'data'), '.json', [path.join('data', 'books'), path.join('data', 'stories'), path.join('data', 'l10n')])
+const dataFiles = walk(path.join(ROOT, 'data'), '.json', [path.join('data', 'books'), path.join('data', 'stories'), path.join('data', 'l10n'), path.join('data', 'dict')])
   .concat(['data/books/index.json'].map(p => path.join(ROOT, p)))
   .concat(walk(path.join(ROOT, 'data', 'stories'), '.json'))                                    // словнички й питання оповідань
   .concat(fs.readdirSync(path.join(ROOT, 'data', 'books'), { withFileTypes: true }).filter(e => e.isDirectory())

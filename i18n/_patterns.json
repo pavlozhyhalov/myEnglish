@@ -3951,7 +3951,7 @@
  },
  {
   "re": "^Прогрес за (.+?)$",
-  "src": "Прогрес за ${R.title.toLowerCase()}",
+  "src": "Прогрес за ${tt(R.title).toLowerCase()}",
   "file": "js/pdfreport.js"
  },
  {
@@ -4096,7 +4096,7 @@
  },
  {
   "re": "^myEnglish · звіт вчителя за (.+?)(.+?)$",
-  "src": "myEnglish · звіт вчителя за ${R.title.toLowerCase()}${name ? ` · ${name}` : ''}",
+  "src": "myEnglish · звіт вчителя за ${tt(R.title).toLowerCase()}${name ? ` · ${name}` : ''}",
   "file": "js/pdfreport.js"
  },
  {

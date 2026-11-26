@@ -1,4 +1,4 @@
-Review of the offline dictionary (myEnglish). File: data/dict/<lang>.part1.json and data/dict/<lang>.part2.json — { "english word": "gloss in learner's language" } (rules: scripts/dict-brief.txt). Learners see the gloss when they tap a word in a text.
+Review of the offline dictionary (myEnglish). File: scripts/dict-src/<lang>.part1.json and scripts/dict-src/<lang>.part2.json (then node scripts/dict-merge.js) — { "english word": "gloss in learner's language" } (rules: scripts/dict-brief.txt). Learners see the gloss when they tap a word in a text.
 READ EVERY entry (print «word | gloss» in chunks of ~150 lines) and FIX in place:
 - wrong meaning (homonym mix-up, wrong part of speech as first sense, false friend), missing the most common meaning, glosses that belong to a neighbouring word (shifted lines);
 - unnatural/incorrect language in the gloss, typos; too long (> ~4 words per meaning, > 3 meanings);
