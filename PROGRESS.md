@@ -10,7 +10,7 @@ _Зараз відкритих задач немає._
 - [x] Код: `js/native.js` (isNative), аудіо з сайту в застосунку, без SW і Web Push, сховати службове
 - [x] `native/`: package.json, capacitor.config.json, `scripts/native-sync.sh` (копія сайту в native/www без аудіо), `npx cap add ios`
 - [x] iOS: Info.plist (мікрофон, розпізнавання, шифрування — 6 мов), PrivacyInfo.xcprivacy, іконка й заставка
-- [ ] GitHub Actions: збірка для симулятора на macOS (перевірка), заготовка TestFlight-збірки (вмикається секретами Apple)
+- [x] GitHub Actions: збірка для симулятора на macOS (перевірка), заготовка TestFlight-збірки (вмикається секретами Apple)
 
 ## App Store, етап 3 — нативні функції (2026-11-26)
 - [ ] Тактильний відгук (Haptics) — вправи, ігри, тренування слів
