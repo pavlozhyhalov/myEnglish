@@ -1,0 +1,8 @@
+Review of the offline dictionary (myEnglish). File: data/dict/<lang>.part1.json and data/dict/<lang>.part2.json — { "english word": "gloss in learner's language" } (rules: scripts/dict-brief.txt). Learners see the gloss when they tap a word in a text.
+READ EVERY entry (print «word | gloss» in chunks of ~150 lines) and FIX in place:
+- wrong meaning (homonym mix-up, wrong part of speech as first sense, false friend), missing the most common meaning, glosses that belong to a neighbouring word (shifted lines);
+- unnatural/incorrect language in the gloss, typos; too long (> ~4 words per meaning, > 3 meanings);
+- entries that should not exist (proper names, brands) — delete the key.
+Language notes: uk — literary Ukrainian, no russisms; ru — for Russian-speaking Ukrainians, no і/ї/є/ґ; es neutral; pt Brazilian; tr; pl.
+Python json.dump(ensure_ascii=False, indent=1)+"\n", json.load after; never change English keys except deleting; don't commit. Keep scripts in scratchpad/dr-<lang>.
+Report in Ukrainian: entries read, fixed, deleted, examples.
