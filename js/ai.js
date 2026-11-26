@@ -13,7 +13,9 @@ const MSG = {
   gemini: S.err.aiFailed, empty: S.err.aiFailed, busy: S.err.busy, timeout: S.err.busy, bad_model_request: S.err.aiFailed, model_not_found: S.err.busy, server: S.err.generic,
 };
 
-async function headers() {
+async function headers(consent = true) {
+  // згода на передачу даних AI (js/aiconsent.js) — для всього, крім озвучення й службових дій акаунта
+  if (consent && !(await import('./aiconsent.js').then(m => m.ensureAiConsent()))) throw new AiError('no_consent', 'Потрібна ваша згода на AI — «Налаштування» → «Дозволити AI-вчителя»');
   const token = await accessToken();
   if (!token) throw new AiError('need_login', S.err.needLogin);
   return { 'Content-Type': 'application/json', Authorization: `Bearer ${token}`, apikey: SUPABASE_KEY };
@@ -27,10 +29,10 @@ async function errorFrom(res) {
 }
 
 /** Виклик з JSON-відповіддю */
-export async function ai(fn, action, payload = {}, { signal } = {}) {
+export async function ai(fn, action, payload = {}, { signal, noConsent = false } = {}) {
   if (!navigator.onLine) throw new AiError('offline', S.err.offline);
   const res = await fetch(`${FUNCTIONS_URL}/${fn}`, {
-    method: 'POST', headers: await headers(), body: JSON.stringify({ action, ...payload }), signal,
+    method: 'POST', headers: await headers(!noConsent && fn !== 'admin' && fn !== 'account'), body: JSON.stringify({ action, ...payload }), signal,
   });
   if (!res.ok) throw await errorFrom(res);
   return res.json();
@@ -86,7 +88,7 @@ export async function tutorStream(payload, onText, { signal, onMeta, onEnd } = {
 export async function ttsAudio(text, { voice, signal, dialogue, speakers, cacheOnly } = {}) {
   if (!navigator.onLine) throw new AiError('offline', S.err.offline);
   const res = await fetch(`${FUNCTIONS_URL}/tts`, {
-    method: 'POST', headers: await headers(), body: JSON.stringify(dialogue ? { dialogue, speakers } : { text, voice, cacheOnly: cacheOnly || undefined }), signal,
+    method: 'POST', headers: await headers(false), body: JSON.stringify(dialogue ? { dialogue, speakers } : { text, voice, cacheOnly: cacheOnly || undefined }), signal,
   });
   if (!res.ok) throw await errorFrom(res);
   return res.blob();

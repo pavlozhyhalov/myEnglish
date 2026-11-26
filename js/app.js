@@ -147,6 +147,7 @@ const PAGE_FILES = {
   fluency: 'fluency',
   'listen-go': 'listengo',
   feedback: 'feedback',
+  about: 'about',
   abc: 'abc',
   welcome: 'welcome',
 };

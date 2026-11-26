@@ -10,6 +10,8 @@ import { toast } from '../ui/toast.js';
 import { go } from '../router.js';
 import { setTitle } from '../ui/shell.js';
 import { txGroup, txRow, txRows, txPrimary, txResult } from '../ui/tiles.js';
+import { DOCS_VERSION } from './about.js';
+import { exportMyData, deleteAccount } from '../account.js';
 
 const MIN_LEN = 8;
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
@@ -152,6 +154,11 @@ function loginView(view, initial) {
   const forgot = h('a.small.auth-forgot', { href: '#/auth/forgot' }, 'Забули пароль?');
   forgot.addEventListener('click', (e) => { e.preventDefault(); go(`/auth/forgot${em.input.value.trim() ? `?email=${encodeURIComponent(em.input.value.trim())}` : ''}`); });
   const terms = h('p.xs.dim', { style: { margin: 0 } }, `Пароль — щонайменше ${MIN_LEN} символів. Краще — фраза з кількох слів або літери, цифри й знаки.`);
+  // App Store / GDPR (2026-11-26): вік 16+ і згода з Умовами й Політикою — обов'язково при реєстрації (profiles.data.terms)
+  const agreeInp = h('input', { type: 'checkbox', id: 'auth-agree' });
+  const agree = h('label.row.auth-agree', { for: 'auth-agree', style: { gap: '10px', alignItems: 'flex-start' } }, agreeInp,
+    h('span.small', 'Мені виповнилось 16 років, я приймаю ', h('a', { href: '#/about/terms', target: '_blank' }, 'Умови користування'), ' і ',
+      h('a', { href: '#/about/privacy', target: '_blank' }, 'Політику приватності')));
 
   const checkMatch = () => {
     if (tab !== 'up' || !pass2.input.value) { match.textContent = ''; match.className = 'xs auth-match'; pass2.input.removeAttribute('aria-invalid'); return true; }
@@ -181,7 +188,7 @@ function loginView(view, initial) {
     pass2.field.hidden = !up; pass2.input.required = up;
     meter.dataset.off = up ? '' : '1';
     meter.hidden = !up || !pass.input.value;
-    terms.hidden = !up; match.hidden = !up;
+    terms.hidden = !up; match.hidden = !up; agree.hidden = !up;
     forgot.hidden = up;
     btn.el.replaceChildren(up ? 'Створити акаунт' : 'Увійти');
     feedback(msg, '', '');
@@ -205,6 +212,7 @@ function loginView(view, initial) {
     if (tab === 'up') {
       if (p1.length < MIN_LEN) { feedback(msg, 'no', `Пароль має містити щонайменше ${MIN_LEN} символів.`); pass.input.focus(); return; }
       if (!checkMatch() || !pass2.input.value) { feedback(msg, 'no', 'Паролі не збігаються — введіть однаковий пароль двічі.'); pass2.input.focus(); return; }
+      if (!agreeInp.checked) { feedback(msg, 'no', 'Підтвердьте вік і згоду з Умовами й Політикою приватності.'); agreeInp.focus(); return; }
     }
     feedback(msg, '', '');
     btn.run(async () => {
@@ -218,6 +226,7 @@ function loginView(view, initial) {
           // email підтверджується автоматично (тригер у БД) — одразу входимо
           if (!res.session) await signIn(email, p1);
           saveEmail(email);
+          store.setProf({ terms: { v: DOCS_VERSION, at: new Date().toISOString(), age16: true } });
           await afterLogin('Акаунт створено. Ласкаво просимо!');
         }
       } catch (err) {
@@ -228,7 +237,7 @@ function loginView(view, initial) {
   } },
   em.field, pass.field, meter, pass2.field, match,
   h('div.row.between.auth-row', h('span'), forgot),
-  terms, btn.el, msg);
+  terms, agree, btn.el, msg);
 
   view.replaceChildren(h('div.stack-lg.auth',
     headTile('key', 'myEnglish', heading, lead),
@@ -344,10 +353,46 @@ function accountView(view, u) {
         sub: pending ? 'Надішлемо, щойно буде зв\'язок' : 'Дані однакові на всіх пристроях',
         pill: pending ? { text: `${pending}`, tone: 'warn' } : { text: 'OK', tone: 'good' } }),
       changeBtn,
+      txRow({ icon: 'download-simple', label: 'Завантажити мої дані', sub: 'Файл JSON: профіль, навчання, розмови, повідомлення', onclick: async (e) => {
+        const b = e.currentTarget; b.disabled = true;
+        try { await exportMyData(); } catch { toast('Не вдалося підготувати файл', { kind: 'bad' }); }
+        b.disabled = false;
+      } }),
       txRow({ icon: 'sign-out', cls: 'auth-out', label: 'Вийти', sub: 'Дані залишаться в хмарі', chevron: false, onclick: async (e) => {
         e.currentTarget.disabled = true;
         await signOut();
         toast('Ви вийшли з акаунта');
         loginView(view, 'in');
-      } })]), changeBox])));
+      } })]), changeBox]),
+    txGroup('Інше', txRows([
+      txRow({ icon: 'info', label: 'Про застосунок', sub: 'Документи, ліцензії, AI', href: '#/about' }),
+      txRow({ icon: 'trash', cls: 'ch-danger', label: 'Видалити акаунт', sub: 'Назавжди — усі дані й файли', onclick: () => deleteSheet(view, u) })]))));
+}
+
+// Видалення акаунта (App Store 5.1.1(v)): підтвердження паролем → функція account → вихід і очищення пристрою
+function deleteSheet(view, u) {
+  import('../ui/sheet.js').then(({ sheet }) => {
+    const pass = passField({ id: 'del-pass', label: 'Пароль', autocomplete: 'current-password' });
+    const msg = h('div');
+    const btn = h('button.btn.danger.block', { type: 'button' }, 'Видалити назавжди');
+    let s = null;
+    btn.onclick = async () => {
+      if (!pass.input.value) { feedback(msg, 'no', 'Введіть пароль.'); pass.input.focus(); return; }
+      btn.disabled = true; btn.textContent = 'Видаляємо…';
+      try {
+        await signIn(u.email, pass.input.value);
+      } catch { feedback(msg, 'no', 'Неправильний пароль.'); btn.disabled = false; btn.textContent = 'Видалити назавжди'; return; }
+      try {
+        await deleteAccount();
+        s.close();
+        toast('Акаунт видалено');
+        loginView(view, 'up');
+      } catch (err) { feedback(msg, 'no', errText(err)); btn.disabled = false; btn.textContent = 'Видалити назавжди'; }
+    };
+    s = sheet('Видалити акаунт?', h('div.stack',
+      h('p', 'Буде видалено назавжди й без відновлення: профіль, картки й прогрес, розмови з вчителем, помилки, повідомлення в чатах, голосові записи й звернення. Друзі більше не бачитимуть вас.'),
+      h('p.small.dim', 'Спершу можна завантажити копію даних — «Завантажити мої дані».'),
+      pass.field, btn, msg));
+    setTimeout(() => pass.input.focus(), 300);
+  });
 }

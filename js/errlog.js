@@ -53,6 +53,7 @@ function save(q) { try { localStorage.setItem(KEY, JSON.stringify(q.slice(-MAX_Q
 export function report(err, extra = '') {
   try {
     if (count >= MAX_SESSION) return;
+    if (err?.code === 'no_consent') return;   // людина не дала згоди на AI — не збій
     const message = scrub((extra ? extra + ': ' : '') + (err?.message || err?.reason || String(err ?? 'unknown')), 500);
     const long = extra === 'voice-log';   // журнал голосової сесії — довший (діагностика збоїв голосу)
     const stack = scrub(String(err?.stack || '').split(location.origin).join('').split('\n').slice(0, long ? 80 : 6).map(l => l.trim()).join('\n'), long ? 6000 : 1500);

@@ -1041,6 +1041,7 @@ async function runSummary(row, { onRetry } = {}) {
  */
 export async function autoSummarizePending() {
   if (!user() || !navigator.onLine) return null;
+  if (!(await import('../aiconsent.js')).hasAiConsent()) return null;   // без згоди на AI фонові підсумки не робимо
   let tries = {}; try { tries = JSON.parse(localStorage.getItem('me:autosum') || '{}') || {}; } catch { /* */ }
   const now = Date.now(), since = now - 3 * 864e5;
   const words = (r) => (r.messages || []).filter(m => m.role === 'user' && !m.hidden).reduce((a, m) => a + (String(m.text || '').match(/[A-Za-z']+/g) || []).length, 0);

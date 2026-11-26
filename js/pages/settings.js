@@ -66,6 +66,7 @@ export default function settings(view) {
     ]),
     txGroup('Нижня панель', quickbarEditor()),
     group('Дані', [
+      user() ? row('sparkle', 'Дозволити AI-вчителя', toggle(aiOn(), (v) => setAi(v), 'Дозволити AI-вчителя'), 'Дані розмов ідуть у Google Gemini — політика в «Про застосунок»') : null,
       row('user', 'Акаунт', h('a.btn.sm.soft', { href: '#/auth' }, user() ? 'Керувати' : 'Увійти'), user() ? user().email : 'Локальний режим'),
       row('download-simple', 'Експорт',
         h('button.btn.sm.soft', { type: 'button', onclick: exportData }, ic('download-simple', { size: 16 }), 'Експорт'), 'JSON: картки, прогрес, розмови'),
@@ -74,7 +75,8 @@ export default function settings(view) {
       row('trash', 'Очистити дані на пристрої', h('button.btn.sm.danger', { type: 'button', onclick: wipe }, 'Очистити'), 'Хмарна копія не зачіпається', 'bad'),
     ]),
     txGroup('Службове', [
-      txRows([txRow({ icon: 'flask', label: 'Лабораторія Live', sub: 'Діагностика голосу', href: '#/lab/live' })]),
+      txRows([txRow({ icon: 'info', label: 'Про застосунок', sub: 'Приватність, умови, ліцензії', href: '#/about' }),
+        txRow({ icon: 'flask', label: 'Лабораторія Live', sub: 'Діагностика голосу', href: '#/lab/live' })]),
       h('p.xs.dim.center.set-build', `myEnglish · збірка ${BUILD}`)]));
   const moreRow = txRow({ icon: 'gear-six', label: 'Ще', sub: 'Автоматика, панель, озвучення, дані', chevron: false, cls: 'set-more-row',
     end: ic('caret-down', { size: 16 }), attrs: { 'aria-expanded': 'false', 'aria-controls': 'set-more' },
@@ -294,6 +296,10 @@ function quickbarEditor() {
   render();
   return wrap;
 }
+
+// ---------- Згода на AI (js/aiconsent.js) ----------
+const aiOn = () => (store.prof().aiConsent?.v || 0) >= 1 && !store.prof().aiConsent?.off;
+const setAi = (v) => import('../aiconsent.js').then(m => { m.setAiConsent(v); toast(v ? 'AI-вчителя увімкнено' : 'Згоду відкликано: AI-функції вимкнено'); });
 
 // ---------- Експорт / імпорт ----------
 function exportData() {
