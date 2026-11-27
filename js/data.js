@@ -8,12 +8,20 @@ function overlay(path) {
   if (isBase() || !path.startsWith('data/')) return Promise.resolve(null);
   return fetch(`data/l10n/${lang()}/${path.slice(5)}?v=${BUILD}`).then(r => r.ok ? r.json() : null).catch(() => null);
 }
+// англійський інтерфейс: «переклад» прикладу, що дослівно повторює англійський приклад, не показуємо (інакше рядок дублюється)
+const same = (a, b) => String(a || '').trim().toLowerCase() === String(b || '').trim().toLowerCase();
+function dropSameEx(v, depth = 0) {
+  if (!v || typeof v !== 'object' || depth > 6) return;
+  if (Array.isArray(v)) { for (const x of v) dropSameEx(x, depth + 1); return; }
+  if (v.ex && v.exUk && same(v.ex, v.exUk)) v.exUk = '';
+  for (const k in v) if (v[k] && typeof v[k] === 'object') dropSameEx(v[k], depth + 1);
+}
 export async function json(path) {
   if (cache.has(path)) return cache.get(path);
   const p = Promise.all([fetch(`${path}?v=${BUILD}`).then(r => {
     if (!r.ok) throw new Error(`${path}: ${r.status}`);
     return r.json();
-  }), overlay(path)]).then(([data, map]) => { if (!map) return data; addDict(map); return localize(data, map); });
+  }), overlay(path)]).then(([data, map]) => { if (!map) return data; addDict(map); const out = localize(data, map); if (lang() === 'en') dropSameEx(out); return out; });
   cache.set(path, p);
   p.catch(() => cache.delete(path));
   return p;
