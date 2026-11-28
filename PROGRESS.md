@@ -9,3 +9,11 @@
 - [x] Розрахунок платного Gemini: ціни, наше фактичне споживання (ai_usage), вартість на учня на місяць → `docs/gemini-cost.md` + PDF
 - [x] Резервні копії: щоденний знімок БД у приватний бакет `backups` (функція `backup`, pg_cron), зберігання 14 днів + 8 тижневих; інструкція відновлення `docs/backup.md`; перевірка знімка
 - [ ] Озвучка Kokoro класики (книги — ні, ~1,4 ГБ): фон `ONLY=stories ACC=uk BITRATE=32k JOBS=4 python3 scripts/tts-kokoro.py <onnx> <voices>` (перезапуск безпечний), потім bump, коміт audio/uk + index.json, push main
+
+## Назва, домен, копії, юридичне, розсилки (2026-11-28, власник: «роби все правильно з резервним копіюванням… підготуйся на 100% з юридичної сторони… перевір епстор… перевіряй на баги»)
+- [x] Назва: «MyEnglish» у App Store зайнята; кандидати з вільними App Store + .com + .app + .pl — Speakavo, Englavo (Anglova/Spikova — схожі на Anglomova/Promova) → рішення власника
+- [x] Резервні копії поза Supabase (як у Resonance): `.github/workflows/db-backup.yml`, `db-restore-test.yml`, `scripts/backup-storage.mjs`, звіти → `backup` (міграція 0043), #/admin, монітор; `docs/backup.md`
+- [x] Юридичний пакет `docs/legal/*`: аудит вимог (GDPR, RoPA, процесори/DPA, інциденти, запити суб'єктів, DSA, AI Act, Польща — regulamin UŚUDE, споживчі права, маркетинг-пошта, App Store); доповнення Політики й Умов у застосунку (7 мов)
+- [x] План розсилок `docs/email-plan.md` (транзакційні, життєвий цикл, повернення, згода, частота, технічна схема) — реалізація після домену
+- [ ] Перевірка на баги: прогін сторінок 7 мовами (Playwright), функцій, тестів
+- [ ] Озвучка класики → index.json, bump, main
