@@ -35,6 +35,8 @@ def genders(names):
     elif not g[1]: g[1] = 'f' if g[0] == 'm' else 'm'
     return g
 
+STORY = set()   # ключі абзаців «Класики»
+
 def collect():
     items = {}
     def add(t, slow=False):
@@ -57,6 +59,15 @@ def collect():
     for t in R:
         for para in t.get('text', []): add(para)
         for g in t.get('glossary', []): add(g.get('en') or g.get('w', ''))
+    # «Класика» (2026-11-28, власник: «роби»): абзаци 30 оповідань — лише британським голосом (ACC=uk ONLY=stories; ~130 МБ);
+    # учень з американським акцентом чує цей самий запис (staticUrl у js/speech.js бере інший акцент, якщо свого немає).
+    # Повні книги (~83 год звуку, ~1,4 ГБ на голос) не озвучуються — не вміщаються в GitHub Pages.
+    for f in sorted(glob.glob(os.path.join(ROOT, 'data/stories/*.json'))):
+        if f.endswith('index.json'): continue
+        for para in json.load(open(f)).get('text', []):
+            if para.startswith('## '): continue
+            n = norm(para)
+            if n and re.search(r'[A-Za-z]', n) and len(n) <= 6000: items.setdefault(key(para), (n, 0.95)); STORY.add(key(para))
     dlgs = []
     for d in L['dialogues']:
         lines = [l['text'] for l in d['lines']]
@@ -74,7 +85,7 @@ def enc(samples, sr, path):
     import soundfile as sf
     with tempfile.NamedTemporaryFile(suffix='.wav') as w:
         sf.write(w.name, samples, sr)
-        subprocess.run(['ffmpeg', '-loglevel', 'error', '-y', '-i', w.name, '-ac', '1', '-c:a', 'aac', '-b:a', '40k', '-movflags', '+faststart', path], check=True)
+        subprocess.run(['ffmpeg', '-loglevel', 'error', '-y', '-i', w.name, '-ac', '1', '-c:a', 'aac', '-b:a', os.environ.get('BITRATE', '40k'), '-movflags', '+faststart', path], check=True)
 
 def job_item(a):
     acc, k, text, speed = a
@@ -126,7 +137,10 @@ if __name__ == '__main__':
         write_index(items, old); sys.exit()
     for acc in VOICE: os.makedirs(os.path.join(OUT, acc), exist_ok=True)
     accs = os.environ.get('ACC', 'us,uk').split(',')
-    tasks = [(acc, k, t, sp) for acc in accs for k, (t, sp) in items.items()]
+    only = os.environ.get('ONLY')
+    # без ONLY=stories абзаци класики не озвучуються (інакше вийшло б два голоси й удвічі більший сайт)
+    tasks = [(acc, k, t, sp) for acc in accs for k, (t, sp) in items.items() if (k in STORY) == (only == 'stories')]
+    if only == 'stories': os.environ['NODLG'] = '1'
     dtasks = [] if os.environ.get('NODLG') else [(acc, dk, names, lines) for acc in accs for dk, names, lines in dlgs]
     with Pool(int(os.environ.get('JOBS', '4')), initializer=init, initargs=(model, voices)) as p:
         done = 0

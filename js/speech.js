@@ -68,7 +68,10 @@ async function staticUrl(text, accent) {
   const idx = await staticIndex();
   const k = staticKey(text);
   const acc = accDir(accent);
-  return idx?.keys[acc]?.has(k) ? remote(`audio/${acc}/${k}.m4a`) : null;
+  if (idx?.keys[acc]?.has(k)) return remote(`audio/${acc}/${k}.m4a`);
+  // 2026-11-28: «Класика» озвучена лише британським голосом — запис іншого акценту кращий за голос браузера й не витрачає Gemini
+  const other = acc === 'uk' ? 'us' : 'uk';
+  return idx?.keys[other]?.has(k) ? remote(`audio/${other}/${k}.m4a`) : null;
 }
 
 export async function speak(text, opts = {}) {
