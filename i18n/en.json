@@ -1033,7 +1033,7 @@
  "Керувати": "Manage",
  "Клавіатура": "Keyboard",
  "Клавіші 1–4 обирають варіант": "Keys 1–4 choose an option",
- "Клас": "Class",
+ "Клас": "Like",
  "Ключові фрази ·": "Key phrases ·",
  "Книги ·": "Books ·",
  "Книги й оповідання (Standard Ebooks)": "Books and stories (Standard Ebooks)",
@@ -3741,5 +3741,6 @@
  "↓ гірше": "↓ worse",
  "↓ менше": "↓ less",
  "↓ рідше": "↓ less often",
- "≈ 10 хв · склали — переходите на": "≈ 10 min · passed — you move to"
+ "≈ 10 хв · склали — переходите на": "≈ 10 min · passed — you move to",
+ "Клас⁠": "Class"
 }

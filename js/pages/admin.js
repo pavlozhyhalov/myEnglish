@@ -94,8 +94,15 @@ const fact = (k, v) => h('div', { style: { display: 'flex', justifyContent: 'spa
 const openUsers = new Set();   // розгорнуті рядки переживають перемальовування сторінки
 
 /** Розділ «Користувачі»: зведення + рядок на кожного (дотик — подробиці). Вміст розмов не показується. */
+// демо-акаунти для перевірки Apple (appreview.demo / appreview.oliver, 2026-11-26) — не справжні учні: ні в списку, ні в цифрах
+const DEMO = new Set(['19da8a4e-952f-4c6c-892e-54e4ae011c89', 'e17898d3-8d63-46aa-8baa-99a84cfd0651']);
+const isDemo = (u) => DEMO.has(u?.id) || /^appreview\./i.test(String(u?.name || ''));
 function usersSection(ud, limits = {}, budget = {}) {
-  const sm = ud.summary || {}, a = sm.ai_today || {}, today = ud.today;
+  const demo = (ud.users || []).filter(isDemo);
+  const sm0 = ud.summary || {};
+  const sm = demo.length ? { ...sm0, total: Math.max(0, (sm0.total || 0) - demo.length),
+    new7: Math.max(0, (sm0.new7 || 0) - demo.filter(u => Date.now() - Date.parse(u.created_at || 0) < 7 * 864e5).length) } : sm0;
+  const a = sm.ai_today || {}, today = ud.today;
   const strongCap = budget.strongCalls || (limits.strongCalls || 8) * 10;
   const strongTone = a.strong >= strongCap ? 'bad' : a.strong >= strongCap * 0.75 ? 'warn' : undefined;
   const open = openUsers;
@@ -171,9 +178,7 @@ function usersSection(ud, limits = {}, budget = {}) {
     return wrapEl;
   };
 
-  // демо-акаунти для перевірки Apple (appreview.demo / appreview.oliver, 2026-11-26) — не справжні учні
-  const DEMO = new Set(['19da8a4e-952f-4c6c-892e-54e4ae011c89', 'e17898d3-8d63-46aa-8baa-99a84cfd0651']);
-  const list = (ud.users || []).filter(u => !DEMO.has(u.id) && !/^appreview\./i.test(String(u.name || '')));
+  const list = (ud.users || []).filter(u => !isDemo(u));
   return [summary, txGroup(`Користувачі · ${list.length}`, list.length
     ? h('div.tx-rows', list.map(row))
     : h('p.xs.dim.adm-note', 'Ще немає зареєстрованих користувачів.'))];

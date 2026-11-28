@@ -67,7 +67,8 @@ self.addEventListener('install', (e) => {
         if (hash && res.headers.get(HASH) !== hash) res = await download(u, 'reload').catch(() => res);
         // 2026-11-28: CDN ще віддає стару версію — не кладемо її в нову збірку (інакше старий модуль поруч із новими:
         // «Importing binding name … is not found»); файл оболонки → встановлення не завершується, браузер повторить оновлення пізніше
-        if (hash && res.headers.get(HASH) !== hash && critical(u)) throw new Error(`${u}: stale content`);
+        // відмовляємось лише від гарантовано старого вмісту (такий самий уже лежить у попередньому кеші) — незнайомий вміст приймаємо, щоб оновлення не зависло
+        if (hash && res.headers.get(HASH) !== hash && critical(u) && await fromOld(u, res.headers.get(HASH))) throw new Error(`${u}: stale content`);
         await c.put(u, res); stats.fetched++;
       } catch (err) {
         if (critical(u)) throw err;

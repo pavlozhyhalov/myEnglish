@@ -14,10 +14,10 @@ const MSG = {
 };
 
 async function headers(consent = true) {
-  // згода на передачу даних AI (js/aiconsent.js) — для всього, крім озвучення й службових дій акаунта
-  if (consent && !(await import('./aiconsent.js').then(m => m.ensureAiConsent()))) throw new AiError('no_consent', 'Потрібна ваша згода на AI — «Налаштування» → «Дозволити AI-вчителя»');
   const token = await accessToken();
   if (!token) throw new AiError('need_login', S.err.needLogin);
+  // згода на передачу даних AI (js/aiconsent.js) — після перевірки входу; для всього, крім озвучення й службових дій акаунта
+  if (consent && !(await import('./aiconsent.js').then(m => m.ensureAiConsent()))) throw new AiError('no_consent', 'Потрібна ваша згода на AI — «Налаштування» → «Дозволити AI-вчителя»');
   return { 'Content-Type': 'application/json', Authorization: `Bearer ${token}`, apikey: SUPABASE_KEY };
 }
 

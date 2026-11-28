@@ -143,7 +143,7 @@ APRENDE EN COMPAÑÍA
 • Chatea en inglés con tus amigos: el profesor te sugiere en privado cómo decirlo mejor
 • Grupos con tareas personalizadas para cada miembro, retos y duelos
 
-Interfaz en ucraniano, español, portugués, turco, polaco y ruso.
+Interfaz en inglés, ucraniano, español, portugués, turco, polaco y ruso.
 
 El profesor, las correcciones y las voces funcionan con inteligencia artificial (Google Gemini) y pueden equivocarse. Tú decides si compartes datos con la IA: consulta la Política de privacidad en la aplicación.
 
@@ -185,7 +185,7 @@ APRENDA JUNTO
 • Converse com amigos em inglês — o professor sugere discretamente como dizer melhor
 • Grupos com tarefa de casa personalizada para cada membro, desafios e duelos
 
-Interface em ucraniano, espanhol, português, turco, polonês e russo.
+Interface em inglês, ucraniano, espanhol, português, turco, polonês e russo.
 
 O professor, as correções e as vozes funcionam com inteligência artificial (Google Gemini) e podem cometer erros. Você decide se compartilha dados com a IA — veja a Política de Privacidade no app.
 
@@ -227,7 +227,7 @@ BİRLİKTE ÖĞRENİN
 • Arkadaşlarınızla İngilizce yazışın — öğretmen daha iyi nasıl söyleneceğini sessizce önerir
 • Her üyeye kişisel ödevli gruplar, meydan okumalar ve düellolar
 
-Arayüz dilleri: Ukraynaca, İspanyolca, Portekizce, Türkçe, Lehçe ve Rusça.
+Arayüz dilleri: İngilizce, Ukraynaca, İspanyolca, Portekizce, Türkçe, Lehçe ve Rusça.
 
 Öğretmen, düzeltmeler ve sesler yapay zekâ (Google Gemini) ile çalışır ve hata yapabilir. Verilerinizi yapay zekâyla paylaşıp paylaşmamaya siz karar verirsiniz — uygulamadaki Gizlilik Politikası’na bakın.
 
@@ -269,7 +269,7 @@ UCZ SIĘ Z INNYMI
 • Pisz ze znajomymi po angielsku — nauczyciel dyskretnie podpowiada, jak powiedzieć to lepiej
 • Grupy z osobną pracą domową dla każdego, wyzwania i pojedynki
 
-Języki interfejsu: ukraiński, hiszpański, portugalski, turecki, polski i rosyjski.
+Języki interfejsu: angielski, ukraiński, hiszpański, portugalski, turecki, polski i rosyjski.
 
 Nauczyciel, poprawki i głosy działają dzięki sztucznej inteligencji (Google Gemini) i mogą się mylić. To Ty decydujesz, czy udostępniasz dane AI — szczegóły w Polityce prywatności w aplikacji.
 
@@ -311,6 +311,6 @@ myEnglish — полный курс английского, построенны
 • Переписка с друзьями на английском — учитель тихо подсказывает, как сказать лучше
 • Группы с личным домашним заданием для каждого, вызовы и дуэли
 
-Языки интерфейса: украинский, испанский, португальский, турецкий, польский, русский.
+Языки интерфейса: английский, украинский, испанский, португальский, турецкий, польский, русский.
 
 Учитель, исправления и голоса работают на искусственном интеллекте (Google Gemini) и могут ошибаться. Передавать ли данные AI — решаете вы (Политика конфиденциальности в приложении).

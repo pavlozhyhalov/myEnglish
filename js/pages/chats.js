@@ -374,7 +374,7 @@ export function chatRoom(view, roomId) {
       h('div.tx-s', hw.over ? 'Термін минув' : `У кожного своє · до ${dueLabel(hw.due_at)}`),
       mine ? h('div.hw-note', h('span.tx-sq', ic('chalkboard-teacher', { size: 18 })), h('p', mine.note)) : h('div.tx-s', 'Вас ще не було в групі, коли вчитель дав це завдання.'),
       mine ? txGroup(mine.done_at ? 'Моє · виконано' : 'Моє', h('div.tx-rows', mine.tasks.map(taskRow))) : null,
-      hw.class?.length > 1 ? txGroup('Клас', txRows(hw.class.map(c => txRow({ label: c.me ? `${c.name} (ви)` : c.name, end: ava(c.name),
+      hw.class?.length > 1 ? txGroup('Клас\u2060', txRows(hw.class.map(c => txRow({ label: c.me ? `${c.name} (ви)` : c.name, end: ava(c.name),
         pill: { text: `${c.done} з ${c.total}`, tone: c.done >= c.total ? 'good' : '' }, chevron: false })))) : null,
       hw.over ? h('button.btn.soft', { type: 'button', onclick: (e) => { s.close(); askHomework(e.currentTarget); } }, ic('arrow-clockwise', { size: 16 }), 'Нове домашнє') : null));
   }
