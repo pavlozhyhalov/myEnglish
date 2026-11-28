@@ -278,6 +278,28 @@ export default async function adminPage(view) {
       : txRows([txRow({ icon: 'envelope-simple', label: 'Звернень поки немає', sub: 'Користувачі пишуть з меню «Я» → конверт', chevron: false })]));
   }
 
+  // резервні копії (міграція 0040): щоденні зашифровані знімки бази в приватному бакеті; завантажити файл — копія поза Supabase
+  let bk = null, bkBusy = false, bkErr = '';
+  async function loadBackups(now = false) {
+    bkBusy = true; bkErr = ''; render();
+    try { bk = await ai('admin', now ? 'backup_now' : 'backups'); } catch (e) { bkErr = aiErrorText(e); }
+    bkBusy = false; render();
+  }
+  function backupSection() {
+    const rows = (bk?.files || []).map(f => txRow({ icon: 'download-simple', label: f.path.replace(/^(daily|weekly)\//, '').replace('.meb', ''),
+      sub: f.path.startsWith('weekly') ? 'Тижнева · 28 днів' : 'Щоденна · 7 днів', href: f.url || undefined, attrs: f.url ? { download: '', target: '_blank', rel: 'noopener' } : {} }));
+    return txGroup('Резервні копії', [
+      bk ? (rows.length ? txRows(rows) : h('div.xs.dim.adm-note', 'Копій ще немає — перша з\'явиться вночі.')) : null,
+      bk?.made ? h('div.xs.dim.adm-note', `Копію зроблено · ${Math.round(bk.made.bytes / 1024)} КБ`) : null,
+      bkErr ? h('div.xs.adm-note', bkErr) : null,
+      txGrid([
+        tx({ icon: 'arrow-clockwise', label: bk ? 'Оновити' : 'Показати копії', onclick: () => !bkBusy && loadBackups() }),
+        tx({ icon: 'plus', label: bkBusy ? 'Зачекайте…' : 'Зробити копію зараз', onclick: () => !bkBusy && loadBackups(true) })], 2),
+      bk?.key ? h('details', h('summary.xs.dim', 'Ключ розшифрування — збережіть у менеджері паролів'), h('pre.xs', { style: { whiteSpace: 'pre-wrap', ...wrap, margin: '4px 0 0' } }, bk.key)) : null,
+      h('p.xs.dim.adm-note', 'Щоночі автоматично; файл зашифровано. Раз на місяць завантажуйте копію собі (диск або Google Drive). Відновлення — docs/backup.md.'),
+    ]);
+  }
+
   function render() {
     const s = data.stats || {}, u = s.users || {}, t = s.ai_totals || {}, lim = data.limits || {};
     const today = s.today;
@@ -333,6 +355,8 @@ export default async function adminPage(view) {
             h('div.sub', `${e.n}× · ${e.users} ${e.users === 1 ? 'користувач' : 'користувачів'} · останнє ${dtShort(e.last_at)} · ${e.route || '—'} · ${e.ua || '—'} · збірка ${e.build || '—'}`),
             e.stack ? h('details', h('summary.xs.dim', 'Стек'), h('pre.xs', { style: { whiteSpace: 'pre-wrap', ...wrap, margin: '4px 0 0' } }, e.stack)) : null)))
           : h('div.xs.dim.adm-note', 'Помилок не зафіксовано.')]),
+
+      backupSection(),
 
       people ? null : txGroup('Акаунти (за останньою активністю)',
         h('div.list', (s.user_list || []).map(x => h('div.list-row', h('div.grow', { style: wrap },

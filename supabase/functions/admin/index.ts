@@ -4,6 +4,7 @@
 // хвилини, рівень, лічильники) через service role; лише агрегати, без вмісту розмов. Переписка друзів — лише кількість (admin_chat_stats, 0023).
 import { handler, json, HttpError } from '../_shared/http.ts';
 import { authenticate, isAdmin } from '../_shared/auth.ts';
+import { runBackup, names } from '../_shared/backup.ts';
 import { LIMITS } from '../_shared/config.ts';
 
 Deno.serve(handler(async (req) => {
@@ -45,6 +46,15 @@ Deno.serve(handler(async (req) => {
     const { error } = await ctx.admin.from('feedback').update(patch).eq('id', String(q.id));
     if (error) throw new HttpError(503, 'server', 'Update failed');
     return json({ ok: true });
+  }
+  if (p.action === 'backups' || p.action === 'backup_now') {
+    // резервні копії (міграція 0040): перелік із посиланнями на 10 хв + ключ розшифрування; «зараз» — позачергова копія
+    const made = p.action === 'backup_now' ? await runBackup(ctx.admin) : null;
+    const files = [...await names(ctx.admin, 'daily'), ...await names(ctx.admin, 'weekly')].sort((a, b) => b.slice(-14).localeCompare(a.slice(-14)) || a.localeCompare(b));
+    const list = [];
+    for (const f of files) { const { data: u } = await ctx.admin.storage.from('backups').createSignedUrl(f, 600, { download: f.replace('/', '-') }); list.push({ path: f, url: u?.signedUrl || null }); }
+    const { data: key } = await ctx.admin.rpc('backup_key');
+    return json({ admin: true, files: list, key: typeof key === 'string' ? key : null, made: made && { paths: made.paths, bytes: made.bytes, tables: made.tables } }, 200, { 'Cache-Control': 'no-store' });
   }
   if (p.action && p.action !== 'stats') throw new HttpError(400, 'bad_action');
   const days = Math.max(1, Math.min(60, Number(p.days) || 14));
