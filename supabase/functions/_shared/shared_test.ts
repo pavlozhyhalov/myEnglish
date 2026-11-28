@@ -212,7 +212,7 @@ Deno.test('latinName: official Ukrainian transliteration', () => {
   assertEquals(latinName('Олена'), 'Olena');
   assertEquals(latinName('Юрій'), 'Yurii');
   assertEquals(latinName('Євген'), 'Yevhen');
-  assertEquals(latinName('Pavlo'), 'Pavlo');
+  assertEquals(latinName('Oliver'), 'Oliver');
 });
 
 Deno.test('readFocus + focusBlock: up to 3 known rules with the student examples', () => {

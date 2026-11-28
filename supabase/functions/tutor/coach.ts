@@ -57,7 +57,7 @@ export function cleanVoiceCheck(r: unknown, disputes: Dispute[] = []): { text: s
     const wrong = txt(x.wrong, 120).replace(/^["«“]+|["»”]+$/g, ''), right = txt(x.right, 120).replace(/^["«“]+|["»”]+$/g, '');
     if (!wrong || !right || norm(wrong) === norm(right) || !nt.includes(` ${norm(wrong)} `)) continue;
     if (fixes.some(y => norm(y.wrong) === norm(wrong)) || isDisputed({ wrong, right }, disputes)) continue;
-    // «half alloy → Alugier» (2026-11-16): заміна на власну назву — це помилка розпізнавання, а не учня
+    // «half alloy → <назва фірми>» (2026-11-16): заміна на власну назву — це помилка розпізнавання, а не учня
     if (newName(wrong, right) || /назв|ім'я|імені|бренд/i.test(txt(x.why_uk, 100))) continue;
     // запинки й самовиправлення — не помилки (21.11: «choose I will choose → I will choose · Неправильне повторення», «we have we had → we had»)
     if (isDisfluency(wrong, right) || /повтор|запин|самовиправ/i.test(txt(x.why_uk, 100))) continue;
@@ -217,7 +217,7 @@ export const GOLDEN: Array<{ s: string; key?: string }> = [
   { s: "She don't like coffee in the morning.", key: "doesn't|does not" },
   { s: 'I want see the sea next summer.', key: 'want to see' },
   { s: 'Where you live now?', key: 'do you live' },
-  { s: 'I live in Kraków since 2022.', key: 'have lived|have been living|ve lived|ve been living' },
+  { s: 'I live in Gdańsk since 2022.', key: 'have lived|have been living|ve lived|ve been living' },
   { s: 'We was very tired after the trip.', key: 'we were' },
   { s: 'I feeling good today.', key: "i'm feeling|i am feeling|i feel" },
   { s: 'Can you explain me this rule?', key: 'to me' },
@@ -303,7 +303,7 @@ export function recognitionContext(st: Pick<Student, 'about' | 'memory' | 'words
   const add = (v: string) => { const t = v.trim().replace(/[.,;:!?()«»"]/g, ''); if (t.length >= 3 && t.length <= 30 && /[A-Za-z]/.test(t)) terms.add(t); };
   const a = st.about || ({} as Student['about']);
   for (const f of [a.location, a.occupation, a.interests, a.otherLangs]) for (const x of String(f || '').split(/[,;/]|\s+(?:and|і|й|та)\s+/)) add(x);
-  // власні назви з пам'яті: Zakopane, Gdańsk, PlayStation, Warships Legends
+  // власні назви з пам'яті: Snowdonia, Gdańsk, Lego, Star Fleet
   // перше слово факту («Went», «Plans») і місяці/дні — не власні назви
   const SKIP = /^(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Sept|Oct|Nov|Dec|January|February|March|April|June|July|August|September|October|November|December|Mon|Tue|Wed|Thu|Fri|Sat|Sun|Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday|I|The|On|In)$/;
   for (const m of st.memory || []) {

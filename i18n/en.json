@@ -3742,7 +3742,6 @@
  "≈ 10 хв · склали — переходите на": "≈ 10 min · passed — you move to",
  "Клас⁠": "Class",
  "треба": "target",
- "Застосунок myEnglish розробляє й підтримує Pavlo, приватний розробник із Польщі, — він є адміністратором (контролером) персональних даних. Зв'язатися: pavlozhyhalov@gmail.com або «Написати розробнику» в меню «Я» застосунку.": "myEnglish is developed and maintained by Pavlo, a private developer in Poland, who is the controller of your personal data. Contact: pavlozhyhalov@gmail.com or “Write to the developer” in the “Me” menu of the app.",
  "Поки існує ваш акаунт. Видалений акаунт стирається одразу разом з усіма даними й файлами. Зашифровані резервні копії бази даних (на випадок збою) зберігаються до 35 днів і потім стираються. Журнал помилок — до 90 днів.": "As long as your account exists. A deleted account is erased at once with all its data and files. Encrypted database backups (in case of failure) are kept for up to 35 days and then erased. The error log is kept for up to 90 days.",
  "Зробити копію зараз": "Back up now",
  "Ключ розшифрування — збережіть у менеджері паролів": "Decryption key — save it in your password manager",
@@ -3757,5 +3756,6 @@
  "Собівартість AI": "AI cost",
  "на учня за місяць": "per learner per month",
  "усього за платним тарифом": "total at paid rates",
- "≈ за місяць": "≈ per month"
+ "≈ за місяць": "≈ per month",
+ "Адміністратор (контролер) персональних даних — розробник застосунку myEnglish. Зв'язатися: «Написати розробнику» в меню «Я» застосунку або сторінка підтримки.": "The controller of personal data is the developer of the myEnglish app. Contact: “Write to the developer” in the “Me” menu of the app, or the support page."
 }

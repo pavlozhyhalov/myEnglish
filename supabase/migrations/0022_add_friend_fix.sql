@@ -1,4 +1,4 @@
--- 0022 · «Не вдалося додати друга» (2026-11-16, дружина власника): у add_friend вихідна колонка friend_id (RETURNS TABLE) збігалась
+-- 0022 · «Не вдалося додати друга» (2026-11-16, учениця): у add_friend вихідна колонка friend_id (RETURNS TABLE) збігалась
 -- з назвою колонки в ON CONFLICT (user_id, friend_id) → «column reference "friend_id" is ambiguous». Конфлікт — за назвою обмеження.
 create or replace function public.add_friend(p_code text)
  returns table(friend_id uuid, name text, status text)

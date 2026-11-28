@@ -1,7 +1,7 @@
 // APNs — сповіщення в застосунок iOS (2026-11-26, підготовка до App Store).
 // Підписка застосунку — рядок push_subscriptions з endpoint `https://api.push.apple.com/3/device/<токен>` і keys `{ type: 'apns' }`
 // (js/push.js → apnsRegister). Надсилання — JWT ES256 ключем .p8 з Apple Developer (Keys → Apple Push Notifications service).
-// Секрети функції: APNS_KEY_P8 (вміст .p8), APNS_KEY_ID, APNS_TEAM_ID, опційно APNS_TOPIC (bundle id, типово io.github.pavlozhyhalov.myenglish)
+// Секрети функції: APNS_KEY_P8 (вміст .p8), APNS_KEY_ID, APNS_TEAM_ID, опційно APNS_TOPIC (bundle id, типово app.myenglish.tutor)
 // і APNS_SANDBOX=1 (збірки з Xcode напряму; TestFlight і App Store — production). Без секретів нічого не надсилається й підписка не видаляється.
 const enc = new TextEncoder();
 const b64u = (b: ArrayBuffer | Uint8Array) => btoa(String.fromCharCode(...new Uint8Array(b))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
@@ -49,7 +49,7 @@ export async function sendApns(endpoint: string, data: unknown, { ttl = 4 * 3600
     method: 'POST',
     headers: {
       authorization: `bearer ${await providerToken()}`,
-      'apns-topic': Deno.env.get('APNS_TOPIC') || 'io.github.pavlozhyhalov.myenglish',
+      'apns-topic': Deno.env.get('APNS_TOPIC') || 'app.myenglish.tutor',
       'apns-push-type': 'alert',
       'apns-priority': urgency === 'high' ? '10' : '5',
       'apns-expiration': String(Math.floor(Date.now() / 1000) + ttl),

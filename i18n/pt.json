@@ -3744,7 +3744,6 @@
  "Щодня о": "Todos os dias às",
  "Клас⁠": "Joia",
  "треба": "meta",
- "Застосунок myEnglish розробляє й підтримує Pavlo, приватний розробник із Польщі, — він є адміністратором (контролером) персональних даних. Зв'язатися: pavlozhyhalov@gmail.com або «Написати розробнику» в меню «Я» застосунку.": "O myEnglish é desenvolvido e mantido por Pavlo, desenvolvedor particular na Polônia, que é o controlador dos dados pessoais. Contato: pavlozhyhalov@gmail.com ou «Escrever ao desenvolvedor» no menu «Eu» do app.",
  "Поки існує ваш акаунт. Видалений акаунт стирається одразу разом з усіма даними й файлами. Зашифровані резервні копії бази даних (на випадок збою) зберігаються до 35 днів і потім стираються. Журнал помилок — до 90 днів.": "Enquanto sua conta existir. Uma conta excluída é apagada na hora com todos os dados e arquivos. Os backups criptografados do banco de dados (para casos de falha) ficam guardados por até 35 dias e depois são apagados. O registro de erros, por até 90 dias.",
  "Зробити копію зараз": "Fazer backup agora",
  "Ключ розшифрування — збережіть у менеджері паролів": "Chave de descriptografia — guarde no seu gerenciador de senhas",
@@ -3759,5 +3758,6 @@
  "Собівартість AI": "Custo da IA",
  "на учня за місяць": "por aluno por mês",
  "усього за платним тарифом": "total na tarifa paga",
- "≈ за місяць": "≈ por mês"
+ "≈ за місяць": "≈ por mês",
+ "Адміністратор (контролер) персональних даних — розробник застосунку myEnglish. Зв'язатися: «Написати розробнику» в меню «Я» застосунку або сторінка підтримки.": "O controlador dos dados pessoais é o desenvolvedor do aplicativo myEnglish. Contato: “Escrever ao desenvolvedor” no menu “Eu” do aplicativo ou a página de suporte."
 }

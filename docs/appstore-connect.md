@@ -8,7 +8,7 @@
 | Platforms | iOS |
 | Name | `myEnglish: AI English Tutor` (якщо зайнято — `myEnglish – Speak with AI`) |
 | Primary Language | English (U.S.) |
-| Bundle ID | `io.github.pavlozhyhalov.myenglish` (зареєструвати в Certificates, Identifiers & Profiles → Identifiers, або Xcode-збірка з ключем API зробить сама) |
+| Bundle ID | `app.myenglish.tutor` (зареєструвати в Certificates, Identifiers & Profiles → Identifiers, або Xcode-збірка з ключем API зробить сама) |
 | SKU | `myenglish-ios` |
 | User Access | Full Access |
 
@@ -21,7 +21,7 @@
 | Privacy Policy URL | `https://pavlozhyhalov.github.io/myEnglish/#/about/privacy` |
 | Support URL | `https://pavlozhyhalov.github.io/myEnglish/support.html` |
 | Marketing URL | (порожньо або `https://pavlozhyhalov.github.io/myEnglish/`) |
-| Copyright | `2026 Pavlo` |
+| Copyright | `2026 <ім'я розробника або компанії, на яку зареєстровано акаунт Apple Developer>` |
 | Localizations | English (U.S.), Ukrainian, Spanish (Spain) + Spanish (Mexico) — той самий текст, Portuguese (Brazil), Turkish, Polish, Russian |
 
 ## 3. Pricing and Availability
@@ -76,6 +76,6 @@ developer.apple.com → Certificates, Identifiers & Profiles → **Keys** → «
 
 ## 8. Перед натисканням «Submit for Review»
 1. TestFlight: встановити на свій iPhone, пройти: вхід, згода на AI, голосовий вчитель, картки, чат, скарга, видалення тестового акаунта.
-2. ✓ Ім'я (Pavlo) й email у Політиці приватності та на сторінці підтримки — зроблено 2026-11-28. Повне прізвище в Copyright — за бажанням.
+2. Розробник (людина чи компанія, що публікує застосунок) вписує свої назву й контакт у Політику приватності (`js/pages/about.js`, «Хто відповідає за ваші дані»), Copyright і сторінку підтримки — у репозиторії власних даних власника немає й не має бути.
 3. Перевірити, що SMTP налаштовано (листи відновлення пароля).
 4. Вирішити питання платного Gemini (умови для користувачів з ЄС).
