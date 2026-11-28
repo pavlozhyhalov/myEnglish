@@ -40,7 +40,8 @@ Do you or your third-party partners collect data from this app? → **Yes**.
 | User Content | Audio Data | голос у розмові з вчителем, голосові в чатах, запис «тоді й зараз» |
 | User Content | Photos or Videos | скріншот у «Написати розробнику» (лише за бажанням) |
 | User Content | Customer Support | звернення й скарги |
-| User Content | Other User Content | розмови з вчителем, повідомлення в чатах, щоденник, тексти на перевірку |
+| User Content | Other User Content | розмови з вчителем, «пам'ять вчителя» (нотатки про учня), повідомлення в чатах, щоденник, тексти на перевірку |
+| Usage Data | Other Usage Data | статус «у мережі» для друзів (можна вимкнути), облік використання AI |
 | Identifiers | User ID | ідентифікатор акаунта |
 | Usage Data | Product Interaction | час занять, прогрес, картки, помилки |
 | Diagnostics | Crash Data / Other Diagnostic Data | журнал помилок застосунку |
