@@ -3815,11 +3815,6 @@
   "file": "js/pages/writing.js"
  },
  {
-  "re": "^· треба (.+?)$",
-  "src": "· треба ${t.words}",
-  "file": "js/pages/writing.js"
- },
- {
   "re": "^до (.+?) хв$",
   "src": "до ${Math.round(goalMin / 2)} хв",
   "file": "js/pdfreport.js"

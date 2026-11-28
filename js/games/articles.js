@@ -11,6 +11,7 @@ import { setTitle, setFocus } from '../ui/shell.js';
 import { bestUpdate, shuffleArr } from './logic.js';
 import { tokenDiff, normTok, shortTip } from './detective.js';
 import { plural } from '../strings.js';
+import { t as tr } from '../i18n.js';
 import { tx, txGroup, txPill } from '../ui/tiles.js';
 import { gameState, saveGameState, beep, buzz, reducedMotion, gameHead, statPill, gameIntro, startTile, gameResult, moreRows, bankLevels, seenStore, gapSentence, newsRecord } from './common.js';
 
@@ -180,7 +181,7 @@ export default async function articles(view) {
         h('div.ar-opts', { role: 'group', 'aria-label': 'Варіанти' }, opts));
       stage.classList.remove('ar-in');
       if (!reducedMotion()) { void stage.offsetWidth; stage.classList.add('ar-in'); }
-      live.textContent = cur.en.replace('___', 'пропуск');
+      live.textContent = cur.en.replace('___', tr('пропуск'));
       locked = false;
       drawHud();
       if (document.documentElement.classList.contains('kbd')) opts[0].focus({ preventScroll: true });

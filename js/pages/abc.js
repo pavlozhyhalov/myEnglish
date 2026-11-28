@@ -136,8 +136,8 @@ function read(box, data) {
       h('div.stack.gx-sound-body',
         h('div.xs.dim', 'Прочитайте самі, потім торкніться — перевірте.'),
         h('div.abc-words', d.words.map(w => h('button.abc-word', { type: 'button', lang: 'en', onclick: () => say(w) }, w))),
-        h('button.tx-row.abc-sent', { type: 'button', lang: 'en', onclick: () => say(d.sentence, { rate: 0.85 }) },
-          h('span.tx-sq', ic('speaker-high', { size: 18 })), h('span.tx-body', h('span.tx-l', d.sentence), h('span.tx-s', 'Речення — прочитайте й прослухайте')))));
+        h('button.tx-row.abc-sent', { type: 'button', onclick: () => say(d.sentence, { rate: 0.85 }) },
+          h('span.tx-sq', ic('speaker-high', { size: 18 })), h('span.tx-body', h('span.tx-l', { lang: 'en' }, d.sentence), h('span.tx-s', 'Речення — прочитайте й прослухайте')))));
     return el;
   });
   const label = () => `Вправи · ${done.size} з ${data.read.length}`;

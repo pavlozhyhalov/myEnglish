@@ -1307,7 +1307,7 @@
  "Переглянуто": "Visto",
  "Перейменувати": "Renomear",
  "Перейти": "Ir",
- "Перейти до змісту": "Ir para o sumário",
+ "Перейти до змісту": "Ir para o conteúdo",
  "Переклад": "Tradução",
  "Переклад (необов'язково)": "Tradução (opcional)",
  "Переклад AI": "Tradução por IA",
@@ -3744,5 +3744,6 @@
  "Немає доступу до мікрофона. Налаштування iPhone → myEnglish → Мікрофон → увімкнути, і спробуйте ще раз.": "Sem acesso ao microfone. Ajustes do iPhone → myEnglish → Microfone → ative e tente de novo.",
  "Сповіщення вимкнено. Налаштування iPhone → myEnglish → Сповіщення → «Дозволити сповіщення».": "As notificações estão desativadas. Ajustes do iPhone → myEnglish → Notificações → “Permitir Notificações”.",
  "Щодня о": "Todos os dias às",
- "Клас⁠": "Joia"
+ "Клас⁠": "Joia",
+ "треба": "meta"
 }

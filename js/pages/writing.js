@@ -7,6 +7,7 @@ import { toast } from '../ui/toast.js';
 import { go } from '../router.js';
 import { setTitle } from '../ui/shell.js';
 import { activityTimer } from '../stats.js';
+import { t as tr } from '../i18n.js';
 import { byFit, levelTag, myLevel, levelChips, levelCounts, levelPick, filterByLevel, fallbackNote, pickOfDay } from '../level.js';
 import { taskOfDay, writingWritten, writingDoneToday } from '../done.js';
 import { tx, txPrimary, txGroup, txRow, txRows } from '../ui/tiles.js';
@@ -59,7 +60,7 @@ function taskView(view, t) {
   const bar = h('i');
   const upd = () => {
     const n = ta.value.trim() ? ta.value.trim().split(/\s+/).length : 0;
-    wc.textContent = `${n} ${plural(n, 'слово', 'слова', 'слів')}${t.words ? ` · треба ${t.words}` : ''}`;
+    wc.textContent = `${n} ${plural(n, 'слово', 'слова', 'слів')}${t.words ? ` · ${tr('треба')} ${t.words}` : ''}`;
     if (lo) {
       bar.style.width = `${Math.min(100, Math.round(n / (hi || lo) * 100))}%`;
       bar.parentNode?.classList.toggle('ok', n >= lo && (!hi || n <= hi));

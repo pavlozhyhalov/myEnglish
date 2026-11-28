@@ -1,0 +1,22 @@
+# Перевірки при кожному push: усі мови перекладені (нові рядки інтерфейсу/змісту — на es, pt, tr, pl, ru, en),
+# уроки граматики мають «коли й навіщо». Червоний хрестик = щось додано лише українською.
+name: Checks
+on:
+  push:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  i18n:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Усі мови перекладені
+        run: node scripts/i18n-extract.js && node scripts/check-i18n.js
+      - name: Уроки граматики
+        run: node scripts/check-guide.js
+      - name: Синтаксис JS
+        run: for f in $(git ls-files 'js/*.js' 'js/**/*.js'); do node --input-type=module --check < "$f" || { echo "::error file=$f::syntax"; exit 1; }; done
