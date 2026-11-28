@@ -3752,5 +3752,11 @@
  "Резервні копії": "Copias de seguridad",
  "Тижнева · 28 днів": "Semanal · 28 días",
  "Щоденна · 7 днів": "Diaria · 7 días",
- "Щоночі автоматично; файл зашифровано. Раз на місяць завантажуйте копію собі (диск або Google Drive). Відновлення — docs/backup.md.": "Automática cada noche; el archivo está cifrado. Una vez al mes, descarga una copia para ti (disco o Google Drive). Restaurar: docs/backup.md."
+ "Щоночі автоматично; файл зашифровано. Раз на місяць завантажуйте копію собі (диск або Google Drive). Відновлення — docs/backup.md.": "Automática cada noche; el archivo está cifrado. Una vez al mes, descarga una copia para ti (disco o Google Drive). Restaurar: docs/backup.md.",
+ "Облік токенів почався 28.11 — дані з'являться після перших занять.": "El registro de tokens empezó el 28.11: los datos aparecerán tras las primeras clases.",
+ "Порахувати за 30 днів": "Calcular 30 días",
+ "Собівартість AI": "Coste de la IA",
+ "на учня за місяць": "por alumno al mes",
+ "усього за платним тарифом": "total con tarifa de pago",
+ "≈ за місяць": "≈ al mes"
 }

@@ -13,6 +13,19 @@ import { loc } from '../i18n.js';
 const CACHE = 'me:admin';
 const RECHECK_MS = 12 * 3600e3;
 
+// Ціни платного Gemini, $ за 1 млн токенів (попередні, з оглядів 2026-11; перевірити на ai.google.dev/pricing перед рішенням про ціну):
+// [вхід текст, вхід аудіо, вихід текст (і «роздуми»), вихід аудіо]. Перше правило, що підходить за назвою моделі.
+const PRICES = [
+  [/tts/, [1.0, 1.0, 18, 18]],
+  [/live|native-audio/, [0.75, 3.0, 4.5, 12]],
+  [/flash-lite/, [0.30, 0.60, 2.5, 2.5]],
+  [/./, [1.5, 3.0, 7.5, 7.5]],
+];
+function tokenCost(model, r) {
+  const p = PRICES.find(([re]) => re.test(model))[1];
+  return (r.in_text * p[0] + r.in_audio * p[1] + (r.out_text + r.thoughts) * p[2] + r.out_audio * p[3]) / 1e6;
+}
+
 function cached() {
   try {
     const c = JSON.parse(localStorage.getItem(CACHE) || 'null');
@@ -278,6 +291,37 @@ export default async function adminPage(view) {
       : txRows([txRow({ icon: 'envelope-simple', label: 'Звернень поки немає', sub: 'Користувачі пишуть з меню «Я» → конверт', chevron: false })]));
   }
 
+  // собівартість AI (міграція 0041): фактичні токени × ціни платного Gemini (docs/gemini-cost.md); рахується за кнопкою
+  let cost = null, costErr = '';
+  async function loadCosts() {
+    costErr = '';
+    try { cost = await ai('admin', 'costs'); } catch (e) { costErr = aiErrorText(e); }
+    render();
+  }
+  function costSection() {
+    const usd = (x) => `$${x < 10 ? x.toFixed(2) : Math.round(x)}`;
+    if (!cost) return txGroup('Собівартість AI', [costErr ? h('div.xs.adm-note', costErr) : null,
+      txGrid([tx({ icon: 'chart-line-up', label: 'Порахувати за 30 днів', onclick: loadCosts })], 1)]);
+    const byModel = {};
+    let total = 0;
+    for (const r of cost.rows) {
+      const c = tokenCost(r.model, r);
+      total += c;
+      const k = `${r.kind} · ${r.model}`;
+      byModel[k] ||= { calls: 0, usd: 0 };
+      byModel[k].calls += r.calls; byModel[k].usd += c;
+    }
+    const days = new Set(cost.rows.map(r => r.day)).size || 1;
+    const rows = Object.entries(byModel).sort((a, b) => b[1].usd - a[1].usd)
+      .map(([k, v]) => txRow({ label: k, sub: `${v.calls} викл.`, end: h('b.small', usd(v.usd)) }));
+    return txGroup(`Собівартість AI · ${days} дн. обліку`, [
+      txKpis([stat(usd(total), 'усього за платним тарифом'), stat(usd(total / days * 30), '≈ за місяць'),
+        stat(cost.people ? usd(total / days * 30 / cost.people) : '—', 'на учня за місяць')]),
+      rows.length ? txRows(rows) : h('div.xs.dim.adm-note', 'Облік токенів почався 28.11 — дані з\'являться після перших занять.'),
+      h('p.xs.dim.adm-note', `Ціни — попередні (docs/gemini-cost.md). Учнів з AI за 30 днів: ${cost.people}, голосу: ${cost.voiceMin} хв.`),
+    ]);
+  }
+
   // резервні копії (міграція 0040): щоденні зашифровані знімки бази в приватному бакеті; завантажити файл — копія поза Supabase
   let bk = null, bkBusy = false, bkErr = '';
   async function loadBackups(now = false) {
@@ -356,6 +400,7 @@ export default async function adminPage(view) {
             e.stack ? h('details', h('summary.xs.dim', 'Стек'), h('pre.xs', { style: { whiteSpace: 'pre-wrap', ...wrap, margin: '4px 0 0' } }, e.stack)) : null)))
           : h('div.xs.dim.adm-note', 'Помилок не зафіксовано.')]),
 
+      costSection(),
       backupSection(),
 
       people ? null : txGroup('Акаунти (за останньою активністю)',

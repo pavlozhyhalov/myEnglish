@@ -3752,5 +3752,11 @@
  "Резервні копії": "Yedekler",
  "Тижнева · 28 днів": "Haftalık · 28 gün",
  "Щоденна · 7 днів": "Günlük · 7 gün",
- "Щоночі автоматично; файл зашифровано. Раз на місяць завантажуйте копію собі (диск або Google Drive). Відновлення — docs/backup.md.": "Her gece otomatik; dosya şifrelidir. Ayda bir kez kendinize bir kopya indirin (disk veya Google Drive). Geri yükleme — docs/backup.md."
+ "Щоночі автоматично; файл зашифровано. Раз на місяць завантажуйте копію собі (диск або Google Drive). Відновлення — docs/backup.md.": "Her gece otomatik; dosya şifrelidir. Ayda bir kez kendinize bir kopya indirin (disk veya Google Drive). Geri yükleme — docs/backup.md.",
+ "Облік токенів почався 28.11 — дані з'являться після перших занять.": "Token kaydı 28.11'de başladı — veriler ilk derslerden sonra görünecek.",
+ "Порахувати за 30 днів": "30 günü hesapla",
+ "Собівартість AI": "Yapay zekâ maliyeti",
+ "на учня за місяць": "öğrenci başına aylık",
+ "усього за платним тарифом": "ücretli tarifeyle toplam",
+ "≈ за місяць": "≈ aylık"
 }

@@ -47,6 +47,17 @@ Deno.serve(handler(async (req) => {
     if (error) throw new HttpError(503, 'server', 'Update failed');
     return json({ ok: true });
   }
+  if (p.action === 'costs') {
+    // фактичні токени Gemini за 30 днів (міграція 0041) + скільки людей користувались AI — ціну рахує клієнт за таблицею цін
+    const since = new Date(Date.now() - 30 * 864e5).toISOString().slice(0, 10);
+    const [{ data: rows, error }, { data: users }] = await Promise.all([
+      ctx.admin.from('ai_tokens').select('day, model, kind, calls, in_text, in_audio, out_text, out_audio, thoughts').gte('day', since).order('day'),
+      ctx.admin.from('ai_usage').select('user_id, day, voice_seconds').gte('day', since)]);
+    if (error) throw new HttpError(500, 'server', error.message);
+    const people = new Set((users || []).map(u => u.user_id)).size;
+    const voiceMin = Math.round((users || []).reduce((s, u) => s + (Number(u.voice_seconds) || 0), 0) / 60);
+    return json({ admin: true, rows: rows || [], people, voiceMin, since }, 200, { 'Cache-Control': 'no-store' });
+  }
   if (p.action === 'backups' || p.action === 'backup_now') {
     // резервні копії (міграція 0040): перелік із посиланнями на 10 хв + ключ розшифрування; «зараз» — позачергова копія
     const made = p.action === 'backup_now' ? await runBackup(ctx.admin) : null;

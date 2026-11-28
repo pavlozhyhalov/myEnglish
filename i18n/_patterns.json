@@ -990,6 +990,21 @@
   "file": "js/pages/admin.js"
  },
  {
+  "re": "^(.+?) викл\\.$",
+  "src": "${v.calls} викл.",
+  "file": "js/pages/admin.js"
+ },
+ {
+  "re": "^Собівартість AI · (.+?) дн\\. обліку$",
+  "src": "Собівартість AI · ${days} дн. обліку",
+  "file": "js/pages/admin.js"
+ },
+ {
+  "re": "^Ціни — попередні \\(docs/gemini-cost\\.md\\)\\. Учнів з AI за 30 днів: (.+?), голосу: (.+?) хв\\.$",
+  "src": "Ціни — попередні (docs/gemini-cost.md). Учнів з AI за 30 днів: ${cost.people}, голосу: ${cost.voiceMin} хв.",
+  "file": "js/pages/admin.js"
+ },
+ {
   "re": "^Копію зроблено · (.+?) КБ$",
   "src": "Копію зроблено · ${Math.round(bk.made.bytes / 1024)} КБ",
   "file": "js/pages/admin.js"

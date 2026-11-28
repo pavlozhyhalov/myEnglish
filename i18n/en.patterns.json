@@ -3442,5 +3442,17 @@
  [
   "^Копію зроблено · (.+?) КБ$",
   "Backup done · $1 KB"
+ ],
+ [
+  "^(.+?) викл\\.$",
+  "$1 calls"
+ ],
+ [
+  "^Собівартість AI · (.+?) дн\\. обліку$",
+  "AI cost · $1 days tracked"
+ ],
+ [
+  "^Ціни — попередні \\(docs/gemini-cost\\.md\\)\\. Учнів з AI за 30 днів: (.+?), голосу: (.+?) хв\\.$",
+  "Prices are preliminary (docs/gemini-cost.md). Learners using AI in 30 days: $1, voice: $2 min."
  ]
 ]

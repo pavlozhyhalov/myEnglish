@@ -3442,5 +3442,17 @@
  [
   "^Копію зроблено · (.+?) КБ$",
   "Yedek alındı · $1 KB"
+ ],
+ [
+  "^(.+?) викл\\.$",
+  "$1 çağrı"
+ ],
+ [
+  "^Собівартість AI · (.+?) дн\\. обліку$",
+  "Yapay zekâ maliyeti · $1 günlük kayıt"
+ ],
+ [
+  "^Ціни — попередні \\(docs/gemini-cost\\.md\\)\\. Учнів з AI за 30 днів: (.+?), голосу: (.+?) хв\\.$",
+  "Fiyatlar ön değerlendirmedir (docs/gemini-cost.md). 30 günde yapay zekâ kullanan öğrenci: $1, ses: $2 dk."
  ]
 ]

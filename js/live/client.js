@@ -141,6 +141,7 @@ export class LiveClient extends EventTarget {
         const text = typeof ev.data === 'string' ? ev.data : dec.decode(ev.data);
         let msg; try { msg = JSON.parse(text); } catch { return; }
         if (msg.setupComplete) {
+          this.meterConn();   // попереднє з'єднання сесії — у підсумок токенів
           clearTimeout(connTimer);
           this.ready = true; this.retries = 0; this.failStart = 0; this.handleFails = 0; this.busyFails = 0;
           this.log('setup complete' + (restoring ? ' · new session, restoring context' : ''));
@@ -287,7 +288,34 @@ export class LiveClient extends EventTarget {
     }
   }
 
+  // Облік токенів Live (2026-11-28, міграція 0041 — собівартість для ціни): Gemini шле usageMetadata у повідомленнях.
+  // Невідомо напевно, наростаючий це підсумок чи по відповіді, тож у межах з'єднання: значення не спадають — беремо останнє, інакше — суму.
+  meterMsg(um) {
+    const tok = (list, m) => (Array.isArray(list) ? list : []).filter(d => String(d?.modality || '').toUpperCase() === m).reduce((a, d) => a + (Number(d?.tokenCount) || 0), 0);
+    const inAll = Number(um.promptTokenCount) || 0, outAll = Number(um.responseTokenCount ?? um.candidatesTokenCount) || 0;
+    const inAudio = tok(um.promptTokensDetails, 'AUDIO'), outAudio = tok(um.responseTokensDetails ?? um.candidatesTokensDetails, 'AUDIO');
+    const v = [Math.max(0, inAll - inAudio), inAudio, Math.max(0, outAll - outAudio), outAudio, Number(um.thoughtsTokenCount) || 0];
+    const c = this.conn ||= { sum: [0, 0, 0, 0, 0], last: null, mono: true };
+    if (c.last && v.some((x, i) => x < c.last[i])) c.mono = false;
+    c.sum = c.sum.map((x, i) => x + v[i]); c.last = v;
+  }
+  meterConn() {
+    const c = this.conn; this.conn = null;
+    if (!c?.last) return;
+    const v = c.mono ? c.last : c.sum;
+    this.used = (this.used || [0, 0, 0, 0, 0]).map((x, i) => x + v[i]);
+  }
+  meterFlush() {
+    this.meterConn();
+    const u = this.used; this.used = null;
+    if (!u || !u.some(Boolean)) return;
+    const model = String(this.token?.model || 'live').slice(0, 80);
+    import('../supa.js').then(({ getSupa }) => getSupa()).then(c => c.rpc('add_live_tokens', {
+      p_model: model, p_in_text: Math.round(u[0]), p_in_audio: Math.round(u[1]), p_out_text: Math.round(u[2]), p_out_audio: Math.round(u[3]), p_thoughts: Math.round(u[4]) }))
+      .catch(() => {});
+  }
   onServer(msg) {
+    if (msg.usageMetadata) { try { this.meterMsg(msg.usageMetadata); } catch { /* облік не заважає розмові */ } }
     if (msg.sessionResumptionUpdate) {
       const u = msg.sessionResumptionUpdate;
       if (u.resumable && u.newHandle) {
@@ -347,6 +375,7 @@ export class LiveClient extends EventTarget {
   }
   close() {
     this.closedByUser = true;
+    this.meterFlush();
     clearTimeout(this.resumeTimer);
     clearInterval(this.watch);
     try { this.ws?.close(1000, 'bye'); } catch { /* */ }
