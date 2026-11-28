@@ -3748,7 +3748,6 @@
  "Резервні копії": "Yedekler",
  "Тижнева · 28 днів": "Haftalık · 28 gün",
  "Щоденна · 7 днів": "Günlük · 7 gün",
- "Щоночі автоматично; файл зашифровано. Раз на місяць завантажуйте копію собі (диск або Google Drive). Відновлення — docs/backup.md.": "Her gece otomatik; dosya şifrelidir. Ayda bir kez kendinize bir kopya indirin (disk veya Google Drive). Geri yükleme — docs/backup.md.",
  "Облік токенів почався 28.11 — дані з'являться після перших занять.": "Token kaydı 28.11'de başladı — veriler ilk derslerden sonra görünecek.",
  "Порахувати за 30 днів": "30 günü hesapla",
  "Собівартість AI": "Yapay zekâ maliyeti",
@@ -3761,5 +3760,13 @@
  "Без мережі чи коли Gemini недоступний — голос браузера": "Çevrimdışıyken veya Gemini kullanılamadığında — tarayıcı sesi",
  "Лише англійська": "Yalnızca İngilizce",
  "AI-вчитель допомагає лише вивчати англійську: він не пише код, тексти чи документи за вас і не розв'язує завдань з інших предметів.": "Yapay zekâ öğretmeni yalnızca İngilizce öğrenmenize yardım eder: sizin yerinize kod, metin veya belge yazmaz ve başka derslerin ödevlerini çözmez.",
- "Вчитель, перевірка відповідей, переклади, оцінка рівня й голоси озвучення створюються штучним інтелектом. Вони можуть помилятися — це навчальна допомога, а не професійна, медична чи юридична порада.": "Öğretmen, cevap kontrolü, çeviriler, seviye değerlendirmesi ve seslendirme sesleri yapay zekâ tarafından üretilir. Hata yapabilirler — bu bir öğrenme yardımıdır; profesyonel, tıbbi veya hukuki tavsiye değildir."
+ "Вчитель, перевірка відповідей, переклади, оцінка рівня й голоси озвучення створюються штучним інтелектом. Вони можуть помилятися — це навчальна допомога, а не професійна, медична чи юридична порада.": "Öğretmen, cevap kontrolü, çeviriler, seviye değerlendirmesi ve seslendirme sesleri yapay zekâ tarafından üretilir. Hata yapabilirler — bu bir öğrenme yardımıdır; profesyonel, tıbbi veya hukuki tavsiye değildir.",
+ "GitHub → Settings → Secrets and variables → Actions → додати секрети (docs/backup.md, крок за кроком): SUPABASE_DB_URL, R2_ACCOUNT_ID, R2_ACCESS_KEY_ID, R2_SECRET_ACCESS_KEY, R2_BUCKET_NAME, BACKUP_PASSPHRASE (= ключ нижче), OFFSITE_SECRET:": "GitHub → Settings → Secrets and variables → Actions → gizli anahtarları ekleyin (docs/backup.md, adım adım): SUPABASE_DB_URL, R2_ACCOUNT_ID, R2_ACCESS_KEY_ID, R2_SECRET_ACCESS_KEY, R2_BUCKET_NAME, BACKUP_PASSPHRASE (= aşağıdaki anahtar), OFFSITE_SECRET:",
+ "Перевірка відновлення": "Geri yükleme testi",
+ "Повна копія бази (R2)": "Tam veritabanı yedeği (R2)",
+ "Поза Supabase: не налаштовано — як увімкнути": "Supabase dışında: ayarlanmadı — nasıl etkinleştirilir",
+ "Файли: голосові, скріншоти (R2)": "Dosyalar: sesli mesajlar, ekran görüntüleri (R2)",
+ "Щоночі автоматично: копія в Supabase (7 днів + тижневі 28) і, після налаштування, повна копія поза Supabase. Відновлення — docs/backup.md.": "Her gece otomatik: Supabase'te yedek (7 gün + haftalık 28) ve ayarlandıktan sonra Supabase dışında tam yedek. Geri yükleme — docs/backup.md.",
+ "збій": "hata",
+ "ще не було": "henüz yok"
 }

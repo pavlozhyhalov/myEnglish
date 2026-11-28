@@ -3748,7 +3748,6 @@
  "Резервні копії": "Copias de seguridad",
  "Тижнева · 28 днів": "Semanal · 28 días",
  "Щоденна · 7 днів": "Diaria · 7 días",
- "Щоночі автоматично; файл зашифровано. Раз на місяць завантажуйте копію собі (диск або Google Drive). Відновлення — docs/backup.md.": "Automática cada noche; el archivo está cifrado. Una vez al mes, descarga una copia para ti (disco o Google Drive). Restaurar: docs/backup.md.",
  "Облік токенів почався 28.11 — дані з'являться після перших занять.": "El registro de tokens empezó el 28.11: los datos aparecerán tras las primeras clases.",
  "Порахувати за 30 днів": "Calcular 30 días",
  "Собівартість AI": "Coste de la IA",
@@ -3761,5 +3760,13 @@
  "Без мережі чи коли Gemini недоступний — голос браузера": "Sin conexión o cuando Gemini no está disponible: voz del navegador",
  "Лише англійська": "Solo inglés",
  "AI-вчитель допомагає лише вивчати англійську: він не пише код, тексти чи документи за вас і не розв'язує завдань з інших предметів.": "El profesor de IA solo te ayuda a aprender inglés: no escribe código, textos ni documentos por ti y no resuelve tareas de otras asignaturas.",
- "Вчитель, перевірка відповідей, переклади, оцінка рівня й голоси озвучення створюються штучним інтелектом. Вони можуть помилятися — це навчальна допомога, а не професійна, медична чи юридична порада.": "El profesor, la corrección de respuestas, las traducciones, la evaluación del nivel y las voces se generan con inteligencia artificial. Pueden equivocarse: es una ayuda para aprender, no un consejo profesional, médico ni jurídico."
+ "Вчитель, перевірка відповідей, переклади, оцінка рівня й голоси озвучення створюються штучним інтелектом. Вони можуть помилятися — це навчальна допомога, а не професійна, медична чи юридична порада.": "El profesor, la corrección de respuestas, las traducciones, la evaluación del nivel y las voces se generan con inteligencia artificial. Pueden equivocarse: es una ayuda para aprender, no un consejo profesional, médico ni jurídico.",
+ "GitHub → Settings → Secrets and variables → Actions → додати секрети (docs/backup.md, крок за кроком): SUPABASE_DB_URL, R2_ACCOUNT_ID, R2_ACCESS_KEY_ID, R2_SECRET_ACCESS_KEY, R2_BUCKET_NAME, BACKUP_PASSPHRASE (= ключ нижче), OFFSITE_SECRET:": "GitHub → Settings → Secrets and variables → Actions → añadir secretos (docs/backup.md, paso a paso): SUPABASE_DB_URL, R2_ACCOUNT_ID, R2_ACCESS_KEY_ID, R2_SECRET_ACCESS_KEY, R2_BUCKET_NAME, BACKUP_PASSPHRASE (= clave de abajo), OFFSITE_SECRET:",
+ "Перевірка відновлення": "Prueba de restauración",
+ "Повна копія бази (R2)": "Copia completa de la base (R2)",
+ "Поза Supabase: не налаштовано — як увімкнути": "Fuera de Supabase: sin configurar — cómo activarlo",
+ "Файли: голосові, скріншоти (R2)": "Archivos: mensajes de voz, capturas (R2)",
+ "Щоночі автоматично: копія в Supabase (7 днів + тижневі 28) і, після налаштування, повна копія поза Supabase. Відновлення — docs/backup.md.": "Automático cada noche: copia en Supabase (7 días + semanales 28) y, una vez configurada, copia completa fuera de Supabase. Restauración — docs/backup.md.",
+ "збій": "fallo",
+ "ще не було": "todavía no"
 }

@@ -3454,5 +3454,9 @@
  [
   "^Ціни — попередні \\(docs/gemini-cost\\.md\\)\\. Учнів з AI за 30 днів: (.+?), голосу: (.+?) хв\\.$",
   "Fiyatlar ön değerlendirmedir (docs/gemini-cost.md). 30 günde yapay zekâ kullanan öğrenci: $1, ses: $2 dk."
+ ],
+ [
+  "^(.+?) КБ$",
+  "$1 KB"
  ]
 ]

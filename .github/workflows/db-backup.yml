@@ -1,0 +1,156 @@
+name: DB backup to R2
+
+# Повна резервна копія поза Supabase (2026-11-28, власник: «роби все правильно з резервним копіюванням»; як у Resonance, але зашифровано).
+# Щоночі: pg_dump (уся база: дані, схема, політики, функції, auth) → gzip → gpg AES-256 (BACKUP_PASSPHRASE) → Cloudflare R2:
+#   db/backup-<дата>.sql.gz.gpg — 14 днів; weekly/backup-<дата>.sql.gz.gpg щопонеділка — 35 днів (Політика приватності: «до 35 днів»).
+# Файли (голосові чатів, кліпи «тоді й зараз», скріншоти звернень) — дзеркало files/<бакет>/… (видалене в застосунку зникає й тут наступної ночі).
+# Результат — звіт функції `backup` (x-offsite-secret) → #/admin «Резервні копії»; збій — push адміністраторам; автомонітор стежить, щоб копії не застаріли.
+# Поки секрети не додано, завдання зелене й нічого не робить. Логи публічні (репозиторій відкритий): у них немає даних — лише розміри.
+#
+# Секрети (Settings → Secrets and variables → Actions) — docs/backup.md:
+#   SUPABASE_DB_URL          рядок підключення Session pooler, порт 5432
+#   R2_ACCOUNT_ID, R2_ACCESS_KEY_ID, R2_SECRET_ACCESS_KEY, R2_BUCKET_NAME
+#   BACKUP_PASSPHRASE        ключ шифрування (#/admin → «Резервні копії» → ключ)
+#   OFFSITE_SECRET           секрет звітів (#/admin → «Резервні копії»)
+#   SUPABASE_SERVICE_ROLE_KEY  (необов'язково) — для копії файлів
+
+on:
+  schedule:
+    - cron: "41 3 * * *"     # щодня ~03:41 UTC (після внутрішньої копії о 02:17)
+  workflow_dispatch: {}
+
+concurrency:
+  group: db-backup
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  backup:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      SUPABASE_URL: https://uxqdklwnxdtyifksphoz.supabase.co
+      DAILY_DAYS: "14"
+      WEEKLY_DAYS: "35"
+      SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
+      R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
+      R2_BUCKET_NAME: ${{ secrets.R2_BUCKET_NAME }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+      AWS_DEFAULT_REGION: auto
+      BACKUP_PASSPHRASE: ${{ secrets.BACKUP_PASSPHRASE }}
+      OFFSITE_SECRET: ${{ secrets.OFFSITE_SECRET }}
+      SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check configuration
+        id: cfg
+        run: |
+          for v in SUPABASE_DB_URL R2_ACCOUNT_ID R2_BUCKET_NAME AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY BACKUP_PASSPHRASE; do
+            if [ -z "${!v:-}" ]; then
+              echo "configured=false" >> "$GITHUB_OUTPUT"
+              echo "::notice::Секрети резервної копії ще не додано ($v) — пропускаю. Див. docs/backup.md."
+              exit 0
+            fi
+          done
+          echo "configured=true" >> "$GITHUB_OUTPUT"
+          echo "ENDPOINT=https://${R2_ACCOUNT_ID}.r2.cloudflarestorage.com" >> "$GITHUB_ENV"
+
+      - name: Install PostgreSQL 17 client
+        if: steps.cfg.outputs.configured == 'true'
+        run: |
+          set -euo pipefail
+          sudo sh -c 'echo "deb https://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
+          curl -fsSL https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo gpg --dearmor -o /etc/apt/trusted.gpg.d/pgdg.gpg
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq postgresql-client-17
+
+      - name: Dump, compress, encrypt
+        if: steps.cfg.outputs.configured == 'true'
+        run: |
+          set -euo pipefail
+          FILE="backup-$(date -u +%F).sql.gz.gpg"
+          echo "FILE=$FILE" >> "$GITHUB_ENV"
+          /usr/lib/postgresql/17/bin/pg_dump "$SUPABASE_DB_URL" --no-owner --no-privileges --quote-all-identifiers \
+            | gzip -9 \
+            | gpg --batch --yes --quiet --symmetric --cipher-algo AES256 --pinentry-mode loopback --passphrase-fd 3 3<<<"$BACKUP_PASSPHRASE" -o "$FILE"
+          BYTES=$(stat -c%s "$FILE")
+          echo "BYTES=$BYTES" >> "$GITHUB_ENV"
+          echo "Backup $FILE — $BYTES bytes"
+          if [ "$BYTES" -lt 20000 ]; then echo "::error::Копія підозріло мала ($BYTES байт)"; exit 1; fi
+
+      - name: Upload to R2
+        if: steps.cfg.outputs.configured == 'true'
+        run: |
+          set -euo pipefail
+          aws s3 cp "$FILE" "s3://${R2_BUCKET_NAME}/db/${FILE}" --endpoint-url "$ENDPOINT" --only-show-errors
+          if [ "$(date -u +%u)" = "1" ]; then
+            aws s3 cp "$FILE" "s3://${R2_BUCKET_NAME}/weekly/${FILE}" --endpoint-url "$ENDPOINT" --only-show-errors
+          fi
+          # перевірка: файл справді лежить у R2 і має той самий розмір
+          REMOTE=$(aws s3api head-object --bucket "$R2_BUCKET_NAME" --key "db/${FILE}" --endpoint-url "$ENDPOINT" --query ContentLength --output text)
+          [ "$REMOTE" = "$BYTES" ] || { echo "::error::Розмір у R2 ($REMOTE) не збігається ($BYTES)"; exit 1; }
+
+      - name: Prune old copies
+        if: steps.cfg.outputs.configured == 'true'
+        run: |
+          set -euo pipefail
+          prune() {  # $1 — тека, $2 — днів
+            CUTOFF=$(date -u -d "$2 days ago" +%F)
+            aws s3api list-objects-v2 --bucket "$R2_BUCKET_NAME" --prefix "$1/" --endpoint-url "$ENDPOINT" --query 'Contents[].Key' --output text 2>/dev/null \
+              | tr '\t' '\n' | while read -r KEY; do
+                D=$(echo "$KEY" | grep -oE '[0-9]{4}-[0-9]{2}-[0-9]{2}' || true)
+                if [ -n "$D" ] && [[ "$D" < "$CUTOFF" ]]; then aws s3 rm "s3://${R2_BUCKET_NAME}/${KEY}" --endpoint-url "$ENDPOINT" --only-show-errors; echo "removed $KEY"; fi
+              done
+          }
+          prune db "$DAILY_DAYS"
+          prune weekly "$WEEKLY_DAYS"
+
+      - name: Report
+        if: always() && steps.cfg.outputs.configured == 'true' && env.OFFSITE_SECRET != ''
+        env:
+          JOB_OK: ${{ job.status == 'success' }}
+        run: |
+          OK=$([ "$JOB_OK" = "true" ] && echo true || echo false)
+          RUN_URL="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
+          curl -fsS -m 30 -X POST "$SUPABASE_URL/functions/v1/backup" -H 'Content-Type: application/json' -H "x-offsite-secret: $OFFSITE_SECRET" \
+            -d "{\"kind\":\"db\",\"ok\":$OK,\"file\":\"db/${FILE:-}\",\"bytes\":${BYTES:-0},\"detail\":\"$RUN_URL\"}" >/dev/null || echo "::warning::звіт не надіслано"
+
+  files:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      SUPABASE_URL: https://uxqdklwnxdtyifksphoz.supabase.co
+      R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
+      R2_BUCKET_NAME: ${{ secrets.R2_BUCKET_NAME }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+      AWS_DEFAULT_REGION: auto
+      OFFSITE_SECRET: ${{ secrets.OFFSITE_SECRET }}
+      SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check configuration
+        id: cfg
+        run: |
+          if [ -z "${SERVICE_KEY:-}" ] || [ -z "${R2_ACCOUNT_ID:-}" ] || [ -z "${R2_BUCKET_NAME:-}" ] || [ -z "${AWS_ACCESS_KEY_ID:-}" ]; then
+            echo "configured=false" >> "$GITHUB_OUTPUT"; echo "::notice::Копія файлів не налаштована — пропускаю."
+          else echo "configured=true" >> "$GITHUB_OUTPUT"; fi
+      - uses: actions/setup-node@v4
+        if: steps.cfg.outputs.configured == 'true'
+        with: { node-version: 20 }
+      - name: Mirror storage buckets to R2
+        if: steps.cfg.outputs.configured == 'true'
+        run: node scripts/backup-storage.mjs
+      - name: Report
+        if: always() && steps.cfg.outputs.configured == 'true' && env.OFFSITE_SECRET != ''
+        env:
+          JOB_OK: ${{ job.status == 'success' }}
+        run: |
+          OK=$([ "$JOB_OK" = "true" ] && echo true || echo false)
+          SUM=$(cat storage-summary.json 2>/dev/null || echo '{}')
+          curl -fsS -m 30 -X POST "$SUPABASE_URL/functions/v1/backup" -H 'Content-Type: application/json' -H "x-offsite-secret: $OFFSITE_SECRET" \
+            -d "{\"kind\":\"files\",\"ok\":$OK,\"counts\":$SUM}" >/dev/null || echo "::warning::звіт не надіслано"
