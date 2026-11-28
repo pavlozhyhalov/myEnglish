@@ -3758,5 +3758,8 @@
  "на учня за місяць": "por alumno al mes",
  "усього за платним тарифом": "total con tarifa de pago",
  "≈ за місяць": "≈ al mes",
- "Адміністратор (контролер) персональних даних — розробник застосунку myEnglish. Зв'язатися: «Написати розробнику» в меню «Я» застосунку або сторінка підтримки.": "El responsable del tratamiento de los datos personales es el desarrollador de la aplicación myEnglish. Contacto: «Escribir al desarrollador» en el menú «Yo» de la aplicación o la página de soporte."
+ "Адміністратор (контролер) персональних даних — розробник застосунку myEnglish. Зв'язатися: «Написати розробнику» в меню «Я» застосунку або сторінка підтримки.": "El responsable del tratamiento de los datos personales es el desarrollador de la aplicación myEnglish. Contacto: «Escribir al desarrollador» en el menú «Yo» de la aplicación o la página de soporte.",
+ "Ліміти AI": "Límites de la IA",
+ "AI-вчитель допомагає лише вивчати англійську: він не пише код, тексти чи документи за вас і не розв'язує завдань з інших предметів. Кількість запитів до AI обмежена на день і на місяць; понад ліміт картки, уроки й ігри працюють і без AI.": "El profesor de IA solo te ayuda a aprender inglés: no escribe código, textos ni documentos por ti y no resuelve tareas de otras asignaturas. Las solicitudes a la IA están limitadas por día y por mes; por encima del límite, las tarjetas, las lecciones y los juegos funcionan sin IA.",
+ "Місячний ліміт AI вичерпано. З 1-го числа знову буде доступно, а картки, уроки й ігри працюють і без AI.": "Se ha alcanzado el límite mensual de IA. Volverá a estar disponible el día 1; las tarjetas, las lecciones y los juegos funcionan sin IA."
 }

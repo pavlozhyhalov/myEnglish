@@ -40,5 +40,15 @@ export const LIMITS = {
   ttsCalls: Number(env('LIMIT_TTS_CALLS')) || 60,
   liveTokens: Number(env('LIMIT_LIVE_TOKENS')) || 30,   // попереднє з'єднання голосу бере токен і на відкриття панелі
   strongCalls: Number(env('LIMIT_STRONG_CALLS')) || 8,  // частка сильних моделей: ~8 × 10 людей ≈ 80 — денний запас трьох-чотирьох сильних моделей
+  // МІСЯЧНИЙ БЮДЖЕТ НА ЛЮДИНУ (2026-11-28, власник: «ліміти з платних токенів — можна юзати безперервно»; міграція 0042):
+  // вартість за фактичними токенами (текст, озвучення) + голос за часом; понад бюджет — AI до 1-го числа недоступний (крім підсумку розмови).
+  // Типовий учень ≈ $4–5 на місяць (docs/gemini-cost.md). Адміністратори (ALLOWED_USERS) — без місячного бюджету.
+  monthUsd: Number(env('LIMIT_MONTH_USD')) || 8,
+  voiceMonthMinutes: Number(env('LIMIT_VOICE_MONTH_MINUTES')) || 300,
+  // голос: токен Live відкриває сесії 15 хв; за день сервер видає токенів не більше ніж на 3× денного ліміту голосу + 30 хв (клієнт не може це обійти)
+  liveTokenMinutes: 15,
+  liveIssueFactor: 3,
+  // запити не про англійську: перші OFFTOPIC_SOFT за день — вчитель коротко повертає до уроку; далі — відповідь не довша за кілька речень
+  offtopicSoft: 3,
 };
 export const LIVE_VOICES = ['Puck', 'Charon', 'Kore', 'Fenrir', 'Aoede', 'Leda', 'Orus', 'Zephyr'];

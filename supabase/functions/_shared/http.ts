@@ -1,3 +1,4 @@
+import { withRequest } from './meter.ts';
 export const cors = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
@@ -28,6 +29,6 @@ export function handler(fn: (req: Request) => Promise<Response>) {
   return async (req: Request) => {
     if (req.method === 'OPTIONS') return new Response('ok', { headers: cors });
     if (req.method !== 'POST') return json({ error: { code: 'method' } }, 405);
-    try { return await fn(req); } catch (e) { return errorResponse(e); }
+    try { return await withRequest(() => fn(req)); } catch (e) { return errorResponse(e); }
   };
 }

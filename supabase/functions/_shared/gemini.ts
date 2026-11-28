@@ -1,5 +1,5 @@
 import { HttpError } from './http.ts';
-import { meter } from './meter.ts';
+import { meter, currentUser } from './meter.ts';
 
 const BASE = 'https://generativelanguage.googleapis.com';
 const TIMEOUT_MS = 30_000;
@@ -178,10 +178,11 @@ export async function generate(models: string[], o: GenOpts): Promise<string> {
 /** Спільне для generate/generateJson: модель за моделлю в межах бюджету; відповідь, яку не вдалося розібрати, — наступна модель */
 async function generateWith<R>(models: string[], o: GenOpts, parse: (text: string) => R): Promise<R> {
   const end = o.budgetMs ? Date.now() + o.budgetMs : Infinity;
+  const who = currentUser();
   return withModels(models, async (model) => {
     // часу на ще одну модель не лишилось — далі не пробуємо (інакше функцію обірве платформа, і учень не отримає нічого)
     if (end - Date.now() < 12_000) throw new HttpError(503, 'busy', 'Time budget exhausted');
-    const once = async (oo: GenOpts) => { const j = await (await call(model, 'generateContent', oo, Math.min(oo.timeoutMs || TIMEOUT_MS, end - Date.now()))).json(); meter(model, 'text', j?.usageMetadata); return parse(candidateText(j)); };
+    const once = async (oo: GenOpts) => { const j = await (await call(model, 'generateContent', oo, Math.min(oo.timeoutMs || TIMEOUT_MS, end - Date.now()))).json(); meter(model, 'text', j?.usageMetadata, who); return parse(candidateText(j)); };
     try { return await once(o); } catch (e) {
       // порожньо чи обрізано через «роздуми» — один повтор тієї ж моделі без них (якщо ще є час)
       if (e instanceof HttpError && (e.code === 'empty' || e.code === 'truncated') && o.thinking && o.thinking !== 'off' && end - Date.now() >= 12_000) return await once({ ...o, thinking: 'off' });
@@ -208,6 +209,7 @@ export async function generateJson<T = unknown>(models: string[], o: GenOpts): P
 export type TextStream = AsyncGenerator<string> & { info: { finishReason: string; chars: number } };
 export async function streamText(models: string[], o: GenOpts): Promise<TextStream> {
   let used = '';
+  const who = currentUser();
   const res = await withModels(models, (model) => { used = model; return call(model, 'streamGenerateContent?alt=sse', o, o.timeoutMs || 45_000, true); });
   const reader = res.body!.getReader();
   const dec = new TextDecoder();
@@ -237,7 +239,7 @@ export async function streamText(models: string[], o: GenOpts): Promise<TextStre
       }
       if (info.finishReason === 'MAX_TOKENS') console.error('truncated stream', info.chars);
     } finally {
-      meter(used, 'stream', um); reader.cancel().catch(() => {}); }
+      meter(used, 'stream', um, who); reader.cancel().catch(() => {}); }
   })();
   return Object.assign(gen, { info });
 }
@@ -268,6 +270,7 @@ export async function tts(models: string[], text: string, voice: string, opts: {
   const speechConfig = multi
     ? { multiSpeakerVoiceConfig: { speakerVoiceConfigs: opts.speakers!.map(s => ({ speaker: s.name, voiceConfig: { prebuiltVoiceConfig: { voiceName: s.voice } } })) } }
     : { voiceConfig: { prebuiltVoiceConfig: { voiceName: voice } } };
+  const who = currentUser();
   return withModels(models, async (model) => {
     // Gemini 3.x TTS (перевірено 2026-11-19): діалог — окрема частина на репліку з speechMetadata.speaker; 2.5 — один текст «Ім'я: репліка»
     const parts = multi && opts.lines?.length && /gemini-3/.test(model)
@@ -284,7 +287,7 @@ export async function tts(models: string[], text: string, voice: string, opts: {
     if (!res.ok && multi && res.status === 400) throw new HttpError(503, 'overloaded', `TTS ${model} rejected dialogue`);
     if (!res.ok) throw await mapError(res);
     const j = await res.json();
-    meter(model, 'tts', j?.usageMetadata);
+    meter(model, 'tts', j?.usageMetadata, who);
     const part = (j?.candidates?.[0]?.content?.parts || []).find((p: { inlineData?: unknown }) => p.inlineData);
     if (!part) throw new HttpError(502, 'gemini', 'No audio');
     const rate = Number(/rate=(\d+)/.exec(part.inlineData.mimeType || '')?.[1] || 24000);
