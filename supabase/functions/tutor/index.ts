@@ -2,6 +2,7 @@
 // генерація вправ, автозаповнення слів, перевірка перекладу, діалоги, транскрипція,
 // щоденник, вправи на власні помилки, тижнева порада.
 import { handler, json, HttpError, cors } from '../_shared/http.ts';
+import { offTopic, scopeGuard } from '../_shared/scope.ts';
 import { authenticate, charge, chargeStrong, usage, isAdmin } from '../_shared/auth.ts';
 import { generate, generateJson, streamText, tts, createLiveToken, useCooldownStore, coolDown, isCooled, type Content, type GenOpts } from '../_shared/gemini.ts';
 import { createClient, type SupabaseClient } from 'npm:@supabase/supabase-js@2.118.0';
@@ -52,7 +53,8 @@ function toContents(messages: Msg[], start = '(The student has opened the sessio
   const out: Content[] = [];
   let budget = 60_000;   // загальний ліміт історії (символів), новіші повідомлення в пріоритеті
   const recent = (Array.isArray(messages) ? messages : []).slice(-40).reverse().map(m => {
-    const text = cueText({ ...m, text: String(m?.text || '').slice(0, Math.max(0, Math.min(6000, budget))) });
+    // репліка учня — до 2500 символів (вставлені документи не йдуть цілком), вчителя — до 6000
+    const text = cueText({ ...m, text: String(m?.text || '').slice(0, Math.max(0, Math.min(m?.role === 'model' ? 6000 : 2500, budget))) });
     budget -= text.length;
     return { ...m, text };
   }).reverse();
@@ -723,15 +725,21 @@ Deno.serve(handler(async (req) => {
       const scenario = clampScenario(p.scenarioData);
       // консультація про власні результати: зведення від клієнта — лише дані (очищене й обмежене), розділ — з білого списку
       const coachSec = mode === 'coach' ? coachSection(p.section) : '';
-      const system = mode === 'coach' ? coachPrompt(st, cleanDigest(p.coachDigest), coachSec) : modePrompt(mode, st, { scenario, drillType: str(p.drillType, 40), topic: str(p.topic, 600), voice: !!p.voice });
-      const contents = toContents(p.messages || []);
       const student = lastStudentText(p.messages || []);
+      // вчитель лише для англійської (2026-11-28, _shared/scope.ts): запит не за призначенням → жорстке нагадування в промпті;
+      // понад LIMITS.offtopicSoft за день — коротка відповідь без «роздумів» (дешево й без користі для чужих цілей)
+      const off = offTopic(student);
+      const strikes = off ? await ctx.admin.rpc('bump_offtopic', { p_user: ctx.user.id }).then(r => Number(r.data) || 1, () => 1) : 0;
+      const strict = strikes > LIMITS.offtopicSoft;
+      const system = (mode === 'coach' ? coachPrompt(st, cleanDigest(p.coachDigest), coachSec) : modePrompt(mode, st, { scenario, drillType: str(p.drillType, 40), topic: str(p.topic, 600), voice: !!p.voice }))
+        + (off ? scopeGuard(off, strict) : '');
+      const contents = toContents(p.messages || []);
       const cueTurn = [...(Array.isArray(p.messages) ? p.messages : [])].reverse().find((m: Msg) => m?.role === 'user')?.cue === true;
       const wantMeta = p.meta !== false && !p.voice;
       const noFix = mode === 'explain' || mode === 'coach';
       // ліміт з запасом: токени «роздумів» моделі рахуються в maxOutputTokens — з 1500 довгі пояснення (тренування) обривались на півслові
       // timeoutMs для потоку — до першого байта: робоча модель відповідає за 1–3 с, зависла — не тримає учня 45 с
-      const opts: GenOpts = { system, contents, temperature: 0.7, maxTokens: 6000, thinking: 'low', timeoutMs: 15_000 };
+      const opts: GenOpts = { system, contents, temperature: 0.7, maxTokens: strict ? 1200 : 6000, thinking: strict ? 'off' : 'low', timeoutMs: 15_000 };
       // виправлення перевіряються на сервері: фрагмент має бути в повідомленні учня, без «виправлень» правильного
       const fixBlock = (raw: string | null) => (raw == null || p.voice || !student || noFix ? '' : formatFixes(cleanFixes(raw, student, st.strictness, 5, st.disputes)));
       const start = !noFix && !(Array.isArray(p.messages) ? p.messages : []).some((m: Msg) => m?.role === 'model');

@@ -3758,5 +3758,8 @@
  "на учня за місяць": "öğrenci başına aylık",
  "усього за платним тарифом": "ücretli tarifeyle toplam",
  "≈ за місяць": "≈ aylık",
- "Адміністратор (контролер) персональних даних — розробник застосунку myEnglish. Зв'язатися: «Написати розробнику» в меню «Я» застосунку або сторінка підтримки.": "Kişisel verilerin sorumlusu myEnglish uygulamasının geliştiricisidir. İletişim: uygulamadaki «Ben» menüsünde «Geliştiriciye yaz» veya destek sayfası."
+ "Адміністратор (контролер) персональних даних — розробник застосунку myEnglish. Зв'язатися: «Написати розробнику» в меню «Я» застосунку або сторінка підтримки.": "Kişisel verilerin sorumlusu myEnglish uygulamasının geliştiricisidir. İletişim: uygulamadaki «Ben» menüsünde «Geliştiriciye yaz» veya destek sayfası.",
+ "Ліміти AI": "Yapay zekâ sınırları",
+ "AI-вчитель допомагає лише вивчати англійську: він не пише код, тексти чи документи за вас і не розв'язує завдань з інших предметів. Кількість запитів до AI обмежена на день і на місяць; понад ліміт картки, уроки й ігри працюють і без AI.": "Yapay zekâ öğretmeni yalnızca İngilizce öğrenmenize yardım eder: sizin yerinize kod, metin veya belge yazmaz ve başka derslerin ödevlerini çözmez. Yapay zekâ istekleri günlük ve aylık olarak sınırlıdır; sınır aşıldığında kartlar, dersler ve oyunlar yapay zekâ olmadan da çalışır.",
+ "Місячний ліміт AI вичерпано. З 1-го числа знову буде доступно, а картки, уроки й ігри працюють і без AI.": "Aylık yapay zekâ sınırına ulaşıldı. Ayın 1'inden itibaren yeniden kullanılabilir; kartlar, dersler ve oyunlar yapay zekâ olmadan da çalışır."
 }

@@ -55,7 +55,7 @@ Never correct anyone's English in the group (corrections are private), never men
 
 export function replyPrompt(level: string, dm = false, lang: UiLang | 'en' = 'uk') {
   return `${STYLE(level, dm, lang)}
-Someone ${dm ? 'in this chat' : 'in the group'} spoke to you (they called you "Teacher"). Answer the LAST message that addresses you naturally and helpfully (explain briefly if they ask about English; if they ask for a topic, suggest one with a question; ${dm ? 'then hand the conversation back to the two friends' : 'invite others to join in'}). If the message is in ${lang === 'uk' ? 'Ukrainian' : lang === 'en' ? 'another language' : UI_LANGS[lang]}, still answer in simple English.`;
+Someone ${dm ? 'in this chat' : 'in the group'} spoke to you (they called you "Teacher"). Answer the LAST message that addresses you naturally and helpfully (explain briefly if they ask about English; if they ask for a topic, suggest one with a question; ${dm ? 'then hand the conversation back to the two friends' : 'invite others to join in'}). If the message is in ${lang === 'uk' ? 'Ukrainian' : lang === 'en' ? 'another language' : UI_LANGS[lang]}, still answer in simple English. You help only with English: if they ask for something else (code, solving tasks from other subjects, writing a text or document for them, general questions), say in one friendly sentence that you are their English teacher and invite them to talk about it in English — do not do the task.`;
 }
 export function nudgePrompt(level: string, lang: UiLang | 'en' = 'uk') {
   return `${STYLE(level, false, lang)}

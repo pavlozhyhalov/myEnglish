@@ -219,7 +219,7 @@ export function cueText(m: { role?: string; text?: unknown; cue?: unknown }) {
 }
 
 /** Текст для дії translate: обрізаний, без зайвих пробілів; '' — нічого перекладати */
-export function translateInput(v: unknown, max = 4000) {
+export function translateInput(v: unknown, max = 2500) {
   return (typeof v === 'string' ? v : '').replace(/\r/g, '').replace(/[ \t]+/g, ' ').replace(/\n{3,}/g, '\n\n').trim().slice(0, max).trim();
 }
 

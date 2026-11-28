@@ -25,6 +25,8 @@ async function errorFrom(res) {
   let body = null;
   try { body = await res.json(); } catch { /* не JSON */ }
   const code = body?.error?.code || (res.status === 401 ? 'need_login' : res.status === 429 ? 'rate_limited' : 'server');
+  // місячний бюджет AI на людину (сервер: quota + message 'month', міграція 0042)
+  if (code === 'quota' && body?.error?.message === 'month') return new AiError(code, S.err.quotaMonth);
   return new AiError(code, MSG[code] || body?.error?.message || `${S.err.generic} (${res.status})`);
 }
 

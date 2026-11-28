@@ -589,7 +589,7 @@ export async function voiceSession(view, opts = {}) {
     }
     const micErr = e.code === 'mic' || e.code === 'mic_missing';
     notice.replaceChildren(h('div.vc-fail', txResult({ icon: micErr ? 'microphone-slash' : 'warning', tone: 'bad', role: 'alert', label: 'Голосова розмова',
-      title: micErr ? 'Немає доступу до мікрофона' : 'Не вдалося почати розмову', sub: ERR[e.code] || aiErrorText(e) || S.err.generic })));
+      title: micErr ? 'Немає доступу до мікрофона' : 'Не вдалося почати розмову', sub: (e.code === 'quota' && e.message) || ERR[e.code] || aiErrorText(e) || S.err.generic })));
     controls.replaceChildren(txPrimary({ icon: 'arrow-clockwise', label: 'Спробувати ще раз', onclick: retry }), backRow);
   }
 
@@ -602,7 +602,7 @@ export async function voiceSession(view, opts = {}) {
     if (started) { elapsedBefore = elapsed(); started = Date.now(); } else started = Date.now();
     try { live?.close(); } catch { /* */ }
     audio?.stop(); audio = null; micLevel = outLevel = 0; tutorTalking = false;
-    const why = err?.code === 'quota' ? S.err.quota : err?.code === 'no_key' ? S.err.noKey : `Live недоступний${err?.message ? ` (${String(err.message).slice(0, 80)})` : ''} — перемкнулись на режим «рація».`;
+    const why = err?.code === 'quota' ? (err.message || S.err.quota) : err?.code === 'no_key' ? S.err.noKey : `Live недоступний${err?.message ? ` (${String(err.message).slice(0, 80)})` : ''} — перемкнулись на режим «рація».`;
     // перехід на «рацію» — інформація, а не помилка (помилки квоти/ключа нижче йдуть у fail)
     notice.replaceChildren(h('div.notice', why), h('div.xs.dim', { style: { marginTop: '6px' } }, 'Утримуйте кнопку, говоріть, відпустіть — вчитель відповість голосом.'));
     if (err?.code === 'quota' || err?.code === 'no_key' || err?.code === 'not_allowed') { fail(err); return; }

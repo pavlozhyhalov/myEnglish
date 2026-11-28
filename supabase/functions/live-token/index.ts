@@ -15,6 +15,12 @@ Deno.serve(handler(async (req) => {
   if (left <= 30) throw new HttpError(429, 'quota');
   // кожен токен рахується (денний ліміт токенів) — голосовий ліміт не тримається лише на чесності клієнта
   await charge(ctx, 'live');
+  // резерв часу (2026-11-28, міграція 0042): токен відкриває сесії не довше LIMITS.liveTokenMinutes, і за день видається
+  // не більше ніж на liveIssueFactor × денного ліміту голосу + 30 хв — навіть змінений клієнт, що не звітує час, не говорить безкінечно
+  const minutes = Math.max(3, Math.min(LIMITS.liveTokenMinutes, Math.ceil(left / 60) + 2));
+  const { data: issued, error: issueErr } = await ctx.admin.rpc('charge_live_issue', { p_user: ctx.user.id, p_sec: minutes * 60, p_cap: LIMITS.voiceSeconds * LIMITS.liveIssueFactor + 1800 });
+  if (issueErr) console.error('live issue', issueErr.message);
+  else if (issued !== true) throw new HttpError(429, 'quota');
 
   const idx = Math.max(0, Math.min(LIVE_MODELS.length - 1, Number(p.fallback) || 0));
   const model = LIVE_MODELS[idx];
@@ -53,14 +59,14 @@ Deno.serve(handler(async (req) => {
   };
   let basic = !!p.basic;
   let tok;
-  try { tok = await createLiveToken(setup, { uses: 20, minutes: 30 }); } catch (e) {
+  try { tok = await createLiveToken(setup, { uses: 20, minutes }); } catch (e) {
     // Google не прийняв налаштування паузи — токен без них (голос працює зі стандартною паузою)
     // лише якщо помилка справді про налаштування паузи/слухання (2026-11-17, рецензія: будь-яка помилка вимикала їх — паузу за замовчуванням, обриви на півслові)
     if (basic || (e as HttpError).code !== 'bad_model_request' || !/realtime|activity|sensitivity|silence|prefix|padding/i.test(String((e as Error).message))) throw e;
     console.error('live-token: VAD config rejected', String((e as Error).message).slice(0, 200));
     delete (setup as Record<string, unknown>).realtimeInputConfig;
     basic = true;
-    tok = await createLiveToken(setup, { uses: 20, minutes: 30 });
+    tok = await createLiveToken(setup, { uses: 20, minutes });
   }
   return json({ ...tok, model, voice, pauseMs: basic ? 0 : st.voicePauseMs, voiceSecondsLeft: left, hasMoreModels: idx < LIVE_MODELS.length - 1 });
 }));

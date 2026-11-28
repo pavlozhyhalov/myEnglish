@@ -172,7 +172,7 @@ Deno.test('translateInput: validation and cap', () => {
   assertEquals(translateInput(undefined), '');
   assertEquals(translateInput({ a: 1 }), '');
   assertEquals(translateInput('  Hi\r\n\n\n\nthere  '), 'Hi\n\nthere');
-  assertEquals(translateInput('x'.repeat(9000)).length, 4000);
+  assertEquals(translateInput('x'.repeat(9000)).length, 2500);
 });
 
 Deno.test('cleanMemory: phone numbers are not stored', () => {

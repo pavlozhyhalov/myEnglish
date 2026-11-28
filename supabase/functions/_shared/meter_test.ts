@@ -11,3 +11,13 @@ Deno.test('meter: текст, аудіо, роздуми', () => {
   assertEquals(usageFrom(null), null);
   assertEquals(usageFrom({}), null);
 });
+
+Deno.test('meter: користувач запиту й вартість', async () => {
+  const { withRequest, setRequestUser, currentUser, costMicros } = await import('./meter.ts');
+  const run = (id: string) => withRequest(async () => { await new Promise(r => setTimeout(r, 3)); setRequestUser(id); await new Promise(r => setTimeout(r, 5)); return currentUser(); });
+  const [a, b] = await Promise.all([run('a'), run('b')]);
+  if (a !== 'a' || b !== 'b') throw new Error(`context ${a} ${b}`);
+  if (currentUser() !== '') throw new Error('leak');
+  // 1000 вхідних і 500 вихідних токенів lite: 1000×0,30 + 500×2,5 = 1550 мільйонних долара
+  if (costMicros('gemini-3.5-flash-lite', { inText: 1000, inAudio: 0, outText: 500, outAudio: 0, thoughts: 0 }) !== 1550) throw new Error('cost');
+});
