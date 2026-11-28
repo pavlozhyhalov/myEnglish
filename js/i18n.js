@@ -18,7 +18,7 @@ export const LANGS = [
   { id: 'en', name: 'English', en: 'English', region: 'international' },
 ];
 // мова з'являється у виборі, коли її переклад готовий (scripts/check-i18n.js без прогалин) — до того її не видно нікому
-const READY = new Set(['uk', 'es', 'pt', 'tr', 'pl', 'ru']);
+const READY = new Set(['uk', 'es', 'pt', 'tr', 'pl', 'ru', 'en']);
 // перегляд неготових мов (перевірка перекладу до запуску): localStorage['me:lang-preview'] = '1' або адреса з ?langpreview=1
 try {
   if (typeof location !== 'undefined' && /[?&]langpreview=1/.test(location.search)) localStorage.setItem('me:lang-preview', '1');

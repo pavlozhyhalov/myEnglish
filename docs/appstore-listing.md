@@ -43,7 +43,7 @@ LEARN TOGETHER
 • Chat with friends in English — the tutor quietly suggests better phrasing
 • Groups with personal homework for each member, challenges and duels
 
-Interface in Ukrainian, Spanish, Portuguese, Turkish, Polish and Russian.
+Interface in English, Ukrainian, Spanish, Portuguese, Turkish, Polish and Russian.
 
 The tutor, corrections and voices are powered by AI (Google Gemini) and may make mistakes. You decide whether to share data with the AI — see the Privacy Policy in the app.
 
@@ -85,7 +85,7 @@ myEnglish — повний курс англійської, побудовани
 • Переписка з друзями англійською — вчитель тихо підказує, як сказати краще
 • Групи з особистим домашнім завданням для кожного, виклики й дуелі
 
-Мови інтерфейсу: українська, іспанська, португальська, турецька, польська, російська.
+Мови інтерфейсу: англійська, українська, іспанська, португальська, турецька, польська, російська.
 
 Вчитель, виправлення й голоси працюють на штучному інтелекті (Google Gemini) і можуть помилятися. Чи передавати дані AI — вирішуєте ви (Політика приватності в застосунку).
 
@@ -94,7 +94,7 @@ myEnglish — повний курс англійської, побудовани
 ## Нотатки для перевірки Apple (App Review Information → Notes)
 
 myEnglish is an English-learning app. Demo account: <email> / <password> (sample progress, lessons, mistakes and a chat with another demo learner, Oliver).
-• Interface language: the app follows the device language (Ukrainian, Spanish, Portuguese, Turkish, Polish, Russian). To switch, tap the language code at the top-left of the header (e.g. “UA”).
+• Interface language: the app follows the device language (English, Ukrainian, Spanish, Portuguese, Turkish, Polish, Russian); on an English device it opens in English. To switch, tap the language code at the top-left of the header (e.g. “EN”).
 • Chat to test reporting/blocking: menu → Me → Friends → Chats → Oliver.
 • AI features (tutor chat, voice tutor, corrections) use Google Gemini; the app asks for consent before the first AI request (Settings → More → Data → “Allow the AI tutor” to revoke).
 • Voice tutor: Tutor → Voice → “Start conversation” (microphone permission is requested on tap).

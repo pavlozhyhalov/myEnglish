@@ -28,7 +28,9 @@ let bad = 0;
 for (const lang of only ? [only] : LANGS) {
   const ui = read(`i18n/${lang}.json`, {});
   const up = new Set(read(`i18n/${lang}.patterns.json`, []).map(p => p[0]));
-  const quality = (v) => !v ? 'порожньо' : (lang !== 'ru' && /[А-Яа-яЁё]/.test(v)) ? 'кирилиця' : (lang === 'ru' && UKR_ONLY.test(v)) ? 'українські літери' : (lang === 'ru' && /на Украин/.test(v)) ? '«на Украине»' : null;
+  // en: кирилиця дозволена в лапках (цитоване українське слово: «How do you say 'ложка'…») і в назві мови «Русский»
+  const unq = (v) => lang === 'en' ? String(v).replace(/['‘’“”«»"][^'‘’“”«»"]*['‘’“”«»"]/g, '').replace(/^Русский$/, '') : v;
+  const quality = (v) => !v ? 'порожньо' : (lang !== 'ru' && /[А-Яа-яЁё]/.test(unq(v))) ? 'кирилиця' : (lang === 'ru' && UKR_ONLY.test(v)) ? 'українські літери' : (lang === 'ru' && /на Украин/.test(v)) ? '«на Украине»' : null;
   const missUi = keys.filter(k => !ui[k]);
   const badUi = keys.filter(k => ui[k] && quality(ui[k])).map(k => `${k} → ${ui[k]} (${quality(ui[k])})`);
   const missPat = pats.filter(p => !up.has(p.re));
