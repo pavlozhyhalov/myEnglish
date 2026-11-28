@@ -3669,7 +3669,6 @@
  "Документи, ліцензії, AI": "Documentos, licencias, IA",
  "Доступ і копія даних («Акаунт» → «Завантажити мої дані»), виправлення (профіль, налаштування), видалення («Акаунт» → «Видалити акаунт»), обмеження й заперечення, відкликання згоди на AI («Налаштування»), перенесення даних. Ви можете подати скаргу до наглядового органу — у Польщі це Prezes Urzędu Ochrony Danych Osobowych (UODO).": "Acceso y copia de los datos («Cuenta» → «Descargar mis datos»), rectificación (perfil, ajustes), supresión («Cuenta» → «Eliminar cuenta»), limitación y oposición, retirada del consentimiento para la IA («Ajustes»), portabilidad de los datos. Puedes presentar una reclamación ante la autoridad de control; en Polonia es el Prezes Urzędu Ochrony Danych Osobowych (UODO).",
  "Завантажити мої дані": "Descargar mis datos",
- "Застосунок myEnglish розробляє й підтримує приватний розробник із Польщі — він є адміністратором (контролером) персональних даних. Зв'язатися: «Написати розробнику» в меню «Я» застосунку.": "La app myEnglish la desarrolla y mantiene un desarrollador particular de Polonia, que es el responsable del tratamiento de los datos personales. Contacto: «Escribir al desarrollador» en el menú «Yo» de la app.",
  "Застосунок надається «як є». Ми робимо все, щоб він працював без збоїв, але не гарантуємо безперервної роботи й не відповідаємо за результати навчання.": "La app se ofrece «tal cual». Hacemos todo lo posible para que funcione sin fallos, pero no garantizamos un funcionamiento ininterrumpido ni respondemos de los resultados del aprendizaje.",
  "Застосунок призначений для людей від 16 років.": "La app está pensada para personas de 16 años o más.",
  "Зв'язок": "Contacto",
@@ -3696,7 +3695,6 @@
  "Образи, спам, неприйнятне — розглянемо протягом доби": "Insultos, spam, contenido inapropiado: lo revisaremos en 24 horas",
  "Повідомлення містить образливі слова — приберіть їх, будь ласка": "El mensaje contiene palabras ofensivas; quítalas, por favor",
  "Погоджуюсь": "Acepto",
- "Поки існує ваш акаунт. Видалений акаунт стирається одразу разом з усіма даними й файлами; резервні копії постачальника очищуються протягом їхнього циклу (до 7 днів). Журнал помилок — до 90 днів.": "Mientras exista tu cuenta. Una cuenta eliminada se borra al instante con todos sus datos y archivos; las copias de seguridad del proveedor se limpian en su ciclo habitual (hasta 7 días). Registro de errores: hasta 90 días.",
  "Політика приватності": "Política de privacidad",
  "Політику приватності": "Política de privacidad",
  "Помилка, ідея, питання про дані": "Error, idea, pregunta sobre datos",
@@ -3744,5 +3742,7 @@
  "Сповіщення вимкнено. Налаштування iPhone → myEnglish → Сповіщення → «Дозволити сповіщення».": "Las notificaciones están desactivadas. Ajustes del iPhone → myEnglish → Notificaciones → «Permitir notificaciones».",
  "Щодня о": "Cada día a las",
  "Клас⁠": "Clase",
- "треба": "objetivo"
+ "треба": "objetivo",
+ "Застосунок myEnglish розробляє й підтримує Pavlo, приватний розробник із Польщі, — він є адміністратором (контролером) персональних даних. Зв'язатися: pavlozhyhalov@gmail.com або «Написати розробнику» в меню «Я» застосунку.": "myEnglish lo desarrolla y mantiene Pavlo, desarrollador particular en Polonia, que es el responsable del tratamiento de los datos personales. Contacto: pavlozhyhalov@gmail.com o «Escribir al desarrollador» en el menú «Yo» de la app.",
+ "Поки існує ваш акаунт. Видалений акаунт стирається одразу разом з усіма даними й файлами. Зашифровані резервні копії бази даних (на випадок збою) зберігаються до 35 днів і потім стираються. Журнал помилок — до 90 днів.": "Mientras exista tu cuenta. Una cuenta eliminada se borra de inmediato con todos sus datos y archivos. Las copias de seguridad cifradas de la base de datos (por si hay un fallo) se guardan hasta 35 días y después se borran. El registro de errores, hasta 90 días."
 }

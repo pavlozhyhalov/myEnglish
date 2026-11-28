@@ -3669,7 +3669,6 @@
  "Документи, ліцензії, AI": "Belgeler, lisanslar, AI",
  "Доступ і копія даних («Акаунт» → «Завантажити мої дані»), виправлення (профіль, налаштування), видалення («Акаунт» → «Видалити акаунт»), обмеження й заперечення, відкликання згоди на AI («Налаштування»), перенесення даних. Ви можете подати скаргу до наглядового органу — у Польщі це Prezes Urzędu Ochrony Danych Osobowych (UODO).": "Erişim ve veri kopyası (“Hesap” → “Verilerimi indir”), düzeltme (profil, ayarlar), silme (“Hesap” → “Hesabı sil”), kısıtlama ve itiraz, AI onayının geri alınması (“Ayarlar”), veri taşınabilirliği. Denetim makamına şikâyette bulunabilirsiniz — Polonya'da bu makam Prezes Urzędu Ochrony Danych Osobowych (UODO)'dur.",
  "Завантажити мої дані": "Verilerimi indir",
- "Застосунок myEnglish розробляє й підтримує приватний розробник із Польщі — він є адміністратором (контролером) персональних даних. Зв'язатися: «Написати розробнику» в меню «Я» застосунку.": "myEnglish uygulaması Polonya'dan bağımsız bir geliştirici tarafından geliştirilir ve sürdürülür — kişisel verilerin sorumlusu (veri sorumlusu) odur. İletişim: uygulamadaki “Ben” menüsünde “Geliştiriciye yaz”.",
  "Застосунок надається «як є». Ми робимо все, щоб він працював без збоїв, але не гарантуємо безперервної роботи й не відповідаємо за результати навчання.": "Uygulama “olduğu gibi” sunulur. Sorunsuz çalışması için elimizden geleni yapıyoruz, ancak kesintisiz çalışmayı garanti etmiyoruz ve öğrenme sonuçlarından sorumlu değiliz.",
  "Застосунок призначений для людей від 16 років.": "Uygulama 16 yaş ve üzeri kişiler içindir.",
  "Зв'язок": "İletişim",
@@ -3696,7 +3695,6 @@
  "Образи, спам, неприйнятне — розглянемо протягом доби": "Hakaret, spam, uygunsuz içerik — 24 saat içinde inceleriz",
  "Повідомлення містить образливі слова — приберіть їх, будь ласка": "Mesajda kırıcı kelimeler var — lütfen bunları kaldırın",
  "Погоджуюсь": "Kabul ediyorum",
- "Поки існує ваш акаунт. Видалений акаунт стирається одразу разом з усіма даними й файлами; резервні копії постачальника очищуються протягом їхнього циклу (до 7 днів). Журнал помилок — до 90 днів.": "Hesabınız var olduğu sürece. Silinen hesap tüm verileri ve dosyalarıyla birlikte hemen silinir; sağlayıcının yedekleri kendi döngüsü içinde (7 güne kadar) temizlenir. Hata günlüğü — 90 güne kadar.",
  "Політика приватності": "Gizlilik Politikası",
  "Політику приватності": "Gizlilik Politikası",
  "Помилка, ідея, питання про дані": "Hata, fikir, verilerle ilgili soru",
@@ -3744,5 +3742,7 @@
  "Сповіщення вимкнено. Налаштування iPhone → myEnglish → Сповіщення → «Дозволити сповіщення».": "Bildirimler kapalı. iPhone Ayarlar → myEnglish → Bildirimler → “Bildirimlere İzin Ver”.",
  "Щодня о": "Her gün saat",
  "Клас⁠": "Beğen",
- "треба": "hedef"
+ "треба": "hedef",
+ "Застосунок myEnglish розробляє й підтримує Pavlo, приватний розробник із Польщі, — він є адміністратором (контролером) персональних даних. Зв'язатися: pavlozhyhalov@gmail.com або «Написати розробнику» в меню «Я» застосунку.": "myEnglish'i Polonya'daki bağımsız geliştirici Pavlo geliştirir ve sürdürür; kişisel verilerin sorumlusu odur. İletişim: pavlozhyhalov@gmail.com veya uygulamadaki «Ben» menüsünde «Geliştiriciye yaz».",
+ "Поки існує ваш акаунт. Видалений акаунт стирається одразу разом з усіма даними й файлами. Зашифровані резервні копії бази даних (на випадок збою) зберігаються до 35 днів і потім стираються. Журнал помилок — до 90 днів.": "Hesabınız var olduğu sürece. Silinen hesap tüm verileri ve dosyalarıyla birlikte hemen silinir. Veritabanının şifreli yedekleri (arıza durumu için) en fazla 35 gün saklanır, sonra silinir. Hata kaydı en fazla 90 gün."
 }

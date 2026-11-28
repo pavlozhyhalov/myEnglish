@@ -21,7 +21,7 @@
 | Privacy Policy URL | `https://pavlozhyhalov.github.io/myEnglish/#/about/privacy` |
 | Support URL | `https://pavlozhyhalov.github.io/myEnglish/support.html` |
 | Marketing URL | (порожньо або `https://pavlozhyhalov.github.io/myEnglish/`) |
-| Copyright | `2026 <ваше ім'я та прізвище>` |
+| Copyright | `2026 Pavlo` |
 | Localizations | English (U.S.), Ukrainian, Spanish (Spain) + Spanish (Mexico) — той самий текст, Portuguese (Brazil), Turkish, Polish, Russian |
 
 ## 3. Pricing and Availability
@@ -76,6 +76,6 @@ developer.apple.com → Certificates, Identifiers & Profiles → **Keys** → «
 
 ## 8. Перед натисканням «Submit for Review»
 1. TestFlight: встановити на свій iPhone, пройти: вхід, згода на AI, голосовий вчитель, картки, чат, скарга, видалення тестового акаунта.
-2. Вписати в Політику приватності ваше ім'я й email як адміністратора даних (скажіть Claude — оновить усі 6 мов).
+2. ✓ Ім'я (Pavlo) й email у Політиці приватності та на сторінці підтримки — зроблено 2026-11-28. Повне прізвище в Copyright — за бажанням.
 3. Перевірити, що SMTP налаштовано (листи відновлення пароля).
 4. Вирішити питання платного Gemini (умови для користувачів з ЄС).

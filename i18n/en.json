@@ -928,7 +928,6 @@
  "Засвоєння:": "Mastery:",
  "Засвоєно ·": "Mastered ·",
  "Застосунки на щодень": "Everyday apps",
- "Застосунок myEnglish розробляє й підтримує приватний розробник із Польщі — він є адміністратором (контролером) персональних даних. Зв'язатися: «Написати розробнику» в меню «Я» застосунку.": "The myEnglish app is developed and supported by a private developer from Poland, who is the controller of personal data. Contact: “Write to the developer” in the app's “Me” menu.",
  "Застосунок надається «як є». Ми робимо все, щоб він працював без збоїв, але не гарантуємо безперервної роботи й не відповідаємо за результати навчання.": "The app is provided “as is”. We do our best to keep it working without problems, but we don't guarantee continuous operation and are not responsible for learning results.",
  "Застосунок призначений для людей від 16 років.": "The app is for people aged 16 and over.",
  "Застосунок ще завантажується. Спробуйте за кілька секунд.": "The app is still loading. Try again in a few seconds.",
@@ -1782,7 +1781,6 @@
  "Поки що нічого": "Nothing yet",
  "Поки що розмов немає. Почніть з вільної або голосової розмови.": "No conversations yet. Start a free or voice conversation.",
  "Поки що чатів немає": "No chats yet",
- "Поки існує ваш акаунт. Видалений акаунт стирається одразу разом з усіма даними й файлами; резервні копії постачальника очищуються протягом їхнього циклу (до 7 днів). Журнал помилок — до 90 днів.": "As long as your account exists. A deleted account is erased at once with all its data and files; the provider's backups are cleared in their normal cycle (up to 7 days). Error log — up to 90 days.",
  "Покликати вчителя": "Call the tutor",
  "Покращена версія": "Improved version",
  "Покупки й повернення": "Shopping and returns",
@@ -3743,5 +3741,7 @@
  "↓ рідше": "↓ less often",
  "≈ 10 хв · склали — переходите на": "≈ 10 min · passed — you move to",
  "Клас⁠": "Class",
- "треба": "target"
+ "треба": "target",
+ "Застосунок myEnglish розробляє й підтримує Pavlo, приватний розробник із Польщі, — він є адміністратором (контролером) персональних даних. Зв'язатися: pavlozhyhalov@gmail.com або «Написати розробнику» в меню «Я» застосунку.": "myEnglish is developed and maintained by Pavlo, a private developer in Poland, who is the controller of your personal data. Contact: pavlozhyhalov@gmail.com or “Write to the developer” in the “Me” menu of the app.",
+ "Поки існує ваш акаунт. Видалений акаунт стирається одразу разом з усіма даними й файлами. Зашифровані резервні копії бази даних (на випадок збою) зберігаються до 35 днів і потім стираються. Журнал помилок — до 90 днів.": "As long as your account exists. A deleted account is erased at once with all its data and files. Encrypted database backups (in case of failure) are kept for up to 35 days and then erased. The error log is kept for up to 90 days."
 }
