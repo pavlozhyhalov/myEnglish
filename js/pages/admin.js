@@ -329,6 +329,20 @@ export default async function adminPage(view) {
     try { bk = await ai('admin', now ? 'backup_now' : 'backups'); } catch (e) { bkErr = aiErrorText(e); }
     bkBusy = false; render();
   }
+  // Копії поза Supabase (GitHub Actions → Cloudflare R2, міграція 0043): стан трьох завдань або кроки налаштування
+  function offsiteBlock(bk) {
+    const o = bk.offsite || {}, ok = o.lastOk || {};
+    const row = (k, label, icon) => {
+      const e = o[k];
+      const sub = e ? [dtShort(e.at), e.bytes ? `${Math.round(e.bytes / 1024)} КБ` : '', e.counts ? Object.entries(e.counts).map(([a, b]) => `${a} ${b}`).join(', ') : '', !e.ok && e.detail ? e.detail : ''].filter(Boolean).join(' · ') : 'ще не було';
+      return txRow({ icon, label, sub, pill: e ? { text: e.ok ? 'так' : 'збій', tone: e.ok ? 'good' : 'bad' } : undefined });
+    };
+    if (!o.db) return h('details.adm-note', h('summary.xs', 'Поза Supabase: не налаштовано — як увімкнути'),
+      h('div.xs.dim', { style: { ...wrap } }, 'GitHub → Settings → Secrets and variables → Actions → додати секрети (docs/backup.md, крок за кроком): SUPABASE_DB_URL, R2_ACCOUNT_ID, R2_ACCESS_KEY_ID, R2_SECRET_ACCESS_KEY, R2_BUCKET_NAME, BACKUP_PASSPHRASE (= ключ нижче), OFFSITE_SECRET:'),
+      bk.offsiteSecret ? h('pre.xs', { style: { whiteSpace: 'pre-wrap', ...wrap, margin: '4px 0 0' } }, bk.offsiteSecret) : null);
+    return txRows([row('db', 'Повна копія бази (R2)', 'download-simple'), row('files', 'Файли: голосові, скріншоти (R2)', 'microphone'), row('restore', 'Перевірка відновлення', 'check-circle')]);
+  }
+
   function backupSection() {
     const rows = (bk?.files || []).map(f => txRow({ icon: 'download-simple', label: f.path.replace(/^(daily|weekly)\//, '').replace('.meb', ''),
       sub: f.path.startsWith('weekly') ? 'Тижнева · 28 днів' : 'Щоденна · 7 днів', href: f.url || undefined, attrs: f.url ? { download: '', target: '_blank', rel: 'noopener' } : {} }));
@@ -340,7 +354,8 @@ export default async function adminPage(view) {
         tx({ icon: 'arrow-clockwise', label: bk ? 'Оновити' : 'Показати копії', onclick: () => !bkBusy && loadBackups() }),
         tx({ icon: 'plus', label: bkBusy ? 'Зачекайте…' : 'Зробити копію зараз', onclick: () => !bkBusy && loadBackups(true) })], 2),
       bk?.key ? h('details', h('summary.xs.dim', 'Ключ розшифрування — збережіть у менеджері паролів'), h('pre.xs', { style: { whiteSpace: 'pre-wrap', ...wrap, margin: '4px 0 0' } }, bk.key)) : null,
-      h('p.xs.dim.adm-note', 'Щоночі автоматично; файл зашифровано. Раз на місяць завантажуйте копію собі (диск або Google Drive). Відновлення — docs/backup.md.'),
+      bk ? offsiteBlock(bk) : null,
+      h('p.xs.dim.adm-note', 'Щоночі автоматично: копія в Supabase (7 днів + тижневі 28) і, після налаштування, повна копія поза Supabase. Відновлення — docs/backup.md.'),
     ]);
   }
 

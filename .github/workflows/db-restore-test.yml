@@ -1,0 +1,109 @@
+name: DB restore test
+
+# Щотижнева перевірка, що копію справді можна відновити (2026-11-28; як у Resonance, але автоматично).
+# Бере останню копію з R2, розшифровує, відновлює в тимчасовий Postgres 17 у контейнері (робоча база не зачіпається)
+# і рахує рядки в головних таблицях. Кількості — лише у звіт функції `backup` (#/admin), не в публічний лог.
+# Без секретів — зелене й нічого не робить. Вручну: Actions → DB restore test → Run workflow.
+
+on:
+  schedule:
+    - cron: "23 5 * * 0"     # щонеділі ~05:23 UTC
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+jobs:
+  restore-test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    services:
+      pg:
+        image: postgres:17
+        env:
+          POSTGRES_PASSWORD: testpass
+          POSTGRES_DB: restore_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd="pg_isready -U postgres"
+          --health-interval=5s --health-timeout=5s --health-retries=15
+    env:
+      SUPABASE_URL: https://uxqdklwnxdtyifksphoz.supabase.co
+      R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
+      R2_BUCKET_NAME: ${{ secrets.R2_BUCKET_NAME }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+      AWS_DEFAULT_REGION: auto
+      BACKUP_PASSPHRASE: ${{ secrets.BACKUP_PASSPHRASE }}
+      OFFSITE_SECRET: ${{ secrets.OFFSITE_SECRET }}
+      DBURL: postgresql://postgres:testpass@localhost:5432/restore_test
+    steps:
+      - name: Check configuration
+        id: cfg
+        run: |
+          for v in R2_ACCOUNT_ID R2_BUCKET_NAME AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY BACKUP_PASSPHRASE; do
+            if [ -z "${!v:-}" ]; then echo "configured=false" >> "$GITHUB_OUTPUT"; echo "::notice::Секрети не додано — пропускаю."; exit 0; fi
+          done
+          echo "configured=true" >> "$GITHUB_OUTPUT"
+          echo "ENDPOINT=https://${R2_ACCOUNT_ID}.r2.cloudflarestorage.com" >> "$GITHUB_ENV"
+
+      - name: Install PostgreSQL 17 client
+        if: steps.cfg.outputs.configured == 'true'
+        run: |
+          set -euo pipefail
+          sudo sh -c 'echo "deb https://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
+          curl -fsSL https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo gpg --dearmor -o /etc/apt/trusted.gpg.d/pgdg.gpg
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq postgresql-client-17
+
+      - name: Download and decrypt the latest copy
+        if: steps.cfg.outputs.configured == 'true'
+        run: |
+          set -euo pipefail
+          LATEST=$(aws s3 ls "s3://${R2_BUCKET_NAME}/db/" --endpoint-url "$ENDPOINT" | awk '{print $4}' | grep -E '^backup-.*\.sql\.gz\.gpg$' | sort | tail -1)
+          [ -n "$LATEST" ] || { echo "::error::У R2 немає копій"; exit 1; }
+          echo "LATEST=$LATEST" >> "$GITHUB_ENV"
+          aws s3 cp "s3://${R2_BUCKET_NAME}/db/${LATEST}" ./dump.gpg --endpoint-url "$ENDPOINT" --only-show-errors
+          gpg --batch --quiet --decrypt --pinentry-mode loopback --passphrase-fd 3 3<<<"$BACKUP_PASSPHRASE" dump.gpg | gunzip > dump.sql
+          echo "Розшифровано: $(stat -c%s dump.sql) байт"
+
+      - name: Restore into a throwaway Postgres
+        if: steps.cfg.outputs.configured == 'true'
+        run: |
+          set -uo pipefail
+          PSQL=/usr/lib/postgresql/17/bin/psql
+          # ролі Supabase (authenticated, anon…) і розширення pg_cron/pg_net/vault у чистому Postgres відсутні — ці команди падають, дані public відновлюються.
+          for r in anon authenticated service_role supabase_admin supabase_auth_admin supabase_storage_admin authenticator; do
+            "$PSQL" "$DBURL" -q -c "create role $r nologin" >/dev/null 2>&1 || true
+          done
+          "$PSQL" "$DBURL" -v ON_ERROR_STOP=0 -q -f dump.sql > restore.log 2>&1 || true
+          echo "Команд з помилками (очікувано для ролей і розширень Supabase): $(grep -c 'ERROR:' restore.log || true)"
+          # рядки помилок не друкуються: у них можуть бути дані учнів, а лог публічний
+
+      - name: Verify restored data
+        if: steps.cfg.outputs.configured == 'true'
+        run: |
+          set -uo pipefail
+          PSQL=/usr/lib/postgresql/17/bin/psql
+          cnt() { "$PSQL" "$DBURL" -At -c "select count(*) from $1" 2>/dev/null || echo -1; }
+          COUNTS=""
+          for t in public.profiles public.cards public.tutor_chats public.mistakes public.sessions public.chat_messages auth.users; do
+            n=$(cnt "$t"); k=$(echo "$t" | sed 's/^public\.//; s/\./_/')
+            COUNTS="${COUNTS}\"$k\":$n,"
+            echo "$t: $([ "$n" -gt 0 ] 2>/dev/null && echo 'є дані' || echo 'ПОРОЖНЬО')"
+          done
+          echo "COUNTS={${COUNTS%,}}" >> "$GITHUB_ENV"
+          P=$(cnt public.profiles); C=$(cnt public.cards); U=$(cnt auth.users)
+          if [ "$P" -le 0 ] || [ "$C" -le 0 ] || [ "$U" -le 0 ]; then echo "::error::Головні таблиці порожні після відновлення — копія НЕПРИДАТНА"; exit 1; fi
+          echo "Відновлення працює."
+
+      - name: Report
+        if: always() && steps.cfg.outputs.configured == 'true' && env.OFFSITE_SECRET != ''
+        env:
+          JOB_OK: ${{ job.status == 'success' }}
+        run: |
+          OK=$([ "$JOB_OK" = "true" ] && echo true || echo false)
+          C="${COUNTS:-}"; [ -n "$C" ] || C='{}'
+          curl -fsS -m 30 -X POST "$SUPABASE_URL/functions/v1/backup" -H 'Content-Type: application/json' -H "x-offsite-secret: $OFFSITE_SECRET" \
+            -d "{\"kind\":\"restore\",\"ok\":$OK,\"file\":\"db/${LATEST:-}\",\"counts\":$C}" >/dev/null || echo "::warning::звіт не надіслано"

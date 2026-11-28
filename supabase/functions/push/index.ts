@@ -5,6 +5,7 @@
 // Ручних секретів не потрібно (міграція 0014): ключі VAPID функція створює сама й зберігає в public.app_keys
 // (RLS без політик — лише service role); секрет x-cron-secret — у Vault, читається через push_cron_secret().
 // Публічний ключ клієнт отримує запитом { action: 'vapid' } (без входу). Env VAPID_* / CRON_SECRET — лише як перевизначення.
+import { lastInternal, readOffsite, staleOffsite } from '../_shared/backup.ts';
 import { createClient, type SupabaseClient } from 'npm:@supabase/supabase-js@2.118.0';
 import { buildMessage, isDue, safeEqual, streakFrom, type Kinds, type Message } from './logic.ts';
 import { b64uDecode, b64uEncode, sendPush, type PushKeys, type Vapid } from './webpush.ts';
@@ -103,6 +104,13 @@ async function monitor(db: SupabaseClient, secret: string, vapid: Vapid) {
   const good = scored.filter(v => !v.excluded);
   if (!scored.length || !good.length) bad.push(['quality', { error: scored.length ? 'усі моделі нижче порогу якості' : 'автотест якості не відповів' }]);
   console.info('quality', JSON.stringify(ev).slice(0, 400));
+  // резервні копії: остання в Supabase не старша за 2 дні; поза Supabase (якщо налаштовано) — staleOffsite
+  try {
+    const last = await lastInternal(db);
+    if (!last || Date.now() - Date.parse(last) > 2 * 864e5) bad.push(['backup', { error: `остання копія в Supabase: ${last || 'немає'}` }]);
+    const stale = staleOffsite(await readOffsite(db));
+    if (stale.length) bad.push(['offsite', { error: `давно не було: ${stale.join(', ')}` }]);
+  } catch (e) { bad.push(['backup', { error: String((e as Error).message).slice(0, 100) }]); }
   console.info('monitor', bad.length ? bad.map(([k]) => k).join(',') : 'ok');
   if (!bad.length) return;
   const text = bad.map(([k, v]) => `${k}: ${String(v?.error || v || '').slice(0, 120)}`).join('; ');
@@ -111,7 +119,7 @@ async function monitor(db: SupabaseClient, secret: string, vapid: Vapid) {
   const ids = (users?.users || []).filter(u => admins.includes(u.id.toLowerCase()) || (u.email && admins.includes(u.email.toLowerCase()))).map(u => u.id);
   if (ids[0]) await db.from('client_errors').insert({ user_id: ids[0], build: 'monitor', route: 'monitor', message: `Автомонітор: ${text}`.slice(0, 1000), ua: 'pg_cron' });
   const { data: subs } = ids.length ? await db.from('push_subscriptions').select('endpoint, keys').in('user_id', ids).eq('enabled', true) : { data: [] };
-  for (const s of subs || []) await sendPush({ endpoint: s.endpoint, keys: s.keys }, { title: 'myEnglish: збій AI', body: text.slice(0, 180), url: '#/admin', tag: 'myenglish-monitor' }, vapid).catch(() => {});
+  for (const s of subs || []) await sendPush({ endpoint: s.endpoint, keys: s.keys }, { title: 'myEnglish: автомонітор', body: text.slice(0, 180), url: '#/admin', tag: 'myenglish-monitor' }, vapid).catch(() => {});
 }
 
 
@@ -341,6 +349,14 @@ Deno.serve(async (req) => {
 
   let vapid: Vapid;
   try { vapid = await loadVapid(db); } catch (e) { console.error('vapid', (e as Error).message); return json({ error: 'vapid_not_configured' }, 500); }
+  // тривога адміністраторам (функція backup: збій резервної копії)
+  if ((body as { action?: string })?.action === 'admin_alert') {
+    const b = body as { title?: string; text?: string };
+    const { data: admins } = await db.from('app_admins').select('user_id');
+    let sent = 0;
+    for (const a of admins || []) sent += await sendToUser(db, a.user_id, { title: String(b.title || 'myEnglish').slice(0, 60), body: String(b.text || '').slice(0, 180), url: '#/admin', tag: 'myenglish-admin-alert' }, vapid, { urgency: 'high', ttl: 86400 });
+    return json({ sent });
+  }
   // запит у друзі (тригер friend_requests_notify, міграція 0030): новий — тому, кому надіслали; прийнято — тому, хто надсилав
   if ((body as { action?: string })?.action === 'friend') {
     const b = body as { from?: string; to?: string; status?: string };

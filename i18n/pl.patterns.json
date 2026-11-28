@@ -3454,5 +3454,9 @@
  [
   "^Ціни — попередні \\(docs/gemini-cost\\.md\\)\\. Учнів з AI за 30 днів: (.+?), голосу: (.+?) хв\\.$",
   "Ceny wstępne (docs/gemini-cost.md). Uczniów z AI w 30 dni: $1, głos: $2 min."
+ ],
+ [
+  "^(.+?) КБ$",
+  "$1 KB"
  ]
 ]
