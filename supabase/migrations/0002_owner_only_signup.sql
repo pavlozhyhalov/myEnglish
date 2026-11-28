@@ -7,7 +7,7 @@ security definer
 set search_path = ''
 as $$
 begin
-  if lower(coalesce(new.email, '')) <> 'pavlozhyhalov@gmail.com' then
+  if lower(coalesce(new.email, '')) <> 'owner@example.invalid'  -- (адресу прибрано з репозиторію; функцію замінено міграцією 0009) then
     raise exception 'Signups are disabled for this app';
   end if;
   new.email_confirmed_at := coalesce(new.email_confirmed_at, now());

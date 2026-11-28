@@ -781,7 +781,7 @@ ${inUiLang(`TASK: Analyse the finished ${voiceS ? 'VOICE session (transcribed sp
 - focus_review: ${focus ? `the session focus was: ${focus.text}. One or two sentences in Ukrainian: did the student practise it and how well (with a concrete example from the transcript)? Empty string if the session was too short to judge.` : 'empty string.'}
 - practised_words: which of these words the student is learning were used correctly BY THE STUDENT in the session (copy them exactly from this list): ${st.words.join(', ') || '(none)'}. Usually only a few or none.
 - memory: ${memoryRule(st, 5)}
-- topic: what the conversation was mainly about, in English, 2–6 words (e.g. "Street food in Kraków", "Weekend plans"); topic_tags: 1–3 matching categories from the list; opened_with_memory: true only if the tutor's FIRST message followed up on something remembered from the student's life.
+- topic: what the conversation was mainly about, in English, 2–6 words (e.g. "Street food in Lisbon", "Weekend plans"); topic_tags: 1–3 matching categories from the list; opened_with_memory: true only if the tutor's FIRST message followed up on something remembered from the student's life.
 ${summaryExtra(stM, speech)}${isA0(st.level) ? `
 ABSOLUTE BEGINNER (A0) — overrides the rules above where they conflict:
 - summary, next_focus, focus_review, explanation_uk and every note: short, very simple Ukrainian, no grammar terms beyond the name of a structure; warm, name what they can already say.

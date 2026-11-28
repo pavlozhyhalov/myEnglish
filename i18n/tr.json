@@ -3743,7 +3743,6 @@
  "Щодня о": "Her gün saat",
  "Клас⁠": "Beğen",
  "треба": "hedef",
- "Застосунок myEnglish розробляє й підтримує Pavlo, приватний розробник із Польщі, — він є адміністратором (контролером) персональних даних. Зв'язатися: pavlozhyhalov@gmail.com або «Написати розробнику» в меню «Я» застосунку.": "myEnglish'i Polonya'daki bağımsız geliştirici Pavlo geliştirir ve sürdürür; kişisel verilerin sorumlusu odur. İletişim: pavlozhyhalov@gmail.com veya uygulamadaki «Ben» menüsünde «Geliştiriciye yaz».",
  "Поки існує ваш акаунт. Видалений акаунт стирається одразу разом з усіма даними й файлами. Зашифровані резервні копії бази даних (на випадок збою) зберігаються до 35 днів і потім стираються. Журнал помилок — до 90 днів.": "Hesabınız var olduğu sürece. Silinen hesap tüm verileri ve dosyalarıyla birlikte hemen silinir. Veritabanının şifreli yedekleri (arıza durumu için) en fazla 35 gün saklanır, sonra silinir. Hata kaydı en fazla 90 gün.",
  "Зробити копію зараз": "Şimdi yedekle",
  "Ключ розшифрування — збережіть у менеджері паролів": "Şifre çözme anahtarı — parola yöneticinize kaydedin",
@@ -3758,5 +3757,6 @@
  "Собівартість AI": "Yapay zekâ maliyeti",
  "на учня за місяць": "öğrenci başına aylık",
  "усього за платним тарифом": "ücretli tarifeyle toplam",
- "≈ за місяць": "≈ aylık"
+ "≈ за місяць": "≈ aylık",
+ "Адміністратор (контролер) персональних даних — розробник застосунку myEnglish. Зв'язатися: «Написати розробнику» в меню «Я» застосунку або сторінка підтримки.": "Kişisel verilerin sorumlusu myEnglish uygulamasının geliştiricisidir. İletişim: uygulamadaki «Ben» menüsünde «Geliştiriciye yaz» veya destek sayfası."
 }

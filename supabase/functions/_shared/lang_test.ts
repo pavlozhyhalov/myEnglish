@@ -36,7 +36,7 @@ Deno.test('region: city from profile wins; ru = Ukraine, never Russia', () => {
   const ru = regionRule({ uiLang: 'ru' });
   assert(ru.includes('Ukraine') && ru.includes('never Russia') && ru.includes('never politics or war'));
   assert(regionRule({ uiLang: 'tr' }).includes('Turkey'));
-  assert(regionRule({ uiLang: 'pl', about: { location: 'Kraków' } }).includes('Kraków'));
+  assert(regionRule({ uiLang: 'pl', about: { location: 'Gdańsk' } }).includes('Gdańsk'));
 });
 
 Deno.test('isUiText: script / not English', () => {

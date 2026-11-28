@@ -64,9 +64,9 @@ Deno.test('calibrateLevel: long connected turns cannot be A1; far below usual le
 });
 
 Deno.test('recognitionContext: tutor line + profile/memory names, nothing when empty', () => {
-  const st: any = { about: { location: 'Kraków', occupation: 'engineer', interests: 'cycling, PlayStation games', otherLangs: '' }, memory: ['Went skiing in Zakopane in Jan 2026', 'Plays Warships Legends'], words: ['commute'] };
+  const st: any = { about: { location: 'Gdańsk', occupation: 'teacher', interests: 'tennis, board games', otherLangs: '' }, memory: ['Went hiking in Snowdonia in Jan 2026', 'Plays Star Fleet'], words: ['commute'] };
   const c = recognitionContext(st, 'Did you get sick on Saturday or Sunday?');
-  assert(c.includes('the tutor just said') && c.includes('Zakopane') && c.includes('Warships Legends') && c.includes('Kraków') && !c.includes('Went') && !c.includes('Jan,'));
+  assert(c.includes('the tutor just said') && c.includes('Snowdonia') && c.includes('Star Fleet') && c.includes('Gdańsk') && !c.includes('Went') && !c.includes('Jan,'));
   assertEquals(recognitionContext({ about: {} as any, memory: [], words: [] } as any, ''), '');
 });
 
@@ -87,7 +87,7 @@ Deno.test('explain game: normalisation, judging, saying the word is a foul', () 
 
 Deno.test('voice check: підстановка власної назви — не помилка учня', () => {
   const r = cleanVoiceCheck({ text: 'I want to work you in your company. Your company half alloy is the most', fixes: [
-    { wrong: 'half alloy', right: 'Alugier', why_uk: 'Помилка в назві компанії', rule: 'other' },
+    { wrong: 'half alloy', right: 'Brandex', why_uk: 'Помилка в назві компанії', rule: 'other' },
     { wrong: 'work you in your', right: 'work for your', why_uk: 'Прийменник', rule: 'prep-dependent' }] });
   assertEquals(r.fixes.map(f => f.right), ['work for your']);
 });
