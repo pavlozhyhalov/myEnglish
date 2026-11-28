@@ -3744,5 +3744,13 @@
  "Клас⁠": "Clase",
  "треба": "objetivo",
  "Застосунок myEnglish розробляє й підтримує Pavlo, приватний розробник із Польщі, — він є адміністратором (контролером) персональних даних. Зв'язатися: pavlozhyhalov@gmail.com або «Написати розробнику» в меню «Я» застосунку.": "myEnglish lo desarrolla y mantiene Pavlo, desarrollador particular en Polonia, que es el responsable del tratamiento de los datos personales. Contacto: pavlozhyhalov@gmail.com o «Escribir al desarrollador» en el menú «Yo» de la app.",
- "Поки існує ваш акаунт. Видалений акаунт стирається одразу разом з усіма даними й файлами. Зашифровані резервні копії бази даних (на випадок збою) зберігаються до 35 днів і потім стираються. Журнал помилок — до 90 днів.": "Mientras exista tu cuenta. Una cuenta eliminada se borra de inmediato con todos sus datos y archivos. Las copias de seguridad cifradas de la base de datos (por si hay un fallo) se guardan hasta 35 días y después se borran. El registro de errores, hasta 90 días."
+ "Поки існує ваш акаунт. Видалений акаунт стирається одразу разом з усіма даними й файлами. Зашифровані резервні копії бази даних (на випадок збою) зберігаються до 35 днів і потім стираються. Журнал помилок — до 90 днів.": "Mientras exista tu cuenta. Una cuenta eliminada se borra de inmediato con todos sus datos y archivos. Las copias de seguridad cifradas de la base de datos (por si hay un fallo) se guardan hasta 35 días y después se borran. El registro de errores, hasta 90 días.",
+ "Зробити копію зараз": "Hacer copia ahora",
+ "Ключ розшифрування — збережіть у менеджері паролів": "Clave de descifrado: guárdala en tu gestor de contraseñas",
+ "Копій ще немає — перша з'явиться вночі.": "Aún no hay copias: la primera aparecerá esta noche.",
+ "Показати копії": "Mostrar copias",
+ "Резервні копії": "Copias de seguridad",
+ "Тижнева · 28 днів": "Semanal · 28 días",
+ "Щоденна · 7 днів": "Diaria · 7 días",
+ "Щоночі автоматично; файл зашифровано. Раз на місяць завантажуйте копію собі (диск або Google Drive). Відновлення — docs/backup.md.": "Automática cada noche; el archivo está cifrado. Una vez al mes, descarga una copia para ti (disco o Google Drive). Restaurar: docs/backup.md."
 }

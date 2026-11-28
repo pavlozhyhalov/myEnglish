@@ -3745,5 +3745,13 @@
  "Клас⁠": "Klasa",
  "треба": "cel",
  "Застосунок myEnglish розробляє й підтримує Pavlo, приватний розробник із Польщі, — він є адміністратором (контролером) персональних даних. Зв'язатися: pavlozhyhalov@gmail.com або «Написати розробнику» в меню «Я» застосунку.": "myEnglish tworzy i utrzymuje Pavlo, prywatny deweloper z Polski, który jest administratorem danych osobowych. Kontakt: pavlozhyhalov@gmail.com lub «Napisz do dewelopera» w menu «Ja» aplikacji.",
- "Поки існує ваш акаунт. Видалений акаунт стирається одразу разом з усіма даними й файлами. Зашифровані резервні копії бази даних (на випадок збою) зберігаються до 35 днів і потім стираються. Журнал помилок — до 90 днів.": "Dopóki istnieje Twoje konto. Usunięte konto jest kasowane od razu wraz ze wszystkimi danymi i plikami. Zaszyfrowane kopie zapasowe bazy danych (na wypadek awarii) są przechowywane do 35 dni, a potem kasowane. Dziennik błędów — do 90 dni."
+ "Поки існує ваш акаунт. Видалений акаунт стирається одразу разом з усіма даними й файлами. Зашифровані резервні копії бази даних (на випадок збою) зберігаються до 35 днів і потім стираються. Журнал помилок — до 90 днів.": "Dopóki istnieje Twoje konto. Usunięte konto jest kasowane od razu wraz ze wszystkimi danymi i plikami. Zaszyfrowane kopie zapasowe bazy danych (na wypadek awarii) są przechowywane do 35 dni, a potem kasowane. Dziennik błędów — do 90 dni.",
+ "Зробити копію зараз": "Zrób kopię teraz",
+ "Ключ розшифрування — збережіть у менеджері паролів": "Klucz odszyfrowania — zapisz go w menedżerze haseł",
+ "Копій ще немає — перша з'явиться вночі.": "Nie ma jeszcze kopii — pierwsza pojawi się w nocy.",
+ "Показати копії": "Pokaż kopie",
+ "Резервні копії": "Kopie zapasowe",
+ "Тижнева · 28 днів": "Tygodniowa · 28 dni",
+ "Щоденна · 7 днів": "Dzienna · 7 dni",
+ "Щоночі автоматично; файл зашифровано. Раз на місяць завантажуйте копію собі (диск або Google Drive). Відновлення — docs/backup.md.": "Automatycznie co noc; plik jest zaszyfrowany. Raz w miesiącu pobierz kopię dla siebie (dysk lub Google Drive). Przywracanie — docs/backup.md."
 }

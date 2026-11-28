@@ -990,6 +990,11 @@
   "file": "js/pages/admin.js"
  },
  {
+  "re": "^Копію зроблено · (.+?) КБ$",
+  "src": "Копію зроблено · ${Math.round(bk.made.bytes / 1024)} КБ",
+  "file": "js/pages/admin.js"
+ },
+ {
   "re": "^Оновлено (.+?)$",
   "src": "Оновлено ${dtShort(s.generated_at)}",
   "file": "js/pages/admin.js"

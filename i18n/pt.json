@@ -3745,5 +3745,13 @@
  "Клас⁠": "Joia",
  "треба": "meta",
  "Застосунок myEnglish розробляє й підтримує Pavlo, приватний розробник із Польщі, — він є адміністратором (контролером) персональних даних. Зв'язатися: pavlozhyhalov@gmail.com або «Написати розробнику» в меню «Я» застосунку.": "O myEnglish é desenvolvido e mantido por Pavlo, desenvolvedor particular na Polônia, que é o controlador dos dados pessoais. Contato: pavlozhyhalov@gmail.com ou «Escrever ao desenvolvedor» no menu «Eu» do app.",
- "Поки існує ваш акаунт. Видалений акаунт стирається одразу разом з усіма даними й файлами. Зашифровані резервні копії бази даних (на випадок збою) зберігаються до 35 днів і потім стираються. Журнал помилок — до 90 днів.": "Enquanto sua conta existir. Uma conta excluída é apagada na hora com todos os dados e arquivos. Os backups criptografados do banco de dados (para casos de falha) ficam guardados por até 35 dias e depois são apagados. O registro de erros, por até 90 dias."
+ "Поки існує ваш акаунт. Видалений акаунт стирається одразу разом з усіма даними й файлами. Зашифровані резервні копії бази даних (на випадок збою) зберігаються до 35 днів і потім стираються. Журнал помилок — до 90 днів.": "Enquanto sua conta existir. Uma conta excluída é apagada na hora com todos os dados e arquivos. Os backups criptografados do banco de dados (para casos de falha) ficam guardados por até 35 dias e depois são apagados. O registro de erros, por até 90 dias.",
+ "Зробити копію зараз": "Fazer backup agora",
+ "Ключ розшифрування — збережіть у менеджері паролів": "Chave de descriptografia — guarde no seu gerenciador de senhas",
+ "Копій ще немає — перша з'явиться вночі.": "Ainda não há backups — o primeiro aparece esta noite.",
+ "Показати копії": "Mostrar backups",
+ "Резервні копії": "Backups",
+ "Тижнева · 28 днів": "Semanal · 28 dias",
+ "Щоденна · 7 днів": "Diário · 7 dias",
+ "Щоночі автоматично; файл зашифровано. Раз на місяць завантажуйте копію собі (диск або Google Drive). Відновлення — docs/backup.md.": "Automático toda noite; o arquivo é criptografado. Uma vez por mês, baixe uma cópia para você (disco ou Google Drive). Restauração — docs/backup.md."
 }

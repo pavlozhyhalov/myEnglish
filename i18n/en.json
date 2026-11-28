@@ -3743,5 +3743,13 @@
  "Клас⁠": "Class",
  "треба": "target",
  "Застосунок myEnglish розробляє й підтримує Pavlo, приватний розробник із Польщі, — він є адміністратором (контролером) персональних даних. Зв'язатися: pavlozhyhalov@gmail.com або «Написати розробнику» в меню «Я» застосунку.": "myEnglish is developed and maintained by Pavlo, a private developer in Poland, who is the controller of your personal data. Contact: pavlozhyhalov@gmail.com or “Write to the developer” in the “Me” menu of the app.",
- "Поки існує ваш акаунт. Видалений акаунт стирається одразу разом з усіма даними й файлами. Зашифровані резервні копії бази даних (на випадок збою) зберігаються до 35 днів і потім стираються. Журнал помилок — до 90 днів.": "As long as your account exists. A deleted account is erased at once with all its data and files. Encrypted database backups (in case of failure) are kept for up to 35 days and then erased. The error log is kept for up to 90 days."
+ "Поки існує ваш акаунт. Видалений акаунт стирається одразу разом з усіма даними й файлами. Зашифровані резервні копії бази даних (на випадок збою) зберігаються до 35 днів і потім стираються. Журнал помилок — до 90 днів.": "As long as your account exists. A deleted account is erased at once with all its data and files. Encrypted database backups (in case of failure) are kept for up to 35 days and then erased. The error log is kept for up to 90 days.",
+ "Зробити копію зараз": "Back up now",
+ "Ключ розшифрування — збережіть у менеджері паролів": "Decryption key — save it in your password manager",
+ "Копій ще немає — перша з'явиться вночі.": "No backups yet — the first one will appear tonight.",
+ "Показати копії": "Show backups",
+ "Резервні копії": "Backups",
+ "Тижнева · 28 днів": "Weekly · 28 days",
+ "Щоденна · 7 днів": "Daily · 7 days",
+ "Щоночі автоматично; файл зашифровано. Раз на місяць завантажуйте копію собі (диск або Google Drive). Відновлення — docs/backup.md.": "Automatic every night; the file is encrypted. Once a month, download a copy for yourself (disk or Google Drive). Restore — docs/backup.md."
 }
