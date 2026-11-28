@@ -227,7 +227,6 @@
  "Без входу — вправи з самих помилок.": "Without signing in — exercises made only from your mistakes.",
  "Без жодної помилки": "Not a single mistake",
  "Без жодної помилки!": "Not a single mistake!",
- "Без мережі чи після денного ліміту — голос браузера": "Offline or after the daily limit — browser voice",
  "Без помилок": "No mistakes",
  "Без помилок — новий рекорд!": "No mistakes — a new record!",
  "Без помилок — чудово!": "No mistakes — great!",
@@ -475,7 +474,6 @@
  "Вчитель сьогодні вже багато говорив — завтра продовжить": "The tutor has talked a lot today — they'll continue tomorrow",
  "Вчитель це забув": "The tutor has forgotten this",
  "Вчитель читає…": "The tutor is reading…",
- "Вчитель, перевірка відповідей, переклади, оцінка рівня й голоси озвучення створюються штучним інтелектом. Вони можуть помилятися — це навчальна допомога, а не професійна, медична чи юридична порада. Кількість запитів до AI на день обмежена.": "The tutor, answer checks, translations, level estimates and speech voices are created by artificial intelligence. They can make mistakes — this is learning help, not professional, medical or legal advice. The number of AI requests per day is limited.",
  "Вчитель, перевірка й оцінка — Google Gemini; голоси озвучення — синтетичні (Gemini, Kokoro)": "Tutor, checks and estimates — Google Gemini; speech voices are synthetic (Gemini, Kokoro)",
  "Вчитель:": "Tutor:",
  "Вчити першим": "Learn first",
@@ -610,7 +608,6 @@
  "Де учень зараз за шкалою CEFR і як він говорить": "Where the learner is now on the CEFR scale and how they speak",
  "Денна мета": "Daily goal",
  "Денна мета, хвилин": "Daily goal, minutes",
- "Денний ліміт AI вичерпано. Завтра знову буде доступно.": "The daily AI limit has been reached. It will be available again tomorrow.",
  "День": "Day",
  "День (12–17)": "Afternoon (12–17)",
  "День виконано · ще план дня": "Day done · more from today's plan",
@@ -3758,7 +3755,10 @@
  "усього за платним тарифом": "total at paid rates",
  "≈ за місяць": "≈ per month",
  "Адміністратор (контролер) персональних даних — розробник застосунку myEnglish. Зв'язатися: «Написати розробнику» в меню «Я» застосунку або сторінка підтримки.": "The controller of personal data is the developer of the myEnglish app. Contact: “Write to the developer” in the “Me” menu of the app, or the support page.",
- "Ліміти AI": "AI limits",
- "AI-вчитель допомагає лише вивчати англійську: він не пише код, тексти чи документи за вас і не розв'язує завдань з інших предметів. Кількість запитів до AI обмежена на день і на місяць; понад ліміт картки, уроки й ігри працюють і без AI.": "The AI tutor only helps you learn English: it does not write code, texts or documents for you and does not solve tasks from other subjects. AI requests are limited per day and per month; above the limit, cards, lessons and games still work without AI.",
- "Місячний ліміт AI вичерпано. З 1-го числа знову буде доступно, а картки, уроки й ігри працюють і без AI.": "The monthly AI limit has been reached. It will be available again from the 1st; cards, lessons and games work without AI."
+ "AI-вчитель на сьогодні відпочиває. Завтра знову буде доступний, а картки, уроки й ігри працюють і без нього.": "The AI tutor is resting for today. It will be back tomorrow; cards, lessons and games work without it.",
+ "AI-вчитель тимчасово недоступний. Картки, уроки й ігри працюють і без нього.": "The AI tutor is temporarily unavailable. Cards, lessons and games work without it.",
+ "Без мережі чи коли Gemini недоступний — голос браузера": "Offline or when Gemini is unavailable — browser voice",
+ "Лише англійська": "English only",
+ "AI-вчитель допомагає лише вивчати англійську: він не пише код, тексти чи документи за вас і не розв'язує завдань з інших предметів.": "The AI tutor only helps you learn English: it does not write code, texts or documents for you and does not solve tasks from other subjects.",
+ "Вчитель, перевірка відповідей, переклади, оцінка рівня й голоси озвучення створюються штучним інтелектом. Вони можуть помилятися — це навчальна допомога, а не професійна, медична чи юридична порада.": "The tutor, answer checks, translations, level estimates and speech voices are created by artificial intelligence. They can make mistakes — this is learning help, not professional, medical or legal advice."
 }

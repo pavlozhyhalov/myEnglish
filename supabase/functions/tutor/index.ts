@@ -3,7 +3,7 @@
 // щоденник, вправи на власні помилки, тижнева порада.
 import { handler, json, HttpError, cors } from '../_shared/http.ts';
 import { offTopic, scopeGuard } from '../_shared/scope.ts';
-import { authenticate, charge, chargeStrong, usage, isAdmin } from '../_shared/auth.ts';
+import { authenticate, charge, chargeStrong, usage, isAdmin, monthUsage } from '../_shared/auth.ts';
 import { generate, generateJson, streamText, tts, createLiveToken, useCooldownStore, coolDown, isCooled, type Content, type GenOpts } from '../_shared/gemini.ts';
 import { createClient, type SupabaseClient } from 'npm:@supabase/supabase-js@2.118.0';
 import { RULE_IDS, RULES_PROMPT } from '../_shared/rules.ts';
@@ -619,8 +619,10 @@ Deno.serve(handler(async (req) => {
     // клієнт звітує тривалість голосової сесії
     const sec = Math.max(0, Math.min(3600, Math.round(Number(p.voice_seconds) || 0)));
     if (sec) await ctx.admin.rpc('bump_ai_usage', { p_user: ctx.user.id, p_text: 0, p_voice: sec, p_tts: 0 });
+    // цифри лімітів — лише адміністраторам (власник 2026-11-28: «ліміти тільки мені видно»)
+    if (!isAdmin(ctx.user)) return json({ ok: true });
     const u = await usage(ctx);
-    return json({ ...u, limits: LIMITS });
+    return json({ ...u, limits: LIMITS, month: await monthUsage(ctx) });
   }
 
   // домашнє від вчителя в групі (на запит учасника; не частіше ніж раз на 3 дні на групу — інакше повертається наявне)

@@ -170,7 +170,6 @@
  "Без входу — вправи з самих помилок.": "Giriş yapmadan — yalnızca hatalardan alıştırmalar.",
  "Без жодної помилки": "Hiç hata yok",
  "Без жодної помилки!": "Hiç hata yok!",
- "Без мережі чи після денного ліміту — голос браузера": "İnternet yokken ya da günlük sınırdan sonra — tarayıcı sesi",
  "Без помилок": "Hatasız",
  "Без помилок — новий рекорд!": "Hatasız — yeni rekor!",
  "Без помилок — чудово!": "Hatasız — harika!",
@@ -474,7 +473,6 @@
  "Де учень зараз за шкалою CEFR і як він говорить": "Öğrenci CEFR ölçeğinde şu an nerede ve nasıl konuşuyor",
  "Денна мета": "Günlük hedef",
  "Денна мета, хвилин": "Günlük hedef, dakika",
- "Денний ліміт AI вичерпано. Завтра знову буде доступно.": "Günlük AI sınırı doldu. Yarın yeniden kullanılabilir.",
  "День": "Gün",
  "День (12–17)": "Öğleden sonra (12–17)",
  "День виконано · ще план дня": "Gün tamamlandı · günün planı devam ediyor",
@@ -3658,7 +3656,6 @@
  "Видалити назавжди": "Kalıcı olarak sil",
  "Видаляємо…": "Siliniyor…",
  "Виконання договору (надання застосунку, яким ви користуєтеся) — ст. 6(1)(b) GDPR; ваша згода — для передачі даних AI-сервісу та голосових записів, її можна відкликати будь-коли — ст. 6(1)(a); законний інтерес — безпека й виправлення помилок — ст. 6(1)(f).": "Sözleşmenin ifası (kullandığınız uygulamanın sağlanması) — GDPR md. 6(1)(b); onayınız — verilerin AI hizmetine aktarılması ve ses kayıtları için, istediğiniz zaman geri alınabilir — md. 6(1)(a); meşru menfaat — güvenlik ve hataların giderilmesi — md. 6(1)(f).",
- "Вчитель, перевірка відповідей, переклади, оцінка рівня й голоси озвучення створюються штучним інтелектом. Вони можуть помилятися — це навчальна допомога, а не професійна, медична чи юридична порада. Кількість запитів до AI на день обмежена.": "Öğretmen, cevap kontrolü, çeviriler, seviye değerlendirmesi ve seslendirme sesleri yapay zekâ tarafından üretilir. Hata yapabilirler — bu bir öğrenme yardımıdır; profesyonel, tıbbi veya hukuki tavsiye değildir. Günlük AI istek sayısı sınırlıdır.",
  "Вчитель, перевірка й оцінка — Google Gemini; голоси озвучення — синтетичні (Gemini, Kokoro)": "Öğretmen, kontrol ve değerlendirme — Google Gemini; seslendirme sesleri — sentetik (Gemini, Kokoro)",
  "Відкликати згоду можна будь-коли в «Налаштуваннях». Без згоди картки, граматика, читання й ігри працюють як завжди.": "Onayınızı “Ayarlar”dan istediğiniz zaman geri alabilirsiniz. Onay olmadan kartlar, dilbilgisi, okuma ve oyunlar her zamanki gibi çalışır.",
  "Відповідальність": "Sorumluluk",
@@ -3759,7 +3756,10 @@
  "усього за платним тарифом": "ücretli tarifeyle toplam",
  "≈ за місяць": "≈ aylık",
  "Адміністратор (контролер) персональних даних — розробник застосунку myEnglish. Зв'язатися: «Написати розробнику» в меню «Я» застосунку або сторінка підтримки.": "Kişisel verilerin sorumlusu myEnglish uygulamasının geliştiricisidir. İletişim: uygulamadaki «Ben» menüsünde «Geliştiriciye yaz» veya destek sayfası.",
- "Ліміти AI": "Yapay zekâ sınırları",
- "AI-вчитель допомагає лише вивчати англійську: він не пише код, тексти чи документи за вас і не розв'язує завдань з інших предметів. Кількість запитів до AI обмежена на день і на місяць; понад ліміт картки, уроки й ігри працюють і без AI.": "Yapay zekâ öğretmeni yalnızca İngilizce öğrenmenize yardım eder: sizin yerinize kod, metin veya belge yazmaz ve başka derslerin ödevlerini çözmez. Yapay zekâ istekleri günlük ve aylık olarak sınırlıdır; sınır aşıldığında kartlar, dersler ve oyunlar yapay zekâ olmadan da çalışır.",
- "Місячний ліміт AI вичерпано. З 1-го числа знову буде доступно, а картки, уроки й ігри працюють і без AI.": "Aylık yapay zekâ sınırına ulaşıldı. Ayın 1'inden itibaren yeniden kullanılabilir; kartlar, dersler ve oyunlar yapay zekâ olmadan da çalışır."
+ "AI-вчитель на сьогодні відпочиває. Завтра знову буде доступний, а картки, уроки й ігри працюють і без нього.": "Yapay zekâ öğretmeni bugünlük dinleniyor. Yarın yeniden hazır olacak; kartlar, dersler ve oyunlar onsuz da çalışır.",
+ "AI-вчитель тимчасово недоступний. Картки, уроки й ігри працюють і без нього.": "Yapay zekâ öğretmeni geçici olarak kullanılamıyor. Kartlar, dersler ve oyunlar onsuz da çalışır.",
+ "Без мережі чи коли Gemini недоступний — голос браузера": "Çevrimdışıyken veya Gemini kullanılamadığında — tarayıcı sesi",
+ "Лише англійська": "Yalnızca İngilizce",
+ "AI-вчитель допомагає лише вивчати англійську: він не пише код, тексти чи документи за вас і не розв'язує завдань з інших предметів.": "Yapay zekâ öğretmeni yalnızca İngilizce öğrenmenize yardım eder: sizin yerinize kod, metin veya belge yazmaz ve başka derslerin ödevlerini çözmez.",
+ "Вчитель, перевірка відповідей, переклади, оцінка рівня й голоси озвучення створюються штучним інтелектом. Вони можуть помилятися — це навчальна допомога, а не професійна, медична чи юридична порада.": "Öğretmen, cevap kontrolü, çeviriler, seviye değerlendirmesi ve seslendirme sesleri yapay zekâ tarafından üretilir. Hata yapabilirler — bu bir öğrenme yardımıdır; profesyonel, tıbbi veya hukuki tavsiye değildir."
 }

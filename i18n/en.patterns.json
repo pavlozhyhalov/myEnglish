@@ -640,8 +640,8 @@
   "There are no tasks for level $1 here yet. Showing the nearest level, $2."
  ],
  [
-  "^token ok · model (.+?) · voice (.+?) · pause (.+?) ms · (.+?) хв ліміту$",
-  "token ok · model $1 · voice $2 · pause $3 ms · $4 min limit"
+  "^token ok · model (.+?) · voice (.+?) · pause (.+?) ms(.*)$",
+  "token ok · model $1 · voice $2 · pause $3 ms$4"
  ],
  [
   "^Місія: (.+?)$",

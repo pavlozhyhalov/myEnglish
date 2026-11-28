@@ -1,7 +1,7 @@
 // Edge Function `live-token`: ефемерний токен Gemini Live.
 // Модель, модальність, системний промпт, голос і транскрипція заблоковані в токені.
 import { handler, json, HttpError } from '../_shared/http.ts';
-import { authenticate, usage, charge } from '../_shared/auth.ts';
+import { authenticate, usage, charge, isAdmin } from '../_shared/auth.ts';
 import { createLiveToken } from '../_shared/gemini.ts';
 import { LIVE_MODELS, LIVE_VOICES, LIMITS } from '../_shared/config.ts';
 import { loadStudent, modePrompt, type Scenario } from '../_shared/prompts.ts';
@@ -68,5 +68,5 @@ Deno.serve(handler(async (req) => {
     basic = true;
     tok = await createLiveToken(setup, { uses: 20, minutes });
   }
-  return json({ ...tok, model, voice, pauseMs: basic ? 0 : st.voicePauseMs, voiceSecondsLeft: left, hasMoreModels: idx < LIVE_MODELS.length - 1 });
+  return json({ ...tok, model, voice, pauseMs: basic ? 0 : st.voicePauseMs, ...(isAdmin(ctx.user) ? { voiceSecondsLeft: left } : {}), hasMoreModels: idx < LIVE_MODELS.length - 1 });
 }));

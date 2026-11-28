@@ -184,8 +184,8 @@
   "En estudio: {$1|palabra|palabras}; bien sabidas (intervalo ≥ 21 días): $2."
  ],
  [
-  "^token ok · model (.+?) · voice (.+?) · pause (.+?) ms · (.+?) хв ліміту$",
-  "token ok · model $1 · voice $2 · pause $3 ms · $4 min de límite"
+  "^token ok · model (.+?) · voice (.+?) · pause (.+?) ms(.*)$",
+  "token ok · model $1 · voice $2 · pause $3 ms$4"
  ],
  [
   "^Спробуйте говорити всі (.+?) — навіть простими реченнями\\.$",

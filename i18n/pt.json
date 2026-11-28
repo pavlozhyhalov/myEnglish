@@ -170,7 +170,6 @@
  "Без входу — вправи з самих помилок.": "Sem entrar — exercícios só com os erros.",
  "Без жодної помилки": "Sem nenhum erro",
  "Без жодної помилки!": "Sem nenhum erro!",
- "Без мережі чи після денного ліміту — голос браузера": "Sem internet ou após o limite diário — voz do navegador",
  "Без помилок": "Sem erros",
  "Без помилок — новий рекорд!": "Sem erros — novo recorde!",
  "Без помилок — чудово!": "Sem erros — ótimo!",
@@ -474,7 +473,6 @@
  "Де учень зараз за шкалою CEFR і як він говорить": "Onde o aluno está na escala CEFR e como ele fala",
  "Денна мета": "Meta diária",
  "Денна мета, хвилин": "Meta diária, minutos",
- "Денний ліміт AI вичерпано. Завтра знову буде доступно.": "O limite diário de IA acabou. Amanhã volta a funcionar.",
  "День": "Dia",
  "День (12–17)": "Tarde (12–17)",
  "День виконано · ще план дня": "Dia concluído · mais plano do dia",
@@ -3659,7 +3657,6 @@
  "Видалити назавжди": "Excluir para sempre",
  "Видаляємо…": "Excluindo…",
  "Виконання договору (надання застосунку, яким ви користуєтеся) — ст. 6(1)(b) GDPR; ваша згода — для передачі даних AI-сервісу та голосових записів, її можна відкликати будь-коли — ст. 6(1)(a); законний інтерес — безпека й виправлення помилок — ст. 6(1)(f).": "Execução de contrato (fornecimento do aplicativo que você usa) — art. 6(1)(b) do GDPR; seu consentimento — para o envio de dados ao serviço de IA e para as gravações de voz, que pode ser retirado a qualquer momento — art. 6(1)(a); interesse legítimo — segurança e correção de erros — art. 6(1)(f).",
- "Вчитель, перевірка відповідей, переклади, оцінка рівня й голоси озвучення створюються штучним інтелектом. Вони можуть помилятися — це навчальна допомога, а не професійна, медична чи юридична порада. Кількість запитів до AI на день обмежена.": "O professor, a correção de respostas, as traduções, a avaliação de nível e as vozes de narração são gerados por inteligência artificial. Eles podem errar — é um apoio ao estudo, não um aconselhamento profissional, médico ou jurídico. O número de solicitações à IA por dia é limitado.",
  "Вчитель, перевірка й оцінка — Google Gemini; голоси озвучення — синтетичні (Gemini, Kokoro)": "Professor, correção e avaliação — Google Gemini; vozes de narração — sintéticas (Gemini, Kokoro)",
  "Відкликати згоду можна будь-коли в «Налаштуваннях». Без згоди картки, граматика, читання й ігри працюють як завжди.": "Você pode retirar o consentimento a qualquer momento em “Configurações”. Sem o consentimento, cartões, gramática, leitura e jogos funcionam normalmente.",
  "Відповідальність": "Responsabilidade",
@@ -3760,7 +3757,10 @@
  "усього за платним тарифом": "total na tarifa paga",
  "≈ за місяць": "≈ por mês",
  "Адміністратор (контролер) персональних даних — розробник застосунку myEnglish. Зв'язатися: «Написати розробнику» в меню «Я» застосунку або сторінка підтримки.": "O controlador dos dados pessoais é o desenvolvedor do aplicativo myEnglish. Contato: “Escrever ao desenvolvedor” no menu “Eu” do aplicativo ou a página de suporte.",
- "Ліміти AI": "Limites da IA",
- "AI-вчитель допомагає лише вивчати англійську: він не пише код, тексти чи документи за вас і не розв'язує завдань з інших предметів. Кількість запитів до AI обмежена на день і на місяць; понад ліміт картки, уроки й ігри працюють і без AI.": "O professor de IA só ajuda você a aprender inglês: ele não escreve código, textos ou documentos por você e não resolve tarefas de outras matérias. As solicitações à IA são limitadas por dia e por mês; acima do limite, os cartões, as lições e os jogos funcionam sem IA.",
- "Місячний ліміт AI вичерпано. З 1-го числа знову буде доступно, а картки, уроки й ігри працюють і без AI.": "O limite mensal de IA foi atingido. Voltará a ficar disponível no dia 1; cartões, lições e jogos funcionam sem IA."
+ "AI-вчитель на сьогодні відпочиває. Завтра знову буде доступний, а картки, уроки й ігри працюють і без нього.": "O professor de IA está descansando hoje. Volta amanhã; cartões, lições e jogos funcionam sem ele.",
+ "AI-вчитель тимчасово недоступний. Картки, уроки й ігри працюють і без нього.": "O professor de IA está temporariamente indisponível. Cartões, lições e jogos funcionam sem ele.",
+ "Без мережі чи коли Gemini недоступний — голос браузера": "Sem internet ou quando o Gemini está indisponível — voz do navegador",
+ "Лише англійська": "Só inglês",
+ "AI-вчитель допомагає лише вивчати англійську: він не пише код, тексти чи документи за вас і не розв'язує завдань з інших предметів.": "O professor de IA só ajuda você a aprender inglês: ele não escreve código, textos ou documentos por você e não resolve tarefas de outras matérias.",
+ "Вчитель, перевірка відповідей, переклади, оцінка рівня й голоси озвучення створюються штучним інтелектом. Вони можуть помилятися — це навчальна допомога, а не професійна, медична чи юридична порада.": "O professor, a correção de respostas, as traduções, a avaliação de nível e as vozes de narração são gerados por inteligência artificial. Eles podem errar — é um apoio ao estudo, não um aconselhamento profissional, médico ou jurídico."
 }
