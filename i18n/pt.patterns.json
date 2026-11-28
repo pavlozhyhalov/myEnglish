@@ -184,8 +184,8 @@
   "Em estudo: {$1|palavra|palavras}; memorizadas com firmeza (intervalo ≥ 21 dias) — $2."
  ],
  [
-  "^token ok · model (.+?) · voice (.+?) · pause (.+?) ms · (.+?) хв ліміту$",
-  "token ok · model $1 · voice $2 · pause $3 ms · $4 min de limite"
+  "^token ok · model (.+?) · voice (.+?) · pause (.+?) ms(.*)$",
+  "token ok · model $1 · voice $2 · pause $3 ms$4"
  ],
  [
   "^Спробуйте говорити всі (.+?) — навіть простими реченнями\\.$",

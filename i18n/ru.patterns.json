@@ -200,8 +200,8 @@
   "Заполнителей пауз (um, uh) больше: $1 → $2 на 100 слов."
  ],
  [
-  "^token ok · model (.+?) · voice (.+?) · pause (.+?) ms · (.+?) хв ліміту$",
-  "token ok · model $1 · voice $2 · pause $3 ms · $4 мин лимита"
+  "^token ok · model (.+?) · voice (.+?) · pause (.+?) ms(.*)$",
+  "token ok · model $1 · voice $2 · pause $3 ms$4"
  ],
  [
   "^Вільних місць: (.+?)\\. Людина приєднається одним дотиком\\.$",

@@ -800,11 +800,6 @@
   "file": "js/level.js"
  },
  {
-  "re": "^token ok · model (.+?) · voice (.+?) · pause (.+?) ms · (.+?) хв ліміту$",
-  "src": "token ok · model ${t.model} · voice ${t.voice} · pause ${t.pauseMs || 'auto'} ms · ${Math.round(t.voiceSecondsLeft / 60)} хв ліміту",
-  "file": "js/live/client.js"
- },
- {
   "re": "^Місія: (.+?)$",
   "src": "Місія: ${scenario.title}",
   "file": "js/live/voice.js"

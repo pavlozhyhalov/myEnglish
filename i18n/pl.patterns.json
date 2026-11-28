@@ -184,8 +184,8 @@
   "W nauce {$1|słowo|słowa|słów|słowa}, dobrze zapamiętane (interwał ≥ 21 dni) — $2."
  ],
  [
-  "^token ok · model (.+?) · voice (.+?) · pause (.+?) ms · (.+?) хв ліміту$",
-  "token ok · model $1 · voice $2 · pause $3 ms · $4 min limitu"
+  "^token ok · model (.+?) · voice (.+?) · pause (.+?) ms(.*)$",
+  "token ok · model $1 · voice $2 · pause $3 ms$4"
  ],
  [
   "^Спробуйте говорити всі (.+?) — навіть простими реченнями\\.$",

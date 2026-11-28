@@ -18,6 +18,7 @@ export default async function lab(view) {
     ['HTTPS', location.protocol === 'https:' || location.hostname === 'localhost'],
   ];
   const usageBox = h('span.tx-s', '…');
+  const limitsGroup = h('div', { hidden: true }, txGroup('Ліміти AI сьогодні', txRows([h('div.tx-row', h('span.tx-sq', ic('chart-pie-slice', { size: 18 })), h('span.tx-body', usageBox))])));
   const decision = store.prof().voiceDecision;
   view.replaceChildren(h('div.stack-lg',
     tx({ icon: 'microphone', wide: true, cls: 'lab-head', label: 'Діагностика голосу', sub: `Модель: ${MODELS.live} → ${MODELS.liveFallbacks.join(', ')} · збірка ${BUILD}` }),
@@ -26,7 +27,8 @@ export default async function lab(view) {
       voiceSession(view, { debug: true });
     } }),
     txGroup('Перевірка пристрою', txRows(checks.map(([t, ok]) => txRow({ icon: ok ? 'check-circle' : 'x-circle', label: t, pill: { text: ok ? 'так' : 'ні', tone: ok ? 'good' : 'bad' } })))),
-    txGroup('Ліміти AI сьогодні', txRows([h('div.tx-row', h('span.tx-sq', ic('chart-pie-slice', { size: 18 })), h('span.tx-body', usageBox))])),
+    // ліміти бачить лише адміністратор (власник 2026-11-28: «ліміти тільки мені видно, клієнт не повинен бачити»): сервер віддає limits лише йому
+    limitsGroup,
     lastLog(),
     txGroup('Рішення після тесту (§11, Фаза 0)', h('section.card.stack',
       h('div.chips', [['live', 'Gemini Live'], ['ptt', 'Режим «рація»'], ['other', 'Інший провайдер']].map(([v, t]) =>
@@ -35,9 +37,11 @@ export default async function lab(view) {
   if (user()) {
     try {
       const u = await tutor('usage', {});
+      if (!u.limits) return;
+      limitsGroup.hidden = false;
       usageBox.textContent = `Текстових викликів: ${u.text_calls}/${u.limits.textCalls} · голос: ${Math.round(u.voice_seconds / 60)}/${Math.round(u.limits.voiceSeconds / 60)} хв · TTS: ${u.tts_calls}/${u.limits.ttsCalls}`;
-    } catch (e) { usageBox.textContent = aiErrorText(e); }
-  } else usageBox.textContent = 'Увійдіть, щоб побачити';
+    } catch { /* без лімітів */ }
+  }
 }
 
 /** Лог останньої голосової сесії (зберігається на пристрої) — для пошуку причини збою */

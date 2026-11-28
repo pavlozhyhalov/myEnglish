@@ -111,7 +111,7 @@ export class LiveClient extends EventTarget {
     const t = await liveToken({ fallback: this.fallback, basic: this.basic, scenario: this.opts.scenario, topic: this.opts.topic, voice: this.opts.voice });
     this.token = t;
     this.tokenAt = Date.now();
-    this.log(`token ok · model ${t.model} · voice ${t.voice} · pause ${t.pauseMs || 'auto'} ms · ${Math.round(t.voiceSecondsLeft / 60)} хв ліміту`);
+    this.log(`token ok · model ${t.model} · voice ${t.voice} · pause ${t.pauseMs || 'auto'} ms${t.voiceSecondsLeft != null ? ` · ${Math.round(t.voiceSecondsLeft / 60)} min left` : ''}`);
     return t;
   }
 

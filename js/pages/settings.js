@@ -58,7 +58,7 @@ export default function settings(view) {
       row('eye', 'Показувати, що я в мережі', presenceToggle(), 'І «Переглянуто». Вимкнете — не бачитимете й чужих'),
     ]) : null,
     group('Озвучення й вчитель', [
-      block('waveform', 'Рушій озвучення', segOf('ttsEngine', [['gemini', 'Gemini · природний'], ['browser', 'Браузер · офлайн']]), 'Без мережі чи після денного ліміту — голос браузера'),
+      block('waveform', 'Рушій озвучення', segOf('ttsEngine', [['gemini', 'Gemini · природний'], ['browser', 'Браузер · офлайн']]), 'Без мережі чи коли Gemini недоступний — голос браузера'),
       row('play', 'Перевірити голос',
         h('button.btn.sm.soft', { type: 'button', onclick: () => speak('Hi! This is how I sound. Shall we practise some English today?') }, ic('play', { size: 16, fill: true }), 'Тест'), `Голосів браузера: ${englishVoices().length}`),
       row('chalkboard-teacher', "Ім'я вчителя", text('tutorName', "Ім'я")),
