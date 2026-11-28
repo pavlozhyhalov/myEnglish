@@ -9,7 +9,18 @@ const STALE_ERR = /binding|does not provide an export|not found|dynamically impo
 function staleReload() {
   try {
     const last = Number(sessionStorage.getItem('me:stale-reload')) || 0;
-    if (Date.now() - last < 30000) return false;
+    // уже перезавантажували, а модуль знову старий — він у кеші Service Worker: очищаємо кеш і SW, беремо все з мережі (раз на 10 хв)
+    if (Date.now() - last < 30000) {
+      const purged = Number(sessionStorage.getItem('me:stale-purge')) || 0;
+      if (Date.now() - purged < 600000 || !('caches' in window)) return false;
+      sessionStorage.setItem('me:stale-purge', String(Date.now()));
+      window.__meReloading = true;
+      Promise.all([
+        caches.keys().then(ks => Promise.all(ks.filter(k => k.startsWith('myenglish-')).map(k => caches.delete(k)))),
+        navigator.serviceWorker?.getRegistrations?.().then(rs => Promise.all(rs.map(r => r.unregister()))),
+      ]).catch(() => {}).finally(() => location.reload());
+      return true;
+    }
     sessionStorage.setItem('me:stale-reload', String(Date.now()));
   } catch { /* без sessionStorage — пробуємо один раз */ if (window.__meReloading) return false; }
   window.__meReloading = true;

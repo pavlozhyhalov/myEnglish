@@ -171,7 +171,9 @@ function usersSection(ud, limits = {}, budget = {}) {
     return wrapEl;
   };
 
-  const list = ud.users || [];
+  // демо-акаунти для перевірки Apple (appreview.demo / appreview.oliver, 2026-11-26) — не справжні учні
+  const DEMO = new Set(['19da8a4e-952f-4c6c-892e-54e4ae011c89', 'e17898d3-8d63-46aa-8baa-99a84cfd0651']);
+  const list = (ud.users || []).filter(u => !DEMO.has(u.id) && !/^appreview\./i.test(String(u.name || '')));
   return [summary, txGroup(`Користувачі · ${list.length}`, list.length
     ? h('div.tx-rows', list.map(row))
     : h('p.xs.dim.adm-note', 'Ще немає зареєстрованих користувачів.'))];

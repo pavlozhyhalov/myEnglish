@@ -1,5 +1,5 @@
 // Service worker: офлайн-кеш оболонки й контенту. AI і Supabase — завжди мережа.
-const BUILD = '20261126204745';
+const BUILD = '20261128131332';
 const CACHE = `myenglish-${BUILD}`;
 importScripts(`precache-list.js?v=${BUILD}`);
 
@@ -65,6 +65,9 @@ self.addEventListener('install', (e) => {
         // no-cache: умовний запит (304, якщо HTTP-кеш актуальний); вміст не той, що у списку (CDN ще не оновився) — ще раз повз HTTP-кеш
         let res = await download(u, 'no-cache').catch(() => download(u, 'reload'));
         if (hash && res.headers.get(HASH) !== hash) res = await download(u, 'reload').catch(() => res);
+        // 2026-11-28: CDN ще віддає стару версію — не кладемо її в нову збірку (інакше старий модуль поруч із новими:
+        // «Importing binding name … is not found»); файл оболонки → встановлення не завершується, браузер повторить оновлення пізніше
+        if (hash && res.headers.get(HASH) !== hash && critical(u)) throw new Error(`${u}: stale content`);
         await c.put(u, res); stats.fetched++;
       } catch (err) {
         if (critical(u)) throw err;
